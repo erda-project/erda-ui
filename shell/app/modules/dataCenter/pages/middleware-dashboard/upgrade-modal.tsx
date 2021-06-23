@@ -34,7 +34,8 @@ interface IProps {
 
 const { Item: FormItem } = Form;
 
-const UpgradeModal = ({ formData, visible, form, onCancel, afterSubmit, dataSource }: IProps) => {
+const UpgradeModal = ({ formData, visible, onCancel, afterSubmit, dataSource }: IProps) => {
+  const [form] = Form.useForm();
   const [data, setData] = React.useState({});
   const editor = React.useRef(null as any);
   React.useEffect(() => {
@@ -52,10 +53,7 @@ const UpgradeModal = ({ formData, visible, form, onCancel, afterSubmit, dataSour
     };
   }, [visible, dataSource, formData]);
   const handleOk = () => {
-    form.validateFields((err) => {
-      if (err) {
-        return;
-      }
+    form.validateFields().then(() => {
       const config = editor.current.getEditData();
       const payload = {
         ...formData,
@@ -77,22 +75,22 @@ const UpgradeModal = ({ formData, visible, form, onCancel, afterSubmit, dataSour
       onOk={handleOk}
       onCancel={onCancel}
     >
-      <Row gutter={[80, 0]}>
-        <Col span={12}>
-          <FormItem label={i18n.t('default:name')} required>
-            {form.getFieldDecorator('name', {
-              initialValue: formData.name,
-            })(<Input disabled />)}
-          </FormItem>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <KeyValueEditor dataSource={data} form={form} ref={editor} maxLength={2018} />
-        </Col>
-      </Row>
+      <Form form={form}>
+        <Row gutter={[80, 0]}>
+          <Col span={12}>
+            <FormItem label={i18n.t('default:name')} required name={name} initialValue={formData.name}>
+              <Input disabled />
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <KeyValueEditor dataSource={data} form={form} ref={editor} maxLength={2018} />
+          </Col>
+        </Row>
+      </Form>
     </Modal>
   );
 };
 
-export default Form.create()(UpgradeModal) as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+export default UpgradeModal as any as (p: Omit<IProps, 'form'>) => JSX.Element;

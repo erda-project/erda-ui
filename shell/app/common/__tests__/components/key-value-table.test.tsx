@@ -23,9 +23,14 @@ const data = {
   name: 'erda.cloud',
 };
 
-const Comp = Form.create()((props) => {
-  return <KeyValueTable {...props} />;
-});
+const Comp = (props) => {
+  const [form] = Form.useForm();
+  return (
+    <Form>
+      <KeyValueTable {...props} form={form} />
+    </Form>
+  );
+};
 
 describe('KeyValueTable', () => {
   it('should dealTableData', () => {

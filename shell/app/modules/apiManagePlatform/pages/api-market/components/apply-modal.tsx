@@ -311,7 +311,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       <FormModal
         title={i18n.t('apply to use')}
         visible={state.applyModal}
-        wrappedComponentRef={formRef}
+        ref={formRef}
         onCancel={onCancel}
         onOk={handleApply}
         fieldsList={fieldsList}
@@ -326,7 +326,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
         onOk={handleCreateApp}
         beforeSubmit={beforeSubmitCreateApp}
         fieldsList={creteAppFieldsList}
-        wrappedComponentRef={clientFormRef}
+        ref={clientFormRef}
       />
       <Modal
         visible={state.infoModal}
@@ -346,7 +346,9 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
           </span>
           {i18n.t('check whether your request is approved')}
         </p>
-        <p className="mb8">{i18n.t('You can use ClientID and ClientSecret below to access API instance after approval.')}</p>
+        <p className="mb8">
+          {i18n.t('You can use ClientID and ClientSecret below to access API instance after approval.')}
+        </p>
         <p className="mb4">
           <span className="bold-500">ClientID: </span>
           <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>

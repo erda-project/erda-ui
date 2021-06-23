@@ -368,8 +368,7 @@ const YmlEditor = (props: IProps) => {
   };
 
   const checkForm = () => {
-    form.validateFields((err: any, values: any) => {
-      if (err) return;
+    form.validateFields().then((values: any) => {
       handleSubmit(values);
       form.resetFields();
     });

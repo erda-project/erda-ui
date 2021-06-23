@@ -241,16 +241,20 @@ export const RenderFormItem = ({
     label
   );
   return (
-    <FormItem
-      label={_label}
-      {...layout}
-      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
-      {...extraProps}
-    >
-      {name ? form && form.getFieldDecorator(name, itemConfig)(ItemComp) : ItemComp}
+    <>
+      <FormItem
+        name={name}
+        label={_label}
+        {...layout}
+        className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+        {...extraProps}
+        {...itemConfig}
+      >
+        {ItemComp}
+      </FormItem>
       {suffix}
       {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
       {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
-    </FormItem>
+    </>
   );
 };

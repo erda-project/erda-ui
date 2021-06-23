@@ -73,10 +73,7 @@ const CreationForm = () => {
     }
   }, [repoType]);
   const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values: Merge<APPLICATION.createBody, IMobile>) => {
-      if (error) {
-        return;
-      }
+    form.validateFields().then((values: Merge<APPLICATION.createBody, IMobile>) => {
       const { mobileDisplayName, bundleID, packageName, repoConfig, template: _, ...rest } = values;
       const isExternalRepo = repoType !== RepositoryMode.Internal;
       const payload: APPLICATION.createBody = { ...rest, projectId: +params.projectId, isExternalRepo };
@@ -286,7 +283,15 @@ const CreationForm = () => {
           },
           {
             label: '',
-            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.')} />,
+            getComp: () => (
+              <Alert
+                showIcon
+                type="warning"
+                message={i18n.t(
+                  'application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',
+                )}
+              />
+            ),
           },
           {
             label: i18n.t('project:repository address'),
@@ -341,9 +346,9 @@ const CreationForm = () => {
 
   return (
     <Spin spinning={isCreateApp || isInitApp} className="app-form-spin">
-      <RenderForm wrappedComponentRef={formRef} className="create-app-form" layout="vertical" list={fieldsList} />
+      <RenderForm ref={formRef} className="create-app-form" layout="vertical" list={fieldsList} />
     </Spin>
   );
 };
 
-export default Form.create()(CreationForm as any);
+export default CreationForm as any;

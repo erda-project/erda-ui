@@ -540,7 +540,7 @@ export const TestEnvDetail = (props: IProps) => {
       }}
       formOption={{ onValuesChange }}
       formData={data}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       fieldsList={fieldsList}
       onOk={handleSubmit}
       onCancel={onCancel}

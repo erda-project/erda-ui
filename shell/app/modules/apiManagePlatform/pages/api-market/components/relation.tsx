@@ -430,7 +430,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     <FormModal
       title={mode === 'asset' ? i18n.t('connection relation') : i18n.t('related instance')}
       fieldsList={fieldsList}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       visible={visible}
       onCancel={onCancel}
       onOk={handleOk}

@@ -17,9 +17,14 @@ import { mount } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 import { Form } from 'app/nusi';
 
-const Comp = Form.create()((props) => {
-  return <KeyValueTextArea {...props} />;
-});
+const Comp = (props) => {
+  const [form] = Form.useForm();
+  return (
+    <Form>
+      <KeyValueTextArea {...props} form={form} />
+    </Form>
+  );
+};
 
 const data = 'name: erda\norg: erda.cloud';
 

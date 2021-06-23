@@ -174,7 +174,9 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
             optionRender={releaseOptionItem as any}
             valueItemRender={releaseOptionItem as any}
             extraQuery={{ branchName: chosenBranch }}
-            placeholder={i18n.t('application:For artifact deployment environment, see Project Settings - Branch Rules.')}
+            placeholder={i18n.t(
+              'application:For artifact deployment environment, see Project Settings - Branch Rules.',
+            )}
           />
         );
       },
@@ -204,7 +206,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
       }
       visible={!!curEnv}
       loading={formLoading}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       fieldsList={fieldList}
       onOk={onOk}
       onCancel={() => setCurEnv('')}
@@ -238,10 +240,8 @@ const Deploy = () => {
 
   // if there a fakeRuntime or deleting runtime，then fetch runtimes after 10s
   React.useEffect(() => {
-    const hasDeletingOrFake = find(runtimes, (item) => (
-      item.deleteStatus === 'DELETING' || item.extra?.fakeRuntime
-    ));
-    
+    const hasDeletingOrFake = find(runtimes, (item) => item.deleteStatus === 'DELETING' || item.extra?.fakeRuntime);
+
     clearInterval(timer.current);
     if (hasDeletingOrFake) {
       timer.current = setInterval(() => {

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { Form, Row, Col } from 'app/nusi';
 import classNames from 'classnames';
 import { RenderFormItem } from './render-formItem';
@@ -80,14 +80,24 @@ class RenderPureForm extends React.Component<IProps> {
     return onlyItems ? (
       items
     ) : (
-      <Form className={formClass} layout={layout} style={style}>
+      <Form form={form} className={formClass} layout={layout} style={style}>
         {items}
       </Form>
     );
   }
 }
 
-const RenderForm = Form.create()(RenderPureForm) as any;
+const RenderForm = forwardRef((props: any, ref) => {
+  const [form] = Form.useForm();
+
+  useImperativeHandle(ref, () => ({
+    props: {
+      form,
+    },
+  }));
+
+  return <RenderPureForm form={form} {...props} />;
+});
 
 interface IReadonlyProps {
   fieldsList: IField[];

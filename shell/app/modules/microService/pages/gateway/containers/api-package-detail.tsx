@@ -592,7 +592,7 @@ export const ApiPackageDetail = () => {
       <FormModal
         width="600px"
         name={i18n.t('microService:router')}
-        wrappedComponentRef={formRef}
+        ref={formRef}
         fieldsList={fieldsList}
         visible={modalVisible}
         formData={formData}

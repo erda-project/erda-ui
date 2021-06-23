@@ -110,7 +110,7 @@ const ResetPasswordForm = (props: IProps) => {
       fieldsList={fieldsList}
       onCancel={onClose}
       onOk={handleSubmit}
-      wrappedComponentRef={formRef}
+      ref={formRef}
     />
   );
 };

@@ -88,10 +88,7 @@ const RepoEditor = ({
       }
     }
 
-    form.validateFields((error: Error, values: Pick<REPOSITORY.Commit, 'message' | 'branch'>) => {
-      if (error) {
-        return;
-      }
+    form.validateFields().then((values: Pick<REPOSITORY.Commit, 'message' | 'branch'>) => {
       commit({
         ...values,
         actions: [

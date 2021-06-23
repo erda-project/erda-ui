@@ -67,16 +67,17 @@ const createFormComponent = (model: any, View: any) => {
     }
 
     onValidate = () => {
-      const { validateFieldsAndScroll, getFieldsValue } = this.props.form;
+      const { validateFields, getFieldsValue, scrollToField } = this.props.form;
       return new Promise((resolve, reject) => {
-        validateFieldsAndScroll((errors: any) => {
-          if (errors) {
-            reject(errors);
-          } else {
+        validateFields()
+          .then(() => {
             const values = filterField(getFieldsValue());
             resolve(values);
-          }
-        });
+          })
+          .catch(({ errorFields }: { errorFields: any }) => {
+            scrollToField(errorFields[0].name);
+            reject(errorFields);
+          });
       });
     };
 
@@ -159,18 +160,7 @@ const createFormComponent = (model: any, View: any) => {
     }
   }
 
-  return Form.create({
-    onFieldsChange(_props: any, changed: any) {
-      // 记录改动，提升性能，给shouldComponentUpdate去对比使用
-      changData = changed;
-    },
-    // 监听form表单change
-    onValuesChange(_props: any, changed: any, allValues: any) {
-      if (model.onValuesChange) {
-        model.onValuesChange(changed, allValues);
-      }
-    },
-  })(FormComponent);
+  return FormComponent;
 };
 
 // 这里提供渲染劫持，提供form表单的校验、提供迭代配置的订阅重置能力，不关心具体提供组件
@@ -183,6 +173,8 @@ export default class FormHoc extends Component<IProps, any> {
   model: any;
 
   Component: any;
+
+  formRef = React.createRef();
 
   constructor(props: any) {
     super(props);
@@ -198,9 +190,24 @@ export default class FormHoc extends Component<IProps, any> {
     this.model.setProps(props);
 
     const FormComponent = (
-      <Form layout="vertical" {...formProps} className={classnames('form-hoc', className)}>
+      <Form
+        ref={this.formRef}
+        layout="vertical"
+        {...formProps}
+        className={classnames('form-hoc', className)}
+        onFieldsChange={(_props: any, changed: any) => {
+          // 记录改动，提升性能，给shouldComponentUpdate去对比使用
+          changData = changed;
+        }}
+        // 监听form表单change
+        onValuesChange={(_props: any, changed: any, allValues: any) => {
+          if (model.onValuesChange) {
+            model.onValuesChange(changed, allValues);
+          }
+        }}
+      >
         <Spin spinning={loading}>
-          <this.Component />
+          <this.Component form={this.formRef.current} />
         </Spin>
       </Form>
     );

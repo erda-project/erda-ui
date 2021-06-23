@@ -36,7 +36,8 @@ interface IProps {
 }
 
 const DomainModal = (props: IProps) => {
-  const { form, visible, serviceName, onCancel } = props;
+  const [form] = Form.useForm();
+  const { visible, serviceName, onCancel } = props;
   const {
     id: runtimeId,
     releaseId,
@@ -63,43 +64,40 @@ const DomainModal = (props: IProps) => {
       setLS(`${runtimeId}_domain`, domainMap);
       onCancel();
     };
-    form.validateFields((err, values) => {
-      if (!err) {
-        map(values, (realValue, keyStr) => {
-          const [domainType, name, index] = keyStr.split('@');
-          const target = index ? domains[index] : findLast(domains, domainType);
-          name && (target[name] = realValue);
-        });
-        if (!isEqual(domainMap[serviceName], domains)) {
-          if (['k8s', 'edas'].includes(clusterType)) {
-            runtimeDomainStore
-              .updateK8SDomain({
-                runtimeId,
-                releaseId,
-                serviceName,
-                domains: map(
-                  filter(
-                    domains,
-                    (domain) =>
-                      (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT',
-                  ),
+    form.validateFields().then((values: any) => {
+      map(values, (realValue, keyStr) => {
+        const [domainType, name, index] = keyStr.split('@');
+        const target = index ? domains[index] : findLast(domains, domainType);
+        name && (target[name] = realValue);
+      });
+      if (!isEqual(domainMap[serviceName], domains)) {
+        if (['k8s', 'edas'].includes(clusterType)) {
+          runtimeDomainStore
+            .updateK8SDomain({
+              runtimeId,
+              releaseId,
+              serviceName,
+              domains: map(
+                filter(
+                  domains,
                   (domain) =>
-                    domain.domainType === 'DEFAULT' ? domain.customDomain + domain.rootDomain : domain.domain,
+                    (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT',
                 ),
-              })
-              .then(() => {
-                setTimeout(() => {
-                  // TODO: refactor
-                  location.reload();
-                }, 1000);
-              });
-          } else {
-            doneSaveConfig();
-            runtimeStore.setHasChange(true);
-          }
+                (domain) => (domain.domainType === 'DEFAULT' ? domain.customDomain + domain.rootDomain : domain.domain),
+              ),
+            })
+            .then(() => {
+              setTimeout(() => {
+                // TODO: refactor
+                location.reload();
+              }, 1000);
+            });
         } else {
-          message.warning(i18n.t('application:no change'));
+          doneSaveConfig();
+          runtimeStore.setHasChange(true);
         }
+      } else {
+        message.warning(i18n.t('application:no change'));
       }
     });
   };
@@ -161,7 +159,7 @@ const DomainModal = (props: IProps) => {
       onOk={saveConfig}
       onCancel={onCancel}
     >
-      <Form layout="vertical">
+      <Form layout="vertical" form={form}>
         <div className="config-item ml12">
           <div className="flex-box config-item-title bold-500 fz16 mb8">
             <span>{serviceName}</span>
@@ -178,26 +176,26 @@ const DomainModal = (props: IProps) => {
               <div key={domainType} className="default-area">
                 <Row>
                   <Col span={22}>
-                    <FormItem label={i18n.t('runtime:domain name')}>
-                      {form.getFieldDecorator(`${domainType}@customDomain@${index}`, {
-                        initialValue: customDomain,
-                        rules: [
-                          // { required: true, message: i18n.t('runtime:please fill in the domain name') },
-                          {
-                            // 公司内项目不允许包含. 不允许有4级域名
-                            pattern: rootDomain.includes('terminus')
-                              ? /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}$/
-                              : /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*$/,
-                            message: i18n.t('runtime:please fill in the correct domain name'),
-                          },
-                        ],
-                      })(
-                        <Input
-                          placeholder={i18n.t('runtime:please fill in the domain name')}
-                          addonAfter={rootDomain}
-                          autoComplete="off"
-                        />,
-                      )}
+                    <FormItem
+                      label={i18n.t('runtime:domain name')}
+                      name={`${domainType}@customDomain@${index}`}
+                      initialValue={customDomain}
+                      rules={[
+                        // { required: true, message: i18n.t('runtime:please fill in the domain name') },
+                        {
+                          // 公司内项目不允许包含. 不允许有4级域名
+                          pattern: rootDomain.includes('terminus')
+                            ? /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}$/
+                            : /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*$/,
+                          message: i18n.t('runtime:please fill in the correct domain name'),
+                        },
+                      ]}
+                    >
+                      <Input
+                        placeholder={i18n.t('runtime:please fill in the domain name')}
+                        addonAfter={rootDomain}
+                        autoComplete="off"
+                      />
                     </FormItem>
                   </Col>
                 </Row>
@@ -211,22 +209,24 @@ const DomainModal = (props: IProps) => {
             ) : (
               <Row key={domainType + index} type="flex" justify="space-around" align="middle">
                 <Col span={22}>
-                  <FormItem className="hide">
-                    {form.getFieldDecorator(`${domainType}@@${index}`, {
-                      initialValue: serviceName,
-                    })(<Input />)}
+                  <FormItem className="hide" name={`${domainType}@@${index}`} initialValue={serviceName}>
+                    <Input />
                   </FormItem>
-                  <FormItem>
-                    {form.getFieldDecorator(`${domainType}@domain@${index}`, {
-                      initialValue: domain,
-                      rules: [
-                        { required: true, message: i18n.t('runtime:please fill in the custom domain name') },
-                        {
-                          pattern: /^[a-zA-Z0-9*][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9*][-a-zA-Z0-9]{0,62})+\.?$/,
-                          message: i18n.t('runtime:please fill in the correct domain name'),
-                        },
-                      ],
-                    })(<Input placeholder={i18n.t('runtime:Custom domain name needs to be bound at the domain name provider.')} autoComplete="off" />)}
+                  <FormItem
+                    name={`${domainType}@domain@${index}`}
+                    initialValue={domain}
+                    rules={[
+                      { required: true, message: i18n.t('runtime:please fill in the custom domain name') },
+                      {
+                        pattern: /^[a-zA-Z0-9*][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9*][-a-zA-Z0-9]{0,62})+\.?$/,
+                        message: i18n.t('runtime:please fill in the correct domain name'),
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder={i18n.t('runtime:Custom domain name needs to be bound at the domain name provider.')}
+                      autoComplete="off"
+                    />
                     {
                       <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={() => deleteCustom(index)}>
                         <span className="delete-domain-icon">
@@ -246,4 +246,4 @@ const DomainModal = (props: IProps) => {
   );
 };
 
-export default Form.create()(DomainModal) as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+export default DomainModal as any as (p: Omit<IProps, 'form'>) => JSX.Element;

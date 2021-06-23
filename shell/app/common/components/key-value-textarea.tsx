@@ -128,7 +128,6 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
   render() {
     const {
       fieldName = 'kv-text',
-      form: { getFieldDecorator },
       className = '',
       autoSize = { minRows: 10, maxRows: 15 },
       rows,
@@ -136,27 +135,26 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
       editDisabled,
     } = this.props;
     const { textData } = this.state;
-    const fieldDecorator = getFieldDecorator(fieldName, {
-      rules: [
-        {
-          validator: this.onValidator,
-        },
-      ],
-      initialValue: textData,
-    });
+
     return (
       <div className="key-value-textarea-wrap">
-        <FormItem>
-          {fieldDecorator(
-            <TextArea
-              className={className}
-              disabled={editDisabled}
-              rows={rows}
-              placeholder={placeholder}
-              autoSize={autoSize}
-              onChange={this.handleTextChange}
-            />,
-          )}
+        <FormItem
+          name={fieldName}
+          initialValue={textData}
+          rules={[
+            {
+              validator: this.onValidator,
+            },
+          ]}
+        >
+          <TextArea
+            className={className}
+            disabled={editDisabled}
+            rows={rows}
+            placeholder={placeholder}
+            autoSize={autoSize}
+            onChange={this.handleTextChange}
+          />
         </FormItem>
       </div>
     );

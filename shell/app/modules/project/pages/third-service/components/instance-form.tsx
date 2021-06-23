@@ -157,7 +157,9 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
         getComp: () => (
           <>
             <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={edit} />
-            <div className="color-red">{i18n.t('project:Modifying service parameters will restart all associated applications.')}</div>
+            <div className="color-red">
+              {i18n.t('project:Modifying service parameters will restart all associated applications.')}
+            </div>
             <div className="color-red">{i18n.t('project:op-affect-related-app')}</div>
           </>
         ),
@@ -207,12 +209,11 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
 };
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
+  const [form] = Form.useForm();
   useImperativeHandle(ref, () => ({
-    form: props.form,
+    form: form,
   }));
   return <InstanceForm {...props} />;
 });
 
-export default Form.create()(FCForm) as any as (
-  p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>,
-) => JSX.Element;
+export default FCForm as any as (p: Merge<Omit<IProps, 'form'>, { ref: any }>) => JSX.Element;

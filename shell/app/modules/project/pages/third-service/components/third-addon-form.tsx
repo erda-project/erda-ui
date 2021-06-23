@@ -264,12 +264,11 @@ const ThirdAddonForm = (props: IProps) => {
 };
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
+  const [form] = Form.useForm();
   useImperativeHandle(ref, () => ({
-    form: props.form,
+    form: form,
   }));
   return <ThirdAddonForm {...props} />;
 });
 
-export default Form.create()(FCForm) as any as (
-  p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>,
-) => JSX.Element;
+export default FCForm as any as (p: Merge<Omit<IProps, 'form'>, { ref: any }>) => JSX.Element;

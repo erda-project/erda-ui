@@ -45,7 +45,6 @@ interface IInputItem {
   maxLength?: number;
 }
 const InputItem = ({
-  form: { getFieldDecorator },
   nameId,
   name,
   initialValue,
@@ -58,47 +57,46 @@ const InputItem = ({
   maxLength,
 }: IInputItem) => {
   return (
-    <FormItem>
-      {getFieldDecorator(name + nameId, {
-        rules: [
-          {
-            required: true,
-            message: i18n.t('common:this item is required'),
-          },
-          inputRule,
-          {
-            validator: (rule, value, callback) => {
-              if (dataSource) {
-                const hasSameKey = dataSource.some(
-                  (item) => rule.field !== ROW_KEY + item.uniKey && item[ROW_KEY] === value,
-                );
-                const hasSameKeyOut = existKeys.includes(value);
-                if (hasSameKey) {
-                  callback(i18n.t('common:key value must be unique'));
-                } else if (hasSameKeyOut) {
-                  callback(i18n.t('common:this configuration already exists'));
-                }
-                validate && validate(rule, value, callback);
-                callback();
-              } else {
-                callback();
+    <FormItem
+      name={name + nameId}
+      rules={[
+        {
+          required: true,
+          message: i18n.t('common:this item is required'),
+        },
+        inputRule,
+        {
+          validator: (rule, value, callback) => {
+            if (dataSource) {
+              const hasSameKey = dataSource.some(
+                (item) => rule.field !== ROW_KEY + item.uniKey && item[ROW_KEY] === value,
+              );
+              const hasSameKeyOut = existKeys.includes(value);
+              if (hasSameKey) {
+                callback(i18n.t('common:key value must be unique'));
+              } else if (hasSameKeyOut) {
+                callback(i18n.t('common:this configuration already exists'));
               }
-            },
+              validate && validate(rule, value, callback);
+              callback();
+            } else {
+              callback();
+            }
           },
-        ],
-        initialValue,
-      })(
-        isTextArea ? (
-          <TextArea autoSize onBlur={(e) => onChange(e, name, nameId)} disabled={editDisabled} maxLength={maxLength} />
-        ) : (
-          <Input
-            placeholder={i18n.t('common:please enter')}
-            size="default"
-            onBlur={(e) => onChange(e, name, nameId)}
-            disabled={editDisabled}
-            maxLength={maxLength}
-          />
-        ),
+        },
+      ]}
+      initialValue={initialValue}
+    >
+      {isTextArea ? (
+        <TextArea autoSize onBlur={(e) => onChange(e, name, nameId)} disabled={editDisabled} maxLength={maxLength} />
+      ) : (
+        <Input
+          placeholder={i18n.t('common:please enter')}
+          size="default"
+          onBlur={(e) => onChange(e, name, nameId)}
+          disabled={editDisabled}
+          maxLength={maxLength}
+        />
       )}
     </FormItem>
   );
@@ -210,14 +208,12 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       });
     }
 
-    validateFields((err) => {
+    validateFields().then(() => {
       // 分页非第一页时，判断下第一个值不为空后添加新行
-      if (!err) {
-        const canAdd = dataSource.length === 0 || (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
-        if (canAdd) {
-          const newData = { [ROW_KEY]: '', [ROW_VALUE]: '', uniKey: uniqueId() };
-          this.setState({ dataSource: [newData, ...dataSource] });
-        }
+      const canAdd = dataSource.length === 0 || (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
+      if (canAdd) {
+        const newData = { [ROW_KEY]: '', [ROW_VALUE]: '', uniKey: uniqueId() };
+        this.setState({ dataSource: [newData, ...dataSource] });
       }
     });
   };

@@ -71,7 +71,9 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     });
     return [
       !!errorKeys.length,
-      i18n.t('project:parameter key can only contain letters, numbers, dots, underscores and hyphens', { keySeparator: '>' }),
+      i18n.t('project:parameter key can only contain letters, numbers, dots, underscores and hyphens', {
+        keySeparator: '>',
+      }),
     ];
   };
 
@@ -225,13 +227,14 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         (formRef) =>
           new Promise((resolve: any, reject: any) => {
             if (formRef.current) {
-              formRef.current.form.validateFields((error: any, values: Obj) => {
-                if (error) {
-                  reject(error);
-                  return;
-                }
-                resolve(values);
-              });
+              formRef.current.form
+                .validateFields()
+                .then((values: any) => {
+                  resolve(values);
+                })
+                .catch(({ errorFields }: { errorFields: any }) => {
+                  reject(errorFields);
+                });
             }
           }),
       ),
@@ -288,7 +291,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
       >
         <div className={step === STEP.FIRST && !editData ? 'show' : 'hide'}>
           <ThirdAddonForm
-            wrappedComponentRef={this.thirdFormRef}
+            ref={this.thirdFormRef}
             category={this.props.category}
             addonInsList={addonInsList}
             editData={editData}
@@ -301,7 +304,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         </div>
         <div className={step === STEP.SECOND || editData ? 'show' : 'hide'}>
           <InstanceForm
-            wrappedComponentRef={this.instanceFormRef}
+            ref={this.instanceFormRef}
             category={this.props.category}
             addonProto={currentAddon as CUSTOM_ADDON.Item}
             editData={editData}

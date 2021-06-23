@@ -124,6 +124,8 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
 };
 
 class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, any> {
+  formRef = React.createRef();
+
   state = {
     groups: [],
     packUpTabs: new Set(),
@@ -269,8 +271,9 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
 
   private renderForm = () => {
     const { selectedAddon, editAddon, selectedAddonVersions, versionMap, selectedAddonPlans } = this.state;
-    const { form, cancel, editing } = this.props;
-    const { getFieldDecorator, getFieldValue, setFieldsValue } = form;
+    const { cancel, editing } = this.props;
+    const form = this.formRef.current;
+    const { getFieldValue, setFieldsValue } = form;
     if (!selectedAddon) {
       return null;
     }
@@ -304,36 +307,45 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
       planValue = selectedAddon.plan;
     }
 
-    const name = getFieldDecorator('alias', {
-      initialValue: nameValue,
-      rules: [
-        {
-          required: true,
-          message: i18n.t('application:please enter a name'),
-        },
-      ],
-    })(<Input autoFocus disabled={this.isEditing()} placeholder={i18n.t('application:please enter a name')} />);
-
-    const version = getFieldDecorator('version', {
-      // @ts-ignore
-      initialValue: versionValue,
-      rules: [
-        {
-          required: true,
-          message: i18n.t('application:please select the version'),
-        },
-      ],
-    })(
-      <Select
-        disabled={this.isEditing()}
-        className="full-width"
-        placeholder={i18n.t('application:please select the version')}
-        onSelect={() => setFieldsValue({ plan: undefined })}
+    const name = (
+      <Item
+        name="alias"
+        label={i18n.t('application:name')}
+        initialValue={nameValue}
+        rules={[
+          {
+            required: true,
+            message: i18n.t('application:please enter a name'),
+          },
+        ]}
       >
-        {selectedAddonVersions.map((v: string) => (
-          <Option key={v}>{v}</Option>
-        ))}
-      </Select>,
+        <Input autoFocus disabled={this.isEditing()} placeholder={i18n.t('application:please enter a name')} />
+      </Item>
+    );
+
+    const version = (
+      <Item
+        name="version"
+        label={i18n.t('version')}
+        initialValue={versionValue}
+        rules={[
+          {
+            required: true,
+            message: i18n.t('application:please select the version'),
+          },
+        ]}
+      >
+        <Select
+          disabled={this.isEditing()}
+          className="full-width"
+          placeholder={i18n.t('application:please select the version')}
+          onSelect={() => setFieldsValue({ plan: undefined })}
+        >
+          {selectedAddonVersions.map((v: string) => (
+            <Option key={v}>{v}</Option>
+          ))}
+        </Select>
+      </Item>
     );
 
     // @ts-ignore
@@ -354,29 +366,33 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         planCnName: PLAN_NAME[k],
       }));
     }
-    const plan = getFieldDecorator('plan', {
-      initialValue: convertAddonPlan(planValue),
-      rules: [
-        {
-          required: true,
-          message: i18n.t('application:please select configuration'),
-        },
-      ],
-    })(
-      <RadioGroup disabled={this.isEditing()}>
-        {plans.map((p: any) => (
-          <RadioButton key={p.plan} value={p.plan}>
-            {p.planCnName}
-          </RadioButton>
-        ))}
-      </RadioGroup>,
+    const plan = (
+      <Item
+        name="plan"
+        label={i18n.t('application:configuration')}
+        initialValue={convertAddonPlan(planValue)}
+        rules={[
+          {
+            required: true,
+            message: i18n.t('application:please select configuration'),
+          },
+        ]}
+      >
+        <RadioGroup disabled={this.isEditing()}>
+          {plans.map((p: any) => (
+            <RadioButton key={p.plan} value={p.plan}>
+              {p.planCnName}
+            </RadioButton>
+          ))}
+        </RadioGroup>
+      </Item>
     );
 
     return (
-      <Form layout="vertical" className="add-on-form">
-        <Item label={i18n.t('application:name')}>{name}</Item>
-        <Item label={i18n.t('version')}>{version}</Item>
-        <Item label={i18n.t('application:configuration')}>{plan}</Item>
+      <Form ref={this.formRef} layout="vertical" className="add-on-form">
+        {name}
+        {version}
+        {plan}
         {editing ? (
           <Item className="add-on-form-btn-group">
             <Button className="mr8" onClick={cancel}>
@@ -400,18 +416,22 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
 
   private submitAddon = () => {
     const { selectedAddon, editAddon } = this.state;
-    const { form, onSubmit, cancel } = this.props;
+    const { onSubmit, cancel } = this.props;
+    const form = this.formRef.current;
 
-    form.validateFieldsAndScroll((error: any, values: any) => {
-      if (!error) {
+    form
+      .validateFields()
+      .then((values: any) => {
         onSubmit({
           ...values,
           originName: editAddon ? editAddon.alias : null,
           plan: `${selectedAddon.addonName || selectedAddon.name}:${values.plan}`,
         });
         cancel();
-      }
-    });
+      })
+      .catch(({ errorFields }: { errorFields: any }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
 
   private openSelect = () => {
@@ -527,4 +547,4 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
   };
 }
 
-export default Form.create()(CreateAddOn);
+export default CreateAddOn;

@@ -70,7 +70,8 @@ const validateMEM = (max: number, _rule: any, value: string, callback: cb) => {
   }
 };
 
-const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) => {
+const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
+  const [form] = Form.useForm();
   const [{ leftCPU, leftMEM, leftResources }, updater, update] = useUpdate({
     leftResources: {} as MIDDLEWARE_DASHBOARD.LeftResources,
     leftCPU: 0,
@@ -103,10 +104,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       onCancel();
       return;
     }
-    form.validateFields((err, data) => {
-      if (err) {
-        return;
-      }
+    form.validateFields().then((data: any) => {
       const payload = {
         ...formData,
         cpu: +data.cpu,
@@ -248,4 +246,4 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
   );
 };
 
-export default Form.create()(ScaleModal) as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+export default ScaleModal as any as (p: Omit<IProps, 'form'>) => JSX.Element;

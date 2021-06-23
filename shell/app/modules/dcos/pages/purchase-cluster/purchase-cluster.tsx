@@ -52,6 +52,8 @@ interface IProps {
 class OrderPage extends React.Component<IProps> {
   showLBConfig: boolean;
 
+  formRef = React.createRef();
+
   state = {
     step: 0,
     passwordVisible: false,
@@ -73,28 +75,31 @@ class OrderPage extends React.Component<IProps> {
   };
 
   changeStep = (step: number) => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (err) {
-        return;
-      }
-      const clone = cloneDeep(values);
-      const { ecsSettings, redisSettings, rdsSettings, ...rest } = values;
-      rest.ecsSettings = Object.values(ecsSettings);
-      if (redisSettings) {
-        rest.redisSettings = [redisSettings];
-      }
-      if (rdsSettings) {
-        rest.rdsSettings = [rdsSettings];
-      }
-      this.formData = rest;
-      // 调整vpcCidr展示位置
-      this.confirmData = {
-        专有网络cidr: clone.vpcSetting.vpcCidr,
-      };
-      delete clone.vpcSetting;
-      translate(clone, this.confirmData);
-      this.setState({ step });
-    });
+    const form = this.formRef.current;
+    form
+      .validateFields()
+      .then((values: any) => {
+        const clone = cloneDeep(values);
+        const { ecsSettings, redisSettings, rdsSettings, ...rest } = values;
+        rest.ecsSettings = Object.values(ecsSettings);
+        if (redisSettings) {
+          rest.redisSettings = [redisSettings];
+        }
+        if (rdsSettings) {
+          rest.rdsSettings = [rdsSettings];
+        }
+        this.formData = rest;
+        // 调整vpcCidr展示位置
+        this.confirmData = {
+          专有网络cidr: clone.vpcSetting.vpcCidr,
+        };
+        delete clone.vpcSetting;
+        translate(clone, this.confirmData);
+        this.setState({ step });
+      })
+      .catch(({ errorFields }: { errorFields: any }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
 
   trigger = (event: string, ...args: any[]) => {
@@ -121,13 +126,15 @@ class OrderPage extends React.Component<IProps> {
   };
 
   changeRegion = (region: { localName: string; regionId: string }) => {
+    const form = this.formRef.current;
     this.showLBConfig = supportLBRegion.includes(region.localName);
-    this.props.form.setFieldsValue({ regionId: region.regionId });
+    form.setFieldsValue({ regionId: region.regionId });
     this.searchZone(region.regionId);
   };
 
   changeZone = (zone: { zoneId: string }) => {
-    this.props.form.setFieldsValue({ zoneId: zone.zoneId });
+    const form = this.formRef.current;
+    form.setFieldsValue({ zoneId: zone.zoneId });
   };
 
   searchRegion = () => {
@@ -145,7 +152,8 @@ class OrderPage extends React.Component<IProps> {
   };
 
   checkEcsAvailable = (instanceType: string, fieldName: string) => {
-    const { form, params, checkEcsAvailable } = this.props;
+    const { params, checkEcsAvailable } = this.props;
+    const form = this.formRef.current;
     const { accessKeyId, accessKeySecret, regionId, zoneId } = this.getFormValue();
     const { clusterName } = params;
     checkEcsAvailable({
@@ -167,7 +175,8 @@ class OrderPage extends React.Component<IProps> {
   };
 
   getFormValue = (field?: string) => {
-    return field ? this.props.form.getFieldValue(field) : this.props.form.getFieldsValue();
+    const form = this.formRef.current;
+    return field ? form.getFieldValue(field) : form.getFieldsValue();
   };
 
   handleSubmit = () => {
@@ -519,7 +528,9 @@ class OrderPage extends React.Component<IProps> {
     }
     const placeholderMap = {
       master: i18n.t('org:suggest 3 nodes in production and 1 node in test'),
-      pubilc: i18n.t('org:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.'),
+      pubilc: i18n.t(
+        'org:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.',
+      ),
       private: i18n.t('org:suggest production is assessed by business volume, 1 node in test'),
     };
     return [
@@ -952,14 +963,14 @@ class OrderPage extends React.Component<IProps> {
     ];
 
     return (
-      <div className="purchase-cluster">
+      <Form ref={this.formRef} className="purchase-cluster">
         <Steps className="step-wrap" current={step}>
           {steps.map((item) => (
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
         <div className="steps-content">{steps[step].content}</div>
-      </div>
+      </Form>
     );
   }
 }
@@ -982,4 +993,4 @@ const Mapper = () => {
   };
 };
 
-export default connectCube(Form.create()(OrderPage), Mapper);
+export default connectCube(OrderPage, Mapper);

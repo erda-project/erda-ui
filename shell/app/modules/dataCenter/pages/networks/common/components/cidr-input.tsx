@@ -79,14 +79,12 @@ export const VswCIDRField = ({
   const getFormItem = (index: number) => {
     const options = IPItemOption[index] || ([] as number[]);
     return (
-      <FormItem>
+      <FormItem
+        name={`${formKey}.${index}`}
+        rules={[{ required: true, message: i18n.t('{name} can not empty') }, { validator: validateIncludes(options) }]}
+      >
         <Tooltip title={getIPTooltipText(options)}>
-          {form.getFieldDecorator(`${formKey}.${index}`, {
-            rules: [
-              { required: true, message: i18n.t('{name} can not empty') },
-              { validator: validateIncludes(options) },
-            ],
-          })(<Input disabled={options.length <= 1} />)}
+          <Input disabled={options.length <= 1} />
         </Tooltip>
       </FormItem>
     );
@@ -102,18 +100,16 @@ export const VswCIDRField = ({
       <span className="split">•</span>
       {getFormItem(3)}
       <span className="split">/</span>
-      <FormItem>
-        {form.getFieldDecorator(`${formKey}.4`)(
-          <Select onChange={(val: any) => changeMask(val)}>
-            {map(maskOptions, (item) => {
-              return (
-                <Option key={item} value={item}>
-                  {item}
-                </Option>
-              );
-            })}
-          </Select>,
-        )}
+      <FormItem name={`${formKey}.4`}>
+        <Select onChange={(val: any) => changeMask(val)}>
+          {map(maskOptions, (item) => {
+            return (
+              <Option key={item} value={item}>
+                {item}
+              </Option>
+            );
+          })}
+        </Select>
       </FormItem>
     </div>
   );

@@ -95,7 +95,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
   ];
   return (
     <div className={`${visible ? '' : 'hide'}`}>
-      <RenderForm layout="vertical" list={fieldsList} wrappedComponentRef={ref} />
+      <RenderForm layout="vertical" list={fieldsList} ref={ref} />
     </div>
   );
 });
@@ -186,7 +186,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
   ];
   return (
     <div className={`${visible ? '' : 'hide'}`}>
-      <RenderForm layout="vertical" list={fieldsList} wrappedComponentRef={ref} />
+      <RenderForm layout="vertical" list={fieldsList} ref={ref} />
     </div>
   );
 });
@@ -210,11 +210,14 @@ const VpcFormModal = (props: IProps) => {
     if (step === 'vsw') {
       const vpcFormRef = get(vpcRef, 'current.props.form');
       if (vpcFormRef) {
-        vpcFormRef.validateFieldsAndScroll((err: any) => {
-          if (!err) {
+        vpcFormRef
+          .validateFields()
+          .then(() => {
             updater.stepKey(step);
-          }
-        });
+          })
+          .catch(({ errorFields }: { errorFields: any }) => {
+            vpcFormRef.scrollToField(errorFields[0].name);
+          });
       }
     } else {
       updater.stepKey(step);
@@ -225,29 +228,37 @@ const VpcFormModal = (props: IProps) => {
     const vpcFormRef = get(vpcRef, 'current.props.form');
     const vswFormRef = get(vswRef, 'current.props.form');
     if (vswFormRef) {
-      vpcFormRef.validateFieldsAndScroll((vpcErr: any, vpc: NETWORKS.IVpcCreateBody) => {
-        if (vpcErr) return;
-        vswFormRef.validateFieldsAndScroll((vswErr: any, vsw: any) => {
-          if (vswErr) return;
-          const { vswRegion: region, vswVendor: vendor, vswCidrBlock, vswDescription: description, ...rest } = vsw;
-          addVpc(vpc).then((res) => {
-            // 先保存vpc，获取vpcID后保存vsw
-            const vswData = {
-              ...rest,
-              region,
-              vendor,
-              cidrBlock: `${vswCidrBlock.slice(0, 4).join('.')}/${vswCidrBlock.slice(4)}`,
-              description,
-              vpcID: res.vpcID,
-            };
-            addVsw(vswData).then((vswRes: any) => {
-              if (vswRes.success) {
-                onOk();
-              }
+      vpcFormRef
+        .validateFields()
+        .then((vpc: NETWORKS.IVpcCreateBody) => {
+          vswFormRef
+            .validateFields()
+            .then((vsw: any) => {
+              const { vswRegion: region, vswVendor: vendor, vswCidrBlock, vswDescription: description, ...rest } = vsw;
+              addVpc(vpc).then((res) => {
+                // 先保存vpc，获取vpcID后保存vsw
+                const vswData = {
+                  ...rest,
+                  region,
+                  vendor,
+                  cidrBlock: `${vswCidrBlock.slice(0, 4).join('.')}/${vswCidrBlock.slice(4)}`,
+                  description,
+                  vpcID: res.vpcID,
+                };
+                addVsw(vswData).then((vswRes: any) => {
+                  if (vswRes.success) {
+                    onOk();
+                  }
+                });
+              });
+            })
+            .catch(({ errorFields }: { errorFields: any }) => {
+              vswFormRef.scrollToField(errorFields[0].name);
             });
-          });
+        })
+        .catch(({ errorFields }: { errorFields: any }) => {
+          vpcFormRef.scrollToField(errorFields[0].name);
         });
-      });
     }
   };
 

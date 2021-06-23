@@ -100,7 +100,9 @@ const ApiPublishModal = (props: IProps) => {
       rules: [
         {
           pattern: idReg,
-          message: i18n.t('default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores'),
+          message: i18n.t(
+            'default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores',
+          ),
         },
       ],
     },
@@ -159,7 +161,7 @@ const ApiPublishModal = (props: IProps) => {
       title={i18n.t('project:publish documents')}
       fieldsList={apiFieldList}
       visible={visible}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       onOk={onPublishApi}
       onCancel={onClose}
       formData={formData}

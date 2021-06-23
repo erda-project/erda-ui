@@ -278,7 +278,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
         name="http"
         fieldsList={httpFieldsList}
         visible={showAdd}
-        wrappedComponentRef={formRef}
+        ref={formRef}
         onOk={handleFormSubmit}
         onCancel={() => toggleShowAdd(false)}
         modalProps={{
@@ -308,10 +308,7 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
   }, [data, formRef]);
 
   const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+    form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }, { isHttp: true });
     });
   };
@@ -521,10 +518,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
   }, [data, formRef]);
 
   const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+    form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
       });

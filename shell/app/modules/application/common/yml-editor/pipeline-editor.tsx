@@ -150,8 +150,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   };
 
   const checkForm = () => {
-    form.validateFields((err: any, values: any) => {
-      if (err) return;
+    form.validateFields().then((values: any) => {
       handleSubmit(values);
       form.resetFields();
     });

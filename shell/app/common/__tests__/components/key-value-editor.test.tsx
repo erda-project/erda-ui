@@ -23,9 +23,14 @@ const data = {
   name: 'erda.cloud',
 };
 
-const Comp = Form.create()((props) => {
-  return <KeyValueEditor {...props} />;
-});
+const Comp = (props) => {
+  const [form] = Form.useForm();
+  return (
+    <Form>
+      <KeyValueEditor {...props} form={form} />
+    </Form>
+  );
+};
 
 describe('KeyValueEditor', () => {
   it('should render well', () => {

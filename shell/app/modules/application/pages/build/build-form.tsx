@@ -45,7 +45,8 @@ const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
   PROD: 'blockProd',
 };
 
-const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
+const BuildForm = ({ visible, onCancel, title, onOk }: IProps) => {
+  const [form] = Form.useForm();
   const pipelineDetail = buildStore.useStore((s) => s.pipelineDetail);
   const appID = routeInfoStore.useStore((s) => s.params.appId);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
@@ -116,7 +117,9 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
     if (appBlocked) {
       return projectSetting.blockNetwork.applyUnblock.pass
         ? i18n.t('application:Please go to My Projects to apply for deployment in network block period.')
-        : i18n.t('application:Please contact the project administrator to apply for deployment in network block period.');
+        : i18n.t(
+            'application:Please contact the project administrator to apply for deployment in network block period.',
+          );
     }
     if (unBlockStart && unBlockEnd) {
       return `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(
@@ -205,10 +208,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
 
   const renderFooter = React.useMemo(() => {
     const handleOk = () => {
-      formRef.current.validateFields((err, data) => {
-        if (err) {
-          return;
-        }
+      formRef.current.validateFields().then((data: any) => {
         const { branch, pipelineYmlName } = data;
         onOkRef.current({ branch, pipelineYmlName });
       });
@@ -230,4 +230,4 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   );
 };
 
-export default Form.create()(BuildForm) as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+export default BuildForm as any as (p: Omit<IProps, 'form'>) => JSX.Element;

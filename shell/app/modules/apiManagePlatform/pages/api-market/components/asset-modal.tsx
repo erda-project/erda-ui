@@ -149,7 +149,9 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         rules: [
           {
             pattern: idReg,
-            message: i18n.t('default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores'),
+            message: i18n.t(
+              'default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores',
+            ),
           },
         ],
       },
@@ -242,10 +244,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
     ]),
   ];
   const handleOk = () => {
-    formRef.current.props.form.validateFields(async (err, data) => {
-      if (err) {
-        return;
-      }
+    formRef.current.props.form.validateFields().then(async (data: any) => {
       const payload = formatPayload(scope, mode, data, formData);
       let request: any = createAsset;
       if (scope === 'version') {
@@ -275,7 +274,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
       title={titleMap[scope][mode]}
       visible={visible}
       fieldsList={fieldsList}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       onCancel={onCancel}
       formData={formData || {}}
       loading={loading}

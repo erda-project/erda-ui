@@ -41,6 +41,8 @@ interface IFormComponentState {
 }
 
 class EditService extends PureComponent<IEditServiceProps & FormComponentProps, IFormComponentState> {
+  formRef = React.createRef();
+
   state = {
     service: {},
     originName: null,
@@ -73,18 +75,23 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       cmd,
       image,
     } = this.state.service;
-    const { form, editing } = this.props;
-    const { getFieldDecorator } = form;
+    const { editing } = this.props;
 
-    const nameField = getFieldDecorator('name', {
-      initialValue: name,
-      rules: [
-        {
-          required: true,
-          message: i18n.t('application:please enter the service name'),
-        },
-      ],
-    })(<Input disabled={!editing} placeholder={i18n.t('application:please enter the service name')} />);
+    const nameField = (
+      <Item
+        label={i18n.t('application:service name')}
+        name="name"
+        initialValue={name}
+        rules={[
+          {
+            required: true,
+            message: i18n.t('application:please enter the service name'),
+          },
+        ]}
+      >
+        <Input disabled={!editing} placeholder={i18n.t('application:please enter the service name')} />
+      </Item>
+    );
     const _ports: any[] = [];
     map(ports, (p) => {
       if (typeof p !== 'object') {
@@ -93,94 +100,114 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         _ports.push(p);
       }
     });
-    const portsField = getFieldDecorator('ports', {
-      initialValue: _ports,
-      rules: [
-        {
-          validator: portsValidator,
-        },
-      ],
-    })(<PortsField disabled={!editing} />);
+    const portsField = (
+      <Item
+        name="ports"
+        initialValue={_ports}
+        rules={[
+          {
+            validator: portsValidator,
+          },
+        ]}
+      >
+        <PortsField disabled={!editing} />
+      </Item>
+    );
 
-    let exposeField = getFieldDecorator('expose', {
-      initialValue: expose,
-    })(
-      <ListInput
-        disabled={!editing}
-        type="number"
-        label={i18n.t('application:please enter the exposed port')}
-        placeholder={i18n.t('application:exposed port')}
-      />,
+    let exposeField = (
+      <Item name="expose" initialValue={expose}>
+        <ListInput
+          disabled={!editing}
+          type="number"
+          label={i18n.t('application:please enter the exposed port')}
+          placeholder={i18n.t('application:exposed port')}
+        />
+      </Item>
     );
     if (!editing && (!expose || (expose && !expose.length))) {
       exposeField = null;
     }
-    let hostsField = getFieldDecorator('hosts', {
-      initialValue: hosts,
-    })(<ListInput disabled={!editing} label={i18n.t('application:hosts mapping')} />);
+    let hostsField = (
+      <Item name="hosts" initialValue={hosts}>
+        <ListInput disabled={!editing} label={i18n.t('application:hosts mapping')} />
+      </Item>
+    );
     if (!editing && (!hosts || (hosts && !hosts.length))) {
       hostsField = null;
     }
-    const resourceField = getFieldDecorator('resources', {
-      initialValue: resources,
-      rules: [
-        {
-          required: true,
-          message: i18n.t('application:please select a resource'),
-        },
-        {
-          validator: resourcesValidator,
-        },
-      ],
-    })(<ResourceField disabled={!editing} placeholder={i18n.t('application:please select a resource')} />);
-    const deploymentsField = getFieldDecorator('deployments', {
-      initialValue: deployments,
-    })(
-      <DeploymentsField disabled={!editing} placeholder={i18n.t('application:please select a deployment strategy')} />,
+    const resourceField = (
+      <Item
+        label={i18n.t('application:resources')}
+        name="resources"
+        initialValue={resources}
+        rules={[
+          {
+            required: true,
+            message: i18n.t('application:please select a resource'),
+          },
+          {
+            validator: resourcesValidator,
+          },
+        ]}
+      >
+        <ResourceField disabled={!editing} placeholder={i18n.t('application:please select a resource')} />
+      </Item>
+    );
+    const deploymentsField = (
+      <Item label={i18n.t('application:deployment strategy')} name="deployments" initialValue={deployments}>
+        <DeploymentsField disabled={!editing} placeholder={i18n.t('application:please select a deployment strategy')} />
+      </Item>
     );
 
-    let envsField = getFieldDecorator('envs', {
-      initialValue: envs,
-      rules: [
-        {
-          required: true,
-          message: i18n.t('application:please enter an environment variable'),
-        },
-      ],
-    })(
-      <ObjectInput
-        disabled={!editing}
-        label={i18n.t('application:environment variable')}
-        errorMessage={i18n.t('application:environment variables cannot be empty')}
-      />,
+    let envsField = (
+      <Item
+        name="envs"
+        initialValue={envs}
+        rules={[
+          {
+            required: true,
+            message: i18n.t('application:please enter an environment variable'),
+          },
+        ]}
+      >
+        <ObjectInput
+          disabled={!editing}
+          label={i18n.t('application:environment variable')}
+          errorMessage={i18n.t('application:environment variables cannot be empty')}
+        />
+      </Item>
     );
 
     if (!editing && (!envs || (envs && !Object.keys(envs).length))) {
       envsField = null;
     }
-    let cmdField = getFieldDecorator('cmd', {
-      initialValue: cmd,
-    })(<Input disabled={!editing} placeholder={i18n.t('application:please enter the start command')} />);
+    let cmdField = (
+      <Item label={i18n.t('application:start command')} name="cmd" initialValue={cmd}>
+        <Input disabled={!editing} placeholder={i18n.t('application:please enter the start command')} />
+      </Item>
+    );
 
     if (!editing && !cmd) {
       cmdField = null;
     }
-    let bindsField = getFieldDecorator('binds', {
-      initialValue: binds,
-    })(
-      <ListInput
-        disabled={!editing}
-        required={false}
-        label={i18n.t('application:mounting')}
-        placeholder={i18n.t('application:please enter the mount directory')}
-      />,
+    let bindsField = (
+      <Item name="binds" initialValue={binds}>
+        <ListInput
+          disabled={!editing}
+          required={false}
+          label={i18n.t('application:mounting')}
+          placeholder={i18n.t('application:please enter the mount directory')}
+        />
+      </Item>
     );
     if (!editing && (!binds || (binds && !binds.length))) {
       bindsField = null;
     }
-    let healthCheckField = getFieldDecorator('health_check', {
-      initialValue: health_check || {},
-    })(<HealthCheckField disabled={!editing} />);
+    let healthCheckField = (
+      <Item label={i18n.t('application:health check')} name="health_check" initialValue={health_check}>
+        <HealthCheckField disabled={!editing} />
+      </Item>
+    );
 
     if (!editing && (!health_check || (health_check && !Object.keys(health_check).length))) {
       healthCheckField = null;
@@ -190,27 +217,27 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     //   initialValue: volumes,
     // })(<VolumesField required={false} label="持久化目录" placeholder="请输入文件目录" />);
 
-    let imageField = getFieldDecorator('image', {
-      initialValue: image,
-    })(<Input disabled={!editing} placeholder={i18n.t('application:please enter the image name')} />);
+    let imageField = (
+      <Item label={i18n.t('application:image name')} name="image" initialValue={image}>
+        <Input disabled={!editing} placeholder={i18n.t('application:please enter the image name')} />
+      </Item>
+    );
     if (!editing && !image) {
       imageField = null;
     }
     return (
       <Form className="edit-service-container">
-        <Item label={i18n.t('application:service name')}>{nameField}</Item>
-        <Item>{portsField}</Item>
-        <Item label={i18n.t('application:resources')}>{resourceField}</Item>
-        <Item label={i18n.t('application:deployment strategy')}>{deploymentsField}</Item>
-        {healthCheckField || editing ? (
-          <Item label={i18n.t('application:health check')}>{healthCheckField}</Item>
-        ) : null}
-        {envsField || editing ? <Item>{envsField}</Item> : null}
-        {exposeField || editing ? <Item>{exposeField}</Item> : null}
-        {hostsField || editing ? <Item>{hostsField}</Item> : null}
-        {bindsField || editing ? <Item>{bindsField}</Item> : null}
-        {cmdField || editing ? <Item label={i18n.t('application:start command')}>{cmdField}</Item> : null}
-        {imageField || editing ? <Item label={i18n.t('application:image name')}>{imageField}</Item> : null}
+        {nameField}
+        {portsField}
+        {resourceField}
+        {deploymentsField}
+        {healthCheckField || editing ? { healthCheckField } : null}
+        {envsField || editing ? { envsField } : null}
+        {exposeField || editing ? { exposeField } : null}
+        {hostsField || editing ? { hostsField } : null}
+        {bindsField || editing ? { bindsField } : null}
+        {cmdField || editing ? { cmdField } : null}
+        {imageField || editing ? { imageField } : null}
         {editing ? (
           <Button type="primary" ghost onClick={this.onSubmit}>
             {i18n.t('application:save')}
@@ -222,9 +249,11 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
 
   private onSubmit = () => {
     const { originName } = this.state;
-    const { form, onSubmit, jsonContent } = this.props;
-    form.validateFieldsAndScroll((error: any, values: any) => {
-      if (!error) {
+    const { onSubmit, jsonContent } = this.props;
+    const form = this.formRef.current;
+    form
+      .validateFields()
+      .then((values: any) => {
         const ports: any[] = [];
         map(values.ports, (p: any) => {
           if (p.port !== undefined) {
@@ -239,9 +268,11 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
           },
           jsonContent,
         );
-      }
-    });
+      })
+      .catch(({ errorFields }: { errorFields: any }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
 }
 
-export default Form.create()(EditService);
+export default EditService;

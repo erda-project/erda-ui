@@ -113,8 +113,8 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
       const {
         form: { validateFields },
       } = this.props;
-      validateFields((err) => {
-        if (!err) {
+      validateFields()
+        .then(() => {
           const nowIsTableMode = this.state.tableMode;
           if (nowIsTableMode) {
             this.setState({
@@ -128,10 +128,10 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
             });
           }
           resolve({ mode: !nowIsTableMode ? 'key-value' : 'text' });
-        } else {
+        })
+        .catch(() => {
           resolve(err);
-        }
-      });
+        });
     });
 
   render() {

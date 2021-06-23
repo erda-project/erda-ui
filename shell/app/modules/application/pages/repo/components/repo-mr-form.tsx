@@ -435,10 +435,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
   };
 
   handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+    form.validateFields().then((values: any) => {
       const { createMR, operateMR, getRepoInfo, onOk, formData, info } = this.props;
       const { branch, ...rest } = values;
       const { sourceBranch, targetBranch, removeSourceBranch } = branch;

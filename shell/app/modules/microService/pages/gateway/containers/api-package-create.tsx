@@ -74,17 +74,20 @@ const BindDomainForm = (props: any) => {
     <div className="full-width">
       {map(value, (_item: any, index: number) => {
         return (
-          <FormItem className="full-width bind-domain-item" key={`${index}`}>
-            {form.getFieldDecorator(`bindDomain_${index}`, {
-              initialValue: value[index],
-              rules: [
-                {
-                  required: true,
-                  pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/,
-                  message: i18n.t('microService:lowercase letters, numbers, dot, -, *'),
-                },
-              ],
-            })(<Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />)}
+          <FormItem
+            name={`bindDomain_${index}`}
+            className="full-width bind-domain-item"
+            key={`${index}`}
+            initialValue={value[index]}
+            rules={[
+              {
+                required: true,
+                pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/,
+                message: i18n.t('microService:lowercase letters, numbers, dot, -, *'),
+              },
+            ]}
+          >
+            <Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />
             <div className="bind-domain-icons">
               <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
               {index !== 0 ? (
@@ -186,6 +189,7 @@ export const PureApiPackage = () => {
   const basicFormRef = React.useRef(null);
 
   const Step1 = (formProps: any) => {
+    const [form] = Form.useForm();
     let authTypes = Object.entries(AUTH_TYPE_MAP);
     if (!state.basicForm.needBindCloudapi) {
       authTypes = authTypes.filter(([key]) => key !== AuthType.aliCloudApp);
@@ -215,7 +219,12 @@ export const PureApiPackage = () => {
         name: 'name',
         initialValue: state.basicForm.name,
         rules: [
-          { pattern: /^[A-Za-z0-9]+([-/_.][0-9a-zA-Z]+)*$/, message: i18n.t('microService:Please enter a name consisting of letters, numbers, underscores, hyphens, slashes and dots within 50 characters.') },
+          {
+            pattern: /^[A-Za-z0-9]+([-/_.][0-9a-zA-Z]+)*$/,
+            message: i18n.t(
+              'microService:Please enter a name consisting of letters, numbers, underscores, hyphens, slashes and dots within 50 characters.',
+            ),
+          },
         ],
         itemProps: {
           disabled: editMode,
@@ -281,7 +290,25 @@ export const PureApiPackage = () => {
       });
     }
 
-    return <RenderPureForm {...formProps} ref={basicFormRef} list={fieldsList} />;
+    return (
+      <Form
+        form={form}
+        onValuesChange={(_, changedValues) => {
+          updater.basicForm((prev: any) => {
+            const newData = changeBindDomain({ ...prev, ...changedValues });
+            return { ...newData };
+          });
+          if (changedValues.authType === AuthType.aliCloudApp) {
+            (basicFormRef.current as any).props.form.setFieldsValue({ aclType: 'on' });
+          }
+          if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
+            (basicFormRef.current as any).props.form.setFieldsValue({ authType: undefined });
+          }
+        }}
+      >
+        <RenderPureForm form={form} {...formProps} ref={basicFormRef} list={fieldsList} />
+      </Form>
+    );
   };
 
   const Step2 = () => {
@@ -347,21 +374,7 @@ export const PureApiPackage = () => {
   };
 
   const Form1 = React.useMemo(
-    () =>
-      Form.create({
-        onValuesChange: (_, changedValues) => {
-          updater.basicForm((prev: any) => {
-            const newData = changeBindDomain({ ...prev, ...changedValues });
-            return { ...newData };
-          });
-          if (changedValues.authType === AuthType.aliCloudApp) {
-            (basicFormRef.current as any).props.form.setFieldsValue({ aclType: 'on' });
-          }
-          if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
-            (basicFormRef.current as any).props.form.setFieldsValue({ authType: undefined });
-          }
-        },
-      })(Step1),
+    () => Step1,
     [
       apiPackageDetail,
       state.basicForm.scene,
@@ -380,8 +393,7 @@ export const PureApiPackage = () => {
   const saveForm1 = (cbs: any[]) => {
     const [cb1, cb2] = cbs || [noop, noop];
     if (basicFormRef.current) {
-      (basicFormRef.current as any).props.form.validateFields((err: any, values: object) => {
-        if (err) return;
+      (basicFormRef.current as any).props.form.validateFields().then((values) => {
         const newData = changeBindDomain(values) as GATEWAY.UpdataApiPackage;
         if (params.packageId) {
           updateApiPackage(newData).then((res) => {

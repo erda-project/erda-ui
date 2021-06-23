@@ -172,22 +172,24 @@ const AccessEdit = () => {
     return apiGateWays;
   }, [apiGateways, gotoServer, state.projectList, state.instanceWorkSpace, isfetchApi]);
   const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFieldsAndScroll((err, data) => {
-      if (err) {
-        return;
-      }
-      const { workspace } = gateways.find((t) => t.addonInstanceID === data.addonInstanceID) || {};
-      const payload = { ...data, minor: +data.minor, major: +data.major, projectID: +data.projectID, workspace };
-      if (accessID) {
-        updateAccess(payload).then(() => {
-          window.history.back();
-        });
-      } else {
-        createAccess(payload).then((res) => {
-          goTo(goTo.pages.apiAccessManageDetail, { accessID: res.access.id });
-        });
-      }
-    });
+    form
+      .validateFields()
+      .then((data: any) => {
+        const { workspace } = gateways.find((t) => t.addonInstanceID === data.addonInstanceID) || {};
+        const payload = { ...data, minor: +data.minor, major: +data.major, projectID: +data.projectID, workspace };
+        if (accessID) {
+          updateAccess(payload).then(() => {
+            window.history.back();
+          });
+        } else {
+          createAccess(payload).then((res) => {
+            goTo(goTo.pages.apiAccessManageDetail, { accessID: res.access.id });
+          });
+        }
+      })
+      .catch(({ errorFields }: { errorFields: any }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
   const handleChange = (name: string, value: string, clearFields: string[]) => {
     let versions = [];
@@ -245,7 +247,15 @@ const AccessEdit = () => {
   const fieldsList = [
     {
       getComp(): React.ReactElement<any> | string {
-        return <Alert showIcon type="normal" message={i18n.t('Note: The precondition to create access management is that the API must first complete the project association and version instance association.')} />;
+        return (
+          <Alert
+            showIcon
+            type="normal"
+            message={i18n.t(
+              'Note: The precondition to create access management is that the API must first complete the project association and version instance association.',
+            )}
+          />
+        );
       },
     },
     {
@@ -384,7 +394,7 @@ const AccessEdit = () => {
   return (
     <Spin spinning={isLoading.some((t) => t)}>
       <div>
-        <RenderForm list={fieldsList} layout="vertical" wrappedComponentRef={formRef} />
+        <RenderForm list={fieldsList} layout="vertical" ref={formRef} />
       </div>
     </Spin>
   );

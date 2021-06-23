@@ -46,16 +46,16 @@ class OrderPage extends React.Component<IProps, any> {
     passwordVisible: false,
   };
 
+  formRef = React.createRef();
+
   confirmData = {};
 
   formData: { [key: string]: any } = {};
 
   changeStep = (step: number) => {
+    const form = this.formRef.current;
     if (step === 1) {
-      this.props.form.validateFields((err, values) => {
-        if (err) {
-          return;
-        }
+      form.validateFields().then((values: any) => {
         const { resourceType, ...data } = values;
         this.formData = values;
         this.confirmData = {};
@@ -86,7 +86,8 @@ class OrderPage extends React.Component<IProps, any> {
   };
 
   getFormValue = (field?: string) => {
-    return field ? this.props.form.getFieldValue(field) : this.props.form.getFieldsValue();
+    const form = this.formRef.current;
+    return field ? form.getFieldValue(field) : form.getFieldsValue();
   };
 
   getTipLabel = (text: string, tip: string) => (
@@ -481,7 +482,7 @@ class OrderPage extends React.Component<IProps, any> {
     const steps = [{ title: i18n.t('dcos:select configuration') }, { title: i18n.t('dcos:confirm configuration') }];
 
     return (
-      <div className="purchase-resource">
+      <Form ref={this.formRef} className="purchase-resource">
         <Steps className="step-wrap" current={step}>
           {steps.map((item) => (
             <Step key={item.title} title={item.title} />
@@ -505,7 +506,7 @@ class OrderPage extends React.Component<IProps, any> {
             </div>
           </div>
         </div>
-      </div>
+      </Form>
     );
   }
 }
@@ -517,4 +518,4 @@ const mapper = () => {
   };
 };
 
-export default connectCube(Form.create()(OrderPage), mapper);
+export default connectCube(OrderPage, mapper);

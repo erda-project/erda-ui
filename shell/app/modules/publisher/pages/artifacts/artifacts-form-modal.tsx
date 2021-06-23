@@ -47,6 +47,8 @@ interface IState {
 }
 
 class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
+  formRef = React.createRef();
+
   state = {
     isAdd: false,
     isGeofence: false,
@@ -223,7 +225,8 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
       () => {
         if (type === ArtifactsTypeMap.MOBILE.value) {
           const { isGeofence } = this.state;
-          const { form, formData } = this.props;
+          const { formData } = this.props;
+          const form = this.formRef.current;
           const keys = isGeofence ? ['isGeofence', 'geofenceLon', 'geofenceLat', 'geofenceRadius'] : ['isGeofence'];
           form.setFieldsValue(pick(formData, keys));
         }
@@ -238,7 +241,8 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
       },
       () => {
         if (isGeofence) {
-          const { form, formData } = this.props;
+          const { formData } = this.props;
+          const form = this.formRef.current;
           const keys = ['geofenceLon', 'geofenceLat', 'geofenceRadius'];
           form.setFieldsValue(pick(formData, keys));
         }
@@ -273,52 +277,57 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
   };
 
   handleOk = () => {
-    const { form, beforeSubmit } = this.props;
+    const { beforeSubmit } = this.props;
+    const form = this.formRef.current;
     return new Promise((resolve, reject) => {
-      form.validateFieldsAndScroll((errors, values) => {
-        if (errors) {
-          return reject(errors);
-        }
-
-        let submitValue = values;
-        if (beforeSubmit) {
-          submitValue = beforeSubmit(values, form);
-          if (isPromise(submitValue)) {
-            // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
-            return submitValue.then((checkedValues: any) => {
-              if (checkedValues === null) {
-                return resolve();
-              }
-              this.submit(checkedValues);
-            });
-          } else if (submitValue === null) {
-            return resolve();
+      form
+        .validateFields()
+        .then((values: any) => {
+          let submitValue = values;
+          if (beforeSubmit) {
+            submitValue = beforeSubmit(values, form);
+            if (isPromise(submitValue)) {
+              // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
+              return submitValue.then((checkedValues: any) => {
+                if (checkedValues === null) {
+                  return resolve();
+                }
+                this.submit(checkedValues);
+              });
+            } else if (submitValue === null) {
+              return resolve();
+            }
           }
-        }
-        this.submit(submitValue);
-      });
+          this.submit(submitValue);
+        })
+        .catch(({ errorFields }: { errorFields: any }) => {
+          form.scrollToField(errorFields[0].name);
+          reject(errors);
+        });
     }).then(() => form.resetFields());
   };
 
   componentDidUpdate(prevProps: Readonly<IProps>) {
     const { isAdd } = this.state;
     const { formData } = this.props;
+    const form = this.formRef.current;
     const fieldsList = this.getFieldsList();
     const keys = fieldsList.filter((f) => f.name !== undefined).map((f) => f.name) as string[];
     if (!prevProps.visible) {
       if (!isAdd) {
         setTimeout(() => {
-          this.props.form.setFieldsValue(pick(formData as object, keys));
+          form.setFieldsValue(pick(formData as object, keys));
         }, 0);
       } else {
-        this.props.form.resetFields();
+        form.resetFields();
       }
     }
   }
 
   render(): React.ReactNode {
     const { isAdd, confirmLoading } = this.state;
-    const { form, visible, onCancel } = this.props;
+    const { visible, onCancel } = this.props;
+    const form = this.formRef.current;
     const fieldsList = this.getFieldsList();
     const title = isAdd ? i18n.t('add {name}', { name: modalName }) : i18n.t('edit {name}', { name: modalName });
     let content = null;
@@ -331,10 +340,10 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
     }
     return (
       <Modal title={title} visible={visible} onCancel={onCancel} confirmLoading={confirmLoading} onOk={this.handleOk}>
-        {content}
+        <Form ref={this.formRef}>{content}</Form>
       </Modal>
     );
   }
 }
 
-export default Form.create()(ArtifactsFormModal) as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+export default ArtifactsFormModal as any as (p: Omit<IProps, 'form'>) => JSX.Element;

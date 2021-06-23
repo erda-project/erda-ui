@@ -48,10 +48,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
   const loading = useLoading(apiAccessStore, ['addSla', 'updateSla']);
 
   const handleOk = () => {
-    formRef.current.props.form.validateFields(async (err, data) => {
-      if (err) {
-        return;
-      }
+    formRef.current.props.form.validateFields().then(async (data: any) => {
       if (mode === 'add') {
         await addSla({
           assetID,
@@ -150,7 +147,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
   return (
     <FormModal
       title={i18n.t(`${mode} {name}`, { name: 'SLA' })}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       visible={visible}
       onCancel={onCancel}
       fieldsList={fieldsList}

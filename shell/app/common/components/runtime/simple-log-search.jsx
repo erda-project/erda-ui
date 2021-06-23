@@ -21,6 +21,8 @@ import i18n from 'i18n';
 const FormItem = Form.Item;
 
 class LogSearchForm extends React.Component {
+  formRef = React.createRef();
+
   componentDidMount = () => {
     this.setForm(this.props.formData);
   };
@@ -33,34 +35,26 @@ class LogSearchForm extends React.Component {
 
   setForm = (formData) => {
     if (!isEmpty(formData)) {
-      this.props.form.setFieldsValue(formData);
+      this.formRef.current.form.setFieldsValue(formData);
       // this.handleSubmit();
     }
   };
 
-  handleSubmit = (e) => {
-    e && e.preventDefault();
-    const { form, setSearch } = this.props;
-    form.validateFields((err, values) => {
-      !err && setSearch(values);
-    });
+  handleSubmit = (values) => {
+    const { setSearch } = this.props;
+    setSearch(values);
   };
 
   render() {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     return (
       <div className="log-search">
-        <Form onSubmit={this.handleSubmit}>
-          <FormItem className="log-search-logId">
-            {getFieldDecorator('requestId', {
-              validate: [
-                {
-                  rules: [{ required: true, message: `${i18n.t('common:please fill out')}request id` }],
-                  trigger: 'onChange',
-                },
-              ],
-            })(<Input placeholder={`${i18n.t('common:please enter')}request id${i18n.t('search')}`} />)}
+        <Form ref={this.formRef} onFinish={this.handleSubmit}>
+          <FormItem
+            name="requestId"
+            className="log-search-logId"
+            rules={[{ required: true, message: `${i18n.t('common:please fill out')}request id` }]}
+          >
+            <Input placeholder={`${i18n.t('common:please enter')}request id${i18n.t('search')}`} />
           </FormItem>
           <Button className="log-search-btn" type="primary" htmlType="submit" icon={<IconSearch />}>
             {i18n.t('common:search for')}
@@ -70,4 +64,4 @@ class LogSearchForm extends React.Component {
     );
   }
 }
-export default Form.create()(LogSearchForm);
+export default LogSearchForm;

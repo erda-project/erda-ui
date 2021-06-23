@@ -47,8 +47,7 @@ class ConfigFormModal extends React.PureComponent {
   });
 
   onSubmit = () => {
-    this.form.validateFields((err) => {
-      if (err) return;
+    this.form.validateFields().then(() => {
       const data = this.editor.getEditData();
       const configs = map(data, (v, k) => ({
         key: k,

@@ -70,12 +70,12 @@ export interface IEditStageProps {
 }
 const noop = () => {};
 const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
+  const [form] = Form.useForm();
   const {
     nodeData: propsNodeData,
     editing,
     isCreate,
     otherTaskAlias = [],
-    form,
     onSubmit: handleSubmit = noop,
     chosenActionName,
     chosenAction,
@@ -88,7 +88,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   });
 
   const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
-  const { getFieldDecorator, getFieldValue } = form;
+  const { getFieldValue } = form;
   const [{ actionConfig, resource, originType, originName, task }, updater, update] = useUpdate({
     resource: {},
     actionConfig: {} as DEPLOY.ActionConfig,
@@ -171,40 +171,48 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     updater.resource(getResource(task as IStageTask, selectConfig));
   };
 
-  const taskType = getFieldDecorator('resource.type', {
-    initialValue: chosenActionName,
-    rules: [
-      {
-        required: true,
-        message: `${i18n.t('application:please choose')}Task Type`,
-      },
-    ],
-  })(<Input />);
-
-  const loopData = getFieldDecorator('resource.loop', {
-    initialValue: get(actionConfig, 'spec.loop'),
-  });
-
-  const actionVersion = getFieldDecorator('resource.version', {
-    initialValue: task.version || actionConfig.version,
-    rules: [
-      {
-        required: true,
-        message: `${i18n.t('application:please choose')}Task Version`,
-      },
-    ],
-  })(
-    <Select
-      disabled={!editing}
-      onChange={changeActionVersion}
-      placeholder={`${i18n.t('application:please choose version')}`}
+  const taskType = (
+    <Item
+      className="hide"
+      name="resource.type"
+      initialValue={chosenActionName}
+      rules={[
+        {
+          required: true,
+          message: `${i18n.t('application:please choose')}Task Type`,
+        },
+      ]}
     >
-      {actionConfigs.map((config) => (
-        <Option key={config.version} value={config.version}>
-          {config.version}
-        </Option>
-      ))}
-    </Select>,
+      <Input />
+    </Item>
+  );
+
+  const loopData = <Item className="hide" name="resource.loop" initialValue={get(actionConfig, 'spec.loop')} />;
+
+  const actionVersion = (
+    <Item
+      label={i18nMap.version}
+      name="resource.version"
+      initialValue={task.version || actionConfig.version}
+      rules={[
+        {
+          required: true,
+          message: `${i18n.t('application:please choose')}Task Version`,
+        },
+      ]}
+    >
+      <Select
+        disabled={!editing}
+        onChange={changeActionVersion}
+        placeholder={`${i18n.t('application:please choose version')}`}
+      >
+        {actionConfigs.map((config) => (
+          <Option key={config.version} value={config.version}>
+            {config.version}
+          </Option>
+        ))}
+      </Select>
+    </Item>
   );
 
   let alert;
@@ -218,15 +226,21 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       />
     );
   }
-  const taskName = getFieldDecorator('resource.alias', {
-    initialValue: taskInitName,
-    rules: [
-      {
-        required: true,
-        validator: checkResourceName,
-      },
-    ],
-  })(<Input autoFocus={!type} disabled={!editing} placeholder={i18n.t('application:please enter the task name')} />);
+  const taskName = (
+    <Item
+      label={i18n.t('application:task name')}
+      name="resource.alias"
+      initialValue={taskInitName}
+      rules={[
+        {
+          required: true,
+          validator: checkResourceName,
+        },
+      ]}
+    >
+      <Input autoFocus={!type} disabled={!editing} placeholder={i18n.t('application:please enter the task name')} />
+    </Item>
+  );
 
   const renderTaskTypeStructure = () => {
     if (isEmpty(resource)) {
@@ -313,32 +327,44 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
 
-    const inputField = getFieldDecorator(parentKey, {
-      initialValue,
-      rules: [
-        {
-          required: value.required,
-          message: i18n.t('application:this item cannot be empty'),
-        },
-      ],
-    })(<VariableInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
-    return <Item key={parentKey}>{inputField}</Item>;
+    const inputField = (
+      <Item
+        key={parentKey}
+        name={parentKey}
+        initialValue={initialValue}
+        rules={[
+          {
+            required: value.required,
+            message: i18n.t('application:this item cannot be empty'),
+          },
+        ]}
+      >
+        <VariableInput disabled={!editing} label={getLabel(value.name, value.desc)} />
+      </Item>
+    );
+    return inputField;
   };
 
   const renderStringArray = (value: any, parentKey: string) => {
-    const inputField = getFieldDecorator(parentKey, {
-      initialValue: isCreate ? value.default : value.value || value.default,
-      rules: [
-        {
-          required: value.required,
-          message: i18n.t('application:this item cannot be empty'),
-        },
-      ],
-      getValueFromEvent: (val: Array<{ value: string }>) => {
-        return val?.length ? val.map((v) => v.value) : val;
-      },
-    })(<ListInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
-    return <Item key={parentKey}>{inputField}</Item>;
+    const inputField = (
+      <Item
+        key={parentKey}
+        name={parentKey}
+        initialValue={isCreate ? value.default : value.value || value.default}
+        rules={[
+          {
+            required: value.required,
+            message: i18n.t('application:this item cannot be empty'),
+          },
+        ]}
+        getValueFromEvent={(val: Array<{ value: string }>) => {
+          return val?.length ? val.map((v) => v.value) : val;
+        }}
+      >
+        <ListInput disabled={!editing} label={getLabel(value.name, value.desc)} />
+      </Item>
+    );
+    return inputField;
   };
 
   const renderPropertyValue = (value: any, parentKey: string, dataSource?: any) => {
@@ -377,20 +403,23 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         break;
     }
 
-    const inputField = getFieldDecorator(parentKey, {
-      initialValue,
-      rules: [
-        {
-          required: value.required,
-          message: i18n.t('application:this item cannot be empty'),
-        },
-      ],
-    })(input);
-    return (
-      <Item key={parentKey} label={getLabel(value.name, value.desc)}>
-        {inputField}
+    const inputField = (
+      <Item
+        key={parentKey}
+        label={getLabel(value.name, value.desc)}
+        name={parentKey}
+        initialValue={initialValue}
+        rules={[
+          {
+            required: value.required,
+            message: i18n.t('application:this item cannot be empty'),
+          },
+        ]}
+      >
+        {input}
       </Item>
     );
+    return inputField;
   };
 
   const getLabel = (label: string, labelTip: string) => {
@@ -490,8 +519,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   };
 
   const onSubmit = () => {
-    form.validateFieldsAndScroll((error: any, values: any) => {
-      if (!error) {
+    form
+      .validateFields()
+      .then((values: any) => {
         let data = cloneDeep(values);
         const resources = head(filter(resource.data, (item) => item.name === 'resources'));
         const originResource = transform(
@@ -524,8 +554,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         const resData = { ...filledFieldsData, action: chosenAction } as any;
         if (data.executionCondition) resData.executionCondition = data.executionCondition;
         handleSubmit(resData);
-      }
-    });
+      })
+      .catch(({ errorFields }: { errorFields: any }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
 
   const clearEmptyField = (ObjData: any) => {
@@ -545,24 +577,30 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     return pick(ObjData, filledFields);
   };
 
-  const executionCondition = getFieldDecorator('executionCondition', {
-    initialValue: get(propsNodeData, 'if') || undefined,
-    rules: [
-      {
-        required: false,
-      },
-    ],
-  })(<Input disabled={!editing} placeholder={i18n.t('common:configure execution conditions')} />);
+  const executionCondition = (
+    <Item
+      label={i18n.t('common:execution conditions')}
+      name={executionCondition}
+      initialValue={get(propsNodeData, 'if') || undefined}
+      rules={[
+        {
+          required: false,
+        },
+      ]}
+    >
+      <Input disabled={!editing} placeholder={i18n.t('common:configure execution conditions')} />
+    </Item>
+  );
 
   return (
     <Spin spinning={loading}>
-      <Form className="edit-service-container">
+      <Form form={form} className="edit-service-container">
         {alert}
-        <Item className="hide">{taskType}</Item>
-        <Item className="hide">{loopData}</Item>
-        {type ? <Item label={i18n.t('application:task name')}>{taskName}</Item> : null}
-        <Item label={i18nMap.version}>{actionVersion}</Item>
-        <Item label={i18n.t('common:execution conditions')}>{executionCondition}</Item>
+        {taskType}
+        {loopData}
+        {type ? taskName : null}
+        {actionVersion}
+        {executionCondition}
         {renderTaskTypeStructure()}
         {editing ? (
           <Button type="primary" ghost onClick={onSubmit}>
@@ -574,7 +612,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   );
 };
 
-export const PipelineNodeFormV1 = Form.create()(PurePipelineNodeForm);
+export const PipelineNodeFormV1 = PurePipelineNodeForm;
 
 export interface IPipelineNodeDrawerProps extends IEditStageProps {
   closeDrawer: () => void;
