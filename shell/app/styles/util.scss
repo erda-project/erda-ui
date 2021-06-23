@@ -407,22 +407,6 @@
   }
 }
 
-.ml12-group {
-  > * {
-    &:not(:first-child) {
-      margin-left: 12px;
-    }
-  }
-}
-
-.mr12-group {
-  > * {
-    &:not(:first-child) {
-      margin-left: 12px;
-    }
-  }
-}
-
 .notify-error-detail {
   font-family: inherit;
   white-space: pre-line;

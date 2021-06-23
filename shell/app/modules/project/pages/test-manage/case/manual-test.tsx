@@ -121,7 +121,7 @@ const ManualTest = () => {
         </div>
 
         <div className="flex justify-between items-center mb-3">
-          <div className="ml-3-group">
+          <div className="grid grid-flow-col gap-x-3">
             {query.recycled !== 'true' && (
               <>
                 <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>
@@ -145,7 +145,7 @@ const ManualTest = () => {
             <ImportExportRecord />
             <ProjectTreeModal />
           </div>
-          <div className="mr-3-group">
+          <div className="grid grid-flow-col gap-x-3">
             <Input
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}

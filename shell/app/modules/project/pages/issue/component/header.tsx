@@ -165,7 +165,7 @@ const IssueHeader = (props: IProps) => {
         />
       </div>
       <ToolBarWithFilter
-        className="ml-3-group"
+        className="grid grid-flow-col gap-x-3"
         list={useFilterList({ type: issueType, queryCondition: filterObj })}
         filterValue={filterObj}
         syncUrlOnSearch={false}

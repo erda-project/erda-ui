@@ -506,7 +506,7 @@ export const FilterGroupDrawer = ({
                   );
                 })
               )}
-              <div className="drawer-footer ml-3-group">
+              <div className="drawer-footer grid grid-flow-col gap-x-3">
                 <Button
                   onClick={() => {
                     onClose();
