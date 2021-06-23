@@ -31,10 +31,7 @@ export const confirmRedeploy = () => {
   confirm({
     title: i18n.t('runtime:confirm restart Runtime?'),
     onOk: () => {
-      const p1 = runtimeServiceStore.updateServicesConfig();
-      const p2 = runtimeDomainStore.updateDomains();
-
-      Promise.all([p1, p2]).then(() => {
+      runtimeDomainStore.updateDomains().then(() => {
         runtimeStore.redeployRuntime();
       });
     },
@@ -107,7 +104,7 @@ const RuntimeOverView = () => {
   const isDeleting = runtimeDetail.deleteStatus === 'DELETING';
 
   return (
-    <Spin spinning={loading || isDeleting} tip={isDeleting ? `${i18n.t('runtime:delete')}...` : undefined}>
+    <Spin spinning={loading || isDeleting} tip={isDeleting ? `${i18n.t('runtime:deleting')}...` : undefined}>
       <PureRuntimeOverView />
     </Spin>
   );

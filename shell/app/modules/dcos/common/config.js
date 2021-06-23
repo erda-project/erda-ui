@@ -29,12 +29,12 @@ export const supportLBRegion = [
   `${i18n.t('dcos:north china')} 1`,
   `${i18n.t('dcos:north china')} 2`,
   `${i18n.t('dcos:east china')} 2`,
-  `${i18n.t('dcos:south china')} 1`,
-  `${i18n.t('dcos:southeast asia southeast')} 1 (${i18n.t('dcos:singapore')})`,
-  `${i18n.t('dcos:southeast asia southeast')} 3 (${i18n.t('dcos:kuala lumpur')})`,
-  `${i18n.t('dcos:southeast asia southeast')} 5 (${i18n.t('dcos:jakarta')})`,
+  `${i18n.t('dcos:Southern China')} 1`,
+  `${i18n.t('dcos:Southeast Asia Pacific')} 1 (${i18n.t('dcos:singapore')})`,
+  `${i18n.t('dcos:Southeast Asia Pacific')} 3 (${i18n.t('dcos:kuala lumpur')})`,
+  `${i18n.t('dcos:Southeast Asia Pacific')} 5 (${i18n.t('dcos:jakarta')})`,
   `${i18n.t('dcos:south asia pacific')} 1 (${i18n.t('dcos:mumbai')})`,
-  `${i18n.t('dcos:western america')} 1 (${i18n.t('dcos:silicon valley')})`,
+  `${i18n.t('dcos:Western United States')} 1 (${i18n.t('dcos:silicon valley')})`,
   `${i18n.t('dcos:eastern united states')} 1 (${i18n.t('dcos:virginia')})`,
   `${i18n.t('dcos:hong kong')}`,
 ];
@@ -84,7 +84,7 @@ export const lbConfig = [
 ];
 
 const zhucong = i18n.t('dcos:master-slave');
-const gaopei = i18n.t('dcos:high match');
+const gaopei = i18n.t('dcos:high-configured');
 const danji = i18n.t('dcos:single machine');
 
 export const redisConfig = {
@@ -554,7 +554,7 @@ export const fieldsTranslationMap = {
   PrePaid: i18n.t('org:Subscription'),
   PostPaid: i18n.t('org:Pay-As-You-Go'),
   regionId: i18n.t('dcos:region'),
-  zoneId: i18n.t('dcos:available area'),
+  zoneId: i18n.t('dcos:availability zone'),
   periodUnit: i18n.t('dcos:time unit'),
   period: i18n.t('dcos:duration'),
   Week: i18n.t('dcos:week'),
@@ -569,7 +569,7 @@ export const fieldsTranslationMap = {
   ecsSettings: i18n.t('dcos:ecs configuration'),
   nodeType: i18n.t('dcos:node type'),
   amount: i18n.t('dcos:purchased instances'),
-  instanceType: i18n.t('dcos:instance type'),
+  instanceType: i18n.t('dcos:instance specification'),
   instanceChargeType: i18n.t('dcos:billing method'),
   systemDiskSize: `${i18n.t('dcos:system disk')}(${i18n.t('dcos:cloud')}SSD)${i18n.t('dcos:capacity')}(GiB)`,
 
@@ -586,7 +586,7 @@ export const fieldsTranslationMap = {
   engineVersion: i18n.t('version'),
   dbInstanceStorage: i18n.t('dcos:storage disk capacity'),
   accountName: i18n.t('dcos:account name'),
-  dbName: i18n.t('dcos:data storage name'),
+  dbName: i18n.t('dcos:database name'),
   Password: i18n.t('dcos:password'),
   character_set_server: i18n.t('dcos:database encoding'),
 
@@ -597,7 +597,7 @@ export const fieldsTranslationMap = {
   loadBalancerSetting: i18n.t('dcos:load balancing configuration'),
   loadBalancerSpec: i18n.t('dcos:specifications'),
   loadBalancePayType: i18n.t('dcos:billing method'),
-  PayOnDemand: i18n.t('dcos:pay by volume'),
+  PayOnDemand: i18n.t('dcos:pay as you go'),
   loadBalancerInternetChargeType: i18n.t('dcos:by flow'),
   paybybandwidth: i18n.t('dcos:network billing method'),
   paybytraffic: i18n.t('dcos:by fixed bandwidth'),
@@ -653,7 +653,11 @@ export const checkRdsAccountName = (rule, value, callback) => {
     callback(`${i18n.t('dcos:cannot contain restricted keywords')}： ${value}`);
   }
   if (!/^[a-z][a-z0-9_]*$/.test(value)) {
-    callback(i18n.t('dcos:rds-account-name-format'));
+    callback(
+      i18n.t(
+        'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+      ),
+    );
   }
   callback();
 };
@@ -669,7 +673,7 @@ export const checkPassword = (_rule, value, callback) => {
     return callback(i18n.t('dcos:cannot contain special characters'));
   }
   if (!/[a-z]/.test(value)) {
-    return callback(i18n.t('dcos:lower case letters'));
+    return callback(i18n.t('dcos:lowercase letter'));
   }
   if (!/[A-Z]/.test(value)) {
     return callback(i18n.t('dcos:uppercase letter'));

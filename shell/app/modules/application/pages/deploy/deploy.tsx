@@ -142,7 +142,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
           let tip = '';
           const branchAuth = !item.artifactWorkspace.includes(curEnv);
           if (branchAuth) {
-            tip = `${i18n.t('application:this branch can not deploy on {env}', { env: ENVS_MAP[curEnv] })}`;
+            tip = `${i18n.t('application:This branch cannot be deployed in {env}.', { env: ENVS_MAP[curEnv] })}`;
           }
           if (!tip) {
             const hasAuth = item.isProtect ? branchAuthObj.executeProtected.pass : branchAuthObj.executeNormal.pass;
@@ -156,7 +156,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
         }),
     },
     {
-      label: i18n.t('releaseId'),
+      label: i18n.t('artifact ID'),
       name: 'releaseId',
       type: 'custom',
       getComp: () => {
@@ -174,7 +174,9 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
             optionRender={releaseOptionItem as any}
             valueItemRender={releaseOptionItem as any}
             extraQuery={{ branchName: chosenBranch }}
-            placeholder={i18n.t('application:releaseId-deploy-tip')}
+            placeholder={i18n.t(
+              'application:For artifact deployment environment, see Project Settings - Branch Rules.',
+            )}
           />
         );
       },
@@ -238,10 +240,8 @@ const Deploy = () => {
 
   // if there a fakeRuntime or deleting runtime，then fetch runtimes after 10s
   React.useEffect(() => {
-    const hasDeletingOrFake = find(runtimes, (item) => (
-      item.deleteStatus === 'DELETING' || item.extra?.fakeRuntime
-    ));
-    
+    const hasDeletingOrFake = find(runtimes, (item) => item.deleteStatus === 'DELETING' || item.extra?.fakeRuntime);
+
     clearInterval(timer.current);
     if (hasDeletingOrFake) {
       timer.current = setInterval(() => {
@@ -287,7 +287,7 @@ const Deploy = () => {
   const message = React.useMemo(() => {
     const status = appBlockStatusMap[blockStatus];
     if (appBlocked) {
-      return `[${status}] ${i18n.t('application:cannot deploy tips')}`;
+      return `[${status}] ${i18n.t('application:Function unavailable in network block period.')}`;
     }
     if (unBlockStart && unBlockEnd) {
       const msg = `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(

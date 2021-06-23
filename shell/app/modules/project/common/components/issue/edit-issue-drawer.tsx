@@ -224,30 +224,35 @@ const IssueMetaFields = React.forwardRef(
                 originalValue={originalValue}
                 onChange={onSave}
                 disabled={disabled}
-              />)
-        }
-      };
-    });
-  }, [customFieldDetail.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
+              />
+            );
+          },
+        };
+      });
+    }, [customFieldDetail.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
 
-  let editFieldList = [
-    ...insertWhen(isEditMode, [
-      {
-        className: 'mb20',
-        name: 'state',
-        label: i18n.t('project:state'),
-        type: 'select',
-        itemProps: {
-          options: map(formData.issueButton, ({ stateID: state, stateName: label, permission: curAuth, stateBelong }) => (
-            <Option disabled={!curAuth} key={state} value={state}>
-              <>
-                {ISSUE_ICON.state[stateBelong]}
-                {label}
-              </>
-            </Option>)),
-          allowClear: false,
+    let editFieldList = [
+      ...insertWhen(isEditMode, [
+        {
+          className: 'mb20',
+          name: 'state',
+          label: i18n.t('project:state'),
+          type: 'select',
+          itemProps: {
+            options: map(
+              formData.issueButton,
+              ({ stateID: state, stateName: label, permission: curAuth, stateBelong }) => (
+                <Option disabled={!curAuth} key={state} value={state}>
+                  <>
+                    {ISSUE_ICON.state[stateBelong]}
+                    {label}
+                  </>
+                </Option>
+              ),
+            ),
+            allowClear: false,
+          },
         },
-      }
       ]),
       {
         className: 'mb20 full-width',
@@ -275,7 +280,7 @@ const IssueMetaFields = React.forwardRef(
           className: 'mb20 full-width',
           type: 'custom',
           name: 'owner',
-          label: i18n.t('project:responsible'),
+          label: i18n.t('project:responsible person'),
           getComp: ({ value, onSave }: any) => {
             return (
               <MemberSelector
@@ -299,7 +304,7 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb20 full-width',
           name: 'iterationID',
-          label: i18n.t('project:owing iteration'),
+          label: i18n.t('project:owned iteration'),
           type: 'custom',
           valueRender: (value: string) => {
             const match = iterationList.find((item) => String(item.id) === String(value));
@@ -311,7 +316,7 @@ const IssueMetaFields = React.forwardRef(
               value={value}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('project:owing iteration') })}
+              placeholder={i18n.t('please choose {name}', { name: i18n.t('project:owned iteration') })}
             />
           ),
         },
@@ -365,7 +370,7 @@ const IssueMetaFields = React.forwardRef(
       {
         className: 'mb20 full-width',
         name: 'planFinishedAt',
-        label: i18n.t('project:planFinishedAt'),
+        label: i18n.t('project:deadline'),
         type: 'datePicker',
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
@@ -760,7 +765,7 @@ export const EditIssueDrawer = (props: IProps) => {
     }
 
     // if (!_data.iterationID) {
-    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('project:owing iteration') }));
+    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('project:owned iteration') }));
     //   return false;
     // }
 
@@ -771,7 +776,7 @@ export const EditIssueDrawer = (props: IProps) => {
       }
     }
     if (!_data.planFinishedAt && ISSUE_TYPE.EPIC === issueType) {
-      message.warn(i18n.t('project:missing planFinishedAt'));
+      message.warn(i18n.t('project:missing deadline'));
       return false;
     }
     return true;
@@ -847,7 +852,7 @@ export const EditIssueDrawer = (props: IProps) => {
           const workingState = formData.issueButton.find((item) => item.stateBelong === 'WORKING');
           // When working exists and select working, don't warn
           if (!workingState || value.state !== workingState.stateID) {
-            warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime' });
+            warnMessage.push({ msg: i18n.t('project:time spent in time tracing'), key: 'issueManHour.elapsedTime' });
           }
         }
       }
@@ -910,7 +915,7 @@ export const EditIssueDrawer = (props: IProps) => {
         } else {
           addFieldsToIssue(
             { ...tempCustomFormData, orgID, projectID: +addRelatedMattersProjectId },
-            { customMsg: i18n.t('update successfully') },
+            { customMsg: i18n.t('updated successfully') },
           ).then(() => {
             getCustomFields();
           });
@@ -999,7 +1004,7 @@ export const EditIssueDrawer = (props: IProps) => {
         .then((res) => {
           addFieldsToIssue(
             { ...customFormData, issueID: res, projectID: params.projectID },
-            { customMsg: i18n.t('copy successfully') },
+            { customMsg: i18n.t('copied successfully') },
           );
         })
         .finally(() => {
@@ -1090,13 +1095,13 @@ export const EditIssueDrawer = (props: IProps) => {
             </Menu>
           }
         >
-          <Button className="mr8">{i18n.t('project:quick create issue')}</Button>
+          <Button className="mr8">{i18n.t('project:one click to backlog')}</Button>
         </Dropdown>,
       ];
     } else {
       footer = [
         <WithAuth key="create" pass={addQuickIssueAuth}>
-          <Button className="mr8">{i18n.t('project:quick create issue')}</Button>
+          <Button className="mr8">{i18n.t('project:one click to backlog')}</Button>
         </WithAuth>,
       ];
     }
@@ -1129,13 +1134,13 @@ export const EditIssueDrawer = (props: IProps) => {
       subDrawer={subDrawer}
       canDelete={deleteAuth && !isMonitorTicket}
       canCreate={createAuth}
-      confirmCloseTip={isEditMode ? undefined : i18n.t('project:close-issue-tip')}
+      confirmCloseTip={isEditMode ? undefined : i18n.t('project:The new data will be lost if closed. Continue?')}
       handleCopy={handleSubmit}
       maskClosable={isEditMode}
       data={formData}
-    // loading={
-    //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
-    // }
+      // loading={
+      //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
+      // }
     >
       <div className="flex-box">
         <IF check={isEditMode}>

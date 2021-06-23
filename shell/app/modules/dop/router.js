@@ -20,7 +20,7 @@ import i18n from 'i18n';
 const approvalTabs = [
   {
     key: 'pending',
-    name: i18n.t('org:to be approved'),
+    name: i18n.t('org:pending approval'),
   },
   {
     key: 'approved',
@@ -31,7 +31,7 @@ const approvalTabs = [
 const initiateTabs = [
   {
     key: 'WaitApprove',
-    name: i18n.t('org:to be approved'),
+    name: i18n.t('org:pending approval'),
   },
   {
     key: 'Accept',
@@ -56,7 +56,7 @@ export default function getDopRouter() {
           routes: [
             {
               path: 'my-approve/:approvalType',
-              breadcrumbName: i18n.t('dop:my approval'),
+              breadcrumbName: i18n.t('dop:approved'),
               tabs: approvalTabs,
               ignoreTabQuery: true,
               routes: [
@@ -67,7 +67,7 @@ export default function getDopRouter() {
             },
             {
               path: 'my-initiate/:initiateType',
-              breadcrumbName: i18n.t('dop:my initiated'),
+              breadcrumbName: i18n.t('dop:initiated'),
               tabs: initiateTabs,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('application/pages/deploy-list/initiate')),
@@ -102,7 +102,7 @@ export default function getDopRouter() {
         },
         {
           path: 'publisher',
-          breadcrumbName: i18n.t('publisher:joined publisher'),
+          breadcrumbName: i18n.t('publisher:my release'),
           routes: [
             {
               getComp: (cb) => cb(import('app/modules/dop/pages/publisher'), 'RedirectTo'),
@@ -152,7 +152,7 @@ export default function getDopRouter() {
                     },
                     {
                       path: ':profileId',
-                      breadcrumbName: i18n.t('dop:jvm profiler'),
+                      breadcrumbName: i18n.t('dop:JVM analysis'),
                       keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/jvm-overview')),
                     },

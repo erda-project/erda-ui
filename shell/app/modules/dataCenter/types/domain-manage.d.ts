@@ -11,14 +11,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const rucksack = require('rucksack-css');
-const autoprefixer = require('autoprefixer');
+declare namespace DOMAIN_MANAGE {
+  type IWorkspace = 'dev' | 'prod';
 
-module.exports = {
-  plugins: [
-    rucksack(),
-    autoprefixer({
-      browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'not ie <= 10', 'iOS >= 8', 'Android >= 4'],
-    }),
-  ],
-};
+  interface IDomain {
+    id: number;
+    domain: string;
+    clusterName: string;
+    type: string;
+    projectName: string;
+    appName: string;
+    workspace: IWorkspace;
+    link: {
+      projectID: string;
+      appID: string;
+      runtimeID: string;
+      serviceName: string;
+      workspace: IWorkspace;
+      tenantGroup: string;
+    };
+  }
+}

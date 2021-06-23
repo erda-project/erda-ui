@@ -293,7 +293,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <>
             <CustomIcon type="play" />
             {i18n.t('project:execute')}
-            <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
+            <span className="fz12">
+              ({i18n.t('project:When you click directly, it will execute cases without environment.')})
+            </span>
           </>
         </SelectEnv>
       </span>

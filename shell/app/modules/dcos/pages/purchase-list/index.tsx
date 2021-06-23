@@ -119,7 +119,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
               </Popover>
             );
           } else if (status === 'Skipped') {
-            detail = <Badge status="default" text={i18n.t('dcos:success')} />;
+            detail = <Badge status="default" text={i18n.t('dcos:succeed')} />;
           } else if (Date.now() - record.createdAt > 0.5 * 3600 * 1000) {
             // 超过半小时仍waiting则为超时
             detail = <Badge status="error" text={i18n.t('dcos:jump over')} />;

@@ -142,8 +142,8 @@ export default () => {
     const path = isIn('microService')
       ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
       : isIn('dataCenter')
-        ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
-        : '';
+      ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
+      : '';
     goTo(path);
   };
 
@@ -201,7 +201,7 @@ export default () => {
             if (tagReg.test(val)) {
               const beforeKeys = map(beforeVals, (beforeVal) => beforeVal.split('=')[0]);
               if (beforeKeys.includes(val.split('=')[0])) {
-                message.warning(i18n.t('org:the same key already exists'));
+                message.warning(i18n.t('org:the same key already existed'));
                 return false;
               }
               return true;
@@ -263,7 +263,7 @@ export default () => {
     {
       title: i18n.t('content'),
       dataIndex: 'content',
-      render: (item: string) => (<pre className="code-block log-preview"> {parseLogContent(item)} </pre>),
+      render: (item: string) => <pre className="code-block log-preview"> {parseLogContent(item)} </pre>,
     },
     {
       width: 140,
@@ -290,7 +290,7 @@ export default () => {
               'not-allowed': source === 'sls',
             })}
           >
-            {i18n.t('org:create analyze rule')}
+            {i18n.t('org:create analysis rule')}
           </a>
         </div>
       ),
@@ -313,7 +313,7 @@ export default () => {
   return (
     <div className="log-query">
       <CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />
-      <Panel title={i18n.t('microService:log count')} className="block mb16">
+      <Panel title={i18n.t('microService:number of logs')} className="block mb16">
         <PureBoardGrid layout={layout} />
       </Panel>
       <Panel title={i18n.t('microService:log message')} className="block">

@@ -142,7 +142,7 @@ describe('edit-list', () => {
   });
   describe('validateValue', () => {
     it('should validateValue work well', () => {
-      expect(validateValue(dataTemp, [{ name: 'erda' }, { name: 'erda' }])).toBe('name exist the same erda');
+      expect(validateValue(dataTemp, [{ name: 'erda' }, { name: 'erda' }])).toBe('name the same erda exists');
       expect(validateValue(dataTemp, [{ name: 'erda' }, { name: '' }])).toBe('name can not empty');
       expect(
         validateValue(dataTemp, [

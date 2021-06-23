@@ -103,7 +103,7 @@ const ClusterBasicForm = ({
 
   const fieldsList = [
     {
-      label: i18n.t('{name} identify', { name: i18n.t('org:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('org:cluster') }),
       name: 'name',
       config: {
         getValueFromEvent(e: any) {
@@ -113,7 +113,7 @@ const ClusterBasicForm = ({
       },
       itemProps: {
         disabled: editMode,
-        placeholder: i18n.t('org:clusterName limit'),
+        placeholder: i18n.t('org:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
       },
       rules: [
         regRules.clusterName,
@@ -121,7 +121,7 @@ const ClusterBasicForm = ({
           validator: (rule: any, v: string, callback: Function) => {
             const curCluster = find(clusterList, { name: v });
             if (!editMode && curCluster) {
-              callback(i18n.t('org:cluster existing'));
+              callback(i18n.t('org:cluster already existed'));
             } else if (v) {
               debounceCheckName(v, callback);
             } else {
@@ -141,7 +141,7 @@ const ClusterBasicForm = ({
       },
     },
     {
-      label: i18n.t('org:wildcard domain'),
+      label: i18n.t('org:extensive domain'),
       name: 'wildcardDomain',
       pattern: /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/,
       config: {
@@ -237,13 +237,13 @@ const ClusterSchedulerForm = ({
   if (authType !== '') {
     authFields = [
       {
-        label: i18n.t('org:approve user'),
+        label: i18n.t('org:authenticated user'),
         name: 'scheduler.authUsername',
         initialValue: 'admin',
         required: true, // 当认证类型不为空时，必填
       },
       {
-        label: i18n.t('org:approve password'),
+        label: i18n.t('org:authentication password'),
         name: 'scheduler.authPassword',
         initialValue: 'Terminus1234',
         required: true, // 当认证类型不为空时，必填
@@ -257,7 +257,9 @@ const ClusterSchedulerForm = ({
         name: 'scheduler.cpuSubscribeRatio',
         type: 'inputNumber',
         extraProps: {
-          extra: i18n.t('org:set up cluster oversold ratio, such as 2, which is 1 nuclear CPU as 2 nuclear use'),
+          extra: i18n.t(
+            'org:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.',
+          ),
         },
         itemProps: {
           min: 1,
@@ -271,7 +273,7 @@ const ClusterSchedulerForm = ({
     ],
     dcos: [
       {
-        label: i18n.t('org:approve type'),
+        label: i18n.t('org:authenticated type'),
         name: 'scheduler.authType',
         type: 'radioGroup',
         options: ['', 'basic', 'token'].map((v) => {
@@ -331,7 +333,7 @@ const ClusterSchedulerForm = ({
   if (opsConfig && opsConfig.scaleMode === 'scheduler') {
     fieldListMap.k8s.push(
       {
-        label: i18n.t('org:launch time'),
+        label: i18n.t('org:execution time'),
         name: 'opsConfig.launchTime',
         initialValue: initialOpsConfig && initialOpsConfig.launchTime,
         getComp: () => (
@@ -350,7 +352,7 @@ const ClusterSchedulerForm = ({
         ),
       },
       {
-        label: i18n.t('org:scale duration'),
+        label: i18n.t('org:duration(h)'),
         name: 'opsConfig.scaleDuration',
         type: 'inputNumber',
         initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,

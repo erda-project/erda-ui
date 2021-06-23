@@ -125,7 +125,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       return callback(i18n.t('application:please enter the task name'));
     }
     if (otherTaskAlias.includes(name)) {
-      return callback(i18n.t('application:there is the same name action!'));
+      return callback(i18n.t('application:An Action with the same name exists.'));
     }
     callback();
   };
@@ -494,7 +494,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       <Form className="edit-service-container">
         {alert}
         <Item>{taskType}</Item>
-        {type ? <Item label={i18n.t('application:mission name')}>{taskName}</Item> : null}
+        {type ? <Item label={i18n.t('application:task name')}>{taskName}</Item> : null}
         <Item label="version">{actionVersion}</Item>
         {renderTaskTypeStructure()}
         {editing ? (

@@ -42,7 +42,7 @@ const networks = createStore({
       update({ vswList: vswList || [] });
     },
     async addVsw({ call }, payload: NETWORKS.IVswCreateBody) {
-      const res = await call(addVsw, payload, { successMsg: i18n.t('add successfully'), fullResult: true });
+      const res = await call(addVsw, payload, { successMsg: i18n.t('added successfully'), fullResult: true });
       return res;
     },
     async getCloudZone({ call }, payload: NETWORKS.ICloudZoneQuery) {

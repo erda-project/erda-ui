@@ -70,16 +70,16 @@ export const regionMap = {
       { name: `${i18n.t('North China {num}', { num: 1 })}（${i18n.t('Qingdao')}）`, value: 'cn-qingdao' },
       { name: `${i18n.t('North China {num}', { num: 2 })}（${i18n.t('Beijing')}）`, value: 'cn-beijing' },
       { name: `${i18n.t('North China {num}', { num: 3 })}（${i18n.t('Zhangjiakou')}）`, value: 'cn-zhangjiakou' },
-      { name: `${i18n.t('North China {num}', { num: 5 })}（${i18n.t('Huhehaote')}）`, value: 'cn-huhehaote' },
+      { name: `${i18n.t('North China {num}', { num: 5 })}（${i18n.t('Huhhot')}）`, value: 'cn-huhehaote' },
       { name: `${i18n.t('East China {num}', { num: 1 })}（${i18n.t('Hangzhou')}）`, value: 'cn-hangzhou' },
       { name: `${i18n.t('East China {num}', { num: 2 })}（${i18n.t('Shanghai')}）`, value: 'cn-shanghai' },
       { name: `${i18n.t('South China', { num: 1 })}（${i18n.t('Shenzhen')}）`, value: 'cn-shenzhen' },
       { name: `${i18n.t('South China', { num: 2 })}（${i18n.t('Heyuan')}）`, value: 'cn-heyuan' },
       { name: `${i18n.t('Southwest China {num}', { num: 1 })}（${i18n.t('Chengdu')}）`, value: 'cn-chengdu' },
-      { name: `${i18n.t('China')}（${i18n.t('Hongkong')}）`, value: 'cn-hongkong' },
+      { name: `${i18n.t('China')}（${i18n.t('Hong Kong')}）`, value: 'cn-hongkong' },
       { name: i18n.t('Singapore'), value: 'ap-southeast-1' },
       { name: `${i18n.t('Australia')}（${i18n.t('Sydney')}）`, value: 'ap-southeast-2' },
-      { name: `${i18n.t('Malaysia')}（${i18n.t('Kuala-lumpur')}）`, value: 'ap-southeast-3' },
+      { name: `${i18n.t('Malaysia')}（${i18n.t('Kuala lumpur')}）`, value: 'ap-southeast-3' },
       { name: `${i18n.t('Indonesia')}（${i18n.t('Jakarta')}）`, value: 'ap-southeast-5' },
       { name: `${i18n.t('Japan')}（${i18n.t('Tokyo')}）`, value: 'ap-northeast-1' },
     ],
@@ -87,8 +87,8 @@ export const regionMap = {
   western: {
     name: i18n.t('Europe & America'),
     children: [
-      { name: `${i18n.t('America')}（${i18n.t('Silicon-valley')}）`, value: 'us-west-1' },
-      { name: `${i18n.t('America')}（${i18n.t('Virginia')}）`, value: 'us-east-1' },
+      { name: `${i18n.t('United States')}（${i18n.t('Silicon valley')}）`, value: 'us-west-1' },
+      { name: `${i18n.t('United States')}（${i18n.t('Virginia')}）`, value: 'us-east-1' },
       { name: `${i18n.t('Germany')}（${i18n.t('Frankfurt')}）`, value: 'eu-central-1' },
       { name: `${i18n.t('Britain')}（${i18n.t('London')}）`, value: 'eu-west-1' },
     ],
@@ -96,8 +96,8 @@ export const regionMap = {
   middleEast: {
     name: i18n.t('Middle-east & India'),
     children: [
-      { name: `${i18n.t('United-Arab-Emirates')}（${i18n.t('Dubai')}）`, value: 'me-east-1' },
-      { name: `${i18n.t('India')}（${i18n.t('Bombay')}）`, value: 'ap-south-1' },
+      { name: `${i18n.t('United Arab Emirates')}（${i18n.t('Dubai')}）`, value: 'me-east-1' },
+      { name: `${i18n.t('India')}（${i18n.t('Mumbai')}）`, value: 'ap-south-1' },
     ],
   },
 };
@@ -119,7 +119,7 @@ export const clusterSpecMap = {
       ),
     },
     Small: { name: i18n.t('small'), value: 'Small', tip: i18n.t('org:masters, lb and platform share 3 nodes') },
-    Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('org:masters, lb and platform share 1 nodes') },
+    Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('org:masters, LB and platform share 1 node') },
   },
   'alicloud-cs': {
     Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('dataCenter:3 machines') },
@@ -139,15 +139,15 @@ export const chargeTypeMap = {
 };
 
 export const chargePeriodMap = [
-  { name: i18n.t('{num} months', { num: 1 }), value: 1 },
-  { name: i18n.t('{num} months', { num: 2 }), value: 2 },
-  { name: i18n.t('{num} months', { num: 3 }), value: 3 },
-  { name: i18n.t('{num} months', { num: 6 }), value: 6 },
-  { name: i18n.t('{num} years', { num: 1 }), value: 12 },
-  { name: i18n.t('{num} years', { num: 2 }), value: 24 },
-  { name: i18n.t('{num} years', { num: 3 }), value: 36 },
-  { name: i18n.t('{num} years', { num: 4 }), value: 48 },
-  { name: i18n.t('{num} years', { num: 5 }), value: 60 },
+  { name: i18n.t('{num} month(s)', { num: 1 }), value: 1 },
+  { name: i18n.t('{num} month(s)', { num: 2 }), value: 2 },
+  { name: i18n.t('{num} month(s)', { num: 3 }), value: 3 },
+  { name: i18n.t('{num} month(s)', { num: 6 }), value: 6 },
+  { name: i18n.t('{num} year(s)', { num: 1 }), value: 12 },
+  { name: i18n.t('{num} year(s)', { num: 2 }), value: 24 },
+  { name: i18n.t('{num} year(s)', { num: 3 }), value: 36 },
+  { name: i18n.t('{num} year(s)', { num: 4 }), value: 48 },
+  { name: i18n.t('{num} year(s)', { num: 5 }), value: 60 },
 ];
 
 export const diskTypeMap = {

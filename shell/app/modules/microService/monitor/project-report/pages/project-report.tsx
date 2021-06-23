@@ -144,17 +144,17 @@ const ProjectReport = ({ type }: IProps) => {
         type: 'switch',
       },
       {
-        label: i18n.t('DingTalk url'),
+        label: i18n.t('DingTalk address'),
         name: 'dingdingURLs',
         type: 'textArea',
         required: false,
         // pattern: /^(https:\/\/oapi\.dingtalk\.com\/robot\/send\?access_token=(.*[^,]))([,]https:\/\/oapi\.dingtalk\.com\/robot\/send\?access_token=(.*[^,]))*$/,
-        // message: i18n.t('please enter a valid dingding talk address'),
+        // message: i18n.t('Please enter a valid DingTalk address.'),
         initialValue: reportSeeting.dailyReportConfig
           ? JSON.parse(reportSeeting.dailyReportConfig).dingdingURLs.join(',')
           : '',
         itemProps: {
-          placeholder: i18n.t('microService:please enter your Dingding Talk address, separated by comma'),
+          placeholder: i18n.t('microService:Please enter your DingTalk address, separated by comma.'),
           maxLength: 1000,
           autoSize: { minRows: 3, maxRows: 7 },
         },

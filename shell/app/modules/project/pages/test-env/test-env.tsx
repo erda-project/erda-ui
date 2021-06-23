@@ -163,7 +163,11 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
       <Alert
         className="color-text-desc mb8"
         message={
-          testType === 'manual' ? i18n.t('project:test-env-config-tip') : i18n.t('project:auto-test-env-config-tip')
+          testType === 'manual'
+            ? i18n.t('project:This parameter is provided to the use case interface of Manual Test in Test Case.')
+            : i18n.t(
+                'project:This parameter is provided to the use case interface of Automated Interface Test in Test Case.',
+              )
         }
         type="normal"
         showIcon

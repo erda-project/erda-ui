@@ -52,7 +52,7 @@ export const RunCaseNode = (props: IProps) => {
     //   break;
     // }
     case 'snippet':
-      name = `${get(scopeObj, 'name') || i18n.t('project:reference use node')}: ${data.name}`;
+      name = `${get(scopeObj, 'name') || i18n.t('project:node reference')}: ${data.name}`;
       IconComp = (
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}

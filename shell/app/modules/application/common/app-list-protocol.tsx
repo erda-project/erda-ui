@@ -100,7 +100,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       {
         icon: 'api-app',
         text: projectDisplayName,
-        tooltip: `${i18n.t('application:own project')}: ${projectDisplayName}(${projectName})`,
+        tooltip: `${i18n.t('application:owned project')}: ${projectDisplayName}(${projectName})`,
         operations: isInProject
           ? undefined
           : {
@@ -113,10 +113,10 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
             text: moment(updatedAt).fromNow(),
             tooltip: `${i18n.t('update time')}:${moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}`,
           }
-        : { icon: 'time', text: i18n.t('empty') },
+        : { icon: 'time', text: i18n.t('none') },
       {
         icon: 'category-management',
-        text: (modeOptions.find((m) => m.value === mode) as { name: string }).name,
+        text: (modeOptions.find((m) => m.value === mode) as { name: string })?.name,
         tooltip: i18n.t('application:application type'),
       },
     ].concat(getBlockNetInfo(l));
@@ -125,7 +125,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       extraInfos.splice(2, 0, {
         icon: 'list-numbers',
         text: `${stats.countRuntimes}`,
-        tooltip: `${i18n.t('application:runtime count')}`,
+        tooltip: `${i18n.t('application:number of application instance')}`,
         ...(appPerm.runtime.read.pass
           ? {
               operations: {
@@ -153,7 +153,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       ? {
           unpinApp: {
             key: 'unpinApp',
-            text: i18n.t('application:cancel sticky'),
+            text: i18n.t('application:unpin'),
             reload: true,
             meta: { appId: l.id },
           },
@@ -209,7 +209,7 @@ const getPageConfig = (isInProject = false) => {
           key: 'public',
           emptyText: i18n.t('application:all'),
           fixed: true,
-          label: i18n.t('whether public'),
+          label: i18n.t('whether to be public'),
           customProps: {
             mode: 'single',
           },

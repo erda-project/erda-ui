@@ -25,7 +25,7 @@ export const clusterTypeMap = [
       name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (Hosted Version)'),
       icon: clusterImgMap['alicloud-cs-managed'],
       description: i18n.t(
-        'dataCenter:based on Alibaba Cloud Container Service Hosting Edition, create a Erda hosting cluster',
+        'dataCenter:based on Alibaba Cloud Container Service (managed), create an Erda managed cluster',
       ),
     },
     {
@@ -33,14 +33,14 @@ export const clusterTypeMap = [
       name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (proprietary version)'),
       icon: clusterImgMap['alicloud-cs'],
       description: i18n.t(
-        'dataCenter:based on Alibaba Cloud Container Service Proprietary Edition, create a Erda hosting cluster',
+        'dataCenter:based on Alibaba Cloud Container Service (Dedicated), create an Erda managed cluster',
       ),
     },
     {
       type: 'erdc', // existing-resource-deploy-cluster
       name: i18n.t('dataCenter:self-built cluster'),
       icon: clusterImgMap.erdc,
-      description: i18n.t('dataCenter:based on existing resources, build a Erda hosting cluster'),
+      description: i18n.t('dataCenter:based on existing resources, build an Erda managed cluster'),
     },
   ],
   [
@@ -48,19 +48,19 @@ export const clusterTypeMap = [
       type: 'dcos',
       name: 'DCOS',
       icon: clusterImgMap.dcos,
-      description: i18n.t('org:import a existing Erda {type} cluster', { type: 'DCOS' }),
+      description: i18n.t('org:import an existing Erda {type} cluster', { type: 'DCOS' }),
     },
     {
       type: 'k8s',
       name: 'Kubernetes',
       icon: clusterImgMap.k8s,
-      description: i18n.t('org:import a existing Erda {type} cluster', { type: 'Kubernetes' }),
+      description: i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' }),
     },
     {
       type: 'edas',
       name: 'EDAS',
       icon: clusterImgMap.edas,
-      description: i18n.t('org:import a existing Erda {type} cluster', { type: 'EDAS' }),
+      description: i18n.t('org:import an existing Erda {type} cluster', { type: 'EDAS' }),
     },
   ],
 ];

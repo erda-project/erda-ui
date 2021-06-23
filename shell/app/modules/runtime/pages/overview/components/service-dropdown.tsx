@@ -34,11 +34,12 @@ interface IProps {
   deployStatus: RUNTIME.DeployStatus;
   openSlidePanel: (type: string, options?: any) => void;
   openDomainModalVisible: () => void;
-  setTempData: (payload: any) => void;
+  updateServicesConfig: (payload: RUNTIME_SERVICE.PreOverlay) => void;
 }
 
 const ServiceDropdown = (props: IProps) => {
-  const { service, name, setTempData, openSlidePanel, openDomainModalVisible, isEndpoint, deployStatus } = props;
+  const { service, name, updateServicesConfig, openSlidePanel, openDomainModalVisible, isEndpoint, deployStatus } =
+    props;
   const permMap = usePerm((s) => s.app);
 
   const {
@@ -68,17 +69,8 @@ const ServiceDropdown = (props: IProps) => {
     });
   };
 
-  const saveServiceConfig = (data: object) => {
-    const lsKey = `${runtimeId}`;
-
-    const serviceConfig = getLS(lsKey);
-    if (serviceConfig && serviceConfig.services) {
-      serviceConfig.services[name] = data;
-      setLS(lsKey, serviceConfig);
-    } else {
-      setLS(lsKey, { services: { [name]: data } });
-    }
-    setTempData(data);
+  const saveServiceConfig = (data: RUNTIME_SERVICE.PreOverlayService) => {
+    updateServicesConfig({ services: { [name]: data } });
   };
 
   const getServiceOps = () => {
@@ -123,7 +115,7 @@ const ServiceDropdown = (props: IProps) => {
     const ops = [
       ...insertWhen(hasDeployAuth, [
         {
-          title: i18n.t('runtime:scale service'),
+          title: i18n.t('runtime:scale out'),
           onClick: () => {
             isOpsForbidden ? notify('warning', warningMsg) : updater.resourceVisible(true);
           },
@@ -134,8 +126,8 @@ const ServiceDropdown = (props: IProps) => {
         onClick: () => openSlidePanel('record'),
       },
       {
-        title: i18n.t('runtime:inner address'),
-        onClick: () => showModalInfo(i18n.t('runtime:inner address'), vipContent),
+        title: i18n.t('runtime:internal address'),
+        onClick: () => showModalInfo(i18n.t('runtime:internal address'), vipContent),
       },
     ];
     envs &&
@@ -171,7 +163,7 @@ const ServiceDropdown = (props: IProps) => {
           },
           ...insertWhen(hasConsoleAuth, [
             {
-              title: i18n.t('terminal'),
+              title: i18n.t('console'),
               onClick: () => openSlidePanel('terminal'),
             },
           ]),

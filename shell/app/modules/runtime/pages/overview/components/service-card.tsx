@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Tooltip, Popover, Tabs } from 'app/nusi';
 import { Icon as CustomIcon, IF, NoAuthTip, useUpdate } from 'common';
 import HealthPoint from 'project/common/components/health-point';
-import { map, merge, isEmpty } from 'lodash';
+import { map, isEmpty } from 'lodash';
 import classNames from 'classnames';
 import InstanceTable from 'runtime/common/components/instance-table';
 import PodTable from 'runtime/common/components/pod-table';
@@ -24,7 +24,7 @@ import ProjectUnitDetail from 'monitor-common/components/resource-usage/resource
 import ContainerLog from 'runtime/common/logs/containers/container-log';
 import Terminal from 'dcos/common/containers/terminal';
 import i18n from 'i18n';
-import { getLS, notify, updateSearch } from 'common/utils';
+import { notify, updateSearch } from 'common/utils';
 import DomainModal from './domain-modal';
 import ServiceDropdown from './service-dropdown';
 import routeInfoStore from 'app/common/stores/route';
@@ -42,7 +42,7 @@ const FORBIDDEN_STATUS_LIST = ['WAITING', 'DEPLOYING', 'CANCELING'];
 const titleMap = {
   monitor: i18n.t('runtime:container monitor'),
   log: i18n.t('runtime:container log'),
-  terminal: i18n.t('terminal'),
+  terminal: i18n.t('console'),
   record: i18n.t('runtime:history'),
 };
 
@@ -65,27 +65,17 @@ const ServiceCard = (props: IProps) => {
   const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
   const permMap = usePerm((s) => s.app);
-  const [
-    { title, visible, instances, withTabs, content, slideVisible, isFetching, tempData, domainModalVisible },
-    updater,
-  ] = useUpdate({
-    title: '',
-    isFetching: false,
-    visible: false,
-    slideVisible: false,
-    withTabs: {},
-    content: null,
-    instances: {},
-    tempData: {},
-    domainModalVisible: false,
-  });
-
-  useMount(() => {
-    const serviceConfig = getLS(`${runtimeDetail.id}`);
-    if (serviceConfig && serviceConfig.services) {
-      updater.tempData(serviceConfig.services[name]);
-    }
-  });
+  const [{ title, visible, instances, withTabs, content, slideVisible, isFetching, domainModalVisible }, updater] =
+    useUpdate({
+      title: '',
+      isFetching: false,
+      visible: false,
+      slideVisible: false,
+      withTabs: {},
+      content: null,
+      instances: {},
+      domainModalVisible: false,
+    });
 
   React.useEffect(() => {
     if (serviceInsMap[name] !== undefined && serviceInsMap[name] !== instances) {
@@ -232,9 +222,10 @@ const ServiceCard = (props: IProps) => {
     }
   });
 
-  const setTempData = (data: any) => {
-    runtimeStore.setHasChange(true);
-    updater.tempData(data);
+  const updateServicesConfig = (data: RUNTIME_SERVICE.PreOverlay) => {
+    runtimeServiceStore.updateServicesConfig(data).then(() => {
+      runtimeStore.getRuntimeDetail({ runtimeId, forceUpdate: true });
+    });
   };
 
   const {
@@ -242,7 +233,7 @@ const ServiceCard = (props: IProps) => {
     status,
     deployments: { replicas },
     errors,
-  } = merge(service, tempData) as RUNTIME_SERVICE.Detail;
+  } = service as RUNTIME_SERVICE.Detail;
   const { cpu, mem } = resources;
   const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
 
@@ -266,7 +257,7 @@ const ServiceCard = (props: IProps) => {
             openDomainModalVisible={() => updater.domainModalVisible(true)}
             service={service}
             isEndpoint={isEndpoint}
-            setTempData={setTempData}
+            updateServicesConfig={updateServicesConfig}
             name={name}
             deployStatus={runtimeDetail.deployStatus}
           />
@@ -333,7 +324,7 @@ const ServiceCard = (props: IProps) => {
         {hasCustomDomain ? null : (
           <>
             <CustomIcon className="warning-info" type="tishi" />
-            <span className="warning-info mr12">{i18n.t('runtime:not set domain')}</span>
+            <span className="warning-info mr12">{i18n.t('runtime:domain not set')}</span>
           </>
         )}
         {links}
@@ -352,13 +343,13 @@ const ServiceCard = (props: IProps) => {
           <IF check={isRunning}>
             <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
               <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
-                {i18n.t('terminal')}
+                {i18n.t('console')}
               </span>
 
               <IF.ELSE />
 
               <NoAuthTip>
-                <span className="table-operations-btn">{i18n.t('terminal')}</span>
+                <span className="table-operations-btn">{i18n.t('console')}</span>
               </NoAuthTip>
             </IF>
           </IF>

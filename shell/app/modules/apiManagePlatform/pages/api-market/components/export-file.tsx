@@ -35,7 +35,7 @@ const ExportFile = ({ visible, onCancel, versionID, assetID, specProtocol: curPr
     });
     return [
       {
-        label: i18n.t('export specification'),
+        label: i18n.t('export format'),
         name: 'specProtocol',
         type: 'select',
         options: map(filterProtocolMap, ({ name }, key) => ({ name, value: key })),

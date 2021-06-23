@@ -131,7 +131,7 @@ const deploy = createStore({
       await call(
         addRuntimeByRelease,
         { ...payload, projectId: +projectId, applicationId: +appId },
-        { successMsg: i18n.t('add successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       deploy.effects.getRunTimes();
     },

@@ -60,14 +60,14 @@ const dopStore = createFlatStore({
               key: 'console',
               href: `${rootPath}/${addonName}`,
               icon: 'rqrz',
-              text: i18n.t('terminal'),
+              text: i18n.t('console'),
             });
           } else if (addonName === 'jvm-profiler') {
             menu.splice(1, 0, {
               key: 'profile',
               href: `${rootPath}/${addonName}`,
               icon: 'rqrz',
-              text: i18n.t('jvm profile'),
+              text: i18n.t('JVM analysis'),
             });
           }
           layoutStore.reducers.setSubSiderInfoMap({
@@ -113,7 +113,7 @@ const dopStore = createFlatStore({
       return addonList;
     },
     async applyUnblock({ call }, payload: PROJECT.Approves) {
-      const res = await call(approves, payload, { successMsg: i18n.t('default:successful application') });
+      const res = await call(approves, payload, { successMsg: i18n.t('default:applied successfully') });
       return res;
     },
   },

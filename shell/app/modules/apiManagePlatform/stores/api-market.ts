@@ -87,7 +87,7 @@ const apiMarketStore = createStore({
       return res;
     },
     async editAsset({ call }, payload: API_MARKET.UpdateAsset) {
-      const res = await call(Service.updateAsset, payload, { successMsg: i18n.t('default:update successfully') });
+      const res = await call(Service.updateAsset, payload, { successMsg: i18n.t('default:updated successfully') });
       return res;
     },
     async getAssetDetail({ call, update }, payload: API_MARKET.QAsset, refreshAuth = false) {
@@ -186,7 +186,7 @@ const apiMarketStore = createStore({
     },
 
     async addNewVersion({ call }, payload: API_MARKET.CreateVersion) {
-      const res = await call(Service.addNewVersion, payload, { successMsg: i18n.t('default:add successfully') });
+      const res = await call(Service.addNewVersion, payload, { successMsg: i18n.t('default:added successfully') });
       return res;
     },
     async getVersionTree({ call, update }, payload: API_MARKET.QueryVersionTree) {

@@ -80,7 +80,7 @@ const ConfigEnvSelector = (props: IProps) => {
     const _f = [
       ...insertWhen(scopeConfigData.executeClusterChosen, [
         {
-          label: i18n.t('chose cluster'),
+          label: i18n.t('choose cluster'),
           component: 'select',
           required: true,
           key: 'clusterName',
@@ -94,7 +94,7 @@ const ConfigEnvSelector = (props: IProps) => {
       ]),
       ...insertWhen(scopeConfigData.executeEnvChosen, [
         {
-          label: i18n.t('chosen configuration'),
+          label: i18n.t('choose global configuration'),
           component: 'select',
           required: true,
           key: 'configManageNamespaces',

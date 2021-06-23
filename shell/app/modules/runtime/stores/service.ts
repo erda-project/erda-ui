@@ -16,6 +16,7 @@ import { getServiceInstances, updateServicesConfig, getServicePods, killServiceP
 import { getLS } from 'common/utils';
 import { isEmpty } from 'lodash';
 import runtimeStore from './runtime';
+import i18n from 'i18n';
 
 interface ServiceIns {
   runs: RUNTIME_SERVICE.Instance[];
@@ -79,23 +80,26 @@ const runtimeService = createFlatStore({
       update({ serviceInsMap: { ...serviceInsMap, [serviceName]: serviceIns }, taskMap: { ...serviceIns } });
       return serviceIns;
     },
-    async updateServicesConfig({ call, getParams }) {
-      const { appId, runtimeId } = getParams();
+    async updateServicesConfig({ call, getParams }, data: RUNTIME_SERVICE.PreOverlay) {
+      const { appId } = getParams();
       const {
         extra: { workspace },
         name: runtimeName,
       } = runtimeStore.getState((s) => s.runtimeDetail);
-      const data = getLS(`${runtimeId}`);
 
       if (isEmpty(data)) return;
-      await call(updateServicesConfig, {
-        data,
-        query: {
-          applicationId: appId,
-          workspace,
-          runtimeName,
+      await call(
+        updateServicesConfig,
+        {
+          data,
+          query: {
+            applicationId: appId,
+            workspace,
+            runtimeName,
+          },
         },
-      });
+        { successMsg: i18n.t('updated successfully') },
+      );
     },
     async getServicePods({ call, update, select }, payload: RUNTIME_SERVICE.PodQuery) {
       const podList = await call(getServicePods, payload);

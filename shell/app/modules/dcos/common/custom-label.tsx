@@ -122,7 +122,7 @@ export const checkCustomLabels = (_rule: any, value: string[], callback: Functio
         return val.trim() ? !reg.test(val.trim()) : true;
       })
     : false;
-  return notPass ? callback(i18n.t('dcos:each label can only contain alphanumeric and underline')) : callback();
+  return notPass ? callback(i18n.t('dcos:each label can only contain letters, numbers and hyphens')) : callback();
 };
 
 export const checkTagLabels = (_rule: any, value: string[], callback: Function) => {
@@ -137,7 +137,7 @@ export const checkTagLabels = (_rule: any, value: string[], callback: Function) 
   return notPass
     ? callback(
         i18n.t(
-          'dcos:each label can only contain alphanumeric underscore underline and point,start and end with alphabet',
+          'dcos:each label can only contain letters, numbers, hyphens, underscores and dots, and should start and end with letters',
         ),
       )
     : callback();

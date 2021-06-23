@@ -145,7 +145,7 @@ const TraceInsightQuerier = ({ form }: any) => {
     return (
       <div className="meta-viewer">
         {!url ? (
-          <p>{i18n.t('microService:current no request')}</p>
+          <p>{i18n.t('microService:currently no request')}</p>
         ) : (
           <p className="meta-viewer-copy">
             <Copy>{url}</Copy>
@@ -275,7 +275,7 @@ const TraceInsightQuerier = ({ form }: any) => {
       <CommonPanel
         title={
           <div className="flex-box">
-            <h3 className="trace-common-panel-title bold-500">{i18n.t('microService:transactions information')}</h3>
+            <h3 className="trace-common-panel-title bold-500">{i18n.t('microService:tracing information')}</h3>
             <IF check={requestTraceParams.responseCode}>
               <div className="response-code">{`${i18n.t('microService:request response status')}：${
                 requestTraceParams.responseCode

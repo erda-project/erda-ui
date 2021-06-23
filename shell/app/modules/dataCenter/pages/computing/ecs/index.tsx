@@ -137,7 +137,7 @@ export default () => {
         title: i18n.t('vender'),
         dataIndex: 'vendor',
         width: 80,
-        render: (value: string) => (value === 'aliyun' ? i18n.t('aliyun') : value),
+        render: (value: string) => (value === 'aliyun' ? i18n.t('Alibaba Cloud') : value),
       },
       {
         title: i18n.t('dataCenter:operating system'),
@@ -228,7 +228,7 @@ export default () => {
           placeholder: i18n.t('dataCenter:please choose vendor'),
           options: [
             <Option key="aliyun" value="aliyun">
-              {i18n.t('aliyun')}
+              {i18n.t('Alibaba Cloud')}
             </Option>,
           ],
         },
@@ -368,7 +368,9 @@ export default () => {
                 <>
                   <div className="text-left second-title">{i18n.t('dataCenter:tips')}</div>
                   <ul className="text-left bold-400 fz14 pl12">
-                    <li>● {i18n.t('dataCenter:after-success-renew')}</li>
+                    <li>
+                      ● {i18n.t('dataCenter:After successful setting, the system will automatically renew as set.')}
+                    </li>
                     <li>● {i18n.t('dataCenter:keep-money-enough')}</li>
                     <li>● {i18n.t('dataCenter:artificial-renewal-change-time')}</li>
                     <li>
@@ -414,9 +416,9 @@ export default () => {
               const year = time / 12;
               const month = time % 12;
               if (month === 0) {
-                return { value: time, name: i18n.t('{num} years', { num: year }) };
+                return { value: time, name: i18n.t('{num} year(s)', { num: year }) };
               }
-              return { value: time, name: i18n.t('{num} months', { num: month }) };
+              return { value: time, name: i18n.t('{num} month(s)', { num: month }) };
             }),
           },
         ]),

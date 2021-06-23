@@ -72,7 +72,7 @@ const customAddon = createFlatStore({
       return call(
         updateCustomAddonConfig,
         { ...query, operatorId: +operatorId },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
     },
     async getAddonsList({ call, update, getParams }) {

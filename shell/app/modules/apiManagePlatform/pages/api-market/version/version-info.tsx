@@ -195,7 +195,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     e.stopPropagation();
     const name = `${assetName} ${major}.${minor}.${patch}`;
     let icon: string | undefined = 'warning';
-    let title = i18n.t('deprecate version');
+    let title = i18n.t('deprecated version');
     let content = i18n.t('Are you sure you want to deprecate {name}?', { name });
     if (deprecated) {
       icon = undefined;
@@ -263,7 +263,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
                 toggleDeprecated(version, e);
               }}
             >
-              {version.deprecated ? i18n.t('revert deprecated version') : i18n.t('deprecate version')}
+              {version.deprecated ? i18n.t('revert deprecated version') : i18n.t('deprecated version')}
             </span>
           </UnityAuthWrap>
         </TableActions>
@@ -274,7 +274,9 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   const handleRelation = () => {
     if (instancePermission.edit === false) {
       Modal.info({
-        title: i18n.t('tips of edit version instance'),
+        title: i18n.t(
+          'The current version has been referenced by the management entry. Please dereference before editing.',
+        ),
       });
       return;
     }

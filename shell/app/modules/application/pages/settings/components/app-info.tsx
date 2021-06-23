@@ -76,7 +76,7 @@ const PureAppInfo = (): JSX.Element => {
       },
     },
     {
-      label: i18n.t('whether public {name}', { name: i18n.t('application') }),
+      label: i18n.t('whether to put {name} in public', { name: i18n.t('application') }),
       name: 'isPublic',
       type: 'radioGroup',
       options: [
@@ -145,7 +145,10 @@ const PureAppInfo = (): JSX.Element => {
         <ConfirmDelete
           deleteItem={i18n.t('application')}
           onConfirm={remove}
-          secondTitle={i18n.t('application:delete app {name} tips', { name: appDetail.name })}
+          secondTitle={i18n.t(
+            'application:The application cannot be restored after deletion.Please enter {name} to confirm.',
+            { name: appDetail.name },
+          )}
           onCancel={() => setConfirmAppName('')}
           disabledConfirm={confirmAppName !== appDetail.name}
           modalChildren={

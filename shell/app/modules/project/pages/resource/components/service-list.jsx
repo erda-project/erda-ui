@@ -80,7 +80,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         ),
       },
       {
-        title: i18n.t('project:instances count'),
+        title: i18n.t('project:number of instance'),
         dataIndex: 'instance',
         width: 100,
         sorter: (a, b) => Number(a.instance) - Number(b.instance),

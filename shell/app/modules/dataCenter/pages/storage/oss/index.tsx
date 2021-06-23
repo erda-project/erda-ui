@@ -40,7 +40,7 @@ const ACL_CONST = [
     value: 'public-read',
   },
   {
-    name: i18n.t('dataCenter:public read write'),
+    name: i18n.t('dataCenter:public read and write'),
     value: 'public-read-write',
   },
 ];
@@ -95,7 +95,7 @@ export default () => {
         name: 'vendor',
         label: i18n.t('vender'),
         type: 'select',
-        options: [{ name: i18n.t('aliyun'), value: 'aliyun' }],
+        options: [{ name: i18n.t('Alibaba Cloud'), value: 'aliyun' }],
       },
     ];
   };
@@ -148,7 +148,7 @@ export default () => {
           placeholder: i18n.t('dataCenter:please choose vendor'),
           options: [
             <Option key="aliyun" value="aliyun">
-              {i18n.t('aliyun')}
+              {i18n.t('Alibaba Cloud')}
             </Option>,
           ],
         },
@@ -195,7 +195,7 @@ export default () => {
       <CRUDStoreTable<CLOUD_ACCOUNTS.Account>
         key={stateChangeKey}
         rowKey="name"
-        name={i18n.t('storage')}
+        name={i18n.t('storage space')}
         getColumns={getColumns}
         store={cloudOSSStore}
         showTopAdd

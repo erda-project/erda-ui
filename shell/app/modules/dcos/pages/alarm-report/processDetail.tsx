@@ -52,7 +52,7 @@ const ProcessDetailInfo = ({ processName, id, cmdline, ip, clusterName }: IProce
           <span>{ip}</span>
         </div>
         <div>
-          <span>{i18n.t('dcos:own cluster')} :</span>
+          <span>{i18n.t('dcos:owned cluster')} :</span>
           <span>{clusterName}</span>
         </div>
       </div>

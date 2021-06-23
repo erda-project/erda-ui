@@ -290,7 +290,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       name: 'name',
       pattern: identifierReg,
       itemProps: {
-        placeholder: i18n.t('project:letters, numbers, underscores, and underscores'),
+        placeholder: i18n.t('project:letters, numbers, underscores and hyphens'),
         autoComplete: 'off',
         maxLength: 50,
       },
@@ -335,7 +335,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
         footer={<Button onClick={handleCloseInfo}>{i18n.t('close')}</Button>}
       >
         <p className="mb8">
-          {i18n.t('tips after apply prev')}
+          {i18n.t('The administrator has received your request. Please go to')}
           <span
             onClick={() => {
               goTo(goTo.pages.apiMyVisit);
@@ -344,9 +344,11 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
           >
             {i18n.t('my visit')}
           </span>
-          {i18n.t('tips after apply next')}
+          {i18n.t('check whether your request is approved')}
         </p>
-        <p className="mb8">{i18n.t('tips after approval')}</p>
+        <p className="mb8">
+          {i18n.t('You can use ClientID and ClientSecret below to access API instance after approval.')}
+        </p>
         <p className="mb4">
           <span className="bold-500">ClientID: </span>
           <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>

@@ -296,7 +296,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
   const ValueRender = (
     <div className=" v-align side-app-center flex-box pointer" onClick={(e: any) => e.stopPropagation()}>
       {/* <div className='v-align bold'>
-        {valueName || <span className=''>{i18n.t('unset')}</span>}
+        {valueName || <span className=''>{i18n.t('unspecified')}</span>}
       </div> */}
       <CustomIcon type="appstore" className="fz20 ml4" />
     </div>

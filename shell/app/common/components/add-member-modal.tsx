@@ -17,6 +17,7 @@ import * as React from 'react';
 import { map, isEmpty } from 'lodash';
 import { MemberScope } from 'app/common/stores/_member';
 import projectMemberStore from 'common/stores/project-member';
+import routeInfoStore from 'common/stores/route';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
 import { insertWhen } from '../utils';
@@ -43,7 +44,7 @@ const storeMap = {
 export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleModal, queryParams }: IProps) => {
   const memberStore = storeMap[scope.type];
   const { addMembers, updateMembers } = memberStore.effects;
-
+  const isIn = routeInfoStore.getState((s) => s.isIn);
   const handleSubmit = (values: MEMBER.UpdateMemberBody) => {
     const { app_roles, applications, ...rest } = values as any;
     addMembers({ ...rest, scope }, { queryParams }).then(() => {
@@ -119,7 +120,7 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
         options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
       },
     ]),
-    ...insertWhen(scope.type === MemberScope.PROJECT, [
+    ...insertWhen(isIn('dop') && scope.type === MemberScope.PROJECT, [
       {
         getComp: () => (
           <Alert

@@ -215,7 +215,12 @@ export const PureApiPackage = () => {
         name: 'name',
         initialValue: state.basicForm.name,
         rules: [
-          { pattern: /^[A-Za-z0-9]+([-/_.][0-9a-zA-Z]+)*$/, message: i18n.t('microService:tips of api package name') },
+          {
+            pattern: /^[A-Za-z0-9]+([-/_.][0-9a-zA-Z]+)*$/,
+            message: i18n.t(
+              'microService:Please enter a name consisting of letters, numbers, underscores, hyphens, slashes and dots within 50 characters.',
+            ),
+          },
         ],
         itemProps: {
           disabled: editMode,
@@ -236,7 +241,7 @@ export const PureApiPackage = () => {
       },
       ...insertWhen(aliCloudDomian.cloudapiExists, [
         {
-          label: i18n.t('microService:whether to bind  aliCloud API gateway'),
+          label: i18n.t('microService:whether to bind Alibaba Cloud API gateway'),
           type: 'switch',
           name: 'needBindCloudapi',
           initialValue: state.basicForm.needBindCloudapi,
@@ -270,12 +275,12 @@ export const PureApiPackage = () => {
     }
     if (editMode && apiPackageDetail.needBindCloudapi) {
       fieldsList.push({
-        label: i18n.t('microService:ali Cloud API gateway domain'),
+        label: i18n.t('microService:Alibaba Cloud API gateway domain'),
         getComp: () => {
           if (aliCloudDomian.domain) {
             return <p>{aliCloudDomian.domain}</p>;
           } else {
-            return <p>{i18n.t('microService:bidding')}</p>;
+            return <p>{i18n.t('microService:binding')}</p>;
           }
         },
       });

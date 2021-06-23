@@ -31,7 +31,9 @@ import * as nusi from 'app/nusi';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@icon-park/react/styles/index.css';
+import '@erda-ui/dashboard-configurator/dist/index.css';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react';
+import 'tailwindcss/tailwind.css';
 
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);

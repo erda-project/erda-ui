@@ -182,7 +182,7 @@ const AddApiModal = ({
       type: 'select',
       options: [
         {
-          name: i18n.t('microService:all method'),
+          name: i18n.t('microService:all methods'),
           value: 'all',
         },
         ...HTTP_METHODS,

@@ -95,7 +95,7 @@ const org = createStore({
           }
           return;
         }
-        // user doesn't joined the public org, go to DOP
+        // user doesn't joined the public org, go to dop
         // temporary solution, it will removed until new solution is proposed by PD
         if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
           if (!orgs?.list?.find((x) => x.name === currentOrg.name) || orgs?.list?.length === 0) {

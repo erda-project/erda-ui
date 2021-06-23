@@ -29,7 +29,7 @@ import './index.scss';
 export const assetTabs: Array<{ key: API_MARKET.AssetScope; name: string }> = [
   {
     key: 'mine',
-    name: i18n.t('my responsible'),
+    name: i18n.t('my responsibility'),
   },
   {
     key: 'all',
@@ -206,7 +206,7 @@ const ApiMarketList = () => {
                   handleApply(e, asset);
                 }}
               >
-                {i18n.t('apply call')}
+                {i18n.t('apply to call')}
               </span>
             ) : null}
           </TableActions>

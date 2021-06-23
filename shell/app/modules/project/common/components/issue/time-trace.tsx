@@ -252,7 +252,7 @@ export const TimeTrace = React.forwardRef(
               estimate={value.estimateTime}
             />
             <div className="my16">
-              {i18n.t('project:The original estimate for this issue was')} {transToStr(value.estimateTime)}
+              {i18n.t('project:The original estimated time for this event is')} {transToStr(value.estimateTime)}
             </div>
             <Form formRef={form} fields={fields} onChange={setEditData} />
           </Modal>

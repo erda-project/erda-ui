@@ -205,7 +205,7 @@ const LogAnalytics = () => {
             label: i18n.t('microService:tag'),
             name: 'tags',
             type: 'custom',
-            placeholder: i18n.t('microService:key=value, enter to add'),
+            placeholder: i18n.t('microService|format: Key=Value, press Enter to add', { nsSeparator: '|' }),
             percent: 24,
             allowClear: true,
             Comp: <Select mode="tags" allowClear />,
@@ -220,7 +220,7 @@ const LogAnalytics = () => {
         ]}
         onSearch={onSearch}
       />
-      <Panel title={i18n.t('microService:log count')} className="block">
+      <Panel title={i18n.t('microService:number of logs')} className="block">
         {addonDetail.cluster && <LogCountChart chartQuery={{ ...queryData.current }} loadData={getChartData} />}
       </Panel>
       <div className="section-title mt24 mb0">{i18n.t('microService:detail')}</div>

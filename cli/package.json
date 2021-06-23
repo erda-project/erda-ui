@@ -10,7 +10,8 @@
     "build": "rm -rf ./dist && tsc --version && tsc --project .",
     "local": "npm run build && local-package-publisher -p",
     "remove-local": "local-package-publisher -u",
-    "pub": "npm version patch && npm run build && npm publish"
+    "pub": "npm version patch && npm run build && npm publish",
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -60,10 +61,8 @@
     "local-package-publisher": "^1.0.4",
     "ts-node": "^9.1.1"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $GIT_PARAMS"
-    }
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
   },
   "config": {
     "commitizen": {

@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { EditField } from 'common';
+import { EditMd } from 'common/components/edit-field';
 import { mount, shallow } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 import { Select } from 'app/nusi';
@@ -40,6 +41,7 @@ describe('EditField', () => {
         value="erda.cloud"
       />,
     );
+    wrapper.find('.common-edit-field').children('div').at(1).simulate('click');
     expect(wrapper.find('.suffix')).toExist();
     expect(wrapper.find('.ant-form-item-required')).toExist();
     expect(wrapper.find('.color-text-sub')).toExist();
@@ -62,6 +64,11 @@ describe('EditField', () => {
     expect(changeFn).toHaveBeenCalledTimes(1);
     wrapper.find('input').simulate('blur');
     expect(changeCbFn).toHaveBeenLastCalledWith({ name: 'erda cloud' });
+    expect(wrapper.find('.edit-comp-text')).toExist();
+    // wrapper.find('.edit-comp-text').simulate('click');
+    // wrapper.update();
+    // console.log(wrapper.find('.common-edit-field').html());
+    // expect(wrapper.find('.edit-comp-text')).not.toExist();
   });
   it('should render select type', () => {
     const cls = 'select-item';
@@ -101,10 +108,19 @@ describe('EditField', () => {
     wrapper.find(`.${cls}`).prop('onBlur')();
     expect(changeCbFn).toHaveBeenLastCalledWith({ id: 1 });
   });
-  // TODO 2021/5/28 processing
-  it.skip('should render markdown type', () => {
+  it('should render markdown type', () => {
     const text = 'this is a piece of text';
-    const wrapper = shallow(<EditField type="markdown" value={text} itemProps={{}} />);
+    const changeCbFn = jest.fn();
+    const wrapper = shallow(
+      <EditField name="text" type="markdown" value={text} onChangeCb={changeCbFn} itemProps={{}} />,
+    );
+    wrapper.setProps({
+      itemProps: {
+        isEditMode: true,
+      },
+    });
+    wrapper.find('EditMd').prop('onSave')(text);
+    expect(changeCbFn).toHaveBeenLastCalledWith({ text }, undefined);
   });
   it('should render datePicker type', () => {
     const curr = moment();
@@ -144,5 +160,39 @@ describe('EditField', () => {
     const date = '2021-05-29';
     const wrapper = mount(<EditField name="date" type="dateReadonly" value={date} itemProps={{}} />);
     expect(wrapper.find('.prewrap').text()).toBe(date);
+  });
+  it('should EditMd work well', () => {
+    const text = 'this is a piece of text';
+    const changeFn = jest.fn();
+    const saveFn = jest.fn();
+    const wrapper = mount(
+      <EditMd hasEdited originalValue={`origin-${text}`} value={text} onChange={changeFn} onSave={saveFn} />,
+    );
+    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
+      __html: '<p>this is a piece of text</p>\n',
+    });
+    wrapper.find('.md-content-preview').simulate('click');
+    expect(wrapper.find('MarkdownEditor')).toExist();
+    expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onCancel');
+    expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onSubmit');
+    act(() => {
+      wrapper.find('MarkdownEditor').prop('onFocus')();
+    });
+    wrapper.update();
+    expect(wrapper.find('MarkdownEditor')).toHaveProp('onCancel');
+    expect(wrapper.find('MarkdownEditor')).toHaveProp('onSubmit');
+    act(() => {
+      wrapper.find('MarkdownEditor').prop('onSubmit')('erda');
+    });
+    expect(saveFn).toHaveBeenLastCalledWith('erda');
+    wrapper.find('MarkdownEditor').prop('onBlur')('erda cloud');
+    expect(saveFn).toHaveBeenLastCalledWith('erda cloud', 'markdown');
+    act(() => {
+      wrapper.find('MarkdownEditor').prop('onCancel')();
+    });
+    wrapper.update();
+    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
+      __html: '<p>origin-this is a piece of text</p>\n',
+    });
   });
 });

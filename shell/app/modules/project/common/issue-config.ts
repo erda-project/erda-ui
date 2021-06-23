@@ -23,23 +23,23 @@ export enum ISSUE_TYPE {
 }
 
 export const ISSUE_COMPLEXITY_MAP = {
-  HARD: { value: 'HARD', label: i18n.t('project:hard'), icon: 'fz3' },
-  NORMAL: { value: 'NORMAL', label: i18n.t('project:normal'), icon: 'fz5' },
+  HARD: { value: 'HARD', label: i18n.t('project:complex'), icon: 'fz3' },
+  NORMAL: { value: 'NORMAL', label: i18n.t('project:medium'), icon: 'fz5' },
   EASY: { value: 'EASY', label: i18n.t('project:easy'), icon: 'fz2' },
 };
 
 export const BUG_SEVERITY_MAP = {
   FATAL: { value: 'FATAL', label: `P0 ${i18n.t('project:severity-fatal')}`, icon: 'yz5' },
-  SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('project:severity-serious')}`, icon: 'yz4' },
-  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('project:severity-normal')}`, icon: 'yz3' },
-  SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('project:severity-slight')}`, icon: 'yz2' },
-  SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('project:severity-suggest')}`, icon: 'yz1' },
+  SERIOUS: { value: 'SERIOUS', label: `P1 ${i18n.t('project:serious')}`, icon: 'yz4' },
+  NORMAL: { value: 'NORMAL', label: `P2 ${i18n.t('project:normal')}`, icon: 'yz3' },
+  SLIGHT: { value: 'SLIGHT', label: `P3 ${i18n.t('project:slight')}`, icon: 'yz2' },
+  SUGGEST: { value: 'SUGGEST', label: `P4 ${i18n.t('project:suggest')}`, icon: 'yz1' },
 };
 
 export const ISSUE_PRIORITY_MAP = {
   URGENT: { value: 'URGENT', label: i18n.t('project:urgent'), icon: 'yx4' },
   HIGH: { value: 'HIGH', label: i18n.t('project:high'), icon: 'yx3' },
-  NORMAL: { value: 'NORMAL', label: i18n.t('project:normal'), icon: 'yx2' },
+  NORMAL: { value: 'NORMAL', label: i18n.t('project:medium'), icon: 'yx2' },
   LOW: { value: 'LOW', label: i18n.t('project:low'), icon: 'yx1' },
 };
 export const ISSUE_PRIORITY_ICON_STYLE = { height: '20px', width: '20px', verticalAlign: 'sub' };
@@ -47,7 +47,7 @@ export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);
 
 export const REQUIREMENT_STATE_MAP = {
   OPEN: { icon: 'wh', label: i18n.t('project:open') },
-  WORKING: { icon: 'jxz', label: i18n.t('project:working') },
+  WORKING: { icon: 'jxz', label: i18n.t('project:processing') },
   TESTING: { icon: 'jxz', label: i18n.t('project:testing') },
   DONE: { icon: 'tg', label: i18n.t('project:done') },
 };
@@ -62,7 +62,7 @@ export const REQUIREMENT_PANEL_ICON = {
 
 export const TASK_STATE_MAP: ISSUE.TaskMap = {
   OPEN: { icon: 'wh', label: i18n.t('project:open'), nextStates: ['WORKING'] },
-  WORKING: { icon: 'jxz', label: i18n.t('project:working'), nextStates: ['DONE'] },
+  WORKING: { icon: 'jxz', label: i18n.t('project:processing'), nextStates: ['DONE'] },
   DONE: { icon: 'tg', label: i18n.t('project:done'), nextStates: [] },
 };
 export const TASK_STATE = Object.keys(TASK_STATE_MAP) as ISSUE.TaskState[];
@@ -96,7 +96,7 @@ export const ISSUE_BUTTON_STATE = {
   canResolved: { label: i18n.t('project:resolved'), state: 'RESOLVED' },
   canTesting: { label: i18n.t('project:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("project:won't fix"), state: 'WONTFIX' },
-  canWorking: { label: i18n.t('project:working'), state: 'WORKING' },
+  canWorking: { label: i18n.t('project:processing'), state: 'WORKING' },
   canClosed: { label: i18n.t('project:close'), state: 'CLOSED' },
   canDone: { label: i18n.t('project:completed'), state: 'DONE' },
 };

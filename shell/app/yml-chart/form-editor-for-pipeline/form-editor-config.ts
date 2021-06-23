@@ -46,7 +46,7 @@ const commonFields = [
     },
   },
   {
-    label: i18n.t('is required'),
+    label: i18n.t('is it required'),
     key: 'required',
     type: 'switch',
     component: 'switch',

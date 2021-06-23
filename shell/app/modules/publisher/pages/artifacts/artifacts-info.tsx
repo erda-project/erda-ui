@@ -126,15 +126,15 @@ export const ArtifactsInfo = ({ data }: { data: PUBLISHER.IArtifacts }) => {
     safetyFieldsList.push(
       ...([
         {
-          label: i18n.t('publisher:center coordinates of longitude'),
+          label: i18n.t('publisher:longitude of center coordinates'),
           name: 'geofenceLon',
         },
         {
-          label: i18n.t('publisher:center coordinates of latitude'),
+          label: i18n.t('publisher:latitude of center coordinates'),
           name: 'geofenceLat',
         },
         {
-          label: i18n.t('publisher:radius of center distance'),
+          label: i18n.t('publisher:radius from center'),
           name: 'geofenceRadius',
           render: (val: string) => `${val}${i18n.t('meters')}`,
         },

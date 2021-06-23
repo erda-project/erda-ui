@@ -348,4 +348,27 @@ declare namespace TEST_CASE {
     issueIDs: number[];
     testPlanID: number;
   }
+
+  type ImportOrExport = 'import' | 'export';
+
+  type ImportOrExportState = 'processing' | 'success' | 'fail' | 'pending';
+
+  interface ImportExportQuery {
+    projectId: number;
+    types: ImportOrExport[];
+  }
+
+  interface ImportExportRecordItem {
+    apiFileUUID: string;
+    createdAt: string;
+    description: string;
+    id: number;
+    name: string;
+    operatorId: string;
+    operatorName: string;
+    projectId: number;
+    state: ImportOrExportState;
+    type: ImportOrExport;
+    updatedAt: string;
+  }
 }

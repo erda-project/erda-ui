@@ -87,13 +87,13 @@ export default ({ scope }: { scope: string }) => {
       render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('org:handle status'),
+      title: i18n.t('org:processing status'),
       dataIndex: 'handleState',
       width: 100,
       render: (handleState) => (handleState ? <IssueState state={handleState} /> : '--'),
     },
     {
-      title: i18n.t('org:handle people'),
+      title: i18n.t('org:assignee'),
       dataIndex: 'handlerId',
       width: 120,
       render: (handlerId) => {
@@ -104,7 +104,7 @@ export default ({ scope }: { scope: string }) => {
       },
     },
     {
-      title: i18n.t('org:handle time'),
+      title: i18n.t('org:processing time'),
       dataIndex: 'handleTime',
       width: 180,
       render: (handleTime) => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
@@ -144,7 +144,7 @@ export default ({ scope }: { scope: string }) => {
         name: 'handleState',
         customProps: {
           mode: 'multiple',
-          placeholder: i18n.t('application:filter by handle status'),
+          placeholder: i18n.t('application:filter by handling status'),
           options: map(alarmAttrs.handleState, ({ key, display }) => (
             <Select.Option key={key} value={key}>
               {display}
@@ -158,7 +158,7 @@ export default ({ scope }: { scope: string }) => {
         customProps: {
           mode: 'multiple',
           valueChangeTrigger: 'onClose',
-          placeholder: i18n.t('filter by handle people'),
+          placeholder: i18n.t('filter by handler'),
           scopeType: memberScopeMap[scope],
         },
       },

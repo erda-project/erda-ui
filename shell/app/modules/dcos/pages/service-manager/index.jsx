@@ -337,7 +337,7 @@ class ServiceManager extends React.Component {
                 allowClear
                 value={ip}
                 style={{ width: 150 }}
-                placeholder={i18n.t('dataCenter:enter IP search')}
+                placeholder={i18n.t('dataCenter:search by IP')}
                 onChange={this.handleIpChange}
               />
               <Select value={environment} style={{ width: 120 }} onChange={this.handleEnvChange}>

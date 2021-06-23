@@ -301,7 +301,7 @@ const ApiDesign = () => {
 
       if (formErrorNum > 0) {
         confirm({
-          title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
+          title: i18n.t('project:Are you sure to leave, with the error message not saved?'),
           onOk() {
             nextHandle();
           },
@@ -605,7 +605,7 @@ const ApiDesign = () => {
   const onConfirmPublish = React.useCallback(() => {
     if (isDocChanged) {
       confirm({
-        title: i18n.t('project:tips of publish api swagger'),
+        title: i18n.t('project:The current document has not been saved. Publish the saved document?'),
         onOk() {
           updater.apiModalVisible(true);
         },
@@ -664,7 +664,7 @@ const ApiDesign = () => {
                   )}
                   <WithAuth pass={inodeQuery && docValidData.valid}>
                     <Button type="primary" className="ml8" onClick={onConfirmPublish}>
-                      {i18n.t('publisher:publish')}
+                      {i18n.t('releaseer:publish')}
                     </Button>
                   </WithAuth>
                 </div>
@@ -677,7 +677,7 @@ const ApiDesign = () => {
                 <div className="api-design-content">
                   <div className="api-design-content-list column-flex-box flex-start">
                     <Input
-                      placeholder={i18n.t('input keyword search')}
+                      placeholder={i18n.t('search by keyword')}
                       className="mx8 my12 api-filter-input"
                       prefix={<IconSearch />}
                       onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
@@ -689,10 +689,15 @@ const ApiDesign = () => {
                       }`}
                       onClick={() => onContentChange('SUMMARY')}
                     >
-                      {i18n.t('project:API Summary')}
+                      {i18n.t('project:API overview')}
                     </div>
                     <div className="panel-list">
-                      <Collapse accordion bordered={false} defaultActiveKey={['RESOURCE']}>
+                      <Collapse
+                        accordion
+                        bordered={false}
+                        defaultActiveKey={['RESOURCE']}
+                        className="api-overview-collapse"
+                      >
                         <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
                           {!isEmpty(apiResourceList) ? (
                             map(apiResourceList, (name) => renderListItem('RESOURCE', name))

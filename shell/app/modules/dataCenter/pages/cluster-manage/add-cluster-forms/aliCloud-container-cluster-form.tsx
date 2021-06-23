@@ -27,7 +27,7 @@ import orgStore from 'app/org-home/stores/org';
 import { AliCloudFormPreview } from './index';
 
 const cloudVendorMap = {
-  name: i18n.t('org:alicloud container service cluster'),
+  name: i18n.t('org:Alibaba Cloud container service cluster'),
   initValue: {
     vpcCIDR: '192.168.0.0/16',
     vSwitchCIDR: '192.168.0.0/18',
@@ -113,7 +113,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
 
   const fields = [
     {
-      label: i18n.t('{name} identify', { name: i18n.t('org:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('org:cluster') }),
       component: 'input',
       key: 'clusterName',
       rules: [
@@ -121,12 +121,12 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
         {
           validator: (v: any) => {
             const curCluster = find(clusterList, { name: v });
-            return [!curCluster, i18n.t('org:cluster existing')];
+            return [!curCluster, i18n.t('org:cluster already existed')];
           },
         },
       ],
       componentProps: {
-        placeholder: i18n.t('org:clusterName limit'),
+        placeholder: i18n.t('org:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
       },
       required: true,
       category: 'basic',
@@ -146,7 +146,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:wildcard domain'),
+      label: i18n.t('org:extensive domain'),
       component: 'input',
       key: 'rootDomain',
       rules: [
@@ -235,7 +235,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:whether open https'),
+      label: i18n.t('org:whether to enable https'),
       component: 'switch',
       key: 'enableHttps',
       required: true,

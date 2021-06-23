@@ -39,7 +39,7 @@ interface IProps {
 }
 
 const formMenu = [
-  { key: 'jump-board', name: i18n.t('org:jump host') },
+  { key: 'jump-board', name: i18n.t('org:jump server') },
   { key: 'cluster-config', name: i18n.t('org:cluster infos') },
   { key: 'cluster-ssh', name: i18n.t('org:cluster ssh infos') },
   { key: 'cluster-fps', name: i18n.t('org:file proxy service') },

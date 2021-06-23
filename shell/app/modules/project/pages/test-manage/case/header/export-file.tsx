@@ -16,12 +16,18 @@ import i18n from 'i18n';
 
 import { DropdownSelect } from 'common';
 import testCaseStore from 'project/stores/test-case';
+import { message } from 'app/nusi';
 
 const ExportFile = () => {
   const { exportFile } = testCaseStore.effects;
 
   const onExport = (e: any) => {
-    exportFile(e.key);
+    exportFile(e.key).then(() => {
+      message.success(
+        i18n.t('application:The export task has been created, please check the progress in the record'),
+        4,
+      );
+    });
   };
 
   return (

@@ -210,7 +210,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       key: 'name',
     },
     {
-      title: i18n.t('metric'),
+      title: i18n.t('indicator'),
       dataIndex: 'metric',
       key: 'metric',
     },
@@ -221,7 +221,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       render: (value: number) => `${value} ${i18n.t('min')}`,
     },
     {
-      title: i18n.t('notifyTarget'),
+      title: i18n.t('notification method'),
       dataIndex: 'notifyTargets',
       key: 'notifyTargets',
       render: (value: string[]) => `${value.join('、')}`,
@@ -423,7 +423,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('org:threshold'),
+      title: i18n.t('org:default threshold'),
       dataIndex: 'value',
       fixed: 'right',
       width: 120,
@@ -567,7 +567,7 @@ export default ({ scopeType }: { scopeType: string }) => {
 
   const handleShowNotifySample = () => {
     Modal.info({
-      title: i18n.t('org:model sample'),
+      title: i18n.t('org:template sample'),
       content: <span className="prewrap">{customMetricMap.notifySample}</span>,
     });
   };
@@ -655,7 +655,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         return reject();
       }
       if (someValueEmpty(editingFilters, 'value')) {
-        message.warning(i18n.t('org:filter rule expected value is required'));
+        message.warning(i18n.t('org:The expected value of filter rule is required.'));
         return reject();
       }
       if (someValueEmpty(editingFields, 'alias')) {
@@ -722,7 +722,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('metric'),
+        label: i18n.t('indicator'),
         name: 'rule.activedMetricGroups',
         type: 'cascader',
         options: metaGroups,
@@ -829,7 +829,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('org:message header rules'),
+        label: i18n.t('org:message title rules'),
         name: 'notify.title',
         itemProps: {
           maxLength: 128,
@@ -848,7 +848,7 @@ export default ({ scopeType }: { scopeType: string }) => {
               disabled={isEmpty(customMetricMap.notifySample)}
               onClick={handleShowNotifySample}
             >
-              {i18n.t('org:model sample')}
+              {i18n.t('org:template sample')}
             </Button>
             <MarkdownEditor
               value={form.getFieldValue('notify.content')}
@@ -856,7 +856,7 @@ export default ({ scopeType }: { scopeType: string }) => {
                 form.setFieldsValue({ 'notify.content': value });
               }}
               defaultMode="md"
-              placeholder={i18n.t('org:reference model sample input')}
+              placeholder={i18n.t('org:refer to template sample to input')}
               maxLength={512}
             />
           </>
@@ -873,7 +873,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <BasicForm form={form} />
         <div className="title bold fz16">{i18n.t('org:trigger rules')}</div>
         <RuleForm form={form} />
-        <div className="title bold fz16">{i18n.t('org:message models')}</div>
+        <div className="title bold fz16">{i18n.t('org:message template')}</div>
         <NotifyForm form={form} />
       </div>
     );

@@ -158,7 +158,7 @@ const MiddlewareDashboard = () => {
         a.nodes - b.nodes,
     },
     {
-      title: i18n.t('org:reference count'),
+      title: i18n.t('org:number of references'),
       dataIndex: 'attachCount',
       key: 'attachCount',
       width: '10%',
@@ -187,7 +187,7 @@ const MiddlewareDashboard = () => {
                   className="filter-item-content"
                   allowClear
                   value={projectId}
-                  placeholder={i18n.t('input keyword search')}
+                  placeholder={i18n.t('search by keyword')}
                   notFoundContent={
                     <IF check={getProjectsLoading}>
                       <Spin size="small" />
@@ -207,7 +207,7 @@ const MiddlewareDashboard = () => {
                 <Search
                   allowClear
                   className="filter-item-content"
-                  placeholder={i18n.t('input Addon Name or Id to Search')}
+                  placeholder={i18n.t('search by Addon name or ID')}
                   onChange={(e) => handleSearchAddon(e.target.value)}
                 />
               </Col>
@@ -216,7 +216,7 @@ const MiddlewareDashboard = () => {
                 <Search
                   allowClear
                   className="filter-item-content"
-                  placeholder={i18n.t('dataCenter:enter the container IP to search')}
+                  placeholder={i18n.t('dataCenter:search by container IP')}
                   onChange={(e) => handleSearchIp(e.target.value)}
                 />
               </Col>

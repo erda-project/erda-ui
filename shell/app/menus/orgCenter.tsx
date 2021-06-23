@@ -65,7 +65,7 @@ export const getOrgCenterMenu = () => {
         key: 'orgAnnouncement',
         href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
         icon: <IconBill />,
-        text: i18n.t('org:announcement'),
+        text: i18n.t('org:announcement management'),
       },
       {
         key: 'orgSafety',

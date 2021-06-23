@@ -31,7 +31,7 @@ export enum MENU_SCOPE {
 const hiddenWhenOnlyFDP = (item: IMenuItem) => (ONLY_FDP ? null : item);
 const defaultFunc = (a: any) => a;
 
-const { ONLY_FDP, ENABLE_MPAAS } = diceEnv || {};
+const { ONLY_FDP } = diceEnv || {};
 const menuFilterMap = {
   appCenter: {
     // 应用中心
@@ -40,7 +40,7 @@ const menuFilterMap = {
     edge: hiddenWhenOnlyFDP,
     apiManage: hiddenWhenOnlyFDP,
     dataCenter: (item: IMenuItem) => {
-      const name = ONLY_FDP ? i18n.t('Data Center') : i18n.t('DataCenter');
+      const name = ONLY_FDP ? i18n.t('Data Center') : i18n.t('cloud management');
       return { ...item, name, breadcrumbName: name };
     },
   },
@@ -48,10 +48,12 @@ const menuFilterMap = {
     // 企业中心
     orgMarket: (item: IMenuItem) => {
       const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
-      const orgPublisherAuth = !!publisherId;
-      return ENABLE_MPAAS && orgPublisherAuth ? item : null;
+      return !publisherId ? null : item;
     },
-    orgCertificate: (item: IMenuItem) => (ENABLE_MPAAS ? item : null),
+    orgCertificate: (item: IMenuItem) => {
+      const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
+      return !publisherId ? null : item;
+    },
   },
   dataCenter: {
     // 云管平台
@@ -68,8 +70,7 @@ const menuFilterMap = {
   dop: {
     dopPublisher: (item: IMenuItem) => {
       const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
-      const orgPublisherAuth = !!publisherId;
-      return ENABLE_MPAAS && orgPublisherAuth ? item : null;
+      return !publisherId ? null : item;
     },
   },
 };

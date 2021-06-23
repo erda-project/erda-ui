@@ -462,7 +462,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       ...fieldsList,
       {
         name: 'groupType',
-        label: i18n.t('application:method to inform'),
+        label: i18n.t('application:notification method'),
         required: true,
         type: 'select',
         initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
@@ -640,9 +640,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       width: 250,
       className: 'notify-info',
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
-        const tips = i18n.t(
-          'org:notification group does not exist or has been removed, replaceable notification group',
-        );
+        const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
           <div className="flex-box">
             {isEmpty(notifyGroup) ? (

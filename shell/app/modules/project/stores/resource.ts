@@ -58,11 +58,7 @@ const projectResource = createStore({
     getChartDataSuccess(state, payload: { data: RESOURCE.CharData; type: string }) {
       const { type, data: listData } = payload;
       const { chartList } = state;
-      // 去掉cpu内存统计图数据
-      if (type === 'cpu') {
-        return;
-      }
-      // const idx = type === 'cpu' ? 0 : 1;
+      const idx = type === 'cpu' ? 0 : 1;
       const { time, results } = listData || {};
       const curList = get(results, '[0].data') || [];
       const dataKeys = { cpu: 'last.cpu_usage_percent', memory: 'last.mem_usage' };
@@ -71,7 +67,7 @@ const projectResource = createStore({
         return { ...restData, name: tag || name, data };
       });
 
-      chartList[0] = {
+      chartList[idx] = {
         loading: false,
         time,
         results: reData,

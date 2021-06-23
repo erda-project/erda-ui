@@ -40,7 +40,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const basicFields = [
     {
-      label: i18n.t('{name} identify', { name: i18n.t('org:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('org:cluster') }),
       component: 'input',
       key: 'clusterName',
       rules: [
@@ -48,12 +48,12 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         {
           validator: (v: any) => {
             const curCluster = find(clusterList, { name: v });
-            return [!curCluster, i18n.t('org:cluster existing')];
+            return [!curCluster, i18n.t('org:cluster already existed')];
           },
         },
       ],
       componentProps: {
-        placeholder: i18n.t('org:clusterName limit'),
+        placeholder: i18n.t('org:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
       },
       required: true,
     },
@@ -71,7 +71,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('org:wildcard domain'),
+      label: i18n.t('org:extensive domain'),
       component: 'input',
       key: 'rootDomain',
       rules: [
@@ -101,7 +101,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       },
     },
     {
-      label: i18n.t('org:whether open https'),
+      label: i18n.t('org:whether to enable https'),
       component: 'switch',
       key: 'enableHttps',
       required: true,
@@ -185,7 +185,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         key: 'glusterfsIps',
         required: true,
         componentProps: {
-          placeholder: i18n.t('dataCenter:suggest 3 or 1, multiple separated by commas'),
+          placeholder: i18n.t('dataCenter:3 or 1 is recommended, and separate them by comma'),
         },
       },
     ]),
@@ -236,7 +236,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       component: 'input',
       key: 'nameservers',
       componentProps: {
-        placeholder: i18n.t('dataCenter:multiple are separated by commas'),
+        placeholder: i18n.t('dataCenter:separate by comma'),
       },
       required: true,
       rules: [
@@ -255,7 +255,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       key: 'hostIps',
       required: true,
       componentProps: {
-        placeholder: i18n.t('dataCenter:multiple are separated by commas'),
+        placeholder: i18n.t('dataCenter:separate by comma'),
       },
       rules: [
         {
@@ -269,7 +269,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       component: 'input',
       key: 'device',
       componentProps: {
-        placeholder: i18n.t('dataCenter:such as vdb, does not support multiple data disks, can be empty'),
+        placeholder: i18n.t('dataCenter:such as vdb, which does not support multiple data disks, can be empty.'),
       },
     },
   ];
@@ -338,7 +338,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
               <>
                 <div className="bold mb4">{i18n.t('dataCenter:cluster configuration')}</div>
                 <RenderFields form={form} fields={bFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:springboard configuration')}</div>
+                <div className="bold mb4">{i18n.t('dataCenter:jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />
                 <div className="bold mb4">{i18n.t('dataCenter:shared storage')}</div>
                 <RenderFields form={form} fields={stFields} />

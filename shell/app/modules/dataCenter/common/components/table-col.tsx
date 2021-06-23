@@ -79,7 +79,7 @@ export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', cl
           <div>
             <Tooltip title={val}>
               <div className="for-copy nowrap" data-clipboard-tip="ID" data-clipboard-text={val}>
-                {val || i18n.t('common:empty')}
+                {val || i18n.t('common:none')}
               </div>
             </Tooltip>
           </div>

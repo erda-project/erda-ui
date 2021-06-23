@@ -138,15 +138,15 @@ const Group = () => {
       },
       rules: [
         { min: 7, max: 64, message: i18n.t('length is {min}~{max}', { min: 3, max: 64 }) },
-        { pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('can only contain alphanumeric underscores and underscores') },
+        { pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('can only contain letters, numbers, underscores and hyphens') },
         {
           validator: (rule: any, value: string, callback: Function) => {
             if (allName.includes(value)) {
-              callback(i18n.t('{name} already exist', { name: 'groupID' }));
+              callback(i18n.t('{name} already exists', { name: 'groupID' }));
             } else if (value.startsWith('GID_') || value.startsWith('GID-')) {
               callback();
             } else {
-              callback(`${i18n.t('dcos:start-GID-or-GID')}`);
+              callback(`${i18n.t('dcos:start with GID_ or GID-')}`);
             }
           },
         },

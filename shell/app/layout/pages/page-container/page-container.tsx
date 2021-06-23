@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import SideBar from 'layout/pages/page-container/components/sidebar';
 import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';
 import Header from 'layout/pages/page-container/components/header';
-import { NoAuth, NotFound } from 'app/layout/common/error-page';
+import { NoAuth, NotFound, FreeUserTips } from 'app/layout/common/error-page';
 import { Location } from 'app/interface/common';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -36,6 +36,7 @@ import { ErrorLayout } from './error-layout';
 import { eventHub } from 'common/utils/event-hub';
 import orgStore from 'app/org-home/stores/org';
 import './page-container.scss';
+import { initAxios } from 'app/common/utils/axios-config';
 
 const layoutMap = {
   error: ErrorLayout,
@@ -78,6 +79,7 @@ const PageContainer = ({ route }: IProps) => {
       }, 500);
     }
     eventHub.emit('layout/mount');
+    initAxios();
 
     if (process.env.NODE_ENV === 'production') {
       checkVersion();
@@ -147,6 +149,8 @@ const PageContainer = ({ route }: IProps) => {
     MainContent = <NoAuth />;
   } else if (notFound) {
     MainContent = <NotFound />;
+  } else if (isIn('dataCenter') && currentOrg.type === 'FREE') {
+    MainContent = <FreeUserTips />;
   } else if (state.startInit) {
     const Inner = (
       <ErrorBoundary>

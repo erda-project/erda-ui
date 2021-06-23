@@ -129,7 +129,7 @@ export const PureConsumerManage = () => {
   const handleDeleteAuthRecord = ({ id, key, name }: any, type: string) => {
     confirm({
       title: i18n.t('microService:confirm deletion?'),
-      content: `${i18n.t('microService:confirm delete this parameter')}：${key || name}`,
+      content: `${i18n.t('microService:confirm to delete this parameter')}：${key || name}`,
       onOk: () => {
         const configCopy = cloneDeep(authConfig);
         const targetData = configCopy.find((config) => config.authType === type) as GATEWAY.IAuthConfig;
@@ -142,7 +142,7 @@ export const PureConsumerManage = () => {
   const handleDeleteAliCloudCredentials = ({ appKey }: GATEWAY.AliCloudCredentials) => {
     confirm({
       title: i18n.t('microService:confirm deletion?'),
-      content: `${i18n.t('microService:confirm delete this parameter')}：${appKey}`,
+      content: `${i18n.t('microService:confirm to delete this parameter')}：${appKey}`,
       onOk: () => {
         deleteAliCloudCredentials({ consumerId: currentConsumerId }).then(() => {
           getAliCloudCredentials({ consumerId: currentConsumerId });
@@ -296,7 +296,10 @@ export const PureConsumerManage = () => {
               />
             </div>
           </TabPane>
-          <TabPane tab={`${i18n.t('microService:ali Cloud APP auth')}${i18n.t('microService:mode')}`} key="5">
+          <TabPane
+            tab={`${i18n.t('microService:Alibaba Cloud API authentication')}${i18n.t('microService:mode')}`}
+            key="5"
+          >
             <div className="auth-type-item">
               <h3 className="placeholder" />
               <Button
@@ -379,7 +382,7 @@ export const PureConsumerManage = () => {
               {i18n.t('microService:edit')}
             </span>
             <span className="table-operations-btn" onClick={() => openCredentials(record)}>
-              {i18n.t('microService:cert')}
+              {i18n.t('microService:certificate')}
             </span>
             <span className="table-operations-btn" onClick={() => openAuthDrawer(record)}>
               {i18n.t('microService:authorization')}

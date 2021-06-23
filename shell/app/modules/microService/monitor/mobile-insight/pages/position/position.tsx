@@ -36,15 +36,19 @@ const sortTabList = [
     fetchApi: 'ta_m_plt_grade/range',
     query: { range: 'plt', split: 10, rangeSize: 1000, source: true },
   },
-  { name: i18n.t('microService:performance analytics'), key: 'comparative' },
+  { name: i18n.t('microService:performance analysis'), key: 'comparative' },
 ];
 
 const ComparativePanel = () => {
   return (
     <div className="monitor-comparative-container">
-      <div className="monitor-comparative-tip">{i18n.t('microService:comparative-analysis')}</div>
+      <div className="monitor-comparative-tip">
+        {i18n.t(
+          'microService:Choose different indicators and user features for comparative analysis for different business types and scenarios, to locate issues accurately.',
+        )}
+      </div>
       <Link to={resolvePath('./comparative')}>
-        <Button>{i18n.t('microService:comparative analytics')}</Button>
+        <Button>{i18n.t('microService:comparative analysis')}</Button>
       </Link>
     </div>
   );

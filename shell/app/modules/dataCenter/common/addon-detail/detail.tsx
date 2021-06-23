@@ -44,7 +44,7 @@ const refTableList = [
     key: 'runtimeName',
   },
   {
-    title: i18n.t('org:deploy detail page'),
+    title: i18n.t('org:deployment details'),
     dataIndex: 'applicationId',
     key: 'applicationId',
     align: 'center' as const,
@@ -97,7 +97,7 @@ export const PureBaseAddonInfo = ({
       render: (plan: string) => PLAN_NAME[plan],
     },
     {
-      title: i18n.t('org:reference count'),
+      title: i18n.t('org:number of references'),
       value: 'referenceInfos',
       render: (referenceInfos: any[] = []) => referenceInfos.length,
     },

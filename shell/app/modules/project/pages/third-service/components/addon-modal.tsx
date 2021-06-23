@@ -71,7 +71,9 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     });
     return [
       !!errorKeys.length,
-      i18n.t('project:parameter key must consist of alphabetic characters, digits, -, _ or .', { keySeparator: '>' }),
+      i18n.t('project:parameter key can only contain letters, numbers, dots, underscores and hyphens', {
+        keySeparator: '>',
+      }),
     ];
   };
 

@@ -672,7 +672,7 @@ const ApiTabComps = {
       };
       return (
         <div className="case-api-tables">
-          <div className="table-title">{i18n.t('project:executive')}</div>
+          <div className="table-title">{i18n.t('project:output parameter')}</div>
           <div className="table-body">
             <KeyValEdit
               type="outParams"
@@ -689,7 +689,7 @@ const ApiTabComps = {
               itemMap={{
                 key: {
                   props: {
-                    placeholder: i18n.t('project:following the name'),
+                    placeholder: i18n.t('project:output parameter name'),
                   },
                 },
                 source: {
@@ -779,7 +779,7 @@ const ApiTabComps = {
                         onChange={(v: string) => onCurChange(v, true)}
                       >
                         <Option value=">">{i18n.t('project:more than the')}</Option>
-                        <Option value=">=">{i18n.t('project:greater or equal to')}</Option>
+                        <Option value=">=">{i18n.t('project:greater than or equal to')}</Option>
                         <Option value="=">{i18n.t('project:equal to')}</Option>
                         <Option value="<=">{i18n.t('project:less than or equal to')}</Option>
                         <Option value="<">{i18n.t('project:less than')}</Option>
@@ -791,7 +791,7 @@ const ApiTabComps = {
                         <Option value="empty">{i18n.t('project:is empty')}</Option>
                         <Option value="not_empty">{i18n.t('project:not null')}</Option>
                         <Option value="belong">{i18n.t('project:belongs to')}</Option>
-                        <Option value="not_belong">{i18n.t('project:does not belong')}</Option>
+                        <Option value="not_belong">{i18n.t('project:does not belong to')}</Option>
                       </Select>
                     );
                   },
@@ -1112,7 +1112,12 @@ const KeyValEdit = (props: IKeyValProps) => {
             <div className="key-val-operation">
               {opList[i] || null}
               {type === 'outParams' ? (
-                <Popconfirm title={i18n.t('project:del-param-sync-assert')} onConfirm={() => handleDelete(i)}>
+                <Popconfirm
+                  title={i18n.t(
+                    'project:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?',
+                  )}
+                  onConfirm={() => handleDelete(i)}
+                >
                   <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
                 </Popconfirm>
               ) : (

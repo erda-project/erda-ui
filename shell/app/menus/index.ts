@@ -46,13 +46,13 @@ export const getSubSiderInfoMap = () => {
     dataCenter: {
       menu: getDataCenterMenu(),
       detail: {
-        displayName: i18n.t('DataCenter'),
+        displayName: i18n.t('cloud management'),
       },
     },
     dop: {
       menu: getDopMenu(),
       detail: {
-        displayName: i18n.t('DOP'),
+        displayName: i18n.t('dop'),
       },
     },
     microService: {
@@ -64,7 +64,7 @@ export const getSubSiderInfoMap = () => {
     edge: {
       menu: getEdgeMenu(),
       detail: {
-        displayName: i18n.t('edge:edge center'),
+        displayName: i18n.t('edge:edge computing'),
       },
     },
     // sysAdmin: {

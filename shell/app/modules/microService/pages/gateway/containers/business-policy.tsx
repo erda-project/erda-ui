@@ -232,7 +232,7 @@ export const PureBusinessPolicy = () => {
                 </span>
                 <IF check={hasGlobalSwitch}>
                   <span onClick={(e) => e.stopPropagation()}>
-                    {i18n.t('microService:use global policy')}&nbsp;
+                    {i18n.t('microService:use global strategy')}&nbsp;
                     <Switch
                       checkedChildren={<CustomIcon type="check" />}
                       unCheckedChildren={<CustomIcon type="close" />}
@@ -320,12 +320,12 @@ export const PureBusinessPolicy = () => {
                   value={clientReqTimeout}
                   onChange={setClientReqTimeout}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">{i18n.t('microService:client response timeout')}</span>
+            <span className="policy-label">{i18n.t('microService:client response timed out')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -335,7 +335,7 @@ export const PureBusinessPolicy = () => {
                   value={clientRespTimeout}
                   onChange={setClientRespTimeout}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>
@@ -364,7 +364,7 @@ export const PureBusinessPolicy = () => {
                   value={proxyReqTimeout}
                   onChange={setProxyReqTimeout}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>
@@ -379,7 +379,7 @@ export const PureBusinessPolicy = () => {
                   value={proxyRespTimeout}
                   onChange={setProxyRespTimeout}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>
@@ -411,7 +411,7 @@ export const PureBusinessPolicy = () => {
                 </span>
                 <IF check={hasGlobalSwitch}>
                   <span onClick={(e) => e.stopPropagation()}>
-                    {i18n.t('microService:use global policy')}&nbsp;
+                    {i18n.t('microService:use global strategy')}&nbsp;
                     <Switch
                       checkedChildren={<CustomIcon type="check" />}
                       unCheckedChildren={<CustomIcon type="close" />}
@@ -484,7 +484,7 @@ export const PureBusinessPolicy = () => {
                   value={maxAge}
                   onChange={setMaxAge}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>
@@ -516,7 +516,7 @@ export const PureBusinessPolicy = () => {
                 </span>
                 <IF check={hasGlobalSwitch}>
                   <span onClick={(e) => e.stopPropagation()}>
-                    {i18n.t('microService:use global policy')}&nbsp;
+                    {i18n.t('microService:use global strategy')}&nbsp;
                     <Switch
                       checkedChildren={<CustomIcon type="check" />}
                       unCheckedChildren={<CustomIcon type="close" />}

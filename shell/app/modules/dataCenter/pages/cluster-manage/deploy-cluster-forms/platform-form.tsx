@@ -49,7 +49,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
             if (!regRulesMap.ip.pattern.test(value)) {
               pass = false;
             } else {
-              errorMsg = i18n.t('org:allocated node must be in the node list ');
+              errorMsg = i18n.t('org:The allocated node should be a certain one in the node list. Please check.');
             }
             const nodes = form.getFieldValue('config.nodes');
             if (nodes && pass) {
@@ -63,7 +63,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
       ],
     },
     {
-      label: i18n.t('org:wildcard domain'),
+      label: i18n.t('org:extensive domain'),
       name: `${formPrefix}.wildcardDomain`,
       rules: [{ ...regRulesMap.wildcardDomain }],
     },
@@ -80,7 +80,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
       type: 'switch',
     },
     {
-      label: i18n.t('org:local data storage absolute path'),
+      label: i18n.t('org:absolute path for local data storage'),
       name: `${formPrefix}.dataRoot`,
       initialValue: '/data',
       rules: [{ ...regRulesMap.absolutePath }],
@@ -123,7 +123,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
         mode: 'tags',
         tokenSeparators: [';'],
         dropdownStyle: { display: 'none' },
-        placeholder: i18n.t('org:please input client segment'),
+        placeholder: i18n.t('org:Please input client segment, separated by pressing Enter or semicolon.'),
       },
       rules: [
         {
@@ -135,7 +135,9 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
                 o !== '' && (pass = regRulesMap.subnet.pattern.test(o));
               });
             }
-            return pass ? callback() : callback(i18n.t('org:please input '));
+            return pass
+              ? callback()
+              : callback(i18n.t('org:Please fill in the correct network segment, separated by pressing Enter.'));
           },
         },
       ],

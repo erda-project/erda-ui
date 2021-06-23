@@ -61,7 +61,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
       </Select>
       <Select
         showSearch
-        placeholder={i18n.t('microService:affiliated service')}
+        placeholder={i18n.t('microService:owned service')}
         value={diceService}
         onChange={onServiceChange}
         className="filter-select mr16"

@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-const tabs = [{ key: 'affairs', name: i18n.t('microService:external affairs') }];
+const tabs = [{ key: 'affairs', name: i18n.t('microService:external transaction') }];
 
 const getEIRouter = () => ({
   path: 'ei/:hostName',

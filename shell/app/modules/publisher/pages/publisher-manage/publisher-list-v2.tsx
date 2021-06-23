@@ -50,7 +50,7 @@ export const publisherTabs = () => {
     },
     {
       key: 'LIBRARY',
-      name: i18n.t('application:library app'),
+      name: i18n.t('application:library/module'),
     },
   ];
 };
@@ -146,7 +146,7 @@ export const PurePublisherList = ({
       render: (bool) => {
         return (
           <span className={`item-status ${bool ? 'on' : 'off'}`}>
-            {bool ? i18n.t('publisher:publishing') : i18n.t('publisher:withdrawn')}
+            {bool ? i18n.t('publisher:published') : i18n.t('publisher:withdrawn')}
           </span>
         );
       },
@@ -179,7 +179,7 @@ export const PurePublisherList = ({
         <div className="top-button-group">
           <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
             <Button type="primary" onClick={() => openFormModal()}>
-              {i18n.t('publisher:add publisher content')}
+              {i18n.t('publisher:add content')}
             </Button>
           </WithAuth>
         </div>

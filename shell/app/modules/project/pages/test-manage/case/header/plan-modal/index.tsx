@@ -69,7 +69,7 @@ const PlanModal = () => {
       type: 'select',
       options: map(relatedPlans, ({ id: value, name: planName }) => ({ value, name: planName })),
       itemProps: {
-        placeholder: i18n.t('project:search my participation/responsible test plan'),
+        placeholder: i18n.t('project:Search for the test plan I am involved in/responsible for.'),
         onSearch: handleSearch,
         onPopupScroll: handlePopupScroll,
         showSearch: true,

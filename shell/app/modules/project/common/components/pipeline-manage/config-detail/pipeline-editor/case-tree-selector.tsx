@@ -165,13 +165,13 @@ export const CaseTreeSelector = (props: IProps) => {
               component: 'input',
               required: true,
               componentProps: {
-                placeholder: i18n.t('project:name already exist, please rename it'),
+                placeholder: i18n.t('project:Name already existed. Please rename it.'),
                 maxLength: 50,
               },
               rules: [
                 {
                   validator: (v: string) => {
-                    return [!otherTaskAlias.includes(v), i18n.t('{name} already exist', { name: i18n.t('name') })];
+                    return [!otherTaskAlias.includes(v), i18n.t('{name} already exists', { name: i18n.t('name') })];
                   },
                 },
               ],

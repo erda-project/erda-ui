@@ -126,7 +126,7 @@ const TableDrawer = (props) => {
     >
       <Spin spinning={isFetching}>
         <SearchTable
-          placeholder={i18n.t('application:search for chinese/english name of attribute')}
+          placeholder={i18n.t('application:search by chinese/english name of attribute')}
           onSearch={onTableSearch}
           needDebounce
         >

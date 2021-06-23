@@ -79,7 +79,7 @@ const CaseSteps = ({ value, onChange }: IProps) => {
   );
 
   if (!steps.length) {
-    return <span className="color-text-holder">{i18n.t('empty')}</span>;
+    return <span className="color-text-holder">{i18n.t('none')}</span>;
   }
 
   return (
@@ -119,7 +119,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
       <div className="flex-box result-detail">
         <TextArea
           autoSize
-          placeholder={i18n.t('project:input expect result')}
+          placeholder={i18n.t('project:input expected result')}
           value={step.result}
           onChange={(e) => updateStep(index, 'result', e.target.value)}
         />

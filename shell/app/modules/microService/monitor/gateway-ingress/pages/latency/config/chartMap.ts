@@ -28,7 +28,7 @@ const chartMap = merge(
       chartName: 'overall',
     },
     upstream: {
-      titleText: i18n.t('microService:upstream latency'),
+      titleText: i18n.t('microService:backend latency'),
       ...commonAttr,
       chartName: 'upstream',
     },

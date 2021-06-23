@@ -68,8 +68,8 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: an
         })(
           <Input
             className="error-check-item"
-            suffix={i18n.t('common:second')}
-            placeholder={`${i18n.t('advice value {value}', { value: 10 })}`} // 10
+            suffix={i18n.t('common:second(s)')}
+            placeholder={`${i18n.t('recommended value {value}', { value: 10 })}`} // 10
           />,
         )}
       </FormItem>
@@ -84,7 +84,7 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: an
           <Input
             className="error-check-item"
             suffix={i18n.t('times')}
-            placeholder={`${i18n.t('advice value {value}', { value: 30 })}`} // 30
+            placeholder={`${i18n.t('recommended value {value}', { value: 30 })}`} // 30
           />,
         )}
       </FormItem>
@@ -165,9 +165,9 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
         { validator: validateEmpty(formRef) },
       ],
       itemProps: {
-        suffix: i18n.t('common:second'),
+        suffix: i18n.t('common:second(s)'),
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 30 },
         )}`, // 30
       },
@@ -183,7 +183,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       itemProps: {
         suffix: '%',
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 50 },
         )}`, // 50
       },
@@ -369,9 +369,9 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
         { validator: validateEmpty(formRef) },
       ],
       itemProps: {
-        suffix: i18n.t('common:second'),
+        suffix: i18n.t('common:second(s)'),
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 30 },
         )}`, // 30
       },
@@ -387,7 +387,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       itemProps: {
         suffix: '%',
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 50 },
         )}`, // 50
       },

@@ -36,7 +36,7 @@ const NoAuth = () => {
               </span>
               <Link to={goTo.resolve.dopRoot()}>
                 <Button size="large" type="primary">
-                  {i18n.t('layout:back to DOP')}
+                  {i18n.t('layout:back to dop')}
                 </Button>
               </Link>
             </>
@@ -95,7 +95,7 @@ const NotJoinOrg = () => {
       <div className="info">
         <CustomIcon type="no-auth" color />
         <div className="desc">
-          <span>{i18n.t("you haven't join current organization")}</span>
+          <span>{i18n.t("You haven't joined current organization.")}</span>
           <span className="contact-info">
             {i18n.t('please contact')} {joinOrgTip}
           </span>
@@ -105,4 +105,22 @@ const NotJoinOrg = () => {
   );
 };
 
-export { NoAuth, NotFound, NotJoinOrg };
+const FreeUserTips = () => {
+  return (
+    <div className="basic-error-page">
+      <div className="info">
+        <CustomIcon type="VIP" color />
+        <div className="desc">
+          <span>{i18n.t('common:vip features tips')}</span>
+          <a target="_blank" href="https://www.erda.cloud/contact" rel="noreferrer">
+            <Button size="large" type="primary">
+              {i18n.t('common:contact business')}
+            </Button>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { NoAuth, NotFound, NotJoinOrg, FreeUserTips };

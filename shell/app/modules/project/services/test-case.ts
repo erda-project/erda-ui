@@ -89,7 +89,7 @@ export function getFields(): TEST_CASE.Field[] {
         },
         {
           fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
-          showName: i18n.t('project:not pass'),
+          showName: i18n.t('project:not passed'),
           value: 'FAIL',
           icon: null,
           order: null,
@@ -128,7 +128,7 @@ export function getFields(): TEST_CASE.Field[] {
         },
         {
           fieldUniqueName: TestOperation.testPlanStatus,
-          showName: i18n.t('project:time out'),
+          showName: i18n.t('project:pause'),
           value: 'PAUSE',
           icon: null,
           order: null,
@@ -187,7 +187,7 @@ export function editPartial({ id, ...payload }: TEST_CASE.CaseBody) {
 export function exportFileInTestCase(payload: TEST_CASE.ExportFileQuery) {
   const lang = getLang();
   const query = qs.stringify({ ...payload, lang } as any, { arrayFormat: 'none' });
-  window.open(`${window.location.origin}${setApiWithOrg(`/api/testcases/actions/export?${query}`)}`);
+  return agent.get(`/api/testcases/actions/export?${query}`).then((response: any) => response.body);
 }
 
 export function importFileInTestCase({ payload, query }: TEST_CASE.ImportData): { successCount: number } {
@@ -292,9 +292,17 @@ export function removeRelation({ testPlanID, id, issueTestCaseRelationIDs }: TES
     .send({ issueTestCaseRelationIDs })
     .then((response: any) => response.body);
 }
+
 export function addRelation({ testPlanID, id, issueIDs }: TEST_CASE.AddRelation) {
   return agent
     .post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/add-issue-relations`)
     .send({ issueIDs })
+    .then((response: any) => response.body);
+}
+
+export function getImportExportRecords(data: TEST_CASE.ImportExportQuery) {
+  return agent
+    .get('/api/test-file-records')
+    .query(data)
     .then((response: any) => response.body);
 }

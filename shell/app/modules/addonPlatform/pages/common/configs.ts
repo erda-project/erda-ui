@@ -28,8 +28,8 @@ export const ENV_NAME = {
 
 export const CATEGORY_NAME = {
   custom: i18n.t('addonPlatform:custom'),
-  database: i18n.t('addonPlatform:database'),
-  distributed_cooperation: i18n.t('addonPlatform:distributed cooperation'),
+  database: i18n.t('addonPlatform:storage space'),
+  distributed_cooperation: i18n.t('addonPlatform:distributed collaboration'),
   message: i18n.t('addonPlatform:message'),
   search: i18n.t('addonPlatform:search'),
   content_management: i18n.t('addonPlatform:content management'),
@@ -42,13 +42,13 @@ export const CATEGORY_NAME = {
   solution: i18n.t('addonPlatform:solution'),
   general_ability: i18n.t('addonPlatform:general ability'),
   srm: i18n.t('addonPlatform:srm'),
-  sound_processing: i18n.t('addonPlatform:sound processing'),
+  sound_processing: i18n.t('addonPlatform:audio processing'),
 };
 
 export const CategoriesOrder = [
   i18n.t('addonPlatform:custom'),
-  i18n.t('addonPlatform:database'),
-  i18n.t('addonPlatform:distributed cooperation'),
+  i18n.t('addonPlatform:storage space'),
+  i18n.t('addonPlatform:distributed collaboration'),
   i18n.t('addonPlatform:message'),
   i18n.t('addonPlatform:search'),
   i18n.t('addonPlatform:content management'),
@@ -61,5 +61,5 @@ export const CategoriesOrder = [
   i18n.t('addonPlatform:solution'),
   i18n.t('addonPlatform:general ability'),
   i18n.t('addonPlatform:srm'),
-  i18n.t('addonPlatform:sound processing'),
+  i18n.t('addonPlatform:audio processing'),
 ];

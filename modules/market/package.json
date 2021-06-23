@@ -9,7 +9,8 @@
     "test": "craco test",
     "copy": "erda-ui copy market",
     "eject": "react-scripts eject",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": [
@@ -55,10 +56,8 @@
     "autoprefixer": "^9.8.6",
     "babel-plugin-import": "^1.13.3"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $GIT_PARAMS"
-    }
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
   },
   "config": {
     "commitizen": {

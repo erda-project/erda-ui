@@ -35,7 +35,7 @@ const ProjectSettings = () => {
 
   const dataSource = [
     {
-      groupTitle: i18n.t('project:common settings'),
+      groupTitle: i18n.t('project:general settings'),
       groupKey: 'common',
       tabGroup: [
         {
@@ -65,7 +65,7 @@ const ProjectSettings = () => {
                   title: i18n.t('{name} member management', { name: i18n.t('project') }),
                   desc: (
                     <div>
-                      {i18n.t('edit members, set member roles, role permissions please refer to')}
+                      {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
                       <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
                         {i18n.t('role permissions description')}
                       </Link>
@@ -112,7 +112,9 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('project:code quality access control'),
-                  desc: i18n.t('project:access-control-desc'),
+                  desc: i18n.t(
+                    'project:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.',
+                  ),
                   children: (
                     <ScanRule
                       operationAuth={permMap.setting.scanRule.operation.pass}
@@ -154,7 +156,9 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('project:manage all project labels'),
-                  desc: i18n.t('project:tag-config-tip'),
+                  desc: i18n.t(
+                    'project:Tags can be used for issue and test management, to quickly locate and filter relevant content.',
+                  ),
                   children: <ProjectLabel />,
                 },
               ]}
@@ -168,7 +172,7 @@ const ProjectSettings = () => {
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:notification item'),
+          tabTitle: i18n.t('application:notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout

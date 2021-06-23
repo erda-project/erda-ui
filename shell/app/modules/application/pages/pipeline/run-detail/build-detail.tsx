@@ -346,7 +346,7 @@ const BuildDetail = (props: IProps) => {
     const reviewIdObj = node.findInMeta((item: BUILD.MetaData) => item.name === 'review_id');
     if (reviewIdObj) {
       confirm({
-        title: i18n.t('Reason for reject'),
+        title: i18n.t('reason for rejection'),
         content: <TextArea ref={rejectRef}>ss</TextArea>,
         onOk() {
           updateApproval({
@@ -404,7 +404,7 @@ const BuildDetail = (props: IProps) => {
         <IF check={canStopCron}>
           <div className="build-operator">
             <DeleteConfirm
-              title={`${i18n.t('application:confirm cancel cron build')}?`}
+              title={`${i18n.t('application:confirm to cancel cron build')}?`}
               secondTitle=""
               onConfirm={() => {
                 cancelBuildCron(cronID);
@@ -485,7 +485,7 @@ const BuildDetail = (props: IProps) => {
         <IF check={canCancel}>
           <div className="build-operator">
             <DeleteConfirm
-              title={`${i18n.t('application:confirm cancel current build')}?`}
+              title={`${i18n.t('application:confirm to cancel the current build')}?`}
               secondTitle=""
               onConfirm={() => {
                 cancelBuild();
@@ -676,7 +676,9 @@ const BuildDetail = (props: IProps) => {
           </div>
           {needApproval ? (
             <Alert
-              message={i18n.t('application:deploy-approval-pipeline-tip')}
+              message={i18n.t(
+                'application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
+              )}
               className="mt4"
               type="normal"
               showIcon
@@ -714,7 +716,7 @@ const BuildDetail = (props: IProps) => {
                   {costTimeSec !== -1 ? `${i18n.t('application:time cost')} ${secondsToTime(+costTimeSec)}` : ''}
                 </Col>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('number of executions')}：</div>
+                  <div className="info-label">{i18n.t('execution times')}：</div>
                   {recordPaging.total || 0} {i18n.t('times')}
                 </Col>
               </Row>

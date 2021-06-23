@@ -40,11 +40,11 @@ const FormPreview = React.forwardRef((props: any, ref: any) => {
           }
           const reg = /^[a-zA-Z0-9_]*$/;
           if (!reg.test(v)) {
-            return [false, i18n.t('includes letters,number,_')];
+            return [false, i18n.t('includes letters, numbers and underscores')];
           }
           const curFields = (ref && ref.current && ref.current.getFields()) || [];
           const keyArr = map(curFields, 'key');
-          return [!keyArr.includes(v), i18n.t('{name} already exist', { name: 'key' })];
+          return [!keyArr.includes(v), i18n.t('{name} already exists', { name: 'key' })];
         },
       },
     ],

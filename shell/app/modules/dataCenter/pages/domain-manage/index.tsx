@@ -17,13 +17,16 @@ import i18n from 'i18n';
 import { Spin, Table, Input, Select } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
-import domainStore from '../../stores/domain-manage';
-import { goTo } from 'app/common/utils';
+import domainServices from 'dataCenter/services/domain-manage';
+import { getDefaultPaging, goTo } from 'app/common/utils';
 import { getProjectList } from 'project/services/project';
 import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import { useServiceLoading } from 'common/stores/loading';
+import orgStore from 'app/org-home/stores/org';
 
 const { Option } = Select;
+const { getClusterList, getDomainList } = domainServices;
+
 const SERVER_TYPES = {
   service: i18n.t('common:service'),
   gateway: i18n.t('API gateway'),
@@ -44,22 +47,25 @@ const envOptions = Object.keys(ENV_DIC).map((key: string) => (
 ));
 
 const DomainManage = () => {
-  const [domainList, clusterList, paging] = domainStore.useStore((s) => [s.domainList, s.clusterList, s.domainPaging]);
-  const { getDomainList, getClusterList } = domainStore.effects;
-  const [loadingList] = useLoading(domainStore, ['getDomainList']);
+  const loadingList = useServiceLoading('domain-manage', ['getDomainList']);
   const { projectName, projectID } = routeInfoStore.useStore((s) => s.query);
 
-  const [{ projectData, query }, updater] = useUpdate({
+  const [{ projectData, query, clusterList, domainList, domainPaging }, updater] = useUpdate({
     projectData: { value: projectID, label: projectName },
     query: {} as Obj,
+    clusterList: [] as ORG_CLUSTER.ICluster[],
+    domainList: [] as DOMAIN_MANAGE.IDomain[],
+    domainPaging: getDefaultPaging(),
   });
 
   const getProjectListData = (q: any) => {
     return getProjectList({ ...q, query: q.q }).then((res: any) => res.data);
   };
 
-  useMount(() => {
-    getClusterList();
+  useMount(async () => {
+    const userOrgId = orgStore.getState((s) => s.currentOrg.id);
+    const res = await getClusterList({ orgID: userOrgId });
+    updater.clusterList(res);
   });
 
   const chosenItemConvert = React.useCallback(
@@ -148,14 +154,14 @@ const DomainManage = () => {
     [chosenItemConvert, clusterList, updater],
   );
 
-  const onFilter = (params: Obj) => {
+  const onFilter = async (params: Obj) => {
     updater.query(params);
-    getDomainList({ pageNo: 1, ...params, pageSize: paging.pageSize });
+    await getDomainListCall({ pageNo: 1, query: params, pageSize: domainPaging.pageSize });
   };
 
   const urlExtra = React.useMemo(() => {
-    return { pageNo: paging.pageNo, projectName: projectData.label };
-  }, [paging.pageNo, projectData]);
+    return { pageNo: domainPaging.pageNo, projectName: projectData.label };
+  }, [domainPaging, projectData]);
 
   const columns: any[] = [
     {
@@ -212,7 +218,7 @@ const DomainManage = () => {
       return type !== 'other'
         ? [
             <span
-              className="fake-link mr4"
+              className="fake-link mr-1"
               onClick={(e) => {
                 e.stopPropagation();
                 if (type === 'service') {
@@ -242,24 +248,38 @@ const DomainManage = () => {
     width: 150,
   };
 
+  const getDomainListCall = async ({
+    query: _query,
+    pageNo,
+    pageSize,
+  }: {
+    query?: Obj;
+    pageNo: number;
+    pageSize: number;
+  }) => {
+    const { list, paging } = await getDomainList({ ..._query, pageNo, pageSize });
+    updater.domainList(list);
+    updater.domainPaging(paging);
+  };
+
   const pagination = {
-    total: paging.total,
-    current: paging.pageNo,
-    pageSize: paging.pageSize,
+    total: domainPaging.total,
+    current: domainPaging.pageNo,
+    pageSize: domainPaging.pageSize,
     showSizeChanger: true,
-    onChange: (no: number) => getDomainList({ ...query, pageNo: no }),
-    onShowSizeChange: (_no: number, size: number) => getDomainList({ ...query, pageNo: 1, pageSize: size }),
+    onChange: (no: number) => getDomainListCall({ pageNo: no, pageSize: domainPaging.pageSize }),
+    onShowSizeChange: (_no: number, size: number) => getDomainListCall({ ...query, pageNo: 1, pageSize: size }),
   };
 
   return (
-    <div className="cluster-manage-ct">
+    <>
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
           <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" rowAction={actions} />
         </Holder>
       </Spin>
-    </div>
+    </>
   );
 };
 

@@ -46,7 +46,7 @@ export const BlockNetworkTips = () => {
       className="mb16"
       showIcon
       type="error"
-      message={i18n.t('default:tips of blockNetwork for forbidding deploy in the {env}', { env: message })}
+      message={i18n.t('default:Deployment not allowed in {env} in network block period.', { env: message })}
     />
   ) : null;
 };
@@ -79,11 +79,11 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
   if (scope === 'project') {
     unBlock = canOperate ? (
       <span className="color-primary ml12 unblock-btn" onClick={handleClick}>
-        {i18n.t('project:apply deploy')}
+        {i18n.t('project:apply to deploy')}
       </span>
     ) : (
       <Tooltip title={i18n.t('You do not have enough permissions')}>
-        <span className="not-allowed ml12 unblock-btn">{i18n.t('project:apply deploy')}</span>
+        <span className="not-allowed ml12 unblock-btn">{i18n.t('project:apply to deploy')}</span>
       </Tooltip>
     );
   }

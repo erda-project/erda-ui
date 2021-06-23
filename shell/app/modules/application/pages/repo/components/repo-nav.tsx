@@ -45,9 +45,9 @@ const PureRepoNavOperation = () => {
     const initialBranch = getInfoFromRefName(info.refName).branch;
     const fieldsList = [
       {
-        label: i18n.t('application:folder name'),
+        label: i18n.t('application:file directory'),
         name: 'dirName',
-        rules: [{ max: 255, message: i18n.t('application:255 is the maximum length of folder name') }],
+        rules: [{ max: 255, message: i18n.t('application:Up to 255 characters for directory name') }],
       },
       {
         label: i18n.t('application:commit message'),
@@ -106,8 +106,8 @@ const PureRepoNavOperation = () => {
 
   const disabledTips = branchAuth
     ? [
-        i18n.t('application:create new file is only allowed when branch selected'),
-        i18n.t('application:create folder is only allowed when branch selected'),
+        i18n.t('application:creating file is only allowed under the branch'),
+        i18n.t('application:creating folder is only allowed under the branch'),
       ]
     : [
         i18n.t('application:branch is protected, you have no permission yet'),

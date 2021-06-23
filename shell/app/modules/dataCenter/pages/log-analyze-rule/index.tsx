@@ -79,7 +79,7 @@ export default () => {
     <div className="log-analyze-rule">
       <div className="top-button-group">
         <Button type="primary" onClick={() => goTo('./add')}>
-          {i18n.t('org:create analyze rule')}
+          {i18n.t('org:create analysis rule')}
         </Button>
       </div>
       <Table tableKey="log-query-message" rowKey="id" dataSource={rules} columns={columns} />

@@ -59,7 +59,7 @@ const DataBase = () => {
 
   const columns = [
     {
-      title: i18n.t('dcos:data storage name'),
+      title: i18n.t('dcos:database name'),
       dataIndex: 'dBName',
       tip: true,
     },
@@ -89,7 +89,7 @@ const DataBase = () => {
           validator: (_: any, value: string, callback: Function) => {
             if (!value) return callback();
             if (allDBName.includes(value)) {
-              return callback(i18n.t('{name} already exist', { name: i18n.t('dcos:data storage name') }));
+              return callback(i18n.t('{name} already exists', { name: i18n.t('dcos:database name') }));
             }
             if (value.length < 2 || value.length > 64 || !/^[a-z][a-z0-9_-]*[a-z0-9]$/.test(value)) {
               return callback(i18n.t('dcos:rds-db-name-format'));

@@ -283,16 +283,16 @@ export const MembersTable = ({
       let title = '' as any;
       let userIds = [] as string[];
       if (isArray(user)) {
-        title = i18n.t('common:confirm batch remove user');
+        title = i18n.t('common:confirm to remove user in batches');
         userIds = user;
       } else {
         title = isSelf
-          ? `{name}, ${i18n.t('common:are you confirm to quit')}?`
-          : `${i18n.t('common:confirm removal user')}{name}?`;
+          ? `{name}, ${i18n.t('common:Are you sure to quit?')}?`
+          : `${i18n.t('common:confirm to remove user')}{name}?`;
         const [prev, after] = title.split('{name}');
         title = (
           <span>
-            {prev} <b>{`${user.nick} (${user.name || i18n.t('common:empty')})`}</b> {after}
+            {prev} <b>{`${user.nick} (${user.name || i18n.t('common:none')})`}</b> {after}
           </span>
         );
         userIds = [user.userId];
@@ -329,18 +329,18 @@ export const MembersTable = ({
   const columns = React.useMemo(
     () => [
       {
-        title: i18n.t('nick'),
+        title: i18n.t('nickname'),
         dataIndex: 'nick',
         render: (nick: string, record: IMember) => {
           const { userId, removed } = record;
           return (
             <div className="member-username nowrap">
-              <span>{nick || i18n.t('common:empty')}</span>
+              <span>{nick || i18n.t('common:none')}</span>
               <IF check={currentUserId === userId}>
                 <span className="member-username-info"> [{i18n.t('current user')}]</span>
               </IF>
               <IF check={removed}>
-                <span className="member-username-info"> [{i18n.t('exit from the organization')}]</span>
+                <span className="member-username-info"> [{i18n.t('exit the organization')}]</span>
               </IF>
             </div>
           );
@@ -352,7 +352,7 @@ export const MembersTable = ({
         render: (name: string) => {
           return (
             <div className="member-username nowrap">
-              <span>{name || i18n.t('common:empty')}</span>
+              <span>{name || i18n.t('common:none')}</span>
             </div>
           );
         },
@@ -363,7 +363,7 @@ export const MembersTable = ({
         render: (value: string) => (
           <Tooltip title={value}>
             <span className="for-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
-              {value || i18n.t('common:empty')}
+              {value || i18n.t('common:none')}
             </span>
           </Tooltip>
         ),
@@ -373,7 +373,7 @@ export const MembersTable = ({
         dataIndex: 'mobile',
         render: (value: string | number) => (
           <span className="for-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
-            {value || i18n.t('common:empty')}
+            {value || i18n.t('common:none')}
           </span>
         ),
       },
@@ -539,7 +539,9 @@ export const MembersTable = ({
             alertProps={
               state.batchEditVisible
                 ? {
-                    message: i18n.t('common:batch change role warning'),
+                    message: i18n.t(
+                      "common:The user's original permissions will be overwritten after batch processing. Please be cautious.",
+                    ),
                     type: 'warning',
                     showIcon: true,
                     className: 'mb8',
@@ -558,7 +560,9 @@ export const MembersTable = ({
             onOk={handleBatchAuthorize}
             onCancel={() => updater.batchAuthorizeVisible(false)}
             alertProps={{
-              message: i18n.t('common:batch change role warning'),
+              message: i18n.t(
+                "common:The user's original permissions will be overwritten after batch processing. Please be cautious.",
+              ),
               type: 'warning',
               showIcon: true,
               className: 'mb8',
@@ -573,9 +577,11 @@ export const MembersTable = ({
           <UrlInviteModal
             visible={state.inviteModalVisible}
             url={`${window.location.origin}${goTo.resolve.inviteToOrg()}`}
-            linkPrefixTip={`${i18n.t('org:visit the link to join the company')} [${orgDisplayName || orgName}]`}
+            linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
             code={state.verifyCode}
-            tip={i18n.t('org:url invite tip')}
+            tip={i18n.t(
+              'org:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.',
+            )}
             onCancel={() => updater.inviteModalVisible(false)}
             modalProps={{ width: 600 }}
           />

@@ -56,14 +56,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const { value } = this.state;
     const replicas = (
       <div>
-        <span className="edit-service-label">{i18n.t('application:instances count')}: </span>
+        <span className="edit-service-label">{i18n.t('application:number of instance')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
             className="full-width"
             value={value.replicas || 1}
             onChange={(e: any) => this.changeValue(e, 'replicas')}
-            placeholder={i18n.t('application:please enter the instances count')}
+            placeholder={i18n.t('application:please enter the number of instance')}
           />
         </span>
       </div>

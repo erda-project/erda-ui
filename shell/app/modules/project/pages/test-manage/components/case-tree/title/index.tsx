@@ -120,7 +120,9 @@ const Title = ({
       case TestOperation.delete:
         Modal.confirm({
           title: i18n.t('project:delete'),
-          content: i18n.t('project:del-case-recycle') + i18n.t('are you sure?'),
+          content:
+            i18n.t('project:Deleting will put the current test set and included test cases into the recycle bin.') +
+            i18n.t('are you sure?'),
           onOk: () => {
             deleteTestSetToRecycle(id).then(() => {
               onOperateNode(eventKey, TestOperation.delete);
@@ -131,7 +133,7 @@ const Title = ({
       case TestOperation.deleteEntirely:
         Modal.confirm({
           title: i18n.t('project:delete'),
-          content: i18n.t('project:after thorough deletion, it will not be recovered, ') + i18n.t('is it confirmed?'),
+          content: i18n.t('project:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
           onOk: () => {
             deleteTestSetEntirely(id).then(() => {
               onOperateNode(eventKey, TestOperation.deleteEntirely);
@@ -186,7 +188,7 @@ const Title = ({
     const name: string = inputRef.current?.input.value;
     if (name) {
       if (includes(name, '/') || includes(name, '\\')) {
-        message.error(i18n.t('project:name cannot use forward backslash, please re-enter '));
+        message.error(i18n.t('project:The name cannot contain forward and backward slashes. Please enter again.'));
         return;
       }
       if (!includes(eventKey, TEMP_MARK)) {
@@ -223,7 +225,7 @@ const Title = ({
         if (key === 'delete') {
           Modal.confirm({
             title: i18n.t('project:delete'),
-            content: i18n.t('project:after thorough deletion, it will not be recovered, ') + i18n.t('is it confirmed?'),
+            content: i18n.t('project:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
             onOk: () => {
               customClickDic[key](id).then(() => {
                 onOperateNode(eventKey, TestOperation.deleteEntirely);

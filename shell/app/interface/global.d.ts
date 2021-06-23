@@ -16,6 +16,7 @@
 declare module 'path';
 declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
+declare module '@erda-ui/dashboard-configurator';
 
 declare let If: React.FunctionComponent<{ condition: boolean }>;
 declare let For: React.FunctionComponent<{ each: string; index: string; of: any[] }>;
@@ -118,7 +119,6 @@ interface Window {
     };
   };
   diceEnv: {
-    ENABLE_MPAAS: boolean;
     ENABLE_BIGDATA: boolean;
     ONLY_FDP: boolean;
     UC_PUBLIC_URL: string; // 包含protocol
@@ -146,7 +146,7 @@ interface IPaging {
 }
 
 interface IPagingReq {
-  pageSize: number;
+  pageSize?: number;
   pageNo: number;
 }
 
@@ -292,3 +292,23 @@ interface FilterItemConfig {
 
 type Kv<T> = { [k in keyof T]: string };
 type Nullable<T> = T | null;
+
+interface IPagingData<T> {
+  list: T[];
+  paging: IPaging;
+}
+
+interface RAW_RESPONSE<T = any> {
+  data: T;
+  err: {
+    code: string;
+    msg: string;
+  } | null;
+  success: boolean;
+  userInfo?: Array<{
+    id: string;
+    name: string;
+    nickname: string;
+  }>;
+  userIDs?: string[];
+}

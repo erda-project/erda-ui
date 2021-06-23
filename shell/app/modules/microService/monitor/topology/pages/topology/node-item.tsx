@@ -46,7 +46,7 @@ const MenuItem = Menu.Item;
 
 const nameMap = {
   ConfigCenter: i18n.t('application:configCenter'),
-  RegisterCenter: i18n.t('application:registerCenter'),
+  RegisterCenter: i18n.t('application:registration center'),
   APIGateway: i18n.t('application:apiGateway'),
 };
 
@@ -195,7 +195,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
         )}
         {!!count && (
           <div>
-            {i18n.t('call count')}: {count}
+            {i18n.t('call times')}: {count}
           </div>
         )}
         {!!error_rate && (
@@ -230,7 +230,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           rest.toggleDrawer(IMeshType.circuitBreaker, node);
         }}
       >
-        {i18n.t('microService:circuit breaker')}
+        {i18n.t('microService:circuit breaker and current limiting')}
       </MenuItem>
       <MenuItem
         onClick={({ domEvent }: any) => {
@@ -398,9 +398,9 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <span className="info-key">
               <IF check={error_rate}>
                 <span className="color-danger">{i18n.t('microService:request error rate')}</span>/
-                <span>{i18n.t('call count')}</span>
+                <span>{i18n.t('call times')}</span>
                 <IF.ELSE />
-                {i18n.t('call count')}
+                {i18n.t('call times')}
               </IF>
             </span>
           </div>

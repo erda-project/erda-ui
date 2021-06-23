@@ -34,7 +34,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
         title={
           code
             ? i18n.t('The invitation link and verification code have been created')
-            : i18n.t('The invitation link have been created')
+            : i18n.t('The invitation link has been created.')
         }
         visible={visible}
         onCancel={onCancel}
@@ -62,7 +62,12 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
           </div>
           {code && (
             <div className="item mb16">
-              <p className="label mb8">{i18n.t('verification code')}</p>
+              <p className="label mb8">
+                {i18n.t('verification code')}{' '}
+                <span className="color-text-sub">
+                  ({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})
+                </span>
+              </p>
               <Input readOnly value={code} />
             </div>
           )}

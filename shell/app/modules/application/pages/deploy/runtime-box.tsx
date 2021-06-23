@@ -111,7 +111,7 @@ const RuntimeBox = (props: IProps) => {
         </div>
       );
     };
-  
+
   const gotoRelease = (_releaseId: string, e: any) => {
     e.stopPropagation();
     goTo(goTo.pages.release, { ...params, q: _releaseId });
@@ -134,7 +134,7 @@ const RuntimeBox = (props: IProps) => {
     deployStatus,
     onDelete,
     onRestart,
-    extra
+    extra,
   } = props;
 
   const fakeRuntime = extra?.fakeRuntime;
@@ -143,9 +143,9 @@ const RuntimeBox = (props: IProps) => {
   const env = props.env.toLowerCase();
   const isWaitApprove = deployStatus.toLowerCase() === approvalStatusMap.WaitApprove.value.toLowerCase();
 
-  if(fakeRuntime) {
+  if (fakeRuntime) {
     return (
-      <div className='flex-box runtime-box'>
+      <div className="flex-box runtime-box">
         <div className="flex-box runtime-box-header">
           <div className="branch disabled">
             <CustomIcon type="slbb" />
@@ -157,7 +157,7 @@ const RuntimeBox = (props: IProps) => {
         <Alert message={i18n.t('initializing, please wait')} type="warning" showIcon />
       </div>
     );
-  };
+  }
 
   return (
     <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
@@ -199,7 +199,7 @@ const RuntimeBox = (props: IProps) => {
           {['Healthy', 'OK'].includes(status) ? null : <HealthPoint type="runtime" status={status} />}
         </div>
         {isWaitApprove ? (
-          <Alert message={i18n.t('application:project manager confirming')} type="normal" showIcon />
+          <Alert message={i18n.t('application:project admin confirming')} type="normal" showIcon />
         ) : null}
       </div>
     </Spin>

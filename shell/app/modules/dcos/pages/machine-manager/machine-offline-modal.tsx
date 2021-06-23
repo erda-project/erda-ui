@@ -64,7 +64,7 @@ const MachineOffLineModal = ({ visible, formData, onCancel, onSubmit = () => {} 
   ];
   return (
     <FormModal
-      title={i18n.t('org:please enter the form and confirm to offline')}
+      title={i18n.t('org:Please enter the following information to confirm to go offline.')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={handelSubmit}

@@ -191,7 +191,9 @@ const templateArr = [
       default: default_devops_svg,
       active: active_devops_svg,
     },
-    description: i18n.t('org:includes-functions-provides'),
+    description: i18n.t(
+      'org:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.',
+    ),
     disabled: false,
   },
   {
@@ -200,7 +202,9 @@ const templateArr = [
       default: default_dmtd_svg,
       active: active_dmtd_svg,
     },
-    description: i18n.t('org:used-code-repositories'),
+    description: i18n.t(
+      'org:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts',
+    ),
     disabled: true,
   },
   {
@@ -294,7 +298,7 @@ const CreationForm = () => {
         />
       ),
       itemProps: {
-        placeholder: i18n.t('project:project-displayed-naming'),
+        placeholder: i18n.t('project:the project name displayed on the Erda platform, supports Chinese characters'),
         maxLength: 40,
       },
     },
@@ -310,7 +314,7 @@ const CreationForm = () => {
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
             if (value && value.toLowerCase().endsWith('_ability')) {
-              return callback(i18n.t('the naming is reserved internally, please change the naming'));
+              return callback(i18n.t('The name is reserved internally. Please change the name.'));
             }
             callback();
           },

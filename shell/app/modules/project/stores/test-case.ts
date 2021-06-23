@@ -40,6 +40,7 @@ import {
   attemptTestApi,
   addRelation,
   getDetailRelations,
+  getImportExportRecords,
 } from '../services/test-case';
 import { TestOperation } from 'project/pages/test-manage/constants';
 
@@ -164,7 +165,7 @@ const testCaseStore = createStore({
         fileType,
         testCaseID: testCaseIDs,
       }) as any as TEST_CASE.ExportFileQuery;
-      await call(exportFileInTestCase, exportQuery);
+      return call(exportFileInTestCase, exportQuery);
     },
     async importTestCase({ call, getParams, getQuery }, payload: { file: any }) {
       const { projectId: projectID } = getParams();
@@ -197,7 +198,7 @@ const testCaseStore = createStore({
           recycled: false,
         },
         testPlanID,
-        { successMsg: i18n.t('project:create success') },
+        { successMsg: i18n.t('project:created successfully') },
       );
       return res;
     },
@@ -279,13 +280,13 @@ const testCaseStore = createStore({
     },
     async updateCases({ call }, { query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart }) {
       await call(updateCases, { query, payload });
-      message.success(i18n.t('update successfully'));
+      message.success(i18n.t('updated successfully'));
       testCaseStore.effects.getCases();
     },
     async copyCases({ call, getParams }, payload: Omit<TEST_CASE.BatchCopy, 'projectID'>) {
       const { projectId } = getParams();
       await call(copyCases, { ...payload, projectID: +projectId });
-      message.success(i18n.t('copy successfully'));
+      message.success(i18n.t('copied successfully'));
       testCaseStore.effects.getCases();
     },
     async getCases(
@@ -339,9 +340,13 @@ const testCaseStore = createStore({
       const res = await call(
         addRelation,
         { ...payload, testPlanID: testPlanId },
-        { successMsg: i18n.t('project:associated successful') },
+        { successMsg: i18n.t('project:associated successfully') },
       );
       return res;
+    },
+    async getImportExportRecords({ call, getParams }, types: TEST_CASE.ImportOrExport[]) {
+      const { projectId } = getParams();
+      return call(getImportExportRecords, { projectId, types });
     },
   },
   reducers: {

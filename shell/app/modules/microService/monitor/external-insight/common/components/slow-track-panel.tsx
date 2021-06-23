@@ -90,7 +90,7 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         fetchTraceContent={fetchTraceContent}
         recordKey={name}
         dataSource={subSlowHttpList}
-        emptyText={i18n.t('microService:no sampleable slow transaction data')}
+        emptyText={i18n.t('microService:No slow transaction data sampled yet.')}
       />
     );
   };

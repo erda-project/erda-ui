@@ -109,7 +109,7 @@ const ZkproxyList = () => {
 
   return (
     <Holder when={isEmpty(zkInterfaceList)}>
-      <SearchTable onSearch={onSearch} placeholder={i18n.t('microService:filter search by name')}>
+      <SearchTable onSearch={onSearch} placeholder={i18n.t('microService:search by name')}>
         <Table
           className="zkproxy-list"
           columns={columns}

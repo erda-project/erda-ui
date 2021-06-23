@@ -53,7 +53,7 @@ const chartMap = merge(
       },
     },
     slowTrack: {
-      titleText: i18n.t('microService:slow sql trace TOP 10'),
+      titleText: i18n.t('microService:slow database tracking TOP10'),
       ...commonAttr,
       chartName: 'slowTrack',
       viewRender: dbSlowTrackPanel,

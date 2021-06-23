@@ -192,6 +192,7 @@ const ChartBaseFactory = {
           {
             <Chart
               {...otherProps}
+              _moduleName={moduleName} // TODO: use a inner named prop to prevent effect, only used in slow-tract-panel, need to refactor
               timeSpan={timeSpan}
               data={shouldLoad ? data : { loading: false }}
               groupId={groupId}

@@ -128,13 +128,14 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           </Menu.Item>,
           <Menu.Divider key="divider1" />,
         ]}
-        {!isSigleMode && [ // 单选模式下不展示已选择n项
+        {!isSigleMode && [
+          // 单选模式下不展示已选择n项
           <Menu.Item key="select-info" className="flex-box not-select px6 py0">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
             <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
-              {i18n.t('common:clear select')}
+              {i18n.t('common:clear selected')}
             </span>
           </Menu.Item>,
           <Menu.Divider key="divider2" />,
@@ -539,7 +540,7 @@ export const ContractiveFilter = ({
                       {i18n.t('common:items')}
                     </span>
                     <span className="fake-link" onClick={handleClearSelected}>
-                      {i18n.t('common:clear select')}
+                      {i18n.t('common:clear selected')}
                     </span>
                   </div>
                 </Menu.Item>

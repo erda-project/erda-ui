@@ -170,7 +170,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
       },
     },
     {
-      label: i18n.t('dataCenter:number of available private IPs'),
+      label: i18n.t('dataCenter:number of available IP'),
       getComp: () => `${subnetCount || 0}`,
     },
     {

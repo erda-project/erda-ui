@@ -147,7 +147,7 @@ export default () => {
               {i18n.t('error')}
             </Option>,
             <Option key={2} value={0}>
-              {i18n.t('success')}
+              {i18n.t('succeed')}
             </Option>,
           ],
           allowClear: true,
@@ -170,7 +170,7 @@ export default () => {
         type: Select,
         name: 'limit',
         customProps: {
-          placeholder: i18n.t('microService:please select max search num'),
+          placeholder: i18n.t('microService:Please select the maximum number of queries.'),
           options: limits.map((limit) => (
             <Option key={limit} value={limit}>
               {limit}
@@ -194,7 +194,7 @@ export default () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('microService:trace count'),
+          title: i18n.t('microService:trace times'),
           chartType: 'chart:area',
           hideReload: true,
           staticData: convertTraceCount(traceCount),
@@ -217,7 +217,7 @@ export default () => {
       render: (id: string) => <Copy>{id}</Copy>,
     },
     {
-      title: i18n.t('microService:elapsed time'),
+      title: i18n.t('microService:time consuming'),
       dataIndex: 'elapsed',
       sorter: (a: any, b: any) => a.elapsed - b.elapsed,
       render: (elapsed: number) => getFormatter('TIME', 'ns').format(elapsed),

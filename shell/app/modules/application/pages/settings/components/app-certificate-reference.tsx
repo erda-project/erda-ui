@@ -28,7 +28,7 @@ import { getCertificateList } from 'org/services/certificate';
 const rules = [
   {
     pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
-    message: i18n.t('common:start with letters, includes letters,number,dot, _, -'),
+    message: i18n.t('common:start with letters, which can contain letters, numbers, dots, underscores and hyphens.'),
   },
 ];
 

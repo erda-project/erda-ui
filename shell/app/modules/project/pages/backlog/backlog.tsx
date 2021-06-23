@@ -214,7 +214,7 @@ const Backlog = () => {
             </Button>
           </WithAuth>
 
-          <Popconfirm title={i18n.t('project:confirm export')} onConfirm={() => window.open(downloadUrl)}>
+          <Popconfirm title={i18n.t('project:confirm to export')} onConfirm={() => window.open(downloadUrl)}>
             <Button className="ml8 px8">
               <CustomIcon type="daochu" />
             </Button>
@@ -301,7 +301,7 @@ const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean 
           {i18n.t('add {name}', { name: i18n.t('project:issue') })}
         </Button>
       </WithAuth>
-      {i18n.t('project:add-todo-issue-tip2')}
+      {i18n.t('project:Create a new issue, and you can drag it to the iteration on the right and set its priority.')}
     </div>
   </div>
 );

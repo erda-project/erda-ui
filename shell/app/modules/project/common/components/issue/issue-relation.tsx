@@ -222,7 +222,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                   onClick={() => setActiveButtonType('exist')}
                   className="ml12"
                 >
-                  {i18n.t('project:relating to existing issues')}
+                  {i18n.t('project:related to existing issues')}
                 </Button>
               </WithAuth>
             </div>
@@ -248,7 +248,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
           </>
         )}
       </div>
-      <Title level={2} className="my8" title={i18n.t('project:relating to these issues')} />
+      <Title level={2} className="my8" title={i18n.t('project:related to these issues')} />
       <Table
         tableKey="relation"
         columns={columns}
@@ -348,7 +348,7 @@ const AddIssueRelation = ({
         <div className="mr12">{i18n.t('project:filter condition')}:</div>
         <IterationSelect
           value={chosenIterationID}
-          placeholder={i18n.t('project:owing iteration')}
+          placeholder={i18n.t('project:owned iteration')}
           width="174px"
           onChange={(v: number) => {
             update({ chosenIterationID: v, chosenIssue: undefined });

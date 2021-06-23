@@ -62,7 +62,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
         label: i18n.t('dcos:username'),
         name: 'user',
         itemProps: {
-          placeholder: i18n.t('dcos:init-user-auth'),
+          placeholder: i18n.t('dcos:Use must have root permissions to initialize the machine.'),
           maxLength: 32,
         },
         initialValue: 'root',
@@ -137,7 +137,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
                   })
                 : false;
               return haveInCorrect
-                ? callback(i18n.t('dcos:each label can only contain alphanumeric and underline'))
+                ? callback(i18n.t('dcos:each label can only contain letters, numbers and hyphens'))
                 : callback();
             },
           },

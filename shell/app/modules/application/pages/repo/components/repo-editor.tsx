@@ -106,10 +106,10 @@ const RepoEditor = ({
         if (res.success) {
           changeMode({ editFile: false, addFile: false });
           if (isAddMode) {
-            message.success(i18n.t('application:create file successfully'));
+            message.success(i18n.t('application:file created successfully'));
             getRepoTree({ force: true });
           } else {
-            message.success(i18n.t('application:modify file successfully'), 2);
+            message.success(i18n.t('application:file modified successfully'), 2);
             getRepoBlob();
           }
         }

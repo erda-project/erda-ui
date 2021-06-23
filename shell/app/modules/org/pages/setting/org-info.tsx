@@ -33,17 +33,17 @@ export const OrgInfo = () => {
       itemProps: { type: 'hidden' },
     },
     {
-      label: i18n.t('{name} identify', { name: i18n.t('organization') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('organization') }),
       name: 'name',
       itemProps: {
         maxLength: 50,
         disabled: true,
       },
       rules: [
-        { required: true, message: i18n.t('org:please enter the org identify') },
+        { required: true, message: i18n.t('org:Please enter the organization identifier.') },
         {
           pattern: /^[a-z0-9-]*$/,
-          message: i18n.t('org:only allowed to consist of lower case characters, numbers and -'),
+          message: i18n.t('org:consist of lowercase letters, numbers and hyphens'),
         },
       ],
     },
@@ -76,7 +76,7 @@ export const OrgInfo = () => {
       name: 'locale',
       type: 'select',
       itemProps: {
-        placeholder: i18n.t('org:used for station letter and email'),
+        placeholder: i18n.t('org:used for site messages and mails'),
       },
       options: [
         { value: 'zh-CN', name: i18n.t('org:Chinese') },
@@ -84,7 +84,7 @@ export const OrgInfo = () => {
       ],
     },
     {
-      label: i18n.t('whether public {name}', { name: i18n.t('organization') }),
+      label: i18n.t('whether to put {name} in public', { name: i18n.t('organization') }),
       name: 'isPublic',
       type: 'radioGroup',
       options: [

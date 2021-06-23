@@ -34,7 +34,7 @@ export const OrgSetting = () => {
 
   const dataSource = [
     {
-      groupTitle: i18n.t('application:common settings'),
+      groupTitle: i18n.t('application:general settings'),
       groupKey: 'common',
       tabGroup: [
         {
@@ -52,7 +52,7 @@ export const OrgSetting = () => {
                   title: i18n.t('{name} member management', { name: i18n.t('organization') }),
                   desc: (
                     <div>
-                      {i18n.t('edit members, set member roles, role permissions please refer to')}
+                      {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
                       <Link to={goTo.resolve.perm({ scope: 'org' })} target="_blank">
                         {i18n.t('role permissions description')}
                       </Link>
@@ -107,7 +107,9 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('org:tips of block network'),
+                  title: i18n.t(
+                    'org:Network block refers to the prohibition of application updates and releases within the organization, and related operations can be performed only after review of the organization administrator.',
+                  ),
                   children: <BlockNetwork />,
                 },
               ]}

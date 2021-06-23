@@ -57,7 +57,7 @@ export const getDopMenu = () => {
             {
               href: goTo.resolve.apiAccessManage(),
               // icon: 'bianliang',
-              text: i18n.t('access manage'),
+              text: i18n.t('access management'),
             },
             {
               href: goTo.resolve.apiMyVisit(),
@@ -79,12 +79,12 @@ export const getDopMenu = () => {
           text: i18n.t('dop:approval request'),
           subMenu: [
             {
-              text: i18n.t('dop:my approval'),
+              text: i18n.t('dop:approved'),
               href: goTo.resolve.dopApprovePending(), // '/dop/approval/my-approve/pending',
               prefix: `${goTo.resolve.dopApprove()}/`,
             },
             {
-              text: i18n.t('dop:my initiated'),
+              text: i18n.t('dop:initiated'),
               href: goTo.resolve.dopMyInitiateWait(), // '/dop/approval/my-initiate/WaitApprove',
               prefix: `${goTo.resolve.dopMyInitiate()}/`,
             },
@@ -94,7 +94,7 @@ export const getDopMenu = () => {
           key: 'dopPublisher',
           href: goTo.resolve.dopPublisher(), // '/dop/publisher',
           icon: <IconSend />,
-          text: i18n.t('publisher:joined publisher'),
+          text: i18n.t('publisher:my release'),
           show: orgPerm.dop.publisher.read.pass,
         },
         {

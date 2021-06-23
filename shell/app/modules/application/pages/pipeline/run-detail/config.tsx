@@ -45,7 +45,7 @@ export const ciStatusMap = {
     status: 'default',
   },
   Queue: {
-    text: i18n.t('queue'),
+    text: i18n.t('queuing'),
     icon: 'puse-circle',
     color: 'blue',
     status: 'processing',
@@ -68,7 +68,7 @@ export const ciStatusMap = {
   },
 
   Success: {
-    text: i18n.t('success'),
+    text: i18n.t('succeed'),
     icon: 'play1',
     color: 'green',
     status: 'success',
@@ -144,7 +144,7 @@ export const ciStatusMap = {
     status: 'default',
   },
   WaitApprove: {
-    text: i18n.t('wait approve'),
+    text: i18n.t('pending approval'),
     color: 'blue',
     status: 'default',
   },

@@ -111,10 +111,10 @@ const LogAnalyze = createFlatStore({
       return result;
     },
     async createRule({ call }, payload: LOG_ANALYZE.Rule) {
-      await call(createRule(getScope(true)), payload, { successMsg: i18n.t('add successfully') });
+      await call(createRule(getScope(true)), payload, { successMsg: i18n.t('added successfully') });
     },
     async editRule({ call }, payload: LOG_ANALYZE.Rule) {
-      await call(editRule(getScope(true)), payload, { successMsg: i18n.t('edit successfully') });
+      await call(editRule(getScope(true)), payload, { successMsg: i18n.t('edited successfully') });
     },
     async toggleRule({ call }, payload: { id: number; enable: boolean }) {
       await call(toggleRule(getScope(true)), payload, { successMsg: i18n.t('operated successfully') });

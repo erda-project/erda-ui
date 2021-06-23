@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Input, Spin } from 'app/nusi';
+import { Select, Input, Spin, Tooltip } from 'app/nusi';
 import { get, cloneDeep, isEmpty, pickBy, head, debounce, forEach, find } from 'lodash';
 import { CategoriesOrder } from 'app/modules/addonPlatform/pages/common/configs';
 import { AddonCards } from './addon-cards';
@@ -206,7 +206,7 @@ const AddonCardList = (props: IProps) => {
           value={key}
           onClick={onClickCategory}
         >
-          {key}
+          <Tooltip title={key}>{key}</Tooltip>
         </li>
       ));
     }

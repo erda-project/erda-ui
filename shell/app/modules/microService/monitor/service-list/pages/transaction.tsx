@@ -14,7 +14,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { map } from 'lodash';
 import i18n from 'i18n';
-import { DC } from '@erda-ui/dashboard-configurator';
+import DC from '@erda-ui/dashboard-configurator/dist';
 import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -60,11 +60,11 @@ const dashboardIdMap = {
 };
 const sortList = [
   {
-    name: i18n.t('microService:reverse order of number of errors'),
+    name: i18n.t('microService:the number of errors in reverse order'),
     value: 0,
   },
   {
-    name: i18n.t('microService:reverse order of the number of calls'),
+    name: i18n.t('microService:the number of calls in reverse order'),
     value: 1,
   },
 ];
@@ -195,7 +195,7 @@ const Transaction = () => {
             <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
               <Select
                 className="ml12"
-                placeholder={i18n.t('microService:select sort by')}
+                placeholder={i18n.t('microService:select sorting method')}
                 allowClear
                 style={{ width: '180px' }}
                 onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}

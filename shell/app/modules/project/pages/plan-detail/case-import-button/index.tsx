@@ -103,7 +103,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
 
   const onOk = () => {
     if (!modalCaseTotal || !checked) {
-      message.error(i18n.t('project:after the use case is selected, the batch operation can be performed'));
+      message.error(i18n.t('project:After the use case is selected, the batch operation can be performed.'));
       return;
     }
     setPriorityFilter(routeQuery.priority);

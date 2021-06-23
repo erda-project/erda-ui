@@ -56,12 +56,12 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
 
   const drawerProps = editing
     ? {
-        title: i18n.t('application:params form configuration'),
+        title: i18n.t('application:inputs configuration'),
         width: '80%',
         maskClosable: false,
       }
     : {
-        title: i18n.t('application:params form'),
+        title: i18n.t('application:inputs form'),
         width: '40%',
         maskClosable: true,
       };

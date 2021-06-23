@@ -160,7 +160,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       return callback(i18n.t('application:please enter the task name'));
     }
     if (otherTaskAlias.includes(name)) {
-      return callback(i18n.t('application:there is the same name action!'));
+      return callback(i18n.t('application:An Action with the same name exists.'));
     }
     callback();
   };
@@ -560,7 +560,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         {alert}
         <Item className="hide">{taskType}</Item>
         <Item className="hide">{loopData}</Item>
-        {type ? <Item label={i18n.t('application:mission name')}>{taskName}</Item> : null}
+        {type ? <Item label={i18n.t('application:task name')}>{taskName}</Item> : null}
         <Item label={i18nMap.version}>{actionVersion}</Item>
         <Item label={i18n.t('common:execution conditions')}>{executionCondition}</Item>
         {renderTaskTypeStructure()}
