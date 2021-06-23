@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getAppList = ({ tenantId, ...rest }: ConfogCenter.GetAppList): ConfogCenter.RespAppList => {
+export const getAppList = ({ tenantId, ...rest }: ConfigCenter.GetAppList): ConfigCenter.RespAppList => {
   return agent
     .get(`/api/config/tenants/${tenantId}/groups`)
     .query(rest)
@@ -24,14 +24,14 @@ export const getConfigList = ({
   tenantId,
   groupId,
   ...rest
-}: ConfogCenter.GetConfigList): ConfogCenter.RespConfigList => {
+}: ConfigCenter.GetConfigList): ConfigCenter.RespConfigList => {
   return agent
     .get(`/api/config/tenants/${tenantId}/groups/${groupId}`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
-export const saveConfig = ({ tenantId, groupId, configs }: ConfogCenter.SaveConfig): { success: boolean } => {
+export const saveConfig = ({ tenantId, groupId, configs }: ConfigCenter.SaveConfig): { success: boolean } => {
   return agent
     .post(`/api/config/tenants/${tenantId}/groups/${groupId}`)
     .send(configs)

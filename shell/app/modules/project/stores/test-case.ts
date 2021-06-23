@@ -40,6 +40,7 @@ import {
   attemptTestApi,
   addRelation,
   getDetailRelations,
+  getImportExportRecords,
 } from '../services/test-case';
 import { TestOperation } from 'project/pages/test-manage/constants';
 
@@ -164,7 +165,7 @@ const testCaseStore = createStore({
         fileType,
         testCaseID: testCaseIDs,
       }) as any as TEST_CASE.ExportFileQuery;
-      await call(exportFileInTestCase, exportQuery);
+      return call(exportFileInTestCase, exportQuery);
     },
     async importTestCase({ call, getParams, getQuery }, payload: { file: any }) {
       const { projectId: projectID } = getParams();
@@ -342,6 +343,10 @@ const testCaseStore = createStore({
         { successMsg: i18n.t('project:associated successfully') },
       );
       return res;
+    },
+    async getImportExportRecords({ call, getParams }, types: TEST_CASE.ImportOrExport[]) {
+      const { projectId } = getParams();
+      return call(getImportExportRecords, { projectId, types });
     },
   },
   reducers: {
