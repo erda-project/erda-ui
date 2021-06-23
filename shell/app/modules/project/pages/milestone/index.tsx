@@ -156,7 +156,7 @@ export const Milestone = () => {
   };
   return (
     <div className="project-milestone">
-      <div className="search-container white-bg">
+      <div className="search-container bg-white">
         <DatePicker
           className="milestone-date-picker"
           onPanelChange={rangeFilter}

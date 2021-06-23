@@ -274,7 +274,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               <div className="info-item" onClick={handleClickError}>
                 <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
-                    <span className="color-danger">{error_rate}%</span>/<span>{count}</span>
+                    <span className="text-danger">{error_rate}%</span>/<span>{count}</span>
                     <IF.ELSE />
                     {count}
                   </IF>
@@ -357,7 +357,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               stopped ? (
                 <div>
                   <CustomIcon type="wks1" style={{ color: 'red' }} />
-                  <span className="color-danger">{stopped}</span>/
+                  <span className="text-danger">{stopped}</span>/
                   <span>
                     {running} {i18n.t('instance')}
                   </span>
@@ -390,14 +390,14 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           <div className="info-item" onClick={handleClickError}>
             <span className="info-value font-bold">
               <IF check={error_rate}>
-                <span className="color-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
+                <span className="text-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
                 <IF.ELSE />
                 {count}
               </IF>
             </span>
             <span className="info-key">
               <IF check={error_rate}>
-                <span className="color-danger">{i18n.t('microService:request error rate')}</span>/
+                <span className="text-danger">{i18n.t('microService:request error rate')}</span>/
                 <span>{i18n.t('call times')}</span>
                 <IF.ELSE />
                 {i18n.t('call times')}

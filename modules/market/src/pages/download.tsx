@@ -189,7 +189,7 @@ const DownloadPage = ({ match }: any) => {
   const appStoreURL = get(current, 'pkg.meta.appStoreURL');
   return (
     <Spin spinning={isLoading}>
-      <div className="download-page gray-bg">
+      <div className="download-page bg-layout">
         <div className="content">
           {client === 'ios' && appStoreURL ? (
             <div className="jump-app-store">

@@ -98,7 +98,7 @@ export const IssueActivities = (props: IProps) => {
     return (
       <div key={sId} className="border-bottom pa-3">
         {renderContent}
-        <div className="color-text-desc mt-1">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+        <div className="text-desc mt-1">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     );
   };

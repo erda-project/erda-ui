@@ -258,7 +258,7 @@ export const KEY_AUTH_COLS = [
     dataIndex: 'key',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Key ">
           {key}
         </Copy>
       </Tooltip>
@@ -282,7 +282,7 @@ export const OAUTH_COLS = [
     dataIndex: 'client_id',
     render: (clientId: string) => (
       <Tooltip title={clientId}>
-        <Copy className="for-copy" data-clipboard-tip=" Client ID ">
+        <Copy className="cursor-copy" data-clipboard-tip=" Client ID ">
           {clientId}
         </Copy>
       </Tooltip>
@@ -293,7 +293,7 @@ export const OAUTH_COLS = [
     dataIndex: 'client_secret',
     render: (clientSecret: string) => (
       <Tooltip title={clientSecret}>
-        <Copy className="for-copy" data-clipboard-tip=" Client Secret ">
+        <Copy className="cursor-copy" data-clipboard-tip=" Client Secret ">
           {clientSecret}
         </Copy>
       </Tooltip>
@@ -306,7 +306,7 @@ export const OAUTH_COLS = [
       const redirectUri = redirectUris[0];
       return (
         <Tooltip title={redirectUri}>
-          <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>
+          <Copy className="cursor-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>
             {redirectUri}
           </Copy>
         </Tooltip>
@@ -459,7 +459,7 @@ export const HMAC_AUTH_COLS = [
     key: 'key',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Key ">
           {key}
         </Copy>
       </Tooltip>
@@ -471,7 +471,7 @@ export const HMAC_AUTH_COLS = [
     key: 'secret',
     render: (secret: string) => (
       <Tooltip title={secret}>
-        <Copy className="for-copy" data-clipboard-tip=" App Secret ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Secret ">
           {secret}
         </Copy>
       </Tooltip>
@@ -486,7 +486,7 @@ export const SIGN_AUTH_COLS = [
     key: 'key',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Key ">
           {key}
         </Copy>
       </Tooltip>
@@ -498,7 +498,7 @@ export const SIGN_AUTH_COLS = [
     key: 'secret',
     render: (secret: string) => (
       <Tooltip title={secret}>
-        <Copy className="for-copy" data-clipboard-tip=" App Secret ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Secret ">
           {secret}
         </Copy>
       </Tooltip>
@@ -512,7 +512,7 @@ export const ALI_CLOUD_APP_COLS = [
     dataIndex: 'appKey',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Key ">
           {key}
         </Copy>
       </Tooltip>
@@ -523,7 +523,7 @@ export const ALI_CLOUD_APP_COLS = [
     dataIndex: 'appSecret',
     render: (secret: string) => (
       <Tooltip title={secret}>
-        <Copy className="for-copy" data-clipboard-tip=" App Secret ">
+        <Copy className="cursor-copy" data-clipboard-tip=" App Secret ">
           {secret}
         </Copy>
       </Tooltip>

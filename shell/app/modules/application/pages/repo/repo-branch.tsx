@@ -90,28 +90,28 @@ const RepoBranch = () => {
                 <div className="font-medium flex items-center text-base mb-3">
                   {isProtect ? (
                     <Tooltip title={i18n.t('protected branch')}>
-                      <CustomIcon className="text-xl color-green" type="baohu" />
+                      <CustomIcon className="text-xl text-success" type="baohu" />
                     </Tooltip>
                   ) : (
                     <CustomIcon className="text-xl" type="fz" />
                   )}
                   <Link to={mergeRepoPathWith(`/tree/${name}`)}>
-                    <span className="color-text hover-active">{name}</span>
+                    <span className="text-normal hover-active">{name}</span>
                   </Link>
                   {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
                   {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
                 </div>
-                <div className="flex items-center color-text-sub">
+                <div className="flex items-center text-sub">
                   <span className="inline-flex items-center">
                     <Avatar showName name={committerName} />
                     &nbsp;{i18n.t('committed at')}
                   </span>
                   <span className="ml-1">{fromNow(when)}</span>
-                  <span className="ml-6 color-text-desc nowrap flex-1">
+                  <span className="ml-6 text-desc nowrap flex-1">
                     <GotoCommit length={6} commitId={id} />
                     &nbsp;·&nbsp;
                     <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
-                      <Link className="color-text-desc hover-active" to={getCommitPath(id)}>
+                      <Link className="text-desc hover-active" to={getCommitPath(id)}>
                         {replaceEmoji(commitMessage)}
                       </Link>
                     </Tooltip>

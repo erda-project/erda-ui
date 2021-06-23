@@ -114,7 +114,7 @@ export const IterationItem = (props: IProps) => {
             </Tooltip>
           ) : null}
         </div>
-        <div className="iteration-time-duration h-full ml-2 mr-2 color-text-sub">
+        <div className="iteration-time-duration h-full ml-2 mr-2 text-sub">
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>

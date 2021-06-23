@@ -32,14 +32,14 @@ export const DomainChecker = ({ innerAddr, innerTips, outerAddr }: IProps) => {
         <div className="domain-content">
           <div className="mb-2 domain-addr">
             {i18n.t('microService:external network address')}
-            <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:external network address')}>
+            <Copy className="cursor-copy" data-clipboard-tip={i18n.t('microService:external network address')}>
               : {outerAddr}
             </Copy>
           </div>
           <Tooltip title={innerTips}>
             <div className="domain-addr">
               {i18n.t('microService:internal network address')}
-              <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:internal network address')}>
+              <Copy className="cursor-copy" data-clipboard-tip={i18n.t('microService:internal network address')}>
                 : {innerAddr}
               </Copy>
             </div>

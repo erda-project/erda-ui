@@ -210,13 +210,13 @@ const VariableConfig = ({
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
         <div className="flex justify-between items-center">
-          <span className="for-copy nowrap" data-clipboard-text={text}>
+          <span className="cursor-copy nowrap" data-clipboard-text={text}>
             {text}
           </span>
           <span>
             {source === 'certificate' && (
               <Tooltip title={i18n.t('common:from certificate push')}>
-                <IconInfo className="ml-1 color-text-sub" />
+                <IconInfo className="ml-1 text-sub" />
               </Tooltip>
             )}
             {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('common:default')}</span>}
@@ -234,7 +234,7 @@ const VariableConfig = ({
             '******'
           ) : (
             <Tooltip title={text} placement="leftTop">
-              <span className="for-copy" data-clipboard-text={text}>
+              <span className="cursor-copy" data-clipboard-text={text}>
                 {text}
               </span>
             </Tooltip>
@@ -406,7 +406,7 @@ const VariableConfig = ({
           }}
         />
         {isJsonInvalid && (
-          <span className="color-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
+          <span className="text-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
         )}
       </Modal>
       <Modal
@@ -423,7 +423,7 @@ const VariableConfig = ({
           className="mb-5"
         />
       </Modal>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

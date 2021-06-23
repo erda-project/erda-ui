@@ -65,14 +65,14 @@ const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }:
                     {author.name} {i18n.t('application:submitted in')} {fromNow(author.when)}
                   </span>
                   <span
-                    className="for-copy commit-sha hover-text"
+                    className="cursor-copy commit-sha hover-text"
                     data-clipboard-text={commitId}
                     data-clipboard-tip=" commit SHA "
                   >
                     <CustomIcon type="commit" />
                     <span className="sha-text">{commitId.slice(0, 6)}</span>
                   </span>
-                  <Copy selector=".for-copy" />
+                  <Copy selector=".cursor-copy" />
                 </div>
               </div>
             }

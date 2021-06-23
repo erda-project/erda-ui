@@ -178,7 +178,7 @@ const ConfigCenter = () => {
       sorter: (a: IConfig, b: IConfig) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text) => (
         <div className="flex justify-between items-center">
-          <span className="for-copy nowrap" data-clipboard-text={text}>
+          <span className="cursor-copy nowrap" data-clipboard-text={text}>
             {text}
           </span>
         </div>
@@ -189,7 +189,7 @@ const ConfigCenter = () => {
       dataIndex: 'value',
       render: (text: string) => (
         <Tooltip title={text} placement="leftTop">
-          <span className="for-copy" data-clipboard-text={text}>
+          <span className="cursor-copy" data-clipboard-text={text}>
             {text}
           </span>
         </Tooltip>
@@ -300,7 +300,7 @@ const ConfigCenter = () => {
           >
             {i18n.t('common:add configuration')}
           </Button>
-          <span className="for-copy" data-clipboard-text={getConfigsString(configListMap[chosenApp] || [])}>
+          <span className="cursor-copy" data-clipboard-text={getConfigsString(configListMap[chosenApp] || [])}>
             <Button type="primary" ghost>
               {i18n.t('common:copy configuration')}
             </Button>
@@ -308,7 +308,7 @@ const ConfigCenter = () => {
         </div>
         <Table dataSource={configListMap[chosenApp] || []} columns={columns} />
       </div>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <ConfigFormModal addConfigs={addConfig} ref={addConfigRef} />
       <ConfigFormModal
         title={i18n.t('common:change setting')}

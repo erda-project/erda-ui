@@ -89,7 +89,7 @@ const AddRole = (props: IProps) => {
               placeholder={i18n.t('please enter')}
             />,
             <div key="isCustomRole" className="flex justify-between items-center">
-              <span className="color-text-desc nowrap">
+              <span className="text-desc nowrap">
                 {i18n.t('customize')} {i18n.t('role')}
               </span>
               <Switch

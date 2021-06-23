@@ -101,9 +101,9 @@ export const ListTargets = ({
   let text = '';
   let targetsEle = (
     <>
-      <CustomIcon type="sidebarUser" className="color-text-desc" />
+      <CustomIcon type="sidebarUser" className="text-desc" />
       <Tooltip title={`${i18n.t('application:group address')}: ${firstValue}`}>
-        <span className="group-address color-text-sub">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
+        <span className="group-address text-sub">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
       </Tooltip>
     </>
   );
@@ -120,7 +120,7 @@ export const ListTargets = ({
             ))}
           </div>
           <Tooltip title={text}>
-            <span className="color-text-sub">{text}</span>
+            <span className="text-sub">{text}</span>
           </Tooltip>
         </>
       );
@@ -138,7 +138,7 @@ export const ListTargets = ({
             })}
           </div>
           <Tooltip title={text}>
-            <span className="color-text-sub">{text}</span>
+            <span className="text-sub">{text}</span>
           </Tooltip>
         </>
       );
@@ -147,9 +147,9 @@ export const ListTargets = ({
       text = `${i18n.t('application:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
-          <CustomIcon type="sidebarUser" className="color-text-desc" />
+          <CustomIcon type="sidebarUser" className="text-desc" />
           <Tooltip title={text}>
-            <span className="group-address color-text-sub">{text}</span>
+            <span className="group-address text-sub">{text}</span>
           </Tooltip>
         </>
       );

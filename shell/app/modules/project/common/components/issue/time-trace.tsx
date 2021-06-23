@@ -60,7 +60,7 @@ const TimeTraceBar = React.forwardRef(
     return (
       <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
         <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
-        <div className="color-text-sub flex justify-between items-center text-xs">
+        <div className="text-sub flex justify-between items-center text-xs">
           <span>
             {_logged + _spent
               ? `${i18n.t('project:logged')} ${transToStr(_logged + _spent)}`

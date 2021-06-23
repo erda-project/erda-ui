@@ -131,7 +131,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
                   style={{ height: '16px' }}
                   type={icon as string}
                   color={isColorIcon}
-                  className={`color-text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`}
+                  className={`text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`}
                 />
               ),
             }

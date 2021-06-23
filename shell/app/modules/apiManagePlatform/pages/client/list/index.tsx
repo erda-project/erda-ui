@@ -145,17 +145,17 @@ const ClientList = () => {
       >
         <p className="mb-1">
           <span className="font-medium">ClientID: </span>
-          <span className="for-copy" data-clipboard-text={resetModalInfo.clientID}>
+          <span className="cursor-copy" data-clipboard-text={resetModalInfo.clientID}>
             {resetModalInfo.clientID}
           </span>
         </p>
         <p className="mb-1">
           <span className="font-medium">ClientSecret: </span>
-          <span className="for-copy" data-clipboard-text={resetModalInfo.clientSecret}>
+          <span className="cursor-copy" data-clipboard-text={resetModalInfo.clientSecret}>
             {resetModalInfo.clientSecret}
           </span>
         </p>
-        <Copy selector=".for-copy" />
+        <Copy selector=".cursor-copy" />
       </Modal>
     </Spin>
   );

@@ -23,7 +23,7 @@ export const getLabel = (label: string, labelTip: string, required = true) => {
         {required ? <span style={{ color: 'red', marginRight: 4 }}>*</span> : null}
         {_label}&nbsp;
         <Tooltip title={labelTip}>
-          <IconHelp className="color-text-icon" />
+          <IconHelp className="text-icon" />
         </Tooltip>
       </span>
     );

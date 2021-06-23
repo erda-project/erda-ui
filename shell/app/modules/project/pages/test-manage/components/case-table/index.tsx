@@ -166,10 +166,10 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         className: 'case-table-id',
         render: (id: string, record: any) => {
           if (id) {
-            return <span className="color-text">{`#${record.testCaseID}`}</span>;
+            return <span className="text-normal">{`#${record.testCaseID}`}</span>;
           }
           return {
-            children: <Ellipsis className="color-text-desc" title={record.directory} />,
+            children: <Ellipsis className="text-desc" title={record.directory} />,
             props: {
               colSpan: 7,
             },
@@ -197,7 +197,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
           if (record.id) {
             return <CaseCheckBox mode={scope} id={record.id} />;
           }
-          return <CustomIcon type="wjj1" className="color-warning" />;
+          return <CustomIcon type="wjj1" className="text-warning" />;
         },
       });
     }

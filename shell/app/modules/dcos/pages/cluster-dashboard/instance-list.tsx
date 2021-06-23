@@ -156,7 +156,7 @@ IProps) => {
           return (
             <Tooltip title={`${i18n.t('click to copy')}：${image}`} overlayClassName="tooltip-word-break">
               <span
-                className="image-name for-copy-image"
+                className="image-name cursor-copy-image"
                 data-clipboard-tip={i18n.t('image name')}
                 data-clipboard-text={image}
               >
@@ -245,7 +245,7 @@ IProps) => {
           pageSize: PAGINATION.pageSize,
         }}
       />
-      <Copy selector=".for-copy-image" />
+      <Copy selector=".cursor-copy-image" />
       {drawer}
     </div>
   );

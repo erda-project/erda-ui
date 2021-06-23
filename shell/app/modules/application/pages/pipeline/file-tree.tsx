@@ -196,7 +196,7 @@ const FileTree = (props: IProps) => {
           onSelectNode={onSelectNode}
           initTreeData={rootNode}
           iconMap={{
-            fz: <CustomIcon type="fz" className="color-text-sub" />,
+            fz: <CustomIcon type="fz" className="text-sub" />,
           }}
           currentKey={currentKey}
           searchGroup={{ file: scopeConfigData.text.searchFile, folder: scopeConfigData.text.searchFolder }}

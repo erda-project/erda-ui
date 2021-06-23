@@ -351,17 +351,17 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
         </p>
         <p className="mb-1">
           <span className="font-medium">ClientID: </span>
-          <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>
+          <span className="cursor-copy" data-clipboard-text={state.clientSk.clientID}>
             {state.clientSk.clientID}
           </span>
         </p>
         <p className="mb-1">
           <span className="font-medium">ClientSecret: </span>
-          <span className="for-copy" data-clipboard-text={state.clientSk.clientSecret}>
+          <span className="cursor-copy" data-clipboard-text={state.clientSk.clientSecret}>
             {state.clientSk.clientSecret}
           </span>
         </p>
-        <Copy selector=".for-copy" />
+        <Copy selector=".cursor-copy" />
       </Modal>
     </>
   );

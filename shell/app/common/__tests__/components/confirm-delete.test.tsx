@@ -32,7 +32,7 @@ const defaultTitle = i18n.t('common:confirm to delete current {deleteItem}', { d
 describe('ConfirmDelete', () => {
   it('render with default props ', () => {
     const wrapper = shallow(<ConfirmDelete deleteItem={deleteItem} />);
-    expect(wrapper.find('.color-text-desc').text()).toBe(defaultConfirmTip);
+    expect(wrapper.find('.text-desc').text()).toBe(defaultConfirmTip);
     const temp = shallow(<div>{wrapper.find('Modal').prop('title')}</div>);
     expect(temp.html()).toContain(defaultTitle);
     expect(wrapper.find('p').text()).toBe(defaultSecondTitle);
@@ -52,7 +52,7 @@ describe('ConfirmDelete', () => {
         <div className="confirm-children" />
       </ConfirmDelete>,
     );
-    expect(wrapper.find('.color-text-desc').text()).toBe(confirmTip);
+    expect(wrapper.find('.text-desc').text()).toBe(confirmTip);
     expect(wrapper.find('.confirm-children')).toExist();
     wrapper.find('span').at(0).simulate('click');
     expect(wrapper.find('p.mb-2').at(0).text()).toBe(secondTitle);

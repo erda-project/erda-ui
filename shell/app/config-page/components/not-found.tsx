@@ -20,7 +20,7 @@ export interface IProps {
 const NotFound = (props: IProps) => {
   const { cId } = props;
   return (
-    <div className={'color-danger'}>
+    <div className={'text-danger'}>
       {i18n.t('common:config-page-not-found-tip')}: {cId}
     </div>
   );

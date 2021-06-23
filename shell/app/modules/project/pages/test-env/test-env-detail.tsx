@@ -574,7 +574,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         }}
         value={value}
       />
-      {_isValid ? null : <span className="color-danger">{i18n.t('project:JSON format error')}</span>}
+      {_isValid ? null : <span className="text-danger">{i18n.t('project:JSON format error')}</span>}
     </>
   );
 };

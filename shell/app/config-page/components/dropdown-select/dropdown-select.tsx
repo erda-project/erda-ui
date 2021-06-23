@@ -99,7 +99,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                   ) : null}
                   {item.label}
                 </span>
-                <span>{value === item.value ? <CustomIcon type="duigou" className="color-primary ml-2" /> : null}</span>
+                <span>{value === item.value ? <CustomIcon type="duigou" className="text-primary ml-2" /> : null}</span>
               </div>
             </Menu.Item>
           );

@@ -54,11 +54,11 @@ const compareClass = (rate: number) => {
     // 超过百分百
     return 'color-crash';
   } else if (rate > 60 && rate < 80) {
-    return 'color-warning';
+    return 'text-warning';
   } else if (rate >= 80) {
-    return 'color-danger';
+    return 'text-danger';
   }
-  return 'color-success';
+  return 'text-success';
 };
 
 const countPercent = (used: number, total: number) => {
@@ -296,7 +296,7 @@ function ServiceList({
           return (
             <Tooltip title={`${i18n.t('click to copy')}:${text}`} overlayClassName="tooltip-word-break">
               <span
-                className="image-name for-copy-image"
+                className="image-name cursor-copy-image"
                 data-clipboard-tip={i18n.t('image name')}
                 data-clipboard-text={text}
               >
@@ -394,7 +394,7 @@ function ServiceList({
         columns={cols as Array<ColumnProps<any>>}
         dataSource={list}
       />
-      <Copy selector=".for-copy-image" />
+      <Copy selector=".cursor-copy-image" />
       {drawer}
     </div>
   );

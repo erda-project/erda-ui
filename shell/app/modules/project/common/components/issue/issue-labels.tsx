@@ -14,6 +14,7 @@
 import * as React from 'react';
 import { Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
+import { tagBgColorClsMap, tagColorClsMap } from 'app/common/utils/style-constants';
 
 import 'project/pages/settings/components/project-label.scss';
 import './issue-labels.scss';
@@ -23,21 +24,29 @@ export const renderLabels = (labelColorMap: Obj, lbs: string[], clsName = '', ma
   const curShowLen = maxShow || lbs.length;
 
   return (
-    <div className={`project-label-list colorful-light-bg ${clsName}`}>
-      {lbs.slice(0, curShowLen).map((l) => (
-        <span key={l} className={`label-item  small nowrap ${labelColorMap[l]}`}>
-          {l}
-        </span>
-      ))}
+    <div className={`project-label-list ${clsName}`}>
+      {lbs.slice(0, curShowLen).map((l) => {
+        const tagColorCls = `${tagColorClsMap[labelColorMap[l]]}`;
+        const tagBgColorCls = `${tagBgColorClsMap[labelColorMap[l]]}`;
+        return (
+          <span key={l} className={`label-item  small nowrap ${tagColorCls} ${tagBgColorCls}`}>
+            {l}
+          </span>
+        );
+      })}
       {lbs.length > curShowLen ? (
         <Tooltip
           title={
-            <div className="project-label-list colorful-light-bg small">
-              {lbs.slice(curShowLen, lbs.length).map((l) => (
-                <span key={l} className={`label-item small nowrap ${labelColorMap[l]}`}>
-                  {l}
-                </span>
-              ))}
+            <div className="project-label-list small">
+              {lbs.slice(curShowLen, lbs.length).map((l) => {
+                const tagColorCls = `${tagColorClsMap[labelColorMap[l]]}`;
+                const tagBgColorCls = `${tagBgColorClsMap[labelColorMap[l]]}`;
+                return (
+                  <span key={l} className={`label-item small nowrap ${tagColorCls} ${tagBgColorCls}`}>
+                    {l}
+                  </span>
+                );
+              })}
             </div>
           }
         >

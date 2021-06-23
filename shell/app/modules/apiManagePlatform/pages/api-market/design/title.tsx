@@ -102,7 +102,7 @@ export const TreeTitle = ({
   return (
     <div className="api-tree-title flex justify-between items-center" ref={dropDownRef}>
       <div className="flex justify-between items-center">
-        <CustomIcon type={icon} className="color-text-sub" />
+        <CustomIcon type={icon} className="text-sub" />
         {inputVisible ? (
           <>
             <Input
@@ -139,7 +139,7 @@ export const TreeTitle = ({
 export const BranchTitle = ({ name, icon = 'branch' }: { name: string; icon?: string }) => {
   return (
     <div className="flex justify-start items-center flex-wrap">
-      <CustomIcon type={icon} className="color-text-sub" />
+      <CustomIcon type={icon} className="text-sub" />
       <Tooltip title={name}>
         <div className="nowrap" style={{ maxWidth: '160px' }}>
           {name}

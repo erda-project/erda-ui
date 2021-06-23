@@ -364,7 +364,7 @@ export const MembersTable = ({
         dataIndex: 'email',
         render: (value: string) => (
           <Tooltip title={value}>
-            <span className="for-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
+            <span className="cursor-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
               {value || i18n.t('common:none')}
             </span>
           </Tooltip>
@@ -374,7 +374,7 @@ export const MembersTable = ({
         title: i18n.t('cellphone'),
         dataIndex: 'mobile',
         render: (value: string | number) => (
-          <span className="for-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
+          <span className="cursor-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
             {value || i18n.t('common:none')}
           </span>
         ),
@@ -612,7 +612,7 @@ export const MembersTable = ({
               </>
             </FilterGroup>
             {memoTable}
-            <Copy selector=".for-copy" />
+            <Copy selector=".cursor-copy" />
           </div>
         </div>
       </Spin>

@@ -86,8 +86,8 @@ const ServiceDropdown = (props: IProps) => {
           return (
             <div className="flex justify-between items-center">
               <span className="mr-2 vip-addr flex-1 nowrap">{addr}</span>
-              <Copy selector=".for-copy">
-                <span className="for-copy copy-icon" data-clipboard-text={addr}>
+              <Copy selector=".cursor-copy">
+                <span className="cursor-copy copy-icon" data-clipboard-text={addr}>
                   <Icon type="copy" />
                 </span>
               </Copy>

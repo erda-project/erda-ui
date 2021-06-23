@@ -95,7 +95,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
               : i18n.t('refresh')
           }
         >
-          <CustomIcon type="refresh" className="pointer color-text-desc" onClick={() => delayGetList(getList, 0)} />
+          <CustomIcon type="refresh" className="pointer text-desc" onClick={() => delayGetList(getList, 0)} />
         </Tooltip>
       ),
     },
@@ -120,7 +120,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
               <Timeline.Item key={`${String(index)}-${occurrenceTime}`} color={colorMap[level]}>
                 <div className={'pipeline-log-time'}>
                   <div className="mb-2">{occurrenceTime}</div>
-                  <div className="pipeline-log-title align-top">
+                  <div className="pipeline-log-title flex items-start">
                     <span className="flex-1">{humanLog}</span>
                     <span
                       className="always-active ml-2"

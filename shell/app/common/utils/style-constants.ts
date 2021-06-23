@@ -28,3 +28,29 @@ export const textAlignClsMap = {
   center: 'text-center',
   justify: 'text-justify',
 };
+
+export const textColorClsMap = {
+  green: 'text-green',
+  blue: 'text-blue',
+  yellow: 'text-yellow',
+};
+
+export const tagColorClsMap = {
+  green: 'text-green',
+  red: 'text-red',
+  orange: 'text-orange',
+  purple: 'text-purple',
+  blue: 'text-blue',
+  cyan: 'text-cyan',
+  gray: 'text-gray',
+};
+
+export const tagBgColorClsMap = {
+  green: 'bg-green bg-opacity-10',
+  red: 'bg-red',
+  orange: 'bg-orange bg-opacity-10',
+  purple: 'bg-purple bg-opacity-10',
+  blue: 'bg-blue bg-opacity-10',
+  cyan: 'bg-cyan bg-opacity-10',
+  gray: 'bg-gray bg-opacity-10',
+};

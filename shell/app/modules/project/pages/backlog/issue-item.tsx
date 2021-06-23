@@ -97,7 +97,7 @@ export const IssueItem = (props: IIssueProps) => {
           <IssueIcon type={type as ISSUE_OPTION} />
           <Ellipsis className="font-bold" title={name} />
         </div>
-        <div className="backlog-item-info color-text-sub flex justify-end items-center flex-wrap">
+        <div className="backlog-item-info text-sub flex justify-end items-center flex-wrap">
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
           <div className="w-80">
             <Avatar showName name={username} size={20} wrapClassName="w-full" />
@@ -111,7 +111,7 @@ export const IssueItem = (props: IIssueProps) => {
                   <Menu>
                     <WithAuth pass={deleteAuth}>
                       <Menu.Item
-                        className="color-danger"
+                        className="text-danger"
                         onClick={(e) => {
                           e.domEvent.stopPropagation();
                           confirmDelete(data);

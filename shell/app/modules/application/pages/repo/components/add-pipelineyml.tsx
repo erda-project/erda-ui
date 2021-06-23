@@ -334,7 +334,7 @@ const AddPipelineYml = () => {
         visible={!isEmpty(errorMsg)}
         title={
           <div>
-            <CustomIcon type="guanbi-fill" className="color-danger" />
+            <CustomIcon type="guanbi-fill" className="text-danger" />
             {i18n.t('error')}
           </div>
         }

@@ -271,7 +271,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       {label && (
         <div
           className={classnames(
-            labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
+            labelStyle === 'desc' ? 'text-sub' : 'text-normal',
             'mb-1',
             showRequiredMark ? 'ant-form-item-required' : '',
           )}

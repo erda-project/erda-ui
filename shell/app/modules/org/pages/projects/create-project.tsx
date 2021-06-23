@@ -179,8 +179,8 @@ const TemplateCard = (props: ICardProps) => {
           alt="template-icon"
         />
       </div>
-      <div className="template-name text-sm color-text pt-2 pb-1">{type.name}</div>
-      <div className="template-description text-xs color-text-sub">{type.description}</div>
+      <div className="template-name text-sm text-normal pt-2 pb-1">{type.name}</div>
+      <div className="template-description text-xs text-sub">{type.description}</div>
     </div>
   );
 };

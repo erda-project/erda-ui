@@ -111,9 +111,9 @@ const AddonDetailDrawer = (props: IProps) => {
             <div className="flex justify-between items-center">
               <span className="title font-medium">{i18n.t('org:service basic parameters')}</span>
               {!isEmpty(config) && (
-                <span className="copy-all pointer for-copy">
+                <span className="copy-all pointer cursor-copy">
                   {i18n.t('copy all')}
-                  <Copy selector=".for-copy" opts={{ text: () => jsonStr }} />
+                  <Copy selector=".cursor-copy" opts={{ text: () => jsonStr }} />
                 </span>
               )}
             </div>

@@ -238,7 +238,7 @@ const EditList = (props: IELProps) => {
           />
         ))}
       </div>
-      {validTip ? <div className="pa-2 color-red">{validTip}</div> : null}
+      {validTip ? <div className="pa-2 text-red">{validTip}</div> : null}
       <div className="edit-list-bottom mt-1">
         {disabled ? (
           <Button className="not-allowed" size="small">
@@ -469,7 +469,7 @@ const RenderItem = (props: IRenderItem) => {
   return (
     <div style={style} className={`${cls} ${itemCls} edit-list-item`}>
       {Comp}
-      {/* {validTip ? <div className='pa-2 color-red'>{validTip}</div> : null} */}
+      {/* {validTip ? <div className='pa-2 text-red'>{validTip}</div> : null} */}
     </div>
   );
 };

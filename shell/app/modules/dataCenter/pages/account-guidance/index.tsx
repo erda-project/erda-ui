@@ -109,7 +109,7 @@ const AccountGuidance = (props: IProps) => {
     <>
       <div className="account-guidance">
         <div className="guidance-title mb-2">{i18n.t('dataCenter:select-cloud-account')}</div>
-        <p className="guidance-desc color-text-sub mb-6">{i18n.t('dataCenter:after-config-can-do')}</p>
+        <p className="guidance-desc text-sub mb-6">{i18n.t('dataCenter:after-config-can-do')}</p>
         <div className="guidance-type-row mb-4">
           {map(cloudAccountArr, (item) => (
             <TypeCard key={item.type} updater={updater} onChosen={() => updater.formVisible(true)} {...item} />

@@ -19,6 +19,7 @@ import i18n from 'i18n';
 import moment from 'moment';
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
+import { textColorClsMap } from 'app/common/utils/style-constants';
 
 export const getTitleRender = (cItem: CP_TABLE.Column) => {
   const { title, titleTip } = cItem;
@@ -28,7 +29,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="text-sm color-text-sub ml-2" />
+          <CustomIcon type="info" className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -219,33 +220,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       );
       break;
     case 'datePicker':
-      {
-        const { displayTip } = val; // 带展示tip的
-        const DisplayTipComp = displayTip ? (
-          <span className={`date-picker-display-tip color-${displayTip.color} `}>{displayTip.text}</span>
-        ) : null;
-        // const DateUpdateComp = (
-        //   <DatePicker
-        //     className={'w-full date-picker '}
-        //     allowClear={false}
-        //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
-        //     value={val.value ? moment(val.value) : undefined}
-        //     placeholder={i18n.t('unspecified')}
-        //     onChange={(v) => extra.execOperation(val?.operations?.onChange, v)}
-        //     format="YYYY-MM-DD"
-        //     disabledDate={getDisabledDate(val)}
-        //     showTime={false}
-        //     disabled={val?.disabled}
-        //   />
-        // );
-        // Comp = (
-        //   <div className={`dice-config-table-date-picker ${DisplayTipComp ? 'with-display-tip' : ''} `}>
-        //     {/* {DateUpdateComp} */}
-        //     {/* {DisplayTipComp} */}
-        //   </div>
-        // );
-        Comp = val.value ? moment(val.value).format('YYYY-MM-DD') : '';
-      }
+      Comp = val.value ? moment(val.value).format('YYYY-MM-DD') : '';
       break;
     case 'textWithExtraTag':
       {
@@ -329,7 +304,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
     <div className="flex items-center hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
       <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {value || <span className="color-text-desc">{i18n.t('unspecified')}</span>}
+        {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
       <CustomIcon type="di" className="arrow-icon" />
     </div>
@@ -485,7 +460,8 @@ const getTitleTip = (tip: string | string[]) => {
     let _s = item;
     map(colorKey, (v, k) => {
       if (item.includes(v[0])) {
-        _s = _s.replaceAll(v[0], `<span class="color-${k}">`);
+        const colorClass = textColorClsMap[k];
+        _s = _s.replaceAll(v[0], `<span class="${colorClass}">`);
         _s = _s.replaceAll(v[1], '</span>');
       }
     });

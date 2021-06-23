@@ -359,7 +359,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
     >
       <button
         onClick={() => onVisibleChange(!popVisible)}
-        className={`api-file-select ${!treeNodeData?.apiDocName ? 'color-text-desc' : ''}`}
+        className={`api-file-select ${!treeNodeData?.apiDocName ? 'text-desc' : ''}`}
       >
         <span>{i18n.t('document')}：</span>
         <span className="name nowrap">

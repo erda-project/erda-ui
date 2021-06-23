@@ -100,7 +100,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
     {
       label: 'ClientID',
       value: (
-        <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientID'])}>
+        <span className="cursor-copy" data-clipboard-text={get(dataSource, ['sk', 'clientID'])}>
           {get(dataSource, ['sk', 'clientID'])}
         </span>
       ),
@@ -110,7 +110,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
       value: (
         <div className="flex justify-between items-center client-secret">
           {showSecret ? (
-            <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientSecret'])}>
+            <span className="cursor-copy" data-clipboard-text={get(dataSource, ['sk', 'clientSecret'])}>
               {get(dataSource, ['sk', 'clientSecret'])}
             </span>
           ) : (
@@ -156,9 +156,9 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <div className="pa-4 api-list">
-        <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
+        <div className="title text-base text-normal font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {

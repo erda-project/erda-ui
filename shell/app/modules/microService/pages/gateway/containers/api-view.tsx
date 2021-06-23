@@ -30,12 +30,12 @@ const bodyContentType = {
   body: 'application/json',
 };
 
-const methodColorMap = {
-  get: 'green',
-  post: 'blue',
-  put: 'orange',
-  delete: 'red',
-  patch: 'purple',
+const methodColorClsMap = {
+  get: 'bg-green',
+  post: 'bg-blue',
+  put: 'bg-orange',
+  delete: 'bg-red',
+  patch: 'bg-purple',
 };
 
 interface IExpandItem {
@@ -276,8 +276,8 @@ const ApiView = ({ api }: { api: any }) => {
   };
   return (
     <div key={api._key} id={api._key} className="api-view">
-      <div className="api-view-title colorful-bg">
-        <span className={`api-method ${methodColorMap[api._method]}`}>{api._method.toUpperCase()}</span>
+      <div className="api-view-title">
+        <span className={`api-method ${methodColorClsMap[api._method]}`}>{api._method.toUpperCase()}</span>
         <span className="api-path">
           <Copy>{api._path}</Copy>
         </span>

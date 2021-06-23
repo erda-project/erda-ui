@@ -14,6 +14,7 @@
 import { Icon as CustomIcon } from 'common';
 import React from 'react';
 import i18n from 'i18n';
+import { textColorClsMap } from 'app/common/utils/style-constants';
 
 const ALARM_STATE_MAP = {
   alert: { icon: 'wh', label: i18n.t('org:alarm') },
@@ -33,11 +34,12 @@ export const AlarmState = (props: IProps) => {
   const { state } = props;
   const { icon, label } = ALARM_STATE_MAP[state] || {};
   const color = STATE_ICON_COLOR[icon];
+  const colorCls = textColorClsMap[color];
 
   return (
     <span className={'inline-flex justify-between items-center'} style={{ minWidth: '50px' }}>
       <CustomIcon type={icon} className={`bg-color-icon mr-1 ${color}`} />
-      <span className={`color-${color}`}>{label}</span>
+      <span className={`${colorCls}`}>{label}</span>
     </span>
   );
 };

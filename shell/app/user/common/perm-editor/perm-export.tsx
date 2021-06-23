@@ -273,7 +273,7 @@ ${_ymlStr}
             );
           })}
         </Tabs>
-        <div className="color-danger">
+        <div className="text-danger">
           {type === 'json' && !isEmpty(invalidJson) ? `${invalidJson.join('/')} 为无效json` : ''}
         </div>
       </Modal>

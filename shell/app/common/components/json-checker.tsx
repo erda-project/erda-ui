@@ -74,8 +74,8 @@ export class JsonChecker extends React.PureComponent<IProps, IState> {
         </Button>
         <Modal className="json-checker-modal" {...configs}>
           <div className="json-detail-wrap">
-            <Button className="json-detail-btn for-copy" shape="circle" icon={<IconCopy />} />
-            <Copy selector=".for-copy" opts={{ text: () => jsonString }} />
+            <Button className="json-detail-btn cursor-copy" shape="circle" icon={<IconCopy />} />
+            <Copy selector=".cursor-copy" opts={{ text: () => jsonString }} />
             <pre>{jsonString}</pre>
           </div>
         </Modal>

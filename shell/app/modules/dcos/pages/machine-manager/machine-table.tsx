@@ -32,11 +32,11 @@ import './machine-table.scss';
 const { confirm } = Modal;
 const compareClass = (rate: number) => {
   if (rate > 60 && rate < 80) {
-    return 'color-warning';
+    return 'text-warning';
   } else if (rate >= 80) {
-    return 'color-danger';
+    return 'text-danger';
   }
-  return 'color-success';
+  return 'text-success';
 };
 
 const countPercent = (used: number, total: number) => {

@@ -57,7 +57,7 @@ export const PipelineNode = (props: IProps) => {
             <CustomIcon type="wfw" color className="w-full h-full" />
           )}
         </div>
-        <div className="title-txt flex flex-col justify-center color-text">
+        <div className="title-txt flex flex-col justify-center text-normal">
           <span className="mb-1 nowrap text-base font-bold name">{data.displayName || data.type}</span>
           <span className="nowrap text-xs type">{data.alias}</span>
         </div>

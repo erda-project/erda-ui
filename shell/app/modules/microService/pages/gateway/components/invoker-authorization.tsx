@@ -129,7 +129,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         dataIndex: 'key',
         render: (key: string) => (
           <Tooltip title={key}>
-            <Copy className="for-copy" data-clipboard-tip=" KEY ">
+            <Copy className="cursor-copy" data-clipboard-tip=" KEY ">
               {key}
             </Copy>
           </Tooltip>
@@ -163,7 +163,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         dataIndex: 'client_id',
         render: (clientId: string) => (
           <Tooltip title={clientId}>
-            <Copy className="for-copy" data-clipboard-tip=" Client ID ">
+            <Copy className="cursor-copy" data-clipboard-tip=" Client ID ">
               {clientId}
             </Copy>
           </Tooltip>
@@ -174,7 +174,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         dataIndex: 'client_secret',
         render: (clientSecret: string) => (
           <Tooltip title={clientSecret}>
-            <Copy className="for-copy" data-clipboard-tip=" Client Secret ">
+            <Copy className="cursor-copy" data-clipboard-tip=" Client Secret ">
               {clientSecret}
             </Copy>
           </Tooltip>
@@ -187,7 +187,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
           const redirectUri = redirectUris[0];
           return (
             <Tooltip title={redirectUri}>
-              <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>
+              <Copy className="cursor-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>
                 {redirectUri}
               </Copy>
             </Tooltip>
@@ -259,7 +259,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         key: 'path',
         render: (path: string) => (
           <Tooltip title={path}>
-            <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:interface')}>
+            <Copy className="cursor-copy" data-clipboard-tip={i18n.t('microService:interface')}>
               {path}
             </Copy>
           </Tooltip>

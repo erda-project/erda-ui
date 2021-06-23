@@ -266,7 +266,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                       <Tooltip title={stateName}>
                         <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
-                      <span className="ml-2 color-text-desc">{i18n.t('project:can circulate to')}</span>
+                      <span className="ml-2 text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
                   </div>
                   <div className="form-content-right flex justify-between items-center">

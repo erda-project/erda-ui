@@ -176,7 +176,7 @@ export const FileEditor = ({
   const curActions = compact([
     actions.copy ? (
       <Tooltip title={i18n.t('copy')} key="copy">
-        <CustomIcon type="fz1" className="text-lg hover-active for-copy" data-clipboard-text={value} />
+        <CustomIcon type="fz1" className="text-lg hover-active cursor-copy" data-clipboard-text={value} />
       </Tooltip>
     ) : null,
     actions.format ? (
@@ -206,7 +206,7 @@ export const FileEditor = ({
   if (_rest.readOnly) {
     return value ? (
       <div style={filterSizeStyle(style)} className={`file-editor-container ${className}`}>
-        <Copy selector=".for-copy" />
+        <Copy selector=".cursor-copy" />
         <pre data-mode={mode} ref={preDom} style={style}>
           {value}
         </pre>
@@ -234,7 +234,7 @@ export const FileEditor = ({
         {..._rest}
       />
       {ActionComp}
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

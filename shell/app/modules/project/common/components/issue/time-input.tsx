@@ -152,7 +152,7 @@ export const TimeInput = React.forwardRef(
           onChange={(e) => onInputChange(e.target.value)}
           onBlur={() => setTimeout(onBlur, 200)}
         />
-        {showTip ? <span className="text-xs color-red">{checkMsg}</span> : null}
+        {showTip ? <span className="text-xs text-red">{checkMsg}</span> : null}
         {triggerChangeOnButton && showBtn ? (
           <div className="issue-part-save-group">
             <span className="issue-part-save" onClick={onSave}>

@@ -419,7 +419,7 @@ const TestSet = ({
       const icon = (
         <CustomIcon
           type={item.iconType || 'wjj1'}
-          className={item.iconClass || (!isRootNode && item.recycled ? 'color-danger' : 'color-yellow')}
+          className={item.iconClass || (!isRootNode && item.recycled ? 'text-danger' : 'text-warning')}
         />
       );
       const className = classnames({

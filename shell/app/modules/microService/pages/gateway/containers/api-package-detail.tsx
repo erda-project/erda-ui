@@ -348,7 +348,7 @@ export const ApiPackageDetail = () => {
             <>
               {menu}
               {apiPrefixs && apiPrefixs.length ? (
-                <div className="border-top color-primary text-right">
+                <div className="border-top text-primary text-right">
                   <span className="mr-1 hover-text" onMouseDown={addServiceAPI}>
                     {i18n.t('microService:add {scope} API', { scope: i18n.t('microService:service') })}
                   </span>

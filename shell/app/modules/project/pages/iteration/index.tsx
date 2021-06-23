@@ -92,10 +92,10 @@ export const Iteration = () => {
         <div className="list-item-left">
           <div className="nowrap title flex justify-between items-center font-medium">
             <span>{title}</span>
-            <MenuPopover styleName="color-text-desc" content={renderMenuPopover(iteration)} placement="left" />
+            <MenuPopover styleName="text-desc" content={renderMenuPopover(iteration)} placement="left" />
           </div>
-          <div className="nowrap color-text-sub mt-1">{content}</div>
-          <div className="nowrap color-text-desc mt-3">
+          <div className="nowrap text-sub mt-1">{content}</div>
+          <div className="nowrap text-desc mt-3">
             <span className="mr-4">
               {i18n.t('common:start at')}：{moment(startedAt).format('YYYY-MM-DD HH:mm:ss')}
             </span>

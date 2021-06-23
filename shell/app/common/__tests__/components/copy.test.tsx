@@ -22,16 +22,16 @@ describe('Copy', () => {
     // const onSuccess = jest.fn();
     const wrapper = mount(
       <div>
-        <div className="for-copy" data-clipboard-tip="Email" data-clipboard-text={copytext}>
+        <div className="cursor-copy" data-clipboard-tip="Email" data-clipboard-text={copytext}>
           {copytext}
         </div>
-        <Copy selector="for_copy-select" className="for-copy" copyText="Copy">
+        <Copy selector="for_copy-select" className="cursor-copy" copyText="Copy">
           copy
         </Copy>
       </div>,
     );
     wrapper.mount();
-    expect(wrapper.find('span.for-copy').length).toEqual(1);
+    expect(wrapper.find('span.cursor-copy').length).toEqual(1);
     wrapper.unmount();
   });
 });

@@ -52,7 +52,7 @@ const { confirm } = Modal;
 const ExternalRepoPage = ({ type }: { type?: string }) => {
   return type ? (
     <div>
-      <p className="color-text-desc">{i18n.t('project:repository address')}</p>
+      <p className="text-desc">{i18n.t('project:repository address')}</p>
       <p>
         <span>{i18n.t('project:external general Git repository')}</span>
         <span>({i18n.t('project:does not support API design')})</span>
@@ -121,7 +121,7 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
   const content = (
     <div>
       <div>
-        <CustomIcon type="warnfill" className="color-warning" />
+        <CustomIcon type="warnfill" className="text-warning" />
         <span>{i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}</span>
         <span className="text-link" onClick={gotoDetail}>
           {' '}

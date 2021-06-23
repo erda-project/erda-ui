@@ -20,6 +20,7 @@ import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
 import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
+import { tagBgColorClsMap, tagColorClsMap } from 'app/common/utils/style-constants';
 
 const colors = ['red', 'orange', 'blue', 'green', 'purple', 'gray'];
 
@@ -106,11 +107,11 @@ export default () => {
       getComp: ({ form }: { form: WrappedFormUtils }) => {
         const v = form.getFieldValue('color') || colors[0];
         return (
-          <div className="color-list colorful-bg">
+          <div className="color-list">
             {colors.map((c) => (
               <span
                 key={c}
-                className={`color-option ${c} ${v === c ? 'active' : ''}`}
+                className={`color-option bg-${c} ${v === c ? 'active' : ''}`}
                 onClick={() => form.setFieldsValue({ color: c })}
               >
                 <CustomIcon type="duigou" />
@@ -125,23 +126,31 @@ export default () => {
 
   return (
     <div className="project-label-list">
-      <div className="colorful-light-bg">
+      <div>
         <span className="label-item create" onClick={() => updater.modalVisible(true)}>
           <IconPlus size="14px" />
           {i18n.t('project:add label')}
         </span>
-        {list.map((label) => (
-          <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
-            {label.name}
-            <IconClose
-              className="ml-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(label);
-              }}
-            />
-          </span>
-        ))}
+        {list.map((label) => {
+          const tagColorCls = `${tagColorClsMap[label.color]}`;
+          const tagBgColorCls = `${tagBgColorClsMap[label.color]}`;
+          return (
+            <span
+              className={`label-item ${tagColorCls} ${tagBgColorCls}`}
+              key={label.id}
+              onClick={() => onClickLabel(label)}
+            >
+              {label.name}
+              <IconClose
+                className="ml-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(label);
+                }}
+              />
+            </span>
+          );
+        })}
       </div>
       <FormModal
         name={i18n.t('project:label')}

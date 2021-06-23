@@ -145,7 +145,7 @@ const ClientDetail = () => {
     {
       label: 'ClientID',
       value: (
-        <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
+        <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
           {get(clientDetail, ['sk', 'clientID'])}
         </span>
       ),
@@ -153,9 +153,9 @@ const ClientDetail = () => {
     {
       label: 'ClientSecret',
       value: (
-        <div className="flex justify-between items-center align-top">
+        <div className="flex justify-between items-center flex items-start">
           {showSecret ? (
-            <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
+            <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
               {get(clientDetail, ['sk', 'clientSecret'])}
             </span>
           ) : (
@@ -187,7 +187,7 @@ const ClientDetail = () => {
               {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
                   <CustomIcon
-                    className="ml-2 color-primary hover-active font-bold"
+                    className="ml-2 text-primary hover-active font-bold"
                     type="monitor"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -247,9 +247,9 @@ const ClientDetail = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <div className="pa-4 api-list">
-        <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
+        <div className="title text-base text-normal font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {

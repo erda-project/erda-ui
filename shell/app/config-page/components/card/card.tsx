@@ -93,7 +93,7 @@ export const Card = (props: CP_CARD.Props) => {
       <div className="info-card-content px-3 py-2" key={id} ref={drag}>
         <div className={'info-card-head flex justify-between items-center mb-2'}>
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
-          <div className="flex-1 text-sm color-text break-word">{title}</div>
+          <div className="flex-1 text-sm text-normal break-word">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
           ) : (
@@ -104,10 +104,10 @@ export const Card = (props: CP_CARD.Props) => {
             </span>
           )}
         </div>
-        {isString(subContent) ? <div className="text-xs color-text-sub mb-3">{subContent}</div> : subContent || null}
+        {isString(subContent) ? <div className="text-xs text-sub mb-3">{subContent}</div> : subContent || null}
         {isString(description) ? (
           <Tooltip title={description}>
-            <div className="text-xs nowrap color-text-desc">{description}</div>
+            <div className="text-xs nowrap text-desc">{description}</div>
           </Tooltip>
         ) : (
           description || null
