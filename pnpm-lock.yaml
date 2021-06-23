@@ -383,6 +383,7 @@ importers:
       react-router-dom: ^5.2.0
       react-test-renderer: ^16.7.0
       react-use: ^15.3.4
+      requestidlecallback-polyfill: ^1.0.2
       sass: ^1.32.4
       sass-loader: ^10.1.1
       sass-resources-loader: ^2.1.1
@@ -456,6 +457,7 @@ importers:
       react-router-config: 5.1.1_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
       react-use: 15.3.8_react-dom@16.14.0+react@16.14.0
+      requestidlecallback-polyfill: 1.0.2
       sass-loader: 10.2.0_sass@1.34.0+webpack@5.38.1
       sass-resources-loader: 2.2.1
       screenfull: 5.1.0
@@ -12871,6 +12873,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.1_supports-color@6.1.0
+    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -14060,7 +14063,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.1_debug@4.3.1
+      follow-redirects: 1.14.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -23363,6 +23366,10 @@ packages:
       tunnel-agent: 0.6.0
       uuid: 3.4.0
     dev: true
+
+  /requestidlecallback-polyfill/1.0.2:
+    resolution: {integrity: sha512-zzkRzvMe7UdV0M7AIU70vl2fh4rFnNYDL8U0ISwWiOX/5MowBV1ESYCWSQP/KsgJNUOC/AS6X3DApOmxoyE6MA==}
+    dev: false
 
   /require-directory/2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
