@@ -53,7 +53,7 @@ export const OrgInfo = () => {
     },
     ...insertWhen(!currentOrg.publisherId, [
       {
-        label: i18n.t('admin:become a publisher'),
+        label: i18n.t('org:become a publisher'),
         required: false,
         name: 'isPublisher',
         type: 'switch',
@@ -64,7 +64,7 @@ export const OrgInfo = () => {
     ]),
     ...insertWhen(isPublisher, [
       {
-        label: i18n.t('admin:publisher name'),
+        label: i18n.t('publisher:repository name'),
         name: 'publisherName',
         itemProps: {
           maxLength: 50,

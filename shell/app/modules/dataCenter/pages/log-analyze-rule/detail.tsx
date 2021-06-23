@@ -229,7 +229,7 @@ export default () => {
         label: i18n.t('org:log filter'),
         component: 'select',
         componentProps: {
-          placeholder: i18n.t('microService:format: Key=Value, press Enter to add'),
+          placeholder: i18n.t('microService|format: Key=Value, press Enter to add', { nsSeparator: '|' }),
           mode: 'tags',
           allowClear: true,
           style: { width: 400 },

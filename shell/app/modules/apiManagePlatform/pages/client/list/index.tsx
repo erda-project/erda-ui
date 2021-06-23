@@ -114,7 +114,7 @@ const ClientList = () => {
     <Spin spinning={isLoading.some((t) => t)}>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
       <Alert
-        message={i18n.t('Data source: API call management')}
+        message={i18n.t('Data source: API call management', { nsSeparator: '|' })}
         description={i18n.t(
           'On this page, you can check the progress of my application to call the API request, and its specific authentication information after the application is approved.',
         )}

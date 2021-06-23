@@ -366,7 +366,7 @@ const VersionList = (props: IProps) => {
                           </IF>
                           <Popconfirm
                             title={i18n.t('is it confirmed {action}?', {
-                              action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('releaseer:publish'),
+                              action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish'),
                             })}
                             onConfirm={() => {
                               openGrayModal(record);
@@ -383,7 +383,7 @@ const VersionList = (props: IProps) => {
                                 }
                               >
                                 <Button disabled={disableVersionConf(record)}>
-                                  {isPublic ? i18n.t('publisher:withdraw') : i18n.t('releaseer:publish')}
+                                  {isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish')}
                                 </Button>
                               </Tooltip>
                             </WithAuth>
