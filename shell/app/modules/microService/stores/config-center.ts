@@ -31,7 +31,7 @@ const ConfigCenter = createStore({
   name: 'configCenter',
   state: initState,
   effects: {
-    async getAppList({ call }, payload: ConfogCenter.GetAppList) {
+    async getAppList({ call }, payload: ConfigCenter.GetAppList) {
       const res = await call(ConfigCenterService.getAppList, payload, { paging: { key: 'appListPaging' } });
       if (!res) {
         return { total: 0, list: [] };
@@ -40,13 +40,13 @@ const ConfigCenter = createStore({
       ConfigCenter.reducers.getAppListSuccess({ ...payload, list });
       return { total, list };
     },
-    async getConfigList({ call }, payload: ConfogCenter.GetConfigList) {
+    async getConfigList({ call }, payload: ConfigCenter.GetConfigList) {
       const data = await call(ConfigCenterService.getConfigList, payload);
       if (data) {
         ConfigCenter.reducers.getConfigListSuccess({ ...payload, data });
       }
     },
-    async saveConfig({ call }, payload: ConfogCenter.SaveConfig) {
+    async saveConfig({ call }, payload: ConfigCenter.SaveConfig) {
       const { operationType, ...rest } = payload;
       const res = await call(ConfigCenterService.saveConfig, rest, {
         successMsg: operationType === 'delete' ? i18n.t('deleted successfully') : i18n.t('saved successfully'),
