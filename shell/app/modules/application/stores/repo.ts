@@ -306,7 +306,8 @@ const repoStore = createStore({
           latestCommitDetail.lines = latestCommitDetail.lines.slice(0, -1);
         }
       }
-      const section = target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path).sections[payload.sectionIndex];
+      const file = target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path);
+      const section = file.sections[payload.sectionIndex];
       if (payload.bottom) {
         section.lines = section.lines.concat(latestCommitDetail.lines);
       } else {
@@ -322,6 +323,7 @@ const repoStore = createStore({
         default:
           break;
       }
+      return file;
     },
     async getRepoRaw({ call }) {
       const raw = await call(RepoServices.getFromRepo, { type: 'raw' });
