@@ -21,18 +21,19 @@ import classnames from 'classnames';
 import './card.scss';
 
 const fakeClick = 'fake-click';
-const noop = () => {};
+const noop = () => { };
 
 export const Card = (props: CP_CARD.Props) => {
   const { props: configProps, execOperation = noop, customProps = {} } = props;
   const { cardType, data, className = '' } = configProps;
   const { clickNode = noop } = customProps;
+  const [isHover, setIsHover] = React.useState(false);
   const { id, titleIcon, title, operations, subContent, description, extraInfo } = data?._infoData || {};
   const { drag: dragOperation, ...menuOperations } = operations || {};
   const [dragObj, drag] = useDrag({
     item: { type: cardType, data: { ...data, drag: { ...(dragOperation || {}), key: 'drag' } } },
     canDrag: () => {
-      return dragOperation && !dragOperation.disabled;
+      return dragOperation && !dragOperation.disabled && !isHover;
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -97,7 +98,11 @@ export const Card = (props: CP_CARD.Props) => {
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
           ) : (
-            <span ref={opRef}>
+            <span
+              ref={opRef}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            >
               <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
                 <CustomIcon className="op-icon" onClick={(e) => e.stopPropagation()} type="more" />
               </Dropdown>
