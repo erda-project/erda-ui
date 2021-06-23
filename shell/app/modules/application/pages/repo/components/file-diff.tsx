@@ -156,7 +156,11 @@ export const FileDiff = ({
   forwardRef,
   appDetail,
 }: IProps) => {
-  const { oldName, name, type, sections, issues = [], isBin = false, index: commitId } = file;
+  const [expandedFile, setExpandedFile] = React.useState(null);
+  const memoFile = React.useMemo(() => {
+    return expandedFile || file;
+  }, [expandedFile, file]);
+  const { oldName, name, type, sections, issues = [], isBin = false, index: commitId } = memoFile;
   const diffSize = (sections || []).reduce((size, value) => size + value.lines.length, 0);
   const DIFF_SIZE_LIMIT = 200;
   const [leftCommentEditVisible, setLeftCommentEditVisible] = useState({});
@@ -328,12 +332,13 @@ export const FileDiff = ({
                       const newPrefix = newLineNo > 0 ? newLineNo : '';
                       const actionPrefix = prefixMap[actionType] || '';
                       const codeStyle = { paddingLeft: `${paddingLeft}em`, whiteSpace: 'pre-wrap', display: 'inline-block' } as React.CSSProperties;
-                      const handleExpand = () => {
+                      const handleExpand = async () => {
                         if (oldLineNo !== -1 || newLineNo !== -1 || !getBlobRange) {
                           return;
                         }
                         const params = getExpandParams(file.name, sections, content);
-                        getBlobRange({ ...params, type: mode });
+                        const updatedFile = await getBlobRange({ ...params, type: mode });
+                        setExpandedFile(updatedFile);
                       };
                       const lineKey = `${oldLineNo}_${newLineNo}`;
                       const comments = commentMap[lineKey];
