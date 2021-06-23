@@ -3866,9 +3866,6 @@
     "visit domain": "visit domain",
     "waiting for deployment": "waiting for deployment"
   },
-  "shell": {
-    "common&#58;vip features tips": "common:vip features tips"
-  },
   "user": {},
   "workBench": {
     "JVM analysis": "JVM analysis",
