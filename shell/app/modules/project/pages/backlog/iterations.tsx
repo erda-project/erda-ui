@@ -88,7 +88,7 @@ const Iterations = () => {
           </WithAuth>
         </div>
       </div>
-      <div className="backlog-iteration-content spin-h-full">
+      <div className="backlog-iteration-content spin-full-height">
         <Spin spinning={loading}>
           {isEmpty(undoneIterations) && !isAdding && <EmptyIteration addAuth={addAuth} onAdd={onAdd} />}
           {

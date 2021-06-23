@@ -14,7 +14,7 @@
 import React from 'react';
 import { FilterCore } from 'common/components/filter-group/filter-group';
 import { Input } from 'app/nusi';
-import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
+import { FilterGroup, ToolBarWithFilter, FilterBarHandle } from 'common';
 import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
@@ -204,15 +204,6 @@ describe('filter-group', () => {
     expect(searchFn).toHaveBeenCalledTimes(3);
     wrapper.find('.clear').simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(4);
-  });
-  it('FilterGroupV should work well', () => {
-    const wrapper = mount(<FilterGroupV list={simpleList} />);
-    expect(
-      wrapper
-        .find('Col.filter-item')
-        .at(simpleList.length - 1)
-        .find('.ml12-group'),
-    ).toExist();
   });
   it('should FilterBarHandle work well', () => {
     const queryStr = 'name[erda]||org[erda.cloud]';

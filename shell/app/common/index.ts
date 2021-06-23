@@ -69,7 +69,6 @@ export { DropdownSelect } from './components/dropdown-select';
 export {
   FilterGroup,
   FilterGroupDrawer,
-  FilterGroupV,
   ToolBarWithFilter,
   FilterBarHandle,
 } from './components/filter-group/filter-group';

@@ -224,7 +224,7 @@ const Backlog = () => {
       <div className={'backlog-filter'}>
         <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
       </div>
-      <div className={`backlog-issues-content spin-h-full ${isOver ? 'drag-over' : ''}`} ref={drop}>
+      <div className={`backlog-issues-content spin-full-height ${isOver ? 'drag-over' : ''}`} ref={drop}>
         <Spin spinning={!isHide && loading}>
           {isEmpty(backlogIssues) && !isAdding && <EmptyBacklog addAuth={addAuth} onAdd={onAdd} />}
           <div className="list-container" ref={listRef}>
