@@ -290,7 +290,7 @@ export const numberFormatField = {
   required: false,
   colSpan: 8,
   customProps: {
-    options: numberTypeOptions,
+    children: numberTypeOptions,
   },
 };
 
@@ -416,7 +416,7 @@ export const mediaTypeField = {
   colSpan: 12,
   initialValue: 'application/json',
   customProps: {
-    options: map(API_MEDIA_TYPE, (t) => (
+    children: map(API_MEDIA_TYPE, (t) => (
       <Option key={t} value={t}>
         {t}
       </Option>
@@ -487,7 +487,7 @@ export const getPropertyFormSelector = (props: {
       {
         ...propertyTypeSelectorField,
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },
@@ -532,7 +532,7 @@ export const getPropertyFormSelector = (props: {
         colSpan: 10,
         initialValue: 'string',
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },
@@ -562,7 +562,11 @@ export const getPropertyFormSelector = (props: {
               } else if (pattern.test(value)) {
                 callback(message);
               } else if (value.toLocaleLowerCase() in BASE_DATA_TYPE) {
-                callback(i18n.t('project:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.'));
+                callback(
+                  i18n.t(
+                    'project:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.',
+                  ),
+                );
               } else {
                 callback();
               }
@@ -574,7 +578,7 @@ export const getPropertyFormSelector = (props: {
         ...propertyTypeSelectorField,
         initialValue: 'string',
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },
@@ -586,7 +590,7 @@ export const getPropertyFormSelector = (props: {
         initialValue: 'string',
         colSpan: 24,
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },

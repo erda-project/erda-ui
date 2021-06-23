@@ -99,7 +99,7 @@ const DomainManage = () => {
         type: Select,
         name: 'clusterName',
         customProps: {
-          options: map(clusterList, ({ name }) => (
+          children: map(clusterList, ({ name }) => (
             <Option key={name} value={name}>
               {name}
             </Option>
@@ -112,7 +112,7 @@ const DomainManage = () => {
         type: Select,
         name: 'type',
         customProps: {
-          options: map(Object.keys(SERVER_TYPES), (value) => (
+          children: map(Object.keys(SERVER_TYPES), (value) => (
             <Option key={value} value={value}>
               {SERVER_TYPES[value]}
             </Option>
@@ -146,7 +146,7 @@ const DomainManage = () => {
         name: 'workspace',
         customProps: {
           allowClear: true,
-          options: envOptions,
+          children: envOptions,
           placeholder: i18n.t('please choose {name}', { name: i18n.t('application:environment') }),
         },
       },
