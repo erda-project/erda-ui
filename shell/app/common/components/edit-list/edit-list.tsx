@@ -18,7 +18,20 @@ import { produce } from 'immer';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { getCheckListFromRule } from 'configForm/form/form';
-import { get, isEmpty, map, find, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
+import {
+  get,
+  isEmpty,
+  map,
+  find,
+  isEqual,
+  isArray,
+  isPlainObject,
+  set,
+  compact,
+  includes,
+  filter,
+  debounce,
+} from 'lodash';
 import './edit-list.scss';
 
 interface IData {
@@ -37,9 +50,9 @@ interface ITemp {
     required?: boolean;
     uniqueValue?: boolean;
     defaultValue?: any;
-    rules?: Array<{ msg: string, [k: string]: string }>
+    rules?: Array<{ msg: string; [k: string]: string }>;
     [pro: string]: any;
-  },
+  };
 }
 
 const defaultRender = {
@@ -57,29 +70,31 @@ interface IELProps {
   showTitle?: boolean; // 显示表头
 }
 
-const noop = () => { };
+const noop = () => {};
 
 const getTempData = (dataTemp: ITemp[], withTitle = false) => {
   const data = {};
-  map(dataTemp, temp => {
+  map(dataTemp, (temp) => {
     data[temp.key] = withTitle ? temp.title : (temp.render || defaultRender).defaultValue;
   });
   return data;
 };
 
-const getDuplicateValue = (arr: string[]) => filter(arr, (value, index, iteratee) => includes(iteratee, value, index + 1));
+const getDuplicateValue = (arr: string[]) =>
+  filter(arr, (value, index, iteratee) => includes(iteratee, value, index + 1));
 
 export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
   const requiredKeys = [] as ITemp[];
   const uniqValueKeys = [] as ITemp[];
-  dataTemp.forEach(item => {
+  dataTemp.forEach((item) => {
     item.render?.required && requiredKeys.push(item);
     item.render?.uniqueValue && uniqValueKeys.push(item);
   });
 
   let validTip = '';
-  if (!isEmpty(uniqValueKeys)) { // 唯一值的key
-    uniqValueKeys.forEach(uk => {
+  if (!isEmpty(uniqValueKeys)) {
+    // 唯一值的key
+    uniqValueKeys.forEach((uk) => {
       if (!validTip) {
         const duplicateValues = getDuplicateValue(compact(map(value, uk.key)));
         const sameKey = i18n.t('exist the same {key}', { key: duplicateValues.join(',') });
@@ -88,8 +103,8 @@ export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
     });
   }
   if (!validTip) {
-    requiredKeys.forEach(rk => {
-      value.forEach(v => {
+    requiredKeys.forEach((rk) => {
+      value.forEach((v) => {
         if (!validTip) {
           const unValid = notEmptyValue(get(v, rk.key));
           !unValid && (validTip = i18n.t('{name} can not empty', { name: rk.title || rk.key }));
@@ -99,11 +114,11 @@ export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
   }
 
   if (!validTip) {
-    dataTemp.forEach(item => {
+    dataTemp.forEach((item) => {
       const rules = item.render?.rules;
       if (!validTip && rules) {
-        value.forEach(v => {
-          if (!validTip)validTip = validRulesValue(rules, get(v, item.key));
+        value.forEach((v) => {
+          if (!validTip) validTip = validRulesValue(rules, get(v, item.key));
         });
       }
     });
@@ -112,7 +127,15 @@ export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
 };
 
 const EditList = (props: IELProps) => {
-  const { value: propsVal, onChange, onBlurSave: pOnBlurSave, dataTemp, onSave = noop, showTitle = true, disabled = false } = props;
+  const {
+    value: propsVal,
+    onChange,
+    onBlurSave: pOnBlurSave,
+    dataTemp,
+    onSave = noop,
+    showTitle = true,
+    disabled = false,
+  } = props;
   const [{ value, changed, forceUpdate }, updater, update] = useUpdate({
     value: propsVal,
     changed: false,
@@ -145,7 +168,6 @@ const EditList = (props: IELProps) => {
     }
   }, [value]);
 
-
   const changeData = (val: any, forceChange = false) => {
     update({
       value: val,
@@ -162,7 +184,8 @@ const EditList = (props: IELProps) => {
   };
 
   const onBlurSave = (v?: IData[]) => {
-    setTimeout(() => { // 延时确保值正确，不同控件修改值的时机不一样，select触发update同时会触发保存
+    setTimeout(() => {
+      // 延时确保值正确，不同控件修改值的时机不一样，select触发update同时会触发保存
       if (pOnBlurSave && !validateValue(dataTemp, v || valueRef.current || [])) {
         pOnBlurSave(v || valueRef.current);
       }
@@ -203,38 +226,48 @@ const EditList = (props: IELProps) => {
 
   const validTip = validateValue(dataTemp, value || []);
 
-
   return (
-    <div className='edit-list'>
-      <div className='edit-list-box'>
-        {showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<Icon className='edit-list-item-operation not-allowed' type="minus-circle" />} /> : null}
-        {
-          map(value, (item, idx) => (
-            <ListItem
-              key={idx}
-              dataTemp={dataTemp}
-              value={item}
-              updateItem={updateItem(idx)}
-              onBlurSave={onBlurSave}
-              disabled={disabled}
-              operation={(
-                <div className='table-operations'>
-                  <span className={`table-operations-btn ${disabled ? 'not-allowed' : ''}`} onClick={() => !disabled && deleteItem(idx)}>{i18n.t('delete')}</span>
-                </div>
-              )}
-            />
-          ))
-        }
+    <div className="edit-list">
+      <div className="edit-list-box">
+        {showTitle ? (
+          <ListItem
+            dataTemp={dataTemp}
+            isTitle
+            operation={<Icon className="edit-list-item-operation not-allowed" type="minus-circle" />}
+          />
+        ) : null}
+        {map(value, (item, idx) => (
+          <ListItem
+            key={idx}
+            dataTemp={dataTemp}
+            value={item}
+            updateItem={updateItem(idx)}
+            onBlurSave={onBlurSave}
+            disabled={disabled}
+            operation={
+              <div className="table-operations">
+                <span
+                  className={`table-operations-btn ${disabled ? 'not-allowed' : ''}`}
+                  onClick={() => !disabled && deleteItem(idx)}
+                >
+                  {i18n.t('delete')}
+                </span>
+              </div>
+            }
+          />
+        ))}
       </div>
-      {validTip ? <div className='pa8 color-red'>{validTip}</div> : null}
-      <div className='edit-list-bottom mt4'>
-        {
-          disabled ? (
-            <Button className='not-allowed' size='small'>{i18n.t('common:add')}</Button>
-          ) : (
-            <Button className='' size='small' onClick={addItem}>{i18n.t('common:add')}</Button>
-          )
-        }
+      {validTip ? <div className="pa8 color-red">{validTip}</div> : null}
+      <div className="edit-list-bottom mt4">
+        {disabled ? (
+          <Button className="not-allowed" size="small">
+            {i18n.t('common:add')}
+          </Button>
+        ) : (
+          <Button className="" size="small" onClick={addItem}>
+            {i18n.t('common:add')}
+          </Button>
+        )}
         {
           // autoSave ? null : (
           //   changed ? (
@@ -281,10 +314,17 @@ const ListItem = (props: IListItemProps) => {
     : [dataTemp, value];
 
   return (
-    <div className='edit-list-item-box'>
-      {
-        map(temp, (item, idx) => <RenderItem key={idx} operation={operation} temp={item} value={get(useValue, item.key)} updateItem={updateItem(item.key)} {...rest} />)
-      }
+    <div className="edit-list-item-box">
+      {map(temp, (item, idx) => (
+        <RenderItem
+          key={idx}
+          operation={operation}
+          temp={item}
+          value={get(useValue, item.key)}
+          updateItem={updateItem(item.key)}
+          {...rest}
+        />
+      ))}
     </div>
   );
 };
@@ -308,7 +348,7 @@ const notEmptyValue = (v: any) => {
 
 const validRulesValue = (rules: any[] = [], value: any) => {
   let validTip = '';
-  (rules || []).forEach(item => {
+  (rules || []).forEach((item) => {
     const checkList = getCheckListFromRule(item) || [];
     checkList.forEach((checkFun: any) => {
       if (!validTip) {
@@ -322,7 +362,7 @@ const validRulesValue = (rules: any[] = [], value: any) => {
 
 const RenderItem = (props: IRenderItem) => {
   const { temp, value, updateItem, disabled, isTitle, onBlurSave = noop } = props;
-  const ref = React.useRef<HTMLTextAreaElement>(null as any as HTMLTextAreaElement);
+  const ref = React.useRef<HTMLTextAreaElement>((null as any) as HTMLTextAreaElement);
   let Comp = '' as React.ReactElement | string;
   const { flex = 1, width, render, titleTip, ...rest } = temp;
   const { type = 'input', required, rules, props: rProps } = render || defaultRender;
@@ -337,7 +377,6 @@ const RenderItem = (props: IRenderItem) => {
   if (required) {
     cls += ' required-item';
   }
-
 
   const handleInput = () => {
     ref.current.style.height = '30px';
@@ -368,14 +407,17 @@ const RenderItem = (props: IRenderItem) => {
   switch (curType) {
     case 'text':
     case 'custom':
-      Comp = isTitle && titleTip ? (
-        <div className='left-flex-box'>
-          {curVal}
-          <Tooltip title={titleTip}>
-            <CustomIcon type='help' className='ml4 fz14' />
-          </Tooltip>
-        </div>
-      ) : curVal;
+      Comp =
+        isTitle && titleTip ? (
+          <div className="left-flex-box">
+            {curVal}
+            <Tooltip title={titleTip}>
+              <CustomIcon type="help" className="ml4 fz14" />
+            </Tooltip>
+          </div>
+        ) : (
+          curVal
+        );
       break;
     case 'select':
       Comp = (
@@ -389,15 +431,14 @@ const RenderItem = (props: IRenderItem) => {
           }}
           {...rProps}
         >
-          {
-            map(temp.render?.props?.options || [], item => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label || item.value}
-                </Select.Option>
-              );
-            })
-          }
+          {map(temp.render?.props?.options || [], (item) => {
+            const displayName = item.label || item.name;
+            return (
+              <Select.Option title={displayName} key={item.value} value={item.value}>
+                {displayName}
+              </Select.Option>
+            );
+          })}
         </Select>
       );
       break;
@@ -413,7 +454,17 @@ const RenderItem = (props: IRenderItem) => {
       );
       break;
     case 'input':
-      Comp = <Input className='nowrap' required={required} disabled={disabled} value={curVal as string} onChange={(e: any) => updateItem(e.target.value)} onBlur={() => onBlurSave()} {...rProps} />;
+      Comp = (
+        <Input
+          className="nowrap"
+          required={required}
+          disabled={disabled}
+          value={curVal as string}
+          onChange={(e: any) => updateItem(e.target.value)}
+          onBlur={() => onBlurSave()}
+          {...rProps}
+        />
+      );
       break;
     case 'textarea':
       Comp = (
