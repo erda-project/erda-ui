@@ -72,7 +72,11 @@ const sortTabList = [
 const ComparativePanel = () => {
   return (
     <div className="monitor-comparative-container">
-      <div className="monitor-comparative-tip">{i18n.t('microService:Choose different indicators and user features for comparative analysis for different business types and scenarios, to locate issues accurately.')}</div>
+      <div className="monitor-comparative-tip">
+        {i18n.t(
+          'microService:Choose different indicators and user features for comparative analysis for different business types and scenarios, to locate issues accurately.',
+        )}
+      </div>
       <Link to={resolvePath('./comparative')}>
         <Button>{i18n.t('microService:comparative analysis')}</Button>
       </Link>

@@ -1923,6 +1923,8 @@
     "whether to enable": "whether to enable",
     "whether to put {name} in public": "whether to put {name} in public",
     "whether to use a proxy": "whether to use a proxy",
+    "white screen time": "white screen time",
+    "dop": "DevOps platform",
     "year": "year",
     "you have new site message, please pay attention to check": "you have new site message, please pay attention to check",
     "{action} successfully": "{action} successfully",
@@ -3874,7 +3876,7 @@
     "waiting for deployment": "waiting for deployment"
   },
   "user": {},
-  "workBench": {
+  "dop": {
     "JVM analysis": "JVM analysis",
     "addon info": "addon info",
     "addon setting": "addon setting",

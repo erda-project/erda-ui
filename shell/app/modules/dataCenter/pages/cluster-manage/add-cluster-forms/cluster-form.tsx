@@ -257,7 +257,9 @@ const ClusterSchedulerForm = ({
         name: 'scheduler.cpuSubscribeRatio',
         type: 'inputNumber',
         extraProps: {
-          extra: i18n.t('org:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.'),
+          extra: i18n.t(
+            'org:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.',
+          ),
         },
         itemProps: {
           min: 1,

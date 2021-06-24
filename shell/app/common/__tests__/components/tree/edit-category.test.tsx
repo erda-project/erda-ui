@@ -29,13 +29,7 @@ describe('EditCategory', () => {
   it('should work well when contentOnly is false', () => {
     const summitFn = jest.fn().mockResolvedValue();
     const hideFn = jest.fn();
-    const wrapper = shallow(
-      <EditCategory
-        defaultName='erda'
-        onSubmit={summitFn}
-        onHide={hideFn}
-      />,
-    );
+    const wrapper = shallow(<EditCategory defaultName="erda" onSubmit={summitFn} onHide={hideFn} />);
     expect(wrapper.find('.dice-edit-category')).not.toExist();
     wrapper.find('Button').simulate('click');
     expect(summitFn).toHaveBeenLastCalledWith({ name: 'erda' });
@@ -46,14 +40,7 @@ describe('EditCategory', () => {
     const spyWarning = jest.spyOn(message, 'warning');
     const spyError = jest.spyOn(message, 'error');
     const str = 'erda.cloud';
-    const wrapper = mount(
-      <EditCategory
-        contentOnly
-        defaultName='erda'
-        onSubmit={summitFn}
-        onHide={hideFn}
-      />,
-    );
+    const wrapper = mount(<EditCategory contentOnly defaultName="erda" onSubmit={summitFn} onHide={hideFn} />);
     wrapper.find('Input').simulate('change', { target: { value: str } });
     expect(wrapper.find('Input').prop('value')).toBe(str);
     await asyncAct(wrapper);
@@ -79,4 +66,3 @@ describe('EditCategory', () => {
     spyError.mockReset();
   });
 });
-

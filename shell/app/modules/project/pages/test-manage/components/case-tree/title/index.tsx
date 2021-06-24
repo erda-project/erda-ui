@@ -120,7 +120,9 @@ const Title = ({
       case TestOperation.delete:
         Modal.confirm({
           title: i18n.t('project:delete'),
-          content: i18n.t('project:Deleting will put the current test set and included test cases into the recycle bin.') + i18n.t('are you sure?'),
+          content:
+            i18n.t('project:Deleting will put the current test set and included test cases into the recycle bin.') +
+            i18n.t('are you sure?'),
           onOk: () => {
             deleteTestSetToRecycle(id).then(() => {
               onOperateNode(eventKey, TestOperation.delete);

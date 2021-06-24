@@ -30,13 +30,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
 
   const menu = [
     {
-      href: goTo.resolve.projectApps(), // `/workBench/projects/${projectId}/apps`,
+      href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
       icon: <IconApplicationOne />,
       text: i18n.t('project:applications'),
       show: projectPerm.appList.viewAppList.pass,
     },
     {
-      href: goTo.resolve.projectAllIssue(), // `/workBench/projects/${projectId}/issues/all`,
+      href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('project:issues'),
       show:
@@ -50,40 +50,40 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
 
     //   text: i18n.t('pipeline'),
     //   icon: 'lsx',
-    //   href: `/workBench/projects/${projectId}/pipelines`,
+    //   href: `/dop/projects/${projectId}/pipelines`,
     //   show: projectPerm.pipeline.view.pass,
     // },
     {
-      href: goTo.resolve.project(), // `/workBench/projects/${projectId}`,
+      href: goTo.resolve.project(), // `/dop/projects/${projectId}`,
       icon: <CustomIcon type="ceshiguanli" />,
       text: i18n.t('project:test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
         {
-          href: goTo.resolve.projectManualTestCase(), // `/workBench/projects/${projectId}/testCase/manual`,
+          href: goTo.resolve.projectManualTestCase(), // `/dop/projects/${projectId}/testCase/manual`,
           text: i18n.t('project:test case'),
           prefix: `${goTo.resolve.projectTestCaseRoot()}/`,
         },
         {
-          href: goTo.resolve.projectDataSource(), // `/workBench/projects/${projectId}/data-bank/data-source`,
+          href: goTo.resolve.projectDataSource(), // `/dop/projects/${projectId}/data-bank/data-source`,
           text: i18n.t('project:data bank'),
           show: projectPerm.dataBank.dataSource.view.pass || projectPerm.dataBank.configData.view.pass,
           prefix: `${goTo.resolve.projectDataBankRoot()}/`,
         },
         {
-          href: goTo.resolve.projectManualTestPlane(), // `/workBench/projects/${projectId}/testPlan/manual`,
+          href: goTo.resolve.projectManualTestPlane(), // `/dop/projects/${projectId}/testPlan/manual`,
           text: i18n.t('project:test plan'),
           prefix: `${goTo.resolve.projectTestPlaneRoot()}/`,
         },
         {
-          href: goTo.resolve.projectManualTestEnv(), // `/workBench/projects/${projectId}/testEnv/manual`,
+          href: goTo.resolve.projectManualTestEnv(), // `/dop/projects/${projectId}/testEnv/manual`,
           text: i18n.t('project:parameter configuration'),
           prefix: `${goTo.resolve.projectTestEnvRoot()}/`,
         },
       ],
     },
     {
-      href: goTo.resolve.projectDashboard(), // `/workBench/projects/${projectId}/dashboard`,
+      href: goTo.resolve.projectDashboard(), // `/dop/projects/${projectId}/dashboard`,
       icon: <IconDashboardCar />,
       text: i18n.t('project:dashboard'),
       show: projectPerm.dashboard.viewDashboard.pass,
@@ -107,12 +107,12 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.ticket.read.pass,
     },
     // {
-    //   href: `/workBench/projects/${projectId}/config`,
+    //   href: `/dop/projects/${projectId}/config`,
     //   icon: 'unlock',
     //   text: '配置管理',
     // }
     {
-      href: goTo.resolve.projectSetting(), // `/workBench/projects/${projectId}/setting`,
+      href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
       icon: <IconConfig />,
       text: `${i18n.t('project setting')}`,
       show: projectPerm.setting.viewSetting.pass,

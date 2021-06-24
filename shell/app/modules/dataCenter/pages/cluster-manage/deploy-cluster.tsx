@@ -46,7 +46,11 @@ const DeployCluster = () => {
 
   React.useEffect(() => {
     if (!isEmpty(deployingCluster) && firstVisit) {
-      message.info(i18n.t('org:The last deployment information has been initialized. Please click the reset button at the bottom if unnecessary.'));
+      message.info(
+        i18n.t(
+          'org:The last deployment information has been initialized. Please click the reset button at the bottom if unnecessary.',
+        ),
+      );
       firstVisit = false;
     }
   }, [deployingCluster]);

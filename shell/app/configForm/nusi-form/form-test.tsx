@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Button } from 'app/nusi';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 
 export default () => {
   const formRef = React.useRef(null as any);

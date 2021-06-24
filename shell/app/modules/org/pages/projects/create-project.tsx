@@ -191,7 +191,9 @@ const templateArr = [
       default: default_devops_svg,
       active: active_devops_svg,
     },
-    description: i18n.t('org:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.'),
+    description: i18n.t(
+      'org:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.',
+    ),
     disabled: false,
   },
   {
@@ -200,7 +202,9 @@ const templateArr = [
       default: default_dmtd_svg,
       active: active_dmtd_svg,
     },
-    description: i18n.t('org:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts'),
+    description: i18n.t(
+      'org:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts',
+    ),
     disabled: true,
   },
   {

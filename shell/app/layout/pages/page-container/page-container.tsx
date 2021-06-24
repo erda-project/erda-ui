@@ -205,5 +205,3 @@ const PageContainer = ({ route }: IProps) => {
 };
 
 export default PageContainer;
-
-

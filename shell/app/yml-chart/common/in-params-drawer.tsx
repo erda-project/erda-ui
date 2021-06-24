@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Drawer, Button } from 'app/nusi';
 import { map, get, find, isNaN, compact, isEmpty, isBoolean } from 'lodash';
 import FormEditor from 'app/yml-chart/form-editor-for-pipeline/form-editor';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import './in-params-drawer.scss';
 

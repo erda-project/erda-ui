@@ -96,8 +96,8 @@ const layout = createStore({
         switchToApp('orgCenter');
       } else if (isIn('dataCenter')) {
         switchToApp('dataCenter');
-      } else if (isIn('workBench')) {
-        switchToApp('workBench');
+      } else if (isIn('dop')) {
+        switchToApp('dop');
       } else if (isIn('microService')) {
         switchToApp('microService');
       } else if (isIn('edge')) {
@@ -113,7 +113,7 @@ const layout = createStore({
       if (
         isEntering('orgCenter') ||
         isEntering('dataCenter') ||
-        isEntering('workBench') ||
+        isEntering('dop') ||
         isEntering('microService') ||
         isEntering('edge') ||
         isEntering('sysAdmin')

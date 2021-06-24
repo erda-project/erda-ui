@@ -22,7 +22,7 @@ import { modeOptions, appMode } from 'application/common/config';
 import userStore from 'app/user/stores';
 import routeInfoStore from 'app/common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
-import BlockNetworkStatus, { BlockNetworkTips } from 'workBench/pages/projects/block-comp';
+import BlockNetworkStatus, { BlockNetworkTips } from 'dop/pages/projects/block-comp';
 import './app-list.scss';
 
 const { Search } = Input;

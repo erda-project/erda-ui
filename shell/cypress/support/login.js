@@ -30,7 +30,7 @@ const { env } = defaultConfig.url.match(reg).groups || {};
 /**
  * @description login without ui
  * @see https://yuque.antfin.com/terminus_paas_dev/front/xfk4zg#XhhKW
- * @example cy.loginWithoutUI({ url: '/workBench/projects' });
+ * @example cy.loginWithoutUI({ url: '/dop/projects' });
  */
 Cypress.Commands.add(
   'loginWithoutUI',

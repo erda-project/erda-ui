@@ -117,7 +117,9 @@ const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolea
           {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
         </Button>
       </WithAuth>
-      {i18n.t('project:Create a new iteration, and you can drag the backlog on the left to an iteration and set its priority.')}
+      {i18n.t(
+        'project:Create a new iteration, and you can drag the backlog on the left to an iteration and set its priority.',
+      )}
     </div>
   </div>
 );

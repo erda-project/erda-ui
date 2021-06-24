@@ -32,9 +32,16 @@ interface ISlowTrackProps {
   _moduleName: string;
 }
 
-export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent, _moduleName }: ISlowTrackProps) => {
+export const webSlowTrackPanel = ({
+  data,
+  query,
+  timeSpan,
+  viewLog,
+  fetchTraceContent,
+  _moduleName,
+}: ISlowTrackProps) => {
   const { getSubSlowHttpList, getSubSlowRPCList } = siWebStore.effects;
-  const [subSlowHttpList, subSlowRpcList] = siWebStore.useStore(s => [s.subSlowHttpList, s.subSlowRPCList]);
+  const [subSlowHttpList, subSlowRpcList] = siWebStore.useStore((s) => [s.subSlowHttpList, s.subSlowRPCList]);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 
@@ -108,7 +115,7 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
@@ -119,7 +126,7 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
 
 export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
   const { getSubSlowDbList } = siDataBaseStore.effects;
-  const subSlowDbList = siDataBaseStore.useStore(s => s.subSlowDbList);
+  const subSlowDbList = siDataBaseStore.useStore((s) => s.subSlowDbList);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 
@@ -189,7 +196,7 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}

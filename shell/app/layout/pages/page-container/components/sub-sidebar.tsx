@@ -78,7 +78,7 @@ const findActiveKey = (menu: IMenu[], curHref: string) => {
   let activeKey = '';
   let realParentActiveKeyList = [] as string[];
   const getActiveKey = (menuNext: IMenu[], parentKey: string, activeParentList: string[]) => {
-    const tmpParentActiveKeyList:string[] = [];
+    const tmpParentActiveKeyList: string[] = [];
     menuNext.forEach(({ href, isActive, prefix, subMenu }) => {
       parentKey && !tmpParentActiveKeyList.includes(parentKey) && tmpParentActiveKeyList.push(parentKey);
       if (subMenu) getActiveKey(subMenu, href, tmpParentActiveKeyList);

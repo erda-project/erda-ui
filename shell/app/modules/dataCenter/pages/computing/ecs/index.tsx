@@ -368,7 +368,9 @@ export default () => {
                 <>
                   <div className="text-left second-title">{i18n.t('dataCenter:tips')}</div>
                   <ul className="text-left bold-400 fz14 pl12">
-                    <li>● {i18n.t('dataCenter:After successful setting, the system will automatically renew as set.')}</li>
+                    <li>
+                      ● {i18n.t('dataCenter:After successful setting, the system will automatically renew as set.')}
+                    </li>
                     <li>● {i18n.t('dataCenter:keep-money-enough')}</li>
                     <li>● {i18n.t('dataCenter:artificial-renewal-change-time')}</li>
                     <li>

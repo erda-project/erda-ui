@@ -112,7 +112,9 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('project:code quality access control'),
-                  desc: i18n.t('project:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.'),
+                  desc: i18n.t(
+                    'project:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.',
+                  ),
                   children: (
                     <ScanRule
                       operationAuth={permMap.setting.scanRule.operation.pass}
@@ -154,7 +156,9 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('project:manage all project labels'),
-                  desc: i18n.t('project:Tags can be used for issue and test management, to quickly locate and filter relevant content.'),
+                  desc: i18n.t(
+                    'project:Tags can be used for issue and test management, to quickly locate and filter relevant content.',
+                  ),
                   children: <ProjectLabel />,
                 },
               ]}

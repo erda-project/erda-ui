@@ -13,7 +13,7 @@
 
 import getProjectRouter from 'project/router';
 import getPublisherRouter from 'publisher/router';
-import { publisherTabs } from 'app/modules/workBench/pages/publisher/index.tsx';
+import { publisherTabs } from 'dop/pages/publisher/index.tsx';
 import getApiManagePlatformRouter from 'apiManagePlatform/router';
 import i18n from 'i18n';
 
@@ -43,20 +43,20 @@ const initiateTabs = [
   },
 ];
 
-export default function getWorkBenchRouter() {
+export default function getDopRouter() {
   return [
     {
-      path: 'workBench',
-      mark: 'workBench',
+      path: 'dop',
+      mark: 'dop',
       routes: [
         {
           path: 'approval',
-          pageName: i18n.t('workBench:deployment request'),
+          pageName: i18n.t('dop:deployment request'),
           mark: 'approval',
           routes: [
             {
               path: 'my-approve/:approvalType',
-              breadcrumbName: i18n.t('workBench:approved'),
+              breadcrumbName: i18n.t('dop:approved'),
               tabs: approvalTabs,
               ignoreTabQuery: true,
               routes: [
@@ -67,7 +67,7 @@ export default function getWorkBenchRouter() {
             },
             {
               path: 'my-initiate/:initiateType',
-              breadcrumbName: i18n.t('workBench:initiated'),
+              breadcrumbName: i18n.t('dop:initiated'),
               tabs: initiateTabs,
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('application/pages/deploy-list/initiate')),
@@ -85,34 +85,34 @@ export default function getWorkBenchRouter() {
           pageName: i18n.t('joined projects'),
           breadcrumbName: i18n.t('joined projects'),
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
+          getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
           path: 'public-projects',
           pageName: i18n.t('public project'),
           breadcrumbName: i18n.t('public project'),
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
+          getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
           path: 'service',
           breadcrumbName: i18n.t('addon service'),
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/workBench/pages/addons/addon-category'), 'AddonCategory'),
+          getComp: (cb) => cb(import('dop/pages/addons/addon-category'), 'AddonCategory'),
         },
         {
           path: 'publisher',
           breadcrumbName: i18n.t('publisher:my release'),
           routes: [
             {
-              getComp: (cb) => cb(import('app/modules/workBench/pages/publisher'), 'RedirectTo'),
+              getComp: (cb) => cb(import('dop/pages/publisher'), 'RedirectTo'),
             },
             {
               path: ':mode',
               tabs: publisherTabs,
               routes: [
                 {
-                  getComp: (cb) => cb(import('app/modules/workBench/pages/publisher')),
+                  getComp: (cb) => cb(import('dop/pages/publisher')),
                 },
                 ...getPublisherRouter(),
               ],
@@ -128,17 +128,17 @@ export default function getWorkBenchRouter() {
               routes: [
                 {
                   path: 'overview',
-                  breadcrumbName: i18n.t('workBench:addon info'),
+                  breadcrumbName: i18n.t('dop:addon info'),
                   getComp: (cb) => cb(import('common/containers/addon-resource')),
                 },
                 {
                   path: 'settings',
-                  breadcrumbName: i18n.t('workBench:addon setting'),
+                  breadcrumbName: i18n.t('dop:addon setting'),
                   getComp: (cb) => cb(import('common/components/addon-settings'), 'AddonSettings'),
                 },
                 // {
                 //   path: 'log-analytics',
-                //   breadcrumbName: i18n.t('workBench:console'),
+                //   breadcrumbName: i18n.t('dop:console'),
                 //   keepQuery: true,
                 //   getComp: cb => cb(import('microService/pages/log-analytics')),
                 // },
@@ -146,13 +146,13 @@ export default function getWorkBenchRouter() {
                   path: 'jvm-profiler',
                   routes: [
                     {
-                      breadcrumbName: i18n.t('workBench:console'),
+                      breadcrumbName: i18n.t('dop:console'),
                       keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
                     },
                     {
                       path: ':profileId',
-                      breadcrumbName: i18n.t('workBench:JVM analysis'),
+                      breadcrumbName: i18n.t('dop:JVM analysis'),
                       keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/jvm-overview')),
                     },
@@ -167,7 +167,7 @@ export default function getWorkBenchRouter() {
           path: 'form-editor',
           breadcrumbName: 'form-editor',
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('workBench/pages/form-editor')),
+          getComp: (cb) => cb(import('dop/pages/form-editor')),
         },
         {
           path: 'form-test',

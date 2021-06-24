@@ -215,7 +215,12 @@ export const PureApiPackage = () => {
         name: 'name',
         initialValue: state.basicForm.name,
         rules: [
-          { pattern: /^[A-Za-z0-9]+([-/_.][0-9a-zA-Z]+)*$/, message: i18n.t('microService:Please enter a name consisting of letters, numbers, underscores, hyphens, slashes and dots within 50 characters.') },
+          {
+            pattern: /^[A-Za-z0-9]+([-/_.][0-9a-zA-Z]+)*$/,
+            message: i18n.t(
+              'microService:Please enter a name consisting of letters, numbers, underscores, hyphens, slashes and dots within 50 characters.',
+            ),
+          },
         ],
         itemProps: {
           disabled: editMode,

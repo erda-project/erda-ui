@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Modal, Radio } from 'app/nusi';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import clusterStore from 'dataCenter/stores/cluster';
 import { clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';

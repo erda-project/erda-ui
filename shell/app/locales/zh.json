@@ -1923,6 +1923,8 @@
     "whether to enable": "是否启用",
     "whether to put {name} in public": "是否公开{name}",
     "whether to use a proxy": "是否使用代理",
+    "white screen time": "白屏时间",
+    "dop": "DevOps 平台",
     "year": "年",
     "you have new site message, please pay attention to check": "您有新的站内信，请注意查看",
     "{action} successfully": "{action}成功",
@@ -3874,7 +3876,7 @@
     "waiting for deployment": "等待部署"
   },
   "user": {},
-  "workBench": {
+  "dop": {
     "JVM analysis": "JVM 分析",
     "addon info": "服务信息",
     "addon setting": "服务设置",

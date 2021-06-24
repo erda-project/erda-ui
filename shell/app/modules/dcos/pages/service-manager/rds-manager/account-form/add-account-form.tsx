@@ -73,14 +73,20 @@ const AddAccountForm = (props: IProps) => {
               return callback(i18n.t('{name} already exists', { name: i18n.t('dcos:database account') }));
             }
             if (value.length < 5 || value.length > 32 || !/^[a-z][a-z0-9_]*[a-z0-9]$/.test(value)) {
-              return callback(i18n.t('dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters'));
+              return callback(
+                i18n.t(
+                  'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+                ),
+              );
             }
             callback();
           },
         },
       ],
       itemProps: {
-        placeholder: i18n.t('dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters'),
+        placeholder: i18n.t(
+          'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+        ),
       },
     },
     // {

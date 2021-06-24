@@ -14,7 +14,7 @@
 // / <reference types="cypress" />
 context('WorkBench-project', () => {
   before(() => {
-    cy.loginWithoutUI({ url: '/workBench/projects' });
+    cy.loginWithoutUI({ url: '/dop/projects' });
   });
   it('searchProject ', () => {
     cy.testList('/api/projects/actions/list-my-projects*');

@@ -26,7 +26,7 @@ export enum MENU_SCOPE {
   appCenter = 'appCenter',
   orgCenter = 'orgCenter',
   dataCenter = 'dataCenter',
-  workBench = 'workBench',
+  dop = 'dop',
 }
 const hiddenWhenOnlyFDP = (item: IMenuItem) => (ONLY_FDP ? null : item);
 const defaultFunc = (a: any) => a;
@@ -35,7 +35,7 @@ const { ONLY_FDP } = diceEnv || {};
 const menuFilterMap = {
   appCenter: {
     // 应用中心
-    workBench: hiddenWhenOnlyFDP,
+    dop: hiddenWhenOnlyFDP,
     microService: hiddenWhenOnlyFDP,
     edge: hiddenWhenOnlyFDP,
     apiManage: hiddenWhenOnlyFDP,
@@ -67,8 +67,8 @@ const menuFilterMap = {
     dataCenterReport: hiddenWhenOnlyFDP,
     dataCenterLog: hiddenWhenOnlyFDP,
   },
-  workBench: {
-    workBenchPublisher: (item: IMenuItem) => {
+  dop: {
+    dopPublisher: (item: IMenuItem) => {
       const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
       return !publisherId ? null : item;
     },

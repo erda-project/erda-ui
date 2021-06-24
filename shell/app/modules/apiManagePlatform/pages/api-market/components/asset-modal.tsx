@@ -149,7 +149,9 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         rules: [
           {
             pattern: idReg,
-            message: i18n.t('default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores'),
+            message: i18n.t(
+              'default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores',
+            ),
           },
         ],
       },

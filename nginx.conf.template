@@ -61,6 +61,11 @@ server {
         return 302 /-$request_uri;
     }
 
+    # 301 redirect url with replace workBench to dop
+    location ~ ^/[^/]*/workBench/ {
+        rewrite ^/([^/]*)/workBench/(.*)  /$1/dop/$2 permanent; 
+    }
+
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={
@@ -163,6 +168,13 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
+    }
+
+    # redirect repo address to gittar when user agent is git
+    location ~ ^/[^/]*/dop/ {
+        if ($http_user_agent ~* "git"){
+            proxy_pass http://${GITTAR_ADDR};
+        }
     }
 
     location ^~ /wb {

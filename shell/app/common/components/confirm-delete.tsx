@@ -59,7 +59,8 @@ export const ConfirmDelete = (props: IProps) => {
   const _title = title || i18n.t('common:confirm to delete current {deleteItem}', { deleteItem });
   const _secondTitle =
     secondTitle || i18n.t('common:{deleteItem} cannot be restored after deletion. Continue?', { deleteItem });
-  const _confirmTip = confirmTip || i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', { deleteItem });
+  const _confirmTip =
+    confirmTip || i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', { deleteItem });
   return (
     <div>
       <div className="color-text-desc mb8">{_confirmTip}</div>

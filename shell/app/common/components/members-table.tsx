@@ -314,7 +314,7 @@ export const MembersTable = ({
               location.href = goTo.resolve.orgRoot({ orgName: '-' });
             }
             if (scope?.type === 'project') {
-              goTo(goTo.resolve.workBenchRoot({ orgName: currentOrgName }), { replace: true });
+              goTo(goTo.resolve.dopRoot({ orgName: currentOrgName }), { replace: true });
             }
             if (scope?.type === 'app') {
               goTo(goTo.resolve.projectApps({ projectId, orgName: currentOrgName }), { replace: true });
@@ -539,11 +539,13 @@ export const MembersTable = ({
             alertProps={
               state.batchEditVisible
                 ? {
-                  message: i18n.t("common:The user's original permissions will be overwritten after batch processing. Please be cautious."),
-                  type: 'warning',
-                  showIcon: true,
-                  className: 'mb8',
-                }
+                    message: i18n.t(
+                      "common:The user's original permissions will be overwritten after batch processing. Please be cautious.",
+                    ),
+                    type: 'warning',
+                    showIcon: true,
+                    className: 'mb8',
+                  }
                 : undefined
             }
             formData={state.editMember}
@@ -558,7 +560,9 @@ export const MembersTable = ({
             onOk={handleBatchAuthorize}
             onCancel={() => updater.batchAuthorizeVisible(false)}
             alertProps={{
-              message: i18n.t("common:The user's original permissions will be overwritten after batch processing. Please be cautious."),
+              message: i18n.t(
+                "common:The user's original permissions will be overwritten after batch processing. Please be cautious.",
+              ),
               type: 'warning',
               showIcon: true,
               className: 'mb8',
@@ -575,7 +579,9 @@ export const MembersTable = ({
             url={`${window.location.origin}${goTo.resolve.inviteToOrg()}`}
             linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
             code={state.verifyCode}
-            tip={i18n.t('org:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.')}
+            tip={i18n.t(
+              'org:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.',
+            )}
             onCancel={() => updater.inviteModalVisible(false)}
             modalProps={{ width: 600 }}
           />

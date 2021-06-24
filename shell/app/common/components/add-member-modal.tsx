@@ -44,7 +44,7 @@ const storeMap = {
 export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleModal, queryParams }: IProps) => {
   const memberStore = storeMap[scope.type];
   const { addMembers, updateMembers } = memberStore.effects;
-  const isIn = routeInfoStore.getState(s => s.isIn);
+  const isIn = routeInfoStore.getState((s) => s.isIn);
   const handleSubmit = (values: MEMBER.UpdateMemberBody) => {
     const { app_roles, applications, ...rest } = values as any;
     addMembers({ ...rest, scope }, { queryParams }).then(() => {
@@ -120,7 +120,7 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
         options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
       },
     ]),
-    ...insertWhen(isIn('workBench') && scope.type === MemberScope.PROJECT, [
+    ...insertWhen(isIn('dop') && scope.type === MemberScope.PROJECT, [
       {
         getComp: () => (
           <Alert

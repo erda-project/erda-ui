@@ -74,11 +74,11 @@ const mock = (data) => {
   return temp;
 };
 const mockLocation = {
-  href: 'https://terminus-org.app.terminus.io/workBench/apps?id=1#123',
+  href: 'https://terminus-org.app.terminus.io/dop/apps?id=1#123',
   host: 'terminus-org.app.terminus.io',
   hostname: 'terminus-org.app.terminus.io',
   origin: 'https://terminus-org.app.terminus.io',
-  pathname: '/workBench/apps',
+  pathname: '/dop/apps',
   hash: '#123',
   search: '?id=1',
 };
@@ -97,7 +97,7 @@ Object.defineProperty(navigator, 'userAgent', {
   value:
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36',
 });
-document.body.innerHTML='<script></script>'
+document.body.innerHTML = '<script></script>';
 
 const customGlobal: GlobalWithFetchMock = global as unknown as GlobalWithFetchMock;
 customGlobal.TextDecoder = TextDecoder;
