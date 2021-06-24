@@ -98,6 +98,7 @@
       "core/agent": ["../core/src/agent"],
       "core/config": ["../core/src/config.ts"],
       "core/nusi": ["../core/src/nusi"],
+      "core/service": ["../core/src/service/api-creator"],
       "core/utils/ws": ["../core/src/utils/ws.ts"],
       "core/stores/route": ["../core/src/stores/route.ts"],
       "core/stores/loading": ["../core/src/stores/loading.ts"],

@@ -143,6 +143,7 @@ module.exports = () => {
           './stores/loading': './src/stores/loading.ts',
           './utils/ws': './src/utils/ws.ts',
           './nusi': './src/nusi/index.tsx',
+          './service': './src/service/api-creator.ts',
         },
         shared: {
           ...AutomaticVendorFederation({

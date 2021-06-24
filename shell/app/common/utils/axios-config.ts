@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { set, some } from 'lodash';
-import axios from 'axios';
+import { axios } from 'core/service';
 import { downloadFileAxios, getCookies, getOrgFromPath, setApiWithOrg } from './index';
 import { getCurrentLocale } from 'i18n';
 import { getGlobal } from '../../global-space';
@@ -28,6 +28,7 @@ export const initAxios = () => {
   axios.interceptors.request.use(
     (config) => {
       const { headers, method = 'GET', url = '' } = config;
+      headers.Accept = 'application/vnd.dice+json;version=1.0';
       headers.Lang = getCurrentLocale().key === 'zh' ? 'zh-CN' : 'en-US';
       if (!['GET', 'HEAD', 'OPTIONS', 'TRACE'].includes(method)) {
         const token = getCookies('OPENAPI-CSRF-TOKEN');

@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { set, get, isEmpty } from 'lodash';
-import axios from 'axios';
+import { axios } from 'core/service';
+
 import qs from 'query-string';
 import { extractPathParams, generatePath, notify } from './index';
 import { serviceLoadingStore as loadingStore } from 'common/stores/loading';
