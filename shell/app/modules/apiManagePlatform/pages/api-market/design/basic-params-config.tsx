@@ -18,7 +18,7 @@ import { Icon as CustomIcon, useUpdate } from 'common';
 import { produce } from 'immer';
 import { map, set, unset, keys, isEmpty, get, filter, omit, some, forEach, reduce, values } from 'lodash';
 import { regRules } from 'common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import ApiParamsModal from 'apiManagePlatform/pages/api-market/design/api-params-modal';
 import {
   BASE_DATA_TYPE,
@@ -106,7 +106,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     formErrorMap: {},
   });
 
-  const formRef = React.useRef<WrappedFormUtils>({} as any);
+  const formRef = React.useRef<FormInstance>({} as any);
   const paramListTempStorageRef = React.useRef<any[]>([]);
   const dataTempStorageRef = React.useRef<Obj>({});
 

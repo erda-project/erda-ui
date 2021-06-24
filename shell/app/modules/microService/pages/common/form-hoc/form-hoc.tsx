@@ -16,6 +16,7 @@ import classnames from 'classnames';
 import { Form, Spin } from 'app/nusi';
 import { result, set } from 'lodash';
 import BindComponent from './bind-component';
+import { FormInstance } from 'core/common/interface';
 
 const getComponents = (instance: any, model: any) => {
   const { components } = model;
@@ -74,7 +75,7 @@ const createFormComponent = (model: any, View: any) => {
             const values = filterField(getFieldsValue());
             resolve(values);
           })
-          .catch(({ errorFields }: { errorFields: any }) => {
+          .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
             scrollToField(errorFields[0].name);
             reject(errorFields);
           });
@@ -174,7 +175,7 @@ export default class FormHoc extends Component<IProps, any> {
 
   Component: any;
 
-  formRef = React.createRef();
+  formRef = React.createRef<FormInstance>();
 
   constructor(props: any) {
     super(props);

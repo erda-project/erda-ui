@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'core/common/interface';
+import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
 import { isEqual, map } from 'lodash';
 import { Form, Input, Button } from 'app/nusi';
@@ -41,7 +41,7 @@ interface IFormComponentState {
 }
 
 class EditService extends PureComponent<IEditServiceProps & FormComponentProps, IFormComponentState> {
-  formRef = React.createRef();
+  formRef = React.createRef<FormInstance>();
 
   state = {
     service: {},
@@ -252,7 +252,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     const { onSubmit, jsonContent } = this.props;
     const form = this.formRef.current;
     form
-      .validateFields()
+      ?.validateFields()
       .then((values: any) => {
         const ports: any[] = [];
         map(values.ports, (p: any) => {
@@ -269,8 +269,8 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
           jsonContent,
         );
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
-        form.scrollToField(errorFields[0].name);
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        form?.scrollToField(errorFields[0].name);
       });
   };
 }

@@ -18,6 +18,8 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 
 class ConfigFormModal extends React.PureComponent {
+  form = React.createRef();
+
   state = {
     modalVisible: false,
     dataSource: {},
@@ -47,7 +49,7 @@ class ConfigFormModal extends React.PureComponent {
   });
 
   onSubmit = () => {
-    this.form.validateFields().then(() => {
+    this.form.current.validateFields().then(() => {
       const data = this.editor.getEditData();
       const configs = map(data, (v, k) => ({
         key: k,
@@ -100,12 +102,7 @@ class ConfigFormModal extends React.PureComponent {
         maskClosable={false}
         destroyOnClose
       >
-        <RenderForm
-          list={fieldsList}
-          ref={(ref) => {
-            this.form = ref;
-          }}
-        />
+        <RenderForm list={fieldsList} ref={this.form} />
       </Modal>
     );
   }

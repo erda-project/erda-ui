@@ -186,10 +186,9 @@ export const PureApiPackage = () => {
     }
   }, [apiPackageDetail]);
 
-  const basicFormRef = React.useRef(null);
+  const [basicForm] = Form.useForm();
 
   const Step1 = (formProps: any) => {
-    const [form] = Form.useForm();
     let authTypes = Object.entries(AUTH_TYPE_MAP);
     if (!state.basicForm.needBindCloudapi) {
       authTypes = authTypes.filter(([key]) => key !== AuthType.aliCloudApp);
@@ -292,21 +291,21 @@ export const PureApiPackage = () => {
 
     return (
       <Form
-        form={form}
+        form={basicForm}
         onValuesChange={(_, changedValues) => {
           updater.basicForm((prev: any) => {
             const newData = changeBindDomain({ ...prev, ...changedValues });
             return { ...newData };
           });
           if (changedValues.authType === AuthType.aliCloudApp) {
-            (basicFormRef.current as any).props.form.setFieldsValue({ aclType: 'on' });
+            basicForm.setFieldsValue({ aclType: 'on' });
           }
           if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
-            (basicFormRef.current as any).props.form.setFieldsValue({ authType: undefined });
+            basicForm.setFieldsValue({ authType: undefined });
           }
         }}
       >
-        <RenderPureForm form={form} {...formProps} ref={basicFormRef} list={fieldsList} />
+        <RenderPureForm form={basicForm} {...formProps} list={fieldsList} />
       </Form>
     );
   };
@@ -392,8 +391,8 @@ export const PureApiPackage = () => {
   const noop = () => {};
   const saveForm1 = (cbs: any[]) => {
     const [cb1, cb2] = cbs || [noop, noop];
-    if (basicFormRef.current) {
-      (basicFormRef.current as any).props.form.validateFields().then((values) => {
+    if (basicForm) {
+      (basicForm as any).validateFields().then((values) => {
         const newData = changeBindDomain(values) as GATEWAY.UpdataApiPackage;
         if (params.packageId) {
           updateApiPackage(newData).then((res) => {

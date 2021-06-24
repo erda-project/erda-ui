@@ -20,7 +20,7 @@ import * as React from 'react';
 import { Form, Modal } from 'app/nusi';
 import { isEmpty, get, map, pick } from 'lodash';
 import { ArtifactsTypeMap } from './config';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { insertWhen, regRules, isPromise } from 'common/utils';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 
@@ -32,9 +32,9 @@ interface IProps {
   formData?: PUBLISHER.IArtifacts;
   title?: string;
   name?: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   onCancel: () => void;
-  beforeSubmit?: (valuse: any, form: WrappedFormUtils) => Promise<any>;
+  beforeSubmit?: (valuse: any, form: FormInstance) => Promise<any>;
   afterSubmit?: (isUpdate?: boolean, data?: PUBLISHER.IArtifacts) => any;
 }
 
@@ -47,16 +47,6 @@ interface IState {
 }
 
 class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
-  formRef = React.createRef();
-
-  state = {
-    isAdd: false,
-    isGeofence: false,
-    type: ArtifactsTypeMap.MOBILE.value,
-    confirmLoading: false,
-    visible: false,
-  };
-
   static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState> {
     const { formData = {} as PUBLISHER.IArtifacts, visible } = nextProps;
     const isAdd = isEmpty(formData);
@@ -73,6 +63,16 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
       };
     }
   }
+
+  formRef = React.createRef<FormInstance>();
+
+  state = {
+    isAdd: false,
+    isGeofence: false,
+    type: ArtifactsTypeMap.MOBILE.value,
+    confirmLoading: false,
+    visible: false,
+  };
 
   getFieldsList = () => {
     const { state } = this;
@@ -128,7 +128,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         name: 'logo',
         viewType: 'image',
         required: false,
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <ImageUpload id="logo" form={form} showHint queryData={{ public: true }} />
         ),
       },
@@ -137,7 +137,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
       //   name: 'backgroundImage',
       //   viewType: 'image',
       //   required: false,
-      //   getComp: ({ form }: { form: WrappedFormUtils }) => (
+      //   getComp: ({ form }: { form: FormInstance }) => (
       //     <ImageUpload
       //       id="backgroundImage"
       //       form={form}
@@ -152,7 +152,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
       //   name: 'previewImages',
       //   viewType: 'images',
       //   required: false,
-      //   getComp: ({ form }: { form: WrappedFormUtils }) => (
+      //   getComp: ({ form }: { form: FormInstance }) => (
       //     <ImageUpload
       //       id="previewImages"
       //       form={form}
@@ -228,7 +228,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
           const { formData } = this.props;
           const form = this.formRef.current;
           const keys = isGeofence ? ['isGeofence', 'geofenceLon', 'geofenceLat', 'geofenceRadius'] : ['isGeofence'];
-          form.setFieldsValue(pick(formData, keys));
+          form?.setFieldsValue(pick(formData, keys));
         }
       },
     );
@@ -244,7 +244,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
           const { formData } = this.props;
           const form = this.formRef.current;
           const keys = ['geofenceLon', 'geofenceLat', 'geofenceRadius'];
-          form.setFieldsValue(pick(formData, keys));
+          form?.setFieldsValue(pick(formData, keys));
         }
       },
     );
@@ -281,7 +281,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
     const form = this.formRef.current;
     return new Promise((resolve, reject) => {
       form
-        .validateFields()
+        ?.validateFields()
         .then((values: any) => {
           let submitValue = values;
           if (beforeSubmit) {
@@ -300,11 +300,11 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
           }
           this.submit(submitValue);
         })
-        .catch(({ errorFields }: { errorFields: any }) => {
-          form.scrollToField(errorFields[0].name);
-          reject(errors);
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+          form?.scrollToField(errorFields[0].name);
+          reject(errorFields);
         });
-    }).then(() => form.resetFields());
+    }).then(() => form?.resetFields());
   };
 
   componentDidUpdate(prevProps: Readonly<IProps>) {
@@ -316,10 +316,10 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
     if (!prevProps.visible) {
       if (!isAdd) {
         setTimeout(() => {
-          form.setFieldsValue(pick(formData as object, keys));
+          form?.setFieldsValue(pick(formData as object, keys));
         }, 0);
       } else {
-        form.resetFields();
+        form?.resetFields();
       }
     }
   }

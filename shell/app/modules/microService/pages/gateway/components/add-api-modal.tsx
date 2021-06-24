@@ -14,7 +14,7 @@
 import { FormModal, useUpdate } from 'common';
 import * as React from 'react';
 import i18n from 'i18n';
-import { WrappedFormUtils, SelectValue } from 'core/common/interface';
+import { FormInstance, SelectValue } from 'core/common/interface';
 import { Input, Select } from 'app/nusi';
 import { get, map, size } from 'lodash';
 import { HTTP_METHODS, HTTP_PREFIX, HTTPS_PREFIX } from 'microService/pages/gateway/config';
@@ -133,7 +133,7 @@ const AddApiModal = ({
           message: i18n.t('path starts with /'),
         },
       ],
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <Input
           placeholder={i18n.t('path starts with /')}
           onBlur={(e) => {

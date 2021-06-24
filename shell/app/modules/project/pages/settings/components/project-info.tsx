@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { Tooltip, Button, Input } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';
@@ -91,7 +91,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       label: i18n.t('project:project icon'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
@@ -154,7 +154,10 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         <ConfirmDelete
           deleteItem={i18n.t('project')}
           onConfirm={onDelete}
-          secondTitle={i18n.t('project:The project cannot be restored after deletion. Please enter {name} to confirm.', { name: info.displayName })}
+          secondTitle={i18n.t(
+            'project:The project cannot be restored after deletion. Please enter {name} to confirm.',
+            { name: info.displayName },
+          )}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
           modalChildren={

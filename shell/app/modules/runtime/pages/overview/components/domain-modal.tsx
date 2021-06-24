@@ -13,7 +13,7 @@
 
 import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
 import * as React from 'react';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common';
 
 import { setLS, goTo } from 'common/utils';
@@ -30,7 +30,7 @@ const FormItem = Form.Item;
 
 interface IProps {
   serviceName: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   visible: boolean;
   onCancel: () => void;
 }

@@ -37,7 +37,7 @@ import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, me
 import { PagingTable, FormModal, useUpdate, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
 import orgCustomAlarmStore from 'app/modules/dataCenter/stores/custom-alarm';
 import microServiceCustomAlarmStore from 'microService/monitor/monitor-alarm/stores/custom-alarm';
@@ -350,7 +350,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     },
   ];
 
-  const getFieldColumns = (form: WrappedFormUtils) => [
+  const getFieldColumns = (form: FormInstance) => [
     {
       title: i18n.t('org:field'),
       dataIndex: 'field',
@@ -591,7 +591,7 @@ export default ({ scopeType }: { scopeType: string }) => {
   };
 
   const extraKeys = ['uniKey', 'aggregations', 'aggregatorType'];
-  const handlePreview = (form: WrappedFormUtils, uniKey: any) => {
+  const handlePreview = (form: FormInstance, uniKey: any) => {
     const { rule } = form.getFieldsValue();
     const payload = {
       rules: [
@@ -696,7 +696,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     closeModal();
   };
 
-  const BasicForm = ({ form }: { form: WrappedFormUtils }) => {
+  const BasicForm = ({ form }: { form: FormInstance }) => {
     const fieldsList = [
       {
         label: i18n.t('name'),
@@ -709,7 +709,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
   };
 
-  const RuleForm = ({ form }: { form: WrappedFormUtils }) => {
+  const RuleForm = ({ form }: { form: FormInstance }) => {
     let fieldsList = [
       {
         label: `${i18n.t('period')} (${i18n.t('min')})`,
@@ -811,7 +811,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
   };
 
-  const NotifyForm = ({ form }: { form: WrappedFormUtils }) => {
+  const NotifyForm = ({ form }: { form: FormInstance }) => {
     const fieldsList = [
       {
         label: i18n.t('org:optional notification methods'),

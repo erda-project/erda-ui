@@ -16,7 +16,7 @@ import * as React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Row, Col, Button, DatePicker, Select, Radio } from 'app/nusi';
 import { valiAssociate } from 'microService/monitor/monitor-common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 
 const { Option } = Select;
@@ -37,7 +37,7 @@ interface IProps {
   terminusApp: any;
   startTimeMs: number;
   endTimeMs: number;
-  form: WrappedFormUtils;
+  form: FormInstance;
   setSearchParam: (args?: any) => Promise<any>;
   setTimeMs: (arg1: string, arg2?: any) => Promise<any>;
 }
@@ -53,7 +53,14 @@ interface ISearchParam {
 }
 
 class TraceFilterForm extends React.Component<IProps, IState> {
-  formRef = React.createRef();
+  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
+    const { lastSearchParams } = nextProps;
+    const { searchParam } = prevState;
+    if (!isEmpty(lastSearchParams) && !isEqual(searchParam, lastSearchParams)) {
+      return { searchParam: lastSearchParams };
+    }
+    return null;
+  }
 
   state = {
     formTraceId: '',
@@ -64,14 +71,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
     },
   };
 
-  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
-    const { lastSearchParams } = nextProps;
-    const { searchParam } = prevState;
-    if (!isEmpty(lastSearchParams) && !isEqual(searchParam, lastSearchParams)) {
-      return { searchParam: lastSearchParams };
-    }
-    return null;
-  }
+  formRef = React.createRef<FormInstance>();
 
   // componentWillReceiveProps({ lastSearchParams }: IProps) {
   //   const { searchParam } = this.state;
@@ -148,6 +148,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
     const { formTraceId, searchParam } = this.state;
     const searchIdOnly = !!formTraceId;
     const { terminusApp: lastTerminusApp, path, statusCode, duration, traceId } = searchParam as any;
+    const form = this.formRef.current;
 
     const fileds = [
       [

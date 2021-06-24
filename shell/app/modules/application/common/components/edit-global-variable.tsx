@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'core/common/interface';
+import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
 import { Form, Button } from 'app/nusi';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
@@ -40,7 +40,7 @@ const convertGlobalVariableList = (globalVariable: any) => {
 };
 
 class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormComponentProps, any> {
-  formRef = React.createRef();
+  formRef = React.createRef<FormInstance>();
 
   state = {
     globalVariableList: [],
@@ -114,14 +114,14 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
     const form = this.formRef.current;
 
     form
-      .validateFields()
+      ?.validateFields()
       .then((values: any) => {
         const object = {};
         forEach(values, (item: any, originKey: string) => {
           if (item.key !== '') {
             object[item.key] = item.value;
           } else {
-            form.setFields({
+            form?.setFields({
               [originKey]: {
                 value: item,
                 errors: [new Error(i18n.t('application:environment variables cannot be empty'))],
@@ -131,8 +131,8 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
         });
         onSubmit(object);
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
-        form.scrollToField(errorFields[0].name);
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        form?.scrollToField(errorFields[0].name);
       });
   };
 

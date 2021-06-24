@@ -237,7 +237,7 @@ const RefComp = ({
   defaultValue,
 }: {
   defaultValue: Record<string, string>;
-  form: any;
+  form: FormInstance;
   info: { branches: string[]; tags: string[] };
 }) => {
   const refType = form.getFieldValue('refType');

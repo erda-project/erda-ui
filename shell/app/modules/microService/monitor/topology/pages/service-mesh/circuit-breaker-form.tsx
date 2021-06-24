@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Tabs, Button, Collapse, Pagination, Input, Form, Switch } from 'app/nusi';
 import { isEmpty, map, filter, compact } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import { RenderForm, EmptyHolder } from 'common';
 import serviceMeshStore from '../../stores/service-mesh';
@@ -56,7 +56,7 @@ interface IHttpForm {
   submitForm: (arg: TOPOLOGY.ICircuitBreakerHttp) => Promise<string>;
 }
 
-const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: any }) => {
+const ErrorCheckForm = ({ form, formRef }: { form: FormInstance; formRef: any }) => {
   return (
     <div className="error-check-form">
       <FormItem
@@ -98,7 +98,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       curFormRef.setFieldsValue({ ...data });
     }
   }, [data, formRef]);
-  const handleSubmit = (form: WrappedFormUtils) => {
+  const handleSubmit = (form: FormInstance) => {
     form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
@@ -147,7 +147,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
     },
     {
       label: i18n.t('microService:failure detection rules'),
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return <ErrorCheckForm form={form} formRef={formRef} />;
       },
     },
@@ -191,7 +191,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       required: false,
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
@@ -301,7 +301,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     }
   }, [data, formRef]);
 
-  const handleSubmit = (form: WrappedFormUtils) => {
+  const handleSubmit = (form: FormInstance) => {
     form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
@@ -348,7 +348,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       label: i18n.t('microService:failure detection rules'),
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return <ErrorCheckForm form={form} formRef={formRef} />;
       },
     },
@@ -392,7 +392,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       required: false,
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}

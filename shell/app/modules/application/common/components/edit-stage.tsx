@@ -503,7 +503,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         const filledFieldsData = clearEmptyField(data);
         handleSubmit(filledFieldsData);
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
         form.scrollToField(errorFields[0].name);
       });
   };

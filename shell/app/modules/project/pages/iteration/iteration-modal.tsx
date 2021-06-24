@@ -14,7 +14,7 @@
 import iterationStore from 'app/modules/project/stores/iteration';
 import { FormModal, useUpdate } from 'common';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import moment, { Moment } from 'moment';
 import { RangePicker } from 'app/nusi';
 import * as React from 'react';
@@ -56,7 +56,7 @@ export default ({ visible, data, onClose }: IProps) => {
       name: 'timeRange',
       label: i18n.t('time'),
       required: true,
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return (
           <RangePicker
             borderTime

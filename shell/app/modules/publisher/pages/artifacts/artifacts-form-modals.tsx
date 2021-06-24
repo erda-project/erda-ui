@@ -20,7 +20,7 @@ import * as React from 'react';
 import { Form, Modal } from 'app/nusi';
 import { isEmpty, get, map, pick } from 'lodash';
 import { ArtifactsTypeMap } from './config';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { validators, insertWhen, regRules, isPromise } from 'common/utils';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 
@@ -33,14 +33,14 @@ interface IProps {
   formData?: PUBLISHER.IArtifacts;
   title?: string;
   name?: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   onCancel: () => void;
-  beforeSubmit?: (valuse: any, form: WrappedFormUtils) => Promise<any>;
+  beforeSubmit?: (valuse: any, form: FormInstance) => Promise<any>;
   afterSubmit?: (isUpdate?: boolean, data?: PUBLISHER.IArtifacts) => any;
 }
 
 class ArtifactsFormModal extends React.PureComponent<IProps, any> {
-  formRef = React.createRef();
+  formRef = React.createRef<FormInstance>();
 
   state = {
     isAdd: false,
@@ -96,7 +96,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
         name: 'logo',
         viewType: 'image',
         required: false,
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <ImageUpload id="logo" form={form} showHint queryData={{ public: true }} />
         ),
       },
@@ -182,7 +182,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
           const { formData } = this.props;
           const form = this.formRef.current;
           const keys = isGeofence ? ['isGeofence', 'geofenceLon', 'geofenceLat', 'geofenceRadius'] : ['isGeofence'];
-          form.setFieldsValue(pick(formData, keys));
+          form?.setFieldsValue(pick(formData, keys));
         }
       },
     );
@@ -198,7 +198,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
           const { formData } = this.props;
           const form = this.formRef.current;
           const keys = ['geofenceLon', 'geofenceLat', 'geofenceRadius'];
-          form.setFieldsValue(pick(formData, keys));
+          form?.setFieldsValue(pick(formData, keys));
         }
       },
     );
@@ -235,7 +235,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
     const form = this.formRef.current;
     return new Promise((resolve, reject) => {
       form
-        .validateFields()
+        ?.validateFields()
         .then((values: any) => {
           let submitValue = values;
           if (beforeSubmit) {
@@ -254,11 +254,11 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
           }
           this.submit(submitValue);
         })
-        .catch(({ errorFields }: { errorFields: any }) => {
-          form.scrollToField(errorFields[0].name);
-          reject(errors);
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+          form?.scrollToField(errorFields[0].name);
+          reject(errorFields);
         });
-    }).then(() => form.resetFields());
+    }).then(() => form?.resetFields());
   };
 
   UNSAFE_componentWillReceiveProps(nextprops: IProps): void {
@@ -277,10 +277,10 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
           const keys = fieldsList.filter((f) => f.name !== undefined).map((f) => f.name) as string[];
           if (!isAdd) {
             setTimeout(() => {
-              form.setFieldsValue(pick(formData as object, keys));
+              form?.setFieldsValue(pick(formData as object, keys));
             }, 0);
           } else {
-            form.resetFields();
+            form?.resetFields();
           }
         },
       );

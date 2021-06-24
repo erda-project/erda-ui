@@ -115,7 +115,7 @@ const AddPipelineYml = () => {
     }
   };
 
-  const handleSubmit = (form: any) => {
+  const handleSubmit = (form: FormInstance) => {
     const path = `${tree.path ? `${tree.path}/` : ''}${fileName}${fileSuffix}`;
     let pass = true as any;
     if (viewType === ViewType.code) {
@@ -187,7 +187,7 @@ const AddPipelineYml = () => {
         },
       },
       {
-        getComp: ({ form }: { form: any }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}

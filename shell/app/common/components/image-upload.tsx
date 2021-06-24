@@ -18,13 +18,13 @@ import { Input, Upload } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 
 import './image-upload.scss';
 
 interface IProps {
   value?: string;
-  form?: WrappedFormUtils;
+  form?: FormInstance;
   id: string;
   /**
    * 是否开启多图模式，默认不开启

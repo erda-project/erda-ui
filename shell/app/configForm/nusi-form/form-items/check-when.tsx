@@ -61,7 +61,7 @@ type CheckItemData =
 export interface IProps {
   value: CheckItem[][];
   allField: any[];
-  form: any;
+  form: FormInstance;
   onChange: (arg: CheckItem[][]) => void;
 }
 

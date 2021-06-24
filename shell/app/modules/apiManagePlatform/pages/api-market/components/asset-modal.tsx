@@ -15,7 +15,7 @@ import React, { MutableRefObject } from 'react';
 import { FormModal, ImageUpload } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { getUploadProps } from 'common/utils/upload-props';
 import { Button, message, Upload } from 'app/nusi';
 import { insertWhen } from 'common/utils';
@@ -34,9 +34,6 @@ interface IProps {
   visible: boolean;
   onCancel: () => void;
   afterSubmit?: (data: any) => void;
-}
-interface FormRef {
-  props: { form: WrappedFormUtils };
 }
 
 const allSuffix = map(protocolMap, (t) => t.suffix).join(',');
@@ -96,7 +93,7 @@ const formatPayload = (scope: IScope, mode: IMode, data: any, formData?: API_MAR
 const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: IProps) => {
   const { createAsset, addNewVersion, editAsset } = apiMarketStore.effects;
   const [suffix, setSuffix] = React.useState(allSuffix);
-  const formRef = React.useRef({}) as MutableRefObject<FormRef>;
+  const formRef = React.useRef({}) as MutableRefObject<FormInstance>;
   const [uploadFile, setUploadFile] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
@@ -109,14 +106,14 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
     // 文件后缀和资源协议不一致
     if (uploadFile && !protocolMap[v].pattern.test(uploadFile)) {
       setUploadFile('');
-      formRef.current && formRef.current.props.form.setFieldsValue({ specDiceFileUUID: undefined });
+      formRef.current && formRef.current.setFieldsValue({ specDiceFileUUID: undefined });
     }
   };
   const nameToId = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
-    const assetID = formRef.current.props.form.getFieldValue('assetID');
+    const assetID = formRef.current.getFieldValue('assetID');
     if (!assetID && idReg.test(name) && name.length <= 20) {
-      formRef.current.props.form.setFieldsValue({ assetID: name });
+      formRef.current.setFieldsValue({ assetID: name });
     }
   };
   const showVersionField = scope === 'version' || (scope === 'asset' && mode === 'add');
@@ -200,7 +197,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         label: i18n.t('default:API description document'),
         name: 'specDiceFileUUID',
         required: true,
-        getComp: ({ form }: { form: WrappedFormUtils }) => {
+        getComp: ({ form }: { form: FormInstance }) => {
           const uploadProps = getUploadProps({
             onChange: ({ file }: any) => {
               setLoading(true);
@@ -239,12 +236,12 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         label: i18n.t('API logo'),
         name: 'logo',
         required: false,
-        getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+        getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       },
     ]),
   ];
   const handleOk = () => {
-    formRef.current.props.form.validateFields().then(async (data: any) => {
+    formRef.current.validateFields().then(async (data: any) => {
       const payload = formatPayload(scope, mode, data, formData);
       let request: any = createAsset;
       if (scope === 'version') {

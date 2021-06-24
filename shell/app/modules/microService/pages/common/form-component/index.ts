@@ -13,7 +13,7 @@
 
 import { isFunction, last, get, set, unset, isArray, isPlainObject, isEmpty, uniq, head, size } from 'lodash';
 import stringToPath from 'lodash/_stringToPath';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { FormFooter, FormList, TopButton } from './form-component';
 import FormItem from './form-item';
 import Table from './form-table';
@@ -36,7 +36,7 @@ import './index.scss';
 export default abstract class Component<State, Props> extends Container<State, Props> {
   mode: string;
 
-  form: WrappedFormUtils;
+  form: FormInstance;
 
   unmounted: boolean;
 
@@ -55,7 +55,7 @@ export default abstract class Component<State, Props> extends Container<State, P
     this.mode = mode;
   }
 
-  setForm(form: WrappedFormUtils) {
+  setForm(form: FormInstance) {
     this.form = form;
   }
 

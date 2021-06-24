@@ -24,7 +24,7 @@ const { Option } = Select;
 const FormItem = Form.Item;
 
 interface IVswCIDRProps {
-  form: any;
+  form: FormInstance;
   vpcCidrBlock?: string;
   onChangeMask?: (val: number) => void;
   formKey?: string;

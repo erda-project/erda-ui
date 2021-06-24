@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Input, Form } from 'app/nusi';
 import { regRules } from 'common/utils';
 import './key-value-textarea.scss';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 
 const { TextArea } = Input;
@@ -56,7 +56,7 @@ const errMsgMap = (rowNum: number, type: string, maxLength?: number) => {
 interface IProps {
   data: string;
   fieldName?: 'kv-text';
-  form: WrappedFormUtils;
+  form: FormInstance;
   className?: string;
   autoSize?: object;
   rows?: number;

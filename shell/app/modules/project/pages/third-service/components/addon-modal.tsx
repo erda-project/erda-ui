@@ -232,7 +232,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
                 .then((values: any) => {
                   resolve(values);
                 })
-                .catch(({ errorFields }: { errorFields: any }) => {
+                .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
                   reject(errorFields);
                 });
             }

@@ -17,7 +17,7 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { Modal, Form, Button, Spin, Alert } from 'app/nusi';
 import { RenderPureForm } from 'common';
 import { isPromise } from 'common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
 import moment from 'moment';
 
@@ -25,10 +25,10 @@ const noop = () => {};
 
 interface IProps {
   visible: boolean;
-  form: any;
+  form: FormInstance;
   formOption?: Obj;
   formData?: object;
-  fieldsList?: IFormItem[] | ((form: WrappedFormUtils, isEdit: boolean) => IFormItem[]);
+  fieldsList?: IFormItem[] | ((form: FormInstance, isEdit: boolean) => IFormItem[]);
   title?: string;
   name?: string;
   width?: number | string;
@@ -46,7 +46,7 @@ interface IProps {
   customRender?: (content: JSX.Element) => JSX.Element;
   onOk?: (result: object, isAddMode: boolean) => PromiseLike<object> | void;
   onCancel?: () => void;
-  beforeSubmit?: (formValues: object, form?: WrappedFormUtils) => void;
+  beforeSubmit?: (formValues: object, form?: FormInstance) => void;
 }
 
 interface IState {
@@ -135,7 +135,7 @@ class FormModalComp extends React.Component<IProps, IState> {
           }
           onOk && this.submit(onOk, submitValue, form, resolve);
         })
-        .catch(({ errorFields }: { errorFields: any }) => {
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
           form.scrollToField(errorFields[0].name);
           return reject(errorFields);
         });
@@ -222,11 +222,7 @@ class FormModalComp extends React.Component<IProps, IState> {
 const PureFormModalFun = (options: Obj) =>
   forwardRef((props, ref) => {
     const [form] = Form.useForm();
-    useImperativeHandle(ref, () => ({
-      props: {
-        form,
-      },
-    }));
+    useImperativeHandle(ref, () => form);
     return <FormModalComp form={form} options={options} {...props} ref={ref} />;
   });
 

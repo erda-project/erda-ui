@@ -15,7 +15,7 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { FormModal, Icon as CustomIcon, useUpdate } from 'common';
 import { checkPassword } from 'dcos/common/config';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 
 export interface IFormRes {
   password: string;
@@ -28,13 +28,9 @@ interface IProps {
   handleSubmit: (formRes: IFormRes) => void;
 }
 
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
-
 const ResetPasswordForm = (props: IProps) => {
   const { visible, onClose, handleSubmit } = props;
-  const formRef = React.useRef({}) as React.MutableRefObject<FormRef>;
+  const formRef = React.useRef({}) as React.MutableRefObject<FormInstance>;
 
   const [{ passwordVisible, confirmPasswordVisible }, updater] = useUpdate({
     passwordVisible: false,
@@ -50,7 +46,7 @@ const ResetPasswordForm = (props: IProps) => {
   };
 
   const compareToFirstPassword = function (rule: any, value: string, callback: Function) {
-    if (value && value !== formRef.current.props?.form?.getFieldValue('password')) {
+    if (value && value !== formRef.current.getFieldValue('password')) {
       callback(i18n.t('the two passwords you entered do not match'));
     } else {
       callback();

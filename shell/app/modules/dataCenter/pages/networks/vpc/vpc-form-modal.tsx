@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { VswCIDRField, VpcCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount, validateIsSubnet } from '../common/util';
 import { formConfig } from '../common/config';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';
@@ -114,7 +114,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
   const { getCloudZone } = networksStore.effects;
   React.useEffect(() => {
     if (vendor && region) {
-      const curForm = get(ref, 'current.props.form');
+      const curForm = get(ref, 'current');
       if (curForm) {
         curForm.setFieldsValue({ zoneID: undefined });
       }
@@ -158,7 +158,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
     },
     {
       label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return (
           <VswCIDRField
             formKey="vswCidrBlock"
@@ -208,14 +208,14 @@ const VpcFormModal = (props: IProps) => {
 
   const handleStepChange = (step: string) => {
     if (step === 'vsw') {
-      const vpcFormRef = get(vpcRef, 'current.props.form');
+      const vpcFormRef = get(vpcRef, 'current');
       if (vpcFormRef) {
         vpcFormRef
           .validateFields()
           .then(() => {
             updater.stepKey(step);
           })
-          .catch(({ errorFields }: { errorFields: any }) => {
+          .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
             vpcFormRef.scrollToField(errorFields[0].name);
           });
       }
@@ -225,8 +225,8 @@ const VpcFormModal = (props: IProps) => {
   };
 
   const handelSubmit = () => {
-    const vpcFormRef = get(vpcRef, 'current.props.form');
-    const vswFormRef = get(vswRef, 'current.props.form');
+    const vpcFormRef = get(vpcRef, 'current');
+    const vswFormRef = get(vswRef, 'current');
     if (vswFormRef) {
       vpcFormRef
         .validateFields()
@@ -252,11 +252,11 @@ const VpcFormModal = (props: IProps) => {
                 });
               });
             })
-            .catch(({ errorFields }: { errorFields: any }) => {
+            .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
               vswFormRef.scrollToField(errorFields[0].name);
             });
         })
-        .catch(({ errorFields }: { errorFields: any }) => {
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
           vpcFormRef.scrollToField(errorFields[0].name);
         });
     }
@@ -283,7 +283,7 @@ const VpcFormModal = (props: IProps) => {
       </Button>,
     ],
   };
-  const vpcFormRef = get(vpcRef, 'current.props.form');
+  const vpcFormRef = get(vpcRef, 'current');
   return (
     <Modal
       title={i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}

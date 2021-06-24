@@ -16,7 +16,7 @@ import { Copy, CRUDStoreTable, LoadMoreSelector, useUpdate, Icon as CustomIcon }
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
 import publisherStore from 'publisher/stores/publisher';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import appStore from 'application/stores/application';
 import { appMode, approvalStatus } from 'application/common/config';
 import { formatTime } from 'common/utils';
@@ -113,7 +113,7 @@ const AppLibraryReference = () => {
     });
   };
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
         name: 'libName',

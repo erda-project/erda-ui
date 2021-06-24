@@ -310,7 +310,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
           onSubmit({ recordID });
         });
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
         formRef.current.scrollToField(errorFields[0].name);
       });
   };

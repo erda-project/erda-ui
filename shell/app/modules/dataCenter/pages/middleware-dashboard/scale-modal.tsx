@@ -18,13 +18,13 @@ import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-formItem';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import { isEqual, pick } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import './modal.scss';
 
 interface IProps {
   visible: boolean;
   formData: Merge<MIDDLEWARE_DASHBOARD.IScaleData, { name: string; projectName: string }>;
-  form: WrappedFormUtils;
+  form: FormInstance;
   onCancel: () => void;
   afterSubmit?: () => void;
 }

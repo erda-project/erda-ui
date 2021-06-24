@@ -555,7 +555,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         if (data.executionCondition) resData.executionCondition = data.executionCondition;
         handleSubmit(resData);
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
         form.scrollToField(errorFields[0].name);
       });
   };

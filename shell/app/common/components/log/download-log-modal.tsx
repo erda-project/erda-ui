@@ -16,7 +16,7 @@ import { DatePicker, InputNumber, message } from 'app/nusi';
 import { FormModal } from 'common';
 import { qs, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 
 const DAY_RANGE = 7; // unit: d
@@ -59,7 +59,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       name: 'startTime',
       label: i18n.t('common:start at'),
       required: true,
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <DatePicker
           className="full-width"
           disabledDate={disabledStartDate}
@@ -78,7 +78,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       name: 'endTime',
       label: i18n.t('common:duration(minutes)'),
       required: true,
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <InputNumber
           min={1}
           max={60}

@@ -21,7 +21,7 @@ import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';
 import { map, find, get, keys } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
 import i18n from 'i18n';
@@ -141,7 +141,7 @@ const VSW = () => {
     [],
   );
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
         label: i18n.t('name'),

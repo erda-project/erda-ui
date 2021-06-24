@@ -13,7 +13,7 @@
 
 import { KeyValueEditor, RenderPureForm, useUpdate } from 'common';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { isEmpty } from 'lodash';
 import { Form } from 'app/nusi';
 import customAddonStore from 'project/stores/custom-addon';
@@ -49,7 +49,7 @@ const defaultInstance: CUSTOM_ADDON.GatewayInstance = {
 };
 
 interface IProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   addonProto: CUSTOM_ADDON.Item;
   editData: ADDON.Instance | null;
   workspace: string;

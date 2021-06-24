@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Tabs, Button, Collapse, Pagination, Input, Popconfirm, Switch } from 'app/nusi';
 import { isEmpty, map, filter, find, compact, get } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import { RenderForm, EmptyHolder, Icon as CustomIcon, FormModal, useUpdate } from 'common';
 import serviceMeshStore from '../../stores/service-mesh';
@@ -143,7 +143,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
       required: false,
       rules: [
         { validator: validators.validateNumberRange({ min: 1, max: 10 }) },
-        { validator: validateDelayEmpty(get(formRef, 'current.props.form')) },
+        { validator: validateDelayEmpty(get(formRef, 'current')) },
       ],
       itemProps: {
         suffix: i18n.t('common:second(s)'),
@@ -156,7 +156,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
       required: false,
       rules: [
         { validator: validators.validateNumberRange({ min: 1, max: 100 }) },
-        { validator: validateDelayEmpty(get(formRef, 'current.props.form')) },
+        { validator: validateDelayEmpty(get(formRef, 'current')) },
       ],
       itemProps: {
         suffix: '%',
@@ -169,7 +169,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
       required: false,
       rules: [
         { validator: validators.validateNumberRange({ min: 100, max: 600 }) },
-        { validator: validateErrorEmpty(get(formRef, 'current.props.form')) },
+        { validator: validateErrorEmpty(get(formRef, 'current')) },
       ],
       itemProps: {
         placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 100, max: 600 }),
@@ -181,7 +181,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
       required: false,
       rules: [
         { validator: validators.validateNumberRange({ min: 1, max: 100 }) },
-        { validator: validateErrorEmpty(get(formRef, 'current.props.form')) },
+        { validator: validateErrorEmpty(get(formRef, 'current')) },
       ],
       itemProps: {
         suffix: '%',
@@ -307,7 +307,7 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
     }
   }, [data, formRef]);
 
-  const handleSubmit = (form: WrappedFormUtils) => {
+  const handleSubmit = (form: FormInstance) => {
     form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }, { isHttp: true });
     });
@@ -402,7 +402,7 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
       required: false,
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
@@ -517,7 +517,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     }
   }, [data, formRef]);
 
-  const handleSubmit = (form: WrappedFormUtils) => {
+  const handleSubmit = (form: FormInstance) => {
     form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
@@ -570,7 +570,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       type: 'switch',
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'core/common/interface';
+import { FormComponentProps, FormInstance } from 'core/common/interface';
 import { isEqual, map, cloneDeep, keyBy, isEmpty } from 'lodash';
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
@@ -124,7 +124,7 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
 };
 
 class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, any> {
-  formRef = React.createRef();
+  formRef = React.createRef<FormInstance>();
 
   state = {
     groups: [],
@@ -272,7 +272,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
   private renderForm = () => {
     const { selectedAddon, editAddon, selectedAddonVersions, versionMap, selectedAddonPlans } = this.state;
     const { cancel, editing } = this.props;
-    const form = this.formRef.current;
+    const form = this.formRef.current || {};
     const { getFieldValue, setFieldsValue } = form;
     if (!selectedAddon) {
       return null;
@@ -339,7 +339,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
           disabled={this.isEditing()}
           className="full-width"
           placeholder={i18n.t('application:please select the version')}
-          onSelect={() => setFieldsValue({ plan: undefined })}
+          onSelect={() => setFieldsValue?.({ plan: undefined })}
         >
           {selectedAddonVersions.map((v: string) => (
             <Option key={v}>{v}</Option>
@@ -355,8 +355,8 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         plan: planValue,
         planCnName: PLAN_NAME[planValue],
       });
-    } else if (getFieldValue('version') && !isEmpty(versionMap)) {
-      plans = map(versionMap[getFieldValue('version')].spec.plan || { basic: {} }, (_, k) => ({
+    } else if (getFieldValue?.('version') && !isEmpty(versionMap)) {
+      plans = map(versionMap[getFieldValue?.('version')].spec.plan || { basic: {} }, (_, k) => ({
         plan: k,
         planCnName: PLAN_NAME[k],
       }));
@@ -420,7 +420,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     const form = this.formRef.current;
 
     form
-      .validateFields()
+      ?.validateFields()
       .then((values: any) => {
         onSubmit({
           ...values,
@@ -429,8 +429,8 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         });
         cancel();
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
-        form.scrollToField(errorFields[0].name);
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        form?.scrollToField(errorFields[0].name);
       });
   };
 

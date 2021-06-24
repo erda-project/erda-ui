@@ -16,7 +16,7 @@ import * as React from 'react';
 import { Form, Table, Input, Popconfirm, Button } from 'app/nusi';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
 import './key-value-table.scss';
@@ -31,7 +31,7 @@ const ROW_VALUE = `${ROW_PREFIX}value`;
 const noop = () => {};
 
 interface IInputItem {
-  form: WrappedFormUtils;
+  form: FormInstance;
   nameId: string;
   name: string;
   value: string;
@@ -122,7 +122,7 @@ const convertToMapData = (arr: IItemData[]) => {
 
 interface IProps {
   data?: object;
-  form: WrappedFormUtils;
+  form: FormInstance;
   title?: string | React.ReactNode;
   pagination?: {
     pageSize: number;

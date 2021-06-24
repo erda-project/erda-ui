@@ -18,7 +18,7 @@ import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, useUpdate } from 'common';
 import { DatePicker, InputNumber, message } from 'app/nusi';
 import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
 import { regRules } from 'common/utils';
@@ -72,7 +72,7 @@ const ClusterBasicForm = ({
   clusterType,
   formData,
 }: {
-  form: WrappedFormUtils;
+  form: FormInstance;
   editMode: boolean;
   formData: any;
   clusterList: ORG_CLUSTER.ICluster[];
@@ -211,7 +211,7 @@ const ClusterSchedulerForm = ({
   formData,
   editMode,
 }: {
-  form: WrappedFormUtils;
+  form: FormInstance;
   clusterType: string;
   formData: any;
   editMode: boolean;
@@ -257,7 +257,9 @@ const ClusterSchedulerForm = ({
         name: 'scheduler.cpuSubscribeRatio',
         type: 'inputNumber',
         extraProps: {
-          extra: i18n.t('org:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.'),
+          extra: i18n.t(
+            'org:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.',
+          ),
         },
         itemProps: {
           min: 1,

@@ -15,7 +15,7 @@ import * as React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { insertWhen, goTo } from 'common/utils';
 import { Button } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org';
@@ -102,7 +102,7 @@ export const OrgInfo = () => {
       label: i18n.t('org:org logo'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {

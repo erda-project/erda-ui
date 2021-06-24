@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { map } from 'lodash';
 import { Form, Table, Popconfirm, Button, Input, Select } from 'app/nusi';
 import i18n from 'i18n';
@@ -22,7 +22,7 @@ import './edit-table.scss';
 const { Option } = Select;
 
 interface IEditableTableProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   columns: any[];
   data: any[];
   add: (...args: any) => void;
@@ -146,7 +146,7 @@ const EditableCell = (props: ICellProps) => {
     }
   };
 
-  const renderCell = (form: any) => {
+  const renderCell = (form: FormInstance) => {
     formRef.current = form;
     let initialValue = record[dataIndex];
     if ((initialValue === '' || initialValue === undefined) && type === 'select') {

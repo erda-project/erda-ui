@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { Form, Button } from 'app/nusi';
 import { isEmpty, map, debounce, pick, get, filter, uniq } from 'lodash';
 import { JumpBoardForm } from './deploy-cluster-forms/jump-board-form';
@@ -32,7 +32,7 @@ interface IProps {
   [pro: string]: any;
   orgId: number;
   orgName: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   onSubmit: (arg: any) => void;
   formRef?: any;
   data?: any;
@@ -200,7 +200,7 @@ const DeployClusterForm = (props: IProps) => {
 
         onSubmit && onSubmit(postData);
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
         props.form.scrollToField(errorFields[0].name);
       });
   };

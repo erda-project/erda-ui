@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor, useUpdate, Icon as CustomIcon } from 'common';
 import { Input, Menu, Dropdown, FormBuilder } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import { set, keys, map, get, filter, every, forEach } from 'lodash';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
@@ -101,7 +101,7 @@ const ResourceSummary = React.memo((props: IProps) => {
   const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
 
   const { formData, onChange, isEditMode = true } = props;
-  const formRef = React.useRef<WrappedFormUtils>(null);
+  const formRef = React.useRef<FormInstance>(null);
 
   React.useEffect(() => {
     setTimeout(() => {

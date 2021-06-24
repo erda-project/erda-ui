@@ -75,7 +75,7 @@ const RepoEditor = ({
     });
   };
 
-  const handleSubmit = (form: any) => {
+  const handleSubmit = (form: FormInstance) => {
     const { isAddMode, value } = state;
     const path = isAddMode ? `${tree.path ? `${tree.path}/` : ''}${state.fileName}` : tree.path;
 
@@ -140,7 +140,7 @@ const RepoEditor = ({
         },
       },
       {
-        getComp: ({ form }: { form: any }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}

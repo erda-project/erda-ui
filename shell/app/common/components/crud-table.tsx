@@ -18,7 +18,7 @@ import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import { ICRUDStore } from 'common/stores/_crud_module';
 import { IFormItem } from './render-formItem';
 import { useLoading } from 'common/stores/loading';
@@ -42,7 +42,7 @@ export interface ITableProps<P> {
   getList: (arg: any) => Promise<any>;
   clearList?: (arg?: any) => Promise<any> | void;
   handleFormSubmit?: (data: any, isEdit: boolean) => Promise<any> | void;
-  getFieldsList?: (form: WrappedFormUtils, isEdit: boolean) => IFormItem[];
+  getFieldsList?: (form: FormInstance, isEdit: boolean) => IFormItem[];
   getColumns: ({ onEdit, reloadList }: { onEdit: (arg: P) => void; reloadList: () => void }) => Array<ColumnProps<P>>;
   onModalClose?: (vis: boolean) => void;
 }
@@ -193,7 +193,7 @@ export interface ICRUDStoreProps<P> {
   showTopAdd?: boolean;
   hasAddAuth?: boolean;
   addAuthTooltipTitle?: JSX.Element | string;
-  getFieldsList?: (form: WrappedFormUtils, isEdit: boolean) => IFormItem[];
+  getFieldsList?: (form: FormInstance, isEdit: boolean) => IFormItem[];
   handleFormSubmit?: (
     data: P,
     {

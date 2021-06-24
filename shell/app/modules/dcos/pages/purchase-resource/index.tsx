@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import * as React from 'react';
 import { Form, Steps, Button, Tooltip } from 'app/nusi';
 import { RenderPureForm, KeyValueList, Icon as CustomIcon, connectCube } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import {
   redisConfig,
@@ -36,7 +36,7 @@ import purchaseStore from 'dcos/stores/purchase';
 const { Step } = Steps;
 
 interface IProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   addResource: typeof purchaseStore.effects.addResource;
 }
 
@@ -46,7 +46,7 @@ class OrderPage extends React.Component<IProps, any> {
     passwordVisible: false,
   };
 
-  formRef = React.createRef();
+  formRef = React.createRef<FormInstance>();
 
   confirmData = {};
 
@@ -55,7 +55,7 @@ class OrderPage extends React.Component<IProps, any> {
   changeStep = (step: number) => {
     const form = this.formRef.current;
     if (step === 1) {
-      form.validateFields().then((values: any) => {
+      form?.validateFields().then((values: any) => {
         const { resourceType, ...data } = values;
         this.formData = values;
         this.confirmData = {};
@@ -87,7 +87,7 @@ class OrderPage extends React.Component<IProps, any> {
 
   getFormValue = (field?: string) => {
     const form = this.formRef.current;
-    return field ? form.getFieldValue(field) : form.getFieldsValue();
+    return field ? form?.getFieldValue(field) : form?.getFieldsValue();
   };
 
   getTipLabel = (text: string, tip: string) => (

@@ -15,7 +15,7 @@ import * as React from 'react';
 import { KeyValueTextArea, KeyValueTable } from 'common';
 import { Radio } from 'app/nusi';
 import { isEqual } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './key-value-editor.scss';
 
@@ -60,7 +60,7 @@ interface IProps {
   disableAdd?: boolean;
   disableDelete?: boolean;
   existKeys?: string[];
-  form: WrappedFormUtils;
+  form: FormInstance;
   onChange?: (data: object) => void;
   title?: string | React.ReactNode;
   validateField?: {

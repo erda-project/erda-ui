@@ -15,7 +15,7 @@ import * as React from 'react';
 import { get, isEmpty, find } from 'lodash';
 import { Select, Tooltip, Modal, Form, Alert, Button } from 'app/nusi';
 import { RenderPureForm } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { IFormItem } from 'common/components/render-formItem';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
@@ -32,7 +32,7 @@ const { Option } = Select;
 
 interface IProps {
   title: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   visible: boolean;
   onCancel: () => void;
   onOk: (data: BUILD.CreatePipelineBody) => any;

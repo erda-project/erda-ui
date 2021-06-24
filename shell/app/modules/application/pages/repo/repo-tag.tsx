@@ -62,7 +62,7 @@ const RepoTag = () => {
     });
   };
 
-  const RefComp = ({ form }: { form: any }) => {
+  const RefComp = ({ form }: { form: FormInstance }) => {
     const refType = form.getFieldValue('refType');
     const refValue = form.getFieldValue('ref');
     const curForm = React.useRef(form);

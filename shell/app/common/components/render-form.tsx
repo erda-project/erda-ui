@@ -15,14 +15,14 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { Form, Row, Col } from 'app/nusi';
 import classNames from 'classnames';
 import { RenderFormItem } from './render-formItem';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { ImgHolder } from 'common';
 import { forEach, map, isPlainObject, get } from 'lodash';
 import './render-form.scss';
 
 interface IProps {
   list: any[];
-  form: WrappedFormUtils;
+  form: FormInstance;
   className?: string;
   layout?: 'inline' | 'horizontal' | 'vertical';
   formItemLayout?: object;
@@ -90,11 +90,7 @@ class RenderPureForm extends React.Component<IProps> {
 const RenderForm = forwardRef((props: any, ref) => {
   const [form] = Form.useForm();
 
-  useImperativeHandle(ref, () => ({
-    props: {
-      form,
-    },
-  }));
+  useImperativeHandle(ref, () => form);
 
   return <RenderPureForm form={form} {...props} />;
 });

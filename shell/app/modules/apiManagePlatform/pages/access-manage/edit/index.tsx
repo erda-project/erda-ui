@@ -16,7 +16,7 @@ import { Spin, Alert, Button } from 'app/nusi';
 import { RenderForm, useUpdate, MultiInput } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { map, groupBy, find, get, isEmpty } from 'lodash';
 import {
   authenticationMap,
@@ -58,12 +58,8 @@ interface IState {
   instanceWorkSpace: '' | API_ACCESS.Workspace;
 }
 
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
-
 const AccessEdit = () => {
-  const formRef = React.useRef<FormRef>({} as FormRef);
+  const formRef = React.useRef<FormInstance>({} as FormInstance);
   const { type, accessID } = routeInfoStore.useStore((s) => s.params);
   const [assetList, versionTree] = apiMarketStore.useStore((s) => [s.assetList, s.versionTree]);
   const [apiGateways, accessDetail] = apiAccessStore.useStore((s) => [s.apiGateways, s.accessDetail]);
@@ -116,7 +112,7 @@ const AccessEdit = () => {
   });
   const assetVersions = React.useMemo(() => formatVersion(versionTree), [versionTree]);
   const refreshApiGateway = (data?: { workspace: API_ACCESS.Workspace; addonInstanceID: string }) => {
-    const projectID = formRef.current.props.form.getFieldValue('projectID');
+    const projectID = formRef.current.getFieldValue('projectID');
     if (projectID) {
       getApiGateway({ projectID: +projectID });
     }
@@ -126,7 +122,7 @@ const AccessEdit = () => {
   };
   const gotoServer = React.useCallback((e: React.MouseEvent<HTMLSpanElement>, env: string) => {
     e.stopPropagation();
-    const projectId = formRef.current.props.form.getFieldValue('projectID');
+    const projectId = formRef.current.getFieldValue('projectID');
     window.refreshApiGateway = refreshApiGateway;
     goTo(goTo.pages.projectService, { projectId, jumpOut: true, query: { env, addon: 'api-gateway' } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -171,7 +167,7 @@ const AccessEdit = () => {
     });
     return apiGateWays;
   }, [apiGateways, gotoServer, state.projectList, state.instanceWorkSpace, isfetchApi]);
-  const handleSubmit = (form: WrappedFormUtils) => {
+  const handleSubmit = (form: FormInstance) => {
     form
       .validateFields()
       .then((data: any) => {
@@ -187,7 +183,7 @@ const AccessEdit = () => {
           });
         }
       })
-      .catch(({ errorFields }: { errorFields: any }) => {
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
         form.scrollToField(errorFields[0].name);
       });
   };
@@ -215,7 +211,7 @@ const AccessEdit = () => {
         break;
       case 'minor':
         // eslint-disable-next-line no-case-declarations
-        const { assetID, major } = formRef.current.props.form.getFieldsValue(['assetID', 'major']);
+        const { assetID, major } = formRef.current.getFieldsValue(['assetID', 'major']);
         swaggerVersion = (assetVersions.find((item) => item.major === +major) || ({} as any)).swaggerVersion;
         clearApiGateways();
         updater.projectList([]);
@@ -234,14 +230,14 @@ const AccessEdit = () => {
             projectList,
             instanceWorkSpace: instantiation.workspace,
           });
-          formRef.current.props.form.setFieldsValue({ projectID: temp.projectID });
+          formRef.current.setFieldsValue({ projectID: temp.projectID });
           getApiGateway({ projectID: +temp.projectID });
         });
         break;
       default:
         break;
     }
-    formRef.current.props.form.setFieldsValue(temp);
+    formRef.current.setFieldsValue(temp);
   };
   const { access } = accessDetail;
   const fieldsList = [
@@ -379,7 +375,7 @@ const AccessEdit = () => {
       },
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('ok')}

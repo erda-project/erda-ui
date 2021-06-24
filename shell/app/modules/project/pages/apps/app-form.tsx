@@ -16,7 +16,7 @@ import * as React from 'react';
 import { ImageUpload, RenderForm } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { appMode, modeOptions, repositoriesTypes, RepositoryMode } from 'application/common/config';
 import { AppTypeSelect } from './app-type-select';
 import i18n from 'i18n';
@@ -69,10 +69,10 @@ const CreationForm = () => {
   }, []);
   React.useEffect(() => {
     if (repoType !== RepositoryMode.Internal && repoConfigTemp.current[repoType]) {
-      formRef.current.props.form.setFieldsValue(repoConfigTemp.current[repoType]);
+      formRef.current.setFieldsValue(repoConfigTemp.current[repoType]);
     }
   }, [repoType]);
-  const handleSubmit = (form: WrappedFormUtils) => {
+  const handleSubmit = (form: FormInstance) => {
     form.validateFields().then((values: Merge<APPLICATION.createBody, IMobile>) => {
       const { mobileDisplayName, bundleID, packageName, repoConfig, template: _, ...rest } = values;
       const isExternalRepo = repoType !== RepositoryMode.Internal;
@@ -106,7 +106,7 @@ const CreationForm = () => {
   const collectionRepoTemp = (type: string) => {
     if (type !== RepositoryMode.Internal) {
       const fields = ['repoConfig.url', 'repoConfig.username', 'repoConfig.password', 'repoConfig.desc'];
-      const data = formRef.current.props.form.getFieldsValue(fields);
+      const data = formRef.current.getFieldsValue(fields);
       repoConfigTemp.current[type] = data;
     }
   };
@@ -131,7 +131,7 @@ const CreationForm = () => {
       type: 'radioGroup',
       options: useOption,
       initialValue: 'SERVICE',
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <AppTypeSelect
           imgOptions={useOption}
           onChangeType={(value: string) => {
@@ -190,7 +190,7 @@ const CreationForm = () => {
             itemProps: {
               placeholder: i18n.t('application:please choose'),
               onChange: (v) => {
-                const { form } = formRef.current.props;
+                const { form } = formRef;
                 // 选择模板后，只能使用内置仓库
                 if (v !== '-1') {
                   collectionRepoTemp(repoType);
@@ -248,7 +248,7 @@ const CreationForm = () => {
       label: i18n.t('project:app logo'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
     },
     ...insertWhen(mode !== appMode.PROJECT_SERVICE, [
       {
@@ -331,7 +331,7 @@ const CreationForm = () => {
           },
         ]),
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}

@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { isValidJsonStr } from 'common/utils';
 import { Input, Select, Table, Radio } from 'app/nusi';
 import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor, useUpdate } from 'common';
-import { WrappedFormUtils, RadioChangeEvent } from 'core/common/interface';
+import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import testEnvStore from 'project/stores/test-env';
 import routeInfoStore from 'common/stores/route';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
@@ -207,10 +207,6 @@ interface IProps {
   onCancel: () => any;
 }
 
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
-
 const headerListOption = headerList.map((o) => ({ label: o, value: o }));
 export const TestEnvDetail = (props: IProps) => {
   const { data, disabled, visible, onCancel, envID, envType } = props;
@@ -233,7 +229,7 @@ export const TestEnvDetail = (props: IProps) => {
     }
   }, [update, visible]);
 
-  const formRef = React.useRef<FormRef>({} as FormRef);
+  const formRef = React.useRef({}) as React.MutableRefObject<FormInstance>;
   const HeaderKeyComp = ({ record, update: _update, ...rest }: any) => {
     return <InputSelect options={headerListOption} value={record.key} disabled={disabled} onChange={_update} />;
   };
@@ -314,15 +310,15 @@ export const TestEnvDetail = (props: IProps) => {
               value={headerMode}
               onChange={(e: RadioChangeEvent) => {
                 const _mode = e.target.value;
-                const curForm = formRef.current.props.form;
+                const curForm = formRef.current;
                 const curFormData = curForm.getFieldsValue();
                 if (_mode === 'form') {
-                  formRef.current.props.form.setFieldsValue({
+                  formRef.current.setFieldsValue({
                     header: JSON.parse(curFormData.headerStr),
                   });
                 } else {
                   const isObj = isPlainObject(curFormData.header);
-                  formRef.current.props.form.setFieldsValue({
+                  formRef.current.setFieldsValue({
                     headerStr: JSON.stringify(
                       filter(
                         map(curFormData.header, (item, k) => {
@@ -379,15 +375,15 @@ export const TestEnvDetail = (props: IProps) => {
               value={globalMode}
               onChange={(e: RadioChangeEvent) => {
                 const _mode = e.target.value;
-                const curForm = formRef.current.props.form;
+                const curForm = formRef.current;
                 const curFormData = curForm.getFieldsValue();
                 if (_mode === 'form') {
-                  formRef.current.props.form.setFieldsValue({
+                  formRef.current.setFieldsValue({
                     global: JSON.parse(curFormData.globalStr),
                   });
                 } else {
                   const isObj = isPlainObject(curFormData.global);
-                  formRef.current.props.form.setFieldsValue({
+                  formRef.current.setFieldsValue({
                     globalStr: JSON.stringify(
                       filter(
                         map(curFormData.global, (item, k) => {
@@ -517,7 +513,7 @@ export const TestEnvDetail = (props: IProps) => {
   };
 
   const onValuesChange = React.useCallback(
-    debounce((_formRef: { form: WrappedFormUtils }, changeValues: Obj, allValues: Obj) => {
+    debounce((_formRef: { form: FormInstance }, changeValues: Obj, allValues: Obj) => {
       if (changeValues.headerStr) {
         const curHeaderValid = isValidJsonStr(changeValues.headerStr);
         updater.headerJsonValid(curHeaderValid);

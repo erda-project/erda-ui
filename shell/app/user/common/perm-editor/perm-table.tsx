@@ -358,7 +358,7 @@ const PermOperation = (props: IOperationProps) => {
   const [addFormVis, setAddFormVis] = React.useState(false);
   const addFormRef = React.useRef(null as any);
 
-  const handleAddSubmit = (form: any) => {
+  const handleAddSubmit = (form: FormInstance) => {
     form.validateFields().then((values: { addStr: string }) => {
       const { addStr = '' } = values;
       const permArr = addStr.split('>');
@@ -438,7 +438,7 @@ const PermOperation = (props: IOperationProps) => {
       label: '',
       className: 'mb4',
       extraProps: { ...fieldLayout },
-      getComp: ({ form }: { form: any }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="center-flex-box">
           <Button type="primary" onClick={() => handleAddSubmit(form)}>
             添加
@@ -448,7 +448,7 @@ const PermOperation = (props: IOperationProps) => {
     },
   ];
 
-  const handleEditSubmit = (form: any) => {
+  const handleEditSubmit = (form: FormInstance) => {
     form.validateFields().then((values: any) => {
       editData({ ...values, keyPath: keyArr.join('.'), preKey: curKey });
       setEditFormVis(false);
@@ -493,7 +493,7 @@ const PermOperation = (props: IOperationProps) => {
       label: '',
       className: 'mb4',
       extraProps: { ...fieldLayout },
-      getComp: ({ form }: { form: any }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="center-flex-box">
           <Button type="primary" onClick={() => handleEditSubmit(form)}>
             保存
