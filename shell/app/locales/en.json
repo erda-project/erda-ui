@@ -444,7 +444,7 @@
     "revert": "revert",
     "running resources": "running resources",
     "runtime count": "runtime count",
-    "runtime-resource-config-form-tip": "This elastic expansion configuration will take effect immediately after being saved, and will still take effect when the application is deployed again. If you want to save it to the code, please manually synchronize it to dice.yml",
+    "runtime-resource-config-form-tip": "The modification of this expansion configuration will take effect immediately. Note: But it will cause the resource configuration in dice.yml to become invalid (the expansion configuration has a higher priority)",
     "save": "save",
     "search by application name": "search by application name",
     "search for chinese/english name of attribute": "search for chinese/english name of attribute",

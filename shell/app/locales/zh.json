@@ -444,7 +444,7 @@
     "revert": "回滚",
     "running resources": "运行资源",
     "runtime count": "应用实例数",
-    "runtime-resource-config-form-tip": "本次弹性扩缩容配置保存后即时生效，应用再次部署时仍会生效，如要保存到代码，请手动同步到 dice.yml 中",
+    "runtime-resource-config-form-tip": "本次扩缩容配置的修改会立即生效，注意：但会导致 dice.yml 中的资源配置会失效（扩缩容配置优先级更高）",
     "save": "保存",
     "search by application name": "通过应用名称搜索",
     "search for chinese/english name of attribute": "输入属性的中文/英文名搜索",
