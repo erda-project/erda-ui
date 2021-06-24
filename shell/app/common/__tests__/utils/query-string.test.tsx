@@ -31,7 +31,7 @@ describe('query-string', () => {
   it('qs.parseUrl', () => {
     expect(qs.parseUrl(process.env.mock_href)).toEqual({
       query: { id: '1' },
-      url: 'https://terminus-org.app.terminus.io/dop/apps',
+      url: 'https://terminus-org.app.terminus.io/erda/dop/apps',
     });
   });
   it('qs.stringify', () => {
