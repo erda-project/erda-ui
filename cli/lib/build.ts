@@ -12,14 +12,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import inquirer from 'inquirer';
+import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
-import { getPublicDir, getModuleList, registryDir, checkIsRoot } from './util/env';
+import { getPublicDir, getModuleList, registryDir, checkIsRoot, getModules, ERDA_BUILD_CONFIG } from './util/env';
 import { exit } from 'process';
 import generateVersion from './gen-version';
 import localIcon from './local-icon';
+import { EOL } from 'os';
+import YAML from 'yaml';
+import { set, head } from 'lodash';
 
 const asyncExec = promisify(child_process.exec);
 
@@ -28,15 +32,14 @@ const { execSync, exec } = child_process;
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 
 const currentDir = process.cwd();
+
 const dirCollection: { [k: string]: string } = {
   core: `${currentDir}/core`,
   shell: `${currentDir}/shell`,
-  fdp: path.resolve(currentDir, '../erda-ui-enterprise/fdp'),
-  admin: path.resolve(currentDir, '../erda-ui-enterprise/admin'),
   market: `${currentDir}/modules/market`,
 };
 const dirMap = new Map(Object.entries(dirCollection));
-const noneCurrentRepoModules = ['fdp', 'admin'];
+const noneCurrentRepoModules: string[] = [];
 
 const getCurrentBranch = (dir: string) => {
   return new Promise<string>((resolve) => {
@@ -154,7 +157,12 @@ const checkModuleValid = async (isLocal: boolean) => {
   }
 };
 
-const buildModules = async (enableSourceMap: boolean, rebuildList: string[], isOnline: string) => {
+const buildModules = async (
+  enableSourceMap: boolean,
+  rebuildList: string[],
+  isOnline: string,
+  dataEngineerInfo?: ERDA_BUILD_CONFIG,
+) => {
   const pList: Array<Promise<void>> = [];
   const moduleList = getModuleList();
   const toBuildModules = rebuildList.length ? rebuildList : moduleList;
@@ -163,7 +171,15 @@ const buildModules = async (enableSourceMap: boolean, rebuildList: string[], isO
     const buildPromise = new Promise<void>((resolve) => {
       const execProcess = exec(
         'npm run build',
-        { env: { ...process.env, isOnline, enableSourceMap: enableSourceMap.toString() }, cwd: moduleDir },
+        {
+          env: {
+            ...process.env,
+            isOnline,
+            enableSourceMap: enableSourceMap.toString(),
+            dataEngineerInfo: JSON.stringify(dataEngineerInfo),
+          },
+          cwd: moduleDir,
+        },
         (error) => {
           if (error) {
             logError(`build error: ${error}`);
@@ -195,7 +211,11 @@ const stopDockerContainer = async () => {
 /**
  * restore built content from an existing image
  */
-const restoreFromDockerImage = async (image: string, requireBuildList: string[]) => {
+const restoreFromDockerImage = async (
+  image: string,
+  requireBuildList: string[],
+  dataEngineerInfo?: ERDA_BUILD_CONFIG,
+) => {
   try {
     // check whether docker is running
     await asyncExec('docker ps');
@@ -223,6 +243,7 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     await stopDockerContainer();
     logSuccess('stop & delete erda-ui container successfully');
   }
+  const dataEngineerEnv = head(Object.keys(dataEngineerInfo?.env || {}));
 
   // start docker container names erda-ui for image provided
   await asyncExec(`docker run -d --name erda-ui-for-build \
@@ -231,9 +252,8 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     -e TERMINUS_KEY=xxx \
     -e COLLECTOR_PUBLIC_ADDR=127.0.0.1 \
     -e ENABLE_BIGDATA=false \
-    -e ONLY_FDP=false \
     -e UC_PUBLIC_URL=127.0.0.1 \
-    -e FDP_UI_ADDR=127.0.0.1 \
+    -e ${dataEngineerEnv}=127.0.0.1 \
     -e GITTAR_ADDR=127.0.0.1 \
     -e KRATOS_ADDR=127.0.0.1 \
     -e KRATOS_PRIVATE_ADDR=127.0.0.1 \
@@ -326,21 +346,30 @@ const getRequireBuildModules = async (image: string) => {
 
 export default async (options: { local?: boolean; image?: string; enableSourceMap?: boolean; online?: boolean }) => {
   try {
-    const { image, enableSourceMap = false, online = false } = options;
+    const { image, online = false, enableSourceMap = false } = options;
+    const externalModules = await getModules(online);
+
     let { local } = options;
     if (image) {
       local = true;
     }
-    if (online) {
-      dirMap.set('fdp', path.resolve(currentDir, 'modules/fdp'));
-      dirMap.set('admin', path.resolve(currentDir, 'modules/admin'));
-    }
+    externalModules.forEach(({ name }) => {
+      if (online) {
+        dirMap.set(name, path.resolve(currentDir, `modules/${name}`));
+      } else {
+        dirMap.set(name, path.resolve(currentDir, `../erda-ui-enterprise/${name}`));
+      }
+      noneCurrentRepoModules.push(name);
+    });
+
     checkIsRoot();
     await checkModuleValid(!!local);
 
     let rebuildList = getModuleList();
 
     await clearPublic();
+
+    const dataEngineerInfo = externalModules.find(({ role }) => role === 'DataEngineer');
 
     if (local) {
       await checkBranch();
@@ -353,17 +382,36 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
         }
         const requireBuildList = await getRequireBuildModules(image);
         logInfo(`Will launch a partial build based on image ${image}`);
-        rebuildList = await restoreFromDockerImage(image, requireBuildList);
+        rebuildList = await restoreFromDockerImage(image, requireBuildList, dataEngineerInfo);
       }
       await checkReInstall();
     }
 
-    await buildModules(enableSourceMap, rebuildList, `${online}`);
+    await buildModules(enableSourceMap, rebuildList, `${online}`, dataEngineerInfo);
 
     generateVersion();
 
     if (rebuildList.includes('shell')) {
       localIcon();
+    }
+
+    if (online) {
+      externalModules.forEach(({ nginx, env }) => {
+        if (nginx) {
+          const nginxPath = path.resolve(process.cwd(), 'nginx.conf.template');
+          const nginxContent = fs.readFileSync(nginxPath).toString('utf8').split(EOL);
+          nginxContent.splice(-1, 0, nginx);
+          fs.writeFileSync(nginxPath, nginxContent.join(EOL));
+        }
+        if (env) {
+          const erdaYmlPath = path.resolve(process.cwd(), 'erda.yml');
+          const ymlContent = YAML.parse(fs.readFileSync(erdaYmlPath).toString('utf8'));
+          Object.keys(env).forEach((key) => {
+            set(ymlContent, ['services', 'ui', 'envs', key], env[key]);
+          });
+          fs.writeFileSync(erdaYmlPath, YAML.stringify(ymlContent));
+        }
+      });
     }
   } catch (error) {
     logError('build exit with error:', error.message);

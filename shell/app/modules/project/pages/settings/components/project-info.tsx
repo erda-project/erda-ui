@@ -192,13 +192,11 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
           <div>
             {formName}
             <Tooltip title={i18n.t('project:applications')}>
-              {!diceEnv.ONLY_FDP && (
-                <CustomIcon
-                  type="link1"
-                  className="ml8 hover-active"
-                  onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
-                />
-              )}
+              <CustomIcon
+                type="link1"
+                className="ml-2 hover-active"
+                onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
+              />
             </Tooltip>
           </div>
         ) : (

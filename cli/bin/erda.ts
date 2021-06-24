@@ -47,6 +47,7 @@ program
   .option('-p, --port <port>', 'set scheduler port')
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
+  .option('-ol, --online', 'is online execution')
   .action(async (options) => {
     init(options);
     await checkCliVersion(options);

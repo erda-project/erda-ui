@@ -120,7 +120,6 @@ interface Window {
   };
   diceEnv: {
     ENABLE_BIGDATA: boolean;
-    ONLY_FDP: boolean;
     UC_PUBLIC_URL: string; // 包含protocol
   };
   refreshApiGateway: RefreshApiGateway | null;

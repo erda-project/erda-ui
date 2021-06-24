@@ -17,6 +17,7 @@ const c2k = require('koa2-connect');
 const DevServer = require('koa-devserver');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const { log, logWarn, getDirectories, getEnv } = require('./util');
+const path = require('path');
 
 const { erdaRoot, staticDir, envConfig } = getEnv();
 const { MODULES, SCHEDULER_URL, SCHEDULER_PORT, BACKEND_URL, MARKET_DIR } = envConfig;
@@ -37,6 +38,23 @@ log(`Exist static modules: ${Object.keys(prodModules)}
 Please add follow config to your /etc/hosts file:
 127.0.0.1   ${SCHEDULER_DOMAIN}
 `);
+
+let dataEngineerInfo = {};
+const modulePath = path.resolve(__dirname, '../../../erda-ui-enterprise');
+const children = fs.readdirSync(modulePath, { withFileTypes: true });
+for (let i = 0; i < children.length; i++) {
+  const child = children[i];
+  if (child.isDirectory()) {
+    const configPath = path.resolve(modulePath, child.name, 'erda-build-config.js');
+    if (fs.existsSync(configPath)) {
+      const moduleConfig = require(configPath);
+      if (moduleConfig.role === 'DataEngineer') {
+        dataEngineerInfo = moduleConfig;
+        break;
+      }
+    }
+  }
+}
 
 const staticFileMiddleware = async (ctx) => {
   const [, scope, moduleName, ...rest] = ctx.path.split('/');
@@ -83,7 +101,7 @@ const server = new DevServer({
     // can inject one or more koa middleware in the request execution stack
     c2k(createProxyMiddleware('/api/w+/websocket', { target: BACKEND_URL, changeOrigin: true, ws: true })),
     c2k(createProxyMiddleware('/api', { target: BACKEND_URL, changeOrigin: true })),
-    c2k(createProxyMiddleware('/fdp-app/', { target: BACKEND_URL, changeOrigin: true })),
+    c2k(createProxyMiddleware(`/${dataEngineerInfo.name}-app/`, { target: BACKEND_URL, changeOrigin: true })),
     staticFileMiddleware,
   ],
 });

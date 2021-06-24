@@ -11,9 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { get } from 'lodash';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+
+const { indexUrl, name } = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
 
 export const appList: () => LAYOUT.IApp[] = () =>
   filterMenu(
@@ -55,10 +58,10 @@ export const appList: () => LAYOUT.IApp[] = () =>
         href: goTo.resolve.apiManageRoot(),
       },
       {
-        key: 'diceFdp',
+        key: `${name}`,
         name: i18n.t('Fast data'),
         breadcrumbName: i18n.t('Fast data'),
-        href: goTo.resolve.fdpIndex(),
+        href: indexUrl?.replace('{orgName}', get(location.pathname.split('/'), '[1]') || '-'),
       },
       {
         key: 'dataCenter',

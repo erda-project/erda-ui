@@ -17,11 +17,12 @@ import { logInfo, logSuccess } from './util/log';
 import dotenv from 'dotenv';
 import { promisify } from 'util';
 import { EOL } from 'os';
-import { isCwdInRoot } from './util/env';
+import { getModules, isCwdInRoot } from './util/env';
 import ora from 'ora';
 
 const asyncExec = promisify(child_process.exec);
-const ALL_MODULES = ['core', 'shell', 'admin', 'fdp', 'market'];
+
+const ALL_MODULES = ['core', 'shell', 'market'];
 
 // precondition
 // pnpm & @erda-ui/cli & npm-check-updates installed globally
@@ -30,14 +31,17 @@ export default async ({
   port,
   override,
   backendUrl,
+  online = false,
 }: {
   hostName?: string;
   port?: string;
   override?: boolean;
   backendUrl?: string;
+  online?: boolean;
 }) => {
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir, alert: true });
+  const externalModules = await getModules(online);
 
   if (!override) {
     let spinner = ora('installing commitizen & npm-check-updates...').start();
@@ -59,7 +63,7 @@ export default async ({
   if (!fullConfig || override) {
     const newConfig: dotenv.DotenvParseOutput = {};
     newConfig.BACKEND_URL = backendUrl || 'https://terminus-org.dev.terminus.io';
-    newConfig.MODULES = ALL_MODULES.join(',');
+    newConfig.MODULES = ALL_MODULES.concat(externalModules.map(({ name }) => name)).join(',');
     newConfig.SCHEDULER_PORT = port || '3000';
     newConfig.SCHEDULER_URL = hostName || 'https://dice.dev.terminus.io';
     newConfig.ERDA_DIR = currentDir;
