@@ -99,7 +99,7 @@ export const IssueItem = (props: IIssueProps) => {
         </div>
         <div className="backlog-item-info color-text-sub right-flex-box">
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
-          <div className="w-80">
+          <div className="w80">
             <Avatar showName name={username} size={20} wrapClassName="full-width" />
           </div>
           {onDelete ? (

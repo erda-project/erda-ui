@@ -113,10 +113,10 @@ const iteration = createStore({
       update({ issuesMap: { ...preIssuesMap, [iterationId]: { list, total } } });
       return list;
     },
-    async getBacklogIssues({ call, update, select, getParams }, payload: ISSUE.BacklogIssueQuery = {}) {
+    async getBacklogIssues({ call, update, select, getParams }, payload: ISSUE.BacklogIssueQuery) {
       const { projectId: projectID } = getParams();
       const type = isEmpty(payload.type) ? map(ISSUE_OPTION) : payload.type;
-      const { loadMore, ...rest } = payload;
+      const { loadMore, ...rest } = payload || {};
 
       const query = { ...rest, type, iterationID: -1, projectID } as ISSUE.IssueListQuery;
       const { list = [] } = await call(getIssues, query, { paging: { key: 'backlogIssuesPaging' } });
