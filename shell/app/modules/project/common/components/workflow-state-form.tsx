@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
-import { Form } from 'app/modules/dop/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import { issueStateMap } from 'project/common/config';
 import { map } from 'lodash';
 import { Select } from 'app/nusi';

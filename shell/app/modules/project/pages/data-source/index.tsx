@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import dopStore from 'app/modules/dop/stores';
+import dopStore from 'dop/stores';
 import addonStore from 'common/stores/addon';
 import customAddonStore from 'project/stores/custom-addon';
 import { Button, Tooltip } from 'app/nusi';

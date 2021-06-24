@@ -21,7 +21,7 @@ import { usePerm, WithAuth } from 'app/user/common';
 import customAddonStore from 'project/stores/custom-addon';
 import addonStore from 'common/stores/addon';
 import { useLoading } from 'app/common/stores/loading';
-import dopStore from 'app/modules/dop/stores';
+import dopStore from 'dop/stores';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'common/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';

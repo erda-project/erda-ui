@@ -18,7 +18,7 @@ import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { DatePicker } from 'app/nusi';
 import moment, { Moment } from 'moment';
-import dopStore from 'app/modules/dop/stores';
+import dopStore from 'dop/stores';
 import { AppSelector } from 'application/common/app-selector';
 
 const { RangePicker } = DatePicker;

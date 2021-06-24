@@ -170,6 +170,13 @@ server {
         proxy_set_header Host $host;
     }
 
+    # redirect repo address to gittar when user agent is git
+    location ~ ^/[^/]*/dop/ {
+        if ($http_user_agent ~* "git"){
+            proxy_pass http://${GITTAR_ADDR};
+        }
+    }
+
     location ^~ /wb {
         proxy_pass http://${GITTAR_ADDR};
         proxy_set_header        X-Real-IP $remote_addr;

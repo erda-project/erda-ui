@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form } from 'app/modules/dop/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import { Button } from 'app/nusi';
 import auditStore from 'org/stores/audit';

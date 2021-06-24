@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { forEach, filter } from 'lodash';
 import { Panel } from 'common';
 import { AddonCards } from 'addonPlatform/pages/common/components/addon-cards';
-import dopStore from 'app/modules/dop/stores';
+import dopStore from 'dop/stores';
 
 interface IProps {
   projectId: any;

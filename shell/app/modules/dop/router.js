@@ -13,7 +13,7 @@
 
 import getProjectRouter from 'project/router';
 import getPublisherRouter from 'publisher/router';
-import { publisherTabs } from 'app/modules/dop/pages/publisher/index.tsx';
+import { publisherTabs } from 'dop/pages/publisher/index.tsx';
 import getApiManagePlatformRouter from 'apiManagePlatform/router';
 import i18n from 'i18n';
 
@@ -85,34 +85,34 @@ export default function getDopRouter() {
           pageName: i18n.t('joined projects'),
           breadcrumbName: i18n.t('joined projects'),
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/dop/pages/projects/project-list-protocol')),
+          getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
           path: 'public-projects',
           pageName: i18n.t('public project'),
           breadcrumbName: i18n.t('public project'),
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/dop/pages/projects/project-list-protocol')),
+          getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
           path: 'service',
           breadcrumbName: i18n.t('addon service'),
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/dop/pages/addons/addon-category'), 'AddonCategory'),
+          getComp: (cb) => cb(import('dop/pages/addons/addon-category'), 'AddonCategory'),
         },
         {
           path: 'publisher',
           breadcrumbName: i18n.t('publisher:my release'),
           routes: [
             {
-              getComp: (cb) => cb(import('app/modules/dop/pages/publisher'), 'RedirectTo'),
+              getComp: (cb) => cb(import('dop/pages/publisher'), 'RedirectTo'),
             },
             {
               path: ':mode',
               tabs: publisherTabs,
               routes: [
                 {
-                  getComp: (cb) => cb(import('app/modules/dop/pages/publisher')),
+                  getComp: (cb) => cb(import('dop/pages/publisher')),
                 },
                 ...getPublisherRouter(),
               ],
@@ -167,7 +167,7 @@ export default function getDopRouter() {
           path: 'form-editor',
           breadcrumbName: 'form-editor',
           layout: { fullHeight: true },
-          getComp: (cb) => cb(import('app/modules/dop/pages/form-editor')),
+          getComp: (cb) => cb(import('dop/pages/form-editor')),
         },
         {
           path: 'form-test',

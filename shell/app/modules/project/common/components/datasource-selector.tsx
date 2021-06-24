@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import dopStore from 'app/modules/dop/stores';
+import dopStore from 'dop/stores';
 import { useMount, useUpdateEffect } from 'react-use';
 import { Select } from 'app/nusi';
 import i18n from 'i18n';

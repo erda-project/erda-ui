@@ -22,8 +22,8 @@ import i18n from 'i18n';
 import userStore from 'app/user/stores';
 import { useLoading } from 'app/common/stores/loading';
 import './project-list.scss';
-import BlockNetworkStatus, { BlockNetworkTips } from 'app/modules/dop/pages/projects/block-comp';
-import ApplyUnblockModal, { IMetaData } from 'app/modules/dop/pages/projects/apply-unblock-modal';
+import BlockNetworkStatus, { BlockNetworkTips } from 'dop/pages/projects/block-comp';
+import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
 
 const { Search } = Input;
 export const ProjectList = () => {
