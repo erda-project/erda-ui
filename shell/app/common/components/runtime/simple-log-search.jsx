@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Form4 as Form, Input, Button } from 'app/nusi';
+import { Form, Input, Button } from 'app/nusi';
 import { Search as IconSearch } from '@icon-park/react';
 import './simple-log.scss';
 import i18n from 'i18n';
