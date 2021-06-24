@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Menu, Modal, Icon, List } from 'app/nusi';
+import { Dropdown, Menu, Modal, Icon, List, Ellipsis } from 'app/nusi';
 import { Icon as CustomIcon, Copy, useUpdate } from 'common';
 import { map, isEmpty } from 'lodash';
-import { setLS, getLS, notify, insertWhen } from 'common/utils';
+import { notify, insertWhen } from 'common/utils';
 import ServiceResourceModal from './resource-modal';
 import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
@@ -91,7 +91,9 @@ const ServiceDropdown = (props: IProps) => {
         renderItem={({ addr }: { addr: string }) => {
           return (
             <div className="flex-box">
-              <span className="mr8 vip-addr flex-1 nowrap">{addr}</span>
+              <span className="mr8 vip-addr flex-1 nowrap">
+                <Ellipsis title={addr} />
+              </span>
               <Copy selector=".for-copy">
                 <span className="for-copy copy-icon" data-clipboard-text={addr}>
                   <Icon type="copy" />
