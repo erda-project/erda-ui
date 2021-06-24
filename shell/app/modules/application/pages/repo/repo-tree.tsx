@@ -81,10 +81,16 @@ const RepoDownload = (props: IDownProp) => {
             <Button size="small" onClick={() => download('tar.gz')}> tar.gz </Button>
             <Button size="small" onClick={() => download('zip')}> zip </Button>
           </ButtonGroup>
-          <p className="label mb8">username</p>
-          <Input className="full-width mb16" value={info.username} addonAfter={renderAddonAfter(info.username, 'username')} />
-          <p className="label mb8">token</p>
-          <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+          {
+            token && (
+              <>
+                <p className="label mb8">username</p>
+                <Input className="full-width mb16" value={info.username} addonAfter={renderAddonAfter(info.username, 'username')} />
+                <p className="label mb8">token</p>
+                <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+              </>
+            )
+          }
         </div>
       }
       trigger="click"
@@ -133,7 +139,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
     } as any);
   }
   const curBranch = branch || tag || info.defaultBranch;
-  
+
   return (
     <Spin spinning={isFetchingTree || false} wrapperClassName={tree.type === 'tree' ? 'flex-1' : ''}>
       <CommitBlock commit={tree.commit} />
