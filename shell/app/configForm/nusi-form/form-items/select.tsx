@@ -80,7 +80,7 @@ const PureFormSelect = (props: any) => {
 
   const handleChange = (...args: any) => {
     form.setFieldValue(key, curFixOut(args[0]));
-    (compOnChange || noop)(...args);
+    compOnChange?.(...args);
   };
 
   registerRequiredCheck(_requiredCheck || requiredCheck);
