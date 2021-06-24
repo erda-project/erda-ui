@@ -47,7 +47,7 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
       type: 'inputNumber',
       pattern: realPattern,
       initialValue: resources.cpu,
-      itemProps: { step: 0.01, min: 0.01 },
+      itemProps: { step: 0.01, min: 0.1 },
       formItemLayout: {
         labelCol: {
           sm: { span: 24 },
