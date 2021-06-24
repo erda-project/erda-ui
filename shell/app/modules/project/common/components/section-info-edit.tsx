@@ -28,6 +28,7 @@ interface IProps {
   readonlyForm?: JSX.Element;
   extraSections?: any[];
   updateInfo: (data: any) => Promise<any> | void;
+  setCanGetClusterListAndResources?: (value: boolean) => void;
 }
 interface IField {
   label?: string;
@@ -54,6 +55,8 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
 
   toggleModal = () => {
     this.setState({ modalVisible: !this.state.modalVisible });
+    this.props.setCanGetClusterListAndResources &&
+      this.props.setCanGetClusterListAndResources(!this.state.modalVisible);
   };
 
   handleSubmit = (values: object) => {
