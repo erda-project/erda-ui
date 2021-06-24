@@ -40,9 +40,9 @@ const baseAssertion = (name) => {
   // cy.waitResponse('@createApp');
 };
 
-describe('WorkBench-apps-create', () => {
+describe('dop-apps-create', () => {
   before(() => {
-    cy.loginWithoutUI({ url: `/workBench/projects/${Cypress.env('projectID')}/apps/createApp` });
+    cy.loginWithoutUI({ url: `/dop/projects/${Cypress.env('projectID')}/apps/createApp` });
   });
   it('create business app ', () => {
     typeBaseInfo(1, genRandomEnText(10));

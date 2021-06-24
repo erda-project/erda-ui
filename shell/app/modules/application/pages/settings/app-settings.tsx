@@ -145,7 +145,9 @@ export const PureAppSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('application:variable configuration'),
-                  desc: i18n.t('application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.'),
+                  desc: i18n.t(
+                    'application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
+                  ),
                   children: <PipelineConfig />,
                 },
               ]}
@@ -232,7 +234,9 @@ export const PureAppSettings = () => {
                 sectionList={[
                   {
                     title: i18n.t('application:variable configuration'),
-                    desc: i18n.t('application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.'),
+                    desc: i18n.t(
+                      'application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
+                    ),
                     children: <MobileConfig />,
                   },
                 ]}

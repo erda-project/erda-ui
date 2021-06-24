@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import { createFormEditor, DefaultPreview } from 'app/configForm/editor';
 import { FormEditor, basicField, previewRenderField } from 'app/configForm/nusi-form/form-editor';
 import i18n from 'i18n';

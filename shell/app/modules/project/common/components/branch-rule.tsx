@@ -80,7 +80,9 @@ const extraFieldsMap = {
       label: i18n.t('project:deployment environment'),
       component: 'select',
       key: 'workspace',
-      labelTip: i18n.t('project:Branch binds environment in the platform. The branch code can only be deployed to the environment selected below by CI/CD pipeline.'),
+      labelTip: i18n.t(
+        'project:Branch binds environment in the platform. The branch code can only be deployed to the environment selected below by CI/CD pipeline.',
+      ),
       required: true,
       dataSource: {
         type: 'static',
@@ -92,7 +94,9 @@ const extraFieldsMap = {
       label: i18n.t('project:artifact deployment environment'),
       component: 'select',
       key: 'artifactWorkspace',
-      labelTip: i18n.t('project:The artifact is a release product of pipeline, and the environment selected below can be directly deployed by the artifact of this branch.'),
+      labelTip: i18n.t(
+        'project:The artifact is a release product of pipeline, and the environment selected below can be directly deployed by the artifact of this branch.',
+      ),
       required: true,
       componentProps: {
         mode: 'multiple',
@@ -114,7 +118,9 @@ const extraFieldsMap = {
       },
       required: true,
       visible: false,
-      labelTip: i18n.t('project:When enabled, application deployment needs to be reviewed and approved by the project administrator.'),
+      labelTip: i18n.t(
+        'project:When enabled, application deployment needs to be reviewed and approved by the project administrator.',
+      ),
       type: 'switch',
     },
   ],

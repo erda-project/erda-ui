@@ -167,7 +167,7 @@ const repoStore = createStore({
           if (lsTag && !tags.includes(lsTag)) {
             removeLS(tagKey);
           }
-          const isRepoRoot = isMatch(/\/workBench\/projects\/\w+\/apps\/\w+\/repo$/);
+          const isRepoRoot = isMatch(/\/dop\/projects\/\w+\/apps\/\w+\/repo$/);
           if (isRepoRoot || isIn('repoTree')) {
             // repoStore.reducers.clearRepoTree();
             repoStore.effects.getRepoTree();
@@ -240,7 +240,7 @@ const repoStore = createStore({
       const lsTag = getLS(`tag-${appId}`);
       const lsBranchOrTag = isEmpty(lsBranch) ? (isEmpty(lsTag) ? undefined : lsTag) : lsBranch;
       const isRepoRoot = window.location.pathname.endsWith(
-        `/workBench/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`,
+        `/dop/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`,
       );
       const tree = (await call(RepoServices.getFromRepo, {
         type: 'tree',
@@ -318,9 +318,8 @@ const repoStore = createStore({
           latestCommitDetail.lines = latestCommitDetail.lines.slice(0, -1);
         }
       }
-      const section = target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path).sections[
-        payload.sectionIndex
-      ];
+      const file = target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path);
+      const section = file.sections[payload.sectionIndex];
       if (payload.bottom) {
         section.lines = section.lines.concat(latestCommitDetail.lines);
       } else {
@@ -336,6 +335,7 @@ const repoStore = createStore({
         default:
           break;
       }
+      return file;
     },
     async getRepoRaw({ call }) {
       const raw = await call(RepoServices.getFromRepo, { type: 'raw' });

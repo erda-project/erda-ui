@@ -34,9 +34,9 @@ const NoAuth = () => {
               <span className="contact-info">
                 {i18n.t('please contact')} {authContact}
               </span>
-              <Link to={goTo.resolve.workBenchRoot()}>
+              <Link to={goTo.resolve.dopRoot()}>
                 <Button size="large" type="primary">
-                  {i18n.t('layout:back to workBench')}
+                  {i18n.t('layout:back to dop')}
                 </Button>
               </Link>
             </>
@@ -112,19 +112,15 @@ const FreeUserTips = () => {
         <CustomIcon type="VIP" color />
         <div className="desc">
           <span>{i18n.t('common:vip features tips')}</span>
-          <a target="_blank" href="https://www.erda.cloud/contact">
-            <Button size="large" type="primary">{i18n.t('common:contact business')}</Button>
+          <a target="_blank" href="https://www.erda.cloud/contact" rel="noreferrer">
+            <Button size="large" type="primary">
+              {i18n.t('common:contact business')}
+            </Button>
           </a>
         </div>
       </div>
     </div>
-  )
-}
-
-
-export {
-  NoAuth,
-  NotFound,
-  NotJoinOrg,
-  FreeUserTips,
+  );
 };
+
+export { NoAuth, NotFound, NotJoinOrg, FreeUserTips };

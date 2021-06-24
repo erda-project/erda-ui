@@ -349,9 +349,9 @@ declare namespace TEST_CASE {
     testPlanID: number;
   }
 
-  type ImportOrExport = 'import' | 'export'
+  type ImportOrExport = 'import' | 'export';
 
-  type ImportOrExportState = 'processing' | 'success' | 'fail' | 'pending'
+  type ImportOrExportState = 'processing' | 'success' | 'fail' | 'pending';
 
   interface ImportExportQuery {
     projectId: number;
@@ -369,6 +369,6 @@ declare namespace TEST_CASE {
     projectId: number;
     state: ImportOrExportState;
     type: ImportOrExport;
-    updatedAt: string
+    updatedAt: string;
   }
 }

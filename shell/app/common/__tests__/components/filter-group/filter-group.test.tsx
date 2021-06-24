@@ -53,7 +53,7 @@ const list = [
     label: 'org',
     name: 'org',
     type: 'custom',
-    Comp: <div className='org-custom-comp' />,
+    Comp: <div className="org-custom-comp" />,
   },
   {
     label: 'env',
@@ -65,27 +65,28 @@ const list = [
           onChange={(e) => {
             wrapOnChange(e.target.value);
           }}
-          className='env-custom-comp'
+          className="env-custom-comp"
         />
       );
     },
   },
 ];
 
-const simpleList = [{
-  label: 'name',
-  name: 'name',
-  type: 'input',
-  className: 'name-comp',
-  placeholder: 'please enter name',
-}];
+const simpleList = [
+  {
+    label: 'name',
+    name: 'name',
+    type: 'input',
+    className: 'name-comp',
+    placeholder: 'please enter name',
+  },
+];
 
 const routerData = {
   query: {
     [FilterBarHandle.filterDataKey]: 'name[erda]',
   },
 };
-
 
 describe('filter-group', () => {
   beforeAll(() => {
@@ -108,13 +109,13 @@ describe('filter-group', () => {
         {({ CompList, resetButton, searchButton, search, reset }) => {
           return (
             <div>
-              <div className='comp-list'>{CompList}</div>
-              <div className='reset-button'>{resetButton}</div>
-              <div className='search-button'>{searchButton}</div>
-              <div className='search-btn' onClick={search}>
+              <div className="comp-list">{CompList}</div>
+              <div className="reset-button">{resetButton}</div>
+              <div className="search-button">{searchButton}</div>
+              <div className="search-btn" onClick={search}>
                 search
               </div>
-              <div className='reset-btn' onClick={reset}>
+              <div className="reset-btn" onClick={reset}>
                 reset
               </div>
             </div>
@@ -167,9 +168,7 @@ describe('filter-group', () => {
   it('FilterGroup should render well', () => {
     const resetFn = jest.fn();
     const searchFn = jest.fn();
-    const wrapper = mount(
-      <FilterGroup list={simpleList} reversePosition onReset={resetFn} onSearch={searchFn} />,
-    );
+    const wrapper = mount(<FilterGroup list={simpleList} reversePosition onReset={resetFn} onSearch={searchFn} />);
     expect(wrapper.find('.filter-group-left').find('Button')).toExist();
     expect(wrapper.find('.filter-group-right').find('.name-comp')).toExist();
     wrapper.setProps({
@@ -182,12 +181,8 @@ describe('filter-group', () => {
     const ref = React.createRef();
     const searchFn = jest.fn();
     const wrapper = mount(
-      <ToolBarWithFilter
-        list={simpleList}
-        ref={ref}
-        onSearch={searchFn}
-        filterValue={{ name: 'erda' }}>
-        <ToolBarWithFilter.FilterButton btnClassName='filter-btn' />
+      <ToolBarWithFilter list={simpleList} ref={ref} onSearch={searchFn} filterValue={{ name: 'erda' }}>
+        <ToolBarWithFilter.FilterButton btnClassName="filter-btn" />
       </ToolBarWithFilter>,
     );
     wrapper.find('.filter-btn').at(0).simulate('click');
@@ -211,10 +206,13 @@ describe('filter-group', () => {
     expect(searchFn).toHaveBeenCalledTimes(4);
   });
   it('FilterGroupV should work well', () => {
-    const wrapper = mount(
-      <FilterGroupV list={simpleList} />,
-    );
-    expect(wrapper.find('Col.filter-item').at(simpleList.length - 1).find('.ml12-group')).toExist();
+    const wrapper = mount(<FilterGroupV list={simpleList} />);
+    expect(
+      wrapper
+        .find('Col.filter-item')
+        .at(simpleList.length - 1)
+        .find('.ml12-group'),
+    ).toExist();
   });
   it('should FilterBarHandle work well', () => {
     const queryStr = 'name[erda]||org[erda.cloud]';

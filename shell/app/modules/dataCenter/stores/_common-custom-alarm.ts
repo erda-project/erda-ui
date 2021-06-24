@@ -88,7 +88,11 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
       },
       async switchCustomAlarm({ call, select, getParams }, payload: { id: number; enable: boolean }) {
         const { tenantGroup } = getParams();
-        await call(switchCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('status switched successfully') });
+        await call(
+          switchCustomAlarm,
+          { ...payload, tenantGroup },
+          { successMsg: i18n.t('status switched successfully') },
+        );
         const { pageSize, pageNo } = select((s) => s.customAlarmPaging);
         customAlarmStore.effects.getCustomAlarms({ pageNo, pageSize });
       },

@@ -88,14 +88,16 @@ describe('TreeCategory', () => {
   it.skip('TreeCategory should work well', async () => {
     const getAncestors = jest.fn().mockReturnValue(simpleTreeData);
     const selectNodeFn = jest.fn();
-    let wrapper = mount(<TreeCategory
-      initTreeData={initTreeData}
-      currentKey='leaf-root'
-      effects={{
-        getAncestors,
-      }}
-      onSelectNode={selectNodeFn}
-    />);
+    let wrapper = mount(
+      <TreeCategory
+        initTreeData={initTreeData}
+        currentKey="leaf-root"
+        effects={{
+          getAncestors,
+        }}
+        onSelectNode={selectNodeFn}
+      />,
+    );
     await sleep(1500);
 
     act(() => {

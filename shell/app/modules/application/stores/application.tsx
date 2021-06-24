@@ -45,7 +45,7 @@ const initState: IState = {
 
 // 检测是否是app的首页，重定向
 const checkIsAppIndex = (appMenu?: any) => {
-  const appEnterMath = /\/workBench\/projects\/\d+\/apps\/\d+$/;
+  const appEnterMath = /\/dop\/projects\/\d+\/apps\/\d+$/;
   if (appEnterMath.test(location.pathname)) {
     appStore.reducers.onAppIndexEnter(appMenu);
   }

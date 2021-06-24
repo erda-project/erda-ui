@@ -77,7 +77,11 @@ const IssueFieldManage = () => {
   const onDeleteField = React.useCallback(
     async ({ propertyID, relatedIssue }) => {
       if (!isEmpty(relatedIssue)) {
-        message.warning(i18n.t('project:This field has been referenced. If you want to delete it, please remove the reference in the corresponding issue type first.'));
+        message.warning(
+          i18n.t(
+            'project:This field has been referenced. If you want to delete it, please remove the reference in the corresponding issue type first.',
+          ),
+        );
         return;
       }
 

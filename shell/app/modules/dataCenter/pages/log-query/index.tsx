@@ -142,8 +142,8 @@ export default () => {
     const path = isIn('microService')
       ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
       : isIn('dataCenter')
-        ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
-        : '';
+      ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
+      : '';
     goTo(path);
   };
 
@@ -263,7 +263,7 @@ export default () => {
     {
       title: i18n.t('content'),
       dataIndex: 'content',
-      render: (item: string) => (<pre className="code-block log-preview"> {parseLogContent(item)} </pre>),
+      render: (item: string) => <pre className="code-block log-preview"> {parseLogContent(item)} </pre>,
     },
     {
       width: 140,

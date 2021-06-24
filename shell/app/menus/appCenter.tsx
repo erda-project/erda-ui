@@ -19,28 +19,28 @@ export const appList: () => LAYOUT.IApp[] = () =>
   filterMenu(
     [
       {
-        key: 'workBench',
-        name: i18n.t('DevOps'),
-        breadcrumbName: i18n.t('DevOps'),
+        key: 'dop',
+        name: i18n.t('dop'),
+        breadcrumbName: i18n.t('dop'),
         path: (params: any, routes: any[]): string => {
           // in order to show xxx list when click 工作台 in none apps pages
           let path;
           const { orgName, projectId, appId } = params;
           routes.forEach((route) => {
             if (route.path === 'service') {
-              path = `/${orgName}/workBench/${route.path}`;
+              path = `/${orgName}/dop/${route.path}`;
             }
           });
           if (path) {
             return path;
           }
-          path = goTo.resolve.workBenchRoot();
+          path = goTo.resolve.dopRoot();
           if (!appId && (projectId || routes.some((route) => route.path === 'projects'))) {
-            path = `/${orgName}/workBench/projects`;
+            path = `/${orgName}/dop/projects`;
           }
           return path;
         },
-        href: goTo.resolve.workBenchRoot(),
+        href: goTo.resolve.dopRoot(),
       },
       {
         key: 'microService',

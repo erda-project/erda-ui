@@ -42,7 +42,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { name, displayName, logo, logoClassName = '' } = detail;
   let sideIcon: React.ReactNode = null;
   switch (routeMarks[routeMarks.length - 2]) {
-    case 'workBench':
+    case 'dop':
       sideIcon = <img className="big-icon" src={devopsSvg} />;
       break;
     case 'sysAdmin':

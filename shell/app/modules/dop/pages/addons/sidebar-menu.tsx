@@ -21,12 +21,12 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
     {
       href: `${rootPath}/overview`,
       icon: <CustomIcon type="overview" />,
-      text: i18n.t('workBench:addon info'),
+      text: i18n.t('dop:addon info'),
     },
     {
       href: `${rootPath}/settings`,
       icon: <Config />,
-      text: i18n.t('workBench:addon setting'),
+      text: i18n.t('dop:addon setting'),
     },
   ];
   return sideMenu;
