@@ -74,11 +74,11 @@ const mock = (data) => {
   return temp;
 };
 const mockLocation = {
-  href: 'https://terminus-org.app.terminus.io/workBench/apps?id=1#123',
+  href: 'https://terminus-org.app.terminus.io/dop/apps?id=1#123',
   host: 'terminus-org.app.terminus.io',
   hostname: 'terminus-org.app.terminus.io',
   origin: 'https://terminus-org.app.terminus.io',
-  pathname: '/workBench/apps',
+  pathname: '/dop/apps',
   hash: '#123',
   search: '?id=1',
 };

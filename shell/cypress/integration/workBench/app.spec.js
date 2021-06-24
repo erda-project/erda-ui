@@ -15,7 +15,7 @@
 
 context('WorkBench-apps', () => {
   before(() => {
-    cy.loginWithoutUI({ url: `/workBench/projects/${Cypress.env('projectID')}/apps` });
+    cy.loginWithoutUI({ url: `/dop/projects/${Cypress.env('projectID')}/apps` });
   });
   it('searchProject ', () => {
     cy.testList('/api/applications*');
