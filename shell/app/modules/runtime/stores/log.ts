@@ -59,7 +59,9 @@ const runtimeLog = createFlatStore({
       });
       let dockerLog = '';
       if (!host) {
-        dockerLog = i18n.t("runtime:The current container does not have a host, and the container log cannot be obtained.");
+        dockerLog = i18n.t(
+          'runtime:The current container does not have a host, and the container log cannot be obtained.',
+        );
       } else if (clusterDetail.urls) {
         dockerLog = await call(getDockerLog, {
           targetId,

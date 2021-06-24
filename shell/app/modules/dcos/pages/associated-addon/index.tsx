@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { forEach, filter } from 'lodash';
 import { Panel } from 'common';
 import { AddonCards } from 'addonPlatform/pages/common/components/addon-cards';
-import workBenchStore from 'workBench/stores';
+import dopStore from 'dop/stores';
 
 interface IProps {
   projectId: any;
@@ -24,9 +24,9 @@ interface IProps {
 }
 
 const AssociatedAddons = ({ projectId, environment }: IProps) => {
-  const projectAddonCategory = workBenchStore.useStore((s) => s.projectAddonCategory);
+  const projectAddonCategory = dopStore.useStore((s) => s.projectAddonCategory);
   useEffect(() => {
-    workBenchStore.getProjectAddons(projectId);
+    dopStore.getProjectAddons(projectId);
   }, [projectId]);
 
   const uselessCategories = [i18n.t('dcos:customize')];

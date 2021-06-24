@@ -28,7 +28,7 @@ export const ENV_NAME = {
 
 export const CATEGORY_NAME = {
   custom: i18n.t('addonPlatform:custom'),
-  database: i18n.t('addonPlatform:storage space'),
+  database: i18n.t('addonPlatform:storage'),
   distributed_cooperation: i18n.t('addonPlatform:distributed collaboration'),
   message: i18n.t('addonPlatform:message'),
   search: i18n.t('addonPlatform:search'),
@@ -47,7 +47,7 @@ export const CATEGORY_NAME = {
 
 export const CategoriesOrder = [
   i18n.t('addonPlatform:custom'),
-  i18n.t('addonPlatform:storage space'),
+  i18n.t('addonPlatform:storage'),
   i18n.t('addonPlatform:distributed collaboration'),
   i18n.t('addonPlatform:message'),
   i18n.t('addonPlatform:search'),

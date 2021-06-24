@@ -34,7 +34,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
 
   const deleteAddon = () => {
     addonStore.deleteAddonIns(insId).then(() => {
-      goTo(goTo.pages.workBenchRoot);
+      goTo(goTo.pages.dopRoot);
     });
   };
   const { config, canDel = false } = addonConfig;

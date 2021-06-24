@@ -653,7 +653,11 @@ export const checkRdsAccountName = (rule, value, callback) => {
     callback(`${i18n.t('dcos:cannot contain restricted keywords')}： ${value}`);
   }
   if (!/^[a-z][a-z0-9_]*$/.test(value)) {
-    callback(i18n.t('dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters'));
+    callback(
+      i18n.t(
+        'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+      ),
+    );
   }
   callback();
 };

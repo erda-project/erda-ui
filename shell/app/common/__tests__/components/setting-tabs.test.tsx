@@ -28,12 +28,12 @@ const dataSource1 = [
       {
         tabTitle: 'application information',
         tabKey: 'appInfo',
-        content: <div className='application information' />,
+        content: <div className="application information" />,
       },
       {
         tabTitle: 'application member',
         tabKey: 'appMember',
-        content: <div className='application member' />,
+        content: <div className="application member" />,
       },
     ],
   },
@@ -42,12 +42,12 @@ const dataSource2 = [
   {
     tabTitle: 'application information',
     tabKey: 'appInfo',
-    content: <div className='application information' />,
+    content: <div className="application information" />,
   },
   {
     tabTitle: 'application member',
     tabKey: 'appMember',
-    content: <div className='application member' />,
+    content: <div className="application member" />,
   },
 ];
 
@@ -72,23 +72,13 @@ describe('SettingsTabs', () => {
   });
   it('render with tabGroup', () => {
     const spy = jest.spyOn(utils, 'updateSearch').mockImplementation();
-    const wrapper = mount(
-      <SettingsTabs
-        dataSource={dataSource1}
-        className={'class-name'}
-      />,
-    );
+    const wrapper = mount(<SettingsTabs dataSource={dataSource1} className={'class-name'} />);
     expect(wrapper.find('li')).toHaveLength(dataSource1[0].tabGroup.length);
     wrapper.find('li').at(1).simulate('click');
     expect(spy).toHaveBeenCalled();
   });
   it('render without tabGroup', () => {
-    const wrapper = mount(
-      <SettingsTabs
-        dataSource={dataSource2}
-      />,
-    );
+    const wrapper = mount(<SettingsTabs dataSource={dataSource2} />);
     expect(wrapper.find('li')).toHaveLength(dataSource2.length);
   });
 });
-

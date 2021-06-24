@@ -52,7 +52,7 @@
       "dcos/*": ["app/modules/dcos/*"],
       "runtime": ["app/modules/runtime"],
       "runtime/*": ["app/modules/runtime/*"],
-      "workBench/*": ["app/modules/workBench/*"],
+      "dop/*": ["app/modules/dop/*"],
       "microService": ["app/modules/microService"],
       "microService/*": ["app/modules/microService/*"],
       "addonPlatform/*": ["app/modules/addonPlatform/*"],

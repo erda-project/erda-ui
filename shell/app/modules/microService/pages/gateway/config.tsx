@@ -544,7 +544,9 @@ export const getOpenApiConsumerFields = (isEditing: boolean) => {
       rules: [
         {
           pattern: /^(\w|_){1,20}$/g,
-          message: i18n.t('microService:Please enter a name consisting of letters, numbers and underscores within 20 characters.'),
+          message: i18n.t(
+            'microService:Please enter a name consisting of letters, numbers and underscores within 20 characters.',
+          ),
         },
       ],
       itemProps: {

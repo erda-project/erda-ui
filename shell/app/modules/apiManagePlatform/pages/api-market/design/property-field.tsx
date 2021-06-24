@@ -562,7 +562,11 @@ export const getPropertyFormSelector = (props: {
               } else if (pattern.test(value)) {
                 callback(message);
               } else if (value.toLocaleLowerCase() in BASE_DATA_TYPE) {
-                callback(i18n.t('project:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.'));
+                callback(
+                  i18n.t(
+                    'project:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.',
+                  ),
+                );
               } else {
                 callback();
               }

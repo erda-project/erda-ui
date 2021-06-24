@@ -296,7 +296,10 @@ export const PureConsumerManage = () => {
               />
             </div>
           </TabPane>
-          <TabPane tab={`${i18n.t('microService:Alibaba Cloud API authentication')}${i18n.t('microService:mode')}`} key="5">
+          <TabPane
+            tab={`${i18n.t('microService:Alibaba Cloud API authentication')}${i18n.t('microService:mode')}`}
+            key="5"
+          >
             <div className="auth-type-item">
               <h3 className="placeholder" />
               <Button

@@ -135,7 +135,9 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
                 o !== '' && (pass = regRulesMap.subnet.pattern.test(o));
               });
             }
-            return pass ? callback() : callback(i18n.t('org:Please fill in the correct network segment, separated by pressing Enter.'));
+            return pass
+              ? callback()
+              : callback(i18n.t('org:Please fill in the correct network segment, separated by pressing Enter.'));
           },
         },
       ],

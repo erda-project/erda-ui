@@ -233,7 +233,9 @@ export default function ScanRule(props: IProps) {
         const isHandle = record.scopeId !== '-1';
         return (
           <div className="table-operations">
-            <Tooltip title={isHandle ? '' : i18n.t('project:Platform default rules. Please add custom rules if necessary.')}>
+            <Tooltip
+              title={isHandle ? '' : i18n.t('project:Platform default rules. Please add custom rules if necessary.')}
+            >
               <WithAuth pass={operationAuth}>
                 <span
                   className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}
@@ -258,7 +260,11 @@ export default function ScanRule(props: IProps) {
               }}
             >
               <WithAuth pass={operationAuth}>
-                <Tooltip title={isHandle ? '' : i18n.t('project:Platform default rules. Please add custom rules if necessary.')}>
+                <Tooltip
+                  title={
+                    isHandle ? '' : i18n.t('project:Platform default rules. Please add custom rules if necessary.')
+                  }
+                >
                   <span className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}>{i18n.t('delete')}</span>
                 </Tooltip>
               </WithAuth>

@@ -187,9 +187,7 @@ export function editPartial({ id, ...payload }: TEST_CASE.CaseBody) {
 export function exportFileInTestCase(payload: TEST_CASE.ExportFileQuery) {
   const lang = getLang();
   const query = qs.stringify({ ...payload, lang } as any, { arrayFormat: 'none' });
-  return agent
-    .get(`/api/testcases/actions/export?${query}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/testcases/actions/export?${query}`).then((response: any) => response.body);
 }
 
 export function importFileInTestCase({ payload, query }: TEST_CASE.ImportData): { successCount: number } {

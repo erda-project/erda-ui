@@ -17,7 +17,7 @@ import en from './locales/en.json';
 
 export default (registerModule) => {
   return registerModule({
-    key: 'workBench',
+    key: 'dop',
     stores: [store],
     locales: {
       zh,

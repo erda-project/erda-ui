@@ -21,7 +21,9 @@ const deleteItem = 'project';
 const confirmTip = 'confirm to delete this project';
 const secondTitle = 'confirm to delete this project in secondTitle';
 const title = 'this is a title';
-const defaultConfirmTip = i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', { deleteItem });
+const defaultConfirmTip = i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', {
+  deleteItem,
+});
 const defaultSecondTitle = i18n.t('common:{deleteItem} cannot be restored after deletion. Continue?', {
   deleteItem,
 });

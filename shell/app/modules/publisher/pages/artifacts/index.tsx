@@ -99,7 +99,7 @@ const Artifacts = () => {
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => setPublic(true)}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
                 <Button type="primary" className="mr8" ghost>
-                  {i18n.t('releaseer:publish')}
+                  {i18n.t('publisher:release')}
                 </Button>
               </WithAuth>
             </Popconfirm>

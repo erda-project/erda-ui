@@ -112,7 +112,7 @@ declare namespace REPOSITORY {
     oldName: string;
     addition?: boolean;
     deletion?: boolean;
-    type: 'add' | 'delete' | 'rename' | 'modified';
+    type: 'add' | 'delete' | 'rename';
     sections: ISection[];
     issues: Array<{
       line: string;

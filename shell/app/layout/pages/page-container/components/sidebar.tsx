@@ -40,7 +40,7 @@ const AppCenterEl = () => {
   const [visible, setVisible] = React.useState(false);
 
   const iconMap = {
-    workBench: 'devops1',
+    dop: 'devops1',
     sysAdmin: 'guanli',
     dataCenter: 'duoyun',
     microService: 'weifuwu1',
@@ -53,7 +53,7 @@ const AppCenterEl = () => {
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
     dataCenter: permMap.dataCenter.showApp.pass,
-    workBench: permMap.workBench.read.pass,
+    dop: permMap.dop.read.pass,
     diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
     microService: permMap.entryMicroService.pass,
     edge: permMap.edge.view.pass,

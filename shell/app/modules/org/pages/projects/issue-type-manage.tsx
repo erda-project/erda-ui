@@ -97,7 +97,9 @@ const IssueTypeManage = () => {
       fieldsList={fieldsList}
       updateInfo={getIssueTime}
       name={i18n.t('project:custom config of issue type')}
-      desc={i18n.t('project:mainly manage the custom configuration of issue field attributes and saved as the issue template configuration of the entire organization-level project.')}
+      desc={i18n.t(
+        'project:mainly manage the custom configuration of issue field attributes and saved as the issue template configuration of the entire organization-level project.',
+      )}
     />
   );
 };

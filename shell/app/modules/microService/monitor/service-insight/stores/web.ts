@@ -17,7 +17,7 @@ import { getSubSlowHttpList, getSubErrorHttpList, getSubSlowRPCList } from '../s
 
 interface IState {
   subSlowHttpList: Obj<MONITOR_SI.ITableData[]>;
-  subSlowRPCList: Obj<MONITOR_SI.ITableData[]>
+  subSlowRPCList: Obj<MONITOR_SI.ITableData[]>;
   subErrorHttpList: Obj<MONITOR_SI.ITableData[]>;
 }
 
@@ -38,7 +38,7 @@ const siWebStore = createStore({
       update({ subSlowHttpList: { ...subSlowHttpList, [filter_http_path]: get(data, 'results[0].data') || [] } });
     },
     async getSubSlowRPCList({ call, update }, payload: MONITOR_SI.ITableDataQuery) {
-      const subSlowRPCList = siWebStore.getState(s => s.subSlowRPCList);
+      const subSlowRPCList = siWebStore.getState((s) => s.subSlowRPCList);
       const { filter_dubbo_service } = payload;
       const data = await call(getSubSlowRPCList, { ...payload, filter_trace_sampled: true });
       update({ subSlowRPCList: { ...subSlowRPCList, [filter_dubbo_service]: get(data, 'results[0].data') || [] } });

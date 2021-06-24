@@ -51,7 +51,9 @@ export const formConfig = {
   rule: {
     name: {
       pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,127}$/,
-      message: i18n.t('dataCenter:2-128 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.'),
+      message: i18n.t(
+        'dataCenter:2-128 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.',
+      ),
     },
     description: {
       pattern: /^(?!http([s]?):\/\/).{2,256}/,
@@ -63,7 +65,11 @@ export const formConfig = {
       <div className="label-with-required">
         {i18n.t('dcos:availability zone')}
         &nbsp;&nbsp;
-        <Tooltip title={i18n.t('dataCenter:Availability zone refers to a physical area where power and network are independent. In the same private network, the intranet is connected and fault isolation can be realized among availability zones.')}>
+        <Tooltip
+          title={i18n.t(
+            'dataCenter:Availability zone refers to a physical area where power and network are independent. In the same private network, the intranet is connected and fault isolation can be realized among availability zones.',
+          )}
+        >
           <CustomIcon type="help" />
         </Tooltip>
       </div>

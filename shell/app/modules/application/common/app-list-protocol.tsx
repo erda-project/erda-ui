@@ -30,7 +30,7 @@ import { removeMember } from 'common/services/index';
 import userStore from 'app/user/stores';
 import { useLoading } from 'app/common/stores/loading';
 import { produce } from 'immer';
-import { BlockNetworkTips } from 'workBench/pages/projects/block-comp';
+import { BlockNetworkTips } from 'dop/pages/projects/block-comp';
 import permStore from 'user/stores/permission';
 import moment from 'moment';
 
