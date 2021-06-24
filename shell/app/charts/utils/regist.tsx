@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Tooltip } from 'app/nusi';
+import { Select } from 'app/nusi';
 import { map } from 'lodash';
 import { registDataConvertor, registChartOptionFn, registControl } from '@erda-ui/dashboard-configurator';
 import { getLineOption } from './line-option';

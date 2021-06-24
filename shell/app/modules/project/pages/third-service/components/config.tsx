@@ -13,7 +13,7 @@
 
 import { WrappedFormUtils } from 'core/common/interface';
 import { insertWhen } from 'common/utils/index';
-import { Select, Tooltip } from 'app/nusi';
+import { Select } from 'app/nusi';
 import i18n from 'i18n';
 import { produce } from 'immer';
 import { getOptions, groupOptions } from 'app/modules/dataCenter/pages/cluster-manage/config';
@@ -120,7 +120,7 @@ export const MysqlFieldsConfig = {
               const { name, value } = item;
               return (
                 <Option key={value} value={value}>
-                  <Tooltip title={value}>{name}</Tooltip>
+                  {name}
                 </Option>
               );
             },

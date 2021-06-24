@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Drawer, Input, Select, Button, Tooltip } from 'app/nusi';
+import { Drawer, Input, Select, Button } from 'app/nusi';
 import { Form } from 'workBench/pages/form-editor/index';
 import i18n from 'i18n';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';
