@@ -66,7 +66,7 @@ const start = (userData: ILoginUser) => {
       import('layout/entry'),
       import('org/entry'),
       import('app/org-home/entry'),
-      import('app/modules/dop/entry'),
+      import('dop/entry'),
       import('runtime/entry'),
       import('publisher/entry'),
       import('project/entry'),
