@@ -196,6 +196,23 @@ const SideBar = () => {
     orgStore.effects.getJoinedOrgs();
   });
 
+  const useMenuOperations = [
+    {
+      icon: <CustomIcon type="logout" />,
+      title: i18n.t('layout:logout'),
+      onClick: userStore.effects.logout,
+    },
+  ];
+  if (diceEnv.UC_PUBLIC_URL) {
+    useMenuOperations.unshift({
+      icon: <CustomIcon type="gerenshezhi" />,
+      title: i18n.t('layout:personal settings'),
+      onClick: async () => {
+        window.open(diceEnv.UC_PUBLIC_URL);
+      },
+    });
+  }
+
   const userMenu = {
     name: loginUser.nick || loginUser.name,
     // subtitle: 'slogan here',
@@ -204,20 +221,7 @@ const SideBar = () => {
       chars: getAvatarChars(loginUser.nick || loginUser.name),
       limitChars: 0,
     },
-    operations: [
-      {
-        icon: <CustomIcon type="gerenshezhi" />,
-        title: i18n.t('layout:personal settings'),
-        onClick: () => {
-          window.open(diceEnv.UC_PUBLIC_URL);
-        },
-      },
-      {
-        icon: <CustomIcon type="logout" />,
-        title: i18n.t('layout:logout'),
-        onClick: userStore.effects.logout,
-      },
-    ],
+    operations: useMenuOperations,
   };
 
   return (
