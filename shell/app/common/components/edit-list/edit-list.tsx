@@ -400,29 +400,18 @@ const RenderItem = (props: IRenderItem) => {
         );
       break;
     case 'select':
-      {
-        const { options, ...rPropsRest } = rProps || {};
-        Comp = (
-          <Select
-            value={curVal}
-            className={'edit-list-select full-width zxj'}
-            getPopupContainer={() => document.body}
-            onChange={(v: any) => {
-              updateItem(v);
-              onBlurSave();
-            }}
-            {...rPropsRest}
-          >
-            {map(options || [], (item) => {
-              return (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label || item.value}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        );
-      }
+      Comp = (
+        <Select
+          value={curVal}
+          className={'edit-list-select full-width'}
+          getPopupContainer={() => document.body}
+          onChange={(v: any) => {
+            updateItem(v);
+            onBlurSave();
+          }}
+          {...rProps}
+        />
+      );
       break;
     case 'inputSelect':
       Comp = (
