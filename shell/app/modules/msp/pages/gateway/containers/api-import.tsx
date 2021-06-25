@@ -69,7 +69,6 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
   const [importableApis] = gatewayStore.useStore((s) => [s.importableApis]);
   const { getImportableApiList } = gatewayStore.effects;
   const { clearImportableApis } = gatewayStore.reducers;
-  // const isFetching = loadingStore.useSpace(gatewayStore).getImportableApiList
   const { apis: originApis, routePrefix: originPrefix } = importableApis; // 可被导入的api
   const { apis: selectedApis, routePrefix, diceApp, diceService } = importApiParams; // 已经被导入的api
 

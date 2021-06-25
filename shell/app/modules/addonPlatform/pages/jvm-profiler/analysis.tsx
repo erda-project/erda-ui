@@ -28,7 +28,6 @@ export default () => {
     s.historyPaging,
   ]);
   const addonDetail = addonStore.useStore((s) => s.addonDetail);
-  // const loading = loadingStore.useSpace(jvmStore);
   const insId = addonDetail.realInstanceId;
   const runningTimer = React.useRef(-1);
   const pendingTimer = React.useRef(-1);
