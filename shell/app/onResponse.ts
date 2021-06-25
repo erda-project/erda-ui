@@ -1,7 +1,7 @@
 import userMapStore from 'app/common/stores/user-map';
 import { notify } from './common/utils';
 
-export default (body, params, apiConfig) => {
+export default (body: any, params: any, apiConfig: any) => {
   if ('success' in body && 'err' in body) {
     const { data, success, err, userInfo } = body;
     if (userInfo) {
