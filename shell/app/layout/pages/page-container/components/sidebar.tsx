@@ -201,7 +201,7 @@ const SideBar = () => {
       {
         icon: <CustomIcon type="gerenshezhi" />,
         title: i18n.t('layout:personal settings'),
-        onClick: async () => {
+        onClick: () => {
           window.open(diceEnv.UC_PUBLIC_URL);
         },
       },
