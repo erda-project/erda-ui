@@ -107,7 +107,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
 };
 
 export const apiDataStore = createStore({
-  name: 'api_data',
+  name: 'apiData',
   state: {
     body: {} as Obj,
     data: {} as Obj,
@@ -155,10 +155,12 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
 
   let _toggleLoading = noop;
   let _setData = noop;
+  const onResponse = getConfig('onResponse');
 
   const service = (params: Parameters<T>[0]): ReturnType<T> =>
     apiFn(params).then((body: PICK_BODY<T>) => {
-      return (getConfig('onResponse') || noop)(body, params, config);
+      onResponse?.(body, params, config);
+      return body;
     });
 
   return Object.assign(service, {
@@ -170,7 +172,7 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
           if (body === null || ('success' in body && 'err' in body)) {
             _setData(body.data);
           }
-          (getConfig('onResponse') || noop)(body, params, config);
+          onResponse?.(body, params, config);
           return body;
         })
         .finally(() => {

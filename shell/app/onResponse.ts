@@ -25,5 +25,4 @@ export default (body: any, params: any, apiConfig: any) => {
       errorMsg && notify('error', errorMsg);
     }
   }
-  return body;
 };
