@@ -410,15 +410,7 @@ const RenderItem = (props: IRenderItem) => {
             onBlurSave();
           }}
           {...rProps}
-        >
-          {map(temp.render?.props?.options || [], (item) => {
-            return (
-              <Select.Option key={item.value} value={item.value}>
-                {item.label || item.value}
-              </Select.Option>
-            );
-          })}
-        </Select>
+        />
       );
       break;
     case 'inputSelect':
