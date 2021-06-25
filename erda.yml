@@ -24,6 +24,7 @@ services:
       UC_ADDR: "uc:8080"
       FDP_UI_ADDR: "fdp-ui:80"
       SCHEDULER_ADDR: "scheduler:9091"
+      UC_PUBLIC_URL: ""
     resources:
       cpu: ${request_cpu:1}
       max_cpu: 1

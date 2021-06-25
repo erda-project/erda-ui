@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import classNames from 'classnames';
-import { Spin, Select, Tooltip } from 'app/nusi';
+import { Spin, Select } from 'app/nusi';
 import { TimeSelector, EmptyHolder, useUpdate } from 'common';
 import { useLoading } from 'common/stores/loading';
 import routeInfoStore from 'app/common/stores/route';
@@ -78,20 +78,22 @@ export default () => {
             onChange={(v: any) => updater.instanceId(v)}
           >
             {(instanceIds || []).map(({ instanceId: v, status, ip }) => (
-              <Select.Option key={v} value={v}>
+              <Select.Option
+                key={v}
+                value={v}
+                title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}
+              >
                 <div className="instance-item flex-box">
                   <span className="instance-name nowrap">{ip || v}</span>
-                  <Tooltip title={status ? i18n.t('dcos:running') : i18n.t('msp:not running')}>
-                    <div className="status ml8">
-                      <span
-                        className={classNames({
-                          'status-point': true,
-                          success: status,
-                          grey: !status,
-                        })}
-                      />
-                    </div>
-                  </Tooltip>
+                  <div className="status ml8">
+                    <span
+                      className={classNames({
+                        'status-point': true,
+                        success: status,
+                        grey: !status,
+                      })}
+                    />
+                  </div>
                 </div>
               </Select.Option>
             ))}

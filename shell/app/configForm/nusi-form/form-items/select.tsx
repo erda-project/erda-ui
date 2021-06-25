@@ -46,7 +46,15 @@ const PureFormSelect = (props: any) => {
   } = fieldConfig || {};
   const curFixIn = itemFixIn || fixIn;
   const curFixOut = itemFixOut || fixOut;
-  const { options: cOptions, selectAll, mode, optionFilterProp = 'children' } = componentProps;
+  const {
+    options: cOptions,
+    selectAll,
+    onChange: compOnChange,
+    mode,
+    optionFilterProp = 'children',
+    placeholder,
+    ...rest
+  } = componentProps;
 
   React.useEffect(() => {
     const { dynamic, type, static: staticData } = dataSource;
@@ -66,14 +74,15 @@ const PureFormSelect = (props: any) => {
     } else if (typeof curOption === 'function') {
       setOptions(() => curOption);
     } else if (Array.isArray(curOption)) {
-      setOptions(curOption);
+      setOptions(map(curOption, (op) => ({ ...op, label: op.label || op.name })));
     }
   }, [dataSource, cOptions]);
 
   const handleChange = (...args: any) => {
     form.setFieldValue(key, curFixOut(args[0]));
-    (componentProps.onChange || noop)(...args);
+    compOnChange?.(...args);
   };
+
   registerRequiredCheck(_requiredCheck || requiredCheck);
 
   const customOptions = typeof options === 'function' ? options() : options;
@@ -82,11 +91,10 @@ const PureFormSelect = (props: any) => {
       ? customOptions
       : customOptions.map((s: any) => (
           <Option key={s.value} value={s.value}>
-            {s.name}
+            {s.label}
           </Option>
         ));
 
-  const { placeholder } = componentProps || {};
   const _placeholder = placeholder || i18n.t('please select {name}', { name: label || key });
 
   const selectAllHandle = () => {
@@ -111,7 +119,8 @@ const PureFormSelect = (props: any) => {
       <Select
         id={key}
         getPopupContainer={() => document.body}
-        {...componentProps}
+        {...rest}
+        mode={mode}
         placeholder={_placeholder}
         disabled={disabled}
         value={curFixIn(value)}

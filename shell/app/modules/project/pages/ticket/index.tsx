@@ -104,7 +104,7 @@ const Ticket = () => {
           mode: 'multiple',
           placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
           allowClear: true,
-          options: map(ticketStateList, ({ stateID }) => {
+          children: map(ticketStateList, ({ stateID }) => {
             return (
               <Option key={stateID} value={stateID}>
                 <CustomIssueState state={stateID} issueButton={ticketStateList} />
@@ -119,7 +119,7 @@ const Ticket = () => {
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
           allowClear: true,
-          options: map(ISSUE_PRIORITY_MAP, (item) => {
+          children: map(ISSUE_PRIORITY_MAP, (item) => {
             const { value, iconLabel } = item;
             return (
               <Option key={value} value={value}>
@@ -135,7 +135,7 @@ const Ticket = () => {
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('project:severity') }),
           allowClear: true,
-          options: map(BUG_SEVERITY_MAP, (item) => {
+          children: map(BUG_SEVERITY_MAP, (item) => {
             const { value, iconLabel } = item;
             return (
               <Option key={value} value={value}>
@@ -194,7 +194,7 @@ const Ticket = () => {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
           allowClear: true,
           mode: 'multiple',
-          options: map(labelList, (item) => {
+          children: map(labelList, (item) => {
             const { name: label, id } = item;
             return (
               <Option key={id} value={String(id)}>

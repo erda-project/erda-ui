@@ -22,7 +22,7 @@ import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'common/stores/route';
 import { ChooseVersion } from 'apiManagePlatform/pages/api-market/version/version-info';
 import { get, pick, groupBy, map, isEmpty, uniqBy } from 'lodash';
-import { Select, Ellipsis } from 'app/nusi';
+import { Select } from 'app/nusi';
 
 export type RelationMode = 'instance' | 'asset';
 
@@ -407,7 +407,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
                   {state.instanceList.map(({ serviceAddr }) => {
                     return (serviceAddr || []).map((url) => (
                       <Select.Option key={url} value={url}>
-                        <Ellipsis title={url} />
+                        {url}
                       </Select.Option>
                     ));
                   })}

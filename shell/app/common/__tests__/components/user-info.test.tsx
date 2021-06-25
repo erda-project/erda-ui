@@ -14,9 +14,30 @@
 import * as React from 'react';
 import { UserInfo } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
+import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
+import userStore from 'common/stores/user-map';
 
 describe('user-info', () => {
+  beforeAll(() => {
+    jest.mock('common/stores/user-map');
+    userStore.useStore = (fn) => {
+      return fn({
+        1: {
+          name: 'name-dice',
+          nick: 'nick-dice',
+        },
+        2: {
+          name: 'name-dice',
+        },
+        3: {
+          nick: 'nick-dice',
+        },
+      });
+    };
+  });
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
   it('fullData', () => {
     const wrapper = shallow(<UserInfo id={1} />);
     expect(wrapper.text()).toEqual('nick-dice');

@@ -32,7 +32,11 @@ import {
   equalByKeys,
   setApiWithOrg,
   sleep,
-  getLabel,
+  extractPathParams,
+  generatePath,
+  batchExecute,
+  validators,
+  getTimeRanges,
 } from 'common/utils';
 import { describe, it, jest } from '@jest/globals';
 
@@ -41,6 +45,7 @@ class ClassComp extends React.Component {
     return undefined;
   }
 }
+
 const FunComp = () => null;
 
 describe('utils', () => {
@@ -65,6 +70,7 @@ describe('utils', () => {
   it('ossImg', () => {
     expect(ossImg()).toBeUndefined();
     expect(ossImg(null)).toBeUndefined();
+    expect(ossImg('http://file.erda.cloud')).toBe('http://file.erda.cloud');
     expect(ossImg('http://oss.erda.cloud')).toBe('//oss.erda.cloud?x-oss-process=image/resize,w_200,h_200');
     expect(
       ossImg('http://oss.erda.cloud', {
@@ -147,7 +153,7 @@ describe('utils', () => {
     expect(equalByKeys({ a: 1, b: 1 }, { a: 1, b: 2 }, ['a', 'b'])).toBe(false);
   });
   it('setApiWithOrg should work fine', () => {
-    expect(setApiWithOrg('/api/user')).toBe('/api/dop/user');
+    expect(setApiWithOrg('/api/user')).toBe('/api/erda/user');
     expect(setApiWithOrg('/common/user')).toBe('/common/user');
   });
   it('sleep should work fine', () => {
@@ -158,5 +164,37 @@ describe('utils', () => {
     const flagFalsy = sleep(1000, 123, false);
     jest.advanceTimersByTime(1000);
     expect(flagFalsy).rejects.toBe(123);
+  });
+  it('extractPathParams should work well', () => {
+    expect(extractPathParams('/project/:id/detail', { id: 1, name: 'erda' })).toStrictEqual({
+      pathParams: { id: 1 },
+      bodyOrQuery: { name: 'erda' },
+    });
+  });
+  it('generatePath should work well', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation();
+    expect(generatePath('/project/:id/detail', { id: 1 })).toBe('/project/1/detail');
+    expect(() => {
+      generatePath('/project/:id/detail', { name: 'erda' });
+    }).toThrow('Expected "id" to be a string');
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockReset();
+  });
+  it('batchExecute should work well', () => {
+    const p1 = Promise.resolve('success');
+    const p2 = Promise.reject('failure');
+    expect(batchExecute([p1, p2])).resolves.toStrictEqual(['success', null]);
+  });
+  it('validators should work well', () => {
+    const validateNumberRangeFn = validators.validateNumberRange({ min: 1, max: 10 });
+    const fn = jest.fn();
+    validateNumberRangeFn('', '100', fn);
+    expect(fn).toHaveBeenLastCalledWith('please enter a number between 1 ~ 10');
+    validateNumberRangeFn('', '2', fn);
+    expect(fn).toHaveBeenLastCalledWith();
+  });
+  it('getTimeRanges should work well', () => {
+    const range = getTimeRanges();
+    expect(Object.keys(range)).toHaveLength(7);
   });
 });

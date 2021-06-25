@@ -30,7 +30,7 @@ describe('go-to', () => {
   it('resolvePath', () => {
     expect(resolvePath('aaa')).toBe(`${process.env.mock_pathname}/aaa`);
     expect(resolvePath('/aaa')).toBe('/aaa');
-    expect(resolvePath('../aaa')).toBe(`${paths.slice(0, 2).join('/')}/aaa`);
+    expect(resolvePath('../aaa')).toBe(`${paths.slice(0, 3).join('/')}/aaa`);
   });
   it('goTo', () => {
     goTo(process.env.mock_href, { jumpOut: true });

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Tooltip } from 'app/nusi';
+import { Select } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import i18n from 'i18n';
 import gatewayStore from 'msp/stores/gateway';
@@ -55,7 +55,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
       >
         {map(appList, (appName, key) => (
           <Option key={key} value={appName}>
-            <Tooltip title={appName}>{appName}</Tooltip>
+            {appName}
           </Option>
         ))}
       </Select>
@@ -68,7 +68,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
       >
         {map(serviceList, (serviceName, key) => (
           <Option key={key} value={serviceName}>
-            <Tooltip title={serviceName}>{serviceName}</Tooltip>
+            {serviceName}
           </Option>
         ))}
       </Select>
