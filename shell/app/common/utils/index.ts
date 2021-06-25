@@ -228,22 +228,6 @@ export function sleep(time: number, data?: any, flag = true) {
   });
 }
 
-interface IContext {
-  keys: () => string[];
-  (s: string): object;
-}
-// useage: requireAll(require.context('./', false, /\.js$/));
-export function requireAll(context: IContext, filterFn = (item: string) => !['./index.js'].includes(item)) {
-  const keys = context.keys().filter(filterFn);
-
-  const list = [];
-  for (let i = 0; i < keys.length; i += 1) {
-    list.push(context(keys[i]));
-  }
-
-  return list;
-}
-
 // 用于向其他系统提供接口获取models，因为models目录下不一定有index文件，所以无法直接import
 // 而项目根目录下的文件不会被打到npm包里，故不能直接放到regist-model.js中
 // export function getDiceModels(rqAll: (arg0: object, fn: (item: string) => boolean) => any) {

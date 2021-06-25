@@ -35,7 +35,7 @@ const initTreeData = [
   {
     isLeaf: false,
     titleAlias: 'erda-root',
-    key: 'leaf-root',
+    key: 'root',
   },
 ];
 
@@ -85,24 +85,72 @@ describe('TreeCategory', () => {
     expect(wrapper.find('Select')).not.toExist();
   });
   // process
-  it.skip('TreeCategory should work well', async () => {
+  it('TreeCategory should work well with currentKey', async () => {
     const getAncestors = jest.fn().mockReturnValue(simpleTreeData);
+    const loadData = jest.fn().mockReturnValue(simpleTreeData);
+    const moveNode = jest.fn().mockReturnValue(simpleTreeData);
     const selectNodeFn = jest.fn();
-    let wrapper = mount(
+    const wrapper = mount(
       <TreeCategory
-        initTreeData={initTreeData}
+        initTreeData={simpleTreeData}
         currentKey="leaf-root"
         effects={{
           getAncestors,
+          loadData,
+          moveNode,
         }}
         onSelectNode={selectNodeFn}
       />,
     );
     await sleep(1500);
-
+    wrapper.update();
+    expect(getAncestors).toHaveBeenCalledTimes(1);
+    expect(getAncestors).toHaveBeenLastCalledWith({ inode: 'root' });
+    expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
     act(() => {
       wrapper.find('DirectoryTree').prop('onExpand')(['leaf-root']);
     });
+    wrapper.update();
     expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual(['leaf-root']);
+    act(() => {
+      wrapper.find('DirectoryTree').prop('onSelect')(['leaf-root'], { node: { props: { isLeaf: false } } });
+    });
+    expect(selectNodeFn).toHaveBeenLastCalledWith({ inode: 'leaf-root', isLeaf: false });
+    await act(async () => {
+      await wrapper.find('DirectoryTree').prop('onDrop')({
+        dragNode: { props: { dataRef: simpleTreeData[0] } },
+        node: { props: { dataRef: simpleTreeData[1] } },
+      });
+    });
+    expect(moveNode).toHaveBeenLastCalledWith({
+      inode: 'menu1',
+      isLeaf: false,
+      pinode: undefined,
+    });
+    expect(loadData).toHaveBeenCalled();
+  });
+  it('TreeCategory should work well without currentKey', async () => {
+    const getAncestors = jest.fn().mockReturnValue(simpleTreeData);
+    const loadData = jest.fn().mockReturnValue(simpleTreeData);
+    const createNode = jest.fn().mockReturnValue(simpleTreeData);
+    const selectNodeFn = jest.fn();
+    const wrapper = mount(
+      <TreeCategory
+        title="erda tree"
+        titleOperation={[{ preset: 'newFolder', title: 'create Folder' }, { preset: 'paste' }]}
+        initTreeData={initTreeData}
+        effects={{
+          getAncestors,
+          loadData,
+          createNode,
+        }}
+        onSelectNode={selectNodeFn}
+      />,
+    );
+    await sleep(1500);
+    wrapper.update();
+    expect(loadData).toHaveBeenCalledTimes(1);
+    expect(loadData).toHaveBeenLastCalledWith({ pinode: initTreeData[0].key });
+    expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual([initTreeData[0].key]);
   });
 });
