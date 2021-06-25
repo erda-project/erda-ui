@@ -60,8 +60,10 @@ export const useQuotaFields = (
   const [isLoading] = useLoading(projectStore, ['getLeftResources']);
 
   React.useEffect(() => {
-    canGetClusterListAndResources && clusterStore.effects.getClusterList();
-    canGetClusterListAndResources && getLeftResources();
+    if (canGetClusterListAndResources) {
+      clusterStore.effects.getClusterList();
+      getLeftResources();
+    }
     return () => {
       clearLeftResources();
     };
