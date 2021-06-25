@@ -92,14 +92,18 @@ const RepoDownload = (props: IDownProp) => {
               zip{' '}
             </Button>
           </ButtonGroup>
-          <p className="label mb8">username</p>
-          <Input
-            className="full-width mb16"
-            value={info.username}
-            addonAfter={renderAddonAfter(info.username, 'username')}
-          />
-          <p className="label mb8">token</p>
-          <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+          {token && (
+            <>
+              <p className="label mb8">username</p>
+              <Input
+                className="full-width mb16"
+                value={info.username}
+                addonAfter={renderAddonAfter(info.username, 'username')}
+              />
+              <p className="label mb8">token</p>
+              <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+            </>
+          )}
         </div>
       }
       trigger="click"
