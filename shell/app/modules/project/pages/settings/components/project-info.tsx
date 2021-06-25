@@ -53,6 +53,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
   const info = projectStore.useStore((s) => s.info);
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
+  const [canGetClusterListAndResources, setCanGetClusterListAndResources] = React.useState(false);
   const updatePrj = (values: Obj) => {
     const { cpuQuota, memQuota, isPublic } = values;
     updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(() => {
@@ -101,7 +102,12 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       required: false,
       itemProps: { rows: 4, maxLength: 200 },
     },
-    ...useQuotaFields(canEditQuota, showQuotaTip, { cpuQuota: info.cpuQuota, memQuota: info.memQuota }),
+    ...useQuotaFields(
+      canEditQuota,
+      showQuotaTip,
+      { cpuQuota: info.cpuQuota, memQuota: info.memQuota },
+      canGetClusterListAndResources,
+    ),
     // {
     //   label: i18n.t('project:DingTalk notification address'),
     //   name: 'ddHook',
@@ -176,6 +182,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   return (
     <SectionInfoEdit
       hasAuth={canEdit}
+      setCanGetClusterListAndResources={setCanGetClusterListAndResources}
       data={{ ...info, isPublic: `${info.isPublic || 'false'}` }}
       fieldsList={fieldsList}
       updateInfo={updatePrj}
