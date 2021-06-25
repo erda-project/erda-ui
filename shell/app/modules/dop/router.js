@@ -140,7 +140,7 @@ export default function getDopRouter() {
                 //   path: 'log-analytics',
                 //   breadcrumbName: i18n.t('dop:console'),
                 //   keepQuery: true,
-                //   getComp: cb => cb(import('microService/pages/log-analytics')),
+                //   getComp: cb => cb(import('msp/pages/log-analytics')),
                 // },
                 {
                   path: 'jvm-profiler',

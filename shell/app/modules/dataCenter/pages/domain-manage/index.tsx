@@ -92,7 +92,7 @@ const DomainManage = () => {
         type: Input,
         name: 'domain',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('microService:domain name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('msp:domain name') }),
         },
       },
       {
@@ -170,7 +170,7 @@ const DomainManage = () => {
       tip: true,
     },
     {
-      title: i18n.t('microService:domain name'),
+      title: i18n.t('msp:domain name'),
       dataIndex: 'domain',
       tip: true,
     },
@@ -188,7 +188,7 @@ const DomainManage = () => {
       tip: true,
     },
     {
-      title: i18n.t('microService:application name'),
+      title: i18n.t('msp:application name'),
       dataIndex: 'appName',
       tip: true,
     },

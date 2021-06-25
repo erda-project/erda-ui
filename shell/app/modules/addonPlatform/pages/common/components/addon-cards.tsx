@@ -19,7 +19,7 @@ import { Icon as CustomIcon, CardsLayout, Holder, IF, useUpdate } from 'common';
 import { goTo, ossImg } from 'common/utils';
 import { AddonDetailDrawer } from './addon-detail-drawer';
 import { PLAN_NAME, ENV_NAME } from '../configs';
-import { getMSFrontPathByKey } from 'app/modules/microService/config';
+import { getMSFrontPathByKey } from 'app/modules/msp/config';
 import CreateLog from './create-log';
 import addon_png from 'app/images/resources/addon.png';
 import './addon-cards.scss';
@@ -157,7 +157,7 @@ export const AddonCards = (props: IProps) => {
         const frontPath = getMSFrontPathByKey(key, pathParams);
         // 大礼包拿不到terminusKey，跳过去后从menu里取
         if (addonName === 'micro-service') {
-          goTo(goTo.pages.microServiceOverview, { jumpOut: true, ...pathParams });
+          goTo(goTo.pages.mspOverview, { jumpOut: true, ...pathParams });
         }
         goTo(frontPath, { jumpOut });
         break;

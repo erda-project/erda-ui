@@ -14,7 +14,7 @@
 import { getOrgCenterMenu } from './orgCenter';
 import { getDataCenterMenu } from './dataCenter';
 import { getDopMenu } from './dop';
-import { getMicroServiceMenu } from './microService';
+import { getMspMenu } from './msp';
 import { getProjectMenu } from './project';
 import { getAppMenu } from './application';
 import { getEdgeMenu } from './edge';
@@ -23,15 +23,7 @@ import { produce } from 'immer';
 import { filter, map } from 'lodash';
 import { appList } from './appCenter';
 
-export {
-  getProjectMenu,
-  getAppMenu,
-  getOrgCenterMenu,
-  getDataCenterMenu,
-  getDopMenu,
-  getMicroServiceMenu,
-  getEdgeMenu,
-};
+export { getProjectMenu, getAppMenu, getOrgCenterMenu, getDataCenterMenu, getDopMenu, getMspMenu, getEdgeMenu };
 
 export const getAppCenterAppList = appList;
 
@@ -55,10 +47,10 @@ export const getSubSiderInfoMap = () => {
         displayName: i18n.t('dop'),
       },
     },
-    microService: {
-      menu: getMicroServiceMenu(),
+    msp: {
+      menu: getMspMenu(),
       detail: {
-        displayName: i18n.t('Microservice'),
+        displayName: i18n.t('msp'),
       },
     },
     edge: {

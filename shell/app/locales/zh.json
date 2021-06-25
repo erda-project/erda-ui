@@ -433,7 +433,7 @@
     "restart": "重启",
     "rollback": "回滚",
     "running resources": "运行资源",
-    "runtime-resource-config-form-tip": "本次配置保存成功后，会在应用再次部署时生效，如要保存到代码，请手动同步到 dice.yml 中",
+    "runtime-resource-config-form-tip": "本次扩缩容配置的修改会立即生效，注意：但会导致 erda.yml 中的资源配置会失效（扩缩容配置优先级更高）",
     "save": "保存",
     "search by application name": "通过应用名称搜索",
     "search by chinese/english name of attribute": "输入属性的中文/英文名搜索",
@@ -1133,7 +1133,7 @@
     "Members under the project/application associated with the current API can view it.": "当前API关联的项目/应用下的成员可以查看",
     "Memory allocation": "内存分配",
     "Memory usage": "内存使用",
-    "Microservice": "微服务治理平台",
+    "msp": "微服务治理平台",
     "Middle-east & India": "中东与印度",
     "Monday": "周一",
     "Mumbai": "孟买",
@@ -1950,7 +1950,7 @@
     "it is getting offline and it will take a effect later": "正在下线，稍后生效",
     "site management": "站点管理"
   },
-  "microService": {
+  "msp": {
     "32 digits letters and numbers": "32位英文数字",
     "API analysis": "API分析",
     "API path": "API路径",

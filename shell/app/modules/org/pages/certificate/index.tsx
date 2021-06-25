@@ -311,7 +311,7 @@ const Certificate = () => {
       ],
       Android: [
         {
-          label: i18n.t('microService:create a way'),
+          label: i18n.t('msp:create a way'),
           name: 'androidInfo.manualCreate',
           type: 'radioGroup',
           initialValue: 'true',

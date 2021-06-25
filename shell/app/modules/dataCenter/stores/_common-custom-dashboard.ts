@@ -17,7 +17,7 @@ import { getDefaultPaging, getTimeSpan } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 import * as orgCustomDashboardService from 'dataCenter/services/custom-dashboard';
-import * as microServiceCustomDashboardService from 'microService/monitor/custom-dashboard/services/custom-dashboard';
+import * as mspCustomDashboardService from 'msp/monitor/custom-dashboard/services/custom-dashboard';
 
 export enum CustomDashboardScope {
   ORG = 'org',
@@ -33,7 +33,7 @@ export interface IState {
 export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
   const serviceMap = {
     [CustomDashboardScope.ORG]: orgCustomDashboardService,
-    [CustomDashboardScope.MICRO_SERVICE]: microServiceCustomDashboardService,
+    [CustomDashboardScope.MICRO_SERVICE]: mspCustomDashboardService,
   };
   const initState: IState = {
     customDashboardList: [],

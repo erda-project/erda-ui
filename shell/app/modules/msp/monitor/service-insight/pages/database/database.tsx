@@ -1,0 +1,116 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import * as React from 'react';
+import { Row, Col, Drawer } from 'app/nusi';
+import { useSwitch, SimpleLog } from 'common';
+import { getFilterParams } from 'service-insight/common/utils';
+import DataBaseMap from './config/chartMap';
+import TopTabRight from 'service-insight/common/components/tab-right';
+import CommonPanel from '../../../trace-insight/pages/trace-querier/trace-common-panel';
+import PureTraceDetail from '../../../trace-insight/pages/trace-querier/trace-detail';
+import monitorCommonStore from 'common/stores/monitorCommon';
+import SICommonStore from '../../stores/common';
+import traceQuerierStore from 'trace-insight/stores/trace-querier';
+import { useLoading } from 'app/common/stores/loading';
+import i18n from 'i18n';
+
+const Database = () => {
+  const { getTraceDetailContent, getSpanDetailContent } = traceQuerierStore.effects;
+  const spanDetailContent = traceQuerierStore.useStore((s) => s.spanDetailContent);
+  const [isTraceDetailContentFetching] = useLoading(traceQuerierStore, ['getTraceDetailContent']);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
+  const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
+  const [logVisible, openLog, closeLog] = useSwitch(false);
+  const [tracingVisible, tracingOn, tracingOff] = useSwitch(false);
+  const [traceRecords, setTraceRecords] = React.useState({});
+  const [logQuery, setQuery] = React.useState({});
+  const [applicationId, setApplicationId] = React.useState({});
+  const { filterQuery, shouldLoad }: any = getFilterParams({ baseInfo }, { prefix: 'filter_source_' });
+  const chartQuery = chosenSortItem ? { ...filterQuery, filter_db_statement: chosenSortItem } : { ...filterQuery };
+
+  const fetchTraceContent = ({ requestId }: any) => {
+    tracingOn();
+    getTraceDetailContent({ requestId, needReturn: true }).then((content: any) => {
+      setTraceRecords(content);
+    });
+  };
+
+  const hideLog = () => {
+    closeLog();
+  };
+
+  const viewLog = ({ requestId, applicationId: appId }: any) => {
+    setQuery(requestId);
+    setApplicationId(appId);
+    openLog();
+  };
+
+  return (
+    <div>
+      <TopTabRight />
+      <Row gutter={20}>
+        <Col span={8}>
+          <div className="monitor-sort-panel">
+            <DataBaseMap.sortTab />
+            <DataBaseMap.sortList shouldLoad={shouldLoad} query={filterQuery} />
+          </div>
+        </Col>
+        <Col span={16}>
+          <DataBaseMap.responseTimes shouldLoad={shouldLoad} query={chartQuery} />
+          <DataBaseMap.throughput shouldLoad={shouldLoad} query={chartQuery} />
+          <DataBaseMap.slowTrack
+            shouldLoad={shouldLoad}
+            query={filterQuery}
+            viewLog={viewLog}
+            fetchTraceContent={fetchTraceContent}
+          />
+          <DataBaseMap.errorTrack
+            shouldLoad={shouldLoad}
+            query={filterQuery}
+            viewLog={viewLog}
+            fetchTraceContent={fetchTraceContent}
+          />
+        </Col>
+      </Row>
+      <Drawer destroyOnClose title={i18n.t('runtime:monitor log')} width="80%" visible={logVisible} onClose={hideLog}>
+        <SimpleLog requestId={logQuery} applicationId={applicationId} />
+      </Drawer>
+      <Drawer
+        destroyOnClose
+        title={i18n.t('msp:transactions')}
+        width="80%"
+        visible={tracingVisible}
+        onClose={tracingOff}
+      >
+        <CommonPanel
+          title={
+            <div className="flex-box">
+              <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:link information')}</h3>
+            </div>
+          }
+          className="trace-status-list-ct"
+        >
+          <PureTraceDetail
+            spanDetailContent={spanDetailContent}
+            traceDetailContent={traceRecords}
+            isTraceDetailContentFetching={isTraceDetailContentFetching}
+            getSpanDetailContent={getSpanDetailContent}
+          />
+        </CommonPanel>
+      </Drawer>
+    </div>
+  );
+};
+
+export default Database;

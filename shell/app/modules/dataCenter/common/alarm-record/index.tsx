@@ -26,7 +26,7 @@ import { AlarmState } from 'dataCenter/common/alarm-state';
 import userMapStore from 'app/common/stores/user-map';
 import routeInfoStore from 'app/common/stores/route';
 import orgAlarmRecordStore from 'dataCenter/stores/alarm-record';
-import microServiceAlarmRecordStore from 'microService/monitor/alarm-record/stores/alarm-record';
+import mspAlarmRecordStore from 'msp/monitor/alarm-record/stores/alarm-record';
 
 export enum AlarmRecordScope {
   ORG = 'org',
@@ -35,7 +35,7 @@ export enum AlarmRecordScope {
 
 const storeMap = {
   [AlarmRecordScope.ORG]: orgAlarmRecordStore,
-  [AlarmRecordScope.MICRO_SERVICE]: microServiceAlarmRecordStore,
+  [AlarmRecordScope.MICRO_SERVICE]: mspAlarmRecordStore,
 };
 
 const memberScopeMap = {

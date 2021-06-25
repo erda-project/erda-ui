@@ -626,7 +626,7 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
             ],
           },
           {
-            label: i18n.t('microService:security strategy'),
+            label: i18n.t('msp:security strategy'),
             type: 'select',
             name: 'httpsPolicy',
             options: [

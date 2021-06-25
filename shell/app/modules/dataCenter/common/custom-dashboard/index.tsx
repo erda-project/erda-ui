@@ -19,12 +19,12 @@ import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
 import orgCustomDashboardStore from 'app/modules/dataCenter/stores/custom-dashboard';
-import microServiceCustomDashboardStore from 'microService/monitor/custom-dashboard/stores/custom-dashboard';
+import mspCustomDashboardStore from 'msp/monitor/custom-dashboard/stores/custom-dashboard';
 import { CustomDashboardScope } from 'app/modules/dataCenter/stores/_common-custom-dashboard';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,
-  [CustomDashboardScope.MICRO_SERVICE]: microServiceCustomDashboardStore,
+  [CustomDashboardScope.MICRO_SERVICE]: mspCustomDashboardStore,
 };
 
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {

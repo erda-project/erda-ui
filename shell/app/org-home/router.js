@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import getDopRouter from 'dop/router';
-import getMicroServiceRouter from 'microService/router';
+import getMspRouter from 'msp/router';
 import getEdgeRouter from 'app/modules/edge/router';
 import getDataCenterRouter from 'dataCenter/router';
 import getOrgCenterRouter from 'org/router';
@@ -46,7 +46,7 @@ export default function getOrgRouter() {
         },
         ...getLayoutRouter(),
         ...getDopRouter(),
-        ...getMicroServiceRouter(),
+        ...getMspRouter(),
         ...getEdgeRouter(),
         ...getDataCenterRouter(),
         ...getOrgCenterRouter(),
