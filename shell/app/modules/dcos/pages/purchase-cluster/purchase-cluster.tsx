@@ -519,7 +519,9 @@ class OrderPage extends React.Component<IProps> {
     }
     const placeholderMap = {
       master: i18n.t('org:suggest 3 nodes in production and 1 node in test'),
-      pubilc: i18n.t('org:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.'),
+      pubilc: i18n.t(
+        'org:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.',
+      ),
       private: i18n.t('org:suggest production is assessed by business volume, 1 node in test'),
     };
     return [

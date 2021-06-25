@@ -112,13 +112,7 @@ describe('EditField', () => {
     const text = 'this is a piece of text';
     const changeCbFn = jest.fn();
     const wrapper = shallow(
-      <EditField
-        name="text"
-        type="markdown"
-        value={text}
-        onChangeCb={changeCbFn}
-        itemProps={{}}
-      />,
+      <EditField name="text" type="markdown" value={text} onChangeCb={changeCbFn} itemProps={{}} />,
     );
     wrapper.setProps({
       itemProps: {
@@ -133,13 +127,7 @@ describe('EditField', () => {
     const prev = curr.add(-1, 'days');
     const changeCbFn = jest.fn();
     const wrapper = mount(
-      <EditField
-        name="date"
-        type="datePicker"
-        value={curr}
-        onChangeCb={changeCbFn}
-        itemProps={{}}
-      />,
+      <EditField name="date" type="datePicker" value={curr} onChangeCb={changeCbFn} itemProps={{}} />,
     );
     expect(wrapper.find('Picker').at(0).prop('value').isSame(curr, 'date')).toBeTruthy();
     act(() => {
@@ -150,35 +138,18 @@ describe('EditField', () => {
   });
   it('should render custom type', () => {
     const getComp = () => {
-      return (
-        <div className="custom-render">
-          custom-render
-        </div>
-      );
+      return <div className="custom-render">custom-render</div>;
     };
-    const wrapper = shallow(
-      <EditField
-        name="tips"
-        type="custom"
-        getComp={getComp}
-        itemProps={{}}
-      />,
-    );
+    const wrapper = shallow(<EditField name="tips" type="custom" getComp={getComp} itemProps={{}} />);
     expect(wrapper.find('.custom-render')).toExist();
   });
   it('should render readonly or last_readonly type', () => {
     const test = (type: 'readonly' | 'last_readonly') => {
-      const wrapper = mount(
-        <EditField
-          name="name"
-          type={type}
-          value="erda.cloud"
-        />,
-      );
+      const wrapper = mount(<EditField name="name" type={type} value="erda.cloud" />);
       expect(wrapper.find('.nowrap').text()).toBe('erda.cloud');
       wrapper.setProps({
         value: 'erda',
-        valueRender: (v: string) => (<div className="value-render">{v}</div>),
+        valueRender: (v: string) => <div className="value-render">{v}</div>,
       });
       expect(wrapper.find('.value-render').text()).toBe('erda');
     };
@@ -187,14 +158,7 @@ describe('EditField', () => {
   });
   it('should render dateReadonly type', () => {
     const date = '2021-05-29';
-    const wrapper = mount(
-      <EditField
-        name="date"
-        type="dateReadonly"
-        value={date}
-        itemProps={{}}
-      />,
-    );
+    const wrapper = mount(<EditField name="date" type="dateReadonly" value={date} itemProps={{}} />);
     expect(wrapper.find('.prewrap').text()).toBe(date);
   });
   it('should EditMd work well', () => {
@@ -202,15 +166,11 @@ describe('EditField', () => {
     const changeFn = jest.fn();
     const saveFn = jest.fn();
     const wrapper = mount(
-      <EditMd
-        hasEdited
-        originalValue={`origin-${text}`}
-        value={text}
-        onChange={changeFn}
-        onSave={saveFn}
-      />,
+      <EditMd hasEdited originalValue={`origin-${text}`} value={text} onChange={changeFn} onSave={saveFn} />,
     );
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({ __html: '<p>this is a piece of text</p>\n' });
+    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
+      __html: '<p>this is a piece of text</p>\n',
+    });
     wrapper.find('.md-content-preview').simulate('click');
     expect(wrapper.find('MarkdownEditor')).toExist();
     expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onCancel');
@@ -221,16 +181,18 @@ describe('EditField', () => {
     wrapper.update();
     expect(wrapper.find('MarkdownEditor')).toHaveProp('onCancel');
     expect(wrapper.find('MarkdownEditor')).toHaveProp('onSubmit');
-    act(()=>{
-      wrapper.find('MarkdownEditor').prop('onSubmit')('erda')
-    })
-    expect(saveFn).toHaveBeenLastCalledWith('erda')
-    wrapper.find('MarkdownEditor').prop('onBlur')('erda cloud')
-    expect(saveFn).toHaveBeenLastCalledWith('erda cloud', 'markdown')
-    act(()=>{
-      wrapper.find('MarkdownEditor').prop('onCancel')()
-    })
+    act(() => {
+      wrapper.find('MarkdownEditor').prop('onSubmit')('erda');
+    });
+    expect(saveFn).toHaveBeenLastCalledWith('erda');
+    wrapper.find('MarkdownEditor').prop('onBlur')('erda cloud');
+    expect(saveFn).toHaveBeenLastCalledWith('erda cloud', 'markdown');
+    act(() => {
+      wrapper.find('MarkdownEditor').prop('onCancel')();
+    });
     wrapper.update();
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({ __html: '<p>origin-this is a piece of text</p>\n' });
+    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
+      __html: '<p>origin-this is a piece of text</p>\n',
+    });
   });
 });

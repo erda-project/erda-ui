@@ -126,7 +126,8 @@ export const createMemberStore = (scopeKey: MemberScope) => {
 
         await call(removeMember, { scope, userIds }, { successMsg });
 
-        if (!isSelf && query) {// if is self,jump to upper scope and do not get list anymore
+        if (!isSelf && query) {
+          // if is self,jump to upper scope and do not get list anymore
           const { total } = thisStore.getState((s) => s.paging);
           const { pageNo, pageSize, ...rest } = query;
           await thisStore.effects.getMemberList({

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Drawer, Input, Select, Button } from 'app/nusi';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';

@@ -17,7 +17,7 @@ import { describe, it, beforeAll, jest, afterAll } from '@jest/globals';
 import * as hooks from 'common/components/use-hooks';
 import { shallow } from 'enzyme';
 
-interface Item{
+interface Item {
   width: number;
   extraPadding: number;
   span: number;
@@ -41,30 +41,25 @@ describe('Responsive', () => {
     jest.mock('common/components/use-hooks');
   });
   afterAll(() => {
-    jest.resetAllMocks()
+    jest.resetAllMocks();
   });
-  data.forEach((item: Item, index)=>{
+  data.forEach((item: Item, index) => {
     it(`should work well ${item.width}`, () => {
       const { width, span, extraPadding, gutter } = item;
       Object.defineProperty(hooks, 'useMediaGt', {
         writable: true,
-        value:(num: number) => {
+        value: (num: number) => {
           return width - extraPadding - gutter === num;
         },
       });
-      const children = index === 0 ? undefined: new Array(index).fill(<div className={`child-${index}`}>{index}</div>)
+      const children = index === 0 ? undefined : new Array(index).fill(<div className={`child-${index}`}>{index}</div>);
       const wrapper = shallow(
-        <Responsive
-          itemWidth={100}
-          percent={1}
-          gutter={gutter}
-        >
+        <Responsive itemWidth={100} percent={1} gutter={gutter}>
           {children}
         </Responsive>,
       );
       expect(wrapper.find('Col').at(0).prop('span')).toBe(span);
-      expect(wrapper.find(`.child-${index}`)).toHaveLength(index)
+      expect(wrapper.find(`.child-${index}`)).toHaveLength(index);
     });
-  })
+  });
 });
-

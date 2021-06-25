@@ -135,7 +135,9 @@ const Topic = () => {
             if (allName.includes(value)) {
               callback(i18n.t('{name} already exists', { name: 'Topic' }));
             } else if (value && (value.startsWith('CID') || value.startsWith('GID'))) {
-              callback(`${i18n.t('dcos:CID and GID are reserved fields of Group ID. Topic cannot start with CID and GID.')}`);
+              callback(
+                `${i18n.t('dcos:CID and GID are reserved fields of Group ID. Topic cannot start with CID and GID.')}`,
+              );
             } else {
               callback();
             }

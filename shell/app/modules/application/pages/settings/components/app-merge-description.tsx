@@ -31,7 +31,9 @@ export const MergeDes = () => {
 
   ### ${i18n.t('application:self-test situation')}
   > ${i18n.t('application:describe the situation of manual testing here')}
-  > ${i18n.t('application:For example, what other components are depended on, and what circumstances are not covered, etc.')}
+  > ${i18n.t(
+    'application:For example, what other components are depended on, and what circumstances are not covered, etc.',
+  )}
 
   ### ${i18n.t('application:mr-tpl-unit-test')}
   > 1. ${i18n.t('application:If it is a bugfix, please add a test case proving that the bug is fixed.')}

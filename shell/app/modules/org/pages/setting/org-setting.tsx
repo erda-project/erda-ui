@@ -107,7 +107,9 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('org:Network block refers to the prohibition of application updates and releases within the organization, and related operations can be performed only after review of the organization administrator.'),
+                  title: i18n.t(
+                    'org:Network block refers to the prohibition of application updates and releases within the organization, and related operations can be performed only after review of the organization administrator.',
+                  ),
                   children: <BlockNetwork />,
                 },
               ]}

@@ -243,7 +243,9 @@ class TestDetail extends React.Component<IProps, IState> {
                     </li>
                   );
                 })}
-                {filterList.length === 0 && <li className="test-item-nodata">{i18n.t('application:no matching data')}</li>}
+                {filterList.length === 0 && (
+                  <li className="test-item-nodata">{i18n.t('application:no matching data')}</li>
+                )}
               </ul>
             </ChartContainer>
           </Col>

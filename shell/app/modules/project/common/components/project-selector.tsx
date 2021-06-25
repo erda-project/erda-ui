@@ -35,7 +35,7 @@ const ProjectItem = (project: PROJECT.Detail) => {
     </Tooltip>
   );
 };
-const noop = () => { };
+const noop = () => {};
 
 export const ProjectSelector = (props: IProps) => {
   const getData = (_q: any = {}) => {
@@ -60,7 +60,9 @@ const headProjectRender = (val: any = {}) => {
   const name = val.displayName || val.name || curProject.displayName || curProject.name || '';
   return (
     <div className="head-project-name">
-      <span className="nowrap fz16 bold" title={name}>{name}</span>
+      <span className="nowrap fz16 bold" title={name}>
+        {name}
+      </span>
       <CustomIcon className="caret" type="caret-down" />
     </div>
   );

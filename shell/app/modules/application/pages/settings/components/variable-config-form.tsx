@@ -55,7 +55,9 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
       rules: [
         {
           pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
-          message: i18n.t('common:start with letters, which can contain letters, numbers, dots, underscores and hyphens.'),
+          message: i18n.t(
+            'common:start with letters, which can contain letters, numbers, dots, underscores and hyphens.',
+          ),
         },
       ],
     },

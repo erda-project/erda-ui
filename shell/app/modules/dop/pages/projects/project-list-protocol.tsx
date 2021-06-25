@@ -15,7 +15,7 @@ import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
 import { useUpdate } from 'common';
 import { get } from 'lodash';
-import ApplyUnblockModal, { IMetaData } from 'workBench/pages/projects/apply-unblock-modal';
+import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
 import routeInfoStore from 'app/common/stores/route';
 
 const scenarioConfig = {

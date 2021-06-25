@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import workBenchStore from 'workBench/stores';
+import dopStore from 'dop/stores';
 import { useMount, useUpdateEffect } from 'react-use';
 import { Select } from 'app/nusi';
 import i18n from 'i18n';
@@ -34,7 +34,7 @@ export const DataSourceSelector = (props: any) => {
   const getData = () => {
     if (projectId && dataSourceType) {
       // 暂时只取测试环境的addon, Custom/AliCloud-Rds/AliCloud-Redis 为自定义类型，自定义类型暂为redis和mysql共享
-      workBenchStore
+      dopStore
         .getDataSourceAddons({
           projectId,
           displayName: [dataSourceTypeMap[dataSourceType], 'Custom', 'AliCloud-Rds', 'AliCloud-Redis'],

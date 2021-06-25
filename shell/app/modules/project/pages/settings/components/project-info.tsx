@@ -116,7 +116,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       if (inOrgCenter) {
         goTo(goTo.pages.orgCenterRoot, { replace: true });
       } else {
-        goTo(goTo.pages.workBenchRoot, { replace: true });
+        goTo(goTo.pages.dopRoot, { replace: true });
       }
     });
   };
@@ -126,7 +126,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       scope: { type: 'project', id: `${info.id}` },
       userIds: [loginUser.id],
     }).then(() => {
-      goTo(goTo.pages.workBenchRoot, { replace: true });
+      goTo(goTo.pages.dopRoot, { replace: true });
     });
   };
 
@@ -154,7 +154,10 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         <ConfirmDelete
           deleteItem={i18n.t('project')}
           onConfirm={onDelete}
-          secondTitle={i18n.t('project:The project cannot be restored after deletion. Please enter {name} to confirm.', { name: info.displayName })}
+          secondTitle={i18n.t(
+            'project:The project cannot be restored after deletion. Please enter {name} to confirm.',
+            { name: info.displayName },
+          )}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
           modalChildren={

@@ -116,7 +116,9 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
     if (appBlocked) {
       return projectSetting.blockNetwork.applyUnblock.pass
         ? i18n.t('application:Please go to My Projects to apply for deployment in network block period.')
-        : i18n.t('application:Please contact the project administrator to apply for deployment in network block period.');
+        : i18n.t(
+            'application:Please contact the project administrator to apply for deployment in network block period.',
+          );
     }
     if (unBlockStart && unBlockEnd) {
       return `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(

@@ -71,7 +71,7 @@ module.exports = () => {
         org: resolve('./app/modules/org'),
         application: resolve('./app/modules/application'),
         runtime: resolve('./app/modules/runtime'),
-        workBench: resolve('./app/modules/workBench'),
+        dop: resolve('./app/modules/dop'),
         addonPlatform: resolve('./app/modules/addonPlatform'),
         microService: resolve('./app/modules/microService'),
         apiManagePlatform: resolve('./app/modules/apiManagePlatform'),

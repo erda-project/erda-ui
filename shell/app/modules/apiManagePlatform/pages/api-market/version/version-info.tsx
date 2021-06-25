@@ -274,7 +274,9 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   const handleRelation = () => {
     if (instancePermission.edit === false) {
       Modal.info({
-        title: i18n.t('The current version has been referenced by the management entry. Please dereference before editing.'),
+        title: i18n.t(
+          'The current version has been referenced by the management entry. Please dereference before editing.',
+        ),
       });
       return;
     }

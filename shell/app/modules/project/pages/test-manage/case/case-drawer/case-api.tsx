@@ -1112,7 +1112,12 @@ const KeyValEdit = (props: IKeyValProps) => {
             <div className="key-val-operation">
               {opList[i] || null}
               {type === 'outParams' ? (
-                <Popconfirm title={i18n.t('project:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?')} onConfirm={() => handleDelete(i)}>
+                <Popconfirm
+                  title={i18n.t(
+                    'project:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?',
+                  )}
+                  onConfirm={() => handleDelete(i)}
+                >
                   <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
                 </Popconfirm>
               ) : (

@@ -145,7 +145,10 @@ const PureAppInfo = (): JSX.Element => {
         <ConfirmDelete
           deleteItem={i18n.t('application')}
           onConfirm={remove}
-          secondTitle={i18n.t('application:The application cannot be restored after deletion.Please enter {name} to confirm.', { name: appDetail.name })}
+          secondTitle={i18n.t(
+            'application:The application cannot be restored after deletion.Please enter {name} to confirm.',
+            { name: appDetail.name },
+          )}
           onCancel={() => setConfirmAppName('')}
           disabledConfirm={confirmAppName !== appDetail.name}
           modalChildren={

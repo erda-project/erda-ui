@@ -21,7 +21,7 @@ import { usePerm, WithAuth } from 'app/user/common';
 import customAddonStore from 'project/stores/custom-addon';
 import addonStore from 'common/stores/addon';
 import { useLoading } from 'app/common/stores/loading';
-import workBenchStore from 'workBench/stores';
+import dopStore from 'dop/stores';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'common/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';
@@ -38,21 +38,21 @@ interface IData {
 export const AddonCategory = () => {
   const permMap = usePerm((s) => s.project.service);
   const addonSpecList = customAddonStore.useStore((s) => s.addonList);
-  const [projectAddonCategory, addonInsList] = workBenchStore.useStore((s) => [s.projectAddonCategory, s.addonList]);
+  const [projectAddonCategory, addonInsList] = dopStore.useStore((s) => [s.projectAddonCategory, s.addonList]);
   const query = routeInfoStore.useStore((s) => s.query);
   const timer = React.useRef<any>(0);
 
   useEffectOnce(() => {
     customAddonStore.getAddonsList();
-    workBenchStore.getProjectAddons();
+    dopStore.getProjectAddons();
     return () => {
-      workBenchStore.clearProjectAddons();
+      dopStore.clearProjectAddons();
       if (timer.current) {
         clearTimeout(timer.current);
       }
     };
   });
-  const [loading] = useLoading(workBenchStore, ['getProjectAddons']);
+  const [loading] = useLoading(dopStore, ['getProjectAddons']);
   const [state, updater, update, reset] = useUpdate({
     modalVisible: false,
     editData: null,
@@ -69,7 +69,7 @@ export const AddonCategory = () => {
   const loopAddonList = (id: string) => {
     let idExist = false;
     timer.current = setTimeout(() => {
-      workBenchStore.getProjectAddons().then((res) => {
+      dopStore.getProjectAddons().then((res) => {
         if (!isEmpty((res || []).find((addon) => addon.instanceId === id))) {
           idExist = true;
         }
@@ -84,7 +84,7 @@ export const AddonCategory = () => {
 
   const handleOk = (values: any) => {
     const after = () => {
-      workBenchStore.getProjectAddons();
+      dopStore.getProjectAddons();
       closeModal();
     };
     if (state.editData) {

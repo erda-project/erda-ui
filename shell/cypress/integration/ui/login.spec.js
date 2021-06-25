@@ -19,7 +19,7 @@ context.skip('Login', () => {
   });
 
   it('goto default page', () => {
-    cy.url().should('eq', 'https://terminus-org.test.terminus.io/workBench/apps');
+    cy.url().should('eq', 'https://terminus-org.test.terminus.io/dop/apps');
     cy.get('#erda-content').should(($content) => {
       expect($content).to.have.length(1);
     });
@@ -27,7 +27,7 @@ context.skip('Login', () => {
 
   it('search apps in my app list', () => {
     // https://on.cypress.io/url
-    // cy.url().should('eq', 'https://terminus-org.test.terminus.io/workBench/apps')
+    // cy.url().should('eq', 'https://terminus-org.test.terminus.io/dop/apps')
     cy.get('.app-list-section > ul > li').should(($lis) => {
       expect($lis.length).to.gt(1);
     });

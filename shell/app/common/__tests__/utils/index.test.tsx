@@ -147,7 +147,7 @@ describe('utils', () => {
     expect(equalByKeys({ a: 1, b: 1 }, { a: 1, b: 2 }, ['a', 'b'])).toBe(false);
   });
   it('setApiWithOrg should work fine', () => {
-    expect(setApiWithOrg('/api/user')).toBe('/api/workBench/user');
+    expect(setApiWithOrg('/api/user')).toBe('/api/dop/user');
     expect(setApiWithOrg('/common/user')).toBe('/common/user');
   });
   it('sleep should work fine', () => {

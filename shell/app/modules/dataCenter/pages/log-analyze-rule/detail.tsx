@@ -18,7 +18,7 @@ import { cloneDeep, isEmpty, map, uniqueId, find, findIndex, fill, filter, get, 
 import { useMount, useUpdateEffect } from 'react-use';
 import { goTo, getLS } from 'common/utils';
 import { Button, message, Spin } from 'app/nusi';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'dop/pages/form-editor/index';
 import { registComponent } from 'app/configForm/form/form';
 import { useLoading } from 'app/common/stores/loading';
 import FormSelectModel from './form-select-model';
@@ -229,7 +229,7 @@ export default () => {
         label: i18n.t('org:log filter'),
         component: 'select',
         componentProps: {
-          placeholder: i18n.t('microService:format: Key=Value, press Enter to add'),
+          placeholder: i18n.t('microService|format: Key=Value, press Enter to add', { nsSeparator: '|' }),
           mode: 'tags',
           allowClear: true,
           style: { width: 400 },

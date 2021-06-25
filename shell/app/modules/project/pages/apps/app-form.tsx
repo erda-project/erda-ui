@@ -286,7 +286,15 @@ const CreationForm = () => {
           },
           {
             label: '',
-            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.')} />,
+            getComp: () => (
+              <Alert
+                showIcon
+                type="warning"
+                message={i18n.t(
+                  'application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',
+                )}
+              />
+            ),
           },
           {
             label: i18n.t('project:repository address'),

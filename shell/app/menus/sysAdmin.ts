@@ -28,7 +28,7 @@ export const getSysAdminMenu = () => {
     {
       href: '/sysAdmin/audit-log',
       icon: 'anquan',
-      text: i18n.t('admin:audit log'),
+      text: i18n.t('org:audit log'),
     },
     {
       href: '/sysAdmin/overall-config',

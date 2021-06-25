@@ -103,7 +103,13 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
 
   return (
     <div className={`pipeline-log ${className}`}>
-      <Title title={i18n.t('deployment log')} className="my12" level={2} showDivider={false} operations={logOperation} />
+      <Title
+        title={i18n.t('deployment log')}
+        className="my12"
+        level={2}
+        showDivider={false}
+        operations={logOperation}
+      />
       {isEmpty(pipelineLog) ? (
         <EmptyHolder relative />
       ) : (
