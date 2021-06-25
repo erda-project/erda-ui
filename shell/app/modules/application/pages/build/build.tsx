@@ -350,7 +350,7 @@ export const Build = (props: IProps) => {
                   </Option>
                 ) : (
                   <Option key={value} title={label} value={value}>
-                    <Tooltip title={label}>{label}</Tooltip>
+                    {label}
                   </Option>
                 ),
               )}
