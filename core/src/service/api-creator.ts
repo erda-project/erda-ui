@@ -81,6 +81,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
     method = 'get';
   }
 
+  // use Merge to extract inner properties
   return (params: CallParams & Merge<Parameters<T>[0], {}>) => {
     const { $options, $headers, $body, ...rest } = params;
     const { bodyOrQuery, pathParams } = extractPathParams(path, rest);
