@@ -395,24 +395,22 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
       localIcon();
     }
 
-    if (online) {
-      externalModules.forEach(({ nginx, env }) => {
-        if (nginx) {
-          const nginxPath = path.resolve(process.cwd(), 'nginx.conf.template');
-          const nginxContent = fs.readFileSync(nginxPath).toString('utf8').split(EOL);
-          nginxContent.splice(-1, 0, nginx);
-          fs.writeFileSync(nginxPath, nginxContent.join(EOL));
-        }
-        if (env) {
-          const erdaYmlPath = path.resolve(process.cwd(), 'erda.yml');
-          const ymlContent = YAML.parse(fs.readFileSync(erdaYmlPath).toString('utf8'));
-          Object.keys(env).forEach((key) => {
-            set(ymlContent, ['services', 'ui', 'envs', key], env[key]);
-          });
-          fs.writeFileSync(erdaYmlPath, YAML.stringify(ymlContent));
-        }
-      });
-    }
+    externalModules.forEach(({ nginx, env }) => {
+      if (nginx) {
+        const nginxPath = path.resolve(process.cwd(), 'nginx.conf.template');
+        const nginxContent = fs.readFileSync(nginxPath).toString('utf8').split(EOL);
+        nginxContent.splice(-1, 0, nginx);
+        fs.writeFileSync(nginxPath, nginxContent.join(EOL));
+      }
+      if (env && online) {
+        const erdaYmlPath = path.resolve(process.cwd(), 'erda.yml');
+        const ymlContent = YAML.parse(fs.readFileSync(erdaYmlPath).toString('utf8'));
+        Object.keys(env).forEach((key) => {
+          set(ymlContent, ['services', 'ui', 'envs', key], env[key]);
+        });
+        fs.writeFileSync(erdaYmlPath, YAML.stringify(ymlContent));
+      }
+    });
   } catch (error) {
     logError('build exit with error:', error.message);
     process.exit(1);

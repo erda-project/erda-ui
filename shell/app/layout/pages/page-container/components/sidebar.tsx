@@ -46,7 +46,7 @@ const AppCenterEl = () => {
     dataCenter: 'duoyun',
     msp: 'weifuwu1',
     orgCenter: 'guanli',
-    [dataEngineerInfo.name]: 'kuaishuju',
+    [dataEngineerInfo.name]: 'dataEngineer',
     edge: 'bianyuanjisuan',
     apiManage: 'apijishi',
   };

@@ -16,7 +16,7 @@ import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 
-const { indexUrl, name } = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
+const { indexUrl, name } = (process.env.dataEngineerInfo || {}) as unknown as { indexUrl?: string; name?: string };
 
 export const appList: () => LAYOUT.IApp[] = () =>
   filterMenu(
