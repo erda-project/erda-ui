@@ -11,57 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
-import loadingStore, { useLoading } from 'core/stores/loading';
-import { DomainManageService } from 'dataCenter/services/domain-manage';
-
-/**
- * @deprecated use useLoading instead
- */
-export function useSpace<T>(store: T & { name: string }): EffectKeys<ValueOf<T, 'effects' | '_effects'>> {
-  const loadingSpace = loadingStore.useStore((s) => s[store.name]) || {};
-  // add proxy to avoid return undefined in isLoading
-  const loadingSpaceProxy = new Proxy(loadingSpace, {
-    get: (target, propKey) => {
-      return !!Reflect.get(target, propKey);
-    },
-  });
-  return loadingSpaceProxy;
-}
-
-const serviceLoadingStore = createStore({
-  name: 'shellServiceLoading',
-  state: {
-    serviceLoading: {} as any,
-  },
-  reducers: {
-    setServiceLoading(state, ns: string, serviceName, status: boolean) {
-      state.serviceLoading[ns] = state.serviceLoading[ns] || {};
-      state.serviceLoading[ns][serviceName] = status;
-    },
-  },
-});
-
-interface ServiceNamespace {
-  'domain-manage': DomainManageService;
-}
-
-/**
- * hook to monitor loading status for service
- * @param ns name space, comprehend as service collection name
- * @param serviceNames array of service name like ['getAppList']
- * @returns isLoading bool
- */
-function useServiceLoading<T extends keyof ServiceNamespace>(
-  ns: T,
-  serviceNames: Array<keyof ServiceNamespace[T]>,
-): boolean {
-  return serviceLoadingStore.useStore((s) =>
-    serviceNames
-      .map((n) => (s.serviceLoading[ns] && s.serviceLoading[ns][n]) || false)
-      .reduce((acc, current) => acc || current, false),
-  ) as Readonly<boolean>;
-}
+import loadingStore, { EffectKeys, useLoading } from 'core/stores/loading';
 
 export default loadingStore;
-export { useLoading, useServiceLoading, serviceLoadingStore };
+export { useLoading };
