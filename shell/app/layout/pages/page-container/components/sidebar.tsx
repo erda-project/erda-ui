@@ -20,7 +20,7 @@ import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
-import { goTo, ossImg } from 'common/utils';
+import { goTo, ossImg, insertWhen } from 'common/utils';
 import { find, get, map } from 'lodash';
 import { useMount } from 'react-use';
 import { FULL_DOC_DOMAIN } from 'common/constants';
@@ -197,21 +197,21 @@ const SideBar = () => {
   });
 
   const useMenuOperations = [
+    ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [
+      {
+        icon: <CustomIcon type="gerenshezhi" />,
+        title: i18n.t('layout:personal settings'),
+        onClick: async () => {
+          window.open(diceEnv.UC_PUBLIC_URL);
+        },
+      },
+    ]),
     {
       icon: <CustomIcon type="logout" />,
       title: i18n.t('layout:logout'),
       onClick: userStore.effects.logout,
     },
   ];
-  if (diceEnv.UC_PUBLIC_URL) {
-    useMenuOperations.unshift({
-      icon: <CustomIcon type="gerenshezhi" />,
-      title: i18n.t('layout:personal settings'),
-      onClick: async () => {
-        window.open(diceEnv.UC_PUBLIC_URL);
-      },
-    });
-  }
 
   const userMenu = {
     name: loginUser.nick || loginUser.name,
