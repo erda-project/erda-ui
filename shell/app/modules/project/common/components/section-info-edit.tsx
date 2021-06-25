@@ -55,9 +55,7 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
 
   toggleModal = () => {
     this.setState({ modalVisible: !this.state.modalVisible });
-    if (this.props.setCanGetClusterListAndResources) {
-      this.props.setCanGetClusterListAndResources(!this.state.modalVisible);
-    }
+    this.props.setCanGetClusterListAndResources?.(!this.state.modalVisible);
   };
 
   handleSubmit = (values: object) => {
