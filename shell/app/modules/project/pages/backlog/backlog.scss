@@ -17,6 +17,11 @@
     .list-container {
       height: 100%;
       overflow: auto;
+
+      .backlog-issues-list {
+        height: calc(100% - 40px);
+        overflow: auto;
+      }
     }
 
     .more-container {
