@@ -107,7 +107,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
 };
 
 export const apiDataStore = createStore({
-  name: 'api_data2',
+  name: 'api_data',
   state: {
     body: {} as Obj,
     data: {} as Obj,
@@ -161,70 +161,65 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
       return (getConfig('onResponse') || noop)(body, params, config);
     });
 
-  service.fetch = (params: Parameters<T>[0]): ReturnType<T> => {
-    _toggleLoading(true);
-    return apiFn(params)
-      .then((body: PICK_BODY<T>) => {
-        // standard response
-        if (body === null || ('success' in body && 'err' in body)) {
-          _setData(body.data);
-        }
-        (getConfig('onResponse') || noop)(body, params, config);
-        return body;
-      })
-      .finally(() => {
-        _toggleLoading(false);
-      });
-  };
+  return Object.assign(service, {
+    fetch: (params: Parameters<T>[0]): ReturnType<T> => {
+      _toggleLoading(true);
+      return apiFn(params)
+        .then((body: PICK_BODY<T>) => {
+          // standard response
+          if (body === null || ('success' in body && 'err' in body)) {
+            _setData(body.data);
+          }
+          (getConfig('onResponse') || noop)(body, params, config);
+          return body;
+        })
+        .finally(() => {
+          _toggleLoading(false);
+        });
+    },
+    useData: (): PICK_DATA<T> | null => {
+      const [data, setData] = React.useState(null);
 
-  service.useData = (): PICK_DATA<T> | null => {
-    const [data, setData] = React.useState(null);
+      if (globalKey) {
+        _setData = (d: any) => apiDataStore.reducers.setData(globalKey, d);
+        return apiDataStore.useStore((s) => s.data[globalKey]) as PICK_DATA<T>;
+      }
+      _setData = setData;
 
-    if (globalKey) {
-      _setData = (d: any) => apiDataStore.reducers.setData(globalKey, d);
-      return apiDataStore.useStore((s) => s.data[globalKey]) as PICK_DATA<T>;
-    }
-    _setData = setData;
+      return data;
+    },
+    useLoading: (): boolean => {
+      const [loading, setLoading] = React.useState(false);
 
-    return data;
-  };
+      if (globalKey) {
+        _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
+        return apiDataStore.useStore((s) => !!s.loading[globalKey]);
+      }
+      _toggleLoading = setLoading;
 
-  service.useLoading = (): boolean => {
-    const [loading, setLoading] = React.useState(false);
+      return loading;
+    },
+    useState: (): [PICK_DATA<T> | null, boolean] => {
+      const [loading, setLoading] = React.useState(false);
+      const [data, setData] = React.useState(null);
 
-    if (globalKey) {
-      _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
-      return apiDataStore.useStore((s) => !!s.loading[globalKey]);
-    }
-    _toggleLoading = setLoading;
+      if (globalKey) {
+        _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
+        _setData = (d: any) => apiDataStore.reducers.setData(globalKey, d);
+        return apiDataStore.useStore((s) => [s.data[globalKey], !!s.loading[globalKey]]) as [PICK_DATA<T>, boolean];
+      }
+      _toggleLoading = setLoading;
+      _setData = setData;
 
-    return loading;
-  };
-
-  service.useState = (): [PICK_DATA<T> | null, boolean] => {
-    const [loading, setLoading] = React.useState(false);
-    const [data, setData] = React.useState(null);
-
-    if (globalKey) {
-      _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
-      _setData = (d: any) => apiDataStore.reducers.setData(globalKey, d);
-      return apiDataStore.useStore((s) => [s.data[globalKey], !!s.loading[globalKey]]) as [PICK_DATA<T>, boolean];
-    }
-    _toggleLoading = setLoading;
-    _setData = setData;
-
-    return [data, loading];
-  };
-
-  service.getData = () => {
-    return globalKey ? apiDataStore.getState((s) => s.data[globalKey]) : undefined;
-  };
-
-  service.clearData = () => {
-    return globalKey ? apiDataStore.reducers.setData(globalKey, undefined) : undefined;
-  };
-
-  return service;
+      return [data, loading];
+    },
+    getData: () => {
+      return globalKey ? apiDataStore.getState((s) => s.data[globalKey]) : undefined;
+    },
+    clearData: () => {
+      return globalKey ? apiDataStore.reducers.setData(globalKey, undefined) : undefined;
+    },
+  });
 }
 
 export function apiCreator<T extends FN>(apiConfig: APIConfig) {
