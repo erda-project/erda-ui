@@ -34,12 +34,10 @@ import '@icon-park/react/styles/index.css';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react';
 import { initAxios } from 'app/common/utils/axios-config';
-import onResponse from './onResponse';
 import 'tailwindcss/tailwind.css';
 
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
-setConfig('onResponse', onResponse);
 
 const { NusiConfigProvider, AntdConfigProvider, Antd4ConfigProvider } = nusi;
 const momentLangMap = {

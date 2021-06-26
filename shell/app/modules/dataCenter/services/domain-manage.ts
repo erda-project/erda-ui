@@ -31,6 +31,6 @@ const apis = {
 };
 
 export const getClusterList = apiCreator<(p: { orgID: number }) => ORG_CLUSTER.ICluster[]>(apis.getClusterList);
-export const getDomainList = apiCreator<(p: IDomainRequest & IPagingReq) => IPagingData<DOMAIN_MANAGE.IDomain>>(
+export const getDomainList = apiCreator<(p: IDomainRequest & IPagingReq) => IPagingResp<DOMAIN_MANAGE.IDomain>>(
   apis.getDomainList,
 );

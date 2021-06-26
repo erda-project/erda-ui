@@ -15,10 +15,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { createStore } from '../cube';
-import { isEmpty } from 'lodash';
+import { isObject } from 'lodash';
 import axios from 'axios';
 import { Key, pathToRegexp, compile } from 'path-to-regexp';
 import qs from 'query-string';
+import { IUserInfo, setUserMap } from '../stores/user-map';
 import { getConfig } from '../config';
 
 const DEFAULT_PAGESIZE = 15;
@@ -45,7 +46,7 @@ const generatePath = (path: string, params?: Obj) => {
  * @param path Paths that may contain parameters, such as /fdp/:id/detail, path can not include `?`
  * @param params The incoming parameters may be query or params
  */
-const extractPathParams = (path: string, params?: Record<string, any>) => {
+const extractPathParams = (path: string, params?: Obj<any>) => {
   const keys: Key[] = [];
   pathToRegexp(path, keys);
   const pathParams = {} as Obj<string>;
@@ -69,8 +70,8 @@ interface $options {
   successMsg?: string; // eject message when success to override default message
   errorMsg?: string; // eject message when failed to override default message
 }
-type $headers = Record<string, string>;
-type $body = Record<string, any>;
+type $headers = Obj<string>;
+type $body = Obj<unknown>;
 interface CallParams {
   $options?: $options;
   $headers?: $headers;
@@ -104,16 +105,18 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
     }
     let bodyData;
     if (['post', 'put'].includes(method)) {
-      bodyData = isEmpty(bodyOrQuery) ? undefined : uploadFileKey ? bodyOrQuery[uploadFileKey] : bodyOrQuery;
+      if (Object.keys(bodyOrQuery).length) {
+        bodyData = uploadFileKey ? bodyOrQuery[uploadFileKey] : bodyOrQuery;
+      }
     } else if (method === 'delete') {
       bodyData = $body;
     }
     return axios({
       method: method as any,
       url: generatePath(path, pathParams),
-      headers: !isEmpty(headers) ? headers : $headers,
+      headers: headers ?? $headers,
       params: bodyOrQuery,
-      paramsSerializer: (p: Record<string, string>) => qs.stringify(p),
+      paramsSerializer: (p: Obj<string>) => qs.stringify(p),
       responseType: isDownload ? 'blob' : 'json',
       data: bodyData,
     }).then((res) => res.data) as unknown as Promise<BODY<ReturnType<T>>>;
@@ -141,39 +144,78 @@ export const apiDataStore = createStore({
 });
 
 type FN = (...args: any) => any;
+type NormalOrPagingData<D> = D extends PagingData ? Merge<D, ExtraPagingData> : D;
 type RES<D> = Promise<BODY<D>>;
-type PICK_BODY<T extends FN> = ReturnType<T> extends RES<infer D> ? BODY<D> : never;
-type PICK_DATA<T extends FN> = ReturnType<T> extends RES<infer D> ? D : never;
-interface APIConfig {
-  api: string;
-  successMsg?: string;
-  errorMsg?: string;
-  paging?: any;
-  globalKey?: string;
-  headers?: Record<string, any>;
+type PICK_DATA<T extends FN> = ReturnType<T> extends RES<infer D> ? NormalOrPagingData<D> : never;
+type PICK_BODY<T extends FN> = BODY<PICK_DATA<T>>;
+interface PagingData {
+  list: any[];
+  total: number;
+  [k: string]: any;
+}
+interface ExtraPagingData {
+  paging: {
+    pageNo: number;
+    pageSize: number;
+    total: number;
+    hasMore: boolean;
+  };
 }
 interface BODY<D> {
-  data: D | null;
+  data: NormalOrPagingData<D> | null;
   success: boolean;
   err: {
     msg: string;
     code: string;
     ctx: null | object;
   };
-  userInfo?: Record<string, object>;
+  userInfo?: Obj<IUserInfo>;
+}
+interface APIConfig {
+  api: string;
+  successMsg?: string;
+  errorMsg?: string;
+  globalKey?: string;
+  headers?: Obj<string>;
 }
 
 const noop = (d: any) => {};
 export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
-  const { globalKey } = config || { paging: {} };
+  const { globalKey } = config || {};
 
   let _toggleLoading = noop;
   let _setData = noop;
-  const onResponse = getConfig('onResponse');
+
+  const onResponse = (body: PICK_BODY<T>, params: Parameters<T>[0]) => {
+    // standard response
+    if ('success' in body && 'err' in body) {
+      const { data, success, err, userInfo } = body;
+      if (userInfo) {
+        setUserMap(userInfo);
+      }
+
+      if (isObject(data) && Object.keys(params).includes('pageNo')) {
+        if ('list' in data && 'total' in data) {
+          const { total } = data;
+          const { pageNo, pageSize } = params;
+          const hasMore = Math.ceil(total / +pageSize) > +pageNo;
+          (data as any).paging = { pageNo, pageSize, total, hasMore };
+        }
+      }
+
+      if (success) {
+        const successMsg = params?.$options?.successMsg || config?.successMsg;
+        successMsg && getConfig('onAPISuccess')?.(successMsg);
+      } else if (err) {
+        const errorMsg = err?.msg || params?.$options?.errorMsg || config?.errorMsg;
+        errorMsg && getConfig('onAPIFail')?.('error', errorMsg);
+      }
+    }
+  };
 
   const service = (params: Parameters<T>[0]): ReturnType<T> =>
     apiFn(params).then((body: PICK_BODY<T>) => {
-      onResponse?.(body, params, config);
+      onResponse(body, params);
       return body;
     });
 
@@ -182,11 +224,8 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
       _toggleLoading(true);
       return apiFn(params)
         .then((body: PICK_BODY<T>) => {
-          // standard response
-          if (body === null || ('success' in body && 'err' in body)) {
-            _setData(body.data);
-          }
-          onResponse?.(body, params, config);
+          onResponse(body, params);
+          _setData(body?.data);
           return body;
         })
         .finally(() => {
@@ -197,7 +236,7 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
       const [data, setData] = React.useState(null);
 
       if (globalKey) {
-        _setData = (d: any) => apiDataStore.reducers.setData(globalKey, d);
+        _setData = (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d);
         return apiDataStore.useStore((s) => s.data[globalKey]) as PICK_DATA<T>;
       }
       _setData = setData;
@@ -221,7 +260,7 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
 
       if (globalKey) {
         _toggleLoading = (isLoading: boolean) => apiDataStore.reducers.setLoading(globalKey, isLoading);
-        _setData = (d: any) => apiDataStore.reducers.setData(globalKey, d);
+        _setData = (d: PICK_DATA<T>) => apiDataStore.reducers.setData(globalKey, d);
         return apiDataStore.useStore((s) => [s.data[globalKey], !!s.loading[globalKey]]) as [PICK_DATA<T>, boolean];
       }
       _toggleLoading = setLoading;

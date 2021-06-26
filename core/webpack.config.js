@@ -141,6 +141,7 @@ module.exports = () => {
           './config': './src/config.ts',
           './stores/route': './src/stores/route.ts',
           './stores/loading': './src/stores/loading.ts',
+          './stores/userMap': './src/stores/user-map.ts',
           './utils/ws': './src/utils/ws.ts',
           './nusi': './src/nusi/index.tsx',
           './service': './src/service/api-creator.ts',
