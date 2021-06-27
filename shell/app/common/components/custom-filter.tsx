@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Filter, Pagination, Input, NusiSelect as Select } from 'app/nusi';
 import { useUpdate, FilterBarHandle } from 'common';
 import { setSearch } from 'common/utils';
-import { forIn, set, get, every, omit, isEqual, isEmpty, map, some, debounce, sortBy } from 'lodash';
+import { forIn, set, get, every, omit, isEqual, isEmpty, map, mapValues, some, debounce, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
@@ -268,22 +268,6 @@ interface ISingleFilterProps<T = any> extends IProps {
   localMode?: boolean;
   lazy?: boolean;
   initQuery?: Obj;
-}
-
-export interface IUseFilterProps<T> {
-  onSubmit: (value: Record<string, any>) => void;
-  onReset: () => void;
-  onPageChange: (pNo: number) => void;
-  fetchDataWithQuery: (pNo?: number) => void;
-  queryCondition: any;
-  pageNo: number;
-  autoPagination: (paging: IPaging) => Obj;
-  sizeChangePagination: (paging: IPaging) => any;
-  list: T[];
-  paging: IPaging;
-  pagination: any;
-  updateRecord: (id: string | number, replacement: T | string, keyField?: string) => void;
-  removeRecord: (id: string | number, keyField?: string) => void;
 }
 
 /**

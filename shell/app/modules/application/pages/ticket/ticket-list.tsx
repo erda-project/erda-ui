@@ -38,6 +38,7 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         name: 'type',
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
+          allowClear: true,
           options: getTicketType().map(({ name, value }) => (
             <Option key={value} value={value}>
               {name}
@@ -50,6 +51,7 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         name: 'priority',
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('application:priority') }),
+          allowClear: true,
           options: TicketPriority.map((priorityType: any) => (
             <Option key={priorityType.value} value={priorityType.value}>
               {priorityType.name}
@@ -62,6 +64,7 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         name: 'q',
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+          allowClear: true,
         },
       },
     ];
