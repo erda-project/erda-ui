@@ -298,7 +298,7 @@ export const numberFormatField = {
 export const numberMinimumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('microService:minimum'),
+    label: i18n.t('msp:minimum'),
     name: 'minimum',
     colSpan: 8,
     required: false,
@@ -325,7 +325,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
 export const numberMaximumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('microService:maximum value'),
+    label: i18n.t('msp:maximum value'),
     name: 'maximum',
     colSpan: 8,
     required: false,

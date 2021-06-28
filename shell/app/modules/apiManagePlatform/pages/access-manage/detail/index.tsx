@@ -24,7 +24,7 @@ import AuthorizationUser from 'apiManagePlatform/pages/access-manage/detail/auth
 import Sla from 'apiManagePlatform/pages/access-manage/detail/sla';
 import SlaEditor from 'apiManagePlatform/pages/access-manage/detail/sla-editor';
 import { goTo } from 'common/utils';
-import { envMap } from 'microService/config';
+import { envMap } from 'msp/config';
 import { useLoading } from 'common/stores/loading';
 import { WithAuth } from 'user/common';
 import OverviewChart from 'apiManagePlatform/pages/access-manage/detail/overview-chart';
@@ -63,7 +63,7 @@ const AccessDetail = () => {
     if (!(projectID && endpointID && workspace && TenantGroupID)) {
       return '';
     }
-    return goTo.resolve.microServiceApiStrategy({
+    return goTo.resolve.mspApiStrategy({
       projectId: projectID,
       env: workspace,
       tenantGroup: TenantGroupID,

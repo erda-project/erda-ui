@@ -43,10 +43,10 @@ export const appList: () => LAYOUT.IApp[] = () =>
         href: goTo.resolve.dopRoot(),
       },
       {
-        key: 'microService',
-        name: i18n.t('Microservice'),
-        breadcrumbName: i18n.t('Microservice'),
-        href: goTo.resolve.microServiceRoot(),
+        key: 'msp',
+        name: i18n.t('msp'),
+        breadcrumbName: i18n.t('msp'),
+        href: goTo.resolve.mspRoot(),
       },
       {
         key: 'apiManage',

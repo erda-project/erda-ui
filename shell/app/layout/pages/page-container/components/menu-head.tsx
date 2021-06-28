@@ -18,7 +18,7 @@ import { isFunction } from 'lodash';
 import './menu-head.scss';
 import devopsSvg from 'app/images/devops.svg';
 import dataCenterSvg from 'app/images/qyzx.svg';
-import microServiceSvg from 'app/images/wfwzl.svg';
+import mspSvg from 'app/images/wfwzl.svg';
 import fdpSvg from 'app/images/ksj.svg';
 import apiManageSvg from 'app/images/fwsc.svg';
 import edgeSvg from 'app/images/edge.svg';
@@ -54,8 +54,8 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
     case 'orgCenter':
       sideIcon = <img className="big-icon" src={orgCenterSvg} />;
       break;
-    case 'microService':
-      sideIcon = <img className="big-icon" src={microServiceSvg} />;
+    case 'msp':
+      sideIcon = <img className="big-icon" src={mspSvg} />;
       break;
     case 'fdp':
       sideIcon = <img className="big-icon" src={fdpSvg} />;

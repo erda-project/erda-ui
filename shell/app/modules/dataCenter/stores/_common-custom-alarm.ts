@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 import { keyBy, map, isEmpty } from 'lodash';
-import * as microServiceCustomAlarmService from 'microService/monitor/monitor-alarm/services/custom-alarm';
+import * as mspCustomAlarmService from 'msp/monitor/monitor-alarm/services/custom-alarm';
 import * as orgCustomAlarmService from 'app/modules/dataCenter/services/custom-alarm';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
@@ -34,7 +34,7 @@ export interface IState {
 export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
   const serviceMap = {
     org: orgCustomAlarmService,
-    'micro-service': microServiceCustomAlarmService,
+    'micro-service': mspCustomAlarmService,
   };
   const {
     getCustomAlarms,

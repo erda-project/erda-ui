@@ -379,7 +379,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
               },
             },
             {
-              label: i18n.t('microService:deployment branch'),
+              label: i18n.t('msp:deployment branch'),
               required: false,
               type: 'select',
               name: 'runtimeID',

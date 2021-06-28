@@ -16,11 +16,11 @@ import i18n from 'i18n';
 export const authenticationMap: { [k in API_ACCESS.AuthenticationEnum]: { name: string; value: k } } = {
   'key-auth': {
     value: 'key-auth',
-    name: i18n.t('microService:key authentication'),
+    name: i18n.t('msp:key authentication'),
   },
   'sign-auth': {
     value: 'sign-auth',
-    name: i18n.t('microService:parameter signature authentication'),
+    name: i18n.t('msp:parameter signature authentication'),
   },
 };
 
@@ -112,10 +112,10 @@ export const envMap = {
 };
 
 export const slaUnitMap: { [k in API_ACCESS.SlaLimitUnit]: string } = {
-  s: i18n.t('microService:times/second'),
-  m: i18n.t('microService:times/minute'),
-  h: i18n.t('microService:times/hour'),
-  d: i18n.t('microService:times/day'),
+  s: i18n.t('msp:times/second'),
+  m: i18n.t('msp:times/minute'),
+  h: i18n.t('msp:times/hour'),
+  d: i18n.t('msp:times/day'),
 };
 
 export const slaAuthorizationMap: { [k in API_ACCESS.SlaApproval]: { name: string; value: k } } = {

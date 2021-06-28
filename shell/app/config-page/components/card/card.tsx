@@ -21,7 +21,7 @@ import classnames from 'classnames';
 import './card.scss';
 
 const fakeClick = 'fake-click';
-const noop = () => { };
+const noop = () => {};
 
 export const Card = (props: CP_CARD.Props) => {
   const { props: configProps, execOperation = noop, customProps = {} } = props;
@@ -93,7 +93,11 @@ export const Card = (props: CP_CARD.Props) => {
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
       <div className="info-card-content px12 pt4 pb8" key={id} ref={drag}>
         <div className={'flex-box mb12'}>
-          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr4 pt4" /> : titleIcon || null}
+          {isString(titleIcon) ? (
+            <CustomIcon type={titleIcon} color className="head-icon mr4 pt4" />
+          ) : (
+            titleIcon || null
+          )}
           <div className="flex-1 fz14 color-text break-word pt4">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />

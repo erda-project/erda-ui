@@ -150,7 +150,7 @@ const SnippetDetail = (props: IProps) => {
       const nodeId = chosenData.id;
       updater.logProps({
         logId: chosenData.extra.uuid,
-        title: i18n.t('microService:log details'),
+        title: i18n.t('msp:log details'),
         customFetchAPIPrefix: `/api/apitests/pipeline/${pipelineID}/task/${nodeId}/logs`,
         pipelineID,
         taskID: nodeId,

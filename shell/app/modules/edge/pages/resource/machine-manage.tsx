@@ -165,7 +165,7 @@ export default () => {
               {i18n.t('machine overview')}
             </span>
             <PopConfirm title={`${i18n.t('confirm to go offline')}?`} onConfirm={() => offlineHandle(record)}>
-              <span className="table-operations-btn">{i18n.t('microService:offline')}</span>
+              <span className="table-operations-btn">{i18n.t('msp:offline')}</span>
             </PopConfirm>
           </TableActions>
         );

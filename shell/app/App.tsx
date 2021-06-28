@@ -71,7 +71,7 @@ const start = (userData: ILoginUser) => {
       import('publisher/entry'),
       import('project/entry'),
       import('apiManagePlatform/entry'),
-      import('microService/entry'),
+      import('msp/entry'),
       import('app/modules/edge/entry'),
       import('application/entry'),
       import('dataCenter/entry'),

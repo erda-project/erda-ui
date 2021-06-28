@@ -43,7 +43,7 @@ const AppCenterEl = () => {
     dop: 'devops1',
     sysAdmin: 'guanli',
     dataCenter: 'duoyun',
-    microService: 'weifuwu1',
+    msp: 'weifuwu1',
     orgCenter: 'guanli',
     diceFdp: 'kuaishuju',
     edge: 'bianyuanjisuan',
@@ -55,7 +55,7 @@ const AppCenterEl = () => {
     dataCenter: permMap.dataCenter.showApp.pass,
     dop: permMap.dop.read.pass,
     diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
-    microService: permMap.entryMicroService.pass,
+    msp: permMap.entryMicroService.pass,
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };

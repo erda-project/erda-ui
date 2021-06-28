@@ -306,7 +306,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
           <>
             <div className="color-text-desc instance-label">{i18n.t('service name')}</div>
             <div className="color-text-sub bold-500 instance-name mb12">{get(instance, 'serviceName', '-')}</div>
-            <div className="color-text-desc instance-label">{i18n.t('microService:deployment branch')}</div>
+            <div className="color-text-desc instance-label">{i18n.t('msp:deployment branch')}</div>
             <div className="color-text-sub bold-500 instance-name mb12">{get(instance, 'runtimeName', '-')}</div>
           </>
         ) : null}

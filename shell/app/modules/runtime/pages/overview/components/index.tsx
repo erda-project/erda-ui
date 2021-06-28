@@ -16,7 +16,7 @@ import { map, isEmpty } from 'lodash';
 import { Row, Col, Tooltip, Button } from 'app/nusi';
 import { Responsive, ErrorBoundary, IF, useMediaLt } from 'common';
 import { goTo, getLS, setLS, qs } from 'common/utils';
-import { getMSFrontPathByKey } from 'microService/config';
+import { getMSFrontPathByKey } from 'msp/config';
 import ServiceCard from './service-card';
 import AddonCard from './addon-card';
 import Info from './info';
@@ -145,7 +145,7 @@ const RuntimeOverView = () => {
           const href = `${frontPath}?${qs.stringify(queryObj)}`;
           // 大礼包拿不到terminusKey，跳过去后从menu里取
           if (addonName === 'micro-service') {
-            onClick = () => goTo(goTo.pages.microServiceOverview, { jumpOut: true, ...pathParams, ...queryObj });
+            onClick = () => goTo(goTo.pages.mspOverview, { jumpOut: true, ...pathParams, ...queryObj });
           } else {
             onClick = () => goTo(href, { jumpOut: true });
           }

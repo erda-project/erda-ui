@@ -23,7 +23,7 @@ import { useLoading } from 'common/stores/loading';
 import LogAnalyzeStore from '../../stores/log-analyze';
 import LogTagSelector from 'dataCenter/common/components/log-tag-selector';
 import routeInfoStore from 'common/stores/route';
-import microServiceStore from 'microService/stores/micro-service';
+import mspStore from 'msp/stores/micro-service';
 import { regLog } from 'common/components/log/log-util';
 import { useUnmount } from 'react-use';
 
@@ -52,7 +52,7 @@ export default () => {
   const [isIn, params] = routeInfoStore.useStore((s) => [s.isIn, s.params]);
   const [pageNo, setPageNo] = React.useState(1);
   const [loadingLogs, loadingAddonLogs] = useLoading(LogAnalyzeStore, ['getLogStatistics', 'getAddonLogStatistics']);
-  const clusterName = microServiceStore.useStore((s) => s.clusterName);
+  const clusterName = mspStore.useStore((s) => s.clusterName);
 
   useUnmount(() => {
     LogAnalyzeStore.clearLogs();
@@ -75,7 +75,7 @@ export default () => {
     const start = (timeFrom && moment(timeFrom).valueOf()) || initialRange[0].valueOf();
     const end = (timeTo && moment(timeTo).valueOf()) || initialRange[1].valueOf();
 
-    if (isIn('microService')) {
+    if (isIn('msp')) {
       const addonQuery = {
         start,
         end,
@@ -139,7 +139,7 @@ export default () => {
       setLS('logRuleTags', []);
     }
     setLS('logRuleContent', content);
-    const path = isIn('microService')
+    const path = isIn('msp')
       ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
       : isIn('dataCenter')
       ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
@@ -188,7 +188,7 @@ export default () => {
         type: Input,
         name: 'query',
         customProps: {
-          placeholder: i18n.t('microService:search by content'),
+          placeholder: i18n.t('msp:search by content'),
         },
       },
       {
@@ -278,7 +278,7 @@ export default () => {
               'not-allowed': !tags['request-id'],
             })}
           >
-            {i18n.t('microService:transactions')}
+            {i18n.t('msp:transactions')}
           </a>
           <a
             onClick={(e) => {
@@ -313,10 +313,10 @@ export default () => {
   return (
     <div className="log-query">
       <CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />
-      <Panel title={i18n.t('microService:number of logs')} className="block mb16">
+      <Panel title={i18n.t('msp:number of logs')} className="block mb16">
         <PureBoardGrid layout={layout} />
       </Panel>
-      <Panel title={i18n.t('microService:log message')} className="block">
+      <Panel title={i18n.t('msp:log message')} className="block">
         <Table
           loading={loadingLogs || loadingAddonLogs}
           tableKey="log-query-message"

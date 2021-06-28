@@ -36,7 +36,7 @@ const menuFilterMap = {
   appCenter: {
     // 应用中心
     dop: hiddenWhenOnlyFDP,
-    microService: hiddenWhenOnlyFDP,
+    msp: hiddenWhenOnlyFDP,
     edge: hiddenWhenOnlyFDP,
     apiManage: hiddenWhenOnlyFDP,
     dataCenter: (item: IMenuItem) => {
