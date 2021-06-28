@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Tooltip, Menu, Modal, Table } from 'app/nusi';
+import { Dropdown, Tooltip, Menu, Modal, Table, Popover } from 'app/nusi';
 import { goTo, notify } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/dataCenter/common/components/machine-form-modal';
@@ -269,13 +269,33 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
     };
 
-    return map(clusterOpsMap[record.cloudVendor || record.type] || [], (op) => {
+    // calculate how many operations are displayed directly
+    let showIndex = 0;
+    let remainingWidth = 120;
+    const operateList = map(clusterOpsMap[record.cloudVendor || record.type] || [], (op) => {
+      if (remainingWidth >= op.title.length * 16) {
+        remainingWidth -= op.title.length * 16;
+        showIndex++;
+      }
+
       return (
         <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
           {op.title}
         </span>
       );
     });
+
+    return (
+      <span className="operate-list">
+        {operateList.slice(0, showIndex)}
+        <Popover
+          content={operateList.slice(showIndex)}
+          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+        >
+          <CustomIcon className="fake-link ml4" type="more" />
+        </Popover>
+      </span>
+    );
   };
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
@@ -333,14 +353,15 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         return get(clusterDetail, 'basic.masterNum.value', '0');
       },
     },
-  ];
-  const actions = {
-    title: i18n.t('default:operation'),
-    render: (record: ORG_CLUSTER.ICluster) => {
-      return renderMenu(record);
+    {
+      title: i18n.t('default:operation'),
+      dataIndex: 'operation',
+      render: (text, record: ORG_CLUSTER.ICluster) => {
+        return renderMenu(record);
+      },
+      width: 150,
     },
-    width: 150,
-  };
+  ];
 
   return (
     <>
@@ -365,7 +386,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         curCluster={state.curDeleteCluster}
       />
       <div>
-        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" rowAction={actions} />
+        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
       </div>
     </>
   );

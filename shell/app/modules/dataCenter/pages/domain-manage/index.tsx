@@ -195,55 +195,56 @@ const DomainManage = () => {
       tip: true,
       render: (key: string) => ENV_DIC[key],
     },
-  ];
+    {
+      title: i18n.t('default:operation'),
+      dataIndex: 'operation',
+      tip: true,
+      render: (text, record: DOMAIN_MANAGE.IDomain) => {
+        const { domain, type, workspace: env, link } = record;
+        if (!link) {
+          return undefined;
+        }
 
-  const actions = {
-    title: i18n.t('default:operation'),
-    render: (record: DOMAIN_MANAGE.IDomain) => {
-      const { domain, type, workspace: env, link } = record;
-      if (!link) {
-        return undefined;
-      }
-
-      const {
-        projectID: projectId = '',
-        tenantGroup = '',
-        appID: appId = '',
-        runtimeID: runtimeId = '',
-        serviceName = '',
-      } = link;
-      return type !== 'other'
-        ? [
-            <span
-              className="fake-link mr-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (type === 'service') {
-                  if (serviceName && projectId && appId && runtimeId) {
-                    goTo(goTo.pages.runtimeDetail, {
-                      serviceName,
-                      projectId,
-                      appId,
-                      runtimeId,
-                      jumpFrom: 'domainPage',
-                      jumpOut: true,
-                    });
+        const {
+          projectID: projectId = '',
+          tenantGroup = '',
+          appID: appId = '',
+          runtimeID: runtimeId = '',
+          serviceName = '',
+        } = link;
+        return type !== 'other'
+          ? [
+              <span
+                className="fake-link mr-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (type === 'service') {
+                    if (serviceName && projectId && appId && runtimeId) {
+                      goTo(goTo.pages.runtimeDetail, {
+                        serviceName,
+                        projectId,
+                        appId,
+                        runtimeId,
+                        jumpFrom: 'domainPage',
+                        jumpOut: true,
+                      });
+                    }
                   }
-                }
-                if (type === 'gateway') {
-                  if (domain && projectId && tenantGroup && env) {
-                    goTo(goTo.pages.gatewayList, { domain, projectId, tenantGroup, env, jumpOut: true });
+                  if (type === 'gateway') {
+                    if (domain && projectId && tenantGroup && env) {
+                      goTo(goTo.pages.gatewayList, { domain, projectId, tenantGroup, env, jumpOut: true });
+                    }
                   }
-                }
-              }}
-            >
-              {i18n.t('manage')}
-            </span>,
-          ]
-        : [];
+                }}
+              >
+                {i18n.t('manage')}
+              </span>,
+            ]
+          : [];
+      },
+      width: 150,
     },
-    width: 150,
-  };
+  ];
 
   const pagination = {
     total: domainPaging.total,
@@ -259,7 +260,7 @@ const DomainManage = () => {
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
-          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" rowAction={actions} />
+          <Table tableLayout="fixed" columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" />
         </Holder>
       </Spin>
     </>

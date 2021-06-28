@@ -42,7 +42,6 @@ import {
   Spin,
   Steps,
   Switch,
-  Table as AntTable,
   Tabs,
   Transfer,
   Tree,
@@ -53,6 +52,7 @@ import {
   version,
 } from 'antd-latest';
 import { FixedSelect } from './fixed-select';
+import { Table } from './table';
 import FixRangePicker from './range-picker';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
@@ -79,7 +79,6 @@ import {
   GlobalNavigation,
   Breadcrumb,
   Tag,
-  Table,
   Title,
   Panel,
   List,
@@ -185,7 +184,6 @@ export {
   SelectCombo,
   AntdConfigProvider,
   Antd4ConfigProvider,
-  AntTable,
   NusiConfigProvider,
   NusiTree,
   NusiPopover,
