@@ -21,7 +21,7 @@ import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lod
 import { FormInstance } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
-import { regRules } from 'common/utils';
+import { insertWhen, regRules } from 'common/utils';
 import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 import './cluster-form.scss';
 
@@ -81,6 +81,7 @@ const ClusterBasicForm = ({
   const [isEdgeCluster, setIsEdgeCluster] = React.useState(get(formData, 'isEdgeCluster', true));
   const [wildcardDomain, setWildcardDomain] = React.useState('');
   const { getClusterNewDetail } = clusterStore.effects;
+
   const debounceCheckName = React.useCallback(
     debounce((nameStr: string, callback: Function) => {
       if (editMode) return callback();
@@ -118,7 +119,7 @@ const ClusterBasicForm = ({
       rules: [
         regRules.clusterName,
         {
-          validator: (rule: any, v: string, callback: Function) => {
+          validator: (_rule: unknown, v: string, callback: Function) => {
             const curCluster = find(clusterList, { name: v });
             if (!editMode && curCluster) {
               callback(i18n.t('org:cluster already existed'));
@@ -169,42 +170,85 @@ const ClusterBasicForm = ({
       name: 'id',
       itemProps: { type: 'hidden' },
     },
-  ];
-  if (clusterType === 'edas') {
-    fieldsList.splice(
-      4,
-      0,
-      ...([
-        { label: i18n.t('org:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
-        { label: 'AK', name: ['scheduler', 'accessKey'] },
-        { label: 'AS', name: ['scheduler', 'accessSecret'] },
-        { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
-        { label: 'Region ID', name: ['scheduler', 'regionID'] },
-        { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
-        { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
-        { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
-      ] as any),
-    );
-  } else {
-    fieldsList.splice(4, 0, {
-      label: i18n.t('org:cluster entry'),
-      name: ['scheduler', 'dcosURL'],
-      pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
-      initialValue: getDefaultMasterURL(clusterType),
-      itemProps: {
-        // disabled: true,
-      },
-      config: {
-        getValueFromEvent(e: any) {
-          const { value } = e.target;
-          return value.replace(/\s/g, '').toLowerCase();
+    ...insertWhen(clusterType === 'edas', [
+      { label: i18n.t('org:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
+      { label: 'AK', name: ['scheduler', 'accessKey'] },
+      { label: 'AS', name: ['scheduler', 'accessSecret'] },
+      { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
+      { label: 'Region ID', name: ['scheduler', 'regionID'] },
+      { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
+      { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
+      { label: 'Registry Address', name: ['scheduler', 'regAddr'] }
+    ]),
+    ...insertWhen(clusterType === 'dcos', [
+      {
+        label: i18n.t('org:cluster entry'),
+        name: 'scheduler.dcosURL',
+        pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
+        initialValue: getDefaultMasterURL(clusterType),
+        itemProps: {
+          // disabled: true,
+        },
+        config: {
+          getValueFromEvent(e: any) {
+            const { value } = e.target;
+            return value.replace(/\s/g, '').toLowerCase();
+          },
         },
       },
-    } as any);
-  }
+    ]),
+    ...insertWhen(clusterType === 'k8s', [
+      {
+        label: i18n.d('认证方式'),
+        name: 'credentialType',
+        type: 'radioGroup',
+        options: [
+          {
+            value: 'kubeConfig',
+            name: 'KubeConfig',
+          },
+          {
+            value: 'serviceAccount',
+            name: 'Service Account',
+          },
+          {
+            value: 'proxy',
+            name: 'Cluster Agent',
+          },
+        ],
+        initialValue: 'kubeConfig',
+        formLayout: 'horizontal',
+        itemProps: {
+          onChange: () => {
+            form.setFieldsValue({ 'credential.content': undefined });
+            form.setFieldsValue({ 'credential.address': undefined });
+          },
+        },
+      },
+      ...insertWhen(form.getFieldValue('credentialType') === 'kubeConfig', [
+        {
+          label: 'KubeConfig',
+          name: 'credential.content',
+          type: 'textArea',
+        },
+      ]),
+      ...insertWhen(form.getFieldValue('credentialType') === 'serviceAccount', [
+        {
+          label: 'API Server URL',
+          name: 'credential.address',
+        },
+        {
+          label: 'Secret',
+          name: 'credential.content',
+          type: 'textArea',
+        },
+      ]),
+    ]),
+  ];
 
   return <RenderPureForm list={fieldsList} form={form} />;
 };
+
 const ClusterSchedulerForm = ({
   form,
   clusterType,
@@ -224,6 +268,7 @@ const ClusterSchedulerForm = ({
     repeatValue: initialOpsConfig && initialOpsConfig.repeatValue,
     repeatMode: initialOpsConfig && initialOpsConfig.repeatMode,
   });
+
   React.useEffect(() => {
     form.setFieldsValue({
       'opsConfig.repeatValue': repeatRange[0] && repeatRange[1] ? repeatRange.join('-') : undefined,

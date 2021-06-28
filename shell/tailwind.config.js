@@ -27,30 +27,28 @@ module.exports = {
         DEFAULT: '3px',
       },
       borderColor: (theme) => ({ ...theme('colors'), normal: '#00000019' }),
-      //   backgroundImage: () => {
-      //     const imgPath = path.resolve(__dirname, './app/images');
-      //     return {
-      //       'empty-holder': `url('${imgPath}/kztt.png')`,
-      //       'empty-flow': `url('${imgPath}/kzt.png')`,
-      //       'empty-ad-query': `url('${imgPath}/jzts.svg')`,
-      //       'editor-background': `url('${imgPath}/editor-background.png')`,
-      //       'new-point': `url('${imgPath}/zwt.png')`,
-      //     };
-      //   },
       colors: {
         primary: '#6a549e',
         normal: '#000000cc', // color-dark-8: rgba(0, 0, 0, .8)
         sub: '#00000099', // color-dark-6: rgba(0, 0, 0, .6)
-        desc: '#0000007f', // color-dark-5: rgba(0, 0, 0, .5)
-        light: '#00000066', // color-dark-4: rgba(0, 0, 0, .4)
+        // desc: '#0000007f', // color-dark-5: rgba(0, 0, 0, .5)
+        desc: '#00000066', // color-dark-4: rgba(0, 0, 0, .4)
+        icon: '#00000066', // color-dark-3: rgba(0, 0, 0, .3)
         disabled: '#00000066', // color-dark-3: rgba(0, 0, 0, .3)
-        gray: '#999999',
-        grey: '#f5f5f5',
-        red: '#ff4946',
+        holder: '#00000033', // color-dark-3: rgba(0, 0, 0, .2)
+        red: '#df3409',
+        danger: '#df3409',
         blue: '#0567ff',
-        yellow: '#ffc11f',
-        green: '#25ca64',
-        orange: '#feab00',
+        info: '#0567ff',
+        yellow: '#feab00',
+        warning: '#feab00',
+        green: '#34b37e',
+        success: '#34b37e',
+        orange: '#f47201',
+        purple: '#6a549e',
+        cyan: '#5bd6d0ff',
+        gray: '#666666',
+        grey: '#f5f5f5',
         layout: '#f0eef5',
         white: '#ffffff',
         'light-primary': '#6a549e19', // rgba($primary, .1)
@@ -66,10 +64,22 @@ module.exports = {
         'log-bg': '#3c444f',
       },
       flex: {
-        '03': '0.3 1 0%',
+        2: '2 2 0%',
+        3: '3 3 0%',
+        4: '4 4 0%',
+        5: '5 5 0%',
+        6: '6 6 0%',
+        7: '7 7 0%',
+        8: '8 8 0%',
       },
       fontFamily: {
         log: ['Menlo', 'PingFangSC-Regular', 'Consolas', 'Courier', 'monospace'],
+      },
+      cursor: {
+        copy: 'copy',
+      },
+      opacity: {
+        6: '0.06',
       },
     },
   },
