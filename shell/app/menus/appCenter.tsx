@@ -11,68 +11,72 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+import orgStore from 'app/org-home/stores/org';
 
-export const appList: () => LAYOUT.IApp[] = () => filterMenu([
-  {
-    key: 'workBench',
-    name: i18n.t('WorkBench'),
-    breadcrumbName: i18n.t('WorkBench'),
-    path: (params: any, routes: any[]): string => { // in order to show xxx list when click 工作台 in none apps pages
-      let path;
-      const { orgName, projectId, appId } = params;
-      routes.forEach((route) => {
-        if (route.path === 'service') {
-          path = `/${orgName}/workBench/${route.path}`;
+export const appList: () => LAYOUT.IApp[] = () => {
+  const { type } = orgStore.getState(s => s.currentOrg);
+  return filterMenu([
+    {
+      key: 'workBench',
+      name: i18n.t('WorkBench'),
+      breadcrumbName: i18n.t('WorkBench'),
+      path: (params: any, routes: any[]): string => { // in order to show xxx list when click 工作台 in none apps pages
+        let path;
+        const { orgName, projectId, appId } = params;
+        routes.forEach((route) => {
+          if (route.path === 'service') {
+            path = `/${orgName}/workBench/${route.path}`;
+          }
+        });
+        if (path) {
+          return path;
         }
-      });
-      if (path) {
+        path = goTo.resolve.workBenchRoot();
+        if (!appId && (projectId || routes.some(route => route.path === 'projects'))) {
+          path = `/${orgName}/workBench/projects`;
+        }
         return path;
-      }
-      path = goTo.resolve.workBenchRoot();
-      if (!appId && (projectId || routes.some(route => route.path === 'projects'))) {
-        path = `/${orgName}/workBench/projects`;
-      }
-      return path;
+      },
+      href: goTo.resolve.workBenchRoot(),
     },
-    href: goTo.resolve.workBenchRoot()
-  },
-  {
-    key: 'microService',
-    name: i18n.t('Microservice'),
-    breadcrumbName: i18n.t('Microservice'),
-    href: goTo.resolve.microServiceRoot(),
-  },
-  {
-    key: 'apiManage',
-    name: i18n.t('default:API management platform'),
-    breadcrumbName: i18n.t('default:API management platform'),
-    href: goTo.resolve.apiManageRoot(),
-  },
-  {
-    key: 'diceFdp',
-    name: i18n.t('Fast data'),
-    breadcrumbName: i18n.t('Fast data'),
-    href: goTo.resolve.fdpIndex(),
-  },
-  {
-    key: 'dataCenter',
-    name: i18n.t('DataCenter'),
-    breadcrumbName: i18n.t('DataCenter'),
-    href: goTo.resolve.dataCenterRoot(),
-  },
-  {
-    key: 'edge',
-    name: i18n.t('edge:edge center'),
-    breadcrumbName: i18n.t('edge:edge center'),
-    href: goTo.resolve.edgeApp(),
-  },
-  {
-    key: 'orgCenter',
-    name: i18n.t('orgCenter'),
-    breadcrumbName: i18n.t('orgCenter'),
-    href: goTo.resolve.orgCenterRoot(),
-  },
-], MENU_SCOPE.appCenter);
+    {
+      key: 'microService',
+      name: i18n.t('Microservice'),
+      breadcrumbName: i18n.t('Microservice'),
+      href: goTo.resolve.microServiceRoot(),
+    },
+    {
+      key: 'apiManage',
+      name: i18n.t('default:API management platform'),
+      breadcrumbName: i18n.t('default:API management platform'),
+      href: goTo.resolve.apiManageRoot(),
+    },
+    {
+      key: 'diceFdp',
+      name: i18n.t('Fast data'),
+      breadcrumbName: i18n.t('Fast data'),
+      href: goTo.resolve.fdpIndex(),
+    },
+    {
+      key: 'dataCenter',
+      name: i18n.t('DataCenter'),
+      breadcrumbName: i18n.t('DataCenter'),
+      href: goTo.resolve.dataCenterRoot(),
+    },
+    ...insertWhen(type === 'ENTERPRISE', [{
+      key: 'edge',
+      name: i18n.t('edge:edge center'),
+      breadcrumbName: i18n.t('edge:edge center'),
+      href: goTo.resolve.edgeApp(),
+    }]),
+    {
+      key: 'orgCenter',
+      name: i18n.t('orgCenter'),
+      breadcrumbName: i18n.t('orgCenter'),
+      href: goTo.resolve.orgCenterRoot(),
+    },
+  ], MENU_SCOPE.appCenter);
+};
