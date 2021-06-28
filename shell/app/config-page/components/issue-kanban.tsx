@@ -81,7 +81,7 @@ const IssueKanban = (props: IProps) => {
     } else {
       setBoard((prev) =>
         map(prev, (item) => {
-          const curNewData = find(data?.board || [], (newItem) => newItem.labelKey === item.labelKey);
+          const curNewData = find(data?.board, (newItem) => newItem.labelKey === item.labelKey);
           return curNewData || item;
         }),
       );
