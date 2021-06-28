@@ -10,6 +10,7 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 import React from 'react';
 import { GlobalNavigation, Shell, Badge, Icon, Tooltip, Popover, Menu, message } from 'app/nusi';
 import { usePerm } from 'user/common';
@@ -29,12 +30,14 @@ import orgStore from 'app/org-home/stores/org';
 import './sidebar.scss';
 
 const { AppCenter } = Shell;
+
 const AppCenterEl = () => {
   const permMap = usePerm(s => s.org);
   const appList = layoutStore.useStore(s => s.appList);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { switchToApp } = layoutStore.reducers;
   const [visible, setVisible] = React.useState(false);
+
   const iconMap = {
     workBench: 'devops1',
     sysAdmin: 'guanli',
@@ -45,6 +48,7 @@ const AppCenterEl = () => {
     edge: 'bianyuanjisuan',
     apiManage: 'apijishi',
   };
+
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
     dataCenter: permMap.dataCenter.showApp.pass,
@@ -110,6 +114,7 @@ const AppCenterEl = () => {
     />
   );
 };
+
 /*
 Display rule of avatar chars:
 1) 王小刚 --> 小刚
@@ -120,6 +125,7 @@ comment: letter like m, w, M, W is wider than others , so we limit the counts of
 */
 const getAvatarChars = (name:string) => {
   const pattern = /[\u4e00-\u9fa5]/;
+
   if (pattern.test(name)) {
     return name.slice(-2);
   } else {
@@ -129,6 +135,7 @@ const getAvatarChars = (name:string) => {
     return name.slice(0, maxLength);
   }
 };
+
 const SideBar = () => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [currentOrg, orgs] = orgStore.useStore(s => [s.currentOrg, s.orgs]);
@@ -174,9 +181,11 @@ const SideBar = () => {
       onClick: () => switchMessageCenter(null),
     },
   ].filter(a => a.show);
+
   useMount(() => {
     orgStore.effects.getJoinedOrgs();
   });
+
   const userMenu = {
     name: loginUser.nick || loginUser.name,
     // subtitle: 'slogan here',
@@ -200,6 +209,7 @@ const SideBar = () => {
       },
     ],
   };
+
   return (
     <GlobalNavigation
       layout="vertical"
@@ -266,11 +276,13 @@ const SideBar = () => {
     />
   );
 };
+
 interface IPopoverSelectorProps {
   value: string;
   options: Array<{ key: string, name: string }>
   onChange: () => void;
 }
+
 const PopoverSelector = (props: IPopoverSelectorProps) => {
   const { options, value } = props;
   const valueName = get(find(options, { key: value }), 'name') || value;
@@ -282,6 +294,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
       <CustomIcon type='appstore' className='fz20 ml4' />
     </div>
   );
+  
   const onClick = (e: any) => {
     e.domEvent.stopPropagation();
   };
