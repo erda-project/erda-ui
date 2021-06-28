@@ -21,7 +21,7 @@ import { translate } from 'dcos/common/config';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import purchaseStore from 'dcos/stores/purchase';
-import machineStore from 'dataCenter/stores/machine';
+import machineStore from 'cmp/stores/machine';
 import { useLoading } from 'app/common/stores/loading';
 
 interface IProps {

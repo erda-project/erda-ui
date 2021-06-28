@@ -39,11 +39,11 @@ import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
 import { WrappedFormUtils } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
-import orgCustomAlarmStore from 'app/modules/dataCenter/stores/custom-alarm';
+import orgCustomAlarmStore from 'app/modules/cmp/stores/custom-alarm';
 import mspCustomAlarmStore from 'msp/monitor/monitor-alarm/stores/custom-alarm';
-import orgMonitorMetaDataStore from 'app/modules/dataCenter/stores/analysis-monitor-metadata';
+import orgMonitorMetaDataStore from 'app/modules/cmp/stores/analysis-monitor-metadata';
 import mspMonitorMetaDataStore from 'app/modules/msp/monitor/monitor-alarm/stores/analysis-monitor-metadata';
-import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
+import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
 import './index.scss';
 

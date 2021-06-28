@@ -80,7 +80,7 @@ export const orgPerm = {
     name: 'API 资源编辑',
     role: ['Manager'],
   },
-  dataCenter: {
+  cmp: {
     name: '云管平台',
     showApp: {
       pass: false,

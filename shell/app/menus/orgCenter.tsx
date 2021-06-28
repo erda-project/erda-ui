@@ -75,7 +75,7 @@ export const getOrgCenterMenu = () => {
       },
       {
         key: 'orgSetting',
-        href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
+        href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
         icon: <IconCity />,
         text: i18n.t('org setting'),
       },

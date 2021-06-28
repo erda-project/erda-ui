@@ -94,8 +94,8 @@ const layout = createStore({
       const { switchToApp, switchMessageCenter } = layout.reducers;
       if (isIn('orgCenter')) {
         switchToApp('orgCenter');
-      } else if (isIn('dataCenter')) {
-        switchToApp('dataCenter');
+      } else if (isIn('cmp')) {
+        switchToApp('cmp');
       } else if (isIn('dop')) {
         switchToApp('dop');
       } else if (isIn('msp')) {
@@ -112,7 +112,7 @@ const layout = createStore({
 
       if (
         isEntering('orgCenter') ||
-        isEntering('dataCenter') ||
+        isEntering('cmp') ||
         isEntering('dop') ||
         isEntering('msp') ||
         isEntering('edge') ||

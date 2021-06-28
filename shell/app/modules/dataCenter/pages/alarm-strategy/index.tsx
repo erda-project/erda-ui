@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import AlarmStrategy from 'app/modules/dataCenter/common/alarm-strategy';
+import AlarmStrategy from 'app/modules/cmp/common/alarm-strategy';
 import orgStore from 'app/org-home/stores/org';
 
 export default () => {

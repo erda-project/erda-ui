@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
-import networksStore from 'dataCenter/stores/networks';
+import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'app/common/stores/loading';
 import { Select, Menu, Dropdown, Button } from 'app/nusi';
 import { VswCIDRField } from '../common/components/cidr-input';
@@ -22,8 +22,8 @@ import { cloudVendor, formConfig } from '../common/config';
 import { map, find, get, keys } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { WrappedFormUtils } from 'core/common/interface';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
-import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
+import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import {
@@ -31,8 +31,8 @@ import {
   getCloudResourceIDNameCol,
   getCloudResourceStatusCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
+} from 'cmp/common/components/table-col';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const { Option } = Select;
@@ -77,7 +77,7 @@ const VSW = () => {
     const columns = [
       getCloudResourceIDNameCol('vSwitchID', 'vswName'),
       {
-        title: i18n.t('dataCenter:CIDR'),
+        title: i18n.t('cmp:CIDR'),
         width: 150,
         dataIndex: 'cidrBlock',
       },
@@ -152,7 +152,7 @@ const VSW = () => {
         },
       },
       {
-        label: i18n.t('dataCenter:associate vpc network'),
+        label: i18n.t('cmp:associate vpc network'),
         name: 'vpcID',
         type: 'select',
         options: map(vpcList, (item) => ({ value: item.vpcID, name: `${item.vpcName}(${item.vpcID})` })),
@@ -172,7 +172,7 @@ const VSW = () => {
         options: map(zones, (zone) => ({ name: `${zone.localName}(${zone.zoneID})`, value: zone.zoneID })),
       },
       {
-        label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
+        label: `IPv4 ${i18n.t('cmp:CIDR')}`,
         getComp: () => {
           return (
             <VswCIDRField
@@ -184,7 +184,7 @@ const VSW = () => {
         },
       },
       {
-        label: i18n.t('dataCenter:number of available IP'),
+        label: i18n.t('cmp:number of available IP'),
         getComp: () => `${subnetCount || 0}`,
       },
       {
@@ -282,7 +282,7 @@ const VSW = () => {
         extraOperation={extraOperation}
         hasAddAuth={cloudAccountExist}
         addAuthTooltipTitle={addAuthTooltipTitle}
-        name={i18n.t('dataCenter:VSwitches')}
+        name={i18n.t('cmp:VSwitches')}
         rowKey="vSwitchID"
         extraQuery={{
           vpcID,

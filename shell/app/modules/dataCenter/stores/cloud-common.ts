@@ -31,7 +31,7 @@ const cloudCommon = createFlatStore({
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isEntering }) => {
-      if (isEntering('dataCenter')) {
+      if (isEntering('cmp')) {
         cloudCommon.checkCloudAccount();
       }
     });

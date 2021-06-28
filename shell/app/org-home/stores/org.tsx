@@ -179,7 +179,7 @@ export default org;
 const setLocationByAuth = (authObj: Obj) => {
   const curPathname = location.pathname;
   if (diceEnv.ONLY_FDP) {
-    if (!['fdp', 'dataCenter', 'orgCenter'].includes(curPathname.split('/')[2])) {
+    if (!['fdp', 'cmp', 'orgCenter'].includes(curPathname.split('/')[2])) {
       window.history.replaceState({}, document.title, goTo.resolve.fdpIndex());
       return;
     }
@@ -202,9 +202,9 @@ const setLocationByAuth = (authObj: Obj) => {
       isCurPage: curPathname.startsWith(`/${orgName}/edge`),
       authRole: intersection(orgPerm.edge.view.role, roles),
     },
-    dataCenter: {
-      isCurPage: curPathname.startsWith(`/${orgName}/dataCenter`),
-      authRole: intersection(orgPerm.dataCenter.showApp.role, roles),
+    cmp: {
+      isCurPage: curPathname.startsWith(`/${orgName}/cmp`),
+      authRole: intersection(orgPerm.cmp.showApp.role, roles),
     },
     dop: {
       isCurPage: curPathname.startsWith(`/${orgName}/dop`),
@@ -225,7 +225,7 @@ const setLocationByAuth = (authObj: Obj) => {
           resetPath = goTo.resolve.fdpIndex();
         } else if (roles.toString() === 'Ops') {
           // 企业运维只有云管的权限
-          resetPath = `/${orgName}/dataCenter/overview`;
+          resetPath = `/${orgName}/cmp/overview`;
         } else if (roles.toString() === 'EdgeOps') {
           // 边缘运维工程师只有边缘计算平台的权限
           resetPath = `/${orgName}/edge/application`;

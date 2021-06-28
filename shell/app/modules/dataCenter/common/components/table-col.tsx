@@ -13,13 +13,13 @@
 
 import { cutStr } from 'common/utils';
 import i18n from 'i18n';
-import regionData from 'dataCenter/common/regionData';
+import regionData from 'cmp/common/regionData';
 import { Tooltip, Badge } from 'app/nusi';
 import * as React from 'react';
 import moment from 'moment';
 import { get } from 'lodash';
-import { statusMap } from 'dataCenter/pages/cloud-source/config';
-import { chargeTypeMap } from 'dataCenter/pages/cluster-manage/config';
+import { statusMap } from 'cmp/pages/cloud-source/config';
+import { chargeTypeMap } from 'cmp/pages/cluster-manage/config';
 
 export const getCloudResourceTagsCol = (config?: Obj) => {
   return {
@@ -146,7 +146,7 @@ export const getCloudResourceChargeTypeCol = (
   expireTime = 'expireTime',
 ) => {
   return {
-    title: i18n.t('dataCenter:payment methods'),
+    title: i18n.t('cmp:payment methods'),
     dataIndex,
     width: 170,
     render: (_v: string, record: any) => {

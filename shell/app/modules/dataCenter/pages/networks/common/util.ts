@@ -161,7 +161,7 @@ const validSubnetMask = (subnet: string) => {
 export const validateIsSubnet = (pNets: string[]) => (rule: any, value: string, callback: Function) => {
   if (!value) return callback();
   if (!validSubnetMask(value || '')) {
-    return callback(i18n.t('dataCenter:please fill in the correct CIDR according to the prompt'));
+    return callback(i18n.t('cmp:please fill in the correct CIDR according to the prompt'));
   }
   let isSubnet = false;
   for (let i = 0, len = pNets.length; i < len; i++) {
@@ -170,5 +170,5 @@ export const validateIsSubnet = (pNets: string[]) => (rule: any, value: string, 
       break;
     }
   }
-  return callback(isSubnet ? undefined : i18n.t('dataCenter:please fill in the correct CIDR according to the prompt'));
+  return callback(isSubnet ? undefined : i18n.t('cmp:please fill in the correct CIDR according to the prompt'));
 };

@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import { Spin, Tooltip, Table } from 'app/nusi';
 import i18n from 'i18n';
 import './alarm-list.scss';
-import machineStore from 'dataCenter/stores/machine';
+import machineStore from 'cmp/stores/machine';
 import { useLoading } from 'app/common/stores/loading';
 import { useUnmount } from 'react-use';
 import { ColumnProps } from 'core/common/interface';

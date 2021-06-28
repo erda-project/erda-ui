@@ -16,7 +16,7 @@ import { Modal, Table } from 'app/nusi';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { RenderForm } from 'common';
-import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
+import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { useLoading } from 'app/common/stores/loading';
 
 interface IProps {

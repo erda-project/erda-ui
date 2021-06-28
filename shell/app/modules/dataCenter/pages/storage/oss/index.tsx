@@ -16,31 +16,31 @@ import { useUpdate, CRUDStoreTable } from 'common';
 import { Input, Select, Menu, Dropdown, Button } from 'app/nusi';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
-import cloudOSSStore from 'app/modules/dataCenter/stores/storage';
+import cloudOSSStore from 'app/modules/cmp/stores/storage';
 import i18n from 'i18n';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
-import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
+import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import {
   getCloudResourceTagsCol,
   getCloudResourceTimeCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
+} from 'cmp/common/components/table-col';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const { Option } = Select;
 
 const ACL_CONST = [
   {
-    name: i18n.t('dataCenter:private'),
+    name: i18n.t('cmp:private'),
     value: 'private',
   },
   {
-    name: i18n.t('dataCenter:public read'),
+    name: i18n.t('cmp:public read'),
     value: 'public-read',
   },
   {
-    name: i18n.t('dataCenter:public read and write'),
+    name: i18n.t('cmp:public read and write'),
     value: 'public-read-write',
   },
 ];
@@ -81,7 +81,7 @@ export default () => {
       },
       {
         name: 'acl',
-        label: i18n.t('dataCenter:read and write permissions'),
+        label: i18n.t('cmp:read and write permissions'),
         type: 'select',
         options: ACL_CONST,
       },
@@ -137,7 +137,7 @@ export default () => {
         type: Input,
         name: 'name',
         customProps: {
-          placeholder: i18n.t('dataCenter:please enter bucket name'),
+          placeholder: i18n.t('cmp:please enter bucket name'),
           allowClear: true,
         },
       },
@@ -145,7 +145,7 @@ export default () => {
         type: Select,
         name: 'vendor',
         customProps: {
-          placeholder: i18n.t('dataCenter:please choose vendor'),
+          placeholder: i18n.t('cmp:please choose vendor'),
           options: [
             <Option key="aliyun" value="aliyun">
               {i18n.t('Alibaba Cloud')}

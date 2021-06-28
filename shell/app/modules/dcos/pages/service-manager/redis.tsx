@@ -14,8 +14,8 @@
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import { useLoading } from 'app/common/stores/loading';
-import networksStore from 'dataCenter/stores/networks';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import networksStore from 'cmp/stores/networks';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 import { map, get, find } from 'lodash';
 import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
@@ -23,7 +23,7 @@ import { RedisFieldConfig } from 'project/pages/third-service/components/config'
 import cloudServiceStore from '../../stores/cloud-service';
 import { WrappedFormUtils } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
-import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
+import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
 import { goTo, isPromise } from 'common/utils';
 import {
   getCloudResourceIDNameCol,
@@ -31,10 +31,10 @@ import {
   getCloudResourceStatusCol,
   getCloudResourceTagsCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
-import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
+} from 'cmp/common/components/table-col';
+import { ClusterLog } from 'cmp/pages/cluster-manage/cluster-log';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
+import { skipInfoStatusMap } from 'cmp/pages/cloud-source/config';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const specList = [...RedisFieldConfig.spec.standard, ...RedisFieldConfig.spec.cluster];
@@ -78,7 +78,7 @@ const Redis = () => {
         } else {
           notification.warning({
             message: i18n.t('warning'),
-            description: i18n.t('dataCenter:Instance is not ready'),
+            description: i18n.t('cmp:Instance is not ready'),
           });
         }
       }),

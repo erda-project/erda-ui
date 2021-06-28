@@ -16,22 +16,22 @@ import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'app/nusi'
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';
-import cloudECSStore from 'app/modules/dataCenter/stores/computing';
-import clusterStore from 'dataCenter/stores/cluster';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
+import cloudECSStore from 'app/modules/cmp/stores/computing';
+import clusterStore from 'cmp/stores/cluster';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import { CRUDStoreTable, TagsColumn, useUpdate } from 'common';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 import { RUNNING_STATUS_LIST, STOP_STATUS_LIST } from '../../cloud-source/config';
-import { chargeTypeMap } from 'dataCenter/pages/cluster-manage/config';
+import { chargeTypeMap } from 'cmp/pages/cluster-manage/config';
 import { customTagColor } from 'dcos/common/config';
 import { Help as IconHelp, DownOne as IconDownOne } from '@icon-park/react';
 import {
   getCloudResourceStatusCol,
   getCloudResourceChargeTypeCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
+} from 'cmp/common/components/table-col';
 
 const { Option } = Select;
 
@@ -46,7 +46,7 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   return (
     <div>
       <IconHelp className="mr4 bg-color-icon yellow" />
-      <span>{i18n.t('dataCenter:your chosen')}</span>
+      <span>{i18n.t('cmp:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
@@ -54,7 +54,7 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
         </a>
       </Dropdown>
       <span>
-        {i18n.t('dataCenter:will execute {operation} operation', { operation })}，
+        {i18n.t('cmp:will execute {operation} operation', { operation })}，
         {i18n.t('is it confirmed {action}?', { action: i18n.t('execute') })}
       </span>
     </div>
@@ -140,7 +140,7 @@ export default () => {
         render: (value: string) => (value === 'aliyun' ? i18n.t('Alibaba Cloud') : value),
       },
       {
-        title: i18n.t('dataCenter:operating system'),
+        title: i18n.t('cmp:operating system'),
         dataIndex: 'osName',
         width: 140,
         render: (_v: string) => <Tooltip title={_v}>{_v}</Tooltip>,
@@ -207,7 +207,7 @@ export default () => {
         type: Input,
         name: 'innerIpAddress',
         customProps: {
-          placeholder: i18n.t('dataCenter:please enter IP'),
+          placeholder: i18n.t('cmp:please enter IP'),
           allowClear: true,
         },
       },
@@ -215,7 +215,7 @@ export default () => {
         type: Select,
         name: 'region',
         customProps: {
-          placeholder: i18n.t('dataCenter:please choose region'),
+          placeholder: i18n.t('cmp:please choose region'),
           options: map(regions, ({ regionID, localName }) => (
             <Option key={regionID} value={regionID}>{`${localName} (${regionID})`}</Option>
           )),
@@ -225,7 +225,7 @@ export default () => {
         type: Select,
         name: 'vendor',
         customProps: {
-          placeholder: i18n.t('dataCenter:please choose vendor'),
+          placeholder: i18n.t('cmp:please choose vendor'),
           options: [
             <Option key="aliyun" value="aliyun">
               {i18n.t('Alibaba Cloud')}
@@ -252,28 +252,28 @@ export default () => {
 
   const operationButtons = [
     {
-      name: i18n.t('dataCenter:start up'),
+      name: i18n.t('cmp:start up'),
       cb: () => {
         updater.activeOp('start');
       },
       ifDisabled: !ifSelectedAllStop,
     },
     {
-      name: i18n.t('dataCenter:stop'),
+      name: i18n.t('cmp:stop'),
       cb: () => {
         updater.activeOp('stop');
       },
       ifDisabled: !ifSelectedAllRunning,
     },
     {
-      name: i18n.t('dataCenter:reboot'),
+      name: i18n.t('cmp:reboot'),
       cb: () => {
         updater.activeOp('reboot');
       },
       ifDisabled: !ifSelectedAllRunning,
     },
     {
-      name: i18n.t('dataCenter:configure automatic renewal'),
+      name: i18n.t('cmp:configure automatic renewal'),
       cb: () => {
         updater.activeOp('renewal');
       },
@@ -288,7 +288,7 @@ export default () => {
 
   const ecsOpStrategies = {
     reboot: {
-      operation: i18n.t('{specific} instance', { specific: i18n.t('dataCenter:reboot') }),
+      operation: i18n.t('{specific} instance', { specific: i18n.t('cmp:reboot') }),
       handle: (formData: COMPUTING.ECSActionReq) => {
         restartCloudECS(formData).then(() => {
           resetTable();
@@ -300,12 +300,12 @@ export default () => {
       },
       fieldList: [
         {
-          getComp: () => opHint(i18n.t('dataCenter:reboot'), selectedList),
+          getComp: () => opHint(i18n.t('cmp:reboot'), selectedList),
         },
       ],
     },
     start: {
-      operation: i18n.t('{specific} instance', { specific: i18n.t('dataCenter:start up') }),
+      operation: i18n.t('{specific} instance', { specific: i18n.t('cmp:start up') }),
       handle: (formData: COMPUTING.ECSActionReq) => {
         startCloudECS(formData).then(() => {
           resetTable();
@@ -317,12 +317,12 @@ export default () => {
       },
       fieldList: [
         {
-          getComp: () => opHint(i18n.t('dataCenter:start up'), selectedList),
+          getComp: () => opHint(i18n.t('cmp:start up'), selectedList),
         },
       ],
     },
     stop: {
-      operation: i18n.t('{specific} instance', { specific: i18n.t('dataCenter:stop') }),
+      operation: i18n.t('{specific} instance', { specific: i18n.t('cmp:stop') }),
       handle: (formData: COMPUTING.ECSActionReq) => {
         stopCloudECS(formData).then(() => {
           resetTable();
@@ -334,15 +334,15 @@ export default () => {
       },
       fieldList: [
         {
-          getComp: () => opHint(i18n.t('dataCenter:stop'), selectedList),
+          getComp: () => opHint(i18n.t('cmp:stop'), selectedList),
         },
       ],
       content: (
         <Alert
           message={
             <>
-              <p>{i18n.t('dataCenter:instance-stopped-expiration-not-changed')}</p>
-              <p>{i18n.t('dataCenter:instance-stopped-still-charged')}</p>
+              <p>{i18n.t('cmp:instance-stopped-expiration-not-changed')}</p>
+              <p>{i18n.t('cmp:instance-stopped-still-charged')}</p>
             </>
           }
           type="warning"
@@ -350,7 +350,7 @@ export default () => {
       ),
     },
     renewal: {
-      operation: i18n.t('dataCenter:configure automatic renewal'),
+      operation: i18n.t('cmp:configure automatic renewal'),
       handle: (formData: COMPUTING.ECSActionReq) => {
         renewalCloudECS(formData).then(() => {
           resetTable();
@@ -366,19 +366,15 @@ export default () => {
             <Alert
               message={
                 <>
-                  <div className="text-left second-title">{i18n.t('dataCenter:tips')}</div>
+                  <div className="text-left second-title">{i18n.t('cmp:tips')}</div>
                   <ul className="text-left bold-400 fz14 pl12">
+                    <li>● {i18n.t('cmp:After successful setting, the system will automatically renew as set.')}</li>
+                    <li>● {i18n.t('cmp:keep-money-enough')}</li>
+                    <li>● {i18n.t('cmp:artificial-renewal-change-time')}</li>
                     <li>
-                      ● {i18n.t('dataCenter:After successful setting, the system will automatically renew as set.')}
-                    </li>
-                    <li>● {i18n.t('dataCenter:keep-money-enough')}</li>
-                    <li>● {i18n.t('dataCenter:artificial-renewal-change-time')}</li>
-                    <li>
-                      ● {i18n.t('dataCenter:support cash and vouchers deduction')}
-                      {i18n.t(
-                        'dataCenter:if you set up automatic renewal today, the automatic deduction will start tomorrow',
-                      )}
-                      {i18n.t('dataCenter:if your instance will expire tomorrow, please choose manual renewal')}
+                      ● {i18n.t('cmp:support cash and vouchers deduction')}
+                      {i18n.t('cmp:if you set up automatic renewal today, the automatic deduction will start tomorrow')}
+                      {i18n.t('cmp:if your instance will expire tomorrow, please choose manual renewal')}
                     </li>
                   </ul>
                 </>
@@ -401,12 +397,12 @@ export default () => {
         },
         ...insertWhen(showRenewalTime, [
           {
-            label: i18n.t('dataCenter:{action} renewal time', { action: '' }),
+            label: i18n.t('cmp:{action} renewal time', { action: '' }),
             name: 'duration',
             type: 'select',
             required: showRenewalTime,
             itemProps: {
-              placeholder: i18n.t('dataCenter:{action} renewal time', { action: i18n.t('please select') }),
+              placeholder: i18n.t('cmp:{action} renewal time', { action: i18n.t('please select') }),
             },
             options: [1, 2, 3, 6, 12, 24, 36, 48, 60].map((_v: number) => {
               const time = _v;

@@ -23,25 +23,19 @@ export const cloudVendor = {
 export const formConfig = {
   options: {
     CIDRType: [
-      { value: 'default', name: i18n.t('dataCenter:default CIDR Block') },
-      { value: 'custom', name: i18n.t('dataCenter:custom CIDR Block') },
+      { value: 'default', name: i18n.t('cmp:default CIDR Block') },
+      { value: 'custom', name: i18n.t('cmp:custom CIDR Block') },
     ],
     defaultCIDR: ['192.168.0.0/16', '172.16.0.0/12', '10.0.0.0/8'],
   },
   extra: {
     CIDR: {
       default: (
-        <Alert
-          message={i18n.t('dataCenter:the CIDR block cannot be modified after it is set')}
-          type="warning"
-          showIcon
-        />
+        <Alert message={i18n.t('cmp:the CIDR block cannot be modified after it is set')} type="warning" showIcon />
       ),
       custom: (
         <Alert
-          message={`${i18n.t('dataCenter:the CIDR block cannot be modified after it is set')}${i18n.t(
-            'dataCenter:CIDR-tips',
-          )}`}
+          message={`${i18n.t('cmp:the CIDR block cannot be modified after it is set')}${i18n.t('cmp:CIDR-tips')}`}
           type="warning"
           showIcon
         />
@@ -52,12 +46,12 @@ export const formConfig = {
     name: {
       pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,127}$/,
       message: i18n.t(
-        'dataCenter:2-128 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.',
+        'cmp:2-128 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.',
       ),
     },
     description: {
       pattern: /^(?!http([s]?):\/\/).{2,256}/,
-      message: i18n.t('dataCenter:2-256 characters, cannot start with http'),
+      message: i18n.t('cmp:2-256 characters, cannot start with http'),
     },
   },
   label: {
@@ -67,7 +61,7 @@ export const formConfig = {
         &nbsp;&nbsp;
         <Tooltip
           title={i18n.t(
-            'dataCenter:Availability zone refers to a physical area where power and network are independent. In the same private network, the intranet is connected and fault isolation can be realized among availability zones.',
+            'cmp:Availability zone refers to a physical area where power and network are independent. In the same private network, the intranet is connected and fault isolation can be realized among availability zones.',
           )}
         >
           <CustomIcon type="help" />

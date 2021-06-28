@@ -17,7 +17,7 @@ import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import i18n from 'i18n';
 import * as React from 'react';
-import machineStore from 'app/modules/dataCenter/stores/machine';
+import machineStore from 'app/modules/cmp/stores/machine';
 import { uniq } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 

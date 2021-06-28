@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { values, map, merge, filter, isEmpty } from 'lodash';
-import { getChartData } from 'dataCenter/services/custom-dashboard';
+import { getChartData } from 'cmp/services/custom-dashboard';
 
 export const createLoadDataFn = (api: any, chartType: string) => async (payload?: any) => {
   let extraQuery = payload;

@@ -15,8 +15,8 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { Spin, Button, Col, Row, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
-import ScaleModal from 'dataCenter/pages/middleware-dashboard/scale-modal';
-import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
+import ScaleModal from 'cmp/pages/middleware-dashboard/scale-modal';
+import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { useLoading } from 'app/common/stores/loading';
 
 interface IProps {
@@ -40,7 +40,7 @@ const ScaleInfo = ({ data }: IProps) => {
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
-      title: i18n.t('dataCenter:number of nodes'),
+      title: i18n.t('cmp:number of nodes'),
       dataIndex: 'nodes',
     },
     {
@@ -59,7 +59,7 @@ const ScaleInfo = ({ data }: IProps) => {
     <Spin spinning={isLoading}>
       <div className="scale-info mb32">
         <div className="flex-box">
-          <span className="title bold-500">{i18n.t('dataCenter:resource information')}</span>
+          <span className="title bold-500">{i18n.t('cmp:resource information')}</span>
           <Button
             onClick={() => {
               setVisible(true);

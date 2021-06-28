@@ -25,111 +25,111 @@ import {
 } from '@icon-park/react';
 import React from 'react';
 
-export const getDataCenterMenu = () => {
+export const getCmpMenu = () => {
   return filterMenu(
     [
       {
-        key: 'dataCenterOverview',
-        href: goTo.resolve.dataCenterRoot(),
+        key: 'cmpOverview',
+        href: goTo.resolve.cmpRoot(),
         icon: <IconDataDisplay />,
         text: i18n.t('cluster overview'),
       },
       {
-        key: 'dataCenterResources',
-        href: goTo.resolve.dataCenterClusters(), // '/dataCenter/clusters',
+        key: 'cmpResources',
+        href: goTo.resolve.cmpClusters(), // '/cmp/clusters',
         icon: <IconDataAll />,
         text: i18n.t('resource management'),
         subMenu: [
           {
-            key: 'dataCenterCluster',
-            href: goTo.resolve.dataCenterClusters(), // '/dataCenter/clusters',
+            key: 'cmpCluster',
+            href: goTo.resolve.cmpClusters(), // '/cmp/clusters',
             text: i18n.t('clusters'),
           },
           {
-            key: 'dataCenterCloudSource',
-            href: goTo.resolve.cloudSource(), // '/dataCenter/cloudSource',
+            key: 'cmpCloudSource',
+            href: goTo.resolve.cloudSource(), // '/cmp/cloudSource',
             text: i18n.t('cloud source'),
           },
           {
-            key: 'dataCenterResources',
-            href: goTo.resolve.dataCenterDomain(), // '/dataCenter/domain',
+            key: 'cmpResources',
+            href: goTo.resolve.cmpDomain(), // '/cmp/domain',
             text: i18n.t('runtime:manage domain'),
           },
         ],
       },
       {
-        key: 'dataCenterServices',
-        href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
+        key: 'cmpServices',
+        href: goTo.resolve.cmpServices(), // '/cmp/services',
         icon: <IconListTwo />,
         text: i18n.t('services&tasks'),
         subMenu: [
           {
-            href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
+            href: goTo.resolve.cmpServices(), // '/cmp/services',
             text: i18n.t('services'),
           },
           {
-            href: goTo.resolve.dataCenterAddon(), // '/dataCenter/addon',
+            href: goTo.resolve.cmpAddon(), // '/cmp/addon',
             text: i18n.t('addon service'),
           },
           {
-            href: goTo.resolve.dataCenterJobs(), // '/dataCenter/jobs',
+            href: goTo.resolve.cmpJobs(), // '/cmp/jobs',
             text: i18n.t('job catalogue'),
           },
         ],
       },
       {
-        key: 'dataCenterDashboard',
-        href: goTo.resolve.orgCustomDashboard(), // '/dataCenter/customDashboard',
+        key: 'cmpDashboard',
+        href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
         icon: <IconDashboardCar />,
         text: i18n.t('org:O & M dashboard'),
       },
       {
-        key: 'dataCenterReport',
-        href: goTo.resolve.dataCenterReport(), // '/dataCenter/report',
+        key: 'cmpReport',
+        href: goTo.resolve.cmpReport(), // '/cmp/report',
         icon: <IconDataFile />,
         text: i18n.t('O & M report'),
       },
       {
-        key: 'dataCenterAlarm',
-        href: goTo.resolve.dataCenterAlarm(), // '/dataCenter/alarm',
+        key: 'cmpAlarm',
+        href: goTo.resolve.cmpAlarm(), // '/cmp/alarm',
         icon: <IconDatabaseAlert />,
         text: i18n.t('O & M alarm'),
         subMenu: [
           {
             text: i18n.t('alarm statistics'),
-            href: goTo.resolve.dataCenterAlarmStatistics(), // '/dataCenter/alarm/statistics',
+            href: goTo.resolve.cmpAlarmStatistics(), // '/cmp/alarm/statistics',
           },
           {
             text: i18n.t('alarm record'),
-            href: goTo.resolve.dataCenterAlarmRecord(), // '/dataCenter/alarm/record',
+            href: goTo.resolve.cmpAlarmRecord(), // '/cmp/alarm/record',
           },
           {
             text: i18n.t('alarm strategy'),
-            href: goTo.resolve.dataCenterAlarmStrategy(), // '/dataCenter/alarm/strategy',
+            href: goTo.resolve.cmpAlarmStrategy(), // '/cmp/alarm/strategy',
           },
           {
             text: i18n.t('custom alarm'),
-            href: goTo.resolve.dataCenterAlarmCustom(), // '/dataCenter/alarm/custom',
+            href: goTo.resolve.cmpAlarmCustom(), // '/cmp/alarm/custom',
           },
         ],
       },
       {
-        key: 'dataCenterLog',
-        href: goTo.resolve.dataCenterLog(), // '/dataCenter/log',
+        key: 'cmpLog',
+        href: goTo.resolve.cmpLog(), // '/cmp/log',
         icon: <IconLog />,
         text: i18n.t('log analysis'),
         subMenu: [
           {
             text: i18n.t('log query'),
-            href: goTo.resolve.dataCenterLogQuery(), // '/dataCenter/log/query',
+            href: goTo.resolve.cmpLogQuery(), // '/cmp/log/query',
           },
           {
             text: i18n.t('analysis rule'),
-            href: goTo.resolve.dataCenterLogRule(), // '/dataCenter/log/rule',
+            href: goTo.resolve.cmpLogRule(), // '/cmp/log/rule',
           },
         ],
       },
     ],
-    MENU_SCOPE.dataCenter,
+    MENU_SCOPE.cmp,
   );
 };

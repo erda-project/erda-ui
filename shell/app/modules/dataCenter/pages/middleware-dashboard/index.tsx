@@ -216,7 +216,7 @@ const MiddlewareDashboard = () => {
                 <Search
                   allowClear
                   className="filter-item-content"
-                  placeholder={i18n.t('dataCenter:search by container IP')}
+                  placeholder={i18n.t('cmp:search by container IP')}
                   onChange={(e) => handleSearchIp(e.target.value)}
                 />
               </Col>

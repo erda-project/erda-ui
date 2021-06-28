@@ -12,6 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/dataCenter/common/alarm-record/detail';
+import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/cmp/common/alarm-record/detail';
 
 export default () => <AlarmRecordDetail scope={AlarmRecordScope.ORG} />;

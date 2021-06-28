@@ -13,10 +13,10 @@
 
 import * as React from 'react';
 import { Modal } from 'app/nusi';
-import cloudAccountStore from 'app/modules/dataCenter/stores/cloud-account';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import cloudAccountStore from 'app/modules/cmp/stores/cloud-account';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import { CRUDStoreTable } from 'common';
-import { getAccountsFieldsList } from 'dataCenter/common/cloud-common';
+import { getAccountsFieldsList } from 'cmp/common/cloud-common';
 import i18n from 'i18n';
 
 const { confirm } = Modal;
@@ -26,8 +26,8 @@ export default () => {
 
   const showDeleteConfirm = (record: CLOUD_ACCOUNTS.Account) => {
     confirm({
-      title: i18n.t('dataCenter:confirm deletion of cloud account?'),
-      content: i18n.t('dataCenter:cloud account cannot be restored after deletion, confirm execution?'),
+      title: i18n.t('cmp:confirm deletion of cloud account?'),
+      content: i18n.t('cmp:cloud account cannot be restored after deletion, confirm execution?'),
       onOk() {
         const { vendor, accessKeyID } = record;
         deleteItem({ vendor, accessKeyID }).then(() => {

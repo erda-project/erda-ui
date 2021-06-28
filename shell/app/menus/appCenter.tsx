@@ -61,10 +61,10 @@ export const appList: () => LAYOUT.IApp[] = () =>
         href: goTo.resolve.fdpIndex(),
       },
       {
-        key: 'dataCenter',
+        key: 'cmp',
         name: i18n.t('cloud management'),
         breadcrumbName: i18n.t('cloud management'),
-        href: goTo.resolve.dataCenterRoot(),
+        href: goTo.resolve.cmpRoot(),
       },
       {
         key: 'edge',

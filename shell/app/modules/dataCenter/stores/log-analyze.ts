@@ -55,17 +55,11 @@ const initState: IState = {
 const getScope = (useTk?: boolean) => {
   const [routeMarks, params] = routeInfoStore.getState((s) => [s.routeMarks, s.params]);
   const orgName = orgStore.getState((s) => s.currentOrg.name);
-  const inDataCenter = routeMarks.includes('dataCenter');
+  const inCmp = routeMarks.includes('cmp');
   const inMsp = routeMarks.includes('msp');
   const msMenuMap = mspStore.getState((s) => s.msMenuMap);
-  const scope = inDataCenter ? 'org' : inMsp ? 'micro-service' : '';
-  const scopeID = inDataCenter
-    ? orgName
-    : inMsp
-    ? useTk
-      ? msMenuMap.AnalyzeRule?.params.terminusKey
-      : params.addonId
-    : '';
+  const scope = inCmp ? 'org' : inMsp ? 'micro-service' : '';
+  const scopeID = inCmp ? orgName : inMsp ? (useTk ? msMenuMap.AnalyzeRule?.params.terminusKey : params.addonId) : '';
   return { scope, scopeID };
 };
 

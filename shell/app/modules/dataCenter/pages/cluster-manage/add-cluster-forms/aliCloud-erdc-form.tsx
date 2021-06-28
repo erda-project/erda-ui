@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Modal, Radio } from 'app/nusi';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
 import { Form } from 'dop/pages/form-editor/index';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';
 import { insertWhen, regRules } from 'common/utils';
@@ -111,7 +111,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const springboardFields = [
     {
-      label: i18n.t('dataCenter:machine IP'),
+      label: i18n.t('cmp:machine IP'),
       component: 'input',
       key: 'installerIp',
       required: true,
@@ -146,7 +146,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const storageFields = [
     {
-      label: i18n.t('dataCenter:shared storage'),
+      label: i18n.t('cmp:shared storage'),
       component: 'select',
       key: 'storage',
       required: true,
@@ -172,7 +172,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
     },
     ...insertWhen(storage === 'nas', [
       {
-        label: i18n.t('dataCenter:NAS address'),
+        label: i18n.t('cmp:NAS address'),
         component: 'input',
         key: 'nasDomain',
         required: true,
@@ -180,12 +180,12 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
     ]),
     ...insertWhen(storage !== 'nas', [
       {
-        label: i18n.t('dataCenter:Glusterfs server IP address list'),
+        label: i18n.t('cmp:Glusterfs server IP address list'),
         component: 'input',
         key: 'glusterfsIps',
         required: true,
         componentProps: {
-          placeholder: i18n.t('dataCenter:3 or 1 is recommended, and separate them by comma'),
+          placeholder: i18n.t('cmp:3 or 1 is recommended, and separate them by comma'),
         },
       },
     ]),
@@ -232,11 +232,11 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const serverFields = [
     {
-      label: i18n.t('dataCenter:domain name server address list'),
+      label: i18n.t('cmp:domain name server address list'),
       component: 'input',
       key: 'nameservers',
       componentProps: {
-        placeholder: i18n.t('dataCenter:separate by comma'),
+        placeholder: i18n.t('cmp:separate by comma'),
       },
       required: true,
       rules: [
@@ -250,12 +250,12 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const machineFields = [
     {
-      label: i18n.t('dataCenter:machine IP list'),
+      label: i18n.t('cmp:machine IP list'),
       component: 'input',
       key: 'hostIps',
       required: true,
       componentProps: {
-        placeholder: i18n.t('dataCenter:separate by comma'),
+        placeholder: i18n.t('cmp:separate by comma'),
       },
       rules: [
         {
@@ -269,7 +269,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       component: 'input',
       key: 'device',
       componentProps: {
-        placeholder: i18n.t('dataCenter:such as vdb, which does not support multiple data disks, can be empty.'),
+        placeholder: i18n.t('cmp:such as vdb, which does not support multiple data disks, can be empty.'),
       },
     },
   ];
@@ -316,7 +316,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
   return (
     <>
       <Modal
-        title={i18n.t('dataCenter:add existing resources to build a cluster')}
+        title={i18n.t('cmp:add existing resources to build a cluster')}
         visible={visible}
         onCancel={onClose}
         onOk={onOk}
@@ -336,17 +336,17 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
             const mFields = filter(totalFields, { category: 'machine' });
             return (
               <>
-                <div className="bold mb4">{i18n.t('dataCenter:cluster configuration')}</div>
+                <div className="bold mb4">{i18n.t('cmp:cluster configuration')}</div>
                 <RenderFields form={form} fields={bFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:jump server configuration')}</div>
+                <div className="bold mb4">{i18n.t('cmp:jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:shared storage')}</div>
+                <div className="bold mb4">{i18n.t('cmp:shared storage')}</div>
                 <RenderFields form={form} fields={stFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:network configuration')}</div>
+                <div className="bold mb4">{i18n.t('cmp:network configuration')}</div>
                 <RenderFields form={form} fields={dFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:domain name server')}</div>
+                <div className="bold mb4">{i18n.t('cmp:domain name server')}</div>
                 <RenderFields form={form} fields={seFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:machine information configuration')}</div>
+                <div className="bold mb4">{i18n.t('cmp:machine information configuration')}</div>
                 <RenderFields form={form} fields={mFields} />
               </>
             );

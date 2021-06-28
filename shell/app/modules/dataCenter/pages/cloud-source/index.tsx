@@ -15,14 +15,14 @@ import React from 'react';
 import { Spin, Card } from 'app/nusi';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
-import cloudSourceStore from 'dataCenter/stores/cloud-source';
+import cloudSourceStore from 'cmp/stores/cloud-source';
 import { useEffectOnce } from 'react-use';
 import { get, map, values, isEmpty, merge } from 'lodash';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import { colorMap } from '@erda-ui/dashboard-configurator';
-import cloudAccountStore from 'dataCenter/stores/cloud-account';
-import Guidance from 'dataCenter/pages/account-guidance';
+import cloudAccountStore from 'cmp/stores/cloud-account';
+import Guidance from 'cmp/pages/account-guidance';
 import ts_svg from 'app/images/ts.svg';
 import { useLoading } from 'app/common/stores/loading';
 
@@ -188,7 +188,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:ECS status distribution'),
+          title: i18n.t('cmp:ECS status distribution'),
           chartType: 'chart:pie',
           hideReload: true,
           staticData: statusData.total ? statusData : [],
@@ -215,7 +215,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:ESC billing method'),
+          title: i18n.t('cmp:ESC billing method'),
           chartType: 'chart:pie',
           hideReload: true,
           staticData: chargeData.total ? chargeData : [],
@@ -242,7 +242,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:VPC Label'),
+          title: i18n.t('cmp:VPC Label'),
           chartType: 'chart:pie',
           hideReload: true,
           staticData: labelData.total ? labelData : [],
@@ -265,7 +265,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:resource expire soon'),
+          title: i18n.t('cmp:resource expire soon'),
           hideReload: true,
           chartType: 'chart:bar',
           customRender: !expireData.total
@@ -274,7 +274,7 @@ const CloudSource = () => {
                   <div className="no-expire-tip">
                     <img src={ts_svg} alt="no-will-expire-resource" />
                     <div className="color-text-sub">
-                      {i18n.t('dataCenter:No service expire within {num} days.', {
+                      {i18n.t('cmp:No service expire within {num} days.', {
                         num: expireData.expireDays,
                       })}
                     </div>
@@ -316,7 +316,7 @@ const CloudSource = () => {
               ],
               yAxis: [
                 {
-                  name: i18n.t('dataCenter:number'),
+                  name: i18n.t('cmp:number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,
@@ -338,7 +338,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:OSS Overview'),
+          title: i18n.t('cmp:OSS Overview'),
           hideReload: true,
           customRender: () => {
             const bucket = get(overviewData, 'STORAGE.resourceTypeData.OSS_BUCKET') || {};
@@ -351,7 +351,7 @@ const CloudSource = () => {
                   }}
                 >
                   <div className="count">{bucket.totalCount || 0}</div>
-                  <div className="name">{i18n.t('dataCenter:number of Bucket')}</div>
+                  <div className="name">{i18n.t('cmp:number of Bucket')}</div>
                 </div>
                 {
                   // ref issue: 59066
@@ -361,7 +361,7 @@ const CloudSource = () => {
                     {getFormatter('STORAGE', 'B').format(bucket.storageUsage || 0)}
                   </div>
                   <div className="name">
-                    {i18n.t('dataCenter:total storage capacity')}
+                    {i18n.t('cmp:total storage capacity')}
                   </div>
                 </div> */}
               </div>
@@ -378,7 +378,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:Cloud Account'),
+          title: i18n.t('cmp:Cloud Account'),
           hideReload: true,
           customRender: () => {
             return (
@@ -390,7 +390,7 @@ const CloudSource = () => {
                   }}
                 >
                   <div className="count">{accountsCount || 0}</div>
-                  <div className="name">{i18n.t('dataCenter:number of account')}</div>
+                  <div className="name">{i18n.t('cmp:number of account')}</div>
                 </div>
               </div>
             );
@@ -406,7 +406,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:cloud resource overview'),
+          title: i18n.t('cmp:cloud resource overview'),
           chartType: 'chart:bar',
           hideReload: true,
           staticData: parseStatusData(),
@@ -443,7 +443,7 @@ const CloudSource = () => {
               ],
               yAxis: [
                 {
-                  name: i18n.t('dataCenter:number'),
+                  name: i18n.t('cmp:number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,
@@ -465,7 +465,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:ecs add trending'),
+          title: i18n.t('cmp:ecs add trending'),
           chartType: 'chart:area',
           hideReload: true,
           staticData: getECSTrendingData(ecsTrendingData),
@@ -478,7 +478,7 @@ const CloudSource = () => {
             option: {
               yAxis: [
                 {
-                  name: i18n.t('dataCenter:number'),
+                  name: i18n.t('cmp:number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,

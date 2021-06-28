@@ -15,7 +15,7 @@ import * as React from 'react';
 import { throttle } from 'lodash';
 import { connectCube } from 'common';
 import './deploy-cluster-log.scss';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { useLoading } from 'app/common/stores/loading';
 import { Loading as IconLoading } from '@icon-park/react';
 

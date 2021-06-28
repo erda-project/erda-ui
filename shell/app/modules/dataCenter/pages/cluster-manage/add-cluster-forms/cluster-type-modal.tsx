@@ -22,25 +22,21 @@ export const clusterTypeMap = [
   [
     {
       type: 'alicloud-cs-managed',
-      name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (Hosted Version)'),
+      name: i18n.t('cmp:alibaba Cloud Container Service Cluster (Hosted Version)'),
       icon: clusterImgMap['alicloud-cs-managed'],
-      description: i18n.t(
-        'dataCenter:based on Alibaba Cloud Container Service (managed), create an Erda managed cluster',
-      ),
+      description: i18n.t('cmp:based on Alibaba Cloud Container Service (managed), create an Erda managed cluster'),
     },
     {
       type: 'alicloud-cs',
-      name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (proprietary version)'),
+      name: i18n.t('cmp:alibaba Cloud Container Service Cluster (proprietary version)'),
       icon: clusterImgMap['alicloud-cs'],
-      description: i18n.t(
-        'dataCenter:based on Alibaba Cloud Container Service (Dedicated), create an Erda managed cluster',
-      ),
+      description: i18n.t('cmp:based on Alibaba Cloud Container Service (Dedicated), create an Erda managed cluster'),
     },
     {
       type: 'erdc', // existing-resource-deploy-cluster
-      name: i18n.t('dataCenter:self-built cluster'),
+      name: i18n.t('cmp:self-built cluster'),
       icon: clusterImgMap.erdc,
-      description: i18n.t('dataCenter:based on existing resources, build an Erda managed cluster'),
+      description: i18n.t('cmp:based on existing resources, build an Erda managed cluster'),
     },
   ],
   [

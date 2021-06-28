@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { CustomDashboardScope } from 'app/modules/dataCenter/stores/_common-custom-dashboard';
-import CustomDashboard from 'app/modules/dataCenter/common/custom-dashboard/custom-dashboard';
+import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
+import CustomDashboard from 'app/modules/cmp/common/custom-dashboard/custom-dashboard';
 import orgStore from 'app/org-home/stores/org';
 
 export default () => {

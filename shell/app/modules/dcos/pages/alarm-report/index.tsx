@@ -21,7 +21,7 @@ import { ALARM_REPORT_CHART_MAP } from 'app/modules/dcos/common/config';
 import topChartList from './config/topChartList';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
-import alarmReportStore from 'dataCenter/stores/alarm-report';
+import alarmReportStore from 'cmp/stores/alarm-report';
 
 const AlarmReport = () => {
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);

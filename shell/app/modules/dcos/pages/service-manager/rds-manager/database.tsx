@@ -16,7 +16,7 @@ import { Table, Button, Select } from 'app/nusi';
 import { map } from 'lodash';
 import i18n from 'i18n';
 import cloudServiceStore from 'dcos/stores/cloud-service';
-import { getCloudResourceStatusCol, getRemarkCol } from 'dataCenter/common/components/table-col';
+import { getCloudResourceStatusCol, getRemarkCol } from 'cmp/common/components/table-col';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
 import { useUpdate, FormModal } from 'common';

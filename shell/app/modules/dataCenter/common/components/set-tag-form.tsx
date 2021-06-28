@@ -16,9 +16,9 @@ import i18n from 'i18n';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useUpdate, FormModal } from 'common';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { map } from 'lodash';
-import cloudCommonStore from 'dataCenter/stores/cloud-common';
+import cloudCommonStore from 'cmp/stores/cloud-common';
 import { getProjectList } from 'project/services/project';
 import orgStore from 'app/org-home/stores/org';
 

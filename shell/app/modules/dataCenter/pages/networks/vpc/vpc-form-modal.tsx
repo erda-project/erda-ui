@@ -15,14 +15,14 @@ import * as React from 'react';
 import { Modal, Button } from 'app/nusi';
 import { useUpdate, RenderForm } from 'common';
 import { get, map } from 'lodash';
-import networksStore from 'dataCenter/stores/networks';
+import networksStore from 'cmp/stores/networks';
 import { useEffectOnce } from 'react-use';
 import { VswCIDRField, VpcCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount, validateIsSubnet } from '../common/util';
 import { formConfig } from '../common/config';
 import { WrappedFormUtils } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 
 interface IProps {
@@ -47,7 +47,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
 
   const fieldsList = [
     {
-      getComp: () => <div>{i18n.t('dataCenter:VPC')}</div>,
+      getComp: () => <div>{i18n.t('cmp:VPC')}</div>,
     },
     {
       label: i18n.t('name'),
@@ -71,7 +71,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
       options: map(regions, ({ regionID, localName }) => ({ value: regionID, name: `${localName} (${regionID})` })),
     },
     {
-      label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
+      label: `IPv4 ${i18n.t('cmp:CIDR')}`,
       extraProps: {
         extra: formConfig.extra.CIDR[chosenCIDRType],
       },
@@ -126,7 +126,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
 
   const fieldsList = [
     {
-      getComp: () => <div>{i18n.t('dataCenter:VSwitches')}</div>,
+      getComp: () => <div>{i18n.t('cmp:VSwitches')}</div>,
     },
     {
       name: 'vswRegion',
@@ -157,7 +157,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
       options: map(zones, (zone) => ({ name: `${zone.localName}(${zone.zoneID})`, value: zone.zoneID })),
     },
     {
-      label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
+      label: `IPv4 ${i18n.t('cmp:CIDR')}`,
       getComp: ({ form }: { form: WrappedFormUtils }) => {
         return (
           <VswCIDRField
@@ -170,7 +170,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
       },
     },
     {
-      label: i18n.t('dataCenter:number of available IP'),
+      label: i18n.t('cmp:number of available IP'),
       getComp: () => `${subnetCount || 0}`,
     },
     {
@@ -275,7 +275,7 @@ const VpcFormModal = (props: IProps) => {
   const vpcFormRef = get(vpcRef, 'current.props.form');
   return (
     <Modal
-      title={i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}
+      title={i18n.t('add {name}', { name: i18n.t('cmp:VPC') })}
       visible={visible}
       maskClosable={false}
       destroyOnClose

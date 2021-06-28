@@ -15,8 +15,8 @@ import * as React from 'react';
 import { Modal, Radio, Tooltip } from 'app/nusi';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
 import { Form } from 'dop/pages/form-editor/index';
-import clusterStore from 'dataCenter/stores/cluster';
-import networkStore from 'dataCenter/stores/networks';
+import clusterStore from 'cmp/stores/cluster';
+import networkStore from 'cmp/stores/networks';
 import { getOptions, chargeTypeMap, clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';
 import i18n from 'i18n';
@@ -243,7 +243,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('dataCenter:VPC network segment addition method'),
+      label: i18n.t('cmp:VPC network segment addition method'),
       component: 'select',
       key: 'isNewVpc',
       required: true,
@@ -309,7 +309,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
     },
     vpcCIDRField,
     {
-      label: i18n.t('dataCenter:switch network segment addition method'),
+      label: i18n.t('cmp:switch network segment addition method'),
       component: 'select',
       key: 'isNewVsw',
       required: true,
@@ -450,8 +450,8 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       <Modal
         title={
           cloudVendor === 'alicloud-cs'
-            ? i18n.t('dataCenter:add Alibaba Cloud Container Service Cluster (Proprietary Version)')
-            : i18n.t('dataCenter:add Alibaba Cloud Container Service Cluster (Hosted Version)')
+            ? i18n.t('cmp:add Alibaba Cloud Container Service Cluster (Proprietary Version)')
+            : i18n.t('cmp:add Alibaba Cloud Container Service Cluster (Hosted Version)')
         }
         visible={visible}
         onCancel={onClose}

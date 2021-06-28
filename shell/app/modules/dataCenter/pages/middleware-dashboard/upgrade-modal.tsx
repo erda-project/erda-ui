@@ -16,7 +16,7 @@ import { KeyValueEditor } from 'common';
 import i18n from 'i18n';
 import { Modal, Row, Col, Form, Input } from 'app/nusi';
 import { WrappedFormUtils } from 'core/common/interface';
-import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
+import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import './modal.scss';
 
 interface IObj {

@@ -23,11 +23,11 @@ import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'common/stores/route';
 import EditIssueDrawer from 'project/common/components/issue/edit-issue-drawer';
-import { AlarmState } from 'dataCenter/common/alarm-state.tsx';
+import { AlarmState } from 'cmp/common/alarm-state.tsx';
 import SelectProjectModal from '../select-project-modal';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
-import orgAlarmRecordStore from 'dataCenter/stores/alarm-record';
+import orgAlarmRecordStore from 'cmp/stores/alarm-record';
 import mspAlarmRecordStore from 'msp/monitor/alarm-record/stores/alarm-record';
 
 import './detail.scss';

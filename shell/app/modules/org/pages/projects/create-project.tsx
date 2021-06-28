@@ -18,7 +18,7 @@ import { ImageUpload, RenderForm, CompactSelect } from 'common';
 import { WrappedFormUtils } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import { useEffectOnce } from 'react-use';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { goTo, insertWhen } from 'app/common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
@@ -131,7 +131,7 @@ export const useQuotaFields = (
         </div>
         <div>
           <span className="mr16">
-            {i18n.t('dataCenter:available resources')}：CPU：{leftCpu}
+            {i18n.t('cmp:available resources')}：CPU：{leftCpu}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{leftMem}GiB</span>

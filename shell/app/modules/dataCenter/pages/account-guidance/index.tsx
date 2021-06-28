@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import cloudAccountStore from 'app/modules/dataCenter/stores/cloud-account';
+import cloudAccountStore from 'app/modules/cmp/stores/cloud-account';
 import { guidanceImgMap } from './config';
 import { FormModal, useUpdate } from 'common';
 import { get, map, reduce } from 'lodash';
-import { getAccountsFieldsList } from 'dataCenter/common/cloud-common';
+import { getAccountsFieldsList } from 'cmp/common/cloud-common';
 import i18n from 'i18n';
 import './index.scss';
 
@@ -66,12 +66,12 @@ const cloudAccountArr = [
     name: i18n.t('alibaba cloud'),
     val: 'aliyun',
     icon: guidanceImgMap.alicloud,
-    description: i18n.t('dataCenter:after-adding-key'),
+    description: i18n.t('cmp:after-adding-key'),
     disabled: false,
   },
   {
     type: 'txcloud',
-    name: i18n.t('dataCenter:other cloud vendors'),
+    name: i18n.t('cmp:other cloud vendors'),
     icon: guidanceImgMap.txcloud,
     description: i18n.t('stay tuned'),
     disabled: true,
@@ -108,8 +108,8 @@ const AccountGuidance = (props: IProps) => {
   return (
     <>
       <div className="account-guidance">
-        <div className="guidance-title mb8">{i18n.t('dataCenter:select-cloud-account')}</div>
-        <p className="guidance-desc color-text-sub mb24">{i18n.t('dataCenter:after-config-can-do')}</p>
+        <div className="guidance-title mb8">{i18n.t('cmp:select-cloud-account')}</div>
+        <p className="guidance-desc color-text-sub mb24">{i18n.t('cmp:after-config-can-do')}</p>
         <div className="guidance-type-row mb16">
           {map(cloudAccountArr, (item) => (
             <TypeCard key={item.type} updater={updater} onChosen={() => updater.formVisible(true)} {...item} />

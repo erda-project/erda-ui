@@ -14,22 +14,22 @@
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import { Link } from 'react-router-dom';
-import networksStore from 'dataCenter/stores/networks';
+import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'app/common/stores/loading';
 import { Select, Button, Tooltip, Dropdown, Menu } from 'app/nusi';
 import { cloudVendor } from '../common/config';
 import VpcFormModal from './vpc-form-modal';
 import { map } from 'lodash';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
-import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
+import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
 import i18n from 'i18n';
 import {
   getCloudResourceTagsCol,
   getCloudResourceIDNameCol,
   getCloudResourceStatusCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
+} from 'cmp/common/components/table-col';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import { DownOne as IconDownOne } from '@icon-park/react';
 import './index.scss';
 
@@ -54,7 +54,7 @@ const VPS = () => {
     const columns = [
       getCloudResourceIDNameCol('vpcID', 'vpcName'),
       {
-        title: i18n.t('dataCenter:CIDR'),
+        title: i18n.t('cmp:CIDR'),
         dataIndex: 'cidrBlock',
         width: 150,
       },
@@ -62,7 +62,7 @@ const VPS = () => {
       getCloudResourceStatusCol('vpc'),
       getCloudResourceTagsCol(),
       {
-        title: i18n.t('dataCenter:number of VSW'),
+        title: i18n.t('cmp:number of VSW'),
         dataIndex: 'vswNum',
         width: 100,
         render: (v: number, record: NETWORKS.ICloudVpc) => {
@@ -190,12 +190,12 @@ const VPS = () => {
       <div className="top-button-group">
         {cloudAccountExist ? (
           <Button type="primary" onClick={() => updater.formVis(true)}>
-            {i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}
+            {i18n.t('add {name}', { name: i18n.t('cmp:VPC') })}
           </Button>
         ) : (
           <Tooltip placement="left" title={addAuthTooltipTitle}>
             <Button type="primary" disabled>
-              {i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}
+              {i18n.t('add {name}', { name: i18n.t('cmp:VPC') })}
             </Button>
           </Tooltip>
         )}

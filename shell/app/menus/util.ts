@@ -25,7 +25,7 @@ interface IMenuItem {
 export enum MENU_SCOPE {
   appCenter = 'appCenter',
   orgCenter = 'orgCenter',
-  dataCenter = 'dataCenter',
+  cmp = 'cmp',
   dop = 'dop',
 }
 const hiddenWhenOnlyFDP = (item: IMenuItem) => (ONLY_FDP ? null : item);
@@ -39,7 +39,7 @@ const menuFilterMap = {
     msp: hiddenWhenOnlyFDP,
     edge: hiddenWhenOnlyFDP,
     apiManage: hiddenWhenOnlyFDP,
-    dataCenter: (item: IMenuItem) => {
+    cmp: (item: IMenuItem) => {
       const name = ONLY_FDP ? i18n.t('Data Center') : i18n.t('cloud management');
       return { ...item, name, breadcrumbName: name };
     },
@@ -55,17 +55,17 @@ const menuFilterMap = {
       return !publisherId ? null : item;
     },
   },
-  dataCenter: {
+  cmp: {
     // 云管平台
-    dataCenterOverview: (item: IMenuItem) => {
+    cmpOverview: (item: IMenuItem) => {
       const text = ONLY_FDP ? i18n.t('resource data') : i18n.t('cluster overview');
       return { ...item, text };
     },
-    dataCenterResources: hiddenWhenOnlyFDP,
-    dataCenterServices: hiddenWhenOnlyFDP,
-    dataCenterDashboard: hiddenWhenOnlyFDP,
-    dataCenterReport: hiddenWhenOnlyFDP,
-    dataCenterLog: hiddenWhenOnlyFDP,
+    cmpResources: hiddenWhenOnlyFDP,
+    cmpServices: hiddenWhenOnlyFDP,
+    cmpDashboard: hiddenWhenOnlyFDP,
+    cmpReport: hiddenWhenOnlyFDP,
+    cmpLog: hiddenWhenOnlyFDP,
   },
   dop: {
     dopPublisher: (item: IMenuItem) => {

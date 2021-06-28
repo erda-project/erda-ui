@@ -21,7 +21,7 @@ import { CustomFilter, useFilter, PureBoardGrid, Panel } from 'common';
 import { getTimeRanges, goTo, setLS } from 'common/utils';
 import { useLoading } from 'common/stores/loading';
 import LogAnalyzeStore from '../../stores/log-analyze';
-import LogTagSelector from 'dataCenter/common/components/log-tag-selector';
+import LogTagSelector from 'cmp/common/components/log-tag-selector';
 import routeInfoStore from 'common/stores/route';
 import mspStore from 'msp/stores/micro-service';
 import { regLog } from 'common/components/log/log-util';
@@ -89,7 +89,7 @@ export default () => {
       getAddonLogs({ ...addonQuery, sort: ['timestamp desc', 'offset desc'] }).then(() => {
         setPageNo(1);
       });
-    } else if (isIn('dataCenter')) {
+    } else if (isIn('cmp')) {
       const addonQuery = {
         start,
         end,
@@ -141,7 +141,7 @@ export default () => {
     setLS('logRuleContent', content);
     const path = isIn('msp')
       ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
-      : isIn('dataCenter')
+      : isIn('cmp')
       ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
       : '';
     goTo(path);
@@ -221,7 +221,7 @@ export default () => {
               {num}
             </Select.Option>
           )),
-          placeholder: i18n.t('dataCenter:Please select the maximum number of queries'),
+          placeholder: i18n.t('cmp:Please select the maximum number of queries'),
         },
       },
     ],

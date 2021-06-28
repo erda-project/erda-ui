@@ -42,7 +42,7 @@ const AppCenterEl = () => {
   const iconMap = {
     dop: 'devops1',
     sysAdmin: 'guanli',
-    dataCenter: 'duoyun',
+    cmp: 'duoyun',
     msp: 'weifuwu1',
     orgCenter: 'guanli',
     diceFdp: 'kuaishuju',
@@ -52,7 +52,7 @@ const AppCenterEl = () => {
 
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
-    dataCenter: permMap.dataCenter.showApp.pass,
+    cmp: permMap.cmp.showApp.pass,
     dop: permMap.dop.read.pass,
     diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
     msp: permMap.entryMicroService.pass,

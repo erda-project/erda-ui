@@ -24,7 +24,7 @@ import { useLoading } from 'app/common/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
-import dataCenterAlarmStrategyStore from 'app/modules/dataCenter/stores/alarm-strategy';
+import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/monitor/monitor-alarm/stores/alarm-strategy';
 import {
   notifyChannelOptionsMap,
@@ -32,7 +32,7 @@ import {
   ListTargets,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm, WithAuth } from 'user/common';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
 import './index.scss';
 
@@ -54,7 +54,7 @@ const SILENCE_PERIOD_POLICY_MAP = {
 };
 
 const alarmStrategyStoreMap = {
-  [ScopeType.ORG]: dataCenterAlarmStrategyStore,
+  [ScopeType.ORG]: cmpAlarmStrategyStore,
   [ScopeType.PROJECT]: mspAlarmStrategyStore,
 };
 
@@ -64,7 +64,7 @@ const memberStoreMap = {
 };
 
 const notifyGroupPage = {
-  [ScopeType.ORG]: goTo.pages.dataCenterNotifyGroup,
+  [ScopeType.ORG]: goTo.pages.cmpNotifyGroup,
   [ScopeType.PROJECT]: goTo.pages.projectNotifyGroup,
 };
 
@@ -97,7 +97,7 @@ export default ({ scopeType, scopeId }: IProps) => {
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [modalVisible, openModal, closeModal] = useSwitch(false);
 
-  const orgAddNotificationGroupAuth = usePerm((s) => s.org.dataCenter.alarms.addNotificationGroup.pass);
+  const orgAddNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass);
 
   const { getSMSNotifyConfig } = clusterStore.effects;
   const enableMS = clusterStore.useStore((s) => s.enableMS);

@@ -16,7 +16,7 @@ import { Row, Col } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { daysRange } from 'common/utils';
 import AlarmChart from './alarm-chart';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { ClusterSelector } from '../../common/components/cluster-selector';
 import orgStore from 'app/org-home/stores/org';
 

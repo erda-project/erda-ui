@@ -18,7 +18,7 @@ import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
 import ReactDOM from 'react-dom';
 import { useEffectOnce } from 'react-use';
 import { isPromise } from 'common/utils';
-import LogAnalyzeStore from 'dataCenter/stores/log-analyze';
+import LogAnalyzeStore from 'cmp/stores/log-analyze';
 import { getJoinedProjects } from 'user/services/user';
 import { getApps } from 'common/services';
 import i18n from 'i18n';

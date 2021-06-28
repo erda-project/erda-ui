@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { Spin, Table, Input, Select } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
-import { getClusterList, getDomainList } from 'dataCenter/services/domain-manage';
+import { getClusterList, getDomainList } from 'cmp/services/domain-manage';
 import { getDefaultPaging, goTo } from 'app/common/utils';
 import { getProjectList } from 'project/services/project';
 import routeInfoStore from 'common/stores/route';

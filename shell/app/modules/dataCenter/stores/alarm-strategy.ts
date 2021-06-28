@@ -49,7 +49,7 @@ const initOrgState: IState = {
 };
 
 const alarmStrategy = createStore({
-  name: 'dataCenterAlarmStrategy',
+  name: 'cmpAlarmStrategy',
   state: initOrgState,
   effects: {
     async getAlerts({ call, update }, payload?: COMMON_STRATEGY_NOTIFY.IPageParam) {

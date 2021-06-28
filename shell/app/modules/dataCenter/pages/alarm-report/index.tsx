@@ -67,7 +67,7 @@ export default () => {
     editingTask: {},
   });
 
-  const addNotificationGroupAuth = usePerm((s) => s.org.dataCenter.alarms.addNotificationGroup.pass); // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
+  const addNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass); // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const { pageNo, pageSize, total } = reportTaskPaging;
 
@@ -130,7 +130,7 @@ export default () => {
                     <span
                       className="hover-active"
                       onClick={() => {
-                        goTo(goTo.pages.dataCenterNotifyGroup);
+                        goTo(goTo.pages.cmpNotifyGroup);
                       }}
                     >
                       {i18n.t('org:add more notification groups')}

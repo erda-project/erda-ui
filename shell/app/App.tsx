@@ -76,7 +76,7 @@ const start = (userData: ILoginUser) => {
       import('msp/entry'),
       import('app/modules/edge/entry'),
       import('application/entry'),
-      import('dataCenter/entry'),
+      import('cmp/entry'),
       import('user/entry'),
       import('dcos/entry'),
       import('addonPlatform/entry'),
@@ -118,7 +118,7 @@ if (pathname.startsWith('/r/')) {
   switch (to) {
     case 'alarm': // 告警跳到云管
     case 'report': // 运维报告跳到云管
-      newPath = ['', 'dataCenter', to, ...rest];
+      newPath = ['', 'cmp', to, ...rest];
       break;
 
     default:

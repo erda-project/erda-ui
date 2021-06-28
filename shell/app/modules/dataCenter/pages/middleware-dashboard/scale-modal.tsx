@@ -16,7 +16,7 @@ import { useUpdate, RenderPureForm } from 'common';
 import { Alert, Modal, Form } from 'app/nusi';
 import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-formItem';
-import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
+import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { isEqual, pick } from 'lodash';
 import { WrappedFormUtils } from 'core/common/interface';
 import './modal.scss';
@@ -42,10 +42,10 @@ const setDecimal = (num = 0) => {
 
 const validateCPU = (max: number, _rule: any, value: string, callback: cb) => {
   if (value && (isNaN(+value) || +value < minCPU)) {
-    callback(i18n.t('dataCenter:please enter a number greater than or equal to {min}', { min: minCPU }));
+    callback(i18n.t('cmp:please enter a number greater than or equal to {min}', { min: minCPU }));
   } else if (max < minCPU || +value > max) {
     // 可输入最大值小于设置的最小值或者输入的值大于可输入最大值均为资源不足
-    callback(i18n.t('dataCenter:lack of resources'));
+    callback(i18n.t('cmp:lack of resources'));
   } else {
     callback();
   }
@@ -53,7 +53,7 @@ const validateCPU = (max: number, _rule: any, value: string, callback: cb) => {
 
 const validateNodes = (_rule: any, value: string, callback: cb) => {
   if (value && (isNaN(+value) || +value % 2 === 0 || +value > 15 || +value <= 0)) {
-    callback(i18n.t('dataCenter:please enter an odd number no greater than {max}', { max: 15 }));
+    callback(i18n.t('cmp:please enter an odd number no greater than {max}', { max: 15 }));
   } else {
     callback();
   }
@@ -61,10 +61,10 @@ const validateNodes = (_rule: any, value: string, callback: cb) => {
 
 const validateMEM = (max: number, _rule: any, value: string, callback: cb) => {
   if (value && (isNaN(+value) || +value < minMEM)) {
-    callback(i18n.t('dataCenter:please enter a number greater than or equal to {min}', { min: minMEM }));
+    callback(i18n.t('cmp:please enter a number greater than or equal to {min}', { min: minMEM }));
   } else if (max < minMEM || +value > max) {
     // 可输入最大值小于设置的最小值或者输入的值大于可输入最大值均为资源不足
-    callback(i18n.t('dataCenter:lack of resources'));
+    callback(i18n.t('cmp:lack of resources'));
   } else {
     callback();
   }
@@ -147,12 +147,12 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       },
     },
     {
-      label: i18n.t('dataCenter:number of nodes'),
+      label: i18n.t('cmp:number of nodes'),
       required: true,
       name: 'nodes',
       initialValue: formData.nodes,
       itemProps: {
-        placeholder: i18n.t('dataCenter:please enter an odd number no greater than {max}', { max: 15 }),
+        placeholder: i18n.t('cmp:please enter an odd number no greater than {max}', { max: 15 }),
         autoComplete: 'off',
         onChange: handleChangeNode,
       },
@@ -165,18 +165,16 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
     {
       label: '',
       getComp() {
-        return (
-          <Alert message={i18n.t('dataCenter:must be odd and cannot be greater than 15')} type="normal" showIcon />
-        );
+        return <Alert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="normal" showIcon />;
       },
     },
     {
-      label: `CPU(${i18n.t('dataCenter:at least {limit} or more', { limit: minCPU + i18n.t('default:core') })})`,
+      label: `CPU(${i18n.t('cmp:at least {limit} or more', { limit: minCPU + i18n.t('default:core') })})`,
       required: true,
       name: 'cpu',
       initialValue: formData.cpu,
       itemProps: {
-        placeholder: i18n.t('dataCenter:please enter a number greater than or equal to {min}', { min: minCPU }),
+        placeholder: i18n.t('cmp:please enter a number greater than or equal to {min}', { min: minCPU }),
         addonAfter: i18n.t('default:core'),
         autoComplete: 'off',
       },
@@ -189,12 +187,12 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       ],
     },
     {
-      label: `MEM(${i18n.t('dataCenter:at least {limit} or more', { limit: `${minMEM}MiB` })})`,
+      label: `MEM(${i18n.t('cmp:at least {limit} or more', { limit: `${minMEM}MiB` })})`,
       required: true,
       name: 'mem',
       initialValue: formData.mem,
       itemProps: {
-        placeholder: i18n.t('dataCenter:please enter a number greater than or equal to {min}', { min: minMEM }),
+        placeholder: i18n.t('cmp:please enter a number greater than or equal to {min}', { min: minMEM }),
         addonAfter: 'MiB',
         autoComplete: 'off',
       },
@@ -217,14 +215,14 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       <>
         <div>
           <span className="mr16">
-            {i18n.t('dataCenter:total project resources')}：CPU：{totalCpu}
+            {i18n.t('cmp:total project resources')}：CPU：{totalCpu}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{setDecimal(totalMem * 1024)}MiB</span>
         </div>
         <div>
           <span className="mr16">
-            {i18n.t('dataCenter:available resources')}：CPU：{setDecimal(leftCpu)}
+            {i18n.t('cmp:available resources')}：CPU：{setDecimal(leftCpu)}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{setDecimal(leftMem)}MiB</span>
@@ -235,7 +233,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
 
   return (
     <Modal
-      title={i18n.t('dataCenter:scale')}
+      title={i18n.t('cmp:scale')}
       className="middleware-op-modal scale"
       visible={visible}
       onCancel={onCancel}

@@ -13,13 +13,13 @@
 
 import routeInfoStore from 'app/common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
-import { PureBaseAddonInfo } from 'dataCenter/common/addon-detail/detail';
+import { PureBaseAddonInfo } from 'cmp/common/addon-detail/detail';
 import * as React from 'react';
 import { useMount, useUnmount } from 'react-use';
-import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
+import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import ScaleInfo from './scale-info';
 import UpgradeInfo from './upgrade-info';
-import { getAddonStatus } from 'dataCenter/services/middleware-dashboard';
+import { getAddonStatus } from 'cmp/services/middleware-dashboard';
 
 const Detail = () => {
   const [addonStatus, setAddonStatus] = React.useState('');

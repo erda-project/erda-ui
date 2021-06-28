@@ -16,7 +16,7 @@ import { createFlatStore } from 'app/cube';
 import { getDefaultPaging, getTimeSpan } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
-import * as orgCustomDashboardService from 'dataCenter/services/custom-dashboard';
+import * as orgCustomDashboardService from 'cmp/services/custom-dashboard';
 import * as mspCustomDashboardService from 'msp/monitor/custom-dashboard/services/custom-dashboard';
 
 export enum CustomDashboardScope {

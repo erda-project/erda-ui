@@ -71,7 +71,7 @@ const initOrgState: IState = {
 };
 
 const alarmReportStore = createStore({
-  name: 'dataCenterAlarmReport',
+  name: 'cmpAlarmReport',
   state: initOrgState,
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isEntering, query, params }) => {

@@ -36,7 +36,7 @@ import taskStore from './stores/task';
 
 export default (registerModule) => {
   return registerModule({
-    key: 'dataCenter',
+    key: 'cmp',
     stores: [
       customAlarmStore,
       customDashboardStore,

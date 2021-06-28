@@ -15,9 +15,9 @@ import routeInfoStore from 'app/common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
-import { useInstanceOperation } from 'dataCenter/common/components/instance-operation';
-import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
-import { PureResourceList } from 'dataCenter/common/addon-detail/resource';
+import { useInstanceOperation } from 'cmp/common/components/instance-operation';
+import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
+import { PureResourceList } from 'cmp/common/addon-detail/resource';
 
 const Resource = () => {
   const resourceList = middlewareDashboardStore.useStore((s) => s.resourceList);

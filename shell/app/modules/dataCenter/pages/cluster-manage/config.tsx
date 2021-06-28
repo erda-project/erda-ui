@@ -122,10 +122,10 @@ export const clusterSpecMap = {
     Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('org:masters, LB and platform share 1 node') },
   },
   'alicloud-cs': {
-    Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('dataCenter:3 machines') },
+    Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('cmp:3 machines') },
   },
   'alicloud-cs-managed': {
-    Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('dataCenter:2 machines') },
+    Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('cmp:2 machines') },
   },
   erdc: {
     test: { name: i18n.t('test'), value: 'test' },

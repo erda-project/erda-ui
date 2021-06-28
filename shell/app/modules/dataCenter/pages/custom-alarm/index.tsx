@@ -12,6 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import CustomAlarm from 'app/modules/dataCenter/common/custom-alarm';
+import CustomAlarm from 'app/modules/cmp/common/custom-alarm';
 
 export default () => <CustomAlarm scopeType="org" />;
