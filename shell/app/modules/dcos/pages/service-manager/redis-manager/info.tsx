@@ -14,8 +14,8 @@
 import * as React from 'react';
 import { Spin } from 'app/nusi';
 import cloudServiceStore from 'dcos/stores/cloud-service';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import InfoBox from '../info-box';
 

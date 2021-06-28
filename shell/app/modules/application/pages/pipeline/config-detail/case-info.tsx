@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Panel, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import moment from 'moment';
 
 interface IProps {

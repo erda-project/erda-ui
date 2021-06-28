@@ -14,7 +14,7 @@
 import * as C from '../app/cube';
 
 const mockStore = (path, state, effect) => {
-  jest.mock('common/stores/user-map', () => {
+  jest.mock('core/stores/userMap', () => {
     return C?.createStore({
       name: 'userMap',
       state: {

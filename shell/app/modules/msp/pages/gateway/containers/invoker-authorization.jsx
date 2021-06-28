@@ -14,7 +14,7 @@
 import Comp from '../components/invoker-authorization';
 import { connectCube } from 'common';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const mapper = () => {
   const [

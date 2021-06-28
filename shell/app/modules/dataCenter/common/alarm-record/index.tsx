@@ -18,13 +18,13 @@ import { map } from 'lodash';
 import { Avatar, CustomFilter, MemberSelector, useFilter } from 'common';
 import { useMount } from 'react-use';
 import moment from 'moment';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { IssueState } from 'project/common/components/issue/issue-state';
 import { AlarmState } from 'dataCenter/common/alarm-state';
-import userMapStore from 'app/common/stores/user-map';
-import routeInfoStore from 'app/common/stores/route';
+import userMapStore from 'core/stores/userMap';
+import routeInfoStore from 'core/stores/route';
 import orgAlarmRecordStore from 'dataCenter/stores/alarm-record';
 import mspAlarmRecordStore from 'msp/monitor/alarm-record/stores/alarm-record';
 

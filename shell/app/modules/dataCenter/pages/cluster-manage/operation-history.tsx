@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { ColumnProps } from 'core/common/interface';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Icon as CustomIcon, useUpdate, LogRoller, FilterGroup } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import * as React from 'react';
-import userMapStore from 'common/stores/user-map';
-import routeInfoStore from 'app/common/stores/route';
+import userMapStore from 'core/stores/userMap';
+import routeInfoStore from 'core/stores/route';
 import { cutStr } from 'app/common/utils';
 import clusterStore from 'app/modules/dataCenter/stores/cluster';
 import { useMount } from 'react-use';

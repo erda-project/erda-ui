@@ -17,7 +17,7 @@ import { DataList } from '../../common/components/data-list';
 import { goTo } from 'app/common/utils';
 import i18n from 'i18n';
 import dataTaskStore from 'application/stores/dataTask';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useUnmount } from 'react-use';
 
 interface IProps {

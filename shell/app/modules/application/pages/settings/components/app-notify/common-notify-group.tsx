@@ -19,8 +19,8 @@ import { Spin, Modal, Tooltip, Select, Table, Button } from 'app/nusi';
 import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
 import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
-import userMapStore from 'app/common/stores/user-map';
-import { useLoading } from 'app/common/stores/loading';
+import userMapStore from 'core/stores/userMap';
+import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import ExternalUserModal from './external-user-table';
 

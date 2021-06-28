@@ -19,10 +19,10 @@ import { goTo } from 'common/utils';
 import { TASKS_STATUS_MAP, WORKSPACE_MAP } from './config';
 import { ClusterSelector } from 'app/modules/dataCenter/common/components/cluster-selector';
 import clusterStore from 'dataCenter/stores/cluster';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import clusterTaskStore from 'app/modules/dataCenter/stores/task';
 import { useEffectOnce } from 'react-use';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import orgStore from 'app/org-home/stores/org';
 
 export const getClusterTasksCols = (userMap: object) => {

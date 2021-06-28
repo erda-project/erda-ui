@@ -17,11 +17,11 @@ import i18n from 'i18n';
 import { Badge, Button, Drawer, message, Spin, Table } from 'app/nusi';
 import { useInterval, useMount } from 'react-use';
 import moment from 'moment';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import testCaseStore from 'project/stores/test-case';
 import { Download as IconDownLoad } from '@icon-park/react';
 import userStore from 'app/user/stores';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import './import-file.scss';
 
 const ImportExportRecord = () => {

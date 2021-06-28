@@ -17,7 +17,7 @@ import { Table, Popconfirm, Ellipsis } from 'app/nusi';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import SlaEditor from 'apiManagePlatform/pages/access-manage/detail/sla-editor';
 import { slaUnitMap, slaAuthorizationMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import { uniq } from 'lodash';

@@ -20,7 +20,7 @@ import { AntTreeNodeSelectedEvent } from 'core/common/interface';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, filter, isEmpty, find, forEach, some } from 'lodash';
 import { API_TREE_OPERATION } from 'app/modules/apiManagePlatform/configs.ts';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { produce } from 'immer';
 import { TreeTitle, BranchTitle } from './title';
 import { updateSearch } from 'common/utils';

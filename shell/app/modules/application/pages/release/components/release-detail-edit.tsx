@@ -21,7 +21,7 @@ import GotoCommit from 'application/common/components/goto-commit';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import releaseStore from 'app/modules/application/stores/release';
 
 interface IProps {

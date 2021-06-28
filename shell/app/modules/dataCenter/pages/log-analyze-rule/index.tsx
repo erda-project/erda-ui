@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { goTo } from 'common/utils';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import LogAnalyzeStore from '../../stores/log-analyze';
 
 const RULE_TYPE_MAP = {

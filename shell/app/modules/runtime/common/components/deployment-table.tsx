@@ -17,7 +17,7 @@ import { ColumnProps } from 'core/common/interface';
 import { Avatar, Copy } from 'common';
 import { Table, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
-import userMapStore from 'common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 
 const typeMap = {
   BUILD: i18n.t('runtime:build'),

@@ -14,7 +14,7 @@
 import * as React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelector } from 'common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
 export default () => {

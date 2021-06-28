@@ -19,7 +19,7 @@ import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog, useUpdate } from 
 import { get, map, isEmpty } from 'lodash';
 import moment from 'moment';
 import monitorErrorStore from 'error-insight/stores/error';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import { ToRight as IconToRight, ToLeft as IconToLeft, Down as IconDown, Up as IconUp } from '@icon-park/react';
 import i18n from 'i18n';

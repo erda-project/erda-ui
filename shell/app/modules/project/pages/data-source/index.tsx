@@ -19,12 +19,12 @@ import { Button, Tooltip } from 'app/nusi';
 import AddonModal from '../third-service/components/addon-modal';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';
 import { isEmpty } from 'lodash';
 import { Link } from 'react-router-dom';
 import { goTo } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const displayName = ['MySQL', 'Redis', 'Custom', 'AliCloud-Rds', 'AliCloud-Redis'];
 export default function DataSourceManagement() {

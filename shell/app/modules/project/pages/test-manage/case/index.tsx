@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import ManualTestCase from './manual-test';
 // import AutoTest from './auto-test';
 import AutoTest from 'project/pages/auto-test';

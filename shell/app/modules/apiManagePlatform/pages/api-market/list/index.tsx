@@ -15,14 +15,14 @@ import React from 'react';
 import { useDebounce, useUnmount } from 'react-use';
 import { CustomFilter, TableActions, UserInfo, useUpdate } from 'common';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Input, Button, Table } from 'app/nusi';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';
 import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-modal';
 import { ColumnProps, PaginationProps } from 'core/common/interface';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import './index.scss';
 

@@ -18,7 +18,7 @@ import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import { getTreeNodeDetailNew, getCategoryByIdNew, fuzzySearchNew } from 'common/services/file-tree';
 import { notify } from 'common/utils';
 import { useUpdate } from 'common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { Form } from 'dop/pages/form-editor/index';
 import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';
 import { SCOPE_PROJECT, scopeMap } from 'project/common/components/pipeline-manage/config';

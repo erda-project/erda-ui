@@ -18,7 +18,7 @@ import { debounce, isEmpty, get, map, find } from 'lodash';
 import { IF, Icon as CustomIcon, Copy } from 'common';
 import i18n from 'i18n';
 import ConfigFormModal from 'project/common/components/configuration-center/config-form-modal';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import configCenterStore from 'msp/stores/config-center';
 import mspStore from 'msp/stores/micro-service';
 import { useUnmount } from 'react-use';

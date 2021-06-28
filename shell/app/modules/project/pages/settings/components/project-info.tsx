@@ -23,7 +23,7 @@ import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
 import { removeMember } from 'common/services/index';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import diceEnv from 'dice-env';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import userStore from 'app/user/stores';

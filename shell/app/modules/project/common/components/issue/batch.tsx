@@ -18,7 +18,7 @@ import issueStore from 'project/stores/issues';
 import { ISSUE_TYPE, REQUIREMENT_STATE_MAP, BUG_STATE_MAP } from 'project/common/components/issue/issue-config';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { map } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { usePerm } from 'user/common';
 
 interface IProps {

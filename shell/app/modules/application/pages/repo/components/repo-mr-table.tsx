@@ -18,8 +18,8 @@ import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { goTo, fromNow } from 'common/utils';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
-import userMapStore from 'app/common/stores/user-map';
+import { useLoading } from 'core/stores/loading';
+import userMapStore from 'core/stores/userMap';
 import './repo-mr-table.scss';
 import repoStore from 'application/stores/repo';
 

@@ -24,10 +24,10 @@ import { Tag, Select } from 'app/nusi';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from './load-more-selector';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,

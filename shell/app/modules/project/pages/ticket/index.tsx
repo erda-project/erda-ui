@@ -18,7 +18,7 @@ import {
   BUG_SEVERITY_MAP,
   ISSUE_ICON,
 } from 'project/common/components/issue/issue-config';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import projectLabelStore from 'project/stores/label';
 import issueStore from 'project/stores/issues';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
@@ -27,9 +27,9 @@ import { useMount } from 'react-use';
 import { CustomIssueState } from 'project/common/components/issue/issue-state';
 import { useUpdate, Filter, MemberSelector } from 'common';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
-// import userMapStore from 'app/common/stores/user-map';
+// import userMapStore from 'core/stores/userMap';
 import { Input, Table, Button, Select, RangePicker, Tooltip } from 'app/nusi';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
 import { FieldSelector, memberSelectorValueItem } from 'project/pages/issue/component/table-view';

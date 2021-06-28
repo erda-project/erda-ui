@@ -28,8 +28,8 @@ import {
   checkRdsAccountName,
 } from 'dcos/common/config';
 import purchaseStore from 'dcos/stores/purchase';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import { WrappedFormUtils } from 'core/common/interface';
 import { Help as IconHelp, LinkOne as IconLinkOne } from '@icon-park/react';
 import './purchase-cluster.scss';

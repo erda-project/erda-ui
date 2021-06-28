@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import userMapStore from 'common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import { get } from 'lodash';
 
 interface IProps {

@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Table as PureTable, Title } from 'app/nusi';
 import { map, get } from 'lodash';
 import { useUpdate } from 'common';
-import userMapStore from 'common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import { getRender, getTitleRender } from './render-types';
 import classnames from 'classnames';
 import './table.scss';

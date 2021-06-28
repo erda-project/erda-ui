@@ -19,7 +19,7 @@ import BranchSelect from './branch-select';
 import './source-target-select.scss';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const noop = () => {};

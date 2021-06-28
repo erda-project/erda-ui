@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 import { map, isFunction } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { getMetaGroups, getMetaData } from '../services/monitor-common-metadata';
 
 export interface IState {

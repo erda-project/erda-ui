@@ -13,16 +13,16 @@
 
 import { Holder, Avatar } from 'common';
 import { fromNow } from 'common/utils';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { map } from 'lodash';
 import moment from 'moment';
 import { Spin, Timeline } from 'app/nusi';
 import issueStore from 'project/stores/issues';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import * as React from 'react';
 import { goTo } from 'app/common/utils';
 import Markdown from 'common/utils/marked';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 

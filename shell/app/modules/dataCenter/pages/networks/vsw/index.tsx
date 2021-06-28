@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import networksStore from 'dataCenter/stores/networks';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Select, Menu, Dropdown, Button } from 'app/nusi';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
@@ -25,7 +25,7 @@ import { WrappedFormUtils } from 'core/common/interface';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import {
   getCloudResourceTagsCol,
   getCloudResourceIDNameCol,

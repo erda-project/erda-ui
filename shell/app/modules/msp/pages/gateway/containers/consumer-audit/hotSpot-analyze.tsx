@@ -23,10 +23,10 @@ import { get, isEmpty } from 'lodash';
 import { HotSpotPanel } from './hot-spot';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
 import metricsMonitorStore from 'common/stores/metrics';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const resourceInfo = { resourceType: 'multipleGroup', resourceId: 'hotSpot-analyze' };
 

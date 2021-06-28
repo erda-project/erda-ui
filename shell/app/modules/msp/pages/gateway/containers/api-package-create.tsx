@@ -22,9 +22,9 @@ import { useEffectOnce } from 'react-use';
 import { ACL_TYPE_MAP, AUTH_TYPE_MAP, getOpenApiConsumerFields, SCENE_MAP, AuthType } from '../config';
 import { ApiLimits } from './api-limits';
 import './api-package-create.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { PAGINATION } from 'app/constants';
 import { ReduceOne as IconReduceOne, AddOne as IconAddOne } from '@icon-park/react';
 

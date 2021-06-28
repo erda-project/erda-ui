@@ -19,7 +19,7 @@ import { insertWhen, goTo } from 'common/utils';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import { Link } from 'react-router-dom';
 import { getProjectList } from 'project/services/project';
 

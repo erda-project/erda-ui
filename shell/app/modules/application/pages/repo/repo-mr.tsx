@@ -17,7 +17,7 @@ import { goTo } from 'app/common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { WithAuth, usePerm } from 'user/common';
 import { IF } from 'common';
 

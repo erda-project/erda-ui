@@ -17,8 +17,8 @@ import { orgRoleMap } from './_perm-org';
 import { projectRoleMap } from './_perm-project';
 import { appRoleMap } from './_perm-app';
 import { map, set, get, cloneDeep } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
-import userMapStore from 'common/stores/user-map';
+import routeInfoStore from 'core/stores/route';
+import userMapStore from 'core/stores/userMap';
 import userStore from './index';
 import { permPrefix, permState } from './_perm-state';
 

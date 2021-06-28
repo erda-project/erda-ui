@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { message, Spin, Button, Modal, Table } from 'app/nusi';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';

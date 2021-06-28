@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { FormModal, MemberSelector } from 'common';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { ISSUE_TYPE } from 'project/common/issue-config';
 import issueStore from 'project/stores/issues';

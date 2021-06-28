@@ -26,11 +26,11 @@ import { AppPermType } from 'app/user/stores/_perm-state';
 import { usePerm } from 'app/user/common';
 import { WithAuth, getAuth, isCreator, isAssignee } from 'user/common';
 import './mr-detail.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import repoStore from 'application/stores/repo';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import appStore from 'application/stores/application';
-import userMapStore from 'app/common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 
 interface IProps {
   mrDetail: REPOSITORY.IMrDetail;

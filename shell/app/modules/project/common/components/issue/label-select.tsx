@@ -18,7 +18,7 @@ import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { filterOption } from 'app/common/utils';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { Option } = Select;
 

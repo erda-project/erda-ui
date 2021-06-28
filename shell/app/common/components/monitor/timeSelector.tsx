@@ -15,7 +15,7 @@ import * as React from 'react';
 import TimeSelector from './components/timeSelector';
 import TimeRangeSelector from './components/timeRangeSelector';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { Moment } from 'moment';
 
 interface IProps {

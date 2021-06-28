@@ -19,9 +19,9 @@ import { useUpdate, IF } from 'common';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import './gateway-policy.scss';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { Panel } = Collapse;
 // @ts-ignore
