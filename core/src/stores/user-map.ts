@@ -38,6 +38,7 @@ const userMap = createStore({
 });
 
 export const useUserMap = () => userMap.useStore((s) => s);
+export const getUserMap = () => userMap.getState((s) => s);
 const { setUserMap } = userMap.reducers;
 export { setUserMap };
 

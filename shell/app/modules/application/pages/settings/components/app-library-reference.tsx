@@ -23,7 +23,7 @@ import { formatTime } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { useUnmount } from 'react-use';
 import { Popconfirm, Modal, Button, Alert, Input, message } from 'app/nusi';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { getArtifactsList } from 'publisher/services/publisher';
 import { Copy as IconCopy } from '@icon-park/react';
 

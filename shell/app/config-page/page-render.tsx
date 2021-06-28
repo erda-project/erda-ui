@@ -16,7 +16,7 @@ import { map, isArray, isPlainObject, isEmpty, isEqual, cloneDeep, get, set, has
 import { EmptyHolder } from 'common';
 import { containerMap as fullContainerMap } from './components';
 import { goTo } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps extends IExtraProps {
   pageConfig: CONFIG_PAGE.PageConfig;

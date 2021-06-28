@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Tabs, Button, Tooltip } from 'app/nusi';
 import PipelineConfigDetail from './config-detail';
 import PipelineRunDetail from './run-detail';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import buildStore from 'application/stores/build';
 import fileTreeStore from 'common/stores/file-tree';
 import yaml from 'js-yaml';

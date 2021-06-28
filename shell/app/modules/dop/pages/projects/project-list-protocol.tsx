@@ -16,7 +16,7 @@ import DiceConfigPage from 'config-page/index';
 import { useUpdate } from 'common';
 import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const scenarioConfig = {
   'public-projects': {

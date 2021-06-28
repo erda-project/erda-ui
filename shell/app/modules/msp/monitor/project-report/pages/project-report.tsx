@@ -19,7 +19,7 @@ import { DatePicker, Spin, Pagination, Button } from 'app/nusi';
 import { useUpdate, Holder, useFormModal, Icon as CustomIcon } from 'common';
 import { getTimeRanges } from 'common/utils';
 import projectReportStore from 'msp/stores/project-report';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 import './project-report.scss';
 import { useMount } from 'react-use';

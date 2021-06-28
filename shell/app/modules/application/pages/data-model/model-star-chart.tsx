@@ -21,7 +21,7 @@ import { TableDrawer } from '../../common/components/table-drawer';
 
 import './index.scss';
 import dataTaskStore from 'application/stores/dataTask';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const BORDER_COLOR = '#333';
 

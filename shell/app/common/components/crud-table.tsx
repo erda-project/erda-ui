@@ -21,7 +21,7 @@ import { useEffectOnce } from 'react-use';
 import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { ICRUDStore } from 'common/stores/_crud_module';
 import { IFormItem } from './render-formItem';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { WithAuth } from 'user/common';
 
 export interface ITableProps<P> {

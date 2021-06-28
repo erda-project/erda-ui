@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Col, Row } from 'app/nusi';
 
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import { BuildHistory } from './build-history';
 import { PipelineDetail } from './pipeline-detail';

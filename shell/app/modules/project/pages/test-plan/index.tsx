@@ -15,7 +15,7 @@ import * as React from 'react';
 import TestPlanComp from './test-plan';
 import AutoTestPlanList from './test-plan-protocol';
 
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { TEST_TYPE } from '../test-manage/case';
 
 const TestPlan = () => {

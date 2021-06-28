@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import orgStore from 'app/org-home/stores/org';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { createFlatStore } from 'app/cube';
 import { map, uniqueId } from 'lodash';
 import i18n from 'i18n';

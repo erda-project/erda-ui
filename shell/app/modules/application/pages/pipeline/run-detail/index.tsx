@@ -16,7 +16,7 @@ import BuildDetail from './build-detail';
 import fileTreeStore from 'common/stores/file-tree';
 import { EmptyHolder } from 'common';
 import { getBranchPath } from 'application/pages/pipeline/config';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   deployAuth: { hasAuth: boolean; authTip?: string };

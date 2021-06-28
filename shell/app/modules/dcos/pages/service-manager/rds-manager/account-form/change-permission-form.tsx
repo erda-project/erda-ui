@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Transfer, Radio } from 'app/nusi';
 import { TransferItem } from 'core/common/interface';
 import { FormModal, useUpdate } from 'common';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { map, get, forEach, reduce } from 'lodash';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import { rdsAccountType } from 'dcos/common/config.js';

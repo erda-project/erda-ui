@@ -14,7 +14,7 @@
 import * as dataTaskService from '../services/dataTask';
 import i18n from 'i18n';
 import appStore from 'application/stores/application';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { eventHub } from 'common/utils/event-hub';
 import { createStore } from 'app/cube';
 import { PAGINATION } from 'app/constants';

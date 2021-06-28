@@ -23,7 +23,7 @@ import i18n from 'i18n';
 import './repo-file.scss';
 import appStore from 'application/stores/application';
 import repoStore from 'application/stores/repo';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { Download as IconDownload } from '@icon-park/react';
 
 const { parse, extract } = qs;

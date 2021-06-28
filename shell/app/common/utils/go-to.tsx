@@ -15,7 +15,7 @@ import path from 'path';
 import { getConfig } from 'core/config';
 import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);

@@ -15,9 +15,9 @@ import React, { useEffect } from 'react';
 import { Button, Spin, Drawer, Table } from 'app/nusi';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import gatewayStore from 'msp/stores/gateway';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import './api-auth.scss';
 
 interface IProps {

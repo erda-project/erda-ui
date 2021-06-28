@@ -14,7 +14,7 @@
 import { map, debounce } from 'lodash';
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import { FormModal } from 'common';
 

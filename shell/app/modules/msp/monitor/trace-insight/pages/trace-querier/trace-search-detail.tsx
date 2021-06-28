@@ -15,7 +15,7 @@ import * as React from 'react';
 import { useUpdate } from 'common';
 import PureTraceDetail from './trace-detail';
 import traceStore from '../../../../stores/trace';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 export default ({ traceId }: { traceId?: string }) => {
   const spanDetailContent = traceStore.useStore((s) => s.spanDetailContent);

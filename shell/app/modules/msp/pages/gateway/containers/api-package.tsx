@@ -21,7 +21,7 @@ import { ACL_TYPE_MAP, AUTH_TYPE_MAP, SCENE_MAP } from '../config';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { confirm } = Modal;
 

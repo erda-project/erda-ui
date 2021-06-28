@@ -16,7 +16,7 @@ import { Spin } from 'app/nusi';
 import { find } from 'lodash';
 import PureChartList from '../components/chart';
 import projectResourceStore from 'project/stores/resource';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const Chart = (props) => {
   const { getChartData } = projectResourceStore.effects;

@@ -28,7 +28,7 @@ import DiceConfigPage from 'config-page/index';
 import { get, set, compact, merge } from 'lodash';
 import { removeMember } from 'common/services/index';
 import userStore from 'app/user/stores';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { produce } from 'immer';
 import { BlockNetworkTips } from 'dop/pages/projects/block-comp';
 import permStore from 'user/stores/permission';

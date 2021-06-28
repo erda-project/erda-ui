@@ -16,7 +16,7 @@ import { Button, Select } from 'app/nusi';
 import React from 'react';
 import i18n from 'i18n';
 import { getJoinedApps } from 'app/user/services/user';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import { useMount } from 'react-use';
 import { getAppMR } from 'application/services/repo';

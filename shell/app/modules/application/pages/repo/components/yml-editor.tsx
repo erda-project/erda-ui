@@ -43,8 +43,8 @@ import i18n from 'i18n';
 import appDeployStore from 'application/stores/deploy';
 import './yml-editor.scss';
 import repoStore from 'application/stores/repo';
-import { useLoading } from 'app/common/stores/loading';
-// import routeInfoStore from 'common/stores/route';
+import { useLoading } from 'core/stores/loading';
+// import routeInfoStore from 'core/stores/route';
 
 export interface IProps {
   content: string;

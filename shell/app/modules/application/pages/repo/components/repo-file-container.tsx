@@ -29,11 +29,11 @@ import {
   isYml,
 } from 'application/common/yml-flow-util';
 import repoStore from 'application/stores/repo';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 import appStore from 'application/stores/application';
 import { getInfoFromRefName } from '../util';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { AppPermType } from 'app/user/stores/_perm-state';
 import { usePerm } from 'user/common';
 import PipelineYml from 'application/common/yml-editor/pipeline-editor';

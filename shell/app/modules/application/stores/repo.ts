@@ -19,7 +19,7 @@ import { reduce, zipWith, isEmpty, cloneDeep, get } from 'lodash';
 import appStore from 'application/stores/application';
 import * as RepoServices from 'application/services/repo';
 import layoutStore from 'layout/stores/layout';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { getInfoFromRefName, getSplitPathBy } from 'application/pages/repo/util';
 import i18n from 'i18n';
 import { getEnvFromRefName, isPipelineWorkflowYml } from 'application/common/yml-flow-util';

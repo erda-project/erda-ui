@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { MetricsMonitor, Holder } from 'common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import middlewareDashboardStore from '../../stores/middleware-dashboard';
 
 const Monitor = () => {

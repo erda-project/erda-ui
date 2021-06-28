@@ -14,7 +14,7 @@
 import React from 'react';
 import { TreeSelect } from 'app/nusi';
 import { getVersionTree } from 'apiManagePlatform/services/api-market';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 
 interface IProps {

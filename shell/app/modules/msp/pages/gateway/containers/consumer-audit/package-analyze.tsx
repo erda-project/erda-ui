@@ -17,7 +17,7 @@ import { set, get, isEmpty } from 'lodash';
 import { FilterGroup, IF, PureBoardGrid } from 'common';
 import { daysRange } from 'common/utils';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import metricsMonitorStore from 'common/stores/metrics';

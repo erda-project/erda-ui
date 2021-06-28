@@ -19,11 +19,11 @@ import { commonChartRender } from 'monitor-common';
 import { groupHandler } from 'common/utils/chart-utils';
 import ErrorCard from './error-card';
 import ErrorFilters from './error-filters';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import monitorErrorStore from 'error-insight/stores/error';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import monitorOverviewStore from 'monitor-overview/stores/monitor-overview';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 

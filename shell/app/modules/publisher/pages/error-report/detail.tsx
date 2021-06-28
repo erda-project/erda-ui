@@ -17,7 +17,7 @@ import * as React from 'react';
 import { getInfoBlock } from '../artifacts/artifacts-info';
 import { Button } from 'app/nusi';
 import errorReportStore from 'publisher/stores/error-report';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { formatTime } from 'common/utils';
 import { useUnmount } from 'react-use';
 

@@ -15,7 +15,7 @@ import React from 'react';
 import { SideNavigation } from 'app/nusi';
 import { Link } from 'react-router-dom';
 import layoutStore from 'layout/stores/layout';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { MenuConfigItemProps, Theme } from 'core/common/interface';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';

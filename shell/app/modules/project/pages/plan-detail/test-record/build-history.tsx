@@ -19,7 +19,7 @@ import { ColumnProps } from 'core/common/interface';
 import { Badge, Table } from 'app/nusi';
 
 import { Icon as CustomIcon } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import { ciStatusMap } from 'application/pages/build-detail/config';
 

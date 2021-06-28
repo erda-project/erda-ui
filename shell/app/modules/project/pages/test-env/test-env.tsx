@@ -15,12 +15,12 @@ import { isEmpty } from 'lodash';
 import * as React from 'react';
 import i18n from 'i18n';
 import { Button, Popconfirm, Spin, Table, Alert } from 'app/nusi';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
 import { TestEnvDetail } from './test-env-detail';
 import './test-env.scss';
 import { PAGINATION } from 'app/constants';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { insertWhen } from 'common/utils';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
 

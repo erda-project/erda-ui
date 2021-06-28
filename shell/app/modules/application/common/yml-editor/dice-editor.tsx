@@ -28,7 +28,7 @@ import { IYmlEditorProps } from './index';
 // import { useMount } from 'react-use';
 // import PipelineNodeDrawer from './pipeline-node-drawer';
 // import { notify } from 'common/utils';
-// import loadingStore from 'common/stores/loading';
+// import loadingStore from 'core/stores/loading';
 
 // import './index.scss';
 

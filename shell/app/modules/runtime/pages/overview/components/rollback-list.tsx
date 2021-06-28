@@ -18,7 +18,7 @@ import { Drawer, Tooltip, Modal } from 'app/nusi';
 import * as React from 'react';
 import DeploymentTable from 'runtime/common/components/deployment-table';
 import runtimeStore from 'runtime/stores/runtime';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => void }) => {
   const [deploymentRecords, paging] = runtimeStore.useStore((s) => [s.deploymentRecords, s.deploymentRecordsPaging]);

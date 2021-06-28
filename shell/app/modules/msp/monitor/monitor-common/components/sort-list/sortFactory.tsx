@@ -19,7 +19,7 @@ import PureSortTab from './sort-tab';
 import PureSortList from './sort-list';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import monitorChartStore from 'app/modules/msp/monitor/monitor-common/stores/monitorChart';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface ICreateParams {
   moduleName: string;

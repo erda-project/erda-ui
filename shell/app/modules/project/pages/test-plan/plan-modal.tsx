@@ -15,7 +15,7 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
 import { FormModal, MemberSelector } from 'common';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
 import { FormModalList } from 'app/interface/common';
 

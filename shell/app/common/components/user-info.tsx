@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import userMapStore from 'common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import { get } from 'lodash';
 
 interface IProps {
@@ -24,7 +24,7 @@ const defaultRender = (data: ADMIN_USER.IPlatformUser, id: string | number) => {
 };
 
 const UserInfo = ({ id, render = defaultRender }: IProps) => {
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const userInfo = get(userMap, id, {});
   return <>{render(userInfo, id)}</>;
 };

@@ -27,7 +27,7 @@ import i18n from 'i18n';
 import { notify, updateSearch } from 'common/utils';
 import DomainModal from './domain-modal';
 import ServiceDropdown from './service-dropdown';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import './service-card.scss';
 import { useMount } from 'react-use';
 import runtimeStore from 'runtime/stores/runtime';

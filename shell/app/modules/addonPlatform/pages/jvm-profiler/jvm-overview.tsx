@@ -18,7 +18,7 @@ import { Button, Spin, message } from 'app/nusi';
 import { useUpdate, Holder } from 'common';
 import { goTo, fromNow, formatTime } from 'common/utils';
 import { useMount, useUnmount } from 'react-use';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import jvmStore, { ProfileStateMap } from '../../stores/jvm';
 import addonStore from 'common/stores/addon';
 

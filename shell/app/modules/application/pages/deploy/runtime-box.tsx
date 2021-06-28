@@ -16,7 +16,7 @@ import { Icon as CustomIcon, DeleteConfirm, Avatar, IF, MenuPopover } from 'comm
 import { cutStr, goTo, fromNow } from 'common/utils';
 import { Spin, Tooltip, Alert } from 'app/nusi';
 import HealthPoint from 'project/common/components/health-point';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
 import i18n, { isZh } from 'i18n';
 import { find, get } from 'lodash';

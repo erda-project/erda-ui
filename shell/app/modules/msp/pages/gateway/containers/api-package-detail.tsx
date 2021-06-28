@@ -22,9 +22,9 @@ import { HTTP_PREFIX, HTTP_METHODS, SORT_MAP, PACKAGE_DETAIL_COLS } from '../con
 import CallerAuthDrawer from 'msp/pages/gateway/containers/api-auth';
 import { AppServiceFilter } from './app-service-filter';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './api-package-detail.scss';
 
 const { Option } = Select;

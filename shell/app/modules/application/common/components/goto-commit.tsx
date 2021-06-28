@@ -16,7 +16,7 @@ import { Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
 
 import './goto-commit.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 export const getCommitPath = (commitId: string) => {
   const path = `/repo/commit/${commitId}`;

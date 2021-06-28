@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Table } from 'app/nusi';
 import { Link } from 'react-router-dom';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import { get } from 'lodash';
 import { caseStateMap } from 'project/pages/plan-detail/status-toggle';

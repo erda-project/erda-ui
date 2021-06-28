@@ -16,7 +16,7 @@ import { PureBoardGrid } from 'common';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import dashboardStore from 'app/common/stores/dashboard';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { isEqual } from 'lodash';
 
 type IProps = Merge<

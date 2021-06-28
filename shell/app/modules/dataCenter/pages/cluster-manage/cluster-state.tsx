@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Icon as CustomIcon, EmptyHolder, PureBoardGrid } from 'common';
 import { get, isEmpty } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import dashboardStore from 'app/common/stores/dashboard';
 import clusterStore from '../../stores/cluster';
 import './cluster-state.scss';

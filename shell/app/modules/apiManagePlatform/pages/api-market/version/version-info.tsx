@@ -23,7 +23,7 @@ import ExportFile from 'apiManagePlatform/pages/api-market/components/export-fil
 import { RelationMode } from 'apiManagePlatform/pages/api-market/components/relation';
 import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import { goTo } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { protocolMap } from 'apiManagePlatform/pages/api-market/components/config';
 
 const formatVersionTree = (data: API_MARKET.VersionTreeItem[]) => {

@@ -14,8 +14,8 @@
 import React from 'react';
 import { Spin, Button, Modal, Menu, Dropdown, Ellipsis } from 'app/nusi';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { ossImg, goTo } from 'common/utils';
 import { UserInfo, useUpdate, Icon as CustomIcon, DetailsPanel } from 'common';
 import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';

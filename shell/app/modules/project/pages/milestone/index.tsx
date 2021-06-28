@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { useUpdate, ContractiveFilter } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map } from 'lodash';
 import { Spin, DatePicker, Button } from 'app/nusi';
 import * as React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import issueStore from 'project/stores/issues';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { mergeSearch, updateSearch } from 'app/common/utils';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { usePerm, WithAuth } from 'user/common';
