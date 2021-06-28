@@ -16,13 +16,13 @@ import moment, { Moment } from 'moment';
 import i18n from 'i18n';
 import { Col, DatePicker, Row, message } from 'app/nusi';
 import testPlanStore from 'project/stores/test-plan';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import { get, map } from 'lodash';
 
 const BasicInfo = () => {
   const { updateDate } = testPlanStore.effects;
   const { testPlan } = testPlanStore.useStore((s) => s.planReport);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const data = React.useMemo(() => {
     const { startedAt, endedAt, ownerID, partnerIDs = [] } = testPlan || {};
     const startDate = startedAt ? moment(startedAt).format('YYYY-MM-DD') : undefined;

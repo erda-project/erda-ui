@@ -17,7 +17,7 @@ import { ColumnProps } from 'core/common/interface';
 import { Avatar, Copy } from 'common';
 import { Table, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 
 const typeMap = {
   BUILD: i18n.t('runtime:build'),
@@ -34,7 +34,7 @@ interface IProps {
 }
 
 const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IProps) => {
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const columns: Array<ColumnProps<{ [prop: string]: any }>> = [
     {
       title: i18n.t('runtime:deployment id'),

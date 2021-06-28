@@ -22,7 +22,7 @@ import clusterStore from 'dataCenter/stores/cluster';
 import { useLoading } from 'core/stores/loading';
 import clusterTaskStore from 'app/modules/dataCenter/stores/task';
 import { useEffectOnce } from 'react-use';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import orgStore from 'app/org-home/stores/org';
 
 export const getClusterTasksCols = (userMap: object) => {
@@ -84,7 +84,7 @@ const ServicesList = ({ taskType }: IProps) => {
   const [list, { pageNo, pageSize, total }] = clusterTaskStore.useStore((s) => [s.list, s.paging]);
   const { getTaskList } = clusterTaskStore.effects;
   const { resetState } = clusterTaskStore.reducers;
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [loading] = useLoading(clusterTaskStore, ['getTaskList']);
   const [cluster, setCluster] = React.useState();
 

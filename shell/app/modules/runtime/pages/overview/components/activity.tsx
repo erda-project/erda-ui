@@ -22,7 +22,7 @@ import DeployLog from 'runtime/common/logs/components/deploy-log';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
 import commonStore from 'common/stores/common';
 
@@ -47,7 +47,7 @@ const Activity = () => {
   const [deploymentList, paging] = runtimeStore.useStore((s) => [s.deploymentList, s.deploymentListPaging]);
   const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
   const { appId, runtimeId } = routeInfoStore.useStore((s) => s.params);
-  const userMap = userMapStore.useStore((e) => e);
+  const userMap = useUserMap();
   const [loading] = useLoading(runtimeStore, ['getDeploymentList']);
   const [{ visible, detailLogId }, updater, update] = useUpdate({
     visible: false,

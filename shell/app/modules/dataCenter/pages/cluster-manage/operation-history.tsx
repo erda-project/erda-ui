@@ -19,7 +19,7 @@ import moment from 'moment';
 import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import * as React from 'react';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
 import { cutStr } from 'app/common/utils';
 import clusterStore from 'app/modules/dataCenter/stores/cluster';
@@ -40,7 +40,7 @@ export const OperationHistory = () => {
   const [loading] = useLoading(machineStore, ['getClusterOperationHistory']);
   const { clusterName: queryCluster, scope, recordType: recordTypeQuery } = routeInfoStore.getState((s) => s.query);
 
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   const [{ curRow, filters }, updater] = useUpdate({
     curRow: null,

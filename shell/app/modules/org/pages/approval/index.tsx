@@ -20,7 +20,7 @@ import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import approvalStore from '../../stores/approval';
 import moment from 'moment';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import DetailModal from '../certificate/detail-modal';
 import { typeMap as certificateTypeMap } from '../certificate/index';
 import i18n from 'i18n';
@@ -60,7 +60,7 @@ enum statusMap {
 }
 
 const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [loading] = useLoading(approvalStore, ['getApprovalList']);
   const [list, paging] = approvalStore.useStore((s) => {
     return type === 'done' ? [s.doneList, s.donePaging] : [s.undoneList, s.undonePaging];

@@ -21,7 +21,7 @@ import moment from 'moment';
 import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import alarmRecordStore from 'dataCenter/stores/alarm-record';
 import { IssueState } from 'project/common/components/issue/issue-state';
 import { AlarmState } from 'dataCenter/common/alarm-state';
@@ -33,7 +33,7 @@ export default ({ clusters }: { clusters: any }) => {
     s.alarmAttrs,
   ]);
   const { getMachineAlarmRecordList, getAlarmAttrs } = alarmRecordStore;
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   const [loading] = useLoading(alarmRecordStore, ['getMachineAlarmRecordList']);
 

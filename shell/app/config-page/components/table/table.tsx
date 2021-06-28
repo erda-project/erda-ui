@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Table as PureTable, Title } from 'app/nusi';
 import { map, get } from 'lodash';
 import { useUpdate } from 'common';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import { getRender, getTitleRender } from './render-types';
 import classnames from 'classnames';
 import './table.scss';
@@ -33,7 +33,7 @@ export function Table(props: CP_TABLE.Props) {
   const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
   const list = data?.list || [];
   const { visible = true, columns = [], title, pageSizeOptions, styleNames = {}, ...rest } = configProps || {};
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [state, updater, update] = useUpdate(handleState(propsState));
   const { total, pageSize, pageNo } = state;
 

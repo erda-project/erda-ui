@@ -27,7 +27,6 @@ import { useMount } from 'react-use';
 import { CustomIssueState } from 'project/common/components/issue/issue-state';
 import { useUpdate, Filter, MemberSelector } from 'common';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
-// import userMapStore from 'core/stores/userMap';
 import { Input, Table, Button, Select, RangePicker, Tooltip } from 'app/nusi';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
@@ -58,7 +57,6 @@ const Ticket = () => {
 
   const [list, paging] = issueStore.useStore((s) => [s.ticketList, s.ticketPaging]);
   const { getIssues, updateIssue } = issueStore.effects;
-  // const userMap = userMapStore.useStore(s => s);
   const ticketPerm = usePerm((s) => s.project.ticket);
   const { getLabels } = projectLabelStore.effects;
   const labelList = projectLabelStore.useStore((s) => s.list);

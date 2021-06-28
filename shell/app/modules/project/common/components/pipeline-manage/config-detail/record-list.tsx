@@ -19,7 +19,7 @@ import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import autoTestStore from 'project/stores/auto-test-case';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
@@ -61,7 +61,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
     curCaseId && getConfigDetailRecordList(curCaseId);
   };
   const renderRecordList = () => {
-    const userMap = userMapStore.useStore((s) => s);
+    const userMap = useUserMap();
     if (isEmpty(configDetailRecordList)) {
       return <p>{i18n.t('common:no data')}</p>;
     }

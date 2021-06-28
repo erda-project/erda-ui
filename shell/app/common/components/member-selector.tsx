@@ -27,7 +27,7 @@ import { ILoadMoreSelectorProps } from './load-more-selector';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
@@ -177,7 +177,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
   const [query, setQuery] = React.useState({} as any);
   const isCategoryMode = type === 'Category';
   const isStaticCategory = !isEmpty(staticCagetory); // 静态category模式
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const loginUser = userStore.getState((s) => s.loginUser);
   const existUser = {
     ...(userMap || {}),

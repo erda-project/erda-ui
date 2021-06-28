@@ -30,7 +30,7 @@ import routeInfoStore from 'core/stores/route';
 import repoStore from 'application/stores/repo';
 import { useLoading } from 'core/stores/loading';
 import appStore from 'application/stores/application';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 
 interface IProps {
   mrDetail: REPOSITORY.IMrDetail;
@@ -401,7 +401,7 @@ const Mapper = () => {
   const permMap = usePerm((s) => s.app);
   const params = routeInfoStore.useStore((s) => s.params);
   const branchInfo = appStore.useStore((s) => s.branchInfo);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [mrDetail, mrStats, defaultBranch, isLocked] = repoStore.useStore((s) => [
     s.mrDetail,
     s.mrStats,

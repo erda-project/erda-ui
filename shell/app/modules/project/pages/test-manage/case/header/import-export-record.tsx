@@ -21,12 +21,12 @@ import { useLoading } from 'core/stores/loading';
 import testCaseStore from 'project/stores/test-case';
 import { Download as IconDownLoad } from '@icon-park/react';
 import userStore from 'app/user/stores';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import './import-file.scss';
 
 const ImportExportRecord = () => {
   const [contentVisible, setContentVisible] = useState(false);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [hasError, setHasError] = useState(false);
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [list, setList] = useState([] as TEST_CASE.ImportExportRecordItem[]);

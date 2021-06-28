@@ -18,7 +18,7 @@ import { map } from 'lodash';
 import moment from 'moment';
 import { Spin, Timeline } from 'app/nusi';
 import issueStore from 'project/stores/issues';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import * as React from 'react';
 import { goTo } from 'app/common/utils';
 import Markdown from 'common/utils/marked';
@@ -34,7 +34,7 @@ const { Item: TimelineItem } = Timeline;
 
 export const IssueActivities = (props: IProps) => {
   const { type } = props;
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const { projectId } = routeInfoStore.getState((s) => s.params);
 
   const issueStreamList: ISSUE.IssueStream[] = issueStore.useStore((s) => s[`${type.toLowerCase()}StreamList`]);

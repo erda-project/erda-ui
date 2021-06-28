@@ -21,7 +21,7 @@ import GotoCommit from 'application/common/components/goto-commit';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import releaseStore from 'app/modules/application/stores/release';
 
 interface IProps {
@@ -31,7 +31,7 @@ interface IProps {
 
 const ReleaseDetailEdit = (props: IProps) => {
   const { data, updateInfo } = props;
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   const infoEditAuth = usePerm((s) => s.app.release.info.edit.pass);
   if (!data || isEmpty(data)) {

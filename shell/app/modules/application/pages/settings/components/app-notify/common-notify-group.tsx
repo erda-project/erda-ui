@@ -19,7 +19,7 @@ import { Spin, Modal, Tooltip, Select, Table, Button } from 'app/nusi';
 import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
 import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import ExternalUserModal from './external-user-table';
@@ -95,7 +95,7 @@ export const ListTargets = ({
   targets: COMMON_STRATEGY_NOTIFY.INotifyTarget[];
   roleMap: any;
 }) => {
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const { values = [], type } = targets[0] || {};
   const firstValue = head(values)?.receiver as string;
   let text = '';
@@ -162,7 +162,7 @@ export const ListTargets = ({
 
 const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;

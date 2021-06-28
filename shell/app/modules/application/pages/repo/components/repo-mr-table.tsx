@@ -19,7 +19,7 @@ import { useEffectOnce } from 'react-use';
 import { goTo, fromNow } from 'common/utils';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
-import userMapStore from 'core/stores/userMap';
+import { useUserMap } from 'core/stores/userMap';
 import './repo-mr-table.scss';
 import repoStore from 'application/stores/repo';
 
@@ -34,7 +34,7 @@ interface IState {
 
 const RepoMrTable = ({ type }: IProps) => {
   const [mrList, mrPaging] = repoStore.useStore((s) => [s.mrList, s.mrPaging]);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   const [state, , update] = useUpdate({
     authorId: undefined,
