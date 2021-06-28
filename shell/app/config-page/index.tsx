@@ -35,7 +35,15 @@ interface IProps {
   updateConfig?: (params: Obj) => any;
 }
 
-const unProduct = process.env.NODE_ENV !== 'production';
+const unProduct = process.env.NODE_ENV === 'production';
+
+console.log('------', unProduct);
+export const enhanceUseMock = (_useMock: (params: Obj) => Promise<any>) => {
+  if (unProduct) {
+    return () => {};
+  }
+  return _useMock;
+};
 
 const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const {
@@ -45,7 +53,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     scenarioKey,
     showLoading = true,
     forceUpdateKey,
-    useMock,
+    useMock: _useMock,
     forceMock,
     debugConfig,
     onExecOp,
@@ -131,7 +139,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, _showLoading = true) => {
     // 此处用state，为了兼容useMock的情况
     if (_showLoading) updater.fetching(true);
-    ((useMockMark && useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
+    ((useMockMark && _useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
       .then((res: any) => {
         updater.fetching(false);
         if (partial) {
