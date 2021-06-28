@@ -151,16 +151,6 @@ interface IState {
   preData: object | null;
 }
 export class KeyValueTable extends React.Component<IProps, IState> {
-  table: any;
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      dataSource: convertToColumnData(props.data),
-      preData: null,
-    };
-  }
-
   // 供外部处理数据
   static dealTableData(data: object, as?: string) {
     const tbData = {};
@@ -189,6 +179,16 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     return null;
   }
 
+  table: any;
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      dataSource: convertToColumnData(props.data),
+      preData: null,
+    };
+  }
+
   getTableData() {
     return convertToMapData(this.state.dataSource);
   }
@@ -208,7 +208,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       });
     }
 
-    validateFields().then(() => {
+    return validateFields().then(() => {
       // 分页非第一页时，判断下第一个值不为空后添加新行
       const canAdd = dataSource.length === 0 || (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
       if (canAdd) {

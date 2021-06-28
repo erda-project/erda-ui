@@ -35,14 +35,14 @@ class LogSearchForm extends React.Component {
 
   setForm = (formData) => {
     if (!isEmpty(formData)) {
-      this.formRef.current.form.setFieldsValue(formData);
+      this.formRef.current.setFieldsValue(formData);
       // this.handleSubmit();
     }
   };
 
   handleSubmit = (values) => {
     const { setSearch } = this.props;
-    setSearch(values);
+    setSearch(this.formRef.current.getFieldsValue());
   };
 
   render() {
