@@ -35,7 +35,7 @@ import i18n from 'i18n';
 
 import './consumer-manage.scss';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { PAGINATION } from 'app/constants';
 
 const { confirm } = Modal;

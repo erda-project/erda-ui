@@ -14,8 +14,8 @@
 import React, { MutableRefObject } from 'react';
 import { useUpdate, FormModal, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
 import { FormInstance } from 'core/common/interface';
+import routeInfoStore from 'core/stores/route';
 import { message, Tooltip } from 'app/nusi';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';

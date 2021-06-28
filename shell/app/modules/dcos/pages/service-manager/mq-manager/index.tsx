@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { get } from 'lodash';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import MQInfoBox from './info';
 import Topic from './topic';
 import Group from './group';

@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Row, Col } from 'app/nusi';
 import OverviewMap from './config/chartMap';
 import TopTabRight from 'service-insight/common/components/tab-right';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import SICommonStore from '../../stores/common';
 import './overview.scss';
 

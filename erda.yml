@@ -13,7 +13,6 @@ services:
     envs:
       TA_ENABLE: "true"
       ENABLE_BIGDATA: "true"
-      ONLY_FDP: "false"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
       KRATOS_ADDR: "kratos:4433"
       KRATOS_PRIVATE_ADDR: "kratos:4434"
@@ -22,7 +21,6 @@ services:
       COLLECTOR_ADDR: "collector:7076"
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
       UC_ADDR: "uc:8080"
-      FDP_UI_ADDR: "fdp-ui:80"
       SCHEDULER_ADDR: "scheduler:9091"
       UC_PUBLIC_URL: ""
     resources:

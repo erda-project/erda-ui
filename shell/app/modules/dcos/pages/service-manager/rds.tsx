@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy, TagsColumn } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';
 import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';

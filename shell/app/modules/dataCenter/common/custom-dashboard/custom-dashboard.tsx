@@ -20,7 +20,7 @@ import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-
 import { goTo, getTimeSpan } from 'common/utils';
 import moment from 'moment';
 import { useMount } from 'react-use';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import orgMonitorMetaDataStore from 'dataCenter/stores/query-monitor-metadata';
 import mspMonitorMetaDataStore from 'msp/monitor/custom-dashboard/stores/query-monitor-metadata';
 import orgCustomDashboardStore from 'app/modules/dataCenter/stores/custom-dashboard';

@@ -20,7 +20,7 @@ import { Select, DatePicker, Table, Drawer } from 'app/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import traceStore from '../../../../stores/trace';
 import TraceSearchDetail from './trace-search-detail';

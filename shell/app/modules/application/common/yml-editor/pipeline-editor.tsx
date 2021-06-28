@@ -24,7 +24,7 @@ import { getInfoFromRefName } from 'application/pages/repo/util';
 import { insertWhen } from 'app/common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { produce } from 'immer';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { IYmlEditorProps } from './index';
 import { PipelineGraphicEditor } from 'yml-chart/common/pipeline-graphic-editor';
 import { NodeEleMap, externalKey, NodeType } from 'yml-chart/config';

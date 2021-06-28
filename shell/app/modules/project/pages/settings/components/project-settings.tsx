@@ -23,7 +23,7 @@ import memberStore from 'common/stores/project-member';
 import i18n from 'i18n';
 import { MemberScope } from 'app/common/stores/_member';
 import { Link } from 'react-router-dom';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import BranchRule from 'project/common/components/branch-rule';
 import IssueWorkflow from 'project/common/components/issue-workflow';
 import { usePerm } from 'app/user/common';

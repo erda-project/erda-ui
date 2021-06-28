@@ -21,7 +21,7 @@ import { map } from 'lodash';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { Button } from 'app/nusi';
 import { FormInstance } from 'core/common/interface';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { regRules } from 'common/utils';
 
 export type IData = Omit<API_ACCESS.UpdateSla, 'assetID' | 'swaggerVersion' | 'default'>;

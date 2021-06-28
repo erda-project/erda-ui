@@ -17,7 +17,7 @@ import { useEffectOnce } from 'react-use';
 import { MonitorChartNew, PieChart, MapChart, HollowPieChart } from 'charts';
 import { ChartContainer } from 'charts/utils';
 import monitorChartStore from 'app/modules/msp/monitor/monitor-common/stores/monitorChart';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
 interface ILoadObj {

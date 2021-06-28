@@ -15,7 +15,7 @@ import { updateSearch } from 'common/utils';
 import { map } from 'lodash';
 import * as React from 'react';
 import './setting-tabs.scss';
-import routeInfoStore from '../stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   className?: string;

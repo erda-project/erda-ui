@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Row, Col } from 'app/nusi';
 import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/stores/common';
 import QPSMap from './config/chartMap';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import TopTabRight from '../../common/components/tab-right';
 import mspStore from 'msp/stores/micro-service';
 

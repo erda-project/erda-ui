@@ -19,7 +19,7 @@ import { theme } from 'app/themes';
 import i18n from 'i18n';
 import './test-list.scss';
 import applicationTestStore from 'application/stores/test';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 
 const getTestDuration = (duration: any) => {

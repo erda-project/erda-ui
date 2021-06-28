@@ -19,7 +19,7 @@ import { useUpdate } from 'common';
 import { setLS, goTo } from 'common/utils';
 import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'app/nusi';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
 import runtimeDomainStore from 'runtime/stores/domain';
 import { ReduceOne as IconReduceOne, AddOne as IconAddOne } from '@icon-park/react';

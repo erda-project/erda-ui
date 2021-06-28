@@ -17,7 +17,7 @@ import * as React from 'react';
 import { Row, Col, Spin } from 'app/nusi';
 import MonthUptime from './month-uptime';
 import monitorStatusStore from 'status-insight/stores/status';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import './status-detail.scss';
 

@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Panel, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import moment from 'moment';
 
 interface IProps {
@@ -23,7 +23,7 @@ interface IProps {
 
 const CaseInfo = (props: IProps) => {
   const { caseDetail } = props;
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   const fields = [
     {

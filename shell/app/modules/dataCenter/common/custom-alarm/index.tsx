@@ -38,7 +38,7 @@ import { PagingTable, FormModal, useUpdate, MarkdownEditor, RenderPureForm, IF, 
 import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import orgCustomAlarmStore from 'app/modules/dataCenter/stores/custom-alarm';
 import mspCustomAlarmStore from 'msp/monitor/monitor-alarm/stores/custom-alarm';
 import orgMonitorMetaDataStore from 'app/modules/dataCenter/stores/analysis-monitor-metadata';

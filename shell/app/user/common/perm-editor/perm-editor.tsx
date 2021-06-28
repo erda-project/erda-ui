@@ -16,7 +16,7 @@ import { map, get, set, filter, uniq } from 'lodash';
 import { Tabs, Button } from 'app/nusi';
 import { Prompt } from 'react-router-dom';
 import { DebounceSearch, useUpdate } from 'common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { orgPerm, orgRoleMap } from 'user/stores/_perm-org';
 import { appPerm, appRoleMap } from 'user/stores/_perm-app';
 import { projectPerm, projectRoleMap } from 'user/stores/_perm-project';

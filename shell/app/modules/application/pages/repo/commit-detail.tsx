@@ -19,7 +19,7 @@ import FileDiff from './components/file-diff';
 
 import './repo-commit.scss';
 import repoStore from 'application/stores/repo';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const CommitDetail = () => {
   const [commitDetail, sonarMessage] = repoStore.useStore((s) => [s.commitDetail, s.sonarMessage]);

@@ -20,7 +20,7 @@ import moment from 'moment';
 import logAnalyticsStore from '../../stores/log-analytics';
 import './index.scss';
 import addonStore from 'common/stores/addon';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { formatTime, getTimeRanges } from 'app/common/utils';
 import { PAGINATION } from 'app/constants';
 

@@ -15,7 +15,7 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 import React, { useEffect } from 'react';
 import { filterOption } from 'common/utils';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import projectLabelStore from 'project/stores/label';
 import testCaseStore from 'project/stores/test-case';
 import { colors, labelType, TestOperation } from 'project/pages/test-manage/constants';

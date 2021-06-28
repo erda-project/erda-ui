@@ -20,7 +20,7 @@ import { FormModal, useSwitch, useUpdate } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';

@@ -24,7 +24,7 @@ import { mergeActionAndResource, getResource } from '../yml-flow-util';
 import ActionSelect from './action-select';
 import deployStore from 'application/stores/deploy';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './edit-stage.scss';
 import { Plus as IconPlus } from '@icon-park/react';
 

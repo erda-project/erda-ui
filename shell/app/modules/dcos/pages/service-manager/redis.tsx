@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import networksStore from 'dataCenter/stores/networks';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';

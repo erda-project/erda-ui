@@ -25,7 +25,7 @@ import { usePerm } from 'user/common';
 import './build-form.scss';
 import { insertWhen } from 'common/utils';
 import moment from 'moment';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 
 const { Option } = Select;

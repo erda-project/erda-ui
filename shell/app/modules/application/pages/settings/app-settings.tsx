@@ -32,7 +32,7 @@ import { usePerm } from 'app/user/common';
 import { goTo } from 'common/utils';
 import './app-settings.scss';
 import appStore from 'application/stores/application';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const showMap = {
   [appMode.SERVICE]: ['common', 'work', 'repository', 'pipeline', 'deploy', 'notification'],

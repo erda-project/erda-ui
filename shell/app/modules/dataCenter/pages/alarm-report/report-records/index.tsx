@@ -19,8 +19,8 @@ import { useMount, useUnmount } from 'react-use';
 import { Spin, Pagination, RangePicker } from 'app/nusi';
 import { Holder, Icon as CustomIcon, useUpdate, PureBoardGrid } from 'common';
 import { getTimeRanges } from 'common/utils';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'app/common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import alarmReportStore from '../../../stores/alarm-report';
 
 import './index.scss';

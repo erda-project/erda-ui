@@ -20,8 +20,8 @@ import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from '
 import i18n from 'i18n';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import cloudServiceStore from 'dcos/stores/cloud-service';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { Help as IconHelp } from '@icon-park/react';
 
 const { TabPane } = Tabs;

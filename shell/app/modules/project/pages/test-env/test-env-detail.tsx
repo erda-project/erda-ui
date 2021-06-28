@@ -19,7 +19,7 @@ import { Input, Select, Table, Radio } from 'app/nusi';
 import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor, useUpdate } from 'common';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import testEnvStore from 'project/stores/test-env';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
 
 const { Option } = Select;

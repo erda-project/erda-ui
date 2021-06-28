@@ -28,8 +28,8 @@ import { useEffectOnce } from 'react-use';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
 import codeQualityStore from 'application/stores/quality';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 
 import './index.scss';
 

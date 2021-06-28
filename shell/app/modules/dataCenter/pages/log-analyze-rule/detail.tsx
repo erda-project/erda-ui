@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { cloneDeep, isEmpty, map, uniqueId, find, findIndex, fill, filter, get, every } from 'lodash';
 import { useMount, useUpdateEffect } from 'react-use';
@@ -20,7 +20,7 @@ import { goTo, getLS } from 'common/utils';
 import { Button, message, Spin } from 'app/nusi';
 import { Form } from 'dop/pages/form-editor/index';
 import { registComponent } from 'app/configForm/form/form';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import FormSelectModel from './form-select-model';
 import FormTestButton from './form-test-button';
 import FormExtractResultTable from './form-extract-result-table';

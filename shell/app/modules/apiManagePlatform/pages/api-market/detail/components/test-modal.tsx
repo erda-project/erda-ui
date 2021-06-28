@@ -18,7 +18,7 @@ import { qs } from 'common/utils';
 import { useUpdate, Icon as CustomIcon, FileEditor } from 'common';
 import screenFull, { Screenfull } from 'screenfull';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { APITabs, commonColumn, ResponseTabs, formatData, fillingUrl } from './test-modal-utils';
 import { set, cloneDeep, map } from 'lodash';
 import './test-modal.scss';

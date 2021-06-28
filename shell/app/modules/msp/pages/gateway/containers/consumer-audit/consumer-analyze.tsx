@@ -18,7 +18,7 @@ import { FilterGroup, IF, PureBoardGrid } from 'common';
 import { daysRange } from 'common/utils';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import metricsMonitorStore from 'common/stores/metrics';
 import gatewayStore from 'msp/stores/gateway';
 

@@ -522,7 +522,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
               id: 2,
               appName: {
                 renderType: 'linkText',
-                value: 'fdp',
+                value: 'test',
                 operations: {
                   click: {
                     reload: false,

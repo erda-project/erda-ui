@@ -21,7 +21,7 @@ import { VswCIDRField, VpcCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount, validateIsSubnet } from '../common/util';
 import { formConfig } from '../common/config';
 import { FormInstance } from 'core/common/interface';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';
 

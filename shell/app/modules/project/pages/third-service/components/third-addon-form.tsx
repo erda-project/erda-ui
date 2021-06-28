@@ -18,7 +18,7 @@ import { FormInstance } from 'core/common/interface';
 import { filter, get, isEmpty, map } from 'lodash';
 import { Form, Select } from 'app/nusi';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';
 
 const { Option } = Select;

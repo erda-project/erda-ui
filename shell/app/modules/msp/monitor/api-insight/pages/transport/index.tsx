@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Row, Col } from 'app/nusi';
 import FilterNav from 'app/modules/msp/monitor/api-insight/common/components/filterNav';
 import TransportMap from './config/chartMap';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import apiMonitorFilterStore from '../../stores/filter';
 import gatewayStore from 'msp/stores/gateway';
 

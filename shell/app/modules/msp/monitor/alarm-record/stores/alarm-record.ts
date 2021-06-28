@@ -14,7 +14,7 @@
 import { createFlatStore } from 'app/cube';
 import { getDefaultPaging } from 'common/utils';
 import breadcrumbStore from 'layout/stores/breadcrumb';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import {
   getAlarmRecordList,
   getAlarmAttrs,

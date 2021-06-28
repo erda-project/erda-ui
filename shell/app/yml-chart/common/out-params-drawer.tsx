@@ -17,7 +17,7 @@ import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 import './out-params-drawer.scss';
 

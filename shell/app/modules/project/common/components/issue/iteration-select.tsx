@@ -17,7 +17,7 @@ import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useTempPaging } from 'app/common';
 import { getProjectIterations } from 'app/modules/project/services/project-iteration';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 import iterationStore from 'app/modules/project/stores/iteration';
 import i18n from 'i18n';

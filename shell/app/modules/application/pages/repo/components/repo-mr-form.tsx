@@ -23,7 +23,7 @@ import { isEmpty } from 'lodash';
 import repoStore from 'application/stores/repo';
 import { FormInstance } from 'core/common/interface';
 import './repo-mr-form.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import layoutStore from 'layout/stores/layout';
 import { Down as IconDown } from '@icon-park/react';
 

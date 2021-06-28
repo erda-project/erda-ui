@@ -22,8 +22,8 @@ import { FormInstance } from 'core/common/interface';
 import { FormModal } from 'common';
 import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { Upload as IconUpload } from '@icon-park/react';
 
 export interface IProps {

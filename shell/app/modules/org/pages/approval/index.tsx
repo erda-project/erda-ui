@@ -16,11 +16,11 @@ import { Select, Tooltip } from 'app/nusi';
 import { useUpdate, CRUDTable } from 'common';
 import { map, get, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import approvalStore from '../../stores/approval';
 import moment from 'moment';
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import DetailModal from '../certificate/detail-modal';
 import { typeMap as certificateTypeMap } from '../certificate/index';
 import i18n from 'i18n';
@@ -60,7 +60,7 @@ enum statusMap {
 }
 
 const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [loading] = useLoading(approvalStore, ['getApprovalList']);
   const [list, paging] = approvalStore.useStore((s) => {
     return type === 'done' ? [s.doneList, s.donePaging] : [s.undoneList, s.undonePaging];

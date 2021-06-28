@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/dataCenter/common/alarm-record/detail';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 export default () => {
   const { tenantGroup } = routeInfoStore.useStore((s) => s.params);

@@ -24,9 +24,9 @@ import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/i
 import { Ellipsis, Menu, Dropdown, Modal } from 'app/nusi';
 import { Form } from 'dop/pages/form-editor/index';
 import './issue-item.scss';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -46,7 +46,7 @@ export const IssueItem = (props: IIssueProps) => {
   const { data, onDelete, onDragDelete, issueType, onClickIssue = noop } = props;
   const { title, type, priority, creator, assignee } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const projectPerm = usePerm((s) => s.project);
   const permObj =
     type === ISSUE_OPTION.REQUIREMENT

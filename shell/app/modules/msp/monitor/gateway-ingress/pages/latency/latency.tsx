@@ -17,7 +17,7 @@ import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/s
 import LatencyMap from './config/chartMap';
 import TopTabRight from '../../common/components/tab-right';
 import StatisticsSelector, { STATISTICS } from '../../common/components/statistics-selector';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import HttpStatusInput from '../../common/components/http-status-input';
 import mspStore from 'msp/stores/micro-service';
 

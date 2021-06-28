@@ -63,19 +63,19 @@ server {
 
     # 301 redirect url with replace workBench to dop
     location ~ ^/[^/]*/workBench/ {
-        rewrite ^/([^/]*)/workBench/(.*)  /$1/dop/$2 permanent; 
+        # add $my_scheme to prevent redirect https to http
+        rewrite ^/([^/]*)/workBench/(.*) $my_scheme://$http_host/$1/dop/$2 redirect; 
     }
 
     # 301 redirect url with replace microService to msp
     location ~ ^/[^/]*/microService/ {
-        rewrite ^/([^/]*)/microService/(.*)  /$1/msp/$2 permanent; 
+        rewrite ^/([^/]*)/microService/(.*) $my_scheme://$http_host/$1/msp/$2 redirect; 
     }
 
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={
             "ENABLE_BIGDATA":${ENABLE_BIGDATA},
-            "ONLY_FDP":${ONLY_FDP},
             "UC_PUBLIC_URL":"${UC_PUBLIC_URL}"
         }';
     }
@@ -161,25 +161,13 @@ server {
         try_files /static/market/index.html =404;
     }
 
-    location ^~ /fdp-app/ {
-       proxy_pass   http://${FDP_UI_ADDR}/;
-    }
-
-    location ~* ^/api/[^/]*/fdp-websocket {
-        rewrite  /api/([^/]*)/(.*) /api/$2 break;
-        proxy_set_header org $1;
-        proxy_pass http://${OPENAPI_ADDR};
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-    }
-
     # redirect repo address to gittar when user agent is git
     location ~ ^/[^/]*/dop/ {
         if ($http_user_agent ~* "git"){
             proxy_pass http://${GITTAR_ADDR};
         }
+        index index.html;
+        try_files /static/shell/index.html /index.html =404;
     }
 
     location ^~ /wb {

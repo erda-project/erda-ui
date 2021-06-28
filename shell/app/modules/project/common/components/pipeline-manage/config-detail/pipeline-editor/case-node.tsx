@@ -18,7 +18,7 @@ import { Icon as CustomIcon } from 'common';
 import { get, isEmpty, map, find } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import { SCOPE_AUTOTEST, scopeMap } from 'project/common/components/pipeline-manage/config';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import './case-node.scss';
 
 export interface IProps {

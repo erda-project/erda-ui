@@ -27,8 +27,8 @@ import {
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { goTo } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 
 const formatVersion = (data: API_MARKET.VersionTreeItem[]) => {
   return data.map(({ swaggerVersion, versions }) => {
