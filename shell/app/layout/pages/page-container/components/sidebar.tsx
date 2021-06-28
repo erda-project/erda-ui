@@ -224,11 +224,16 @@ const SideBar = () => {
           }}
           onClick={() => {
             const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
-            if (isIncludeOrg) {
-              goTo(goTo.pages.orgRoot);
+						if (isIncludeOrg) {
+							goTo(goTo.pages.orgRoot);
+            } else if (!orgs?.length) {
+              // skipping warning when the user doesn't join any organization.
+							goTo(goTo.pages.orgRoot, { orgName: "-" });
             } else {
-              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
-            }
+							message.warning(i18n.t("default:org-jump-tip"), 2, () =>
+								goTo(goTo.pages.orgRoot, { orgName: "-" })
+							);
+						}
           }}
         />
       }
