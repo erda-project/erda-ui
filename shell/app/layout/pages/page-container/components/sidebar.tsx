@@ -55,7 +55,7 @@ const AppCenterEl = () => {
     cmp: permMap.cmp.showApp.pass,
     dop: permMap.dop.read.pass,
     diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
-    msp: permMap.entryMicroService.pass,
+    msp: permMap.entryMsp.pass,
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };

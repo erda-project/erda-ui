@@ -60,7 +60,7 @@ export const orgPerm = {
       },
     },
   },
-  entryMicroService: {
+  entryMsp: {
     pass: false,
     name: '微服务治理平台',
     role: ['Manager', 'Dev', 'Support', 'DataManager'],
