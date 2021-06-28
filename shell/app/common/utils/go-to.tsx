@@ -227,9 +227,6 @@ export enum pages {
   getwayDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail',
   gatewayList = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
 
-  // fdp
-  fdpIndex = '/{orgName}/fdp/__cluster__/__workspace__/data-source',
-
   // 企业中心告警数据报表
   alarmReport = '/{orgName}/dataCenter/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
 
