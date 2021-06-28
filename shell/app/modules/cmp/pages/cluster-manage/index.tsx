@@ -23,7 +23,7 @@ import { AddClusterModal, ClusterTypeModal, AliCloudContainerForm, AliCloudErdcF
 import { useLoading } from 'core/stores/loading';
 import clusterStore from '../../stores/cluster';
 import { ClusterLog } from './cluster-log';
-import routeStore from 'app/common/stores/route';
+import routeStore from 'core/stores/route';
 
 const ClusterManage = () => {
   const list = clusterStore.useStore((s) => s.list);

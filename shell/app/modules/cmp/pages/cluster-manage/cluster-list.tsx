@@ -12,118 +12,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Tooltip, Menu, Modal, Table, Popover } from 'app/nusi';
-import { goTo, notify } from 'common/utils';
+import { Modal, Table, Popover } from 'app/nusi';
+import { goTo, insertWhen, notify } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import machineStore from 'app/modules/cmp/stores/machine';
 import clusterStore from 'app/modules/cmp/stores/cluster';
-import { clusterImgMap } from './config';
 import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
 import DeleteClusterModal from './delete-cluster-modal';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
 import { ColumnProps } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
+import { useMount } from 'react-use';
+import ClipboardJS from 'clipboard';
+import { Button, Drawer, Input, message } from 'core/nusi';
 
 import './cluster-list.scss';
-
-interface ICardProps {
-  cluster: ORG_CLUSTER.ICluster;
-  detail: any;
-  toggleAddMachine: () => void;
-  onEdit: () => void;
-  toggleAddCloudMachine: () => void;
-  checkClusterUpdate: () => void;
-  onDeleteCluster: () => void;
-}
-
-const MenuItem = Menu.Item;
-const ClusterCard = (props: ICardProps) => {
-  const { cluster, toggleAddCloudMachine, toggleAddMachine, checkClusterUpdate, onEdit, onDeleteCluster, detail } =
-    props;
-  const { displayName, description, cloudVendor, type, name } = cluster;
-  const { addMachine, addCloudMachine, edit, upgrade, deleteCluster } = {
-    addMachine: { title: i18n.t('org:add machine'), onClick: () => toggleAddMachine() },
-    addCloudMachine: { title: i18n.t('org:add alibaba cloud machine'), onClick: () => toggleAddCloudMachine() },
-    edit: { title: i18n.t('common:change setting'), onClick: () => onEdit() },
-    upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate() },
-    deleteCluster: { title: i18n.t('org:cluster offline'), onClick: () => onDeleteCluster() },
-  };
-  const clusterOpsMap = {
-    dcos: [addMachine, edit, deleteCluster],
-    edas: [edit, deleteCluster],
-    k8s: [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-    'alicloud-cs': [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-    'alicloud-cs-managed': [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-    'alicloud-ecs': [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-  };
-  const ops = (
-    <Menu>
-      {map(clusterOpsMap[cloudVendor || type] || [], (op) => {
-        return (
-          <MenuItem key={op.title}>
-            <a onClick={op.onClick} className="cluster-op-text">
-              {op.title}
-            </a>
-          </MenuItem>
-        );
-      })}
-    </Menu>
-  );
-  const clusterImg = get(clusterImgMap[cloudVendor || type], 'active');
-  return (
-    <div className="cluster-item-card">
-      <div className="cluster-item-container">
-        <div className="cluster-logo">
-          <img src={clusterImg} />
-        </div>
-        <div className="cluster-text">
-          <div className="name bold-500 nowrap">
-            <span
-              className="hover-active"
-              onClick={() => {
-                goTo(`./${cluster.name}/detail`);
-              }}
-            >
-              {displayName || name}
-            </span>
-          </div>
-          <div className="description">
-            <Tooltip title={description}>
-              <span>{description || '-'}</span>
-            </Tooltip>
-          </div>
-          <div className="cluster-info-footer flex-box">
-            <span className="nowrap">
-              <CustomIcon type="jqlx" />
-              {get(detail, 'basic.edgeCluster.value', true) ? i18n.t('org:edge cluster') : i18n.t('org:center cluster')}
-            </span>
-            <span className="nowrap">
-              <CustomIcon type="bb1" />
-              {i18n.t('version')}: {get(detail, 'basic.clusterVersion.value', '')}
-            </span>
-            <span className="nowrap">
-              <CustomIcon type="IB" />
-              lb: {get(detail, 'basic.lbNum.value', '0')}
-            </span>
-            <span className="nowrap">
-              <CustomIcon type="master" />
-              master: {get(detail, 'basic.masterNum.value', '0')}
-            </span>
-          </div>
-        </div>
-        <div className="cluster-ops">
-          <Dropdown overlay={ops} placement="bottomRight" trigger={['click']}>
-            <CustomIcon className="fz24 hover-active" type="more" />
-          </Dropdown>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 interface IProps {
   dataSource: any[];
@@ -133,6 +40,15 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { addCloudMachine } = machineStore.effects;
   const { upgradeCluster, deleteCluster, getClusterNewDetail } = clusterStore.effects;
   const [curCluster, setCurCluster] = React.useState(null as any);
+
+  useMount(() => {
+    const clipboard = new ClipboardJS('.btn-to-copy');
+
+    clipboard.on('success', (e) => {
+      message.success(i18n.d('复制成功'));
+      e.clearSelection();
+    });
+  });
 
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
@@ -144,6 +60,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     deleteModalVis: false,
     curDeleteCluster: null,
     clusterDetailList: [],
+    registerCommandVisible: false,
   });
 
   React.useEffect(() => {
@@ -204,7 +121,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     );
   };
 
-  const togglelDeleteModal = (item?: ORG_CLUSTER.ICluster) => {
+  const toggleDeleteModal = (item?: ORG_CLUSTER.ICluster) => {
     if (item) {
       updater.curDeleteCluster(item);
       updater.deleteModalVis(true);
@@ -213,6 +130,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       updater.deleteModalVis(false);
     }
   };
+
   const submitDelete = ({ clusterName }: { clusterName: string }) => {
     // 删除后根据recordID查看操作纪录接口中的详情作为提示
     deleteCluster({ clusterName }).then((deleteRes: any) => {
@@ -225,12 +143,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           }
         });
     });
-    togglelDeleteModal();
+    toggleDeleteModal();
   };
+
   const getClusterDetail = (name: string) => {
     const curDetail = find(state.clusterDetailList, (item) => get(item, 'basic.clusterName.value') === name) || {};
     return curDetail;
   };
+  
   const renderMenu = (record: ORG_CLUSTER.ICluster) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
@@ -240,6 +160,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       edit,
       upgrade,
       deleteCluster: deleteClusterCall,
+      showRegisterCommand,
     } = {
       addMachine: {
         title: i18n.t('org:add machine'),
@@ -256,14 +177,20 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       deleteCluster: {
         title: i18n.t('org:cluster offline'),
         onClick: () => {
-          togglelDeleteModal(record);
+          toggleDeleteModal(record);
+        },
+      },
+      showRegisterCommand: {
+        title: i18n.d('注册命令'),
+        onClick: () => {
+          updater.registerCommandVisible(!state.registerCommandVisible);
         },
       },
     };
     const clusterOpsMap = {
       dcos: [addMachine, edit, deleteClusterCall],
       edas: [edit, deleteClusterCall],
-      k8s: [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
+      k8s: [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall, ...insertWhen(true, [showRegisterCommand])],
       'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
@@ -297,6 +224,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       </span>
     );
   };
+
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
       title: i18n.t('org:cluster name'),
@@ -386,10 +314,24 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       <DeleteClusterModal
         visible={state.deleteModalVis}
-        onCancel={() => togglelDeleteModal()}
+        onCancel={() => toggleDeleteModal()}
         onSubmit={submitDelete}
         curCluster={state.curDeleteCluster}
       />
+      <Drawer
+        visible={state.registerCommandVisible}
+        destroyOnClose
+        title={i18n.d('集群注册命令')}
+        width="800"
+        onClose={() => updater.registerCommandVisible(false)}
+      >
+        <div className="flex flex-col items-end">
+          <Input.TextArea id="command-script" disabled />
+          <Button type="ghost" className="btn-to-copy mt-4" data-clipboard-target="#command-script">
+            {i18n.d('复制命令')}
+          </Button>
+        </div>
+      </Drawer>
       <div>
         <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
       </div>
