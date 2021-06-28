@@ -21,7 +21,7 @@ import memberStore from 'common/stores/org-member';
 import BlockNetwork from 'org/pages/setting/block-network';
 import { OrgInfo } from './org-info';
 import { OperationLogSetting } from './operation-log-setting';
-import { MemberScope } from 'app/common/stores/_member';
+import { MemberScope } from 'app/common/stores/menber-scope';
 import { MemberLabels } from './member-label';
 import { Link } from 'react-router-dom';
 import IssueFieldManage from '../projects/issue-field-manage';
