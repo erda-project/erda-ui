@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import userMapStore from 'common/stores/user-map';
+import userMapStore from 'core/stores/userMap';
 import { getDefaultPaging } from 'common/utils';
 import {
   getTicketList,

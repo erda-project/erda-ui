@@ -19,7 +19,7 @@ import { ProblemList } from './problem-list';
 import { ProblemForm } from './problem-form';
 import i18n from 'i18n';
 import problemStore from '../../stores/problem';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { useUnmount } from 'react-use';
 import orgStore from 'app/org-home/stores/org';
 
