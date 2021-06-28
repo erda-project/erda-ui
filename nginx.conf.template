@@ -63,12 +63,13 @@ server {
 
     # 301 redirect url with replace workBench to dop
     location ~ ^/[^/]*/workBench/ {
-        rewrite ^/([^/]*)/workBench/(.*)  /$1/dop/$2 permanent; 
+        # add $my_scheme to prevent redirect https to http
+        rewrite ^/([^/]*)/workBench/(.*) $my_scheme://$http_host/$1/dop/$2 redirect; 
     }
 
     # 301 redirect url with replace microService to msp
     location ~ ^/[^/]*/microService/ {
-        rewrite ^/([^/]*)/microService/(.*)  /$1/msp/$2 permanent; 
+        rewrite ^/([^/]*)/microService/(.*) $my_scheme://$http_host/$1/msp/$2 redirect; 
     }
 
     location /api/dice-env  {
@@ -165,6 +166,8 @@ server {
         if ($http_user_agent ~* "git"){
             proxy_pass http://${GITTAR_ADDR};
         }
+        index index.html;
+        try_files /static/shell/index.html /index.html =404;
     }
 
     location ^~ /wb {
