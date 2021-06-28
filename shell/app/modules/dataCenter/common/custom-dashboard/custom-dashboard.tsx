@@ -22,9 +22,9 @@ import moment from 'moment';
 import { useMount } from 'react-use';
 import routeInfoStore from 'common/stores/route';
 import orgMonitorMetaDataStore from 'dataCenter/stores/query-monitor-metadata';
-import microServiceMonitorMetaDataStore from 'microService/monitor/custom-dashboard/stores/query-monitor-metadata';
+import mspMonitorMetaDataStore from 'msp/monitor/custom-dashboard/stores/query-monitor-metadata';
 import orgCustomDashboardStore from 'app/modules/dataCenter/stores/custom-dashboard';
-import microServiceCustomDashboardStore from 'microService/monitor/custom-dashboard/stores/custom-dashboard';
+import mspCustomDashboardStore from 'msp/monitor/custom-dashboard/stores/custom-dashboard';
 import { CustomDashboardScope } from 'app/modules/dataCenter/stores/_common-custom-dashboard';
 import { getVariableStr } from '../utils';
 import { createLoadDataFn as createOldLoadDataFn } from './data-loader';
@@ -32,12 +32,12 @@ import './custom-dashboard.scss';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,
-  [CustomDashboardScope.MICRO_SERVICE]: microServiceCustomDashboardStore,
+  [CustomDashboardScope.MICRO_SERVICE]: mspCustomDashboardStore,
 };
 
 const dataConfigMetaDataStoreMap = {
   [CustomDashboardScope.ORG]: orgMonitorMetaDataStore,
-  [CustomDashboardScope.MICRO_SERVICE]: microServiceMonitorMetaDataStore,
+  [CustomDashboardScope.MICRO_SERVICE]: mspMonitorMetaDataStore,
 };
 
 const dataUrlMap = {
@@ -69,7 +69,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { dashboardId } = params;
   const isDashboardDetail = !!dashboardId;
-  const isFromMicroService = scope === CustomDashboardScope.MICRO_SERVICE;
+  const isFromMsp = scope === CustomDashboardScope.MICRO_SERVICE;
 
   const [{ curLayout, isEditMode, dashboardName, isNewVersionDC, dashboardDesc, editorToggleStatus }, updater] =
     useUpdate({
@@ -131,7 +131,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
                   start: startTimeMs,
                   end: endTimeMs,
                   // 初始化大盘时，后端初始不了鉴权参数
-                  filter_terminus_key: isFromMicroService ? scopeId : undefined,
+                  filter_terminus_key: isFromMsp ? scopeId : undefined,
                 },
               },
             },
@@ -154,7 +154,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
         updater.curLayout(layout);
       });
     },
-    [getCustomDashboardDetail, scopeId, updater, timeSpan, isFromMicroService, query],
+    [getCustomDashboardDetail, scopeId, updater, timeSpan, isFromMsp, query],
   );
 
   React.useEffect(() => {

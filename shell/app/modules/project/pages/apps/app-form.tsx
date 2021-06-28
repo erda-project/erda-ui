@@ -181,7 +181,7 @@ const CreationForm = () => {
       ? [
           {
             // 暮志说后面有多个模板时，前端可能要做个判断，不同的模板参数会不一样，目前模板列表其实也是一个静态数据，选择的模板不用提交
-            label: i18n.t('microService:template'),
+            label: i18n.t('msp:template'),
             name: 'template',
             type: 'select',
             required: false,

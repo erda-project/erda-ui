@@ -25,7 +25,7 @@ import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import dataCenterAlarmStrategyStore from 'app/modules/dataCenter/stores/alarm-strategy';
-import microServiceAlarmStrategyStore from 'app/modules/microService/monitor/monitor-alarm/stores/alarm-strategy';
+import mspAlarmStrategyStore from 'app/modules/msp/monitor/monitor-alarm/stores/alarm-strategy';
 import {
   notifyChannelOptionsMap,
   smsNotifyChannelOptionsMap,
@@ -55,7 +55,7 @@ const SILENCE_PERIOD_POLICY_MAP = {
 
 const alarmStrategyStoreMap = {
   [ScopeType.ORG]: dataCenterAlarmStrategyStore,
-  [ScopeType.PROJECT]: microServiceAlarmStrategyStore,
+  [ScopeType.PROJECT]: mspAlarmStrategyStore,
 };
 
 const memberStoreMap = {

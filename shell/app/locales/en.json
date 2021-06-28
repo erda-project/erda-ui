@@ -433,7 +433,7 @@
     "restart": "restart",
     "rollback": "rollback",
     "running resources": "running resources",
-    "runtime-resource-config-form-tip": "after the configuration is saved successfully, it will take effect when the application is deployed again. If you want to save to the code, please manually sync to dice.yml",
+    "runtime-resource-config-form-tip": "The modification of this expansion configuration will take effect immediately. Note: But it will cause the resource configuration in erda.yml to become invalid (the expansion configuration has a higher priority)",
     "save": "save",
     "search by application name": "search by application name",
     "search by chinese/english name of attribute": "search by chinese/english name of attribute",
@@ -1133,7 +1133,7 @@
     "Members under the project/application associated with the current API can view it.": "members under the project/application associated with the current API can view",
     "Memory allocation": "Memory allocation",
     "Memory usage": "Memory usage",
-    "Microservice": "Microservice",
+    "msp": "Microservice platform",
     "Middle-east & India": "Middle-east & India",
     "Monday": "Monday",
     "Mumbai": "Mumbai",
@@ -1950,7 +1950,7 @@
     "it is getting offline and it will take a effect later": "it is getting offline and it will take a effect later",
     "site management": "site management"
   },
-  "microService": {
+  "msp": {
     "32 digits letters and numbers": "32 digits letters and numbers",
     "API analysis": "API analysis",
     "API path": "API path",

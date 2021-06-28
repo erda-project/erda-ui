@@ -71,7 +71,7 @@ const ProjectSettings = () => {
                       </Link>
                     </div>
                   ),
-                  children: <MembersTable scopeKey={MemberScope.PROJECT} showAuthorize />,
+                  children: <MembersTable scopeKey={MemberScope.PROJECT} showAuthorize hasConfigAppAuth />,
                 },
               ]}
             />

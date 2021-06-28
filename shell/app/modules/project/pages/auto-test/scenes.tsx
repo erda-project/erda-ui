@@ -74,7 +74,7 @@ const AutoTestScenes = () => {
                     logVisible: true,
                     logProps: {
                       logId,
-                      title: i18n.t('microService:log details'),
+                      title: i18n.t('msp:log details'),
                       customFetchAPIPrefix: `/api/apitests/pipeline/${pId}/task/${nId}/logs`,
                       pipelineID: pId,
                       taskID: nId,

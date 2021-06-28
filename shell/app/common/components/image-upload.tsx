@@ -114,31 +114,6 @@ export class ImageUpload extends Component<IProps, IState> {
     );
   }
 
-  renderWithImageUploadItem(imageUrl: string, uploadText: string, queryData: any) {
-    const { isSquare = true } = this.props;
-    return (
-      <div className="image-upload mr8 mb8">
-        <Input type="hidden" value={imageUrl} />
-        <Upload accept=".jpg, .jpeg, .png, .gif" {...this.getUploadProps(queryData)}>
-          <div>
-            <img
-              alt="upload"
-              src={imageUrl}
-              className={classnames({
-                'image-content': true,
-                'no-square': !isSquare,
-              })}
-            />
-            <div className="no-image">
-              <CustomIcon key="icon" type="cir-add" />
-              <div key="text">{uploadText}</div>
-            </div>
-          </div>
-        </Upload>
-      </div>
-    );
-  }
-
   renderPureImageItem(imageUrl: string, idx?: number) {
     const { isSquare = true, form, afterUpload, id, isMulti } = this.props;
     const { images = [] } = this.state;

@@ -17,15 +17,13 @@ import i18n from 'i18n';
 import { Spin, Table, Input, Select } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
-import domainServices from 'dataCenter/services/domain-manage';
+import { getClusterList, getDomainList } from 'dataCenter/services/domain-manage';
 import { getDefaultPaging, goTo } from 'app/common/utils';
 import { getProjectList } from 'project/services/project';
 import routeInfoStore from 'common/stores/route';
-import { useServiceLoading } from 'common/stores/loading';
 import orgStore from 'app/org-home/stores/org';
 
 const { Option } = Select;
-const { getClusterList, getDomainList } = domainServices;
 
 const SERVER_TYPES = {
   service: i18n.t('common:service'),
@@ -47,25 +45,24 @@ const envOptions = Object.keys(ENV_DIC).map((key: string) => (
 ));
 
 const DomainManage = () => {
-  const loadingList = useServiceLoading('domain-manage', ['getDomainList']);
   const { projectName, projectID } = routeInfoStore.useStore((s) => s.query);
 
-  const [{ projectData, query, clusterList, domainList, domainPaging }, updater] = useUpdate({
+  const [{ projectData, query }, updater] = useUpdate({
     projectData: { value: projectID, label: projectName },
     query: {} as Obj,
-    clusterList: [] as ORG_CLUSTER.ICluster[],
-    domainList: [] as DOMAIN_MANAGE.IDomain[],
-    domainPaging: getDefaultPaging(),
   });
+  const [clusterList, loadingList] = getClusterList.useState();
+  const data = getDomainList.useData();
+  const domainList = data?.list || [];
+  const domainPaging = data?.paging || getDefaultPaging();
 
   const getProjectListData = (q: any) => {
     return getProjectList({ ...q, query: q.q }).then((res: any) => res.data);
   };
 
-  useMount(async () => {
+  useMount(() => {
     const userOrgId = orgStore.getState((s) => s.currentOrg.id);
-    const res = await getClusterList({ orgID: userOrgId });
-    updater.clusterList(res);
+    getClusterList.fetch({ orgID: userOrgId });
   });
 
   const chosenItemConvert = React.useCallback(
@@ -92,14 +89,14 @@ const DomainManage = () => {
         type: Input,
         name: 'domain',
         customProps: {
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('microService:domain name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('msp:domain name') }),
         },
       },
       {
         type: Select,
         name: 'clusterName',
         customProps: {
-          options: map(clusterList, ({ name }) => (
+          children: map(clusterList, ({ name }) => (
             <Option key={name} value={name}>
               {name}
             </Option>
@@ -112,7 +109,7 @@ const DomainManage = () => {
         type: Select,
         name: 'type',
         customProps: {
-          options: map(Object.keys(SERVER_TYPES), (value) => (
+          children: map(Object.keys(SERVER_TYPES), (value) => (
             <Option key={value} value={value}>
               {SERVER_TYPES[value]}
             </Option>
@@ -146,7 +143,7 @@ const DomainManage = () => {
         name: 'workspace',
         customProps: {
           allowClear: true,
-          options: envOptions,
+          children: envOptions,
           placeholder: i18n.t('please choose {name}', { name: i18n.t('application:environment') }),
         },
       },
@@ -154,14 +151,14 @@ const DomainManage = () => {
     [chosenItemConvert, clusterList, updater],
   );
 
-  const onFilter = async (params: Obj) => {
+  const onFilter = (params: Obj) => {
     updater.query(params);
-    await getDomainListCall({ pageNo: 1, query: params, pageSize: domainPaging.pageSize });
+    getDomainList.fetch({ pageNo: 1, ...params, pageSize: domainPaging.pageSize });
   };
 
   const urlExtra = React.useMemo(() => {
     return { pageNo: domainPaging.pageNo, projectName: projectData.label };
-  }, [domainPaging, projectData]);
+  }, [domainPaging.pageNo, projectData]);
 
   const columns: any[] = [
     {
@@ -170,7 +167,7 @@ const DomainManage = () => {
       tip: true,
     },
     {
-      title: i18n.t('microService:domain name'),
+      title: i18n.t('msp:domain name'),
       dataIndex: 'domain',
       tip: true,
     },
@@ -188,7 +185,7 @@ const DomainManage = () => {
       tip: true,
     },
     {
-      title: i18n.t('microService:application name'),
+      title: i18n.t('msp:application name'),
       dataIndex: 'appName',
       tip: true,
     },
@@ -248,27 +245,13 @@ const DomainManage = () => {
     width: 150,
   };
 
-  const getDomainListCall = async ({
-    query: _query,
-    pageNo,
-    pageSize,
-  }: {
-    query?: Obj;
-    pageNo: number;
-    pageSize: number;
-  }) => {
-    const { list, paging } = await getDomainList({ ..._query, pageNo, pageSize });
-    updater.domainList(list);
-    updater.domainPaging(paging);
-  };
-
   const pagination = {
     total: domainPaging.total,
     current: domainPaging.pageNo,
     pageSize: domainPaging.pageSize,
     showSizeChanger: true,
-    onChange: (no: number) => getDomainListCall({ pageNo: no, pageSize: domainPaging.pageSize }),
-    onShowSizeChange: (_no: number, size: number) => getDomainListCall({ ...query, pageNo: 1, pageSize: size }),
+    onChange: (no: number) => getDomainList.fetch({ ...query, pageNo: no, pageSize: domainPaging.pageSize }),
+    onShowSizeChange: (_no: number, size: number) => getDomainList.fetch({ ...query, pageNo: 1, pageSize: size }),
   };
 
   return (

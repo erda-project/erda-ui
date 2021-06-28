@@ -53,6 +53,7 @@ interface IProps {
   readOnly?: boolean;
   showAuthorize?: boolean;
   hideBatchOps?: boolean;
+  hasConfigAppAuth?: boolean;
   overwriteAuth?: {
     add?: boolean;
     edit?: boolean;
@@ -67,6 +68,7 @@ export const MembersTable = ({
   showAuthorize = false,
   hideBatchOps = false,
   overwriteAuth = {},
+  hasConfigAppAuth = false,
 }: IProps) => {
   const memberLabels = memberLabelStore.useStore((s) => s.memberLabels);
   const { getMemberLabels } = memberLabelStore.effects;
@@ -526,6 +528,7 @@ export const MembersTable = ({
             scope={scope}
             visible={state.addModalVisible}
             roleMap={roleMap}
+            hasConfigAppAuth={hasConfigAppAuth}
             memberLabels={memberLabels}
             queryParams={state.queryParams}
             toggleModal={() => updater.addModalVisible(false)}

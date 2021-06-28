@@ -32,7 +32,7 @@ import {
   getAddonLogs,
   getAddonLogStatistics,
 } from '../services/log-analyze';
-import microServiceStore from 'microService/stores/micro-service';
+import mspStore from 'msp/stores/micro-service';
 
 interface IState {
   tagsTree: LOG_ANALYZE.TagsTree[];
@@ -56,12 +56,12 @@ const getScope = (useTk?: boolean) => {
   const [routeMarks, params] = routeInfoStore.getState((s) => [s.routeMarks, s.params]);
   const orgName = orgStore.getState((s) => s.currentOrg.name);
   const inDataCenter = routeMarks.includes('dataCenter');
-  const inMicroService = routeMarks.includes('microService');
-  const msMenuMap = microServiceStore.getState((s) => s.msMenuMap);
-  const scope = inDataCenter ? 'org' : inMicroService ? 'micro-service' : '';
+  const inMsp = routeMarks.includes('msp');
+  const msMenuMap = mspStore.getState((s) => s.msMenuMap);
+  const scope = inDataCenter ? 'org' : inMsp ? 'micro-service' : '';
   const scopeID = inDataCenter
     ? orgName
-    : inMicroService
+    : inMsp
     ? useTk
       ? msMenuMap.AnalyzeRule?.params.terminusKey
       : params.addonId

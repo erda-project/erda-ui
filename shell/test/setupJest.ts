@@ -13,7 +13,6 @@
 
 /* eslint-disable import/no-extraneous-dependencies */
 import { GlobalWithFetchMock } from 'jest-fetch-mock';
-import * as C from '../app/cube';
 import { jest } from '@jest/globals';
 import { TextDecoder, TextEncoder } from 'util';
 
@@ -44,28 +43,6 @@ jest.mock('holderjs', () => {
   };
 });
 
-jest.mock('common/stores/user-map', () => {
-  return C?.createStore({
-    name: 'userMap',
-    state: {
-      1: {
-        name: 'name-dice',
-        nick: 'nick-dice',
-      },
-      2: {
-        name: 'name-dice',
-      },
-      3: {
-        nick: 'nick-dice',
-      },
-    },
-    reducers: {
-      setUserMap(state, userInfo: object) {
-        return { ...state, ...userInfo };
-      },
-    },
-  });
-});
 const mock = (data) => {
   const temp = {};
   Object.keys(data).forEach((key) => {
@@ -74,11 +51,11 @@ const mock = (data) => {
   return temp;
 };
 const mockLocation = {
-  href: 'https://terminus-org.app.terminus.io/dop/apps?id=1#123',
+  href: 'https://terminus-org.app.terminus.io/erda/dop/apps?id=1#123',
   host: 'terminus-org.app.terminus.io',
   hostname: 'terminus-org.app.terminus.io',
   origin: 'https://terminus-org.app.terminus.io',
-  pathname: '/dop/apps',
+  pathname: '/erda/dop/apps',
   hash: '#123',
   search: '?id=1',
 };

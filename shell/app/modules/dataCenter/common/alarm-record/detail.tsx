@@ -28,7 +28,7 @@ import SelectProjectModal from '../select-project-modal';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 import orgAlarmRecordStore from 'dataCenter/stores/alarm-record';
-import microServiceAlarmRecordStore from 'microService/monitor/alarm-record/stores/alarm-record';
+import mspAlarmRecordStore from 'msp/monitor/alarm-record/stores/alarm-record';
 
 import './detail.scss';
 
@@ -39,7 +39,7 @@ export enum AlarmRecordScope {
 
 const storeMap = {
   [AlarmRecordScope.ORG]: orgAlarmRecordStore,
-  [AlarmRecordScope.MICRO_SERVICE]: microServiceAlarmRecordStore,
+  [AlarmRecordScope.MICRO_SERVICE]: mspAlarmRecordStore,
 };
 
 const defaultTime = 7 * 24; // hour

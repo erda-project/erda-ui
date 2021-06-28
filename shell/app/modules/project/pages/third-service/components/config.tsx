@@ -13,7 +13,7 @@
 
 import { FormInstance } from 'core/common/interface';
 import { insertWhen } from 'common/utils/index';
-import { Select, Tooltip } from 'app/nusi';
+import { Select } from 'app/nusi';
 import i18n from 'i18n';
 import { produce } from 'immer';
 import { getOptions, groupOptions } from 'app/modules/dataCenter/pages/cluster-manage/config';
@@ -120,7 +120,7 @@ export const MysqlFieldsConfig = {
               const { name, value } = item;
               return (
                 <Option key={value} value={value}>
-                  <Tooltip title={value}>{name}</Tooltip>
+                  {name}
                 </Option>
               );
             },
@@ -286,7 +286,7 @@ export const RedisFieldConfig = {
               const { name, value } = item;
               return (
                 <Option key={value} value={value}>
-                  <Tooltip title={value}>{name}</Tooltip>
+                  {name}
                 </Option>
               );
             },
@@ -626,7 +626,7 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
             ],
           },
           {
-            label: i18n.t('microService:security strategy'),
+            label: i18n.t('msp:security strategy'),
             type: 'select',
             name: 'httpsPolicy',
             options: [

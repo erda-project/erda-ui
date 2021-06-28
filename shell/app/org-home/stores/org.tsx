@@ -194,8 +194,8 @@ const setLocationByAuth = (authObj: Obj) => {
       isCurPage: curPathname.startsWith(`/${orgName}/orgCenter`),
       authRole: intersection(orgPerm.entryOrgCenter.role, roles),
     },
-    microService: {
-      isCurPage: curPathname.startsWith(`/${orgName}/microService`),
+    msp: {
+      isCurPage: curPathname.startsWith(`/${orgName}/msp`),
       authRole: intersection(orgPerm.entryMicroService.role, roles),
     },
     edge: {

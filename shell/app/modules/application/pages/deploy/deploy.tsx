@@ -150,7 +150,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
           }
           return (
             <Option key={item.name} value={item.name} disabled={!!tip}>
-              <Tooltip title={tip}>{item.name}</Tooltip>
+              {item.name}
             </Option>
           );
         }),

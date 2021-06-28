@@ -66,6 +66,11 @@ server {
         rewrite ^/([^/]*)/workBench/(.*)  /$1/dop/$2 permanent; 
     }
 
+    # 301 redirect url with replace microService to msp
+    location ~ ^/[^/]*/microService/ {
+        rewrite ^/([^/]*)/microService/(.*)  /$1/msp/$2 permanent; 
+    }
+
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={

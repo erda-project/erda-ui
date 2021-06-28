@@ -39,7 +39,6 @@ const MetaModal = ({ labelName: oldLabelName, onOk: oldOnOk }: IProps) => {
   const { getFields } = testCaseStore.effects;
   const { closeNormalModal } = testCaseStore.reducers;
   const [oldCaseAction, metaFields] = testCaseStore.useStore((s) => [s.caseAction, s.metaFields]);
-  // const confirmLoading = loadingStore.useSpace(testCaseStore)[updateEventMap[oldCaseAction]];
   const [confirmLoading] = useLoading(testCaseStore, [`${updateEventMap[oldCaseAction]}`]);
   const caseAction = (defaultMetaActions.includes(oldCaseAction) ? oldCaseAction : '') as string;
   const meta = find(metaFields, ({ uniqueName }) => uniqueName === caseAction);

@@ -40,9 +40,9 @@ import { useMount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
 import orgCustomAlarmStore from 'app/modules/dataCenter/stores/custom-alarm';
-import microServiceCustomAlarmStore from 'microService/monitor/monitor-alarm/stores/custom-alarm';
+import mspCustomAlarmStore from 'msp/monitor/monitor-alarm/stores/custom-alarm';
 import orgMonitorMetaDataStore from 'app/modules/dataCenter/stores/analysis-monitor-metadata';
-import microServiceMonitorMetaDataStore from 'app/modules/microService/monitor/monitor-alarm/stores/analysis-monitor-metadata';
+import mspMonitorMetaDataStore from 'app/modules/msp/monitor/monitor-alarm/stores/analysis-monitor-metadata';
 import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
 
 import './index.scss';
@@ -58,12 +58,12 @@ enum DataType {
 
 const customAlarmStoreMap = {
   org: orgCustomAlarmStore,
-  microService: microServiceCustomAlarmStore,
+  msp: mspCustomAlarmStore,
 };
 
 const monitorMetaDataStoreMap = {
   org: orgMonitorMetaDataStore,
-  microService: microServiceMonitorMetaDataStore,
+  msp: mspMonitorMetaDataStore,
 };
 
 const formItemLayout = {

@@ -290,7 +290,7 @@ export const numberFormatField = {
   required: false,
   colSpan: 8,
   customProps: {
-    options: numberTypeOptions,
+    children: numberTypeOptions,
   },
 };
 
@@ -298,7 +298,7 @@ export const numberFormatField = {
 export const numberMinimumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('microService:minimum'),
+    label: i18n.t('msp:minimum'),
     name: 'minimum',
     colSpan: 8,
     required: false,
@@ -325,7 +325,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
 export const numberMaximumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('microService:maximum value'),
+    label: i18n.t('msp:maximum value'),
     name: 'maximum',
     colSpan: 8,
     required: false,
@@ -416,7 +416,7 @@ export const mediaTypeField = {
   colSpan: 12,
   initialValue: 'application/json',
   customProps: {
-    options: map(API_MEDIA_TYPE, (t) => (
+    children: map(API_MEDIA_TYPE, (t) => (
       <Option key={t} value={t}>
         {t}
       </Option>
@@ -487,7 +487,7 @@ export const getPropertyFormSelector = (props: {
       {
         ...propertyTypeSelectorField,
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },
@@ -532,7 +532,7 @@ export const getPropertyFormSelector = (props: {
         colSpan: 10,
         initialValue: 'string',
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },
@@ -578,7 +578,7 @@ export const getPropertyFormSelector = (props: {
         ...propertyTypeSelectorField,
         initialValue: 'string',
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },
@@ -590,7 +590,7 @@ export const getPropertyFormSelector = (props: {
         initialValue: 'string',
         colSpan: 24,
         customProps: {
-          options: dataTypeOptions,
+          children: dataTypeOptions,
           showSearch: true,
         },
       },

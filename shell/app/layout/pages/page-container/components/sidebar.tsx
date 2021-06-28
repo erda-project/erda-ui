@@ -20,7 +20,7 @@ import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
-import { goTo, ossImg } from 'common/utils';
+import { goTo, ossImg, insertWhen } from 'common/utils';
 import { find, get, map } from 'lodash';
 import { useMount } from 'react-use';
 import { FULL_DOC_DOMAIN } from 'common/constants';
@@ -43,7 +43,7 @@ const AppCenterEl = () => {
     dop: 'devops1',
     sysAdmin: 'guanli',
     dataCenter: 'duoyun',
-    microService: 'weifuwu1',
+    msp: 'weifuwu1',
     orgCenter: 'guanli',
     diceFdp: 'kuaishuju',
     edge: 'bianyuanjisuan',
@@ -55,7 +55,7 @@ const AppCenterEl = () => {
     dataCenter: permMap.dataCenter.showApp.pass,
     dop: permMap.dop.read.pass,
     diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
-    microService: permMap.entryMicroService.pass,
+    msp: permMap.entryMicroService.pass,
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };
@@ -196,6 +196,23 @@ const SideBar = () => {
     orgStore.effects.getJoinedOrgs();
   });
 
+  const useMenuOperations = [
+    ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [
+      {
+        icon: <CustomIcon type="gerenshezhi" />,
+        title: i18n.t('layout:personal settings'),
+        onClick: () => {
+          window.open(diceEnv.UC_PUBLIC_URL);
+        },
+      },
+    ]),
+    {
+      icon: <CustomIcon type="logout" />,
+      title: i18n.t('layout:logout'),
+      onClick: userStore.effects.logout,
+    },
+  ];
+
   const userMenu = {
     name: loginUser.nick || loginUser.name,
     // subtitle: 'slogan here',
@@ -204,20 +221,7 @@ const SideBar = () => {
       chars: getAvatarChars(loginUser.nick || loginUser.name),
       limitChars: 0,
     },
-    operations: [
-      {
-        icon: <CustomIcon type="gerenshezhi" />,
-        title: i18n.t('layout:personal settings'),
-        onClick: () => {
-          window.open(diceEnv.UC_PUBLIC_URL);
-        },
-      },
-      {
-        icon: <CustomIcon type="logout" />,
-        title: i18n.t('layout:logout'),
-        onClick: userStore.effects.logout,
-      },
-    ],
+    operations: useMenuOperations,
   };
 
   return (

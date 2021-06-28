@@ -268,7 +268,7 @@ const VpcFormModal = (props: IProps) => {
         {i18n.t('cancel')}
       </Button>,
       <Button key="next" type="primary" onClick={() => handleStepChange('vsw')}>
-        {i18n.t('microService:next')}
+        {i18n.t('msp:next')}
       </Button>,
     ],
     vsw: [
@@ -276,7 +276,7 @@ const VpcFormModal = (props: IProps) => {
         {i18n.t('cancel')}
       </Button>,
       <Button key="prev" type="primary" onClick={() => handleStepChange('vpc')}>
-        {i18n.t('microService:prev')}
+        {i18n.t('msp:prev')}
       </Button>,
       <Button key="ok" type="primary" loading={addVpcLoading || addVswLoading} onClick={handelSubmit}>
         {i18n.t('ok')}

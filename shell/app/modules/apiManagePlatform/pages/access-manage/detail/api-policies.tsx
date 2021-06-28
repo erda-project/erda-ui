@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SafetyPolicy } from 'microService/pages/gateway/containers/safety-policy';
-import { BusinessPolicy } from 'microService/pages/gateway/containers/business-policy';
+import { SafetyPolicy } from 'msp/pages/gateway/containers/safety-policy';
+import { BusinessPolicy } from 'msp/pages/gateway/containers/business-policy';
 import { Tabs } from 'app/nusi';
 
 const { TabPane } = Tabs;

@@ -138,7 +138,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       rules: [
         {
           pattern: String(/^\d+$/),
-          msg: i18n.t('microService:please key in numbers'),
+          msg: i18n.t('msp:please key in numbers'),
         },
       ],
     },

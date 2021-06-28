@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { apiCreator } from 'common';
+import { apiCreator } from 'core/service';
 
 interface IDomainRequest {
   domain?: string;
@@ -21,14 +21,16 @@ interface IDomainRequest {
   workspace?: string;
 }
 
-export type DomainManageService = {
-  getClusterList: (params: { orgID: number }) => ORG_CLUSTER.ICluster[];
-  getDomainList: (params: IDomainRequest & IPagingReq) => IPagingData<DOMAIN_MANAGE.IDomain>;
-};
-
 const apis = {
-  getClusterList: '/api/clusters',
-  getDomainList: '/api/domains',
+  getClusterList: {
+    api: '/api/clusters',
+  },
+  getDomainList: {
+    api: '/api/domains',
+  },
 };
 
-export default apiCreator<DomainManageService>(apis, 'domain-manage');
+export const getClusterList = apiCreator<(p: { orgID: number }) => ORG_CLUSTER.ICluster[]>(apis.getClusterList);
+export const getDomainList = apiCreator<(p: IDomainRequest & IPagingReq) => IPagingResp<DOMAIN_MANAGE.IDomain>>(
+  apis.getDomainList,
+);

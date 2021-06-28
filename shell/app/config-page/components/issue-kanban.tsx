@@ -68,7 +68,7 @@ const noop = () => {};
 const IssueKanban = (props: IProps) => {
   const { state, data, props: configProps, operations, execOperation = noop, updateState = noop } = props || {};
 
-  const { visible = true, isLoadMore = true } = configProps || {};
+  const { visible = true, isLoadMore = false } = configProps || {};
   const [board, setBoard] = React.useState(data?.board || []);
   const [{ showAdd, addValue }, updater, update] = useUpdate({
     showAdd: false,
@@ -76,7 +76,7 @@ const IssueKanban = (props: IProps) => {
   });
 
   React.useEffect(() => {
-    if (data?.refreshBoard) {
+    if (!isLoadMore || data?.refreshBoard) {
       setBoard(data?.board || []);
     } else {
       setBoard((prev) =>
@@ -86,7 +86,7 @@ const IssueKanban = (props: IProps) => {
         }),
       );
     }
-  }, [data]);
+  }, [data, isLoadMore]);
 
   const hideAdd = () => {
     update({ addValue: '', showAdd: false });

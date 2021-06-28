@@ -192,13 +192,13 @@ export enum pages {
   jvmProfiler = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/jvm-profiler',
   appSetting_config = '/{orgName}/dop/projects/{projectId}/apps/{appId}/setting?tabKey=appConfig',
   buildDetailConfig = '/{orgName}/dop/projects/{projectId}/config/apps/{appId}/runtimes/{branch}/{env}',
-  microServiceRoot = '/{orgName}/microService/microServiceManage',
-  microServiceOverviewRoot = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}',
-  microServiceOverview = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
-  microServiceApiStrategy = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',
-  microServiceTopology = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
-  monitorAPIOverview = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
-  microTraceSearch = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
+  mspRoot = '/{orgName}/msp/mspManage',
+  mspOverviewRoot = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}',
+  mspOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
+  mspApiStrategy = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',
+  mspTopology = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
+  monitorAPIOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
+  microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
   dataCenterRoot = '/{orgName}/dataCenter/overview',
 
   createProject = '/{orgName}/orgCenter/projects/createProject',
@@ -216,16 +216,16 @@ export enum pages {
   project_test_spaceDetail_scenes = '/{orgName}/dop/projects/{projectId}/testCase/auto/{id}/scenes',
 
   // 微服务
-  apiStrategy = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy?apiId={apiId}',
-  apiManageQuery = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis?redirectApp={redirectApp}&redirectService={redirectService}&redirectRuntimeId={redirectRuntimeId}',
-  apiManage = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis',
+  apiStrategy = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy?apiId={apiId}',
+  apiManageQuery = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis?redirectApp={redirectApp}&redirectService={redirectService}&redirectRuntimeId={redirectRuntimeId}',
+  apiManage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis',
 
   // 微服务日志分析规则
-  ms_addLogAnalyzeRule = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/log/{addonId}/rule/add?source={source}',
+  ms_addLogAnalyzeRule = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/log/{addonId}/rule/add?source={source}',
 
   // 网关“入口流量管理”
-  getwayDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail',
-  gatewayList = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
+  getwayDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail',
+  gatewayList = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
 
   // fdp
   fdpIndex = '/{orgName}/fdp/__cluster__/__workspace__/data-source',
@@ -239,12 +239,12 @@ export enum pages {
   orgCustomDashboardDetail = '/{orgName}/dataCenter/customDashboard/{customDashboardId}',
 
   // 微服务监控自定义大盘
-  micro_serviceCustomDashboard = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard',
-  micro_serviceAddCustomDashboard = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/add',
-  micro_serviceCustomDashboardDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
+  micro_serviceCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard',
+  micro_serviceAddCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/add',
+  micro_serviceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
-  microServiceServiceAnalyze = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
+  mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
 
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/dataCenter/log/rule/add?source={source}',
@@ -253,7 +253,7 @@ export enum pages {
   orgAlarmRecordDetail = '/{orgName}/dataCenter/alarm/record/{id}',
 
   // 微服务告警记录详情
-  micro_serviceAlarmRecordDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/alarm-record/{id}',
+  micro_serviceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/alarm-record/{id}',
 
   // 云资源管理
   cloudSource = '/{orgName}/dataCenter/cloudSource',

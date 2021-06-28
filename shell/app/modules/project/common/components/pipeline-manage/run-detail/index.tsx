@@ -151,7 +151,7 @@ const RunDetail = (props: IProps) => {
             logVisible: true,
             logProps: {
               logId: node.extra.uuid,
-              title: i18n.t('microService:log details'),
+              title: i18n.t('msp:log details'),
               customFetchAPIPrefix: `/api/apitests/pipeline/${pipelineID}/task/${node.id}/logs`,
               pipelineID,
               taskID: node.id,

@@ -14,8 +14,8 @@
 import * as React from 'react';
 import { isEmpty, map } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Spin, Popconfirm } from 'app/nusi';
-import { Icon as CustomIcon, useUpdate, ContractiveFilter, LoadMore } from 'common';
+import { Button, Spin, Popconfirm, Pagination } from 'app/nusi';
+import { Icon as CustomIcon, useUpdate, ContractiveFilter } from 'common';
 import { useLoading } from 'app/common/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
 import iterationStore from 'project/stores/iteration';
@@ -33,6 +33,7 @@ import './backlog.scss';
 
 const Backlog = () => {
   const [backlogIssues, backlogIssuesPaging] = iterationStore.useStore((s) => [s.backlogIssues, s.backlogIssuesPaging]);
+  const { pageSize, total } = backlogIssuesPaging;
   const { getBacklogIssues, createIssue } = iterationStore.effects;
   const { clearBacklogIssues } = iterationStore.reducers;
   const { deleteIssue, updateIssue } = issueStore.effects;
@@ -191,9 +192,16 @@ const Backlog = () => {
     )}`,
   );
 
-  const load = React.useCallback(() => {
-    return getList({ loadMore: true, pageNo: backlogIssuesPaging.pageNo + 1 }, false);
-  }, [backlogIssuesPaging.pageNo, getList]);
+  const handleChangePage = (curPage: number, curSize?: number) => {
+    getList({
+      pageNo: curPage,
+      pageSize: curSize,
+    });
+  };
+
+  const handleShowSizeChange = (curPage: number, curSize: number) => {
+    handleChangePage(1, curSize);
+  };
 
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
@@ -203,7 +211,7 @@ const Backlog = () => {
         <div>
           <span className="bold fz16 mr8">{i18n.t('project:backlog')}</span>
           <span className="color-text-desc">
-            {i18n.t('{num} {type}', { num: backlogIssues.length, type: i18n.t('project:issue') })}
+            {i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}
           </span>
         </div>
         <div>
@@ -227,9 +235,9 @@ const Backlog = () => {
       <div className={`backlog-issues-content spin-full-height ${isOver ? 'drag-over' : ''}`} ref={drop}>
         <Spin spinning={!isHide && loading}>
           {isEmpty(backlogIssues) && !isAdding && <EmptyBacklog addAuth={addAuth} onAdd={onAdd} />}
-          <div className="list-container" ref={listRef}>
+          <div className="list-container">
             {
-              <div className="backlog-issues-list">
+              <div className="backlog-issues-list" ref={listRef}>
                 {isAdding ? (
                   <IssueForm
                     key="add"
@@ -257,17 +265,15 @@ const Backlog = () => {
                 ))}
               </div>
             }
-            <div className="more-container">
-              {listRef.current && (
-                <LoadMore
-                  threshold={10}
-                  getContainer={() => listRef.current}
-                  load={load}
-                  hasMore={backlogIssuesPaging.hasMore}
-                  isLoading={isHide && loading}
-                />
-              )}
-            </div>
+            <Pagination
+              className="right-flex-box pt8"
+              defaultCurrent={1}
+              showSizeChanger
+              total={total}
+              pageSize={pageSize}
+              onChange={handleChangePage}
+              onShowSizeChange={handleShowSizeChange}
+            />
           </div>
         </Spin>
       </div>
