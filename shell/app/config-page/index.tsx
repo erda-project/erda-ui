@@ -35,7 +35,7 @@ interface IProps {
   updateConfig?: (params: Obj) => any;
 }
 
-const unProduct = process.env.NODE_ENV === 'production';
+const unProduct = process.env.NODE_ENV !== 'production';
 
 console.log('------', unProduct);
 export const enhanceUseMock = (_useMock: (params: Obj) => Promise<any>) => {
