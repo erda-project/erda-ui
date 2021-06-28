@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { map } from 'lodash';
 import { Form, Table, Popconfirm, Button, Input, Select } from 'app/nusi';
 import i18n from 'i18n';
@@ -22,7 +22,7 @@ import './edit-table.scss';
 const { Option } = Select;
 
 interface IEditableTableProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   columns: any[];
   data: any[];
   add: (...args: any) => void;
@@ -139,45 +139,42 @@ const EditableCell = (props: ICellProps) => {
   const save = (e: any) => {
     const curForm = formRef && (formRef.current as any);
     if (curForm) {
-      curForm.validateFields((error: any, values: any) => {
-        if (error && error[e.currentTarget.id]) {
-          return;
-        }
+      curForm.validateFields().then((values: any) => {
         handleSave({ ...record, ...values });
         inputRef && inputRef.current && (inputRef.current as any).blur();
       });
     }
   };
 
-  const renderCell = (form: any) => {
+  const renderCell = (form: FormInstance) => {
     formRef.current = form;
     let initialValue = record[dataIndex];
     if ((initialValue === '' || initialValue === undefined) && type === 'select') {
       initialValue = (options as any)[0];
     }
     return (
-      <Form.Item style={{ margin: 0 }}>
-        {form.getFieldDecorator(dataIndex, {
-          rules: [
-            {
-              required: dataIndex !== 'tag',
-              message: `${i18n.t('dcos:please enter')}${title}`,
-            },
-            ...rules,
-          ],
-          initialValue,
-        })(
-          type === 'select' ? (
-            <Select size="small">
-              {map(options, (val: string) => (
-                <Option key={val} value={`${val}`}>
-                  {val}
-                </Option>
-              ))}
-            </Select>
-          ) : (
-            <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-          ),
+      <Form.Item
+        name={dataIndex}
+        style={{ margin: 0 }}
+        initialValue
+        rules={[
+          {
+            required: dataIndex !== 'tag',
+            message: `${i18n.t('dcos:please enter')}${title}`,
+          },
+          ...rules,
+        ]}
+      >
+        {type === 'select' ? (
+          <Select size="small">
+            {map(options, (val: string) => (
+              <Option key={val} value={`${val}`}>
+                {val}
+              </Option>
+            ))}
+          </Select>
+        ) : (
+          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
         )}
       </Form.Item>
     );
@@ -196,4 +193,7 @@ const EditableRow = ({ form, index, ...props }: any) => (
   </EditableContext.Provider>
 );
 
-const EditableFormRow = Form.create()(EditableRow);
+const EditableFormRow = (props) => {
+  const [form] = Form.useForm();
+  return <EditableRow form {...props} />;
+};

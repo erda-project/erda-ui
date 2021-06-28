@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { Form, Button } from 'app/nusi';
 import { isEmpty, map, debounce, pick, get, filter, uniq } from 'lodash';
 import { JumpBoardForm } from './deploy-cluster-forms/jump-board-form';
@@ -32,7 +32,7 @@ interface IProps {
   [pro: string]: any;
   orgId: number;
   orgName: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   onSubmit: (arg: any) => void;
   formRef?: any;
   data?: any;
@@ -147,60 +147,62 @@ const DeployClusterForm = (props: IProps) => {
   };
 
   const handleSubmit = () => {
-    props.form.validateFieldsAndScroll((err: any, values: object) => {
-      if (err) {
-        return;
-      }
-      const postData = { ...values } as any;
+    props.form
+      .validateFields()
+      .then((values: any) => {
+        const postData = { ...values } as any;
 
-      const nodes = get(values, 'config.nodes');
-      if (nodes) {
-        postData.config.nodes = filter(
-          map(nodes, (item: any) => {
-            if (item) {
-              const { ip, type, tag } = item;
-              const reTag = `org-${orgName}${tag ? `,${tag}` : ''}`;
-              // tag：添加org标签后，去重
-              return { ip, type, tag: uniq(reTag.split(',')).join(',') };
-            }
-            return item;
-          }),
-          (n: any) => !!n.ip,
-        );
-      }
-      postData.orgID = Number(orgId);
-      postData.saas = true; // 隐藏、后续可能展现
-      const jumpPort = get(postData, 'jump.port');
-      if (jumpPort !== undefined) {
-        postData.jump.port = Number(jumpPort);
-      }
-      const sshPort = get(postData, 'config.ssh.port');
-      if (sshPort !== undefined) {
-        postData.config.ssh.port = Number(sshPort);
-      }
-      const fpsPort = get(postData, 'config.fps.port');
-      if (fpsPort !== undefined) {
-        postData.config.fps.port = Number(fpsPort);
-      }
-      const replica = get(postData, 'config.storage.gluster.replica');
-      if (replica !== undefined) {
-        postData.config.storage.gluster.replica = Number(replica);
-      }
-      const mysqlPort = get(postData, 'config.platform.mysql.port');
-      if (mysqlPort !== undefined) {
-        postData.config.platform.mysql.port = Number(mysqlPort);
-      }
-      const platformPort = get(postData, 'config.platform.port');
-      if (platformPort !== undefined) {
-        postData.config.platform.port = Number(platformPort);
-      }
-      const mainPlatformPort = get(postData, 'config.mainPlatform.port');
-      if (mainPlatformPort !== undefined) {
-        postData.config.mainPlatformPort.port = Number(mainPlatformPort);
-      }
+        const nodes = get(values, 'config.nodes');
+        if (nodes) {
+          postData.config.nodes = filter(
+            map(nodes, (item: any) => {
+              if (item) {
+                const { ip, type, tag } = item;
+                const reTag = `org-${orgName}${tag ? `,${tag}` : ''}`;
+                // tag：添加org标签后，去重
+                return { ip, type, tag: uniq(reTag.split(',')).join(',') };
+              }
+              return item;
+            }),
+            (n: any) => !!n.ip,
+          );
+        }
+        postData.orgID = Number(orgId);
+        postData.saas = true; // 隐藏、后续可能展现
+        const jumpPort = get(postData, 'jump.port');
+        if (jumpPort !== undefined) {
+          postData.jump.port = Number(jumpPort);
+        }
+        const sshPort = get(postData, 'config.ssh.port');
+        if (sshPort !== undefined) {
+          postData.config.ssh.port = Number(sshPort);
+        }
+        const fpsPort = get(postData, 'config.fps.port');
+        if (fpsPort !== undefined) {
+          postData.config.fps.port = Number(fpsPort);
+        }
+        const replica = get(postData, 'config.storage.gluster.replica');
+        if (replica !== undefined) {
+          postData.config.storage.gluster.replica = Number(replica);
+        }
+        const mysqlPort = get(postData, 'config.platform.mysql.port');
+        if (mysqlPort !== undefined) {
+          postData.config.platform.mysql.port = Number(mysqlPort);
+        }
+        const platformPort = get(postData, 'config.platform.port');
+        if (platformPort !== undefined) {
+          postData.config.platform.port = Number(platformPort);
+        }
+        const mainPlatformPort = get(postData, 'config.mainPlatform.port');
+        if (mainPlatformPort !== undefined) {
+          postData.config.mainPlatformPort.port = Number(mainPlatformPort);
+        }
 
-      onSubmit && onSubmit(postData);
-    });
+        onSubmit && onSubmit(postData);
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        props.form.scrollToField(errorFields[0].name);
+      });
   };
 
   const reset = () => {
@@ -247,7 +249,10 @@ const DeployClusterForm = (props: IProps) => {
     </div>
   );
 };
-const Forms = Form.create()(DeployClusterForm);
+const Forms = (props) => {
+  const [form] = Form.useForm();
+  return <DeployClusterForm form={form} {...props} />;
+};
 
 const EnhancedForm = (props: any) => {
   const formRef = React.useRef(null);

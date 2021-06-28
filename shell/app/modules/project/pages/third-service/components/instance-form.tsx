@@ -13,7 +13,7 @@
 
 import { KeyValueEditor, RenderPureForm, useUpdate } from 'common';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { isEmpty } from 'lodash';
 import { Form } from 'app/nusi';
 import customAddonStore from 'project/stores/custom-addon';
@@ -49,7 +49,7 @@ const defaultInstance: CUSTOM_ADDON.GatewayInstance = {
 };
 
 interface IProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   addonProto: CUSTOM_ADDON.Item;
   editData: ADDON.Instance | null;
   workspace: string;
@@ -209,12 +209,11 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
 };
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
+  const [form] = Form.useForm();
   useImperativeHandle(ref, () => ({
-    form: props.form,
+    form,
   }));
-  return <InstanceForm {...props} />;
+  return <InstanceForm {...props} form={form} />;
 });
 
-export default Form.create()(FCForm) as any as (
-  p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>,
-) => JSX.Element;
+export default FCForm as any as (p: Merge<Omit<IProps, 'form'>, { ref: any }>) => JSX.Element;

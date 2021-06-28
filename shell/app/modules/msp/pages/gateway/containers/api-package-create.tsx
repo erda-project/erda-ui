@@ -74,17 +74,20 @@ const BindDomainForm = (props: any) => {
     <div className="full-width">
       {map(value, (_item: any, index: number) => {
         return (
-          <FormItem className="full-width bind-domain-item" key={`${index}`}>
-            {form.getFieldDecorator(`bindDomain_${index}`, {
-              initialValue: value[index],
-              rules: [
-                {
-                  required: true,
-                  pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/,
-                  message: i18n.t('msp:lowercase letters, numbers, dot, -, *'),
-                },
-              ],
-            })(<Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />)}
+          <FormItem
+            name={`bindDomain_${index}`}
+            className="full-width bind-domain-item"
+            key={`${index}`}
+            initialValue={value[index]}
+            rules={[
+              {
+                required: true,
+                pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/,
+                message: i18n.t('msp:lowercase letters, numbers, dot, -, *'),
+              },
+            ]}
+          >
+            <Input className="bind-domain-input" onChange={(e: object) => changeItemValue(e.target.value, index)} />
             <div className="bind-domain-icons">
               <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
               {index !== 0 ? (
@@ -183,7 +186,7 @@ export const PureApiPackage = () => {
     }
   }, [apiPackageDetail]);
 
-  const basicFormRef = React.useRef(null);
+  const [basicForm] = Form.useForm();
 
   const Step1 = (formProps: any) => {
     let authTypes = Object.entries(AUTH_TYPE_MAP);
@@ -286,7 +289,25 @@ export const PureApiPackage = () => {
       });
     }
 
-    return <RenderPureForm {...formProps} ref={basicFormRef} list={fieldsList} />;
+    return (
+      <Form
+        form={basicForm}
+        onValuesChange={(_, changedValues) => {
+          updater.basicForm((prev: any) => {
+            const newData = changeBindDomain({ ...prev, ...changedValues });
+            return { ...newData };
+          });
+          if (changedValues.authType === AuthType.aliCloudApp) {
+            basicForm.setFieldsValue({ aclType: 'on' });
+          }
+          if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
+            basicForm.setFieldsValue({ authType: undefined });
+          }
+        }}
+      >
+        <RenderPureForm form={basicForm} {...formProps} list={fieldsList} />
+      </Form>
+    );
   };
 
   const Step2 = () => {
@@ -352,21 +373,7 @@ export const PureApiPackage = () => {
   };
 
   const Form1 = React.useMemo(
-    () =>
-      Form.create({
-        onValuesChange: (_, changedValues) => {
-          updater.basicForm((prev: any) => {
-            const newData = changeBindDomain({ ...prev, ...changedValues });
-            return { ...newData };
-          });
-          if (changedValues.authType === AuthType.aliCloudApp) {
-            (basicFormRef.current as any).props.form.setFieldsValue({ aclType: 'on' });
-          }
-          if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
-            (basicFormRef.current as any).props.form.setFieldsValue({ authType: undefined });
-          }
-        },
-      })(Step1),
+    () => Step1,
     [
       apiPackageDetail,
       state.basicForm.scene,
@@ -384,9 +391,8 @@ export const PureApiPackage = () => {
   const noop = () => {};
   const saveForm1 = (cbs: any[]) => {
     const [cb1, cb2] = cbs || [noop, noop];
-    if (basicFormRef.current) {
-      (basicFormRef.current as any).props.form.validateFields((err: any, values: object) => {
-        if (err) return;
+    if (basicForm) {
+      (basicForm as any).validateFields().then((values) => {
         const newData = changeBindDomain(values) as GATEWAY.UpdataApiPackage;
         if (params.packageId) {
           updateApiPackage(newData).then((res) => {

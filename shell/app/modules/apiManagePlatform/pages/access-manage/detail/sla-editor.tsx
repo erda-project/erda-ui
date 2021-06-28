@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { FormModal } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
@@ -20,15 +20,11 @@ import Limit from 'apiManagePlatform/pages/access-manage/detail/limit';
 import { map } from 'lodash';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { Button } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import { regRules } from 'common/utils';
 
 export type IData = Omit<API_ACCESS.UpdateSla, 'assetID' | 'swaggerVersion' | 'default'>;
-
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
 
 interface IProps {
   dataSource?: API_ACCESS.SlaItem;
@@ -39,7 +35,7 @@ interface IProps {
 }
 
 const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) => {
-  const formRef = React.useRef<FormRef>({} as FormRef);
+  const formRef = React.useRef({}) as MutableRefObject<FormInstance>;
   const [assetID, swaggerVersion] = apiAccessStore.useStore((s) => [
     s.accessDetail.access.assetID,
     s.accessDetail.access.swaggerVersion,
@@ -48,10 +44,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
   const loading = useLoading(apiAccessStore, ['addSla', 'updateSla']);
 
   const handleOk = () => {
-    formRef.current.props.form.validateFields(async (err, data) => {
-      if (err) {
-        return;
-      }
+    formRef.current.validateFields().then(async (data: any) => {
       if (mode === 'add') {
         await addSla({
           assetID,
@@ -150,7 +143,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
   return (
     <FormModal
       title={i18n.t(`${mode} {name}`, { name: 'SLA' })}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       visible={visible}
       onCancel={onCancel}
       fieldsList={fieldsList}

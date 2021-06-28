@@ -288,29 +288,31 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
   }, [fields, storage]);
 
   const onOk = () => {
-    formRef.current.validateFieldsAndScroll((error: any, values: any) => {
-      if (error) {
-        return;
-      }
-      const currentOrg = orgStore.getState((s) => s.currentOrg);
-      const { id: orgId, name: orgName } = currentOrg;
-      remove(values, 'storage');
-      remove(values, 'isNewVpc');
-      remove(values, 'isNewVsw');
-      set(values, 'clusterType', 'Edge');
-      set(values, 'cloudVendor', 'alicloud-ecs');
+    formRef.current
+      .validateFields()
+      .then((values: any) => {
+        const currentOrg = orgStore.getState((s) => s.currentOrg);
+        const { id: orgId, name: orgName } = currentOrg;
+        remove(values, 'storage');
+        remove(values, 'isNewVpc');
+        remove(values, 'isNewVsw');
+        set(values, 'clusterType', 'Edge');
+        set(values, 'cloudVendor', 'alicloud-ecs');
 
-      const _postData = {
-        ...values,
-        orgId,
-        orgName,
-      };
+        const _postData = {
+          ...values,
+          orgId,
+          orgName,
+        };
 
-      addCloudCluster(_postData).then((res) => {
-        const { recordID } = res;
-        onSubmit({ recordID });
+        addCloudCluster(_postData).then((res) => {
+          const { recordID } = res;
+          onSubmit({ recordID });
+        });
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        formRef.current.scrollToField(errorFields[0].name);
       });
-    });
   };
 
   return (

@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { isEmpty, map, take, head } from 'lodash';
 import { Spin, Modal, Tooltip, Select, Table, Button } from 'app/nusi';
 import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
@@ -303,7 +303,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       name: 'targetType',
       label: i18n.t('application:notified to'),
       required: true,
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
             defaultValue={groupType}

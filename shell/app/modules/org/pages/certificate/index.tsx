@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
 import { Upload, message, Button, Select, Input } from 'app/nusi';
 import { formatTime } from 'common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { get, map } from 'lodash';
 import './index.scss';
 import { getUploadProps } from 'common/utils/upload-props';
@@ -37,7 +37,7 @@ interface IFileChangeArg {
   fileName: string | undefined;
 }
 interface IUploadProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   onChangeFile: ({ uuid, fileName }: IFileChangeArg) => void;
   fileNameKey: string;
   fileAccept: string;
@@ -174,7 +174,7 @@ const Certificate = () => {
     ];
     return columns;
   };
-  const getFieldsList = (form: WrappedFormUtils, isEdit: boolean) => {
+  const getFieldsList = (form: FormInstance, isEdit: boolean) => {
     const basicFieldsList = [
       {
         name: 'id',

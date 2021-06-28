@@ -13,12 +13,12 @@
 
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { regRules } from 'common/utils';
 import i18n from 'i18n';
 
 export interface IFormProps {
-  form: WrappedFormUtils;
+  form: FormInstance;
   isReadonly?: boolean;
   curRef?: any;
   data?: any;

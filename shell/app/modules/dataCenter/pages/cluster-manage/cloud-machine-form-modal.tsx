@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { diskTypeMap, getOptions } from './config';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import * as React from 'react';
 import { Down as IconDown, Up as IconUp } from '@icon-park/react';
@@ -31,7 +31,7 @@ interface IProps {
   onSubmit: (resp: any) => any;
 }
 
-const BasicForm = ({ form }: { form: WrappedFormUtils }) => {
+const BasicForm = ({ form }: { form: FormInstance }) => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const defaultOrgTag = `org-${currentOrg.name}`; // 取企业名打默认的tag:org-{orgName}
 
@@ -85,7 +85,7 @@ const BasicForm = ({ form }: { form: WrappedFormUtils }) => {
   return <RenderPureForm list={fieldsList} form={form} onlyItems />;
 };
 
-const MoreForm = ({ form }: { form: WrappedFormUtils }) => {
+const MoreForm = ({ form }: { form: FormInstance }) => {
   const fieldsList = [
     {
       label: i18n.t('org:disk size'),

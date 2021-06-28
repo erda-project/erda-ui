@@ -13,7 +13,7 @@
 
 import { FormModal, Icon as CustomIcon, useUpdate } from 'app/common';
 import i18n from 'app/i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { Modal } from 'app/nusi';
 import projectLabel from 'project/stores/label';
 import * as React from 'react';
@@ -103,7 +103,7 @@ export default () => {
       name: 'color',
       type: 'custom',
       initialValue: colors[0],
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         const v = form.getFieldValue('color') || colors[0];
         return (
           <div className="color-list colorful-bg">

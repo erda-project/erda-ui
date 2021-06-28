@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import classnames from 'classnames';
 import { ClassWrapper } from './class-wrap';
 import { Help as IconHelp, AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
@@ -53,7 +53,7 @@ const defalutTailFormItemLayout = {
   },
 };
 export interface IFormItem {
-  form?: WrappedFormUtils;
+  form?: FormInstance;
   label?: string;
   labelTip?: string;
   name?: string;
@@ -78,7 +78,7 @@ export interface IFormItem {
   onChange?: any;
   addOne?: (name: string | undefined) => void;
   dropOne?: (name: string | undefined) => void;
-  getComp?: ({ form }: { form: WrappedFormUtils }) => React.ReactElement<any> | string;
+  getComp?: ({ form }: { form: FormInstance }) => React.ReactElement<any> | string;
 }
 export const RenderFormItem = ({
   form,
@@ -241,16 +241,20 @@ export const RenderFormItem = ({
     label
   );
   return (
-    <FormItem
-      label={_label}
-      {...layout}
-      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
-      {...extraProps}
-    >
-      {name ? form && form.getFieldDecorator(name, itemConfig)(ItemComp) : ItemComp}
+    <>
+      <FormItem
+        name={name}
+        label={_label}
+        {...layout}
+        className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+        {...extraProps}
+        {...itemConfig}
+      >
+        {ItemComp}
+      </FormItem>
       {suffix}
       {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
       {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
-    </FormItem>
+    </>
   );
 };

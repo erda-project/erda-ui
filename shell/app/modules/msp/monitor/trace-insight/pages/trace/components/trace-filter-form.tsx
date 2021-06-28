@@ -16,7 +16,7 @@ import * as React from 'react';
 import moment from 'moment';
 import { Form, Input, InputNumber, Row, Col, Button, DatePicker, Select, Radio } from 'app/nusi';
 import { valiAssociate } from 'msp/monitor/monitor-common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 
 const { Option } = Select;
@@ -37,7 +37,7 @@ interface IProps {
   terminusApp: any;
   startTimeMs: number;
   endTimeMs: number;
-  form: WrappedFormUtils;
+  form: FormInstance;
   setSearchParam: (args?: any) => Promise<any>;
   setTimeMs: (arg1: string, arg2?: any) => Promise<any>;
 }
@@ -53,6 +53,15 @@ interface ISearchParam {
 }
 
 class TraceFilterForm extends React.Component<IProps, IState> {
+  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
+    const { lastSearchParams } = nextProps;
+    const { searchParam } = prevState;
+    if (!isEmpty(lastSearchParams) && !isEqual(searchParam, lastSearchParams)) {
+      return { searchParam: lastSearchParams };
+    }
+    return null;
+  }
+
   state = {
     formTraceId: '',
     searchParam: {
@@ -62,14 +71,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
     },
   };
 
-  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
-    const { lastSearchParams } = nextProps;
-    const { searchParam } = prevState;
-    if (!isEmpty(lastSearchParams) && !isEqual(searchParam, lastSearchParams)) {
-      return { searchParam: lastSearchParams };
-    }
-    return null;
-  }
+  formRef = React.createRef<FormInstance>();
 
   // componentWillReceiveProps({ lastSearchParams }: IProps) {
   //   const { searchParam } = this.state;
@@ -119,22 +121,17 @@ class TraceFilterForm extends React.Component<IProps, IState> {
     this.props.setTimeMs('endTimeMs', time.valueOf());
   };
 
-  handleGetTraceList = (event: any) => {
-    event.preventDefault();
-    const { form } = this.props;
-    form.validateFields((err, values) => {
-      if (err) return;
-      const { startTimeMs: oriStartTimeMs, endTimeMs: oriEndTimeMs, ...restValues } = values;
-      const startTimeMs = moment(oriStartTimeMs).valueOf();
-      const endTimeMs = moment(oriEndTimeMs).valueOf();
+  handleGetTraceList = (values: any) => {
+    const { startTimeMs: oriStartTimeMs, endTimeMs: oriEndTimeMs, ...restValues } = values;
+    const startTimeMs = moment(oriStartTimeMs).valueOf();
+    const endTimeMs = moment(oriEndTimeMs).valueOf();
 
-      const formatValues = {
-        startTimeMs,
-        endTimeMs,
-        ...restValues,
-      };
-      this.changeSearchParam(formatValues);
-    });
+    const formatValues = {
+      startTimeMs,
+      endTimeMs,
+      ...restValues,
+    };
+    this.changeSearchParam(formatValues);
   };
 
   range = (start: number, end: number) => {
@@ -146,21 +143,21 @@ class TraceFilterForm extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { services, terminusApp, form, startTimeMs, endTimeMs } = this.props;
+    const { services, terminusApp, startTimeMs, endTimeMs } = this.props;
     const terminusAppInit = typeof terminusApp === 'string' ? terminusApp : i18n.t('msp:all');
-    const { getFieldDecorator } = form;
     const { formTraceId, searchParam } = this.state;
     const searchIdOnly = !!formTraceId;
     const { terminusApp: lastTerminusApp, path, statusCode, duration, traceId } = searchParam as any;
+    const form = this.formRef.current;
 
     const fileds = [
       [
         {
           label: i18n.t('msp:module'),
-          children: getFieldDecorator('terminusApp', {
-            initialValue: lastTerminusApp || terminusAppInit,
-            rules: [{ required: true, message: i18n.t('msp:the module name cannot be empty') }],
-          })(
+          name: 'terminusApp',
+          initialValue: lastTerminusApp || terminusAppInit,
+          rules: [{ required: true, message: i18n.t('msp:the module name cannot be empty') }],
+          children: (
             <Select disabled={searchIdOnly}>
               {map(services, (service, index) => {
                 return (
@@ -169,26 +166,26 @@ class TraceFilterForm extends React.Component<IProps, IState> {
                   </Option>
                 );
               })}
-            </Select>,
+            </Select>
           ),
         },
         {
           label: i18n.t('msp:start time'),
-          children: getFieldDecorator('startTimeMs', {
-            initialValue: moment(startTimeMs),
-            rules: [
-              {
-                validator: valiAssociate({
-                  form,
-                  ids: ['endTimeMs'],
-                  valiFn: (value: any, { endTimeMs: newEndTimeMs }: any) => {
-                    return moment(value).valueOf() < moment(newEndTimeMs).valueOf();
-                  },
-                  errorMsg: i18n.t('msp:start time cannot be greater than end time'),
-                }),
-              },
-            ],
-          })(
+          name: 'startTimeMs',
+          initialValue: moment(startTimeMs),
+          rules: [
+            {
+              validator: valiAssociate({
+                form,
+                ids: ['endTimeMs'],
+                valiFn: (value: any, { endTimeMs: newEndTimeMs }: any) => {
+                  return moment(value).valueOf() < moment(newEndTimeMs).valueOf();
+                },
+                errorMsg: i18n.t('msp:start time cannot be greater than end time'),
+              }),
+            },
+          ],
+          children: (
             <DatePicker
               disabled={searchIdOnly}
               className="full-width"
@@ -197,26 +194,26 @@ class TraceFilterForm extends React.Component<IProps, IState> {
               placeholder={i18n.t('msp:please choose time')}
               onChange={this.setStartTimeMs}
               disabledDate={(current) => moment().isBefore(current)}
-            />,
+            />
           ),
         },
         {
           label: i18n.t('msp:end time'),
-          children: getFieldDecorator('endTimeMs', {
-            initialValue: moment(endTimeMs),
-            rules: [
-              {
-                validator: valiAssociate({
-                  form,
-                  ids: ['startTimeMs'],
-                  valiFn: (value: any, { startTimeMs: newStartTimeMs }: any) => {
-                    return moment(value).valueOf() > moment(newStartTimeMs).valueOf();
-                  },
-                  errorMsg: i18n.t('msp:end time cannot be less than the start time'),
-                }),
-              },
-            ],
-          })(
+          name: 'endTimeMs',
+          initialValue: moment(endTimeMs),
+          rules: [
+            {
+              validator: valiAssociate({
+                form,
+                ids: ['startTimeMs'],
+                valiFn: (value: any, { startTimeMs: newStartTimeMs }: any) => {
+                  return moment(value).valueOf() > moment(newStartTimeMs).valueOf();
+                },
+                errorMsg: i18n.t('msp:end time cannot be less than the start time'),
+              }),
+            },
+          ],
+          children: (
             <DatePicker
               disabled={searchIdOnly}
               className="full-width"
@@ -226,46 +223,51 @@ class TraceFilterForm extends React.Component<IProps, IState> {
               onChange={this.setEndTimeMs}
               disabledDate={(current) => moment().isBefore(current)}
               showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-            />,
+            />
           ),
         },
       ],
       [
         {
           label: 'path',
-          children: getFieldDecorator('path', { initialValue: path })(<Input disabled={searchIdOnly} />),
+          name: 'path',
+          initialValue: path,
+          children: <Input disabled={searchIdOnly} />,
         },
         {
           label: i18n.t('msp:status code'),
-          children: getFieldDecorator('statusCode', { initialValue: statusCode })(<Input disabled={searchIdOnly} />),
+          name: 'statusCode',
+          initialValue: statusCode,
+          children: <Input disabled={searchIdOnly} />,
         },
         {
           label: `${i18n.t('msp:duration')}(ms)>=`,
-          children: getFieldDecorator('duration', { initialValue: duration })(
+          name: 'duration',
+          initialValue: duration,
+          children: (
             <InputNumber
               disabled={searchIdOnly}
               className="full-width"
               placeholder={i18n.t('msp:please enter the duration')}
               min={0}
-            />,
+            />
           ),
         },
       ],
       [
         {
           label: 'trace id',
-          children: getFieldDecorator('traceId', {
-            initialValue: traceId,
-            getValueFromEvent: (e) => {
-              const { value } = e.target;
-              this.setState({
-                formTraceId: value,
-              });
-              return value;
-            },
-          })(<Input />),
+          name: 'traceId',
+          initialValue: traceId,
+          getValueFromEvent: (e) => {
+            const { value } = e.target;
+            this.setState({
+              formTraceId: value,
+            });
+            return value;
+          },
+          children: <Input />,
         },
-        {},
         {
           wrapperCol: { span: 24 },
           className: 'text-right',
@@ -284,7 +286,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
 
     return (
       <div>
-        <Form className="trace-filter-form" onSubmit={(e) => this.handleGetTraceList(e)}>
+        <Form ref={this.formRef} className="trace-filter-form" onFinish={(e) => this.handleGetTraceList(e)}>
           {map(fileds, (row, index) => (
             <Row key={index}>
               {map(row, ({ children, ...itemProps }, i) => (
@@ -318,4 +320,4 @@ class TraceFilterForm extends React.Component<IProps, IState> {
   }
 }
 
-export default Form.create()(TraceFilterForm);
+export default TraceFilterForm;

@@ -28,7 +28,7 @@ import {
 } from 'app/modules/apiManagePlatform/configs.ts';
 import { produce } from 'immer';
 import ResourceSummary from './resource-summary';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import ReactDOM from 'react-dom';
 import './resource.scss';
 
@@ -56,7 +56,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   });
 
   const { apiData, execOperation, operations } = props?.data || {};
-  const formRef = React.useRef<WrappedFormUtils>({} as any);
+  const formRef = React.useRef<FormInstance>({} as any);
 
   const [openApiDoc, apiLockState, formErrorNum] = apiDesignStore.useStore((s) => [
     s.openApiDoc,

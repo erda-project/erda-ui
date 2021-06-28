@@ -21,7 +21,7 @@ describe('LogSearchForm', () => {
     const setSearch = jest.fn();
     const wrapper = mount(<LogSearchForm setSearch={setSearch} />);
     wrapper.find('input').simulate('change', { target: { value: '123' } });
-    wrapper.find('Form').prop('onSubmit')(new Event('click'));
+    wrapper.find('ForwardRef(Form)').prop('onFinish')();
     expect(setSearch).toHaveBeenLastCalledWith({ requestId: '123' });
     wrapper.setProps({
       formData: {

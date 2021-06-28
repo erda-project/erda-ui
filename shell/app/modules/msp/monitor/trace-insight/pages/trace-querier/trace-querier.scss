@@ -8,7 +8,12 @@ $border-style: 1px solid $color-border;
 
 .trace-querier {
   .ant-form-item {
+    height: 30px;
     margin: 0;
+
+    .ant-form-item-control {
+      line-height: 32px;
+    }
   }
 
   .response-code {

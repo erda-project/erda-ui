@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Tabs, Button, Collapse, Pagination, Input, Form, Switch } from 'app/nusi';
 import { isEmpty, map, filter, compact } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import { RenderForm, EmptyHolder } from 'common';
 import serviceMeshStore from '../../stores/service-mesh';
@@ -56,37 +56,35 @@ interface IHttpForm {
   submitForm: (arg: TOPOLOGY.ICircuitBreakerHttp) => Promise<string>;
 }
 
-const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: any }) => {
+const ErrorCheckForm = ({ formRef }: { formRef: any }) => {
   return (
     <div className="error-check-form">
-      <FormItem>
-        {form.getFieldDecorator('interval', {
-          rules: [
-            { validator: validators.validateNumberRange({ min: 1, max: 100 }) },
-            { validator: validateEmpty(formRef) },
-          ],
-        })(
-          <Input
-            className="error-check-item"
-            suffix={i18n.t('common:second(s)')}
-            placeholder={`${i18n.t('recommended value {value}', { value: 10 })}`} // 10
-          />,
-        )}
+      <FormItem
+        name="interval"
+        rules={[
+          { validator: validators.validateNumberRange({ min: 1, max: 100 }) },
+          { validator: validateEmpty(formRef) },
+        ]}
+      >
+        <Input
+          className="error-check-item"
+          suffix={i18n.t('common:second(s)')}
+          placeholder={`${i18n.t('recommended value {value}', { value: 10 })}`} // 10
+        />
       </FormItem>
       <span className="ml8 mr8">{i18n.t('msp:continuous failure')}</span>
-      <FormItem>
-        {form.getFieldDecorator('consecutiveErrors', {
-          rules: [
-            { validator: validators.validateNumberRange({ min: 1, max: 600 }) },
-            { validator: validateEmpty(formRef) },
-          ],
-        })(
-          <Input
-            className="error-check-item"
-            suffix={i18n.t('times')}
-            placeholder={`${i18n.t('recommended value {value}', { value: 30 })}`} // 30
-          />,
-        )}
+      <FormItem
+        name="consecutiveErrors"
+        rules={[
+          { validator: validators.validateNumberRange({ min: 1, max: 600 }) },
+          { validator: validateEmpty(formRef) },
+        ]}
+      >
+        <Input
+          className="error-check-item"
+          suffix={i18n.t('times')}
+          placeholder={`${i18n.t('recommended value {value}', { value: 30 })}`} // 30
+        />
       </FormItem>
     </div>
   );
@@ -100,11 +98,8 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       curFormRef.setFieldsValue({ ...data });
     }
   }, [data, formRef]);
-  const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+  const handleSubmit = (form: FormInstance) => {
+    form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
       });
@@ -152,8 +147,8 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
     },
     {
       label: i18n.t('msp:failure detection rules'),
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
-        return <ErrorCheckForm form={form} formRef={formRef} />;
+      getComp: () => {
+        return <ErrorCheckForm formRef={formRef} />;
       },
     },
     {
@@ -166,10 +161,10 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       ],
       itemProps: {
         suffix: i18n.t('common:second(s)'),
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
-          'recommended value {value}',
-          { value: 30 },
-        )}`, // 30
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', {
+          min: 1,
+          max: 600,
+        })} ${i18n.t('recommended value {value}', { value: 30 })}`, // 30
       },
     },
     {
@@ -182,10 +177,10 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       ],
       itemProps: {
         suffix: '%',
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
-          'recommended value {value}',
-          { value: 50 },
-        )}`, // 50
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', {
+          min: 1,
+          max: 100,
+        })} ${i18n.t('recommended value {value}', { value: 50 })}`, // 50
       },
     },
     {
@@ -196,7 +191,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       required: false,
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
@@ -304,11 +299,8 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     }
   }, [data, formRef]);
 
-  const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+  const handleSubmit = (form: FormInstance) => {
+    form.validateFields().then((values: any) => {
       submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
       });
@@ -354,8 +346,8 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       label: i18n.t('msp:failure detection rules'),
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
-        return <ErrorCheckForm form={form} formRef={formRef} />;
+      getComp: () => {
+        return <ErrorCheckForm formRef={formRef} />;
       },
     },
     {
@@ -368,10 +360,10 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       ],
       itemProps: {
         suffix: i18n.t('common:second(s)'),
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
-          'recommended value {value}',
-          { value: 30 },
-        )}`, // 30
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', {
+          min: 1,
+          max: 600,
+        })} ${i18n.t('recommended value {value}', { value: 30 })}`, // 30
       },
     },
     {
@@ -384,10 +376,10 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       ],
       itemProps: {
         suffix: '%',
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
-          'recommended value {value}',
-          { value: 50 },
-        )}`, // 50
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', {
+          min: 1,
+          max: 100,
+        })} ${i18n.t('recommended value {value}', { value: 50 })}`, // 50
       },
     },
     {
@@ -398,7 +390,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       required: false,
     },
     {
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="mt20">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
