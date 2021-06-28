@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { TicketPriority, getTicketType } from 'application/pages/ticket/ticket-form';
+import { ProblemPriority, getProblemType } from 'application/pages/problem/problem-form';
 import * as React from 'react';
 import { Button, Spin, Tabs, Select } from 'app/nusi';
 import { isEmpty, map, toLower } from 'lodash';
-import ticketStore from 'application/stores/ticket';
+import problemStore from 'application/stores/problem';
 import { useMount } from 'react-use';
 import routeInfoStore from 'app/common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
@@ -28,18 +28,17 @@ import { getProjectIterations } from 'project/services/project-iteration';
 import { getIssues as getProjectIssues } from 'app/modules/project/services/issue';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
-
-import './ticket-detail.scss';
+import './problem-detail.scss';
 
 interface IProps {
-  detail: TICKET.Ticket;
+  detail: PROBLEM.Ticket;
 }
 
-export const TicketContent = ({ detail }: IProps) => {
+export const ProblemContent = ({ detail }: IProps) => {
   const { label, type, content, author, createdAt } = detail;
   const params = routeInfoStore.useStore((s) => s.params);
 
-  const getUrl = (path: string, ticket: TICKET.Ticket) => {
+  const getUrl = (path: string, ticket: PROBLEM.Ticket) => {
     const { projectId, appId, orgName } = params;
 
     return `/${orgName}/workBench/projects/${projectId}/apps/${appId}/repo/tree/${ticket.label.branch}/${path}?qa=${ticket.type}&line=${ticket.label.line}`;
@@ -100,9 +99,9 @@ const initialState = {
 };
 
 const TicketDetail = () => {
-  const [detail, comments] = ticketStore.useStore((s) => [s.detail, s.comments]);
-  const { getTicketDetail, getTicketComments, createTicketComments, closeTicket } = ticketStore.effects;
-  const [getTicketDetailLoading, getTicketCommentsLoading] = useLoading(ticketStore, [
+  const [detail, comments] = problemStore.useStore((s) => [s.detail, s.comments]);
+  const { getTicketDetail, getTicketComments, createTicketComments, closeTicket } = problemStore.effects;
+  const [getTicketDetailLoading, getTicketCommentsLoading] = useLoading(problemStore, [
     'getTicketDetail',
     'getTicketComments',
   ]);
@@ -134,8 +133,8 @@ const TicketDetail = () => {
       </div>
     ) : null;
 
-  const type = getTicketType().find((t) => t.value === detail.type);
-  const priority = TicketPriority.find((t: any) => t.value === detail.priority);
+  const type = getProblemType().find((t) => t.value === detail.type);
+  const priority = ProblemPriority.find((t: any) => t.value === detail.priority);
 
   const getProjects = (q: any) => {
     return getProjectList({ ...q }).then((res: any) => res.data);
@@ -163,7 +162,6 @@ const TicketDetail = () => {
       },
     });
   };
-
   return (
     <div className="comments-container">
       {closedBtn}
@@ -181,7 +179,7 @@ const TicketDetail = () => {
             </span>
           </div>
         </div>
-        <TicketContent detail={detail} />
+        <ProblemContent detail={detail} />
         <div className="comments-section">
           <span className="comments-section-text">{i18n.t('application:comment area')}</span>
           <div className="section-line" />

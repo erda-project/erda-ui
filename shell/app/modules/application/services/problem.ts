@@ -13,25 +13,25 @@
 
 import agent from 'agent';
 
-export const getTicketList = (params: TICKET.ListQuery): IPagingResp<TICKET.Ticket> => {
+export const getTicketList = (params: PROBLEM.ListQuery): IPagingResp<PROBLEM.Ticket> => {
   return agent
     .get('/api/tickets')
     .query(params)
     .then((response: any) => response.body);
 };
 
-export const getTicketDetail = (ticketId: number): TICKET.Ticket => {
+export const getTicketDetail = (ticketId: number): PROBLEM.Ticket => {
   return agent.get(`/api/tickets/${ticketId}`).then((response: any) => response.body);
 };
 
-export const addTicket = (data: TICKET.CreateBody) => {
+export const addTicket = (data: PROBLEM.CreateBody) => {
   return agent
     .post('/api/tickets')
     .send(data)
     .then((response: any) => response.body);
 };
 
-// export const updateTicket = (data: TICKET.CreateBody) => {
+// export const updateTicket = (data: PROBLEM.CreateBody) => {
 //   return agent.put('/api/tickets')
 //     .send(data)
 //     .then((response: any) => response.body);
@@ -46,14 +46,14 @@ export const reopenTicket = (ticketId: number) => {
 };
 
 // 这个接口不用传分页参数，返回类型需自定义
-export const getComments = (ticketId: number): { comments: TICKET.Comment[]; total: number } => {
+export const getComments = (ticketId: number): { comments: PROBLEM.Comment[]; total: number } => {
   return agent
     .get('/api/comments')
     .query({ ticketID: ticketId })
     .then((response: any) => response.body);
 };
 
-export const createComment = (payload: TICKET.CommentBody) => {
+export const createComment = (payload: PROBLEM.CommentBody) => {
   return agent
     .post('/api/comments')
     .send(payload)

@@ -15,15 +15,14 @@ import * as React from 'react';
 import { Input, Spin, Select, Table } from 'app/nusi';
 import { SwitchAutoScroll, CustomFilter } from 'common';
 import { goTo, fromNow, insertWhen } from 'common/utils';
-import { getTicketType, TicketPriority } from 'application/pages/ticket/ticket-form';
+import { getProblemType, ProblemPriority } from 'application/pages/problem/problem-form';
 import { useLoading } from 'app/common/stores/loading';
-import ticketStore from 'application/stores/ticket';
+import problemStore from 'application/stores/problem';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
 import { IUseFilterProps } from 'app/interface/common';
 import routeInfoStore from 'common/stores/route';
-
-import './ticket-list.scss';
+import './problem-list.scss';
 
 interface IFilter {
   onSubmit: (value: Obj) => void;
@@ -39,7 +38,7 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
           allowClear: true,
-          options: getTicketType().map(({ name, value }) => (
+          options: getProblemType().map(({ name, value }) => (
             <Option key={value} value={value}>
               {name}
             </Option>
@@ -52,7 +51,7 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('application:priority') }),
           allowClear: true,
-          options: TicketPriority.map((priorityType: any) => (
+          options: ProblemPriority.map((priorityType: any) => (
             <Option key={priorityType.value} value={priorityType.value}>
               {priorityType.name}
             </Option>
@@ -78,16 +77,16 @@ const updateKeyMap = {
   closed: 'closedAt',
 };
 
-export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' | 'onPageChange'>) => {
-  const [ticketList, paging] = ticketStore.useStore((s) => [s.ticketList, s.paging]);
+export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' | 'onPageChange'>) => {
+  const [ticketList, paging] = problemStore.useStore((s) => [s.ticketList, s.paging]);
   const { onSubmit, onReset, onPageChange } = props;
-  const [loading] = useLoading(ticketStore, ['getTicketList']);
+  const [loading] = useLoading(problemStore, ['getTicketList']);
   const { ticketType } = routeInfoStore.useStore((s) => s.params);
 
   const handleSubmit = React.useCallback(onSubmit, []);
   const handleReset = React.useCallback(onReset, []);
 
-  const columns: Array<ColumnProps<TICKET.Ticket>> = [
+  const columns: Array<ColumnProps<PROBLEM.Ticket>> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -103,7 +102,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' |
       dataIndex: 'type',
       width: 140,
       render: (text) => {
-        const type = getTicketType().find((t) => t.value === text);
+        const type = getProblemType().find((t) => t.value === text);
         return type ? type.name : '-';
       },
     },
@@ -112,7 +111,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' |
       dataIndex: 'priority',
       width: 90,
       render: (text) => {
-        const priority: any = TicketPriority.find((t: any) => t.value === text);
+        const priority: any = ProblemPriority.find((t: any) => t.value === text);
         return <span className={priority.color}>{priority.name}</span>;
       },
     },
@@ -142,7 +141,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' |
         width: 120,
         render: (text, record) => (text === 'closed' ? fromNow(record[updateKeyMap[text]]) : ''),
       },
-    ] as Array<ColumnProps<TICKET.Ticket>>),
+    ] as Array<ColumnProps<PROBLEM.Ticket>>),
   ];
 
   return (
@@ -161,7 +160,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' |
             pageSize: paging.pageSize,
             onChange: onPageChange,
           }}
-          onRow={(record: TICKET.Ticket) => {
+          onRow={(record: PROBLEM.Ticket) => {
             return {
               onClick: () => {
                 goTo(`./${record.id}`);

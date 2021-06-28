@@ -15,16 +15,16 @@ import * as React from 'react';
 import { Button } from 'app/nusi';
 import { useSwitch, useMultiFilter } from 'common';
 import { goTo } from 'common/utils';
-import { TicketList } from './ticket-list';
-import { TicketForm } from './ticket-form';
+import { ProblemList } from './problem-list';
+import { ProblemForm } from './problem-form';
 import i18n from 'i18n';
-import ticketStore from '../../stores/ticket';
+import problemStore from '../../stores/problem';
 import routeInfoStore from 'app/common/stores/route';
 import { useUnmount } from 'react-use';
 import orgStore from 'app/org-home/stores/org';
 
-export const ticketTabs = () => {
-  const openTotal = ticketStore.useStore((s) => s.openTotal);
+export const problemTabs = () => {
+  const openTotal = problemStore.useStore((s) => s.openTotal);
   return [
     {
       key: 'all',
@@ -56,10 +56,10 @@ const Ticket = ({ scope }: IProps) => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const { ticketType: tabKey } = params;
 
-  const { addTicket } = ticketStore.effects;
-  const { clearTicketList } = ticketStore.reducers;
+  const { addTicket } = problemStore.effects;
+  const { clearTicketList } = problemStore.reducers;
 
-  const { getTicketList } = ticketStore.effects;
+  const { getTicketList } = problemStore.effects;
 
   const multiFilterProps = useMultiFilter({
     getData: [getTicketList],
@@ -101,9 +101,9 @@ const Ticket = ({ scope }: IProps) => {
         <Button type="primary" onClick={() => openModal()}>
           {i18n.t('application:add ticket')}
         </Button>
-        <TicketForm visible={visible} onOk={onOk} onCancel={closeModal} />
+        <ProblemForm visible={visible} onOk={onOk} onCancel={closeModal} />
       </div>
-      <TicketList {...multiFilterProps} />
+      <ProblemList {...multiFilterProps} />
     </div>
   );
 };

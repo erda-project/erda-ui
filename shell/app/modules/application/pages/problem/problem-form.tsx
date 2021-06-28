@@ -16,7 +16,7 @@ import { FormModal } from 'common';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import i18n from 'i18n';
 
-export const getTicketType = (): TICKET.TicketType[] => {
+export const getProblemType = (): PROBLEM.TicketType[] => {
   const typeArr = [
     {
       value: 'bug',
@@ -34,7 +34,7 @@ export const getTicketType = (): TICKET.TicketType[] => {
   return typeArr;
 };
 
-export const TicketPriority = [
+export const ProblemPriority = [
   {
     value: 'low',
     name: i18n.t('application:low'),
@@ -52,7 +52,7 @@ export const TicketPriority = [
   },
 ];
 
-export const TicketForm = ({
+export const ProblemForm = ({
   visible,
   onOk,
   onCancel,
@@ -75,13 +75,13 @@ export const TicketForm = ({
       label: i18n.t('application:ticket type'),
       name: 'type',
       type: 'select',
-      options: getTicketType(),
+      options: getProblemType(),
     },
     {
       label: i18n.t('application:priority'),
       name: 'priority',
       type: 'radioGroup',
-      options: TicketPriority,
+      options: ProblemPriority,
     },
   ];
   return (

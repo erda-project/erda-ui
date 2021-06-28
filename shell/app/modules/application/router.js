@@ -15,7 +15,7 @@ import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
 import { mrTabs } from './pages/repo/repo-mr';
 import { BRANCH_TABS } from './pages/repo/repo-branch';
-import { ticketTabs } from './pages/ticket';
+import { problemTabs } from './pages/problem';
 
 function getAppRouter() {
   return {
@@ -38,16 +38,16 @@ function getAppRouter() {
       {
         path: 'ticket/:ticketType',
         breadcrumbName: i18n.t('application:issues'),
-        tabs: ticketTabs,
+        tabs: problemTabs,
         routes: [
           {
             layout: { fullHeight: true },
-            getComp: (cb) => cb(import('application/pages/ticket')),
+            getComp: (cb) => cb(import('application/pages/problem')),
           },
           {
             path: ':ticketId',
             breadcrumbName: i18n.t('application:issue detail'),
-            getComp: (cb) => cb(import('application/pages/ticket/ticket-detail')),
+            getComp: (cb) => cb(import('application/pages/problem/problem-detail')),
           },
         ],
       },

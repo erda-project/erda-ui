@@ -22,7 +22,7 @@ import {
   reopenTicket,
   getComments,
   createComment,
-} from '../services/ticket';
+} from '../services/problem';
 import i18n from 'i18n';
 import { map } from 'lodash';
 import userStore from 'app/user/stores';
@@ -31,12 +31,12 @@ const getUser = (user: ILoginUser) =>
   user ? user.nick || user.name || user.email || user.phone || user.id : i18n.t('application:system');
 
 interface IState {
-  ticketList: TICKET.Ticket[];
+  ticketList: PROBLEM.Ticket[];
   paging: IPaging;
-  comments: TICKET.Comment[];
+  comments: PROBLEM.Comment[];
   commentsTotal: number;
   openTotal: number;
-  detail: TICKET.Ticket;
+  detail: PROBLEM.Ticket;
 }
 
 const initState: IState = {
@@ -45,14 +45,14 @@ const initState: IState = {
   comments: [],
   commentsTotal: 0,
   openTotal: 0,
-  detail: {} as TICKET.Ticket,
+  detail: {} as PROBLEM.Ticket,
 };
 
 const ticketStore = createStore({
   name: 'appTicket',
   state: initState,
   effects: {
-    async getTicketList({ call, update }, payload: Merge<TICKET.ListQuery, { filters: Obj }>) {
+    async getTicketList({ call, update }, payload: Merge<PROBLEM.ListQuery, { filters: Obj }>) {
       const { list = [], total } = await call(getTicketList, payload, {
         paging: { key: 'paging', listKey: 'tickets' },
       });
@@ -99,7 +99,7 @@ const ticketStore = createStore({
       });
       update({ comments: list, commentsTotal: total });
     },
-    async createTicketComments({ call, getParams }, payload: Omit<TICKET.CommentBody, 'ticketID' | 'userID'>) {
+    async createTicketComments({ call, getParams }, payload: Omit<PROBLEM.CommentBody, 'ticketID' | 'userID'>) {
       const { ticketId } = getParams();
       const { loginUser } = userStore.getState((s) => s);
       await call(createComment, {
@@ -115,7 +115,7 @@ const ticketStore = createStore({
       await call(closeTicket, parseInt(ticketId, 10));
       await ticketStore.effects.getTicketDetail();
     },
-    async addTicket({ call }, payload: TICKET.CreateBody) {
+    async addTicket({ call }, payload: PROBLEM.CreateBody) {
       const { loginUser } = userStore.getState((s) => s);
       await call(addTicket, { ...payload, userID: loginUser.id });
     },
@@ -126,7 +126,7 @@ const ticketStore = createStore({
   },
   reducers: {
     clearTicketDetail(state) {
-      state.detail = {} as TICKET.Ticket;
+      state.detail = {} as PROBLEM.Ticket;
     },
     clearTicketList(state) {
       state.ticketList = [];
