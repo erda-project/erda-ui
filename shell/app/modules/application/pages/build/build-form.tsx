@@ -15,7 +15,7 @@ import * as React from 'react';
 import { get, isEmpty, find } from 'lodash';
 import { Select, Tooltip, Modal, Form, Alert, Button } from 'app/nusi';
 import { RenderPureForm } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { IFormItem } from 'common/components/render-formItem';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
@@ -32,7 +32,7 @@ const { Option } = Select;
 
 interface IProps {
   title: string;
-  form: WrappedFormUtils;
+  form: FormInstance;
   visible: boolean;
   onCancel: () => void;
   onOk: (data: BUILD.CreatePipelineBody) => any;
@@ -45,7 +45,8 @@ const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
   PROD: 'blockProd',
 };
 
-const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
+const BuildForm = ({ visible, onCancel, title, onOk }: IProps) => {
+  const [form] = Form.useForm();
   const pipelineDetail = buildStore.useStore((s) => s.pipelineDetail);
   const appID = routeInfoStore.useStore((s) => s.params.appId);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
@@ -207,10 +208,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
 
   const renderFooter = React.useMemo(() => {
     const handleOk = () => {
-      formRef.current.validateFields((err, data) => {
-        if (err) {
-          return;
-        }
+      formRef.current.validateFields().then((data: any) => {
         const { branch, pipelineYmlName } = data;
         onOkRef.current({ branch, pipelineYmlName });
       });
@@ -232,4 +230,4 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   );
 };
 
-export default Form.create()(BuildForm) as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+export default BuildForm as any as (p: Omit<IProps, 'form'>) => JSX.Element;

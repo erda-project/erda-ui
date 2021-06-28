@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Button } from 'app/nusi';
 import './operation-bar.scss';
 import { RenderForm } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 
 interface IProps {
@@ -37,12 +37,12 @@ class OperationBar extends React.PureComponent<IProps, IState> {
     this.state = {};
   }
 
-  handleSubmit = (form: WrappedFormUtils) => {
+  handleSubmit = (form: FormInstance) => {
     const formValue = form.getFieldsValue();
     this.props.onUpdateOps && this.props.onUpdateOps(formValue);
   };
 
-  handleReset = (event: any, form: WrappedFormUtils) => {
+  handleReset = (event: any, form: FormInstance) => {
     event.currentTarget.blur();
     form.resetFields();
     this.handleSubmit(form);
@@ -70,7 +70,7 @@ class OperationBar extends React.PureComponent<IProps, IState> {
       };
     });
     searchList.push({
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <React.Fragment>
           <Button
             className="ops-bar-btn ops-bar-default-btn ops-bar-reset-btn"

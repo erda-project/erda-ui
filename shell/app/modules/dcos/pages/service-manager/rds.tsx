@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';
 import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
 import { MysqlFieldsConfig } from 'project/pages/third-service/components/config';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
 import networksStore from 'dataCenter/stores/networks';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
@@ -148,7 +148,7 @@ const RDS = () => {
     return columns;
   };
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
         label: i18n.t('region'),

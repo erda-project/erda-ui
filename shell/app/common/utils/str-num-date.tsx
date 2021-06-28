@@ -17,6 +17,7 @@ import moment, { Moment } from 'moment';
 import 'moment/locale/zh-cn';
 import React from 'react';
 import { Tooltip } from 'app/nusi';
+
 const locale = window.localStorage.getItem('locale') || 'zh';
 const momentLangMap = {
   en: 'en',

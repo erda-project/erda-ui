@@ -14,7 +14,7 @@
 import { FileEditor, KeyValueEditor, RenderPureForm, useUpdate } from 'common';
 import { insertWhen, regRules } from 'common/utils';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { filter, get, isEmpty, map } from 'lodash';
 import { Form, Select } from 'app/nusi';
 import React, { forwardRef, useImperativeHandle } from 'react';
@@ -38,7 +38,7 @@ interface IProps {
   addonSpecList: CUSTOM_ADDON.Item[];
   currentAddon: CUSTOM_ADDON.Item | Obj;
   editData: ADDON.Instance | null;
-  form: WrappedFormUtils;
+  form: FormInstance;
   configKV: React.RefObject<any>;
   category?: string;
   onFieldChange: (k: string, v: any) => void;
@@ -264,12 +264,11 @@ const ThirdAddonForm = (props: IProps) => {
 };
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
+  const [form] = Form.useForm();
   useImperativeHandle(ref, () => ({
-    form: props.form,
+    form: form,
   }));
   return <ThirdAddonForm {...props} />;
 });
 
-export default Form.create()(FCForm) as any as (
-  p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>,
-) => JSX.Element;
+export default FCForm as any as (p: Merge<Omit<IProps, 'form'>, { ref: any }>) => JSX.Element;

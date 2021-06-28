@@ -358,39 +358,37 @@ const PermOperation = (props: IOperationProps) => {
   const [addFormVis, setAddFormVis] = React.useState(false);
   const addFormRef = React.useRef(null as any);
 
-  const handleAddSubmit = (form: any) => {
-    form.validateFields((err: any, values: { addStr: string }) => {
-      if (!err) {
-        const { addStr = '' } = values;
-        const permArr = addStr.split('>');
-        const newData = reduce(
-          reverse(permArr),
-          (sumObj, item, idx) => {
-            let reObj = { ...sumObj };
-            if (idx === 0) {
-              const actionStrArr = item.split('');
-              const actions = actionStrArr
-                .slice(1, actionStrArr.length - 1)
-                .join('')
-                .split(',');
-              const actionObj = {};
-              map(actions, (aItem) => {
-                const [aKey, aName] = aItem.split(':');
-                actionObj[aKey] = { ...actionData, name: aName };
-              });
-              reObj = { ...reObj, ...actionObj };
-              return reObj;
-            } else {
-              const [key, name] = item.split(':');
-              reObj = { [key]: { name, ...reObj } };
-            }
+  const handleAddSubmit = (form: FormInstance) => {
+    form.validateFields().then((values: { addStr: string }) => {
+      const { addStr = '' } = values;
+      const permArr = addStr.split('>');
+      const newData = reduce(
+        reverse(permArr),
+        (sumObj, item, idx) => {
+          let reObj = { ...sumObj };
+          if (idx === 0) {
+            const actionStrArr = item.split('');
+            const actions = actionStrArr
+              .slice(1, actionStrArr.length - 1)
+              .join('')
+              .split(',');
+            const actionObj = {};
+            map(actions, (aItem) => {
+              const [aKey, aName] = aItem.split(':');
+              actionObj[aKey] = { ...actionData, name: aName };
+            });
+            reObj = { ...reObj, ...actionObj };
             return reObj;
-          },
-          {},
-        );
-        editData({ keyPath: keyArr.join('.'), preKey: curKey, subData: newData });
-        setAddFormVis(false);
-      }
+          } else {
+            const [key, name] = item.split(':');
+            reObj = { [key]: { name, ...reObj } };
+          }
+          return reObj;
+        },
+        {},
+      );
+      editData({ keyPath: keyArr.join('.'), preKey: curKey, subData: newData });
+      setAddFormVis(false);
     });
   };
 
@@ -440,7 +438,7 @@ const PermOperation = (props: IOperationProps) => {
       label: '',
       className: 'mb4',
       extraProps: { ...fieldLayout },
-      getComp: ({ form }: { form: any }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="center-flex-box">
           <Button type="primary" onClick={() => handleAddSubmit(form)}>
             添加
@@ -450,12 +448,10 @@ const PermOperation = (props: IOperationProps) => {
     },
   ];
 
-  const handleEditSubmit = (form: any) => {
-    form.validateFields((err: any, values: Obj) => {
-      if (!err) {
-        editData({ ...values, keyPath: keyArr.join('.'), preKey: curKey });
-        setEditFormVis(false);
-      }
+  const handleEditSubmit = (form: FormInstance) => {
+    form.validateFields().then((values: any) => {
+      editData({ ...values, keyPath: keyArr.join('.'), preKey: curKey });
+      setEditFormVis(false);
     });
   };
 
@@ -497,7 +493,7 @@ const PermOperation = (props: IOperationProps) => {
       label: '',
       className: 'mb4',
       extraProps: { ...fieldLayout },
-      getComp: ({ form }: { form: any }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="center-flex-box">
           <Button type="primary" onClick={() => handleEditSubmit(form)}>
             保存

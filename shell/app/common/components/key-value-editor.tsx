@@ -15,7 +15,7 @@ import * as React from 'react';
 import { KeyValueTextArea, KeyValueTable } from 'common';
 import { Radio } from 'app/nusi';
 import { isEqual } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './key-value-editor.scss';
 
@@ -60,7 +60,7 @@ interface IProps {
   disableAdd?: boolean;
   disableDelete?: boolean;
   existKeys?: string[];
-  form: WrappedFormUtils;
+  form: FormInstance;
   onChange?: (data: object) => void;
   title?: string | React.ReactNode;
   validateField?: {
@@ -79,6 +79,13 @@ interface IState {
   prevDataSource: any;
 }
 export class KeyValueEditor extends React.Component<IProps, IState> {
+  static getDerivedStateFromProps({ dataSource }: IProps, prevState: IState) {
+    if (!isEqual(dataSource, prevState.prevDataSource)) {
+      return { ...prevState, prevDataSource: dataSource, dataSource };
+    }
+    return null;
+  }
+
   private table: KeyValueTable | null;
 
   private textArea: KeyValueTextArea | null;
@@ -91,13 +98,6 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
       tableMode: true,
       prevDataSource: undefined,
     };
-  }
-
-  static getDerivedStateFromProps({ dataSource }: IProps, prevState: IState) {
-    if (!isEqual(dataSource, prevState.prevDataSource)) {
-      return { ...prevState, prevDataSource: dataSource, dataSource };
-    }
-    return null;
   }
 
   getEditData = () => {
@@ -113,8 +113,8 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
       const {
         form: { validateFields },
       } = this.props;
-      validateFields((err) => {
-        if (!err) {
+      validateFields()
+        .then(() => {
           const nowIsTableMode = this.state.tableMode;
           if (nowIsTableMode) {
             this.setState({
@@ -128,10 +128,10 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
             });
           }
           resolve({ mode: !nowIsTableMode ? 'key-value' : 'text' });
-        } else {
-          resolve(err);
-        }
-      });
+        })
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+          resolve(errorFields);
+        });
     });
 
   render() {
