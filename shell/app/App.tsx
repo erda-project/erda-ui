@@ -33,6 +33,7 @@ import './styles/app.scss';
 import '@icon-park/react/styles/index.css';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react';
+import { initAxios } from 'app/common/utils/axios-config';
 import 'tailwindcss/tailwind.css';
 
 setConfig('onAPISuccess', nusi.message.success);
@@ -56,6 +57,7 @@ const start = (userData: ILoginUser) => {
   const locale = window.localStorage.getItem('locale') || 'zh';
   moment.locale(momentLangMap[locale]);
 
+  initAxios();
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
     if (!userData.isSysAdmin) {

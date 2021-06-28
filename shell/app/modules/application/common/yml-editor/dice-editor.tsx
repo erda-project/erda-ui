@@ -181,7 +181,6 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //   const { getAvailableAddonList } = repoStore.effects;
   //   const formRef: any = React.useRef(null);
   //   const form = formRef.current;
-  //   const loading = loadingStore.useSpace(repoStore);
   //   const [{ originJsonContent, jsonContent, groupedAddonList, displayData, editData, dataKey, chosenNode, isCreate, drawerVis }, updater, update] = useUpdate({
   //     originJsonContent: defaultJson,
   //     jsonContent: defaultJson,

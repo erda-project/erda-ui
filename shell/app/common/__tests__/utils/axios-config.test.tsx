@@ -34,6 +34,7 @@ describe('initAxios', () => {
     });
     expect(data).toStrictEqual({
       headers: {
+        Accept: 'application/vnd.dice+json;version=1.0',
         Lang: 'en-US',
         'OPENAPI-CSRF-TOKEN': 'OPENAPI-CSRF-TOKEN',
         org: 'erda',
