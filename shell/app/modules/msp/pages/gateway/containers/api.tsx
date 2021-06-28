@@ -25,7 +25,7 @@ import AddApiModal from 'msp/pages/gateway/components/add-api-modal';
 import './api.scss';
 import gatewayStore from 'msp/stores/gateway';
 import mspStore from 'msp/stores/micro-service';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const { updateSearchFields } = apiMonitorFilterStore.reducers;
 const { Option } = Select;

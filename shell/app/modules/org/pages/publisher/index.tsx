@@ -13,7 +13,7 @@
 
 import { createPublisherList } from 'app/modules/publisher/pages/publisher-manage/publisher-list';
 import publisherStore from 'app/modules/publisher/stores/publisher';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
 
 const Mapper = () => {

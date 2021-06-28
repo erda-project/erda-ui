@@ -404,7 +404,7 @@ export const setApiWithOrg = (api: string) => {
 
 /**
  * Use path to match the incoming parameters, extract query and params
- * @param path Paths that may contain parameters, such as /fdp/:id/detail, path can not include `?`
+ * @param path Paths that may contain parameters, such as /dop/:id/detail, path can not include `?`
  * @param params The incoming parameters may be query or params
  */
 export const extractPathParams = (path: string, params?: Obj) => {
@@ -426,7 +426,7 @@ export const extractPathParams = (path: string, params?: Obj) => {
 
 /**
  * Fill in the actual value for the path with parameters by path-to-regexp
- * @param path Paths that may contain parameters, such as /fdp/:id/detail, path can not include `?`
+ * @param path Paths that may contain parameters, such as /dop/:id/detail, path can not include `?`
  * @param params The incoming parameters may be query or params
  * @returns
  */

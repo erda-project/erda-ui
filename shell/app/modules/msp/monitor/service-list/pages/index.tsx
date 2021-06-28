@@ -19,7 +19,7 @@ import { goTo } from 'common/utils';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyStore from 'topology/stores/topology';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 export default () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);

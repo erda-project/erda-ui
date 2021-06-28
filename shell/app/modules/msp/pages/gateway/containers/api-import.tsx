@@ -22,7 +22,7 @@ import './api-import.scss';
 import gatewayStore from 'msp/stores/gateway';
 import { useUnmount } from 'react-use';
 import { PAGINATION } from 'app/constants';
-// import loadingStore from 'common/stores/loading';
+// import loadingStore from 'core/stores/loading';
 
 const { Option } = Select;
 

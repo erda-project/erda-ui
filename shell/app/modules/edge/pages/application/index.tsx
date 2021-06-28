@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { cloneDeep, isEmpty } from 'app/external/custom-lodash';
+import { isEmpty } from 'app/external/custom-lodash';
 import { useUpdate } from 'common';
 import { MonitorDrawer } from '../components/monitor-drawer';
 

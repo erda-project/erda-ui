@@ -25,7 +25,7 @@ import appStore from 'application/stores/application';
 import layoutStore from 'layout/stores/layout';
 import userStore from 'app/user/stores';
 import { removeMember } from 'common/services/index';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { theme } from 'app/themes';
 
 // 修改应用信息后，更新左侧菜单上方的信息

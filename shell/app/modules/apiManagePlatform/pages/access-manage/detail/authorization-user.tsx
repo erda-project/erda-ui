@@ -19,7 +19,7 @@ import { contractStatueMap } from 'apiManagePlatform/pages/access-manage/compone
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { TableActions, useUpdate, Icon as CustomIcon } from 'common';
 import DetailModal from './detail-modal';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import UpdateSLA from 'apiManagePlatform/components/update-sla';
 import TrafficAuditDrawer from 'apiManagePlatform/components/traffic-audit-drawer';
 import { isEmpty } from 'app/external/custom-lodash';

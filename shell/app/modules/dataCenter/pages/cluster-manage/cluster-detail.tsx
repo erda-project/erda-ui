@@ -16,8 +16,8 @@ import { Spin } from 'app/nusi';
 import { get, map, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import { KeyValueList, EmptyHolder } from 'common';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'app/common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import clusterStore from '../../stores/cluster';
 
 import './cluster-detail.scss';

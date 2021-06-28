@@ -23,7 +23,7 @@ import orgStore from 'app/org-home/stores/org';
 import { IssueIcon } from 'org/common/issue-field-icon';
 import { isEmpty, map } from 'lodash';
 import { useUnmount, useMount } from 'react-use';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
 
 const IssueFieldManage = () => {

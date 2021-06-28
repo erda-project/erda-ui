@@ -19,10 +19,10 @@ import { goTo } from 'common/utils';
 import AddMachineModal from 'dcos/pages/machine-manager/add-machine-modal';
 import { translate } from 'dcos/common/config';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import purchaseStore from 'dcos/stores/purchase';
 import machineStore from 'dataCenter/stores/machine';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 interface IProps {
   purchaseList: any[];

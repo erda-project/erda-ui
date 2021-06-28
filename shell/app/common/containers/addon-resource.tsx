@@ -16,8 +16,8 @@ import { Spin } from 'app/nusi';
 import { IF, MetricsMonitor } from 'common';
 import PureAddonResource from '../components/addon-resource';
 import addonStore from 'common/stores/addon';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 
 const AddonResource = () => {
   const info = addonStore.useStore((s) => s.addonDetail);

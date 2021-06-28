@@ -22,7 +22,7 @@ import clusterStore from 'dataCenter/stores/cluster';
 import { goTo, insertWhen } from 'app/common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
 import default_devops_svg from 'app/images/devops.svg';

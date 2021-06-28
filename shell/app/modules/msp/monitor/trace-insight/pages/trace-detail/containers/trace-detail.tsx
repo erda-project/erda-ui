@@ -14,8 +14,8 @@
 import * as React from 'react';
 import PureTraceDetail from '../components/trace-detail';
 import traceDetailStore from 'trace-insight/stores/trace-detail';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'app/common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import { useMount } from 'react-use';
 
 interface IProps {

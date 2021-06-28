@@ -18,7 +18,7 @@ import { PureAppList } from 'application/common/app-list-protocol';
 import { WithAuth, usePerm } from 'app/user/common';
 import i18n from 'i18n';
 import projectStore from 'project/stores/project';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 export const ProjectAppList = () => {
   const [loading] = useLoading(projectStore, ['getProjectApps']);

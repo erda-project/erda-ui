@@ -19,7 +19,7 @@ import { Spin, Tooltip, Table } from 'app/nusi';
 import i18n from 'i18n';
 import './alarm-list.scss';
 import machineStore from 'dataCenter/stores/machine';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useUnmount } from 'react-use';
 import { ColumnProps } from 'core/common/interface';
 

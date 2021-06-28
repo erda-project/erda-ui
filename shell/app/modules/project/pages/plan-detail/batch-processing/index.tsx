@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { Menu, Modal, message } from 'app/nusi';
 import { DropdownSelect, FormModal, MemberSelector } from 'common';
 import { qs } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import testCaseStore from 'project/stores/test-case';
 import testPlanStore from 'project/stores/test-plan';
 import { formatQuery } from 'project/utils/test-case';

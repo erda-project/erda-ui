@@ -30,8 +30,8 @@ import {
 } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
 import issueStore from 'project/stores/issues';
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { IssueDrawer } from 'project/common/components/issue/issue-drawer';
 import { IssueCommentBox } from 'project/common/components/issue/comment-box';
 import { AddRelation } from 'project/common/components/issue/add-relation';
@@ -40,7 +40,7 @@ import { updateSearch } from 'app/common/utils/query-string';
 import projectMemberStore from 'common/stores/project-member';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';
-import userMapStore from 'app/common/stores/user-map';
+import { getUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
 import userStore from 'app/user/stores';
 import IterationSelect from './iteration-select';
@@ -92,7 +92,7 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 const { createLabel, getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
   ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
-    const userMap = userMapStore.getState((s) => s);
+    const userMap = getUserMap();
     const projectMembers = projectMemberStore.useStore((s) => s.list);
     const urlParams = routeInfoStore.useStore((s) => s.params);
     // const isRequirement = issueType === ISSUE_TYPE.REQUIREMENT;

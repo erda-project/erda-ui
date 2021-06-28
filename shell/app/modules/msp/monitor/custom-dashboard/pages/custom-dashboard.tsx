@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { CustomDashboardScope } from 'app/modules/dataCenter/stores/_common-custom-dashboard';
 import CustomDashboard from 'app/modules/dataCenter/common/custom-dashboard/custom-dashboard';
 

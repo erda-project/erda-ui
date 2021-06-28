@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { isEmpty, map, omit } from 'lodash';
 import DiceConfigPage from 'app/config-page/index';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { useUpdate, FilterBarHandle } from 'common';
 import userStore from 'app/user/stores';
 import { updateSearch } from 'app/common/utils';

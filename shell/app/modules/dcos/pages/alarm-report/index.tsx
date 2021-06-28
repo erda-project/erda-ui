@@ -20,7 +20,7 @@ import { ChartContainer } from 'charts/utils';
 import { ALARM_REPORT_CHART_MAP } from 'app/modules/dcos/common/config';
 import topChartList from './config/topChartList';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import alarmReportStore from 'dataCenter/stores/alarm-report';
 
 const AlarmReport = () => {

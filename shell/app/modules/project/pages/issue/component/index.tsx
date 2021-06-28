@@ -19,7 +19,7 @@ import KanbanView from './kanban-view';
 import CreateButton from './create-button';
 import { mergeSearch } from 'app/common/utils';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 interface IProps {

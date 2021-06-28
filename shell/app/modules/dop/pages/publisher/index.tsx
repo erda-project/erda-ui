@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { createPublisherList, publisherTabs } from 'app/modules/publisher/pages/publisher-manage/publisher-list-v2';
 import publisherStore from 'app/modules/publisher/stores/publisher';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
 import { Redirect } from 'react-router-dom';
 

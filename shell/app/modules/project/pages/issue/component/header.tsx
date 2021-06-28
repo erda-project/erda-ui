@@ -24,7 +24,7 @@ import orgStore from 'app/org-home/stores/org';
 import { qs, setApiWithOrg } from 'app/common/utils';
 import moment from 'moment';
 import useFilterList from '../../iteration/filter-field';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { WithAuth, usePerm } from 'user/common';
 import ImportFile from 'project/pages/issue/component/import-file';
 import './header.scss';

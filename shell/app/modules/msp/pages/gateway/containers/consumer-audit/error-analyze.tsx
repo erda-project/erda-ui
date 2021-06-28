@@ -25,8 +25,8 @@ import { Spin } from 'app/nusi';
 import i18n from 'i18n';
 import gatewayStore from 'msp/stores/gateway';
 import metricsMonitorStore from 'common/stores/metrics';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 
 const resourceInfo = { resourceType: 'multipleGroup', resourceId: 'error-analyze' };
 

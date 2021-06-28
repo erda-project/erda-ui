@@ -14,7 +14,7 @@
 import { last, find } from 'lodash';
 import * as React from 'react';
 import { Menu } from 'common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 /**
  * render page tabs

@@ -15,7 +15,7 @@ import { Icon as CustomIcon, IF, useUpdate } from 'common';
 import { Dropdown, Input } from 'app/nusi';
 import * as React from 'react';
 import { isEqual, isEmpty, debounce } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useEffectOnce } from 'react-use';
 import './appsSelector.scss';

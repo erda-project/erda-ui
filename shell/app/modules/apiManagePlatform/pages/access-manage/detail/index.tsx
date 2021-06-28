@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Modal, Spin, Ellipsis } from 'app/nusi';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { useEffectOnce } from 'react-use';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { DetailsPanel, Icon as CustomIcon, useUpdate } from 'common';
 import i18n from 'i18n';
 import { get, isEmpty } from 'lodash';
@@ -25,7 +25,7 @@ import Sla from 'apiManagePlatform/pages/access-manage/detail/sla';
 import SlaEditor from 'apiManagePlatform/pages/access-manage/detail/sla-editor';
 import { goTo } from 'common/utils';
 import { envMap } from 'msp/config';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { WithAuth } from 'user/common';
 import OverviewChart from 'apiManagePlatform/pages/access-manage/detail/overview-chart';
 

@@ -37,7 +37,7 @@ import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
 import { useUpdate, Icon as CustomIcon, IF } from 'common';
 import appDeployStore from 'application/stores/deploy';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import ActionSelect from './action-select';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from '../utils';
 import './pipeline-node-drawer.scss';

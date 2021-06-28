@@ -24,7 +24,7 @@ import { WithAuth, usePerm } from 'app/user/common';
 import i18n from 'i18n';
 import './repo-branch.scss';
 import repoStore from 'application/stores/repo';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import appStore from 'application/stores/application';
 
 const { Search } = Input;

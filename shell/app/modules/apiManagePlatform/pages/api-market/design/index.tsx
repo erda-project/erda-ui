@@ -28,7 +28,7 @@ import {
 import ApiSummary from 'apiManagePlatform/pages/api-market/design/summary';
 import ApiResource from 'app/config-page/components/api-resource/resource';
 import DataTypeConfig from 'apiManagePlatform/pages/api-market/design/datatype-config';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { produce } from 'immer';
 import { useMount, useUnmount } from 'react-use';
 import ApiPublishModal from 'apiManagePlatform/pages/api-market/design/api-publish-modal';
@@ -37,7 +37,7 @@ import { WithAuth } from 'user/common';
 import { Prompt, Link } from 'react-router-dom';
 import ApiDocAddModal from './api-doc-add-modal';
 import ApiDocTree from './api-doc-tree';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
 import appStore from 'application/stores/application';
 import { repositoriesTypes } from 'application/common/config';

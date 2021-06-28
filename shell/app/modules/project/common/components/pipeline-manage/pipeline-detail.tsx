@@ -16,7 +16,7 @@ import { Tabs } from 'app/nusi';
 import PipelineConfigDetail from './config-detail';
 import PipelineRunDetail from './run-detail';
 import ConfigEnvSelector from './common/config-env-selector';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
 

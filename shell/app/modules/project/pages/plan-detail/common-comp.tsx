@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { Progress, Popover } from 'app/nusi';
 import testPlanStore from 'project/stores/test-plan';
 import testEnvStore from 'project/stores/test-env';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import moment from 'moment';
 
 const noEnv = [

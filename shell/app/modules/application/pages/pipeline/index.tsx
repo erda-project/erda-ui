@@ -15,7 +15,7 @@ import * as React from 'react';
 import { SplitPage } from 'layout/common';
 import { EmptyHolder } from 'common';
 import PipelineDetail from './pipeline-detail';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import fileTreeStore from 'common/stores/file-tree';
 import { scopeConfig } from './scope-config';
 import { updateSearch } from 'common/utils';

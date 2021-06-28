@@ -68,7 +68,7 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
         <CustomIcon type="404" color />
         <div className="desc">
           <span>{message || i18n.t('layout:page-not-found')}</span>
-          {force ? ( // 当fdp挂掉的时候用Link返回因为会判断当前平台还是fdp。跳回的首页还是会挂，这里用a标签来强刷
+          {force ? ( // force jump to erda root
             <a href={goTo.resolve.orgRoot({ orgName: '-' })}>
               <Button size="large" type="primary">
                 {i18n.t('back to home')}

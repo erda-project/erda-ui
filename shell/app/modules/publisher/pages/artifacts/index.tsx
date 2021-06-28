@@ -18,7 +18,7 @@ import { get } from 'lodash';
 import { EmptyHolder, IF, useUpdate } from 'common';
 import { WithAuth, usePerm } from 'user/common';
 import { useEffectOnce } from 'react-use';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import ArtifactsFormModal from './artifacts-form-modal';
 import { ArtifactsTypeMap } from 'publisher/pages/artifacts/config';
 import ArtifactsDetail from './artifacts-detail';

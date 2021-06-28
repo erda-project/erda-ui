@@ -22,8 +22,8 @@ import { renderAsLink, getSplitPathBy, getInfoFromRefName, mergeRepoPathWith } f
 import { Link } from 'react-router-dom';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 import './repo-commit.scss';

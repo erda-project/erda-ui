@@ -17,6 +17,7 @@ import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin } from 'app/nusi';
 import { useUpdate } from 'common';
+import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
 import './index.scss';
@@ -36,14 +37,6 @@ interface IProps {
 }
 
 const unProduct = process.env.NODE_ENV !== 'production';
-
-console.log('------', unProduct);
-export const enhanceUseMock = (_useMock: (params: Obj) => Promise<any>) => {
-  if (unProduct) {
-    return () => {};
-  }
-  return _useMock;
-};
 
 const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const {
@@ -254,4 +247,5 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   // return <Spin spinning={showLoading && fetching} wrapperClassName='full-spin-height'>{Content}</Spin>;
 });
 
+export { useMock };
 export default ConfigPage;

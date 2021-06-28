@@ -16,7 +16,7 @@
  */
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const SpaceList = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);

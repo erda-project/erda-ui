@@ -19,7 +19,7 @@ import { useUpdate, useSwitch } from 'common';
 import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useMount } from 'react-use';

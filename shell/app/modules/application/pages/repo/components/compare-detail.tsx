@@ -19,7 +19,7 @@ import { CommitList } from '../repo-commit';
 import { CommentList } from './mr-comments';
 import FileDiff from './file-diff';
 import repoStore from 'application/stores/repo';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { TabPane } = Tabs;
 

@@ -19,8 +19,8 @@ import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'app/nusi';
 import { useSwitch, FormModal } from 'common';
 import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
-import userMapStore from 'app/common/stores/user-map';
-import { useLoading } from 'app/common/stores/loading';
+import { useUserMap } from 'core/stores/userMap';
+import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from '../../../../stores/notify-group';
 import appNotifyStore from '../../../../stores/notify';
 import {
@@ -58,7 +58,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     'toggleNotifyConfigs',
     'getNotifyConfigs',
   ]);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
 

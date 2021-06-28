@@ -19,7 +19,7 @@ import './menu-head.scss';
 import devopsSvg from 'app/images/devops.svg';
 import dataCenterSvg from 'app/images/qyzx.svg';
 import mspSvg from 'app/images/wfwzl.svg';
-import fdpSvg from 'app/images/ksj.svg';
+import dataSvg from 'app/images/ksj.svg';
 import apiManageSvg from 'app/images/fwsc.svg';
 import edgeSvg from 'app/images/edge.svg';
 import orgCenterSvg from 'app/images/glzx.svg';
@@ -36,6 +36,8 @@ const defaultDetail = {
   icon: '',
   logoClassName: '',
 };
+
+const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
 
 const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { detail = defaultDetail, getHeadName } = siderInfo || {};
@@ -57,8 +59,8 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
     case 'msp':
       sideIcon = <img className="big-icon" src={mspSvg} />;
       break;
-    case 'fdp':
-      sideIcon = <img className="big-icon" src={fdpSvg} />;
+    case `${dataEngineerInfo.name}`:
+      sideIcon = <img className="big-icon" src={dataSvg} />;
       break;
     case 'apiManage':
       sideIcon = <img className="big-icon" src={apiManageSvg} />;

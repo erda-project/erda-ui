@@ -17,8 +17,8 @@ import { map, isEmpty } from 'lodash';
 import { Spin, Table } from 'app/nusi';
 import { Holder } from 'common';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'app/common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import podDetailStore from '../../stores/pod-detail';
 import { useInstanceOperation } from '../../common/components/instance-operation';
 

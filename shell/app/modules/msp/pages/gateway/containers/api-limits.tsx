@@ -18,7 +18,7 @@ import { PagingTable, FormModal, useSwitch } from 'common';
 import { API_LIMIT_COLS, HTTP_METHODS } from '../config';
 import { insertWhen } from 'common/utils';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import './api-limits.scss';
 import gatewayStore from 'msp/stores/gateway';

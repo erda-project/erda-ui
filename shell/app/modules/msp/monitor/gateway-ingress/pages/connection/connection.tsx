@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Row, Col } from 'app/nusi';
 import ConnectionMap from './config/chartMap';
 import TopTabRight from '../../common/components/tab-right';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import StatisticsSelector, { STATISTICS } from '../../common/components/statistics-selector';
 import mspStore from 'msp/stores/micro-service';
 
