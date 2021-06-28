@@ -23,9 +23,9 @@ import { CommentBox } from 'application/common/components/comment-box';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import { LoadMoreSelector, useUpdate, Avatar } from 'common';
 import { fromNow, goTo } from 'common/utils';
-import { getProjectList } from 'project/services/project.ts';
+import { getProjectList } from 'app/modules/project/services/project';
 import { getProjectIterations } from 'project/services/project-iteration';
-import { getIssues as getProjectIssues } from 'project/services/issue.ts';
+import { getIssues as getProjectIssues } from 'app/modules/project/services/issue';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 

@@ -20,7 +20,7 @@ export const getTicketType = (): TICKET.TicketType[] => {
   const typeArr = [
     {
       value: 'bug',
-      name: i18n.t('application:bug'),
+      name: i18n.t('application:code defect'),
     },
     {
       value: 'vulnerability',
