@@ -121,7 +121,6 @@ Display rule of avatar chars:
 2）diceop  --> dice
 3）miwMio  --> miw
 4) micW  --> micW
-
 comment: letter like m, w, M, W is wider than others , so we limit the counts of these
 */
 const getAvatarChars = (name:string) => {
@@ -226,6 +225,9 @@ const SideBar = () => {
             const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
             if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
+            } else if (!orgs?.length) {
+              // skipping warning when the user doesn't join any organization.
+              goTo(goTo.pages.orgRoot, { orgName: '-' });
             } else {
               message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
             }
@@ -292,7 +294,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
       <CustomIcon type='appstore' className='fz20 ml4' />
     </div>
   );
-
+  
   const onClick = (e: any) => {
     e.domEvent.stopPropagation();
   };
@@ -313,5 +315,4 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
     </Popover>
   );
 };
-
 export default SideBar;
