@@ -48,18 +48,26 @@ interface ICardProps {
   disabled?: boolean;
 }
 
-export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource: { cpuQuota: number, memQuota: number }) => {
-  const leftResource = projectStore.useStore(s => s.leftResources);
+export const useQuotaFields = (
+  canEdit: boolean,
+  showTip: boolean,
+  usedResource: { cpuQuota: number; memQuota: number },
+  canGetClusterListAndResources = true,
+) => {
+  const leftResource = projectStore.useStore((s) => s.leftResources);
   const { getLeftResources } = projectStore.effects;
   const { clearLeftResources } = projectStore.reducers;
   const [isLoading] = useLoading(projectStore, ['getLeftResources']);
-  useEffectOnce(() => {
-    clusterStore.effects.getClusterList();
-    getLeftResources();
+
+  React.useEffect(() => {
+    if (canGetClusterListAndResources) {
+      clusterStore.effects.getClusterList();
+      getLeftResources();
+    }
     return () => {
       clearLeftResources();
     };
-  });
+  }, [canGetClusterListAndResources, clearLeftResources, getLeftResources]);
 
   const leftCpu = Math.round((get(leftResource, 'availableCpu') || 0) + usedResource.cpuQuota);// 编辑时，可用值需要加上当前项目已经占用的
   const leftMem = Math.round((get(leftResource, 'availableMem') || 0) + usedResource.memQuota);

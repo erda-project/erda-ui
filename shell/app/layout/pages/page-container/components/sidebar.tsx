@@ -55,7 +55,7 @@ const AppCenterEl = () => {
     workBench: permMap.workBench.read.pass,
     diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
     microService: permMap.entryMicroService.pass,
-    edge: permMap.edge.view.pass,
+    edge: permMap.edge.view.pass && currentOrg.type === 'ENTERPRISE',
     // apiManage: permMap.entryApiManage.pass,
   };
   const dataSource = appList.filter(app => openMap[app.key])
