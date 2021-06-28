@@ -11,15 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useRef } from 'react';
+import React, { useRef, MutableRefObject } from 'react';
 import { FormModal, useUpdate, LoadMoreSelector } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { insertWhen, regRules } from 'common/utils';
-import { WrappedFormUtils, RadioChangeEvent } from 'core/common/interface';
+import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { getMyProject, getApps, getAppInstance, getAppDetail } from 'apiManagePlatform/services/api-market';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { ChooseVersion } from 'apiManagePlatform/pages/api-market/version/version-info';
 import { get, pick, groupBy, map, isEmpty, uniqBy } from 'lodash';
 import { Select } from 'app/nusi';
@@ -42,12 +42,8 @@ interface IState {
   chooseProjectID: number | undefined;
 }
 
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
-
 const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
-  const formRef = React.useRef<FormRef>({} as FormRef);
+  const formRef = useRef({}) as MutableRefObject<FormInstance>;
   const [assetDetail, instance] = apiMarketStore.useStore((s) => [s.assetDetail.asset, s.instance]);
   const defaultAppID = mode === 'asset' ? assetDetail.appID : instance.appID || assetDetail.appID;
   const defaultProjectID = mode === 'asset' ? assetDetail.projectID : instance.projectID || assetDetail.projectID;
@@ -218,7 +214,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       default:
         break;
     }
-    formRef.current.props.form.setFieldsValue(temp);
+    formRef.current.setFieldsValue(temp);
   };
   const handleOk = async (data: any) => {
     if (mode === 'instance') {
@@ -430,7 +426,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     <FormModal
       title={mode === 'asset' ? i18n.t('connection relation') : i18n.t('related instance')}
       fieldsList={fieldsList}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       visible={visible}
       onCancel={onCancel}
       onOk={handleOk}

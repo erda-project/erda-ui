@@ -20,7 +20,7 @@ import { getBrowserInfo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import clusterDashboardStore from '../../stores/dashboard';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
 import './instance-list.scss';
 import { PAGINATION } from 'app/constants';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { mapKeys } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   baseInfo: MONITOR_SI.IBaseInfo;

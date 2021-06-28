@@ -18,7 +18,7 @@ import { setSearch } from 'common/utils';
 import { forIn, set, get, every, omit, isEqual, isEmpty, map, some, debounce, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
-import routeInfoStore from '../stores/route';
+import routeInfoStore from 'core/stores/route';
 import './custom-filter.scss';
 import { PaginationConfig, SorterResult } from 'core/common/interface';
 

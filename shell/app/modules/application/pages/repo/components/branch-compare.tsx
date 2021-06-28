@@ -21,7 +21,7 @@ import i18n from 'i18n';
 import { DownOne as IconDownOne, Switch as IconSwitch } from '@icon-park/react';
 
 import './branch-compare.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import repoStore from 'application/stores/repo';
 
 const RepoBranchCompare = () => {

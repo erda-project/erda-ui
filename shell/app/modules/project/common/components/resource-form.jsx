@@ -15,7 +15,9 @@ import React, { PureComponent } from 'react';
 import { RenderForm } from 'common';
 
 export default class ResourceForm extends PureComponent {
-  callFormFn = (fn, ...args) => this.form[fn](...args);
+  form = React.createRef();
+
+  callFormFn = (fn, ...args) => this.form.current[fn](...args);
 
   render() {
     const { service, editDisabled, ...rest } = this.props;
@@ -110,9 +112,7 @@ export default class ResourceForm extends PureComponent {
         className={`resource-form ${editDisabled ? 'disabled' : ''}`}
         layout="inline"
         list={resourceFormList}
-        ref={(ref) => {
-          this.form = ref;
-        }}
+        ref={this.form}
         {...rest}
       />
     );

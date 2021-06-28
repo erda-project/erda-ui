@@ -19,7 +19,7 @@ import { ISSUE_PRIORITY_MAP, ISSUE_TYPE, ISSUE_ICON } from 'project/common/compo
 import moment from 'moment';
 import testCaseStore from 'project/stores/test-case';
 import { MemberSelector, useUpdate, Icon as CustomIcon } from 'common';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { map } from 'lodash';
 import { getIssues } from 'project/services/issue';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';

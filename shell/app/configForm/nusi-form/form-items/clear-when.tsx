@@ -22,7 +22,7 @@ const { Option } = Select;
 interface IProps {
   value: string[];
   allField: any[];
-  form: any;
+  form: FormInstance;
   onChange: (arg: string[]) => void;
 }
 const ClearFieldSelector = (props: IProps) => {

@@ -17,7 +17,7 @@ import { Spin, Button, Col, Row, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
 import ScaleModal from 'cmp/pages/middleware-dashboard/scale-modal';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 interface IProps {
   data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, { name: string; projectID: string; projectName: string }>;

@@ -18,13 +18,13 @@ import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { FormModal, useSwitch, useUpdate } from 'common';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import {
   notifyChannelOptionsMap,
   ListTargets,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import memberStore from 'common/stores/org-member';
 import notifyGroupStore from 'application/stores/notify-group';
 import alarmReportStore from '../../stores/alarm-report';
@@ -83,7 +83,7 @@ export default () => {
     updater.editingTask({});
   };
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     let fieldsList = [
       {
         label: i18n.t('org:report name'),

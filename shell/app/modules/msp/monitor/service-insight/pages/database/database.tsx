@@ -22,7 +22,7 @@ import PureTraceDetail from '../../../trace-insight/pages/trace-querier/trace-de
 import monitorCommonStore from 'common/stores/monitorCommon';
 import SICommonStore from '../../stores/common';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 
 const Database = () => {

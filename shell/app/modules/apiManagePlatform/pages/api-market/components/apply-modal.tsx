@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import { Modal, Button } from 'app/nusi';
 import { Copy, FormModal, useUpdate } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { getClientList } from 'apiManagePlatform/services/api-client';
 import { getVersionTree } from 'apiManagePlatform/services/api-market';
@@ -46,10 +46,6 @@ interface IProps {
   onCancel: () => void;
 }
 
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
-
 const identifierReg = /^[a-zA-Z0-9_-]+$/;
 
 const createNewApp = {
@@ -63,8 +59,8 @@ const createNewApp = {
 } as any;
 
 const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
-  const formRef = React.useRef<FormRef>({} as FormRef);
-  const clientFormRef = React.useRef<FormRef>({} as FormRef);
+  const formRef = React.useRef({}) as MutableRefObject<FormInstance>;
+  const clientFormRef = React.useRef({}) as MutableRefObject<FormInstance>;
   const { createContract } = apiClientStore.effects;
   const { createClient } = apiClientStore.effects;
   const [state, updater, update] = useUpdate<IState>({
@@ -112,7 +108,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
             selectSla,
           });
         }
-        formRef.current.props.form.setFieldsValue({ slaID: selectSla });
+        formRef.current.setFieldsValue({ slaID: selectSla });
       });
     },
     [dataSource.assetID, update],
@@ -208,9 +204,9 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
   };
   const nameToId = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
-    const identifier = clientFormRef.current.props.form.getFieldValue('name');
+    const identifier = clientFormRef.current.getFieldValue('name');
     if (!identifier && identifierReg.test(name)) {
-      clientFormRef.current.props.form.setFieldsValue({ name });
+      clientFormRef.current.setFieldsValue({ name });
     }
   };
   const fieldsList: IFormItem[] = [
@@ -311,7 +307,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       <FormModal
         title={i18n.t('apply to use')}
         visible={state.applyModal}
-        wrappedComponentRef={formRef}
+        ref={formRef}
         onCancel={onCancel}
         onOk={handleApply}
         fieldsList={fieldsList}
@@ -326,7 +322,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
         onOk={handleCreateApp}
         beforeSubmit={beforeSubmitCreateApp}
         fieldsList={creteAppFieldsList}
-        wrappedComponentRef={clientFormRef}
+        ref={clientFormRef}
       />
       <Modal
         visible={state.infoModal}

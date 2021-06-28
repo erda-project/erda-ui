@@ -16,7 +16,7 @@ import { Button, Select, InputNumber, Input, Row, Col, Drawer, Tooltip, Tag } fr
 import { map, forEach, isArray, isPlainObject, isEmpty, compact, get, find } from 'lodash';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import { updateSearch, qs } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import './filter-group.scss';
 

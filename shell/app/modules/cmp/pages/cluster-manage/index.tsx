@@ -20,7 +20,7 @@ import { Holder, useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import ClusterList from './cluster-list';
 import { AddClusterModal, ClusterTypeModal, AliCloudContainerForm, AliCloudErdcForm } from './add-cluster-forms';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import clusterStore from '../../stores/cluster';
 import { ClusterLog } from './cluster-log';
 

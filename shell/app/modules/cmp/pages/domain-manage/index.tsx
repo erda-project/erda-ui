@@ -20,7 +20,7 @@ import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
 import { getClusterList, getDomainList } from 'cmp/services/domain-manage';
 import { getDefaultPaging, goTo } from 'app/common/utils';
 import { getProjectList } from 'project/services/project';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 
 const { Option } = Select;

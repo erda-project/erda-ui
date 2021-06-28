@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Input, Form } from 'app/nusi';
 import { regRules } from 'common/utils';
 import './key-value-textarea.scss';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 
 const { TextArea } = Input;
@@ -56,7 +56,7 @@ const errMsgMap = (rowNum: number, type: string, maxLength?: number) => {
 interface IProps {
   data: string;
   fieldName?: 'kv-text';
-  form: WrappedFormUtils;
+  form: FormInstance;
   className?: string;
   autoSize?: object;
   rows?: number;
@@ -128,7 +128,6 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
   render() {
     const {
       fieldName = 'kv-text',
-      form: { getFieldDecorator },
       className = '',
       autoSize = { minRows: 10, maxRows: 15 },
       rows,
@@ -136,27 +135,26 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
       editDisabled,
     } = this.props;
     const { textData } = this.state;
-    const fieldDecorator = getFieldDecorator(fieldName, {
-      rules: [
-        {
-          validator: this.onValidator,
-        },
-      ],
-      initialValue: textData,
-    });
+
     return (
       <div className="key-value-textarea-wrap">
-        <FormItem>
-          {fieldDecorator(
-            <TextArea
-              className={className}
-              disabled={editDisabled}
-              rows={rows}
-              placeholder={placeholder}
-              autoSize={autoSize}
-              onChange={this.handleTextChange}
-            />,
-          )}
+        <FormItem
+          name={fieldName}
+          initialValue={textData}
+          rules={[
+            {
+              validator: this.onValidator,
+            },
+          ]}
+        >
+          <TextArea
+            className={className}
+            disabled={editDisabled}
+            rows={rows}
+            placeholder={placeholder}
+            autoSize={autoSize}
+            onChange={this.handleTextChange}
+          />
         </FormItem>
       </div>
     );

@@ -17,7 +17,7 @@ import { FormModal } from 'common';
 import { regRules } from 'common/utils';
 import monitorOverviewStore from 'monitor-overview/stores/monitor-overview';
 import monitorStatusStore from 'status-insight/stores/status';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 
 import './add-modal.scss';

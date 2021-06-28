@@ -15,7 +15,7 @@ import { FormModal, ImageUpload } from 'common';
 import i18n from 'i18n';
 import * as React from 'react';
 import { isEmpty, get } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 
 interface IProps {
@@ -40,7 +40,7 @@ export const getPublisherFieldsList = (isEdit?: boolean) => {
       name: 'logo',
       viewType: 'image',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
     },
     {
       label: i18n.t('description'),

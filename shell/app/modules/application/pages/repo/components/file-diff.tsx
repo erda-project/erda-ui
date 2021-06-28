@@ -36,7 +36,7 @@ import {
 import './file-diff.scss';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const diffTool = new Diff();
 const { ELSE } = IF;

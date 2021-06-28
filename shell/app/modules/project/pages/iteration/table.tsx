@@ -14,7 +14,7 @@
 import { goTo } from 'app/common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
 import { DeleteConfirm, useUpdate } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Button, Progress, Table, Select, Ellipsis } from 'app/nusi';
@@ -22,7 +22,7 @@ import * as React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const { Option } = Select;
 

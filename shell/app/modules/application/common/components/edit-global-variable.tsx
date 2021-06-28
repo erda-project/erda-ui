@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'core/common/interface';
+import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
 import { Form, Button } from 'app/nusi';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
@@ -40,6 +40,8 @@ const convertGlobalVariableList = (globalVariable: any) => {
 };
 
 class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormComponentProps, any> {
+  formRef = React.createRef<FormInstance>();
+
   state = {
     globalVariableList: [],
   };
@@ -56,28 +58,30 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
 
   render() {
     const { globalVariableList } = this.state;
-    const { form, editing } = this.props;
-    const { getFieldDecorator } = form;
+    const { editing } = this.props;
 
     const content = globalVariableList.map((item: any) => {
-      const input = getFieldDecorator(item.id, {
-        initialValue: item,
-        rules: [
-          {
-            required: true,
-            message: i18n.t('application:environment variables cannot be empty'),
-          },
-        ],
-      })(<VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />);
+      const input = <VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />;
       return (
-        <Item className="mr0" key={item.key}>
+        <Item
+          className="mr0"
+          key={item.key}
+          name={item.id}
+          initialValue={item}
+          rules={[
+            {
+              required: true,
+              message: i18n.t('application:environment variables cannot be empty'),
+            },
+          ]}
+        >
           {input}
         </Item>
       );
     });
 
     return (
-      <Form className="global-input-form" layout="inline">
+      <Form ref={this.formRef} className="global-input-form" layout="inline">
         <div className="global-input-form-title">
           {i18n.t('application:global environment variable')}
           {editing ? <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} /> : null}
@@ -106,16 +110,18 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
   };
 
   private onSubmit = () => {
-    const { form, onSubmit } = this.props;
+    const { onSubmit } = this.props;
+    const form = this.formRef.current;
 
-    form.validateFieldsAndScroll((err: any, values: any) => {
-      if (!err) {
+    form
+      ?.validateFields()
+      .then((values: any) => {
         const object = {};
         forEach(values, (item: any, originKey: string) => {
           if (item.key !== '') {
             object[item.key] = item.value;
           } else {
-            form.setFields({
+            form?.setFields({
               [originKey]: {
                 value: item,
                 errors: [new Error(i18n.t('application:environment variables cannot be empty'))],
@@ -124,8 +130,10 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
           }
         });
         onSubmit(object);
-      }
-    });
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        form?.scrollToField(errorFields[0].name);
+      });
   };
 
   private addNewVariable = () => {
@@ -142,4 +150,4 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
   };
 }
 
-export default Form.create()(EditGlobalVariable);
+export default EditGlobalVariable;

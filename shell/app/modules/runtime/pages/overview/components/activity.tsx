@@ -19,11 +19,11 @@ import { getDateDuration } from 'common/utils';
 import { TimelineActivity } from 'project/common/components/activity';
 import { CompSwitcher, Avatar, useUpdate, Copy } from 'common';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
-import userMapStore from 'common/stores/user-map';
-import routeInfoStore from 'common/stores/route';
+import { useUserMap } from 'core/stores/userMap';
+import routeInfoStore from 'core/stores/route';
 import commonStore from 'common/stores/common';
 
 import './activity.scss';
@@ -47,7 +47,7 @@ const Activity = () => {
   const [deploymentList, paging] = runtimeStore.useStore((s) => [s.deploymentList, s.deploymentListPaging]);
   const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
   const { appId, runtimeId } = routeInfoStore.useStore((s) => s.params);
-  const userMap = userMapStore.useStore((e) => e);
+  const userMap = useUserMap();
   const [loading] = useLoading(runtimeStore, ['getDeploymentList']);
   const [{ visible, detailLogId }, updater, update] = useUpdate({
     visible: false,

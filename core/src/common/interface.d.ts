@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export { WrappedFormUtils } from 'antd/lib/form/Form';
+export { FormInstance } from 'antd-latest/lib/form/Form';
 export { SelectValue, SelectProps } from 'antd/lib/select';
 export { DrawerProps } from 'antd/lib/drawer';
 export { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';

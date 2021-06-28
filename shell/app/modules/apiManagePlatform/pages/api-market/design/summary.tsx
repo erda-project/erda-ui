@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor, useUpdate } from 'common';
 import { Input, Title, FormBuilder } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { INPUT_MAX_LENGTH, TEXTAREA_MAX_LENGTH } from 'app/modules/apiManagePlatform/configs.ts';
@@ -35,7 +35,7 @@ const ApiSummary = () => {
     isErrorVersion: false,
   });
 
-  const formRef = React.useRef<WrappedFormUtils>(null as any);
+  const formRef = React.useRef<FormInstance>(null as any);
   const [openApiDoc, apiLockState] = apiDesignStore.useStore((s) => [s.openApiDoc, s.apiLockState]);
 
   const { updateOpenApiDoc, updateFormErrorNum } = apiDesignStore;

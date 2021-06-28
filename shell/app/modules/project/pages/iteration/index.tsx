@@ -13,7 +13,7 @@
 
 import iterationStore from 'app/modules/project/stores/iteration';
 import { DeleteConfirm, EmptyListHolder, IF, MenuPopover, useUpdate } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import moment from 'moment';

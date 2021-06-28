@@ -19,7 +19,7 @@ import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 import { issueStateMap } from 'project/common/config';
 import IssueWorkflowSettingModal from 'project/common/components/issue-workflow-setting-modal';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { useEffectOnce } from 'react-use';
 import { ISSUE_TYPE, ISSUE_STATE_MAP } from 'project/common/components/issue/issue-config';
 import './issue-workflow.scss';

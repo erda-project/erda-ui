@@ -15,7 +15,7 @@ import { useUpdate, MemberSelector, IF } from 'common';
 import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'app/nusi';
 import React from 'react';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import issueStore from 'project/stores/issues';
 import { useMount } from 'react-use';
 import { goTo } from 'common/utils';

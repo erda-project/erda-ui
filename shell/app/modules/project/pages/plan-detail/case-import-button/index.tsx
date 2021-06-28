@@ -15,10 +15,10 @@ import { size } from 'lodash';
 import React, { useState, useCallback, useMemo } from 'react';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
-import { Form, Modal, message, Select } from 'app/nusi';
+import { Modal, message, Select } from 'app/nusi';
 import { priorityList } from '../../test-manage/constants';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import testCaseStore from 'project/stores/test-case';
 import testPlanStore from 'project/stores/test-plan';
 import { CaseTree, CaseTable } from '../../test-manage/components';
@@ -173,4 +173,4 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
   );
 };
 
-export default Form.create()(CaseImport) as any as (props: Omit<IProps, 'form'>) => JSX.Element;
+export default CaseImport as any as (props: Omit<IProps, 'form'>) => JSX.Element;

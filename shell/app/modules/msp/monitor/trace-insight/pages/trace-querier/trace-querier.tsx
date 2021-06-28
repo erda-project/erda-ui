@@ -20,8 +20,8 @@ import CommonPanel from './trace-common-panel';
 import TraceHistoryList from './trace-history-list';
 import RequestStatusViewer from './trace-status-viewer';
 import constants from './constants';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'app/common/stores/route';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
@@ -34,7 +34,8 @@ const { TextArea } = Input;
 const { Item: FormItem } = Form;
 const { banFullWidthPunctuation, url: urlRule } = regRules;
 
-const TraceInsightQuerier = ({ form }: any) => {
+const TraceInsightQuerier = () => {
+  const [form] = Form.useForm();
   const [
     requestTraceParams,
     traceHistoryList,
@@ -86,7 +87,7 @@ const TraceInsightQuerier = ({ form }: any) => {
 
   const { method, url, body, query, header } = requestTraceParams;
   const queryStr = qs.stringify(query);
-  const { getFieldDecorator, validateFields } = form;
+  const { validateFields } = form;
   const { requestId } = urlQuery;
 
   const [activeTab, setActiveTab] = React.useState('1');
@@ -107,38 +108,35 @@ const TraceInsightQuerier = ({ form }: any) => {
   }, [getTraceDetailContent, requestId]);
 
   const handleSetRequestTraceParams = (payload: any) => {
-    validateFields((err: any) => {
-      if (!err) {
-        const params = { ...payload };
-        const { query: preQuery, url: preUrl } = params;
-        if (preUrl) {
-          const queryMap = qs.parseUrl(preUrl).query;
-          params.query = { ...preQuery, ...pickBy(queryMap, (v, k) => v && k) };
-        }
-        setRequestTraceParams({ ...requestTraceParams, ...params });
+    return validateFields().then(() => {
+      const params = { ...payload };
+      const { query: preQuery, url: preUrl } = params;
+      if (preUrl) {
+        const queryMap = qs.parseUrl(preUrl).query;
+        params.query = { ...preQuery, ...pickBy(queryMap, (v, k) => v && k) };
       }
+      setRequestTraceParams({ ...requestTraceParams, ...params });
     });
   };
 
   const handleRequestTrace = () => {
-    validateFields((err: any) => {
-      if (err) {
+    validateFields()
+      .then(async () => {
+        const payload: any = {};
+        // 适应 AntD Tabs 组件 Tab Content 惰性加载取不到 ref 的问题
+        if (paramsEditor) {
+          payload.query = paramsEditor.getEditData();
+        }
+
+        if (headersEditor) {
+          payload.header = headersEditor.getEditData();
+        }
+        await handleSetRequestTraceParams(payload);
+        requestTrace();
+      })
+      .catch(() => {
         notify('warning', i18n.t('msp:param-error-check'));
-        return;
-      }
-
-      const payload: any = {};
-      // 适应 AntD Tabs 组件 Tab Content 惰性加载取不到 ref 的问题
-      if (paramsEditor) {
-        payload.query = paramsEditor.getEditData();
-      }
-
-      if (headersEditor) {
-        payload.header = headersEditor.getEditData();
-      }
-      handleSetRequestTraceParams(payload);
-      requestTrace();
-    });
+      });
   };
 
   const renderMetaViewer = () => {
@@ -156,44 +154,47 @@ const TraceInsightQuerier = ({ form }: any) => {
   };
 
   const renderUrlEditor = () => {
-    const selectBefore = getFieldDecorator('method', {
-      rules: [{ required: true, message: i18n.t('msp:this item is required') }],
-      initialValue: method,
-    })(
-      <Select
-        style={{ width: 110 }}
-        onSelect={(value) => {
-          handleSetRequestTraceParams({ method: value });
-        }}
+    const selectBefore = (
+      <FormItem
+        name="method"
+        initialValue={method}
+        rules={[{ required: true, message: i18n.t('msp:this item is required') }]}
       >
-        {_map(HTTP_METHOD_LIST, (item) => (
-          <Option value={item} key={item}>
-            {item}
-          </Option>
-        ))}
-      </Select>,
+        <Select
+          style={{ width: 110 }}
+          onSelect={(value) => {
+            handleSetRequestTraceParams({ method: value });
+          }}
+        >
+          {_map(HTTP_METHOD_LIST, (item) => (
+            <Option value={item} key={item}>
+              {item}
+            </Option>
+          ))}
+        </Select>
+      </FormItem>
     );
 
     return (
       <div className="url-editor">
         <Row gutter={10}>
           <Col span={21}>
-            <FormItem>
-              {getFieldDecorator('url', {
-                rules: [{ required: true, message: i18n.t('msp:this item is required') }, urlRule],
-                initialValue: `${url}${queryStr ? `?${queryStr}` : ''}`,
-              })(
-                <Input
-                  addonBefore={selectBefore}
-                  placeholder={
-                    i18n.t('msp|please enter a legal url, length limit: ', { nsSeparator: '|' }) + MAX_URL_LENGTH
-                  }
-                  maxLength={MAX_URL_LENGTH}
-                  onBlur={(e) => {
-                    handleSetRequestTraceParams({ url: e.target.value });
-                  }}
-                />,
-              )}
+            <FormItem
+              name="url"
+              initialValue={`${url}${queryStr ? `?${queryStr}` : ''}`}
+              rules={[{ required: true, message: i18n.t('msp:this item is required') }, urlRule]}
+            >
+              <Input
+                addonBefore={selectBefore}
+                placeholder={
+                  i18n.t('msp|please enter a legal url, length limit: ', { nsSeparator: '|' }) +
+                  MAX_URL_LENGTH.toString()
+                }
+                maxLength={MAX_URL_LENGTH}
+                onBlur={(e) => {
+                  handleSetRequestTraceParams({ url: e.target.value });
+                }}
+              />
             </FormItem>
           </Col>
           <Col span={3}>
@@ -210,7 +211,7 @@ const TraceInsightQuerier = ({ form }: any) => {
     return (
       <Tabs className="request-editor" defaultActiveKey="1">
         <TabPane tab="Params" key="1">
-          <Form className="request-edit-params-form">
+          <div className="request-edit-params-form">
             <KeyValueEditor
               isNeedTextArea={false}
               tableProps={{
@@ -229,10 +230,10 @@ const TraceInsightQuerier = ({ form }: any) => {
                 });
               }}
             />
-          </Form>
+          </div>
         </TabPane>
         <TabPane tab="Headers" key="2">
-          <Form className="request-edit-params-form">
+          <div className="request-edit-params-form">
             <KeyValueEditor
               tableProps={{
                 size: 'default',
@@ -243,24 +244,21 @@ const TraceInsightQuerier = ({ form }: any) => {
                 headersEditor = ref;
               }}
             />
-          </Form>
+          </div>
         </TabPane>
         <TabPane tab="Body" key="3">
-          <FormItem>
-            {getFieldDecorator('body', {
-              rules: [banFullWidthPunctuation],
-              initialValue: body,
-            })(
-              <TextArea
-                className="request-edit-body-form"
-                autoSize={{ minRows: 8, maxRows: 12 }}
-                maxLength={MAX_BODY_LENGTH}
-                placeholder={i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH}
-                onChange={(e) => {
-                  handleSetRequestTraceParams({ body: e.target.value });
-                }}
-              />,
-            )}
+          <FormItem name="body" initialValue={body} rules={[banFullWidthPunctuation]}>
+            <TextArea
+              className="request-edit-body-form"
+              autoSize={{ minRows: 8, maxRows: 12 }}
+              maxLength={MAX_BODY_LENGTH}
+              placeholder={
+                i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH.toString()
+              }
+              onChange={(e) => {
+                handleSetRequestTraceParams({ body: e.target.value });
+              }}
+            />
           </FormItem>
         </TabPane>
       </Tabs>
@@ -318,8 +316,10 @@ const TraceInsightQuerier = ({ form }: any) => {
           <CommonPanel>
             <React.Fragment>
               {renderMetaViewer()}
-              {renderUrlEditor()}
-              {renderRequestEditor()}
+              <Form>
+                {renderUrlEditor()}
+                {renderRequestEditor()}
+              </Form>
             </React.Fragment>
           </CommonPanel>
           {renderStatusList()}
@@ -329,4 +329,4 @@ const TraceInsightQuerier = ({ form }: any) => {
   );
 };
 
-export default Form.create()(TraceInsightQuerier);
+export default TraceInsightQuerier;

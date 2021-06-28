@@ -31,6 +31,7 @@ import { Help as IconHelp, Remind as IconRemind } from '@icon-park/react';
 import './sidebar.scss';
 
 const { AppCenter } = Shell;
+const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
 
 const AppCenterEl = () => {
   const permMap = usePerm((s) => s.org);
@@ -45,7 +46,7 @@ const AppCenterEl = () => {
     cmp: 'duoyun',
     msp: 'weifuwu1',
     orgCenter: 'guanli',
-    diceFdp: 'kuaishuju',
+    [dataEngineerInfo.name]: 'dataEngineer',
     edge: 'bianyuanjisuan',
     apiManage: 'apijishi',
   };
@@ -54,7 +55,7 @@ const AppCenterEl = () => {
     orgCenter: permMap.entryOrgCenter.pass,
     cmp: permMap.cmp.showApp.pass,
     dop: permMap.dop.read.pass,
-    diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
+    [dataEngineerInfo.name]: permMap.entryFastData.pass && currentOrg.openFdp, // this is backend attribute can't remove
     msp: permMap.entryMsp.pass,
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,

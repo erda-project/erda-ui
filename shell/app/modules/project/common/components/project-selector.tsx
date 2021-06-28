@@ -17,7 +17,7 @@ import { goTo } from 'common/utils';
 import { map } from 'lodash';
 import { Tooltip } from 'app/nusi';
 import { getJoinedProjects } from 'user/services/user';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';
 import './project-selector.scss';
 

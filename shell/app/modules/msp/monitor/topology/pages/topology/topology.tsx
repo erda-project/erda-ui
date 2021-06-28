@@ -23,10 +23,10 @@ import TopologyDashboard from '../topology-dashboard';
 import ServiceMeshDrawer from '../service-mesh/service-mesh-drawer';
 import { ScaleSelector } from './components/scaleSelector';
 import topologyStore from 'topology/stores/topology';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useUnmount, useMount } from 'react-use';
 import './topology.scss';
 

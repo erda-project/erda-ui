@@ -18,7 +18,7 @@ import { TableDrawer } from '../../common/components/table-drawer';
 import i18n from 'i18n';
 import { useUnmount } from 'react-use';
 import dataTaskStore from 'application/stores/dataTask';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 interface IProps {
   getOutputTables: any;

@@ -15,7 +15,7 @@ import { FormModal, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
 import * as React from 'react';
 import { map, get } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 import { getJoinedApps } from 'user/services/user';
 import { getReleaseList } from 'application/services/release';
@@ -47,7 +47,7 @@ const VersionFormModal = ({ visible, onCancel, artifacts, afterSubmit = () => {}
     });
   };
 
-  const fieldsList = (form: WrappedFormUtils) => [
+  const fieldsList = (form: FormInstance) => [
     {
       label: i18n.t('application'),
       name: 'app',

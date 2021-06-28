@@ -18,7 +18,7 @@ import { getFormatter } from 'charts/utils/formatter';
 import { GridPanel } from './overview-types';
 import monitorOverviewStore from 'monitor-overview/stores/monitor-overview';
 import { useEffectOnce } from 'react-use';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 
 const constQuery = {

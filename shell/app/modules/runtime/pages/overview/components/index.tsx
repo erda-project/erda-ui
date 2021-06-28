@@ -22,7 +22,7 @@ import AddonCard from './addon-card';
 import Info from './info';
 import ActivityLog from './activity';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'app/modules/runtime/stores/runtime';
 import PipelineLog from 'application/pages/build-detail/pipeline-log';
 import { MenuUnfold } from '@icon-park/react';

@@ -13,7 +13,7 @@
 
 import * as history from 'history';
 import 'jest-enzyme';
-import { PaginationConfig, SorterResult, WrappedFormUtils } from 'core/common/interface';
+import { PaginationConfig, SorterResult, FormInstance } from 'core/common/interface';
 import { IFormItem } from 'common/components/render-formItem';
 
 export interface Location extends history.Location {
@@ -29,4 +29,4 @@ declare global {
 // export {GlobalNavigationProps} from '@terminus/nusi/es/global-navigation/interface'
 // export type History = history.History;
 
-export type FormModalList = IFormItem[] | ((form: any, isEdit: boolean) => IFormItem[]);
+export type FormModalList = IFormItem[] | ((form: FormInstance, isEdit: boolean) => IFormItem[]);

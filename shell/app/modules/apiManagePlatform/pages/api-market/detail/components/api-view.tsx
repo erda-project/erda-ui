@@ -24,7 +24,7 @@ import { message, Button, Input, Alert } from 'app/nusi';
 import i18n from 'i18n';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { IFormItem } from 'common/components/render-formItem';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { insertWhen } from 'common/utils';
 import { authenticationMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import { HTTP_METHODS } from 'app/modules/apiManagePlatform/pages/api-market/components/config';

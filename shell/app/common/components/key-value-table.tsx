@@ -16,7 +16,7 @@ import * as React from 'react';
 import { Form, Table, Input, Popconfirm, Button } from 'app/nusi';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
 import './key-value-table.scss';
@@ -31,7 +31,7 @@ const ROW_VALUE = `${ROW_PREFIX}value`;
 const noop = () => {};
 
 interface IInputItem {
-  form: WrappedFormUtils;
+  form: FormInstance;
   nameId: string;
   name: string;
   value: string;
@@ -45,7 +45,6 @@ interface IInputItem {
   maxLength?: number;
 }
 const InputItem = ({
-  form: { getFieldDecorator },
   nameId,
   name,
   initialValue,
@@ -58,47 +57,46 @@ const InputItem = ({
   maxLength,
 }: IInputItem) => {
   return (
-    <FormItem>
-      {getFieldDecorator(name + nameId, {
-        rules: [
-          {
-            required: true,
-            message: i18n.t('common:this item is required'),
-          },
-          inputRule,
-          {
-            validator: (rule, value, callback) => {
-              if (dataSource) {
-                const hasSameKey = dataSource.some(
-                  (item) => rule.field !== ROW_KEY + item.uniKey && item[ROW_KEY] === value,
-                );
-                const hasSameKeyOut = existKeys.includes(value);
-                if (hasSameKey) {
-                  callback(i18n.t('common:key value must be unique'));
-                } else if (hasSameKeyOut) {
-                  callback(i18n.t('common:this configuration already exists'));
-                }
-                validate && validate(rule, value, callback);
-                callback();
-              } else {
-                callback();
+    <FormItem
+      name={name + nameId}
+      rules={[
+        {
+          required: true,
+          message: i18n.t('common:this item is required'),
+        },
+        inputRule,
+        {
+          validator: (rule, value, callback) => {
+            if (dataSource) {
+              const hasSameKey = dataSource.some(
+                (item) => rule.field !== ROW_KEY + item.uniKey && item[ROW_KEY] === value,
+              );
+              const hasSameKeyOut = existKeys.includes(value);
+              if (hasSameKey) {
+                callback(i18n.t('common:key value must be unique'));
+              } else if (hasSameKeyOut) {
+                callback(i18n.t('common:this configuration already exists'));
               }
-            },
+              validate && validate(rule, value, callback);
+              callback();
+            } else {
+              callback();
+            }
           },
-        ],
-        initialValue,
-      })(
-        isTextArea ? (
-          <TextArea autoSize onBlur={(e) => onChange(e, name, nameId)} disabled={editDisabled} maxLength={maxLength} />
-        ) : (
-          <Input
-            placeholder={i18n.t('common:please enter')}
-            size="default"
-            onBlur={(e) => onChange(e, name, nameId)}
-            disabled={editDisabled}
-            maxLength={maxLength}
-          />
-        ),
+        },
+      ]}
+      initialValue={initialValue}
+    >
+      {isTextArea ? (
+        <TextArea autoSize onBlur={(e) => onChange(e, name, nameId)} disabled={editDisabled} maxLength={maxLength} />
+      ) : (
+        <Input
+          placeholder={i18n.t('common:please enter')}
+          size="default"
+          onBlur={(e) => onChange(e, name, nameId)}
+          disabled={editDisabled}
+          maxLength={maxLength}
+        />
       )}
     </FormItem>
   );
@@ -124,7 +122,7 @@ const convertToMapData = (arr: IItemData[]) => {
 
 interface IProps {
   data?: object;
-  form: WrappedFormUtils;
+  form: FormInstance;
   title?: string | React.ReactNode;
   pagination?: {
     pageSize: number;
@@ -153,16 +151,6 @@ interface IState {
   preData: object | null;
 }
 export class KeyValueTable extends React.Component<IProps, IState> {
-  table: any;
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      dataSource: convertToColumnData(props.data),
-      preData: null,
-    };
-  }
-
   // 供外部处理数据
   static dealTableData(data: object, as?: string) {
     const tbData = {};
@@ -191,6 +179,16 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     return null;
   }
 
+  table: any;
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      dataSource: convertToColumnData(props.data),
+      preData: null,
+    };
+  }
+
   getTableData() {
     return convertToMapData(this.state.dataSource);
   }
@@ -210,14 +208,12 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       });
     }
 
-    validateFields((err) => {
+    return validateFields().then(() => {
       // 分页非第一页时，判断下第一个值不为空后添加新行
-      if (!err) {
-        const canAdd = dataSource.length === 0 || (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
-        if (canAdd) {
-          const newData = { [ROW_KEY]: '', [ROW_VALUE]: '', uniKey: uniqueId() };
-          this.setState({ dataSource: [newData, ...dataSource] });
-        }
+      const canAdd = dataSource.length === 0 || (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
+      if (canAdd) {
+        const newData = { [ROW_KEY]: '', [ROW_VALUE]: '', uniKey: uniqueId() };
+        this.setState({ dataSource: [newData, ...dataSource] });
       }
     });
   };

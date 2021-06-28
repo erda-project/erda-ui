@@ -20,8 +20,8 @@ import { getCloudResourceStatusCol, getRemarkCol } from 'cmp/common/components/t
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import ResetPasswordForm, { IFormRes as ResetFormRes } from './account-form/reset-password-form';
 import ChangePermissionForm from './account-form/change-permission-form';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import AddAccountForm from './account-form/add-account-form';
 

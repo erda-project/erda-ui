@@ -20,7 +20,7 @@ import issueWorkflowStore from 'project/stores/issue-workflow';
 import { issueStateMap } from 'project/common/config';
 import { produce } from 'immer';
 import WorkflowStateForm from './workflow-state-form';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import './issue-workflow-setting-modal.scss';
 import { FIELD_TYPE_ICON_MAP } from 'org/common/config';

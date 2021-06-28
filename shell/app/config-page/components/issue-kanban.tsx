@@ -18,7 +18,7 @@ import { Card } from './card/card';
 import { Input, Button, Popconfirm, Tooltip } from 'app/nusi';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import projectLabelStore from 'project/stores/label';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_ICON } from 'project/common/components/issue/issue-config';
 import { useDrop } from 'react-dnd';
@@ -80,8 +80,8 @@ const IssueKanban = (props: IProps) => {
       setBoard(data?.board || []);
     } else {
       setBoard((prev) =>
-        map(prev, (item, index) => {
-          const curNewData = get(data, `board[${index}]`);
+        map(prev, (item) => {
+          const curNewData = find(data?.board, (newItem) => newItem.labelKey === item.labelKey);
           return curNewData || item;
         }),
       );
@@ -154,7 +154,7 @@ const Kanban = (props: IKanbanProps) => {
   const { data, exitLabel, execOperation, isLoadMore, ...rest } = props;
   const { label, labelKey, list: propsList, total, pageSize, pageNo, operations: boardOp } = data;
   const otherLabel = without(exitLabel, label);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const labelList = projectLabelStore.useStore((s) => s.list);
   const [list, setList] = React.useState(propsList || []);
   const [labelVal, setLabelVal] = React.useState(label);

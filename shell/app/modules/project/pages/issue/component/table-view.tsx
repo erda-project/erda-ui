@@ -28,8 +28,8 @@ import {
   ISSUE_PRIORITY_MAP,
   BUG_SEVERITY_MAP,
 } from 'project/common/components/issue/issue-config';
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
 
 import { WithAuth, usePerm, getAuth, isCreator, isAssignee } from 'user/common';

@@ -28,9 +28,9 @@ import {
   checkRdsAccountName,
 } from 'dcos/common/config';
 import purchaseStore from 'dcos/stores/purchase';
-import { useLoading } from 'app/common/stores/loading';
-import routeInfoStore from 'common/stores/route';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
+import { useLoading } from 'core/stores/loading';
+import routeInfoStore from 'core/stores/route';
 import { Help as IconHelp, LinkOne as IconLinkOne } from '@icon-park/react';
 import './purchase-cluster.scss';
 
@@ -38,7 +38,7 @@ const { Step } = Steps;
 
 interface IProps {
   params: Record<string, string>;
-  form: WrappedFormUtils;
+  form: FormInstance;
   getAvailableRegions: typeof purchaseStore.effects.getAvailableRegions;
   getAvailableZones: typeof purchaseStore.effects.getAvailableZones;
   checkEcsAvailable: typeof purchaseStore.effects.checkEcsAvailable;
@@ -51,6 +51,8 @@ interface IProps {
 
 class OrderPage extends React.Component<IProps> {
   showLBConfig: boolean;
+
+  formRef = React.createRef<FormInstance>();
 
   state = {
     step: 0,
@@ -73,28 +75,31 @@ class OrderPage extends React.Component<IProps> {
   };
 
   changeStep = (step: number) => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (err) {
-        return;
-      }
-      const clone = cloneDeep(values);
-      const { ecsSettings, redisSettings, rdsSettings, ...rest } = values;
-      rest.ecsSettings = Object.values(ecsSettings);
-      if (redisSettings) {
-        rest.redisSettings = [redisSettings];
-      }
-      if (rdsSettings) {
-        rest.rdsSettings = [rdsSettings];
-      }
-      this.formData = rest;
-      // 调整vpcCidr展示位置
-      this.confirmData = {
-        专有网络cidr: clone.vpcSetting.vpcCidr,
-      };
-      delete clone.vpcSetting;
-      translate(clone, this.confirmData);
-      this.setState({ step });
-    });
+    const form = this.formRef.current;
+    form
+      ?.validateFields()
+      .then((values: any) => {
+        const clone = cloneDeep(values);
+        const { ecsSettings, redisSettings, rdsSettings, ...rest } = values;
+        rest.ecsSettings = Object.values(ecsSettings);
+        if (redisSettings) {
+          rest.redisSettings = [redisSettings];
+        }
+        if (rdsSettings) {
+          rest.rdsSettings = [rdsSettings];
+        }
+        this.formData = rest;
+        // 调整vpcCidr展示位置
+        this.confirmData = {
+          专有网络cidr: clone.vpcSetting.vpcCidr,
+        };
+        delete clone.vpcSetting;
+        translate(clone, this.confirmData);
+        this.setState({ step });
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        form?.scrollToField(errorFields[0].name);
+      });
   };
 
   trigger = (event: string, ...args: any[]) => {
@@ -121,13 +126,15 @@ class OrderPage extends React.Component<IProps> {
   };
 
   changeRegion = (region: { localName: string; regionId: string }) => {
+    const form = this.formRef.current;
     this.showLBConfig = supportLBRegion.includes(region.localName);
-    this.props.form.setFieldsValue({ regionId: region.regionId });
+    form?.setFieldsValue({ regionId: region.regionId });
     this.searchZone(region.regionId);
   };
 
   changeZone = (zone: { zoneId: string }) => {
-    this.props.form.setFieldsValue({ zoneId: zone.zoneId });
+    const form = this.formRef.current;
+    form?.setFieldsValue({ zoneId: zone.zoneId });
   };
 
   searchRegion = () => {
@@ -145,7 +152,8 @@ class OrderPage extends React.Component<IProps> {
   };
 
   checkEcsAvailable = (instanceType: string, fieldName: string) => {
-    const { form, params, checkEcsAvailable } = this.props;
+    const { params, checkEcsAvailable } = this.props;
+    const form = this.formRef.current;
     const { accessKeyId, accessKeySecret, regionId, zoneId } = this.getFormValue();
     const { clusterName } = params;
     checkEcsAvailable({
@@ -157,17 +165,19 @@ class OrderPage extends React.Component<IProps> {
       instanceType,
     }).then((result) => {
       const { available, description } = result;
-      form.setFields({
-        [fieldName]: {
+      form?.setFields([
+        {
+          name: [fieldName],
           value: instanceType,
-          errors: available === false ? [new Error(description)] : null,
+          errors: available === false ? [description] : null,
         },
-      });
+      ]);
     });
   };
 
   getFormValue = (field?: string) => {
-    return field ? this.props.form.getFieldValue(field) : this.props.form.getFieldsValue();
+    const form = this.formRef.current;
+    return field ? form?.getFieldValue(field) : form?.getFieldsValue();
   };
 
   handleSubmit = () => {
@@ -229,7 +239,7 @@ class OrderPage extends React.Component<IProps> {
       {
         label: i18n.t('region'),
         name: 'regionId',
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <Spin spinning={isFetchingRegions}>
             <div className="region-select">
               {availableRegions.length
@@ -257,7 +267,7 @@ class OrderPage extends React.Component<IProps> {
       {
         label: i18n.t('org:availability zone'),
         name: 'zoneId',
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <Spin spinning={isFetchingZones}>
             <div className="region-select">
               {availableZones.length
@@ -613,7 +623,7 @@ class OrderPage extends React.Component<IProps> {
     return [
       {
         label: <span className="split-title">Ecs</span>,
-        getComp: ({ form }: { form: WrappedFormUtils }) => {
+        getComp: ({ form }: { form: FormInstance }) => {
           return (
             <div className="ecs-block">
               <Row>
@@ -954,14 +964,14 @@ class OrderPage extends React.Component<IProps> {
     ];
 
     return (
-      <div className="purchase-cluster">
+      <Form ref={this.formRef} className="purchase-cluster">
         <Steps className="step-wrap" current={step}>
           {steps.map((item) => (
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
         <div className="steps-content">{steps[step].content}</div>
-      </div>
+      </Form>
     );
   }
 }
@@ -984,4 +994,4 @@ const Mapper = () => {
   };
 };
 
-export default connectCube(Form.create()(OrderPage), Mapper);
+export default connectCube(OrderPage, Mapper);

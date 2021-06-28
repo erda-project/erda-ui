@@ -15,7 +15,7 @@ import * as React from 'react';
 import i18n from 'i18n';
 import publisherStore from '../../stores/publisher';
 import { FormModal, useUpdate } from 'common';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { validators, insertWhen } from 'common/utils';
 import { RadioChangeEvent } from 'core/common/interface';
 

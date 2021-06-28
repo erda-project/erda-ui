@@ -18,7 +18,7 @@ import { DataTaskCreation } from './data-task-creation';
 import { goTo } from 'app/common/utils';
 import i18n from 'i18n';
 import buildStore from 'application/stores/build';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const setup = {
   type: 'dataTask',

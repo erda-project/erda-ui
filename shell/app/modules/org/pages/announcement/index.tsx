@@ -18,7 +18,7 @@ import moment from 'moment';
 import { get, throttle } from 'lodash';
 import { useUpdate, FormModal } from 'common';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import announcementStore from 'org/stores/announcement';
 import './index.scss';
 import { PAGINATION } from 'app/constants';

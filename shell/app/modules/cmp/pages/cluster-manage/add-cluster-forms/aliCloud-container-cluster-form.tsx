@@ -419,12 +419,14 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
   };
 
   const onOk = () => {
-    formRef.current.validateFieldsAndScroll(async (error: any, values: any) => {
-      if (error) {
-        return;
-      }
-      beforeAddConfirm(values);
-    });
+    formRef.current
+      .validateFields()
+      .then(async (values: any) => {
+        beforeAddConfirm(values);
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        formRef.current.scrollToField(errorFields[0].name);
+      });
   };
 
   const onClosePreview = () => {

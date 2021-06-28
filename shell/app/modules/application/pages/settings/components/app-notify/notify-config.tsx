@@ -17,10 +17,10 @@ import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
 import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'app/nusi';
 import { useSwitch, FormModal } from 'common';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
-import userMapStore from 'app/common/stores/user-map';
-import { useLoading } from 'app/common/stores/loading';
+import { useUserMap } from 'core/stores/userMap';
+import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from '../../../../stores/notify-group';
 import appNotifyStore from '../../../../stores/notify';
 import {
@@ -58,7 +58,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     'toggleNotifyConfigs',
     'getNotifyConfigs',
   ]);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
 
@@ -171,7 +171,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       name: 'notifyGroupId',
       label: i18n.t('application:select group'),
       required: true,
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
             onSelect={(id: any) => {

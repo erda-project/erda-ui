@@ -19,7 +19,7 @@ import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import moment from 'moment';
 import { CustomFilter, TableActions } from 'common';
 import { goTo } from 'common/utils';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const formatData = (data: API_ACCESS.AccessListItem[]): API_ACCESS.ITableData[] => {
   return data.map(({ children, ...rest }) => {

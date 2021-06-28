@@ -14,8 +14,8 @@
 import React, { MutableRefObject } from 'react';
 import { useUpdate, FormModal, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
+import routeInfoStore from 'core/stores/route';
 import { message, Tooltip } from 'app/nusi';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';
@@ -40,13 +40,10 @@ interface IProps {
   onSubmit: (values: any) => void;
   onClose: () => void;
 }
-interface FormRef {
-  props: { form: WrappedFormUtils };
-}
 
 const ApiPublishModal = (props: IProps) => {
   const { visible, onClose, onSubmit, treeNodeData } = props;
-  const formRef = React.useRef({}) as MutableRefObject<FormRef>;
+  const formRef = React.useRef({}) as MutableRefObject<FormInstance>;
   const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
 
   const { appId, projectId } = routeInfoStore.useStore((s) => s.params);
@@ -161,7 +158,7 @@ const ApiPublishModal = (props: IProps) => {
       title={i18n.t('project:publish documents')}
       fieldsList={apiFieldList}
       visible={visible}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       onOk={onPublishApi}
       onCancel={onClose}
       formData={formData}

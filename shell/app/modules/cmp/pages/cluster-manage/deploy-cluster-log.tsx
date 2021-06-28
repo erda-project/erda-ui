@@ -16,7 +16,7 @@ import { throttle } from 'lodash';
 import { connectCube } from 'common';
 import './deploy-cluster-log.scss';
 import clusterStore from 'cmp/stores/cluster';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Loading as IconLoading } from '@icon-park/react';
 
 interface IProps {

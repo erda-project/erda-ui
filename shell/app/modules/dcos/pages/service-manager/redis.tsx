@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import networksStore from 'cmp/stores/networks';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
@@ -21,7 +21,7 @@ import { map, get, find } from 'lodash';
 import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
 import { RedisFieldConfig } from 'project/pages/third-service/components/config';
 import cloudServiceStore from '../../stores/cloud-service';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
 import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
 import { goTo, isPromise } from 'common/utils';
@@ -107,7 +107,7 @@ const Redis = () => {
     return columns;
   };
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
         label: i18n.t('region'),

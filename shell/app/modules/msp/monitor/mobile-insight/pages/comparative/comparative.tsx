@@ -18,7 +18,7 @@ import { MonitorChartNew } from 'charts';
 import { EmptyHolder, Icon as CustomIcon } from 'common';
 import { useEffectOnce } from 'react-use';
 import comparativeStore from '../../stores/comparative';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { goTo } from 'common/utils';
 import './comparative.scss';

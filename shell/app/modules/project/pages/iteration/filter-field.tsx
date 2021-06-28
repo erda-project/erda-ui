@@ -20,8 +20,8 @@ import { MemberSelector } from 'common';
 import { insertWhen, getTimeRanges } from 'common/utils';
 import { ISSUE_PRIORITY_MAP, BUG_SEVERITY_MAP, ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import LabelSelect from 'project/common/components/issue/label-select';
-import routeInfoStore from 'app/common/stores/route';
-import userMapStore from 'app/common/stores/user-map';
+import routeInfoStore from 'core/stores/route';
+import { getUserMap } from 'core/stores/userMap';
 import userStore from 'app/user/stores';
 import RequirementSelect from 'project/common/components/issue/requirement-select';
 import issueWorkflowStore from 'project/stores/issue-workflow';
@@ -75,7 +75,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
     return tempOptionList || [];
   }, [query.type, totalWorkflowStateList]);
 
-  const userMap = userMapStore.getState((s) => s);
+  const userMap = getUserMap();
   const loginUser = userStore.getState((s) => s.loginUser);
 
   const filterList: any[] = useMemo(() => {

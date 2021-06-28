@@ -22,8 +22,8 @@ import { useUnmount, useMount } from 'react-use';
 import runtimeStore from 'app/modules/runtime/stores/runtime';
 import runtimeServiceStore from 'app/modules/runtime/stores/service';
 import runtimeDomainStore from 'app/modules/runtime/stores/domain';
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 
 const { confirm } = Modal;
 

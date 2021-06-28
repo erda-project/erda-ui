@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { cloneDeep, isEmpty, map, uniqueId, find, findIndex, fill, filter, get, every } from 'lodash';
 import { useMount, useUpdateEffect } from 'react-use';
@@ -20,7 +20,7 @@ import { goTo, getLS } from 'common/utils';
 import { Button, message, Spin } from 'app/nusi';
 import { Form } from 'dop/pages/form-editor/index';
 import { registComponent } from 'app/configForm/form/form';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import FormSelectModel from './form-select-model';
 import FormTestButton from './form-test-button';
 import FormExtractResultTable from './form-extract-result-table';
@@ -164,34 +164,35 @@ export default () => {
   );
 
   const handleTestRule = React.useCallback(() => {
-    formRef.current.validateFieldsAndScroll((error: any, values: any) => {
-      if (error) {
-        return;
-      }
-
-      const { name, content } = values;
-      if (!content) {
-        message.warning(i18n.t('org:please enter the log content first'));
-        return;
-      }
-      const keys = get(processors[0], 'config.keys');
-      if (!every(keys, (key) => !!key.key)) {
-        message.warning(i18n.t('all keys are required'));
-        return;
-      }
-      testRule({
-        content,
-        name,
-        processors,
-      }).then((result) => {
-        const resultData = map(result, (value, key) => ({
-          value,
-          key,
-          name: (find(keys, { key }) || {}).name || '',
-        }));
-        formRef.current.setFieldValue('results', resultData);
+    formRef.current
+      .validateFields()
+      .then((values: any) => {
+        const { name, content } = values;
+        if (!content) {
+          message.warning(i18n.t('org:please enter the log content first'));
+          return;
+        }
+        const keys = get(processors[0], 'config.keys');
+        if (!every(keys, (key) => !!key.key)) {
+          message.warning(i18n.t('all keys are required'));
+          return;
+        }
+        testRule({
+          content,
+          name,
+          processors,
+        }).then((result) => {
+          const resultData = map(result, (value, key) => ({
+            value,
+            key,
+            name: (find(keys, { key }) || {}).name || '',
+          }));
+          formRef.current.setFieldValue('results', resultData);
+        });
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        formRef.current.scrollToField(errorFields[0].name);
       });
-    });
   }, [testRule, processors]);
 
   const fields = React.useMemo(
@@ -337,35 +338,37 @@ export default () => {
   }, [fields]);
 
   const onOk = React.useCallback(() => {
-    formRef.current.validateFieldsAndScroll((error: any, values: any) => {
-      if (error) {
-        return;
-      }
-      const { name, filters } = values;
-      const keys = get(processors[0], 'config.keys');
-      if (!every(keys, (key) => !!key.key)) {
-        message.warning(i18n.t('all keys are required'));
-        return;
-      }
-      const legalFilters = filter(filters, (item) => item.includes('='));
-      const payload = {
-        name,
-        filters: map(legalFilters, (item) => {
-          const [key, value] = item.split('=');
-          return { key, value };
-        }),
-        processors,
-      };
+    formRef.current
+      .validateFields()
+      .then((values: any) => {
+        const { name, filters } = values;
+        const keys = get(processors[0], 'config.keys');
+        if (!every(keys, (key) => !!key.key)) {
+          message.warning(i18n.t('all keys are required'));
+          return;
+        }
+        const legalFilters = filter(filters, (item) => item.includes('='));
+        const payload = {
+          name,
+          filters: map(legalFilters, (item) => {
+            const [key, value] = item.split('=');
+            return { key, value };
+          }),
+          processors,
+        };
 
-      if (isEditRule) {
-        editRule({
-          ...payload,
-          id: Number(params.ruleId),
-        }).then(returnList);
-      } else {
-        createRule(payload).then(returnList);
-      }
-    });
+        if (isEditRule) {
+          editRule({
+            ...payload,
+            id: Number(params.ruleId),
+          }).then(returnList);
+        } else {
+          createRule(payload).then(returnList);
+        }
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        formRef.current.scrollToField(errorFields[0].name);
+      });
   }, [editRule, createRule, params, processors]);
 
   return (

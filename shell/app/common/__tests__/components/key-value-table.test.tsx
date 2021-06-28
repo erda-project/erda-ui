@@ -23,9 +23,14 @@ const data = {
   name: 'erda.cloud',
 };
 
-const Comp = Form.create()((props) => {
-  return <KeyValueTable {...props} />;
-});
+const Comp = (props) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form}>
+      <KeyValueTable {...props} form={form} />
+    </Form>
+  );
+};
 
 describe('KeyValueTable', () => {
   it('should dealTableData', () => {
@@ -49,7 +54,7 @@ describe('KeyValueTable', () => {
       org: 'erda',
     });
   });
-  it('should render with TextArea', () => {
+  it('should render with TextArea', async () => {
     const fn = jest.fn();
     const wrapper = mount(<Comp data={data} maxLength={10} isTextArea onChange={fn} />);
     const editor = wrapper.find('KeyValueTable');
@@ -58,7 +63,7 @@ describe('KeyValueTable', () => {
     expect(editor.find('TextArea')).toExist();
     editor.find('TextArea').at(0).simulate('blur');
     expect(fn).toHaveBeenCalled();
-    editor.find('.add-row-btn-wrap').find('Button').simulate('click');
+    await editor.instance().handleAdd();
     expect(editor.state().dataSource).toHaveLength(4);
     editor.find('Tooltip').at(0).prop('onConfirm')();
     expect(editor.state().dataSource).toHaveLength(3);

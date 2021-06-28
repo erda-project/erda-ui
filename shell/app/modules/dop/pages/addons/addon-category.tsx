@@ -15,7 +15,7 @@ import * as React from 'react';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';
 import i18n from 'i18n';
 import dopStore from 'dop/stores';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 
 const AddonCategory = () => {

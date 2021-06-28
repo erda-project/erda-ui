@@ -24,9 +24,9 @@ import { CommitBlock } from './common';
 import { renderAsLink, getInfoFromRefName, getSplitPathBy } from './util';
 import { Link } from 'react-router-dom';
 import { RepoNav } from './components/repo-nav';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import repoStore from 'application/stores/repo';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
 import appStore from 'application/stores/application';
 import i18n from 'i18n';
@@ -241,7 +241,7 @@ const RefComp = ({
   defaultValue,
 }: {
   defaultValue: Record<string, string>;
-  form: any;
+  form: FormInstance;
   info: { branches: string[]; tags: string[] };
 }) => {
   const refType = form.getFieldValue('refType');

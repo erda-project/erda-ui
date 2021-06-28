@@ -21,7 +21,7 @@ import moment from 'moment';
 import { CaseStatus } from '../../plan-detail/status-toggle';
 import { isEmpty } from 'lodash';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   visible: boolean;

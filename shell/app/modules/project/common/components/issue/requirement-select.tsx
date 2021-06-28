@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { map, uniqBy, sortBy, find, get } from 'lodash';
 
 import { getIssues as getRequirements, getIssueDetail } from 'project/services/issue';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { LoadMoreSelector } from 'common';
 import { IOption } from 'common/components/load-more-selector';
 import { PAGINATION } from 'app/constants';

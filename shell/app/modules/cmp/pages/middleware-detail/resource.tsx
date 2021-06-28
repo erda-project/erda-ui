@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';

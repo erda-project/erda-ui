@@ -18,7 +18,7 @@ import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, useUpdate } from 'common';
 import { DatePicker, InputNumber, message } from 'app/nusi';
 import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
 import { regRules } from 'common/utils';
@@ -72,7 +72,7 @@ const ClusterBasicForm = ({
   clusterType,
   formData,
 }: {
-  form: WrappedFormUtils;
+  form: FormInstance;
   editMode: boolean;
   formData: any;
   clusterList: ORG_CLUSTER.ICluster[];
@@ -211,7 +211,7 @@ const ClusterSchedulerForm = ({
   formData,
   editMode,
 }: {
-  form: WrappedFormUtils;
+  form: FormInstance;
   clusterType: string;
   formData: any;
   editMode: boolean;

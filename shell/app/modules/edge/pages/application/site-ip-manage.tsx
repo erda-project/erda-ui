@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { cloneDeep } from 'app/external/custom-lodash';
 import { useUpdate } from 'common';
 import { MonitorDrawer } from '../components/monitor-drawer';

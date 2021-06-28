@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { Button, Input } from 'app/nusi';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
@@ -25,7 +25,7 @@ import appStore from 'application/stores/application';
 import layoutStore from 'layout/stores/layout';
 import userStore from 'app/user/stores';
 import { removeMember } from 'common/services/index';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { theme } from 'app/themes';
 
 // 修改应用信息后，更新左侧菜单上方的信息
@@ -101,7 +101,7 @@ const PureAppInfo = (): JSX.Element => {
       label: i18n.t('application:app icon'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     // {

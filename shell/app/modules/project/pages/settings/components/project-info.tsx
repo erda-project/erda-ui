@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { Tooltip, Button, Input } from 'app/nusi';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';
@@ -23,7 +23,7 @@ import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
 import { removeMember } from 'common/services/index';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import diceEnv from 'dice-env';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import userStore from 'app/user/stores';
@@ -92,7 +92,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       label: i18n.t('project:project icon'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
@@ -192,13 +192,11 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
           <div>
             {formName}
             <Tooltip title={i18n.t('project:applications')}>
-              {!diceEnv.ONLY_FDP && (
-                <CustomIcon
-                  type="link1"
-                  className="ml8 hover-active"
-                  onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
-                />
-              )}
+              <CustomIcon
+                type="link1"
+                className="ml-2 hover-active"
+                onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
+              />
             </Tooltip>
           </div>
         ) : (

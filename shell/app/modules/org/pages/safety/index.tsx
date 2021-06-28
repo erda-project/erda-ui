@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import { CustomFilter, useFilter, MemberSelector } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
 import { DatePicker, Table, Button, Tooltip } from 'app/nusi';
@@ -25,7 +25,7 @@ import orgStore from 'app/org-home/stores/org';
 
 const AuditList = ({ sys }: { sys: boolean }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
   const [loading] = useLoading(auditStore, ['getList']);
   const [list, paging] = auditStore.useStore((s) => [s.auditList, s.auditPaging]);
 

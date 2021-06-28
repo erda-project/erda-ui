@@ -19,7 +19,7 @@ import { useMount } from 'react-use';
 import { useUpdate, TimeSelector, Holder, PureBoardGrid } from 'common';
 import i18n from 'i18n';
 import dubboStore from '../../stores/dubbo';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import mspInfoStore from 'app/modules/msp/stores/info';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import './interface-detail.scss';

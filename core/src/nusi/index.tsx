@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ConfigProvider as AntdConfigProvider, Form, Icon } from 'antd';
 import {
   Button,
   BackTop,
@@ -21,13 +20,14 @@ import {
   Checkbox,
   Col,
   Collapse,
-  ConfigProvider as Antd4ConfigProvider,
+  ConfigProvider as AntdConfigProvider,
   Comment,
   Divider,
   DatePicker,
   Drawer,
   Dropdown,
   Empty,
+  Form,
   Input,
   message,
   Menu,
@@ -140,7 +140,6 @@ export {
   Filter,
   Form,
   FormBuilder,
-  Icon,
   Input,
   InputNumber,
   List,
@@ -184,7 +183,6 @@ export {
   SelectCategory,
   SelectCombo,
   AntdConfigProvider,
-  Antd4ConfigProvider,
   AntTable,
   NusiConfigProvider,
   NusiTree,

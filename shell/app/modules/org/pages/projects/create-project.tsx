@@ -15,14 +15,14 @@ import { Button, Select, Alert, Input, Spin, Checkbox } from 'app/nusi';
 import i18n from 'i18n';
 import * as React from 'react';
 import { ImageUpload, RenderForm, CompactSelect } from 'common';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import { useEffectOnce } from 'react-use';
 import clusterStore from 'cmp/stores/cluster';
 import { goTo, insertWhen } from 'app/common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
 import default_devops_svg from 'app/images/devops.svg';
@@ -238,15 +238,13 @@ const CreationForm = () => {
 
   const firstClusterName = get(clusterList, '[0].name') || '';
 
-  const handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((err, values) => {
-      if (!err) {
-        createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota }).then((res: any) => {
-          if (res.success) {
-            goTo('../');
-          }
-        });
-      }
+  const handleSubmit = (form: FormInstance) => {
+    form.validateFields().then((values: any) => {
+      createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota }).then((res: any) => {
+        if (res.success) {
+          goTo('../');
+        }
+      });
     });
   };
 
@@ -267,7 +265,7 @@ const CreationForm = () => {
       label: i18n.t('select template'),
       name: 'template',
       initialValue: templateArr[0].val,
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <div className="template-card-row flex-box">
           {templateArr.map((item) => (
             <TemplateCard
@@ -287,7 +285,7 @@ const CreationForm = () => {
     {
       label: i18n.t('project name'),
       name: 'displayName',
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <Input
           onInput={(e: any) => {
             let v = e.target.value.trim();
@@ -381,7 +379,7 @@ const CreationForm = () => {
       label: i18n.t('project icon'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
+      getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
     },
     {
       label: i18n.t('project description'),
@@ -392,7 +390,7 @@ const CreationForm = () => {
     },
     {
       label: '',
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
+      getComp: ({ form }: { form: FormInstance }) => (
         <React.Fragment>
           <Button className="btn-save" type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}

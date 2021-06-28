@@ -15,7 +15,7 @@ import { createStore } from 'app/cube';
 import { getDiceVersion, inviteToOrg } from 'layout/services';
 import * as DiceWebSocket from 'core/utils/ws';
 import { enableIconfont, setApiWithOrg } from 'common/utils';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 import { getGlobal } from 'app/global-space';
@@ -68,6 +68,8 @@ const initState: IState = {
   },
 };
 
+const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
+
 const layout = createStore({
   name: 'layout',
   state: initState,
@@ -106,8 +108,8 @@ const layout = createStore({
         //   switchToApp(appMap.sysAdmin);
       } else if (isIn('apiManage')) {
         switchToApp('apiManage');
-      } else if (isIn('fdp')) {
-        switchToApp('diceFdp');
+      } else if (isIn(`${dataEngineerInfo.name}`)) {
+        switchToApp(`${dataEngineerInfo.name}`);
       }
 
       if (
@@ -225,7 +227,7 @@ const layout = createStore({
     clearHeaderInfo(state) {
       state.headerInfo = null;
     },
-    // 动态更改appList中具体某个app的属性值，e.g. { diceFdp: { href: 'xxxx' } } 来运行时改变href
+    // 动态更改appList中具体某个app的属性值，e.g. { cmp: { href: 'xxxx' } } 来运行时改变href
     updateAppListProperty(state, payload: Obj<Obj>) {
       const [appKey, valueObj] = Object.entries(payload)[0];
       const [key, value] = Object.entries(valueObj)[0];

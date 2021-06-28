@@ -14,18 +14,18 @@
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import networksStore from 'cmp/stores/networks';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Select, Menu, Dropdown, Button } from 'app/nusi';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';
 import { map, find, get, keys } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import {
   getCloudResourceTagsCol,
   getCloudResourceIDNameCol,
@@ -141,7 +141,7 @@ const VSW = () => {
     [],
   );
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
         label: i18n.t('name'),

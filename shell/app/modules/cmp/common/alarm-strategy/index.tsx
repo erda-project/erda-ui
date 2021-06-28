@@ -18,9 +18,9 @@ import { useMount } from 'react-use';
 import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'app/nusi';
 import { FormModal, useSwitch, useUpdate } from 'common';
 import { goTo, insertWhen } from 'common/utils';
-import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
+import { FormInstance, ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
@@ -392,7 +392,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       config: {
         valuePropType: 'array',
       },
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
             onSelect={(id: any) => {

@@ -21,8 +21,8 @@ import { fromNow } from 'common/utils';
 import { SplitPage } from 'app/layout/common';
 import i18n from 'i18n';
 import buildStore from 'application/stores/build';
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { useUpdateEffect, useUnmount } from 'react-use';
 
 import './build.scss';

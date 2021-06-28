@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import DiceConfigPage from 'app/config-page';
 import { get, cloneDeep, set } from 'lodash';
 import i18n from 'i18n';

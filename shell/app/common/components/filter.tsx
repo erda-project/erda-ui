@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Filter as NusiFilter } from 'app/nusi';
 import { get, map, has, set, isEmpty, debounce } from 'lodash';
 import { IFilterProps } from 'core/common/interface';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { useMount } from 'react-use';
 import { updateSearch as _updateSearch } from 'common/utils';
 

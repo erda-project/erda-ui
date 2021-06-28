@@ -19,7 +19,7 @@ import { goTo, fromNow } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import { SearchTable, Icon as CustomIcon } from 'common';
 import projectStore from 'project/stores/project';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './project-list.scss';
 
 interface IBoxProp {

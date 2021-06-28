@@ -18,7 +18,7 @@ import { map, isEmpty } from 'lodash';
 import { RadioChangeEvent, ColumnProps } from 'core/common/interface';
 import UpgradeModal from 'cmp/pages/middleware-dashboard/upgrade-modal';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Holder, Icon } from 'common';
 import './index.scss';
 

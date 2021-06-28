@@ -22,7 +22,7 @@ import { Right as IconRight } from '@icon-park/react';
 import './index.scss';
 import dcosServiceStore from 'dcos/stores/services';
 import clusterStore from 'cmp/stores/cluster';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { Option } = Select;
 

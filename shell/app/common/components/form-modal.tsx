@@ -13,11 +13,11 @@
 
 import { isEmpty, pick, isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { Modal, Form, Button, Spin, Alert } from 'app/nusi';
 import { RenderPureForm } from 'common';
 import { isPromise } from 'common/utils';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
 import moment from 'moment';
 
@@ -25,10 +25,10 @@ const noop = () => {};
 
 interface IProps {
   visible: boolean;
-  form: WrappedFormUtils;
+  form: FormInstance;
   formOption?: Obj;
   formData?: object;
-  fieldsList?: IFormItem[] | ((form: WrappedFormUtils, isEdit: boolean) => IFormItem[]);
+  fieldsList?: IFormItem[] | ((form: FormInstance, isEdit: boolean) => IFormItem[]);
   title?: string;
   name?: string;
   width?: number | string;
@@ -46,7 +46,7 @@ interface IProps {
   customRender?: (content: JSX.Element) => JSX.Element;
   onOk?: (result: object, isAddMode: boolean) => PromiseLike<object> | void;
   onCancel?: () => void;
-  beforeSubmit?: (formValues: object, form?: WrappedFormUtils) => void;
+  beforeSubmit?: (formValues: object, form?: FormInstance) => void;
 }
 
 interface IState {
@@ -115,28 +115,30 @@ class FormModalComp extends React.Component<IProps, IState> {
   handleOk = () => {
     const { form, onOk, beforeSubmit, keepValue = false } = this.props;
     return new Promise((resolve, reject) => {
-      form.validateFieldsAndScroll((errors, values) => {
-        if (errors) {
-          return reject(errors);
-        }
-
-        let submitValue = values;
-        if (beforeSubmit) {
-          submitValue = beforeSubmit(values, form);
-          if (isPromise(submitValue)) {
-            // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
-            return submitValue.then((checkedValues: any) => {
-              if (checkedValues === null) {
-                return resolve();
-              }
-              onOk && this.submit(onOk, checkedValues, form, resolve);
-            });
-          } else if (submitValue === null) {
-            return resolve();
+      form
+        .validateFields()
+        .then((values: any) => {
+          let submitValue = values;
+          if (beforeSubmit) {
+            submitValue = beforeSubmit(values, form);
+            if (isPromise(submitValue)) {
+              // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
+              return submitValue.then((checkedValues: any) => {
+                if (checkedValues === null) {
+                  return resolve();
+                }
+                onOk && this.submit(onOk, checkedValues, form, resolve);
+              });
+            } else if (submitValue === null) {
+              return resolve();
+            }
           }
-        }
-        onOk && this.submit(onOk, submitValue, form, resolve);
-      });
+          onOk && this.submit(onOk, submitValue, form, resolve);
+        })
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+          form.scrollToField(errorFields[0].name);
+          return reject(errorFields);
+        });
     }).then(() => !keepValue && form.resetFields());
   };
 
@@ -217,8 +219,12 @@ class FormModalComp extends React.Component<IProps, IState> {
   }
 }
 
-const PureFormModal = Form.create()(FormModalComp);
-const PureFormModalFun = (options: Obj) => Form.create(options)(FormModalComp);
+const PureFormModalFun = (options: Obj) =>
+  forwardRef((props, ref) => {
+    const [form] = Form.useForm();
+    useImperativeHandle(ref, () => form);
+    return <FormModalComp form={form} options={options} {...props} ref={ref} />;
+  });
 
 /**
  * 表单弹窗组件
@@ -244,9 +250,10 @@ const PureFormModalFun = (options: Obj) => Form.create(options)(FormModalComp);
  * 内部组件可从 mode 属性获得当前模式: 'add' | 'edit'
  * 可通过beforeSubmit方法进行提交前的数据调整或检查，若返回null则不会提交
  */
-export const FormModal = (props: any) => {
+export const FormModal = forwardRef((props: any, ref) => {
   const formRef = React.useRef(null);
+
   // 将formRef传递至组件内部，为的是当使用PureForm的时候，可以得到fieldsStore来setFieldsValues，故使用FormModal时，要注意ref得到的和预期的不一样
   const FormModalCompRef = React.useRef(PureFormModalFun(props?.formOption || {}));
-  return <FormModalCompRef.current {...props} ref={formRef} formRef={formRef.current} />;
-};
+  return <FormModalCompRef.current {...props} ref={ref} formRef={formRef.current} />;
+});

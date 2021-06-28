@@ -19,9 +19,9 @@ import { useEffectOnce, useUnmount } from 'react-use';
 import moment from 'moment';
 import { TimeSelector, useUpdate, PureBoardGrid } from 'common';
 import statisticsStore from 'app/modules/publisher/stores/statistics';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import './index.scss';
 

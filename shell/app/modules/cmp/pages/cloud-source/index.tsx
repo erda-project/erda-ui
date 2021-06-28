@@ -24,7 +24,7 @@ import { colorMap } from '@erda-ui/dashboard-configurator';
 import cloudAccountStore from 'cmp/stores/cloud-account';
 import Guidance from 'cmp/pages/account-guidance';
 import ts_svg from 'app/images/ts.svg';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 import './index.scss';
 

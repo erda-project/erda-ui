@@ -13,8 +13,6 @@
 
 import { map, compact, get } from 'lodash';
 import i18n from 'i18n';
-import diceEnv from 'dice-env';
-import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org';
 
 interface IMenuItem {
@@ -28,19 +26,13 @@ export enum MENU_SCOPE {
   cmp = 'cmp',
   dop = 'dop',
 }
-const hiddenWhenOnlyFDP = (item: IMenuItem) => (ONLY_FDP ? null : item);
 const defaultFunc = (a: any) => a;
 
-const { ONLY_FDP } = diceEnv || {};
 const menuFilterMap = {
   appCenter: {
     // 应用中心
-    dop: hiddenWhenOnlyFDP,
-    msp: hiddenWhenOnlyFDP,
-    edge: hiddenWhenOnlyFDP,
-    apiManage: hiddenWhenOnlyFDP,
     cmp: (item: IMenuItem) => {
-      const name = ONLY_FDP ? i18n.t('Data Center') : i18n.t('cloud management');
+      const name = i18n.t('cloud management');
       return { ...item, name, breadcrumbName: name };
     },
   },
@@ -58,14 +50,9 @@ const menuFilterMap = {
   cmp: {
     // 云管平台
     cmpOverview: (item: IMenuItem) => {
-      const text = ONLY_FDP ? i18n.t('resource data') : i18n.t('cluster overview');
+      const text = i18n.t('cluster overview');
       return { ...item, text };
     },
-    cmpResources: hiddenWhenOnlyFDP,
-    cmpServices: hiddenWhenOnlyFDP,
-    cmpDashboard: hiddenWhenOnlyFDP,
-    cmpReport: hiddenWhenOnlyFDP,
-    cmpLog: hiddenWhenOnlyFDP,
   },
   dop: {
     dopPublisher: (item: IMenuItem) => {

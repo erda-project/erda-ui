@@ -53,6 +53,7 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     indent: 0,
     'react/jsx-no-undef': 0,
+    '@typescript-eslint/consistent-type-assertions': [0, { objectLiteralTypeAssertions: 'allow-as-parameter' }],
   },
   overrides: [
     {

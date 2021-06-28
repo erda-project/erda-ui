@@ -23,7 +23,7 @@ import GroupTabs from './groupTabs';
 import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
 import clusterDashboardStore from '../../stores/dashboard';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useMount, useUnmount } from 'react-use';
 import { stateSeverityMap } from 'cmp/pages/cluster-manage/cluster-state';
 import './index.scss';
