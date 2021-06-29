@@ -112,7 +112,7 @@ const RenderItem = (props: IRenderProps) => {
         Comp = (
           <div className={`${clsPrex}`}>
             {title ? <Title showDivider={false} title={title} level={2} /> : null}
-            <Table defaultExpandAllRows pagination={false} dataSource={dataSource} {...rest} />
+            <Table tableLayout="fixed" defaultExpandAllRows pagination={false} dataSource={dataSource} {...rest} />
           </div>
         );
       }

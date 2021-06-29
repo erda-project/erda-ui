@@ -294,6 +294,7 @@ export const ProjectList = () => {
               total,
             }}
             onChange={handleTableChange}
+            tableLayout="fixed"
           />
         </SearchTable>
       </Spin>

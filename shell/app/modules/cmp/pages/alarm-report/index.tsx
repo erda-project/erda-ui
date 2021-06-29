@@ -337,6 +337,7 @@ export default () => {
               },
             };
           }}
+          tableLayout="fixed"
         />
       </Spin>
     </>

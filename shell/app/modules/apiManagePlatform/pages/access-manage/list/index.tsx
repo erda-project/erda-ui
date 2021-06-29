@@ -137,6 +137,7 @@ const AccessList = () => {
             },
           };
         }}
+        tableLayout="fixed"
       />
     );
   };
@@ -157,7 +158,13 @@ const AccessList = () => {
         </Button>
       </div>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
-      <Table rowKey="assetID" columns={columns} dataSource={dataSource} expandedRowRender={expandedRowRender} />
+      <Table
+        rowKey="assetID"
+        columns={columns}
+        dataSource={dataSource}
+        expandedRowRender={expandedRowRender}
+        tableLayout="fixed"
+      />
     </Spin>
   );
 };

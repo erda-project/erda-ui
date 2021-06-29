@@ -215,6 +215,7 @@ const TestPlan = () => {
             pageSize: page.pageSize,
             onChange: onPageChange,
           }}
+          tableLayout="fixed"
         />
       </Spin>
     </div>

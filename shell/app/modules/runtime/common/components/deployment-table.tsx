@@ -86,6 +86,7 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
         total: paging.total,
         onChange,
       }}
+      tableLayout="fixed"
     />
   );
 };

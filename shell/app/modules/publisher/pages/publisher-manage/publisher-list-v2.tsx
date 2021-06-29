@@ -199,6 +199,7 @@ export const PurePublisherList = ({
             ...paging,
             onChange: handlePageChange,
           }}
+          tableLayout="fixed"
         />
         <ArtifactsFormModal visible={formVisible} onCancel={closeFormModal} afterSubmit={afterSubmitAction} />
       </div>

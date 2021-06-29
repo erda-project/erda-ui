@@ -346,6 +346,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
           pagination={showPagination ? pagination : false}
           size={size}
           className={`key-value-table ${className}`}
+          tableLayout="fixed"
           ref={(ref) => {
             this.table = ref;
           }}

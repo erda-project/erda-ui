@@ -174,6 +174,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
                 onChange={(pagination) => {
                   handleChangeTable(value, pagination);
                 }}
+                tableLayout="fixed"
               />
             </TabPane>
           ))}

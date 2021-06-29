@@ -585,7 +585,7 @@ const BuildDetail = (props: IProps) => {
       },
       {
         title: i18n.t('application:executor'),
-        dataIndex: 'extra.runUser.name',
+        dataIndex: ['extra', 'runUser', 'name'],
         width: 100,
         align: 'center',
       },
@@ -632,6 +632,7 @@ const BuildDetail = (props: IProps) => {
               updater.chosenPipelineId(targetPipelineID);
             },
           })}
+          tableLayout="fixed"
         />
       </div>
     );

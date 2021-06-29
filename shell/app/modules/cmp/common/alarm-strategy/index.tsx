@@ -363,6 +363,7 @@ export default ({ scopeType, scopeId }: IProps) => {
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
+            tableLayout="fixed"
           />
         </>
       ),
@@ -636,7 +637,7 @@ export default ({ scopeType, scopeId }: IProps) => {
     ]),
     {
       title: i18n.t('default:notification target'),
-      dataIndex: 'notifies[0].notifyGroup',
+      dataIndex: ['notifies[0]', 'notifyGroup'],
       width: 250,
       className: 'notify-info',
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
@@ -730,6 +731,7 @@ export default ({ scopeType, scopeId }: IProps) => {
             total,
             onChange: handlePageChange,
           }}
+          tableLayout="fixed"
         />
       </Spin>
     </div>

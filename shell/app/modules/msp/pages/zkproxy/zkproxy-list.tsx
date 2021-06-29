@@ -118,6 +118,7 @@ const ZkproxyList = () => {
           pagination={{
             pageSize: PAGINATION.pageSize,
           }}
+          tableLayout="fixed"
         />
       </SearchTable>
     </Holder>

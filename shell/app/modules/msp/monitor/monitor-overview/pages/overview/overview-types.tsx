@@ -49,6 +49,7 @@ const TablePanel = ({ isFetching, className, title, data, columns, scroll, ...ot
           className="service-status"
           pagination={false}
           scroll={scroll}
+          tableLayout="fixed"
         />
       </MonitorPanel>
     </Spin>

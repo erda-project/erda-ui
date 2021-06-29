@@ -58,7 +58,7 @@ const PersonalUseCase = () => {
     },
   ];
 
-  return <Table rowKey="userID" columns={columns} dataSource={dataSource} />;
+  return <Table rowKey="userID" columns={columns} dataSource={dataSource} tableLayout="fixed" />;
 };
 
 export default PersonalUseCase;

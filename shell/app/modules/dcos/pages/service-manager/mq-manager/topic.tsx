@@ -254,6 +254,7 @@ const Topic = () => {
         rowSelection={{
           onChange: handleSelect,
         }}
+        tableLayout="fixed"
       />
       <SetTagForm
         items={items}

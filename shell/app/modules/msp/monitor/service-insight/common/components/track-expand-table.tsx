@@ -94,7 +94,15 @@ export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetc
     },
   ];
 
-  return <Table columns={columns || subColumns} dataSource={subDataSource} pagination={false} locale={{ emptyText }} />;
+  return (
+    <Table
+      columns={columns || subColumns}
+      dataSource={subDataSource}
+      pagination={false}
+      locale={{ emptyText }}
+      tableLayout="fixed"
+    />
+  );
 };
 
 export const onExpand = (getSubTableList: Function, query: any, getParams: any) => (isExpend: boolean, record: any) => {

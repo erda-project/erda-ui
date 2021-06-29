@@ -68,7 +68,9 @@ export const webSlowTrackPanel = ({ data }: { data: object }) => {
       width: 80,
     },
   ];
-  return <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} />;
+  return (
+    <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} tableLayout="fixed" />
+  );
 };
 
 export const dbSlowTrackPanel = ({ data }: { data: object }) => {
@@ -115,5 +117,7 @@ export const dbSlowTrackPanel = ({ data }: { data: object }) => {
       width: 80,
     },
   ];
-  return <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} />;
+  return (
+    <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} tableLayout="fixed" />
+  );
 };

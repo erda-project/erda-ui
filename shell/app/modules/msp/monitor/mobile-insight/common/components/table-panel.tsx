@@ -67,7 +67,14 @@ const TablePanel = ({ data }: { data: object }) => {
       width: 80,
     },
   ];
-  return <Table rowKey={(record: IData, i) => `${i}_${record.time}`} columns={columns} dataSource={list} />;
+  return (
+    <Table
+      rowKey={(record: IData, i) => `${i}_${record.time}`}
+      columns={columns}
+      dataSource={list}
+      tableLayout="fixed"
+    />
+  );
 };
 
 export default TablePanel;

@@ -213,6 +213,7 @@ const CodeQuality = () => {
             },
           };
         }}
+        tableLayout="fixed"
       />
     );
   };

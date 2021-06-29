@@ -491,6 +491,7 @@ export const MembersTable = ({
         pagination={{ ...paging, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
+        tableLayout="fixed"
       />
     );
   }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater]);

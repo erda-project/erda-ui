@@ -174,6 +174,7 @@ export default class FormTable extends React.Component<any, any> {
           // TODO: 这个props很容易混淆，需要注意
           {...props}
           columns={getColumns(columns, mode)}
+          tableLayout="fixed"
         />
       </React.Fragment>
     );

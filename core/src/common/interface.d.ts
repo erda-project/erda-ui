@@ -20,10 +20,11 @@ export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interfac
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
 export { PaginationConfig, SorterResult } from 'antd/lib/table';
+export { ColumnProps } from 'antd-latest/lib/table';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 
-export { ColumnProps, Action } from '@terminus/nusi/es/table';
+export { Action } from '@terminus/nusi/es/table';
 export { FilterItemConfig, IFilterProps } from '@terminus/nusi/es/filter/interface';
 export { PaginationProps } from '@terminus/nusi/es/pagination';
 export { GlobalNavigationProps, AppCenterProps } from '@terminus/nusi/es/global-navigation/interface';

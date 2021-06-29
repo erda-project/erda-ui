@@ -581,7 +581,13 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
               {i18n.t('add')}
             </Button>
           </div>
-          <Table dataSource={authData.keyAuth.authData} columns={this.keyAuthCols} rowKey="id" pagination={false} />
+          <Table
+            dataSource={authData.keyAuth.authData}
+            columns={this.keyAuthCols}
+            rowKey="id"
+            pagination={false}
+            tableLayout="fixed"
+          />
         </div>
         <div className="auth-type-item">
           <div className="flex-box mb12">
@@ -590,7 +596,13 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
               {i18n.t('add')}
             </Button>
           </div>
-          <Table dataSource={authData.oAuth.authData} columns={this.oAuthCols} rowKey="id" pagination={false} />
+          <Table
+            dataSource={authData.oAuth.authData}
+            columns={this.oAuthCols}
+            rowKey="id"
+            pagination={false}
+            tableLayout="fixed"
+          />
         </div>
       </div>
     );
@@ -608,6 +620,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
             columns={this.userAuthedApiCols}
             rowKey="apiId"
             pagination={false}
+            tableLayout="fixed"
           />
         </div>
         <div className="auth-type-item">
@@ -628,6 +641,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
                 total,
               }}
               onChange={this.handleTableChange}
+              tableLayout="fixed"
             />
           </SearchTable>
         </div>
@@ -678,7 +692,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
               {i18n.t('add')}
             </Button>
           </div>
-          <Table dataSource={consumerList} columns={this.invokerAuthCols} rowKey="consumerName" />
+          <Table dataSource={consumerList} columns={this.invokerAuthCols} rowKey="consumerName" tableLayout="fixed" />
         </Spin>
 
         <FormModal

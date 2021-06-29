@@ -136,7 +136,7 @@ export default () => {
       },
       {
         title: i18n.t('common:state'),
-        dataIndex: 'state.state',
+        dataIndex: ['state', 'state'],
         key: 'state.state',
         width: 140,
         render: (v) => {
@@ -212,7 +212,13 @@ export default () => {
         </div>
       </Spin>
       <Panel title={i18n.t('addonPlatform:analyzing')} className="block">
-        <Table dataSource={runningList} columns={getCols(false)} rowKey="profiling" pagination={false} />
+        <Table
+          dataSource={runningList}
+          columns={getCols(false)}
+          rowKey="profiling"
+          pagination={false}
+          tableLayout="fixed"
+        />
       </Panel>
       <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt20">
         <Table
@@ -226,6 +232,7 @@ export default () => {
             total: historyPaging.total,
             onChange: (no: number) => getHistoryList({ pageNo: no }),
           }}
+          tableLayout="fixed"
         />
       </Panel>
     </div>

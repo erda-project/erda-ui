@@ -329,6 +329,7 @@ export default () => {
             current: pageNo,
             onChange: (page) => setPageNo(page),
           }}
+          tableLayout="fixed"
         />
       </Panel>
     </div>

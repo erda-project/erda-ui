@@ -160,6 +160,7 @@ export default ({ clusters }: { clusters: any }) => {
             },
           };
         }}
+        tableLayout="fixed"
       />
     </div>
   );

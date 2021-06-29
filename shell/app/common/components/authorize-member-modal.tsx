@@ -120,7 +120,14 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
         </Button>,
       ]}
     >
-      <Table loading={loading} rowKey={'userId'} pagination={pagination} columns={columns} dataSource={list} />
+      <Table
+        tableLayout="fixed"
+        loading={loading}
+        rowKey={'userId'}
+        pagination={pagination}
+        columns={columns}
+        dataSource={list}
+      />
     </Modal>
   );
 };

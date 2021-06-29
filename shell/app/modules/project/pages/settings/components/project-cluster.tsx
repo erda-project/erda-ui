@@ -88,6 +88,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
         },
       ]}
       pagination={false}
+      tableLayout="fixed"
     />
   );
 

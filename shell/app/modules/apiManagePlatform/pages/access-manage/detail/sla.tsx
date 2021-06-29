@@ -138,7 +138,14 @@ const Sla = () => {
 
   return (
     <>
-      <Table loading={isLoading} rowKey="id" columns={columns} dataSource={slaLis} pagination={false} />
+      <Table
+        loading={isLoading}
+        rowKey="id"
+        columns={columns}
+        dataSource={slaLis}
+        pagination={false}
+        tableLayout="fixed"
+      />
       <SlaEditor
         mode="edit"
         visible={state.visible}

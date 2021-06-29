@@ -420,6 +420,7 @@ export default function ScanRule(props: IProps) {
           onChange: (pageNo) => updater.appendedCurrent(pageNo),
         }}
         scroll={{ y: 300 }}
+        tableLayout="fixed"
       />
       <Modal
         width={800}
@@ -446,6 +447,7 @@ export default function ScanRule(props: IProps) {
           dataSource={operationOptionalRules}
           rowKey="id"
           rowSelection={optionalRowSelection}
+          tableLayout="fixed"
         />
       </Modal>
     </>

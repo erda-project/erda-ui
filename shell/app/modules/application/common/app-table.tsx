@@ -137,7 +137,7 @@ export const AppList = ({
     {
       title: i18n.t('application:number of application instance'),
       width: 120,
-      dataIndex: 'stats.countRuntimes',
+      dataIndex: ['stats', 'countRuntimes'],
       render: (text, record) => {
         const { projectId, id, mode } = record;
         const show = [appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(mode);
@@ -208,6 +208,7 @@ export const AppList = ({
           rowKey="id"
           columns={columns}
           dataSource={list}
+          tableLayout="fixed"
         />
       </Spin>
     </div>

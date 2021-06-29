@@ -240,6 +240,7 @@ const Group = () => {
         rowSelection={{
           onChange: handleSelect,
         }}
+        tableLayout="fixed"
       />
       <SetTagForm
         items={items}

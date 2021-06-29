@@ -120,6 +120,7 @@ export const webSlowTrackPanel = ({
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
+      tableLayout="fixed"
     />
   );
 };
@@ -201,6 +202,7 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
+      tableLayout="fixed"
     />
   );
 };

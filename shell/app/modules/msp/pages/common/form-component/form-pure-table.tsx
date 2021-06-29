@@ -76,6 +76,7 @@ export default class FormPureTable extends Component<any, any> {
           },
         }}
         columns={getColumns(columns, mode)}
+        tableLayout="fixed"
       />
     );
   }

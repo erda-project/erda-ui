@@ -42,6 +42,7 @@ import {
   Spin,
   Steps,
   Switch,
+  Table,
   Tabs,
   Transfer,
   Tree,
@@ -52,7 +53,6 @@ import {
   version,
 } from 'antd-latest';
 import { FixedSelect } from './fixed-select';
-import { Table } from './table';
 import FixRangePicker from './range-picker';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';

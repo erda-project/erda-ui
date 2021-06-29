@@ -635,6 +635,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         columns={columns}
         scroll={{ x: 1500 }}
         dataSource={filterList}
+        tableLayout="fixed"
       />
       <MachineTagForm
         machine={stateMap.recordData as ORG_MACHINE.IMachine}

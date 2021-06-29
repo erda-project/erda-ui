@@ -194,6 +194,7 @@ export default () => {
         bordered
         columns={columns}
         dataSource={tableList}
+        tableLayout="fixed"
       />
       <Drawer
         width="80%"

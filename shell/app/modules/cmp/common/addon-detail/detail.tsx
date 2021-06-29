@@ -142,6 +142,7 @@ export const PureBaseAddonInfo = ({
             dataSource={addonDetail.referenceInfos}
             pagination={false}
             rowKey="applicationName"
+            tableLayout="fixed"
           />
         </div>
         <div className="config">

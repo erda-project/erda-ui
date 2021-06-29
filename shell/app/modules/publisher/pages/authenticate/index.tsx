@@ -153,7 +153,7 @@ const Authenticate = (props: IProps) => {
         </Select>
       </div>
       <Spin spinning={loading}>
-        <Table rowKey={'userId'} columns={columns} dataSource={list} />
+        <Table rowKey={'userId'} columns={columns} dataSource={list} tableLayout="fixed" />
       </Spin>
       <Copy selector=".for-copy" />
     </div>

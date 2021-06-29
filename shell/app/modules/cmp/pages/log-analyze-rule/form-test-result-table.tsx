@@ -46,7 +46,7 @@ export default () =>
         required={required}
         {...wrapperProps}
       >
-        <Table bordered rowKey="uniId" dataSource={value} columns={columns} />
+        <Table bordered rowKey="uniId" dataSource={value} columns={columns} tableLayout="fixed" />
       </FormItem>
     );
   });

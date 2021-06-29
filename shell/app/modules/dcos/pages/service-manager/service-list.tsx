@@ -393,6 +393,7 @@ function ServiceList({
         pagination={false}
         columns={cols as Array<ColumnProps<any>>}
         dataSource={list}
+        tableLayout="fixed"
       />
       <Copy selector=".for-copy-image" />
       {drawer}

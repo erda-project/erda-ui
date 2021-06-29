@@ -75,6 +75,7 @@ export default ({ hasEditAuth }: IProps) => {
         },
       ]}
       pagination={false}
+      tableLayout="fixed"
     />
   );
 

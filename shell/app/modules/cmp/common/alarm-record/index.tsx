@@ -182,6 +182,7 @@ export default ({ scope }: { scope: string }) => {
             },
           };
         }}
+        tableLayout="fixed"
       />
     </>
   );

@@ -89,13 +89,13 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   },
   {
     title: i18n.t('application:time consuming'),
-    dataIndex: 'totals.duration',
+    dataIndex: ['totals', 'duration'],
     render: (text) => getTestDuration(text),
   },
   {
     title: i18n.t('project:execute result'),
     width: 200,
-    dataIndex: 'totals.tests',
+    dataIndex: ['totals', 'tests'],
     render: (_text, record) => <ExecuteResult totals={record.totals} />,
   },
 ];
@@ -134,6 +134,7 @@ const TestList = () => {
             ...testListPaging,
             onChange: handlePageChange,
           }}
+          tableLayout="fixed"
         />
       </Spin>
     </div>

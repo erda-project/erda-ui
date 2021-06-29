@@ -216,28 +216,28 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   const columns: Array<ColumnProps<API_MARKET.VersionItem>> = [
     {
       title: i18n.t('default:version number'),
-      dataIndex: 'version.major',
+      dataIndex: ['version', 'major'],
       render: (_text, { version: { major, minor, patch } }) => `${major}.${minor}.${patch}`,
     },
     {
       title: i18n.t('API description document protocol'),
-      dataIndex: 'version.specProtocol',
+      dataIndex: ['version', 'specProtocol'],
       render: (text) => protocolMap[text].fullName,
     },
     {
       title: i18n.t('creator'),
-      dataIndex: 'version.creatorID',
+      dataIndex: ['version', 'creatorID'],
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
       title: i18n.t('create time'),
-      dataIndex: 'version.createdAt',
+      dataIndex: ['version', 'createdAt'],
       width: 180,
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: i18n.t('operate'),
-      dataIndex: 'version.id',
+      dataIndex: ['version', 'id'],
       width: 200,
       render: (_text, { version }) => (
         <TableActions>
@@ -325,6 +325,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
               },
             };
           }}
+          tableLayout="fixed"
         />
       </div>
       <ExportFile

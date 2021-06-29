@@ -306,7 +306,7 @@ const ConfigCenter = () => {
             </Button>
           </span>
         </div>
-        <Table dataSource={configListMap[chosenApp] || []} columns={columns} />
+        <Table dataSource={configListMap[chosenApp] || []} columns={columns} tableLayout="fixed" />
       </div>
       <Copy selector=".for-copy" />
       <ConfigFormModal addConfigs={addConfig} ref={addConfigRef} />

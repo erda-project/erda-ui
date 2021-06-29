@@ -192,7 +192,7 @@ const KVPairTable = (props: any) => {
           ...CompList[index],
           isLast: index === CompList.length - 1,
         }));
-        return <Table rowKey={'index'} columns={columns} pagination={false} dataSource={data} />;
+        return <Table rowKey={'index'} columns={columns} pagination={false} dataSource={data} tableLayout="fixed" />;
       }}
     </KVPair>
   );

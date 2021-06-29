@@ -50,7 +50,14 @@ const ExceptionTracePanel = ({ data }: { data: object }) => {
       render: (value: string) => (value ? <Tooltip title={value}>{`${value.substr(0, 24)}...`}</Tooltip> : ''),
     },
   ];
-  return <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={dataSource} />;
+  return (
+    <Table
+      rowKey={(record: IData, i) => i + record.name}
+      columns={columns}
+      dataSource={dataSource}
+      tableLayout="fixed"
+    />
+  );
 };
 
 export default ExceptionTracePanel;

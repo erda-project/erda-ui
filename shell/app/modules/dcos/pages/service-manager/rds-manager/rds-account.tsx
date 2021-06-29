@@ -173,7 +173,13 @@ const RdsAccount = () => {
           {i18n.t('create an account')}
         </Button>
       </div>
-      <Table loading={isFetching} columns={columns} dataSource={RDSAccountList} rowKey="accountName" />
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={RDSAccountList}
+        rowKey="accountName"
+        tableLayout="fixed"
+      />
       <ResetPasswordForm
         visible={resetFormVisible}
         onClose={() => updater.resetFormVisible(false)}

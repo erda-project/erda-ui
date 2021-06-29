@@ -143,7 +143,15 @@ const HTTPList = () => {
       },
     ];
 
-    return <Table columns={subColumns} dataSource={record.httpServiceDto} pagination={false} rowKey="address" />;
+    return (
+      <Table
+        columns={subColumns}
+        dataSource={record.httpServiceDto}
+        pagination={false}
+        rowKey="address"
+        tableLayout="fixed"
+      />
+    );
   };
 
   const onSearch = (searchKey: string) => {
@@ -162,6 +170,7 @@ const HTTPList = () => {
         pagination={{
           pageSize: PAGINATION.pageSize,
         }}
+        tableLayout="fixed"
       />
     </SearchTable>
   );
