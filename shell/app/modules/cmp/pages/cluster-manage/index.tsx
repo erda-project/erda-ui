@@ -100,11 +100,16 @@ const ClusterManage = () => {
 
   const handleAddCluster = (values: any) => {
     const { id, credential: credentialData, ...restData } = values;
-    const credential = {
-      credential: credentialData?.content
-        ? { ...credentialData, content: encode(credentialData?.content) }
-        : credentialData,
-    };
+    const credential = credentialData
+      ? {
+          credential:
+            credentialData.content === '********'
+              ? { address: credentialData?.address }
+              : credentialData.content
+              ? { ...credentialData, content: encode(credentialData.content) }
+              : credentialData,
+        }
+      : undefined;
     if (id) {
       // urls 中仍有其他配置，后面可能会加入
       updateCluster({ ...values, credential });

@@ -619,7 +619,7 @@ const ClusterDashboard = () => {
             <div className="font-medium text-2xl mb-2">{i18n.d('快速入门')}</div>
             <div className="text-desc">
               {i18n.d('当前没有任何集群存在，可以点击')}{' '}
-              <Link to={`${goTo.resolve.dataCenterClusters()}?autoOpen=true`}>{i18n.d('创建集群')}</Link>
+              <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.d('创建集群')}</Link>
               ，也可以通过浏览{' '}
               <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
                 {i18n.d('帮助文档')}

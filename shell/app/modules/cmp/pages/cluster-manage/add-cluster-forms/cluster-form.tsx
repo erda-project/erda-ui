@@ -304,20 +304,20 @@ const ClusterBasicForm = ({
 const k8sAlert = (
   <span>
     {i18n.d(
-      '导入集群初始化过程中会对集群所有节点打上组织名的标签，方便该组织服务和任务调用。如果需要Erda最佳调用策略还需要进入',
+      '导入集群初始化过程中会对集群所有节点打上组织名的标签，方便该组织服务和任务调用。如果需要 Erda 最佳调用策略还需要进入',
     )}
-    <Link to={goTo.resolve.dataCenterRoot()} className="mx-1">{`${i18n.d('多云管理平台')} -> ${i18n.d(
-      '集群总览',
-    )} -> ${i18n.d('设置标签')}`}</Link>
+    <Link to={goTo.resolve.cmpRoot()} className="mx-1">{`${i18n.d('多云管理平台')} -> ${i18n.d('集群总览')} -> ${i18n.d(
+      '设置标签',
+    )}`}</Link>
     {i18n.d('进行配置')}
   </span>
 );
 
 const k8sPrompt = (
-  <div>
+  <>
     <div>1. 请确保您的Kubernetes集群和Erda的网络通畅</div>
     <div>2. 导入集群后，该集群中的节点会默认打上组织的标签</div>
-  </div>
+  </>
 );
 
 const ClusterSchedulerForm = ({

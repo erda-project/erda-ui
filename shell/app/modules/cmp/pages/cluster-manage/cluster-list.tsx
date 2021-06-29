@@ -31,6 +31,7 @@ import ClipboardJS from 'clipboard';
 import { Button, Drawer, Input, message, Spin } from 'core/nusi';
 import { bgColorClsMap } from 'app/common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
+import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 
 import './cluster-list.scss';
 
@@ -62,7 +63,7 @@ const clusterTypeMap = {
 const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { addCloudMachine } = machineStore.effects;
   const { upgradeCluster, deleteCluster, getClusterNewDetail, getRegisterCommand } = clusterStore.effects;
-  const [curCluster, setCurCluster] = React.useState(null as any);
+  const [curCluster, setCurCluster] = React.useState<ORG_CLUSTER.ICluster | null>(null);
   const [registerCommand, setRegisterCommand] = React.useState('');
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
 
@@ -217,7 +218,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const clusterOpsMap = {
       dcos: [addMachine, edit, deleteClusterCall],
       edas: [edit, deleteClusterCall],
-      k8s: [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall, ...insertWhen(true, [showRegisterCommand])],
+      k8s: [
+        addMachine,
+        addCloudMachines,
+        edit,
+        upgrade,
+        deleteClusterCall,
+        ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
+      ],
       'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
@@ -283,9 +291,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           <div className="flex items-center">
             <div className={`${bgColorClsMap[statusMap[status]?.[0]]} w-2 h-2 rounded-full`} />
             <div className="mx-2">{`${statusMap[status]?.[1] ?? '-'}`}</div>
-            <If condition={status === 'initializing' || status === 'initialize error'}>
-              <Button type="text">{i18n.d('详情')}</Button>
-            </If>
+            <If condition={status === 'initializing' || status === 'initialize error'}>{renderOp(record)}</If>
           </div>
         );
       },
@@ -340,6 +346,17 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     },
   ];
 
+  const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
+    log: true,
+    getProps() {
+      return {
+        fetchApi: '/api/orgCenter/logs',
+        extraQuery: { clusterName: curCluster?.name },
+        sourceType: 'container',
+      };
+    },
+  });
+
   return (
     <>
       <AddMachineModal
@@ -383,6 +400,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           </div>
         </Spin>
       </Drawer>
+      {drawer}
       <div>
         <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
       </div>
