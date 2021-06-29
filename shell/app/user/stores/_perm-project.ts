@@ -325,27 +325,27 @@ export const projectPerm = {
     name: '工单',
     read: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Reporter'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Reporter', 'Guest'],
       name: '查看',
     },
     create: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Reporter'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Reporter', 'Guest'],
       name: '创建',
     },
     edit: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
       name: '编辑',
     },
     updateStatus: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Assignee', 'Guest'],
       name: '状态变更',
     },
     delete: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
       name: '删除',
     },
   },
@@ -446,7 +446,7 @@ export const projectPerm = {
     name: '项目大盘',
     viewDashboard: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
+      role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
       name: '查看',
     },
   },
