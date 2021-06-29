@@ -20,7 +20,7 @@ import commonStore from 'app/common/stores/common';
 const noop = () => {};
 const AU = new AnsiUp();
 
-const LogItem = ({ log }: { log: COMMON.LogItem }) => {
+export const LogItem = ({ log }: { log: COMMON.LogItem }) => {
   const { content } = log;
   let time = '';
   let level = '';

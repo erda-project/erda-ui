@@ -40,6 +40,7 @@ jest.mock('holderjs', () => {
   return {
     run: () => {},
     addTheme: () => {},
+    setResizeUpdate: () => {},
   };
 });
 

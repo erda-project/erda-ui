@@ -20,12 +20,7 @@ import { countPagination, getDefaultPaging } from '../utils';
 import permStore from 'user/stores/permission';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';
-
-export enum MemberScope {
-  ORG = 'org',
-  PROJECT = 'project',
-  APP = 'app',
-}
+import { MemberScope } from 'app/common/stores/member-scope';
 
 export interface IState {
   paging: IPaging;

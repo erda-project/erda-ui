@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import routeInfoStore from 'core/stores/route';
-import { MemberScope } from 'app/common/stores/_member';
+import { MemberScope } from 'app/common/stores/member-scope';
 import { getApps } from 'common/services';
 import appMemberStore from 'common/stores/application-member';
 import i18n from 'i18n';

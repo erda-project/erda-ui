@@ -16,7 +16,7 @@ import { FormModal, LoadMoreSelector } from 'common';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { MemberScope } from 'app/common/stores/_member';
+import { MemberScope } from 'app/common/stores/member-scope';
 import appMemberStore from 'common/stores/application-member';
 import { getApps } from 'common/services';
 

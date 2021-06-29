@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createMemberStore, MemberScope } from 'app/common/stores/_member';
+import { createMemberStore } from 'common/stores/_member';
+import { MemberScope } from 'app/common/stores/member-scope';
 
 const applicationMember = createMemberStore(MemberScope.APP);
 
