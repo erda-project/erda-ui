@@ -29,4 +29,21 @@ declare global {
 // export {GlobalNavigationProps} from '@terminus/nusi/es/global-navigation/interface'
 // export type History = history.History;
 
-export type FormModalList = IFormItem[] | ((form: FormInstance, isEdit: boolean) => IFormItem[]);
+export interface IUseFilterProps<T = any> {
+  onSubmit: (value: Record<string, any>) => void;
+  onReset: () => void;
+  onPageChange: (pNo: number) => void;
+  fetchDataWithQuery: (pNo?: number) => void;
+  queryCondition: any;
+  pageNo: number;
+  autoPagination: (paging: IPaging) => Obj;
+  onTableChange: (pagination: any, _filters: any, sorter: any) => void;
+  sizeChangePagination: (paging: IPaging) => JSX.Element;
+}
+
+export interface IUseMultiFilterProps extends Omit<IUseFilterProps, 'onTableChange' | 'sizeChangePagination'> {
+  activeType: string;
+  onChangeType: (t: string | number) => void;
+}
+
+export type FormModalList = IFormItem[] | ((form: any, isEdit: boolean) => IFormItem[]);
