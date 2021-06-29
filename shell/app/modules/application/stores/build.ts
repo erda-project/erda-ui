@@ -14,6 +14,7 @@
 /* eslint-disable no-param-reassign */
 import { createStore } from 'app/cube';
 import { getDefaultPaging } from 'common/utils';
+import { ciNodeStatusSet } from 'application/pages/pipeline/run-detail/config';
 import {
   getRuntimeDetail,
   getPipelineDetail,
@@ -247,6 +248,10 @@ const build = createStore({
       const { pipelineDetail } = state;
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
+        if (ciNodeStatusSet.taskFinalStatus.includes(status)) {
+          // refresh pipeline detail when task is final status, prevent websocket data append
+          build.effects.getPipelineDetail({ pipelineID });
+        }
         pipelineStages.forEach((o) =>
           o.pipelineTasks.forEach((task) => {
             if (task.id === pipelineTaskID) {
