@@ -260,7 +260,7 @@ const DomainManage = () => {
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
-          <Table tableLayout="fixed" columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" />
+          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" />
         </Holder>
       </Spin>
     </>

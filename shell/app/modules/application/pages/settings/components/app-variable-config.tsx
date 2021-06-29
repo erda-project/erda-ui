@@ -373,7 +373,7 @@ const VariableConfig = ({
                     </Button>
                   </>
                 )}
-                <Table tableKey="env" dataSource={envConfigMap[env]} columns={getColumns(env)} />
+                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} />
               </Panel>
             );
           })}

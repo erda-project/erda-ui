@@ -278,7 +278,6 @@ export const ProjectList = () => {
           </div>
           <Table
             rowKey="id"
-            tableKey="prj"
             dataSource={list}
             columns={getColumns()}
             rowClassName={() => 'pointer'}

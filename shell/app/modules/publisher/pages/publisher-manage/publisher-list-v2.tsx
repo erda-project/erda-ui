@@ -184,7 +184,6 @@ export const PurePublisherList = ({
           </WithAuth>
         </div>
         <Table
-          tableKey="my-publisher-list"
           rowKey="id"
           columns={column}
           dataSource={list}

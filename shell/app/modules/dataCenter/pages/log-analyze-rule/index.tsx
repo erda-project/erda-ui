@@ -82,7 +82,7 @@ export default () => {
           {i18n.t('org:create analysis rule')}
         </Button>
       </div>
-      <Table tableKey="log-query-message" rowKey="id" dataSource={rules} columns={columns} />
+      <Table rowKey="id" dataSource={rules} columns={columns} />
     </div>
   );
 };

@@ -57,7 +57,6 @@ export default ({ hasEditAuth }: IProps) => {
 
   const readonlyForm = (
     <Table
-      tableKey="project-rollback"
       rowKey="workspace"
       dataSource={tableData}
       columns={[

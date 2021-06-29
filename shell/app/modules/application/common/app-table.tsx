@@ -192,7 +192,6 @@ export const AppList = ({
       <Filter onSubmit={onSubmit} placeHolderMsg={placeHolderMsg} />
       <Spin spinning={isFetching}>
         <Table
-          tableKey="app-list"
           pagination={{
             ...paging,
             current: paging.pageNo,

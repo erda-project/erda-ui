@@ -721,7 +721,6 @@ export default ({ scopeType, scopeId }: IProps) => {
       </div>
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
         <Table
-          tableKey="alarm-strategy"
           rowKey="id"
           columns={alartListColumns}
           dataSource={alertList}

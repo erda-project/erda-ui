@@ -133,6 +133,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { addCloudMachine } = machineStore.effects;
   const { upgradeCluster, deleteCluster, getClusterNewDetail } = clusterStore.effects;
   const [curCluster, setCurCluster] = React.useState(null as any);
+  const [showOperateIndex, setShowOperateIndex] = React.useState([]);
+  const operateDomList = React.useRef([]);
 
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
@@ -151,6 +153,27 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       updater.clusterDetailList(res);
     });
   }, [dataSource, getClusterNewDetail, updater]);
+
+  React.useEffect(() => {
+    // calculate how many operations are displayed directly
+    const showIndex: number[] = [];
+    operateDomList.current.forEach((item: { getElementsByTagName: (arg: string) => object }, index) => {
+      const operates = item.getElementsByTagName('span');
+
+      showIndex[index] = 0;
+      let remainingWidth = 120;
+      map(operates, (dom: { offsetWidth: number }) => {
+        if (remainingWidth >= dom.offsetWidth) {
+          remainingWidth -= dom.offsetWidth;
+          showIndex[index]++;
+        } else {
+          remainingWidth = 0;
+        }
+      });
+    });
+
+    setShowOperateIndex(showIndex);
+  }, []);
 
   const toggleAddCloudMachine = (cluster?: ORG_CLUSTER.ICluster) => {
     if (cluster) {
@@ -231,7 +254,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const curDetail = find(state.clusterDetailList, (item) => get(item, 'basic.clusterName.value') === name) || {};
     return curDetail;
   };
-  const renderMenu = (record: ORG_CLUSTER.ICluster) => {
+  const renderMenu = (record: ORG_CLUSTER.ICluster, index: number) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
     const {
@@ -269,31 +292,32 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
     };
 
-    // calculate how many operations are displayed directly
-    let showIndex = 0;
-    let remainingWidth = 120;
-    const operateList = map(clusterOpsMap[record.cloudVendor || record.type] || [], (op) => {
-      if (remainingWidth >= op.title.length * 16) {
-        remainingWidth -= op.title.length * 16;
-        showIndex++;
-      }
-
-      return (
-        <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
-          {op.title}
-        </span>
-      );
-    });
+    const operateList = (clusterOpsMap[record.cloudVendor || record.type] || []).map(
+      (op: { title: string; onClick: () => void }) => {
+        return (
+          <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
+            {op.title}
+          </span>
+        );
+      },
+    );
 
     return (
-      <span className="operate-list">
-        {operateList.slice(0, showIndex)}
-        <Popover
-          content={operateList.slice(showIndex)}
-          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        >
-          <CustomIcon className="fake-link ml4" type="more" />
-        </Popover>
+      <span
+        className="operate-list"
+        ref={(ref) => {
+          operateDomList.current[index] = ref;
+        }}
+      >
+        {operateList.slice(0, showOperateIndex[index] || undefined)}
+        {showOperateIndex[index] && (
+          <Popover
+            content={operateList.slice(showOperateIndex[index])}
+            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+          >
+            <CustomIcon className="fake-link ml4" type="more" />
+          </Popover>
+        )}
       </span>
     );
   };
@@ -356,8 +380,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'operation',
-      render: (text, record: ORG_CLUSTER.ICluster) => {
-        return renderMenu(record);
+      render: (text, record: ORG_CLUSTER.ICluster, index) => {
+        return renderMenu(record, index);
       },
       width: 150,
     },

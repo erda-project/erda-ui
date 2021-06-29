@@ -13,14 +13,11 @@
 
 import * as React from 'react';
 import { Table } from 'antd-latest';
+import { TableProps } from 'antd-latest/lib/table';
 
-interface columnsItem {
-  dataIndex: string | string[];
-}
-
-const PreTable = (props: { columns: columnsItem[] }) => {
-  props.columns.forEach((item: columnsItem) => {
-    if (typeof item.dataIndex === 'string' && item.dataIndex.indexOf('.') > -1) {
+const PreTable = (props: TableProps<any>) => {
+  props?.columns?.forEach?.((item) => {
+    if (typeof item.dataIndex === 'string' && item.dataIndex.includes('.')) {
       item.dataIndex = item.dataIndex.split('.');
     }
   });

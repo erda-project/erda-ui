@@ -251,7 +251,6 @@ const Topic = () => {
         columns={columns}
         dataSource={MQTopicList}
         rowKey="topicName"
-        tableKey="topic"
         rowSelection={{
           onChange: handleSelect,
         }}
