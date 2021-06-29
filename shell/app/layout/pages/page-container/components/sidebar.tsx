@@ -214,6 +214,7 @@ const SideBar = () => {
     <GlobalNavigation
       layout="vertical"
       verticalBrandIcon={
+        loginUser.isSysAdmin ? null :
         <img
           className="mr0 pointer"
           src={Logo}
@@ -294,7 +295,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
       <CustomIcon type='appstore' className='fz20 ml4' />
     </div>
   );
-  
+
   const onClick = (e: any) => {
     e.domEvent.stopPropagation();
   };
