@@ -27,6 +27,7 @@ export const OrgInfo = () => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [isPublisher, setIsPublisher] = React.useState(false);
+  const isEnterprise = currentOrg.type === 'ENTERPRISE';
   const fieldsList = [
     {
       name: 'id',
@@ -51,7 +52,7 @@ export const OrgInfo = () => {
       label: i18n.t('org:org name'),
       name: 'displayName',
     },
-    ...insertWhen(!currentOrg.publisherId, [
+    ...insertWhen(!currentOrg.publisherId && isEnterprise, [
       {
         label: i18n.t('org:become a publisher'),
         required: false,
@@ -62,7 +63,7 @@ export const OrgInfo = () => {
         },
       },
     ]),
-    ...insertWhen(isPublisher, [
+    ...insertWhen(isPublisher && isEnterprise, [
       {
         label: i18n.t('publisher:repository name'),
         name: 'publisherName',
