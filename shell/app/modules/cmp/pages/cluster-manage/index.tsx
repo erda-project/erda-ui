@@ -24,6 +24,7 @@ import { useLoading } from 'core/stores/loading';
 import clusterStore from '../../stores/cluster';
 import { ClusterLog } from './cluster-log';
 import routeStore from 'core/stores/route';
+import { encode } from 'js-base64';
 
 const ClusterManage = () => {
   const list = clusterStore.useStore((s) => s.list);
@@ -98,12 +99,17 @@ const ClusterManage = () => {
   };
 
   const handleAddCluster = (values: any) => {
-    const { id, ...restData } = values;
+    const { id, credential: credentialData, ...restData } = values;
+    const credential = {
+      credential: credentialData?.content
+        ? { ...credentialData, content: encode(credentialData?.content) }
+        : credentialData,
+    };
     if (id) {
       // urls 中仍有其他配置，后面可能会加入
-      updateCluster({ ...values });
+      updateCluster({ ...values, credential });
     } else {
-      addCluster({ ...restData });
+      addCluster({ ...restData, credential });
     }
   };
   const handleAddAliCloudContainer = ({ recordID }: { recordID: string }) => {

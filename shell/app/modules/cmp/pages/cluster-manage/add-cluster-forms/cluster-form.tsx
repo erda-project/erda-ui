@@ -230,6 +230,15 @@ const ClusterBasicForm = ({
           label: 'KubeConfig',
           name: 'credential.content',
           type: 'textArea',
+          initialValue: editMode ? '********' : '',
+          itemProps: {
+            onClick: () => {
+              if (!form.isFieldTouched('credential.content')) {
+                form.setFieldsValue({ 'credential.content': undefined });
+              }
+            },
+          },
+          required: !editMode,
         },
       ]),
       ...insertWhen(form.getFieldValue('credentialType') === 'serviceAccount', [

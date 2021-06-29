@@ -33,6 +33,7 @@ import {
   getClusterResourceList,
   getClusterResourceDetail,
   getSMSNotifyConfig,
+  getRegisterCommand,
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
 
@@ -168,6 +169,9 @@ const cluster = createStore({
       const newData = { ...cloudResourceDetail, [resource]: res };
       update({ cloudResourceDetail: newData });
       return newData;
+    },
+    async getRegisterCommand({ call }, payload: { clusterName: string }) {
+      return call(getRegisterCommand, payload);
     },
   },
   reducers: {

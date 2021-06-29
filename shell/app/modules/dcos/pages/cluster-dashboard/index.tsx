@@ -29,6 +29,7 @@ import { stateSeverityMap } from 'cmp/pages/cluster-manage/cluster-state';
 import noClusterPng from 'app/images/no-cluster.png';
 import { Link } from 'react-router-dom';
 import './index.scss';
+import { HELP_DOCUMENT_PREFIX } from 'app/common/constants';
 
 const { TreeNode } = TreeSelect;
 const { Option } = Select;
@@ -252,7 +253,7 @@ const ClusterDashboard = () => {
     s.selectedGroups,
   ]);
   const { getFilterTypes, getGroupInfos } = clusterDashboardStore.effects;
-  const { setSelectedGroups } = clusterDashboardStore.reducers;
+  const { setSelectedGroups, clearClusterList } = clusterDashboardStore.reducers;
   const [loading] = useLoading(clusterDashboardStore, ['getGroupInfos']);
 
   const [groupContainerWidthHolder, groupContainerWidth] = useComponentWidth();
@@ -278,6 +279,7 @@ const ClusterDashboard = () => {
 
   useUnmount(() => {
     setSelectedGroups([]);
+    clearClusterList();
   });
 
   useEffect(() => {
@@ -362,7 +364,6 @@ const ClusterDashboard = () => {
   }, [activeGroup, allMachines, groupMap]);
 
   useEffect(() => {
-    console.log('🚀 ~ file: index.tsx ~ line 364 ~ useEffect ~ groupContainerWidth', groupContainerWidth);
     if (groupContainerWidth !== Infinity) {
       setGroupGridClass(getGroupGridClass(groupContainerWidth as number));
     }
@@ -615,11 +616,15 @@ const ClusterDashboard = () => {
       <Choose>
         <When condition={!clusterList.length && !loading && isMounted}>
           <div className="flex flex-col justify-center items-center h-full">
-            <div className="font-medium text-2xl mb-2">快速入门</div>
+            <div className="font-medium text-2xl mb-2">{i18n.d('快速入门')}</div>
             <div className="text-desc">
-              当前没有任何集群存在，可以点击{' '}
-              <Link to={`${goTo.resolve.dataCenterClusters()}?autoOpen=true`}>创建集群</Link>，也可以通过浏览{' '}
-              <a href="">帮助文档</a> 来详细了解
+              {i18n.d('当前没有任何集群存在，可以点击')}{' '}
+              <Link to={`${goTo.resolve.dataCenterClusters()}?autoOpen=true`}>{i18n.d('创建集群')}</Link>
+              ，也可以通过浏览{' '}
+              <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
+                {i18n.d('帮助文档')}
+              </a>{' '}
+              {i18n.d('来详细了解')}
             </div>
             <img className="w-80 h-80" src={noClusterPng} />
           </div>

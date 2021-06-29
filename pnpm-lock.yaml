@@ -353,6 +353,7 @@ importers:
       jest-canvas-mock: 1.1.0
       jest-environment-enzyme: 7.1.2
       jest-enzyme: 7.1.2
+      js-base64: ^3.6.1
       js-yaml: ^4.1.0
       json-loader: ^0.5.7
       less: ^3.8.1
@@ -442,6 +443,7 @@ importers:
       i18next: 17.3.1
       immer: 8.0.4
       intersection-observer: 0.5.1
+      js-base64: 3.6.1
       js-yaml: 4.1.0
       json-loader: 0.5.7
       less: 3.13.1
@@ -12779,7 +12781,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.1_supports-color@6.1.0
+      debug: 4.3.1
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -13958,7 +13960,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

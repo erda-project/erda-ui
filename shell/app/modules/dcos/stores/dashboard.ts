@@ -173,6 +173,9 @@ const dashboard = createStore({
     setSelectedGroups(state, selectedGroups) {
       state.selectedGroups = selectedGroups;
     },
+    clearClusterList(state) {
+      state.clusterList = [];
+    },
     getChartDataSuccess(state, { type, data }) {
       const INDEX_MAP = { cpu: 0, mem: 1, count: 2 };
       const { title } = RESOURCE_TYPE_MAP[type];

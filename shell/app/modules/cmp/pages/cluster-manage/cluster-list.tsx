@@ -28,7 +28,9 @@ import { ColumnProps } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import { useMount } from 'react-use';
 import ClipboardJS from 'clipboard';
-import { Button, Drawer, Input, message } from 'core/nusi';
+import { Button, Drawer, Input, message, Spin } from 'core/nusi';
+import { bgColorClsMap } from 'app/common/utils/style-constants';
+import { useLoading } from 'core/stores/loading';
 
 import './cluster-list.scss';
 
@@ -36,10 +38,33 @@ interface IProps {
   dataSource: any[];
   onEdit: (record: any) => void;
 }
+
+const statusMap = {
+  online: ['green', i18n.d('在线')],
+  offline: ['red', i18n.d('离线')],
+  initializing: ['yellow', i18n.d('初始化中')],
+  'initialize error': ['red', i18n.d('初始化失败')],
+  pending: ['gray', i18n.d('待处理')],
+  unknown: ['red', i18n.d('未知')],
+};
+
+const manageTypeMap = {
+  agent: i18n.d('Agent注册'),
+  create: i18n.d('创建'),
+  import: i18n.d('导入'),
+};
+
+const clusterTypeMap = {
+  kubernetes: 'Kubernetes',
+  edas: 'EDAS',
+};
+
 const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { addCloudMachine } = machineStore.effects;
-  const { upgradeCluster, deleteCluster, getClusterNewDetail } = clusterStore.effects;
+  const { upgradeCluster, deleteCluster, getClusterNewDetail, getRegisterCommand } = clusterStore.effects;
   const [curCluster, setCurCluster] = React.useState(null as any);
+  const [registerCommand, setRegisterCommand] = React.useState('');
+  const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
 
   useMount(() => {
     const clipboard = new ClipboardJS('.btn-to-copy');
@@ -182,8 +207,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
       showRegisterCommand: {
         title: i18n.d('注册命令'),
-        onClick: () => {
-          updater.registerCommandVisible(!state.registerCommandVisible);
+        onClick: async () => {
+          updater.registerCommandVisible(true);
+          const command = await getRegisterCommand({ clusterName: record.name });
+          setRegisterCommand(command);
         },
       },
     };
@@ -246,6 +273,24 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       ),
     },
     {
+      title: i18n.d('状态'),
+      dataIndex: 'clusterStatus',
+      tip: true,
+      render: (_text, record) => {
+        const clusterDetail = getClusterDetail(record.name);
+        const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
+        return (
+          <div className="flex items-center">
+            <div className={`${bgColorClsMap[statusMap[status]?.[0]]} w-2 h-2 rounded-full`} />
+            <div className="mx-2">{`${statusMap[status]?.[1] ?? '-'}`}</div>
+            <If condition={status === 'initializing' || status === 'initialize error'}>
+              <Button type="text">{i18n.d('详情')}</Button>
+            </If>
+          </div>
+        );
+      },
+    },
+    {
       title: i18n.t('default:description'),
       dataIndex: 'description',
       ellipsis: {
@@ -254,13 +299,20 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (text: string) => (text ? <Tooltip title={text}>{text}</Tooltip> : '_'),
     },
     {
-      title: i18n.t('org:cluster type'),
-      dataIndex: 'edgeCluster',
+      title: i18n.d('类型'),
+      dataIndex: 'clusterType',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.edgeCluster.value', true)
-          ? i18n.t('org:edge cluster')
-          : i18n.t('org:center cluster');
+        return clusterTypeMap[get(clusterDetail, 'basic.clusterType.value')] ?? '';
+      },
+    },
+    {
+      title: i18n.d('管理方式'),
+      dataIndex: 'manageType',
+      render: (_text, record) => {
+        const clusterDetail = getClusterDetail(record.name);
+        const manageType = get(clusterDetail, 'basic.manageType.value');
+        return manageTypeMap[manageType] ?? '';
       },
     },
     {
@@ -272,19 +324,11 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     },
     {
-      title: 'lb',
-      dataIndex: 'lbNum',
+      title: i18n.d('机器数'),
+      dataIndex: 'nodeCount',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.lbNum.value', '0');
-      },
-    },
-    {
-      title: 'master',
-      dataIndex: 'masterNum',
-      render: (_text, record) => {
-        const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.masterNum.value', '0');
+        return get(clusterDetail, 'basic.nodeCount.value', '-');
       },
     },
     {
@@ -325,12 +369,19 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         width="800"
         onClose={() => updater.registerCommandVisible(false)}
       >
-        <div className="flex flex-col items-end">
-          <Input.TextArea id="command-script" disabled />
-          <Button type="ghost" className="btn-to-copy mt-4" data-clipboard-target="#command-script">
-            {i18n.d('复制命令')}
-          </Button>
-        </div>
+        <Spin spinning={loading} wrapperClassName="full-spin-height">
+          <div className="flex flex-col items-end h-full">
+            <Input.TextArea id="command-script" disabled value={registerCommand} className="min-h-3/5" />
+            <Button
+              type="ghost"
+              className="btn-to-copy mt-4"
+              data-clipboard-target="#command-script"
+              disabled={!registerCommand.length}
+            >
+              {i18n.d('复制命令')}
+            </Button>
+          </div>
+        </Spin>
       </Drawer>
       <div>
         <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
