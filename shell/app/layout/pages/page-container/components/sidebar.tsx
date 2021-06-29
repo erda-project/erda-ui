@@ -183,7 +183,7 @@ const SideBar = () => {
       },
     },
     {
-      show: !loginUser.isSysAdmin && currentOrg.id,
+      show: !loginUser.isSysAdmin,
       icon: (
         <Badge dot count={unreadCount} offset={[-5, 2]} style={{ width: '4px', height: '4px', boxShadow: 'none' }}>
           <IconRemind className="mr0" size="20px" style={customIconStyle} />
@@ -229,22 +229,27 @@ const SideBar = () => {
     <GlobalNavigation
       layout="vertical"
       verticalBrandIcon={
-        <img
-          className="mr0 pointer"
-          src={Logo}
-          style={{
-            width: '19px',
-            height: '19px',
-          }}
-          onClick={() => {
-            const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
-            if (isIncludeOrg) {
-              goTo(goTo.pages.orgRoot);
-            } else {
-              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
-            }
-          }}
-        />
+        loginUser.isSysAdmin ? null : (
+          <img
+            className="mr0 pointer"
+            src={Logo}
+            style={{
+              width: '19px',
+              height: '19px',
+            }}
+            onClick={() => {
+              const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
+              if (isIncludeOrg) {
+                goTo(goTo.pages.orgRoot);
+              } else if (!orgs?.length) {
+                // skipping warning when the user doesn't join any organization.
+                goTo(goTo.pages.orgRoot, { orgName: '-' });
+              } else {
+                message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+              }
+            }}
+          />
+        )
       }
       // appName=''
       // horizontalBrandIcon={ // 横向sidebar待定

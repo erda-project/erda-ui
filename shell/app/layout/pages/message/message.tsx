@@ -24,6 +24,7 @@ import './message.scss';
 import { useLoading } from 'core/stores/loading';
 import layoutStore from 'layout/stores/layout';
 import { useEffectOnce } from 'react-use';
+import routeInfoStore from 'core/stores/route';
 
 const checkPermission = () => {
   if ('Notification' in window && Notification.permission === 'default') {
@@ -82,6 +83,11 @@ const notifyMe = (msg: string, viewMsg: Function) => {
 };
 
 export const MessageCenter = ({ show }: { show: boolean }) => {
+  const params = routeInfoStore.useStore((s) => s.params);
+  const { orgName = '-' } = params || {};
+  const hasOrgRef = React.useRef(orgName !== '-');
+  hasOrgRef.current = orgName !== '-';
+
   const [list, detail, msgPaging, unreadCount] = messageStore.useStore((s) => [
     s.list,
     s.detail,
@@ -97,15 +103,18 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
   const loopUnreadCountTimer = React.useRef(0 as any);
 
   React.useEffect(() => {
-    if (show) {
+    if (show && hasOrgRef.current) {
       getMessageList({ pageNo: 1 });
       getMessageStats();
     }
 
     // 没展开时，延时请求一次
     timer.current = setTimeout(() => {
-      getMessageStats();
+      if (hasOrgRef.current) {
+        getMessageStats();
+      }
     }, 5000);
+
     return () => {
       clearTimeout(timer.current);
       messageStore.reducers.resetAll();
@@ -134,15 +143,17 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
         const now = Date.now();
         if (now - timers > cycle) {
           sessionStorage.setItem('message_timer', `${now}`);
-          getMessageStats().then((res) => {
-            if (res.hasNewUnread) {
-              if (show) {
-                // resetDetail();
-                getMessageList({ pageNo: 1 });
+          if (hasOrgRef.current) {
+            getMessageStats().then((res) => {
+              if (res?.hasNewUnread) {
+                if (show) {
+                  // resetDetail();
+                  getMessageList({ pageNo: 1 });
+                }
+                notifyMe(i18n.t('default:you have new site message, please pay attention to check'), viewMsg);
               }
-              notifyMe(i18n.t('default:you have new site message, please pay attention to check'), viewMsg);
-            }
-          });
+            });
+          }
         }
         loop();
       }, interval);
