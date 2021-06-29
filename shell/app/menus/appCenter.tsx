@@ -70,10 +70,10 @@ export const appList: () => LAYOUT.IApp[] = () =>
         href: goTo.resolve.cmpRoot(),
       },
       {
-        key: 'edge',
-        name: i18n.t('edge:edge computing'),
-        breadcrumbName: i18n.t('edge:edge computing'),
-        href: goTo.resolve.edgeApp(),
+        key: 'ecp',
+        name: i18n.t('ecp:edge computing'),
+        breadcrumbName: i18n.t('ecp:edge computing'),
+        href: goTo.resolve.ecpApp(),
       },
       {
         key: 'orgCenter',

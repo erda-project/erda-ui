@@ -15,21 +15,17 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
-const AutoTestPlanList = () => {
+const siteList = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
     projectId: +projectId,
   };
+
   return (
     <div>
-      <DiceConfigPage
-        showLoading
-        scenarioKey="auto-test-plan-list"
-        scenarioType="auto-test-plan-list"
-        inParams={inParams}
-      />
+      <DiceConfigPage showLoading scenarioKey="edge-site" scenarioType="edge-site" inParams={inParams} />
     </div>
   );
 };
 
-export default AutoTestPlanList;
+export default siteList;

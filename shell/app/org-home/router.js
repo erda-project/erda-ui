@@ -13,7 +13,7 @@
 
 import getDopRouter from 'dop/router';
 import getMspRouter from 'msp/router';
-import getEdgeRouter from 'app/modules/edge/router';
+import getEcpRouter from 'app/modules/ecp/router';
 import getCmpRouter from 'cmp/router';
 import getOrgCenterRouter from 'org/router';
 import getLayoutRouter from 'layout/router';
@@ -47,7 +47,7 @@ export default function getOrgRouter() {
         ...getLayoutRouter(),
         ...getDopRouter(),
         ...getMspRouter(),
-        ...getEdgeRouter(),
+        ...getEcpRouter(),
         ...getCmpRouter(),
         ...getOrgCenterRouter(),
       ],

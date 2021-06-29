@@ -193,9 +193,9 @@ const setLocationByAuth = (authObj: Obj) => {
       isCurPage: curPathname.startsWith(`/${orgName}/msp`),
       authRole: intersection(orgPerm.entryMsp.role, roles),
     },
-    edge: {
-      isCurPage: curPathname.startsWith(`/${orgName}/edge`),
-      authRole: intersection(orgPerm.edge.view.role, roles),
+    ecp: {
+      isCurPage: curPathname.startsWith(`/${orgName}/ecp`),
+      authRole: intersection(orgPerm.ecp.view.role, roles),
     },
     cmp: {
       isCurPage: curPathname.startsWith(`/${orgName}/cmp`),
@@ -224,7 +224,7 @@ const setLocationByAuth = (authObj: Obj) => {
           resetPath = `/${orgName}/cmp/overview`;
         } else if (roles.toString() === 'EdgeOps') {
           // 边缘运维工程师只有边缘计算平台的权限
-          resetPath = `/${orgName}/edge/application`;
+          resetPath = `/${orgName}/ecp/application`;
         }
         location.href = resetPath;
       }

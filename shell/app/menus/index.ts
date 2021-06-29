@@ -17,13 +17,13 @@ import { getDopMenu } from './dop';
 import { getMspMenu } from './msp';
 import { getProjectMenu } from './project';
 import { getAppMenu } from './application';
-import { getEdgeMenu } from './edge';
+import { getEcpMenu } from './ecp';
 import i18n from 'app/i18n';
 import { produce } from 'immer';
 import { filter, map } from 'lodash';
 import { appList } from './appCenter';
 
-export { getProjectMenu, getAppMenu, getOrgCenterMenu, getCmpMenu, getDopMenu, getMspMenu, getEdgeMenu };
+export { getProjectMenu, getAppMenu, getOrgCenterMenu, getCmpMenu, getDopMenu, getMspMenu, getEcpMenu };
 
 export const getAppCenterAppList = appList;
 
@@ -53,10 +53,10 @@ export const getSubSiderInfoMap = () => {
         displayName: i18n.t('msp'),
       },
     },
-    edge: {
-      menu: getEdgeMenu(),
+    ecp: {
+      menu: getEcpMenu(),
       detail: {
-        displayName: i18n.t('edge:edge computing'),
+        displayName: i18n.t('ecp:edge computing'),
       },
     },
     // sysAdmin: {

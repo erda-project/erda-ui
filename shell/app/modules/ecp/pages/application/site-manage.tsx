@@ -14,19 +14,20 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { cloneDeep } from 'app/external/custom-lodash';
 
-const siteList = () => {
-  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+const appSiteManage = () => {
+  const { id } = routeInfoStore.useStore((s) => s.params);
+  const { appName } = routeInfoStore.useStore((s) => s.query);
   const inParams = {
-    projectId: +projectId,
+    id: +id,
+    appName,
   };
 
   return (
     <div>
-      <DiceConfigPage showLoading scenarioKey="edge-site" scenarioType="edge-site" inParams={inParams} />
+      <DiceConfigPage showLoading scenarioKey="edge-app-site" scenarioType="edge-app-site" inParams={inParams} />
     </div>
   );
 };
 
-export default siteList;
+export default appSiteManage;

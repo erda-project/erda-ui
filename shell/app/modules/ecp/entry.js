@@ -16,7 +16,7 @@ import MachineManageStore from './stores/machine-manage';
 
 export default (registerModule) => {
   return registerModule({
-    key: 'edge',
+    key: 'ecp',
     stores: [MachineManageStore],
     // routers,
   });

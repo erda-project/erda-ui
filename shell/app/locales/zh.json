@@ -1966,20 +1966,7 @@
     "{total} messages in the site, {unreadCount} unread": "共 {total} 封站内信 有 {unreadCount} 封未读"
   },
   "dice-dp": {},
-  "dop": {
-    "JVM analysis": "JVM 分析",
-    "addon info": "服务信息",
-    "addon setting": "服务设置",
-    "approval request": "审批请求",
-    "approved": "我审批的",
-    "console": "控制台",
-    "deployment request": "部署请求",
-    "initiated": "我发起的",
-    "number of application": "应用数",
-    "search by owned project": "通过所在项目搜索",
-    "search by project name": "通过项目名称搜索"
-  },
-  "edge": {
+  "ecp": {
     "application": "应用管理",
     "configuration": "配置集管理",
     "edge computing": "边缘计算平台",

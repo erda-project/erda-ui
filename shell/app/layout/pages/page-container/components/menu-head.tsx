@@ -21,7 +21,7 @@ import cmpSvg from 'app/images/qyzx.svg';
 import mspSvg from 'app/images/wfwzl.svg';
 import dataSvg from 'app/images/ksj.svg';
 import apiManageSvg from 'app/images/fwsc.svg';
-import edgeSvg from 'app/images/edge.svg';
+import ecpSvg from 'app/images/ecp.svg';
 import orgCenterSvg from 'app/images/glzx.svg';
 
 interface IProps {
@@ -65,8 +65,8 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
     case 'apiManage':
       sideIcon = <img className="big-icon" src={apiManageSvg} />;
       break;
-    case 'edge':
-      sideIcon = <img className="big-icon" src={edgeSvg} />;
+    case 'ecp':
+      sideIcon = <img className="big-icon" src={ecpSvg} />;
       break;
     default:
       sideIcon = <CustomIcon color type={detail.icon || 'yy'} />;
