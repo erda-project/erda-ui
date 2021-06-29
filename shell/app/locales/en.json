@@ -1943,7 +1943,7 @@
     "{total} messages in the site, {unreadCount} unread": "{total} messages in the site, {unreadCount} unread"
   },
   "dice-dp": {},
-  "edge": {
+  "ecp": {
     "application": "application",
     "configuration": "configuration",
     "edge computing": "edge computing",

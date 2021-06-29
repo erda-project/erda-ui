@@ -11,13 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// import routers from './index';
-import MachineManageStore from './stores/machine-manage';
+import React from 'react';
+import DiceConfigPage from 'app/config-page';
+import routeInfoStore from 'core/stores/route';
 
-export default (registerModule) => {
-  return registerModule({
-    key: 'edge',
-    stores: [MachineManageStore],
-    // routers,
-  });
+const siteList = () => {
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const inParams = {
+    projectId: +projectId,
+  };
+
+  return (
+    <div>
+      <DiceConfigPage showLoading scenarioKey="edge-site" scenarioType="edge-site" inParams={inParams} />
+    </div>
+  );
 };
+
+export default siteList;

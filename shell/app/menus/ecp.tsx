@@ -20,22 +20,22 @@ import {
 } from '@icon-park/react';
 import React from 'react';
 
-export const getEdgeMenu = () => {
+export const getEcpMenu = () => {
   return [
     {
-      href: goTo.resolve.edgeApp(),
+      href: goTo.resolve.ecpApp(),
       icon: <IconApplicationOne />,
-      text: i18n.t('edge:application'),
+      text: i18n.t('ecp:application'),
     },
     {
-      href: goTo.resolve.edgeResource(),
+      href: goTo.resolve.ecpResource(),
       icon: <IconDataAll />,
       text: i18n.t('resource management'),
     },
     {
-      href: goTo.resolve.edgeSetting(),
+      href: goTo.resolve.ecpSetting(),
       icon: <IconSettingConfig />,
-      text: i18n.t('edge:configuration'),
+      text: i18n.t('ecp:configuration'),
     },
   ];
 };

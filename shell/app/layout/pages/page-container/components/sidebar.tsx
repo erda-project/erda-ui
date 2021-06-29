@@ -47,7 +47,7 @@ const AppCenterEl = () => {
     msp: 'weifuwu1',
     orgCenter: 'guanli',
     [dataEngineerInfo.name]: 'dataEngineer',
-    edge: 'bianyuanjisuan',
+    ecp: 'bianyuanjisuan',
     apiManage: 'apijishi',
   };
 
@@ -57,7 +57,7 @@ const AppCenterEl = () => {
     dop: permMap.dop.read.pass,
     [dataEngineerInfo.name]: permMap.entryFastData.pass && currentOrg.openFdp, // this is backend attribute can't remove
     msp: permMap.entryMsp.pass,
-    edge: permMap.edge.view.pass,
+    ecp: permMap.ecp.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };
   const dataSource = appList
