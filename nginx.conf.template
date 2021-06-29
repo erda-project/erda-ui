@@ -77,6 +77,11 @@ server {
         rewrite ^/([^/]*)/dataCenter/(.*) $my_scheme://$http_host/$1/cmp/$2 redirect; 
     }
 
+    # 301 redirect url with replace edge to ecp
+    location ~ ^/[^/]*/edge/ {
+        rewrite ^/([^/]*)/edge/(.*) $my_scheme://$http_host/$1/ecp/$2 redirect; 
+    }
+
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={

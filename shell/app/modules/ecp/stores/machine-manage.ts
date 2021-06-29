@@ -39,7 +39,7 @@ const machineManageStore = createFlatStore({
     },
     async offlineMachine({ call }, payload: MACHINE_MANAGE.IOfflineMachine) {
       await call(offlineMachine, payload, {
-        successMsg: i18n.t('edge:it is getting offline and it will take a effect later'),
+        successMsg: i18n.t('ecp:it is getting offline and it will take a effect later'),
       });
     },
   },

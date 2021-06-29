@@ -13,14 +13,14 @@
 
 import i18n from 'i18n';
 
-const getEdgeRouter = () => [
+const getEcpRouter = () => [
   {
-    path: 'edge',
-    mark: 'edge',
+    path: 'ecp',
+    mark: 'ecp',
     routes: [
       {
         path: 'application',
-        breadcrumbName: i18n.t('edge:application'),
+        breadcrumbName: i18n.t('ecp:application'),
         routes: [
           {
             layout: { fullHeight: true },
@@ -50,13 +50,13 @@ const getEdgeRouter = () => [
         breadcrumbName: i18n.t('resource management'),
         routes: [
           {
-            breadcrumbName: i18n.t('edge:site management'),
+            breadcrumbName: i18n.t('ecp:site management'),
             layout: { fullHeight: true },
             getComp: (cb: RouterGetComp) => cb(import('./pages/resource')),
           },
           {
             path: ':id',
-            breadcrumbName: i18n.t('edge:site management'),
+            breadcrumbName: i18n.t('ecp:site management'),
             layout: { fullHeight: true },
             getComp: (cb: RouterGetComp) => cb(import('./pages/resource/machine-manage')),
           },
@@ -64,7 +64,7 @@ const getEdgeRouter = () => [
       },
       {
         path: 'setting',
-        breadcrumbName: i18n.t('edge:configuration'),
+        breadcrumbName: i18n.t('ecp:configuration'),
         routes: [
           {
             layout: { fullHeight: true },
@@ -84,4 +84,4 @@ const getEdgeRouter = () => [
   },
 ];
 
-export default getEdgeRouter;
+export default getEcpRouter;

@@ -1966,20 +1966,7 @@
     "{total} messages in the site, {unreadCount} unread": "{total} messages in the site, {unreadCount} unread"
   },
   "dice-dp": {},
-  "dop": {
-    "JVM analysis": "JVM analysis",
-    "addon info": "addon info",
-    "addon setting": "addon setting",
-    "approval request": "approval request",
-    "approved": "approved",
-    "console": "console",
-    "deployment request": "deployment request",
-    "initiated": "initiated",
-    "number of application": "number of application",
-    "search by owned project": "search by owned project",
-    "search by project name": "search by project name"
-  },
-  "edge": {
+  "ecp": {
     "application": "application",
     "configuration": "configuration",
     "edge computing": "edge computing",

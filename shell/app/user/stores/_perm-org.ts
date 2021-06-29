@@ -104,7 +104,7 @@ export const orgPerm = {
       name: '操作(添加/发布/下架等)',
     },
   },
-  edge: {
+  ecp: {
     name: '边缘计算平台',
     view: {
       pass: false,
