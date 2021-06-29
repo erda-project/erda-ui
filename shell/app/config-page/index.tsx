@@ -17,6 +17,7 @@ import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin } from 'app/nusi';
 import { useUpdate } from 'common';
+import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
 import './index.scss';
@@ -45,7 +46,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     scenarioKey,
     showLoading = true,
     forceUpdateKey,
-    useMock,
+    useMock: _useMock,
     forceMock,
     debugConfig,
     onExecOp,
@@ -131,7 +132,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, _showLoading = true) => {
     // 此处用state，为了兼容useMock的情况
     if (_showLoading) updater.fetching(true);
-    ((useMockMark && useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
+    ((useMockMark && _useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
       .then((res: any) => {
         updater.fetching(false);
         if (partial) {
@@ -246,4 +247,5 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   // return <Spin spinning={showLoading && fetching} wrapperClassName='full-spin-height'>{Content}</Spin>;
 });
 
+export { useMock };
 export default ConfigPage;
