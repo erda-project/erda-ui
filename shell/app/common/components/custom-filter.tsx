@@ -15,13 +15,13 @@ import * as React from 'react';
 import { Filter, Pagination, Input, Select } from 'app/nusi';
 import { useUpdate, FilterBarHandle } from 'common';
 import { setSearch } from 'common/utils';
-import { forIn, set, get, every, omit, isEqual, isEmpty, map, some, debounce, sortBy } from 'lodash';
+import { forIn, set, get, every, omit, isEqual, isEmpty, map, mapValues, some, debounce, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import './custom-filter.scss';
 import { PaginationConfig, SorterResult } from 'core/common/interface';
-
+import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';
 
@@ -270,22 +270,6 @@ interface ISingleFilterProps<T = any> extends IProps {
   initQuery?: Obj;
 }
 
-export interface IUseFilterProps<T> {
-  onSubmit: (value: Record<string, any>) => void;
-  onReset: () => void;
-  onPageChange: (pNo: number) => void;
-  fetchDataWithQuery: (pNo?: number) => void;
-  queryCondition: any;
-  pageNo: number;
-  autoPagination: (paging: IPaging) => Obj;
-  sizeChangePagination: (paging: IPaging) => any;
-  list: T[];
-  paging: IPaging;
-  pagination: any;
-  updateRecord: (id: string | number, replacement: T | string, keyField?: string) => void;
-  removeRecord: (id: string | number, keyField?: string) => void;
-}
-
 /**
  * Filter功能的包装hook, 可以实现自动管理分页跳转、查询条件贮存url，当页面中仅有一个Filter时使用此hook
  * @param getData 必传 用于取列表数据的effect
@@ -476,3 +460,189 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     sizeChangePagination,
   };
 }
+
+interface IMultiModeProps extends IProps {
+  // 是否单页面有多个Filter，一般为Tab切换模式
+  multiGroupEnums: string[];
+  groupKey?: string;
+  getData: Array<(param?: any) => Promise<any>>;
+  shareQuery?: boolean;
+  activeKeyInParam?: boolean;
+  extraQueryFunc?: (activeGroup: string) => Obj;
+  checkParams?: string[];
+}
+
+/**
+ * Filter功能的包装hook, 可以实现自动管理分页跳转、查询条件贮存url，当页面中有多个Filter（不论是多个实例还是逻辑上的多个Filter）时使用此hook
+ * @param getData 必传 用于取列表数据的effect
+ * @param multiGroupEnums 必传 各个Filter的key
+ * @param groupKey 选传 用于在url标示Filter Key属性的key， 默认是type
+ * @param shareQuery 选传 多个Filter之间是否共享查询条件，默认是false
+ * @param activeKeyInParam 选传 groupKey属性时存在于query还是params， 默认是在query
+ * @param fieldConvertor 选传 用于对特殊自定义类型的域的值进行转换
+ * @param pageSize 选传 不传默认为10
+ * @param extraQueryFunc 选传 查询时需要加入但不存在Filter组件中的参数
+ * @param excludeQuery 选传 在映射url时，将查询条件以外的query保留
+ * @param fullRange 选传 date类型是否无视时间（仅日期） 时间从前一天的0点到后一天的23:59:59
+ * @param dateFormat 选传 日期类型域的toString格式
+ * @param requiredKeys 选传 当requiredKeys中的任何参数为空时，终止search行为，当下一次参数有值了才查询。用于页面初始化时某key参数需要异步拿到，不能直接查询的场景
+ * @return {queryCondition, onSubmit, onReset, onPageChange, pageNo, fetchDataWithQuery }
+ */
+export const useMultiFilter = (props: IMultiModeProps): IUseMultiFilterProps => {
+  const {
+    getData,
+    excludeQuery = [],
+    fieldConvertor,
+    pageSize = PAGINATION.pageSize,
+    multiGroupEnums,
+    groupKey = 'type',
+    extraQueryFunc = () => ({}),
+    fullRange,
+    dateFormat,
+    shareQuery = false,
+    activeKeyInParam = false,
+    requiredKeys = [],
+    checkParams = [],
+  } = props;
+  const wholeExcludeKeys = activeKeyInParam ? excludeQuery : excludeQuery.concat([groupKey]);
+  const [query, params, currentRoute] = routeInfoStore.useStore((s) => [s.query, s.params, s.currentRoute]);
+  const { pageNo: pNo, ...restQuery } = query;
+
+  const pickQueryValue = React.useCallback(() => {
+    return omit(restQuery, wholeExcludeKeys) || {};
+  }, [restQuery, wholeExcludeKeys]);
+
+  const activeType = (activeKeyInParam ? params[groupKey] : query[groupKey]) || multiGroupEnums[0];
+
+  const [state, update] = useUpdate({
+    groupSearchQuery: multiGroupEnums.reduce((acc, item) => {
+      acc[item] = item === activeType || shareQuery ? pickQueryValue() : {};
+      return acc;
+    }, {}),
+    groupPageNo: multiGroupEnums.reduce((acc, item) => {
+      acc[item] = item === activeType ? Number(pNo || 1) : 1;
+      return acc;
+    }, {}),
+    activeGroup: activeType,
+    currentPath: currentRoute.path,
+  });
+
+  const { groupSearchQuery, groupPageNo, activeGroup, currentPath } = state;
+  const extraQuery = extraQueryFunc(activeGroup);
+
+  const pageNo = React.useMemo(() => {
+    if (activeGroup) {
+      return groupPageNo[activeGroup];
+    }
+    return 1;
+  }, [activeGroup, groupPageNo]);
+
+  useDeepCompareEffect(() => {
+    // 因为multiGroupEnums随着渲染一直变化引用，所以使用useDeepCompareEffect
+    if (activeType !== activeGroup) {
+      update.activeGroup(activeType);
+    }
+  }, [multiGroupEnums, groupKey, activeKeyInParam, params, query, update]);
+  useUpdateEffect(() => {
+    // 当点击菜单时，href会把query覆盖，此时判断query是否为空并且路径没有改变的情况下重新初始化query
+    if (isEmpty(query) && currentPath === currentRoute.path) {
+      onReset();
+      updateSearchQuery();
+    }
+  }, [query, currentPath, currentRoute]);
+
+  const currentFetchEffect = getData.length === 1 ? getData[0] : getData[multiGroupEnums.indexOf(activeGroup)];
+
+  const searchQuery = React.useMemo(() => {
+    if (activeGroup) {
+      return groupSearchQuery[activeGroup];
+    }
+    return {};
+  }, [groupSearchQuery, activeGroup]);
+
+  const updateSearchQuery = React.useCallback(() => {
+    setTimeout(() => {
+      setSearch({ ...searchQuery, pageNo }, wholeExcludeKeys, true);
+    }, 0);
+  }, [searchQuery, pageNo, wholeExcludeKeys]);
+
+  const fetchData = (pageNum?: number) => {
+    if (checkParams.length) {
+      const checked = checkParams.every((key) => !isEmpty(extraQuery[key]));
+      if (!checked) {
+        return;
+      }
+    }
+    currentFetchEffect({
+      pageSize,
+      ...extraQuery,
+      ...searchQuery,
+      pageNo: pageNum || pageNo,
+    });
+  };
+
+  useDeepCompareEffect(() => {
+    const payload = { pageSize, ...extraQuery, ...searchQuery, pageNo };
+    const unableToSearch = some(requiredKeys, (key) => payload[key] === '' || payload[key] === undefined);
+    if (unableToSearch) {
+      return;
+    }
+    fetchData();
+    updateSearchQuery();
+  }, [pageNo, pageSize, searchQuery, extraQuery]);
+
+  const fetchDataWithQuery = (pageNum?: number) => {
+    if (pageNum && pageNum !== pageNo) {
+      onPageChange(pageNum);
+    } else {
+      fetchData(pageNum);
+    }
+  };
+
+  const onSubmit = (condition: { [prop: string]: any }) => {
+    const formatCondition = convertFilterParamsToUrlFormat(fullRange, dateFormat)(condition, fieldConvertor);
+    if (isEqual(formatCondition, searchQuery)) {
+      // 如果查询条件没有变化，重复点击查询，还是要强制刷新
+      fetchDataWithQuery(1);
+    } else if (shareQuery) {
+      update.groupSearchQuery(mapValues(groupSearchQuery, () => formatCondition));
+      update.groupPageNo(mapValues(groupPageNo, () => 1));
+    } else {
+      update.groupSearchQuery({
+        ...groupSearchQuery,
+        [activeGroup]: formatCondition,
+      });
+      update.groupPageNo({ ...groupPageNo, [activeGroup]: 1 });
+    }
+  };
+
+  const onReset = () => {
+    if (isEmpty(searchQuery)) {
+      fetchDataWithQuery(1);
+    } else {
+      update.groupSearchQuery({ ...groupSearchQuery, [activeGroup]: {} });
+      update.groupPageNo({ ...groupPageNo, [activeGroup]: 1 });
+    }
+  };
+
+  const onPageChange = (currentPageNo: number) => {
+    update.groupPageNo({ ...groupPageNo, [activeGroup]: currentPageNo });
+  };
+
+  return {
+    queryCondition: searchQuery,
+    onSubmit, // 包装原始onSubmit, 当搜索时自动更新url
+    onReset, // 包装原始onReset, 当重置时自动更新url
+    onPageChange, // 当Table切换页码时记录PageNo并发起请求
+    pageNo, // 返回当前pageNo，与paging的PageNo理论上相同
+    fetchDataWithQuery, // 当页面表格发生操作（删除，启动，编辑）后，进行刷新页面，如不指定pageNum则使用当前页码
+    activeType: activeGroup,
+    onChangeType: (t: string | number) => setSearch({ [groupKey || 'type']: t }, wholeExcludeKeys, true),
+    autoPagination: (paging: IPaging) => ({
+      total: paging.total,
+      current: paging.pageNo,
+      // hideOnSinglePage: true,
+      onChange: (n: number) => onPageChange(n),
+    }),
+  };
+};
