@@ -18,7 +18,7 @@ import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
 import { map, debounce, isEmpty, get, isArray, isString, difference } from 'lodash';
 import { getUsers, getMembers, getUsersNew } from 'common/services';
-import { MemberScope } from 'app/common/stores/menber-scope';
+import { MemberScope } from 'app/common/stores/member-scope';
 import { LoadMoreSelector, ImgHolder } from 'common';
 import { Tag, Select } from 'app/nusi';
 import { useMount } from 'react-use';
