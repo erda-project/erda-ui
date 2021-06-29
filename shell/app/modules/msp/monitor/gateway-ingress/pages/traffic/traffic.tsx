@@ -16,7 +16,7 @@ import { Row, Col } from 'app/nusi';
 import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/stores/common';
 import TrafficMap from './config/chartMap';
 import TopTabRight from '../../common/components/tab-right';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import HttpStatusInput from '../../common/components/http-status-input';
 import mspStore from 'msp/stores/micro-service';
 

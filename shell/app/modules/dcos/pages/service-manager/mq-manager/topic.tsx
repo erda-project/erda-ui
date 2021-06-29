@@ -17,11 +17,11 @@ import i18n from 'i18n';
 import { useUpdate, FormModal } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
-import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from 'dataCenter/common/components/table-col';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-import routeInfoStore from 'common/stores/route';
+import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from 'cmp/common/components/table-col';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
+import routeInfoStore from 'core/stores/route';
 import cloudServiceStore from 'dcos/stores/cloud-service';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { Help as IconHelp } from '@icon-park/react';
 
 const Topic = () => {

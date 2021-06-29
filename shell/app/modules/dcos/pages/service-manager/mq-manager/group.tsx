@@ -16,12 +16,12 @@ import { Tabs, Button, Table, Alert, Tooltip } from 'app/nusi';
 import { useUpdate, FormModal } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
-import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from 'dataCenter/common/components/table-col';
+import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from 'cmp/common/components/table-col';
 import i18n from 'i18n';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
 import cloudServiceStore from 'dcos/stores/cloud-service';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { Help as IconHelp } from '@icon-park/react';
 
 const { TabPane } = Tabs;

@@ -398,7 +398,13 @@ const dataHandler = {
       links: crossLink,
       linkTopDistance,
       linkDownDistance,
-    } = dataHandler.getLinks({ nodeList: formatData, nodeMap, boxHeight, exceptLink: links, isCross: true }); // 获取链接（包含link定位）
+    } = dataHandler.getLinks({
+      nodeList: formatData,
+      nodeMap,
+      boxHeight,
+      exceptLink: links,
+      isCross: true,
+    }); // 获取链接（包含link定位）
 
     const reNodeMap = {};
     map(nodeMap, (item, key) => {

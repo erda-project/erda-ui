@@ -15,7 +15,7 @@ import * as React from 'react';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import applicationStore from 'application/stores/application';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { getPublisherList, getArtifactsList } from 'publisher/services/publisher';
 import { useUpdate, LoadMoreSelector } from 'common';
 import orgStore from 'app/org-home/stores/org';
@@ -34,7 +34,7 @@ const AppVersionPush = () => {
     };
   });
 
-  const save = (form: any) => {
+  const save = (form: FormInstance) => {
     return updateVersionPushConfig({
       DEV: +form.DEV,
       TEST: +form.TEST,
@@ -109,7 +109,7 @@ const AppVersionPush = () => {
     }
   }, [update, updater, versionPushConfig]);
 
-  const getFieldsList = (form: WrappedFormUtils) => [
+  const getFieldsList = (form: FormInstance) => [
     {
       label: i18n.t('publisher:publisher'),
       name: 'publisherId',

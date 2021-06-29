@@ -18,7 +18,7 @@ import { isEmpty, filter, get } from 'lodash';
 import layoutStore from 'layout/stores/layout';
 import { goTo, qs } from 'common/utils';
 import { getCurrentLocale } from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { setGlobal } from 'app/global-space';
 import wfwzl_svg from 'app/images/wfwzl.svg';
 import { FULL_DOC_DOMAIN } from 'common/constants';

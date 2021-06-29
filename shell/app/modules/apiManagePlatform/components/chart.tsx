@@ -17,8 +17,8 @@ import { useUpdate, CommonRangePicker, PureBoardGrid } from 'common';
 import { getDashboard } from 'apiManagePlatform/services/api-access';
 import { get, isString, merge, reduce, values, isEmpty } from 'lodash';
 import { getTimeSpan } from 'common/utils';
-import { getVariableStr } from 'dataCenter/common/utils';
-import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
+import { getVariableStr } from 'cmp/common/utils';
+import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
 interface IState {
   layout: Array<Record<string, any>>;

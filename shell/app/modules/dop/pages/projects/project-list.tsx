@@ -20,7 +20,7 @@ import { theme } from 'app/themes';
 import classnames from 'classnames';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './project-list.scss';
 import BlockNetworkStatus, { BlockNetworkTips } from 'dop/pages/projects/block-comp';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';

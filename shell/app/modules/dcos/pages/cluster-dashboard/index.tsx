@@ -23,9 +23,9 @@ import GroupTabs from './groupTabs';
 import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
 import clusterDashboardStore from '../../stores/dashboard';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useMount, useUnmount } from 'react-use';
-import { stateSeverityMap } from 'dataCenter/pages/cluster-manage/cluster-state';
+import { stateSeverityMap } from 'cmp/pages/cluster-manage/cluster-state';
 import './index.scss';
 
 const { TreeNode } = TreeSelect;
@@ -476,7 +476,7 @@ const ClusterDashboard = () => {
             <span
               className="cluster-state-link"
               onClick={() =>
-                goTo(goTo.pages.dataCenterClusterState, { clusterName: activedGroup || groupName + unitGroups[0] })
+                goTo(goTo.pages.cmpClusterState, { clusterName: activedGroup || groupName + unitGroups[0] })
               }
             >
               <span className="mr20">{i18n.t('dcos:overall status of cluster')}:</span>

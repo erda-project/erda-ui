@@ -17,7 +17,7 @@ import { isEmpty } from 'lodash';
 import PureMonitorChartPanel from 'common/components/monitor/monitor-chart-panel';
 import metricsMonitorStore from 'common/stores/metrics';
 import { useUnmount } from 'react-use';
-// import routeInfoStore from 'common/stores/route';
+// import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   resourceType: string;

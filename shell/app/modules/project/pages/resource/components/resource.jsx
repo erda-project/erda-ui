@@ -21,7 +21,7 @@ import projectStore from 'app/modules/project/stores/project';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import './resource.scss';
 import appStore from 'application/stores/application';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { Right as IconRight } from '@icon-park/react';
 
 class ProjectResource extends React.PureComponent {

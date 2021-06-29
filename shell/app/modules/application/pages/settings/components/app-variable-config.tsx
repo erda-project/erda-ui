@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import configStore from 'app/modules/application/stores/pipeline-config';
 import appStore from 'application/stores/application';
 import { Copy, IF, useUpdate, CustomFilter, FileEditor } from 'common';
 import { WORKSPACE_LIST } from 'common/constants';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
 import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'app/nusi';

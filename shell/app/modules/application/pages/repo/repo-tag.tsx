@@ -25,7 +25,7 @@ import { usePerm, WithAuth } from 'app/user/common';
 import './repo-tag.scss';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -62,7 +62,7 @@ const RepoTag = () => {
     });
   };
 
-  const RefComp = ({ form }: { form: any }) => {
+  const RefComp = ({ form }: { form: FormInstance }) => {
     const refType = form.getFieldValue('refType');
     const refValue = form.getFieldValue('ref');
     const curForm = React.useRef(form);

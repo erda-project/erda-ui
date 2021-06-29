@@ -17,12 +17,12 @@ import { Pagination, Spin, Select } from 'app/nusi';
 import { map, get } from 'lodash';
 import { EmptyListHolder, EmptyHolder, IF, useUpdate, DebounceSearch } from 'common';
 import { updateSearch } from 'common/utils';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { ReleaseItem } from './components/release-item';
 import ReleaseDetail from './components/release-detail';
 import releaseStore from 'application/stores/release';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 import { getBranchInfo } from 'application/services/application';
 import appStore from 'application/stores/application';

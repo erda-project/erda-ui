@@ -39,7 +39,7 @@ import 'tailwindcss/tailwind.css';
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
 
-const { NusiConfigProvider, AntdConfigProvider, Antd4ConfigProvider } = nusi;
+const { NusiConfigProvider, AntdConfigProvider } = nusi;
 const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
@@ -74,9 +74,9 @@ const start = (userData: ILoginUser) => {
       import('project/entry'),
       import('apiManagePlatform/entry'),
       import('msp/entry'),
-      import('app/modules/edge/entry'),
+      import('app/modules/ecp/entry'),
       import('application/entry'),
-      import('dataCenter/entry'),
+      import('cmp/entry'),
       import('user/entry'),
       import('dcos/entry'),
       import('addonPlatform/entry'),
@@ -87,13 +87,11 @@ const start = (userData: ILoginUser) => {
       const currentLocale = getCurrentLocale();
       return (
         <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
-          <Antd4ConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd4}>
-            <NusiConfigProvider locale={currentLocale.nusi}>
-              <IconProvider value={IconConfig}>
-                <App />
-              </IconProvider>
-            </NusiConfigProvider>
-          </Antd4ConfigProvider>
+          <NusiConfigProvider locale={currentLocale.nusi}>
+            <IconProvider value={IconConfig}>
+              <App />
+            </IconProvider>
+          </NusiConfigProvider>
         </AntdConfigProvider>
       );
     };
@@ -118,7 +116,7 @@ if (pathname.startsWith('/r/')) {
   switch (to) {
     case 'alarm': // 告警跳到云管
     case 'report': // 运维报告跳到云管
-      newPath = ['', 'dataCenter', to, ...rest];
+      newPath = ['', 'cmp', to, ...rest];
       break;
 
     default:

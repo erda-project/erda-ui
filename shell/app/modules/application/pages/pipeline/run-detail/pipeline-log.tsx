@@ -15,7 +15,7 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { Timeline, Drawer, Title, Tooltip } from 'app/nusi';
 import buildStore from 'application/stores/build';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';

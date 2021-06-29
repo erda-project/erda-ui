@@ -15,7 +15,7 @@ import React, { useEffect } from 'react';
 import { map, find, isEmpty } from 'lodash';
 import { useUpdate } from 'common';
 import MachineTable from '../machine-manager/machine-table';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import clusterDashboardStore from 'dcos/stores/dashboard';
 import orgMachineStore from '../../stores/machine';
 

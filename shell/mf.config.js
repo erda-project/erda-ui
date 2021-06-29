@@ -59,8 +59,7 @@ module.exports = [
       './layout/error-page': './app/layout/common/error-page.tsx',
       './common/utils': './app/common/utils/index.ts',
       './common/all': './app/common',
-      './dataCenter/pages/cluster-manage/operation-history':
-        './app/modules/dataCenter/pages/cluster-manage/operation-history',
+      './cmp/pages/cluster-manage/operation-history': './app/modules/cmp/pages/cluster-manage/operation-history',
       './org/pages/safety': './app/modules/org/pages/safety',
       './user/store': './app/user/stores/index.ts',
       './erda-icon': '@icon-park/react',

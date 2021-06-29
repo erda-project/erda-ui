@@ -20,8 +20,8 @@ import { goTo, fromNow, ossImg } from 'common/utils';
 import { theme } from 'app/themes';
 import { modeOptions, appMode } from 'application/common/config';
 import userStore from 'app/user/stores';
-import routeInfoStore from 'app/common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import BlockNetworkStatus, { BlockNetworkTips } from 'dop/pages/projects/block-comp';
 import './app-list.scss';
 

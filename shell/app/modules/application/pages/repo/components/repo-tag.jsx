@@ -17,7 +17,7 @@ import { fromNow } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import repoStore from 'application/stores/repo';
 
 import './repo-tag.scss';

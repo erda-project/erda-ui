@@ -60,7 +60,7 @@ export const orgPerm = {
       },
     },
   },
-  entryMicroService: {
+  entryMsp: {
     pass: false,
     name: '微服务治理平台',
     role: ['Manager', 'Dev', 'Support', 'DataManager'],
@@ -80,7 +80,7 @@ export const orgPerm = {
     name: 'API 资源编辑',
     role: ['Manager'],
   },
-  dataCenter: {
+  cmp: {
     name: '云管平台',
     showApp: {
       pass: false,
@@ -104,7 +104,7 @@ export const orgPerm = {
       name: '操作(添加/发布/下架等)',
     },
   },
-  edge: {
+  ecp: {
     name: '边缘计算平台',
     view: {
       pass: false,

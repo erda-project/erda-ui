@@ -31,7 +31,6 @@ module.exports = {
     { name: 'msp' },
     { name: 'cmp' },
     { name: 'ecp' },
-    { name: 'fdp' },
     { name: 'admin' },
     { name: 'market' },
     { name: 'cli' },

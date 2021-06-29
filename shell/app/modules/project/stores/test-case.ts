@@ -20,7 +20,7 @@ import { isImage, regRules, convertToFormData } from 'common/utils';
 import defaultFileTypeImg from 'app/images/defaultFileImage.png';
 import testSetStore, { IReloadTestSetInfo } from 'project/stores/test-set';
 import testPlanStore from 'project/stores/test-plan';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { DEFAULT_FIELDS } from '../constants';
 
 import {
@@ -121,7 +121,10 @@ const testCaseStore = createStore({
           apiCount,
           testCaseID,
           id,
-        } = await call(getDetailRelations, { ...payload, testPlanID: testPlanId });
+        } = await call(getDetailRelations, {
+          ...payload,
+          testPlanID: testPlanId,
+        });
         const detail = await call(getDetail, { id: testCaseID, testPlanID: testPlanId });
         caseDetail = {
           ...detail,

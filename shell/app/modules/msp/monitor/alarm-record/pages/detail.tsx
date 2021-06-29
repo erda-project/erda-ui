@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/dataCenter/common/alarm-record/detail';
-import routeInfoStore from 'app/common/stores/route';
+import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/cmp/common/alarm-record/detail';
+import routeInfoStore from 'core/stores/route';
 
 export default () => {
   const { tenantGroup } = routeInfoStore.useStore((s) => s.params);

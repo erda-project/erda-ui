@@ -19,7 +19,7 @@ import { goTo, fromNow } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import { SearchTable, Icon as CustomIcon } from 'common';
 import projectStore from 'project/stores/project';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './project-list.scss';
 
 interface IBoxProp {
@@ -178,7 +178,7 @@ export const ProjectList = () => {
               <div className={`quota-container ${isOveruse ? 'overuse' : ''}`}>
                 <div className={'quota-bar'}>
                   <Tooltip
-                    title={`${i18n.t('dataCenter:application used')} ${serviceUsed.toFixed(2)}${unit} (${
+                    title={`${i18n.t('cmp:application used')} ${serviceUsed.toFixed(2)}${unit} (${
                       isOveruse ? `${Math.floor(totalNum ? (serviceUsed / totalNum) * 100 : 100)}%` : percentText[0]
                     })`}
                   >
@@ -190,7 +190,7 @@ export const ProjectList = () => {
                     </div>
                   </Tooltip>
                   <Tooltip
-                    title={`${i18n.t('dataCenter:addon used')} ${addonUsed.toFixed(2)}${unit} (${
+                    title={`${i18n.t('cmp:addon used')} ${addonUsed.toFixed(2)}${unit} (${
                       isOveruse ? `${Math.floor(totalNum ? (addonUsed / totalNum) * 100 : 100)}%` : percentText[1]
                     })`}
                   >

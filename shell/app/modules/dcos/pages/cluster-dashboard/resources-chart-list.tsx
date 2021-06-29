@@ -20,7 +20,7 @@ import { Holder, TimeSelector, useUpdate } from 'common';
 import { MonitorChartNew } from 'charts';
 import { ChartContainer } from 'charts/utils';
 import clusterDashboardStore from '../../stores/dashboard';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import machineStore from 'dcos/stores/machine';
 import orgStore from 'app/org-home/stores/org';

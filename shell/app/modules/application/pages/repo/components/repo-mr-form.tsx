@@ -21,9 +21,9 @@ import i18n from 'i18n';
 import { connectUser } from 'app/user/common';
 import { isEmpty } from 'lodash';
 import repoStore from 'application/stores/repo';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import './repo-mr-form.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import layoutStore from 'layout/stores/layout';
 import { Down as IconDown } from '@icon-park/react';
 
@@ -141,7 +141,7 @@ interface IState {
 class RepoMRForm extends React.PureComponent<IProps, IState> {
   tplMap: object;
 
-  form: WrappedFormUtils;
+  form = React.createRef<FormInstance>();
 
   tplNameCache: string;
 
@@ -189,7 +189,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
   };
 
   onCancel = () => {
-    this.form.resetFields();
+    this.form.current?.resetFields();
     this.props.clearMRStats();
     this.props.onCancel();
   };
@@ -220,7 +220,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
   };
 
   handleTplChange = ({ tplContent, tplName }: any) => {
-    this.form.setFieldsValue({ description: tplContent });
+    this.form.current?.setFieldsValue({ description: tplContent });
     this.setState({ tplContent, tplName });
   };
 
@@ -391,7 +391,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
             span: 21,
           },
         },
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
+        getComp: ({ form }: { form: FormInstance }) => (
           <div className={`page-bottom-bar ${sideFold ? 'fold' : 'unfold'}`}>
             <Tooltip title={disableSubmitTip}>
               <Button type="primary" disabled={!!disableSubmitTip} onClick={() => this.handleSubmit(form)}>
@@ -434,11 +434,8 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
       });
   };
 
-  handleSubmit = (form: WrappedFormUtils) => {
-    form.validateFields((error, values) => {
-      if (error) {
-        return;
-      }
+  handleSubmit = (form: FormInstance) => {
+    form.validateFields().then((values: any) => {
       const { createMR, operateMR, getRepoInfo, onOk, formData, info } = this.props;
       const { branch, ...rest } = values;
       const { sourceBranch, targetBranch, removeSourceBranch } = branch;
@@ -456,14 +453,14 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           // 更新列表tab上的统计数据
           getRepoInfo();
           onOk(result);
-          this.form && this.form.resetFields();
+          this.form.current?.resetFields();
           this.props.clearMRStats();
         });
       } else {
         createMR(data).then((result) => {
           getRepoInfo();
           onOk(result);
-          this.form && this.form.resetFields();
+          this.form.current?.resetFields();
           this.props.clearMRStats();
         });
       }
@@ -484,13 +481,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
             this.toggleTplModel(false);
           }}
         />
-        <RenderForm
-          ref={(ref: any) => {
-            this.form = ref;
-          }}
-          layout="vertical"
-          list={this.getFieldsList()}
-        />
+        <RenderForm ref={this.form} layout="vertical" list={this.getFieldsList()} />
       </div>
     );
   }

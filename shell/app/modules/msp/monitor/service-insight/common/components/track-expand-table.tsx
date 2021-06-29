@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Table } from 'app/nusi';
 import moment from 'moment';
 import { map, get, pick } from 'lodash';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 
 interface IProps {

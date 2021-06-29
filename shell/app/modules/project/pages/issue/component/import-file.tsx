@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import i18n from 'i18n';
 import { message, Modal } from 'app/nusi';
 import { FileSelect, FormModal } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import issueStore from 'project/stores/issues';
 
 interface IProps {

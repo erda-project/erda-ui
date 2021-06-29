@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'app/common/stores/route';
-import AlarmStrategy from 'app/modules/dataCenter/common/alarm-strategy';
+import routeInfoStore from 'core/stores/route';
+import AlarmStrategy from 'app/modules/cmp/common/alarm-strategy';
 
 export default () => {
   const params = routeInfoStore.useStore((s) => s.params);

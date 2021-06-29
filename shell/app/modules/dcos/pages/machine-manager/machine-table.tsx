@@ -25,7 +25,7 @@ import MachineTagForm from './tag-form';
 import MachineOffLineModal from './machine-offline-modal';
 import orgMachineStore from '../../stores/machine';
 // import { OperationLog } from 'org/pages/cluster-manage/operation-history';
-import { ClusterLog } from 'app/modules/dataCenter/pages/cluster-manage/cluster-log';
+import { ClusterLog } from 'app/modules/cmp/pages/cluster-manage/cluster-log';
 import { customTagColor } from 'dcos/common/config';
 import './machine-table.scss';
 

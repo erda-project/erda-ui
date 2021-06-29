@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import './index.scss';
 import { map } from 'lodash';
 import { API_TREE_OPERATION } from 'app/modules/apiManagePlatform/configs.ts';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const NODE_OPERATIONS = [
   {

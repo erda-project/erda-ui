@@ -19,7 +19,7 @@ import { get, find, map, isEmpty } from 'lodash';
 import { updateSearch, insertWhen } from 'common/utils';
 import fileTreeStore from 'common/stores/file-tree';
 import { TreeNode } from 'common/components/tree/tree';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import CaseEditForm from './config-detail/case-edit-form';
 import projectStore from 'project/stores/project';
 import appStore from 'application/stores/application';

@@ -22,9 +22,9 @@ import { HTTP_PREFIX, HTTP_METHODS, SORT_MAP, PACKAGE_DETAIL_COLS } from '../con
 import CallerAuthDrawer from 'msp/pages/gateway/containers/api-auth';
 import { AppServiceFilter } from './app-service-filter';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './api-package-detail.scss';
 
 const { Option } = Select;
@@ -125,7 +125,7 @@ export const ApiPackageDetail = () => {
     if (chosenService) {
       getServiceRuntime({ app: chosenApp, service: chosenService }).then((res) => {
         setRuntimeOptions(res);
-        const curForm = get(formRef, 'current.props.form');
+        const curForm = get(formRef, 'current');
         const curData = curForm && curForm.getFieldsValue();
         if (curData && curData.redirectRuntimeId && !find(res, { runtime_id: curData.redirectRuntimeId })) {
           curForm.setFieldsValue({ redirectRuntimeId: undefined });
@@ -188,7 +188,7 @@ export const ApiPackageDetail = () => {
   };
 
   React.useEffect(() => {
-    const curForm = get(formRef, 'current.props.form');
+    const curForm = get(formRef, 'current');
     if (modalVisible && curForm && chosenRedirectType === redirectTypeOpt.service.value) {
       setTimeout(() => {
         curForm.setFieldsValue({ method: 'all' });
@@ -202,7 +202,7 @@ export const ApiPackageDetail = () => {
   };
 
   const addServiceAPI = () => {
-    const curForm = get(formRef, 'current.props.form');
+    const curForm = get(formRef, 'current');
     const fields = curForm.getFieldsValue(['redirectApp', 'redirectService', 'redirectRuntimeId']);
     const _path = goTo.resolve.apiManageQuery({ ...params, ...fields });
     window.open(_path?.replace('?', '#'));
@@ -283,7 +283,7 @@ export const ApiPackageDetail = () => {
             setChosenApp(val);
             setChosenService(undefined);
             setRuntimeId(undefined);
-            const curForm = get(formRef, 'current.props.form');
+            const curForm = get(formRef, 'current');
             if (curForm) {
               curForm.setFieldsValue({
                 redirectService: undefined,
@@ -305,7 +305,7 @@ export const ApiPackageDetail = () => {
           onChange: (val: string) => {
             setChosenService(val);
             setRuntimeId(undefined);
-            const curForm = get(formRef, 'current.props.form');
+            const curForm = get(formRef, 'current');
             if (curForm) {
               curForm.setFieldsValue({ redirectRuntimeId: undefined, redirectPath: undefined });
             }
@@ -322,7 +322,7 @@ export const ApiPackageDetail = () => {
           placeholder: i18n.t('please choose {name}', { name: i18n.t('msp:deployment branch') }),
           onChange: (val: string) => {
             setRuntimeId(val);
-            const curForm = get(formRef, 'current.props.form');
+            const curForm = get(formRef, 'current');
             if (curForm) {
               curForm.setFieldsValue({ redirectPath: undefined });
             }
@@ -417,7 +417,7 @@ export const ApiPackageDetail = () => {
         onChange: (e: any) => {
           const val = e.target.value;
           setChosenRedirectType(val);
-          const curForm = get(formRef, 'current.props.form');
+          const curForm = get(formRef, 'current');
           if (val === 'service') {
             initForm(formData);
           }
@@ -592,7 +592,7 @@ export const ApiPackageDetail = () => {
       <FormModal
         width="600px"
         name={i18n.t('msp:router')}
-        wrappedComponentRef={formRef}
+        ref={formRef}
         fieldsList={fieldsList}
         visible={modalVisible}
         formData={formData}

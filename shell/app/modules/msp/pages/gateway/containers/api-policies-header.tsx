@@ -17,7 +17,7 @@ import { isEmpty, map } from 'lodash';
 import i18n from 'i18n';
 
 import './api-policies-header.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
 
 const { Option } = Select;

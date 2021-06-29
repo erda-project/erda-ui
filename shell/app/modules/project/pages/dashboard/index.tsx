@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { updateSearch } from 'common/utils';
 import { Radio } from 'app/nusi';
 import moment from 'moment';
@@ -22,7 +22,7 @@ import i18n from 'i18n';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { getIterationDetail } from 'project/services/project-iteration';
 import { getProjectInfo, getDashboard } from 'project/services/project';
-import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
+import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
 const DashBoard = React.memo(PureBoardGrid);
 

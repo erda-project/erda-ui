@@ -18,7 +18,7 @@ import autoTestStore from 'project/stores/auto-test-case';
 import { useUpdate } from 'common';
 import { insertWhen, notify } from 'common/utils';
 import { useEffectOnce } from 'react-use';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { WORKSPACE_LIST } from 'common/constants';
 import projectStore from 'project/stores/project';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';

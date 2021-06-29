@@ -16,7 +16,7 @@ import { DataSourceSelector } from 'project/common/components/datasource-selecto
 import * as React from 'react';
 import { isEmpty } from 'lodash';
 import { commonFields, rulesField, checkWhen } from 'app/configForm/nusi-form/form-items';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 
 const FormItem = Form.Item;

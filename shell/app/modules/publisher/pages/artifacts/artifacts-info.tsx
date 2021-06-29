@@ -18,7 +18,7 @@ import { get, map } from 'lodash';
 import { Row, Col, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { insertWhen } from 'common/utils';
-// import routeInfoStore from 'common/stores/route';
+// import routeInfoStore from 'core/stores/route';
 
 interface IInfoBlockField {
   label: string;

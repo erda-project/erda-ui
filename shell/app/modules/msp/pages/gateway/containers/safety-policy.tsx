@@ -19,10 +19,10 @@ import { IF, useUpdate } from 'common';
 import { useMount } from 'react-use';
 import { HTTP_METHODS } from '../config';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import './gateway-policy.scss';
 import gatewayStore from 'msp/stores/gateway';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 const { Panel } = Collapse;
 const { TextArea } = Input;

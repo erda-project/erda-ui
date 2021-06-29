@@ -14,7 +14,7 @@
 import { FormModal, useUpdate } from 'common';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { Button, message, Spin, Upload } from 'app/nusi';
 import * as React from 'react';
 import { Upload as IconUpload } from '@icon-park/react';
@@ -44,7 +44,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
     uploading: false,
   });
 
-  const fieldsList = (_formRef: WrappedFormUtils, isEdit: boolean) => [
+  const fieldsList = (_formRef: FormInstance, isEdit: boolean) => [
     {
       label: 'Key',
       name: 'key',
@@ -104,7 +104,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
               return e && e.fileList;
             },
           },
-          getComp: ({ form }: { form: WrappedFormUtils }) => {
+          getComp: ({ form }: { form: FormInstance }) => {
             const uploadProps = getUploadProps(
               {
                 onChange: ({ file, event }: any) => {

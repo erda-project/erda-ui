@@ -14,7 +14,7 @@
 import * as React from 'react';
 import PureServiceList from '../components/service-list';
 import projectResourceStore from 'project/stores/resource';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 
 interface IProps {
   paths: Array<{

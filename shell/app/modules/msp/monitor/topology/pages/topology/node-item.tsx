@@ -22,7 +22,7 @@ import { goTo } from 'common/utils';
 import { SVGICONS } from 'charts/components/svg-icon';
 // import { getErrorDetail, getExceptionDetail } from '../../services/topology';
 import { IMeshType } from '../service-mesh/service-mesh-drawer';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import topologyStore from '../../stores/topology';
 import i18n from 'i18n';

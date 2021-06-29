@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Popover, Button, Badge, Table, Drawer } from 'app/nusi';
 import { isEmpty, map, get } from 'lodash';
 import { Icon as CustomIcon } from 'common';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import { ciStatusMap } from './config';
 import { useEffectOnce } from 'react-use';

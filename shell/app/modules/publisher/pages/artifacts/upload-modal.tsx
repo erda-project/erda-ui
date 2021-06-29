@@ -18,12 +18,12 @@ import React from 'react';
 import { Button, message, Upload } from 'app/nusi';
 import { getUploadProps } from 'common/utils/upload-props';
 import { IFormItem } from 'common/components/render-formItem';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { FormModal } from 'common';
 import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { Upload as IconUpload } from '@icon-park/react';
 
 export interface IProps {
@@ -63,7 +63,7 @@ const UploadModal = (props: IProps) => {
       name: 'file',
       required: true,
       rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
-      getComp: ({ form }: { form: WrappedFormUtils }) => {
+      getComp: ({ form }: { form: FormInstance }) => {
         const uploadProps = getUploadProps({
           beforeUpload: (file: any) => {
             // 和后端保持一致

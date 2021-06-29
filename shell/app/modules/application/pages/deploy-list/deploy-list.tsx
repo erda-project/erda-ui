@@ -19,7 +19,7 @@ import { insertWhen, goTo } from 'common/utils';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import { Link } from 'react-router-dom';
 import { getProjectList } from 'project/services/project';
 
@@ -62,7 +62,7 @@ const fields = [
 
 const PureDeployList = (props: IProps) => {
   const { list, paging, getList, clearList, type, status, isFetching, updateApproval } = props;
-  const userMap = userMapStore.useStore((s) => s);
+  const userMap = useUserMap();
 
   useEffectOnce(() => {
     return () => {

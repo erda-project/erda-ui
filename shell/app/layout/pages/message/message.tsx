@@ -21,7 +21,7 @@ import moment from 'moment';
 import i18n from 'i18n';
 import logo from 'app/static/favicon.ico';
 import './message.scss';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import layoutStore from 'layout/stores/layout';
 import { useEffectOnce } from 'react-use';
 

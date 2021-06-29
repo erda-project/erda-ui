@@ -33,12 +33,13 @@ interface IProps {
 }
 
 const TraceDetailFilter = (props: IProps) => {
+  const [form] = Form.useForm();
   const { traceDetailContent, expandSpan } = props;
   const { spans, duration, services, depth, totalSpans } = traceDetailContent;
   const jsonStr = JSON.stringify(traceDetailContent, null, 2);
   const root = spans ? spans[0] : {};
   return (
-    <Form className="ant-advanced-search-form">
+    <Form form={form} className="ant-advanced-search-form">
       <div className="form-filter-container">
         <Row className="filter-top">
           <Col span={24}>
@@ -80,4 +81,4 @@ const TraceDetailFilter = (props: IProps) => {
   );
 };
 
-export default Form.create()(TraceDetailFilter);
+export default TraceDetailFilter;

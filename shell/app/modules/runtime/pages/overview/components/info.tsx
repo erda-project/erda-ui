@@ -19,7 +19,7 @@ import RollbackList from './rollback-list';
 import DeployStatus from './deploy-status';
 import { usePerm } from 'app/user/common';
 import orgStore from 'app/org-home/stores/org';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
 import { get } from 'lodash';
 import i18n from 'i18n';

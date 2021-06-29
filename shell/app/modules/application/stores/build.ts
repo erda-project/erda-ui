@@ -33,7 +33,7 @@ import {
 } from '../services/build';
 import { cloneDeep, get } from 'lodash';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 interface IState {
   runtimeDetail: any;

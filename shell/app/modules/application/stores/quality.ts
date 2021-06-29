@@ -13,7 +13,7 @@
 
 import { getFromRepo } from 'application/services/repo';
 import { getLatestSonarStatistics, getSonarResults } from '../services/quality';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
 import { eventHub } from 'common/utils/event-hub';
 import { createStore } from 'app/cube';

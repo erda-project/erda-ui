@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { TimeSelector } from 'common';
 import Indices from './config/chartMap';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
 import { useMount } from 'react-use';
 

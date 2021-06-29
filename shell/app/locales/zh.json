@@ -718,7 +718,7 @@
     "yes": "是",
     "{deleteItem} cannot be restored after deletion. Continue?": "{deleteItem}删除后无法恢复, 确认删除？"
   },
-  "dataCenter": {
+  "cmp": {
     "2 machines": "2台机器",
     "2-128 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.": "长度为2-128,以大小字母或中文开头，可包含数字、下划线_和连字符-",
     "2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.": "长度为2-255,以大小字母或中文开头，可包含数字、下划线_和连字符-",
@@ -1943,7 +1943,7 @@
     "{total} messages in the site, {unreadCount} unread": "共 {total} 封站内信 有 {unreadCount} 封未读"
   },
   "dice-dp": {},
-  "edge": {
+  "ecp": {
     "application": "应用管理",
     "configuration": "配置集管理",
     "edge computing": "边缘计算平台",

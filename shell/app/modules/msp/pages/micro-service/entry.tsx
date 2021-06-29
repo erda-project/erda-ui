@@ -21,7 +21,7 @@ import { envMap } from 'msp/config';
 import i18n from 'i18n';
 import mspStore from 'msp/stores/micro-service';
 import { useMount } from 'react-use';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './entry.scss';
 
 const { Search } = Input;

@@ -19,7 +19,7 @@ import { useMount } from 'react-use';
 import { Tree } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import testCaseStore from 'project/stores/test-case';
 import testSetStore from 'project/stores/test-set';
 import projectStore from 'project/stores/project';
@@ -230,8 +230,14 @@ const TestSet = ({
     } else {
       let newActiveKey = rootKey;
       let tempIndex = 0;
-      const promiseArr: Array<PromiseLike<{ testSetID: number; key: string; pKey: string; list: TEST_SET.TestSet[] }>> =
-        [];
+      const promiseArr: Array<
+        PromiseLike<{
+          testSetID: number;
+          key: string;
+          pKey: string;
+          list: TEST_SET.TestSet[];
+        }>
+      > = [];
       expandIds.forEach(({ id, key, pKey }) => {
         promiseArr.push(
           getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then((res) => ({

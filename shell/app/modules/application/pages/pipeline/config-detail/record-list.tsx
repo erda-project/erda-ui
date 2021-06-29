@@ -15,14 +15,14 @@ import * as React from 'react';
 import { Popover, Button, Table } from 'app/nusi';
 import { isEmpty, get, map } from 'lodash';
 import { Icon as CustomIcon } from 'common';
-import { useLoading } from 'common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
-import userMapStore from 'app/common/stores/user-map';
+import { useUserMap } from 'core/stores/userMap';
 import autoTestStore from 'project/stores/auto-test-case';
 import i18n from 'i18n';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import './record-list.scss';
 
 interface IProps {
@@ -61,7 +61,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
     curNodeId && getConfigDetailRecordList(curNodeId);
   };
   const renderRecordList = () => {
-    const userMap = userMapStore.useStore((s) => s);
+    const userMap = useUserMap();
     if (isEmpty(configDetailRecordList)) {
       return <p>{i18n.t('common:no data')}</p>;
     }

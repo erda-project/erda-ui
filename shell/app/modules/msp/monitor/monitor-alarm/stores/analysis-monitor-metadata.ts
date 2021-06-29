@@ -15,7 +15,7 @@ import {
   MonitorMetaDataScope,
   MonitorMetaDataMode,
   createMonitorMetaDataStore,
-} from 'app/modules/dataCenter/stores/_common-monitor-metadata';
+} from 'app/modules/cmp/stores/_common-monitor-metadata';
 
 const analysisMonitorMetadata = createMonitorMetaDataStore(
   MonitorMetaDataScope.MICRO_SERVICE,

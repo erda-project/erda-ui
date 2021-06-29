@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import deployStore from 'application/stores/deploy';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import DeployList, { approvalStatusMap } from './deploy-list';
 import runtimeStore from 'runtime/stores/runtime';
 

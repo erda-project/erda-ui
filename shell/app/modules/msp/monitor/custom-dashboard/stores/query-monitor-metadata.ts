@@ -15,7 +15,7 @@ import {
   MonitorMetaDataScope,
   MonitorMetaDataMode,
   createMonitorMetaDataStore,
-} from 'dataCenter/stores/_common-monitor-metadata.ts';
+} from 'cmp/stores/_common-monitor-metadata.ts';
 
 const queryMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.MICRO_SERVICE, MonitorMetaDataMode.QUERY);
 

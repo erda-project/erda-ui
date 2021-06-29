@@ -14,8 +14,8 @@
 import React from 'react';
 import { Table, Input, Spin, Tooltip } from 'app/nusi';
 import userStore from 'user/stores';
-import routeInfoStore from 'common/stores/route';
-import { useLoading } from 'app/common/stores/loading';
+import routeInfoStore from 'core/stores/route';
+import { useLoading } from 'core/stores/loading';
 import { useDebounce, useUnmount } from 'react-use';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';

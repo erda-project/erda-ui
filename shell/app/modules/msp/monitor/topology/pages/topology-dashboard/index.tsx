@@ -19,7 +19,7 @@ import { Button } from 'app/nusi';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import dashboardStore from 'app/common/stores/dashboard';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';

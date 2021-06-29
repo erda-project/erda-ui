@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import { useUnmount } from 'react-use';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import SICommonStore from '../../stores/common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 const { Option } = Select;
 

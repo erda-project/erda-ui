@@ -20,7 +20,7 @@ import { WithAuth, usePerm } from 'user/common';
 import iterationStore from 'project/stores/iteration';
 import { IterationItem } from './iteration-item';
 import IterationModal from '../iteration/iteration-modal';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import backlog_dd_svg from 'app/images/backlog-dd.svg';
 import i18n from 'i18n';
 

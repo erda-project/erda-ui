@@ -19,12 +19,12 @@ import { EnvCard } from './env-card';
 import RuntimeBox from './runtime-box';
 import appDeployStore from 'application/stores/deploy';
 import GotoCommit from 'application/common/components/goto-commit';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import appStore from 'application/stores/application';
 import { getReleaseList } from 'application/services/release';
-import routeInfoStore from 'app/common/stores/route';
-import { WrappedFormUtils } from 'core/common/interface';
+import routeInfoStore from 'core/stores/route';
+import { FormInstance } from 'core/common/interface';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -117,12 +117,12 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
     const curForm = formRef && formRef.current;
     if (curForm) {
       setTimeout(() => {
-        curForm.props.form.setFieldsValue({ branch: initBranch });
+        curForm.setFieldsValue({ branch: initBranch });
       }, 0);
     }
   }, [initBranch, updater]);
 
-  const fieldList = (form: WrappedFormUtils) => [
+  const fieldList = (form: FormInstance) => [
     {
       label: i18n.t('application:branch'),
       name: 'branch',
@@ -206,7 +206,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
       }
       visible={!!curEnv}
       loading={formLoading}
-      wrappedComponentRef={formRef}
+      ref={formRef}
       fieldsList={fieldList}
       onOk={onOk}
       onCancel={() => setCurEnv('')}

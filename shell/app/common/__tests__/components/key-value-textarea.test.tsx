@@ -17,14 +17,19 @@ import { mount } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 import { Form } from 'app/nusi';
 
-const Comp = Form.create()((props) => {
-  return <KeyValueTextArea {...props} />;
-});
+const Comp = (props) => {
+  const [form] = Form.useForm();
+  return (
+    <Form>
+      <KeyValueTextArea {...props} form={form} />
+    </Form>
+  );
+};
 
 const data = 'name: erda\norg: erda.cloud';
 
-const assetValue = (editor, spy, str, msg) => {
-  editor.find('TextArea').simulate('change', {
+const assetValue = async (editor, spy, str, msg) => {
+  await editor.find('TextArea').simulate('change', {
     target: {
       value: `${data}\n${str}`,
     },
@@ -40,12 +45,12 @@ describe('KeyValueTextArea', () => {
   afterAll(() => {
     spy?.mockReset();
   });
-  it('should render well', () => {
+  it('should render well', async () => {
     const fn = jest.fn();
     const wrapper = mount(<Comp validate={fn} data={data} maxLength={10} existKeys={['type']} />);
     const editor = wrapper.find('KeyValueTextArea');
     expect(editor.instance().getTextData()).toBe(data);
-    editor.find('TextArea').simulate('change', {
+    await editor.find('TextArea').simulate('change', {
       target: {
         value: `${data}\nenv:test`,
       },

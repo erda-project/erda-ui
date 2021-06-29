@@ -16,7 +16,7 @@ import { PageHeader } from 'app/nusi';
 import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
 import { goTo } from 'common/utils';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { filter, isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';

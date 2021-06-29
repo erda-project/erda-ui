@@ -24,7 +24,7 @@ import { mergeActionAndResource, getResource } from '../yml-flow-util';
 import ActionSelect from './action-select';
 import deployStore from 'application/stores/deploy';
 import i18n from 'i18n';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import './edit-stage.scss';
 import { Plus as IconPlus } from '@icon-park/react';
 
@@ -50,6 +50,7 @@ const getDefaultVersionConfig = (actionConfigs: DEPLOY.ActionConfig[]) => {
 };
 
 const EditStage = (props: IEditStageProps & FormComponentProps) => {
+  const [form] = Form.useForm();
   const [state, updater] = useUpdate({
     task: {} as IStageTask | {},
     actionConfig: {} as DEPLOY.ActionConfig | {},
@@ -58,9 +59,11 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     originName: null as null | string,
   });
 
+  const initialValue = React.useRef({});
+
   const { task, actionConfig, resource, originName, originType } = state;
-  const { actions, otherTaskAlias, form, editing, isCreateTask, onSubmit: handleSubmit, task: PropsTask } = props;
-  const { getFieldDecorator, getFieldValue } = form;
+  const { actions, otherTaskAlias, editing, isCreateTask, onSubmit: handleSubmit, task: PropsTask } = props;
+  const { getFieldValue } = form;
 
   const actionConfigs = deployStore.useStore((s) => s.actionConfigs);
   const { getActionConfigs } = deployStore.effects;
@@ -136,44 +139,51 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     updater.resource(getResource(task, selectConfig));
   };
 
-  const taskType = getFieldDecorator('resource.type', {
-    initialValue: task.type,
-    rules: [
-      {
-        required: true,
-        message: `${i18n.t('application:please choose')}Task Type`,
-      },
-    ],
-  })(
-    <ActionSelect
-      disabled={!editing}
-      label={i18n.t('task type')}
-      actions={actions}
-      onChange={changeResourceType}
-      placeholder={`${i18n.t('application:please choose task type')}`}
-    />,
+  const taskType = (
+    <Item
+      name="resource.type"
+      initialValue={task.type}
+      rules={[
+        {
+          required: true,
+          message: `${i18n.t('application:please choose')}Task Type`,
+        },
+      ]}
+    >
+      <ActionSelect
+        disabled={!editing}
+        label={i18n.t('task type')}
+        actions={actions}
+        onChange={changeResourceType}
+        placeholder={`${i18n.t('application:please choose task type')}`}
+      />
+    </Item>
   );
 
-  const actionVersion = getFieldDecorator('resource.version', {
-    initialValue: task.version || actionConfig.version,
-    rules: [
-      {
-        required: true,
-        message: `${i18n.t('application:please choose')}Task Version`,
-      },
-    ],
-  })(
-    <Select
-      disabled={!editing}
-      onChange={changeActionVersion}
-      placeholder={`${i18n.t('application:please choose version')}`}
+  const actionVersion = (
+    <Item
+      label="version"
+      name="resource.version"
+      initialValue={task.version || actionConfig.version}
+      rules={[
+        {
+          required: true,
+          message: `${i18n.t('application:please choose')}Task Version`,
+        },
+      ]}
     >
-      {actionConfigs.map((config) => (
-        <Option key={config.version} value={config.version}>
-          {config.version}
-        </Option>
-      ))}
-    </Select>,
+      <Select
+        disabled={!editing}
+        onChange={changeActionVersion}
+        placeholder={`${i18n.t('application:please choose version')}`}
+      >
+        {actionConfigs.map((config) => (
+          <Option key={config.version} value={config.version}>
+            {config.version}
+          </Option>
+        ))}
+      </Select>
+    </Item>
   );
 
   let alert;
@@ -192,15 +202,21 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       />
     );
   }
-  const taskName = getFieldDecorator('resource.alias', {
-    initialValue: taskInitName,
-    rules: [
-      {
-        required: true,
-        validator: checkResourceName,
-      },
-    ],
-  })(<Input autoFocus={!type} disabled={!editing} placeholder={i18n.t('application:please enter the task name')} />);
+  const taskName = (
+    <Item
+      label={i18n.t('application:task name')}
+      name="resource.alias"
+      initialValue={taskInitName}
+      rules={[
+        {
+          required: true,
+          validator: checkResourceName,
+        },
+      ]}
+    >
+      <Input autoFocus={!type} disabled={!editing} placeholder={i18n.t('application:please enter the task name')} />
+    </Item>
+  );
 
   const renderTaskTypeStructure = () => {
     if (isEmpty(resource)) {
@@ -287,29 +303,41 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
 
-    const inputField = getFieldDecorator(parentKey, {
-      initialValue,
-      rules: [
-        {
-          required: value.required,
-          message: i18n.t('application:this item cannot be empty'),
-        },
-      ],
-    })(<VariableInput disabled={!editing} label={value.name} />);
-    return <Item key={parentKey}>{renderTooltip(value.desc, inputField)}</Item>;
+    const inputField = (
+      <Item
+        key={parentKey}
+        name={parentKey}
+        initialValue
+        rules={[
+          {
+            required: value.required,
+            message: i18n.t('application:this item cannot be empty'),
+          },
+        ]}
+      >
+        {renderTooltip(value.desc, <VariableInput disabled={!editing} label={value.name} />)}
+      </Item>
+    );
+    return inputField;
   };
 
   const renderStringArray = (value: any, parentKey: string) => {
-    const inputField = getFieldDecorator(parentKey, {
-      initialValue: isCreateTask ? value.default : value.value || value.default,
-      rules: [
-        {
-          required: value.required,
-          message: i18n.t('application:this item cannot be empty'),
-        },
-      ],
-    })(<ListInput disabled={!editing} label={value.name} />);
-    return <Item key={parentKey}>{renderTooltip(value.desc, inputField)}</Item>;
+    const inputField = (
+      <Item
+        key={parentKey}
+        name={parentKey}
+        initialValue={isCreateTask ? value.default : value.value || value.default}
+        rules={[
+          {
+            required: value.required,
+            message: i18n.t('application:this item cannot be empty'),
+          },
+        ]}
+      >
+        {renderTooltip(value.desc, <ListInput disabled={!editing} label={value.name} />)}
+      </Item>
+    );
+    return inputField;
   };
 
   const renderPropertyValue = (value: any, parentKey: string, dataSource?: any) => {
@@ -348,20 +376,23 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         break;
     }
 
-    const inputField = getFieldDecorator(parentKey, {
-      initialValue,
-      rules: [
-        {
-          required: value.required,
-          message: i18n.t('application:this item cannot be empty'),
-        },
-      ],
-    })(input);
-    return (
-      <Item key={parentKey} label={value.name}>
-        {renderTooltip(value.desc, inputField)}
+    const inputField = (
+      <Item
+        key={parentKey}
+        label={value.name}
+        name={parentKey}
+        initialValue
+        rules={[
+          {
+            required: value.required,
+            message: i18n.t('application:this item cannot be empty'),
+          },
+        ]}
+      >
+        {renderTooltip(value.desc, input)}
       </Item>
     );
+    return inputField;
   };
 
   const renderStructArray = (property: any, parentKey: string) => {
@@ -371,7 +402,9 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     const addBtn = editing ? (
       <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} />
     ) : null;
-    getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
+    initialValue.current = {
+      [`${parentKey}-data`]: property.value || [],
+    };
     const data = getFieldValue(`${parentKey}-data`);
     const content = data.map((item: any, index: number) => {
       const keys = Object.keys(item);
@@ -441,8 +474,9 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   };
 
   const onSubmit = () => {
-    form.validateFieldsAndScroll((error: any, values: any) => {
-      if (!error) {
+    form
+      .validateFields()
+      .then((values: any) => {
         let data = cloneDeep(values);
         const resources = head(filter(state.resource.data, (item) => item.name === 'resources'));
         const originResource = transform(
@@ -468,8 +502,10 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         }
         const filledFieldsData = clearEmptyField(data);
         handleSubmit(filledFieldsData);
-      }
-    });
+      })
+      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
 
   const clearEmptyField = (ObjData: any) => {
@@ -491,11 +527,11 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
 
   return (
     <Spin spinning={loading}>
-      <Form className="edit-service-container">
+      <Form form={form} initialValues={initialValue.current} className="edit-service-container">
         {alert}
-        <Item>{taskType}</Item>
-        {type ? <Item label={i18n.t('application:task name')}>{taskName}</Item> : null}
-        <Item label="version">{actionVersion}</Item>
+        {taskType}
+        {type ? { taskName } : null}
+        {actionVersion}
         {renderTaskTypeStructure()}
         {editing ? (
           <Button type="primary" ghost onClick={onSubmit}>
@@ -507,4 +543,4 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   );
 };
 
-export default Form.create()(EditStage);
+export default EditStage;

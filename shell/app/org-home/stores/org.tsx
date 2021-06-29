@@ -10,7 +10,6 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-import diceEnv from 'dice-env';
 import { goTo } from 'common/utils';
 import { getSubSiderInfoMap, getAppCenterAppList } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
@@ -176,18 +175,14 @@ const org = createStore({
 
 export default org;
 
+const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
+
 const setLocationByAuth = (authObj: Obj) => {
   const curPathname = location.pathname;
-  if (diceEnv.ONLY_FDP) {
-    if (!['fdp', 'dataCenter', 'orgCenter'].includes(curPathname.split('/')[2])) {
-      window.history.replaceState({}, document.title, goTo.resolve.fdpIndex());
-      return;
-    }
-  }
   const { roles, hasAuth, orgName } = authObj;
   const checkMap = {
-    fdp: {
-      isCurPage: curPathname.startsWith(`/${orgName}/fdp`),
+    dataEngineer: {
+      isCurPage: curPathname.startsWith(`/${orgName}/${dataEngineerInfo.name}`),
       authRole: intersection(orgPerm.entryFastData.role, roles),
     },
     orgCenter: {
@@ -196,15 +191,15 @@ const setLocationByAuth = (authObj: Obj) => {
     },
     msp: {
       isCurPage: curPathname.startsWith(`/${orgName}/msp`),
-      authRole: intersection(orgPerm.entryMicroService.role, roles),
+      authRole: intersection(orgPerm.entryMsp.role, roles),
     },
-    edge: {
-      isCurPage: curPathname.startsWith(`/${orgName}/edge`),
-      authRole: intersection(orgPerm.edge.view.role, roles),
+    ecp: {
+      isCurPage: curPathname.startsWith(`/${orgName}/ecp`),
+      authRole: intersection(orgPerm.ecp.view.role, roles),
     },
-    dataCenter: {
-      isCurPage: curPathname.startsWith(`/${orgName}/dataCenter`),
-      authRole: intersection(orgPerm.dataCenter.showApp.role, roles),
+    cmp: {
+      isCurPage: curPathname.startsWith(`/${orgName}/cmp`),
+      authRole: intersection(orgPerm.cmp.showApp.role, roles),
     },
     dop: {
       isCurPage: curPathname.startsWith(`/${orgName}/dop`),
@@ -215,20 +210,21 @@ const setLocationByAuth = (authObj: Obj) => {
     //   authRole: intersection(orgPerm.entryApiManage.role, roles),
     // },
   };
+
   if (hasAuth) {
     map(checkMap, (item) => {
       // 当前页，但是无权限，则重置
       if (item.isCurPage && isEmpty(item.authRole)) {
         let resetPath = goTo.resolve.orgRoot({ orgName });
         if (roles.toString() === 'DataEngineer') {
-          // 数据工程师只有fdp界面权限
-          resetPath = goTo.resolve.fdpIndex();
+          // DataEngineer redirect to DataEngineer role page
+          resetPath = dataEngineerInfo?.indexUrl?.replace('{orgName}', get(location.pathname.split('/'), '[1]') || '-');
         } else if (roles.toString() === 'Ops') {
           // 企业运维只有云管的权限
-          resetPath = `/${orgName}/dataCenter/overview`;
+          resetPath = `/${orgName}/cmp/overview`;
         } else if (roles.toString() === 'EdgeOps') {
           // 边缘运维工程师只有边缘计算平台的权限
-          resetPath = `/${orgName}/edge/application`;
+          resetPath = `/${orgName}/ecp/application`;
         }
         location.href = resetPath;
       }

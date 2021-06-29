@@ -23,18 +23,23 @@ const data = {
   name: 'erda.cloud',
 };
 
-const Comp = Form.create()((props) => {
-  return <KeyValueEditor {...props} />;
-});
+const Comp = (props) => {
+  const [form] = Form.useForm();
+  return (
+    <Form>
+      <KeyValueEditor {...props} form={form} />
+    </Form>
+  );
+};
 
 describe('KeyValueEditor', () => {
-  it('should render well', () => {
+  it('should render well', async () => {
     const wrapper = mount(<Comp dataSource={data} />);
     const editor = wrapper.find('KeyValueEditor');
     expect(wrapper.find('KeyValueTable')).toExist();
     expect(wrapper.find('KeyValueTextArea')).not.toExist();
     expect(editor.instance().getEditData()).toStrictEqual(data);
-    wrapper.find('RadioGroup').prop('onChange')();
+    await wrapper.find('RadioGroup').prop('onChange')();
     editor.update();
     expect(wrapper.find('KeyValueTable')).not.toExist();
     expect(wrapper.find('KeyValueTextArea')).toExist();

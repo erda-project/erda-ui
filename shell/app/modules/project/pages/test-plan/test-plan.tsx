@@ -18,7 +18,7 @@ import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo } from 'app/common/utils';
 import { isEmpty } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';

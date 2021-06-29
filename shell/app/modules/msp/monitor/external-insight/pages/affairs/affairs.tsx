@@ -14,14 +14,14 @@
 import * as React from 'react';
 import { Row, Col, Drawer } from 'app/nusi';
 import { useSwitch, SimpleLog } from 'common';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import AffairsMap from './config/chartMap';
 import TopTabRight from 'external-insight/common/components/tab-right';
 import CommonPanel from 'trace-insight/pages/trace-querier/trace-common-panel';
 import PureTraceDetail from 'trace-insight/pages/trace-querier/trace-detail';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 
 const Affairs = () => {

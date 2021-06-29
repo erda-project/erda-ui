@@ -13,27 +13,27 @@
 
 import * as React from 'react';
 import { CRUDTable, useUpdate, Copy, TagsColumn } from 'common';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';
 import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
 import { MysqlFieldsConfig } from 'project/pages/third-service/components/config';
-import { WrappedFormUtils } from 'core/common/interface';
+import { FormInstance } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
-import networksStore from 'dataCenter/stores/networks';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import networksStore from 'cmp/stores/networks';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import cloudServiceStore from '../../stores/cloud-service';
-import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
+import { addAuthTooltipTitle } from 'app/modules/cmp/common/cloud-common';
 import { goTo, isPromise } from 'common/utils';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
+import { ClusterLog } from 'cmp/pages/cluster-manage/cluster-log';
 import {
   getCloudResourceIDNameCol,
   getCloudResourceStatusCol,
   getCloudResourceChargeTypeCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
-import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
+} from 'cmp/common/components/table-col';
+import { skipInfoStatusMap } from 'cmp/pages/cloud-source/config';
 import { customTagColor } from 'dcos/common/config';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
@@ -104,7 +104,7 @@ const RDS = () => {
         } else {
           notification.warning({
             message: i18n.t('warning'),
-            description: i18n.t('dataCenter:Instance is not ready'),
+            description: i18n.t('cmp:Instance is not ready'),
           });
         }
       }),
@@ -148,7 +148,7 @@ const RDS = () => {
     return columns;
   };
 
-  const getFieldsList = (form: WrappedFormUtils) => {
+  const getFieldsList = (form: FormInstance) => {
     const fieldsList = [
       {
         label: i18n.t('region'),

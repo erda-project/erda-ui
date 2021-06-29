@@ -19,11 +19,11 @@ import MonthUptime from './3-month-uptime';
 import AddModal from './add-modal';
 import PastIncidents from './past-incidents';
 import monitorStatusStore from 'status-insight/stores/status';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import './status-detail.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { Info as IconInfo } from '@icon-park/react';
 
 const StatusDetail = () => {

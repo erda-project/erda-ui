@@ -18,7 +18,7 @@ import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { getApps } from 'common/services';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
 import { getAppDetail } from 'application/services/application';
 import './app-selector.scss';

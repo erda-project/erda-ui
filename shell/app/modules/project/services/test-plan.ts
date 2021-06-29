@@ -14,7 +14,7 @@
 import agent from 'agent';
 import { get } from 'lodash';
 import { setApiWithOrg } from 'common/utils';
-import routeInfoStore from 'app/common/stores/route';
+import routeInfoStore from 'core/stores/route';
 
 // 获取测试计划列表
 export function getPlanList(query: TEST_PLAN.PlanListQuery): TEST_PLAN.PlanPaging {

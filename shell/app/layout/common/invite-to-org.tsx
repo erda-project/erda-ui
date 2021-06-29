@@ -18,9 +18,9 @@ import { useMount } from 'react-use';
 import { Input, Button, message } from 'app/nusi';
 import { Avatar, useUpdate } from 'common';
 import userStore from 'app/user/stores';
-import { useLoading } from 'app/common/stores/loading';
+import { useLoading } from 'core/stores/loading';
 import layoutStore from 'layout/stores/layout';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import { getOrgByDomain } from 'app/org-home/services/org';
 
 export default () => {

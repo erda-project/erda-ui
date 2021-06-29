@@ -17,11 +17,8 @@ import 'moment/locale/zh-cn';
 import nusi_enUS from '@terminus/nusi/es/locale/en_US';
 import nusi_zhCN from '@terminus/nusi/es/locale/zh_CN';
 
-import antd_zhCN from 'antd/es/locale-provider/zh_CN';
-import antd_enUS from 'antd/es/locale-provider/en_US';
-
-import antd4_zhCN from 'antd-latest/es/locale-provider/zh_CN';
-import antd4_enUS from 'antd-latest/es/locale-provider/en_US';
+import antd_zhCN from 'antd-latest/es/locale-provider/zh_CN';
+import antd_enUS from 'antd-latest/es/locale-provider/en_US';
 
 let userLanguage = window.navigator.userLanguage || window.navigator.language;
 userLanguage = userLanguage === 'zh-CN' ? 'zh' : 'en';
@@ -33,7 +30,6 @@ const localeMap = {
     key: 'en',
     app: {},
     antd: antd_enUS,
-    antd4: antd4_enUS,
     nusi: nusi_enUS,
     moment: 'en',
   },
@@ -41,7 +37,6 @@ const localeMap = {
     key: 'zh',
     app: {},
     antd: antd_zhCN,
-    antd4: antd4_zhCN,
     nusi: nusi_zhCN,
     moment: 'zh-cn',
   },

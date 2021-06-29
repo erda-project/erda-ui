@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { message } from 'app/nusi';
 import { MarkdownEditor } from 'common';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
 import BasicInfo from './basic-info';
 import ChartsResult from './charts-result';

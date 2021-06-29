@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import { connectCube, useUpdate, CustomFilter } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import './publisher-list-v2.scss';
-import routeInfoStore from 'common/stores/route';
+import routeInfoStore from 'core/stores/route';
 import ArtifactsFormModal from 'publisher/pages/artifacts/artifacts-form-modal';
 import { ColumnProps } from 'core/common/interface';
 import { WithAuth, usePerm } from 'user/common';

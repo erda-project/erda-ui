@@ -17,11 +17,11 @@ import { ossImg } from 'common/utils';
 import { isFunction } from 'lodash';
 import './menu-head.scss';
 import devopsSvg from 'app/images/devops.svg';
-import dataCenterSvg from 'app/images/qyzx.svg';
+import cmpSvg from 'app/images/qyzx.svg';
 import mspSvg from 'app/images/wfwzl.svg';
-import fdpSvg from 'app/images/ksj.svg';
+import dataSvg from 'app/images/ksj.svg';
 import apiManageSvg from 'app/images/fwsc.svg';
-import edgeSvg from 'app/images/edge.svg';
+import ecpSvg from 'app/images/ecp.svg';
 import orgCenterSvg from 'app/images/glzx.svg';
 
 interface IProps {
@@ -37,6 +37,8 @@ const defaultDetail = {
   logoClassName: '',
 };
 
+const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
+
 const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { detail = defaultDetail, getHeadName } = siderInfo || {};
   const { name, displayName, logo, logoClassName = '' } = detail;
@@ -48,8 +50,8 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
     case 'sysAdmin':
       sideIcon = <img className="big-icon" src={orgCenterSvg} />;
       break;
-    case 'dataCenter':
-      sideIcon = <img className="big-icon" src={dataCenterSvg} />;
+    case 'cmp':
+      sideIcon = <img className="big-icon" src={cmpSvg} />;
       break;
     case 'orgCenter':
       sideIcon = <img className="big-icon" src={orgCenterSvg} />;
@@ -57,14 +59,14 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
     case 'msp':
       sideIcon = <img className="big-icon" src={mspSvg} />;
       break;
-    case 'fdp':
-      sideIcon = <img className="big-icon" src={fdpSvg} />;
+    case `${dataEngineerInfo.name}`:
+      sideIcon = <img className="big-icon" src={dataSvg} />;
       break;
     case 'apiManage':
       sideIcon = <img className="big-icon" src={apiManageSvg} />;
       break;
-    case 'edge':
-      sideIcon = <img className="big-icon" src={edgeSvg} />;
+    case 'ecp':
+      sideIcon = <img className="big-icon" src={ecpSvg} />;
       break;
     default:
       sideIcon = <CustomIcon color type={detail.icon || 'yy'} />;
