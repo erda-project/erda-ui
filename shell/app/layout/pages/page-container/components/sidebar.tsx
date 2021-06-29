@@ -43,7 +43,7 @@ const AppCenterEl = () => {
   const iconMap = {
     dop: 'devops1',
     sysAdmin: 'guanli',
-    dataCenter: 'duoyun',
+    cmp: 'duoyun',
     msp: 'weifuwu1',
     orgCenter: 'guanli',
     [dataEngineerInfo.name]: 'dataEngineer',
@@ -53,10 +53,10 @@ const AppCenterEl = () => {
 
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
-    dataCenter: permMap.dataCenter.showApp.pass,
+    cmp: permMap.cmp.showApp.pass,
     dop: permMap.dop.read.pass,
     [dataEngineerInfo.name]: permMap.entryFastData.pass && currentOrg.openFdp, // this is backend attribute can't remove
-    msp: permMap.entryMicroService.pass,
+    msp: permMap.entryMsp.pass,
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };

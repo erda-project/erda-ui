@@ -14,7 +14,7 @@
 import getDopRouter from 'dop/router';
 import getMspRouter from 'msp/router';
 import getEdgeRouter from 'app/modules/edge/router';
-import getDataCenterRouter from 'dataCenter/router';
+import getCmpRouter from 'cmp/router';
 import getOrgCenterRouter from 'org/router';
 import getLayoutRouter from 'layout/router';
 
@@ -48,7 +48,7 @@ export default function getOrgRouter() {
         ...getDopRouter(),
         ...getMspRouter(),
         ...getEdgeRouter(),
-        ...getDataCenterRouter(),
+        ...getCmpRouter(),
         ...getOrgCenterRouter(),
       ],
     },

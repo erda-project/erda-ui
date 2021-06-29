@@ -16,7 +16,7 @@ import { insertWhen } from 'common/utils/index';
 import { Select } from 'app/nusi';
 import i18n from 'i18n';
 import { produce } from 'immer';
-import { getOptions, groupOptions } from 'app/modules/dataCenter/pages/cluster-manage/config';
+import { getOptions, groupOptions } from 'app/modules/cmp/pages/cluster-manage/config';
 import React from 'react';
 import { useUpdate } from 'common';
 
@@ -95,7 +95,7 @@ export const MysqlFieldsConfig = {
           {
             pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,254}$/,
             message: i18n.t(
-              'dataCenter:2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.',
+              'cmp:2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.',
             ),
           },
         ],
@@ -301,7 +301,7 @@ export const RedisFieldConfig = {
         rules: [
           {
             pattern: /^[a-zA-Z\u4e00-\u9fa5](?!.*[@/=\s":<>{}[\]]).{1,127}$/,
-            message: `${i18n.t('length is {min}~{max}', { min: 2, max: 128 })},${i18n.t('dataCenter:redis-name-tip')}`,
+            message: `${i18n.t('length is {min}~{max}', { min: 2, max: 128 })},${i18n.t('cmp:redis-name-tip')}`,
           },
         ],
       },

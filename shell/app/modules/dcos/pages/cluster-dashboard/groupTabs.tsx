@@ -18,7 +18,7 @@ import { MachineList } from 'dcos/pages/cluster-dashboard/machine-list';
 import InstanceList from './instance-list';
 import ResourcesChartList from './resources-chart-list';
 import AlarmRecord from './alarm-record';
-import ClusterState from 'dataCenter/pages/cluster-manage/cluster-state';
+import ClusterState from 'cmp/pages/cluster-manage/cluster-state';
 import i18n from 'i18n';
 
 const { TabPane } = Tabs;

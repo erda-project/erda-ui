@@ -21,7 +21,7 @@ import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'core/stores/loading';
-import { useInstanceOperation } from 'app/modules/dataCenter/common/components/instance-operation';
+import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
 import './instance-list.scss';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';

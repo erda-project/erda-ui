@@ -23,7 +23,7 @@ interface IMenuItem {
 export enum MENU_SCOPE {
   appCenter = 'appCenter',
   orgCenter = 'orgCenter',
-  dataCenter = 'dataCenter',
+  cmp = 'cmp',
   dop = 'dop',
 }
 const defaultFunc = (a: any) => a;
@@ -31,7 +31,7 @@ const defaultFunc = (a: any) => a;
 const menuFilterMap = {
   appCenter: {
     // 应用中心
-    dataCenter: (item: IMenuItem) => {
+    cmp: (item: IMenuItem) => {
       const name = i18n.t('cloud management');
       return { ...item, name, breadcrumbName: name };
     },
@@ -47,9 +47,9 @@ const menuFilterMap = {
       return !publisherId ? null : item;
     },
   },
-  dataCenter: {
+  cmp: {
     // 云管平台
-    dataCenterOverview: (item: IMenuItem) => {
+    cmpOverview: (item: IMenuItem) => {
       const text = i18n.t('cluster overview');
       return { ...item, text };
     },

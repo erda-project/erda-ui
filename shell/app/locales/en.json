@@ -737,7 +737,7 @@
     "yes": "yes",
     "{deleteItem} cannot be restored after deletion. Continue?": "{deleteItem} cannot recover after deletion, confirm deletion?"
   },
-  "dataCenter": {
+  "cmp": {
     "2 machines": "2 machines",
     "2-128 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.": "the value must be 2 to 128 characters in length and start with an English or Chinese character, It can contain numbers, underscores _, and hyphens -",
     "2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.": "the value must be 2 to 255 characters in length and start with an English or Chinese character, It can contain numbers, underscores _, and hyphens -",
