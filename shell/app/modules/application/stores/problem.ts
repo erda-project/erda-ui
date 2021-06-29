@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import userMapStore from 'core/stores/userMap';
+import { getUserMap } from 'core/stores/userMap';
 import { getDefaultPaging } from 'common/utils';
 import {
   getTicketList,
@@ -57,8 +57,7 @@ const ticketStore = createStore({
         paging: { key: 'paging', listKey: 'tickets' },
       });
 
-      const userMap = userMapStore.getState((s) => s);
-
+      const userMap = getUserMap();
       const ticketList = map(list, (ticket) => {
         // 在userInfo中获取对应的用户名
         const { creator, lastOperator, ...other } = ticket;
@@ -79,8 +78,7 @@ const ticketStore = createStore({
     async getTicketDetail({ call, update, getParams }) {
       const { ticketId } = getParams();
       const detail = await call(getTicketDetail, ticketId);
-
-      const userMap = userMapStore.getState((s) => s);
+      const userMap = getUserMap();
       detail.author = getUser(userMap[detail.creator]);
       detail.lastOperator = getUser(userMap[detail.lastOperator]);
 
@@ -89,7 +87,7 @@ const ticketStore = createStore({
     async getTicketComments({ call, update, getParams }) {
       const { ticketId } = getParams();
       const { comments: list, total } = await call(getComments, ticketId);
-      const userMap = userMapStore.getState((s) => s);
+      const userMap = getUserMap();
 
       list.forEach((comment) => {
         if (userMap[comment.userID]) {
