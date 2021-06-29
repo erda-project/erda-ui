@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createCustomAlarmStore, CustomAlarmScope } from 'app/modules/dataCenter/stores/_common-custom-alarm';
+import { createCustomAlarmStore, CustomAlarmScope } from 'app/modules/cmp/stores/_common-custom-alarm';
 
 const customAlarm = createCustomAlarmStore(CustomAlarmScope.MICRO_SERVICE);
 

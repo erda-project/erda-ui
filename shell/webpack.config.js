@@ -89,7 +89,7 @@ module.exports = () => {
         dcos: resolve('./app/modules/dcos'),
         project: resolve('./app/modules/project'),
         publisher: resolve('./app/modules/publisher'),
-        dataCenter: resolve('./app/modules/dataCenter'),
+        cmp: resolve('./app/modules/cmp'),
         org: resolve('./app/modules/org'),
         application: resolve('./app/modules/application'),
         runtime: resolve('./app/modules/runtime'),

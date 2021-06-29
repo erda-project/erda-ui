@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 import { getMonitorTopology, getTopologyTags, getTagsOptions } from '../services/topology';
-import { getCustomDashboardDetail } from 'dataCenter/services/custom-dashboard';
+import { getCustomDashboardDetail } from 'cmp/services/custom-dashboard';
 
 interface IState {
   topologyData: TOPOLOGY.ITopologyResp;

@@ -26,7 +26,7 @@ import userStore from 'user/stores';
 import orgStore from 'app/org-home/stores/org';
 import projectStore from 'project/stores/project';
 
-const inDataCenterPage = () => window.location.pathname.includes('dataCenter/');
+const inCmpPage = () => window.location.pathname.includes('cmp/');
 
 interface IState {
   addonList: CUSTOM_ADDON.Item[];
@@ -79,7 +79,7 @@ const customAddon = createFlatStore({
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { projectId } = getParams();
       const _params: CUSTOM_ADDON.QueryCustoms = { org_id: orgId };
-      if (!inDataCenterPage()) {
+      if (!inCmpPage()) {
         _params.project_id = projectId;
       }
       const addonList = await call(getAddonsByCategory, _params);

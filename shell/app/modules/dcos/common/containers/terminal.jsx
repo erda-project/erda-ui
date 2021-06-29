@@ -17,7 +17,7 @@ import { Terminal, connectCube } from 'common';
 import { getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';
 import './terminal.scss';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 
 class ServiceTerminal extends React.Component {
   componentDidMount() {

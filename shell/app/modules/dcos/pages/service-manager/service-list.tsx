@@ -19,7 +19,7 @@ import { getFormatter } from 'charts/utils/formatter';
 import * as React from 'react';
 import { getBrowserInfo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { useInstanceOperation } from 'app/modules/dataCenter/common/components/instance-operation';
+import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
 import './service-list.scss';
 
 export const statusConfig = {

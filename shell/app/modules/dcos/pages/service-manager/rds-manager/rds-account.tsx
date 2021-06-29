@@ -16,7 +16,7 @@ import { Table, Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { map } from 'lodash';
 import i18n from 'i18n';
-import { getCloudResourceStatusCol, getRemarkCol } from 'dataCenter/common/components/table-col';
+import { getCloudResourceStatusCol, getRemarkCol } from 'cmp/common/components/table-col';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import ResetPasswordForm, { IFormRes as ResetFormRes } from './account-form/reset-password-form';
 import ChangePermissionForm from './account-form/change-permission-form';

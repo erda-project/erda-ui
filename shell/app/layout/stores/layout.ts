@@ -96,8 +96,8 @@ const layout = createStore({
       const { switchToApp, switchMessageCenter } = layout.reducers;
       if (isIn('orgCenter')) {
         switchToApp('orgCenter');
-      } else if (isIn('dataCenter')) {
-        switchToApp('dataCenter');
+      } else if (isIn('cmp')) {
+        switchToApp('cmp');
       } else if (isIn('dop')) {
         switchToApp('dop');
       } else if (isIn('msp')) {
@@ -114,7 +114,7 @@ const layout = createStore({
 
       if (
         isEntering('orgCenter') ||
-        isEntering('dataCenter') ||
+        isEntering('cmp') ||
         isEntering('dop') ||
         isEntering('msp') ||
         isEntering('edge') ||
@@ -227,7 +227,7 @@ const layout = createStore({
     clearHeaderInfo(state) {
       state.headerInfo = null;
     },
-    // 动态更改appList中具体某个app的属性值，e.g. { dataCenter: { href: 'xxxx' } } 来运行时改变href
+    // 动态更改appList中具体某个app的属性值，e.g. { cmp: { href: 'xxxx' } } 来运行时改变href
     updateAppListProperty(state, payload: Obj<Obj>) {
       const [appKey, valueObj] = Object.entries(payload)[0];
       const [key, value] = Object.entries(valueObj)[0];

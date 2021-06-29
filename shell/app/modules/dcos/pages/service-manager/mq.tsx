@@ -15,7 +15,7 @@ import * as React from 'react';
 import { CRUDTable, Copy, useUpdate } from 'common';
 import { useLoading } from 'core/stores/loading';
 import { regRules } from 'common/utils/index';
-import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 import { map, keys, get } from 'lodash';
 import { Menu, Dropdown, Button, notification } from 'app/nusi';
@@ -26,11 +26,11 @@ import {
   getCloudResourceStatusCol,
   getCloudResourceTagsCol,
   getCloudResourceRegionCol,
-} from 'dataCenter/common/components/table-col';
+} from 'cmp/common/components/table-col';
 import { goTo, isPromise } from 'common/utils';
-import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
-import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
+import { ClusterLog } from 'cmp/pages/cluster-manage/cluster-log';
+import { SetTagForm } from 'cmp/common/components/set-tag-form';
+import { skipInfoStatusMap } from 'cmp/pages/cloud-source/config';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 // mq = ons
@@ -62,7 +62,7 @@ const MQ = () => {
         } else {
           notification.warning({
             message: i18n.t('warning'),
-            description: i18n.t('dataCenter:Instance is not ready'),
+            description: i18n.t('cmp:Instance is not ready'),
           });
         }
       }),

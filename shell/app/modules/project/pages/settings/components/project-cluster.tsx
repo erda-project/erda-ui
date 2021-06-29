@@ -19,7 +19,7 @@ import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import projectStore from 'project/stores/project';
 
-import clusterStore from 'app/modules/dataCenter/stores/cluster';
+import clusterStore from 'app/modules/cmp/stores/cluster';
 
 interface IProps {
   hasEditAuth: boolean;

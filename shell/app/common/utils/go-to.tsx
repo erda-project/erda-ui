@@ -199,11 +199,11 @@ export enum pages {
   mspTopology = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
   monitorAPIOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
   microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
-  dataCenterRoot = '/{orgName}/dataCenter/overview',
+  cmpRoot = '/{orgName}/cmp/overview',
 
   createProject = '/{orgName}/orgCenter/projects/createProject',
-  dataCenterClusters = '/{orgName}/dataCenter/clusters',
-  dataCenterClusterState = '/{orgName}/dataCenter/clusters/{clusterName}/state',
+  cmpClusters = '/{orgName}/cmp/clusters',
+  cmpClusterState = '/{orgName}/cmp/clusters/{clusterName}/state',
   publisherContent = '/{orgName}/dop/publisher/{type}/{publisherItemId}',
   iterationDetail = '/{orgName}/dop/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
   taskList = '/{orgName}/dop/projects/{projectId}/issues/task',
@@ -228,12 +228,12 @@ export enum pages {
   gatewayList = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
 
   // 企业中心告警数据报表
-  alarmReport = '/{orgName}/dataCenter/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
+  alarmReport = '/{orgName}/cmp/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
 
   // 企业中心自定义大盘
-  orgCustomDashboard = '/{orgName}/dataCenter/customDashboard',
-  orgAddCustomDashboard = '/{orgName}/dataCenter/customDashboard/add',
-  orgCustomDashboardDetail = '/{orgName}/dataCenter/customDashboard/{customDashboardId}',
+  orgCustomDashboard = '/{orgName}/cmp/customDashboard',
+  orgAddCustomDashboard = '/{orgName}/cmp/customDashboard/add',
+  orgCustomDashboardDetail = '/{orgName}/cmp/customDashboard/{customDashboardId}',
 
   // 微服务监控自定义大盘
   micro_serviceCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard',
@@ -244,36 +244,36 @@ export enum pages {
   mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
 
   // 企业日志分析规则
-  addLogAnalyzeRule = '/{orgName}/dataCenter/log/rule/add?source={source}',
+  addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',
 
   // 企业告警记录详情
-  orgAlarmRecordDetail = '/{orgName}/dataCenter/alarm/record/{id}',
+  orgAlarmRecordDetail = '/{orgName}/cmp/alarm/record/{id}',
 
   // 微服务告警记录详情
   micro_serviceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/alarm-record/{id}',
 
   // 云资源管理
-  cloudSource = '/{orgName}/dataCenter/cloudSource',
-  dataCenterDomain = '/{orgName}/dataCenter/domain',
-  dataCenterServices = '/{orgName}/dataCenter/services',
-  dataCenterAddon = '/{orgName}/dataCenter/addon',
-  dataCenterJobs = '/{orgName}/dataCenter/jobs',
-  dataCenterReport = '/{orgName}/dataCenter/report',
-  dataCenterAlarm = '/{orgName}/dataCenter/alarm',
-  dataCenterAlarmStatistics = '/{orgName}/dataCenter/alarm/statistics',
-  dataCenterAlarmRecord = '/{orgName}/dataCenter/alarm/record',
-  dataCenterAlarmStrategy = '/{orgName}/dataCenter/alarm/strategy',
-  dataCenterAlarmCustom = '/{orgName}/dataCenter/alarm/custom',
-  dataCenterLog = '/{orgName}/dataCenter/log',
-  dataCenterLogQuery = '/{orgName}/dataCenter/log/query',
-  dataCenterLogRule = '/{orgName}/dataCenter/log/rule',
-  cloudSourceEcs = '/{orgName}/dataCenter/cloudSource/ecs',
-  cloudSourceVpc = '/{orgName}/dataCenter/cloudSource/vpc',
-  cloudSourceOss = '/{orgName}/dataCenter/cloudSource/oss',
-  cloudSourceRds = '/{orgName}/dataCenter/cloudSource/rds',
-  cloudSourceMq = '/{orgName}/dataCenter/cloudSource/mq',
-  cloudSourceRedis = '/{orgName}/dataCenter/cloudSource/redis',
-  cloudAccounts = '/{orgName}/dataCenter/cloudSource/accounts',
+  cloudSource = '/{orgName}/cmp/cloudSource',
+  cmpDomain = '/{orgName}/cmp/domain',
+  cmpServices = '/{orgName}/cmp/services',
+  cmpAddon = '/{orgName}/cmp/addon',
+  cmpJobs = '/{orgName}/cmp/jobs',
+  cmpReport = '/{orgName}/cmp/report',
+  cmpAlarm = '/{orgName}/cmp/alarm',
+  cmpAlarmStatistics = '/{orgName}/cmp/alarm/statistics',
+  cmpAlarmRecord = '/{orgName}/cmp/alarm/record',
+  cmpAlarmStrategy = '/{orgName}/cmp/alarm/strategy',
+  cmpAlarmCustom = '/{orgName}/cmp/alarm/custom',
+  cmpLog = '/{orgName}/cmp/log',
+  cmpLogQuery = '/{orgName}/cmp/log/query',
+  cmpLogRule = '/{orgName}/cmp/log/rule',
+  cloudSourceEcs = '/{orgName}/cmp/cloudSource/ecs',
+  cloudSourceVpc = '/{orgName}/cmp/cloudSource/vpc',
+  cloudSourceOss = '/{orgName}/cmp/cloudSource/oss',
+  cloudSourceRds = '/{orgName}/cmp/cloudSource/rds',
+  cloudSourceMq = '/{orgName}/cmp/cloudSource/mq',
+  cloudSourceRedis = '/{orgName}/cmp/cloudSource/redis',
+  cloudAccounts = '/{orgName}/cmp/cloudSource/accounts',
 
   // orgCenter
   orgCenterRoot = '/{orgName}/orgCenter/projects',
@@ -285,8 +285,8 @@ export enum pages {
   orgCenterAnnouncement = '/{orgName}/orgCenter/announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
 
-  dataCenterNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
-  dataCenterSetting = '/{orgName}/orgCenter/setting/detail',
+  cmpNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
+  cmpSetting = '/{orgName}/orgCenter/setting/detail',
 
   // Api 管理平台
   apiManageRoot = '/{orgName}/dop/apiManage/api-market/mine',

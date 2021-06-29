@@ -14,7 +14,7 @@
 import { map, isEmpty, some } from 'lodash';
 import i18n from 'i18n';
 import { multipleGroupDataHandler } from 'common/utils/chart-utils';
-import { getClusterList } from 'app/modules/dataCenter/services/cluster';
+import { getClusterList } from 'app/modules/cmp/services/cluster';
 import { getAlarmList, IMachineAlarmQuery } from '../services/alarm';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
