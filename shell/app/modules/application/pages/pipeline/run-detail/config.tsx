@@ -195,4 +195,20 @@ export const ciNodeStatusSet = {
     'StartError',
     'DBError',
   ],
+  taskFinalStatus: [
+    // single task final status set
+    'Success',
+    'AnalyzeFailed',
+    'Failed',
+    'Timeout',
+    'StopByUser',
+    'NoNeedBySystem',
+    'CreateError',
+    'StartError',
+    'DBError',
+    'Error',
+    'Unknown',
+    'LostConn',
+    'CancelByRemote',
+  ],
 };
