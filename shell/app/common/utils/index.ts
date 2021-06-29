@@ -153,7 +153,7 @@ export const regRules = {
   },
   clusterName: {
     pattern: /^[a-z0-9]{1,20}(-[a-z0-9]{1,20})+$/,
-    message: i18n.t('dataCenter:for example, terminus-test'),
+    message: i18n.t('cmp:for example, terminus-test'),
   },
   lenRange: (min: number, max: number) => ({
     pattern: new RegExp(`^[\\s\\S]{${min},${max}}$`),

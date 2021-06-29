@@ -21,7 +21,7 @@ import AssociatedAddons from '../associated-addon';
 import { Right as IconRight } from '@icon-park/react';
 import './index.scss';
 import dcosServiceStore from 'dcos/stores/services';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { useLoading } from 'core/stores/loading';
 
 const { Option } = Select;
@@ -337,7 +337,7 @@ class ServiceManager extends React.Component {
                 allowClear
                 value={ip}
                 style={{ width: 150 }}
-                placeholder={i18n.t('dataCenter:search by IP')}
+                placeholder={i18n.t('cmp:search by IP')}
                 onChange={this.handleIpChange}
               />
               <Select value={environment} style={{ width: 120 }} onChange={this.handleEnvChange}>

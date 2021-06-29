@@ -20,7 +20,7 @@ import { IF } from 'common';
 import { goTo } from 'common/utils';
 import { CLUSTER_INFOS } from 'dcos/common/config';
 import i18n from 'i18n';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import './cluster-dashboard.scss';
 
 const DD_HOOK_PREFIX = 'https://oapi.dingtalk.com/';

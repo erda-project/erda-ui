@@ -13,8 +13,8 @@
 
 import * as React from 'react';
 import routeInfoStore from 'core/stores/route';
-import { CustomDashboardScope } from 'app/modules/dataCenter/stores/_common-custom-dashboard';
-import CustomDashboardList from 'app/modules/dataCenter/common/custom-dashboard';
+import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
+import CustomDashboardList from 'app/modules/cmp/common/custom-dashboard';
 
 export default () => {
   const { terminusKey } = routeInfoStore.useStore((s) => s.params);

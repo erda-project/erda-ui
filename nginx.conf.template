@@ -72,6 +72,11 @@ server {
         rewrite ^/([^/]*)/microService/(.*) $my_scheme://$http_host/$1/msp/$2 redirect; 
     }
 
+    # 301 redirect url with replace dataCenter to cmp
+    location ~ ^/[^/]*/dataCenter/ {
+        rewrite ^/([^/]*)/dataCenter/(.*) $my_scheme://$http_host/$1/cmp/$2 redirect; 
+    }
+
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={

@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import { Button, Modal } from 'app/nusi';
 import * as React from 'react';
-import clusterStore from 'dataCenter/stores/cluster';
+import clusterStore from 'cmp/stores/cluster';
 import { useUpdate } from 'common';
 import './addon-cards.scss';
 

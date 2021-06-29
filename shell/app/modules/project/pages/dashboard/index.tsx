@@ -22,7 +22,7 @@ import i18n from 'i18n';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { getIterationDetail } from 'project/services/project-iteration';
 import { getProjectInfo, getDashboard } from 'project/services/project';
-import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
+import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
 const DashBoard = React.memo(PureBoardGrid);
 
