@@ -16,13 +16,14 @@ import * as React from 'react';
 import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, useUpdate } from 'common';
-import { DatePicker, InputNumber, message } from 'app/nusi';
+import { DatePicker, InputNumber, message, Alert, Popover, Button } from 'app/nusi';
 import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
 import { FormInstance } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
-import { insertWhen, regRules } from 'common/utils';
-import { Down as IconDown, Up as IconUp } from '@icon-park/react';
+import { goTo, insertWhen, regRules } from 'common/utils';
+import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
+import { Link } from 'react-router-dom';
 import './cluster-form.scss';
 
 enum RepeatMode {
@@ -135,11 +136,15 @@ const ClusterBasicForm = ({
     {
       label: i18n.t('org:cluster name'),
       name: 'displayName',
-      pattern: /^.{1,30}$/,
+      pattern: /^.{1,50}$/,
       required: false,
       itemProps: {
-        maxLength: 30,
+        maxLength: 50,
       },
+      suffix:
+        clusterType === 'k8s' ? (
+          <Alert message={`${i18n.d('提示')}:`} description={k8sPrompt} type="warning" className="mt-2" />
+        ) : null,
     },
     {
       label: i18n.t('org:extensive domain'),
@@ -238,6 +243,13 @@ const ClusterBasicForm = ({
               }
             },
           },
+          suffix: (
+            <div className="flex justify-end">
+              <a href="" target="__blank">
+                {i18n.d('了解KubeConfig文件如何编写？')}
+              </a>
+            </div>
+          ),
           required: !editMode,
         },
       ]),
@@ -247,9 +259,40 @@ const ClusterBasicForm = ({
           name: 'credential.address',
         },
         {
-          label: 'Secret',
+          label: (
+            <div className="flex items-center">
+              <div className="mr-1">Secret</div>
+              <Popover
+                title="请使用如下命令得到 Service Account 对应的 Secret 信息："
+                content={
+                  <div className="flex flex-col">
+                    <div># Copy the secret name from the output of the get secret command</div>
+                    <div id="command-script" className="whitespace-pre">
+                      {`~/$ kubectl get serviceaccounts <service-account-name> -o yaml\n~/$ kubectl get secret <service-account-secret-name> -o yaml`}
+                    </div>
+                    <div className="flex justify-end mt-2">
+                      <Button type="ghost" className="btn-to-copy" data-clipboard-target="#command-script">
+                        {i18n.d('复制到剪切板')}
+                      </Button>
+                    </div>
+                  </div>
+                }
+              >
+                <IconHelp className="text-icon cursor-pointer" />
+              </Popover>
+            </div>
+          ),
           name: 'credential.content',
           type: 'textArea',
+          initialValue: editMode ? '********' : '',
+          itemProps: {
+            onClick: () => {
+              if (!form.isFieldTouched('credential.content')) {
+                form.setFieldsValue({ 'credential.content': undefined });
+              }
+            },
+          },
+          required: !editMode,
         },
       ]),
     ]),
@@ -257,6 +300,25 @@ const ClusterBasicForm = ({
 
   return <RenderPureForm list={fieldsList} form={form} />;
 };
+
+const k8sAlert = (
+  <span>
+    {i18n.d(
+      '导入集群初始化过程中会对集群所有节点打上组织名的标签，方便该组织服务和任务调用。如果需要Erda最佳调用策略还需要进入',
+    )}
+    <Link to={goTo.resolve.dataCenterRoot()} className="mx-1">{`${i18n.d('多云管理平台')} -> ${i18n.d(
+      '集群总览',
+    )} -> ${i18n.d('设置标签')}`}</Link>
+    {i18n.d('进行配置')}
+  </span>
+);
+
+const k8sPrompt = (
+  <div>
+    <div>1. 请确保您的Kubernetes集群和Erda的网络通畅</div>
+    <div>2. 导入集群后，该集群中的节点会默认打上组织的标签</div>
+  </div>
+);
 
 const ClusterSchedulerForm = ({
   form,
@@ -537,6 +599,9 @@ const ClusterAddForm = (props: any) => {
 
   return (
     <div className="cluster-form">
+      <If condition={clusterType === 'k8s'}>
+        <Alert message={`${i18n.d('注意')}:`} description={k8sAlert} type="normal" className="mb-8" />
+      </If>
       <ClusterBasicForm
         form={form}
         clusterType={clusterType}
