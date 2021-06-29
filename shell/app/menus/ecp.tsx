@@ -11,27 +11,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { goTo } from 'common/utils';
+import i18n from 'i18n';
+import {
+  ApplicationOne as IconApplicationOne,
+  DataAll as IconDataAll,
+  SettingConfig as IconSettingConfig,
+} from '@icon-park/react';
 import React from 'react';
-import DiceConfigPage from 'app/config-page';
-import routeInfoStore from 'core/stores/route';
-import { cloneDeep } from 'app/external/custom-lodash';
 
-const configItemList = () => {
-  const [{ id }] = routeInfoStore.useStore((s) => [s.params]);
-  const inParams = {
-    id: +id,
-  };
-
-  return (
-    <div>
-      <DiceConfigPage
-        showLoading
-        scenarioKey="edge-configSet-item"
-        scenarioType="edge-configSet-item"
-        inParams={inParams}
-      />
-    </div>
-  );
+export const getEcpMenu = () => {
+  return [
+    {
+      href: goTo.resolve.ecpApp(),
+      icon: <IconApplicationOne />,
+      text: i18n.t('ecp:application'),
+    },
+    {
+      href: goTo.resolve.ecpResource(),
+      icon: <IconDataAll />,
+      text: i18n.t('resource management'),
+    },
+    {
+      href: goTo.resolve.ecpSetting(),
+      icon: <IconSettingConfig />,
+      text: i18n.t('ecp:configuration'),
+    },
+  ];
 };
-
-export default configItemList;

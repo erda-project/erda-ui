@@ -305,13 +305,13 @@ export enum pages {
   apiDocs = '/{orgName}/dop/projects/{projectId}/apps/{appId}/repo/tree/{branchName}/.dice/apidocs/{docName}',
 
   // 边缘计算平台
-  edgeApp = '/{orgName}/edge/application',
-  edgeAppSiteManage = '/{orgName}/edge/application/{id}',
-  edgeAppSiteIpManage = '/{orgName}/edge/application/{id}/{siteName}',
-  edgeResource = '/{orgName}/edge/resource',
-  edgeSiteMachine = '/{orgName}/edge/resource/{id}',
-  edgeSetting = '/{orgName}/edge/setting',
-  edgeSettingDetail = '/{orgName}/edge/setting/{id}',
+  ecpApp = '/{orgName}/ecp/application',
+  ecpAppSiteManage = '/{orgName}/ecp/application/{id}',
+  ecpAppSiteIpManage = '/{orgName}/ecp/application/{id}/{siteName}',
+  ecpResource = '/{orgName}/ecp/resource',
+  ecpSiteMachine = '/{orgName}/ecp/resource/{id}',
+  ecpSetting = '/{orgName}/ecp/setting',
+  ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
 
   // sysAdmin
   sysAdminOrgs = '/{orgName}/sysAdmin/orgs',

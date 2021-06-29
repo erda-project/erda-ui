@@ -14,7 +14,7 @@
 import * as React from 'react';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage from 'app/config-page';
-import { get, cloneDeep, set } from 'lodash';
+import { get } from 'lodash';
 import i18n from 'i18n';
 
 import { Drawer } from 'app/nusi';

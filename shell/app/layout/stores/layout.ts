@@ -102,8 +102,8 @@ const layout = createStore({
         switchToApp('dop');
       } else if (isIn('msp')) {
         switchToApp('msp');
-      } else if (isIn('edge')) {
-        switchToApp('edge');
+      } else if (isIn('ecp')) {
+        switchToApp('ecp');
         // } else if (isIn('sysAdmin')) {
         //   switchToApp(appMap.sysAdmin);
       } else if (isIn('apiManage')) {
@@ -117,7 +117,7 @@ const layout = createStore({
         isEntering('cmp') ||
         isEntering('dop') ||
         isEntering('msp') ||
-        isEntering('edge') ||
+        isEntering('ecp') ||
         isEntering('sysAdmin')
       ) {
         enableIconfont('dice-icon');

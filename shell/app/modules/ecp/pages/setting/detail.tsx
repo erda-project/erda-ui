@@ -14,18 +14,23 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { cloneDeep } from 'app/external/custom-lodash';
 
-const configSetList = () => {
-  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+const configItemList = () => {
+  const [{ id }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
-    projectId: +projectId,
+    id: +id,
   };
+
   return (
     <div>
-      <DiceConfigPage showLoading scenarioKey="edge-configSet" scenarioType="edge-configSet" inParams={inParams} />
+      <DiceConfigPage
+        showLoading
+        scenarioKey="edge-configSet-item"
+        scenarioType="edge-configSet-item"
+        inParams={inParams}
+      />
     </div>
   );
 };
 
-export default configSetList;
+export default configItemList;
