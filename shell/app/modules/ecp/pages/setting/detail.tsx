@@ -14,7 +14,6 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { cloneDeep } from 'app/external/custom-lodash';
 
 const configItemList = () => {
   const [{ id }] = routeInfoStore.useStore((s) => [s.params]);

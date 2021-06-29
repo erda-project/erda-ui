@@ -19,7 +19,6 @@ import routeInfoStore from 'core/stores/route';
 import fileTreeStore from 'common/stores/file-tree';
 import { scopeConfig } from './scope-config';
 import { updateSearch } from 'common/utils';
-import { cloneDeep, get } from 'lodash';
 import { getINodeByPipelineId } from 'application/services/build';
 import DiceConfigPage from 'app/config-page';
 
