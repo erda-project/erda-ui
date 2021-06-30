@@ -252,7 +252,7 @@ export default () => {
       <div className="mb24">
         <PureBoardGrid layout={layout} />
       </div>
-      <Table loading={loading} rowKey="trace_id" columns={columns} dataSource={traceSummary} />
+      <Table loading={loading} rowKey="trace_id" columns={columns} dataSource={traceSummary} tableLayout="fixed" />
       <Drawer
         title={i18n.t('msp:link information')}
         visible={detailVisible}

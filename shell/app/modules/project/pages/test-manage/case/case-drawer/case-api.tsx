@@ -397,7 +397,14 @@ const ApiItem = ({
                 </div>
                 <Tabs>
                   <TabPane key="Params" tab="Params">
-                    <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestParams} />
+                    <Table
+                      rowKey="name"
+                      size="small"
+                      pagination={false}
+                      columns={columns}
+                      dataSource={requestParams}
+                      tableLayout="fixed"
+                    />
                   </TabPane>
                   <TabPane key="Headers" tab="Headers">
                     <Table
@@ -406,6 +413,7 @@ const ApiItem = ({
                       pagination={false}
                       columns={columns}
                       dataSource={requestHeaders}
+                      tableLayout="fixed"
                     />
                   </TabPane>
                   <TabPane key="Body" tab="Body">
@@ -450,7 +458,13 @@ const ApiItem = ({
               }
             >
               <TabPane key="Headers" tab="Headers">
-                <Table size="small" pagination={false} columns={columns} dataSource={responseHeaders} />
+                <Table
+                  size="small"
+                  pagination={false}
+                  columns={columns}
+                  dataSource={responseHeaders}
+                  tableLayout="fixed"
+                />
               </TabPane>
               <TabPane key="Body" tab="Body">
                 <Button

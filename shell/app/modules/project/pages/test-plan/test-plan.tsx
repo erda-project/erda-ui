@@ -197,7 +197,6 @@ const TestPlan = () => {
       <CustomFilter config={filterConfig} onSubmit={onSearch} />
       <Spin spinning={isFetching}>
         <Table
-          tableKey="test-plan-list"
           className="test-plan-list"
           rowKey="id"
           columns={columns}
@@ -216,6 +215,7 @@ const TestPlan = () => {
             pageSize: page.pageSize,
             onChange: onPageChange,
           }}
+          tableLayout="fixed"
         />
       </Spin>
     </div>

@@ -230,6 +230,7 @@ export const Iteration = () => {
             },
           };
         }}
+        tableLayout="fixed"
       />
       <IterationModal visible={state.modalVisible} data={state.curDetail as ITERATION.Detail} onClose={handleClose} />
     </div>

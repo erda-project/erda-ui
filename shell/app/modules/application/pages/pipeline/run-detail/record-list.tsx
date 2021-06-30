@@ -175,6 +175,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
               onSelectPipeline(p);
             },
           })}
+          tableLayout="fixed"
         />
       </div>
     );
@@ -242,7 +243,13 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         destroyOnClose
         className="site-message-drawer"
       >
-        <Table dataSource={pipelineReportList} columns={reportColumns} loading={loading} rowKey="id" />
+        <Table
+          dataSource={pipelineReportList}
+          columns={reportColumns}
+          loading={loading}
+          rowKey="id"
+          tableLayout="fixed"
+        />
       </Drawer>
     </>
   );

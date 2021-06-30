@@ -319,7 +319,6 @@ export default () => {
       <Panel title={i18n.t('msp:log message')} className="block">
         <Table
           loading={loadingLogs || loadingAddonLogs}
-          tableKey="log-query-message"
           rowKey="uniId"
           dataSource={logs}
           columns={columns}
@@ -330,6 +329,7 @@ export default () => {
             current: pageNo,
             onChange: (page) => setPageNo(page),
           }}
+          tableLayout="fixed"
         />
       </Panel>
     </div>

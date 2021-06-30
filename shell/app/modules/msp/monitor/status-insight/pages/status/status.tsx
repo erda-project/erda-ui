@@ -271,6 +271,7 @@ const Status = () => {
         columns={columns}
         dataSource={filterData}
         pagination={false}
+        tableLayout="fixed"
       />
     </div>
   );

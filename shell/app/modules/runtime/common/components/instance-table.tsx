@@ -159,6 +159,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
         }}
         loading={isFetching}
         pagination={paginationMap[pagingType]}
+        tableLayout="fixed"
         {...tableProps}
       />
     </div>

@@ -220,7 +220,14 @@ const IssueFieldManage = () => {
         </WithAuth>
         <Filter config={filterField} onFilter={onFilter} connectUrlSearch />
       </div>
-      <Table loading={isFetching} rowKey="propertyName" dataSource={tableList} columns={columns} pagination={false} />
+      <Table
+        loading={isFetching}
+        rowKey="propertyName"
+        dataSource={tableList}
+        columns={columns}
+        pagination={false}
+        tableLayout="fixed"
+      />
       <IssueFieldModal visible={modalVisible} formData={formData} onOk={onOk} closeModal={onClose} />
     </div>
   );

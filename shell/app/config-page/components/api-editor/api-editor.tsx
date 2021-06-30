@@ -415,7 +415,14 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 </div>
                 <Tabs>
                   <TabPane key="Params" tab="Params">
-                    <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestParams} />
+                    <Table
+                      rowKey="name"
+                      size="small"
+                      pagination={false}
+                      columns={columns}
+                      dataSource={requestParams}
+                      tableLayout="fixed"
+                    />
                   </TabPane>
                   <TabPane key="Headers" tab="Headers">
                     <Table
@@ -424,6 +431,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       pagination={false}
                       columns={columns}
                       dataSource={requestHeaders}
+                      tableLayout="fixed"
                     />
                   </TabPane>
                   <TabPane key="Body" tab="Body" className="body-tab">
@@ -472,7 +480,13 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
               }
             >
               <TabPane key="Headers" tab="Headers">
-                <Table size="small" pagination={false} columns={columns} dataSource={responseHeaders} />
+                <Table
+                  tableLayout="fixed"
+                  size="small"
+                  pagination={false}
+                  columns={columns}
+                  dataSource={responseHeaders}
+                />
               </TabPane>
               <TabPane key="Body" tab="Body">
                 {body ? (

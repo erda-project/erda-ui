@@ -470,7 +470,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} />
+        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} tableLayout="fixed" />
       </Spin>
     </div>
   );

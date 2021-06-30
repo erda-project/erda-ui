@@ -124,11 +124,11 @@ const PodTable = (props: IProps) => {
       columns={podTableColumn}
       dataSource={podList}
       rowKey="podName"
-      tableKey="pod-detail"
       pagination={{
         size: 'small',
         pageSize: 15,
       }}
+      tableLayout="fixed"
     />
   );
 };

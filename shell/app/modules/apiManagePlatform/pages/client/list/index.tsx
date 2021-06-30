@@ -71,20 +71,20 @@ const ClientList = () => {
   const columns: Array<ColumnProps<API_CLIENT.ClientItem>> = [
     {
       title: i18n.t('client name'),
-      dataIndex: 'client.displayName',
+      dataIndex: ['client', 'displayName'],
       render: (text, record) => text || record.client.name,
     },
     {
       title: i18n.t('client identifier'),
-      dataIndex: 'client.name',
+      dataIndex: ['client', 'name'],
     },
     {
       title: i18n.t('description'),
-      dataIndex: 'client.desc',
+      dataIndex: ['client', 'desc'],
     },
     {
       title: i18n.t('operation'),
-      dataIndex: 'client.id',
+      dataIndex: ['client', 'id'],
       width: 120,
       render: (text, record) => {
         return (
@@ -135,6 +135,7 @@ const ClientList = () => {
             },
           };
         }}
+        tableLayout="fixed"
       />
       <Modal
         title={i18n.t('client info')}

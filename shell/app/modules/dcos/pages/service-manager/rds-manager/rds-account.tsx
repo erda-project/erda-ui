@@ -178,7 +178,7 @@ const RdsAccount = () => {
         columns={columns}
         dataSource={RDSAccountList}
         rowKey="accountName"
-        tableKey="rds-account"
+        tableLayout="fixed"
       />
       <ResetPasswordForm
         visible={resetFormVisible}

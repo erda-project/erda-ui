@@ -230,8 +230,14 @@ const TestSet = ({
     } else {
       let newActiveKey = rootKey;
       let tempIndex = 0;
-      const promiseArr: Array<PromiseLike<{ testSetID: number; key: string; pKey: string; list: TEST_SET.TestSet[] }>> =
-        [];
+      const promiseArr: Array<
+        PromiseLike<{
+          testSetID: number;
+          key: string;
+          pKey: string;
+          list: TEST_SET.TestSet[];
+        }>
+      > = [];
       expandIds.forEach(({ id, key, pKey }) => {
         promiseArr.push(
           getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then((res) => ({

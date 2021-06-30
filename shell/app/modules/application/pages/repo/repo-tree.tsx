@@ -168,6 +168,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
             dataSource={dataSource}
             pagination={false}
             rowKey="name"
+            tableLayout="fixed"
             onRow={({ name, id }) => {
               const tropicalPathName = encodeURI(name);
               return {
@@ -199,7 +200,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               },
               {
                 title: 'Last Commit',
-                dataIndex: 'commit.commitMessage',
+                dataIndex: ['commit', 'commitMessage'],
                 width: '55%',
                 render: (text, record) => (
                   <Skeleton active loading={!record.commit} paragraph={false}>
@@ -214,7 +215,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               },
               {
                 title: 'Last Update',
-                dataIndex: 'commit.author.when',
+                dataIndex: ['commit', 'author.when'],
                 width: 115,
                 render: (text) => (text ? fromNow(text) : ''),
               },

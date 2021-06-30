@@ -252,7 +252,7 @@ const Transaction = () => {
             ))}
           </RadioGroup>
         </div>
-        <Table loading={isFetching} rowKey="requestId" columns={columns} dataSource={dataSource} />
+        <Table loading={isFetching} rowKey="requestId" columns={columns} dataSource={dataSource} tableLayout="fixed" />
         <Drawer
           destroyOnClose
           title={i18n.t('runtime:monitor log')}

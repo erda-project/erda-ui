@@ -438,7 +438,14 @@ const Ticket = () => {
         formatFormData={formatFormData}
         updateSearch={handleUpdateSearch}
       />
-      <Table loading={loading} columns={columns} dataSource={list} rowKey="id" pagination={pagination} />
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={list}
+        rowKey="id"
+        pagination={pagination}
+        tableLayout="fixed"
+      />
       <EditIssueDrawer
         id={detailId}
         issueType={ISSUE_TYPE.TICKET}

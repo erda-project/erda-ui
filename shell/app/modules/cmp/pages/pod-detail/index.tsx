@@ -117,7 +117,13 @@ const PodDetail = () => {
           </div>
           <div className="instance mb32">
             <span className="title bold-500">{i18n.t('org:instance list')} TOP10</span>
-            <Table rowKey="containerId" pagination={false} columns={columns} dataSource={podDetail.instances || []} />
+            <Table
+              rowKey="containerId"
+              pagination={false}
+              columns={columns}
+              dataSource={podDetail.instances || []}
+              tableLayout="fixed"
+            />
             {drawer}
           </div>
         </div>

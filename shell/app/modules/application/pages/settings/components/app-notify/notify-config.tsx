@@ -215,7 +215,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     },
     {
       title: i18n.t('default:notification target'),
-      dataIndex: 'notifyGroup.targets',
+      dataIndex: ['notifyGroup', 'targets'],
       tip: true,
       className: 'notify-info',
       render: (targets) => (
@@ -293,7 +293,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} />
+        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} tableLayout="fixed" />
       </Spin>
     </div>
   );

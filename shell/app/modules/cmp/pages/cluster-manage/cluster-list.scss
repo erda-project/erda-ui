@@ -85,6 +85,13 @@
   text-align: center;
 }
 
+.operate-list {
+  .ant-popover span {
+    display: block;
+    white-space: nowrap;
+  }
+}
+
 .cloud-log-step-wrap {
   display: flex;
   width: 70%;

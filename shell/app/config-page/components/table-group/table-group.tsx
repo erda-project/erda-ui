@@ -37,7 +37,14 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
           <div className="mb12 ml4">
             <Text props={description} type="Text" {...extraProps} />
           </div>
-          <Table props={table?.props} data={table?.data} operations={table?.operations} {...extraProps} type="Table" />
+          <Table
+            tableLayout="fixed"
+            props={table?.props}
+            data={table?.data}
+            operations={table?.operations}
+            {...extraProps}
+            type="Table"
+          />
           <div className="mt12 ml4">
             <Text props={extraInfo?.props} operations={extraInfo?.operations} type="Text" {...extraProps} />
           </div>

@@ -194,6 +194,7 @@ export const OperationHistory = () => {
           total: operationPaging.total,
           onChange: (no: number) => getList({ pageNo: no, ...filters }),
         }}
+        tableLayout="fixed"
       />
       <ClusterLog recordID={curRow && curRow.recordID} onClose={() => updater.curRow(null)} />
     </div>

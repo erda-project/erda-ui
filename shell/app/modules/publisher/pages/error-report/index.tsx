@@ -231,6 +231,7 @@ const ErrorList = ({
         loading={loading}
         dataSource={errorList.map((item, i) => ({ ...item, key: i }))}
         pagination={false}
+        tableLayout="fixed"
       />
     </>
   );

@@ -320,7 +320,7 @@ const BranchRule = (props: IProps) => {
           </Button>
         </WithAuth>
       </div>
-      <Table rowKey="id" tableKey="branch-rule" dataSource={branchRules} columns={columns} />
+      <Table rowKey="id" dataSource={branchRules} columns={columns} tableLayout="fixed" />
       <FormModal
         name={i18n.t('project:branch rule')}
         onCancel={onCancel}

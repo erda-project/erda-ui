@@ -231,7 +231,13 @@ const NoticeManage = () => {
             placeholder={i18n.t('org:search by content')}
           />
         </div>
-        <Table rowKey="id" columns={[...columns, ...opCol]} dataSource={list} pagination={pagination} />
+        <Table
+          rowKey="id"
+          columns={[...columns, ...opCol]}
+          dataSource={list}
+          pagination={pagination}
+          tableLayout="fixed"
+        />
         <FormModal
           formData={formData}
           name={i18n.t('org:announcement management')}

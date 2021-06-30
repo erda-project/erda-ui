@@ -155,24 +155,27 @@ const RelatedBugs = ({ relationID }: IProps) => {
       width: 180,
       render: (text: string) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
-  ];
-  const action = {
-    width: 80,
-    render: ({ issueRelationID }: TEST_CASE.RelatedBug) => {
-      return [
-        <div className="table-operations">
-          <Popconfirm
-            title={i18n.t('confirm remove relation?')}
-            onConfirm={() => {
-              disRelated([issueRelationID]);
-            }}
-          >
-            <span className="table-operations-btn">{i18n.t('remove relation')}</span>
-          </Popconfirm>
-        </div>,
-      ];
+    {
+      title: null,
+      dataIndex: 'operate',
+      width: 80,
+      render: (text, { issueRelationID }: TEST_CASE.RelatedBug) => {
+        return [
+          <div className="table-operations">
+            <Popconfirm
+              title={i18n.t('confirm remove relation?')}
+              onConfirm={() => {
+                disRelated([issueRelationID]);
+              }}
+            >
+              <span className="table-operations-btn">{i18n.t('remove relation')}</span>
+            </Popconfirm>
+          </div>,
+        ];
+      },
     },
-  };
+  ];
+
   const goToBugs = (record: TEST_CASE.RelatedBug) => {
     const { issueID, iterationID } = record;
     goTo(goTo.pages.bugList, {
@@ -258,7 +261,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
           </Button>
         </div>
       ) : null}
-      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} rowAction={action} />
+      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} tableLayout="fixed" />
     </div>
   );
 };

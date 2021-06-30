@@ -178,6 +178,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
         pagination={{
           pageSize: PAGINATION.pageSize,
         }}
+        tableLayout="fixed"
       />
     </div>
   );

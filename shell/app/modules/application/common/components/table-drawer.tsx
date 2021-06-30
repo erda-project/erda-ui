@@ -138,6 +138,7 @@ const TableDrawer = (props) => {
             }
             dataSource={tableAttrsList}
             pagination={{ current, pageSize: PAGINATION.pageSize, total, onChange: onPageChange }}
+            tableLayout="fixed"
           />
         </SearchTable>
       </Spin>

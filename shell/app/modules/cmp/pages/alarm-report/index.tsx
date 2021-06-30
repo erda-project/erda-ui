@@ -320,7 +320,6 @@ export default () => {
       </div>
       <Spin spinning={loading}>
         <Table
-          tableKey="common-notify-list"
           rowKey="id"
           className="common-notify-list"
           dataSource={reportTasks}
@@ -338,6 +337,7 @@ export default () => {
               },
             };
           }}
+          tableLayout="fixed"
         />
       </Spin>
     </>

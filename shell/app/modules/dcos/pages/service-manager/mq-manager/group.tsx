@@ -237,10 +237,10 @@ const Group = () => {
         columns={columns}
         dataSource={MQGroupList}
         rowKey="groupId"
-        tableKey="group-manage"
         rowSelection={{
           onChange: handleSelect,
         }}
+        tableLayout="fixed"
       />
       <SetTagForm
         items={items}

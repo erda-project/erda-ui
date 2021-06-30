@@ -89,6 +89,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
                       render: (unit) => slaUnitMap[unit],
                     },
                   ]}
+                  tableLayout="fixed"
                 />
               </Panel>
             );

@@ -83,7 +83,7 @@ const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
   return (
     <Modal visible={visible} title={i18n.t('default:restore')} onCancel={onCancel}>
       <RenderForm layout="vertical" list={fieldsList} />
-      <Table loading={isFetch} columns={columns} dataSource={backupFiles} pagination={false} />
+      <Table loading={isFetch} columns={columns} dataSource={backupFiles} pagination={false} tableLayout="fixed" />
     </Modal>
   );
 };

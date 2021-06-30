@@ -166,24 +166,25 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       width: 180,
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
     },
-  ];
-
-  const action = {
-    render: (record: ISSUE.IssueType) => {
-      return [
-        <WithAuth pass={authObj.edit.pass} key="remove-relation">
-          <Popconfirm
-            title={`${i18n.t('confirm remove relation?')}`}
-            placement="bottom"
-            onConfirm={() => onDelete(record)}
-          >
-            <span className="fake-link">{i18n.t('project:disassociate')}</span>
-          </Popconfirm>
-        </WithAuth>,
-      ];
+    {
+      title: null,
+      dataIndex: 'operate',
+      render: (text, record: ISSUE.IssueType) => {
+        return [
+          <WithAuth pass={authObj.edit.pass} key="remove-relation">
+            <Popconfirm
+              title={`${i18n.t('confirm remove relation?')}`}
+              placement="bottom"
+              onConfirm={() => onDelete(record)}
+            >
+              <span className="fake-link">{i18n.t('project:disassociate')}</span>
+            </Popconfirm>
+          </WithAuth>,
+        ];
+      },
+      width: authObj.edit.pass ? 80 : 0,
     },
-    width: 80,
-  };
+  ];
 
   const addRelation = (val: number) => {
     addIssueRelation({ relatedIssues: val, id: issue.id, projectId: +projectId }).then(() => {
@@ -250,20 +251,19 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       </div>
       <Title level={2} className="my8" title={i18n.t('project:related to these issues')} />
       <Table
-        tableKey="relation"
         columns={columns}
-        rowAction={action}
         dataSource={relatingList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
+        tableLayout="fixed"
       />
       <Title level={2} className="mt16 mb8" title={i18n.t('project:related by these issues')} />
       <Table
-        tableKey="related"
         columns={columns}
         dataSource={relatedList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
+        tableLayout="fixed"
       />
     </div>
   );

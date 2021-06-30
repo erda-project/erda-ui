@@ -184,7 +184,6 @@ export const PurePublisherList = ({
           </WithAuth>
         </div>
         <Table
-          tableKey="my-publisher-list"
           rowKey="id"
           columns={column}
           dataSource={list}
@@ -200,6 +199,7 @@ export const PurePublisherList = ({
             ...paging,
             onChange: handlePageChange,
           }}
+          tableLayout="fixed"
         />
         <ArtifactsFormModal visible={formVisible} onCancel={closeFormModal} afterSubmit={afterSubmitAction} />
       </div>

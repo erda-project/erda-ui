@@ -121,7 +121,10 @@ const testCaseStore = createStore({
           apiCount,
           testCaseID,
           id,
-        } = await call(getDetailRelations, { ...payload, testPlanID: testPlanId });
+        } = await call(getDetailRelations, {
+          ...payload,
+          testPlanID: testPlanId,
+        });
         const detail = await call(getDetail, { id: testCaseID, testPlanID: testPlanId });
         caseDetail = {
           ...detail,

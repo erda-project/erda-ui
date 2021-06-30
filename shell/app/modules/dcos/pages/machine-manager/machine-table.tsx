@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, AntTable } from 'app/nusi';
+import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, Table } from 'app/nusi';
 import { groupBy, isNaN, isEmpty, filter, get, map, round } from 'lodash';
 import classNames from 'classnames';
 import { IF, useUpdate, Icon as CustomIcon, TagsColumn, TableActions } from 'common';
@@ -626,7 +626,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
 
   return (
     <div className="machine-table">
-      <AntTable
+      <Table
         className="machine-list-table"
         loading={isFetching}
         rowKey="ip"
@@ -635,6 +635,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         columns={columns}
         scroll={{ x: 1500 }}
         dataSource={filterList}
+        tableLayout="fixed"
       />
       <MachineTagForm
         machine={stateMap.recordData as ORG_MACHINE.IMachine}

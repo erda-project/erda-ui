@@ -153,25 +153,25 @@ const ApiMarketList = () => {
   const columns: Array<ColumnProps<API_MARKET.AssetListItem>> = [
     {
       title: i18n.t('API name'),
-      dataIndex: 'asset.assetName',
+      dataIndex: ['asset', 'assetName'],
     },
     {
       title: i18n.t('API description'),
-      dataIndex: 'asset.desc',
+      dataIndex: ['asset', 'desc'],
     },
     {
       title: 'API ID',
-      dataIndex: 'asset.assetID',
+      dataIndex: ['asset', 'assetID'],
     },
     {
       title: i18n.t('update time'),
-      dataIndex: 'asset.updatedAt',
+      dataIndex: ['asset', 'updatedAt'],
       width: 180,
       render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('creator'),
-      dataIndex: 'asset.creatorID',
+      dataIndex: ['asset', 'creatorID'],
       width: 180,
       render: (text) => <UserInfo id={text} />,
     },
@@ -245,6 +245,7 @@ const ApiMarketList = () => {
         }}
         onChange={handleTableChange}
         loading={isFetchList}
+        tableLayout="fixed"
       />
       <AssetModal
         visible={state.visible}

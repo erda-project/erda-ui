@@ -100,7 +100,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
   const columns: Array<ColumnProps<API_ACCESS.Client>> = [
     {
       title: i18n.t('client name'),
-      dataIndex: 'client.displayName',
+      dataIndex: ['client', 'displayName'],
       render: (text, record) => {
         return (
           <div className="flex-box flex-start">
@@ -125,19 +125,19 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     },
     {
       title: i18n.t('client identifier'),
-      dataIndex: 'client.name',
+      dataIndex: ['client', 'name'],
     },
     {
       title: i18n.t('current SLA'),
-      dataIndex: 'contract.curSLAName',
+      dataIndex: ['contract', 'curSLAName'],
     },
     {
       title: i18n.t('applying SLA'),
-      dataIndex: 'contract.requestSLAName',
+      dataIndex: ['contract', 'requestSLAName'],
     },
     {
       title: i18n.t('status'),
-      dataIndex: 'contract.status',
+      dataIndex: ['contract', 'status'],
       render: (text, { contract }) => {
         if (contract.requestSLAID && text === 'proved') {
           return i18n.t('apply to change SLA');
@@ -202,6 +202,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
             },
           };
         }}
+        tableLayout="fixed"
       />
       <DetailModal
         visible={state.visible}

@@ -184,6 +184,7 @@ const ApiParamsModal = (props: IProps) => {
                         },
                       }}
                       pagination={false}
+                      tableLayout="fixed"
                     />
                   </Panel>
                 </Collapse>

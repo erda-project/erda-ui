@@ -102,6 +102,7 @@ export const EditableTable = (props: IEditableTableProps) => {
         columns={_columns}
         rowKey={(rec: any, i: number) => `${i}${rec.ip}`}
         pagination={false}
+        tableLayout="fixed"
       />
     </div>
   );

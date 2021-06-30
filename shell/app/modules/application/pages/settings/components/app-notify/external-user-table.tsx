@@ -142,7 +142,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       <Button className="mb8" type="primary" ghost onClick={handleAddExternalUser}>
         {i18n.t('org:add external user')}
       </Button>
-      <Table bordered rowKey="uniKey" dataSource={editingExternalUsers} columns={columns} />
+      <Table bordered rowKey="uniKey" dataSource={editingExternalUsers} columns={columns} tableLayout="fixed" />
     </>
   );
 };

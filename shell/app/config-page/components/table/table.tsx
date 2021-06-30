@@ -107,15 +107,7 @@ export function Table(props: CP_TABLE.Props) {
 
     extra.expandedRowRender = (rowData: any) => {
       const { expandedList } = rowData || {};
-      return (
-        <PureTable
-          tableKey="child-table"
-          columns={exTableColumns}
-          rowKey={rowKey}
-          dataSource={expandedList}
-          pagination={false}
-        />
-      );
+      return <PureTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} />;
     };
   }
 

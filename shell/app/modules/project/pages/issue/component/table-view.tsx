@@ -380,6 +380,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
             updater.filterObj({ ...filterObj, pageNo: pgNo });
           },
         }}
+        tableLayout="fixed"
       />
     </div>
   );

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Tooltip, Menu, Modal, Table } from 'app/nusi';
+import { Dropdown, Tooltip, Menu, Modal, Table, Popover } from 'app/nusi';
 import { goTo, notify } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
@@ -231,7 +231,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const curDetail = find(state.clusterDetailList, (item) => get(item, 'basic.clusterName.value') === name) || {};
     return curDetail;
   };
-  const renderMenu = (record: ORG_CLUSTER.ICluster) => {
+  const renderMenu = (record: ORG_CLUSTER.ICluster, index: number) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
     const {
@@ -269,13 +269,33 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
     };
 
-    return map(clusterOpsMap[record.cloudVendor || record.type] || [], (op) => {
-      return (
-        <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
-          {op.title}
-        </span>
-      );
-    });
+    const operateList = (clusterOpsMap[record.cloudVendor || record.type] || []).map(
+      (op: { title: string; onClick: () => void }) => {
+        return (
+          <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
+            {op.title}
+          </span>
+        );
+      },
+    );
+
+    return (
+      <span className="operate-list">
+        {operateList.length > 3 ? (
+          <>
+            {operateList.slice(0, 3)}
+            <Popover
+              content={operateList.slice(3)}
+              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+            >
+              <CustomIcon className="fake-link ml4" type="more" />
+            </Popover>
+          </>
+        ) : (
+          operateList
+        )}
+      </span>
+    );
   };
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
@@ -333,14 +353,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         return get(clusterDetail, 'basic.masterNum.value', '0');
       },
     },
-  ];
-  const actions = {
-    title: i18n.t('default:operation'),
-    render: (record: ORG_CLUSTER.ICluster) => {
-      return renderMenu(record);
+    {
+      title: i18n.t('default:operation'),
+      dataIndex: 'operation',
+      render: (text, record: ORG_CLUSTER.ICluster, index) => {
+        return renderMenu(record, index);
+      },
     },
-    width: 150,
-  };
+  ];
 
   return (
     <>
@@ -365,7 +385,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         curCluster={state.curDeleteCluster}
       />
       <div>
-        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" rowAction={actions} />
+        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
       </div>
     </>
   );

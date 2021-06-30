@@ -278,7 +278,6 @@ export const ProjectList = () => {
           </div>
           <Table
             rowKey="id"
-            tableKey="prj"
             dataSource={list}
             columns={getColumns()}
             rowClassName={() => 'pointer'}
@@ -295,6 +294,7 @@ export const ProjectList = () => {
               total,
             }}
             onChange={handleTableChange}
+            tableLayout="fixed"
           />
         </SearchTable>
       </Spin>

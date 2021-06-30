@@ -254,6 +254,7 @@ const MiddlewareDashboard = () => {
           },
         })}
         onChange={handleTableChange}
+        tableLayout="fixed"
       />
     </>
   );

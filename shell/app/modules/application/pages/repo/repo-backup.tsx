@@ -195,7 +195,7 @@ export default function BackupManagement() {
           onCancel={() => setVisible(false)}
         />
       </div>
-      <Table columns={columns} rowKey="id" dataSource={backupList} pagination={backupPagination} />
+      <Table columns={columns} rowKey="id" dataSource={backupList} pagination={backupPagination} tableLayout="fixed" />
     </div>
   );
 }

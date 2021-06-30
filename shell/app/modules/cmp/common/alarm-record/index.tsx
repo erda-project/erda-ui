@@ -170,7 +170,6 @@ export default ({ scope }: { scope: string }) => {
     <>
       <CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table
-        tableKey="alarm-record"
         rowKey={(r) => r.groupId}
         dataSource={recordList}
         loading={loading}
@@ -183,6 +182,7 @@ export default ({ scope }: { scope: string }) => {
             },
           };
         }}
+        tableLayout="fixed"
       />
     </>
   );

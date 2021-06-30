@@ -125,6 +125,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
               onSelectPipeline(p);
             },
           })}
+          tableLayout="fixed"
         />
       </div>
     );

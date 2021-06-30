@@ -129,6 +129,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
         loading={loading}
         pagination={{ pageSize: PAGINATION.pageSize }}
         scroll={{ x: 1500 }}
+        tableLayout="fixed"
       />
       {drawerComp}
     </>

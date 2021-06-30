@@ -105,7 +105,13 @@ const AddonDetailDrawer = (props: IProps) => {
           </div>
           <div className="ref">
             <span className="title bold-500">{i18n.t('org:reference detail')}</span>
-            <Table columns={refTableList} dataSource={addonReferences} pagination={false} rowKey="applicationName" />
+            <Table
+              tableLayout="fixed"
+              columns={refTableList}
+              dataSource={addonReferences}
+              pagination={false}
+              rowKey="applicationName"
+            />
           </div>
           <div className="config">
             <div className="flex-box">
