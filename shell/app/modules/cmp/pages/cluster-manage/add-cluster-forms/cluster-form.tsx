@@ -15,7 +15,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import moment, { Moment } from 'moment';
-import { RenderPureForm, FormModal, useUpdate } from 'common';
+import { RenderPureForm, FormModal, useUpdate, Copy } from 'common';
 import { DatePicker, InputNumber, message, Alert, Popover, Button } from 'app/nusi';
 import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
 import { FormInstance } from 'core/common/interface';
@@ -143,7 +143,7 @@ const ClusterBasicForm = ({
       },
       suffix:
         clusterType === 'k8s' ? (
-          <Alert message={`${i18n.d('提示')}:`} description={k8sPrompt} type="warning" className="mt-2" />
+          <Alert message={`${i18n.d('提示')}:`} description={k8sPrompt} type="warning" className="mt-4" />
         ) : null,
     },
     {
@@ -271,6 +271,7 @@ const ClusterBasicForm = ({
                       {`~/$ kubectl get serviceaccounts <service-account-name> -o yaml\n~/$ kubectl get secret <service-account-secret-name> -o yaml`}
                     </div>
                     <div className="flex justify-end mt-2">
+                      <Copy selector="#command-script" />
                       <Button type="ghost" className="btn-to-copy" data-clipboard-target="#command-script">
                         {i18n.d('复制到剪切板')}
                       </Button>
@@ -314,10 +315,10 @@ const k8sAlert = (
 );
 
 const k8sPrompt = (
-  <>
+  <div>
     <div>1. 请确保您的Kubernetes集群和Erda的网络通畅</div>
     <div>2. 导入集群后，该集群中的节点会默认打上组织的标签</div>
-  </>
+  </div>
 );
 
 const ClusterSchedulerForm = ({
@@ -386,6 +387,79 @@ const ClusterSchedulerForm = ({
         initialValue: 1,
         required: false,
       },
+      ...insertWhen(editMode, [
+        {
+          label: i18n.t('org:scale mode'),
+          name: 'opsConfig.scaleMode',
+          type: 'radioGroup',
+          options: map(scaleModeMap, (name, value) => ({ name, value })),
+          required: false,
+        },
+      ]),
+      ...insertWhen(opsConfig && opsConfig.scaleMode === 'scheduler', [
+        {
+          label: i18n.t('org:execution time'),
+          name: 'opsConfig.launchTime',
+          initialValue: initialOpsConfig && initialOpsConfig.launchTime,
+          getComp: () => (
+            <>
+              <DatePicker
+                className="full-width"
+                format="YYYY-MM-DD HH:mm"
+                defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
+                disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
+                showTime
+                onChange={(date) => {
+                  form.setFieldsValue({ 'opsConfig.launchTime': date });
+                }}
+              />
+            </>
+          ),
+        },
+        {
+          label: i18n.t('org:duration(h)'),
+          name: 'opsConfig.scaleDuration',
+          type: 'inputNumber',
+          initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,
+          itemProps: {
+            max: 12,
+            min: 0,
+            precision: 0,
+            placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 12 }),
+            className: 'full-width',
+          },
+        },
+        {
+          label: i18n.t('org:scale number'),
+          name: 'opsConfig.scaleNumber',
+          type: 'inputNumber',
+          initialValue: initialOpsConfig && initialOpsConfig.scaleNumber,
+          itemProps: {
+            max: 20,
+            min: 0,
+            precision: 0,
+            placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
+            className: 'full-width',
+          },
+        },
+        {
+          label: i18n.t('org:repeat mode'),
+          name: 'opsConfig.repeatMode',
+          type: 'select',
+          initialValue: repeatMode,
+          options: map(repeatModeMap, (name, value) => ({ value, name })),
+          itemProps: {
+            className: 'full-width',
+            onChange(value: string) {
+              form.setFieldsValue({
+                'opsConfig.repeatValue': undefined,
+              });
+              updater.repeatValue('');
+              updater.repeatMode(value);
+            },
+          },
+        },
+      ]),
     ],
     dcos: [
       {
@@ -436,84 +510,7 @@ const ClusterSchedulerForm = ({
     ],
   };
 
-  if (editMode) {
-    fieldListMap.k8s.push({
-      label: i18n.t('org:scale mode'),
-      name: ['opsConfig', 'scaleMode'],
-      type: 'radioGroup',
-      shouldUpdate: true,
-      options: map(scaleModeMap, (name, value) => ({ name, value })),
-      required: false,
-    });
-  }
-
   if (opsConfig && opsConfig.scaleMode === 'scheduler') {
-    fieldListMap.k8s.push(
-      {
-        label: i18n.t('org:execution time'),
-        name: ['opsConfig', 'launchTime'],
-        initialValue: initialOpsConfig && initialOpsConfig.launchTime,
-        shouldUpdate: true,
-        getComp: () => (
-          <>
-            <DatePicker
-              className="full-width"
-              format="YYYY-MM-DD HH:mm"
-              defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
-              disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
-              showTime
-              onChange={(date) => {
-                form.setFieldsValue({ 'opsConfig.launchTime': date });
-              }}
-            />
-          </>
-        ),
-      },
-      {
-        label: i18n.t('org:duration(h)'),
-        name: ['opsConfig', 'scaleDuration'],
-        type: 'inputNumber',
-        initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,
-        itemProps: {
-          max: 12,
-          min: 0,
-          precision: 0,
-          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 12 }),
-          className: 'full-width',
-        },
-      },
-      {
-        label: i18n.t('org:scale number'),
-        name: ['opsConfig', 'scaleNumber'],
-        type: 'inputNumber',
-        initialValue: initialOpsConfig && initialOpsConfig.scaleNumber,
-        itemProps: {
-          max: 20,
-          min: 0,
-          precision: 0,
-          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
-          className: 'full-width',
-        },
-      },
-      {
-        label: i18n.t('org:repeat mode'),
-        name: ['opsConfig', 'repeatMode'],
-        type: 'select',
-        initialValue: repeatMode,
-        options: map(repeatModeMap, (name, value) => ({ value, name })),
-        itemProps: {
-          className: 'full-width',
-          onChange(value: string) {
-            form.setFieldsValue({
-              'opsConfig.repeatValue': undefined,
-            });
-            updater.repeatValue('');
-            updater.repeatMode(value);
-          },
-        },
-      },
-    );
-
     let repeatValueField;
     switch (repeatMode) {
       case RepeatMode.WEEKLY:
@@ -593,6 +590,7 @@ const ClusterSchedulerForm = ({
   const fieldsList = clusterType ? fieldListMap[clusterType] : [];
   return <RenderPureForm list={fieldsList} form={form} />;
 };
+
 const ClusterAddForm = (props: any) => {
   const { form, mode, formData, clusterList, clusterType } = props;
   const [showMore, setShowMore] = React.useState(false);

@@ -116,11 +116,16 @@ const ClusterManage = () => {
     } else {
       addCluster({ ...restData, credential });
     }
+    if (restData.credentialType === 'proxy') {
+      setSearch({ autoOpenCmd: true, clusterName: restData.clusterName }, [], true);
+    }
   };
+
   const handleAddAliCloudContainer = ({ recordID }: { recordID: string }) => {
     updater.logRecordId(recordID);
     updater.aliCloudContainerFormVisible(false);
   };
+
   const handleAddAliCloudErdc = ({ recordID }: { recordID: string }) => {
     updater.logRecordId(recordID);
     updater.aliCloudErdcFormVisible(false);

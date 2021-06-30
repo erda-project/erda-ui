@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Modal, Table, Popover } from 'app/nusi';
-import { goTo, insertWhen, notify } from 'common/utils';
+import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
@@ -32,6 +32,7 @@ import { Button, Drawer, Input, message, Spin } from 'core/nusi';
 import { bgColorClsMap } from 'app/common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
+import routeStore from 'core/stores/route';
 
 import './cluster-list.scss';
 
@@ -176,7 +177,16 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const curDetail = find(state.clusterDetailList, (item) => get(item, 'basic.clusterName.value') === name) || {};
     return curDetail;
   };
-  
+
+  const showCommand = React.useCallback(
+    async (clusterName: string) => {
+      updater.registerCommandVisible(true);
+      const command = await getRegisterCommand({ clusterName });
+      setRegisterCommand(command);
+    },
+    [getRegisterCommand, updater],
+  );
+
   const renderMenu = (record: ORG_CLUSTER.ICluster) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
@@ -208,10 +218,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
       showRegisterCommand: {
         title: i18n.d('注册命令'),
-        onClick: async () => {
-          updater.registerCommandVisible(true);
-          const command = await getRegisterCommand({ clusterName: record.name });
-          setRegisterCommand(command);
+        onClick: () => {
+          showCommand(record.name);
         },
       },
     };
@@ -356,6 +364,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       };
     },
   });
+
+  const query = routeStore.useStore((s) => s.query);
+  React.useEffect(() => {
+    if (query.autoOpenCmd) {
+      showCommand(query.clusterName);
+      setSearch({}, [], true);
+    }
+  }, [query, showCommand]);
 
   return (
     <>

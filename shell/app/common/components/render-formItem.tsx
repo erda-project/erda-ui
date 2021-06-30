@@ -251,8 +251,8 @@ export const RenderFormItem = ({
         {...itemConfig}
       >
         {ItemComp}
+        {suffix}
       </FormItem>
-      {suffix}
       {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
       {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
     </>
