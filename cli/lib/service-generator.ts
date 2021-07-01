@@ -49,16 +49,15 @@ let swaggerData: {
   };
 };
 
-
 const REG_SEARCH = /(AUTO\s*GENERATED)/g;
 const REG_API = /((get|post|put|delete)[a-zA-Z]+):\s*{\n\s*api:\s*'(\/api(\/:?[a-zA-Z-]+)+)'/g;
 
-const getBasicTypeData = (props: JSONSchema & {propertyName?: string}) => {
+const getBasicTypeData = (props: JSONSchema & { propertyName?: string }) => {
   const { type, properties = {}, items, required = [] } = props || {};
   let value;
 
   if (type === 'object') {
-    const data: {[p: string]: string | object} = {};
+    const data: { [p: string]: string | object } = {};
     // eslint-disable-next-line guard-for-in
     for (const key in properties) {
       const pData = properties[key] as JSONSchema;
@@ -116,7 +115,7 @@ const getResponseType = (schemaData: JSONSchema) => {
 };
 
 const formatApiPath = (apiPath: string) => {
-  const pathParams: {[p: string]: string} = {};
+  const pathParams: { [p: string]: string } = {};
   const newApiPath = apiPath.replace(/(:[a-zA-Z]+)/g, (p: string) => {
     const pName = p.slice(1);
     pathParams[pName] = pName.toLocaleLowerCase().indexOf('id') >= 0 ? 'number' : 'string';
@@ -159,7 +158,9 @@ const extractI18nFromFile = (
     const typeFilePath = filePath.replace(/\/services\//, '/types/').replace(/-api\.ts/, '.d.ts');
 
     if (!fs.existsSync(typeFilePath)) {
-      fs.writeFileSync(typeFilePath, `
+      fs.writeFileSync(
+        typeFilePath,
+        `
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -174,7 +175,9 @@ const extractI18nFromFile = (
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // > AUTO GENERATED   
-`, 'utf8');
+`,
+        'utf8',
+      );
     }
     while (regRes) {
       const typeFileContent = fs.readFileSync(typeFilePath, 'utf8');
@@ -184,30 +187,43 @@ const extractI18nFromFile = (
 
       const { url: apiPath, pathParams } = formatApiPath(_apiPath);
       // get params from api path
-      let parameters: {[p: string]: string} = { ...pathParams };
+      let parameters: { [p: string]: string } = { ...pathParams };
 
       // get params from 'parameters'
-      forEach(get(swaggerData, ['paths', apiPath, method, 'parameters']), ({ name, type, in: paramsIn, schema, required }: {
-        name: string; type: string; in: ParamsType; schema: JSONSchema; required?: boolean;
-      }) => {
-        if (paramsIn === 'query') {
-          parameters[`${name}${required ? '' : '?'}`] = numberTypes.includes(type) ? 'number' : type;
-        } else if (paramsIn === 'path') {
-          parameters[name] = numberTypes.includes(type) ? 'number' : type;
-        } else {
-          parameters = {
-            ...parameters,
-            ...(getSchemaData(schema) || {}),
-          };
-        }
-      });
+      forEach(
+        get(swaggerData, ['paths', apiPath, method, 'parameters']),
+        ({
+          name,
+          type,
+          in: paramsIn,
+          schema,
+          required,
+        }: {
+          name: string;
+          type: string;
+          in: ParamsType;
+          schema: JSONSchema;
+          required?: boolean;
+        }) => {
+          if (paramsIn === 'query') {
+            parameters[`${name}${required ? '' : '?'}`] = numberTypes.includes(type) ? 'number' : type;
+          } else if (paramsIn === 'path') {
+            parameters[name] = numberTypes.includes(type) ? 'number' : type;
+          } else {
+            parameters = {
+              ...parameters,
+              ...(getSchemaData(schema) || {}),
+            };
+          }
+        },
+      );
 
       const _schemaData = get(swaggerData, ['paths', apiPath, method, 'responses', '200', 'schema']);
 
       const resType = getResponseType(_schemaData);
       const fullData = getSchemaData(_schemaData) || {};
 
-      const responseData = (resType === 'pagingList' ? fullData.data?.list : (fullData.data || fullData['data?'])) || {};
+      const responseData = (resType === 'pagingList' ? fullData.data?.list : fullData.data || fullData['data?']) || {};
 
       const _resData: string = JSON.stringify(responseData, null, 2);
       let resData = formatJson(_resData);
@@ -269,7 +285,8 @@ export const ${apiName} = apiCreator<(p: ${pType}) => ${bType}>(apis.${apiName})
 };
 
 const getSwaggerData = () => {
-  return http.get(`https://api.github.com/repos/${username}/${repository}/contents/${swaggerFilePath}`)
+  return http
+    .get(`https://api.github.com/repos/${username}/${repository}/contents/${swaggerFilePath}`)
     .set('content-type', 'application-json')
     .set('User-Agent', '')
     .then((response) => {
@@ -304,7 +321,12 @@ const generate = async () => {
   }
 };
 
-export default async ({ workDir: _workDir, repository: _repository, username: _username, filePath: _filePath }: {
+export default async ({
+  workDir: _workDir,
+  repository: _repository,
+  username: _username,
+  filePath: _filePath,
+}: {
   workDir: string;
   repository: string;
   username: string;
