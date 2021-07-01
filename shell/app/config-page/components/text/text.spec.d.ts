@@ -11,10 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { CSSProperties } from 'react';
-
 declare namespace CP_TEXT {
-  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText' | 'textWithIcon'| 'multipleText';
+  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText' | 'textWithIcon' | 'multipleText';
   interface Spec {
     type: 'Text';
     props: IProps;
@@ -62,7 +60,7 @@ declare namespace CP_TEXT {
     operationKey: string;
     styleConfig?: IStyleConfig;
     withTag?: boolean;
-    tagStyle?: CSSProperties
+    tagStyle?: import('react').CSSProperties;
   }
 
   type Props = MakeProps<Spec>;

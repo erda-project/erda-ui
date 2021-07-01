@@ -20,14 +20,15 @@
  * @param key string [the file name]
  * @param enhanceFunc function(mockData, operation) => newData;
  * * */
-const noop = (a: any) => a;
 
-export const useMock =
-  (key: string, enhanceFunc: Function = noop) =>
-  (payload: Obj) => {
-    if (process.env.NODE_ENV === 'production') {
-      return Promise.resolve();
-    } else {
-      return import(`./${key}.mock`).then((file) => enhanceFunc(file.default, payload));
-    }
-  };
+const noop = (a: any) => a;
+export const useMock = (key: string) => (payload: Obj) => {
+  if (process.env.NODE_ENV === 'production') {
+    return Promise.resolve();
+  } else {
+    return import(`./${key}.mock`).then((file) => {
+      const { mockData, enhanceMock = noop } = file.default;
+      return enhanceMock(mockData, payload);
+    });
+  }
+};
