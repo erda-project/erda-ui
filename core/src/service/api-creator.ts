@@ -72,7 +72,7 @@ interface $options {
 }
 type $headers = Obj<string>;
 type $body = Obj<unknown>;
-interface CallParams {
+export interface CallParams {
   $options?: $options;
   $headers?: $headers;
   $body?: $body;
@@ -119,7 +119,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
       paramsSerializer: (p: Obj<string>) => qs.stringify(p),
       responseType: isDownload ? 'blob' : 'json',
       data: bodyData,
-    }).then((res) => res.data) as unknown as Promise<BODY<ReturnType<T>>>;
+    }).then((res) => res.data) as unknown as Promise<RES_BODY<ReturnType<T>>>;
   };
 };
 
@@ -145,9 +145,9 @@ export const apiDataStore = createStore({
 
 type FN = (...args: any) => any;
 type NormalOrPagingData<D> = D extends PagingData ? Merge<D, ExtraPagingData> : D;
-type RES<D> = Promise<BODY<D>>;
+type RES<D> = Promise<RES_BODY<D>>;
 type PICK_DATA<T extends FN> = ReturnType<T> extends RES<infer D> ? NormalOrPagingData<D> : never;
-type PICK_BODY<T extends FN> = BODY<PICK_DATA<T>>;
+type PICK_BODY<T extends FN> = RES_BODY<PICK_DATA<T>>;
 interface PagingData {
   list: any[];
   total: number;
@@ -161,7 +161,7 @@ interface ExtraPagingData {
     hasMore: boolean;
   };
 }
-interface BODY<D> {
+export interface RES_BODY<D> {
   data: NormalOrPagingData<D> | null;
   success: boolean;
   err: {
@@ -171,7 +171,7 @@ interface BODY<D> {
   };
   userInfo?: Obj<IUserInfo>;
 }
-interface APIConfig {
+export interface APIConfig {
   api: string;
   successMsg?: string;
   errorMsg?: string;
