@@ -25,7 +25,7 @@ interface JSONSchema extends Omit<JSONSchema7, 'type'> {
   type: JSONSchema7TypeName | 'integer' | 'float' | 'double' | 'long';
 }
 
-interface ApiList {
+interface ApiItem {
   apiName: string;
   method: string;
   resType: string;
@@ -129,14 +129,13 @@ const formatApiPath = (apiPath: string) => {
 
 const writeSteadyContent = (content: string, filePath: string) => {
   const lastIndex = content.indexOf('GENERATED');
-  let steadyContent = content.slice();
-  if (lastIndex) {
-    steadyContent = content.slice(0, lastIndex + 9);
-  }
+  let steadyContent = content;
+  steadyContent = lastIndex ? content.slice(0, lastIndex + 9) : content;
+
   fs.writeFileSync(filePath, `${steadyContent}\r\n`, 'utf8');
 };
 
-const extractI18nFromFile = (
+const autoGenerateService = (
   content: string,
   filePath: string,
   isEnd: boolean,
@@ -148,7 +147,7 @@ const extractI18nFromFile = (
   }
 
   if (content.match(REG_SEARCH)) {
-    const apiList: ApiList[] = [];
+    const apiList: ApiItem[] = [];
     let appendContent = '';
     let typeContent = '';
 
@@ -305,7 +304,7 @@ const extractHandle = async () => {
     walker({
       root: workDir,
       dealFile: (...args) => {
-        extractI18nFromFile.apply(null, [...args, resolve]);
+        autoGenerateService.apply(null, [...args, resolve]);
       },
     });
   });
@@ -321,7 +320,7 @@ const generate = async () => {
   }
 };
 
-export default async ({
+export default ({
   workDir: _workDir,
   repository: _repository,
   username: _username,
