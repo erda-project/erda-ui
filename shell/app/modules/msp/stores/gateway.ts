@@ -252,65 +252,58 @@ const gatewayStore = createStore({
       );
       update({ apiDomain });
     },
-    // FIXME:cube-state
-    async getSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
+    async getSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyWaf = await call(gatewayServices.getSafetyWaf, { packageId, ...payload });
-      if (payload.apiId) {
+      const safetyWaf = await call(gatewayServices.getSafetyWaf, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ safetyWaf });
       }
       return safetyWaf;
     },
-    // FIXME:cube-state
-    async getSafetyIP({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
+    async getSafetyIP({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyIP = await call(gatewayServices.getSafetyIP, { packageId, ...payload });
-      if (payload.apiId) {
+      const safetyIP = await call(gatewayServices.getSafetyIP, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ safetyIP });
       }
       return safetyIP;
     },
-    // FIXME:cube-state
-    async getSafetyServerGuard({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
+    async getSafetyServerGuard({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyServerGuard = await call(gatewayServices.getSafetyServerGuard, { packageId, ...payload });
-      if (payload.apiId) {
+      const safetyServerGuard = await call(gatewayServices.getSafetyServerGuard, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ safetyServerGuard });
       }
       return safetyServerGuard;
     },
-    // FIXME:cube-state
-    async getSafetyCsrf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
+    async getSafetyCsrf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyCsrf = await call(gatewayServices.getSafetyCsrf, { packageId, ...payload });
-      if (payload.apiId) {
+      const safetyCsrf = await call(gatewayServices.getSafetyCsrf, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ safetyCsrf });
       }
       return safetyCsrf;
     },
-    // FIXME:cube-state
-    async getBusinessProxy({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'> = {}) {
+    async getBusinessProxy({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'>) {
       const { packageId } = getParams();
-      const businessProxy = await call(gatewayServices.getBusinessProxy, { packageId, ...payload });
-      if (payload.apiId) {
+      const businessProxy = await call(gatewayServices.getBusinessProxy, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ businessProxy });
       }
       return businessProxy;
     },
-    // FIXME:cube-state
-    async getBusinessCors({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'> = {}) {
+    async getBusinessCors({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'>) {
       const { packageId } = getParams();
-      const businessCors = await call(gatewayServices.getBusinessCors, { packageId, ...payload });
-      if (payload.apiId) {
+      const businessCors = await call(gatewayServices.getBusinessCors, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ businessCors });
       }
       return businessCors;
     },
-    // FIXME:cube-state
-    async getBusinessCustom({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'> = {}) {
+    async getBusinessCustom({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'>) {
       const { packageId } = getParams();
-      const businessCustom = await call(gatewayServices.getBusinessCustom, { packageId, ...payload });
-      if (payload.apiId) {
+      const businessCustom = await call(gatewayServices.getBusinessCustom, { packageId, ...(payload || {}) });
+      if (payload?.apiId) {
         update({ businessCustom });
       }
       return businessCustom;
@@ -641,13 +634,12 @@ const gatewayStore = createStore({
       await call(gatewayServices.deletePolicy, payload, { successMsg: i18n.t('deleted successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
-    // FIXME:cube-state
-    async getApiPackageList({ call, update, getParams }, payload: Partial<GATEWAY.Query> = { pageNo: 1 }) {
+    async getApiPackageList({ call, update, getParams }, payload: Partial<GATEWAY.Query>) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { total, list: apiPackageList } = await call(
         gatewayServices.getApiPackageList,
-        { orgId, projectId, env, ...payload },
+        { orgId, projectId, env, ...(payload || { pageNo: 1 }) },
         { paging: { key: 'apiPackageListPaging' } },
       );
       update({ apiPackageList });

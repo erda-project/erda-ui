@@ -71,9 +71,8 @@ const cloudSource = createStore({
   name: 'cloudSource',
   state: initState,
   effects: {
-    // FIXME:cube-state
-    async getOverview({ call, update }, payload: CLOUD_OVERVIEW.Querys = {}) {
-      const overviewData = await call(getOverview, payload);
+    async getOverview({ call, update }, payload: CLOUD_OVERVIEW.Querys) {
+      const overviewData = await call(getOverview, payload || {});
       update({ overviewData });
     },
     async getECSTrending({ call, update }) {
