@@ -52,7 +52,9 @@ export const getClusterTasksCols = (userMap: object) => {
       title: i18n.t('creator'),
       dataIndex: 'userID',
       key: 'userID',
-      render: (id: string) => (id ? userMap[id].nick || userMap[id].name : '--'),
+      render: (id: string) => {
+        return id ? userMap[id]?.nick || userMap[id]?.name || '--' : '--';
+      },
     },
     {
       title: i18n.t('created at'),
