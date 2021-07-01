@@ -404,6 +404,7 @@ const PureLoadMoreSelector = (props: IProps) => {
           {allowClear && !isEmpty(chosenItem) ? (
             <IconCloseOne
               className="close"
+              theme="filled"
               size="14px"
               onClick={(e: any) => {
                 e.stopPropagation();

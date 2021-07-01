@@ -81,10 +81,13 @@ const ReleaseList = () => {
   }, [queryObj, applicationId]);
 
   React.useEffect(() => {
-    applicationId &&
+    if (applicationId) {
       getBranchInfo({ appId: +applicationId }).then((res: any) => {
         updater.branchInfo(res.data || []);
       });
+    } else {
+      updater.branchInfo([]);
+    }
   }, [applicationId, updater]);
 
   const changePage = (num: number) => {
