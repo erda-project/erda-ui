@@ -18,7 +18,7 @@
     width: 100%;
     min-height: 32px;
     max-height: 96px;
-    padding: 4px 12px;
+    padding: 4px 6px 4px 12px;
     overflow: auto;
     border: 1px solid $border-color;
     border-radius: $radius;
@@ -61,9 +61,10 @@
     }
 
     .close {
-      color: $color-dark-4;
+      color: $color-dark-2;
       font-size: 12px;
       visibility: hidden;
+      padding-top: 2px;
     }
   }
 }
