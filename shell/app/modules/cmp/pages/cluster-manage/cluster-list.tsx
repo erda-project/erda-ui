@@ -17,7 +17,7 @@ import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { useUpdate, Icon as CustomIcon, Copy } from 'common';
 import machineStore from 'app/modules/cmp/stores/machine';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 import i18n from 'i18n';
@@ -26,9 +26,7 @@ import DeleteClusterModal from './delete-cluster-modal';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
 import { ColumnProps } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
-import { useMount } from 'react-use';
-import ClipboardJS from 'clipboard';
-import { Button, Drawer, Input, message, Spin } from 'core/nusi';
+import { Button, Drawer, Input, Spin } from 'core/nusi';
 import { bgColorClsMap } from 'app/common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
@@ -67,15 +65,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [curCluster, setCurCluster] = React.useState<ORG_CLUSTER.ICluster | null>(null);
   const [registerCommand, setRegisterCommand] = React.useState('');
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
-
-  useMount(() => {
-    const clipboard = new ClipboardJS('.btn-to-copy');
-
-    clipboard.on('success', (e) => {
-      message.success(i18n.d('复制成功'));
-      e.clearSelection();
-    });
-  });
 
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
@@ -413,6 +402,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
             >
               {i18n.d('复制命令')}
             </Button>
+            <Copy selector=".btn-to-copy" />
           </div>
         </Spin>
       </Drawer>

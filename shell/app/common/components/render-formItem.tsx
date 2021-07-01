@@ -241,20 +241,13 @@ export const RenderFormItem = ({
     label
   );
   return (
-    <>
-      <FormItem
-        name={name}
-        label={_label}
-        {...layout}
-        className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
-        {...extraProps}
-        {...itemConfig}
-      >
+    <FormItem label={_label} {...layout} className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}>
+      <FormItem name={name} noStyle {...extraProps} {...itemConfig}>
         {ItemComp}
-        {suffix}
       </FormItem>
+      {suffix}
       {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
       {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
-    </>
+    </FormItem>
   );
 };

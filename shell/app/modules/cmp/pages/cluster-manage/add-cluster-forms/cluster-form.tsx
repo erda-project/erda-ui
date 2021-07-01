@@ -18,7 +18,7 @@ import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, useUpdate, Copy } from 'common';
 import { DatePicker, InputNumber, message, Alert, Popover, Button } from 'app/nusi';
 import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
-import { FormInstance } from 'core/common/interface';
+import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
 import { goTo, insertWhen, regRules } from 'common/utils';
@@ -81,6 +81,7 @@ const ClusterBasicForm = ({
 }) => {
   const [isEdgeCluster, setIsEdgeCluster] = React.useState(get(formData, 'isEdgeCluster', true));
   const [wildcardDomain, setWildcardDomain] = React.useState('');
+  const [credentialType, setCredentialType] = React.useState(get(formData, 'credentialType', 'kubeConfig'));
   const { getClusterNewDetail } = clusterStore.effects;
 
   const debounceCheckName = React.useCallback(
@@ -224,13 +225,14 @@ const ClusterBasicForm = ({
         initialValue: 'kubeConfig',
         formLayout: 'horizontal',
         itemProps: {
-          onChange: () => {
+          onChange: (e: RadioChangeEvent) => {
             form.setFieldsValue({ 'credential.content': undefined });
             form.setFieldsValue({ 'credential.address': undefined });
+            setCredentialType(e.target.value);
           },
         },
       },
-      ...insertWhen(form.getFieldValue('credentialType') === 'kubeConfig', [
+      ...insertWhen(credentialType === 'kubeConfig', [
         {
           label: 'KubeConfig',
           name: 'credential.content',
@@ -253,7 +255,7 @@ const ClusterBasicForm = ({
           required: !editMode,
         },
       ]),
-      ...insertWhen(form.getFieldValue('credentialType') === 'serviceAccount', [
+      ...insertWhen(credentialType === 'serviceAccount', [
         {
           label: 'API Server URL',
           name: 'credential.address',
@@ -271,7 +273,7 @@ const ClusterBasicForm = ({
                       {`~/$ kubectl get serviceaccounts <service-account-name> -o yaml\n~/$ kubectl get secret <service-account-secret-name> -o yaml`}
                     </div>
                     <div className="flex justify-end mt-2">
-                      <Copy selector="#command-script" />
+                      <Copy selector=".btn-to-copy" />
                       <Button type="ghost" className="btn-to-copy" data-clipboard-target="#command-script">
                         {i18n.d('复制到剪切板')}
                       </Button>
@@ -334,11 +336,12 @@ const ClusterSchedulerForm = ({
 }) => {
   const initialOpsConfig = formData && formData.opsConfig;
   const formValues = form.getFieldsValue();
-  const { scheduler, opsConfig } = formValues || ({} as any);
-  const [{ repeatRange, repeatValue, repeatMode }, updater] = useUpdate({
+  const { scheduler } = formValues || ({} as any);
+  const [{ repeatRange, repeatValue, repeatMode, scaleMode }, updater] = useUpdate({
     repeatRange: [],
     repeatValue: initialOpsConfig && initialOpsConfig.repeatValue,
     repeatMode: initialOpsConfig && initialOpsConfig.repeatMode,
+    scaleMode: initialOpsConfig && (initialOpsConfig.scaleMode as null | string),
   });
 
   React.useEffect(() => {
@@ -394,9 +397,14 @@ const ClusterSchedulerForm = ({
           type: 'radioGroup',
           options: map(scaleModeMap, (name, value) => ({ name, value })),
           required: false,
+          itemProps: {
+            onChange: (e: RadioChangeEvent) => {
+              updater.scaleMode(e.target.value);
+            },
+          },
         },
       ]),
-      ...insertWhen(opsConfig && opsConfig.scaleMode === 'scheduler', [
+      ...insertWhen(scaleMode === 'scheduler', [
         {
           label: i18n.t('org:execution time'),
           name: 'opsConfig.launchTime',
@@ -510,7 +518,7 @@ const ClusterSchedulerForm = ({
     ],
   };
 
-  if (opsConfig && opsConfig.scaleMode === 'scheduler') {
+  if (scaleMode === 'scheduler') {
     let repeatValueField;
     switch (repeatMode) {
       case RepeatMode.WEEKLY:
