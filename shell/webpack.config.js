@@ -44,6 +44,7 @@ module.exports = () => {
   const cpuNum = isProd && isOnline ? 1 : os.cpus().length;
 
   console.log('isProd:', isProd, process.version);
+  console.log('process.env', process.env);
 
   const scssVariables = getScssTheme(false);
 
