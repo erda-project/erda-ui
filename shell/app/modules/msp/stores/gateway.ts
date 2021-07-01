@@ -254,7 +254,7 @@ const gatewayStore = createStore({
     },
     async getSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyWaf = await call(gatewayServices.getSafetyWaf, { packageId, ...(payload || {}) });
+      const safetyWaf = await call(gatewayServices.getSafetyWaf, { packageId, ...payload });
       if (payload?.apiId) {
         update({ safetyWaf });
       }
@@ -262,7 +262,7 @@ const gatewayStore = createStore({
     },
     async getSafetyIP({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyIP = await call(gatewayServices.getSafetyIP, { packageId, ...(payload || {}) });
+      const safetyIP = await call(gatewayServices.getSafetyIP, { packageId, ...payload });
       if (payload?.apiId) {
         update({ safetyIP });
       }
@@ -270,7 +270,7 @@ const gatewayStore = createStore({
     },
     async getSafetyServerGuard({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyServerGuard = await call(gatewayServices.getSafetyServerGuard, { packageId, ...(payload || {}) });
+      const safetyServerGuard = await call(gatewayServices.getSafetyServerGuard, { packageId, ...payload });
       if (payload?.apiId) {
         update({ safetyServerGuard });
       }
@@ -278,7 +278,7 @@ const gatewayStore = createStore({
     },
     async getSafetyCsrf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyCsrf = await call(gatewayServices.getSafetyCsrf, { packageId, ...(payload || {}) });
+      const safetyCsrf = await call(gatewayServices.getSafetyCsrf, { packageId, ...payload });
       if (payload?.apiId) {
         update({ safetyCsrf });
       }
@@ -286,7 +286,7 @@ const gatewayStore = createStore({
     },
     async getBusinessProxy({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'>) {
       const { packageId } = getParams();
-      const businessProxy = await call(gatewayServices.getBusinessProxy, { packageId, ...(payload || {}) });
+      const businessProxy = await call(gatewayServices.getBusinessProxy, { packageId, ...payload });
       if (payload?.apiId) {
         update({ businessProxy });
       }
@@ -294,7 +294,7 @@ const gatewayStore = createStore({
     },
     async getBusinessCors({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'>) {
       const { packageId } = getParams();
-      const businessCors = await call(gatewayServices.getBusinessCors, { packageId, ...(payload || {}) });
+      const businessCors = await call(gatewayServices.getBusinessCors, { packageId, ...payload });
       if (payload?.apiId) {
         update({ businessCors });
       }
@@ -302,7 +302,7 @@ const gatewayStore = createStore({
     },
     async getBusinessCustom({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'>) {
       const { packageId } = getParams();
-      const businessCustom = await call(gatewayServices.getBusinessCustom, { packageId, ...(payload || {}) });
+      const businessCustom = await call(gatewayServices.getBusinessCustom, { packageId, ...payload });
       if (payload?.apiId) {
         update({ businessCustom });
       }

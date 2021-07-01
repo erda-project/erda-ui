@@ -72,7 +72,7 @@ const cloudSource = createStore({
   state: initState,
   effects: {
     async getOverview({ call, update }, payload: CLOUD_OVERVIEW.Querys) {
-      const overviewData = await call(getOverview, payload || {});
+      const overviewData = await call(getOverview, payload);
       update({ overviewData });
     },
     async getECSTrending({ call, update }) {

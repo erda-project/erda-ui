@@ -254,7 +254,7 @@ const repoStore = createStore({
       const blame = (await call(RepoServices.getFromRepo, {
         type: 'blame',
         repoPrefix: appDetail.gitRepoAbbrev,
-        ...(payload || {}),
+        ...payload,
       })) as REPOSITORY.IBlame[];
       update({ blame });
       return blame;
@@ -463,7 +463,7 @@ const repoStore = createStore({
       const result = await call(RepoServices.getCommits, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...paging,
-        ...(payload || {}),
+        ...payload,
       });
       const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
       const hasMore = result.length === paging.pageSize;

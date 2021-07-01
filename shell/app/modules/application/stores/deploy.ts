@@ -102,7 +102,7 @@ const deploy = createStore({
       return actions;
     },
     async getGroupActions({ call, update }, payload: { labels?: string }) {
-      const groupActions = await call(getActionGroup, payload || {});
+      const groupActions = await call(getActionGroup, payload);
       if (!isEmpty(groupActions)) {
         update({ groupActions });
       }
