@@ -252,6 +252,7 @@ const gatewayStore = createStore({
       );
       update({ apiDomain });
     },
+    // FIXME:cube-state
     async getSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
       const { packageId } = getParams();
       const safetyWaf = await call(gatewayServices.getSafetyWaf, { packageId, ...payload });
@@ -260,6 +261,7 @@ const gatewayStore = createStore({
       }
       return safetyWaf;
     },
+    // FIXME:cube-state
     async getSafetyIP({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
       const { packageId } = getParams();
       const safetyIP = await call(gatewayServices.getSafetyIP, { packageId, ...payload });
@@ -268,6 +270,7 @@ const gatewayStore = createStore({
       }
       return safetyIP;
     },
+    // FIXME:cube-state
     async getSafetyServerGuard({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
       const { packageId } = getParams();
       const safetyServerGuard = await call(gatewayServices.getSafetyServerGuard, { packageId, ...payload });
@@ -276,6 +279,7 @@ const gatewayStore = createStore({
       }
       return safetyServerGuard;
     },
+    // FIXME:cube-state
     async getSafetyCsrf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
       const { packageId } = getParams();
       const safetyCsrf = await call(gatewayServices.getSafetyCsrf, { packageId, ...payload });
@@ -284,6 +288,7 @@ const gatewayStore = createStore({
       }
       return safetyCsrf;
     },
+    // FIXME:cube-state
     async getBusinessProxy({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'> = {}) {
       const { packageId } = getParams();
       const businessProxy = await call(gatewayServices.getBusinessProxy, { packageId, ...payload });
@@ -292,6 +297,7 @@ const gatewayStore = createStore({
       }
       return businessProxy;
     },
+    // FIXME:cube-state
     async getBusinessCors({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'> = {}) {
       const { packageId } = getParams();
       const businessCors = await call(gatewayServices.getBusinessCors, { packageId, ...payload });
@@ -300,6 +306,7 @@ const gatewayStore = createStore({
       }
       return businessCors;
     },
+    // FIXME:cube-state
     async getBusinessCustom({ call, update, getParams }, payload: Omit<GATEWAY.GetBusiness, 'packageId'> = {}) {
       const { packageId } = getParams();
       const businessCustom = await call(gatewayServices.getBusinessCustom, { packageId, ...payload });
@@ -634,6 +641,7 @@ const gatewayStore = createStore({
       await call(gatewayServices.deletePolicy, payload, { successMsg: i18n.t('deleted successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
+    // FIXME:cube-state
     async getApiPackageList({ call, update, getParams }, payload: Partial<GATEWAY.Query> = { pageNo: 1 }) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);

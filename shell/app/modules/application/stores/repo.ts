@@ -249,6 +249,7 @@ const repoStore = createStore({
       })) as REPOSITORY.ITree;
       update({ tree });
     },
+    // FIXME:cube-state
     async getRepoBlame({ call, update }, payload = {}) {
       const appDetail = await getAppDetail();
       const blame = (await call(RepoServices.getFromRepo, {

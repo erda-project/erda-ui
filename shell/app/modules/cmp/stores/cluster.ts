@@ -67,6 +67,7 @@ const cluster = createStore({
       const enableMS = get(notifyConfig, 'config.enableMS');
       update({ enableMS });
     },
+    // FIXME:cube-state
     async getClusterList({ call, update }, payload: { orgId?: number } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
