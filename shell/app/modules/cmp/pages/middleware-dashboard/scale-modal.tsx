@@ -238,7 +238,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
       onOk={handleOk}
       destroyOnClose
     >
-      <RenderPureForm className="middleware-op-modal" list={fieldsList} form={form} layout="vertical" onlyItems />
+      <RenderPureForm className="middleware-op-modal" list={fieldsList} form={form} layout="vertical" />
       <Alert message={tips} />
     </Modal>
   );

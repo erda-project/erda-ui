@@ -240,6 +240,8 @@ const RefComp = ({
   form,
   info,
   defaultValue,
+  value,
+  change,
 }: {
   defaultValue: Record<string, string>;
   form: FormInstance;
@@ -295,6 +297,7 @@ const RepoTreePage = () => {
   const appDetail = appStore.useStore((s) => s.detail);
   const [info, tree, mode] = repoStore.useStore((s) => [s.info, s.tree, s.mode]);
   const hasAuth = usePerm((s) => s.app.externalRepo.edit.pass);
+  const [refType, setRefType] = React.useState();
 
   const branchCreateAuth = branchPerm.writeProtected.pass;
 
@@ -321,6 +324,11 @@ const RepoTreePage = () => {
         name: 'refType',
         type: 'radioGroup',
         initialValue: type,
+        itemProps: {
+          onChange: (value) => {
+            setRefType(value);
+          },
+        },
         options: [
           { name: 'Branch', value: 'branch' },
           { name: 'Tag', value: 'tag' },
@@ -332,7 +340,7 @@ const RepoTreePage = () => {
         name: 'refValue',
         type: 'custom',
         initialValue: current,
-        getComp: ({ form }: any) => RefComp({ info, form, defaultValue: { [type]: current } }),
+        getComp: ({ form }: any) => <RefComp info={info} form={form} defaultValue={{ [type]: current }} />,
       },
       {
         label: i18n.t('application:branch'),

@@ -706,7 +706,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
       },
     ];
-    return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
+    return <RenderPureForm list={fieldsList} form={form} formItemLayout={formItemLayout} />;
   };
 
   const RuleForm = ({ form }: { form: FormInstance }) => {
@@ -809,7 +809,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
       );
     }
-    return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
+    return <RenderPureForm list={fieldsList} form={form} formItemLayout={formItemLayout} />;
   };
 
   const NotifyForm = ({ form }: { form: FormInstance }) => {
@@ -864,7 +864,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         ),
       },
     ];
-    return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
+    return <RenderPureForm list={fieldsList} form={form} formItemLayout={formItemLayout} />;
   };
 
   const CustomAlarmForm = ({ form }: any) => {

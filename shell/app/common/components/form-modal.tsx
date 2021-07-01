@@ -85,7 +85,7 @@ class FormModalComp extends React.Component<IProps, IState> {
             form.setFieldsValue(pureData);
           } else {
             // 通过传入的formRef来获取fieldsStore，否则setFieldsValue报错
-            form.setFieldsValue(pick(formData, Object.keys(formRef.fieldsStore.fieldsMeta)));
+            form.setFieldsValue(formData);
           }
         }, 0);
       }

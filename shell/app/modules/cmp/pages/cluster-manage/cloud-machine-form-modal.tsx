@@ -82,7 +82,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
       itemProps: { type: 'hidden' },
     },
   ];
-  return <RenderPureForm list={fieldsList} form={form} onlyItems />;
+  return <RenderPureForm list={fieldsList} form={form} />;
 };
 
 const MoreForm = ({ form }: { form: FormInstance }) => {
@@ -114,7 +114,7 @@ const MoreForm = ({ form }: { form: FormInstance }) => {
       },
     },
   ];
-  return <RenderPureForm list={fieldsList} form={form} onlyItems />;
+  return <RenderPureForm list={fieldsList} form={form} />;
 };
 
 const CloudMachineAddForm = (props: any) => {

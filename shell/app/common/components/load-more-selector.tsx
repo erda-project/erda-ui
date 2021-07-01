@@ -325,7 +325,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   const getOverlay = () => {
     const Comp = CompMap[type];
     return (
-      <Menu className="load-more-dropdown-menu" ref={menuRef}>
+      <Menu className="load-more-dropdown-menu" ref={menuRef} style={{ width: contentWidth }}>
         {showSearch
           ? [
               <MenuItem key="_search-item">

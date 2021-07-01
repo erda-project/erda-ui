@@ -203,7 +203,7 @@ const ClusterBasicForm = ({
     } as any);
   }
 
-  return <RenderPureForm list={fieldsList} form={form} onlyItems />;
+  return <RenderPureForm list={fieldsList} form={form} />;
 };
 const ClusterSchedulerForm = ({
   form,
@@ -325,6 +325,7 @@ const ClusterSchedulerForm = ({
       label: i18n.t('org:scale mode'),
       name: 'opsConfig.scaleMode',
       type: 'radioGroup',
+      shouldUpdate: true,
       options: map(scaleModeMap, (name, value) => ({ name, value })),
       required: false,
     });
@@ -336,6 +337,7 @@ const ClusterSchedulerForm = ({
         label: i18n.t('org:execution time'),
         name: 'opsConfig.launchTime',
         initialValue: initialOpsConfig && initialOpsConfig.launchTime,
+        shouldUpdate: true,
         getComp: () => (
           <>
             <DatePicker
@@ -473,7 +475,7 @@ const ClusterSchedulerForm = ({
   }
 
   const fieldsList = clusterType ? fieldListMap[clusterType] : [];
-  return <RenderPureForm list={fieldsList} form={form} onlyItems />;
+  return <RenderPureForm list={fieldsList} form={form} />;
 };
 const ClusterAddForm = (props: any) => {
   const { form, mode, formData, clusterList, clusterType } = props;
