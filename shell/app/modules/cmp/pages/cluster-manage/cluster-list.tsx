@@ -40,18 +40,18 @@ interface IProps {
 }
 
 const statusMap = {
-  online: ['green', i18n.d('在线')],
-  offline: ['red', i18n.d('离线')],
-  initializing: ['yellow', i18n.d('初始化中')],
-  'initialize error': ['red', i18n.d('初始化失败')],
-  pending: ['gray', i18n.d('待处理')],
-  unknown: ['red', i18n.d('未知')],
+  online: ['green', i18n.t('cmp:online')],
+  offline: ['red', i18n.t('cmp:offline')],
+  initializing: ['yellow', i18n.t('runtime:initializing')],
+  'initialize error': ['red', i18n.t('cmp:initialization failed')],
+  pending: ['gray', i18n.t('application:pending')],
+  unknown: ['red', i18n.t('dcos:unknown')],
 };
 
 const manageTypeMap = {
-  agent: i18n.d('Agent注册'),
-  create: i18n.d('创建'),
-  import: i18n.d('导入'),
+  agent: i18n.t('cmp:agent registration'),
+  create: i18n.t('establish'),
+  import: i18n.t('import'),
 };
 
 const clusterTypeMap = {
@@ -206,7 +206,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         },
       },
       showRegisterCommand: {
-        title: i18n.d('注册命令'),
+        title: i18n.t('cmp:register command'),
         onClick: () => {
           showCommand(record.name);
         },
@@ -278,7 +278,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       ),
     },
     {
-      title: i18n.d('状态'),
+      title: i18n.t('application:status'),
       dataIndex: 'clusterStatus',
       tip: true,
       render: (_text, record) => {
@@ -302,7 +302,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (text: string) => (text ? <Tooltip title={text}>{text}</Tooltip> : '_'),
     },
     {
-      title: i18n.d('类型'),
+      title: i18n.t('application:type'),
       dataIndex: 'clusterType',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
@@ -310,7 +310,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     },
     {
-      title: i18n.d('管理方式'),
+      title: i18n.t('cmp:management method'),
       dataIndex: 'manageType',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
@@ -327,7 +327,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     },
     {
-      title: i18n.d('机器数'),
+      title: i18n.t('machines'),
       dataIndex: 'nodeCount',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
@@ -387,7 +387,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <Drawer
         visible={state.registerCommandVisible}
         destroyOnClose
-        title={i18n.d('集群注册命令')}
+        title={i18n.t('cmp:cluster registration command')}
         width="800"
         onClose={() => updater.registerCommandVisible(false)}
       >
@@ -400,7 +400,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
               data-clipboard-target="#command-script"
               disabled={!registerCommand.length}
             >
-              {i18n.d('复制命令')}
+              {i18n.t('cmp:copy command')}
             </Button>
             <Copy selector=".btn-to-copy" />
           </div>

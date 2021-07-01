@@ -144,7 +144,7 @@ const ClusterBasicForm = ({
       },
       suffix:
         clusterType === 'k8s' ? (
-          <Alert message={`${i18n.d('提示')}:`} description={k8sPrompt} type="warning" className="mt-4" />
+          <Alert message={`${i18n.t('tip')}:`} description={k8sPrompt} type="warning" className="mt-4" />
         ) : null,
     },
     {
@@ -205,7 +205,7 @@ const ClusterBasicForm = ({
     ]),
     ...insertWhen(clusterType === 'k8s', [
       {
-        label: i18n.d('认证方式'),
+        label: i18n.t('cmp:verification method'),
         name: 'credentialType',
         type: 'radioGroup',
         options: [
@@ -248,7 +248,7 @@ const ClusterBasicForm = ({
           suffix: (
             <div className="flex justify-end">
               <a href="" target="__blank">
-                {i18n.d('了解KubeConfig文件如何编写？')}
+                {i18n.t('cmp:learn how to write KubeConfig file?')}
               </a>
             </div>
           ),
@@ -275,7 +275,7 @@ const ClusterBasicForm = ({
                     <div className="flex justify-end mt-2">
                       <Copy selector=".btn-to-copy" />
                       <Button type="ghost" className="btn-to-copy" data-clipboard-target="#command-script">
-                        {i18n.d('复制到剪切板')}
+                        {i18n.t('cmp:copy to clipboard')}
                       </Button>
                     </div>
                   </div>
@@ -309,17 +309,17 @@ const k8sAlert = (
     {i18n.d(
       '导入集群初始化过程中会对集群所有节点打上组织名的标签，方便该组织服务和任务调用。如果需要 Erda 最佳调用策略还需要进入',
     )}
-    <Link to={goTo.resolve.cmpRoot()} className="mx-1">{`${i18n.d('多云管理平台')} -> ${i18n.d('集群总览')} -> ${i18n.d(
-      '设置标签',
-    )}`}</Link>
-    {i18n.d('进行配置')}
+    <Link to={goTo.resolve.cmpRoot()} className="mx-1">
+      {`${i18n.t('cloud management')} -> ${i18n.t('dcos:cluster overview')} -> ${i18n.d('设置标签')}`}
+    </Link>
+    {i18n.t('cmp:configure')}
   </span>
 );
 
 const k8sPrompt = (
   <div>
-    <div>1. 请确保您的Kubernetes集群和Erda的网络通畅</div>
-    <div>2. 导入集群后，该集群中的节点会默认打上组织的标签</div>
+    <div>1. {i18n.d('请确保您的Kubernetes集群和Erda的网络通畅')}</div>
+    <div>2. {i18n.d('导入集群后，该集群中的节点会默认打上组织的标签')}</div>
   </div>
 );
 
@@ -606,7 +606,7 @@ const ClusterAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <If condition={clusterType === 'k8s'}>
-        <Alert message={`${i18n.d('注意')}:`} description={k8sAlert} type="normal" className="mb-8" />
+        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="normal" className="mb-8" />
       </If>
       <ClusterBasicForm
         form={form}
