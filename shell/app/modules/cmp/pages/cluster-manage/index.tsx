@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { useMount } from 'react-use';
+import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { Spin, Button } from 'app/nusi';
 import { isEmpty } from 'lodash';
@@ -54,13 +54,16 @@ const ClusterManage = () => {
     aliCloudErdcFormVisible: false,
   });
 
-  useMount(() => {
+  useEffectOnce(() => {
     const query = routeStore.getState((s) => s.query);
     getClusterList();
     if (query?.autoOpen) {
       updater.typeSelectorVis(true);
       setSearch({}, [], true);
     }
+    return () => {
+      clusterStore.reducers.clearClusterList();
+    };
   });
 
   const toggleAddModalVis = (isCancel = false) => {
@@ -100,16 +103,12 @@ const ClusterManage = () => {
 
   const handleAddCluster = (values: any) => {
     const { id, credential: credentialData, ...restData } = values;
-    const credential = credentialData
-      ? {
-          credential:
-            credentialData.content === '********'
-              ? { address: credentialData?.address }
-              : credentialData.content
-              ? { ...credentialData, content: encode(credentialData.content) }
-              : credentialData,
-        }
-      : undefined;
+    const credential =
+      credentialData?.content === '********'
+        ? { address: credentialData?.address }
+        : credentialData?.content
+        ? { ...credentialData, content: encode(credentialData.content) }
+        : credentialData;
     if (id) {
       // urls 中仍有其他配置，后面可能会加入
       updateCluster({ ...values, credential });

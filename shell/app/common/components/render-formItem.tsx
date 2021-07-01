@@ -56,7 +56,7 @@ export interface IFormItem {
   form?: FormInstance;
   label?: string;
   labelTip?: string;
-  name?: string;
+  name?: string | string[];
   type?: string;
   initialValue?: any;
   size?: 'default' | 'small' | 'large';
@@ -242,7 +242,12 @@ export const RenderFormItem = ({
   );
   return (
     <FormItem label={_label} {...layout} className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}>
-      <FormItem name={name} noStyle {...extraProps} {...itemConfig}>
+      <FormItem
+        name={typeof name === 'string' && name?.includes('.') ? name.split('.') : name}
+        noStyle
+        {...extraProps}
+        {...itemConfig}
+      >
         {ItemComp}
       </FormItem>
       {suffix}

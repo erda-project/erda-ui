@@ -179,6 +179,9 @@ const cluster = createStore({
       state.deployingCluster = null;
       state.deployClusterLog = '';
     },
+    clearClusterList(state) {
+      state.list = [];
+    },
     clearDeployClusterLog(state) {
       state.deployClusterLog = '';
     },

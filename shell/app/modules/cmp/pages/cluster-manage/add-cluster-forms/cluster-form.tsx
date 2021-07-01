@@ -99,9 +99,7 @@ const ClusterBasicForm = ({
   );
 
   React.useEffect(() => {
-    form.setFieldsValue({
-      'scheduler.dcosURL': getDefaultMasterURL(clusterType, wildcardDomain, isEdgeCluster),
-    });
+    form.setFieldsValue({ scheduler: { dcosURL: getDefaultMasterURL(clusterType, wildcardDomain, isEdgeCluster) } });
   }, [isEdgeCluster, wildcardDomain]);
 
   const fieldsList = [
@@ -226,8 +224,7 @@ const ClusterBasicForm = ({
         formLayout: 'horizontal',
         itemProps: {
           onChange: (e: RadioChangeEvent) => {
-            form.setFieldsValue({ 'credential.content': undefined });
-            form.setFieldsValue({ 'credential.address': undefined });
+            form.setFieldsValue({ credential: { content: undefined, address: undefined } });
             setCredentialType(e.target.value);
           },
         },
@@ -235,13 +232,13 @@ const ClusterBasicForm = ({
       ...insertWhen(credentialType === 'kubeConfig', [
         {
           label: 'KubeConfig',
-          name: 'credential.content',
+          name: ['credential', 'content'],
           type: 'textArea',
           initialValue: editMode ? '********' : '',
           itemProps: {
             onClick: () => {
-              if (!form.isFieldTouched('credential.content')) {
-                form.setFieldsValue({ 'credential.content': undefined });
+              if (!form.isFieldTouched(['credential', 'content'])) {
+                form.setFieldsValue({ credential: { content: undefined } });
               }
             },
           },
@@ -285,13 +282,13 @@ const ClusterBasicForm = ({
               </Popover>
             </div>
           ),
-          name: 'credential.content',
+          name: ['credential', 'content'],
           type: 'textArea',
           initialValue: editMode ? '********' : '',
           itemProps: {
             onClick: () => {
-              if (!form.isFieldTouched('credential.content')) {
-                form.setFieldsValue({ 'credential.content': undefined });
+              if (!form.isFieldTouched(['credential', 'content'])) {
+                form.setFieldsValue({ credential: { content: undefined } });
               }
             },
           },
@@ -309,7 +306,7 @@ const k8sAlert = (
     {i18n.d(
       '导入集群初始化过程中会对集群所有节点打上组织名的标签，方便该组织服务和任务调用。如果需要 Erda 最佳调用策略还需要进入',
     )}
-    <Link to={goTo.resolve.cmpRoot()} className="mx-1">
+    <Link to={goTo.resolve.cmpRoot()} className="mx-1" target="_blank" rel="noopener noreferrer">
       {`${i18n.t('cloud management')} -> ${i18n.t('dcos:cluster overview')} -> ${i18n.d('设置标签')}`}
     </Link>
     {i18n.t('cmp:configure')}
@@ -346,7 +343,7 @@ const ClusterSchedulerForm = ({
 
   React.useEffect(() => {
     form.setFieldsValue({
-      'opsConfig.repeatValue': repeatRange[0] && repeatRange[1] ? repeatRange.join('-') : undefined,
+      opsConfig: { repeatValue: repeatRange[0] && repeatRange[1] ? repeatRange.join('-') : undefined },
     });
   }, [repeatRange]);
   // CA证书、客户端证书、客户端秘钥 必须同为空或同为不空
@@ -370,6 +367,7 @@ const ClusterSchedulerForm = ({
       },
     ];
   }
+
   const fieldListMap = {
     k8s: [
       {
@@ -397,6 +395,7 @@ const ClusterSchedulerForm = ({
           type: 'radioGroup',
           options: map(scaleModeMap, (name, value) => ({ name, value })),
           required: false,
+          initialValue: 'none',
           itemProps: {
             onChange: (e: RadioChangeEvent) => {
               updater.scaleMode(e.target.value);
@@ -414,11 +413,11 @@ const ClusterSchedulerForm = ({
               <DatePicker
                 className="full-width"
                 format="YYYY-MM-DD HH:mm"
-                defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
+                defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime || undefined)}
                 disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
                 showTime
                 onChange={(date) => {
-                  form.setFieldsValue({ 'opsConfig.launchTime': date });
+                  form.setFieldsValue({ opsConfig: { launchTime: date } });
                 }}
               />
             </>
@@ -459,9 +458,7 @@ const ClusterSchedulerForm = ({
           itemProps: {
             className: 'full-width',
             onChange(value: string) {
-              form.setFieldsValue({
-                'opsConfig.repeatValue': undefined,
-              });
+              form.setFieldsValue({ opsConfig: { repeatValue: undefined } });
               updater.repeatValue('');
               updater.repeatMode(value);
             },
