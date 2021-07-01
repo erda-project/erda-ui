@@ -20,14 +20,13 @@
  * @param key string [the file name]
  * * */
 
-const noop = (a: any) => a;
 export const useMock = (key: string) => (payload: Obj) => {
   if (process.env.NODE_ENV === 'production') {
     return Promise.resolve();
   } else {
     return import(`./${key}.mock`).then((file) => {
-      const { mockData, enhanceMock = noop } = file.default;
-      return enhanceMock(mockData, payload);
+      const { mockData, enhanceMock } = file.default;
+      return typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData;
     });
   }
 };
