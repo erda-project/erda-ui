@@ -27,6 +27,7 @@
   "license": "AGPL",
   "dependencies": {
     "@paiva/translation-google": "^1.0.9",
+    "@types/json-schema": "^7.0.7",
     "chalk": "^4.1.0",
     "cli-table": "^0.3.6",
     "commander": "^7.2.0",
@@ -35,6 +36,7 @@
     "i18next-scanner": "^3.0.0",
     "inquirer": "^8.0.0",
     "inquirer-select-directory": "^1.2.0",
+    "js-base64": "^3.6.1",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
     "node-notifier": "^9.0.1",

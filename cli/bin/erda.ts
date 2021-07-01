@@ -22,6 +22,7 @@ import checkLicense from '../lib/check-license';
 import launcher from '../lib/launcher';
 import init from '../lib/init';
 import i18n from '../lib/i18n';
+import generateService from '../lib/service-generator';
 import checkCliVersion from '../lib/check-cli-version';
 
 const program = new Command();
@@ -87,6 +88,19 @@ program
     await checkCliVersion(options);
     const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
     i18n({ workDir });
+  });
+
+program
+  .command('generate-service [workDir]')
+  .description('generate service by API swagger')
+  .option('-s, --skip', 'skip the cli version check')
+  .option('-r, --repository <repository>', 'repository in github, the default repository is erda')
+  .option('-u, --username <username>', 'github name, the default username is erda-project')
+  .option('-f, --filePath <filePath>', 'swagger file path in repository')
+  .action(async (_workDir, options) => {
+    await checkCliVersion(options);
+    const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
+    generateService({ workDir, ...options });
   });
 
 program
