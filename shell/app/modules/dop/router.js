@@ -181,16 +181,17 @@ export default function getDopRouter() {
           // layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('app/config-page/mock')),
         },
-        ...(process.env.UI_ENV === 'PROD'
-          ? []
-          : [
+        // UI_ENV exist and not PROD, then open the debug page
+        ...(process.env.UI_ENV && process.env.UI_ENV !== 'PROD'
+          ? [
               {
                 path: 'debug',
                 pageName: '组件化协议调试',
                 layout: { noWrapper: true },
                 getComp: (cb) => cb(import('config-page/debug')),
               },
-            ]),
+            ]
+          : []),
       ],
     },
     {
