@@ -31,6 +31,7 @@ import { WithAuth, usePerm } from 'user/common';
 import appStore from 'application/stores/application';
 import i18n from 'i18n';
 import { Copy as IconCopy } from '@icon-park/react';
+import { FormInstance } from 'core/common/interface';
 
 import './repo-tree.scss';
 import { repositoriesTypes } from 'application/common/config';
@@ -164,6 +165,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
       {tree.type === 'tree' ? (
         <React.Fragment>
           <Table
+            size="small"
             className="repo-tree"
             dataSource={dataSource}
             pagination={false}
@@ -240,8 +242,6 @@ const RefComp = ({
   form,
   info,
   defaultValue,
-  value,
-  change,
 }: {
   defaultValue: Record<string, string>;
   form: FormInstance;

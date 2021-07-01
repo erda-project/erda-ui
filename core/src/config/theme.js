@@ -32,6 +32,8 @@ module.exports.getLessTheme = (themeColor) => {
     '@border-radius-base': '3px;',
     '@font-family':
       '"Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+    '@table-padding-vertical': '12px',
+    '@table-padding-horizontal': '12px',
   };
 };
 

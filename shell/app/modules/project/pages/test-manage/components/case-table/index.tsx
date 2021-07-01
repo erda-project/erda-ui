@@ -171,7 +171,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
           return {
             children: <Ellipsis className="color-text-desc" title={record.directory} />,
             props: {
-              colSpan: 7,
+              colSpan: 6,
             },
           };
         },
@@ -184,7 +184,16 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
         width: isScroll ? 380 : undefined,
-        render: (name: string) => <Ellipsis className="bold" title={name} />,
+        render: (name: string, record: any) => {
+          const obj = {
+            children: <Ellipsis className="bold" title={name} />,
+            props: {},
+          };
+          if (!record.id) {
+            obj.props.colSpan = 0;
+          }
+          return obj;
+        },
       });
     }
     // 全选列
@@ -285,7 +294,6 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         pageSize: parseInt(query.pageSize, 10) || defaultPageSize,
         showSizeChanger: true,
       }}
-      tableLayout="fixed"
     />
   );
 };
