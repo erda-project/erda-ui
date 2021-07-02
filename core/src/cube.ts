@@ -44,8 +44,8 @@ const { createStore, createFlatStore, use, storeMap } = cube({
         // 标准格式的返回结果
         if (keys.includes('success') && (keys.includes('err') || keys.includes('data'))) {
           const { success, data, err, userInfo } = result;
-          if (storeMap.userMap && userInfo) {
-            storeMap.userMap.reducers.setUserMap(userInfo);
+          if (storeMap.coreUserMap && userInfo) {
+            storeMap.coreUserMap.reducers.setUserMap(userInfo);
           }
           if (success) {
             if (successMsg) {
