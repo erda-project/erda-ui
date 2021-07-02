@@ -192,13 +192,6 @@ $border-style: 1px solid $color-border;
       background-color: $white;
     }
   }
-
-  .ant-collapse-arrow {
-    position: absolute;
-    top: 50%;
-    left: 16px;
-    transform: translateY(-50%);
-  }
 }
 
 .ant-collapse-content > .ant-collapse-content-box {

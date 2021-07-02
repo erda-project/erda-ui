@@ -105,7 +105,8 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
   }
 
   private changeValue = (v: any, key: string) => {
-    const { value } = this.state;
+    let { value } = this.state;
+    value = { ...value };
     value[key] = v;
     // @ts-ignore
     if (key !== 'network' && v === '') {

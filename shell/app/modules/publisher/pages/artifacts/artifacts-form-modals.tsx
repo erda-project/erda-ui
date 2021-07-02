@@ -299,7 +299,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
     }
     return (
       <Modal title={title} visible={visible} onCancel={onCancel} confirmLoading={confirmLoading} onOk={this.handleOk}>
-        <Form>{content}</Form>
+        <Form ref={this.formRef}>{content}</Form>
       </Modal>
     );
   }
