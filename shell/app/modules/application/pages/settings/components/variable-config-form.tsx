@@ -139,6 +139,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
                   <span className="color-text-desc ml8">
                     {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
                   </span>
+                  <div className="color-text-desc mt8">{i18n.t('application:upload-file-tip')}</div>
                 </Spin>
               </div>
             );
