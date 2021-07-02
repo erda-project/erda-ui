@@ -55,19 +55,25 @@ const RdsAccount = () => {
     {
       title: i18n.t('account'),
       dataIndex: 'accountName',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('type'),
       dataIndex: 'accountType',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
       width: 100,
     },
     getCloudResourceStatusCol('account', i18n.t('status'), 'accountStatus'),
     {
       title: i18n.t('dcos:owned database'),
       dataIndex: 'databasePrivileges',
-      tip: true,
+      ellipsis: true,
       render: (_v: Array<{ dBName: string; accountPrivilege: string }>) => {
         let str = null as any;
         map(_v, (item) => {

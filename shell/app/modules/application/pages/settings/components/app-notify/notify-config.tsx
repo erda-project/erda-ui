@@ -216,7 +216,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     {
       title: i18n.t('default:notification target'),
       dataIndex: ['notifyGroup', 'targets'],
-      tip: true,
+      ellipsis: true,
       className: 'notify-info',
       render: (targets) => (
         <div className="flex-box">

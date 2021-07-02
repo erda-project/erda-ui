@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export { FormInstance } from 'antd-latest/lib/form/Form';
+export { FormInstance } from 'antd/lib/form/Form';
 export { SelectValue, SelectProps } from 'antd/lib/select';
 export { DrawerProps } from 'antd/lib/drawer';
 export { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
@@ -19,8 +19,7 @@ export { AntTreeNodeSelectedEvent } from 'antd/lib/tree/Tree';
 export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
-export { PaginationConfig, SorterResult } from 'antd/lib/table';
-export { ColumnProps } from 'antd-latest/lib/table';
+export { PaginationConfig, SorterResult, ColumnProps } from 'antd/lib/table';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 

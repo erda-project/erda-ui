@@ -52,7 +52,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     dataIndex: 'updaterID',
     key: 'updaterID',
     width: 85,
-    tip: true,
+    ellipsis: true,
     sorter: true,
     render: (value: string, record: any) =>
       renderContent(

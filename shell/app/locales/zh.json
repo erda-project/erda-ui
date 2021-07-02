@@ -3644,7 +3644,7 @@
     "yesterday": "昨天",
     "you need": "您需要",
     "your browser does not support WebSocket!": "您的浏览器不支持 WebSocket!",
-    "1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name.": "1. 本场景的入参引用方法：/ $<< params.lab >>，其中 lab 为场景入参名;2. 前置接口出参引用方法：/ $<< outputs.10.status >>，其中 10 为接口 ID，status 为出参名称;3. mock 参数引用方法：/ $<< random.string >>， 其中 string 为随机生成字符串的函数（还包含 integer、float、boolean、upper、lower等）;4. 全局环境变量的引用方法：/ $<< configs.autotest.cluster-name >>，其中 cluster-name 为环境变量名"
+    "four parameter references": "1. 本场景的入参引用方法：/ $<< params.lab >>，其中 lab 为场景入参名;2. 前置接口出参引用方法：/ $<< outputs.10.status >>，其中 10 为接口 ID，status 为出参名称;3. mock 参数引用方法：/ $<< random.string >>， 其中 string 为随机生成字符串的函数（还包含 integer、float、boolean、upper、lower等）;4. 全局环境变量的引用方法：/ $<< configs.autotest.cluster-name >>，其中 cluster-name 为环境变量名"
   },
   "publisher": {
     "1-6 decimal places": "1-6位小数",
