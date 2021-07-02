@@ -44,7 +44,7 @@
     "stylelint-config-ali": "^0.4.1"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
+    "*.{js,jsx,ts,tsx,json,scss,css}": "prettier --write"
   },
   "config": {
     "commitizen": {
