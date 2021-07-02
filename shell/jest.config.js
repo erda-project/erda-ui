@@ -13,9 +13,8 @@
 
 const { forEach } = require('lodash');
 const tsconfig = require('./tsconfig.json');
-const fs = require('fs');
-const path = require('path');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
+
 const moduleMapper = {};
 const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts', 'application'];
 forEach(moduleNameMapper, (t, k) => {
@@ -23,8 +22,6 @@ forEach(moduleNameMapper, (t, k) => {
     moduleMapper[`^${k}`] = t;
   }
 });
-const resolve = (pathname) => path.resolve(__dirname, pathname);
-const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@erda-ui/dashboard-configurator'));
 
 module.exports = {
   verbose: true,
@@ -38,6 +35,7 @@ module.exports = {
     '!app/common/**/*.d.ts',
     '!app/common/stores/*.{js,jsx,ts,tsx}',
     '!app/common/services/*.{js,jsx,ts,tsx}',
+    '!app/common/utils/style-constants.ts',
   ],
   globals: {
     'ts-jest': {
@@ -49,7 +47,6 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
-    // [dashboardRealPath]: 'ts-jest',
   },
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'identity-obj-proxy',

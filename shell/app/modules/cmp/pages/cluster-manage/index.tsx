@@ -116,7 +116,7 @@ const ClusterManage = () => {
       addCluster({ ...restData, credential });
     }
     if (restData.credentialType === 'proxy') {
-      setSearch({ autoOpenCmd: true, clusterName: restData.clusterName }, [], true);
+      setSearch({ autoOpenCmd: true, clusterName: restData.name }, [], true);
     }
   };
 

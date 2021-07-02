@@ -144,7 +144,7 @@ export const getSMSNotifyConfig = ({ orgId }: { orgId: number }) => {
 
 export const getRegisterCommand = ({ clusterName }: { clusterName: string }) => {
   return agent
-    .get(`/api/cluster/actions/init`)
+    .get(`/api/cluster/init-command`)
     .query({ clusterName })
     .then((response: any) => response.body);
 };

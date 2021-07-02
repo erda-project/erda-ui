@@ -171,7 +171,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     async (clusterName: string) => {
       updater.registerCommandVisible(true);
       const command = await getRegisterCommand({ clusterName });
-      setRegisterCommand(command);
+      const { orgName } = routeStore.getState((s) => s.params);
+      setRegisterCommand(
+        `${command.replace('$REQUEST_PREFIX', `${window.location.origin}/api/${orgName}/cluster/init-command`)}`,
+      );
     },
     [getRegisterCommand, updater],
   );
@@ -337,9 +340,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'operation',
-      render: (text, record: ORG_CLUSTER.ICluster) => {
+      render: (_text, record: ORG_CLUSTER.ICluster) => {
         return renderMenu(record);
       },
+      width: 150,
     },
   ];
 
@@ -393,7 +397,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       >
         <Spin spinning={loading} wrapperClassName="full-spin-height">
           <div className="flex flex-col items-end h-full">
-            <Input.TextArea id="command-script" disabled value={registerCommand} className="min-h-3/5" />
+            <Input.TextArea id="command-script" readOnly value={registerCommand} className="min-h-3/5" />
             <Button
               type="ghost"
               className="btn-to-copy mt-4"
