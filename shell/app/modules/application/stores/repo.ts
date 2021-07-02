@@ -259,7 +259,7 @@ const repoStore = createStore({
       update({ blame });
       return blame;
     },
-    async getRepoBlob({ call, update }, payload: Obj = {}) {
+    async getRepoBlob({ call, update }, payload: Obj) {
       const { gitRepoAbbrev } = appStore.getState((s) => s.detail);
       const blob = (await call(RepoServices.getFromRepo, {
         type: 'blob',
@@ -457,13 +457,13 @@ const repoStore = createStore({
       update({ mrList });
       return { list: mrList, total };
     },
-    async getCommitList({ call, select, update }, payload: REPOSITORY.QueryCommit = {}) {
+    async getCommitList({ call, select, update }, payload: REPOSITORY.QueryCommit) {
       const appDetail = await getAppDetail();
       const { commitPaging: paging, commit: prevList } = select((state) => state);
       const result = await call(RepoServices.getCommits, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...paging,
-        ...payload,
+        ...(payload || {}),
       });
       const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
       const hasMore = result.length === paging.pageSize;

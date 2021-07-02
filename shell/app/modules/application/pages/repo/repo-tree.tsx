@@ -242,6 +242,8 @@ const RefComp = ({
   form,
   info,
   defaultValue,
+  value,
+  change,
 }: {
   defaultValue: Record<string, string>;
   form: FormInstance;

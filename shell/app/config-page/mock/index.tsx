@@ -14,20 +14,19 @@
 /** *
  * @author: zhangxj
  * @description: the unified way to useMock in config-page(prevent build mock data in the production environment ):
- * 1: create a file(.mock.ts) under the folder mock
+ * 1: create a file(.mock.ts) under the folder mock, includes a mock data and a enhanceMock function.
  * 2: <ConfigPage useMock={useMock(fileName)} ... />
  *
  * @param key string [the file name]
- * @param enhanceFunc function(mockData, operation) => newData;
  * * */
-const noop = (a: any) => a;
 
-export const useMock =
-  (key: string, enhanceFunc: Function = noop) =>
-  (payload: Obj) => {
-    if (process.env.NODE_ENV === 'production') {
-      return Promise.resolve();
-    } else {
-      return import(`./${key}.mock`).then((file) => enhanceFunc(file.default, payload));
-    }
-  };
+export const useMock = (key: string) => (payload: Obj) => {
+  if (process.env.NODE_ENV === 'production') {
+    return Promise.resolve();
+  } else {
+    return import(`./${key}.mock`).then((file) => {
+      const { mockData, enhanceMock } = file.default;
+      return typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData;
+    });
+  }
+};

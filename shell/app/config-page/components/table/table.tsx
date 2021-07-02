@@ -116,13 +116,13 @@ export function Table(props: CP_TABLE.Props) {
     table: true,
     ...styleNames,
   });
-
   return visible ? (
     <>
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
       <PureTable
         className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
+        tableLayout="fixed"
         {...extra}
         columns={tableColumns}
         pagination={pagination}

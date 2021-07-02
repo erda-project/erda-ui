@@ -121,7 +121,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref]);
+  }, [ref, _useMock]);
 
   useUpdateEffect(() => {
     if (forceUpdateKey?.includes('inParams')) {

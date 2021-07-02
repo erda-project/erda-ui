@@ -14,7 +14,9 @@
 import * as React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, Icon as CustomIcon } from 'common';
-import { Button, message, Popover } from 'app/nusi';
+import { Button, message, Popover, Input } from 'app/nusi';
+import agent from 'agent';
+
 import './debug.scss';
 import moment from 'moment';
 
@@ -23,6 +25,7 @@ export default () => {
   const [text, setText] = React.useState(defaultJson);
   const [config, setConfig] = React.useState(defaultData);
   const [logs, setLogs] = React.useState([] as any);
+  const [proxyApi, setProxyApi] = React.useState('');
 
   const updateMock = () => {
     try {
@@ -47,62 +50,79 @@ export default () => {
     );
   };
 
+  const getMock = React.useCallback(
+    (payload: any) => {
+      return agent
+        .post(proxyApi)
+        .send(payload)
+        .then((response: any) => {
+          return response.body;
+        });
+    },
+    [proxyApi],
+  );
+
   return (
-    <div className="debug-page full-height flex-box">
-      <div className="left full-height">
-        <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
-        <Button type="primary" className="update-button" onClick={() => updateMock()}>
-          更新
-        </Button>
-        <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>
-          请求
-        </Button>
-      </div>
-      <div className="right full-height">
-        <ErrorBoundary>
-          <DiceConfigPage
-            ref={pageRef}
-            showLoading
-            scenarioType={config?.scenario?.scenarioType}
-            scenarioKey={config?.scenario?.scenarioKey}
-            inParams={config?.inParams}
-            debugConfig={config}
-            onExecOp={onExecOp}
-            updateConfig={(v) => {
-              setConfig(v);
-              setText(JSON.stringify(v, null, 2));
-            }}
-          />
-        </ErrorBoundary>
-        <div className="log-panel">
-          <h3>
-            操作日志
-            <span className="ml8 fake-link" onClick={() => setLogs([])}>
-              清空
-            </span>
-          </h3>
-          {logs.map((log, i) => {
-            return (
-              <div key={i} className="log-item">
-                <span>
-                  {log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
-                  {log.command && <pre className="mb0">{log.command}</pre>}
-                </span>
-                {log.data && (
-                  <Popover
-                    placement="top"
-                    content={
-                      <div className="code-block auto-overflow" style={{ height: '600px', maxWidth: '600px' }}>
-                        <pre className="prewrap">{log.data}</pre>
-                      </div>
-                    }
-                  >
-                    <span className="fake-link">查看数据</span>
-                  </Popover>
-                )}
-              </div>
-            );
-          })}
+    <div className="full-height">
+      <Input value={proxyApi} size="small" className="mb4" onChange={(e) => setProxyApi(e.target.value)} />
+      <div className="debug-page full-height flex-box">
+        <div className="left full-height">
+          <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
+          <Button type="primary" className="update-button" onClick={() => updateMock()}>
+            更新
+          </Button>
+          <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>
+            请求
+          </Button>
+        </div>
+        <div className="right full-height">
+          <ErrorBoundary>
+            <DiceConfigPage
+              ref={pageRef}
+              showLoading
+              scenarioType={config?.scenario?.scenarioType}
+              scenarioKey={config?.scenario?.scenarioKey}
+              inParams={config?.inParams}
+              debugConfig={config}
+              onExecOp={onExecOp}
+              useMock={getMock}
+              forceMock={!!proxyApi}
+              updateConfig={(v) => {
+                setConfig(v);
+                setText(JSON.stringify(v, null, 2));
+              }}
+            />
+          </ErrorBoundary>
+          <div className="log-panel">
+            <h3>
+              操作日志
+              <span className="ml8 fake-link" onClick={() => setLogs([])}>
+                清空
+              </span>
+            </h3>
+            {logs.map((log, i) => {
+              return (
+                <div key={i} className="log-item">
+                  <span>
+                    {log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
+                    {log.command && <pre className="mb0">{log.command}</pre>}
+                  </span>
+                  {log.data && (
+                    <Popover
+                      placement="top"
+                      content={
+                        <div className="code-block auto-overflow" style={{ height: '600px', maxWidth: '600px' }}>
+                          <pre className="prewrap">{log.data}</pre>
+                        </div>
+                      }
+                    >
+                      <span className="fake-link">查看数据</span>
+                    </Popover>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

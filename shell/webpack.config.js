@@ -252,6 +252,7 @@ module.exports = () => {
       ),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
+        'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),
         'process.env.DICE_VER': JSON.stringify(pkg.version),
         'process.env.mainVersion': JSON.stringify(mainVersion),
         'process.env.dataEngineerInfo': JSON.stringify(dataEngineerInfo),
