@@ -226,18 +226,18 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       imageField = null;
     }
     return (
-      <Form className="edit-service-container">
+      <Form ref={this.formRef} className="edit-service-container">
         {nameField}
         {portsField}
         {resourceField}
         {deploymentsField}
-        {healthCheckField || editing ? { healthCheckField } : null}
-        {envsField || editing ? { envsField } : null}
-        {exposeField || editing ? { exposeField } : null}
-        {hostsField || editing ? { hostsField } : null}
-        {bindsField || editing ? { bindsField } : null}
-        {cmdField || editing ? { cmdField } : null}
-        {imageField || editing ? { imageField } : null}
+        {healthCheckField || editing ? healthCheckField : null}
+        {envsField || editing ? envsField : null}
+        {exposeField || editing ? exposeField : null}
+        {hostsField || editing ? hostsField : null}
+        {bindsField || editing ? bindsField : null}
+        {cmdField || editing ? cmdField : null}
+        {imageField || editing ? imageField : null}
         {editing ? (
           <Button type="primary" ghost onClick={this.onSubmit}>
             {i18n.t('application:save')}

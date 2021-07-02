@@ -112,7 +112,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       value[key] = 0;
     }
     const state = {
-      value,
+      value: { ...value },
     };
     this.triggerChange(state.value);
   };

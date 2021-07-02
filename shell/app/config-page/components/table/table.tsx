@@ -127,6 +127,7 @@ export function Table(props: CP_TABLE.Props) {
         columns={tableColumns}
         pagination={pagination}
         {...rest}
+        size="small"
       />
     </>
   ) : null;
