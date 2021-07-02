@@ -56,13 +56,19 @@ const Topic = () => {
     {
       title: 'Topic',
       dataIndex: 'topicName',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     getCloudResourceTagsCol(),
     {
       title: i18n.t('type'),
       dataIndex: 'messageType',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('authority'),

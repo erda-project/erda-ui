@@ -181,9 +181,11 @@ export const getRemarkCol = (dataIndex = 'remark') => {
   return {
     title: i18n.t('application:remark'),
     dataIndex,
-    tip: true,
+    ellipsis: {
+      showTitle: false,
+    },
     render: (_v: string) => {
-      return _v || '_';
+      return _v ? <Tooltip title={_v}>{_v}</Tooltip> : '_';
     },
   };
 };

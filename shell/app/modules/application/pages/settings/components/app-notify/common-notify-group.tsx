@@ -404,7 +404,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       title: i18n.t('default:notification target'),
       dataIndex: 'targets',
       className: 'notify-info',
-      tip: true,
+      ellipsis: true,
       render: (targets) => (
         <div className="flex-box">
           <ListTargets targets={targets} roleMap={roleMap} />

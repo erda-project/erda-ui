@@ -110,10 +110,16 @@ export const AppList = ({
     {
       title: i18n.t('project:application description'),
       dataIndex: 'desc',
-      tip: true,
-      render: (text) => {
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => {
         const title = text || i18n.t('application:edit description in application setting');
-        return <span>{title}</span>;
+        return (
+          <Tooltip title={title}>
+            <span>{title}</span>
+          </Tooltip>
+        );
       },
     },
     {

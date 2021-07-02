@@ -47,8 +47,10 @@ const apiPackageCols = [
     dataIndex: 'scene',
     key: 'scene',
     width: '13%',
-    tip: true,
-    render: (text: string) => SCENE_MAP[text] || i18n.t('none'),
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (text: string) => <Tooltip>{SCENE_MAP[text] || i18n.t('none')}</Tooltip>,
   },
   {
     title: i18n.t('msp:binding domain'),
@@ -80,8 +82,10 @@ const apiPackageCols = [
     dataIndex: 'createAt',
     key: 'createAt',
     width: '18%',
-    tip: true,
-    render: (createAt: number) => moment(createAt).format('YYYY-MM-DD HH:mm:ss'),
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (createAt: number) => <Tooltip>{moment(createAt).format('YYYY-MM-DD HH:mm:ss')}</Tooltip>,
   },
 ];
 

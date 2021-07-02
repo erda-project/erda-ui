@@ -260,12 +260,19 @@ const VariableConfig = ({
       width: 160,
       render: (operations: IKeyOperations, record: IKey) => {
         const { canDelete, canDownload, canEdit } = operations || {};
+        const { encrypt } = record;
         return (
           <div className="table-operations">
             <IF check={canDownload}>
-              <a className="table-operations-btn" download={record.value} href={`/api/files/${record.value}`}>
-                {i18n.t('download')}
-              </a>
+              {encrypt ? (
+                <Tooltip title={i18n.t('application:encrypted files cannot be downloaded')}>
+                  <a className="table-operations-btn disabled">{i18n.t('download')}</a>
+                </Tooltip>
+              ) : (
+                <a className="table-operations-btn" download={record.value} href={`/api/files/${record.value}`}>
+                  {i18n.t('download')}
+                </a>
+              )}
             </IF>
             <IF check={canEdit}>
               <span className="table-operations-btn" onClick={() => openModal(record, _env)}>

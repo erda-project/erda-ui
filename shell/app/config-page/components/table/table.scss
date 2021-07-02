@@ -87,6 +87,15 @@
   &.light-card {
     color: $lightgray;
     background-color: $color-active-bg;
+
+    .ant-table {
+      background-color: $color-active-bg;
+
+      th,
+      td {
+        line-height: 28px;
+      }
+    }
   }
 
   .dropdown-field-selector {

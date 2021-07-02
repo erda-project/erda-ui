@@ -244,7 +244,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       imageField = null;
     }
     return (
-      <Form className="edit-service-container" layout="vertical">
+      <Form ref={this.formRef} className="edit-service-container" layout="vertical">
         {nameField}
         {portsField}
         {resourceField}

@@ -231,7 +231,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const curDetail = find(state.clusterDetailList, (item) => get(item, 'basic.clusterName.value') === name) || {};
     return curDetail;
   };
-  const renderMenu = (record: ORG_CLUSTER.ICluster, index: number) => {
+  const renderMenu = (record: ORG_CLUSTER.ICluster) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
     const {
@@ -301,23 +301,29 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
-      tip: true,
-      render: (text, record) => (
-        <span
-          className="hover-active"
-          onClick={() => {
-            goTo(`./${record.name}/detail`);
-          }}
-        >
-          {text || record.name}
-        </span>
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string, record: object) => (
+        <Tooltip title={text || record.name}>
+          <span
+            className="hover-active"
+            onClick={() => {
+              goTo(`./${record.name}/detail`);
+            }}
+          >
+            {text || record.name}
+          </span>
+        </Tooltip>
       ),
     },
     {
       title: i18n.t('default:description'),
       dataIndex: 'description',
-      tip: true,
-      render: (text) => text || '_',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => (text ? <Tooltip title={text}>{text}</Tooltip> : '_'),
     },
     {
       title: i18n.t('org:cluster type'),
@@ -356,8 +362,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'operation',
-      render: (text, record: ORG_CLUSTER.ICluster, index) => {
-        return renderMenu(record, index);
+      render: (text, record: ORG_CLUSTER.ICluster) => {
+        return renderMenu(record);
       },
     },
   ];

@@ -530,7 +530,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       <Form form={form} initialValues={initialValue.current} className="edit-service-container">
         {alert}
         {taskType}
-        {type ? { taskName } : null}
+        {type ? taskName : null}
         {actionVersion}
         {renderTaskTypeStructure()}
         {editing ? (

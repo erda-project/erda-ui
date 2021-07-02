@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Table, Input, Select } from 'app/nusi';
+import { Spin, Table, Input, Select, Tooltip } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
 import { getClusterList, getDomainList } from 'cmp/services/domain-manage';
@@ -164,41 +164,54 @@ const DomainManage = () => {
     {
       title: i18n.t('dcos:cluster name'),
       dataIndex: 'clusterName',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('msp:domain name'),
       dataIndex: 'domain',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('attribution type'),
       dataIndex: 'type',
-      tip: true,
-      render: (type: string) => {
-        return <span>{SERVER_TYPES[type]}</span>;
+      ellipsis: {
+        showTitle: false,
       },
+      render: (type: string) => <Tooltip title={SERVER_TYPES[type]}>{SERVER_TYPES[type]}</Tooltip>,
     },
     {
       title: i18n.t('project name'),
       dataIndex: 'projectName',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('msp:application name'),
       dataIndex: 'appName',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('application:environment'),
       dataIndex: 'workspace',
-      tip: true,
-      render: (key: string) => ENV_DIC[key],
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (key: string) => <Tooltip title={ENV_DIC[key]}>{ENV_DIC[key]}</Tooltip>,
     },
     {
       title: i18n.t('default:operation'),
       dataIndex: 'operation',
-      tip: true,
       render: (text, record: DOMAIN_MANAGE.IDomain) => {
         const { domain, type, workspace: env, link } = record;
         if (!link) {
@@ -260,7 +273,7 @@ const DomainManage = () => {
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
-          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" tableLayout="fixed" />
+          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" />
         </Holder>
       </Spin>
     </>

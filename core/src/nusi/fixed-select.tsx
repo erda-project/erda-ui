@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select } from 'antd-latest';
+import { Select } from 'antd';
 
 const { Option, OptGroup } = Select;
 const FixedSelect = React.forwardRef((props: any, ref) => {

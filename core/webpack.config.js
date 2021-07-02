@@ -27,7 +27,6 @@ const resolve = (pathname) => path.resolve(__dirname, pathname);
 
 const nusiRealPath = fs.realpathSync(resolve('./node_modules/@terminus/nusi'));
 const antdRealPath = fs.realpathSync(resolve('./node_modules/antd'));
-const antdLatestRealPath = fs.realpathSync(resolve('./node_modules/antd-latest'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -103,7 +102,7 @@ module.exports = () => {
               },
             },
           ],
-          include: [resolve('./src'), antdRealPath, antdLatestRealPath, nusiRealPath],
+          include: [resolve('./src'), antdRealPath, nusiRealPath],
         },
         {
           test: /\.(css)$/,
