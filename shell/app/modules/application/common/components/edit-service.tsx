@@ -115,7 +115,13 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     );
 
     let exposeField = (
-      <Item name="expose" initialValue={expose}>
+      <Item
+        name="expose"
+        initialValue={expose}
+        getValueFromEvent={(val: Array<{ value: string }>) => {
+          return val?.length ? val.map((v) => v.value) : val;
+        }}
+      >
         <ListInput
           disabled={!editing}
           type="number"
@@ -128,7 +134,13 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       exposeField = null;
     }
     let hostsField = (
-      <Item name="hosts" initialValue={hosts}>
+      <Item
+        name="hosts"
+        initialValue={hosts}
+        getValueFromEvent={(val: Array<{ value: string }>) => {
+          return val?.length ? val.map((v) => v.value) : val;
+        }}
+      >
         <ListInput disabled={!editing} label={i18n.t('application:hosts mapping')} />
       </Item>
     );
@@ -191,7 +203,13 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       cmdField = null;
     }
     let bindsField = (
-      <Item name="binds" initialValue={binds}>
+      <Item
+        name="binds"
+        initialValue={binds}
+        getValueFromEvent={(val: Array<{ value: string }>) => {
+          return val?.length ? val.map((v) => v.value) : val;
+        }}
+      >
         <ListInput
           disabled={!editing}
           required={false}
@@ -226,18 +244,18 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       imageField = null;
     }
     return (
-      <Form className="edit-service-container">
+      <Form className="edit-service-container" layout="vertical">
         {nameField}
         {portsField}
         {resourceField}
         {deploymentsField}
-        {healthCheckField || editing ? { healthCheckField } : null}
-        {envsField || editing ? { envsField } : null}
-        {exposeField || editing ? { exposeField } : null}
-        {hostsField || editing ? { hostsField } : null}
-        {bindsField || editing ? { bindsField } : null}
-        {cmdField || editing ? { cmdField } : null}
-        {imageField || editing ? { imageField } : null}
+        {healthCheckField || editing ? healthCheckField : null}
+        {envsField || editing ? envsField : null}
+        {exposeField || editing ? exposeField : null}
+        {hostsField || editing ? hostsField : null}
+        {bindsField || editing ? bindsField : null}
+        {cmdField || editing ? cmdField : null}
+        {imageField || editing ? imageField : null}
         {editing ? (
           <Button type="primary" ghost onClick={this.onSubmit}>
             {i18n.t('application:save')}

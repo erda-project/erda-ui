@@ -248,7 +248,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
     const { getFieldsValue } = form;
     const resourceForm = getFieldsValue(['resource.alias', 'resource.type']);
-    if (!resourceForm.resource.type) {
+    if (!get(resourceForm, 'resource.type')) {
       return null;
     }
 
@@ -594,7 +594,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
   return (
     <Spin spinning={loading}>
-      <Form form={form} className="edit-service-container">
+      <Form form={form} layout="vertical" className="edit-service-container">
         {alert}
         {taskType}
         {loopData}

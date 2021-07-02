@@ -91,7 +91,6 @@ const RenderForm = forwardRef((props: any, ref) => {
   const [form] = Form.useForm();
 
   useImperativeHandle(ref, () => form);
-
   return <RenderPureForm form={form} {...props} />;
 });
 

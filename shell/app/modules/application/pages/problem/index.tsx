@@ -85,14 +85,17 @@ const Ticket = ({ scope }: IProps) => {
       targetID: scope === 'org' ? String(orgId) : String(params.appId),
       targetType: scope === 'org' ? 'org' : 'application',
       status: tabKey,
-    }).finally(() => {
-      closeModal();
-      if (tabKey === 'open') {
-        multiFilterProps.fetchDataWithQuery(1);
-      } else {
-        goTo('../open');
-      }
-    });
+    })
+      .then(() => {
+        if (tabKey === 'open') {
+          multiFilterProps.fetchDataWithQuery(1);
+        } else {
+          goTo('../open');
+        }
+      })
+      .finally(() => {
+        closeModal();
+      });
   };
 
   return (
