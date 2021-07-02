@@ -169,7 +169,10 @@ const autoGenerateService = (
 
     let serviceContent = getSteadyContent(filePath, content);
     const typeFilePath = filePath.replace(/\/services\//, '/types/').replace(/-api\.ts/, '.d.ts');
-    let typeContent = getSteadyContent(typeFilePath, fs.existsSync(typeFilePath) ? fs.readFileSync(typeFilePath, 'utf8') : '');
+    let typeContent = getSteadyContent(
+      typeFilePath,
+      fs.existsSync(typeFilePath) ? fs.readFileSync(typeFilePath, 'utf8') : '',
+    );
 
     let regRes = REG_API.exec(content);
 
@@ -304,19 +307,25 @@ const getLocalSwaggerConfig = (configPath: string) => {
   }
 
   const filePath = path.join(curPath, 'swagger-config.json');
-  return (fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null);
+  return fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
 };
 
 export default async ({ workDir }: { workDir: string }) => {
   try {
-    const config = getLocalSwaggerConfig(workDir) as { repository?: string; username?: string; swaggerFilePath?: string };
+    const config = getLocalSwaggerConfig(workDir) as {
+      repository?: string;
+      username?: string;
+      swaggerFilePath?: string;
+    };
     logInfo(`local swagger config: ${config}`);
 
     const repository = config?.repository || 'erda';
     const username = config?.username || 'erda-project';
     const swaggerFilePath = config?.swaggerFilePath || 'pkg/swagger/oas3/testdata/swagger_all.json';
 
-    const swagger = await getSwaggerData(`https://api.github.com/repos/${username}/${repository}/contents/${swaggerFilePath}`);
+    const swagger = await getSwaggerData(
+      `https://api.github.com/repos/${username}/${repository}/contents/${swaggerFilePath}`,
+    );
 
     if (keys(swagger?.paths)?.length) {
       // search all files with suffix of '-api.ts' in target work directory, and handle the target file
