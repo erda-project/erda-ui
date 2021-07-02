@@ -61,7 +61,10 @@ const DataBase = () => {
     {
       title: i18n.t('dcos:database name'),
       dataIndex: 'dBName',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     getCloudResourceStatusCol('rds', i18n.t('dcos:database status'), 'dBStatus'),
     {
@@ -71,7 +74,7 @@ const DataBase = () => {
     {
       title: i18n.t('bind account'),
       dataIndex: 'accounts',
-      tip: true,
+      ellipsis: true,
       render: (_v: Array<{ Account: string }>) => {
         return map(_v, (item) => <div key={item.Account}>{item.Account}</div>);
       },

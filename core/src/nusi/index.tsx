@@ -51,11 +51,11 @@ import {
   TimePicker,
   Upload,
   version,
-} from 'antd-latest';
+} from 'antd';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import '@terminus/nusi/dist/nusi.scss';
-import 'antd-latest/dist/antd.less';
+import 'antd/dist/antd.less';
 import {
   Affix,
   Alert,

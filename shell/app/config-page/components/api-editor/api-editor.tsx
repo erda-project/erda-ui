@@ -102,12 +102,7 @@ const { TextArea } = Input;
 
 const BODY_RAW_OPTION = ['text/plain', 'application/json'];
 
-const formatTip = i18n
-  .t(
-    'project:1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name.',
-  )
-  .replace(/</g, '{')
-  .replace(/>/g, '}');
+const formatTip = i18n.t('project:four parameter references').replace(/</g, '{').replace(/>/g, '}');
 
 const tip = () => (
   <div className="json-format-tip">

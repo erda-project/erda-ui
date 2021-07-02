@@ -37,6 +37,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     dataIndex: 'name',
     key: 'name',
     width: 380,
+    render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
   {
     title: i18n.t('project:priority'),
@@ -44,15 +45,22 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     key: 'priority',
     width: 85,
     sorter: true,
+    render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
   {
     title: i18n.t('project:updater'),
     dataIndex: 'updaterID',
     key: 'updaterID',
     width: 85,
-    tip: true,
+    ellipsis: true,
     sorter: true,
-    render: (updatedID: any) => updatedID && <UserInfo id={updatedID} render={(data) => data.nick || data.name} />,
+    render: (value: string, record: any) =>
+      renderContent(
+        (updatedID: string, record: any) =>
+          updatedID && <UserInfo id={updatedID} render={(data) => data.nick || data.name} />,
+        value,
+        record,
+      ),
   },
   {
     title: i18n.t('project:updated'),
@@ -60,9 +68,25 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     key: 'updatedAt',
     width: 190,
     sorter: true,
-    render: (updatedAt: any) => updatedAt && moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+    render: (value: string, record: any) =>
+      renderContent(
+        (updatedAt: string, record: any) => updatedAt && moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+        value,
+        record,
+      ),
   },
 ];
+
+const renderContent = (children, value: string, record: any) => {
+  const obj = {
+    children: children(value, record),
+    props: {},
+  };
+  if (!record.id) {
+    obj.props.colSpan = 0;
+  }
+  return obj;
+};
 
 export const columns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
   ...commonColumns,
@@ -73,6 +97,7 @@ export const columns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     className: 'operation',
     width: 140,
     fixed: 'right',
-    render: (_text: any, record: TEST_CASE.CaseTableRecord) => record.id && <MoreOperation record={record} />,
+    render: (value: string, record: any) =>
+      renderContent((value: string, record: any) => record.id && <MoreOperation record={record} />, value, record),
   },
 ];

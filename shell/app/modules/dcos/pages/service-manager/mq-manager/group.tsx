@@ -67,7 +67,10 @@ const Group = () => {
     {
       title: 'Group ID',
       dataIndex: 'groupId',
-      tip: true,
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     getCloudResourceTagsCol(),
     getCloudResourceTimeCol(),

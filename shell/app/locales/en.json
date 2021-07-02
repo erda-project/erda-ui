@@ -3653,7 +3653,8 @@
     "xmind-import-tip": "The file will be imported with the currently selected test set as the root",
     "yesterday": "yesterday",
     "you need": "you need",
-    "your browser does not support WebSocket!": "your browser does not support WebSocket!"
+    "your browser does not support WebSocket!": "your browser does not support WebSocket!",
+    "four parameter references": "1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name."
   },
   "publisher": {
     "1-6 decimal places": "1-6 decimal places",

@@ -25,11 +25,6 @@ const getCustomTransformers = () => ({
         style: true,
       },
       {
-        libraryName: 'antd-latest',
-        libraryDirectory: 'lib',
-        style: true,
-      },
-      {
         libraryName: '@terminus/nusi',
         libraryDirectory: 'es',
         style: true,
