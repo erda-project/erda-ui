@@ -38,8 +38,8 @@ Welcome to use [Erda Cloud](https://erda.cloud)
 
 Please use the following installation documents to install Erda.
 
-- [English](https://github.com/erda-project/erda/blob/9c904121313821d2b9f7ba15eeebb9286216c4a5/docs/guides/deploy/How-to-install-the-Erda.md)
-- [简体中文](https://github.com/erda-project/erda/blob/9c904121313821d2b9f7ba15eeebb9286216c4a5/docs/guides/deploy/How-to-install-the-Erda-zh.md)
+- [English](https://github.com/erda-project/erda/blob/master/docs/guides/deploy/How-to-install-Erda.md)
+- [简体中文](https://github.com/erda-project/erda/blob/master/docs/guides/deploy/How-to-install-Erda-zh.md)
 
 ### Run Erda-UI project
 
