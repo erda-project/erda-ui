@@ -44,7 +44,7 @@ export interface IOpHistoryQuery {
 }
 export const getClusterOperationHistory = (
   payload: IOpHistoryQuery,
-): IPagingResp<ORG_MACHINE.IClusterOperateRecord> => {
+): Promise<IPagingResp<ORG_MACHINE.IClusterOperateRecord>> => {
   return agent
     .get('/api/records')
     .query(payload)

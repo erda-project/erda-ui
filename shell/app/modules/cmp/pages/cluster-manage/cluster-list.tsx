@@ -74,7 +74,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     afterAdd: null,
     cloudModalVis: false,
     deleteModalVis: false,
-    curDeleteCluster: null,
+    curDeleteCluster: null as null | ORG_CLUSTER.ICluster,
     clusterDetailList: [],
     registerCommandVisible: false,
   });
@@ -264,26 +264,20 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (text: string, record: object) => (
-        <Tooltip title={text || record.name}>
-          <span
-            className="hover-active"
-            onClick={() => {
-              goTo(`./${record.name}/detail`);
-            }}
-          >
-            {text || record.name}
-          </span>
-        </Tooltip>
+      render: (text, record) => (
+        <span
+          className="hover-active"
+          onClick={() => {
+            goTo(`./${record.name}/detail`);
+          }}
+        >
+          {text || record.name}
+        </span>
       ),
     },
     {
       title: i18n.t('application:status'),
       dataIndex: 'clusterStatus',
-      tip: true,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
@@ -299,10 +293,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:description'),
       dataIndex: 'description',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (text: string) => (text ? <Tooltip title={text}>{text}</Tooltip> : '_'),
+      render: (text) => text || '_',
     },
     {
       title: i18n.t('application:type'),
