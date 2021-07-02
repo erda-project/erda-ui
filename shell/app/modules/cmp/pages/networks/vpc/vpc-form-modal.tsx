@@ -294,7 +294,7 @@ const VpcFormModal = (props: IProps) => {
       footer={formFootMap[stepKey]}
     >
       <VpcForm visible={stepKey === 'vpc'} ref={vpcRef} />
-      <VswForm visible={stepKey === 'vsw'} ref={vswRef} vpc={vpcFormRef && vpcFormRef.getFieldsValue()} />
+      <VswForm visible={stepKey === 'vsw'} ref={vswRef} vpc={(vpcFormRef && vpcFormRef.getFieldsValue()) || {}} />
     </Modal>
   );
 };
