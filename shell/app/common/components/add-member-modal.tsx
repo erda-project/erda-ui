@@ -30,6 +30,7 @@ interface IProps {
   memberLabels: Array<{ name: string; label: string }>;
   scope: MEMBER.MemberScope;
   queryParams: Obj;
+  hasConfigAppAuth?: boolean;
   toggleModal: () => void;
   updateMember?: (values: MEMBER.UpdateMemberBody) => void;
 }
