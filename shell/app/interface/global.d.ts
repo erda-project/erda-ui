@@ -291,3 +291,18 @@ interface FilterItemConfig {
 
 type Kv<T> = { [k in keyof T]: string };
 type Nullable<T> = T | null;
+
+interface RAW_RESPONSE<T = any> {
+  data: T;
+  err: {
+    code: string;
+    msg: string;
+  };
+  success: boolean;
+  userInfo: Array<{
+    id: string;
+    name: string;
+    nickname: string;
+  }>;
+  userIDs: string[];
+}

@@ -39,3 +39,4 @@ shell/sourcemap
 shell/coverage
 .pnpm-debug.log
 lerna-debug.log
+swagger-config.json
