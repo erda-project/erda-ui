@@ -342,7 +342,7 @@ const CreationForm = () => {
             <span className="fz12 ml4"> {i18n.t('project:Configure-cluster-environment')}</span>
           </span>
         ),
-        name: 'clusterConfig.DEV',
+        name: ['clusterConfig', 'DEV'],
         initialValue: firstClusterName,
         itemProps: {
           allowClear: true,
@@ -350,7 +350,7 @@ const CreationForm = () => {
         getComp: () => getCompactSelect('DEV'),
       },
       {
-        name: 'clusterConfig.TEST',
+        name: ['clusterConfig', 'TEST'],
         initialValue: firstClusterName,
         itemProps: {
           allowClear: true,
@@ -358,7 +358,7 @@ const CreationForm = () => {
         getComp: () => getCompactSelect('Test'),
       },
       {
-        name: 'clusterConfig.STAGING',
+        name: ['clusterConfig', 'STAGING'],
         initialValue: firstClusterName,
         itemProps: {
           allowClear: true,
@@ -366,7 +366,7 @@ const CreationForm = () => {
         getComp: () => getCompactSelect('STAGING'),
       },
       {
-        name: 'clusterConfig.PROD',
+        name: ['clusterConfig', 'PROD'],
         initialValue: firstClusterName,
         itemProps: {
           allowClear: true,

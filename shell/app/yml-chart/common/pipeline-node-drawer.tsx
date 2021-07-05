@@ -174,7 +174,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   const taskType = (
     <Item
       className="hide"
-      name="resource.type"
+      name={['resource', 'type']}
       initialValue={chosenActionName}
       rules={[
         {
@@ -187,12 +187,12 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     </Item>
   );
 
-  const loopData = <Item className="hide" name="resource.loop" initialValue={get(actionConfig, 'spec.loop')} />;
+  const loopData = <Item className="hide" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />;
 
   const actionVersion = (
     <Item
       label={i18nMap.version}
-      name="resource.version"
+      name={['resource', 'version']}
       initialValue={task.version || actionConfig.version}
       rules={[
         {
@@ -229,7 +229,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   const taskName = (
     <Item
       label={i18n.t('application:task name')}
-      name="resource.alias"
+      name={['resource', 'alias']}
       initialValue={taskInitName}
       rules={[
         {
@@ -330,7 +330,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     const inputField = (
       <Item
         key={parentKey}
-        name={parentKey}
+        name={parentKey.split('.')}
         initialValue={initialValue}
         rules={[
           {
@@ -349,7 +349,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     const inputField = (
       <Item
         key={parentKey}
-        name={parentKey}
+        name={parentKey.split('.')}
         initialValue={isCreate ? value.default : value.value || value.default}
         rules={[
           {
@@ -407,7 +407,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       <Item
         key={parentKey}
         label={getLabel(value.name, value.desc)}
-        name={parentKey}
+        name={parentKey.split('.')}
         initialValue={initialValue}
         rules={[
           {
@@ -580,7 +580,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   const executionCondition = (
     <Item
       label={i18n.t('common:execution conditions')}
-      name={executionCondition}
+      name={'executionCondition'}
       initialValue={get(propsNodeData, 'if') || undefined}
       rules={[
         {
