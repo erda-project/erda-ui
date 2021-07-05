@@ -163,11 +163,9 @@ const RepoEditor = ({
           maxLength={255}
           onChange={(e) => {
             updater.fileName(e.target.value.trim());
-            if (formRef.current) {
-              formRef.current.setFieldsValue({
-                message: state.isAddMode ? `Add ${state.fileName}` : `Update ${state.fileName}`,
-              });
-            }
+            formRef.current?.setFieldsValue({
+              message: state.isAddMode ? `Add ${state.fileName}` : `Update ${state.fileName}`,
+            });
           }}
         />,
         'xml',
