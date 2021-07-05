@@ -160,6 +160,7 @@ const RepoEditor = ({
         <Input
           name="name"
           placeholder={i18n.t('application:file name')}
+          autoFocus
           maxLength={255}
           onChange={(e) => {
             const newFileName = e.target.value.trim();
