@@ -63,12 +63,14 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
   show = () => {
     this.setState({
       visible: true,
-      inputKey: this.state.inputKey + 1, // keep input always focus when visible
     });
   };
 
   hide = () => {
-    this.setState({ visible: false });
+    this.setState((prev) => ({
+      visible: false,
+      inputKey: prev.inputKey + 1, // keep input always focus when visible
+    }));
   };
 
   handleBlur = () => {
@@ -122,7 +124,6 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
               ? i18n.t('application:enter branch name to filter')
               : i18n.t('application:enter branch or tag name to filter')
           }
-          key={inputKey}
           autoFocus
           onBlur={this.handleBlur}
           value={filterKey}
@@ -164,6 +165,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
         title={
           hideTagList ? i18n.t('application:please choose branch') : i18n.t('application:please choose branch or tag')
         }
+        key={this.state.inputKey}
         overlayClassName="branch-select-popover"
         trigger="click"
         placement="bottomLeft"
