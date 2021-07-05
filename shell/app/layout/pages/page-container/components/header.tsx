@@ -18,126 +18,153 @@ import layoutStore from 'layout/stores/layout';
 import { goTo } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
-import { filter, isEmpty, isFunction } from 'lodash';
+import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { Right as IconRight } from '@icon-park/react';
 import './header.scss';
 
-const Header = () => {
-  const [headerInfo, currentApp] = layoutStore.useStore((s) => [s.headerInfo, s.currentApp]);
-  const [query, routes] = routeInfoStore.useStore((s) => [s.query, s.routes]);
-  const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
-  const lastRoute = React.useRef(undefined as undefined | IRoute);
-  const lastRouteName = React.useRef(undefined as undefined | string);
-  const [pageName, setPageName] = React.useState('');
-  React.useEffect(() => {
-    setPageName(lastRouteName.current as string);
-  }, [routes]);
+const BreadcrumbItem = ({
+  route,
+  paths,
+  params,
+  title,
+}: {
+  route: IRoute;
+  params: Obj<string>;
+  paths: string[];
+  title?: string;
+}) => {
+  const { path, eternal, changePath, pageName } = route;
+  const [link, setLink] = React.useState('');
 
   React.useEffect(() => {
-    document.title = pageName ? `${pageName} · Erda` : 'Erda';
-  }, [pageName]);
-
-  const checkHasTemplate = ({ name, params }: { name: string; params: object }) => {
-    const replacePattern = /\{([\w.])+\}/g;
-    let breadcrumbName = name;
-    const matches = (breadcrumbName as string).match(replacePattern);
-    if (!matches) {
-      return breadcrumbName;
-    }
-    matches.forEach((match: string) => {
-      const [type, key] = match.slice(1, -1).split('.'); // match: {params.id}
-      let value;
-      if (type === 'params') {
-        value = params[key];
-      } else if (type === 'query') {
-        value = decodeURIComponent(query[key]);
-      } else {
-        value = infoMap[type];
-      }
-      breadcrumbName = (breadcrumbName as string).replace(match, value);
-    });
-    if (breadcrumbName === 'undefined') {
-      breadcrumbName = '';
-    }
-    return breadcrumbName;
-  };
-
-  const itemRender = (route: IRoute, params: object, _routes: IRoute[], paths: string[]) => {
-    const { breadcrumbName, path, eternal, changePath, pageName: pName } = route;
-    let name = breadcrumbName;
-    if (!name) {
-      if (pName) {
-        lastRouteName.current = pName;
-      }
-      return null;
-    }
-    if (isFunction(name)) {
-      name = name({ infoMap, route, params, query, paths });
-    } else {
-      name = checkHasTemplate({ name, params });
-    }
-
-    if (lastRoute.current === route) {
-      lastRouteName.current = name;
-      setPageName(name as string);
-      return null;
-    }
-
     const currentPath = paths[paths.length - 1];
     const lastPath = paths.length > 1 ? paths[paths.length - 2] : '';
 
     let finalPath = route.encode
       ? `${lastPath}/${encodeURIComponent(params[route.relativePath.slice(1)])}`
-      : currentPath; // 因为router v4没有了相对路径所有不用拼路径 `/${encodedPaths.join('/')}`;
+      : currentPath;
     if (changePath) {
       finalPath = changePath(finalPath);
     }
 
-    const link = `/${finalPath}`;
-    return (
-      <span
-        className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`}
-        title={name}
-        key={eternal || path}
-        onClick={() => !route.disabled && goTo(link)}
-      >
-        {name}
-      </span>
-    );
-  };
+    setLink(`/${finalPath}`);
+  }, [changePath, params, paths, route.encode, route.relativePath]);
 
-  const allRoutes = filter(routes, (route) => {
-    return (
-      !isEmpty(route.path) &&
-      (!isEmpty(route.breadcrumbName) || !isEmpty(route.pageName) || typeof route.breadcrumbName === 'function')
-    );
-  });
+  const displayTitle = title || pageName;
 
-  // get params from path
-  let params = {};
-  if (routes.length > 0) {
-    const match =
-      matchPath(window.location.pathname, {
+  return displayTitle ? (
+    <span
+      className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`}
+      title={displayTitle}
+      key={eternal || path}
+      onClick={() => !route.disabled && goTo(link)}
+    >
+      {displayTitle}
+    </span>
+  ) : null;
+};
+
+const Header = () => {
+  const [headerInfo, currentApp] = layoutStore.useStore((s) => [s.headerInfo, s.currentApp]);
+  const routes: IRoute[] = routeInfoStore.useStore((s) => s.routes);
+  const [pageName, setPageName] = React.useState<string>();
+  const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
+  const [query] = routeInfoStore.useStore((s) => [s.query]);
+
+  const [allRoutes, setAllRoutes] = React.useState<IRoute[]>([]);
+  const [params, setParams] = React.useState<Obj<string>>({});
+
+  const checkHasTemplate = React.useCallback(
+    (breadcrumbName: string) => {
+      const replacePattern = /\{([\w.])+\}/g;
+      let _breadcrumbName = breadcrumbName || '';
+      const matches = _breadcrumbName.match(replacePattern);
+      if (!matches) {
+        return _breadcrumbName;
+      }
+      matches.forEach((match: string) => {
+        const [type, key] = match.slice(1, -1).split('.'); // match: {params.id}
+        let value;
+        if (type === 'params') {
+          value = params[key];
+        } else if (type === 'query') {
+          value = decodeURIComponent(query[key]);
+        } else {
+          value = infoMap[type];
+        }
+        _breadcrumbName = _breadcrumbName.replace(match, value);
+      });
+      if (_breadcrumbName === 'undefined') {
+        _breadcrumbName = '';
+      }
+      return _breadcrumbName;
+    },
+    [infoMap, params, query],
+  );
+
+  const getBreadcrumbTitle = React.useCallback(
+    (route: IRoute) => {
+      const { breadcrumbName, pageName: _pageName } = route;
+      let _title = '';
+      if (isFunction(breadcrumbName)) {
+        _title = breadcrumbName({ infoMap, route, params, query });
+      } else {
+        _title = checkHasTemplate(breadcrumbName as string);
+      }
+      return _title || _pageName;
+    },
+    [checkHasTemplate, infoMap, params, query],
+  );
+
+  React.useEffect(() => {
+    if (allRoutes.length) {
+      const lastRoute = allRoutes[allRoutes.length - 1];
+      const _title = getBreadcrumbTitle(lastRoute);
+      setPageName(_title);
+    }
+  }, [allRoutes, getBreadcrumbTitle]);
+
+  React.useEffect(() => {
+    document.title = pageName ? `${pageName} · Erda` : 'Erda';
+  }, [pageName]);
+
+  React.useEffect(() => {
+    let _params: Obj<string> = {};
+    // get params from path
+    if (routes.length > 0) {
+      const match = matchPath(window.location.pathname, {
         path: routes[0].path,
         exact: true,
         strict: false,
-      }) || ({} as any);
-    params = match && match.params;
-  }
+      });
+      if (match) {
+        _params = match.params;
+        setParams(_params);
+      }
+    }
+    const filteredRoutes = routes.filter((route) => {
+      return route.path && (route.breadcrumbName || route.pageName || typeof route.breadcrumbName === 'function');
+    });
+    if (!isEmpty(currentApp)) {
+      const eternalApp = {
+        eternal: currentApp.href,
+        breadcrumbName: currentApp.breadcrumbName,
+        path: typeof currentApp.path === 'function' ? currentApp.path(_params || {}, routes) : currentApp.href,
+      };
+      filteredRoutes.reverse().splice(1, 0, eternalApp as IRoute);
+      setAllRoutes(filteredRoutes);
+    }
+  }, [currentApp, routes]);
 
-  if (allRoutes.length) {
-    lastRoute.current = allRoutes[0];
-  }
+  const itemRender = (route: IRoute, _params: Obj<string>, _routes: IRoute[], paths: string[]) => {
+    if (allRoutes.length && allRoutes[allRoutes.length - 1] === route) {
+      return null;
+    }
+    const _title = getBreadcrumbTitle(route);
+    return <BreadcrumbItem paths={[...paths]} route={route} params={_params} title={_title} />;
+  };
 
-  if (!isEmpty(currentApp)) {
-    const eternalApp = {
-      eternal: currentApp.href,
-      breadcrumbName: currentApp.breadcrumbName,
-      path: typeof currentApp.path === 'function' ? currentApp.path(params || {}, routes) : currentApp.href,
-    };
-    allRoutes.reverse().splice(1, 0, eternalApp as IRoute);
-  }
   return (
     <PageHeader
       breadcrumb={{
@@ -153,4 +180,5 @@ const Header = () => {
     </PageHeader>
   );
 };
+
 export default Header;

@@ -21,7 +21,7 @@ interface IRoute {
   key: string;
   path: string;
   relativePath: string;
-  breadcrumbName?: string;
+  breadcrumbName?: string | Function;
   _parent: IRoute;
   mark?: string;
   layout: {
