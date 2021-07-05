@@ -45,7 +45,7 @@ export default ({ hasEditAuth }: IProps) => {
     formData[`rollbackConfig.${name}`] = point || 5;
     fieldsList.push({
       label: workSpaceMap[name] || name,
-      name: `rollbackConfig.${name}`,
+      name: ['rollbackConfig', name],
       type: 'inputNumber',
       itemProps: {
         max: 1000,
