@@ -30,7 +30,7 @@ const rolesMap = {
 
 const getPermObj = (data: IPermResponseData, scope: string) => {
   const newPermObj = cloneDeep({ ...(permState[scope] || {}) });
-  const { permissionList, resourceRoleList = [] } = data;
+  const { permissionList, resourceRoleList = [], access } = data;
   const ROLES = rolesMap[scope];
   map(permissionList, ({ resource, action }) => {
     if (resource.startsWith(permPrefix)) {
@@ -63,6 +63,9 @@ const getPermObj = (data: IPermResponseData, scope: string) => {
       }
     }
   });
+  if (scope === 'project') {
+    newPermObj.access = access;
+  }
   return newPermObj;
 };
 
@@ -137,6 +140,7 @@ const permission = createStore({
         return;
       }
       const newPermObj = getPermObj(data, scope);
+      console.log({ newPermObj });
       state[scope] = newPermObj;
     },
     clearScopePerm(state, scope: string) {

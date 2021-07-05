@@ -1,6 +1,7 @@
 {
   "layout": {
     "approval": "审批管理",
+    "back to application list": "返回应用列表",
     "back to home": "返回首页",
     "back to dop": "返回 DevOps 平台",
     "certificate": "证书管理",
