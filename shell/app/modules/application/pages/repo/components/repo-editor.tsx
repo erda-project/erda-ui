@@ -162,9 +162,10 @@ const RepoEditor = ({
           placeholder={i18n.t('application:file name')}
           maxLength={255}
           onChange={(e) => {
-            updater.fileName(e.target.value.trim());
+            const newFileName = e.target.value.trim();
+            updater.fileName(newFileName);
             formRef.current?.setFieldsValue({
-              message: state.isAddMode ? `Add ${state.fileName}` : `Update ${state.fileName}`,
+              message: state.isAddMode ? `Add ${newFileName}` : `Update ${newFileName}`,
             });
           }}
         />,
