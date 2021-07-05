@@ -22,6 +22,7 @@ import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import AddPipelineYml from './add-pipelineyml';
 import './repo-editor.scss';
+import { FormInstance } from 'core/common/interface';
 
 interface IProps {
   name?: string;
@@ -57,6 +58,7 @@ const RepoEditor = ({
   const [tree, info, mode] = repoStore.useStore((s) => [s.tree, s.info, s.mode]);
   const { commit, getRepoBlob, getRepoTree } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
+  const formRef = React.useRef(null as any as FormInstance);
   React.useEffect(() => {
     update({
       value: blob.content,
@@ -127,7 +129,6 @@ const RepoEditor = ({
           maxLength: 200,
           autoSize: { minRows: 3, maxRows: 7 },
         },
-        initialValue: isAddMode ? `Add ${state.fileName}` : `Update ${state.fileName}`,
       },
       {
         name: 'branch',
@@ -162,6 +163,11 @@ const RepoEditor = ({
           maxLength={255}
           onChange={(e) => {
             updater.fileName(e.target.value.trim());
+            if (formRef.current) {
+              formRef.current.setFieldsValue({
+                message: state.isAddMode ? `Add ${state.fileName}` : `Update ${state.fileName}`,
+              });
+            }
           }}
         />,
         'xml',
@@ -183,7 +189,7 @@ const RepoEditor = ({
         maxLines={maxLines}
         onChange={onChange}
       />
-      <RenderForm className="commit-file-form" list={getFieldsList()} />
+      <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
     </FileContainer>
   );
 };
