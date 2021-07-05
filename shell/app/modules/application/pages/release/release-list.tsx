@@ -44,7 +44,7 @@ const ReleaseList = () => {
   const [loading] = useLoading(releaseStore, ['getReleaseList']);
   const [state, updater, update] = useUpdate({
     pageNo: initPageNo,
-    applicationId: query.applicationId as undefined | number,
+    applicationId: appDetail.isProjectLevel ? query.application : params.appId,
     chosenPos: 0, // TODO: use id
     branchInfo: [] as APPLICATION.IBranchInfo[],
     queryObj: {

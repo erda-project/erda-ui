@@ -30,6 +30,28 @@ interface IVswCIDRProps {
   formKey?: string;
 }
 
+interface ITooltipInputProps {
+  options: number[];
+  value?: string;
+  onChange?: (v: string) => void;
+}
+
+const TooltipInput = (props: ITooltipInputProps) => {
+  const { value, onChange, options } = props;
+
+  return (
+    <Tooltip title={getIPTooltipText(options)}>
+      <Input
+        disabled={options.length <= 1}
+        value={value}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange?.(e.target.value);
+        }}
+      />
+    </Tooltip>
+  );
+};
+
 const validateIncludes = (options: any[]) => (rule: any, value: string, callback: Function) => {
   return callback(!value || options.includes(+value) ? undefined : i18n.t('invalid input'));
 };
@@ -52,7 +74,11 @@ export const VswCIDRField = ({
     const curMin = vpcMask >= minMask ? vpcMask + 1 : minMask;
     const defaultMask = curMin > 24 ? curMin : 24;
     // 设置默认
-    form && form.setFieldsValue({ [`${formKey}.4`]: defaultMask });
+    if (form) {
+      const preValue = form.getFieldValue(formKey) || [];
+      preValue[4] = defaultMask;
+      form.setFieldsValue({ [formKey]: preValue });
+    }
     onChangeMask && onChangeMask(defaultMask);
     const options = getIPItemOption(vpcCidrBlock, defaultMask);
     setDefault(options);
@@ -71,21 +97,21 @@ export const VswCIDRField = ({
   };
 
   const setDefault = (options: number[][]) => {
+    const curDefault = form.getFieldValue(formKey) || [];
     map(options, (item, idx) => {
-      form.setFieldsValue({ [`${formKey}.${idx}`]: item[0] || 0 });
+      curDefault[idx] = item[0] || 0;
     });
+    form.setFieldsValue({ [formKey]: curDefault });
   };
 
   const getFormItem = (index: number) => {
     const options = IPItemOption[index] || ([] as number[]);
     return (
       <FormItem
-        name={`${formKey}.${index}`}
+        name={[formKey, index]}
         rules={[{ required: true, message: i18n.t('{name} can not empty') }, { validator: validateIncludes(options) }]}
       >
-        <Tooltip title={getIPTooltipText(options)}>
-          <Input disabled={options.length <= 1} />
-        </Tooltip>
+        <TooltipInput options={options} />
       </FormItem>
     );
   };
@@ -100,7 +126,7 @@ export const VswCIDRField = ({
       <span className="split">•</span>
       {getFormItem(3)}
       <span className="split">/</span>
-      <FormItem name={`${formKey}.4`}>
+      <FormItem name={[formKey, 4]}>
         <Select onChange={(val: any) => changeMask(val)}>
           {map(maskOptions, (item) => {
             return (

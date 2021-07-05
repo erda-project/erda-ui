@@ -64,7 +64,7 @@ const AppCenterEl = () => {
     .filter((app) => openMap[app.key])
     .map((app: LAYOUT.IApp) => {
       return {
-        key: app.href,
+        key: app.href || app.key,
         app,
         name: app.name,
         title: (
@@ -87,6 +87,7 @@ const AppCenterEl = () => {
       setVisible(vis);
     }
   };
+
   return (
     <AppCenter
       visible={visible}
