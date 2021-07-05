@@ -140,7 +140,6 @@ const permission = createStore({
         return;
       }
       const newPermObj = getPermObj(data, scope);
-      console.log({ newPermObj });
       state[scope] = newPermObj;
     },
     clearScopePerm(state, scope: string) {
