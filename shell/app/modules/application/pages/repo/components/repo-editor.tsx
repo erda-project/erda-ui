@@ -58,7 +58,7 @@ const RepoEditor = ({
   const [tree, info, mode] = repoStore.useStore((s) => [s.tree, s.info, s.mode]);
   const { commit, getRepoBlob, getRepoTree } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
-  const formRef = React.useRef(null as any as FormInstance);
+  const formRef = React.useRef<FormInstance>(null);
   React.useEffect(() => {
     update({
       value: blob.content,
