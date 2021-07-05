@@ -30,28 +30,6 @@ interface IVswCIDRProps {
   formKey?: string;
 }
 
-interface ITooltipInputProps {
-  options: number[];
-  value?: string;
-  onChange?: (v: string) => void;
-}
-
-const TooltipInput = (props: ITooltipInputProps) => {
-  const { value, onChange, options } = props;
-
-  return (
-    <Tooltip title={getIPTooltipText(options)}>
-      <Input
-        disabled={options.length <= 1}
-        value={value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          onChange?.(e.target.value);
-        }}
-      />
-    </Tooltip>
-  );
-};
-
 const validateIncludes = (options: any[]) => (rule: any, value: string, callback: Function) => {
   return callback(!value || options.includes(+value) ? undefined : i18n.t('invalid input'));
 };
@@ -107,12 +85,17 @@ export const VswCIDRField = ({
   const getFormItem = (index: number) => {
     const options = IPItemOption[index] || ([] as number[]);
     return (
-      <FormItem
-        name={[formKey, index]}
-        rules={[{ required: true, message: i18n.t('{name} can not empty') }, { validator: validateIncludes(options) }]}
-      >
-        <TooltipInput options={options} />
-      </FormItem>
+      <Tooltip title={getIPTooltipText(options)}>
+        <FormItem
+          name={[formKey, index]}
+          rules={[
+            { required: true, message: i18n.t('{name} can not empty') },
+            { validator: validateIncludes(options) },
+          ]}
+        >
+          <Input disabled={options.length <= 1} />
+        </FormItem>
+      </Tooltip>
     );
   };
 
