@@ -52,7 +52,11 @@ export const VswCIDRField = ({
     const curMin = vpcMask >= minMask ? vpcMask + 1 : minMask;
     const defaultMask = curMin > 24 ? curMin : 24;
     // 设置默认
-    form && form.setFieldsValue({ [`${formKey}.4`]: defaultMask });
+    if (form) {
+      const preValue = form.getFieldValue(formKey) || [];
+      preValue[4] = defaultMask;
+      form.setFieldsValue({ [formKey]: preValue });
+    }
     onChangeMask && onChangeMask(defaultMask);
     const options = getIPItemOption(vpcCidrBlock, defaultMask);
     setDefault(options);
@@ -71,22 +75,27 @@ export const VswCIDRField = ({
   };
 
   const setDefault = (options: number[][]) => {
+    const curDefault = form.getFieldValue(formKey) || [];
     map(options, (item, idx) => {
-      form.setFieldsValue({ [`${formKey}.${idx}`]: item[0] || 0 });
+      curDefault[idx] = item[0] || 0;
     });
+    form.setFieldsValue({ [formKey]: curDefault });
   };
 
   const getFormItem = (index: number) => {
     const options = IPItemOption[index] || ([] as number[]);
     return (
-      <FormItem
-        name={`${formKey}.${index}`}
-        rules={[{ required: true, message: i18n.t('{name} can not empty') }, { validator: validateIncludes(options) }]}
-      >
-        <Tooltip title={getIPTooltipText(options)}>
+      <Tooltip title={getIPTooltipText(options)}>
+        <FormItem
+          name={[formKey, index]}
+          rules={[
+            { required: true, message: i18n.t('{name} can not empty') },
+            { validator: validateIncludes(options) },
+          ]}
+        >
           <Input disabled={options.length <= 1} />
-        </Tooltip>
-      </FormItem>
+        </FormItem>
+      </Tooltip>
     );
   };
 
@@ -100,7 +109,7 @@ export const VswCIDRField = ({
       <span className="split">•</span>
       {getFormItem(3)}
       <span className="split">/</span>
-      <FormItem name={`${formKey}.4`}>
+      <FormItem name={[formKey, 4]}>
         <Select onChange={(val: any) => changeMask(val)}>
           {map(maskOptions, (item) => {
             return (
