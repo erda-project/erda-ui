@@ -226,7 +226,7 @@ const IssueFieldManage = () => {
         dataSource={tableList}
         columns={columns}
         pagination={false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <IssueFieldModal visible={modalVisible} formData={formData} onOk={onOk} closeModal={onClose} />
     </div>

@@ -144,7 +144,7 @@ const Sla = () => {
         columns={columns}
         dataSource={slaLis}
         pagination={false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <SlaEditor
         mode="edit"

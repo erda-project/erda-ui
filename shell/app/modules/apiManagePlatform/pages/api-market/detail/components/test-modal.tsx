@@ -267,7 +267,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
                   <FileEditor fileExtension="json" value={resBody} minLines={8} maxLines={20} readOnly />
                 </div>
               ) : (
-                <Table columns={commonColumn} pagination={false} dataSource={resHeader} tableLayout="fixed" />
+                <Table columns={commonColumn} pagination={false} dataSource={resHeader} scroll={{ x: '100%' }} />
               )}
             </TabPane>
           );

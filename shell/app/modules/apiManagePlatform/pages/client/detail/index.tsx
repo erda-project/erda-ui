@@ -267,7 +267,7 @@ const ClientDetail = () => {
                 onChange={(pagination) => {
                   handleChangeTable(value, pagination);
                 }}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </TabPane>
           ))}

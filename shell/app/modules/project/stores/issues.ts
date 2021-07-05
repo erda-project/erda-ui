@@ -32,6 +32,9 @@ import {
   getFieldsByIssue,
   addFieldsToIssue,
   importFileInIssues,
+  subscribe,
+  unsubscribe,
+  batchSubscribe,
 } from '../services/issue';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
@@ -293,6 +296,18 @@ const issueStore = createStore({
         payload: formData,
         query: { orgID, projectID: +projectID, type: issueType },
       });
+      return res;
+    },
+    async subscribe({ call }, payload: { id: number }) {
+      const res = await call(subscribe, payload);
+      return res;
+    },
+    async unsubscribe({ call }, payload: { id: number }) {
+      const res = await call(unsubscribe, payload);
+      return res;
+    },
+    async batchSubscribe({ call }, payload: { id: number | string; subscribers: Array<number | string> }) {
+      const res = await call(batchSubscribe, payload);
       return res;
     },
   },

@@ -85,7 +85,7 @@ const ApiAuth = (props: IProps) => {
           dataSource={authInfoList}
           columns={column}
           pagination={false}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
     </Drawer>

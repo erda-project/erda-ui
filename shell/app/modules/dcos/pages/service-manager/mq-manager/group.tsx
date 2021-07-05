@@ -243,7 +243,7 @@ const Group = () => {
         rowSelection={{
           onChange: handleSelect,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <SetTagForm
         items={items}

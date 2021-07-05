@@ -178,7 +178,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
         dataSource={testType === 'manual' ? envList : autoEnvList}
         pagination={{ pageSize: PAGINATION.pageSize }}
         onRow={onRowClick}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <TestEnvDetail
         envID={envID}

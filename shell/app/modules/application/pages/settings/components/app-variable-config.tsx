@@ -380,7 +380,7 @@ const VariableConfig = ({
                     </Button>
                   </>
                 )}
-                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} tableLayout="fixed" />
+                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} scroll={{ x: '100%' }} />
               </Panel>
             );
           })}

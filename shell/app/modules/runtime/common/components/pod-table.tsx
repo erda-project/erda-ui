@@ -128,7 +128,6 @@ const PodTable = (props: IProps) => {
         size: 'small',
         pageSize: 15,
       }}
-      tableLayout="fixed"
     />
   );
 };

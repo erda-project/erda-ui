@@ -99,7 +99,6 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-      tableLayout="fixed"
     />
   );
 };
@@ -167,7 +166,7 @@ export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-      tableLayout="fixed"
+      scroll={{ x: '100%' }}
     />
   );
 };

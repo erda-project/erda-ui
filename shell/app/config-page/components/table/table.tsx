@@ -122,7 +122,7 @@ export function Table(props: CP_TABLE.Props) {
       <PureTable
         className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
         {...extra}
         columns={tableColumns}
         pagination={pagination}

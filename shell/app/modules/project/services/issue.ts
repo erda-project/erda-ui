@@ -113,3 +113,18 @@ export function importFileInIssues({ payload, query }: any): { successCount: num
     .send(payload)
     .then((response: any) => response.body);
 }
+
+export const subscribe = ({ id }: { id: number | string }) => {
+  return agent.post(`/api/issues/${id}/actions/subscribe`).then((response: any) => response.body);
+};
+
+export const unsubscribe = ({ id }: { id: number | string }) => {
+  return agent.post(`/api/issues/${id}/actions/unsubscribe`).then((response: any) => response.body);
+};
+
+export const batchSubscribe = ({ id, ...body }: { id: number | string; subscribers: Array<number | string> }) => {
+  return agent
+    .put(`/api/issues/${id}/actions/batch-update-subscriber`)
+    .send(body)
+    .then((response: any) => response.body);
+};

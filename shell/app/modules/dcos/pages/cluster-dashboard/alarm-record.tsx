@@ -160,7 +160,7 @@ export default ({ clusters }: { clusters: any }) => {
             },
           };
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </div>
   );

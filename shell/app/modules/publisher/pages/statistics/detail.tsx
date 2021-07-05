@@ -197,7 +197,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
         loading={loading}
         dataSource={versionStatisticList.map((item, i) => ({ ...item, key: i }))}
         pagination={false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </>
   );

@@ -58,7 +58,7 @@ const PersonalUseCase = () => {
     },
   ];
 
-  return <Table rowKey="userID" columns={columns} dataSource={dataSource} tableLayout="fixed" />;
+  return <Table rowKey="userID" columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />;
 };
 
 export default PersonalUseCase;

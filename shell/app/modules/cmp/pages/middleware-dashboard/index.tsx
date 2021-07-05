@@ -254,7 +254,7 @@ const MiddlewareDashboard = () => {
           },
         })}
         onChange={handleTableChange}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </>
   );

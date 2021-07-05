@@ -377,7 +377,7 @@ const PureLoadMoreSelector = (props: IProps) => {
     );
   };
   return (
-    <div className={`load-more-selector ${className}`} ref={valueRef}>
+    <div className={`load-more-selector ${className}`} ref={valueRef} onClick={(e) => e.stopPropagation()}>
       <Dropdown
         overlay={getOverlay()}
         visible={visible}

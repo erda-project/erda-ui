@@ -690,7 +690,6 @@ const BuildDetail = (props: IProps) => {
               props.goToDetailLink({ pipelineID: targetPipelineID });
             },
           })}
-          tableLayout="fixed"
         />
       </div>
     );

@@ -80,7 +80,7 @@ export default () =>
         required={required}
         {...wrapperProps}
       >
-        <Table bordered rowKey="uniId" dataSource={value} columns={columns} tableLayout="fixed" />
+        <Table bordered rowKey="uniId" dataSource={value} columns={columns} scroll={{ x: '100%' }} />
       </FormItem>
     );
   });

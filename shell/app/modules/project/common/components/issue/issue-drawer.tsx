@@ -19,6 +19,7 @@ import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
 import { Drawer, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
+import { SubscribersSelector } from './subscribers-selector';
 import './issue-drawer.scss';
 
 type ElementChild = React.ElementType | JSX.Element | string;
@@ -36,9 +37,12 @@ interface IProps {
   confirmCloseTip?: string;
   maskClosable?: boolean;
   data: CreateDrawerData;
+  issueType: string;
+  projectId: string;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
+  setData: (data: object) => void;
 }
 
 /**
@@ -70,6 +74,9 @@ export const IssueDrawer = (props: IProps) => {
     handleCopy,
     maskClosable,
     data,
+    issueType,
+    projectId,
+    setData,
     ...rest
   } = props;
   const [
@@ -131,6 +138,14 @@ export const IssueDrawer = (props: IProps) => {
             <div className="flex-box">
               <div className="flex-1 nowrap">{title}</div>
               <div className="task-drawer-op">
+                <SubscribersSelector
+                  subscribers={data.subscribers}
+                  issueID={customFieldDetail.issueID}
+                  issueType={issueType}
+                  projectId={projectId}
+                  setData={setData}
+                  data={data}
+                />
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne

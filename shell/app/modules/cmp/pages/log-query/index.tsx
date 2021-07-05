@@ -329,7 +329,7 @@ export default () => {
             current: pageNo,
             onChange: (page) => setPageNo(page),
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Panel>
     </div>

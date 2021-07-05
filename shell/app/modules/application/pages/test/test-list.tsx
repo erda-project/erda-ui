@@ -134,7 +134,7 @@ const TestList = () => {
             ...testListPaging,
             onChange: handlePageChange,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
     </div>

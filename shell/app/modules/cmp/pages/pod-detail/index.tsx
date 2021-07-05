@@ -122,7 +122,7 @@ const PodDetail = () => {
               pagination={false}
               columns={columns}
               dataSource={podDetail.instances || []}
-              tableLayout="fixed"
+              scroll={{ x: '100%' }}
             />
             {drawer}
           </div>

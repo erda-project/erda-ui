@@ -75,7 +75,7 @@ export default ({ hasEditAuth }: IProps) => {
         },
       ]}
       pagination={false}
-      tableLayout="fixed"
+      scroll={{ x: '100%' }}
     />
   );
 

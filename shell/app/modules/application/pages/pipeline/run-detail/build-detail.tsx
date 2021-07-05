@@ -632,7 +632,6 @@ const BuildDetail = (props: IProps) => {
               updater.chosenPipelineId(targetPipelineID);
             },
           })}
-          tableLayout="fixed"
         />
       </div>
     );

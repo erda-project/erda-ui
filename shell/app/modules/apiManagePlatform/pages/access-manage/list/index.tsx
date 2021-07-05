@@ -137,7 +137,7 @@ const AccessList = () => {
             },
           };
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     );
   };
@@ -163,7 +163,7 @@ const AccessList = () => {
         columns={columns}
         dataSource={dataSource}
         expandedRowRender={expandedRowRender}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </Spin>
   );

@@ -159,7 +159,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
         }}
         loading={isFetching}
         pagination={paginationMap[pagingType]}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
         {...tableProps}
       />
     </div>

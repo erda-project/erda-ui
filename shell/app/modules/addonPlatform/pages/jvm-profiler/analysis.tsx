@@ -217,7 +217,7 @@ export default () => {
           columns={getCols(false)}
           rowKey="profiling"
           pagination={false}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Panel>
       <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt20">
@@ -232,7 +232,7 @@ export default () => {
             total: historyPaging.total,
             onChange: (no: number) => getHistoryList({ pageNo: no }),
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Panel>
     </div>

@@ -131,7 +131,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
           pageSize: +paging.pageSize,
           total: paging.total,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </>
   );

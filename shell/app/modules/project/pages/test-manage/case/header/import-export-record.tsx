@@ -177,7 +177,7 @@ const ImportExportRecord = () => {
         title={i18n.t('recent import and export records')}
       >
         <Spin spinning={loading}>
-          <Table rowKey="id" size="small" columns={columns} dataSource={list} tableLayout="fixed" />
+          <Table rowKey="id" size="small" columns={columns} dataSource={list} scroll={{ x: '100%' }} />
         </Spin>
       </Drawer>
     </>

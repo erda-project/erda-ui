@@ -236,7 +236,7 @@ const NoticeManage = () => {
           columns={[...columns, ...opCol]}
           dataSource={list}
           pagination={pagination}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
         <FormModal
           formData={formData}

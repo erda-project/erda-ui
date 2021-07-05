@@ -98,7 +98,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
           },
           className: activeItem.id === record.id ? 'active-tr' : '',
         })}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </div>
   );

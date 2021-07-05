@@ -367,7 +367,7 @@ export const PureApiPackage = () => {
           columns={columns}
           pagination={{ ...state.consumerPaging }}
           onChange={(pag) => updater.consumerPaging(pag)}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </>
     );

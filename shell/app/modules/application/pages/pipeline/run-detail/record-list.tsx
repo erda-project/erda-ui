@@ -175,7 +175,6 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
               onSelectPipeline(p);
             },
           })}
-          tableLayout="fixed"
         />
       </div>
     );
@@ -248,7 +247,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
           columns={reportColumns}
           loading={loading}
           rowKey="id"
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Drawer>
     </>

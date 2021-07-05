@@ -199,7 +199,7 @@ export const PurePublisherList = ({
             ...paging,
             onChange: handlePageChange,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
         <ArtifactsFormModal visible={formVisible} onCancel={closeFormModal} afterSubmit={afterSubmitAction} />
       </div>
