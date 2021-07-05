@@ -1,6 +1,7 @@
 {
   "layout": {
     "approval": "approval",
+    "back to application list": "back to application list",
     "back to home": "back to home",
     "back to dop": "back to DevOps platform",
     "certificate": "certificate",
