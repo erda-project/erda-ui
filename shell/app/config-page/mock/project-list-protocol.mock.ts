@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export default {
+export const mockData = {
   scenario: {
     scenarioKey: 'project-list-my', // 后端定义
     scenarioType: 'project-list-my', // 后端定义

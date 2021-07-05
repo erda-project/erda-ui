@@ -24,9 +24,13 @@ export const useMock = (key: string) => (payload: Obj) => {
   if (process.env.NODE_ENV === 'production') {
     return Promise.resolve();
   } else {
-    return import(`./${key}.mock`).then((file) => {
-      const { mockData, enhanceMock } = file.default;
-      return typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        import(`./${key}.mock`).then((file) => {
+          const { mockData, enhanceMock } = file;
+          resolve(typeof enhanceMock === 'function' ? enhanceMock(mockData, payload) : mockData);
+        });
+      }, 500);
     });
   }
 };
