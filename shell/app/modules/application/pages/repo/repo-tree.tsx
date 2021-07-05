@@ -217,7 +217,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               },
               {
                 title: 'Last Update',
-                dataIndex: ['commit', 'author.when'],
+                dataIndex: ['commit', 'author', 'when'],
                 width: 115,
                 render: (text) => (text ? fromNow(text) : ''),
               },
