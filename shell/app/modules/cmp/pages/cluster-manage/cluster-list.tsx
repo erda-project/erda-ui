@@ -66,6 +66,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [curCluster, setCurCluster] = React.useState<ORG_CLUSTER.ICluster | null>(null);
   const [registerCommand, setRegisterCommand] = React.useState('');
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
+  const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
 
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
@@ -349,10 +350,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
   const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
     log: true,
-    getProps() {
+    getProps(_, record) {
       return {
         fetchApi: '/api/orgCenter/logs',
-        extraQuery: { clusterName: curCluster?.name },
+        extraQuery: { clusterName: record?.name },
         sourceType: 'container',
       };
     },
@@ -412,7 +413,13 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       </Drawer>
       {drawer}
       <div>
-        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false}
+          rowKey="id"
+          loading={loadingList || loadingDetail}
+        />
       </div>
     </>
   );
