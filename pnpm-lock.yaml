@@ -29,6 +29,7 @@ importers:
       '@paiva/translation-google': ^1.0.9
       '@types/cli-table': ^0.3.0
       '@types/inquirer': ^7.3.1
+      '@types/json-schema': ^7.0.7
       '@types/lodash': ^4.14.168
       '@types/mkdirp': ^1.0.1
       '@types/node': ^15.0.2
@@ -48,6 +49,7 @@ importers:
       i18next-scanner: ^3.0.0
       inquirer: ^8.0.0
       inquirer-select-directory: ^1.2.0
+      js-base64: ^3.6.1
       local-package-publisher: ^1.0.4
       lodash: ^4.17.21
       mkdirp: ^1.0.4
@@ -61,6 +63,7 @@ importers:
       yaml: ^1.10.2
     dependencies:
       '@paiva/translation-google': 1.0.9
+      '@types/json-schema': 7.0.7
       chalk: 4.1.1
       cli-table: 0.3.6
       commander: 7.2.0
@@ -69,6 +72,7 @@ importers:
       i18next-scanner: 3.0.0
       inquirer: 8.1.0
       inquirer-select-directory: 1.2.0
+      js-base64: 3.6.1
       lodash: 4.17.21
       mkdirp: 1.0.4
       node-notifier: 9.0.1
@@ -12785,7 +12789,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.1_supports-color@6.1.0
-    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -13975,7 +13978,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -15792,6 +15795,10 @@ packages:
   /js-base64/2.6.4:
     resolution: {integrity: sha512-pZe//GGmwJndub7ZghVHz7vjb2LgC1m8B07Au3eYqeqv9emhESByMXxaEgkUkEqJe87oBbSniGYoQNIBklc7IQ==}
     dev: true
+
+  /js-base64/3.6.1:
+    resolution: {integrity: sha512-Frdq2+tRRGLQUIQOgsIGSCd1VePCS2fsddTG5dTCqR0JHgltXWfsxnY0gIXPoMeRmdom6Oyq+UMOFg5suduOjQ==}
+    dev: false
 
   /js-cookie/2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
