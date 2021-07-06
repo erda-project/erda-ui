@@ -61,7 +61,8 @@ const clusterTypeMap = {
 
 const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { addCloudMachine } = machineStore.effects;
-  const { upgradeCluster, deleteCluster, getClusterNewDetail, getRegisterCommand } = clusterStore.effects;
+  const { upgradeCluster, deleteCluster, getClusterNewDetail, getRegisterCommand, clusterInitRetry } =
+    clusterStore.effects;
   const [curCluster, setCurCluster] = React.useState<ORG_CLUSTER.ICluster | null>(null);
   const [registerCommand, setRegisterCommand] = React.useState('');
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
@@ -189,6 +190,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       upgrade,
       deleteCluster: deleteClusterCall,
       showRegisterCommand,
+      retryInit,
     } = {
       addMachine: {
         title: i18n.t('org:add machine'),
@@ -214,6 +216,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           showCommand(record.name);
         },
       },
+      retryInit: {
+        title: i18n.d('初始化重试'),
+        onClick: () => {
+          clusterInitRetry({ clusterName: record.name });
+        },
+      },
     };
     const clusterOpsMap = {
       dcos: [addMachine, edit, deleteClusterCall],
@@ -225,6 +233,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         upgrade,
         deleteClusterCall,
         ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
+        ...insertWhen(get(clusterDetail, 'basic.clusterStatus.value') === 'initialize error', [retryInit]),
       ],
       'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],

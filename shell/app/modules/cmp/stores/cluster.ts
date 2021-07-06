@@ -34,6 +34,7 @@ import {
   getClusterResourceDetail,
   getSMSNotifyConfig,
   getRegisterCommand,
+  clusterInitRetry,
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
 
@@ -172,6 +173,10 @@ const cluster = createStore({
     },
     async getRegisterCommand({ call }, payload: { clusterName: string }) {
       return call(getRegisterCommand, payload);
+    },
+    async clusterInitRetry({ call }, payload: { clusterName: string }) {
+      await call(clusterInitRetry, payload, { successMsg: i18n.d('开始重试') });
+      return cluster.effects.getClusterList();
     },
   },
   reducers: {

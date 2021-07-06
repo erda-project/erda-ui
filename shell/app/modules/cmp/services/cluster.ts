@@ -148,3 +148,10 @@ export const getRegisterCommand = ({ clusterName }: { clusterName: string }) => 
     .query({ clusterName })
     .then((response: any) => response.body);
 };
+
+export const clusterInitRetry = ({ clusterName }: { clusterName: string }) => {
+  return agent
+    .post(`/api/cluster/actions/init-retry`)
+    .send({ clusterName })
+    .then((response: any) => response.body);
+};
