@@ -14,6 +14,7 @@
 import * as React from 'react';
 import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'app/nusi';
 import { isEmpty, map, find } from 'lodash';
+import { useEffectOnce } from 'react-use';
 import { Icon as CustomIcon } from 'common';
 
 const fakeClick = 'fake-click';
@@ -31,6 +32,8 @@ export const Button = (props: CP_BUTTON.Props) => {
     disabledTip: pDisabledTip,
     ...rest
   } = configProps || {};
+
+  const timer = React.useRef();
 
   const { disabledTip, disabled, confirm } = operations?.click || {};
   const onClick = () => {
@@ -51,6 +54,19 @@ export const Button = (props: CP_BUTTON.Props) => {
       )}
     </>
   );
+
+  useEffectOnce(() => {
+    const autoRefreshOp = operations?.autoRefresh;
+    if (autoRefreshOp) {
+      timer.current = setInterval(() => {
+        execOperation(autoRefreshOp);
+      }, autoRefreshOp.duration || 5000);
+    }
+    return () => {
+      timer.current && clearInterval(timer.current);
+    };
+  });
+
   if (!visible) return null;
 
   if (disabled || pDisabled) {

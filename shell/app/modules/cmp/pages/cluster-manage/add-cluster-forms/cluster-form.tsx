@@ -175,20 +175,20 @@ const ClusterBasicForm = ({
       4,
       0,
       ...([
-        { label: i18n.t('org:EDAS address'), name: 'scheduler.edasConsoleAddr' },
-        { label: 'AK', name: 'scheduler.accessKey' },
-        { label: 'AS', name: 'scheduler.accessSecret' },
-        { label: i18n.t('org:cluster ID'), name: 'scheduler.clusterID' },
-        { label: 'Region ID', name: 'scheduler.regionID' },
-        { label: i18n.t('org:namespace'), name: 'scheduler.logicalRegionID' },
-        { label: i18n.t('org:cluster address'), name: 'scheduler.k8sAddr' },
-        { label: 'Registry Address', name: 'scheduler.regAddr' },
+        { label: i18n.t('org:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
+        { label: 'AK', name: ['scheduler', 'accessKey'] },
+        { label: 'AS', name: ['scheduler', 'accessSecret'] },
+        { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
+        { label: 'Region ID', name: ['scheduler', 'regionID'] },
+        { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
+        { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
+        { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
       ] as any),
     );
   } else {
     fieldsList.splice(4, 0, {
       label: i18n.t('org:cluster entry'),
-      name: 'scheduler.dcosURL',
+      name: ['scheduler', 'dcosURL'],
       pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
       initialValue: getDefaultMasterURL(clusterType),
       itemProps: {
@@ -238,13 +238,13 @@ const ClusterSchedulerForm = ({
     authFields = [
       {
         label: i18n.t('org:authenticated user'),
-        name: 'scheduler.authUsername',
+        name: ['scheduler', 'authUsername'],
         initialValue: 'admin',
         required: true, // 当认证类型不为空时，必填
       },
       {
         label: i18n.t('org:authentication password'),
-        name: 'scheduler.authPassword',
+        name: ['scheduler', 'authPassword'],
         initialValue: 'Terminus1234',
         required: true, // 当认证类型不为空时，必填
       },
@@ -254,7 +254,7 @@ const ClusterSchedulerForm = ({
     k8s: [
       {
         label: i18n.t('org:oversold ratio'),
-        name: 'scheduler.cpuSubscribeRatio',
+        name: ['scheduler', 'cpuSubscribeRatio'],
         type: 'inputNumber',
         extraProps: {
           extra: i18n.t(
@@ -274,7 +274,7 @@ const ClusterSchedulerForm = ({
     dcos: [
       {
         label: i18n.t('org:authenticated type'),
-        name: 'scheduler.authType',
+        name: ['scheduler', 'authType'],
         type: 'radioGroup',
         options: ['', 'basic', 'token'].map((v) => {
           return {
@@ -288,7 +288,7 @@ const ClusterSchedulerForm = ({
       ...authFields,
       {
         label: i18n.t('org:CA certificate'),
-        name: 'scheduler.caCrt',
+        name: ['scheduler', 'caCrt'],
         type: 'textArea',
         initialValue: '',
         itemProps: { autoSize: { minRows: 2, maxRows: 6 } },
@@ -296,7 +296,7 @@ const ClusterSchedulerForm = ({
       },
       {
         label: i18n.t('org:client certificate'),
-        name: 'scheduler.clientCrt',
+        name: ['scheduler', 'clientCrt'],
         type: 'textArea',
         initialValue: '',
         itemProps: { autoSize: { minRows: 2, maxRows: 6 } },
@@ -304,7 +304,7 @@ const ClusterSchedulerForm = ({
       },
       {
         label: i18n.t('org:client secret key'),
-        name: 'scheduler.clientKey',
+        name: ['scheduler', 'clientKey'],
         type: 'textArea',
         initialValue: '',
         itemProps: { autoSize: { minRows: 2, maxRows: 6 } },
@@ -312,7 +312,7 @@ const ClusterSchedulerForm = ({
       },
       {
         label: `${i18n.t('enable')} dice_tags`,
-        name: 'scheduler.enableTag',
+        name: ['scheduler', 'enableTag'],
         type: 'switch',
         initialValue: true,
         required: false,
@@ -323,7 +323,7 @@ const ClusterSchedulerForm = ({
   if (editMode) {
     fieldListMap.k8s.push({
       label: i18n.t('org:scale mode'),
-      name: 'opsConfig.scaleMode',
+      name: ['opsConfig', 'scaleMode'],
       type: 'radioGroup',
       shouldUpdate: true,
       options: map(scaleModeMap, (name, value) => ({ name, value })),
@@ -335,7 +335,7 @@ const ClusterSchedulerForm = ({
     fieldListMap.k8s.push(
       {
         label: i18n.t('org:execution time'),
-        name: 'opsConfig.launchTime',
+        name: ['opsConfig', 'launchTime'],
         initialValue: initialOpsConfig && initialOpsConfig.launchTime,
         shouldUpdate: true,
         getComp: () => (
@@ -355,7 +355,7 @@ const ClusterSchedulerForm = ({
       },
       {
         label: i18n.t('org:duration(h)'),
-        name: 'opsConfig.scaleDuration',
+        name: ['opsConfig', 'scaleDuration'],
         type: 'inputNumber',
         initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,
         itemProps: {
@@ -368,7 +368,7 @@ const ClusterSchedulerForm = ({
       },
       {
         label: i18n.t('org:scale number'),
-        name: 'opsConfig.scaleNumber',
+        name: ['opsConfig', 'scaleNumber'],
         type: 'inputNumber',
         initialValue: initialOpsConfig && initialOpsConfig.scaleNumber,
         itemProps: {
@@ -381,7 +381,7 @@ const ClusterSchedulerForm = ({
       },
       {
         label: i18n.t('org:repeat mode'),
-        name: 'opsConfig.repeatMode',
+        name: ['opsConfig', 'repeatMode'],
         type: 'select',
         initialValue: repeatMode,
         options: map(repeatModeMap, (name, value) => ({ value, name })),
@@ -403,7 +403,7 @@ const ClusterSchedulerForm = ({
       case RepeatMode.WEEKLY:
         repeatValueField = {
           label: i18n.t('org:repeat day'),
-          name: 'opsConfig.repeatValue',
+          name: ['opsConfig', 'repeatValue'],
           type: 'select',
           initialValue: repeatValue && repeatValue.split(','),
           options: map(weekMap, (name, value) => ({ value, name })),
@@ -416,7 +416,7 @@ const ClusterSchedulerForm = ({
       case RepeatMode.MONTHLY:
         repeatValueField = {
           label: i18n.t('org:repeat range'),
-          name: 'opsConfig.repeatValue',
+          name: ['opsConfig', 'repeatValue'],
           initialValue: repeatValue,
           getComp: () => {
             let start;
@@ -461,7 +461,7 @@ const ClusterSchedulerForm = ({
       default:
         repeatValueField = {
           label: i18n.t('org:repeat internal(day)'),
-          name: 'opsConfig.repeatValue',
+          name: ['opsConfig', 'repeatValue'],
           type: 'inputNumber',
           initialValue: repeatValue,
           itemProps: {

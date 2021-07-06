@@ -380,7 +380,7 @@ const IssueMetaFields = React.forwardRef(
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
         {
           className: 'mb20',
-          name: 'issueManHour.estimateTime',
+          name: ['issueManHour', 'estimateTime'],
           label: i18n.t('project:EstimateTime'),
           type: 'custom',
           getComp: ({ value, disabled, originalValue }: any) => (

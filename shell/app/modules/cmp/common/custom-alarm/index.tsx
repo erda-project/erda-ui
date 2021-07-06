@@ -713,7 +713,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     let fieldsList = [
       {
         label: `${i18n.t('period')} (${i18n.t('min')})`,
-        name: 'rule.window',
+        name: ['rule', 'window'],
         type: 'inputNumber',
         itemProps: {
           min: 0,
@@ -723,7 +723,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       },
       {
         label: i18n.t('indicator'),
-        name: 'rule.activedMetricGroups',
+        name: ['rule', 'activedMetricGroups'],
         type: 'cascader',
         options: metaGroups,
         itemProps: {
@@ -752,7 +752,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         fieldsList,
         {
           label: i18n.t('org:filter rule'),
-          name: 'rule.filters',
+          name: ['rule', 'filters'],
           required: false,
           getComp: () => (
             <>
@@ -777,7 +777,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
         {
           label: i18n.t('org:grouping rules'),
-          name: 'rule.group',
+          name: ['rule', 'group'],
           required: false,
           type: 'select',
           options: map(tags, ({ key, name }) => ({ value: key, name })),
@@ -789,7 +789,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
         {
           label: i18n.t('org:field rule'),
-          name: 'rule.functions',
+          name: ['rule', 'functions'],
           required: false,
           getComp: () => (
             <>
@@ -821,7 +821,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     const fieldsList = [
       {
         label: i18n.t('org:optional notification methods'),
-        name: 'notify.targets',
+        name: ['notify', 'targets'],
         type: 'select',
         required: false,
         options: map(
@@ -836,7 +836,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       },
       {
         label: i18n.t('org:message title rules'),
-        name: 'notify.title',
+        name: ['notify', 'title'],
         itemProps: {
           maxLength: 128,
           placeholder: '【{{application_name}}应用{{service_name}}服务异常告警】',
@@ -844,7 +844,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       },
       {
         label: i18n.t('org:message content rules'),
-        name: 'notify.content',
+        name: ['notify', 'content'],
         getComp: () => (
           <>
             <Button
@@ -857,7 +857,7 @@ export default ({ scopeType }: { scopeType: string }) => {
               {i18n.t('org:template sample')}
             </Button>
             <MarkdownEditor
-              value={form.getFieldValue('notify.content')}
+              value={form.getFieldValue(['notify', 'content'])}
               onBlur={(value) => {
                 form.setFieldsValue({ 'notify.content': value });
               }}

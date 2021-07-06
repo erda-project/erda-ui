@@ -312,7 +312,7 @@ const Certificate = () => {
       Android: [
         {
           label: i18n.t('msp:create a way'),
-          name: 'androidInfo.manualCreate',
+          name: ['androidInfo', 'manualCreate'],
           type: 'radioGroup',
           initialValue: 'true',
           itemProps: {
@@ -328,14 +328,14 @@ const Certificate = () => {
       ],
       Message: [
         {
-          name: 'messageInfo.fileName',
+          name: ['messageInfo', 'fileName'],
           itemProps: {
             type: 'hidden',
           },
         },
         {
           label: i18n.t('file'),
-          name: 'messageInfo.uuid',
+          name: ['messageInfo', 'uuid'],
           type: 'custom',
           ...getUploadFieldProps({
             form,

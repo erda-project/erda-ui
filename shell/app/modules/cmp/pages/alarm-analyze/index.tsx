@@ -63,40 +63,38 @@ const AlarmAnalyze = () => {
         <ClusterSelector clusterList={orgClusterList} onChange={changeCluster} />
       </div>
       <Row>
-        <Row>
-          <Col>
-            <AlarmTrendChart
-              query={{
-                constQuery: daysRange(7),
-                in_cluster_name: filterClusters,
-                filter_alert_scope_id: orgId,
-              }}
-              shouldLoad={shouldLoad}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ paddingRight: 10 }}>
-            <AlarmTypeProportionChart
-              query={{
-                constQuery: daysRange(7),
-                in_cluster_name: filterClusters,
-                filter_alert_scope_id: orgId,
-              }}
-              shouldLoad={shouldLoad}
-            />
-          </Col>
-          <Col span={12} style={{ paddingLeft: 10 }}>
-            <AlarmProportionChart
-              query={{
-                constQuery: daysRange(7),
-                in_cluster_name: filterClusters,
-                filter_alert_scope_id: orgId,
-              }}
-              shouldLoad={shouldLoad}
-            />
-          </Col>
-        </Row>
+        <Col span={24}>
+          <AlarmTrendChart
+            query={{
+              constQuery: daysRange(7),
+              in_cluster_name: filterClusters,
+              filter_alert_scope_id: orgId,
+            }}
+            shouldLoad={shouldLoad}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12} style={{ paddingRight: 10 }}>
+          <AlarmTypeProportionChart
+            query={{
+              constQuery: daysRange(7),
+              in_cluster_name: filterClusters,
+              filter_alert_scope_id: orgId,
+            }}
+            shouldLoad={shouldLoad}
+          />
+        </Col>
+        <Col span={12} style={{ paddingLeft: 10 }}>
+          <AlarmProportionChart
+            query={{
+              constQuery: daysRange(7),
+              in_cluster_name: filterClusters,
+              filter_alert_scope_id: orgId,
+            }}
+            shouldLoad={shouldLoad}
+          />
+        </Col>
       </Row>
       {/* <div className="alarm-message">
         <p className="section-title">{i18n.t('org:alarm information')}</p>

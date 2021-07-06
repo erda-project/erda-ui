@@ -39,49 +39,49 @@ const CertMap = {
     pushConfigField: [
       {
         label: `Debug keystore ${i18n.t('file')} ${i18n.t('variable name')}`,
-        name: 'androidKey.debugKeyStoreFile',
+        name: ['androidKey', 'debugKeyStoreFile'],
         initialValue: 'Debug-keystore',
         rules,
       },
       {
         label: `Debug keystore ${i18n.t('org:alias')}`,
-        name: 'androidKey.debugKeyStoreAlias',
+        name: ['androidKey', 'debugKeyStoreAlias'],
         initialValue: 'Debug-keystore-alias',
         rules,
       },
       {
         label: `Debug key-password ${i18n.t('variable name')}`,
-        name: 'androidKey.debugKeyPassword',
+        name: ['androidKey', 'debugKeyPassword'],
         initialValue: 'Debug-key-password',
         rules,
       },
       {
         label: `Debug store-password ${i18n.t('variable name')}`,
-        name: 'androidKey.debugStorePassword',
+        name: ['androidKey', 'debugStorePassword'],
         initialValue: 'Debug-store-password',
         rules,
       },
       {
         label: `Release keystore ${i18n.t('file')} ${i18n.t('variable name')}`,
-        name: 'androidKey.releaseKeyStoreFile',
+        name: ['androidKey', 'releaseKeyStoreFile'],
         initialValue: 'Release-keystore',
         rules,
       },
       {
         label: `Release keystore ${i18n.t('org:alias')}`,
-        name: 'androidKey.releaseKeyStoreAlias',
+        name: ['androidKey', 'releaseKeyStoreAlias'],
         initialValue: 'Release-keystore-alias',
         rules,
       },
       {
         label: `Release key-password ${i18n.t('variable name')}`,
-        name: 'androidKey.releaseKeyPassword',
+        name: ['androidKey', 'releaseKeyPassword'],
         initialValue: 'Release-key-password',
         rules,
       },
       {
         label: `Release store-password ${i18n.t('variable name')}`,
-        name: 'androidKey.releaseStorePassword',
+        name: ['androidKey', 'releaseStorePassword'],
         initialValue: 'Release-store-password',
         rules,
       },
@@ -93,25 +93,25 @@ const CertMap = {
     pushConfigField: [
       {
         label: `Keychain-p12 ${i18n.t('file')} ${i18n.t('variable name')}`,
-        name: 'iosKey.keyChainP12File',
+        name: ['iosKey', 'keyChainP12File'],
         initialValue: 'Keychain-p12',
         rules,
       },
       {
         label: `Keychain-p12 ${i18n.t('password')} ${i18n.t('variable name')}`,
-        name: 'iosKey.keyChainP12Password',
+        name: ['iosKey', 'keyChainP12Password'],
         initialValue: 'Keychain-p12-password',
         rules,
       },
       {
         label: `Debug-mobileprovision ${i18n.t('file')} ${i18n.t('variable name')}`,
-        name: 'iosKey.debugMobileProvision',
+        name: ['iosKey', 'debugMobileProvision'],
         initialValue: 'Debug-mobileprovision',
         rules,
       },
       {
         label: `Release-mobileprovision ${i18n.t('file')} ${i18n.t('variable name')}`,
-        name: 'iosKey.releaseMobileProvision',
+        name: ['iosKey', 'releaseMobileProvision'],
         initialValue: 'Release-mobileprovision',
         rules,
       },
@@ -123,7 +123,7 @@ const CertMap = {
     pushConfigField: [
       {
         label: 'Key',
-        name: 'messageKey.key',
+        name: ['messageKey', 'key'],
         rules,
       },
     ],

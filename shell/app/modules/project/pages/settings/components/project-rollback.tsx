@@ -33,7 +33,7 @@ export default ({ hasEditAuth }: IProps) => {
   const { updateProject } = projectStore.effects;
   const { rollbackConfig } = info;
 
-  const formData = {};
+  const configData = {};
   const tableData: object[] = [];
   const fieldsList: object[] = [];
   const sortBy = WORKSPACE_LIST;
@@ -42,10 +42,10 @@ export default ({ hasEditAuth }: IProps) => {
     const point = rollbackConfig?.[workspace];
 
     tableData.push({ workspace, point });
-    formData[`rollbackConfig.${name}`] = point || 5;
+    configData[`${name}`] = point || 5;
     fieldsList.push({
       label: workSpaceMap[name] || name,
-      name: `rollbackConfig.${name}`,
+      name: ['rollbackConfig', name],
       type: 'inputNumber',
       itemProps: {
         max: 1000,
@@ -82,7 +82,7 @@ export default ({ hasEditAuth }: IProps) => {
   return (
     <SectionInfoEdit
       hasAuth={hasEditAuth}
-      data={formData}
+      data={{ rollbackConfig: configData }}
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}

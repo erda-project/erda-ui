@@ -75,7 +75,7 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
             let pass = false;
             let errorMsg = i18n.t('org:Please fill in the correct IP, separated by semicolon.');
             if (value) {
-              const replicaNum = form.getFieldValue('config.storage.gluster.replica');
+              const replicaNum = form.getFieldValue(['config', 'storage', 'gluster', 'replica']);
               value.forEach((item: string) => {
                 const o = item.replace(/\s+/g, '');
                 o !== '' && (pass = regRulesMap.ip.pattern.test(o));

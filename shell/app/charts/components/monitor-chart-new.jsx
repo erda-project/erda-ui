@@ -61,6 +61,7 @@ class MonitorChartNew extends React.PureComponent {
       timeSpan,
       unitType: customUnitType,
       unit: customUnit,
+      unitTypes,
     } = this.props;
     const moreThanOneDay = timeSpan ? timeSpan.seconds > 24 * 3600 : false;
     const { results: originData, xAxis, time, lines } = data;
@@ -172,7 +173,7 @@ class MonitorChartNew extends React.PureComponent {
 
     const getTTUnitType = (i) => {
       const curYAxis = yAxis[i] || yAxis[yAxis.length - 1];
-      return [curYAxis.unitType, curYAxis.unit];
+      return [unitTypes ? unitTypes[i] : curYAxis.unitType, curYAxis.unit];
     };
 
     const genTTArray = (param) =>

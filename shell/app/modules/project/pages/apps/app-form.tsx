@@ -258,7 +258,7 @@ const CreationForm = () => {
       },
       {
         label: i18n.t('project:repository'),
-        name: 'repoConfig.type',
+        name: ['repoConfig', 'type'],
         type: 'select',
         initialValue: RepositoryMode.Internal,
         options: map(
@@ -295,7 +295,7 @@ const CreationForm = () => {
           },
           {
             label: i18n.t('project:repository address'),
-            name: 'repoConfig.url',
+            name: ['repoConfig', 'url'],
             rules: [
               {
                 pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
@@ -308,14 +308,14 @@ const CreationForm = () => {
           },
           {
             label: i18n.t('default:user name'),
-            name: 'repoConfig.username',
+            name: ['repoConfig', 'username'],
             itemProps: {
               placeholder: i18n.t('default:please enter'),
             },
           },
           {
             label: i18n.t('default:password'),
-            name: 'repoConfig.password',
+            name: ['repoConfig', 'password'],
             type: 'custom',
             getComp: () => <Input.Password />,
             itemProps: {
@@ -325,7 +325,7 @@ const CreationForm = () => {
           {
             label: i18n.t('project:repository description'),
             type: 'textArea',
-            name: 'repoConfig.desc',
+            name: ['repoConfig', 'desc'],
             required: false,
             itemProps: { rows: 4, maxLength: 50, style: { resize: 'none' } },
           },

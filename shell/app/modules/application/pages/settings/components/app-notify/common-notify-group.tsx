@@ -339,7 +339,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       break;
     case TargetType.DINGDING:
       targetField = {
-        name: 'targets.receiver',
+        name: ['targets', 'receiver'],
         label: groupTargetMap[groupType],
         type: 'textArea',
         required: true,
@@ -348,7 +348,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         },
       };
       extraFields.push({
-        name: 'targets.secret',
+        name: ['targets', 'secret'],
         label: i18n.t('application:signature'),
         type: 'textArea',
         required: true,

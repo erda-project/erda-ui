@@ -18,11 +18,15 @@ import { Button, Spin } from 'app/nusi';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
+import permStore from 'user/stores/permission';
 
 import './error-page.scss';
 
 const NoAuth = () => {
   const authContact = userStore.useStore((s) => s.authContact);
+  const permProject = permStore.useStore((s) => s.project);
+  const hasCurProject = permProject.access;
+
   return (
     <div className="no-auth-page basic-error-page">
       <div className="info">
@@ -34,11 +38,19 @@ const NoAuth = () => {
               <span className="contact-info">
                 {i18n.t('please contact')} {authContact}
               </span>
-              <Link to={goTo.resolve.dopRoot()}>
-                <Button size="large" type="primary">
-                  {i18n.t('layout:back to dop')}
-                </Button>
-              </Link>
+              {hasCurProject ? (
+                <Link to={goTo.resolve.projectApps()}>
+                  <Button size="large" type="primary">
+                    {i18n.t('layout:back to application list')}
+                  </Button>
+                </Link>
+              ) : (
+                <Link to={goTo.resolve.dopRoot()}>
+                  <Button size="large" type="primary">
+                    {i18n.t('layout:back to dop')}
+                  </Button>
+                </Link>
+              )}
             </>
           ) : (
             <Link to={goTo.resolve.orgRoot()}>

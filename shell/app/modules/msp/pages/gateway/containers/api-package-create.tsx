@@ -207,6 +207,9 @@ export const PureApiPackage = () => {
         initialValue: state.basicForm.scene,
         itemProps: {
           disabled: editMode,
+          onChange: (v: string) => {
+            updater.basicForm((prev: any) => ({ ...prev, scene: v }));
+          },
         },
         options: filter(Object.entries(SCENE_MAP), (item) => item[0] !== 'unity').map(([key, value]) => ({
           value: key,
