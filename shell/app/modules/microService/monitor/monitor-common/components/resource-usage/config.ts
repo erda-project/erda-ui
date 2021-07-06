@@ -46,7 +46,7 @@ const chartConfig = (api?: string) => {
       groupId: 'machineUnitChart',
       titleText: i18n.t('memory'),
       chartName: 'container_mem',
-      viewProps: { unitType: 'CAPACITY', rightUnitType: 'PERCENT', isTwoYAxis: true },
+      viewProps: { unitTypes: ['CAPACITY', 'PERCENT'], rightUnitType: 'PERCENT', isTwoYAxis: true },
     },
     containerCpu: {
       fetchApi: `${api || apiPrefix}/container_top/histogram`,
