@@ -361,7 +361,7 @@ export const useRedisFields = () => {
 export const useDBFields = () => [
   {
     label: i18n.t('resource:database'),
-    name: 'databases.0.dbName',
+    name: ['databases.0', 'dbName'],
     itemProps: {
       maxLength: 64,
     },
@@ -379,7 +379,7 @@ export const useDBFields = () => [
 export const useTopicFields = () => [
   {
     label: i18n.t('resource:Topic'),
-    name: 'topics.0.topicName',
+    name: ['topics', 0, 'topicName'],
     itemProps: {
       maxLength: 64,
     },
@@ -404,7 +404,7 @@ export const useTopicFields = () => [
   },
   {
     label: i18n.t('resource:message type'),
-    name: 'topics.0.messageType',
+    name: ['topics', 0, 'messageType'],
     type: 'select',
     options: [
       { name: i18n.t('resource:general message'), value: 0 }, // Ordinary message
@@ -416,7 +416,7 @@ export const useTopicFields = () => [
   },
   {
     label: 'producerID',
-    name: 'topics.0.groupID',
+    name: ['topics', 0, 'groupID'],
     itemProps: {
       maxLength: 64,
       placeholder: `${i18n.t('start with {name}', { name: 'GID-、GID_' })},${i18n.t('length is {min}~{max}', {
@@ -440,7 +440,7 @@ export const useBucketField = () => {
   return [
     {
       label: i18n.t('resource:Bucket name'),
-      name: 'buckets.0.name',
+      name: ['buckets', 0, 'name'],
       itemProps: {
         maxLength: 64,
       },
@@ -455,7 +455,7 @@ export const useBucketField = () => {
     },
     {
       label: i18n.t('resource:read and write permissions'),
-      name: 'buckets.0.acl',
+      name: ['buckets', 0, 'acl'],
       type: 'select',
       options: [
         { name: i18n.t('resource:private'), value: 'private' },
@@ -515,7 +515,7 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
     },
     {
       label: i18n.t('resource:instance source'),
-      name: 'slb.instanceID',
+      name: ['slb', 'instanceID'],
       type: 'select',
       options: data.map(({ instanceID, name }) => ({ name, value: instanceID })),
       itemProps: {
@@ -533,7 +533,7 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
       ? [
           {
             label: i18n.t('instance name'),
-            name: 'slb.name',
+            name: ['slb', 'name'],
             itemProps: {
               maxLength: 30,
             },
@@ -548,7 +548,7 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
           },
           {
             label: i18n.t('resource:specifications'),
-            name: 'slb.spec',
+            name: ['slb', 'spec'],
             type: 'select',
             options: [
               { name: i18n.t('resource:performance shared instance'), value: '-1' },
@@ -564,7 +564,7 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
         ]
       : [
           {
-            name: 'slb.name',
+            name: ['slb', 'name'],
             itemProps: {
               type: 'hidden',
             },

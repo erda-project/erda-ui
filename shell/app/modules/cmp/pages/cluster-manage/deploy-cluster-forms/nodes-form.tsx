@@ -67,7 +67,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
 
   const [helperVis, setHelperVis] = React.useState(false);
 
-  const [dataList, setDataList] = React.useState(form.getFieldValue('config.nodes') || []);
+  const [dataList, setDataList] = React.useState(form.getFieldValue(['config', 'nodes']) || []);
 
   React.useEffect(() => {
     const initNodes = get(data, 'config.nodes') || [];

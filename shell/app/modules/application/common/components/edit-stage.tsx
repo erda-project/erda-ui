@@ -99,7 +99,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     return null;
   }
 
-  const type = actionConfig.type || getFieldValue('resource.type');
+  const type = actionConfig.type || getFieldValue(['resource', 'type']);
   const taskInitName =
     originType === actionConfig.name
       ? originName
@@ -122,7 +122,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   };
 
   const checkResourceName = (_rule: any, value: string, callback: any) => {
-    const name = form.getFieldValue('resource.alias');
+    const name = form.getFieldValue(['resource', 'alias']);
 
     if (!value) {
       return callback(i18n.t('application:please enter the task name'));

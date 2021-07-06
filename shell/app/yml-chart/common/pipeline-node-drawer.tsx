@@ -145,7 +145,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   if (!isCreate && isEmpty(actionConfig)) {
     return null;
   }
-  const type = actionConfig.type || getFieldValue('resource.type');
+  const type = actionConfig.type || getFieldValue(['resource', 'type']);
   const taskInitName =
     originType === actionConfig.name
       ? originName
@@ -154,7 +154,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       : actionConfig.name;
 
   const checkResourceName = (_rule: any, value: string, callback: any) => {
-    const name = form.getFieldValue('resource.alias');
+    const name = form.getFieldValue(['resource', 'alias']);
 
     if (!value) {
       return callback(i18n.t('application:please enter the task name'));

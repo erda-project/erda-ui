@@ -51,7 +51,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
             } else {
               errorMsg = i18n.t('org:The allocated node should be a certain one in the node list. Please check.');
             }
-            const nodes = form.getFieldValue('config.nodes');
+            const nodes = form.getFieldValue(['config', 'nodes']);
             if (nodes && pass) {
               pass = !!find(nodes, (item: any) => item.ip === value);
             } else {

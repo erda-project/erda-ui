@@ -164,7 +164,7 @@ class OrderPage extends React.Component<IProps, any> {
       extraFields = [
         {
           label: i18n.t('dcos:time unit'),
-          name: 'ecs.periodUnit',
+          name: ['ecs', 'periodUnit'],
           type: 'radioGroup',
           options: [
             {
@@ -180,7 +180,7 @@ class OrderPage extends React.Component<IProps, any> {
         },
         {
           label: i18n.t('dcos:duration'),
-          name: 'ecs.period',
+          name: ['ecs', 'period'],
           type: 'select',
           options: periodList.map((a) => ({ value: a, name: a })),
           initialValue: periodList[0],
@@ -197,7 +197,7 @@ class OrderPage extends React.Component<IProps, any> {
             </Tooltip>
           </span>
         ),
-        name: 'ecs.nodeType',
+        name: ['ecs', 'nodeType'],
         type: 'radioGroup',
         options: ['master', 'pubilc', 'private'].map((a) => ({ value: a, name: a })),
         initialValue: 'private',
@@ -207,18 +207,18 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:instance specification'),
-        name: 'ecs.instanceType',
+        name: ['ecs', 'instanceType'],
         initialValue: 'ecs.g5.2xlarge',
       },
       {
         label: i18n.t('dcos:billing method'),
-        name: 'ecs.instanceChargeType',
+        name: ['ecs', 'instanceChargeType'],
         ...preOrPostPaid,
       },
       ...extraFields,
       {
         label: this.getTipLabel(i18n.t('dcos:system disk'), `${i18n.t('dcos:cloud')} SSD`),
-        name: 'ecs.systemDiskSize',
+        name: ['ecs', 'systemDiskSize'],
         type: 'inputNumber',
         itemProps: { step: 1, min: 20, max: 500, placeholder: i18n.t('dcos:20 to 500') },
         rules: [
@@ -230,7 +230,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:purchased instances'),
-        name: 'ecs.amount',
+        name: ['ecs', 'amount'],
         type: 'inputNumber',
         itemProps: { step: 1, min: 1, max: 100, placeholder: i18n.t('dcos:1 to 100') },
       },
@@ -248,7 +248,7 @@ class OrderPage extends React.Component<IProps, any> {
       extraFields = [
         {
           label: `${i18n.t('dcos:duration')}(${i18n.t('dcos:month')}）`,
-          name: 'redis.period',
+          name: ['redis', 'period'],
           type: 'radioGroup',
           options: periodList.map((a) => ({ value: a, name: a })),
         },
@@ -261,7 +261,7 @@ class OrderPage extends React.Component<IProps, any> {
           i18n.t('dcos:see details'),
           'https://help.aliyun.com/document_detail/61135.html',
         ),
-        name: 'redis.instanceClass',
+        name: ['redis', 'instanceClass'],
         type: 'select',
         options: fullList.map((item) => ({
           name: `${item.text} (${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
@@ -278,13 +278,13 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:payment type'),
-        name: 'redis.chargeType',
+        name: ['redis', 'chargeType'],
         ...preOrPostPaid,
       },
       ...extraFields,
       {
         label: i18n.t('version'),
-        name: 'redis.engineVersion',
+        name: ['redis', 'engineVersion'],
         type: 'radioGroup',
         options: [
           {
@@ -300,7 +300,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:password'),
-        name: 'redis.Password',
+        name: ['redis', 'Password'],
         required: false,
         itemProps: {
           placeholder: i18n.t('dcos:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
@@ -333,7 +333,7 @@ class OrderPage extends React.Component<IProps, any> {
       extra = [
         {
           label: i18n.t('dcos:time unit'),
-          name: 'rds.period',
+          name: ['rds', 'period'],
           type: 'radioGroup',
           options: [
             {
@@ -349,7 +349,7 @@ class OrderPage extends React.Component<IProps, any> {
         },
         {
           label: i18n.t('dcos:duration'),
-          name: 'rds.usedTime',
+          name: ['rds', 'usedTime'],
           type: 'radioGroup',
           options: usedTimeList.map((a) => ({ value: a, name: a })),
         },
@@ -362,7 +362,7 @@ class OrderPage extends React.Component<IProps, any> {
           i18n.t('dcos:please select the specification'),
           'https://help.aliyun.com/document_detail/26312.html',
         ),
-        name: 'rds.dbInstanceClass',
+        name: ['rds', 'dbInstanceClass'],
         type: 'select',
         options: rdsConfig.map((item) => ({
           name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('dcos:maximum number of connections')}: ${
@@ -379,7 +379,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:see details'),
-        name: 'rds.payType',
+        name: ['rds', 'payType'],
         type: 'radioGroup',
         options: [
           {
@@ -396,13 +396,13 @@ class OrderPage extends React.Component<IProps, any> {
       ...extra,
       {
         label: i18n.t('version'),
-        name: 'rds.engineVersion',
+        name: ['rds', 'engineVersion'],
         type: 'radioGroup',
         options: ['5.5', '5.6', '5.7'].map((a) => ({ name: a, value: a })),
       },
       {
         label: this.getTipLabel(i18n.t('dcos:storage disk capacity'), i18n.t('dcos:local ssd')),
-        name: 'rds.dbInstanceStorage',
+        name: ['rds', 'dbInstanceStorage'],
         type: 'inputNumber',
         itemProps: { step: 5, min: 50, max: 2000, placeholder: i18n.t('dcos:50 to 2000 gb') },
         rules: [
@@ -414,7 +414,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:account name'),
-        name: 'rds.accountName',
+        name: ['rds', 'accountName'],
         rules: [
           {
             validator: checkRdsAccountName,
@@ -423,7 +423,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:database name'),
-        name: 'rds.dbName',
+        name: ['rds', 'dbName'],
         itemProps: { maxLength: 16 },
         rules: [
           {
@@ -433,7 +433,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:password'),
-        name: 'rds.Password',
+        name: ['rds', 'Password'],
         required: false,
         itemProps: {
           placeholder: i18n.t('dcos:6 to 32 digits, consisting of letters, numbers and underscores'),
@@ -457,7 +457,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
       {
         label: i18n.t('dcos:database encoding'),
-        name: 'rds.parameters.character_set_server',
+        name: ['rds.parameters', 'character_set_server'],
         type: 'radioGroup',
         options: characterSetLists.map((a) => ({ name: a, value: a })),
       },

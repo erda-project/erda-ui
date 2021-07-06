@@ -225,7 +225,7 @@ class OrderPage extends React.Component<IProps> {
     return [
       {
         label: 'vpcCidr',
-        name: 'vpcSetting.vpcCidr',
+        name: ['vpcSetting', 'vpcCidr'],
         initialValue: '10.0.0.0/8',
         getComp: () => <span>10.0.0.0/8</span>,
       },
@@ -298,20 +298,20 @@ class OrderPage extends React.Component<IProps> {
       this.getTitle('NAT', 'nat'),
       {
         label: i18n.t('specification'),
-        name: 'natSetting.natSpec',
+        name: ['natSetting', 'natSpec'],
         type: 'radioGroup',
         options: ['Small', 'Middle', 'Large', 'XLarge'].map((o) => ({ name: o, value: o })),
         initialValue: 'Small',
       },
       {
         label: i18n.t('bandwidth'),
-        name: 'natSetting.NatBandwidth',
+        name: ['natSetting', 'NatBandwidth'],
         type: 'inputNumber',
         itemProps: { step: 1, min: 5, max: 100, placeholder: '5-100 M' },
       },
       {
         label: i18n.t('org:network billing method'),
-        name: 'natSetting.EipInternetChargeType',
+        name: ['natSetting', 'EipInternetChargeType'],
         type: 'radioGroup',
         options: [
           {
@@ -327,7 +327,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('org:instance billing method'),
-        name: 'natSetting.EipInstanceChargeType',
+        name: ['natSetting', 'EipInstanceChargeType'],
         ...preOrPostPaid,
       },
     ];
@@ -341,7 +341,7 @@ class OrderPage extends React.Component<IProps> {
       this.getTitle('NAS', 'nas'),
       {
         label: i18n.t('storage type'),
-        name: 'nasSetting.nasStorageType',
+        name: ['nasSetting', 'nasStorageType'],
         type: 'radioGroup',
         options: [
           {
@@ -373,7 +373,7 @@ class OrderPage extends React.Component<IProps> {
       lbPayTypeExtra = [
         {
           label: i18n.t('duration unit'),
-          name: 'loadBalancerSetting.lbPayCycle',
+          name: ['loadBalancerSetting', 'lbPayCycle'],
           type: 'radioGroup',
           options: [
             {
@@ -400,7 +400,7 @@ class OrderPage extends React.Component<IProps> {
       lbChargeExtra = [
         {
           label: i18n.t('bandwidth'),
-          name: 'loadBalancerSetting.loadBalancerBandwidth',
+          name: ['loadBalancerSetting', 'loadBalancerBandwidth'],
           type: 'inputNumber',
           itemProps: { step: 1, min: 1, max: 5000, placeholder: '1-5000 MB' },
         },
@@ -414,7 +414,7 @@ class OrderPage extends React.Component<IProps> {
           i18n.t('check detail'),
           'https://help.aliyun.com/document_detail/27657.html',
         ),
-        name: 'loadBalancerSetting.loadBalancerSpec',
+        name: ['loadBalancerSetting', 'loadBalancerSpec'],
         type: 'select',
         options: lbConfig.map((o) => ({
           name: `${o.key} (${i18n.t('org:maximum number of connections')}: ${o.maxConn} ${i18n.t(
@@ -431,7 +431,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('org:billing method'),
-        name: 'loadBalancerSetting.loadBalancePayType',
+        name: ['loadBalancerSetting', 'loadBalancePayType'],
         type: 'radioGroup',
         options: [
           {
@@ -447,7 +447,7 @@ class OrderPage extends React.Component<IProps> {
       ...lbPayTypeExtra,
       {
         label: i18n.t('org:network billing method'),
-        name: 'loadBalancerSetting.loadBalancerInternetChargeType',
+        name: ['loadBalancerSetting', 'loadBalancerInternetChargeType'],
         type: 'radioGroup',
         options: [
           {
@@ -664,7 +664,7 @@ class OrderPage extends React.Component<IProps> {
         extraFields = [
           {
             label: i18n.t('duration(month)'),
-            name: 'redisSettings.period',
+            name: ['redisSettings', 'period'],
             type: 'radioGroup',
             options: periodList.map((a) => ({ value: a, name: a })),
           },
@@ -679,7 +679,7 @@ class OrderPage extends React.Component<IProps> {
           i18n.t('check detail'),
           'https://help.aliyun.com/document_detail/61135.html',
         ),
-        name: 'redisSettings.instanceClass',
+        name: ['redisSettings', 'instanceClass'],
         type: 'select',
         options: fullList.map((item) => ({
           name: `${item.text} (${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
@@ -696,13 +696,13 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('org:payment type'),
-        name: 'redisSettings.chargeType',
+        name: ['redisSettings', 'chargeType'],
         ...preOrPostPaid,
       },
       ...extraFields,
       {
         label: i18n.t('version'),
-        name: 'redisSettings.engineVersion',
+        name: ['redisSettings', 'engineVersion'],
         type: 'radioGroup',
         options: [
           {
@@ -731,7 +731,7 @@ class OrderPage extends React.Component<IProps> {
       extra = [
         {
           label: i18n.t('duration unit'),
-          name: 'rdsSettings.period',
+          name: ['rdsSettings', 'period'],
           type: 'radioGroup',
           options: [
             {
@@ -747,7 +747,7 @@ class OrderPage extends React.Component<IProps> {
         },
         {
           label: i18n.t('duration'),
-          name: 'rdsSettings.usedTime',
+          name: ['rdsSettings', 'usedTime'],
           type: 'radioGroup',
           options: usedTimeList.map((a) => ({ value: a, name: a })),
         },
@@ -761,7 +761,7 @@ class OrderPage extends React.Component<IProps> {
           i18n.t('check detail'),
           'https://help.aliyun.com/document_detail/26312.html',
         ),
-        name: 'rdsSettings.dbInstanceClass',
+        name: ['rdsSettings', 'dbInstanceClass'],
         type: 'select',
         options: rdsConfig.map((item) => ({
           name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('org:maximum number of connections')}: ${
@@ -778,7 +778,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('org:payment type'),
-        name: 'rdsSettings.payType',
+        name: ['rdsSettings', 'payType'],
         type: 'radioGroup',
         options: [
           {
@@ -795,13 +795,13 @@ class OrderPage extends React.Component<IProps> {
       ...extra,
       {
         label: i18n.t('version'),
-        name: 'rdsSettings.engineVersion',
+        name: ['rdsSettings', 'engineVersion'],
         type: 'radioGroup',
         options: ['5.5', '5.6', '5.7'].map((a) => ({ name: a, value: a })),
       },
       {
         label: this.getTipLabel(i18n.t('storage disk capacity'), i18n.t('local ssd')),
-        name: 'rdsSettings.dbInstanceStorage',
+        name: ['rdsSettings', 'dbInstanceStorage'],
         type: 'inputNumber',
         itemProps: { step: 5, min: 50, max: 2000, placeholder: '50-2000 GB' },
         rules: [
@@ -813,7 +813,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('account name'),
-        name: 'rdsSettings.accountName',
+        name: ['rdsSettings', 'accountName'],
         rules: [
           {
             validator: checkRdsAccountName,
@@ -822,7 +822,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('org:database name'),
-        name: 'rdsSettings.dbName',
+        name: ['rdsSettings', 'dbName'],
         itemProps: { maxLength: 16 },
         rules: [
           {
@@ -832,7 +832,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('dcos:password'),
-        name: 'rdsSettings.Password',
+        name: ['rdsSettings', 'Password'],
         required: false,
         itemProps: {
           placeholder: i18n.t('org:6 to 32 digits, consisting of letters, numbers and underscores'),
@@ -856,7 +856,7 @@ class OrderPage extends React.Component<IProps> {
       },
       {
         label: i18n.t('org:database encoding'),
-        name: 'rdsSettings.parameters.character_set_server',
+        name: ['rdsSettings.parameters', 'character_set_server'],
         type: 'radioGroup',
         options: ['utf8', 'gbk', 'latin1', 'utf8mb4'].map((a) => ({ name: a, value: a })),
       },
