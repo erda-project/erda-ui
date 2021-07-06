@@ -61,6 +61,7 @@ export default () => {
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [loading] = useLoading(alarmReportStore, ['getReportTasks']);
   const orgId = orgStore.getState((s) => s.currentOrg.id);
+  const [activeGroupId, setActiveGroupId] = React.useState(0);
 
   const [modalVisible, openModal, closeModal] = useSwitch(false);
   const [{ editingTask }, updater] = useUpdate({
@@ -84,7 +85,8 @@ export default () => {
   };
 
   const getFieldsList = (form: FormInstance) => {
-    let fieldsList = [
+    const activeGroup = find(notifyGroups, { id: activeGroupId });
+    const fieldsList = [
       {
         label: i18n.t('org:report name'),
         name: 'name',
@@ -109,17 +111,17 @@ export default () => {
       },
       {
         label: i18n.t('org:select group'),
-        name: 'notifyTarget.groupId',
-        config: {
-          valuePropType: 'array',
-        },
+        name: ['notifyTarget', 'groupId'],
         getComp: () => (
           <Select
-            onSelect={(id: any) => {
+            onSelect={(id: number) => {
               form.setFieldsValue({
-                'notifyTarget.groupId': id,
-                'notifyTarget.groupType': [],
+                notifyTarget: {
+                  groupId: id,
+                  groupType: [],
+                },
               });
+              setActiveGroupId(id);
             }}
             dropdownRender={(menu) => (
               <div>
@@ -148,22 +150,15 @@ export default () => {
           </Select>
         ),
       },
+      {
+        label: i18n.t('application:notification method'),
+        name: ['notifyTarget', 'groupType'],
+        type: 'select',
+        initialValue: get(editingTask, 'notifyTarget.groupType'),
+        options: (activeGroup && notifyChannelOptionsMap[activeGroup.targets[0].type]) || [],
+        itemProps: { mode: 'multiple' },
+      },
     ];
-    const activedGroupId = form.getFieldValue('notifyTarget.groupId');
-    if (activedGroupId) {
-      const activedGroup = find(notifyGroups, { id: activedGroupId });
-      fieldsList = [
-        ...fieldsList,
-        {
-          label: i18n.t('application:notification method'),
-          name: 'notifyTarget.groupType',
-          type: 'select',
-          initialValue: get(editingTask, 'notifyTarget.groupType'),
-          options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
-          itemProps: { mode: 'multiple' },
-        },
-      ];
-    }
     return fieldsList;
   };
 
