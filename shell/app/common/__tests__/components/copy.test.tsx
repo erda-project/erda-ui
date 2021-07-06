@@ -14,24 +14,40 @@
 import * as React from 'react';
 import { Copy } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
+import { describe, it, jest } from '@jest/globals';
+import { message } from 'app/nusi';
 
-const copytext = 'hello world';
+const copyText = 'hello world';
 describe('Copy', () => {
   it('render copy with string children', () => {
-    // const onSuccess = jest.fn();
+    const spySuccess = jest.spyOn(message, 'success');
+    const spyError = jest.spyOn(message, 'error');
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+    const getAttribute = jest.fn().mockReturnValue(copyText);
+    const clearSelection = jest.fn();
+    const trigger = {
+      getAttribute,
+    };
     const wrapper = mount(
-      <div>
-        <div className="for-copy" data-clipboard-tip="Email" data-clipboard-text={copytext}>
-          {copytext}
-        </div>
-        <Copy selector="for_copy-select" className="for-copy" copyText="Copy">
-          copy
-        </Copy>
-      </div>,
+      <Copy selector="for_copy-select" className="for-copy" copyText="Copy" onError={onError} onSuccess={onSuccess}>
+        copy
+      </Copy>,
     );
-    wrapper.mount();
+    wrapper.setProps({
+      copyText,
+    });
     expect(wrapper.find('span.for-copy').length).toEqual(1);
+    expect(wrapper.find('span.for-copy').prop('data-clipboard-text')).toBe(copyText);
+    wrapper.find('Copy').instance().clipboard.emit('error', { trigger });
+    expect(onError).toHaveBeenCalled();
+    expect(spyError).toHaveBeenCalled();
+    wrapper.find('Copy').instance().clipboard.emit('success', { trigger, clearSelection });
+    expect(onSuccess).toHaveBeenCalled();
+    expect(clearSelection).toHaveBeenCalled();
+    expect(spySuccess).toHaveBeenCalled();
+    spySuccess.mockReset();
+    spyError.mockReset();
     wrapper.unmount();
   });
 });

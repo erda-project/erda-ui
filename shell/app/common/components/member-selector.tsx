@@ -120,7 +120,7 @@ export const chosenItemConvert = (values: any, existUser: object) => {
   return reValue;
 };
 
-const getNotFoundContent = (scopeType: string) => {
+export const getNotFoundContent = (scopeType: string) => {
   let tip;
   switch (scopeType) {
     case MemberScope.ORG:
@@ -265,7 +265,7 @@ interface IAddProps extends ILoadMoreSelectorProps {
   scopeId?: string;
 }
 
-const UserSelector = (props: any) => {
+export const UserSelector = (props: any) => {
   const { value } = props;
   const [searchKey, setSearchKey] = React.useState('');
   const [searchResult, setSearchResult] = React.useState([] as any[]);
