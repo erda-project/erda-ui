@@ -33,7 +33,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
           validator: (_rule: any, value: any, callback: Function) => {
             let pass = true;
             if (value) {
-              const execRoot = form.getFieldValue('config.docker.execRoot');
+              const execRoot = form.getFieldValue(['config', 'docker', 'execRoot']);
               if (value === execRoot) pass = false;
             }
             return pass ? callback() : callback(i18n.t('org:cannot be the same as the exce path'));
@@ -54,7 +54,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
           validator: (_rule: any, value: any, callback: Function) => {
             let pass = true;
             if (value) {
-              const dataRoot = form.getFieldValue('config.docker.dataRoot');
+              const dataRoot = form.getFieldValue(['config', 'docker', 'dataRoot']);
               if (value === dataRoot) pass = false;
             }
             return pass ? callback() : callback(i18n.t("dcos:can't be the same as the data path"));

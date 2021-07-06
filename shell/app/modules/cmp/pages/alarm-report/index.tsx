@@ -109,7 +109,7 @@ export default () => {
       },
       {
         label: i18n.t('org:select group'),
-        name: 'notifyTarget.groupId',
+        name: ['notifyTarget', 'groupId'],
         config: {
           valuePropType: 'array',
         },
@@ -149,14 +149,14 @@ export default () => {
         ),
       },
     ];
-    const activedGroupId = form.getFieldValue('notifyTarget.groupId');
+    const activedGroupId = form.getFieldValue(['notifyTarget', 'groupId']);
     if (activedGroupId) {
       const activedGroup = find(notifyGroups, { id: activedGroupId });
       fieldsList = [
         ...fieldsList,
         {
           label: i18n.t('application:notification method'),
-          name: 'notifyTarget.groupType',
+          name: ['notifyTarget', 'groupType'],
           type: 'select',
           initialValue: get(editingTask, 'notifyTarget.groupType'),
           options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
