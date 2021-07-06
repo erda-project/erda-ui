@@ -175,7 +175,7 @@ const cluster = createStore({
       return call(getRegisterCommand, payload);
     },
     async clusterInitRetry({ call }, payload: { clusterName: string }) {
-      await call(clusterInitRetry, payload, { successMsg: i18n.d('开始重试') });
+      await call(clusterInitRetry, payload, { successMsg: i18n.t('cmp:start retrying') });
       return cluster.effects.getClusterList();
     },
   },

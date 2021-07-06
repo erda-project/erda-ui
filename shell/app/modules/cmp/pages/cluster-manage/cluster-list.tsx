@@ -217,7 +217,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         },
       },
       retryInit: {
-        title: i18n.d('初始化重试'),
+        title: i18n.t('cmp:initialize retry'),
         onClick: () => {
           clusterInitRetry({ clusterName: record.name });
         },

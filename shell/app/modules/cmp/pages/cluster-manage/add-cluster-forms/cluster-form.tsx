@@ -154,7 +154,7 @@ const ClusterBasicForm = ({
       { label: 'Region ID', name: ['scheduler', 'regionID'] },
       { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
       { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
-      { label: 'Registry Address', name: ['scheduler', 'regAddr'] }
+      { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
     ]),
     ...insertWhen(clusterType === 'dcos', [
       {
@@ -234,7 +234,9 @@ const ClusterBasicForm = ({
             <div className="flex items-center">
               <div className="mr-1">Secret</div>
               <Popover
-                title="请使用如下命令得到 Service Account 对应的 Secret 信息："
+                title={`${i18n.t(
+                  'cmp:please use the following command to get the Secret information corresponding to the Service Account',
+                )}：`}
                 content={
                   <div className="flex flex-col">
                     <div># Copy the secret name from the output of the get secret command</div>
@@ -489,6 +491,9 @@ export const AddClusterModal = (props: IProps) => {
       name={i18n.t('org:{type} cluster', {
         type: get(find(flatten(clusterTypeMap), { type: clusterType }), 'name', ''),
       })}
+      title={
+        clusterType === 'k8s' ? i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' }) : undefined
+      }
       visible={visible}
       onOk={handleSubmit}
       beforeSubmit={beforeSubmit}
