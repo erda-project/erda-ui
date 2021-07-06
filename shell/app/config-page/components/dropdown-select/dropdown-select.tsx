@@ -26,15 +26,15 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false);
 
-  const label = React.useMemo(() => {
-    return get(
-      options?.find((item) => {
-        return item.value === value;
-      }),
-      'label',
-      '',
-    );
-  }, [options, value]);
+  const label = React.useMemo(
+    () =>
+      get(
+        options?.find((item) => item.value === value),
+        'label',
+        '',
+      ),
+    [options, value],
+  );
 
   const gotoSpecificPage = (item: CP_DROPDOWN_SELECT.IQuickSelect) => {
     item?.operations && item?.operations?.click && execOperation(item.operations.click);
