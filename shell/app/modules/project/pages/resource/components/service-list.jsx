@@ -147,7 +147,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         loading={isFetching}
         columns={cols}
         dataSource={list}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <Copy selector=".for-copy" />
     </div>

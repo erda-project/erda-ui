@@ -59,7 +59,7 @@ export const topTable = ({ data, valueTitle, unitType, unit, query: { filter_hos
       dataSource={get(data, 'list')}
       rowClassName={() => 'pointer'}
       onRowClick={handleRowClick}
-      tableLayout="fixed"
+      scroll={{ x: '100%' }}
     />
   );
 };

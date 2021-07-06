@@ -184,7 +184,7 @@ const ApiParamsModal = (props: IProps) => {
                         },
                       }}
                       pagination={false}
-                      tableLayout="fixed"
+                      scroll={{ x: '100%' }}
                     />
                   </Panel>
                 </Collapse>

@@ -215,7 +215,7 @@ const TestPlan = () => {
             pageSize: page.pageSize,
             onChange: onPageChange,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
     </div>

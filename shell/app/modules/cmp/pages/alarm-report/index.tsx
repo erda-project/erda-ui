@@ -332,7 +332,7 @@ export default () => {
               },
             };
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
     </>

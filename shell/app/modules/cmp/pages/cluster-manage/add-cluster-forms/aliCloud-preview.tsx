@@ -92,7 +92,13 @@ const AliCloudPreview = ({
         </Button>,
       ]}
     >
-      <Table rowKey={'resourceType'} pagination={false} columns={columns} dataSource={dataSource} tableLayout="fixed" />
+      <Table
+        rowKey={'resourceType'}
+        pagination={false}
+        columns={columns}
+        dataSource={dataSource}
+        scroll={{ x: '100%' }}
+      />
       <Checkbox className="mt12" onChange={() => updater.checkedRead(!checkedRead)} checked={checkedRead} />{' '}
       {i18n.t('org:i have confirmed')}
     </Modal>

@@ -137,7 +137,7 @@ export function CRUDTable<P>(props: ITableProps<P>) {
         columns={getColumns({ onEdit: editItem, reloadList: fetchDataWithQuery })}
         dataSource={list}
         pagination={paging ? autoPagination(paging) : false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
         {...tableProps}
       />
     </Spin>

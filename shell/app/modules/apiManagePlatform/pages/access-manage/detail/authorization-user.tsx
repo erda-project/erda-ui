@@ -202,7 +202,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
             },
           };
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <DetailModal
         visible={state.visible}

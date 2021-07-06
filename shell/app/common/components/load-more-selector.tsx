@@ -71,6 +71,7 @@ interface IProps {
   changeQuery?: (q: string | undefined) => void;
   optionRender?: (option: any, type: string) => React.ReactNode;
   onDropdownVisible?: (visible: boolean) => void;
+  onVisibleChange?: (visible: boolean, innerValue: Array<any>[]) => void;
 }
 
 export interface IOption {
@@ -145,6 +146,7 @@ const PureLoadMoreSelector = (props: IProps) => {
     changeQuery = emptyFun,
     quickSelect = null,
     onDropdownVisible,
+    onVisibleChange,
     dropdownMatchSelectWidth = true,
     valueChangeTrigger = 'onChange',
     forwardedRef,
@@ -377,11 +379,12 @@ const PureLoadMoreSelector = (props: IProps) => {
     );
   };
   return (
-    <div className={`load-more-selector ${className}`} ref={valueRef}>
+    <div className={`load-more-selector ${className}`} ref={valueRef} onClick={(e) => e.stopPropagation()}>
       <Dropdown
         overlay={getOverlay()}
         visible={visible}
         overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
+        onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div
           className={`results pointer ${disabled ? 'not-allowed' : ''} ${size}`}

@@ -416,7 +416,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       pagination={false}
                       columns={columns}
                       dataSource={requestParams}
-                      tableLayout="fixed"
+                      scroll={{ x: '100%' }}
                     />
                   </TabPane>
                   <TabPane key="Headers" tab="Headers">
@@ -426,7 +426,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       pagination={false}
                       columns={columns}
                       dataSource={requestHeaders}
-                      tableLayout="fixed"
+                      scroll={{ x: '100%' }}
                     />
                   </TabPane>
                   <TabPane key="Body" tab="Body" className="body-tab">
@@ -476,7 +476,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             >
               <TabPane key="Headers" tab="Headers">
                 <Table
-                  tableLayout="fixed"
+                  scroll={{ x: '100%' }}
                   size="small"
                   pagination={false}
                   columns={columns}

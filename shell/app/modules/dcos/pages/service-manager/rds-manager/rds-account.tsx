@@ -184,7 +184,7 @@ const RdsAccount = () => {
         columns={columns}
         dataSource={RDSAccountList}
         rowKey="accountName"
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <ResetPasswordForm
         visible={resetFormVisible}

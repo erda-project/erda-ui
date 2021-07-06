@@ -325,7 +325,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
               },
             };
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </div>
       <ExportFile

@@ -214,7 +214,7 @@ export const AppList = ({
           rowKey="id"
           columns={columns}
           dataSource={list}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
     </div>

@@ -93,7 +93,7 @@ const SpanDetail = (props: ISpanDetailProps) => {
         columns={columns1}
         dataSource={annotations}
         pagination={false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <Table
         className="no-operation second-table"
@@ -101,7 +101,7 @@ const SpanDetail = (props: ISpanDetailProps) => {
         columns={columns2}
         dataSource={binaryAnnotations}
         pagination={false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </Modal>
   );

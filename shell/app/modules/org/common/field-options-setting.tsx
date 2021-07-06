@@ -90,7 +90,7 @@ const FieldOptionsSetting = (props: IProps) => {
     },
   ];
 
-  return <Table rowKey="index" dataSource={value} columns={columns} pagination={false} tableLayout="fixed" />;
+  return <Table rowKey="index" dataSource={value} columns={columns} pagination={false} scroll={{ x: '100%' }} />;
 };
 
 export default FieldOptionsSetting;

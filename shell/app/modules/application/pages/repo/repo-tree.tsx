@@ -170,7 +170,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
             dataSource={dataSource}
             pagination={false}
             rowKey="name"
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
             onRow={({ name, id }) => {
               const tropicalPathName = encodeURI(name);
               return {

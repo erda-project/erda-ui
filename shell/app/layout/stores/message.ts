@@ -61,6 +61,11 @@ const messageStore = createStore({
     },
     async readOneMessage({ call, update, select }, id: number, hasRead: boolean) {
       const detail = await call(readOneMessage, id);
+      console.log('---------------', detail);
+      if (detail.deduplicateId.includes('issue-')) {
+        window.open(detail.content);
+        return;
+      }
       if (hasRead) {
         update({ detail });
       } else {

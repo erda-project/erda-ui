@@ -135,7 +135,7 @@ const ClientList = () => {
             },
           };
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <Modal
         title={i18n.t('client info')}

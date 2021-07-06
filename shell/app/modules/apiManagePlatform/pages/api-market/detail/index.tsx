@@ -190,7 +190,7 @@ const ApiAssetDetail = () => {
           columns={columns}
           dataSource={assetVersionList}
           pagination={false}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Modal>
     </div>

@@ -63,5 +63,5 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
-  return <Table columns={columns} dataSource={list} rowKey="id" pagination={false} tableLayout="fixed" />;
+  return <Table columns={columns} dataSource={list} rowKey="id" pagination={false} scroll={{ x: '100%' }} />;
 };

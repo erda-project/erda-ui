@@ -50,7 +50,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={translateData(data)} pagination={false} tableLayout="fixed" />;
+  return <Table columns={columns} dataSource={translateData(data)} pagination={false} scroll={{ x: '100%' }} />;
 });
 
 const TextView = React.memo(({ data }: { data: Record<string, any> }) => {

@@ -260,7 +260,7 @@ const Topic = () => {
         rowSelection={{
           onChange: handleSelect,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <SetTagForm
         items={items}

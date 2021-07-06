@@ -765,7 +765,13 @@ export default ({ scopeType }: { scopeType: string }) => {
               >
                 {i18n.t('org:add filter rules')}
               </Button>
-              <Table bordered rowKey="uniKey" dataSource={editingFilters} columns={filterColumns} tableLayout="fixed" />
+              <Table
+                bordered
+                rowKey="uniKey"
+                dataSource={editingFilters}
+                columns={filterColumns}
+                scroll={{ x: '100%' }}
+              />
             </>
           ),
         },
@@ -802,7 +808,6 @@ export default ({ scopeType }: { scopeType: string }) => {
                 dataSource={editingFields}
                 columns={getFieldColumns(form)}
                 scroll={{ x: 800 }}
-                tableLayout="fixed"
               />
             </>
           ),

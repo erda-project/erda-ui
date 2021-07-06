@@ -155,7 +155,7 @@ export const ClusterAlarmList = ({ filterType, query = {} }: IProps) => {
             total,
             onChange: handlePageChange,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </div>
     </Spin>

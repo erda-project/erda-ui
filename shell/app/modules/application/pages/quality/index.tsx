@@ -213,7 +213,7 @@ const CodeQuality = () => {
             },
           };
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     );
   };

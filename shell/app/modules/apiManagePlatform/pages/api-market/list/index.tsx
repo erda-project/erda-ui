@@ -245,7 +245,7 @@ const ApiMarketList = () => {
         }}
         onChange={handleTableChange}
         loading={isFetchList}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <AssetModal
         visible={state.visible}

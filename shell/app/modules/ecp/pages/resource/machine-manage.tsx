@@ -194,7 +194,7 @@ export default () => {
         bordered
         columns={columns}
         dataSource={tableList}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <Drawer
         width="80%"

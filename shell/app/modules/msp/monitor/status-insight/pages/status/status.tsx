@@ -271,7 +271,7 @@ const Status = () => {
         columns={columns}
         dataSource={filterData}
         pagination={false}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </div>
   );

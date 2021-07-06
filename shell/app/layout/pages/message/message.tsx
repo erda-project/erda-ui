@@ -14,6 +14,7 @@
 import * as React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
+import { MessageUnread as IconMessageUnread } from '@icon-park/react';
 import { Badge, Timeline, Drawer, notification, Button } from 'app/nusi';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
@@ -213,7 +214,15 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                             <CustomIcon type="znx" />
                             <span className="fz16">{item.title}</span>
                           </div>
-                          <div>{moment(item.createdAt).format('HH:mm:ss')}</div>
+                          <div>
+                            {item.unreadCount > 1 && (
+                              <span className="unread-count mr12">
+                                <IconMessageUnread className="mr8" />
+                                {item.unreadCount}
+                              </span>
+                            )}
+                            {moment(item.createdAt).format('HH:mm:ss')}
+                          </div>
                         </div>
                       );
                     })}

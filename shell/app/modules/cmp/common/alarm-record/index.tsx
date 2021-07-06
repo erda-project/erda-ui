@@ -182,7 +182,7 @@ export default ({ scope }: { scope: string }) => {
             },
           };
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </>
   );

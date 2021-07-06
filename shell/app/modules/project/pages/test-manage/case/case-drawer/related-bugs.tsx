@@ -261,7 +261,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
           </Button>
         </div>
       ) : null}
-      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} tableLayout="fixed" />
+      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: '100%' }} />
     </div>
   );
 };

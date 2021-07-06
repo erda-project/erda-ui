@@ -91,7 +91,7 @@ export class SearchTableManage extends React.PureComponent<IProps, IState> {
                   this.updateOps({ currPage: 1 });
                 },
               }}
-              tableLayout="fixed"
+              scroll={{ x: '100%' }}
               {...extraProps}
             />
           </SearchTable>

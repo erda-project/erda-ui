@@ -106,7 +106,7 @@ const AddonDetailDrawer = (props: IProps) => {
           <div className="ref">
             <span className="title bold-500">{i18n.t('org:reference detail')}</span>
             <Table
-              tableLayout="fixed"
+              scroll={{ x: '100%' }}
               columns={refTableList}
               dataSource={addonReferences}
               pagination={false}

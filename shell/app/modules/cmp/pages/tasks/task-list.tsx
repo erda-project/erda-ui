@@ -149,7 +149,6 @@ const ServicesList = ({ taskType }: IProps) => {
           onChange: handlePageChange,
         }}
         scroll={{ x: 1200 }}
-        tableLayout="fixed"
         {...extraTableAttr}
       />
     </>
