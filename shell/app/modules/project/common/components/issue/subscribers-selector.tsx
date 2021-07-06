@@ -55,6 +55,12 @@ export const SubscribersSelector = (props: IProps) => {
     setSubscribers(subscribersProps || []);
   }, [subscribersProps]);
 
+  React.useEffect(() => {
+    if (!issueID) {
+      setSubscribers([loginUserId]);
+    }
+  }, []);
+
   const updateIssueDrawer = () => {
     getIssueDetail({ id: issueID as number, type: issueType });
     getIssueStreams({ type: issueType, id: issueID as number, pageNo: 1, pageSize: 50 });

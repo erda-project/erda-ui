@@ -66,6 +66,10 @@
       font-size: 18px;
       vertical-align: middle;
       color: $color-dark-6;
+
+      .erda-icon {
+        transform: translateY(4px);
+      }
     }
   }
 }
