@@ -540,7 +540,6 @@ export default ({ scopeType, scopeId }: IProps) => {
   };
 
   const handleEditALarm = (id: number) => {
-    openModal();
     getAlertDetail(id).then(({ name, clusterNames, appIds, rules, notifies }: any) => {
       updater.editingFormRule({
         id,
@@ -551,6 +550,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       });
       updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
       updater.activedGroupId(notifies[0].groupId);
+      openModal();
     });
   };
 
@@ -637,7 +637,7 @@ export default ({ scopeType, scopeId }: IProps) => {
     ]),
     {
       title: i18n.t('default:notification target'),
-      dataIndex: ['notifies[0]', 'notifyGroup'],
+      dataIndex: ['notifies', '0', 'notifyGroup'],
       width: 250,
       className: 'notify-info',
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
