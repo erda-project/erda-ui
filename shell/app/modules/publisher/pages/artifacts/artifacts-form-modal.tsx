@@ -334,7 +334,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
     if (fieldsList) {
       content = (
         <div className="max-modal-height">
-          <RenderPureForm onlyItems list={fieldsList} form={form} />
+          <RenderPureForm layout="vertical" onlyItems list={fieldsList} form={form} />
         </div>
       );
     }

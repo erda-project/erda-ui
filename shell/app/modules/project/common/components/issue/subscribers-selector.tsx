@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
+import i18n from 'i18n';
 import { Menu, Dropdown } from 'app/nusi';
-import { Icon as CustomIcon, MemberSelector } from 'common';
+import { Icon as CustomIcon, MemberSelector, ImgHolder } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import issueStore from 'project/stores/issues';
@@ -42,18 +42,23 @@ export const SubscribersSelector = (props: IProps) => {
   const [subscribers, setSubscribers] = React.useState<(string | number)[]>([]);
   const [usersMap, setUsersMap] = React.useState({});
 
-  let isFollowed = subscribers.includes(loginUserId);
+  const isFollowed = subscribers.includes(loginUserId);
   const userMap = useUserMap();
 
   React.useEffect(() => {
     const _userMap: object = { ...userMap };
     _userMap[loginUserId] || (_userMap[loginUserId] = { ...loginUser, userId: loginUserId });
     setUsersMap({ ..._userMap });
-  }, []);
+  }, [userMap]);
 
   React.useEffect(() => {
     setSubscribers(subscribersProps || []);
   }, [subscribersProps]);
+
+  const updateIssueDrawer = () => {
+    getIssueDetail({ id: issueID as number, type: issueType });
+    getIssueStreams({ type: issueType, id: issueID as number, pageNo: 1, pageSize: 50 });
+  };
 
   const menu = (
     <Menu>
@@ -63,32 +68,30 @@ export const SubscribersSelector = (props: IProps) => {
             onClick={async () => {
               if (issueID) {
                 await unsubscribe({ id: issueID });
-                getIssueDetail({ id: issueID, type: issueType });
-                getIssueStreams({ type: issueType, id: issueID, pageNo: 1, pageSize: 50 });
+                updateIssueDrawer();
               } else {
-                let index = subscribers.findIndex((item) => item === loginUserId);
+                const index = subscribers.findIndex((item) => item === loginUserId);
                 subscribers.splice(index, 1);
                 setSubscribers([...subscribers]);
               }
             }}
           >
             <IconPreviewCloseOne />
-            取消关注
+            {i18n.t('project:unfollow')}
           </div>
         ) : (
           <div
             onClick={async () => {
               if (issueID) {
                 await subscribe({ id: issueID });
-                getIssueDetail({ id: issueID, type: issueType });
-                getIssueStreams({ type: issueType, id: issueID, pageNo: 1, pageSize: 50 });
+                updateIssueDrawer();
               } else {
                 setSubscribers([...subscribers, loginUserId]);
               }
             }}
           >
             <IconPreviewOpen />
-            关注
+            {i18n.t('project:follow')}
           </div>
         )}
       </Menu.Item>
@@ -102,18 +105,22 @@ export const SubscribersSelector = (props: IProps) => {
           ref={memberRef}
           mode="multiple"
           value={subscribers || []}
-          onChange={async (ids: Array<number | string>, options: Array<{ userId: string }>) => {
-            if (issueID) {
-              await batchSubscribe({ id: issueID, subscribers: ids });
-              getIssueDetail({ id: issueID, type: issueType });
-              getIssueStreams({ type: issueType, id: issueID, pageNo: 1, pageSize: 50 });
-            } else {
-              let newUsers = options.filter((item) => !usersMap[item.userId]);
-              newUsers.forEach((item) => {
-                usersMap[item.userId] = item;
-              });
-              setUsersMap({ ...usersMap });
-              setSubscribers(ids);
+          onVisibleChange={async (visible: boolean, values: Array<any>[]) => {
+            const ids: string[] = values[0] || [];
+            const options: Array<{ userId: number }> = values[1] || [];
+            // this event fires too often
+            if (!visible && subscribers.join(',') !== ids.join(',')) {
+              if (issueID) {
+                await batchSubscribe({ id: issueID, subscribers: ids });
+                updateIssueDrawer();
+              } else {
+                let newUsers = options.filter((item) => !usersMap[item.userId]);
+                newUsers.forEach((item) => {
+                  usersMap[item.userId] = item;
+                });
+                setUsersMap({ ...usersMap });
+                setSubscribers(ids);
+              }
             }
           }}
           resultsRender={() => (
@@ -124,7 +131,7 @@ export const SubscribersSelector = (props: IProps) => {
               }}
             >
               <IconPlus />
-              添加关注人
+              {i18n.t('project:Add Followers')}
               <IconRight className="add-follower-btn" />
             </span>
           )}
@@ -133,10 +140,25 @@ export const SubscribersSelector = (props: IProps) => {
       <Menu.Divider />
       <Menu.Item>
         <div onClick={(e) => e.stopPropagation()}>
-          <div className="followers-num">{subscribers ? `${subscribers.length}位成员正在关注` : '暂无成员关注'}</div>
-          {subscribers?.map((item: string | number) => (
-            <div>{usersMap[item]?.nick}</div>
-          ))}
+          <div className="followers-num">
+            {subscribers.length !== 0
+              ? i18n.t('project:{num} members are watching', { num: subscribers.length })
+              : i18n.t('project:no member is concerned about it')}
+          </div>
+          {subscribers.map((item) => {
+            const user = usersMap[item] || {};
+            return (
+              <div>
+                <ImgHolder
+                  src={user.avatar}
+                  text={user.nick ? user.nick.substring(0, 1) : i18n.t('none')}
+                  rect="20x20"
+                  type="avatar"
+                />
+                <span className="ml4">{user.nick ?? ''}</span>
+              </div>
+            );
+          })}
         </div>
       </Menu.Item>
     </Menu>
@@ -151,8 +173,7 @@ export const SubscribersSelector = (props: IProps) => {
           onClick={async () => {
             if (issueID) {
               await unsubscribe({ id: issueID });
-              getIssueDetail({ id: issueID, type: issueType });
-              getIssueStreams({ type: issueType, id: issueID, pageNo: 1, pageSize: 50 });
+              updateIssueDrawer();
             } else {
               let index = subscribers.findIndex((item) => item === loginUserId);
               subscribers.splice(index, 1);
@@ -167,8 +188,7 @@ export const SubscribersSelector = (props: IProps) => {
           onClick={async () => {
             if (issueID) {
               await subscribe({ id: issueID });
-              getIssueDetail({ id: issueID, type: issueType });
-              getIssueStreams({ type: issueType, id: issueID, pageNo: 1, pageSize: 50 });
+              updateIssueDrawer();
             } else {
               setSubscribers([...subscribers, loginUserId]);
             }
@@ -181,12 +201,14 @@ export const SubscribersSelector = (props: IProps) => {
         overlayClassName="attention-dropdown"
         onVisibleChange={(visible) => {
           if (!visible) {
-            setData({ ...data, subscribers: subscribers });
+            setData({ ...data, subscribers });
           }
         }}
       >
         <span className="attention-dropdown-btn ml4">
-          {subscribers ? `${subscribers.length}人关注` : '无人关注'}
+          {subscribers.length !== 0
+            ? i18n.t('project:{num} people attention', { num: subscribers.length })
+            : i18n.t('project:no attention')}
           <CustomIcon type="caret-down" className="ml2 mr0" />
         </span>
       </Dropdown>

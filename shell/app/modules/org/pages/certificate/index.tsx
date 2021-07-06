@@ -39,7 +39,7 @@ interface IFileChangeArg {
 interface IUploadProps {
   form: FormInstance;
   onChangeFile: ({ uuid, fileName }: IFileChangeArg) => void;
-  fileNameKey: string;
+  fileNameKey: string | string[];
   fileAccept: string;
 }
 const getUploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProps) => {
@@ -83,12 +83,12 @@ const getUploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadP
 };
 
 export const keyPrefix = {
-  iosDebug: 'iosInfo.debugProvision',
-  iosKeyChainP12: 'iosInfo.keyChainP12',
-  iosRelease: 'iosInfo.releaseProvision',
-  adrAuto: 'androidInfo.autoInfo',
-  adrManualDebug: 'androidInfo.manualInfo.debugKeyStore',
-  adrManualRelease: 'androidInfo.manualInfo.releaseKeyStore',
+  iosDebug: ['iosInfo', 'debugProvision'],
+  iosKeyChainP12: ['iosInfo', 'keyChainP12'],
+  iosRelease: ['iosInfo', 'releaseProvision'],
+  adrAuto: ['androidInfo', 'autoInfo'],
+  adrManualDebug: ['androidInfo', 'manualInfo', 'debugKeyStore'],
+  adrManualRelease: ['androidInfo', 'manualInfo', 'releaseKeyStore'],
 };
 
 const getUploadFieldProps = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProps) => {
@@ -341,11 +341,13 @@ const Certificate = () => {
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
-                'messageInfo.fileName': fileName,
-                'messageInfo.uuid': uuid,
+                messageInfo: {
+                  fileName,
+                  uuid,
+                },
               });
             },
-            fileNameKey: 'messageInfo.fileName',
+            fileNameKey: ['messageInfo', 'fileName'],
             fileAccept: '',
           }),
         },

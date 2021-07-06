@@ -299,16 +299,13 @@ const issueStore = createStore({
       return res;
     },
     async subscribe({ call }, payload: { id: number }) {
-      const res = await call(subscribe, payload);
-      return res;
+      return call(subscribe, payload);
     },
     async unsubscribe({ call }, payload: { id: number }) {
-      const res = await call(unsubscribe, payload);
-      return res;
+      return call(unsubscribe, payload);
     },
     async batchSubscribe({ call }, payload: { id: number | string; subscribers: Array<number | string> }) {
-      const res = await call(batchSubscribe, payload);
-      return res;
+      return call(batchSubscribe, payload);
     },
   },
   reducers: {

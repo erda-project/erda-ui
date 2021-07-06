@@ -3000,6 +3000,7 @@
     "{type} cluster": "{type} cluster"
   },
   "project": {
+    "Add Followers": "Add Followers",
     "API design": "API design",
     "API list": "API list",
     "API overview": "API overview",
@@ -3272,6 +3273,7 @@
     "filter by data source name": "filter by data source name",
     "filter by priority": "filter by priority",
     "filter condition": "filter condition",
+    "follow": "follow",
     "general settings": "general settings",
     "greater than or equal to": "greater than or equal to",
     "greater than, greater than or equal to, less than, less than or equal to": "Greater than, Greater than or equal, Less than, Less than or equal",
@@ -3389,8 +3391,10 @@
     "normal": "normal",
     "not an excel file": "not an excel file",
     "not an xmind file": "not an xmind file",
+    "no attention": "no attention",
     "not equal to": "not equal to",
     "not excel or xmind files": "not excel or xmind files",
+    "no member is concerned about it": "no member is concerned about it",
     "not modified": "not modified",
     "not null": "not null",
     "not passed": "not passed",
@@ -3628,6 +3632,7 @@
     "updated": "updated",
     "updated on": "updated on",
     "updater": "updater",
+    "unfollow": "unfollow",
     "upload": "upload",
     "upload files": "upload files",
     "uploading, please do not leave": "uploading, please do not leave",
@@ -3654,7 +3659,9 @@
     "yesterday": "yesterday",
     "you need": "you need",
     "your browser does not support WebSocket!": "your browser does not support WebSocket!",
-    "four parameter references": "1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name."
+    "four parameter references": "1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name.",
+    "{num} members are watching": "{num} members are watching",
+    "{num} people attention": "{num} people attention"
   },
   "publisher": {
     "1-6 decimal places": "1-6 decimal places",
