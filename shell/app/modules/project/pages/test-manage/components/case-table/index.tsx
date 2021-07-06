@@ -114,6 +114,11 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         target = target || find(item.children, { id: +query.caseId });
       });
       if (target) {
+        updateBreadcrumb({
+          pathName: target.parent.directory,
+          testSetID: target.testSetID,
+          testPlanID: testPlanId,
+        });
         onClickRow(target, dataSource);
       }
     }
