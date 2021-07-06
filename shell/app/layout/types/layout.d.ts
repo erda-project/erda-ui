@@ -20,6 +20,7 @@ declare namespace LAYOUT {
     status: string;
     createdAt: string;
     readAt: string | null;
+    unreadCount: number;
   }
 
   interface IApp {
