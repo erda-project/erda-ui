@@ -33,7 +33,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
         'label',
         '',
       ),
-    [value],
+    [options, value],
   );
 
   const gotoSpecificPage = (item: CP_DROPDOWN_SELECT.IQuickSelect) => {
@@ -61,7 +61,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   if (options) {
     _overlay = (
       <Menu>
-        <Menu.Item>
+        <Menu.Item className="dropdown-select">
           <Input
             autoFocus
             size="small"
@@ -81,7 +81,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
 
           return (
             <Menu.Item
-              key={`${index}`}
+              key={item.value}
               disabled={item.disabled}
               className="hover-active"
               onClick={() => {
