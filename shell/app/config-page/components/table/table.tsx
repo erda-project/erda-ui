@@ -32,7 +32,15 @@ const handleState = (_stateObj?: Obj) => {
 export function Table(props: CP_TABLE.Props) {
   const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
   const list = data?.list || [];
-  const { visible = true, columns = [], title, pageSizeOptions, styleNames = {}, ...rest } = configProps || {};
+  const {
+    visible = true,
+    columns = [],
+    title,
+    pageSizeOptions,
+    selectable,
+    styleNames = {},
+    ...rest
+  } = configProps || {};
   const userMap = useUserMap();
   const [state, updater, update] = useUpdate(handleState(propsState));
   const { total, pageSize, pageNo } = state;
@@ -116,6 +124,18 @@ export function Table(props: CP_TABLE.Props) {
     table: true,
     ...styleNames,
   });
+
+  const onSelectChange = (_selectedRowKeys: string[]) => {
+    updater.selectedRowKeys(_selectedRowKeys);
+  };
+
+  const rowSelection = selectable
+    ? {
+        selectedRowKeys: state.selectedRowKeys || [],
+        onChange: onSelectChange,
+      }
+    : undefined;
+
   return visible ? (
     <>
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
@@ -128,6 +148,7 @@ export function Table(props: CP_TABLE.Props) {
         pagination={pagination}
         {...rest}
         size="small"
+        rowSelection={rowSelection}
       />
     </>
   ) : null;
