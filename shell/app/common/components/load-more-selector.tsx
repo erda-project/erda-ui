@@ -171,7 +171,7 @@ const PureLoadMoreSelector = (props: IProps) => {
 
     if (forwardedRef) {
       forwardedRef.current = {
-        show: () => setVisible((p) => !p),
+        show: () => setVisible(true),
       };
     }
 
@@ -435,7 +435,7 @@ const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, vie
         const options = optionRender ? optionRender(item, (viewType || '').toLowerCase()) : item.label || item.value;
         return isMultiple ? (
           <Checkbox
-            className="list-item"
+            className="load-more-list-item"
             key={item.value}
             checked={checked}
             onChange={(e: any) => clickItem(item, e.target.checked)}
@@ -444,7 +444,7 @@ const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, vie
           </Checkbox>
         ) : (
           <div
-            className={`list-item radio-item ${checked ? 'checked' : ''}`}
+            className={`load-more-list-item radio-item ${checked ? 'checked' : ''}`}
             key={item.value}
             onClick={() => clickItem(item, !checked)}
           >
@@ -523,7 +523,7 @@ export interface ILoadMoreSelectorProps extends IProps {
 const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void; loading: boolean }) => {
   return (
     <div
-      className="pointer load-more list-item"
+      className="pointer load-more load-more-list-item"
       onClick={(e) => {
         e.stopPropagation();
         onLoadMore();

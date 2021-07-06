@@ -17,6 +17,7 @@ import { map, isEmpty, get, isArray, sortBy, filter } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsColumn, Copy } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
+import { Download as IconDownLoad } from '@icon-park/react';
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
 
@@ -71,6 +72,16 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               {val.value}
             </span>
           </Tooltip>
+        );
+      }
+      break;
+    case 'downloadUrl':
+      {
+        const { url, value } = val || {};
+        Comp = (
+          <a className="fake-link nowrap flex-box full-width" download={value} href={url}>
+            <IconDownLoad /> {value}
+          </a>
         );
       }
       break;
@@ -289,8 +300,19 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = <Text type="Text" props={textProps} />;
       }
       break;
+    case 'bgProgress':
+      {
+        const value: CP_TEXT.IBgProgress = val?.value;
+        Comp = (
+          <div className="dice-cp-table-bg-progress">
+            <div className="bg-progress-bar" style={{ width: `${value?.percent}%` }} />
+            <span className="bg-progress-text">{value?.text || value?.percent}</span>
+          </div>
+        );
+      }
+      break;
     default:
-      Comp = <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis>;
+      Comp = val ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
       break;
   }
   return Comp;

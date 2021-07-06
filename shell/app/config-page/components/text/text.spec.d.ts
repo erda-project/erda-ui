@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_TEXT {
-  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText' | 'textWithIcon' | 'multipleText';
+  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText' | 'textWithIcon' | 'multipleText' | 'bgProgress';
   interface Spec {
     type: 'Text';
     props: IProps;
@@ -38,6 +38,11 @@ declare namespace CP_TEXT {
   interface ICopyText {
     text: string;
     copyText: string;
+  }
+
+  interface IBgProgress {
+    text: string;
+    percent: number;
   }
 
   interface IStyleConfig {

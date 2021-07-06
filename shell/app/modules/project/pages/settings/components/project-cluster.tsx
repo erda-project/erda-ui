@@ -50,7 +50,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     });
   });
 
-  const formData = {};
+  const configData = {};
   const tableData: object[] = [];
   const fieldsList: object[] = [];
   const sortBy = WORKSPACE_LIST;
@@ -59,10 +59,10 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
     const clusterName = clusterConfig?.[workspace];
 
     tableData.push({ workspace, clusterName });
-    formData[`clusterConfig.${name}`] = clusterName;
+    configData[`${name}`] = clusterName;
     fieldsList.push({
       label: workSpaceMap[name] || name,
-      name: `clusterConfig.${name}`,
+      name: ['clusterConfig', name],
       type: 'select',
       options,
     });
@@ -91,11 +91,10 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       tableLayout="fixed"
     />
   );
-
   return (
     <SectionInfoEdit
       hasAuth={hasEditAuth}
-      data={formData}
+      data={{ clusterConfig: configData }}
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}

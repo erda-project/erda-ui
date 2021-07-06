@@ -300,6 +300,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             onChange({ key, value: v });
           }}
           value={value}
+          dropdownMatchSelectWidth={false}
           ref={memberSelectorRef}
           resultsRender={memberResultsRender}
           placeholder={' '}
@@ -307,7 +308,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           allowClear={false}
           showSearch={haveFilter}
         />
-        {value ? null : <span>{emptyText}</span>}
+        {value?.length ? null : <span>{emptyText}</span>}
         <CustomIcon type="caret-down" />
       </span>
     );
@@ -335,7 +336,7 @@ const setConditionShowIndex = (conditions: ICondition[], key: string, show: bool
   return map(conditions, (item) => {
     return {
       ...item,
-      showIndex: key === item.key ? (show ? maxShowIndex + 1 : 0) : item.showIndex,
+      showIndex: key === item.key ? (show ? (maxShowIndex || 0) + 1 : 0) : item.showIndex,
     };
   });
 };

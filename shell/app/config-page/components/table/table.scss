@@ -312,3 +312,30 @@
   .level-2-content {
   }
 }
+
+.dice-cp-table-bg-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  .bg-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    background: linear-gradient(to right, transparentize($color-primary, 0.98), transparentize($color-primary, 0.8));
+  }
+
+  .bg-progress-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
