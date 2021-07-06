@@ -85,7 +85,7 @@ const RepoEditor = ({
       try {
         yaml.load(value);
       } catch (e) {
-        notify('error', `${i18n.t('application:input format error')}：${e.message}`);
+        notify('error', <pre className="prewrap">{`${i18n.t('application:input format error')}：${e.message}`}</pre>);
         return;
       }
     }

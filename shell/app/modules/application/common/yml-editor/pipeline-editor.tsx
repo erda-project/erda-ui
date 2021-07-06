@@ -270,7 +270,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
     } catch (e) {
       const msg = `${i18n.t('application:input format error')}：${e.message}`;
       if (!tipWithModal) {
-        notify('error', msg);
+        notify('error', <pre className="prewrap">{msg}</pre>);
       } else {
         updater.errorMsg(`${i18n.t('application:input format error')}：${e.message}`);
       }
@@ -397,7 +397,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           ]),
         ]}
       >
-        {errorMsg}
+        <pre className="prewrap">{errorMsg}</pre>
       </Modal>
     </div>
   );
