@@ -21,6 +21,7 @@ import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
 import { usePerm } from 'user/common';
 import runtimeDomainStore from 'runtime/stores/domain';
+import { Copy as IconCopy } from '@icon-park/react';
 import './service-dropdown.scss';
 
 const MenuItem = Menu.Item;
@@ -89,7 +90,7 @@ const ServiceDropdown = (props: IProps) => {
               </span>
               <Copy selector=".for-copy">
                 <span className="for-copy copy-icon" data-clipboard-text={addr}>
-                  <Icon type="copy" />
+                  <IconCopy />
                 </span>
               </Copy>
             </div>
