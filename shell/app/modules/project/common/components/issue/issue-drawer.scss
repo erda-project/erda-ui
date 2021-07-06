@@ -31,20 +31,17 @@
 
     i {
       margin-left: 12px;
-      font-size: 16px;
+      font-size: 14px;
+      vertical-align: middle;
+      cursor: pointer;
     }
 
     .followed {
       color: $color-info;
-      vertical-align: middle;
-      cursor: pointer;
-      margin: 3px 0 0 0;
     }
 
     .notFollowed {
-      font-size: 22px;
-      vertical-align: middle;
-      cursor: pointer;
+      color: $color-dark-4;
     }
 
     .attention-dropdown-btn {

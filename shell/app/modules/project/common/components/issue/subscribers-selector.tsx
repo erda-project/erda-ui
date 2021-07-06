@@ -59,7 +59,7 @@ export const SubscribersSelector = (props: IProps) => {
     if (!issueID) {
       setSubscribers([loginUserId]);
     }
-  }, []);
+  }, [issueID]);
 
   const updateIssueDrawer = () => {
     getIssueDetail({ id: issueID as number, type: issueType });
@@ -174,7 +174,7 @@ export const SubscribersSelector = (props: IProps) => {
     <>
       {isFollowed ? (
         <CustomIcon
-          type="yiguanzhu"
+          type="watch"
           className="followed"
           onClick={async () => {
             if (issueID) {
@@ -189,7 +189,7 @@ export const SubscribersSelector = (props: IProps) => {
         />
       ) : (
         <CustomIcon
-          type="guanzhu"
+          type="watch"
           className="notFollowed"
           onClick={async () => {
             if (issueID) {
