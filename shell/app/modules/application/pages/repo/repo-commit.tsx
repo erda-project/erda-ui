@@ -29,7 +29,6 @@ import { DownOne as IconDownOne } from '@icon-park/react';
 import './repo-commit.scss';
 
 const { Item: TimelineItem } = Timeline;
-const { Search } = Input;
 
 export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.ICommit) => {
   return (
@@ -74,7 +73,7 @@ const RepoCommit = () => {
   const [isFetching] = useLoading(repoStore, ['getCommitList']);
   const [searchValue, setSearchValue] = React.useState('');
   React.useEffect(() => {
-    !isEmpty(info) && getCommitList();
+    !isEmpty(info) && getCommitList({ pageNo: 1 });
   }, [getCommitList, info]);
   React.useEffect(() => {
     return () => {
@@ -143,7 +142,7 @@ const RepoCommit = () => {
             <RepoBreadcrumb splitKey="commits" path={path} />
           </IF>
         </div>
-        <Search
+        <Input
           value={searchValue}
           className="search-input"
           placeholder={i18n.t('application:filter by committed message')}
