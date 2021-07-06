@@ -53,6 +53,7 @@ interface IProps {
   readOnly?: boolean;
   showAuthorize?: boolean;
   hideBatchOps?: boolean;
+  hideRowSelect?: boolean;
   hasConfigAppAuth?: boolean;
   overwriteAuth?: {
     add?: boolean;
@@ -67,6 +68,7 @@ export const MembersTable = ({
   readOnly = false,
   showAuthorize = false,
   hideBatchOps = false,
+  hideRowSelect = false,
   overwriteAuth = {},
   hasConfigAppAuth = false,
 }: IProps) => {
@@ -483,17 +485,21 @@ export const MembersTable = ({
     return (
       <Table
         rowKey={'userId'}
-        rowSelection={{
-          selectedRowKeys: state.selectedKeys,
-          onChange: onTableSelectChange,
-        }}
+        rowSelection={
+          hideRowSelect
+            ? undefined
+            : {
+                selectedRowKeys: state.selectedKeys,
+                onChange: onTableSelectChange,
+              }
+        }
         rowClassName={(record: IMember) => (record.removed ? 'not-allowed' : '')}
         pagination={{ ...paging, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
       />
     );
-  }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater]);
+  }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater, hideRowSelect]);
 
   const filterList = [
     {
