@@ -134,6 +134,7 @@ const TestPlanModal = (props: IProps) => {
       }}
       onCancel={onCancel}
       fieldsList={fieldsList}
+      formData={planItem}
     >
       {textInfo ? <div className="info">{textInfo}</div> : null}
     </FormModal>
