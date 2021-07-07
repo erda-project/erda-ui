@@ -7,13 +7,13 @@ on:
       - master
       - develop
     paths:
-      - shell/app/common/**
+      - shell/app/common/**.tsx?
   pull_request:
     branches:
       - master
       - develop
     paths:
-      - shell/app/common/**
+      - shell/app/common/**.tsx?
 
   workflow_dispatch:
 
