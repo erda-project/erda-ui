@@ -14,6 +14,7 @@
 import * as React from 'react';
 import { Input, Select, DatePicker } from 'app/nusi';
 import moment from 'moment';
+import { useMount } from 'react-use';
 import { MarkdownEditor, useUpdate } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { isFunction, get, set } from 'lodash';
@@ -126,8 +127,15 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     getComp,
   } = props;
   const originalValue = get(data, name);
+  const compRef = React.useRef(null as React.RefObject<unknown>);
 
-  const compRef = _compRef || React.useRef(null as React.RefObject<unknown>);
+  useMount(() => {
+    if (typeof _compRef === 'function') {
+      _compRef(compRef.current);
+    } else {
+      _compRef && (_compRef.current = compRef.current);
+    }
+  });
 
   const [state, updater] = useUpdate({
     editMode: false,
