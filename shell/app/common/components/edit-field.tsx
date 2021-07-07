@@ -127,7 +127,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     getComp,
   } = props;
   const originalValue = get(data, name);
-  const compRef = React.useRef(null as React.RefObject<unknown>);
+  const compRef = React.useRef<HTMLElement>(null);
 
   useMount(() => {
     if (typeof _compRef === 'function') {
