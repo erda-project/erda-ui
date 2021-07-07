@@ -118,12 +118,6 @@ $log-bg-color: #3c444f;
       border: 1px solid #cccccc;
       opacity: 0.6;
 
-      &:after {
-        width: 30px;
-        height: 30px;
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-
       &:hover {
         opacity: 1;
 
@@ -136,6 +130,12 @@ $log-bg-color: #3c444f;
         top: 1px;
         width: 30px;
         height: 30px;
+
+        &:after {
+          width: 30px;
+          height: 30px;
+          background-color: rgba(255, 255, 255, 0.3);
+        }
 
         &:before {
           border-radius: 18px;
