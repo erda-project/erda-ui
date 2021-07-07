@@ -206,7 +206,7 @@ const rules = {
       let reg = null;
       try {
         reg = new RegExp(pattern, attr);
-        return [reg.test(v), rule.msg || 'not match pattern'];
+        return [reg.test(v), rule.msg || rule.message || 'not match pattern'];
       } catch (e) {
         return [false, '非法的正则表达式，请检查'];
       }
@@ -634,13 +634,19 @@ export const Form = ({
         });
       });
       formRef.current.onSubmit = (_onFinish = onFinish, _onFinishFailed = onFinishFailed) => {
-        formRef.current.validateFieldsAndScroll((err: any, val: any) => {
-          if (!err) {
-            _onFinish(val, _mode === 'edit');
-          } else {
-            _onFinishFailed(err, val, _mode === 'edit');
-          }
-        });
+        formRef.current
+          .validateFields()
+          .then((val: any) => {
+            _onFinish(val, mode === 'edit');
+          })
+          .catch((err: any) => {
+            _onFinishFailed(
+              err.errorFields.map((item: any) => item.errors),
+              err.values,
+              mode === 'edit',
+            );
+            formRef.current.scrollToField(err.errorFields[0].name);
+          });
       };
     },
     getFields: () => cloneDeep(_fields),
@@ -648,35 +654,49 @@ export const Form = ({
       return !!fieldMapRef.current[k].isTouched; // 这里_fields是空数组，是个闭包
     },
     onSubmit: (_onFinish = onFinish, _onFinishFailed = onFinishFailed) => {
-      formRef.current.validateFieldsAndScroll((err: any, val: any) => {
-        if (!err) {
+      formRef.current
+        .validateFields()
+        .then((val: any) => {
           _onFinish(val, mode === 'edit');
-        } else {
-          _onFinishFailed(err, val, mode === 'edit');
-        }
-      });
+        })
+        .catch((err: any) => {
+          _onFinishFailed(
+            err.errorFields.map((item: any) => item.errors),
+            err.values,
+            mode === 'edit',
+          );
+          formRef.current.scrollToField(err.errorFields[0].name);
+        });
     },
-    validateFieldsAndScroll(cb: Function) {
-      formRef.current.validate().then((checkInfo: any) => {
-        const error = [] as any[];
-        let failedKey = '';
-        const _formData = formRef.current.getData();
-        const validFormData = {};
-        map(checkInfo, (v, k) => {
-          if (v[0] !== 'success') {
-            error.push(v);
-            !failedKey && (failedKey = k);
-          }
-          if (k in _formData) {
-            validFormData[k] = _formData[k];
+    validateFields() {
+      return new Promise((resolve, reject) => {
+        formRef.current.validate().then((checkInfo: any) => {
+          const error = [] as any[];
+          const _formData = formRef.current.getData();
+          const validFormData = {};
+          map(checkInfo, (v, k) => {
+            if (v[0] !== 'success') {
+              error.push({
+                name: k,
+                errors: v,
+              });
+            }
+            if (k in _formData) {
+              validFormData[k] = _formData[k];
+            }
+          });
+
+          if (error.length) {
+            reject({ values: validFormData, errorFields: error });
+          } else {
+            resolve(validFormData);
           }
         });
-        if (failedKey) {
-          const unsuccessEle = document.getElementById(failedKey) as any;
-          unsuccessEle && unsuccessEle.scrollIntoView();
-        }
-        typeof cb === 'function' && cb(error.length ? error : undefined, validFormData);
       });
+    },
+    scrollToField(key: string) {
+      const unsuccessEle = document.getElementById(key) as any;
+      unsuccessEle && unsuccessEle.scrollIntoView();
     },
     validate() {
       const asyncKeys = [] as string[];
