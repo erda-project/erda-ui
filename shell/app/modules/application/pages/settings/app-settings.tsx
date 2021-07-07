@@ -78,7 +78,7 @@ export const PureAppSettings = () => {
                 },
                 {
                   title: i18n.t('application:view the project member'),
-                  children: <MembersTable readOnly hideBatchOps scopeKey={MemberScope.PROJECT} />,
+                  children: <MembersTable readOnly hideBatchOps hideRowSelect scopeKey={MemberScope.PROJECT} />,
                 },
               ]}
             />
