@@ -17,7 +17,7 @@ import React from 'react';
 import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
-import { Drawer, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
+import { Drawer, Spin, Popconfirm, Input, message, Popover, Button } from 'app/nusi';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import './issue-drawer.scss';
 
@@ -144,25 +144,35 @@ export const IssueDrawer = (props: IProps) => {
                     <Popover
                       title={i18n.t('project:copy issue')}
                       content={
-                        <Input
-                          placeholder={i18n.t('project:Please enter the issue title')}
-                          style={{ width: 400 }}
-                          value={copyTitle}
-                          onChange={(e) => setCopyTitle(e.target.value)}
-                        />
+                        <>
+                          <Input
+                            placeholder={i18n.t('project:Please enter the issue title')}
+                            style={{ width: 400 }}
+                            value={copyTitle}
+                            onChange={(e) => setCopyTitle(e.target.value)}
+                          />
+                          <div className="right-flex-box mt8">
+                            <Button className="mr8" onClick={() => setCopyTitle('')}>
+                              {i18n.t('cancel')}
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                if (copyTitle === '') {
+                                  message.error(i18n.t('project:The title can not be empty'));
+                                  return;
+                                }
+                                handleCopy && handleCopy(true, copyTitle);
+                                setCopyTitle('');
+                              }}
+                              type="primary"
+                            >
+                              {i18n.t('copy')}
+                            </Button>
+                          </div>
+                        </>
                       }
-                      onOk={() => {
-                        if (copyTitle === '') {
-                          message.error(i18n.t('project:The title can not be empty'));
-                          return;
-                        }
-                        handleCopy && handleCopy(true, copyTitle);
-                        setCopyTitle('');
-                      }}
-                      onCancel={() => setCopyTitle('')}
                       placement="leftTop"
                       trigger="click"
-                      okText={i18n.t('copy')}
                     >
                       <IconCopy className="hover-active ml12" size="16px" />
                     </Popover>

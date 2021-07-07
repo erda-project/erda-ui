@@ -25,6 +25,7 @@ import {
   omit,
   pick,
   get,
+  set,
   filter,
   head,
   transform,
@@ -113,6 +114,26 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
   }, [isCreate, updater]);
 
+  const taskInitName =
+    originType === actionConfig.name
+      ? originName
+      : otherTaskAlias.includes(actionConfig.name)
+      ? undefined
+      : actionConfig.name;
+
+  const taskInitVersion = task.version || actionConfig.version;
+  useUpdateEffect(() => {
+    const prevResource = form.getFieldValue('resource') || {};
+    form.setFieldsValue({
+      resource: {
+        ...prevResource,
+        type: chosenActionName,
+        alias: taskInitName,
+        version: taskInitVersion,
+      },
+    });
+  }, [taskInitName, taskInitVersion, chosenActionName]);
+
   const getCurrentActionConfigs = () => {
     if (chosenActionName) {
       getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
@@ -146,12 +167,6 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     return null;
   }
   const type = actionConfig.type || getFieldValue(['resource', 'type']);
-  const taskInitName =
-    originType === actionConfig.name
-      ? originName
-      : otherTaskAlias.includes(actionConfig.name)
-      ? undefined
-      : actionConfig.name;
 
   const checkResourceName = (_rule: any, value: string, callback: any) => {
     const name = form.getFieldValue(['resource', 'alias']);
@@ -226,6 +241,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       />
     );
   }
+
   const taskName = (
     <Item
       label={i18n.t('application:task name')}
@@ -247,7 +263,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
     const { getFieldsValue } = form;
-    const resourceForm = getFieldsValue(['resource.alias', 'resource.type']);
+    const resourceForm = getFieldsValue([
+      ['resource', 'alias'],
+      ['resource', 'type'],
+    ]);
     if (!get(resourceForm, 'resource.type')) {
       return null;
     }
@@ -495,12 +514,11 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     property.value.splice(index, 1);
     updater.resource(cloneDeep(resource));
 
-    const formDatas = form.getFieldValue(`${parentKey}`);
-    formDatas.splice(index, 1);
-
-    form.setFieldsValue({
-      [parentKey]: formDatas,
-    });
+    const formDatas = form.getFieldValue(`${parentKey}`.split('.'));
+    formDatas?.splice(index, 1);
+    const curFormData = form.getFieldsValue();
+    set(curFormData, parentKey, formDatas);
+    form.setFieldsValue(curFormData);
   };
 
   const addNewItemToStructArray = (property: any, struct: any) => {
