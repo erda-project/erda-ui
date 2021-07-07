@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Modal } from 'app/nusi';
+import { Table, Modal, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import runtimeServiceStore from 'runtime/stores/service';
@@ -79,6 +79,7 @@ const PodTable = (props: IProps) => {
     {
       title: i18n.t('org:pod instance'),
       dataIndex: 'podName',
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('runtime:status'),
@@ -87,6 +88,7 @@ const PodTable = (props: IProps) => {
     {
       title: i18n.t('org:namespace'),
       dataIndex: 'k8sNamespace',
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('runtime:Host IP'),
@@ -120,6 +122,7 @@ const PodTable = (props: IProps) => {
   ];
   return (
     <Table
+      scroll={{ x: '100%' }}
       loading={state.loading}
       columns={podTableColumn}
       dataSource={podList}
