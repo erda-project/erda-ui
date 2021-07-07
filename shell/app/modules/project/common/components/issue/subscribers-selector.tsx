@@ -148,7 +148,7 @@ export const SubscribersSelector = (props: IProps) => {
         <div onClick={(e) => e.stopPropagation()}>
           <div className="followers-num">
             {subscribers.length !== 0
-              ? i18n.t('project:{num} members are watching', { num: subscribers.length })
+              ? i18n.t('project:{num} members are following', { num: subscribers.length })
               : i18n.t('project:no member is concerned about it')}
           </div>
           {subscribers.map((item) => {
@@ -213,7 +213,7 @@ export const SubscribersSelector = (props: IProps) => {
       >
         <span className="attention-dropdown-btn ml4">
           {subscribers.length !== 0
-            ? i18n.t('project:{num} people attention', { num: subscribers.length })
+            ? i18n.t('project:{num} people followed', { num: subscribers.length })
             : i18n.t('project:no attention')}
           <CustomIcon type="caret-down" className="ml2 mr0" />
         </span>
