@@ -69,7 +69,7 @@ const RepoTag = () => {
     const curForm = React.useRef(form);
     const { branches } = info;
     React.useEffect(() => {
-      curForm.current.setFieldsValue({ ref: undefined });
+      form.setFieldsValue({ ref: undefined });
     }, [curForm, refType]);
 
     const options = refType === 'commitId' ? null : branches;
@@ -145,7 +145,7 @@ const RepoTag = () => {
       label: i18n.t('application:based on source'),
       name: 'ref',
       type: 'custom',
-      getComp: ({ form }: any) => RefComp({ form }),
+      getComp: ({ form }: any) => <RefComp form={form} />,
     },
     {
       label: i18n.t('dcos:label'),
