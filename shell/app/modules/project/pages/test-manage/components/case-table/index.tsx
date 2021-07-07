@@ -247,7 +247,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
 
   const handleChange = (pagination: any, _filters: any, sorter: any) => {
     let newSorter = {};
-    if (isEmpty(sorter)) {
+    if (!sorter?.order) {
       delete query.orderBy;
       delete query.orderRule;
       newSorter = { orderBy: undefined, orderRule: undefined };
