@@ -88,6 +88,9 @@ const AuditList = ({ sys }: { sys: boolean }) => {
           allowClear: false,
           format: 'YYYY-MM-DD HH:mm',
           ranges: getTimeRanges(),
+          style: {
+            width: 330,
+          },
         },
       },
     ],
@@ -131,7 +134,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
           pageSize: +paging.pageSize,
           total: paging.total,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </>
   );

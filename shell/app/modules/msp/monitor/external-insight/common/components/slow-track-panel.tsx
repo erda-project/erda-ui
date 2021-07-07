@@ -107,7 +107,6 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-      tableLayout="fixed"
     />
   );
 };

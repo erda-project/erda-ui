@@ -69,7 +69,7 @@ const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
       rowKey={(record: IData, i) => `${i}_${record.time}`}
       columns={columns}
       dataSource={list}
-      tableLayout="fixed"
+      scroll={{ x: '100%' }}
     />
   );
 };

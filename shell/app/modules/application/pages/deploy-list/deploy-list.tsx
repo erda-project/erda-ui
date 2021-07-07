@@ -248,7 +248,7 @@ const PureDeployList = (props: IProps) => {
           columns={columns}
           dataSource={list}
           pagination={paging ? autoPagination(paging) : false}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
       <FormModal

@@ -107,7 +107,7 @@ export const TraceExpandTable = ({
       dataSource={subDataSource}
       pagination={false}
       locale={{ emptyText }}
-      tableLayout="fixed"
+      scroll={{ x: '100%' }}
     />
   );
 };

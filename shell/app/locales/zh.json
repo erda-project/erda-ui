@@ -3000,6 +3000,7 @@
     "{type} cluster": "{type}集群"
   },
   "project": {
+    "Add Followers": "添加关注人",
     "API design": "API 设计",
     "API list": "API 列表",
     "API overview": "API 概况",
@@ -3272,6 +3273,7 @@
     "filter by data source name": "通过数据源名称过滤",
     "filter by priority": "使用优先级过滤",
     "filter condition": "过滤条件",
+    "follow": "关注",
     "general settings": "通用设置",
     "greater than or equal to": "大于等于",
     "greater than, greater than or equal to, less than, less than or equal to": "大于、大于等于、小于、小于等于",
@@ -3389,8 +3391,10 @@
     "normal": "一般",
     "not an excel file": "不是excel文件",
     "not an xmind file": "不是xmind文件",
+    "no attention": "无人关注",
     "not equal to": "不等于",
     "not excel or xmind files": "不是 excel 和 xmind 文件",
+    "no member is concerned about it": "暂无成员关注",
     "not modified": "未修改",
     "not null": "不为空",
     "not passed": "未通过",
@@ -3628,6 +3632,7 @@
     "updated": "更新日期",
     "updated on": "更新于",
     "updater": "更新人",
+    "unfollow": "取消关注",
     "upload": "上传",
     "upload files": "上传文件",
     "uploading, please do not leave": "上传中，请勿离开",
@@ -3654,7 +3659,9 @@
     "yesterday": "昨天",
     "you need": "您需要",
     "your browser does not support WebSocket!": "您的浏览器不支持 WebSocket!",
-    "four parameter references": "1. 本场景的入参引用方法：/ $<< params.lab >>，其中 lab 为场景入参名;2. 前置接口出参引用方法：/ $<< outputs.10.status >>，其中 10 为接口 ID，status 为出参名称;3. mock 参数引用方法：/ $<< random.string >>， 其中 string 为随机生成字符串的函数（还包含 integer、float、boolean、upper、lower等）;4. 全局环境变量的引用方法：/ $<< configs.autotest.cluster-name >>，其中 cluster-name 为环境变量名"
+    "four parameter references": "1. 本场景的入参引用方法：/ $<< params.lab >>，其中 lab 为场景入参名;2. 前置接口出参引用方法：/ $<< outputs.10.status >>，其中 10 为接口 ID，status 为出参名称;3. mock 参数引用方法：/ $<< random.string >>， 其中 string 为随机生成字符串的函数（还包含 integer、float、boolean、upper、lower等）;4. 全局环境变量的引用方法：/ $<< configs.autotest.cluster-name >>，其中 cluster-name 为环境变量名",
+    "{num} members are following": "{num} 位成员正在关注",
+    "{num} people followed": "{num} 人关注"
   },
   "publisher": {
     "1-6 decimal places": "1-6位小数",

@@ -40,23 +40,17 @@ const apiPackageCols = [
     title: i18n.t('msp:name'),
     dataIndex: 'name',
     key: 'name',
-    width: '20%',
   },
   {
     title: i18n.t('msp:scene'),
     dataIndex: 'scene',
     key: 'scene',
-    width: '13%',
-    ellipsis: {
-      showTitle: false,
-    },
     render: (text: string) => <Tooltip>{SCENE_MAP[text] || i18n.t('none')}</Tooltip>,
   },
   {
     title: i18n.t('msp:binding domain'),
     dataIndex: 'bindDomain',
     key: 'bindDomain',
-    width: '20%',
     render: (domains: string[]) => (
       <Tooltip
         title={
@@ -75,16 +69,11 @@ const apiPackageCols = [
     title: i18n.t('msp:description'),
     dataIndex: 'description',
     key: 'description',
-    width: '15%',
   },
   {
     title: i18n.t('create time'),
     dataIndex: 'createAt',
     key: 'createAt',
-    width: '18%',
-    ellipsis: {
-      showTitle: false,
-    },
     render: (createAt: number) => <Tooltip>{moment(createAt).format('YYYY-MM-DD HH:mm:ss')}</Tooltip>,
   },
 ];
@@ -118,7 +107,6 @@ export const PureApiPackage = () => {
     ...apiPackageCols,
     {
       title: i18n.t('operations'),
-      width: 150,
       render: (record: any) => {
         // const { name } = record;
         // const auditLink = `./consumer-audit/consumer-analyze?${mergeSearch({ pack: name }, true)}`;

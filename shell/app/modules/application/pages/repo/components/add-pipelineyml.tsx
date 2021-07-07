@@ -71,7 +71,7 @@ const AddPipelineYml = () => {
       if (tipWithModal) {
         updater.errorMsg(msg);
       } else {
-        notify('error', msg);
+        notify('error', <pre className="prewrap">{msg}</pre>);
       }
       return false;
     }
@@ -131,7 +131,7 @@ const AddPipelineYml = () => {
         try {
           yaml.load(ymlStr);
         } catch (e) {
-          notify('error', `${i18n.t('application:input format error')}：${e.message}`);
+          notify('error', <pre className="prewrap">{`${i18n.t('application:input format error')}：${e.message}`}</pre>);
           return;
         }
 
@@ -350,7 +350,7 @@ const AddPipelineYml = () => {
           </Button>,
         ]}
       >
-        {errorMsg}
+        <pre className="prewrap">{errorMsg}</pre>
       </Modal>
     </div>
   );

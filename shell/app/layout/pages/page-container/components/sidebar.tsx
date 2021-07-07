@@ -186,7 +186,7 @@ const SideBar = () => {
     {
       show: !loginUser.isSysAdmin,
       icon: (
-        <Badge dot count={unreadCount} offset={[-5, 2]} style={{ width: '4px', height: '4px', boxShadow: 'none' }}>
+        <Badge size="small" count={unreadCount} offset={[-5, 2]} style={{ boxShadow: 'none' }}>
           <IconRemind className="mr0" size="20px" style={customIconStyle} />
         </Badge>
       ),

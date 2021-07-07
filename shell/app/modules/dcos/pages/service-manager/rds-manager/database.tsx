@@ -205,7 +205,13 @@ const DataBase = () => {
           {i18n.t('dcos:create database')}
         </Button>
       </div>
-      <Table loading={isFetching} columns={columns} dataSource={RDSDatabaseList} rowKey="dBName" tableLayout="fixed" />
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={RDSDatabaseList}
+        rowKey="dBName"
+        scroll={{ x: '100%' }}
+      />
       <FormModal
         title={i18n.t('dcos:create database')}
         visible={formVisible}

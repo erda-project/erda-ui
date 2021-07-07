@@ -160,7 +160,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
         <Button className="top-button-group mb12" type="primary" onClick={() => goTo('./add')}>
           {i18n.t('common:add')}
         </Button>
-        <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={dataSource} tableLayout="fixed" />
+        <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />
         <AddMachineModal
           clusterName={params.clusterName}
           modalVisible={modalVisible}

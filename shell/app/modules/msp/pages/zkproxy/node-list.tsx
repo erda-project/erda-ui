@@ -232,7 +232,7 @@ const NodeList = () => {
             dataSource={withSelectKeysDataSource}
             pagination={{ pageSize: PAGINATION.pageSize }}
             rowSelection={rowSelection}
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
           />
         </Card>
       </div>

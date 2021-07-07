@@ -36,5 +36,5 @@ export const TopErrorPanel = ({ data }: { data: object }) => {
     },
   ];
 
-  return <Table columns={columns} dataSource={list} tableLayout="fixed" />;
+  return <Table columns={columns} dataSource={list} scroll={{ x: '100%' }} />;
 };

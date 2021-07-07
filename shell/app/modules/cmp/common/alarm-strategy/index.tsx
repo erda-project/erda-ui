@@ -363,7 +363,7 @@ export default ({ scopeType, scopeId }: IProps) => {
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
           />
         </>
       ),
@@ -731,7 +731,7 @@ export default ({ scopeType, scopeId }: IProps) => {
             total,
             onChange: handlePageChange,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Spin>
     </div>

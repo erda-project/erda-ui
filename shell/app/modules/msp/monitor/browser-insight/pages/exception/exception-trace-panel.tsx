@@ -55,7 +55,7 @@ const ExceptionTracePanel = ({ data }: { data: object }) => {
       rowKey={(record: IData, i) => i + record.name}
       columns={columns}
       dataSource={dataSource}
-      tableLayout="fixed"
+      scroll={{ x: '100%' }}
     />
   );
 };

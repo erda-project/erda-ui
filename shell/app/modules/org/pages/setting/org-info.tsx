@@ -56,7 +56,6 @@ export const OrgInfo = () => {
       {
         label: i18n.t('org:become a publisher'),
         required: false,
-        name: 'isPublisher',
         type: 'switch',
         itemProps: {
           onChange: (v: boolean) => setIsPublisher(v),

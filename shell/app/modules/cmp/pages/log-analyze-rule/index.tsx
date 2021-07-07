@@ -82,7 +82,7 @@ export default () => {
           {i18n.t('org:create analysis rule')}
         </Button>
       </div>
-      <Table rowKey="id" dataSource={rules} columns={columns} tableLayout="fixed" />
+      <Table rowKey="id" dataSource={rules} columns={columns} scroll={{ x: '100%' }} />
     </div>
   );
 };

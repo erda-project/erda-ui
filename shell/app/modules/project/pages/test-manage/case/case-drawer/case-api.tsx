@@ -403,7 +403,7 @@ const ApiItem = ({
                       pagination={false}
                       columns={columns}
                       dataSource={requestParams}
-                      tableLayout="fixed"
+                      scroll={{ x: '100%' }}
                     />
                   </TabPane>
                   <TabPane key="Headers" tab="Headers">
@@ -413,7 +413,7 @@ const ApiItem = ({
                       pagination={false}
                       columns={columns}
                       dataSource={requestHeaders}
-                      tableLayout="fixed"
+                      scroll={{ x: '100%' }}
                     />
                   </TabPane>
                   <TabPane key="Body" tab="Body">
@@ -463,7 +463,7 @@ const ApiItem = ({
                   pagination={false}
                   columns={columns}
                   dataSource={responseHeaders}
-                  tableLayout="fixed"
+                  scroll={{ x: '100%' }}
                 />
               </TabPane>
               <TabPane key="Body" tab="Body">

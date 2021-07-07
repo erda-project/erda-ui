@@ -220,7 +220,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
               </div>
             </div>
           )}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
         <IF.ELSE />
         <PureBoardGrid layout={layout} />

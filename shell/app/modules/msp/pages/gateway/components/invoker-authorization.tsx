@@ -586,7 +586,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
             columns={this.keyAuthCols}
             rowKey="id"
             pagination={false}
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
           />
         </div>
         <div className="auth-type-item">
@@ -601,7 +601,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
             columns={this.oAuthCols}
             rowKey="id"
             pagination={false}
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
           />
         </div>
       </div>
@@ -620,7 +620,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
             columns={this.userAuthedApiCols}
             rowKey="apiId"
             pagination={false}
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
           />
         </div>
         <div className="auth-type-item">
@@ -641,7 +641,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
                 total,
               }}
               onChange={this.handleTableChange}
-              tableLayout="fixed"
+              scroll={{ x: '100%' }}
             />
           </SearchTable>
         </div>
@@ -692,7 +692,12 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
               {i18n.t('add')}
             </Button>
           </div>
-          <Table dataSource={consumerList} columns={this.invokerAuthCols} rowKey="consumerName" tableLayout="fixed" />
+          <Table
+            dataSource={consumerList}
+            columns={this.invokerAuthCols}
+            rowKey="consumerName"
+            scroll={{ x: '100%' }}
+          />
         </Spin>
 
         <FormModal

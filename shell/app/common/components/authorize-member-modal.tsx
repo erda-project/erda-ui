@@ -120,7 +120,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       ]}
     >
       <Table
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
         loading={loading}
         rowKey={'userId'}
         pagination={pagination}

@@ -1138,6 +1138,9 @@ export const EditIssueDrawer = (props: IProps) => {
       handleCopy={handleSubmit}
       maskClosable={isEditMode}
       data={formData}
+      projectId={projectId}
+      issueType={issueType}
+      setData={setFormData}
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }

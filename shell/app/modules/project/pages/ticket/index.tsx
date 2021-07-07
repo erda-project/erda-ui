@@ -444,7 +444,7 @@ const Ticket = () => {
         dataSource={list}
         rowKey="id"
         pagination={pagination}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <EditIssueDrawer
         id={detailId}

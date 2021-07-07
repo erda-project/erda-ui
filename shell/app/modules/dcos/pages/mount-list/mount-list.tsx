@@ -119,7 +119,7 @@ const MountList = () => {
       <Button className="top-button-group" type="primary" onClick={() => goTo('./add')}>
         {i18n.t('add')}
       </Button>
-      <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={clusterList} tableLayout="fixed" />
+      <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={clusterList} scroll={{ x: '100%' }} />
       <Modal
         title={i18n.t('org:deployment configurations')}
         width={700}

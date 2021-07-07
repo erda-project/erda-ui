@@ -149,7 +149,7 @@ const HTTPList = () => {
         dataSource={record.httpServiceDto}
         pagination={false}
         rowKey="address"
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     );
   };
@@ -170,7 +170,7 @@ const HTTPList = () => {
         pagination={{
           pageSize: PAGINATION.pageSize,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </SearchTable>
   );

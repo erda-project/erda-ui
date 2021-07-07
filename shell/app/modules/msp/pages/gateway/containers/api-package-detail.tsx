@@ -533,7 +533,7 @@ export const ApiPackageDetail = () => {
           </Button>
         </div>
         <div className="mb16 flex-box">
-          <div className="nowrap api-filter">
+          <div className="api-filter">
             <AppServiceFilter updateField={updateAppService} dataSource={pick(filter, ['diceApp', 'diceService'])} />
             <Select
               placeholder={i18n.t('msp:method')}

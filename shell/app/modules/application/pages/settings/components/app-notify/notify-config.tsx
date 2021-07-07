@@ -293,7 +293,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} tableLayout="fixed" />
+        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
       </Spin>
     </div>
   );

@@ -100,7 +100,6 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-      tableLayout="fixed"
     />
   );
 };

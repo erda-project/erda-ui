@@ -198,7 +198,7 @@ class TestDetail extends React.Component<IProps, IState> {
                 rowKey="env"
                 showHeader={false}
                 pagination={false}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </ChartContainer>
           </Col>

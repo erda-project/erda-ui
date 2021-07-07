@@ -234,7 +234,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     } catch (e) {
       const msg = `${i18n.t('application:input format error')}：${e.message}`;
       if (!tipWithModal) {
-        notify('error', msg);
+        notify('error', <pre className="prewrap">{msg}</pre>);
       } else {
         updater.errorMsg(`${i18n.t('application:input format error')}：${e.message}`);
       }
@@ -378,7 +378,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           ]),
         ]}
       >
-        {errorMsg}
+        <pre className="prewrap">{errorMsg}</pre>
       </Modal>
     </div>
   );

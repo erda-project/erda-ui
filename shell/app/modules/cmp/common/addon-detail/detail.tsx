@@ -142,7 +142,7 @@ export const PureBaseAddonInfo = ({
             dataSource={addonDetail.referenceInfos}
             pagination={false}
             rowKey="applicationName"
-            tableLayout="fixed"
+            scroll={{ x: '100%' }}
           />
         </div>
         <div className="config">

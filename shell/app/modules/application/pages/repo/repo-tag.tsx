@@ -20,7 +20,7 @@ import GotoCommit from 'application/common/components/goto-commit';
 import { Link } from 'react-router-dom';
 import i18n from 'i18n';
 import { debounce } from 'lodash';
-import { SelectValue } from 'core/common/interface';
+import { SelectValue, FormInstance } from 'core/common/interface';
 import { usePerm, WithAuth } from 'app/user/common';
 import './repo-tag.scss';
 import repoStore from 'application/stores/repo';
@@ -38,6 +38,7 @@ const RepoTag = () => {
   const [isFetching] = useLoading(repoStore, ['getListByType']);
   const { gitRepoAbbrev } = appStore.useStore((s) => s.detail);
   const { isLocked } = info;
+  const [refType, setRefType] = React.useState<string | null>(null);
 
   const repoBranchAuth = usePerm((s) => s.app.repo.branch);
 
@@ -68,7 +69,7 @@ const RepoTag = () => {
     const curForm = React.useRef(form);
     const { branches } = info;
     React.useEffect(() => {
-      curForm.current.setFieldsValue({ ref: undefined });
+      form.setFieldsValue({ ref: undefined });
     }, [curForm, refType]);
 
     const options = refType === 'commitId' ? null : branches;
@@ -134,12 +135,17 @@ const RepoTag = () => {
         { name: 'Branch', value: 'branch' },
         { name: 'commit SHA', value: 'commitId' },
       ],
+      itemProps: {
+        onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+          setRefType(e.target.value);
+        },
+      },
     },
     {
       label: i18n.t('application:based on source'),
       name: 'ref',
       type: 'custom',
-      getComp: ({ form }: any) => RefComp({ form }),
+      getComp: ({ form }: any) => <RefComp form={form} />,
     },
     {
       label: i18n.t('dcos:label'),
@@ -167,6 +173,7 @@ const RepoTag = () => {
       itemProps: {
         autoComplete: 'off',
         maxLength: 1024,
+        rows: 4,
       },
     },
   ];

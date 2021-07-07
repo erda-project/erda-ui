@@ -244,7 +244,7 @@ IProps) => {
         pagination={{
           pageSize: PAGINATION.pageSize,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
       <Copy selector=".for-copy-image" />
       {drawer}

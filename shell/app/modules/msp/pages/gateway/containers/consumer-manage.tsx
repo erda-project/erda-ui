@@ -241,7 +241,7 @@ export const PureConsumerManage = () => {
                 columns={keyAuthColsWithOperation}
                 rowKey="id"
                 pagination={false}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </div>
           </TabPane>
@@ -256,7 +256,7 @@ export const PureConsumerManage = () => {
                 columns={oAuthColsWithOperation}
                 rowKey="id"
                 pagination={false}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </div>
           </TabPane>
@@ -271,7 +271,7 @@ export const PureConsumerManage = () => {
                 columns={hmacColsWithOperation}
                 rowKey="id"
                 pagination={false}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </div>
           </TabPane>
@@ -296,7 +296,7 @@ export const PureConsumerManage = () => {
                 columns={signAuthColsWithOperation}
                 rowKey="id"
                 pagination={false}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </div>
           </TabPane>
@@ -319,7 +319,7 @@ export const PureConsumerManage = () => {
                 columns={aliCloudColsWithOperation}
                 rowKey="id"
                 pagination={false}
-                tableLayout="fixed"
+                scroll={{ x: '100%' }}
               />
             </div>
           </TabPane>
@@ -545,7 +545,7 @@ export const PureConsumerManage = () => {
           pagination={{
             pageSize: PAGINATION.pageSize,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
         />
       </Drawer>
     </div>

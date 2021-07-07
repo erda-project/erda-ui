@@ -61,6 +61,16 @@ const messageStore = createStore({
     },
     async readOneMessage({ call, update, select }, id: number, hasRead: boolean) {
       const detail = await call(readOneMessage, id);
+      if (detail.deduplicateId.includes('issue-')) {
+        window.open(detail.content);
+        if (!hasRead) {
+          const list: LAYOUT.IMsg[] = select((s) => s.list);
+          const newList = list.map((item) => (item.id === id ? { ...item, status: MSG_STATUS.READ } : item));
+          update({ list: newList });
+          await messageStore.effects.getMessageStats();
+        }
+        return;
+      }
       if (hasRead) {
         update({ detail });
       } else {

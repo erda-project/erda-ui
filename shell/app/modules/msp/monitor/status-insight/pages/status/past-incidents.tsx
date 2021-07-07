@@ -61,7 +61,13 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
   ];
   return (
     <div className="past-incidents">
-      <Table rowKey="key" dataSource={dataSource} columns={pastIncidentsCols} pagination={false} tableLayout="fixed" />
+      <Table
+        rowKey="key"
+        dataSource={dataSource}
+        columns={pastIncidentsCols}
+        pagination={false}
+        scroll={{ x: '100%' }}
+      />
     </div>
   );
 };

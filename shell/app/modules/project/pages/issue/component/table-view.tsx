@@ -380,7 +380,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
             updater.filterObj({ ...filterObj, pageNo: pgNo });
           },
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </div>
   );

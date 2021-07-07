@@ -125,7 +125,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
           pageSize,
           onChange: _getCustomDashboard,
         }}
-        tableLayout="fixed"
+        scroll={{ x: '100%' }}
       />
     </>
   );

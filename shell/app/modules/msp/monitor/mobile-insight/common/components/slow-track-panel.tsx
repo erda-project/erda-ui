@@ -59,7 +59,7 @@ const SlowTrackPanel = ({ data }: { data: object }) => {
     },
   ];
   return (
-    <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} tableLayout="fixed" />
+    <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} scroll={{ x: '100%' }} />
   );
 };
 

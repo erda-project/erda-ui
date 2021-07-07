@@ -118,18 +118,33 @@ $log-bg-color: #3c444f;
       border: 1px solid #cccccc;
       opacity: 0.6;
 
-      &:after {
-        width: 30px;
-        height: 30px;
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-
       &:hover {
         opacity: 1;
 
         &:after {
           background-color: rgba(255, 255, 255, 0.6);
         }
+      }
+
+      .ant-switch-handle {
+        top: 1px;
+        width: 30px;
+        height: 30px;
+
+        &:after {
+          width: 30px;
+          height: 30px;
+          background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        &:before {
+          border-radius: 18px;
+          background-color: $color-white-3;
+        }
+      }
+
+      &.ant-switch-checked .ant-switch-handle {
+        left: calc(100% - 32px);
       }
     }
 

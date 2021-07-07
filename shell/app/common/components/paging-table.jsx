@@ -133,7 +133,7 @@ export class PagingTable extends React.PureComponent {
             onChange: this.onChangePage,
             // hideOnSinglePage: true,
           }}
-          tableLayout="fixed"
+          scroll={{ x: '100%' }}
           {...tableProps}
         />
       </div>
