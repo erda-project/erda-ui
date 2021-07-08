@@ -69,7 +69,7 @@ export const getCloudResourceTagsCol = (config?: Obj) => {
 };
 
 export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', click?: any) => {
-  const linkStyle = click ? 'hover-table-text' : '';
+  const linkStyle = click ? 'fake-link' : '';
   return {
     title: `ID/${i18n.t('name')}`,
     dataIndex,

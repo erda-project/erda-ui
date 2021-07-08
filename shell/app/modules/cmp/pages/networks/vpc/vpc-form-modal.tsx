@@ -116,7 +116,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
     if (vendor && region) {
       const curForm = get(ref, 'current');
       if (curForm) {
-        curForm.setFieldsValue({ zoneID: undefined });
+        curForm.setFieldsValue({ zoneID: undefined, vswRegion: region, vswVendor: vendor });
       }
       getCloudZone({ vendor, region }).then((res) => {
         updater.zones(res || []);
