@@ -42,7 +42,6 @@ $border-style: 1px solid $color-border;
 
     .ant-tabs-tab {
       height: 46px;
-      margin-right: 40px;
       padding: 0;
       line-height: 46px;
 
@@ -386,11 +385,6 @@ div.ant-transfer-list-body-with-search {
 
 div.ant-select-tree .ant-select-tree-node-content-wrapper:hover {
   background-color: $color-tree-bg;
-}
-
-div.ant-tabs-nav .ant-tabs-tab {
-  padding: 12px 0;
-  margin-right: 40px;
 }
 
 div.ant-tabs-nav::before,
