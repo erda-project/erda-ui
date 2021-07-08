@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, Copy } from 'common';
 import { message, Alert, Popover, Button } from 'app/nusi';
-import { find, get, debounce, flatten, isString, isEmpty, every } from 'lodash';
+import { find, get, debounce, flatten, isString, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
@@ -484,6 +484,13 @@ export const AddClusterModal = (props: IProps) => {
       }
     });
   };
+
+  if (clusterType === 'k8s' && initData) {
+    const { manageConfig } = initData as any;
+    const { credentialSource, address } = manageConfig || {};
+    set(initData, 'credentialType', credentialSource);
+    set(initData, 'credential.address', address);
+  }
 
   return (
     <FormModal
