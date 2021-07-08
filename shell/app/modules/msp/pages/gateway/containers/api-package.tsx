@@ -107,6 +107,8 @@ export const PureApiPackage = () => {
     ...apiPackageCols,
     {
       title: i18n.t('operations'),
+      fixed: 'right',
+      width: 150,
       render: (record: any) => {
         // const { name } = record;
         // const auditLink = `./consumer-audit/consumer-analyze?${mergeSearch({ pack: name }, true)}`;
