@@ -61,28 +61,19 @@ const ErrorOverview = () => {
 
   React.useEffect(() => {
     clearMonitorErrors();
-    getList({ timeSpan, workspace });
+    const { startTimeMs, endTimeMs } = timeSpan;
+    getErrorsList({ startTime: startTimeMs, endTime: endTimeMs, scopeId: terminusKey });
     setPageNo(1);
-  }, [workspace, timeSpan]);
-
-  const getList = (_q?: any) => {
-    const q = { timeSpan, workspace, ..._q };
-    if (q.workspace) {
-      // 只有分支环境参数，才查询list
-      const { startTimeMs, endTimeMs } = timeSpan;
-      const totalQuery = { startTime: startTimeMs, endTime: endTimeMs, workspace };
-      return getErrorsList(totalQuery);
-    }
-  };
+  }, [terminusKey, timeSpan]);
 
   const handleChangePage = (page: number) => {
     setPageNo(page || 1);
   };
 
-  const { list, total } = errors;
+  const total = errors?.length || 0;
   const currentPageList = React.useMemo(() => {
-    return (list || []).slice((pageNo - 1) * pageSize, pageNo * pageSize);
-  }, [list, pageNo]);
+    return (errors || []).slice((pageNo - 1) * pageSize, pageNo * pageSize);
+  }, [errors, pageNo]);
   // 当env为空时，不可查询
   // shell/app/modules/msp/monitor/monitor-common/components/chartFactory.tsx
   // 临时处理：上面引用的 chartFactory 有个循环渲染的 bug， 受影响的目前只有这一处：
@@ -94,7 +85,7 @@ const ErrorOverview = () => {
       <Spin spinning={loading}>
         <ErrorFilters />
         <ErrorChart {...query} />
-        <div className="page-total">{`${i18n.t('microService:total number of errors')}：${total}`}</div>
+        <div className="page-total">{`${i18n.t('msp:total number of errors')}：${total}`}</div>
         {map(currentPageList, (err, i) => (
           <ErrorCard key={i} data={err} />
         ))}

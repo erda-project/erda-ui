@@ -13,27 +13,34 @@
 
 import agent from 'agent';
 
-export const getErrorsList = (query: MONITOR_ERROR.IErrorQuery): MONITOR_ERROR.IErrorResp => {
+export const getErrorsList = (query: MONITOR_ERROR.IErrorQuery): MONITOR_ERROR.IError[] => {
   return agent
-    .get('/api/spot/tmc/errors')
+    .get('/api/msp/apm/exceptions')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getEventIds = ({ id, errorType, terminusKey }: MONITOR_ERROR.IEventIdsQuery): string[] => {
-  const apiMap = {
-    'request-detail': `/api/spot/trace/${id}/error-events`,
-    'error-detail': `/api/spot/errors/${id}/error-events`,
+  const requestMap = {
+    'request-detail': {
+      url: `/api/spot/trace/${id}/error-events`,
+      query: { terminusKey },
+    },
+    'error-detail': {
+      url: '/api/msp/apm/exceptions/event-ids',
+      query: { exceptionId: id, scopeId: terminusKey },
+    },
   };
+  const { url, query } = requestMap[errorType];
   return agent
-    .get(apiMap[errorType])
-    .query({ terminusKey })
+    .get(url)
+    .query(query)
     .then((response: any) => response.body);
 };
 
-export const getEventDetail = ({ id, terminusKey }: MONITOR_ERROR.IEventDetailQuery): MONITOR_ERROR.IEventDetail => {
+export const getEventDetail = (query: MONITOR_ERROR.IEventDetailQuery): MONITOR_ERROR.IEventDetail => {
   return agent
-    .get(`/api/spot/error-events/${id}`)
-    .query({ terminusKey })
+    .get(`/api/msp/apm/exceptions/events`)
+    .query(query)
     .then((response: any) => response.body);
 };

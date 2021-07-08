@@ -185,8 +185,17 @@ const ErrorDetail = () => {
   const isFetching = getEventIdsLoading || getEventDetailLoading;
   const { comp: InfoComp, title } = InfoCompMap[infoType] || ({} as any);
 
-  const { eventId, requestId, timestamp, stacks, tags, metaData, requestContext, requestHeaders, requestSampled } =
-    eventDetail || ({} as MONITOR_ERROR.IEventDetail);
+  const {
+    id: eventId,
+    requestId,
+    timestamp,
+    stacks,
+    tags,
+    metaData,
+    requestContext,
+    requestHeaders,
+    requestSampled,
+  } = eventDetail || ({} as MONITOR_ERROR.IEventDetail);
   const { exception_message, file, message, type } = metaData || ({} as any);
   const exceptionMsg =
     exception_message && exception_message.length > 150 ? (
