@@ -238,9 +238,11 @@ const Certificate = () => {
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               let value = {};
-              set(value, `${keyPrefix.iosKeyChainP12.join('.')}.fileName`, fileName);
-              set(value, `${keyPrefix.iosKeyChainP12.join('.')}.uuid`, uuid);
-              set(value, `${keyPrefix.iosKeyChainP12.join('.')}.password`, undefined); // 每次修改uuid后，需要重置密码
+              set(value, keyPrefix.iosKeyChainP12, {
+                fileName,
+                uuid,
+                password: undefined, // 每次修改uuid后，需要重置密码
+              });
               form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.iosKeyChainP12}.fileName`,
@@ -272,8 +274,10 @@ const Certificate = () => {
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               let value = {};
-              set(value, `${keyPrefix.iosDebug.join('.')}.fileName`, fileName);
-              set(value, `${keyPrefix.iosDebug.join('.')}.uuid`, uuid);
+              set(value, keyPrefix.iosDebug, {
+                fileName,
+                uuid,
+              });
               form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.iosDebug}.fileName`,
@@ -294,8 +298,10 @@ const Certificate = () => {
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               let value = {};
-              set(value, `${keyPrefix.iosRelease.join('.')}.fileName`, fileName);
-              set(value, `${keyPrefix.iosRelease.join('.')}.uuid`, uuid);
+              set(value, keyPrefix.iosRelease, {
+                fileName,
+                uuid,
+              });
               form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.iosRelease}.fileName`,
@@ -364,11 +370,13 @@ const Certificate = () => {
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               let value = {};
-              set(value, `${keyPrefix.adrManualDebug.join('.')}.fileName`, fileName);
-              set(value, `${keyPrefix.adrManualDebug.join('.')}.uuid`, uuid);
-              set(value, `${keyPrefix.adrManualDebug.join('.')}.keyPassword`, undefined);
-              set(value, `${keyPrefix.adrManualDebug.join('.')}.storePassword`, undefined);
-              set(value, `${keyPrefix.adrManualDebug.join('.')}.alias`, undefined);
+              set(value, keyPrefix.adrManualDebug, {
+                fileName,
+                uuid,
+                keyPassword: undefined,
+                storePassword: undefined,
+                alias: undefined,
+              });
               form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.adrManualDebug}.fileName`,
@@ -413,11 +421,13 @@ const Certificate = () => {
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               let value = {};
-              set(value, `${keyPrefix.adrManualRelease.join('.')}.fileName`, fileName);
-              set(value, `${keyPrefix.adrManualRelease.join('.')}.uuid`, uuid);
-              set(value, `${keyPrefix.adrManualRelease.join('.')}.keyPassword`, undefined);
-              set(value, `${keyPrefix.adrManualRelease.join('.')}.storePassword`, undefined);
-              set(value, `${keyPrefix.adrManualRelease.join('.')}.alias`, undefined);
+              set(value, keyPrefix.adrManualRelease, {
+                fileName,
+                uuid,
+                keyPassword: undefined,
+                storePassword: undefined,
+                alias: undefined,
+              });
               form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.adrManualRelease}.fileName`,
