@@ -153,15 +153,15 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
         ...[
           {
             title: `Keychain-p12 ${i18n.t('file')}`,
-            value: get(detail, `${keyPrefix.iosKeyChainP12}`),
+            value: get(detail, keyPrefix.iosKeyChainP12),
           },
           {
             title: `Debug-mobileprovision ${i18n.t('file')}`,
-            value: get(detail, `${keyPrefix.iosDebug}`),
+            value: get(detail, keyPrefix.iosDebug),
           },
           {
             title: `Release-mobileprovision ${i18n.t('file')}`,
-            value: get(detail, `${keyPrefix.iosRelease}`),
+            value: get(detail, keyPrefix.iosRelease),
           },
         ],
       );
@@ -170,7 +170,7 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
         ...[
           {
             title: `Debug-key/store ${i18n.t('file')}`,
-            value: get(detail, `${keyPrefix.adrManualDebug}`),
+            value: get(detail, keyPrefix.adrManualDebug),
             textItem: [
               { label: i18n.t('org:alias'), key: 'alias' },
               { label: 'Key password', key: 'keyPassword', type: 'password' },
@@ -179,7 +179,7 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
           },
           {
             title: `Release-key/store ${i18n.t('file')}`,
-            value: get(detail, `${keyPrefix.adrManualRelease}`),
+            value: get(detail, keyPrefix.adrManualRelease),
             textItem: [
               { label: i18n.t('org:alias'), key: 'alias' },
               { label: 'Key password', key: 'keyPassword', type: 'password' },
