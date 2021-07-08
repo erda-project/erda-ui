@@ -151,20 +151,22 @@ export const SubscribersSelector = (props: IProps) => {
               ? i18n.t('project:{num} members are following', { num: subscribers.length })
               : i18n.t('project:no member is concerned about it')}
           </div>
-          {subscribers.map((item) => {
-            const user = usersMap[item] || {};
-            return (
-              <div>
-                <ImgHolder
-                  src={user.avatar}
-                  text={user.nick ? user.nick.substring(0, 1) : i18n.t('none')}
-                  rect="20x20"
-                  type="avatar"
-                />
-                <span className="ml4">{user.nick ?? ''}</span>
-              </div>
-            );
-          })}
+          <div className="followers">
+            {subscribers.map((item) => {
+              const user = usersMap[item] || {};
+              return (
+                <div>
+                  <ImgHolder
+                    src={user.avatar}
+                    text={user.nick ? user.nick.substring(0, 1) : i18n.t('none')}
+                    rect="20x20"
+                    type="avatar"
+                  />
+                  <span className="ml4">{user.nick ?? ''}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </Menu.Item>
     </Menu>

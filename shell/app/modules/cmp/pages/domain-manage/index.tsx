@@ -164,49 +164,31 @@ const DomainManage = () => {
     {
       title: i18n.t('dcos:cluster name'),
       dataIndex: 'clusterName',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('msp:domain name'),
       dataIndex: 'domain',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('attribution type'),
       dataIndex: 'type',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (type: string) => <Tooltip title={SERVER_TYPES[type]}>{SERVER_TYPES[type]}</Tooltip>,
     },
     {
       title: i18n.t('project name'),
       dataIndex: 'projectName',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('msp:application name'),
       dataIndex: 'appName',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
       title: i18n.t('application:environment'),
       dataIndex: 'workspace',
-      ellipsis: {
-        showTitle: false,
-      },
       render: (key: string) => <Tooltip title={ENV_DIC[key]}>{ENV_DIC[key]}</Tooltip>,
     },
     {
@@ -273,7 +255,7 @@ const DomainManage = () => {
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
-          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" />
+          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" scroll={{ x: '100%' }} />
         </Holder>
       </Spin>
     </>
