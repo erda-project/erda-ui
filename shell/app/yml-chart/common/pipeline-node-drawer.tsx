@@ -70,6 +70,14 @@ export interface IEditStageProps {
   onSubmit?: (options: any) => void;
 }
 const noop = () => {};
+
+const formKeyFormat = (key: string) => {
+  return key.split('.').map((keyItem) => {
+    const indexArr = /^\[([^[]*)\]$/.exec(keyItem);
+    return indexArr?.length ? parseInt(indexArr[1], 10) : keyItem;
+  });
+};
+
 const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   const [form] = Form.useForm();
   const {
@@ -90,12 +98,13 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
   const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
   const { getFieldValue } = form;
-  const [{ actionConfig, resource, originType, originName, task }, updater, update] = useUpdate({
+  const [{ actionConfig, resource, originType, originName, task, changeKey }, updater, update] = useUpdate({
     resource: {},
     actionConfig: {} as DEPLOY.ActionConfig,
     originType: null as null | string,
     originName: null as null | string,
     task: {} as IStageTask,
+    changeKey: 0,
   });
 
   React.useEffect(() => {
@@ -349,7 +358,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     const inputField = (
       <Item
         key={parentKey}
-        name={parentKey.split('.')}
+        name={formKeyFormat(parentKey)}
         initialValue={initialValue}
         rules={[
           {
@@ -368,7 +377,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     const inputField = (
       <Item
         key={parentKey}
-        name={parentKey.split('.')}
+        name={formKeyFormat(parentKey)}
         initialValue={isCreate ? value.default : value.value || value.default}
         rules={[
           {
@@ -426,7 +435,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       <Item
         key={parentKey}
         label={getLabel(value.name, value.desc)}
-        name={parentKey.split('.')}
+        name={formKeyFormat(parentKey)}
         initialValue={initialValue}
         rules={[
           {
@@ -487,13 +496,13 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       );
       return (
         <Panel key={`${parentKey}.${item.key}-${String(index)}`} header={header}>
-          {renderResource({ data: property.struct }, `${parentKey}[${index}]`, item)}
+          {renderResource({ data: property.struct }, `${parentKey}.[${index}]`, item)}
         </Panel>
       );
     });
 
     return (
-      <div key={parentKey}>
+      <div key={`${parentKey}`}>
         <span className="resource-input-group-title">
           {property.name}:{addBtn}
         </span>
@@ -610,9 +619,14 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     </Item>
   );
 
+  const onValuesChange = () => {
+    // use changeKey to tigger a rerender,
+    updater.changeKey((prev: number) => prev + 1);
+  };
+
   return (
     <Spin spinning={loading}>
-      <Form form={form} layout="vertical" className="edit-service-container">
+      <Form form={form} onValuesChange={onValuesChange} layout="vertical" className="edit-service-container">
         {alert}
         {taskType}
         {loopData}
