@@ -270,18 +270,18 @@
     overflow: auto;
   }
 
-  .ant-tree li .ant-tree-node-content-wrapper {
+  .ant-tree .ant-tree-treenode .ant-tree-node-content-wrapper {
     height: 32px;
     line-height: 32px;
   }
 
-  .ant-tree li span.ant-tree-switcher,
-  .ant-tree li span.ant-tree-iconEle {
+  .ant-tree .ant-tree-treenode span.ant-tree-switcher,
+  .ant-tree .ant-tree-treenode span.ant-tree-iconEle {
     line-height: 30px;
   }
 
-  .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected,
-  .ant-tree li .ant-tree-node-content-wrapper:hover {
+  .ant-tree .ant-tree-treenode .ant-tree-node-content-wrapper.ant-tree-node-selected,
+  .ant-tree .ant-tree-treenode .ant-tree-node-content-wrapper:hover {
     background-color: rgba(#cac5d1, 0.3);
   }
 }
