@@ -105,6 +105,7 @@ interface IProps {
   getComp?: any;
   suffix?: any;
   showRequiredMark?: boolean;
+  refMap?: Obj<React.RefObject<unknown>>;
   valueRender?: (value: any) => React.ReactNode;
 }
 
@@ -125,6 +126,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     showRequiredMark = false,
     valueRender,
     getComp,
+    refMap,
   } = props;
   const originalValue = get(data, name);
   const compRef = React.useRef<HTMLElement>(null);
@@ -168,7 +170,8 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   const onBlur = (v?: string, fieldType?: string) => {
     if (onChangeCb) {
       if ((type && ['input', 'textArea'].includes(type)) || !type) {
-        onChangeCb(set({}, name, compRef?.current?.state.value));
+        const currentRef = typeof compRef === 'function' ? refMap?.[name] : compRef?.current;
+        onChangeCb(set({}, name, currentRef?.state.value));
       } else if (type === 'markdown') {
         onChangeCb(set({}, name, v), fieldType);
       }
