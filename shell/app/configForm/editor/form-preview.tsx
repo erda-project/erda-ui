@@ -191,28 +191,24 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
 
   const onOk = () => {
     if (addForm && addForm.current) {
-      addForm.current.validateFieldsAndScroll((error: any, value: any) => {
-        if (!error) {
-          if (isEdit) {
-            copyField(copyData, value.key);
-            setCopyData({});
-          } else {
-            addFormField(value);
-          }
-          setModalVis(false);
+      addForm.current.validateFields().then((value: any) => {
+        if (isEdit) {
+          copyField(copyData, value.key);
+          setCopyData({});
+        } else {
+          addFormField(value);
         }
+        setModalVis(false);
       });
     }
   };
 
   const onAddGroupOk = () => {
     if (addGroupForm && addGroupForm.current) {
-      addGroupForm.current.validateFieldsAndScroll((error: any, value: any) => {
-        if (!error) {
-          const curGroupKey = get(curGroup, 'key');
-          addFormField({ ...value, key: `${curGroupKey}.${value.key}`, group: curGroupKey });
-          onCancelGroupAdd();
-        }
+      addGroupForm.current.validateFields().then((value: any) => {
+        const curGroupKey = get(curGroup, 'key');
+        addFormField({ ...value, key: `${curGroupKey}.${value.key}`, group: curGroupKey });
+        onCancelGroupAdd();
       });
     }
   };
