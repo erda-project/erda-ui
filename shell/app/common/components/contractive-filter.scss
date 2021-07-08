@@ -64,19 +64,22 @@
     background: none;
   }
 
-  .ant-calendar-picker-icon {
+  .anticon-calendar {
     display: none;
   }
 
-  .ant-calendar-picker-input.ant-input {
-    width: 88px;
+  .ant-picker {
     margin-left: 4px;
     padding: 0;
     line-height: 1.5;
     background: none;
     border: none;
     box-shadow: none;
-    cursor: pointer;
+
+    input {
+      width: 88px;
+      cursor: pointer;
+    }
   }
 }
 
