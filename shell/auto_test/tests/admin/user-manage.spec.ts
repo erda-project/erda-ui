@@ -14,7 +14,9 @@ const formData = {
   email: `${name}@erda.cloud`,
 };
 
-test('user manage', async ({ page, wait, expectExist }) => {
+test('user manage', async ({ page, wait, expectExist, expectRequestSuccess }) => {
+  await expectRequestSuccess();
+
   // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
   await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/user-manage');
 
@@ -60,4 +62,5 @@ test('user manage', async ({ page, wait, expectExist }) => {
   });
   await wait(1);
   await expectExist(`text=${formData.email}`, 1);
+  await page.close();
 });

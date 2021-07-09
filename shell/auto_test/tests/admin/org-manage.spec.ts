@@ -1,81 +1,62 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures';
 
 test.use({
   storageState: 'auto_test/auth/Admin.json',
 });
 
-test.skip('org manage', async ({ page }) => {
+const orgData = {
+  name: 'auto-ui-test-org',
+  id: 'auto-ui-test-org',
+  desc: 'auto ui test org',
+};
+test('org manage/org list', async ({ page, wait, expectExist }) => {
   // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
   await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/orgs');
 
-  expect(await page.$('text=autoTest')).toBeNull();
+  // Click [placeholder="filter"]
+  await page.click('[placeholder="filter"]');
+  // Fill [placeholder="filter"]
+  await page.fill('[placeholder="filter"]', orgData.name);
+  await wait(1);
+  await expectExist('text=total 0 items', 1);
+
+  // Click [placeholder="filter"]
+  await page.click('[placeholder="filter"]');
+  // Fill [placeholder="filter"]
+  await page.fill('[placeholder="filter"]', '');
+  await wait(1);
+
+  // Click text=org personnel list
+  await expectExist('text=org personnel list', 1);
+  // Click text=org cluster list
+  await expectExist('text=org cluster list', 1);
 
   // Click button:has-text("add org")
   await page.click('button:has-text("add org")');
-
-  // Click text=org nameorganization identifybecome a publisherorg logoupload imagesupport: jpg/ >> input[type="text"]
-  await page.click(
-    'text=org nameorganization identifybecome a publisherorg logoupload imagesupport: jpg/ >> input[type="text"]',
-  );
-
-  // Fill text=org nameorganization identifybecome a publisherorg logoupload imagesupport: jpg/ >> input[type="text"]
-  await page.fill(
-    'text=org nameorganization identifybecome a publisherorg logoupload imagesupport: jpg/ >> input[type="text"]',
-    'autoTest',
-  );
-
+  // Click id=displayName
+  await page.click('#displayName');
+  // Fill id=displayName
+  await page.fill('#displayName', orgData.name);
   // Click input[type="textarea"]
   await page.click('input[type="textarea"]');
-
   // Fill input[type="textarea"]
-  await page.fill('input[type="textarea"]', 'auto test org');
-
+  await page.fill('input[type="textarea"]', orgData.desc);
   // Click input[role="combobox"]
   await page.click('input[role="combobox"]');
-
   // Fill input[role="combobox"]
   await page.fill('input[role="combobox"]', 'erda');
-
-  // Click .ant-select-item
-  await page.click('.ant-select-item');
-
+  // Click div[role="document"] >> text=erda 前端
+  await page.click('div[role="document"] >> text=erda 前端');
+  await wait(1);
   // Click button:has-text("ok")
   await page.click('button:has-text("ok")');
-  expect((await page.$$('text=autoTest')).length).toBe(1);
+  await wait(1);
 
-  // Click [aria-label="icon: bianji"]
-  await page.click('[aria-label="icon: bianji"]');
+  // Click [placeholder="filter"]
+  await page.click('[placeholder="filter"]');
+  // Fill [placeholder="filter"]
+  await page.fill('[placeholder="filter"]', orgData.name);
+  await expectExist('text=total 0 items', 0);
 
-  // Click text=org nameorganization identifyorg logoupload imagesupport: jpg/png/gif，less than  >> input[type="text"]
-  await page.click(
-    'text=org nameorganization identifyorg logoupload imagesupport: jpg/png/gif，less than  >> input[type="text"]',
-  );
-
-  // Fill text=org nameorganization identifyorg logoupload imagesupport: jpg/png/gif，less than  >> input[type="text"]
-  await page.fill(
-    'text=org nameorganization identifyorg logoupload imagesupport: jpg/png/gif，less than  >> input[type="text"]',
-    'autoTest2',
-  );
-
-  // Click input[type="textarea"]
-  await page.click('input[type="textarea"]');
-
-  // Fill input[type="textarea"]
-  await page.fill('input[type="textarea"]', 'auto test org2');
-
-  // Click button:has-text("ok")
-  await page.click('button:has-text("ok")');
-
-  // Click text=autoTest2
-  await page.click('text=autoTest2');
-
-  // Click text=erda 前端
-  await page.click('text=erda 前端');
-
-  // Click [aria-label="icon: shanchu"]
-  await page.click('[aria-label="icon: shanchu"]');
-
-  // Click button:has-text("OK")
-  await page.click('button:has-text("OK")');
-  expect(await page.$('text=autoTest')).toBeNull();
+  await page.close();
 });

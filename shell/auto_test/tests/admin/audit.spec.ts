@@ -5,10 +5,7 @@ test.use({
   acceptDownloads: true,
 });
 
-test('audit log page', async ({ page, wait, expectExist }) => {
-  page.on('response', (response) => {
-    expect(String(response.status()).slice(0, 1)).toBe('2');
-  });
+test.only('audit log page', async ({ page, wait, expectExist, expectRequestSuccess }) => {
   // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
   await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/orgs', { timeout: 15000 });
 

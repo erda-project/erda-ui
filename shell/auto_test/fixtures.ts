@@ -28,10 +28,12 @@ const test = base.extend<TestFixtures>({
     await use(async () => {
       page.on('response', (response) => {
         const firstNumber = String(response.status()).slice(0, 1);
-        if (firstNumber !== '2') {
-          console.log('request fail:', response.url());
+        if (response.url().startsWith('/api')) {
+          if (firstNumber !== '2') {
+            console.log('request fail:', response.url());
+          }
+          expect(firstNumber).toBe('2');
         }
-        expect(firstNumber).toBe('2');
       });
     });
   },
