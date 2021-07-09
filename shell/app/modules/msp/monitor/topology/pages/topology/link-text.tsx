@@ -62,7 +62,8 @@ export const linkTextHoverAction = (isHover: boolean, textEle: any, external?: a
 const LinkText = (props: ILinkTextProps) => {
   const { textUnderLine, data, id, onHover, outHover } = props;
   const mqCount = get(data, 'metric.mqCount');
-  const showText = `${i18n.t(`${mqCount ? 'consume count' : 'call count'}`)}:${get(data, 'metric.count', 0)}`;
+  const countText = mqCount ? i18n.t('consume count') : i18n.t('call count');
+  const showText = `${countText}:${get(data, 'metric.count', 0)}`;
   return (
     <div
       onMouseEnter={onHover}
