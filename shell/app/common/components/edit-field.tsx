@@ -178,7 +178,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     }
     updater.editMode(true);
   };
-
   switch (type) {
     case 'select': {
       const { options, ...rest } = itemProps;
@@ -266,6 +265,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           onBlur={() => onBlur()}
           {...itemProps}
           onChange={onInputChange}
+          allowClear={false}
         />
       );
       break;
