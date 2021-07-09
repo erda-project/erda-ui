@@ -51,8 +51,8 @@ const DomainManage = () => {
     projectData: { value: projectID, label: projectName },
     query: {} as Obj,
   });
-  const [clusterList, loadingList] = getClusterList.useState();
-  const data = getDomainList.useData();
+  const clusterList = getClusterList.useData();
+  const [data, loadingList] = getDomainList.useState();
   const domainList = data?.list || [];
   const domainPaging = data?.paging || getDefaultPaging();
 

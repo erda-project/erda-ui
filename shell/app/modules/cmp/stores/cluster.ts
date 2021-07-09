@@ -33,6 +33,8 @@ import {
   getClusterResourceList,
   getClusterResourceDetail,
   getSMSNotifyConfig,
+  getRegisterCommand,
+  clusterInitRetry,
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
 
@@ -169,11 +171,21 @@ const cluster = createStore({
       update({ cloudResourceDetail: newData });
       return newData;
     },
+    async getRegisterCommand({ call }, payload: { clusterName: string }) {
+      return call(getRegisterCommand, payload);
+    },
+    async clusterInitRetry({ call }, payload: { clusterName: string }) {
+      await call(clusterInitRetry, payload, { successMsg: i18n.t('cmp:start retrying') });
+      return cluster.effects.getClusterList();
+    },
   },
   reducers: {
     clearDeployCluster(state) {
       state.deployingCluster = null;
       state.deployClusterLog = '';
+    },
+    clearClusterList(state) {
+      state.list = [];
     },
     clearDeployClusterLog(state) {
       state.deployClusterLog = '';

@@ -34,7 +34,7 @@ describe('OperationBar', () => {
   it('should render well', () => {
     const fn = jest.fn();
     const wrapper = mount(<OperationBar searchList={searchList} onUpdateOps={fn} />);
-    expect(wrapper.find('FormItem')).toHaveLength(2);
+    expect(wrapper.find('FormItem')).toHaveLength(4);
     wrapper.find('Input').simulate('change', { target: { value: 'erda' } });
     wrapper.find('Button.ops-bar-btn[type="primary"]').simulate('click');
     expect(fn).toHaveBeenLastCalledWith({ title: 'erda' });

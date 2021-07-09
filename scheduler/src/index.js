@@ -99,7 +99,7 @@ const server = new DevServer({
   // },
   use: [
     // can inject one or more koa middleware in the request execution stack
-    c2k(createProxyMiddleware('/api/w+/websocket', { target: BACKEND_URL, changeOrigin: true, ws: true })),
+    c2k(createProxyMiddleware('/api/**/websocket', { target: BACKEND_URL, changeOrigin: true, ws: true })),
     c2k(createProxyMiddleware('/api', { target: BACKEND_URL, changeOrigin: true })),
     c2k(createProxyMiddleware(`/${dataEngineerInfo.name}-app/`, { target: BACKEND_URL, changeOrigin: true })),
     staticFileMiddleware,

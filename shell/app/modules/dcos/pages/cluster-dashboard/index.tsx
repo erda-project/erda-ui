@@ -26,7 +26,10 @@ import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'core/stores/loading';
 import { useMount, useUnmount } from 'react-use';
 import { stateSeverityMap } from 'cmp/pages/cluster-manage/cluster-state';
+import noClusterPng from 'app/images/no-cluster.png';
+import { Link } from 'react-router-dom';
 import './index.scss';
+import { HELP_DOCUMENT_PREFIX } from 'app/common/constants';
 
 const { TreeNode } = TreeSelect;
 const { Option } = Select;
@@ -134,8 +137,8 @@ const SubMachineGroup = ({
   unitGroups,
   groups,
   activeMachine,
-  setActivedMachine,
-  setActivedGroup,
+  setActiveMachine,
+  setActiveGroup,
   getMachineColourClass,
   getMachineColourValue,
 }: {
@@ -143,8 +146,8 @@ const SubMachineGroup = ({
   unitGroups: string[];
   groups?: ORG_DASHBOARD.IGroupInfo[];
   activeMachine: any;
-  setActivedMachine: (payload: any) => void;
-  setActivedGroup: (subGroupName: string) => void;
+  setActiveMachine: (payload: any) => void;
+  setActiveGroup: (subGroupName: string) => void;
   getMachineColourClass: (machineInfo: any) => string;
   getMachineColourValue: (machineInfo: any) => { name: string; value: number };
 }) => {
@@ -175,7 +178,7 @@ const SubMachineGroup = ({
             className="machine-group sub-machine-group"
             onClick={(e) => {
               e.stopPropagation();
-              setActivedGroup(`${groupName + unitGroups[0]}-${subGroupName + unitGroups[1]}`);
+              setActiveGroup(`${groupName + unitGroups[0]}-${subGroupName + unitGroups[1]}`);
             }}
           >
             {subMachineContainerWidthHolder}
@@ -215,14 +218,14 @@ const SubMachineGroup = ({
                         })}
                         onClick={(e) => {
                           e.stopPropagation();
-                          setActivedMachine({ ip, clusterName, ...rest });
+                          setActiveMachine({ ip, clusterName, ...rest });
                         }}
                       >
                         <span
                           className="cancel-active"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setActivedMachine({});
+                            setActiveMachine({});
                           }}
                         >
                           <CustomIcon type="gb" />
@@ -250,7 +253,7 @@ const ClusterDashboard = () => {
     s.selectedGroups,
   ]);
   const { getFilterTypes, getGroupInfos } = clusterDashboardStore.effects;
-  const { setSelectedGroups } = clusterDashboardStore.reducers;
+  const { setSelectedGroups, clearClusterList } = clusterDashboardStore.reducers;
   const [loading] = useLoading(clusterDashboardStore, ['getGroupInfos']);
 
   const [groupContainerWidthHolder, groupContainerWidth] = useComponentWidth();
@@ -259,21 +262,24 @@ const ClusterDashboard = () => {
   const [machineGridClass, setMachineGridClass] = useState('machine-list-ct-g4');
   const [selectedFilters, setSelectedFilters] = useState();
   const [selectedColour, setSelectedColour] = useState('load');
-  const [activeMachine, setActivedMachine] = useState({ ip: '', clusterName: '' });
-  const [activeMachineTab, setActivedMachineTab] = useState();
-  const [activedGroup, setActivedGroup] = useState('');
+  const [activeMachine, setActiveMachine] = useState({ ip: '', clusterName: '' });
+  const [activeMachineTab, setActiveMachineTab] = useState();
+  const [activeGroup, setActiveGroup] = useState('');
   const [groupMap, setGroupMap] = useState({});
   const [allMachines, setAllMachines] = useState();
-  const [activeMachineList, setActivedMachineList] = useState();
+  const [activeMachineList, setActiveMachineList] = useState();
   const [colorMark, setColorMark] = React.useState('load');
   const [isClickState, setIsClickState] = React.useState(false);
+  const [isMounted, setIsMounted] = React.useState(false);
 
-  useMount(() => {
-    getFilterTypes();
+  useMount(async () => {
+    await getFilterTypes();
+    setIsMounted(true);
   });
 
   useUnmount(() => {
     setSelectedGroups([]);
+    clearClusterList();
   });
 
   useEffect(() => {
@@ -339,23 +345,23 @@ const ClusterDashboard = () => {
   }, [unGroupInfo.machines, groupInfos]);
 
   useEffect(() => {
-    if (!activedGroup) {
-      return setActivedMachineList(allMachines);
+    if (!activeGroup) {
+      return setActiveMachineList(allMachines);
     }
 
     let machineList: any[] = [];
-    if (isEmpty(groupMap[activedGroup])) {
-      setActivedMachineList(machineList);
+    if (isEmpty(groupMap[activeGroup])) {
+      setActiveMachineList(machineList);
       return;
     }
-    const { groups, machines } = groupMap[activedGroup];
+    const { groups, machines } = groupMap[activeGroup];
     if (!isEmpty(groups)) {
       machineList = reduce(groups, (result, { machines: subMachines }) => [...result, ...subMachines], []);
     } else {
       machineList = machines || [];
     }
-    setActivedMachineList(machineList);
-  }, [activedGroup, allMachines, groupMap]);
+    setActiveMachineList(machineList);
+  }, [activeGroup, allMachines, groupMap]);
 
   useEffect(() => {
     if (groupContainerWidth !== Infinity) {
@@ -427,7 +433,7 @@ const ClusterDashboard = () => {
       message.warning(i18n.t('dcos:up to 2 optional groups'));
       return;
     }
-    setActivedGroup('');
+    setActiveGroup('');
     setSelectedGroups(groups);
   };
 
@@ -436,8 +442,8 @@ const ClusterDashboard = () => {
   };
 
   const handleActiveMachine = (record: any, key?: string) => {
-    setActivedMachine(record);
-    setActivedMachineTab(key);
+    setActiveMachine(record);
+    setActiveMachineTab(key);
   };
 
   const getMachineGroupContent = (item: ORG_DASHBOARD.IGroupInfo) => {
@@ -459,8 +465,8 @@ const ClusterDashboard = () => {
       <Holder when={isEmpty(machines) && isEmpty(groups)}>
         <IF check={selectedGroups.length}>
           <div className="group-header flex-box">
-            <h3 className="group-title">{activedGroup || groupName + unitGroups[0]}</h3>
-            <IF check={activedGroup}>
+            <h3 className="group-title">{activeGroup || groupName + unitGroups[0]}</h3>
+            <IF check={activeGroup}>
               <span className="group-unactived-op hover-active">
                 <CustomIcon type="shink" />
               </span>
@@ -476,7 +482,7 @@ const ClusterDashboard = () => {
             <span
               className="cluster-state-link"
               onClick={() =>
-                goTo(goTo.pages.cmpClusterState, { clusterName: activedGroup || groupName + unitGroups[0] })
+                goTo(goTo.pages.cmpClusterState, { clusterName: activeGroup || groupName + unitGroups[0] })
               }
             >
               <span className="mr20">{i18n.t('dcos:overall status of cluster')}:</span>
@@ -503,8 +509,8 @@ const ClusterDashboard = () => {
             unitGroups={unitGroups}
             groupName={groupName}
             activeMachine={activeMachine}
-            setActivedMachine={setActivedMachine}
-            setActivedGroup={setActivedGroup}
+            setActiveMachine={setActiveMachine}
+            setActiveGroup={setActiveGroup}
             getMachineColourClass={getMachineColourClass}
             getMachineColourValue={getMachineColourValue}
           />
@@ -533,14 +539,14 @@ const ClusterDashboard = () => {
                     })}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setActivedMachine({ ip, clusterName, ...rest });
+                      setActiveMachine({ ip, clusterName, ...rest });
                     }}
                   >
                     <span
                       className="cancel-active"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setActivedMachine({});
+                        setActiveMachine({});
                       }}
                     >
                       <CustomIcon type="gb" />
@@ -561,14 +567,14 @@ const ClusterDashboard = () => {
         key={item && item.name ? item.name : ''}
         className={classnames({
           'machine-group': true,
-          'actived-machine-group': !!activedGroup,
+          'actived-machine-group': !!activeGroup,
           'no-machine-group': isEmpty(selectedGroups) || isEmpty(item),
         })}
         onClick={(e) => {
           if (isEmpty(selectedGroups) || isEmpty(item)) return;
           e.stopPropagation();
           setIsClickState(!isClickState);
-          setActivedGroup(activedGroup ? '' : (item && item.name ? item.name : '') + unitGroups[0]);
+          setActiveGroup(activeGroup ? '' : (item && item.name ? item.name : '') + unitGroups[0]);
         }}
       >
         <Holder when={isEmpty(item) || !gridClass}>{getMachineGroupContent(item)}</Holder>
@@ -584,14 +590,14 @@ const ClusterDashboard = () => {
         <MachineTabs activeMachine={activeMachine} activeMachineTab={activeMachineTab} />
         <IF.ELSE />
         <GroupTabs
-          activedGroup={activedGroup}
+          activedGroup={activeGroup}
           machineList={activeMachineList}
           onActiveMachine={handleActiveMachine}
           isClickState={isClickState}
         />
       </IF>
     ),
-    [activeMachine, activeMachineList, activeMachineTab, activedGroup, isClickState],
+    [activeMachine, activeMachineList, activeMachineTab, activeGroup, isClickState],
   );
 
   const handleOptionMouseEnter = (value: string, e: React.MouseEvent<HTMLDivElement>) => {
@@ -606,117 +612,137 @@ const ClusterDashboard = () => {
 
   return (
     <>
-      <div className="cluster-dashboard-top">
-        <div className="filter-group-ct mb16">
-          <Row gutter={20}>
-            <Col span={8} className="filter-item flex-box">
-              <div className="filter-item-label">{i18n.t('Group')}</div>
-              <Select
-                value={selectedGroups}
-                placeholder={i18n.t('org:no more than 2 groups')}
-                className="filter-item-content"
-                style={{ width: '100%' }}
-                showArrow
-                allowClear
-                mode="multiple"
-                onChange={handleChangeGroups}
-              >
-                {map(
-                  filter(filterGroup, ({ key: group }) => ['cpus', 'mem', 'cluster'].includes(group)),
-                  ({ key, name }) => (
-                    <Option key={key}>{name}</Option>
-                  ),
-                )}
-              </Select>
-            </Col>
-            <Col span={8} className="filter-item flex-box">
-              <div className="filter-item-label">{i18n.t('filter')}</div>
-              <TreeSelect
-                className="filter-item-content"
-                style={{ width: '100%' }}
-                value={selectedFilters}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                allowClear
-                multiple
-                // treeDefaultExpandAll
-                placeholder={i18n.t('org:input to search')}
-                onChange={handleChangeFilters}
-              >
-                {map(filterGroup, ({ name, key, values, unit, prefix }: ORG_DASHBOARD.IFilterType) => (
-                  <TreeNode className="filter-item-node" title={`${name}（${key}）`} key={key} value={key} disabled>
-                    {map(values, (subItem: any) => (
-                      <TreeNode
-                        value={`${key}:${subItem}`}
-                        title={`${prefix ? `${prefix}：` : ''}${subItem} ${unit || ''}`}
-                        key={`${key}-${subItem}`}
-                      />
+      {groupContainerWidthHolder}
+      <Choose>
+        <When condition={!clusterList.length && !loading && isMounted}>
+          <div className="flex flex-col justify-center items-center h-full">
+            <div className="font-medium text-2xl mb-2">{i18n.t('cmp:quick start')}</div>
+            <div className="text-desc">
+              {i18n.t('cmp:no cluster currently exists, you can click')}{' '}
+              <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
+              ，也可以通过浏览{' '}
+              <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
+                {i18n.t('documentation')}
+              </a>{' '}
+              {i18n.t('cmp:to learn more')}
+            </div>
+            <img className="w-80 h-80" src={noClusterPng} />
+          </div>
+        </When>
+        <Otherwise>
+          <div className="cluster-dashboard-top">
+            <div className="filter-group-ct mb16">
+              <Row gutter={20}>
+                <Col span={8} className="filter-item flex-box">
+                  <div className="filter-item-label">{i18n.t('Group')}</div>
+                  <Select
+                    value={selectedGroups}
+                    placeholder={i18n.t('org:no more than 2 groups')}
+                    className="filter-item-content"
+                    style={{ width: '100%' }}
+                    showArrow
+                    allowClear
+                    mode="multiple"
+                    onChange={handleChangeGroups}
+                  >
+                    {map(
+                      filter(filterGroup, ({ key: group }) => ['cpus', 'mem', 'cluster'].includes(group)),
+                      ({ key, name }) => (
+                        <Option key={key}>{name}</Option>
+                      ),
+                    )}
+                  </Select>
+                </Col>
+                <Col span={8} className="filter-item flex-box">
+                  <div className="filter-item-label">{i18n.t('filter')}</div>
+                  <TreeSelect
+                    className="filter-item-content"
+                    style={{ width: '100%' }}
+                    value={selectedFilters}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    allowClear
+                    multiple
+                    // treeDefaultExpandAll
+                    placeholder={i18n.t('org:input to search')}
+                    onChange={handleChangeFilters}
+                  >
+                    {map(filterGroup, ({ name, key, values, unit, prefix }: ORG_DASHBOARD.IFilterType) => (
+                      <TreeNode className="filter-item-node" title={`${name}（${key}）`} key={key} value={key} disabled>
+                        {map(values, (subItem: any) => (
+                          <TreeNode
+                            value={`${key}:${subItem}`}
+                            title={`${prefix ? `${prefix}：` : ''}${subItem} ${unit || ''}`}
+                            key={`${key}-${subItem}`}
+                          />
+                        ))}
+                      </TreeNode>
                     ))}
-                  </TreeNode>
-                ))}
-              </TreeSelect>
-            </Col>
-            <Col span={8} className="filter-item flex-box">
-              <div className="filter-item-label">{i18n.t('colour')}</div>
-              <Select
-                className="filter-item-content"
-                style={{ width: '100%' }}
-                value={selectedColour}
-                onChange={handleSelectedColour}
-                dropdownRender={(menu) => {
-                  return (
-                    <div className="colour-select-dropdown">
-                      <div className="menu">{menu}</div>
-                      <div className="comments">
-                        <ul className="colour-comment-list">
-                          {map(DEGREE_COLOUR_MAP[colorMark], (value, color) => (
-                            <li className="colour-comment-item flex-box" key={color}>
-                              <span className="colour-comment-value">{value.text}</span>
-                              <div className={`color-block ${color}`} />
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  );
-                }}
-              >
-                {map(COLOUR_MAP, (name, key) => (
-                  <Option value={key} key={key}>
-                    <div
-                      onMouseEnter={(e) => {
-                        handleOptionMouseEnter(key, e);
-                      }}
-                    >
-                      {name}
-                    </div>
-                  </Option>
-                ))}
-              </Select>
-            </Col>
-          </Row>
-        </div>
-        {groupContainerWidthHolder}
-        <Spin spinning={!groupGridClass || loading}>
-          <IF check={isEmpty(selectedGroups) || isEmpty(groupInfos)}>
-            <div className="machine-group-ct machine-group-ct-g1">
-              {getMachineGroupWrapper(unGroupInfo, groupGridClass)}
+                  </TreeSelect>
+                </Col>
+                <Col span={8} className="filter-item flex-box">
+                  <div className="filter-item-label">{i18n.t('colour')}</div>
+                  <Select
+                    className="filter-item-content"
+                    style={{ width: '100%' }}
+                    value={selectedColour}
+                    onChange={handleSelectedColour}
+                    dropdownRender={(menu) => {
+                      return (
+                        <div className="colour-select-dropdown">
+                          <div className="menu">{menu}</div>
+                          <div className="comments">
+                            <ul className="colour-comment-list">
+                              {map(DEGREE_COLOUR_MAP[colorMark], (value, color) => (
+                                <li className="colour-comment-item flex-box" key={color}>
+                                  <span className="colour-comment-value">{value.text}</span>
+                                  <div className={`color-block ${color}`} />
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      );
+                    }}
+                  >
+                    {map(COLOUR_MAP, (name, key) => (
+                      <Option value={key} key={key}>
+                        <div
+                          onMouseEnter={(e) => {
+                            handleOptionMouseEnter(key, e);
+                          }}
+                        >
+                          {name}
+                        </div>
+                      </Option>
+                    ))}
+                  </Select>
+                </Col>
+              </Row>
             </div>
-            <IF.ELSE />
-            <div className={`machine-group-ct ${activedGroup ? 'machine-group-ct-g1' : groupGridClass}`}>
-              <IF check={activedGroup}>
-                {getMachineGroupWrapper(groupMap[activedGroup], groupGridClass)}
-                <IF.ELSE />
-                <IF check={!groupGridClass}>
-                  {getMachineGroupWrapper()}
-                  <IF.ELSE />
-                  {map(groupInfos, (item) => getMachineGroupWrapper(item, true))}
-                </IF>
-              </IF>
-            </div>
-          </IF>
-        </Spin>
-      </div>
-      <div className="cluster-dashboard-bottom">{Bottom}</div>
+            <Spin spinning={!groupGridClass || loading}>
+              <Choose>
+                <When condition={isEmpty(selectedGroups) || isEmpty(groupInfos)}>
+                  <div className="machine-group-ct machine-group-ct-g1">
+                    {getMachineGroupWrapper(unGroupInfo, groupGridClass)}
+                  </div>
+                </When>
+                <Otherwise>
+                  <div className={`machine-group-ct ${activeGroup ? 'machine-group-ct-g1' : groupGridClass}`}>
+                    <Choose>
+                      <When condition={!!activeGroup}>
+                        {getMachineGroupWrapper(groupMap[activeGroup], groupGridClass)}
+                      </When>
+                      <When condition={!groupGridClass}>{getMachineGroupWrapper()}</When>
+                      <Otherwise>{map(groupInfos, (item) => getMachineGroupWrapper(item, true))}</Otherwise>
+                    </Choose>
+                  </div>
+                </Otherwise>
+              </Choose>
+            </Spin>
+          </div>
+          <div className="cluster-dashboard-bottom">{Bottom}</div>
+        </Otherwise>
+      </Choose>
     </>
   );
 };

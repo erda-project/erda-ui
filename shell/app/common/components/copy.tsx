@@ -82,7 +82,7 @@ export class Copy extends React.PureComponent<IProps> {
 
   render() {
     // 增加被复制项，需求为有时children超长显示不全
-    const { children, copyText, className = '', tipName, ...rest } = this.props;
+    const { children, copyText, className = '', ...rest } = this.props;
     return isString(children) ? (
       <span className={`${innerClassName} ${className}`} data-clipboard-text={copyText || children} {...rest}>
         {children}

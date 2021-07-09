@@ -15,43 +15,16 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import moment, { Moment } from 'moment';
-import { RenderPureForm, FormModal, useUpdate } from 'common';
-import { DatePicker, InputNumber, message } from 'app/nusi';
-import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
-import { FormInstance } from 'core/common/interface';
+import { RenderPureForm, FormModal, Copy } from 'common';
+import { message, Alert, Popover, Button } from 'app/nusi';
+import { find, get, debounce, flatten, isString, isEmpty, every } from 'lodash';
+import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
-import { regRules } from 'common/utils';
-import { Down as IconDown, Up as IconUp } from '@icon-park/react';
+import { goTo, insertWhen, regRules } from 'common/utils';
+import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
+import { Link } from 'react-router-dom';
 import './cluster-form.scss';
-
-enum RepeatMode {
-  DAILY = 'Daily',
-  WEEKLY = 'Weekly',
-  MONTHLY = 'Monthly',
-}
-
-const scaleModeMap = {
-  none: i18n.t('org:none'),
-  auto: i18n.t('org:auto'),
-  scheduler: i18n.t('org:scheduler'),
-};
-
-const repeatModeMap = {
-  Daily: i18n.t('org:daily'),
-  Weekly: i18n.t('org:weekly'),
-  Monthly: i18n.t('org:monthly'),
-};
-
-const weekMap = {
-  0: i18n.t('Sunday'),
-  1: i18n.t('Monday'),
-  2: i18n.t('Tuesday'),
-  3: i18n.t('Wednesday'),
-  4: i18n.t('Thursday'),
-  5: i18n.t('Friday'),
-  6: i18n.t('Saturday'),
-};
 
 const getDefaultMasterURL = (type: string, val = '', isEdgeCluster = true) => {
   const urlMap = {
@@ -80,7 +53,9 @@ const ClusterBasicForm = ({
 }) => {
   const [isEdgeCluster, setIsEdgeCluster] = React.useState(get(formData, 'isEdgeCluster', true));
   const [wildcardDomain, setWildcardDomain] = React.useState('');
+  const [credentialType, setCredentialType] = React.useState(get(formData, 'credentialType', 'kubeConfig'));
   const { getClusterNewDetail } = clusterStore.effects;
+
   const debounceCheckName = React.useCallback(
     debounce((nameStr: string, callback: Function) => {
       if (editMode) return callback();
@@ -96,9 +71,7 @@ const ClusterBasicForm = ({
   );
 
   React.useEffect(() => {
-    form.setFieldsValue({
-      'scheduler.dcosURL': getDefaultMasterURL(clusterType, wildcardDomain, isEdgeCluster),
-    });
+    form.setFieldsValue({ scheduler: { dcosURL: getDefaultMasterURL(clusterType, wildcardDomain, isEdgeCluster) } });
   }, [isEdgeCluster, wildcardDomain]);
 
   const fieldsList = [
@@ -118,7 +91,7 @@ const ClusterBasicForm = ({
       rules: [
         regRules.clusterName,
         {
-          validator: (rule: any, v: string, callback: Function) => {
+          validator: (_rule: unknown, v: string, callback: Function) => {
             const curCluster = find(clusterList, { name: v });
             if (!editMode && curCluster) {
               callback(i18n.t('org:cluster already existed'));
@@ -134,11 +107,15 @@ const ClusterBasicForm = ({
     {
       label: i18n.t('org:cluster name'),
       name: 'displayName',
-      pattern: /^.{1,30}$/,
+      pattern: /^.{1,50}$/,
       required: false,
       itemProps: {
-        maxLength: 30,
+        maxLength: 50,
       },
+      suffix:
+        clusterType === 'k8s' ? (
+          <Alert message={`${i18n.t('tip')}:`} description={k8sPrompt} type="warning" className="mt-4" />
+        ) : null,
     },
     {
       label: i18n.t('org:extensive domain'),
@@ -169,66 +146,163 @@ const ClusterBasicForm = ({
       name: 'id',
       itemProps: { type: 'hidden' },
     },
-  ];
-  if (clusterType === 'edas') {
-    fieldsList.splice(
-      4,
-      0,
-      ...([
-        { label: i18n.t('org:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
-        { label: 'AK', name: ['scheduler', 'accessKey'] },
-        { label: 'AS', name: ['scheduler', 'accessSecret'] },
-        { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
-        { label: 'Region ID', name: ['scheduler', 'regionID'] },
-        { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
-        { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
-        { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
-      ] as any),
-    );
-  } else {
-    fieldsList.splice(4, 0, {
-      label: i18n.t('org:cluster entry'),
-      name: ['scheduler', 'dcosURL'],
-      pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
-      initialValue: getDefaultMasterURL(clusterType),
-      itemProps: {
-        // disabled: true,
-      },
-      config: {
-        getValueFromEvent(e: any) {
-          const { value } = e.target;
-          return value.replace(/\s/g, '').toLowerCase();
+    ...insertWhen(clusterType === 'edas', [
+      { label: i18n.t('org:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
+      { label: 'AK', name: ['scheduler', 'accessKey'] },
+      { label: 'AS', name: ['scheduler', 'accessSecret'] },
+      { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
+      { label: 'Region ID', name: ['scheduler', 'regionID'] },
+      { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
+      { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
+      { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
+    ]),
+    ...insertWhen(clusterType === 'dcos', [
+      {
+        label: i18n.t('org:cluster entry'),
+        name: 'scheduler.dcosURL',
+        pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
+        initialValue: getDefaultMasterURL(clusterType),
+        itemProps: {
+          // disabled: true,
+        },
+        config: {
+          getValueFromEvent(e: any) {
+            const { value } = e.target;
+            return value.replace(/\s/g, '').toLowerCase();
+          },
         },
       },
-    } as any);
-  }
+    ]),
+    ...insertWhen(clusterType === 'k8s', [
+      {
+        label: i18n.t('cmp:verification method'),
+        name: 'credentialType',
+        type: 'radioGroup',
+        options: [
+          {
+            value: 'kubeConfig',
+            name: 'KubeConfig',
+          },
+          {
+            value: 'serviceAccount',
+            name: 'Service Account',
+          },
+          {
+            value: 'proxy',
+            name: 'Cluster Agent',
+          },
+        ],
+        initialValue: 'kubeConfig',
+        formLayout: 'horizontal',
+        itemProps: {
+          onChange: (e: RadioChangeEvent) => {
+            form.setFieldsValue({ credential: { content: undefined, address: undefined } });
+            setCredentialType(e.target.value);
+          },
+        },
+      },
+      ...insertWhen(credentialType === 'kubeConfig', [
+        {
+          label: 'KubeConfig',
+          name: ['credential', 'content'],
+          type: 'textArea',
+          initialValue: editMode ? '********' : '',
+          itemProps: {
+            onClick: () => {
+              if (!form.isFieldTouched(['credential', 'content'])) {
+                form.setFieldsValue({ credential: { content: undefined } });
+              }
+            },
+          },
+          suffix: (
+            <div className="flex justify-end">
+              <a href="" target="__blank">
+                {i18n.t('cmp:learn how to write KubeConfig file?')}
+              </a>
+            </div>
+          ),
+          required: !editMode,
+        },
+      ]),
+      ...insertWhen(credentialType === 'serviceAccount', [
+        {
+          label: 'API Server URL',
+          name: 'credential.address',
+        },
+        {
+          label: (
+            <div className="flex items-center">
+              <div className="mr-1">Secret</div>
+              <Popover
+                title={`${i18n.t(
+                  'cmp:please use the following command to get the Secret information corresponding to the Service Account',
+                )}：`}
+                content={
+                  <div className="flex flex-col">
+                    <div># Copy the secret name from the output of the get secret command</div>
+                    <div id="command-script" className="whitespace-pre">
+                      {`~/$ kubectl get serviceaccounts <service-account-name> -o yaml\n~/$ kubectl get secret <service-account-secret-name> -o yaml`}
+                    </div>
+                    <div className="flex justify-end mt-2">
+                      <Copy selector=".btn-to-copy" />
+                      <Button type="ghost" className="btn-to-copy" data-clipboard-target="#command-script">
+                        {i18n.t('cmp:copy to clipboard')}
+                      </Button>
+                    </div>
+                  </div>
+                }
+              >
+                <IconHelp className="text-icon cursor-pointer" />
+              </Popover>
+            </div>
+          ),
+          name: ['credential', 'content'],
+          type: 'textArea',
+          initialValue: editMode ? '********' : '',
+          itemProps: {
+            onClick: () => {
+              if (!form.isFieldTouched(['credential', 'content'])) {
+                form.setFieldsValue({ credential: { content: undefined } });
+              }
+            },
+          },
+          required: !editMode,
+        },
+      ]),
+    ]),
+  ];
 
   return <RenderPureForm list={fieldsList} form={form} />;
 };
-const ClusterSchedulerForm = ({
-  form,
-  clusterType,
-  formData,
-  editMode,
-}: {
-  form: FormInstance;
-  clusterType: string;
-  formData: any;
-  editMode: boolean;
-}) => {
-  const initialOpsConfig = formData && formData.opsConfig;
+
+const k8sAlert = (
+  <span>
+    {i18n.t(
+      'cmp:during the initialization of the import cluster, all nodes in the cluster will be labeled with the organization name to facilitate the calling of services and tasks of the organization. If you need Erda best calling strategy, you need to enter',
+    )}
+    <Link to={goTo.resolve.cmpRoot()} className="mx-1" target="_blank" rel="noopener noreferrer">
+      {`${i18n.t('cloud management')} -> ${i18n.t('dcos:cluster overview')} -> ${i18n.t('set tags')}`}
+    </Link>
+    {i18n.t('cmp:configure')}
+  </span>
+);
+
+const k8sPrompt = (
+  <div>
+    <div>1. {i18n.t('cmp:please ensure that your Kubernetes cluster and Erda network are smooth')}</div>
+    <div>
+      2.{' '}
+      {i18n.t(
+        'cmp:after importing the cluster, the nodes in the cluster will be labeled with the organization label by default',
+      )}
+    </div>
+  </div>
+);
+
+const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clusterType: string }) => {
   const formValues = form.getFieldsValue();
-  const { scheduler, opsConfig } = formValues || ({} as any);
-  const [{ repeatRange, repeatValue, repeatMode }, updater] = useUpdate({
-    repeatRange: [],
-    repeatValue: initialOpsConfig && initialOpsConfig.repeatValue,
-    repeatMode: initialOpsConfig && initialOpsConfig.repeatMode,
-  });
-  React.useEffect(() => {
-    form.setFieldsValue({
-      'opsConfig.repeatValue': repeatRange[0] && repeatRange[1] ? repeatRange.join('-') : undefined,
-    });
-  }, [repeatRange]);
+  const { scheduler } = formValues || ({} as any);
+
   // CA证书、客户端证书、客户端秘钥 必须同为空或同为不空
   const haveCrt = !!(scheduler && (scheduler.caCrt || scheduler.clientCrt || scheduler.clientKey));
   // 当认证类型空时，认证用户名、密码不需要填
@@ -250,6 +324,7 @@ const ClusterSchedulerForm = ({
       },
     ];
   }
+
   const fieldListMap = {
     k8s: [
       {
@@ -320,169 +395,19 @@ const ClusterSchedulerForm = ({
     ],
   };
 
-  if (editMode) {
-    fieldListMap.k8s.push({
-      label: i18n.t('org:scale mode'),
-      name: ['opsConfig', 'scaleMode'],
-      type: 'radioGroup',
-      shouldUpdate: true,
-      options: map(scaleModeMap, (name, value) => ({ name, value })),
-      required: false,
-    });
-  }
-
-  if (opsConfig && opsConfig.scaleMode === 'scheduler') {
-    fieldListMap.k8s.push(
-      {
-        label: i18n.t('org:execution time'),
-        name: ['opsConfig', 'launchTime'],
-        initialValue: initialOpsConfig && initialOpsConfig.launchTime,
-        shouldUpdate: true,
-        getComp: () => (
-          <>
-            <DatePicker
-              className="full-width"
-              format="YYYY-MM-DD HH:mm"
-              defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
-              disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
-              showTime
-              onChange={(date) => {
-                form.setFieldsValue({ 'opsConfig.launchTime': date });
-              }}
-            />
-          </>
-        ),
-      },
-      {
-        label: i18n.t('org:duration(h)'),
-        name: ['opsConfig', 'scaleDuration'],
-        type: 'inputNumber',
-        initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,
-        itemProps: {
-          max: 12,
-          min: 0,
-          precision: 0,
-          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 12 }),
-          className: 'full-width',
-        },
-      },
-      {
-        label: i18n.t('org:scale number'),
-        name: ['opsConfig', 'scaleNumber'],
-        type: 'inputNumber',
-        initialValue: initialOpsConfig && initialOpsConfig.scaleNumber,
-        itemProps: {
-          max: 20,
-          min: 0,
-          precision: 0,
-          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
-          className: 'full-width',
-        },
-      },
-      {
-        label: i18n.t('org:repeat mode'),
-        name: ['opsConfig', 'repeatMode'],
-        type: 'select',
-        initialValue: repeatMode,
-        options: map(repeatModeMap, (name, value) => ({ value, name })),
-        itemProps: {
-          className: 'full-width',
-          onChange(value: string) {
-            form.setFieldsValue({
-              'opsConfig.repeatValue': undefined,
-            });
-            updater.repeatValue('');
-            updater.repeatMode(value);
-          },
-        },
-      },
-    );
-
-    let repeatValueField;
-    switch (repeatMode) {
-      case RepeatMode.WEEKLY:
-        repeatValueField = {
-          label: i18n.t('org:repeat day'),
-          name: ['opsConfig', 'repeatValue'],
-          type: 'select',
-          initialValue: repeatValue && repeatValue.split(','),
-          options: map(weekMap, (name, value) => ({ value, name })),
-          itemProps: {
-            mode: 'multiple',
-            className: 'full-width',
-          },
-        };
-        break;
-      case RepeatMode.MONTHLY:
-        repeatValueField = {
-          label: i18n.t('org:repeat range'),
-          name: ['opsConfig', 'repeatValue'],
-          initialValue: repeatValue,
-          getComp: () => {
-            let start;
-            let end;
-
-            if (repeatValue) {
-              const [s, e] = repeatValue.split('-');
-              start = Number(s);
-              end = Number(e);
-            }
-
-            return (
-              <>
-                <InputNumber
-                  onChange={(value: any) => {
-                    const e = repeatRange[1];
-                    const s = value > e ? e : value;
-                    updater.repeatRange([s, e]);
-                  }}
-                  defaultValue={start}
-                  min={1}
-                  max={repeatRange[1]}
-                  precision={0}
-                />
-                <span className="mx8">-</span>
-                <InputNumber
-                  onChange={(value: any) => {
-                    const s = repeatRange[0];
-                    const e = value < s ? s : value;
-                    updater.repeatRange([s, e]);
-                  }}
-                  defaultValue={end}
-                  min={repeatRange[0]}
-                  max={31}
-                  precision={0}
-                />
-              </>
-            );
-          },
-        };
-        break;
-      default:
-        repeatValueField = {
-          label: i18n.t('org:repeat internal(day)'),
-          name: ['opsConfig', 'repeatValue'],
-          type: 'inputNumber',
-          initialValue: repeatValue,
-          itemProps: {
-            min: 1,
-            precision: 0,
-          },
-        };
-        break;
-    }
-    fieldListMap.k8s.push(repeatValueField);
-  }
-
   const fieldsList = clusterType ? fieldListMap[clusterType] : [];
   return <RenderPureForm list={fieldsList} form={form} />;
 };
+
 const ClusterAddForm = (props: any) => {
   const { form, mode, formData, clusterList, clusterType } = props;
   const [showMore, setShowMore] = React.useState(false);
 
   return (
     <div className="cluster-form">
+      <If condition={clusterType === 'k8s'}>
+        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="normal" className="mb-8" />
+      </If>
       <ClusterBasicForm
         form={form}
         clusterType={clusterType}
@@ -566,6 +491,9 @@ export const AddClusterModal = (props: IProps) => {
       name={i18n.t('org:{type} cluster', {
         type: get(find(flatten(clusterTypeMap), { type: clusterType }), 'name', ''),
       })}
+      title={
+        clusterType === 'k8s' ? i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' }) : undefined
+      }
       visible={visible}
       onOk={handleSubmit}
       beforeSubmit={beforeSubmit}
