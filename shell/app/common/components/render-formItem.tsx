@@ -56,7 +56,7 @@ export interface IFormItem {
   form?: FormInstance;
   label?: string;
   labelTip?: string;
-  name?: string;
+  name?: string | string[];
   type?: string;
   initialValue?: any;
   size?: 'default' | 'small' | 'large';
@@ -241,12 +241,10 @@ export const RenderFormItem = ({
     label
   );
   return (
-    <>
+    <FormItem label={_label} {...layout} className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}>
       <FormItem
-        name={name}
-        label={_label}
-        {...layout}
-        className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+        name={typeof name === 'string' && name?.includes('.') ? name.split('.') : name}
+        noStyle
         {...extraProps}
         {...itemConfig}
       >
@@ -255,6 +253,6 @@ export const RenderFormItem = ({
       {suffix}
       {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
       {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
-    </>
+    </FormItem>
   );
 };

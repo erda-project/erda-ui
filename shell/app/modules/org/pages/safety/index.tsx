@@ -88,6 +88,9 @@ const AuditList = ({ sys }: { sys: boolean }) => {
           allowClear: false,
           format: 'YYYY-MM-DD HH:mm',
           ranges: getTimeRanges(),
+          style: {
+            width: 330,
+          },
         },
       },
     ],

@@ -542,6 +542,7 @@ const IssueMetaFields = React.forwardRef(
                 const _refMap = ref?.current?.refMap;
                 _refMap && (_refMap[fieldProps.name] = r);
               }}
+              refMap={ref?.current?.refMap}
               key={fieldProps.name}
               {...fieldProps}
               disabled={!editAuth}

@@ -141,3 +141,17 @@ export const getClusterResourceDetail = (query: {
 export const getSMSNotifyConfig = ({ orgId }: { orgId: number }) => {
   return agent.get(`/api/orgs/${orgId}/actions/get-notify-config`).then((response: any) => response.body);
 };
+
+export const getRegisterCommand = ({ clusterName }: { clusterName: string }) => {
+  return agent
+    .get(`/api/cluster/init-command`)
+    .query({ clusterName })
+    .then((response: any) => response.body);
+};
+
+export const clusterInitRetry = ({ clusterName }: { clusterName: string }) => {
+  return agent
+    .post(`/api/cluster/actions/init-retry`)
+    .send({ clusterName })
+    .then((response: any) => response.body);
+};

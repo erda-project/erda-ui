@@ -25,7 +25,7 @@ import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 interface IProps {
   visible: boolean;
   formData?: any;
-  cluster: ORG_CLUSTER.ICluster;
+  cluster: ORG_CLUSTER.ICluster | null;
   orgId: number;
   onCancel: () => void;
   onSubmit: (resp: any) => any;
@@ -146,12 +146,12 @@ const CloudMachineFormModal = (props: IProps) => {
   const handelSubmit = (data: any) => {
     const { customLabels = [], instanceNum, diskSize, cloudVendor: defaultVendor, ...rest } = data;
     // k8s(alicloud) 云集群(alicloud-ecs)  容器集群(alicloud-ack)
-    const cloudVendor = cluster.cloudVendor || defaultVendor;
+    const cloudVendor = cluster?.cloudVendor || defaultVendor;
 
     rest.labels = uniq((data.labels || []).concat(customLabels));
     const postData = {
       instanceNum: Number(instanceNum),
-      clusterName: cluster.name,
+      clusterName: cluster?.name,
       cloudVendor,
       orgID: orgId,
       ...rest,

@@ -18,7 +18,7 @@ import certificateStore from '../../stores/certificate';
 import { Upload, message, Button, Select, Input } from 'app/nusi';
 import { formatTime } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
-import { get, map } from 'lodash';
+import { get, map, set } from 'lodash';
 import './index.scss';
 import { getUploadProps } from 'common/utils/upload-props';
 import DetailModal from './detail-modal';
@@ -232,16 +232,18 @@ const Certificate = () => {
       IOS: [
         {
           label: `Keychain-p12 ${i18n.t('file')}`,
-          name: `${keyPrefix.iosKeyChainP12}.uuid`,
+          name: keyPrefix.iosKeyChainP12.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              form.setFieldsValue({
-                [`${keyPrefix.iosKeyChainP12}.fileName`]: fileName,
-                [`${keyPrefix.iosKeyChainP12}.uuid`]: uuid,
-                [`${keyPrefix.iosKeyChainP12}.password`]: undefined, // 每次修改uuid后，需要重置密码
+              let value = {};
+              set(value, keyPrefix.iosKeyChainP12, {
+                fileName,
+                uuid,
+                password: undefined, // 每次修改uuid后，需要重置密码
               });
+              form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.iosKeyChainP12}.fileName`,
             fileAccept: '.p12',
@@ -249,7 +251,7 @@ const Certificate = () => {
         },
         {
           label: `Keychain-p12 ${i18n.t('password')}`,
-          name: `${keyPrefix.iosKeyChainP12}.password`,
+          name: keyPrefix.iosKeyChainP12.concat(['password']),
           type: 'custom',
           required: false,
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
@@ -259,51 +261,55 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          name: `${keyPrefix.iosKeyChainP12}.fileName`,
+          name: keyPrefix.iosKeyChainP12.concat(['fileName']),
           itemProps: {
             type: 'hidden',
           },
         },
         {
           label: `Debug-mobileprovision ${i18n.t('file')}`,
-          name: `${keyPrefix.iosDebug}.uuid`,
+          name: keyPrefix.iosDebug.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              form.setFieldsValue({
-                [`${keyPrefix.iosDebug}.fileName`]: fileName,
-                [`${keyPrefix.iosDebug}.uuid`]: uuid,
+              let value = {};
+              set(value, keyPrefix.iosDebug, {
+                fileName,
+                uuid,
               });
+              form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.iosDebug}.fileName`,
             fileAccept: '.mobileprovision',
           }),
         },
         {
-          name: `${keyPrefix.iosDebug}.fileName`,
+          name: keyPrefix.iosDebug.concat(['fileName']),
           itemProps: {
             type: 'hidden',
           },
         },
         {
           label: `Release-mobileprovision ${i18n.t('file')}`,
-          name: `${keyPrefix.iosRelease}.uuid`,
+          name: keyPrefix.iosRelease.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              form.setFieldsValue({
-                [`${keyPrefix.iosRelease}.fileName`]: fileName,
-                [`${keyPrefix.iosRelease}.uuid`]: uuid,
+              let value = {};
+              set(value, keyPrefix.iosRelease, {
+                fileName,
+                uuid,
               });
+              form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.iosRelease}.fileName`,
             fileAccept: '.mobileprovision',
           }),
         },
         {
-          name: `${keyPrefix.iosRelease}.fileName`,
+          name: keyPrefix.iosRelease.concat(['fileName']),
           itemProps: {
             type: 'hidden',
           },
@@ -347,7 +353,7 @@ const Certificate = () => {
                 },
               });
             },
-            fileNameKey: ['messageInfo', 'fileName'],
+            fileNameKey: 'messageInfo.fileName',
             fileAccept: '',
           }),
         },
@@ -358,18 +364,20 @@ const Certificate = () => {
       manual: [
         {
           label: `Debug-key/store ${i18n.t('file')}`,
-          name: `${keyPrefix.adrManualDebug}.uuid`,
+          name: keyPrefix.adrManualDebug.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              form.setFieldsValue({
-                [`${keyPrefix.adrManualDebug}.fileName`]: fileName,
-                [`${keyPrefix.adrManualDebug}.uuid`]: uuid,
-                [`${keyPrefix.adrManualDebug}.keyPassword`]: undefined,
-                [`${keyPrefix.adrManualDebug}.storePassword`]: undefined,
-                [`${keyPrefix.adrManualDebug}.alias`]: undefined,
+              let value = {};
+              set(value, keyPrefix.adrManualDebug, {
+                fileName,
+                uuid,
+                keyPassword: undefined,
+                storePassword: undefined,
+                alias: undefined,
               });
+              form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.adrManualDebug}.fileName`,
             fileAccept: '.keystore',
@@ -377,11 +385,11 @@ const Certificate = () => {
         },
         {
           label: `Debug-key ${i18n.t('org:alias')}`,
-          name: `${keyPrefix.adrManualDebug}.alias`,
+          name: keyPrefix.adrManualDebug.concat(['alias']),
         },
         {
           label: `Debug-key ${i18n.t('password')}`,
-          name: `${keyPrefix.adrManualDebug}.keyPassword`,
+          name: keyPrefix.adrManualDebug.concat(['keyPassword']),
           type: 'custom',
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
@@ -391,7 +399,7 @@ const Certificate = () => {
         },
         {
           label: `Debug-store ${i18n.t('password')}`,
-          name: `${keyPrefix.adrManualDebug}.storePassword`,
+          name: keyPrefix.adrManualDebug.concat(['storePassword']),
           type: 'custom',
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
@@ -400,25 +408,27 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          name: `${keyPrefix.adrManualDebug}.fileName`,
+          name: keyPrefix.adrManualDebug.concat(['fileName']),
           itemProps: {
             type: 'hidden',
           },
         },
         {
           label: `Release-key/store ${i18n.t('file')}`,
-          name: `${keyPrefix.adrManualRelease}.uuid`,
+          name: keyPrefix.adrManualRelease.concat(['uuid']),
           type: 'custom',
           ...getUploadFieldProps({
             form,
             onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
-              form.setFieldsValue({
-                [`${keyPrefix.adrManualRelease}.fileName`]: fileName,
-                [`${keyPrefix.adrManualRelease}.uuid`]: uuid,
-                [`${keyPrefix.adrManualRelease}.keyPassword`]: undefined,
-                [`${keyPrefix.adrManualRelease}.storePassword`]: undefined,
-                [`${keyPrefix.adrManualRelease}.alias`]: undefined,
+              let value = {};
+              set(value, keyPrefix.adrManualRelease, {
+                fileName,
+                uuid,
+                keyPassword: undefined,
+                storePassword: undefined,
+                alias: undefined,
               });
+              form.setFieldsValue(value);
             },
             fileNameKey: `${keyPrefix.adrManualRelease}.fileName`,
             fileAccept: '.keystore',
@@ -426,11 +436,11 @@ const Certificate = () => {
         },
         {
           label: `Release-key ${i18n.t('org:alias')}`,
-          name: `${keyPrefix.adrManualRelease}.alias`,
+          name: keyPrefix.adrManualRelease.concat(['alias']),
         },
         {
           label: `Release-key ${i18n.t('password')}`,
-          name: `${keyPrefix.adrManualRelease}.keyPassword`,
+          name: keyPrefix.adrManualRelease.concat(['keyPassword']),
           type: 'custom',
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
@@ -440,7 +450,7 @@ const Certificate = () => {
         },
         {
           label: `Release-store ${i18n.t('password')}`,
-          name: `${keyPrefix.adrManualRelease}.storePassword`,
+          name: keyPrefix.adrManualRelease.concat(['storePassword']),
           type: 'custom',
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
@@ -449,7 +459,7 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          name: `${keyPrefix.adrManualRelease}.fileName`,
+          name: keyPrefix.adrManualRelease.concat(['fileName']),
           itemProps: {
             type: 'hidden',
           },
@@ -458,11 +468,11 @@ const Certificate = () => {
       auto: [
         {
           label: `Debug-key ${i18n.t('org:alias')}`,
-          name: `${keyPrefix.adrAuto}.debugKeyStore.alias`,
+          name: keyPrefix.adrAuto.concat(['debugKeyStore', 'alias']),
         },
         {
           label: `Debug-key ${i18n.t('password')}`,
-          name: `${keyPrefix.adrAuto}.debugKeyStore.keyPassword`,
+          name: keyPrefix.adrAuto.concat(['debugKeyStore', 'keyPassword']),
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
@@ -471,7 +481,7 @@ const Certificate = () => {
         },
         {
           label: `Debug-store ${i18n.t('password')}`,
-          name: `${keyPrefix.adrAuto}.debugKeyStore.storePassword`,
+          name: keyPrefix.adrAuto.concat(['debugKeyStore', 'storePassword']),
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
@@ -480,11 +490,11 @@ const Certificate = () => {
         },
         {
           label: `Release-key ${i18n.t('org:alias')}`,
-          name: `${keyPrefix.adrAuto}.releaseKeyStore.alias`,
+          name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'alias']),
         },
         {
           label: `Release-key ${i18n.t('password')}`,
-          name: `${keyPrefix.adrAuto}.releaseKeyStore.keyPassword`,
+          name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'keyPassword']),
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
@@ -493,7 +503,7 @@ const Certificate = () => {
         },
         {
           label: `Release-store ${i18n.t('password')}`,
-          name: `${keyPrefix.adrAuto}.releaseKeyStore.storePassword`,
+          name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'storePassword']),
           rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
@@ -502,27 +512,27 @@ const Certificate = () => {
         },
         {
           label: `${i18n.t('name or surname')}/CN`,
-          name: `${keyPrefix.adrAuto}.name`,
+          name: keyPrefix.adrAuto.concat(['name']),
         },
         {
           label: `${i18n.t('organization unit')}/OU`,
-          name: `${keyPrefix.adrAuto}.ou`,
+          name: keyPrefix.adrAuto.concat(['ou']),
         },
         {
           label: `${i18n.t('common:organization')}/O`,
-          name: `${keyPrefix.adrAuto}.org`,
+          name: keyPrefix.adrAuto.concat(['org']),
         },
         {
           label: `${i18n.t('city')}/L`,
-          name: `${keyPrefix.adrAuto}.city`,
+          name: keyPrefix.adrAuto.concat(['city']),
         },
         {
           label: `${i18n.t('province')}/ST`,
-          name: `${keyPrefix.adrAuto}.province`,
+          name: keyPrefix.adrAuto.concat(['province']),
         },
         {
           label: `${i18n.t('country')}/C`,
-          name: `${keyPrefix.adrAuto}.state`,
+          name: keyPrefix.adrAuto.concat(['state']),
         },
       ],
     } as any;

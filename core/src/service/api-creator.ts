@@ -179,12 +179,11 @@ export interface APIConfig {
   headers?: Obj<string>;
 }
 
-const noop = (d: any) => {};
 export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
   const { globalKey } = config || {};
 
-  let _toggleLoading = noop;
-  let _setData = noop;
+  let _toggleLoading: undefined | ((p: boolean) => void);
+  let _setData: undefined | Function;
 
   const onResponse = (body: PICK_BODY<T>, params: Parameters<T>[0]) => {
     // standard response
@@ -221,15 +220,15 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
 
   return Object.assign(service, {
     fetch: (params: Parameters<T>[0]): ReturnType<T> => {
-      _toggleLoading(true);
+      _toggleLoading?.(true);
       return apiFn(params)
         .then((body: PICK_BODY<T>) => {
           onResponse(body, params);
-          _setData(body?.data);
+          _setData?.(body?.data);
           return body;
         })
         .finally(() => {
-          _toggleLoading(false);
+          _toggleLoading?.(false);
         });
     },
     useData: (): PICK_DATA<T> | null => {

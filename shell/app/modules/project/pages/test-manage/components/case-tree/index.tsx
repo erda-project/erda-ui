@@ -104,6 +104,7 @@ const TestSet = ({
   testSetRef,
   customActions = [],
 }: IProps) => {
+  const [hasExpand, setHasExpand] = useState(false);
   const [activeKey, setActiveKey] = useState(rootKey);
   const [copyOrClipKey, setCopyOrClipKey] = useState('');
   const [editMode, setEditMode] = useState('' as editModeEnum);
@@ -353,7 +354,8 @@ const TestSet = ({
     if (!['testCase', 'testPlan'].includes(mode)) {
       return;
     }
-    if ((query.caseId || expandId.length > 1) && treeData[0] && treeData[0].children) {
+    const hasCaseId = hasExpand ? query.caseId : query.caseId || expandId.length > 1;
+    if (hasCaseId && treeData[0] && treeData[0].children) {
       // 第二级节点key值
       const secondLevelKey = expandId.slice(0, 2).join('-');
       // 所有展开节点的key值
@@ -617,6 +619,7 @@ const TestSet = ({
   };
 
   const onExpand = (nextExpandedKeys: string[], { nativeEvent }: any) => {
+    setHasExpand(true);
     let eventPath = nativeEvent.path;
     // In Firefox, MouseEvent hasn't path and needs to be hacked, bubbling from the target to the root node
     if (!eventPath) {

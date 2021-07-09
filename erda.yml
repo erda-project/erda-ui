@@ -4,8 +4,8 @@ meta:
 values:
   production:
     replicas: 2
-    request_cpu: 0.1
-    request_mem: 128
+    request_cpu: 0.2
+    request_mem: 256
 services:
   ui:
     ports:
@@ -24,14 +24,14 @@ services:
       SCHEDULER_ADDR: "scheduler:9091"
       UC_PUBLIC_URL: ""
     resources:
-      cpu: ${request_cpu:1}
-      max_cpu: 1
-      mem: ${request_mem:512}
-      max_mem: 512
+      cpu: ${request_cpu:0.2}
+      max_cpu: 0.2
+      mem: ${request_mem:256}
+      max_mem: 256
       network:
         mode: "container"
     deployments:
-      replicas: 2
+      replicas: 1
     expose:
     - 80
     health_check:

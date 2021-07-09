@@ -25,7 +25,7 @@ module.exports = {
       webpackConfig.output = {
         ...webpackConfig.output,
         path: outputPath,
-        publicPath: '/static/market',
+        publicPath: '/static/market/',
       };
       return webpackConfig;
     },

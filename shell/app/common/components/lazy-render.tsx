@@ -35,7 +35,7 @@ export class LazyRender extends React.PureComponent<IProps, IState> {
     if (this.wrapDom) {
       this.intersectionObserver = new IntersectionObserver((entries) => {
         // 如果不可见，就返回
-        if (entries[0].intersectionRatio <= 0) return;
+        if (!entries[0].isIntersecting) return;
         this.setState({ render: true });
         // 已渲染就停止监听
         this.intersectionObserver.disconnect();

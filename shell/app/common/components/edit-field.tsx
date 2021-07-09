@@ -14,6 +14,7 @@
 import * as React from 'react';
 import { Input, Select, DatePicker } from 'app/nusi';
 import moment from 'moment';
+import { useMount } from 'react-use';
 import { MarkdownEditor, useUpdate } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { isFunction, get, set } from 'lodash';
@@ -104,6 +105,7 @@ interface IProps {
   getComp?: any;
   suffix?: any;
   showRequiredMark?: boolean;
+  refMap?: Obj<React.RefObject<unknown>>;
   valueRender?: (value: any) => React.ReactNode;
 }
 
@@ -124,10 +126,18 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     showRequiredMark = false,
     valueRender,
     getComp,
+    refMap,
   } = props;
   const originalValue = get(data, name);
+  const compRef = React.useRef<HTMLElement>(null);
 
-  const compRef = _compRef || React.useRef(null as React.RefObject<unknown>);
+  useMount(() => {
+    if (typeof _compRef === 'function') {
+      _compRef(compRef.current);
+    } else {
+      _compRef && (_compRef.current = compRef.current);
+    }
+  });
 
   const [state, updater] = useUpdate({
     editMode: false,
@@ -160,7 +170,8 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   const onBlur = (v?: string, fieldType?: string) => {
     if (onChangeCb) {
       if ((type && ['input', 'textArea'].includes(type)) || !type) {
-        onChangeCb(set({}, name, compRef?.current?.state.value));
+        const currentRef = typeof compRef === 'function' ? refMap?.[name] : compRef?.current;
+        onChangeCb(set({}, name, currentRef?.state.value));
       } else if (type === 'markdown') {
         onChangeCb(set({}, name, v), fieldType);
       }

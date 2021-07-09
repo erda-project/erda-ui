@@ -12,127 +12,61 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Tooltip, Menu, Modal, Table, Popover } from 'app/nusi';
-import { goTo, notify } from 'common/utils';
+import { Modal, Table, Popover } from 'app/nusi';
+import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { useUpdate, Icon as CustomIcon, Copy } from 'common';
 import machineStore from 'app/modules/cmp/stores/machine';
 import clusterStore from 'app/modules/cmp/stores/cluster';
-import { clusterImgMap } from './config';
 import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
 import DeleteClusterModal from './delete-cluster-modal';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
 import { ColumnProps } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
+import { Button, Drawer, Input, Spin } from 'core/nusi';
+import { bgColorClsMap } from 'app/common/utils/style-constants';
+import { useLoading } from 'core/stores/loading';
+import { useInstanceOperation } from 'cmp/common/components/instance-operation';
+import routeStore from 'core/stores/route';
 
 import './cluster-list.scss';
-
-interface ICardProps {
-  cluster: ORG_CLUSTER.ICluster;
-  detail: any;
-  toggleAddMachine: () => void;
-  onEdit: () => void;
-  toggleAddCloudMachine: () => void;
-  checkClusterUpdate: () => void;
-  onDeleteCluster: () => void;
-}
-
-const MenuItem = Menu.Item;
-const ClusterCard = (props: ICardProps) => {
-  const { cluster, toggleAddCloudMachine, toggleAddMachine, checkClusterUpdate, onEdit, onDeleteCluster, detail } =
-    props;
-  const { displayName, description, cloudVendor, type, name } = cluster;
-  const { addMachine, addCloudMachine, edit, upgrade, deleteCluster } = {
-    addMachine: { title: i18n.t('org:add machine'), onClick: () => toggleAddMachine() },
-    addCloudMachine: { title: i18n.t('org:add alibaba cloud machine'), onClick: () => toggleAddCloudMachine() },
-    edit: { title: i18n.t('common:change setting'), onClick: () => onEdit() },
-    upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate() },
-    deleteCluster: { title: i18n.t('org:cluster offline'), onClick: () => onDeleteCluster() },
-  };
-  const clusterOpsMap = {
-    dcos: [addMachine, edit, deleteCluster],
-    edas: [edit, deleteCluster],
-    k8s: [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-    'alicloud-cs': [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-    'alicloud-cs-managed': [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-    'alicloud-ecs': [addMachine, addCloudMachine, edit, upgrade, deleteCluster],
-  };
-  const ops = (
-    <Menu>
-      {map(clusterOpsMap[cloudVendor || type] || [], (op) => {
-        return (
-          <MenuItem key={op.title}>
-            <a onClick={op.onClick} className="cluster-op-text">
-              {op.title}
-            </a>
-          </MenuItem>
-        );
-      })}
-    </Menu>
-  );
-  const clusterImg = get(clusterImgMap[cloudVendor || type], 'active');
-  return (
-    <div className="cluster-item-card">
-      <div className="cluster-item-container">
-        <div className="cluster-logo">
-          <img src={clusterImg} />
-        </div>
-        <div className="cluster-text">
-          <div className="name bold-500 nowrap">
-            <span
-              className="hover-active"
-              onClick={() => {
-                goTo(`./${cluster.name}/detail`);
-              }}
-            >
-              {displayName || name}
-            </span>
-          </div>
-          <div className="description">
-            <Tooltip title={description}>
-              <span>{description || '-'}</span>
-            </Tooltip>
-          </div>
-          <div className="cluster-info-footer flex-box">
-            <span className="nowrap">
-              <CustomIcon type="jqlx" />
-              {get(detail, 'basic.edgeCluster.value', true) ? i18n.t('org:edge cluster') : i18n.t('org:center cluster')}
-            </span>
-            <span className="nowrap">
-              <CustomIcon type="bb1" />
-              {i18n.t('version')}: {get(detail, 'basic.clusterVersion.value', '')}
-            </span>
-            <span className="nowrap">
-              <CustomIcon type="IB" />
-              lb: {get(detail, 'basic.lbNum.value', '0')}
-            </span>
-            <span className="nowrap">
-              <CustomIcon type="master" />
-              master: {get(detail, 'basic.masterNum.value', '0')}
-            </span>
-          </div>
-        </div>
-        <div className="cluster-ops">
-          <Dropdown overlay={ops} placement="bottomRight" trigger={['click']}>
-            <CustomIcon className="fz24 hover-active" type="more" />
-          </Dropdown>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 interface IProps {
   dataSource: any[];
   onEdit: (record: any) => void;
 }
+
+const statusMap = {
+  online: ['green', i18n.t('cmp:online')],
+  offline: ['red', i18n.t('cmp:offline')],
+  initializing: ['yellow', i18n.t('runtime:initializing')],
+  'initialize error': ['red', i18n.t('cmp:initialization failed')],
+  pending: ['gray', i18n.t('application:pending')],
+  unknown: ['red', i18n.t('dcos:unknown')],
+};
+
+const manageTypeMap = {
+  agent: i18n.t('cmp:agent registration'),
+  create: i18n.t('establish'),
+  import: i18n.t('import'),
+};
+
+const clusterTypeMap = {
+  kubernetes: 'Kubernetes',
+  edas: 'EDAS',
+};
+
 const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { addCloudMachine } = machineStore.effects;
-  const { upgradeCluster, deleteCluster, getClusterNewDetail } = clusterStore.effects;
-  const [curCluster, setCurCluster] = React.useState(null as any);
+  const { upgradeCluster, deleteCluster, getClusterNewDetail, getRegisterCommand, clusterInitRetry } =
+    clusterStore.effects;
+  const [curCluster, setCurCluster] = React.useState<ORG_CLUSTER.ICluster | null>(null);
+  const [registerCommand, setRegisterCommand] = React.useState('');
+  const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
+  const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
 
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
@@ -142,8 +76,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     afterAdd: null,
     cloudModalVis: false,
     deleteModalVis: false,
-    curDeleteCluster: null,
+    curDeleteCluster: null as null | ORG_CLUSTER.ICluster,
     clusterDetailList: [],
+    registerCommandVisible: false,
   });
 
   React.useEffect(() => {
@@ -204,7 +139,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     );
   };
 
-  const togglelDeleteModal = (item?: ORG_CLUSTER.ICluster) => {
+  const toggleDeleteModal = (item?: ORG_CLUSTER.ICluster) => {
     if (item) {
       updater.curDeleteCluster(item);
       updater.deleteModalVis(true);
@@ -213,6 +148,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       updater.deleteModalVis(false);
     }
   };
+
   const submitDelete = ({ clusterName }: { clusterName: string }) => {
     // 删除后根据recordID查看操作纪录接口中的详情作为提示
     deleteCluster({ clusterName }).then((deleteRes: any) => {
@@ -225,12 +161,26 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           }
         });
     });
-    togglelDeleteModal();
+    toggleDeleteModal();
   };
+
   const getClusterDetail = (name: string) => {
     const curDetail = find(state.clusterDetailList, (item) => get(item, 'basic.clusterName.value') === name) || {};
     return curDetail;
   };
+
+  const showCommand = React.useCallback(
+    async (clusterName: string) => {
+      updater.registerCommandVisible(true);
+      const command = await getRegisterCommand({ clusterName });
+      const { orgName } = routeStore.getState((s) => s.params);
+      setRegisterCommand(
+        `${command.replace('$REQUEST_PREFIX', `${window.location.origin}/api/${orgName}/cluster/init-command`)}`,
+      );
+    },
+    [getRegisterCommand, updater],
+  );
+
   const renderMenu = (record: ORG_CLUSTER.ICluster) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
@@ -240,6 +190,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       edit,
       upgrade,
       deleteCluster: deleteClusterCall,
+      showRegisterCommand,
+      retryInit,
     } = {
       addMachine: {
         title: i18n.t('org:add machine'),
@@ -256,14 +208,34 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       deleteCluster: {
         title: i18n.t('org:cluster offline'),
         onClick: () => {
-          togglelDeleteModal(record);
+          toggleDeleteModal(record);
+        },
+      },
+      showRegisterCommand: {
+        title: i18n.t('cmp:register command'),
+        onClick: () => {
+          showCommand(record.name);
+        },
+      },
+      retryInit: {
+        title: i18n.t('cmp:initialize retry'),
+        onClick: () => {
+          clusterInitRetry({ clusterName: record.name });
         },
       },
     };
     const clusterOpsMap = {
       dcos: [addMachine, edit, deleteClusterCall],
       edas: [edit, deleteClusterCall],
-      k8s: [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
+      k8s: [
+        addMachine,
+        addCloudMachines,
+        edit,
+        upgrade,
+        deleteClusterCall,
+        ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
+        ...insertWhen(get(clusterDetail, 'basic.clusterStatus.value') === 'initialize error', [retryInit]),
+      ],
       'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
@@ -297,42 +269,57 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       </span>
     );
   };
+
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (text: string, record: object) => (
-        <Tooltip title={text || record.name}>
-          <span
-            className="hover-active"
-            onClick={() => {
-              goTo(`./${record.name}/detail`);
-            }}
-          >
-            {text || record.name}
-          </span>
-        </Tooltip>
+      render: (text, record) => (
+        <span
+          className="hover-active"
+          onClick={() => {
+            goTo(`./${record.name}/detail`);
+          }}
+        >
+          {text || record.name}
+        </span>
       ),
+    },
+    {
+      title: i18n.t('application:status'),
+      dataIndex: 'clusterStatus',
+      render: (_text, record) => {
+        const clusterDetail = getClusterDetail(record.name);
+        const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
+        return (
+          <div className="flex items-center">
+            <div className={`${bgColorClsMap[statusMap[status]?.[0]]} w-2 h-2 rounded-full`} />
+            <div className="mx-2">{`${statusMap[status]?.[1] ?? '-'}`}</div>
+            <If condition={status === 'initializing' || status === 'initialize error'}>{renderOp(record)}</If>
+          </div>
+        );
+      },
     },
     {
       title: i18n.t('default:description'),
       dataIndex: 'description',
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (text: string) => (text ? <Tooltip title={text}>{text}</Tooltip> : '_'),
+      render: (text) => text || '_',
     },
     {
-      title: i18n.t('org:cluster type'),
-      dataIndex: 'edgeCluster',
+      title: i18n.t('application:type'),
+      dataIndex: 'clusterType',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.edgeCluster.value', true)
-          ? i18n.t('org:edge cluster')
-          : i18n.t('org:center cluster');
+        return clusterTypeMap[get(clusterDetail, 'basic.clusterType.value')] ?? '';
+      },
+    },
+    {
+      title: i18n.t('cmp:management method'),
+      dataIndex: 'manageType',
+      render: (_text, record) => {
+        const clusterDetail = getClusterDetail(record.name);
+        const manageType = get(clusterDetail, 'basic.manageType.value');
+        return manageTypeMap[manageType] ?? '';
       },
     },
     {
@@ -344,29 +331,41 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     },
     {
-      title: 'lb',
-      dataIndex: 'lbNum',
+      title: i18n.t('machines'),
+      dataIndex: 'nodeCount',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.lbNum.value', '0');
-      },
-    },
-    {
-      title: 'master',
-      dataIndex: 'masterNum',
-      render: (_text, record) => {
-        const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.masterNum.value', '0');
+        return get(clusterDetail, 'basic.nodeCount.value', '-');
       },
     },
     {
       title: i18n.t('default:operation'),
       dataIndex: 'operation',
-      render: (text, record: ORG_CLUSTER.ICluster) => {
+      render: (_text, record: ORG_CLUSTER.ICluster) => {
         return renderMenu(record);
       },
+      width: 150,
     },
   ];
+
+  const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
+    log: true,
+    getProps(_, record) {
+      return {
+        fetchApi: '/api/orgCenter/logs',
+        extraQuery: { clusterName: record?.name },
+        sourceType: 'container',
+      };
+    },
+  });
+
+  const query = routeStore.useStore((s) => s.query);
+  React.useEffect(() => {
+    if (query.autoOpenCmd) {
+      showCommand(query.clusterName);
+      setSearch({}, [], true);
+    }
+  }, [query, showCommand]);
 
   return (
     <>
@@ -386,12 +385,41 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       <DeleteClusterModal
         visible={state.deleteModalVis}
-        onCancel={() => togglelDeleteModal()}
+        onCancel={() => toggleDeleteModal()}
         onSubmit={submitDelete}
         curCluster={state.curDeleteCluster}
       />
+      <Drawer
+        visible={state.registerCommandVisible}
+        destroyOnClose
+        title={i18n.t('cmp:cluster registration command')}
+        width="800"
+        onClose={() => updater.registerCommandVisible(false)}
+      >
+        <Spin spinning={loading} wrapperClassName="full-spin-height">
+          <div className="flex flex-col items-end h-full">
+            <Input.TextArea id="command-script" readOnly value={registerCommand} className="min-h-3/5" />
+            <Button
+              type="ghost"
+              className="btn-to-copy mt-4"
+              data-clipboard-target="#command-script"
+              disabled={!registerCommand.length}
+            >
+              {i18n.t('cmp:copy command')}
+            </Button>
+            <Copy selector=".btn-to-copy" />
+          </div>
+        </Spin>
+      </Drawer>
+      {drawer}
       <div>
-        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" />
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false}
+          rowKey="id"
+          loading={loadingList || loadingDetail}
+        />
       </div>
     </>
   );

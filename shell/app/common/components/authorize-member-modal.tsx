@@ -94,7 +94,6 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
             }}
             placeholder={`${i18n.t('project:please set ')}`}
           >
-            <Option value="">{i18n.t('not member')}</Option>
             {map(roleMap, (v: string, k: string) => (
               <Option key={k} value={k}>
                 {v}

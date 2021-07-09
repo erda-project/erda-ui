@@ -61,6 +61,10 @@ export const ProjectList = () => {
         key: 'displayName',
         fixed: 'left',
         width: 150,
+        ellipsis: {
+          showTitle: false,
+        },
+        render: (text) => <Tooltip title={text}>{text}</Tooltip>,
       },
       {
         title: i18n.t('org:application/Member Statistics'),
