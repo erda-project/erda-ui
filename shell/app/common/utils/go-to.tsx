@@ -130,7 +130,7 @@ export enum pages {
   dopRoot = '/{orgName}/dop/projects',
   dopApps = '/{orgName}/dop/apps',
   dopService = '/{orgName}/dop/service',
-  dopApprove = '/{orgName}/dop/my-approve',
+  dopApprove = '/{orgName}/dop/approval',
   dopApprovePending = '/{orgName}/dop/approval/my-approve/pending',
   dopMyInitiate = '/{orgName}/dop/approval/my-initiate',
   dopMyInitiateWait = '/{orgName}/dop/approval/my-initiate/WaitApprove',
