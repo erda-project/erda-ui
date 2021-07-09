@@ -859,7 +859,12 @@ export default ({ scopeType }: { scopeType: string }) => {
             <MarkdownEditor
               value={form.getFieldValue(['notify', 'content'])}
               onBlur={(value) => {
-                form.setFieldsValue({ 'notify.content': value });
+                form.setFieldsValue({
+                  notify: {
+                    ...(form.getFieldValue('notify') || {}),
+                    content: value,
+                  },
+                });
               }}
               defaultMode="md"
               placeholder={i18n.t('org:refer to template sample to input')}
