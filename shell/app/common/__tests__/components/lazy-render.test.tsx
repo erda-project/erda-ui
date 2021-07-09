@@ -37,9 +37,9 @@ describe('LazyRender', () => {
     );
     expect(wrapper.find('.lazy-render-1')).not.toExist();
     const observerCallback = window.IntersectionObserver.mock.calls[0][0];
-    observerCallback([{ intersectionRatio: 0 }]);
+    observerCallback([{ isIntersecting: false }]);
     expect(wrapper.find('.lazy-render-1')).not.toExist();
-    observerCallback([{ intersectionRatio: 1 }]);
+    observerCallback([{ isIntersecting: true }]);
     wrapper.update();
     expect(wrapper.find('.lazy-render-1')).toExist();
     wrapper.unmount();
