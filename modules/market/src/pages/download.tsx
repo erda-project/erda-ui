@@ -90,8 +90,8 @@ const DownloadPage = ({ match }: any) => {
             setHasDefault(has_default);
           }
           const logStr = (defaultVersion || {}).logo;
-          const reg = /^https?:\/\/.*?\//i;
-          const logoUrl = logStr ? `/${logStr.replace(reg, '')}` : '';
+          const reg = /^https?:\/\/.*?(?=\/)/i;
+          const logoUrl = logStr ? `${logStr.replace(reg, '')}` : '';
           setLogo(logoUrl);
           setName(data.name);
           setVersionList(vList);
