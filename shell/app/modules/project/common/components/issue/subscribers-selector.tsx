@@ -39,7 +39,7 @@ export const SubscribersSelector = (props: IProps) => {
   const { id: loginUserId, ...loginUser } = userStore.getState((s) => s.loginUser);
   const { subscribe, unsubscribe, getIssueDetail, getIssueStreams, batchSubscribe } = issueStore.effects;
   const memberRef = React.useRef<{ [p: string]: Function }>(null);
-  const [subscribers, setSubscribers] = React.useState<(string | number)[]>([]);
+  const [subscribers, setSubscribers] = React.useState<Array<string | number>>([]);
   const [usersMap, setUsersMap] = React.useState({});
 
   const isFollowed = subscribers.includes(loginUserId);
@@ -111,7 +111,7 @@ export const SubscribersSelector = (props: IProps) => {
           ref={memberRef}
           mode="multiple"
           value={subscribers || []}
-          onVisibleChange={async (visible: boolean, values: Array<any>[]) => {
+          onVisibleChange={async (visible: boolean, values: any[][]) => {
             const ids: string[] = values[0] || [];
             const options: Array<{ userId: number }> = values[1] || [];
             // this event fires too often
@@ -120,7 +120,7 @@ export const SubscribersSelector = (props: IProps) => {
                 await batchSubscribe({ id: issueID, subscribers: ids });
                 updateIssueDrawer();
               } else {
-                let newUsers = options.filter((item) => !usersMap[item.userId]);
+                const newUsers = options.filter((item) => !usersMap[item.userId]);
                 newUsers.forEach((item) => {
                   usersMap[item.userId] = item;
                 });
@@ -155,7 +155,7 @@ export const SubscribersSelector = (props: IProps) => {
             {subscribers.map((item) => {
               const user = usersMap[item] || {};
               return (
-                <div>
+                <div key={user.id}>
                   <ImgHolder
                     src={user.avatar}
                     text={user.nick ? user.nick.substring(0, 1) : i18n.t('none')}
@@ -183,7 +183,7 @@ export const SubscribersSelector = (props: IProps) => {
               await unsubscribe({ id: issueID });
               updateIssueDrawer();
             } else {
-              let index = subscribers.findIndex((item) => item === loginUserId);
+              const index = subscribers.findIndex((item) => item === loginUserId);
               subscribers.splice(index, 1);
               setSubscribers([...subscribers]);
             }

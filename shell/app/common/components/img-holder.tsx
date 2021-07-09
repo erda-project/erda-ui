@@ -90,9 +90,11 @@ export const ImgHolder = (props: IProps) => {
         theme = 'avatar';
       }
     }
-    const holderParams = compact(
-      map({ random, size, text, theme, fg, bg, font, fontweight }, (v, k) => (v === undefined ? v : `${k}=${v}`)),
-    ).join('&');
+    const holderParams = encodeURI(
+      compact(
+        map({ random, size, text, theme, fg, bg, font, fontweight }, (v, k) => (v === undefined ? v : `${k}=${v}`)),
+      ).join('&'),
+    );
     return (
       <img
         alt="holder"
@@ -110,7 +112,6 @@ export const ImgHolder = (props: IProps) => {
     style.width = `${w}px`;
     style.height = `${h}px`;
   }
-
   return (
     <img
       alt="holder"
