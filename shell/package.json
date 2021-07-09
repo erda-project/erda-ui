@@ -17,6 +17,7 @@
     "test-local:coverage": "jest --verbose --coverage -c ./jest.config.local.js",
     "test:watch": "jest --verbose --watch",
     "auto-test": "PWDEBUG=console TEST_ROLES=Admin npx playwright test --config=auto_test/playwright.config.ts",
+    "debug-test": "PWDEBUG=1 TEST_ROLES=Admin npx playwright test --config=auto_test/playwright.config.ts",
     "gen-test": "npx playwright codegen --load-storage=auto_test/auth/Admin.json https://erda.hkci.terminus.io",
     "copy:coverage": "cp -R ./coverage ../coverage",
     "watch": "cross-env-shell NODE_ENV=development 'npm run clean && webpack --progress --color -w'",

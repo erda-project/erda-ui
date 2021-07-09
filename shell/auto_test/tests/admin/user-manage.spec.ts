@@ -1,56 +1,63 @@
 import { UserManagePage } from './../pages/user-manage';
-import { test, expect } from '@playwright/test';
-import { adminFormData } from './user-manage.secret';
+import { test, expect } from '../../fixtures';
 
 test.use({
   storageState: 'auto_test/auth/Admin.json',
 });
 
-test.describe('user manage', () => {
-  test('test', async ({ page }) => {
-    // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
-    await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/user-manage');
+const name = 'auto_' + Date.now();
+const formData = {
+  name,
+  password: 'auto_test_user',
+  nick: name,
+  phone: '',
+  email: `${name}@erda.cloud`,
+};
 
-    const userCount = (await page.$$(`text=${adminFormData.name}`)).length;
-    const userManagePage = new UserManagePage(page);
+test('user manage', async ({ page, wait, expectExist }) => {
+  // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
+  await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/user-manage');
 
-    if (userCount === 0) {
-      await userManagePage.createUser(adminFormData);
+  // Click [placeholder="user name"]
+  await page.click('[placeholder="user name"]');
+  // Fill [placeholder="user name"]
+  await Promise.all([
+    page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/-/sysAdmin/user-manage?name=auto_123&pageNo=1' }*/),
+    page.fill('[placeholder="user name"]', formData.name),
+  ]);
 
-      expect((await page.$$(`text=${adminFormData.name}`)).length).toBe(1);
-    } else {
-      let count = await userManagePage.filterUser(
-        {
-          name: 'should not exist',
-        },
-        'td div:has-text("no data")',
-      );
-      expect(count).toBe(1);
+  await wait(1);
+  expectExist('text=no data', 1);
 
-      count = await userManagePage.filterUser(
-        {
-          phone: adminFormData.phone,
-          nick: adminFormData.nick,
-        },
-        `text=${adminFormData.phone}`,
-      );
-      expect(count).toBe(1);
+  const userManagePage = new UserManagePage(page);
 
-      count = await userManagePage.filterUser(
-        {
-          nick: adminFormData.nick,
-        },
-        `text=${adminFormData.phone}`,
-      );
-      expect(count).toBe(1);
+  await userManagePage.createUser(formData);
+  await wait(2);
 
-      count = await userManagePage.filterUser(
-        {
-          email: adminFormData.email,
-        },
-        `text=${adminFormData.phone}`,
-      );
-      expect(count).toBe(1);
-    }
+  await expectExist(`text=${formData.email}`, 1);
+
+  await userManagePage.filterUser({
+    name: 'should not exist',
   });
+  await wait(1);
+  await expectExist('text=no data', 1);
+
+  await userManagePage.filterUser({
+    phone: formData.phone,
+    nick: formData.nick,
+  });
+  await wait(1);
+  await expectExist(`text=${formData.email}`, 1);
+
+  await userManagePage.filterUser({
+    nick: formData.nick,
+  });
+  await wait(1);
+  await expectExist(`text=${formData.email}`, 1);
+
+  await userManagePage.filterUser({
+    email: formData.email,
+  });
+  await wait(1);
+  await expectExist(`text=${formData.email}`, 1);
 });
