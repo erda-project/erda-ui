@@ -14,7 +14,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { map } from 'lodash';
-import { LoadMore } from 'common';
 import { commonChartRender } from 'monitor-common';
 import { groupHandler } from 'common/utils/chart-utils';
 import ErrorCard from './error-card';
@@ -25,9 +24,13 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import monitorOverviewStore from 'monitor-overview/stores/monitor-overview';
 import { useLoading } from 'core/stores/loading';
 import { useEffectOnce } from 'react-use';
+import { Pagination, Spin } from 'app/nusi';
+import { EmptyHolder } from 'common';
 import i18n from 'i18n';
 
 import './error-overview.scss';
+
+const pageSize = 20;
 
 const errorChartConfig = {
   fetchApi: '/api/tmc/metrics/error_count/histogram',
@@ -49,6 +52,7 @@ const ErrorOverview = () => {
   const { getErrorsList } = monitorErrorStore.effects;
   const { clearMonitorErrors } = monitorErrorStore.reducers;
   const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
+  const [pageNo, setPageNo] = React.useState(1);
 
   useEffectOnce(() => {
     getMonitorInstance();
@@ -58,6 +62,7 @@ const ErrorOverview = () => {
   React.useEffect(() => {
     clearMonitorErrors();
     getList({ timeSpan, workspace });
+    setPageNo(1);
   }, [workspace, timeSpan]);
 
   const getList = (_q?: any) => {
@@ -70,9 +75,14 @@ const ErrorOverview = () => {
     }
   };
 
-  const { list, offset, total } = errors;
-  const isFetchingErrors = loading;
-  const hasMore = Number(offset) !== -1;
+  const handleChangePage = (page: number) => {
+    setPageNo(page || 1);
+  };
+
+  const { list, total } = errors;
+  const currentPageList = React.useMemo(() => {
+    return (list || []).slice((pageNo - 1) * pageSize, pageNo * pageSize);
+  }, [list, pageNo]);
   // 当env为空时，不可查询
   // shell/app/modules/msp/monitor/monitor-common/components/chartFactory.tsx
   // 临时处理：上面引用的 chartFactory 有个循环渲染的 bug， 受影响的目前只有这一处：
@@ -81,16 +91,21 @@ const ErrorOverview = () => {
   };
   return (
     <div className="error-overview">
-      <ErrorFilters />
-      <ErrorChart {...query} />
-      <div className="page-total">{`${i18n.t('msp:total number of errors')}：${total}`}</div>
-      {map(list, (err, i) => (
-        <ErrorCard key={i} data={err} />
-      ))}
-      <LoadMore load={getList} hasMore={hasMore} isLoading={isFetchingErrors} />
-      {!hasMore && list.length > 0 ? (
-        <div className="no-more">--------- {i18n.t('msp:no more data')} ----------</div>
-      ) : null}
+      <Spin spinning={loading}>
+        <ErrorFilters />
+        <ErrorChart {...query} />
+        <div className="page-total">{`${i18n.t('msp:total number of errors')}：${total}`}</div>
+        {map(currentPageList, (err, i) => (
+          <ErrorCard key={i} data={err} />
+        ))}
+        {total ? (
+          <div className="mt16 right-flex-box">
+            <Pagination current={pageNo} pageSize={pageSize} total={total} onChange={handleChangePage} />
+          </div>
+        ) : (
+          <EmptyHolder relative />
+        )}
+      </Spin>
     </div>
   );
 };
