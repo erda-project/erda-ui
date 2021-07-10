@@ -9,16 +9,13 @@ async function globalSetup() {
   // const context = await chromium.launchPersistentContext(userDataDir, { headless: false });
   const browser = await chromium.launch();
 
-  const roles = (process.env.TEST_ROLES || '').split(',') as RoleTypes[];
+  const roles = (process.env.LOGIN_ROLES || '').split(',') as RoleTypes[];
   const authFiles = fs.readdirSync(path.resolve(__dirname, './auth'));
-  console.log('>> execute with roles:', roles);
 
   const promiseList: Promise<any>[] = [];
   roles.forEach((role) => {
     if (role && !authFiles.includes(`${role}.json`)) {
-      console.log(`>> start login as ${role}`);
       promiseList.push(login({ browser, role }));
-      console.log('>> login success');
     }
   });
 

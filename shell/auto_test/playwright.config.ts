@@ -14,27 +14,12 @@ import { PlaywrightTestConfig, selectors } from '@playwright/test';
 //   }
 // });
 
-const getTestMatch = () => {
-  const roles = (process.env.TEST_ROLES || '').split(',');
-  const dirs: string[] = [];
-  if (roles.includes('Admin')) {
-    dirs.push('admin');
-  }
-  if (roles.includes('orgManager')) {
-    dirs.push('dop', 'cmp');
-  }
-
-  const testDirs = dirs.length > 1 ? `{${dirs.join(',')}}` : dirs;
-  return `${testDirs}/*.spec.ts`;
-};
-
-const testMatch = getTestMatch();
-console.log('>> execute tests:', testMatch);
-
-const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig<{ version: string }> = {
   // Look for test files in the "tests" directory, relative to this configuration file
   testDir: 'tests',
-  testMatch,
+  testMatch: '**/*.spec.ts',
+  outputDir: 'results', // under tests
+  preserveOutput: 'failures-only',
 
   // Each test is given 30 seconds
   timeout: 30000,
@@ -43,7 +28,7 @@ const config: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
 
   // Two retries for each test
-  retries: 0,
+  retries: 2,
 
   // Limit the number of workers on CI, use default locally
   workers: process.env.CI ? 2 : undefined,
@@ -62,8 +47,35 @@ const config: PlaywrightTestConfig = {
     ignoreHTTPSErrors: true,
 
     // Artifacts
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
     video: 'retry-with-video',
   },
+
+  projects: [
+    {
+      name: 'all',
+      testMatch: '**/*.spec.ts',
+      use: {
+        // version: '1.1'
+      },
+    },
+    {
+      name: 'admin',
+      testMatch: 'admin/*.spec.ts',
+      use: {
+        // version: '1.1'
+      },
+    },
+    {
+      name: 'dop',
+      testMatch: 'dop/*.spec.ts',
+      use: {},
+    },
+    {
+      name: 'cmp',
+      testMatch: 'cmp/*.spec.ts',
+      use: {},
+    },
+  ],
 };
 export default config;

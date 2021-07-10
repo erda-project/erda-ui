@@ -4,7 +4,7 @@
 
 1、进入 shell 目录，更新依赖，下载 playwright
 
-2、`shell/auto_test` 目录下手动新建 `config.ts`, 内容如下，自行配置密码:
+2、`shell/auto_test/auth` 目录下手动新建 `config.ts`, 内容如下，自行配置密码:
 
 ```
 export default {
@@ -26,11 +26,11 @@ export default {
 }
 ```
 
-3、调整 package.json 中的 `npm run auto-test` 命令里的 TEST_ROLES，可配置 config.ts 中的角色
+3、如果 auto_test/auth 目录下还没生成角色的信息文件，调整 package.json 中的 `npm run auto-test` 命令里的 LOGIN_ROLES，可配置 config.ts 中的角色
 
 4、执行 `npm run auto-test`，正常情况会自动登录，然后在 auto_test/auth 目录下生成对应角色名的登录信息文件，如果已有则会跳过。
 
-5、恢复登录状态后开始执行测试用例，查看输出结果。错误时会生成截图文件
+5、恢复登录状态后开始执行测试用例，查看输出结果。错误时会在 tests/results 目录下生成截图文件
 
 ## 结构说明
 
@@ -41,6 +41,7 @@ auto_test 主目录
 - util.ts 工具方法
 - tests 用例目录
   - pages Page Model 目录
+  - results 输出文件目录，包括截图等
   - dop dop 用例
     - xx.spec.ts 用例
     - xx.secret.ts 用例配套的需要保密的信息

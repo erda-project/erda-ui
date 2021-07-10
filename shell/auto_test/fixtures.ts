@@ -1,15 +1,18 @@
 import base, { expect } from '@playwright/test';
+import { RoleTypes } from './login.spec';
 
-type TestFixtures = {
-  wait(seconds?: number): void;
-  expectExist(seconds: string, count?: number): boolean;
-  expectRequestSuccess(): boolean;
-};
+interface TestFixtures {
+  version: string;
+  wait: (seconds?: number) => void;
+  expectExist: (seconds: string, count?: number) => boolean;
+  expectRequestSuccess: () => void;
+  goTo: (key: string) => void;
+}
 
 // Extend base test with our fixtures.
 const test = base.extend<TestFixtures>({
   // This fixture is a constant, so we can just provide the value.
-  // hello: 'Hello',
+  version: '1.0', // provide different value by project.use config
 
   wait: async ({ page }, use) => {
     await use(async (seconds) => {
@@ -47,6 +50,25 @@ const test = base.extend<TestFixtures>({
 
     // Clean up the fixture. Nothing to cleanup in this example.
   },
+
+  goTo: async ({ page }, use) => {
+    const gotoMap = {
+      root: '',
+    };
+    await use(async (key) => {
+      await page.goto(gotoMap[key]);
+    });
+  },
 });
 
-export { test, expect };
+const Role = (role: RoleTypes, fn: () => void) => {
+  test.describe(`[${role}]`, () => {
+    test.use({
+      storageState: `auto_test/auth/${role}.json`,
+    });
+
+    fn();
+  });
+};
+
+export { test, expect, Role };
