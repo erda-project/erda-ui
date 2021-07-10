@@ -3661,8 +3661,8 @@
     "yesterday": "昨天",
     "you need": "您需要",
     "your browser does not support WebSocket!": "您的浏览器不支持 WebSocket!",
-    "{num} members are watching": "{num} 位成员正在关注",
-    "{num} people attention": "{num} 人关注"
+    "{num} members are following": "{num} 位成员正在关注",
+    "{num} people followed": "{num} 人关注"
   },
   "publisher": {
     "1-6 decimal places": "1-6位小数",
