@@ -363,7 +363,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
-            scroll={{ x: '100%' }}
+            // table's scroll cannot be used with  select's getPopupContainer
+            // scroll={{ x: '100%' }}
           />
         </>
       ),
