@@ -15,9 +15,7 @@ declare namespace MONITOR_ERROR {
   interface IErrorQuery {
     startTime: number;
     endTime: number;
-    workspace: string;
-    offset?: number;
-    projectId?: string;
+    scopeId: string;
   }
 
   interface IErrorResp {
@@ -28,42 +26,43 @@ declare namespace MONITOR_ERROR {
   }
 
   interface IError {
-    applicationId: string;
+    id: string;
     className: string;
-    createTime: string;
-    errorId: string;
+    method: string;
+    type: string;
     eventCount: number;
     exceptionMessage: string;
     file: string;
-    methodName: string;
-    runtimeId: string;
+    applicationID: string;
+    runtimeID: string;
     serviceName: string;
-    terminusKey: string;
-    type: string;
+    scopeID: string;
+    createTime: string;
     updateTime: string;
   }
 
   interface IEventIdsQuery {
     id: string;
-    errorType: string;
+    errorType: 'error-detail' | 'request-detail';
     terminusKey: string;
   }
 
   interface IEventDetailQuery {
-    id: string;
-    terminusKey: string;
+    exceptionEventId: string;
+    scopeId: string;
   }
 
   interface IEventDetail {
-    eventId: string;
-    timestamp: string;
-    requestSampled: boolean;
-    tags: Obj<string>;
-    stacks: IStacks[];
-    metaData: Obj<string>;
-    requestId?: string;
+    id: string;
+    exceptionId: string;
+    metadata: Obj<string>;
     requestContext: Obj<string>;
     requestHeaders: Obj<string>;
+    requestId?: string;
+    stacks: { stack: IStacks }[];
+    tags: Obj<string>;
+    timestamp: string;
+    requestSampled: boolean;
   }
 
   interface IStacks {

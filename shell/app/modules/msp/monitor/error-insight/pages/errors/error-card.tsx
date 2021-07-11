@@ -13,7 +13,6 @@
 
 import * as React from 'react';
 import { Tooltip, Row, Col } from 'app/nusi';
-import { get } from 'lodash';
 import { resolvePath, fromNow } from 'common/utils';
 import { Link } from 'react-router-dom';
 import './error-card.scss';
@@ -21,11 +20,10 @@ import { Time as IconTime } from '@icon-park/react';
 import i18n from 'i18n';
 
 interface IProps {
-  data: object;
+  data: MONITOR_ERROR.IError;
 }
 
-const ErrorCard = (props: IProps) => {
-  const data = get(props, 'data') as any;
+const ErrorCard = ({ data }: IProps) => {
   return (
     <div className="error-card-container">
       <Row className="error-card-title">
@@ -41,9 +39,9 @@ const ErrorCard = (props: IProps) => {
         <Col span={18} className="error-info-container">
           <div>
             <span className="error-name">
-              <Link to={resolvePath(`./error-detail/${data.errorId}`)}>{data.type}</Link>
+              <Link to={resolvePath(`./error-detail/${data.id}`)}>{data.type}</Link>
             </span>
-            <span className="error-class">{`${data.className}  in  ${data.methodName}`}</span>
+            <span className="error-class">{`${data.className}  in  ${data.method}`}</span>
           </div>
           <div className="error-file">{data.file}</div>
           <div className="error-desc">

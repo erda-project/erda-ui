@@ -31,20 +31,41 @@ export const getTraceHistoryList = (query: { terminusKey: string }): MONITOR_TRA
 
 // https://yuque.antfin-inc.com/docs/share/e59c5eb3-fbfe-44f7-81a2-567e2fc26703#gsiniv
 // request详情
-export const getTraceDetail = ({ requestId }: { requestId: string }): MONITOR_TRACE.IHistory => {
-  return agent.get(`/api/spot/trace-requests/${requestId}`).then((response: any) => response.body);
+export const getTraceDetail = ({
+  requestId,
+  ...query
+}: {
+  requestId: string;
+  terminusKey: string;
+}): MONITOR_TRACE.IHistory => {
+  return agent
+    .get(`/api/spot/trace-requests/${requestId}`)
+    .query(query)
+    .then((response: any) => response.body);
 };
 
 // https://yuque.antfin-inc.com/docs/share/e59c5eb3-fbfe-44f7-81a2-567e2fc26703#d6hcaf
 // 查看Request的状态
-export const getTraceStatus = ({ requestId }: { requestId: string }): MONITOR_TRACE.IStatus => {
-  return agent.get(`/api/spot/trace-requests/${requestId}/status`).then((response: any) => response.body);
+export const getTraceStatus = ({
+  requestId,
+  ...query
+}: {
+  requestId: string;
+  terminusKey: string;
+}): MONITOR_TRACE.IStatus => {
+  return agent
+    .get(`/api/spot/trace-requests/${requestId}/status`)
+    .query(query)
+    .then((response: any) => response.body);
 };
 
 // https://yuque.antfin-inc.com/docs/share/e59c5eb3-fbfe-44f7-81a2-567e2fc26703#i9e3gi
 // 主动取消status
-export const cancelTraceStatus = ({ requestId }: { requestId: string }) => {
-  return agent.put(`/api/spot/trace-requests/${requestId}/actions/cancel`).then((response: any) => response.body);
+export const cancelTraceStatus = ({ requestId, ...data }: { requestId: string; terminusKey: string }) => {
+  return agent
+    .put(`/api/spot/trace-requests/${requestId}/actions/cancel`)
+    .send(data)
+    .then((response: any) => response.body);
 };
 
 export const getTraceDetailContent = ({

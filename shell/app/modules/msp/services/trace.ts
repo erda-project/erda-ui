@@ -22,7 +22,7 @@ export const getTraceCount = (q: MS_MONITOR.ITraceCountQuery): any => {
 
 export const getTraceSummary = (q: MS_MONITOR.ITraceSummaryQuery): MS_MONITOR.ITraceSummary[] => {
   return agent
-    .get('/api/trace/summary')
+    .get('/api/msp/apm/traces')
     .query(q)
     .then((response: any) => response.body);
 };

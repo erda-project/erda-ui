@@ -49,14 +49,7 @@ const trace = createFlatStore({
   effects: {
     async getTraceCount(
       { call, update, getParams },
-      payload: {
-        start?: number;
-        end?: number;
-        'filter_fields.applications_ids'?: number;
-        'filter_fields.services_distinct'?: string;
-        field_gt_errors_sum?: number;
-        field_eq_errors_sum?: number;
-      },
+      payload: Omit<MS_MONITOR.ITraceCountQuery, 'cardinality' | 'align' | 'filter_fields.terminus_keys'>,
     ) {
       const { terminusKey } = getParams();
       const traceCount = await call(getTraceCount, {
@@ -67,9 +60,9 @@ const trace = createFlatStore({
       });
       update({ traceCount });
     },
-    async getTraceSummary({ call, update, getParams }, payload: MS_MONITOR.ITraceSummaryQuery) {
+    async getTraceSummary({ call, update, getParams }, payload: Omit<MS_MONITOR.ITraceSummaryQuery, 'scopeId'>) {
       const { terminusKey } = getParams();
-      const traceSummary = await call(getTraceSummary, { terminusKey, ...payload });
+      const traceSummary = await call(getTraceSummary, { scopeId: terminusKey, ...payload });
       update({ traceSummary });
     },
     async getSpanDetailContent({ call, update }, payload: any) {

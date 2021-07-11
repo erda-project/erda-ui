@@ -23,7 +23,7 @@ declare namespace MS_MONITOR {
     align: boolean;
     start?: number;
     end?: number;
-    filter_terminus_key: string;
+    'filter_fields.terminus_keys': string;
     'filter_fields.applications_ids'?: number;
     'filter_fields.services_distinct'?: string;
     field_gt_errors_sum?: number;
@@ -32,24 +32,25 @@ declare namespace MS_MONITOR {
   }
 
   interface ITraceSummaryQuery {
-    start: number;
-    end: number;
-    limit: number;
-    'tag.error'?: boolean;
-    'tag.fields.applications_ids': number;
-    'tag.fields.services_distinct': string;
-    field_gt_errors_sum?: number;
-    field_eq_errors_sum?: number;
+    scopeId: string;
+    applicationId?: number;
+    status: number; // -1 error, 0 both, 1 success
+    startTime: number;
+    endTime: number;
+    limit?: number;
   }
 
   interface ITraceSummary {
+    id: string;
     elapsed: number;
-    start_time: number;
-    labels: Array<{
-      key: string;
-      count: string;
-    }>;
-    operation_name: string;
-    trace_id: string;
+    services: string[];
+    startTime: number;
+    // start_time: number;
+    // labels: Array<{
+    //   key: string;
+    //   count: string;
+    // }>;
+    // operation_name: string;
+    // trace_id: string;
   }
 }
