@@ -85,6 +85,12 @@ declare namespace MONITOR_TRACE {
     traceId: string;
   }
 
+  interface IQuerySpan {
+    traceId: string;
+    scopeId: string;
+    limit?: number;
+  }
+
   interface ISpan {
     annotations: any[];
     binaryAnnotations: IAnnotations[];
