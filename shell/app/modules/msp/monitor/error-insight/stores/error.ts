@@ -16,26 +16,14 @@ import { getErrorsList, getEventIds, getEventDetail } from '../services/errors';
 
 interface IState {
   filters: Obj<string>;
-  errors: {
-    list: MONITOR_ERROR.IError[];
-    offset: number;
-    limit: number;
-    total: number;
-  };
+  errors: MONITOR_ERROR.IError[];
   eventIds: string[];
   eventDetail: MONITOR_ERROR.IEventDetail;
 }
 
-const defaultErrors = {
-  list: [],
-  offset: 0,
-  limit: 10,
-  total: 0,
-};
-
 const initState: IState = {
   filters: {},
-  errors: defaultErrors,
+  errors: [],
   eventIds: [],
   eventDetail: {} as MONITOR_ERROR.IEventDetail,
 };
@@ -44,17 +32,9 @@ const error = createStore({
   name: 'monitorErrors',
   state: initState,
   effects: {
-    async getErrorsList({ call, select, update, getParams }, payload: MONITOR_ERROR.IErrorQuery) {
-      const { projectId } = getParams();
-      const preErrors = select((s) => s.errors);
-      const { offset } = preErrors;
-      if (Number(offset) === -1) return; // offset-1表示当前往下无数据
-      const errors = await call(getErrorsList, { ...payload, offset, projectId });
-      if (errors) {
-        error.reducers.getErrorsListSuccess({ errors, reqOffset: offset });
-      } else {
-        update({ errors: { ...preErrors, offset: -1 } });
-      }
+    async getErrorsList({ call, update }, payload: MONITOR_ERROR.IErrorQuery) {
+      const errors = await call(getErrorsList, { ...payload });
+      update({ errors });
     },
     async getEventIds({ call, update, getParams }) {
       const { errorType, errorId, terminusKey } = getParams();
@@ -63,22 +43,13 @@ const error = createStore({
     },
     async getEventDetail({ call, update, getParams }, payload: { id: string }) {
       const { terminusKey } = getParams();
-      const eventDetail = await call(getEventDetail, { ...payload, terminusKey });
+      const eventDetail = await call(getEventDetail, { exceptionEventId: payload.id, scopeId: terminusKey });
       update({ eventDetail });
     },
   },
   reducers: {
-    getErrorsListSuccess(
-      state,
-      payload: { errors: { errors: MONITOR_ERROR.IError[]; offset: number; total: number }; reqOffset: number },
-    ) {
-      const { errors, offset, total } = payload.errors;
-      const oldList = state.errors.list;
-      const list = `${payload.reqOffset}` === '0' ? errors : oldList.concat(errors);
-      return { ...state, errors: { list, offset, total } };
-    },
     clearMonitorErrors(state) {
-      return { ...state, errors: defaultErrors };
+      return { ...state, errors: [] };
     },
     setFilters(state, payload) {
       return { ...state, filters: payload };
