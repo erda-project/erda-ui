@@ -486,7 +486,7 @@ export const AddClusterModal = (props: IProps) => {
   };
 
   if (clusterType === 'k8s' && initData) {
-    const { manageConfig } = initData as any;
+    const { manageConfig } = initData as Obj;
     const { credentialSource, address } = manageConfig || {};
     set(initData, 'credentialType', credentialSource);
     set(initData, 'credential.address', address);

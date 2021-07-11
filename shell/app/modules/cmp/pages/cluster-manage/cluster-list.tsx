@@ -351,9 +351,13 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
     log: true,
     getProps(_, record) {
+      const clusterDetail = getClusterDetail(record.name);
       return {
         fetchApi: '/api/orgCenter/logs',
-        extraQuery: { clusterName: record?.name },
+        extraQuery: {
+          clusterName: get(clusterDetail, 'basic.initJobClusterName.value'),
+          id: get(clusterDetail, 'basic.clusterInitContainerID.value'),
+        },
         sourceType: 'container',
       };
     },
