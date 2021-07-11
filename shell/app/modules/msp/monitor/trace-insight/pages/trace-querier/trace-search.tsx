@@ -24,7 +24,6 @@ import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import traceStore from '../../../../stores/trace';
 import TraceSearchDetail from './trace-search-detail';
-import { customTagColor } from 'dcos/common/config';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -53,8 +52,15 @@ export default () => {
     };
   });
 
-  const getData = (obj?: any) => {
-    const { timeFrom, timeTo, service, limit, appId, status } = obj || {};
+  const getData = (obj?: {
+    timeFrom: number;
+    timeTo: number;
+    limit: number;
+    applicationId: number;
+    status: string;
+    service: string;
+  }) => {
+    const { timeFrom, timeTo, service, limit, applicationId, status } = obj || {};
     const _status = Number(status);
     const start = (timeFrom && moment(timeFrom).valueOf()) || initialRange[0].valueOf();
     const end = (timeTo && moment(timeTo).valueOf()) || initialRange[1].valueOf();
@@ -62,19 +68,17 @@ export default () => {
     getTraceCount({
       start,
       end,
-      'filter_fields.applications_ids': appId,
+      'filter_fields.applications_ids': applicationId,
       'filter_fields.services_distinct': service,
-      field_gt_errors_sum: _status === 1 ? 0 : undefined,
-      field_eq_errors_sum: _status === 0 ? 0 : undefined,
+      field_gt_errors_sum: _status === -1 ? 0 : undefined,
+      field_eq_errors_sum: _status === 1 ? 0 : undefined,
     });
     getTraceSummary({
-      start,
-      end,
+      startTime: start,
+      endTime: end,
       limit,
-      'tag.fields.applications_ids': appId,
-      'tag.fields.services_distinct': service,
-      field_gt_errors_sum: _status === 1 ? 0 : undefined,
-      field_eq_errors_sum: _status === 0 ? 0 : undefined,
+      applicationId,
+      status: _status || 0,
     });
   };
 
@@ -114,7 +118,7 @@ export default () => {
     () => [
       {
         type: Select,
-        name: 'appId',
+        name: 'applicationId',
         valueType: 'number',
         customProps: {
           placeholder: i18n.t('msp:please select application'),
@@ -142,10 +146,10 @@ export default () => {
         customProps: {
           placeholder: i18n.t('msp:please select status'),
           options: [
-            <Option key={1} value={1}>
+            <Option key={-1} value={-1}>
               {i18n.t('error')}
             </Option>,
-            <Option key={2} value={0}>
+            <Option key={1} value={1}>
               {i18n.t('succeed')}
             </Option>,
           ],
@@ -211,7 +215,7 @@ export default () => {
   const columns = [
     {
       title: i18n.t('msp:trace id'),
-      dataIndex: 'trace_id',
+      dataIndex: 'id',
       width: 350,
       render: (id: string) => <Copy>{id}</Copy>,
     },
@@ -227,9 +231,9 @@ export default () => {
       render: (time: number) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('tag'),
-      dataIndex: 'labels',
-      render: (labels: any[]) => <TagsColumn labels={labels.map((l) => ({ label: l, color: customTagColor[l] }))} />,
+      title: i18n.t('service'),
+      dataIndex: 'services',
+      render: (services: string[]) => <TagsColumn labels={services.map((service) => ({ label: service }))} />,
     },
     {
       title: i18n.t('common:operation'),
@@ -237,7 +241,7 @@ export default () => {
       width: 180,
       render: (_: any, record: any) => (
         <div className="table-operations">
-          <span onClick={(e) => handleCheckTraceDetail(e, record.trace_id)} className="table-operations-btn">
+          <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
             {i18n.t('check detail')}
           </span>
         </div>
@@ -251,7 +255,7 @@ export default () => {
       <div className="mb24">
         <PureBoardGrid layout={layout} />
       </div>
-      <Table loading={loading} rowKey="trace_id" columns={columns} dataSource={traceSummary} scroll={{ x: '100%' }} />
+      <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: '100%' }} />
       <Drawer
         title={i18n.t('msp:link information')}
         visible={detailVisible}

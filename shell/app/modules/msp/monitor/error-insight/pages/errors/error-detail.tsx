@@ -80,9 +80,9 @@ const ErrorDetail = () => {
     updater.showAllStacks(!showAllStacks);
   };
 
-  const getStackItem = (info: MONITOR_ERROR.IStacks) => {
-    if (isEmpty(info)) return null;
-    const { className, methodName, line, index } = info;
+  const getStackItem = (info: { stack: MONITOR_ERROR.IStacks }) => {
+    if (isEmpty(info.stack)) return null;
+    const { className, methodName, line, index } = info.stack;
     return (
       <div key={index} className="stack-item">
         {className}
@@ -191,12 +191,12 @@ const ErrorDetail = () => {
     timestamp,
     stacks,
     tags,
-    metaData,
+    metadata,
     requestContext,
     requestHeaders,
     requestSampled,
   } = eventDetail || ({} as MONITOR_ERROR.IEventDetail);
-  const { exception_message, file, message, type } = metaData || ({} as any);
+  const { exception_message, file, message, type } = metadata || {};
   const exceptionMsg =
     exception_message && exception_message.length > 150 ? (
       <Tooltip title={exception_message} overlayClassName="error-insight-error-msg-tip">
@@ -212,7 +212,7 @@ const ErrorDetail = () => {
           <Col span={18} className="left">
             <div className="content-block head-container">
               <span className="name">{type}</span>
-              <span className="info">{metaData && `${metaData.class} at ${file}`}</span>
+              <span className="info">{metadata && `${metadata.class} at ${file}`}</span>
               <div className="page-info">{`${eventIndex + 1} / ${eventIds.length}`}</div>
               <div className="error-msg">{exceptionMsg}</div>
             </div>

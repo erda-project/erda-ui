@@ -55,14 +55,14 @@ declare namespace MONITOR_ERROR {
   interface IEventDetail {
     id: string;
     exceptionId: string;
-    timestamp: string;
-    requestSampled: boolean;
-    tags: Obj<string>;
-    stacks: IStacks[];
-    metaData: Obj<string>;
-    requestId?: string;
+    metadata: Obj<string>;
     requestContext: Obj<string>;
     requestHeaders: Obj<string>;
+    requestId?: string;
+    stacks: { stack: IStacks }[];
+    tags: Obj<string>;
+    timestamp: string;
+    requestSampled: boolean;
   }
 
   interface IStacks {

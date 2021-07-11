@@ -17,7 +17,7 @@ import { cutStr } from 'common/utils';
 import './tags-column.scss';
 
 export interface IProps {
-  labels: Array<{ label: string; color: keyof typeof TagColorMap }>;
+  labels: Array<{ label: string; color?: keyof typeof TagColorMap }>;
   showCount?: number;
   containerClassName?: string;
   size?: 'small' | 'default';

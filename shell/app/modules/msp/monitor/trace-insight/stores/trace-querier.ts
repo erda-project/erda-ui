@@ -112,8 +112,9 @@ const traceQuerier = createStore({
       await traceQuerier.effects.getTraceDetail({ requestId: currentTraceRequestId });
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
-    async getTraceDetail({ call }, payload: { requestId: string }) {
-      const { method, url, body, query, header, ...rest } = await call(getTraceDetail, payload);
+    async getTraceDetail({ call, getParams }, payload: { requestId: string }) {
+      const { terminusKey } = getParams();
+      const { method, url, body, query, header, ...rest } = await call(getTraceDetail, { terminusKey, ...payload });
       traceQuerier.reducers.setRequestTraceParams({
         method: method || 'GET',
         url: url || '',
@@ -123,11 +124,12 @@ const traceQuerier = createStore({
         ...rest,
       });
     },
-    async getTraceStatusDetail({ select, call, update }, payload: { requestId: string }) {
+    async getTraceStatusDetail({ select, call, update, getParams }, payload: { requestId: string }) {
+      const { terminusKey } = getParams();
       const currentTraceRequestId = select((s) => s.currentTraceRequestId);
       if (currentTraceRequestId !== payload.requestId) return;
 
-      const traceStatusDetail = await call(getTraceStatus, payload);
+      const traceStatusDetail = await call(getTraceStatus, { terminusKey, ...payload });
       update({ traceStatusDetail });
       if (traceStatusDetail.status === 0) {
         const delay = (ms: number) =>
@@ -141,12 +143,17 @@ const traceQuerier = createStore({
         await traceQuerier.effects.getTraceDetailContent({ requestId: payload.requestId });
       }
     },
-    async cancelTraceStatus({ select, call }, payload: { requestId: string }) {
+    async cancelTraceStatus({ select, call, getParams }, payload: { requestId: string }) {
+      const { terminusKey } = getParams();
       const currentTraceRequestId = select((s) => s.currentTraceRequestId);
-      await call(cancelTraceStatus, payload, {
-        successMsg: i18n.t('msp:cancelled successfully'),
-        errorMsg: i18n.t('msp:Failed to cancel. Please try again late.'),
-      });
+      await call(
+        cancelTraceStatus,
+        { terminusKey, ...payload },
+        {
+          successMsg: i18n.t('msp:cancelled successfully'),
+          errorMsg: i18n.t('msp:Failed to cancel. Please try again late.'),
+        },
+      );
 
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
