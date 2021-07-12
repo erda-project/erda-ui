@@ -69,10 +69,10 @@ const cluster = createStore({
       const enableMS = get(notifyConfig, 'config.enableMS');
       update({ enableMS });
     },
-    async getClusterList({ call, update }, payload: { orgId?: number } = {}) {
+    async getClusterList({ call, update }, payload: { orgId?: number; sys?: boolean } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
-      const list = await call(getClusterList, { orgId });
+      const list = await call(getClusterList, { orgId, sys: payload.sys });
       if (list && list.length) {
         update({ list });
       }
