@@ -154,6 +154,7 @@
     }
 
     .date-range {
+      box-sizing: content-box;
       &:last-child {
         border-right: 1px solid $color-border;
       }
@@ -211,12 +212,8 @@
       overflow: visible;
     }
 
-    .pk-table {
-      .pk-table-body {
-        overflow-y: hidden;
-      }
-
-      .pk-table-thead {
+    .ant-table {
+      .ant-table-thead {
         > tr > th {
           &:last-child {
             padding: 0;
@@ -229,7 +226,7 @@
         }
       }
 
-      .pk-table-tbody {
+      .ant-table-tbody {
         overflow-y: hidden;
 
         > tr > td {

@@ -181,18 +181,11 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
         );
       },
     },
-    {
-      name: 'workspace',
-      initialValue: curEnv,
-      itemProps: {
-        type: 'hidden',
-      },
-    },
   ];
 
   const onOk = (values: any) => {
     const { branch, ...rest } = values;
-    appDeployStore.effects.addRuntimeByRelease(rest).finally(() => {
+    appDeployStore.effects.addRuntimeByRelease({ ...rest, workspace: curEnv }).finally(() => {
       setCurEnv('');
     });
   };
