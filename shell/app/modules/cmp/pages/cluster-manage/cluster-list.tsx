@@ -291,11 +291,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
+        const hasLog = get(clusterDetail, 'basic.clusterInitContainerID.value');
         return (
           <div className="flex items-center">
             <div className={`${bgColorClsMap[statusMap[status]?.[0]]} w-2 h-2 rounded-full`} />
             <div className="mx-2">{`${statusMap[status]?.[1] ?? '-'}`}</div>
-            <If condition={status === 'initializing' || status === 'initialize error'}>{renderOp(record)}</If>
+            <If condition={!!hasLog}>{renderOp(record)}</If>
           </div>
         );
       },
@@ -351,9 +352,13 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
     log: true,
     getProps(_, record) {
+      const clusterDetail = getClusterDetail(record.name);
       return {
         fetchApi: '/api/orgCenter/logs',
-        extraQuery: { clusterName: record?.name },
+        extraQuery: {
+          clusterName: get(clusterDetail, 'basic.initJobClusterName.value'),
+          id: get(clusterDetail, 'basic.clusterInitContainerID.value'),
+        },
         sourceType: 'container',
       };
     },
