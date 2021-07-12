@@ -16,7 +16,7 @@ import * as React from 'react';
 import pathLib from 'path';
 import FileContainer from 'application/common/components/file-container';
 import { FileEditor, connectCube } from 'common';
-import { goTo, qs } from 'common/utils';
+import { goTo, qs, getOrgFromPath } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
@@ -145,7 +145,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
       after = `/${curBranch}`;
       pathname = `${pathname}/tree/${curBranch}`;
     }
-    const fileSrcPrefix = `/api/repo/${appDetail.gitRepoAbbrev}/raw`;
+    const fileSrcPrefix = `/api/${getOrgFromPath()}/repo/${appDetail.gitRepoAbbrev}/raw`;
     // 根据当前url拼接的文件路径
     const fileSrc = `${fileSrcPrefix}${after}`;
     const isFile = blob.path && blob.path.endsWith(fileExtension as string);
