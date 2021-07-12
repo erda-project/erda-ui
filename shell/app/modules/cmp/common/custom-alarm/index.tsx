@@ -489,7 +489,9 @@ export default ({ scopeType }: { scopeType: string }) => {
             >
               {i18n.t('delete')}
             </span>
-            <IF check={isPreviewing}>
+
+            {/* The interface data is returned incorrectly. The back-end suggests to hide the preview button temporarily */}
+            {/* <IF check={isPreviewing}>
               <span
                 className="table-operations-btn"
                 onClick={() => {
@@ -510,7 +512,7 @@ export default ({ scopeType }: { scopeType: string }) => {
               }}
             >
               {isPreviewing ? i18n.t('cancel') : i18n.t('preview')}
-            </span>
+            </span> */}
           </div>
         );
       },
