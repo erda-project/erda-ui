@@ -199,10 +199,6 @@ const Backlog = () => {
     });
   };
 
-  const handleShowSizeChange = (curPage: number, curSize: number) => {
-    handleChangePage(1, curSize);
-  };
-
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
   return (
@@ -272,7 +268,6 @@ const Backlog = () => {
               total={total}
               pageSize={pageSize}
               onChange={handleChangePage}
-              onShowSizeChange={handleShowSizeChange}
             />
           </div>
         </Spin>
