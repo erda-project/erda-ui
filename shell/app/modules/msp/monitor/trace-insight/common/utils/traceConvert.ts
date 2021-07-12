@@ -13,7 +13,7 @@
 
 import fp from 'lodash/fp';
 import { mkDurationStr } from './traceSummary';
-import { findIndex, flatMap, groupBy, values, uniq } from 'lodash';
+import { findIndex, flatMap, groupBy, values, uniq, Dictionary } from 'lodash';
 import { ConstantNames, Constants } from 'trace-insight/common/utils/traceConstants';
 
 interface timeMarkers {
@@ -37,7 +37,15 @@ interface Trace {
   spans: MONITOR_TRACE.ISpan;
 }
 
-const recursiveGetRootMostSpan = (idSpan: any, prevSpan: MONITOR_TRACE.ITrace): MONITOR_TRACE.ITrace => {
+interface Entry {
+  span: MONITOR_TRACE.ITrace;
+  children: Entry[];
+}
+
+const recursiveGetRootMostSpan = (
+  idSpan: Dictionary<MONITOR_TRACE.ITrace>,
+  prevSpan: MONITOR_TRACE.ITrace,
+): MONITOR_TRACE.ITrace => {
   if (prevSpan.parentSpanId && idSpan[prevSpan.parentSpanId]) {
     return recursiveGetRootMostSpan(idSpan, idSpan[prevSpan.parentSpanId]);
   }
@@ -45,12 +53,12 @@ const recursiveGetRootMostSpan = (idSpan: any, prevSpan: MONITOR_TRACE.ITrace): 
 };
 
 const getRootMostSpan = (traces: MONITOR_TRACE.ITrace[]) => {
-  const firstWithoutParent = traces.find((s: any) => !s.parentSpanId);
+  const firstWithoutParent = traces.find((s) => !s.parentSpanId);
   if (firstWithoutParent) {
     return firstWithoutParent;
   }
   const idToSpanMap = fp.flow(
-    fp.groupBy((s: any) => s.id),
+    fp.groupBy((s: MONITOR_TRACE.ITrace) => s.id),
     fp.mapValues(([s]) => s),
   )(traces);
   return recursiveGetRootMostSpan(idToSpanMap, traces[0]);
@@ -59,13 +67,13 @@ const getRootMostSpan = (traces: MONITOR_TRACE.ITrace[]) => {
 const createSpanTreeEntry = (
   trace: MONITOR_TRACE.ITrace,
   traces: MONITOR_TRACE.ITrace[],
-  indexByParentId: any = null,
-) => {
+  indexByParentId?: Dictionary<MONITOR_TRACE.ITrace[]>,
+): Entry => {
   const idx =
     indexByParentId ||
     fp.flow(
-      fp.filter((s: any) => s.parentSpanId !== ''),
-      fp.groupBy((s: any) => s.parentSpanId),
+      fp.filter((s: MONITOR_TRACE.ITrace) => s.parentSpanId !== ''),
+      fp.groupBy((s: MONITOR_TRACE.ITrace) => s.parentSpanId),
     )(traces);
 
   return {
@@ -74,13 +82,13 @@ const createSpanTreeEntry = (
   };
 };
 
-const treeDepths = (entry: any, startDepth: number): Obj<number> => {
+const treeDepths = (entry: Entry, startDepth: number): Obj<number> => {
   const initial = {};
   initial[entry.span.id] = startDepth;
   if (entry.children.length === 0) {
     return initial;
   }
-  return (entry.children || []).reduce((prevMap: any, child: any) => {
+  return (entry.children || []).reduce((prevMap, child) => {
     const childDepths = treeDepths(child, startDepth + 1);
     const newCombined = {
       ...prevMap,
@@ -113,18 +121,18 @@ const traceSummary = (traces: MONITOR_TRACE.ITrace[]): { traceId: string; durati
 };
 
 const getRootSpans = (traces: MONITOR_TRACE.ITrace[]) => {
-  const ids = traces.map((s: any) => s.id);
-  return traces.filter((s: any) => ids.indexOf(s.parentSpanId) === -1);
+  const ids = traces.map((s) => s.id);
+  return traces.filter((s) => ids.indexOf(s.parentSpanId) === -1);
 };
 
-const compareSpan = (s1: any, s2: any) => {
+const compareSpan = (s1: MONITOR_TRACE.ITrace, s2: MONITOR_TRACE.ITrace) => {
   return (s1.timestamp || 0) - (s2.timestamp || 0);
 };
 
-const childrenToList = (entry: any) => {
-  const fpSort = (fn: any) => (list: any[]) => list.sort(fn);
-  const deepChildren: any = fp.flow(
-    fpSort((e1: any, e2: any) => compareSpan(e1.span, e2.span)),
+const childrenToList = (entry: Entry) => {
+  const fpSort = (fn: ((a: Entry, b: Entry) => number) | undefined) => (list: Entry[]) => list.sort(fn);
+  const deepChildren: Entry['span'][] = fp.flow(
+    fpSort((e1: Entry, e2: Entry) => compareSpan(e1.span, e2.span)),
     fp.flatMap(childrenToList),
   )(entry.children || []);
   return [entry.span, ...deepChildren];
@@ -151,7 +159,7 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace[]): Trace => {
       let errorType = 'none';
 
       if (errorType !== 'critical') {
-        if (findIndex(span.annotations || [], (ann: any) => ann.value === Constants.ERROR) !== -1) {
+        if (findIndex(span.annotations || [], (ann) => ann.value === Constants.ERROR) !== -1) {
           errorType = 'transient';
         }
       }
@@ -160,7 +168,6 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace[]): Trace => {
       return {
         spanId: span.id,
         parentId: span.parentSpanId || null,
-        spanName: span.name,
         duration: spanDuration,
         durationStr: mkDurationStr(spanDuration),
         left: left >= 100 ? 0 : left,
@@ -169,7 +176,7 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace[]): Trace => {
         depthClass: (spanDepth - 1) % 6,
         children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
         tags: span.tags,
-        annotations: (span.annotations || []).map((a: any) => ({
+        annotations: (span.annotations || []).map((a) => ({
           isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
           left: ((a.timestamp - spanStartTs) / spanDuration) * 100,
           message: a.message,
