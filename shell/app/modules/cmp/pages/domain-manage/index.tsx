@@ -246,8 +246,7 @@ const DomainManage = () => {
     current: domainPaging.pageNo,
     pageSize: domainPaging.pageSize,
     showSizeChanger: true,
-    onChange: (no: number) => getDomainList.fetch({ ...query, pageNo: no, pageSize: domainPaging.pageSize }),
-    onShowSizeChange: (_no: number, size: number) => getDomainList.fetch({ ...query, pageNo: 1, pageSize: size }),
+    onChange: (no: number, size: number) => getDomainList.fetch({ ...query, pageNo: no, pageSize: size }),
   };
 
   return (

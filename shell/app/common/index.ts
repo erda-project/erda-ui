@@ -46,7 +46,6 @@ export { Holder, EmptyHolder, EmptyListHolder } from './components/empty-holder'
 export { LazyRender } from './components/lazy-render';
 export { DebounceSearch } from './components/debounce-search';
 export { SearchTable } from './components/search-table';
-export { SearchTableManage } from './components/search-table-manage';
 export { OperationBar } from './components/operation-bar';
 export { SettingsTabs } from './components/setting-tabs';
 export { LogRoller as PureLogRoller } from './components/log/log-roller';

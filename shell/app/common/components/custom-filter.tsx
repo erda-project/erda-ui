@@ -292,7 +292,6 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     getData,
     excludeQuery = [],
     fieldConvertor,
-    pageSize = PAGINATION.pageSize,
     extraQuery = {},
     fullRange,
     dateFormat,
@@ -306,7 +305,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
   const [query, currentRoute] = routeInfoStore.useStore((s) => [s.query, s.currentRoute]);
   const { pageNo: pNo, ...restQuery } = query;
 
-  const [state, update] = useUpdate({
+  const [state, update, updater] = useUpdate({
     searchQuery: localMode
       ? {}
       : isEmpty(restQuery)
@@ -316,10 +315,11 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
       : { ...initQuery, ...restQuery },
     pageNo: Number(localMode ? 1 : pNo || 1),
     loaded: false,
+    pageSize: PAGINATION.pageSize,
     currentPath: currentRoute.path,
   });
 
-  const { searchQuery, pageNo, loaded, currentPath } = state;
+  const { searchQuery, pageNo, pageSize, loaded, currentPath } = state;
 
   const fetchData = React.useCallback(
     debounce((q: any) => {
@@ -400,8 +400,12 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     }
   };
 
-  const onPageChange = (currentPageNo: number) => {
-    update.pageNo(currentPageNo);
+  const onPageChange = (currentPageNo: number, currentPageSize?: number) => {
+    // update.pageNo(currentPageNo);
+    updater({
+      pageNo: currentPageNo,
+      pageSize: currentPageSize,
+    });
   };
 
   const onTableChange = (pagination: PaginationConfig, _filters: any, sorter: SorterResult<any>) => {
@@ -436,7 +440,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
           total={total}
           onChange={onPageChange}
           showSizeChanger
-          onShowSizeChange={(no: number, size: number) => onSubmit({ ...searchQuery, pageNo: no, pageSize: size })}
+          // onShowSizeChange={(no: number, size: number) => onSubmit({ ...searchQuery, pageNo: no, pageSize: size })}
           pageSizeOptions={sizeOptions}
         />
       </div>

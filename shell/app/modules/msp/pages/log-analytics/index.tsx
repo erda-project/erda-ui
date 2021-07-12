@@ -258,7 +258,6 @@ const LogAnalytics = () => {
           total={searchResult.total}
           showSizeChanger
           onChange={onPageChange}
-          onShowSizeChange={onPageChange}
         />
       </Holder>
     </div>

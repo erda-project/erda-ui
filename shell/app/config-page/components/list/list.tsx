@@ -65,14 +65,11 @@ const List = (props: CP_LIST.Props) => {
           total: total || list?.length,
           current: pageNo || 1,
           pageSize: pageSize || 20,
-          onChange: (no: number) => changePage(no),
+          onChange: (_no: number, _size: number) => changePage(_no, _size),
           ...(pageSizeOptions
             ? {
                 showSizeChanger: true,
                 pageSizeOptions,
-                onShowSizeChange: (_no: number, pSize: number) => {
-                  changePageSize(pSize);
-                },
               }
             : {}),
         }
@@ -82,17 +79,12 @@ const List = (props: CP_LIST.Props) => {
 
   if (!visible) return null;
 
-  const changePage = (pNo: number) => {
-    operations?.changePageNo &&
-      execOperation(operations.changePageNo, operations.changePageNo.fillMeta ? pNo : { pageNo: pNo });
+  const changePage = (pNo: number, pSize: number) => {
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
   };
 
   const loadMore = () => {
     operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
-  };
-
-  const changePageSize = (pSize: number) => {
-    operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: pSize });
   };
 
   const getKey = (item: CP_LIST.IListData, idx: number) => {
