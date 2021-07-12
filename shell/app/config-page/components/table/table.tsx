@@ -20,17 +20,22 @@ import { getRender, getTitleRender } from './render-types';
 import classnames from 'classnames';
 import './table.scss';
 
-const handleState = (_stateObj?: Obj) => {
-  return {
+const handleState = (_stateObj?: Obj, selectable?: boolean) => {
+  const curState: CP_TABLE.IState = {
     ..._stateObj,
     total: _stateObj?.total || 0,
     pageSize: _stateObj?.pageSize || 15,
     pageNo: _stateObj?.pageNo || 1,
   };
+
+  if (selectable && !curState.selectedRowKeys) {
+    curState.selectedRowKeys = [];
+  }
+  return curState;
 };
 
 export function Table(props: CP_TABLE.Props) {
-  const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
+  const { state: propsState, customProps, props: configProps, operations, data, execOperation, updateState } = props;
   const list = data?.list || [];
   const {
     visible = true,
@@ -42,12 +47,12 @@ export function Table(props: CP_TABLE.Props) {
     ...rest
   } = configProps || {};
   const userMap = useUserMap();
-  const [state, updater, update] = useUpdate(handleState(propsState));
+  const [state, updater, update] = useUpdate(handleState(propsState, selectable));
   const { total, pageSize, pageNo } = state;
 
   React.useEffect(() => {
-    update(handleState(propsState));
-  }, [propsState, update]);
+    update(handleState(propsState, selectable));
+  }, [propsState, update, selectable]);
 
   React.useEffect(() => {
     if (customProps?.onStateChange) {
@@ -56,12 +61,8 @@ export function Table(props: CP_TABLE.Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const changePage = (pNo: number, pSize: number) => {
+  const changePage = (pNo: number, pSize?: number) => {
     operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
-  };
-
-  const changePageSize = (size: number) => {
-    operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: size });
   };
 
   const tableColumns = map([...(columns || [])], (cItem) => ({
@@ -76,7 +77,7 @@ export function Table(props: CP_TABLE.Props) {
     total: total || list.length,
     current: pageNo || 1,
     pageSize: pageSize || 20,
-    onChange: (no: number, size: number) => changePage(no, size),
+    onChange: (no: number, size?: number) => changePage(no, size),
     ...(pageSizeOptions
       ? {
           showSizeChanger: true,
@@ -118,12 +119,13 @@ export function Table(props: CP_TABLE.Props) {
 
   const cls = classnames({
     'dice-cp': true,
-    table: true,
+    'dice-cp-table': true,
     ...styleNames,
   });
 
   const onSelectChange = (_selectedRowKeys: string[]) => {
-    updater.selectedRowKeys(_selectedRowKeys);
+    // updater.selectedRowKeys(_selectedRowKeys);
+    updateState({ selectedRowKeys: _selectedRowKeys });
   };
 
   const rowSelection = selectable

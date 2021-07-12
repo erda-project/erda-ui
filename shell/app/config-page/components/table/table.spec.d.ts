@@ -32,6 +32,7 @@ declare namespace CP_TABLE {
     title?: string;
     visible?: boolean;
     rowSelection?: Obj;
+    selectable?: boolean;
     showHeader?: boolean;
     pagination?: boolean;
     expandedProps?: {
@@ -70,7 +71,9 @@ declare namespace CP_TABLE {
     | 'textWithBadge'
     | 'textWithLevel'
     | 'datePicker'
-    | 'linkText';
+    | 'linkText'
+    | 'bgProgress'
+    | 'labelManage';
 
   interface Row_Obj {
     [k: string]: any;

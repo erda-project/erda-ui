@@ -311,6 +311,14 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         );
       }
       break;
+    case 'tagsColumn':
+      {
+        const { value, operations } = val;
+        const onAdd = operations?.add && (() => extra.execOperation(operations?.add));
+        const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
+        Comp = <TagsColumn labels={value} onAdd={onAdd} onDelete={onDelete} />;
+      }
+      break;
     default:
       Comp = val ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
       break;
