@@ -401,7 +401,6 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
   };
 
   const onPageChange = (currentPageNo: number, currentPageSize?: number) => {
-    // update.pageNo(currentPageNo);
     updater({
       pageNo: currentPageNo,
       pageSize: currentPageSize,
@@ -440,7 +439,6 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
           total={total}
           onChange={onPageChange}
           showSizeChanger
-          // onShowSizeChange={(no: number, size: number) => onSubmit({ ...searchQuery, pageNo: no, pageSize: size })}
           pageSizeOptions={sizeOptions}
         />
       </div>
