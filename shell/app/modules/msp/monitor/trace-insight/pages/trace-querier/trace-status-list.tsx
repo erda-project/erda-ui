@@ -30,18 +30,16 @@ const TraceStatusList = (props: any) => {
     getTraceStatusList,
     cancelTraceStatus,
   } = props;
-  const { page, total } = traceStatusListPaging;
+  const { page, total, size } = traceStatusListPaging;
 
   const handleChangePage = (curPage: number, curSize?: number) => {
     getTraceStatusList({
       page: curPage,
       size: curSize,
     });
-  };
-
-  const handleShowSizeChange = (curPage: number, curSize: number) => {
-    handleChangePage(curPage, curSize);
-    setTraceStatusListPaging({ size: curSize });
+    if (curSize !== size) {
+      setTraceStatusListPaging({ size: curSize });
+    }
   };
 
   const handleCancelRequestPending = (id: string) => {
@@ -118,13 +116,7 @@ const TraceStatusList = (props: any) => {
     <div className="trace-status">
       <Spin spinning={isFetching}>
         <ul className="trace-status-list">{_map(dataSource, (item) => renderListItem(item))}</ul>
-        <Pagination
-          defaultCurrent={page}
-          total={total}
-          showSizeChanger
-          onShowSizeChange={handleShowSizeChange}
-          onChange={handleChangePage}
-        />
+        <Pagination defaultCurrent={page} total={total} showSizeChanger onChange={handleChangePage} />
       </Spin>
     </div>
   );
