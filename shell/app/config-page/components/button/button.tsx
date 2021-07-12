@@ -55,7 +55,7 @@ export const Button = (props: CP_BUTTON.Props) => {
     </>
   );
 
-  useUpdateEffect(() => {
+  React.useEffect(() => {
     // let data drive automatic refresh or not, when autoRefresh not exist, it will stop refresh
     const autoRefreshOp = operations?.autoRefresh;
     timer.current && setTimeout(timer.current);

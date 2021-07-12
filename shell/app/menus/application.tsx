@@ -114,7 +114,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
   // const full = [repo, pipeline, deploy, dataTask, dataModel, dataMarket, test, analysis, release, setting];
   const modeMap = {
     [appMode.SERVICE]: [repo, pipeline, apiDesign, deploy, test, release, setting],
-    [appMode.PROJECT_SERVICE]: [repo, pipeline, apiDesign, test, release, setting],
+    [appMode.PROJECT_SERVICE]: [repo, pipeline, test, release, setting],
     [appMode.MOBILE]: [repo, pipeline, apiDesign, deploy, test, release, setting],
     [appMode.LIBRARY]: [repo, pipeline, apiDesign, deploy, test, release, setting],
     [appMode.BIGDATA]: [repo, dataTask, dataModel, dataMarket, setting],

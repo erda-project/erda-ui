@@ -76,9 +76,9 @@ const build = createStore({
   },
   effects: {
     async getBuildRuntimeDetail({ call, select, update }, payload: { runtimeId: number }): Promise<RUNTIME.Detail> {
-      const { id } = select((state) => state.runtimeDetail);
-      if (id === payload.runtimeId) {
-        return {} as RUNTIME.Detail;
+      const curRuntimeDetail = select((state) => state.runtimeDetail);
+      if (curRuntimeDetail?.id === payload.runtimeId) {
+        return curRuntimeDetail as RUNTIME.Detail;
       }
       const runtimeDetail = await call(getRuntimeDetail, payload);
       update({ runtimeDetail });
