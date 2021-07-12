@@ -25,7 +25,7 @@ export default ({ traceId }: { traceId?: string }) => {
 
   React.useEffect(() => {
     if (traceId) {
-      getTraceDetailContent({ requestId: traceId, needReturn: true }).then((content) => {
+      getTraceDetailContent({ traceId }).then((content) => {
         updater.traceRecords(content);
       });
     }

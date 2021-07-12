@@ -21,15 +21,15 @@ import {
   getSpanDetailContent,
 } from '../services/trace-querier';
 import { isEmpty } from 'lodash';
-import traceToMustache from '../common/utils/traceDetail';
+import traceConvert from '../common/utils/traceConvert';
 import { createStore } from 'app/cube';
 
 import i18n from 'i18n';
 
 const transformTrace = (trace: MONITOR_TRACE.ITrace[]) => {
   if (isEmpty(trace)) return {};
-  const traceDetail = traceToMustache(trace);
-  traceDetail.spans.forEach((i) => {
+  const traceDetail = traceConvert(trace);
+  traceDetail.spans?.forEach((i) => {
     // eslint-disable-next-line
     i.isExpand = i.isShow = true;
   });
@@ -140,7 +140,7 @@ const traceQuerier = createStore({
         await traceQuerier.effects.getTraceStatusDetail({ requestId: payload.requestId });
       }
       if (traceStatusDetail.status === 1) {
-        await traceQuerier.effects.getTraceDetailContent({ requestId: payload.requestId });
+        await traceQuerier.effects.getTraceDetailContent({ traceId: payload.requestId });
       }
     },
     async cancelTraceStatus({ select, call, getParams }, payload: { requestId: string }) {
@@ -157,9 +157,9 @@ const traceQuerier = createStore({
 
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
-    async getTraceDetailContent({ call, update, getParams }, payload: { requestId: string; needReturn?: boolean }) {
+    async getTraceDetailContent({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
       const { terminusKey } = getParams();
-      const response = await call(getTraceDetailContent, { ...payload, terminusKey });
+      const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
       const traceList = response.map((item) => {
         const annotations = item.annotations || [];
