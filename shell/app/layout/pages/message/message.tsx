@@ -209,7 +209,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                       const isUnRead = item.status === MSG_STATUS.UNREAD;
                       return (
                         <div key={item.id} className="message-item" onClick={() => handleClick(item)}>
-                          <div>
+                          <div className="message-item-content" title={item.title}>
                             <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
                             <CustomIcon type="znx" />
                             <span className="fz16">{item.title}</span>
