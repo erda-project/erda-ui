@@ -33,6 +33,7 @@ import {
   Menu,
   Modal,
   notification,
+  Pagination,
   Popconfirm,
   Popover,
   Rate,
@@ -66,7 +67,6 @@ import {
   Container,
   InputNumber,
   Radio,
-  Pagination,
   Progress,
   Tooltip,
   Filter,
@@ -104,6 +104,7 @@ temp.defaultProps.type = 'shallow';
 
 temp = Pagination;
 temp.defaultProps = {
+  showSizeChanger: false,
   ...Pagination.defaultProps,
   pageSize: 15,
   pageSizeOptions: ['15', '30', '45', '60'],

@@ -373,8 +373,7 @@ const Ticket = () => {
     current: paging.pageNo,
     pageSize: paging.pageSize,
     showSizeChanger: true,
-    onChange: (no: number) => getList({ pageNo: no }),
-    onShowSizeChange: (_no: number, size: number) => getList({ pageNo: 1, pageSize: size }),
+    onChange: (no: number, size: number) => getList({ pageNo: no, pageSize: size }),
   };
 
   const formatFormData = (query: Obj = {}) => {
