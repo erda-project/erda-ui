@@ -13,10 +13,10 @@
 
 import agent from 'agent';
 
-export const getClusterList = ({ orgId }: { orgId: number }): ORG_CLUSTER.ICluster[] => {
+export const getClusterList = ({ orgId, sys }: { orgId?: number; sys?: boolean }): ORG_CLUSTER.ICluster[] => {
   return agent
     .get('/api/clusters')
-    .query({ orgID: orgId })
+    .query({ orgID: orgId, sys })
     .then((response: any) => response.body);
 };
 

@@ -51,7 +51,7 @@ export const OperationHistory = () => {
     machineStore.effects.getClusterOperationTypes();
 
     if (!clusterList.length) {
-      clusterStore.effects.getClusterList();
+      clusterStore.effects.getClusterList({ sys: true });
     }
   });
 
