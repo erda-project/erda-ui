@@ -2,6 +2,7 @@ import { chromium } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 import login, { RoleTypes } from './login.spec';
+import config from './auth/config';
 // const { chromium } = require('playwright');
 
 async function globalSetup() {
@@ -9,7 +10,7 @@ async function globalSetup() {
   // const context = await chromium.launchPersistentContext(userDataDir, { headless: false });
   const browser = await chromium.launch();
 
-  const roles = (process.env.LOGIN_ROLES || '').split(',') as RoleTypes[];
+  const roles = Object.keys(config.roles) as RoleTypes[];
   const authFiles = fs.readdirSync(path.resolve(__dirname, './auth'));
 
   const promiseList: Promise<any>[] = [];

@@ -26,11 +26,9 @@ export default {
 }
 ```
 
-3、如果 auto_test/auth 目录下还没生成角色的信息文件，调整 package.json 中的 `npm run auto-test` 命令里的 LOGIN_ROLES，可配置 config.ts 中的角色
+3、执行 `npm run auto-test`，正常情况会自动登录，然后在 auto_test/auth 目录下生成对应角色名的登录信息文件，如果已有则会跳过。
 
-4、执行 `npm run auto-test`，正常情况会自动登录，然后在 auto_test/auth 目录下生成对应角色名的登录信息文件，如果已有则会跳过。
-
-5、恢复登录状态后开始执行测试用例，查看输出结果。错误时会在 tests/results 目录下生成截图文件
+4、恢复登录状态后开始执行测试用例，查看输出结果。错误时会在 tests/results 目录下生成截图文件
 
 ## 结构说明
 
