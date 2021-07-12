@@ -410,6 +410,11 @@ div.ant-table {
   }
 }
 
+.ant-select.ant-select-single.ant-select-show-arrow .ant-select-selector .ant-select-selection-item,
+.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+  padding-right: 0;
+}
+
 // Leave the styles unchanged from nusi to antd4.x
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td,
