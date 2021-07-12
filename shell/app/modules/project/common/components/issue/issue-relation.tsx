@@ -152,6 +152,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
               allowClear={false}
               disabled={!editAuth}
               value={userId}
+              dropdownMatchSelectWidth={false}
               onChange={(val) => {
                 updateRecord(record, 'assignee', val);
               }}
