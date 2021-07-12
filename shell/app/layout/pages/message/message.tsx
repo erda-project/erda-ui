@@ -107,14 +107,9 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     if (show && hasOrgRef.current) {
       getMessageList({ pageNo: 1 });
       getMessageStats();
+    } else if (hasOrgRef.current) {
+      getMessageStats();
     }
-
-    // 没展开时，延时请求一次
-    timer.current = setTimeout(() => {
-      if (hasOrgRef.current) {
-        getMessageStats();
-      }
-    }, 5000);
 
     return () => {
       clearTimeout(timer.current);
