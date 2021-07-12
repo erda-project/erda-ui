@@ -12,7 +12,7 @@ services:
     - 80
     envs:
       TA_ENABLE: "true"
-      ENABLE_BIGDATA: "true"
+      ENABLE_BIGDATA: "false"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
       KRATOS_ADDR: "kratos:4433"
       KRATOS_PRIVATE_ADDR: "kratos:4434"
