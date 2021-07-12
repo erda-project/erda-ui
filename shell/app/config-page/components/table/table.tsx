@@ -56,8 +56,8 @@ export function Table(props: CP_TABLE.Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const changePage = (pNo: number) => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo });
+  const changePage = (pNo: number, pSize: number) => {
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
   };
 
   const changePageSize = (size: number) => {
@@ -76,14 +76,11 @@ export function Table(props: CP_TABLE.Props) {
     total: total || list.length,
     current: pageNo || 1,
     pageSize: pageSize || 20,
-    onChange: (no: number) => changePage(no),
+    onChange: (no: number, size: number) => changePage(no, size),
     ...(pageSizeOptions
       ? {
           showSizeChanger: true,
           pageSizeOptions,
-          onShowSizeChange: (_no: number, size: number) => {
-            changePageSize(size);
-          },
         }
       : {}),
   };

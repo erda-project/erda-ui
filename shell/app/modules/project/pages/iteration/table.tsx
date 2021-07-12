@@ -214,10 +214,9 @@ export const Iteration = () => {
           pageSize,
           total,
           showSizeChanger: true,
-          onChange: (no: number) => {
-            getList({ pageNo: no });
+          onChange: (no: number, size: number) => {
+            getList({ pageNo: no, pageSize: size });
           },
-          onShowSizeChange: (cur, size: number) => getList({ pageNo: 1, pageSize: size }),
         }}
         onRow={(record) => {
           return {

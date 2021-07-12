@@ -134,7 +134,7 @@ export class PagingTable extends React.PureComponent {
             // hideOnSinglePage: true,
           }}
           scroll={{ x: '100%' }}
-          tableLayout="auto" //fixed header/column or if column.ellipsis is used, the default value is fixed.
+          tableLayout="auto" // fixed header/column or if column.ellipsis is used, the default value is fixed.
           {...tableProps}
         />
       </div>

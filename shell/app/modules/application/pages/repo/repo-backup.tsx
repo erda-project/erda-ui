@@ -152,8 +152,7 @@ export default function BackupManagement() {
     pageSize: backupPaging.pageSize,
     total: backupPaging.total,
     showSizeChanger: true,
-    onChange: (current: number) => reloadBackupList({ pageNo: current }),
-    onShowSizeChange: (_: any, size: number) => reloadBackupList({ pageNo: 1, pageSize: size }),
+    onChange: (current: number, size: number) => reloadBackupList({ pageNo: current, pageSize: size }),
   };
 
   function reloadBackupList(query = {}) {
