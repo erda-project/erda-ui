@@ -72,8 +72,7 @@ const cluster = createStore({
     async getClusterList({ call, update }, payload: { orgId?: number; sys?: boolean } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
-      let params = payload.sys ? { sys: true } : { orgId };
-      const list = await call(getClusterList, params);
+      const list = await call(getClusterList, { orgId, sys: payload.sys });
       if (list && list.length) {
         update({ list });
       }
