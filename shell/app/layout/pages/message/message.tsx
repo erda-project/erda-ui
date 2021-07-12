@@ -104,11 +104,11 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
   const loopUnreadCountTimer = React.useRef(0 as any);
 
   React.useEffect(() => {
-    if (show && hasOrgRef.current) {
-      getMessageList({ pageNo: 1 });
+    if (hasOrgRef.current) {
       getMessageStats();
-    } else if (hasOrgRef.current) {
-      getMessageStats();
+      if (show) {
+        getMessageList({ pageNo: 1 });
+      }
     }
 
     return () => {
