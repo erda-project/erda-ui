@@ -100,7 +100,6 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
   const [loadingList] = useLoading(messageStore, ['getMessageList']);
   const { switchMessageCenter } = layoutStore.reducers;
   const boxRef = React.useRef<HTMLElement>();
-  const timer = React.useRef(0 as any);
   const loopUnreadCountTimer = React.useRef(0 as any);
 
   React.useEffect(() => {
@@ -112,7 +111,6 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     }
 
     return () => {
-      clearTimeout(timer.current);
       messageStore.reducers.resetAll();
     };
   }, [getMessageList, getMessageStats, show]);
