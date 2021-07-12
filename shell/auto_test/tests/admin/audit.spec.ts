@@ -5,7 +5,7 @@ test.use({
 });
 
 Role('Admin', () => {
-  test('audit log page', async ({ page, wait, expectExist, expectRequestSuccess }) => {
+  test('audit log page', async ({ page, wait, expectExist }) => {
     // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
     await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/orgs', { timeout: 15000 });
 

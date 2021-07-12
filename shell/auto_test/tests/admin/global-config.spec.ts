@@ -1,7 +1,7 @@
 import { Role, test } from '../../fixtures';
 
 Role('Admin', () => {
-  test('global config page/user configuration', async ({ page, wait, expectExist, expectRequestSuccess }) => {
+  test('global config page/user configuration', async ({ page, wait, expectExist }) => {
     // Go to https://erda.hkci.terminus.io/-/sysAdmin/orgs
     await page.goto('https://erda.hkci.terminus.io/-/sysAdmin/orgs');
 

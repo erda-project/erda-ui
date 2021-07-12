@@ -1,11 +1,13 @@
 import base, { expect } from '@playwright/test';
+import fs from 'fs';
 import { RoleTypes } from './login.spec';
 
 interface TestFixtures {
   version: string;
   wait: (seconds?: number) => void;
   expectExist: (seconds: string, count?: number) => boolean;
-  expectRequestSuccess: () => void;
+  expectRequestSuccess: () => () => void;
+  logFailedRequest: () => void;
   goTo: (key: string) => void;
 }
 
@@ -32,9 +34,6 @@ const test = base.extend<TestFixtures>({
       page.on('response', (response) => {
         const firstNumber = String(response.status()).slice(0, 1);
         if (response.url().startsWith('/api')) {
-          if (firstNumber !== '2') {
-            console.log('request fail:', response.url());
-          }
           expect(firstNumber).toBe('2');
         }
       });
@@ -50,6 +49,27 @@ const test = base.extend<TestFixtures>({
 
     // Clean up the fixture. Nothing to cleanup in this example.
   },
+
+  logFailedRequest: [
+    async ({ page }, use, testInfo) => {
+      const logs = [];
+      page.on('response', async (response) => {
+        const firstNumber = String(response.status()).slice(0, 1);
+        if (response.url().includes('/api/')) {
+          const content = await response.body();
+          if (firstNumber !== '2') {
+            logs.push(`[${response.status()}] ${response.url()}`, content, '\n');
+          }
+        }
+      });
+      await use(() => {});
+
+      if (logs.length) {
+        fs.writeFileSync(testInfo.outputPath('logs.txt'), logs.join('\n'), 'utf8');
+      }
+    },
+    { auto: true },
+  ], // pass "auto" to starts fixture automatically for every test.
 
   goTo: async ({ page }, use) => {
     const gotoMap = {

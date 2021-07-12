@@ -19,7 +19,7 @@ const config: PlaywrightTestConfig<{ version: string }> = {
   testDir: 'tests',
   testMatch: '**/*.spec.ts',
   outputDir: 'results', // under tests
-  preserveOutput: 'failures-only',
+  preserveOutput: 'always',
 
   // Each test is given 30 seconds
   timeout: 30000,
@@ -37,7 +37,7 @@ const config: PlaywrightTestConfig<{ version: string }> = {
 
   use: {
     // Browser options
-    headless: false,
+    headless: !!process.env.CI,
     slowMo: 50,
 
     locale: 'en-GB',
