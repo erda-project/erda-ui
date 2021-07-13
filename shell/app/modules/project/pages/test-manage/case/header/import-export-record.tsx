@@ -75,13 +75,6 @@ const ImportExportRecord = () => {
     getData(true);
   });
 
-  useInterval(
-    () => {
-      getData(false);
-    },
-    hasError ? null : 5000,
-  );
-
   let badgeCount = 0;
   list.forEach((item) => {
     if (['pending', 'processing'].includes(item.state)) {
