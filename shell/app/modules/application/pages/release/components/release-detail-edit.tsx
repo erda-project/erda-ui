@@ -47,7 +47,7 @@ const ReleaseDetailEdit = (props: IProps) => {
     },
     {
       label: i18n.t('version'),
-      getComp: () => version,
+      getComp: () => version ?? '--',
     },
     {
       label: i18n.t('application:branch'),
