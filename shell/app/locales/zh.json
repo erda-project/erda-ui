@@ -1993,7 +1993,8 @@
     "initiated": "我发起的",
     "number of application": "应用数",
     "search by owned project": "通过所在项目搜索",
-    "search by project name": "通过项目名称搜索"
+    "search by project name": "通过项目名称搜索",
+    "there is a new import case, click to refresh the list": "有新导入用例，点击刷新列表"
   },
   "ecp": {
     "application": "应用管理",
@@ -2367,7 +2368,6 @@
     "next": "下一步",
     "no": "否",
     "no data": "暂无数据",
-    "no more data": "没有更多数据了",
     "node list": "节点列表",
     "node traffic management": "节点流量管理",
     "normal": "正常",
