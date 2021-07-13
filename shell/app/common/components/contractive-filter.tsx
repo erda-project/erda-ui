@@ -341,9 +341,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           className="contractive-filter-item-value nowrap member-value"
           onClick={(e) => {
             e.stopPropagation();
-            // if (memberSelectorRef?.current?.show) {
-            //   memberSelectorRef.current.show();
-            // }
             onVisibleChange(true);
           }}
         >
@@ -355,9 +352,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       <span
         className="contractive-filter-item"
         onClick={() => {
-          // if (memberSelectorRef?.current?.show) {
-          //   memberSelectorRef.current.show();
-          // }
           onVisibleChange(true);
         }}
       >
