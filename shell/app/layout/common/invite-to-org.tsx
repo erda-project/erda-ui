@@ -53,7 +53,7 @@ export default () => {
     }
     domainData.id &&
       inviteToOrg({
-        verifyCode: code,
+        verifyCode: code.trim(),
         userIds: [id],
         orgId: String(domainData.id),
       }).then(() => {
