@@ -35,7 +35,11 @@ const ImportFile = ({ afterImport }: IProps) => {
 
   const onSuccess = ({ successCount }: any) => {
     if (isNumber(successCount)) {
-      message.success(i18n.t('project:imported {total} item successfully', { total: successCount }));
+      if (successCount === 0) {
+        message.success(i18n.t('project:importing'));
+      } else {
+        message.success(i18n.t('project:imported {total} item successfully', { total: successCount }));
+      }
     } else {
       message.info(i18n.t('project:imported successfully'));
     }
