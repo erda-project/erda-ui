@@ -15,7 +15,7 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'app/nusi';
 import { map } from 'lodash';
-import { useUpdate, TagsColumn, TableActions } from 'common';
+import { useUpdate, TagsRow, TableActions } from 'common';
 import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import machineManageStore from '../../stores/machine-manage';
@@ -145,7 +145,7 @@ export default () => {
       render: (value: string) => {
         const keyArray = value?.split(',') || [];
         return (
-          <TagsColumn
+          <TagsRow
             labels={keyArray.map((label) => {
               return { label };
             })}
