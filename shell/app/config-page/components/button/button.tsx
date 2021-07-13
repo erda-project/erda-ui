@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'app/nusi';
 import { isEmpty, map, find } from 'lodash';
-import { useUpdateEffect } from 'react-use';
+import { useUnmount } from 'react-use';
 import { Icon as CustomIcon } from 'common';
 
 const fakeClick = 'fake-click';
@@ -34,6 +34,10 @@ export const Button = (props: CP_BUTTON.Props) => {
   } = configProps || {};
 
   const timer = React.useRef();
+
+  useUnmount(() => {
+    timer.current && clearTimeout(timer.current);
+  });
 
   const { disabledTip, disabled, confirm } = operations?.click || {};
   const onClick = () => {
@@ -58,7 +62,7 @@ export const Button = (props: CP_BUTTON.Props) => {
   React.useEffect(() => {
     // let data drive automatic refresh or not, when autoRefresh not exist, it will stop refresh
     const autoRefreshOp = operations?.autoRefresh;
-    timer.current && setTimeout(timer.current);
+    timer.current && clearTimeout(timer.current);
     if (autoRefreshOp) {
       timer.current = setTimeout(() => {
         execOperation(autoRefreshOp);
