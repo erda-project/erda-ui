@@ -46,6 +46,7 @@ const ManualTest = () => {
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
   const [showRefresh, setShowRefresh] = React.useState(false);
   const [justImportSetId, setJustImportSetId] = React.useState<number | null>(null); // to cache the test set id which current user just Import
+  const importExportRecord = React.useRef(null as any);
 
   useEffectOnce(() => {
     getTestEnvList({ envID: +params.projectId, envType: 'project' });
@@ -113,7 +114,6 @@ const ManualTest = () => {
     }
     setShowRefresh(false);
   };
-
   return (
     <SplitPage>
       <SplitPage.Left>
@@ -153,8 +153,8 @@ const ManualTest = () => {
                 <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>
                   {i18n.t('project:add use case')}
                 </Button>
-                <ImportFile afterImport={afterImport} />
-                <ExportFile />
+                <ImportFile afterImport={afterImport} resetRecord={importExportRecord.current?.resetRecord} />
+                <ExportFile resetRecord={importExportRecord.current?.resetRecord} />
               </>
             )}
             <CaseDrawer
@@ -169,6 +169,7 @@ const ManualTest = () => {
             />
             <BatchProcessing recycled={query.recycled === 'true'} />
             <ImportExportRecord
+              ref={importExportRecord}
               setShowRefresh={setShowRefresh}
               testSetId={+query.testSetID}
               justImportSetId={justImportSetId}
