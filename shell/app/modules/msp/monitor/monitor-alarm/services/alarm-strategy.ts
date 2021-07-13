@@ -72,7 +72,7 @@ export const deleteAlert = ({ id, tenantGroup }: { id: number; tenantGroup: stri
 
 export const getAlertTypes = (tenantGroup: string): COMMON_STRATEGY_NOTIFY.IAlertType => {
   return agent
-    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/rules`)
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts-rules`)
     .then((response: any) => response.body);
 };
 
