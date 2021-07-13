@@ -113,17 +113,7 @@ module.exports = {
     enabled: process.env.NODE_ENV === 'production',
     content: ['./app/**/*.tsx', './app/**/*.jsx'],
     options: {
-      safelist: {
-        red: [/red/],
-        blue: [/blue/],
-        yellow: [/yellow/],
-        green: [/green/],
-        orange: [/orange/],
-        gray: [/gray/],
-        cyan: [/cyan/],
-        grey: [/grey/],
-        white: [/white/],
-      },
+      safelist: [/red/, /blue/, /yellow/, /green/, /orange/, /gray/, /cyan/, /grey/, /white/],
     },
   },
 };

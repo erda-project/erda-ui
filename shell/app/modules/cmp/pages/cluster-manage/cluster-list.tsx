@@ -291,12 +291,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
-        const hasLog = get(clusterDetail, 'basic.clusterInitContainerID.value');
+        const hasLog = !!get(clusterDetail, 'basic.clusterInitContainerID.value') && status !== 'online';
         return (
           <div className="flex items-center">
             <div className={`${bgColorClsMap[statusMap[status]?.[0]]} w-2 h-2 rounded-full`} />
             <div className="mx-2">{`${statusMap[status]?.[1] ?? '-'}`}</div>
-            <If condition={!!hasLog}>{renderOp(record)}</If>
+            <If condition={hasLog}>{renderOp(record)}</If>
           </div>
         );
       },
