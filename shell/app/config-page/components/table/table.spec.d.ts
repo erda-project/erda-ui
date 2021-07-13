@@ -73,7 +73,7 @@ declare namespace CP_TABLE {
     | 'datePicker'
     | 'linkText'
     | 'bgProgress'
-    | 'labelManage';
+    | 'tagsColumn';
 
   interface Row_Obj {
     [k: string]: any;
