@@ -58,6 +58,13 @@
       width: 14px;
     }
 
+    .message-item-content {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: calc(100% - 120px);
+    }
+
     &:last-child {
       border-bottom: none;
     }

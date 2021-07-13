@@ -32,7 +32,7 @@ describe('ImgHolder', () => {
   it('render without src', () => {
     const wrapper = mount(<ImgHolder rect="40x40" type="avatar" text="D" />);
     expect(wrapper.find('img').prop('data-src')).toBe(
-      'holder.js/40x40?size=12&text=D&theme=avatar&font=PingFang SC&fontweight=normal',
+      `holder.js/40x40?${encodeURI('size=12&text=D&theme=avatar&font=PingFang SC&fontweight=normal')}`,
     );
   });
 });

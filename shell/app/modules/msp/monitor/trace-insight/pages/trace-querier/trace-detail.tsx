@@ -21,7 +21,6 @@
 
 import { each, includes, flattenDeep, map, replace, round } from 'lodash';
 import * as React from 'react';
-import moment from 'moment';
 import { Modal, Table, Spin, Tooltip, Ellipsis } from 'app/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
@@ -33,34 +32,8 @@ interface ISpanDetailProps {
 }
 
 const SpanDetail = (props: ISpanDetailProps) => {
-  let uid = 1;
   const { spanDetailContent, getSpanDetailContent } = props;
-  const { spanName, durationStr, serviceName, annotations, binaryAnnotations } = spanDetailContent.span;
-  const columns1 = [
-    {
-      title: 'Date Time',
-      dataIndex: 'timestamp',
-      key: 'timestamp',
-      render(timestamp: number) {
-        return moment(timestamp / 1000).format('YYYY-MM-DD HH:mm:ss');
-      },
-    },
-    {
-      title: 'Relative Time',
-      dataIndex: 'relativeTime',
-      key: 'relativeTime',
-    },
-    {
-      title: 'Annotation',
-      dataIndex: 'value',
-      key: 'value',
-    },
-    {
-      title: 'Message',
-      dataIndex: 'message',
-      key: 'message',
-    },
-  ];
+  const { durationStr, tags, operationName: spanName = '' } = spanDetailContent.span;
   const columns2 = [
     {
       title: 'Key',
@@ -74,6 +47,8 @@ const SpanDetail = (props: ISpanDetailProps) => {
       render: (text: string) => <Ellipsis overlayClassName="trace-value-tooltips" title={text} />,
     },
   ];
+  const data = map(tags, (value, key) => ({ key, value }));
+
   return (
     <Modal
       visible={spanDetailContent.visible}
@@ -89,27 +64,16 @@ const SpanDetail = (props: ISpanDetailProps) => {
           <h3 key="spanName">{spanName}</h3>
         ),
         <h4 key="aka" className="sub-title">
-          AKA: {serviceName} {durationStr}
+          AKA: {tags?.service_name} {durationStr}
         </h4>,
       ]}
       footer=""
     >
       <Table
-        className="no-operation"
-        rowKey={() => {
-          uid += 1;
-          return `${uid}`;
-        }}
-        columns={columns1}
-        dataSource={annotations}
-        pagination={false}
-        scroll={{ x: '100%' }}
-      />
-      <Table
         className="no-operation second-table"
         rowKey="key"
         columns={columns2}
-        dataSource={binaryAnnotations}
+        dataSource={data}
         pagination={false}
         scroll={{ x: '100%' }}
       />
@@ -213,6 +177,8 @@ class TraceDetail extends React.Component<IProps, IState> {
                 depth,
                 isExpand,
                 isShow,
+                operationName,
+                tags,
               } = span;
               return (
                 <div
@@ -233,8 +199,8 @@ class TraceDetail extends React.Component<IProps, IState> {
                   <div className="handle" onClick={() => this.expandSpan({ spanId, children, isExpand })}>
                     <div className="service-name" style={{ marginLeft: `${depth}px` }}>
                       {children ? <span className="expander">{isExpand ? '-' : '+'}</span> : ''}
-                      <Tooltip title={span.serviceName}>
-                        <span className="service-name-text">{span.serviceName}</span>
+                      <Tooltip title={tags.service_name}>
+                        <span className="service-name-text">{tags.service_name}</span>
                       </Tooltip>
                     </div>
                   </div>
@@ -269,9 +235,9 @@ class TraceDetail extends React.Component<IProps, IState> {
                         );
                       })}
                     </div>
-                    <Tooltip title={spanName} overlayClassName="span-tooltip" arrowPointAtCenter>
+                    <Tooltip title={tags.spanName} overlayClassName="span-tooltip" arrowPointAtCenter>
                       <span className="span-name" style={{ left: `${span.left}%`, width: `${100 - span.left}%` }}>
-                        {durationStr} : {spanName}
+                        {durationStr} : {operationName}
                       </span>
                     </Tooltip>
                   </div>

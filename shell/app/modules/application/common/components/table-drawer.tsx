@@ -137,7 +137,12 @@ const TableDrawer = (props) => {
               centerRelatedGroup ? `with-group-tag group-tag-${getRelatedGroupClassName(enName)}` : ''
             }
             dataSource={tableAttrsList}
-            pagination={{ current, pageSize: PAGINATION.pageSize, total, onChange: onPageChange }}
+            pagination={{
+              current,
+              pageSize: PAGINATION.pageSize,
+              total,
+              onChange: onPageChange,
+            }}
             scroll={{ x: '100%' }}
           />
         </SearchTable>

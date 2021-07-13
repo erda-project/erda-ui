@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, Table } from 'app/nusi';
 import { groupBy, isNaN, isEmpty, filter, get, map, round } from 'lodash';
 import classNames from 'classnames';
-import { IF, useUpdate, Icon as CustomIcon, TagsColumn, TableActions } from 'common';
+import { IF, useUpdate, Icon as CustomIcon, TagsRow, TableActions } from 'common';
 import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import HealthPoint from 'project/common/components/health-point';
@@ -594,7 +594,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       dataIndex: 'labels',
       className: 'machine-labels',
       render: (labels: string) => {
-        return <TagsColumn labels={labels.split(',').map((l) => ({ label: l, color: customTagColor[l] }))} />;
+        return <TagsRow labels={labels.split(',').map((l) => ({ label: l, color: customTagColor[l] }))} />;
       },
     },
     {

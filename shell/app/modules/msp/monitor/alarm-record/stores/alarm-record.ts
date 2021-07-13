@@ -65,9 +65,9 @@ const alarmRecord = createFlatStore({
       breadcrumbStore.reducers.setInfo('alarmRecordName', recordDetail.alertName);
       update({ recordDetail });
     },
-    async getAlarmTimesChart({ call, update }, query: Omit<ALARM_REPORT.AlarmTimesQuery, 'filter_tenant_group'>) {
-      const { tenantGroup } = routeInfoStore.getState((s) => s.params);
-      const alarmTimesChart = await call(getAlarmTimesChart, { ...query, filter_tenant_group: String(tenantGroup) });
+    async getAlarmTimesChart({ call, update }, query: Omit<ALARM_REPORT.AlarmTimesQuery, 'filter_terminus_key'>) {
+      const { terminusKey } = routeInfoStore.getState((s) => s.params);
+      const alarmTimesChart = await call(getAlarmTimesChart, { ...query, filter_terminus_key: String(terminusKey) });
       update({ alarmTimesChart });
     },
     async getAlarmRecordHistories({ call, update }, payload: ALARM_REPORT.AlarmHistoriesQuery) {

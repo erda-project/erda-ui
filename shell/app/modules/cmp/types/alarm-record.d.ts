@@ -41,6 +41,7 @@ declare namespace ALARM_REPORT {
     filter_alert_group_id: string;
     filter_dice_org_id?: string;
     filter_tenant_group?: string;
+    filter_terminus_key?: string;
     count: string;
   }
   interface AlarmHistoriesQuery {

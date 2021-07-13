@@ -20,17 +20,31 @@ import { getRender, getTitleRender } from './render-types';
 import classnames from 'classnames';
 import './table.scss';
 
-const handleState = (_stateObj?: Obj) => {
-  return {
+interface ISorter {
+  order: 'ascend' | 'descend' | undefined;
+  field: string;
+}
+
+interface ITableAction {
+  action: string;
+}
+
+const handleState = (_stateObj?: Obj, selectable?: boolean) => {
+  const curState: CP_TABLE.IState = {
     ..._stateObj,
     total: _stateObj?.total || 0,
     pageSize: _stateObj?.pageSize || 15,
     pageNo: _stateObj?.pageNo || 1,
   };
+
+  if (selectable && !curState.selectedRowKeys) {
+    curState.selectedRowKeys = [];
+  }
+  return curState;
 };
 
 export function Table(props: CP_TABLE.Props) {
-  const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
+  const { state: propsState, customProps, props: configProps, operations, data, execOperation, updateState } = props;
   const list = data?.list || [];
   const {
     visible = true,
@@ -42,12 +56,17 @@ export function Table(props: CP_TABLE.Props) {
     ...rest
   } = configProps || {};
   const userMap = useUserMap();
-  const [state, updater, update] = useUpdate(handleState(propsState));
+  const [state, updater, update] = useUpdate(handleState(propsState, selectable));
   const { total, pageSize, pageNo } = state;
 
   React.useEffect(() => {
-    update(handleState(propsState));
-  }, [propsState, update]);
+    update((prev) => {
+      return {
+        ...prev,
+        ...handleState(propsState, selectable),
+      };
+    });
+  }, [propsState, update, selectable]);
 
   React.useEffect(() => {
     if (customProps?.onStateChange) {
@@ -56,12 +75,8 @@ export function Table(props: CP_TABLE.Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const changePage = (pNo: number) => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo });
-  };
-
-  const changePageSize = (size: number) => {
-    operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: size });
+  const changePage = (pNo: number, pSize?: number) => {
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
   };
 
   const tableColumns = map([...(columns || [])], (cItem) => ({
@@ -76,14 +91,11 @@ export function Table(props: CP_TABLE.Props) {
     total: total || list.length,
     current: pageNo || 1,
     pageSize: pageSize || 20,
-    onChange: (no: number) => changePage(no),
+    onChange: (no: number, size?: number) => changePage(no, size),
     ...(pageSizeOptions
       ? {
           showSizeChanger: true,
           pageSizeOptions,
-          onShowSizeChange: (_no: number, size: number) => {
-            changePageSize(size);
-          },
         }
       : {}),
   };
@@ -121,12 +133,20 @@ export function Table(props: CP_TABLE.Props) {
 
   const cls = classnames({
     'dice-cp': true,
-    table: true,
+    'dice-cp-table': true,
     ...styleNames,
   });
 
   const onSelectChange = (_selectedRowKeys: string[]) => {
-    updater.selectedRowKeys(_selectedRowKeys);
+    // updater.selectedRowKeys(_selectedRowKeys);
+    updateState({ selectedRowKeys: _selectedRowKeys });
+  };
+
+  const onChange = (_pg: Obj, _filter: Obj, _sorter: ISorter, _extra: ITableAction) => {
+    if (_extra?.action === 'sort' && operations?.changeSort) {
+      const sorterData = _sorter?.order ? { field: _sorter?.field, order: _sorter?.order } : undefined;
+      execOperation(operations.changeSort, { sorterData });
+    }
   };
 
   const rowSelection = selectable
@@ -149,6 +169,7 @@ export function Table(props: CP_TABLE.Props) {
         {...rest}
         size="small"
         rowSelection={rowSelection}
+        onChange={onChange}
       />
     </>
   ) : null;

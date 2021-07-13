@@ -14,10 +14,10 @@
 import { debounce } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
-import { Button, Input } from 'app/nusi';
+import { Button, Input, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { SplitPage } from 'layout/common';
-import { updateSearch } from 'common/utils';
+import { setSearch, updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import testCaseStore from 'project/stores/test-case';
 import { CaseTable, CaseTree } from '../components';
@@ -44,10 +44,18 @@ const ManualTest = () => {
   const [drawerVisible, setDrawerVisible] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState(query.query);
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
+  const [showRefresh, setShowRefresh] = React.useState(false);
+  const [justImportSetId, setJustImportSetId] = React.useState<number | null>(null); // to cache the test set id which current user just Import
+  const [importExportRecordKey, setImportExportRecordKey] = React.useState(0);
 
   useEffectOnce(() => {
     getTestEnvList({ envID: +params.projectId, envType: 'project' });
   });
+
+  React.useEffect(() => {
+    setShowRefresh(false);
+    setJustImportSetId(null);
+  }, [query.testSetID]);
 
   const closeEnhanceFilter = () => {
     setEnhanceFilterVisible(false);
@@ -87,14 +95,29 @@ const ManualTest = () => {
     caseRef.current && caseRef.current.addNodeFromOuter(data);
   };
 
-  const reloadTestSets = () => {
+  const afterImport = () => {
     const { testSetID, eventKey } = query;
+    setJustImportSetId(testSetID);
     caseRef.current && caseRef.current.reloadLoadData(testSetID, eventKey, false);
+    setImportExportRecordKey(importExportRecordKey + 1);
+  };
+
+  const afterExport = () => {
+    setImportExportRecordKey(importExportRecordKey + 1);
   };
 
   const showCaseDrawer = () => {
     getTestEnvList({ envID: +params.projectId, envType: 'project' });
     setDrawerVisible(true);
+  };
+
+  const refreshList = () => {
+    if (query.query) {
+      setSearch({}, ['testSetID', 'eventKey'], true);
+    } else {
+      getCases();
+    }
+    setShowRefresh(false);
   };
   return (
     <SplitPage>
@@ -117,9 +140,17 @@ const ManualTest = () => {
       </SplitPage.Left>
       <SplitPage.Right>
         <div className="section-title mb0">
-          <span>{i18n.t('project:use case list')}</span>
+          <span>
+            {i18n.t('project:use case list')}
+            <Tooltip title={i18n.t('dop:there is a new import case, click to refresh the list')}>
+              <CustomIcon
+                className={`ml-3 cursor-pointer ${showRefresh ? '' : 'hidden'}`}
+                type="refresh"
+                onClick={() => refreshList()}
+              />
+            </Tooltip>
+          </span>
         </div>
-
         <div className="flex-box mb12">
           <div className="ml12-group">
             {query.recycled !== 'true' && (
@@ -127,8 +158,8 @@ const ManualTest = () => {
                 <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>
                   {i18n.t('project:add use case')}
                 </Button>
-                <ImportFile afterImport={reloadTestSets} />
-                <ExportFile />
+                <ImportFile afterImport={afterImport} />
+                <ExportFile afterExport={afterExport} />
               </>
             )}
             <CaseDrawer
@@ -142,7 +173,12 @@ const ManualTest = () => {
               }}
             />
             <BatchProcessing recycled={query.recycled === 'true'} />
-            <ImportExportRecord />
+            <ImportExportRecord
+              key={importExportRecordKey}
+              setShowRefresh={setShowRefresh}
+              testSetId={+query.testSetID}
+              justImportSetId={justImportSetId}
+            />
             <ProjectTreeModal />
           </div>
           <div className="mr12-group">

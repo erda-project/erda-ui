@@ -100,24 +100,17 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
   const [loadingList] = useLoading(messageStore, ['getMessageList']);
   const { switchMessageCenter } = layoutStore.reducers;
   const boxRef = React.useRef<HTMLElement>();
-  const timer = React.useRef(0 as any);
   const loopUnreadCountTimer = React.useRef(0 as any);
 
   React.useEffect(() => {
-    if (show && hasOrgRef.current) {
-      getMessageList({ pageNo: 1 });
+    if (hasOrgRef.current) {
       getMessageStats();
+      if (show) {
+        getMessageList({ pageNo: 1 });
+      }
     }
 
-    // 没展开时，延时请求一次
-    timer.current = setTimeout(() => {
-      if (hasOrgRef.current) {
-        getMessageStats();
-      }
-    }, 5000);
-
     return () => {
-      clearTimeout(timer.current);
       messageStore.reducers.resetAll();
     };
   }, [getMessageList, getMessageStats, show]);
@@ -209,7 +202,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                       const isUnRead = item.status === MSG_STATUS.UNREAD;
                       return (
                         <div key={item.id} className="message-item" onClick={() => handleClick(item)}>
-                          <div>
+                          <div className="message-item-content" title={item.title}>
                             <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
                             <CustomIcon type="znx" />
                             <span className="fz16">{item.title}</span>

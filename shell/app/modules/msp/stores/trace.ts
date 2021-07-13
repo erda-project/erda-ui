@@ -13,7 +13,7 @@
 
 import { createFlatStore } from 'app/cube';
 import { isEmpty } from 'lodash';
-import traceToMustache from 'msp/monitor/trace-insight/common/utils/traceDetail';
+import traceConvert from 'msp/monitor/trace-insight/common/utils/traceConvert';
 import { getTraceCount, getTraceSummary, getSpanDetailContent, getTraceDetailContent } from '../services/trace';
 
 interface IState {
@@ -35,7 +35,7 @@ const initState: IState = {
 
 const transformTrace = (trace: any) => {
   if (isEmpty(trace)) return {};
-  const traceDetail = traceToMustache(trace);
+  const traceDetail = traceConvert(trace);
   traceDetail.spans.forEach((i: any) => {
     // eslint-disable-next-line
     i.isExpand = i.isShow = true;
@@ -77,9 +77,9 @@ const trace = createFlatStore({
       };
       update({ spanDetailContent });
     },
-    async getTraceDetailContent({ call, update, getParams }, payload: any) {
+    async getTraceDetailContent({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
       const { terminusKey } = getParams();
-      const response = await call(getTraceDetailContent, { ...payload, terminusKey });
+      const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
       const traceList = response.map((item: any) => {
         const annotations = item.annotations || [];

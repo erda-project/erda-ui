@@ -46,7 +46,6 @@ export { Holder, EmptyHolder, EmptyListHolder } from './components/empty-holder'
 export { LazyRender } from './components/lazy-render';
 export { DebounceSearch } from './components/debounce-search';
 export { SearchTable } from './components/search-table';
-export { SearchTableManage } from './components/search-table-manage';
 export { OperationBar } from './components/operation-bar';
 export { SettingsTabs } from './components/setting-tabs';
 export { LogRoller as PureLogRoller } from './components/log/log-roller';
@@ -87,7 +86,7 @@ export { default as LogRoller } from './containers/log-roller';
 export { default as MonitorChart } from './containers/monitor-chart';
 export { default as MetricsMonitor } from './containers/monitor-chart-panel';
 export { useFilter, useMultiFilter, CustomFilter } from './components/custom-filter';
-export { TagsColumn } from './components/tags-column';
+export { TagsRow } from './components/tags-row';
 export { BoardGrid, PureBoardGrid } from './components/board-grid';
 export { LoadingSkeleton, LoadingContent } from './components/loading-skeleton';
 export { default as BackToTop } from './components/back-to-top';

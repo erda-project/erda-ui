@@ -32,6 +32,7 @@ declare namespace CP_TABLE {
     title?: string;
     visible?: boolean;
     rowSelection?: Obj;
+    selectable?: boolean;
     showHeader?: boolean;
     pagination?: boolean;
     expandedProps?: {
@@ -45,6 +46,7 @@ declare namespace CP_TABLE {
     pageNo: number;
     pageSize: number;
     selectedRowKeys?: string[];
+    sorter?: { field: string; order: string };
   }
 
   type Props = MakeProps<Spec>;
@@ -70,7 +72,9 @@ declare namespace CP_TABLE {
     | 'textWithBadge'
     | 'textWithLevel'
     | 'datePicker'
-    | 'linkText';
+    | 'linkText'
+    | 'bgProgress'
+    | 'tagsRow';
 
   interface Row_Obj {
     [k: string]: any;

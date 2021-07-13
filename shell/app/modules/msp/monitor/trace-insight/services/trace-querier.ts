@@ -61,23 +61,17 @@ export const getTraceStatus = ({
 
 // https://yuque.antfin-inc.com/docs/share/e59c5eb3-fbfe-44f7-81a2-567e2fc26703#i9e3gi
 // 主动取消status
-export const cancelTraceStatus = ({ requestId, ...data }: { requestId: string; terminusKey: string }) => {
+export const cancelTraceStatus = ({ requestId, ...query }: { requestId: string; terminusKey: string }) => {
   return agent
     .put(`/api/spot/trace-requests/${requestId}/actions/cancel`)
-    .send(data)
+    .query(query)
     .then((response: any) => response.body);
 };
 
-export const getTraceDetailContent = ({
-  requestId,
-  terminusKey,
-}: {
-  requestId: string;
-  terminusKey: string;
-}): MONITOR_TRACE.ITrace[] => {
+export const getTraceDetailContent = ({ traceId, ...query }: MONITOR_TRACE.IQuerySpan): MONITOR_TRACE.ITrace[] => {
   return agent
-    .get(`/api/spot/trace/${requestId}`)
-    .query({ terminusKey })
+    .get(`/api/msp/apm/traces/${traceId}/spans`)
+    .query(query)
     .then((response: any) => response.body);
 };
 

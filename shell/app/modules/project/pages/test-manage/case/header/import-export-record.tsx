@@ -24,10 +24,19 @@ import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import './import-file.scss';
 
-const ImportExportRecord = () => {
+const ImportExportRecord = ({
+  setShowRefresh,
+  testSetId,
+  justImportSetId,
+}: {
+  setShowRefresh: (bool: boolean) => void;
+  testSetId: number;
+  justImportSetId: number | null;
+}) => {
   const [contentVisible, setContentVisible] = useState(false);
   const userMap = useUserMap();
   const [hasError, setHasError] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [list, setList] = useState([] as TEST_CASE.ImportExportRecordItem[]);
   const { getImportExportRecords } = testCaseStore.effects;
@@ -36,22 +45,37 @@ const ImportExportRecord = () => {
   const getData = (firstTime: boolean) => {
     getImportExportRecords(['import', 'export'])
       .then((result: TEST_CASE.ImportExportRecordItem[]) => {
+        if (result.every((item) => ['success', 'fail'].includes(item.state))) {
+          setIsFinished(true);
+        }
+
         if (!isEmpty(result)) {
           if (!firstTime && !contentVisible) {
             let haveJustFinishedJob = false;
             const myProcessingJob: Record<string, boolean> = {};
             list.forEach((item) => {
-              if (item.operatorId === loginUser.id && ['processing', 'pending'].includes(item.state)) {
+              if (item.operatorID === loginUser.id && ['processing', 'pending'].includes(item.state)) {
                 myProcessingJob[item.id] = true;
               }
             });
+            let haveJustSuccessJob = false;
             result.forEach((item) => {
               if (
-                item.operatorId === loginUser.id &&
+                item.operatorID === loginUser.id &&
                 ['success', 'fail'].includes(item.state) &&
                 myProcessingJob[item.id]
               ) {
                 haveJustFinishedJob = true;
+              }
+              // new result state is success and not existing in list cache and it's not import by current user,  mean it's newly import record
+              if (
+                item.state === 'success' &&
+                item.testSetID === testSetId &&
+                justImportSetId !== testSetId &&
+                item.operatorID !== loginUser.id &&
+                !list.find((origin) => origin.id === item.id)
+              ) {
+                haveJustSuccessJob = true;
               }
             });
             if (haveJustFinishedJob) {
@@ -61,6 +85,10 @@ const ImportExportRecord = () => {
                 ),
                 4,
               );
+            }
+            if (haveJustSuccessJob) {
+              setShowRefresh(true);
+              setList(result);
             }
           }
           setList(result);
@@ -79,7 +107,7 @@ const ImportExportRecord = () => {
     () => {
       getData(false);
     },
-    hasError ? null : 5000,
+    isFinished || hasError ? null : 5000,
   );
 
   let badgeCount = 0;

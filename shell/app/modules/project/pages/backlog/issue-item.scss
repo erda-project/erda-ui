@@ -63,6 +63,7 @@
 
   .backlog-issue-add {
     display: flex;
+    align-items: baseline;
     width: 100%;
 
     &-type {
@@ -81,5 +82,9 @@
     &-assignee {
       width: 100px;
     }
+  }
+
+  .backlog-issue-add-type .ant-select-selection-item {
+    text-overflow: clip;
   }
 }
