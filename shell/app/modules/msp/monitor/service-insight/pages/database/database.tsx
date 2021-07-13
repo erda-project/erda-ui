@@ -41,7 +41,7 @@ const Database = () => {
 
   const fetchTraceContent = ({ requestId }: any) => {
     tracingOn();
-    getTraceDetailContent({ requestId, needReturn: true }).then((content: any) => {
+    getTraceDetailContent({ traceId: requestId }).then((content: any) => {
       setTraceRecords(content);
     });
   };

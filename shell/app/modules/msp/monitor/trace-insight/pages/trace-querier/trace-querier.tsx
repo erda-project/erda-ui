@@ -102,7 +102,7 @@ const TraceInsightQuerier = () => {
 
   React.useEffect(() => {
     requestId &&
-      getTraceDetailContent({ requestId, needReturn: true }).then((content: any) => {
+      getTraceDetailContent({ traceId: requestId }).then((content: any) => {
         setTraceRecords(content);
       });
   }, [getTraceDetailContent, requestId]);
