@@ -36,6 +36,10 @@
     .ant-select-arrow {
       opacity: 1;
     }
+
+    .ant-select-selection-item {
+      text-overflow: clip;
+    }
   }
 
   .member-selector {
