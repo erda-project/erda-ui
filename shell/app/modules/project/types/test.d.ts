@@ -364,11 +364,12 @@ declare namespace TEST_CASE {
     description: string;
     id: number;
     name: string;
-    operatorId: string;
+    operatorID: string;
     operatorName: string;
     projectId: number;
     state: ImportOrExportState;
     type: ImportOrExport;
     updatedAt: string;
+    testSetID: number;
   }
 }

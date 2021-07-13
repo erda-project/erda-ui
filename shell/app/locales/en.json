@@ -1993,7 +1993,8 @@
     "initiated": "initiated",
     "number of application": "number of application",
     "search by owned project": "search by owned project",
-    "search by project name": "search by project name"
+    "search by project name": "search by project name",
+    "there is a new import case, click to refresh the list": "there is a new import case, click to refresh the list"
   },
   "ecp": {
     "application": "application",
@@ -2367,7 +2368,6 @@
     "next": "next",
     "no": "no",
     "no data": "no data",
-    "no more data": "no more data",
     "node list": "node list",
     "node traffic management": "node traffic management",
     "normal": "normal",
@@ -3661,8 +3661,8 @@
     "yesterday": "yesterday",
     "you need": "you need",
     "your browser does not support WebSocket!": "your browser does not support WebSocket!",
-    "{num} members are watching": "{num} members are watching",
-    "{num} people attention": "{num} people attention"
+    "{num} members are following": "{num} members are following",
+    "{num} people followed": "{num} people followed"
   },
   "publisher": {
     "1-6 decimal places": "1-6 decimal places",
