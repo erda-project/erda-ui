@@ -16,7 +16,7 @@ import { Tooltip } from 'app/nusi';
 import { some, has, groupBy, map } from 'lodash';
 import { cutStr } from 'common/utils';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
-import './tags-column.scss';
+import './tags-row.scss';
 
 interface ILabel {
   label: string;
@@ -68,7 +68,7 @@ const TagItem = (props: IItemProps) => {
   );
 };
 
-export const TagsColumn = ({
+export const TagsRow = ({
   labels,
   showCount = 2,
   containerClassName = '',

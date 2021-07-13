@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TagsColumn } from 'common';
-import { IProps } from 'common/components/tags-column';
+import { TagsRow } from 'common';
+import { IProps } from 'common/components/tags-row';
 import { shallow } from 'enzyme';
 import { describe, it } from '@jest/globals';
 
@@ -26,9 +26,9 @@ const labels: IProps['labels'] = [
   { label: 'cyan label;cyan label', color: 'cyan' },
   { label: 'gray label;gray label', color: 'gray' },
 ];
-describe('TagsColumn', () => {
+describe('TagsRow', () => {
   it('should render with default props', () => {
-    const wrapper = shallow(<TagsColumn labels={labels} />);
+    const wrapper = shallow(<TagsRow labels={labels} />);
     expect(wrapper.find('.tags-box').children('TagItem')).toHaveLength(2);
     expect(wrapper.find('TagItem').at(0).prop('size')).toBe('small');
     expect(wrapper.find('.tags-box').children().last().children().text()).toContain('...');
@@ -38,7 +38,7 @@ describe('TagsColumn', () => {
   });
   it('should render with customize props', () => {
     const wrapper = shallow(
-      <TagsColumn labels={labels} showCount={labels.length} size="default" containerClassName="containerClassName" />,
+      <TagsRow labels={labels} showCount={labels.length} size="default" containerClassName="containerClassName" />,
     );
     expect(wrapper).toHaveClassName('containerClassName');
     expect(wrapper.find('.tags-box').children('TagItem')).toHaveLength(labels.length);

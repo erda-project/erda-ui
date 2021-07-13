@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Ellipsis, Badge } from 'app/nusi';
 import { map, isEmpty, get, isArray, sortBy, filter } from 'lodash';
-import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsColumn, Copy } from 'common';
+import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Download as IconDownLoad } from '@icon-park/react';
@@ -98,7 +98,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
-              <TagsColumn
+              <TagsRow
                 labels={tags.map((l) => ({ label: l.tag, color: l.color }))}
                 showCount={2}
                 containerClassName="ml8"
@@ -311,12 +311,12 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         );
       }
       break;
-    case 'tagsColumn':
+    case 'tagsRow':
       {
         const { value, operations } = val;
         const onAdd = operations?.add && (() => extra.execOperation(operations?.add));
         const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
-        Comp = <TagsColumn labels={value} onAdd={onAdd} onDelete={onDelete} />;
+        Comp = <TagsRow labels={value} onAdd={onAdd} onDelete={onDelete} />;
       }
       break;
     default:

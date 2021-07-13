@@ -154,11 +154,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const isSigleMode = mode === 'single';
     const valueText =
       _options
-        .reduce(
-          (_optArr: Option[], _curOpt: Option) =>
-            _optArr.concat(has(_curOpt, 'children') ? _curOpt.children || [] : _curOpt),
-          [],
-        )
+        .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
         .filter((a) => _value.includes(a.value))
         .map((a) => a.label)
         .join(',') || emptyText;

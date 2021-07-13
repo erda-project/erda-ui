@@ -126,7 +126,7 @@ export const mockData = {
               version: '1.0.2',
               distribution: { renderType: 'bgProgress', value: { text: '1/2', percent: 50 } },
               labels: {
-                renderType: 'tagsColumn',
+                renderType: 'tagsRow',
                 value: [
                   { label: 'a1=aaaa1', group: '测试分组1' },
                   { label: 'a2=aaaa2', group: '测试分组1' },
