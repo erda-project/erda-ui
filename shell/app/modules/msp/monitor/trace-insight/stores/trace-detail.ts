@@ -13,13 +13,13 @@
 
 import { getTraceDetail, getSpanDetail } from '../services/trace-detail';
 import { isEmpty } from 'lodash';
-import traceToMustache from '../common/utils/traceDetail';
+import traceConvert from '../common/utils/traceConvert';
 import { createStore } from 'app/cube';
 
 const transformTrace = (trace: MONITOR_TRACE.ITrace[]) => {
   if (isEmpty(trace)) return {};
-  const traceDetail = traceToMustache(trace);
-  traceDetail.spans.forEach((i) => {
+  const traceDetail = traceConvert(trace);
+  traceDetail.spans?.forEach((i) => {
     // eslint-disable-next-line
     i.isExpand = i.isShow = true;
   });
@@ -46,9 +46,9 @@ const traceDetail = createStore({
   name: 'traceDetail',
   state: initState,
   effects: {
-    async getTraceDetail({ call, update, getParams }, payload: { traceId: string }) {
+    async getTraceDetail({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
       const { terminusKey } = getParams();
-      const response = await call(getTraceDetail, { ...payload, terminusKey });
+      const response = await call(getTraceDetail, { ...payload, scopeId: terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
       const traceList = response.map((item) => {
         const annotations = item.annotations || [];

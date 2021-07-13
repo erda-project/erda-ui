@@ -51,25 +51,52 @@ declare namespace MONITOR_TRACE {
   }
 
   interface ITrace {
-    annotations: any[];
-    binaryAnnotations: IAnnotations[];
-    duration: number;
-    endTime: number;
     id: string;
-    name: string;
-    parentSpanId: string;
-    startTime: number;
-    timestamp: number;
     traceId: string;
+    operationName: string;
+    startTime: number;
+    endTime: number;
+    parentSpanId: string;
+    timestamp: number;
+    tags: ITag;
   }
 
-  interface IAnnotations {
-    endpoint: {
-      name: string;
-      serviceName: string;
-    };
-    key: string;
-    value: string;
+  interface ITag {
+    application_id: string;
+    application_name: string;
+    cluster_name: string;
+    component: string;
+    host: string;
+    host_ip: string;
+    http_method: string;
+    http_path: string;
+    http_status_code: string;
+    http_url: string;
+    instance_id: string;
+    operation_name: string;
+    org_id: string;
+    org_name: string;
+    parent_span_id: string;
+    peer_hostname: string;
+    project_id: string;
+    project_name: string;
+    runtime_id: string;
+    runtime_name: string;
+    service_id: string;
+    service_instance_id: string;
+    service_ip: string;
+    service_name: string;
+    'source-addon-id': string;
+    'source-addon-type': string;
+    span_host: string;
+    span_id: string;
+    span_kind: string;
+    span_layer: string;
+    terminus_app: string;
+    terminus_key: string;
+    terminus_logid: string;
+    trace_id: string;
+    workspace: string;
   }
 
   interface ITraceDetail {
@@ -92,9 +119,6 @@ declare namespace MONITOR_TRACE {
   }
 
   interface ISpan {
-    annotations: any[];
-    binaryAnnotations: IAnnotations[];
-    children: string;
     depth: number;
     depthClass: number;
     duration: number;
