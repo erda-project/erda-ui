@@ -83,4 +83,8 @@
       width: 100px;
     }
   }
+
+  .backlog-issue-add-type .ant-select-selection-item {
+    text-overflow: clip;
+  }
 }
