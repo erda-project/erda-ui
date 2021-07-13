@@ -18,7 +18,7 @@ import { DropdownSelect } from 'common';
 import testCaseStore from 'project/stores/test-case';
 import { message } from 'app/nusi';
 
-const ExportFile = ({ resetRecord }: { resetRecord: () => void }) => {
+const ExportFile = ({ afterExport }: { afterExport: () => void }) => {
   const { exportFile } = testCaseStore.effects;
 
   const onExport = (e: any) => {
@@ -27,7 +27,7 @@ const ExportFile = ({ resetRecord }: { resetRecord: () => void }) => {
         i18n.t('application:The export task has been created, please check the progress in the record'),
         4,
       );
-      resetRecord?.();
+      afterExport?.();
     });
   };
 
