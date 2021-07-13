@@ -14,6 +14,7 @@
 import { Tooltip, Radio, Button } from 'app/nusi';
 import React, { useState } from 'react';
 import i18n from 'i18n';
+import { getOrgFromPath } from 'common/utils';
 import { diff_match_patch as Diff } from 'diff-match-patch';
 import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop } from 'common';
 import { last, map, isEmpty } from 'lodash';
@@ -189,7 +190,7 @@ export const FileDiff = ({
     if (type === ACTION.ADD || type === ACTION.DELETE || type === ACTION.RENAME || isBin) {
       // TODO isBin 如何显示需要后续处理
       const { old, now } = generateDiffFilePath(oldName, name);
-      const fileSrcPrefix = `/api/repo/${appDetail.gitRepoAbbrev}/raw`;
+      const fileSrcPrefix = `/api/${getOrgFromPath()}/repo/${appDetail.gitRepoAbbrev}/raw`;
       const fileIsImage = isImage(name);
       const imageAddress = fileIsImage ? `${fileSrcPrefix}/${commitId}/${name}` : '';
 
