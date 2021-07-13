@@ -122,6 +122,17 @@
       background-color: $color-click-bg;
     }
   }
+
+  .option-group {
+    .option-group-label {
+      padding: 6px 10px;
+      color: $color-text-desc;
+      cursor: text;
+    }
+    .option-item {
+      padding: 6px 10px 6px 30px;
+    }
+  }
 }
 
 .contractive-member-selector {

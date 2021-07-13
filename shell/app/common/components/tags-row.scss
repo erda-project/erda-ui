@@ -10,8 +10,9 @@
     position: relative;
     display: inline-block;
     height: 28px;
-    margin-right: 15px;
-    margin-bottom: 20px;
+    margin-right: 12px;
+    margin-top: 4px;
+    margin-bottom: 4px;
     padding-right: 6px;
     padding-left: 6px;
     color: $white;
@@ -25,11 +26,34 @@
     &.small {
       max-width: 200px;
       height: 20px;
-      margin-top: 4px;
+      margin-top: 2px;
       margin-right: 8px;
-      margin-bottom: 0;
+      margin-bottom: 2px;
       line-height: 20px;
       border: none;
+    }
+
+    &:hover {
+      .tag-close {
+        visibility: visible;
+      }
+    }
+
+    .tag-close {
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      visibility: hidden;
+      &:hover {
+        visibility: visible;
+      }
+    }
+  }
+
+  .tag-group-container {
+    display: flex;
+    .tag-group-name {
+      width: 80px;
     }
   }
 }

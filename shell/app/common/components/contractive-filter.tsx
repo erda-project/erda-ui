@@ -15,15 +15,16 @@ import React from 'react';
 import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'app/nusi';
 import { Icon as CustomIcon, MemberSelector } from 'common';
 import moment, { Moment } from 'moment';
-import { useUpdateEffect, useMount } from 'react-use';
+import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
-import { debounce, isEmpty, isArray, map, max, sortBy, isString } from 'lodash';
+import { debounce, isEmpty, isArray, map, max, sortBy, isString, has } from 'lodash';
 import i18n from 'i18n';
 
 interface Option {
   label: string;
   value: string | number;
   icon: string;
+  children?: Option[];
 }
 
 type ConditionType = 'select' | 'input' | 'dateRange';
@@ -55,6 +56,51 @@ interface IFilterItemProps {
   onQuickSelect: (data: { key: string; value: any }) => void;
 }
 
+const filterMatch = (v: string, f: string) => v.toLowerCase().includes(f.toLowerCase());
+
+const getSelectOptions = (options: Option[], filterKey: string) => {
+  if (!filterKey) return options;
+  const useableOptions: Option[] = [];
+
+  options.forEach((item) => {
+    let curOp: Option | null = null;
+    if (has(item, 'children')) {
+      curOp = { ...item, children: [] };
+      item.children?.forEach((cItem) => {
+        if (filterMatch(`${cItem.label}`, filterKey)) {
+          curOp?.children?.push(cItem);
+        }
+      });
+      if (curOp.children?.length) useableOptions.push(curOp);
+    } else if (filterMatch(`${item.label}`, filterKey)) {
+      curOp = item;
+    }
+    curOp && useableOptions.push(curOp);
+  });
+  return useableOptions;
+};
+
+interface IOptionItemProps {
+  value: Array<string | number>;
+  option: Option;
+  onClick: (option: Option) => void;
+}
+const OptionItem = (props: IOptionItemProps) => {
+  const { value, option, onClick } = props;
+  return (
+    <div
+      className={`option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
+      key={option.value}
+      onClick={() => onClick(option)}
+    >
+      <div className="flex-box full-width">
+        <span>{option.label}</span>
+        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml8" /> : null}</span>
+      </div>
+    </div>
+  );
+};
+
 const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickSelect }: IFilterItemProps) => {
   const {
     key,
@@ -77,6 +123,12 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   useUpdateEffect(() => {
     debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
   }, [inputVal]);
+
+  React.useEffect(() => {
+    if (memberSelectorRef?.current?.show && active) {
+      memberSelectorRef.current.show(active);
+    }
+  }, [active]);
 
   if (type === 'input') {
     return (
@@ -102,9 +154,12 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const isSigleMode = mode === 'single';
     const valueText =
       _options
+        .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
         .filter((a) => _value.includes(a.value))
         .map((a) => a.label)
         .join(',') || emptyText;
+
+    const useableOptions = getSelectOptions(_options, filterMap[key]);
     const ops = (
       <Menu>
         {haveFilter && [
@@ -154,39 +209,46 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             ]
           : null}
         <Menu.Item key="options" className="pa0 options-container">
-          {_options.map((op) => {
-            if (filterMap[key] && !String(op.label).toLowerCase().includes(filterMap[key])) {
+          {useableOptions.map((op) => {
+            if (has(op, 'children') && !op.children?.length) {
               return null;
             }
-            return (
-              <div
-                className={`option-item ${(_value || []).includes(op.value) ? 'checked-item' : ''}`}
-                key={op.value}
-                onClick={() => {
-                  if (isSigleMode && !_value.includes(op.value)) {
-                    onChange({
-                      key,
-                      value: op.value,
-                    });
-                    onVisibleChange(false);
-                  } else {
-                    onChange({
-                      key,
-                      value: _value.includes(op.value)
-                        ? _value.filter((v: string | number) => v !== op.value)
-                        : _value.concat(op.value),
-                    });
-                  }
-                }}
-              >
-                <div className="flex-box full-width">
-                  <span>{op.label}</span>
-                  <span>
-                    {_value.includes(op.value) ? <CustomIcon type="duigou" className="color-success ml8" /> : null}
-                  </span>
+            const isGroup = op.children?.length;
+            const onClickOptItem = (_curOpt: Option) => {
+              if (isSigleMode && !_value.includes(_curOpt.value)) {
+                onChange({
+                  key,
+                  value: _curOpt.value,
+                });
+                onVisibleChange(false);
+              } else {
+                onChange({
+                  key,
+                  value: _value.includes(_curOpt.value)
+                    ? _value.filter((v: string | number) => v !== _curOpt.value)
+                    : _value.concat(_curOpt.value),
+                });
+              }
+            };
+            if (isGroup) {
+              return (
+                <div className="option-group" key={op.value || op.label}>
+                  <div className="option-group-label">{op.label}</div>
+                  {op.children?.map((cItem) => {
+                    return (
+                      <OptionItem
+                        key={cItem.value}
+                        value={_value}
+                        option={cItem}
+                        onClick={() => onClickOptItem(cItem)}
+                      />
+                    );
+                  })}
                 </div>
-              </div>
-            );
+              );
+            } else {
+              return <OptionItem key={op.value} value={_value} option={op} onClick={() => onClickOptItem(op)} />;
+            }
           })}
         </Menu.Item>
       </Menu>
@@ -275,9 +337,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           className="contractive-filter-item-value nowrap member-value"
           onClick={(e) => {
             e.stopPropagation();
-            if (memberSelectorRef?.current?.show) {
-              memberSelectorRef.current.show();
-            }
+            onVisibleChange(true);
           }}
         >
           {usersText}
@@ -288,9 +348,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       <span
         className="contractive-filter-item"
         onClick={() => {
-          if (memberSelectorRef?.current?.show) {
-            memberSelectorRef.current.show();
-          }
+          onVisibleChange(true);
         }}
       >
         <span className="color-text-desc mr2">{label}</span>
@@ -301,6 +359,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           }}
           value={value}
           dropdownMatchSelectWidth={false}
+          onDropdownVisible={(vis: boolean) => onVisibleChange(vis)}
           ref={memberSelectorRef}
           resultsRender={memberResultsRender}
           placeholder={' '}
@@ -313,7 +372,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       </span>
     );
   }
-
   return null;
 };
 
@@ -377,12 +435,18 @@ export const ContractiveFilter = ({
   const [activeMap, setActiveMap] = React.useState({});
   const debouncedChange = React.useRef(debounce(onChange, delay));
 
+  const valueMapRef = React.useRef<Obj>();
+
   const inputList = conditions.filter((a) => a.type === 'input');
   const displayConditionsLen = conditions.filter((item) => !item.fixed && item.type !== 'input').length;
 
   useUpdateEffect(() => {
     setValueMap(values || {});
   }, [values]);
+
+  React.useEffect(() => {
+    valueMapRef.current = { ...valueMap };
+  }, [valueMap]);
 
   // 当从props传进来的conditions变化时调用setConditions
   React.useEffect(() => {
@@ -425,7 +489,7 @@ export const ContractiveFilter = ({
     extra?: { batchChange?: boolean; forceChange?: boolean },
   ) => {
     const { batchChange = false, forceChange = false } = extra || {};
-    let curValueMap = { ...valueMap };
+    let curValueMap = valueMapRef.current;
     if (batchChange) {
       setValueMap((prev) => {
         return {
