@@ -13,16 +13,10 @@
 
 import agent from 'agent';
 
-export const getTraceDetail = ({
-  traceId,
-  terminusKey,
-}: {
-  traceId: string;
-  terminusKey: string;
-}): MONITOR_TRACE.ITrace[] => {
+export const getTraceDetail = ({ traceId, ...query }: MONITOR_TRACE.IQuerySpan): MONITOR_TRACE.ITrace[] => {
   return agent
-    .get(`/api/spot/trace/${traceId}`)
-    .query({ terminusKey })
+    .get(`/api/msp/apm/traces/${traceId}/spans`)
+    .query(query)
     .then((response: any) => response.body);
 };
 
