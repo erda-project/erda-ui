@@ -216,7 +216,15 @@ export const IssueForm = (props: IIssueFormProps) => {
       },
       initialValue: userStore.getState((s) => s.loginUser.id),
       getComp: () => {
-        return <MemberSelector scopeType="project" scopeId={String(projectId)} allowClear={false} size="small" />;
+        return (
+          <MemberSelector
+            dropdownMatchSelectWidth={false}
+            scopeType="project"
+            scopeId={String(projectId)}
+            allowClear={false}
+            size="small"
+          />
+        );
       },
     },
   ];
