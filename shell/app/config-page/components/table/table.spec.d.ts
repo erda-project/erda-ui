@@ -46,6 +46,7 @@ declare namespace CP_TABLE {
     pageNo: number;
     pageSize: number;
     selectedRowKeys?: string[];
+    sorter?: { field: string; order: string };
   }
 
   type Props = MakeProps<Spec>;

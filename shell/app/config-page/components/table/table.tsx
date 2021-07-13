@@ -20,6 +20,15 @@ import { getRender, getTitleRender } from './render-types';
 import classnames from 'classnames';
 import './table.scss';
 
+interface ISorter {
+  order: 'ascend' | 'descend' | undefined;
+  field: string;
+}
+
+interface ITableAction {
+  action: string;
+}
+
 const handleState = (_stateObj?: Obj, selectable?: boolean) => {
   const curState: CP_TABLE.IState = {
     ..._stateObj,
@@ -51,7 +60,12 @@ export function Table(props: CP_TABLE.Props) {
   const { total, pageSize, pageNo } = state;
 
   React.useEffect(() => {
-    update(handleState(propsState, selectable));
+    update((prev) => {
+      return {
+        ...prev,
+        ...handleState(propsState, selectable),
+      };
+    });
   }, [propsState, update, selectable]);
 
   React.useEffect(() => {
@@ -128,6 +142,13 @@ export function Table(props: CP_TABLE.Props) {
     updateState({ selectedRowKeys: _selectedRowKeys });
   };
 
+  const onChange = (_pg: Obj, _filter: Obj, _sorter: ISorter, _extra: ITableAction) => {
+    if (_extra?.action === 'sort' && operations?.changeSort) {
+      const sorterData = _sorter?.order ? { field: _sorter?.field, order: _sorter?.order } : undefined;
+      execOperation(operations.changeSort, { sorterData });
+    }
+  };
+
   const rowSelection = selectable
     ? {
         selectedRowKeys: state.selectedRowKeys || [],
@@ -148,6 +169,7 @@ export function Table(props: CP_TABLE.Props) {
         {...rest}
         size="small"
         rowSelection={rowSelection}
+        onChange={onChange}
       />
     </>
   ) : null;

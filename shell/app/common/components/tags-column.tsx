@@ -16,7 +16,6 @@ import { Tooltip } from 'app/nusi';
 import { some, has, groupBy, map } from 'lodash';
 import { cutStr } from 'common/utils';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
-import i18n from 'i18n';
 import './tags-column.scss';
 
 interface ILabel {

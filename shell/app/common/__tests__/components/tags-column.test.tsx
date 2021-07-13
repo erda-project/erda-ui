@@ -29,9 +29,9 @@ const labels: IProps['labels'] = [
 describe('TagsColumn', () => {
   it('should render with default props', () => {
     const wrapper = shallow(<TagsColumn labels={labels} />);
-    expect(wrapper.find('.tags-box').children('span.tag-default')).toHaveLength(3);
-    expect(wrapper.find('span.tag-default')).toHaveClassName('small');
-    expect(wrapper.children().last().text()).toContain('...');
+    expect(wrapper.find('.tags-box').children('TagItem')).toHaveLength(2);
+    expect(wrapper.find('TagItem').at(0).prop('size')).toBe('small');
+    expect(wrapper.find('.tags-box').children().last().children().text()).toContain('...');
     expect(wrapper.find('Tooltip')).toExist();
     // @ts-ignore
     expect(React.Children.count(wrapper.find('Tooltip').prop('title').props.children)).toBe(labels.length);
@@ -41,8 +41,8 @@ describe('TagsColumn', () => {
       <TagsColumn labels={labels} showCount={labels.length} size="default" containerClassName="containerClassName" />,
     );
     expect(wrapper).toHaveClassName('containerClassName');
-    expect(wrapper.find('.tags-box').children('span.tag-default')).toHaveLength(labels.length);
-    expect(wrapper.find('span.tag-default')).toHaveClassName('default');
+    expect(wrapper.find('.tags-box').children('TagItem')).toHaveLength(labels.length);
+    expect(wrapper.find('TagItem').at(0).prop('size')).toBe('default');
     expect(wrapper.find('Tooltip')).not.toExist();
   });
 });
