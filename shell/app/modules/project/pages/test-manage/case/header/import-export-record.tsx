@@ -24,7 +24,15 @@ import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import './import-file.scss';
 
-const ImportExportRecord = () => {
+const ImportExportRecord = ({
+  setShowRefresh,
+  testSetId,
+  justImportSetId,
+}: {
+  setShowRefresh: (bool: boolean) => void;
+  testSetId: number;
+  justImportSetId: number | null;
+}) => {
   const [contentVisible, setContentVisible] = useState(false);
   const userMap = useUserMap();
   const [hasError, setHasError] = useState(false);
@@ -41,17 +49,28 @@ const ImportExportRecord = () => {
             let haveJustFinishedJob = false;
             const myProcessingJob: Record<string, boolean> = {};
             list.forEach((item) => {
-              if (item.operatorId === loginUser.id && ['processing', 'pending'].includes(item.state)) {
+              if (item.operatorID === loginUser.id && ['processing', 'pending'].includes(item.state)) {
                 myProcessingJob[item.id] = true;
               }
             });
+            let haveJustSuccessJob = false;
             result.forEach((item) => {
               if (
-                item.operatorId === loginUser.id &&
+                item.operatorID === loginUser.id &&
                 ['success', 'fail'].includes(item.state) &&
                 myProcessingJob[item.id]
               ) {
                 haveJustFinishedJob = true;
+              }
+              // new result state is success and not existing in list cache and it's not import by current user,  mean it's newly import record
+              if (
+                item.state === 'success' &&
+                item.testSetID === testSetId &&
+                justImportSetId !== testSetId &&
+                item.operatorID !== loginUser.id &&
+                !list.find((origin) => origin.id === item.id)
+              ) {
+                haveJustSuccessJob = true;
               }
             });
             if (haveJustFinishedJob) {
@@ -61,6 +80,10 @@ const ImportExportRecord = () => {
                 ),
                 4,
               );
+            }
+            if (haveJustSuccessJob) {
+              setShowRefresh(true);
+              setList(result);
             }
           }
           setList(result);
