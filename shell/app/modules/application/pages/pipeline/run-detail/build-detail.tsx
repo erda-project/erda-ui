@@ -270,7 +270,7 @@ const BuildDetail = (props: IProps) => {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'runtimeID');
         if (target) {
           getBuildRuntimeDetail({ runtimeId: +target.value }).then((result) => {
-            !isEmpty(result) && goTo(`../deploy/runtimes/${target.value}/overview`);
+            !isEmpty(result) && goTo(`../deploy/runtimes/${target.value}/overview`, { jumpOut: true });
           });
         }
         break;
@@ -282,7 +282,7 @@ const BuildDetail = (props: IProps) => {
       case 'release-link': {
         const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'releaseID');
         if (target) {
-          goTo(goTo.pages.release, { ...params, q: target.value });
+          goTo(goTo.pages.release, { ...params, q: target.value, jumpOut: true });
         }
         break;
       }
@@ -294,6 +294,7 @@ const BuildDetail = (props: IProps) => {
           goTo(goTo.pages.publisherContent, {
             type: typeTarget.value || 'MOBILE',
             publisherItemId: publishItemIDTarget.value,
+            jumpOut: true,
           });
         }
         break;
@@ -320,13 +321,13 @@ const BuildDetail = (props: IProps) => {
   };
 
   const onClickConfigLink = () => {
-    goTo(goTo.pages.buildDetailConfig, { projectId, appId, branch: encodeURIComponent(branch), env });
+    goTo(goTo.pages.buildDetailConfig, { projectId, appId, branch: encodeURIComponent(branch), env, jumpOut: true });
   };
 
   const onClickTestLink = (node: BUILD.PipelineNode) => {
     const qaID = node.findInMeta((item: BUILD.MetaData) => item.name === 'qaID');
     if (qaID) {
-      goTo(`../test/${qaID.value}`);
+      goTo(`../test/${qaID.value}`, { jumpOut: true });
     }
   };
 
