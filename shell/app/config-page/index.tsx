@@ -83,6 +83,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   const pageConfigRef = React.useRef(null as any);
   const inParamsRef = React.useRef(inParams as any);
+  const fetchingRef = React.useRef(false);
   // 此处需要使用store，因为接口中有userInfo需要被解析
   const { getRenderPageLayout } = commonStore.effects;
 
@@ -130,11 +131,12 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   }, [inParams]);
 
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, _showLoading = true) => {
+    if (fetchingRef.current) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
     if (_showLoading) updater.fetching(true);
+    fetchingRef.current = true;
     ((useMockMark && _useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
       .then((res: any) => {
-        updater.fetching(false);
         if (partial) {
           const comps = get(res, 'protocol.components');
           const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
@@ -150,6 +152,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       })
       .finally(() => {
         updater.fetching(false);
+        fetchingRef.current = false;
       });
   };
 
