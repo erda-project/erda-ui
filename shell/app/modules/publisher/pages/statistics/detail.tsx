@@ -139,7 +139,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
   });
   React.useEffect(() => {
     const endAtStr = endAt === TODAY ? String(moment().valueOf()) : String(moment().startOf('day').valueOf());
-    getVersionStatistics({ artifactsId, endTime: endAtStr, ...monitorKey });
+    monitorKey?.ai && getVersionStatistics({ artifactsId, endTime: endAtStr, ...monitorKey });
   }, [artifactsId, endAt, getVersionStatistics, monitorKey]);
 
   useUnmount(() => {
@@ -246,7 +246,9 @@ const StatisticsDetail = () => {
 
   React.useEffect(() => {
     const getLineChartData = (q: any) => {
-      q.cardinality && getTopLineChart({ ...q, publisherItemId, ...monitorKey }).then((res) => updater.lineData(res));
+      monitorKey?.ai &&
+        q.cardinality &&
+        getTopLineChart({ ...q, publisherItemId, ...monitorKey }).then((res) => updater.lineData(res));
     };
 
     getLineChartData(lineChartQuery);
