@@ -46,7 +46,7 @@ const ManualTest = () => {
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
   const [showRefresh, setShowRefresh] = React.useState(false);
   const [justImportSetId, setJustImportSetId] = React.useState<number | null>(null); // to cache the test set id which current user just Import
-  const [importExportRecordKey, setImportExportRecordKey] = React.useState<number>(0);
+  const [importExportRecordKey, setImportExportRecordKey] = React.useState(0);
 
   useEffectOnce(() => {
     getTestEnvList({ envID: +params.projectId, envType: 'project' });

@@ -36,7 +36,7 @@ const ImportExportRecord = ({
   const [contentVisible, setContentVisible] = useState(false);
   const userMap = useUserMap();
   const [hasError, setHasError] = useState(false);
-  const [isfinished, setIsfinished] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [list, setList] = useState([] as TEST_CASE.ImportExportRecordItem[]);
   const { getImportExportRecords } = testCaseStore.effects;
@@ -45,8 +45,8 @@ const ImportExportRecord = ({
   const getData = (firstTime: boolean) => {
     getImportExportRecords(['import', 'export'])
       .then((result: TEST_CASE.ImportExportRecordItem[]) => {
-        if (!result.find((item) => !['success', 'fail'].includes(item.state))) {
-          setIsfinished(true);
+        if (result.every((item) => ['success', 'fail'].includes(item.state))) {
+          setIsFinished(true);
         }
 
         if (!isEmpty(result)) {
@@ -107,7 +107,7 @@ const ImportExportRecord = ({
     () => {
       getData(false);
     },
-    isfinished || hasError ? null : 5000,
+    isFinished || hasError ? null : 5000,
   );
 
   let badgeCount = 0;

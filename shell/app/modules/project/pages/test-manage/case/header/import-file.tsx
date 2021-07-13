@@ -23,10 +23,9 @@ import './import-file.scss';
 
 interface IProps {
   afterImport?: () => void;
-  resetRecord?: () => void;
 }
 
-const ImportFile = ({ afterImport, resetRecord }: IProps) => {
+const ImportFile = ({ afterImport }: IProps) => {
   const [uploadVisible, setUploadVisible] = useState(false);
   const { importTestCase } = testCaseStore.effects;
   const [confirmLoading] = useLoading(testCaseStore, ['importTestCase']);
@@ -41,7 +40,6 @@ const ImportFile = ({ afterImport, resetRecord }: IProps) => {
       message.info(i18n.t('project:imported successfully'));
     }
     afterImport && afterImport();
-    resetRecord?.();
     handleCancel();
   };
 

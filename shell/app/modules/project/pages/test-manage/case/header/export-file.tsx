@@ -18,7 +18,11 @@ import { DropdownSelect } from 'common';
 import testCaseStore from 'project/stores/test-case';
 import { message } from 'app/nusi';
 
-const ExportFile = ({ afterExport }: { afterExport: () => void }) => {
+interface IProps {
+  afterExport?: () => void;
+}
+
+const ExportFile = ({ afterExport }: IProps) => {
   const { exportFile } = testCaseStore.effects;
 
   const onExport = (e: any) => {
