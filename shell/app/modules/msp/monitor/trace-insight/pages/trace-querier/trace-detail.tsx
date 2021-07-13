@@ -33,8 +33,7 @@ interface ISpanDetailProps {
 
 const SpanDetail = (props: ISpanDetailProps) => {
   const { spanDetailContent, getSpanDetailContent } = props;
-  const { durationStr, tags } = spanDetailContent.span;
-  const spanName = tags?.http_url || '';
+  const { durationStr, tags, operationName: spanName = '' } = spanDetailContent.span;
   const columns2 = [
     {
       title: 'Key',
@@ -178,6 +177,7 @@ class TraceDetail extends React.Component<IProps, IState> {
                 depth,
                 isExpand,
                 isShow,
+                operationName,
                 tags,
               } = span;
               return (
@@ -237,7 +237,7 @@ class TraceDetail extends React.Component<IProps, IState> {
                     </div>
                     <Tooltip title={tags.spanName} overlayClassName="span-tooltip" arrowPointAtCenter>
                       <span className="span-name" style={{ left: `${span.left}%`, width: `${100 - span.left}%` }}>
-                        {durationStr} : {tags.http_url}
+                        {durationStr} : {operationName}
                       </span>
                     </Tooltip>
                   </div>
