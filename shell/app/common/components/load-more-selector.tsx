@@ -71,7 +71,7 @@ interface IProps {
   changeQuery?: (q: string | undefined) => void;
   optionRender?: (option: any, type: string) => React.ReactNode;
   onDropdownVisible?: (visible: boolean) => void;
-  onVisibleChange?: (visible: boolean, innerValue: Array<any>[]) => void;
+  onVisibleChange?: (visible: boolean, innerValue: any[][]) => void;
 }
 
 export interface IOption {
@@ -173,7 +173,7 @@ const PureLoadMoreSelector = (props: IProps) => {
 
     if (forwardedRef) {
       forwardedRef.current = {
-        show: () => setVisible(true),
+        show: (vis: boolean) => setVisible(vis),
       };
     }
 
@@ -555,6 +555,7 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
     pageSize = PAGINATION.pageSize,
     list: allList = emptyArray,
     LoadMoreRender = DefaultLoadMoreRender,
+    onDropdownVisible: propsOnDropdownVisible,
     onChangeCategory: changeCategory,
     type,
     dataFormatter = defaultDataFormatter,
@@ -582,6 +583,10 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
       updater.list(q ? filter(allList, ({ label }) => (label || '').toLowerCase().includes(q.toLowerCase())) : allList);
     }
   }, [allList, q, isStaticData]);
+
+  React.useEffect(() => {
+    propsOnDropdownVisible?.(visible);
+  }, [visible]);
 
   React.useEffect(() => {
     if (!isStaticData) {

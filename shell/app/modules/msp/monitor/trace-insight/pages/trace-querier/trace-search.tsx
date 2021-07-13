@@ -14,7 +14,7 @@
 import React, { useMemo } from 'react';
 import { get, isEmpty } from 'lodash';
 import moment from 'moment';
-import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsColumn } from 'common';
+import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { Select, DatePicker, Table, Drawer } from 'app/nusi';
 import { useEffectOnce } from 'react-use';
@@ -233,7 +233,7 @@ export default () => {
     {
       title: i18n.t('service'),
       dataIndex: 'services',
-      render: (services: string[]) => <TagsColumn labels={services.map((service) => ({ label: service }))} />,
+      render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
     },
     {
       title: i18n.t('common:operation'),

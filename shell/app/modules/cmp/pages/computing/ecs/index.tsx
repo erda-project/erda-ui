@@ -19,7 +19,7 @@ import { insertWhen } from 'common/utils';
 import cloudECSStore from 'app/modules/cmp/stores/computing';
 import clusterStore from 'cmp/stores/cluster';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { CRUDStoreTable, TagsColumn, useUpdate } from 'common';
+import { CRUDStoreTable, TagsRow, useUpdate } from 'common';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
@@ -122,7 +122,7 @@ export default () => {
         render: (value: Obj) => {
           const keyArray = keys(value);
           return (
-            <TagsColumn
+            <TagsRow
               labels={keyArray.map((key) => {
                 const label = get(key.split('/'), 1, '');
                 return { label, color: customTagColor[label] };
