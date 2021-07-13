@@ -426,6 +426,7 @@ export const MembersTable = ({
           title: i18n.t('operations'),
           key: 'op',
           width: 150,
+          fixed: 'right',
           render: (record: IMember) => {
             const { userId, removed, labels } = record;
             const isCurrentUser = currentUserId === userId;
@@ -497,6 +498,8 @@ export const MembersTable = ({
         pagination={{ ...paging, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
+        tableLayout="auto"
+        scroll={{ x: '100%' }}
       />
     );
   }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater, hideRowSelect]);
