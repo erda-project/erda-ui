@@ -3297,7 +3297,7 @@
     "imported successfully": "成功导入",
     "imported {total} item successfully": "导入成功{total}条",
     "imported {total} item unsuccessfully": "导入失败{total}条",
-    "importing": "正在导入",
+    "start importing, please view detail in records": "开始导入，请在记录中查看详细信息",
     "initializing": "初始化",
     "input bug name": "输入缺陷名称",
     "input custom board name": "请输入自定义看板名",
