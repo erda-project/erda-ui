@@ -157,7 +157,10 @@ const traceQuerier = createStore({
 
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
-    async getTraceDetailContent({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
+    async getTraceDetailContent(
+      { call, update, getParams },
+      payload: Merge<Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>, { needReturn?: boolean }>,
+    ) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒

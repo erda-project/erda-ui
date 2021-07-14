@@ -166,6 +166,7 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace[]): Trace => {
       const left = ((spanStartTs - traceTimestamp) / summary.duration) * 100;
 
       return {
+        ...span,
         spanId: span.id,
         parentId: span.parentSpanId || null,
         duration: spanDuration,
@@ -175,7 +176,6 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace[]): Trace => {
         depth: (spanDepth + 2) * 5,
         depthClass: (spanDepth - 1) % 6,
         children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
-        tags: span.tags,
         annotations: (span.annotations || []).map((a) => ({
           isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
           left: ((a.timestamp - spanStartTs) / spanDuration) * 100,
