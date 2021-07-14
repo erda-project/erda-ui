@@ -42,7 +42,7 @@ const Web = () => {
 
   const fetchTraceContent = ({ requestId }: any) => {
     tracingOn();
-    getTraceDetailContent({ traceId: requestId }).then((content: any) => {
+    getTraceDetailContent({ traceId: requestId, needReturn: true }).then((content: any) => {
       setTraceRecords(content);
     });
   };
