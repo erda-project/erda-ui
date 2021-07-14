@@ -602,14 +602,14 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       dataIndex: 'id',
       key: 'operation',
       fixed: 'right',
-      width: 70,
+      width: 150,
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
             <span className="table-operations-btn" onClick={() => update({ recordData: record })}>
               {i18n.t('set tags')}
             </span>
-            <Operation record={record} />
+            {/* <Operation record={record} /> */}
             <span
               onClick={() => {
                 setCurMachine(record);

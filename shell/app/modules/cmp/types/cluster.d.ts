@@ -23,7 +23,6 @@ declare namespace ORG_CLUSTER {
     description: string;
     wildcardDomain: string;
     urls: {
-      colonySoldier: string;
       colonySoldierPublic: string;
       dingDingWarning: string;
       nexus: string;

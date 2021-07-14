@@ -16,19 +16,3 @@ import agent from 'agent';
 export const getDeploymentStatus = (id: string): RUNTIME_LOG.DeployStatus => {
   return agent.get(`/api/deployments/${id}/status`).then((response: any) => response.body);
 };
-
-export const getDockerLog = ({ colonySoldier, host, targetId }: RUNTIME_LOG.DockerLogQuery): string => {
-  return agent
-    .post(`/api/command?url=${colonySoldier}`)
-    .send({
-      name: 'docker logs',
-      args: {
-        host, // 容器所在宿主机
-        port: 2375,
-        container: targetId, // 容器ID
-        since: '', // 查看日志开始时间戳
-        tail: '', // 查看日志最后多少行
-      },
-    })
-    .then((response: any) => response.text);
-};

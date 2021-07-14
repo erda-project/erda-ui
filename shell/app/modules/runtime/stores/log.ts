@@ -12,10 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import i18n from 'i18n';
 import runtimeStore from './runtime';
-import { getDeploymentStatus, getDockerLog } from '../services/log';
-import { getClusterDetail } from 'dcos/services/cluster';
+import { getDeploymentStatus } from '../services/log';
 
 interface State {
   deploymentStatus: RUNTIME_LOG.DeployStatus;
@@ -44,32 +42,6 @@ const runtimeLog = createFlatStore({
     async getDeploymentStatus({ call, update }, deployId: string) {
       const deploymentStatus = await call(getDeploymentStatus, deployId);
       update({ deploymentStatus });
-    },
-    async getDockerLog(
-      { call, getParams },
-      payload: Omit<Merge<RUNTIME_LOG.DockerLogQuery, { logKey: string; clusterName?: string }>, 'colonySoldier'>,
-    ) {
-      const { logKey, host, targetId, clusterName } = payload;
-      const runtimeDetail = runtimeStore.getState((s) => s.runtimeDetail);
-
-      const params = getParams(); // TODO: 这里在哪里复用有clusterName？
-      const clusterDetail = await call(getClusterDetail, {
-        clusterId: runtimeDetail.clusterId,
-        clusterName: clusterName || params.clusterName,
-      });
-      let dockerLog = '';
-      if (!host) {
-        dockerLog = i18n.t(
-          'runtime:The current container does not have a host, and the container log cannot be obtained.',
-        );
-      } else if (clusterDetail.urls) {
-        dockerLog = await call(getDockerLog, {
-          targetId,
-          host,
-          colonySoldier: clusterDetail.urls.colonySoldier,
-        });
-      }
-      runtimeLog.queryLogSuccess({ dockerLog, logKey });
     },
   },
   reducers: {
