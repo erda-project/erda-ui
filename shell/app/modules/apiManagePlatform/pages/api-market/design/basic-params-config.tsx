@@ -129,27 +129,36 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   }, []);
 
   const getExampleData = React.useCallback(
-    (data: Obj) => {
+    (data: Obj, extraTypes?: Obj) => {
       if (!data) return '';
+      const _extraTypes = extraTypes || props?.extraDataTypes;
 
       const refTypePath = getRefTypePath(data);
       const customType = refTypePath.split('/').slice(-1)[0];
-      const customTypeData = get(props, ['extraDataTypes', customType]) || {};
+      const customTypeData = get(_extraTypes, [customType]) || customType || {};
+
+      if (typeof customTypeData === 'string') {
+        return {};
+      }
 
       const curType = data.type || customTypeData.type;
 
       if (curType === 'object') {
-        const newExample: Obj = refTypePath ? getExampleData(customTypeData) : {};
+        const newExtraTypes = produce(_extraTypes, draft=> {
+          draft && (draft[customType] = null);
+        });
+
+        const newExample: Obj = refTypePath ? getExampleData(customTypeData, newExtraTypes) : {};
 
         const customProperties = data.properties || {};
         forEach(keys(customProperties), (pName) => {
           const propertyItem = customProperties[pName];
-          newExample[pName] = getExampleData(propertyItem);
+          newExample[pName] = getExampleData(propertyItem, newExtraTypes);
         });
 
         return newExample;
       } else if (curType === 'array') {
-        const newExample: any = refTypePath ? getExampleData(customTypeData) : getExampleData(data.items);
+        const newExample: any = refTypePath ? getExampleData(customTypeData, _extraTypes) : getExampleData(data.items, _extraTypes);
         return refTypePath ? newExample : [newExample];
       } else if (refTypePath && customTypeData.example !== undefined) {
         return customTypeData.example;
