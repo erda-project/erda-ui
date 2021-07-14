@@ -53,7 +53,7 @@ export default () => {
     }
     domainData.id &&
       inviteToOrg({
-        verifyCode: code.trim(),
+        verifyCode: code,
         userIds: [id],
         orgId: String(domainData.id),
       }).then(() => {
@@ -74,7 +74,7 @@ export default () => {
           className="mb16"
           width="100%"
           placeholder={i18n.t('please enter verification code')}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.code(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.code(e.target.value.trim())}
         />
         <Button style={{ width: '100%' }} loading={inviting} type="primary" disabled={!code} onClick={handleJoinOrg}>
           {domainData.displayName ? i18n.t('join {orgName}', { orgName: domainData.displayName }) : i18n.t('join org')}
