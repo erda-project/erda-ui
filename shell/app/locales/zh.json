@@ -3892,6 +3892,7 @@
     "pod IP": "Pod 实例IP",
     "publishing": "发布中",
     "publishing failed": "发布失败",
+    "release deployment": "制品部署",
     "resource adjust": "服务资源调整",
     "restart": "重启",
     "rollback": "回滚",

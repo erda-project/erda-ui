@@ -3892,6 +3892,7 @@
     "pod IP": "pod IP",
     "publishing": "publishing",
     "publishing failed": "publishing failed",
+    "release deployment": "release deployment",
     "resource adjust": "resource adjust",
     "restart": "restart",
     "rollback": "rollback",
