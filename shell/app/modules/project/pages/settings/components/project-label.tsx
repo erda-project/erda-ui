@@ -31,6 +31,7 @@ export default () => {
   const [state, updater] = useUpdate({
     activeLabel: null,
     modalVisible: false,
+    activeColor: colors[0],
   });
 
   useEffectOnce(() => {
@@ -40,12 +41,14 @@ export default () => {
 
   const onClickLabel = (label: LABEL.Item) => {
     updater.activeLabel(label);
+    updater.activeColor(label.color);
     updater.modalVisible(true);
   };
 
   const onCancel = () => {
     updater.modalVisible(false);
     updater.activeLabel(null);
+    updater.activeColor(colors[0]);
   };
 
   const onOk = (data: any) => {
@@ -104,14 +107,16 @@ export default () => {
       type: 'custom',
       initialValue: colors[0],
       getComp: ({ form }: { form: FormInstance }) => {
-        const v = form.getFieldValue('color') || colors[0];
         return (
           <div className="color-list colorful-bg">
             {colors.map((c) => (
               <span
                 key={c}
-                className={`color-option ${c} ${v === c ? 'active' : ''}`}
-                onClick={() => form.setFieldsValue({ color: c })}
+                className={`color-option ${c} ${state.activeColor === c ? 'active' : ''}`}
+                onClick={() => {
+                  updater.activeColor(c);
+                  form.setFieldsValue({ color: c });
+                }}
               >
                 <CustomIcon type="duigou" />
               </span>
