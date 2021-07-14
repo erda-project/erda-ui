@@ -126,7 +126,7 @@ importers:
       dotenv: ^8.2.0
       history: 4.x
       i18next: ^17.0.13
-      immer: ^3.2.0
+      immer: ^8.0.0
       less: ^3.8.1
       less-loader: ^7.2.1
       lodash: ^4.17.21
@@ -159,7 +159,7 @@ importers:
       cube-state: 1.5.3_react@16.14.0
       history: 4.10.1
       i18next: 17.3.1
-      immer: 3.3.0
+      immer: 8.0.4
       less: 3.13.1
       lodash: 4.17.21
       moment: 2.29.1
@@ -12763,7 +12763,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.1_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -14167,10 +14167,6 @@ packages:
     hasBin: true
     dev: false
     optional: true
-
-  /immer/3.3.0:
-    resolution: {integrity: sha512-vlWRjnZqoTHuEjadquVHK3GxsXe1gNoATffLEA8Qbrdd++Xb+wHEFiWtwAKTscMBoi1AsvEMXhYRzAXA8Ex9FQ==}
-    dev: false
 
   /immer/5.3.6:
     resolution: {integrity: sha512-pqWQ6ozVfNOUDjrLfm4Pt7q4Q12cGw2HUZgry4Q5+Myxu9nmHRkWBpI0J4+MK0AxbdFtdMTwEGVl7Vd+vEiK+A==}
