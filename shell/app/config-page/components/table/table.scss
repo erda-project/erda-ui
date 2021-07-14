@@ -1,10 +1,11 @@
 .dice-cp {
-  &.table {
+  &.dice-cp-table {
     .table-render-twt {
       .twt-text {
         display: flex;
         flex-grow: 1;
         width: 0;
+        line-height: 25px;
       }
     }
 

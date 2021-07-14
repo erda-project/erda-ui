@@ -178,10 +178,14 @@ const ErrorList = ({
     {
       title: i18n.t('publisher:error summary'),
       dataIndex: 'errSummary',
+      width: 400,
+      ellipsis: {
+        showTitle: false,
+      },
       render: (text) => {
         const decoded = decodeURIComponent(text);
         return (
-          <Tooltip title={decoded}>
+          <Tooltip title={decoded} placement="topLeft">
             <span
               className="fake-link"
               onClick={() => {
@@ -197,10 +201,16 @@ const ErrorList = ({
     {
       title: i18n.t('publisher:version'),
       dataIndex: 'appVersion',
+      width: 80,
+      ellipsis: true,
     },
     {
       title: i18n.t('publisher:time first occurred'),
       dataIndex: 'timeOfFirst',
+      width: 160,
+      ellipsis: {
+        showTitle: false,
+      },
       render: (text: number) => {
         const val = moment(text).format('YYYY-MM-DD HH:mm:ss');
         return <Tooltip title={val}>{val}</Tooltip>;
@@ -209,6 +219,10 @@ const ErrorList = ({
     {
       title: i18n.t('publisher:last occurred'),
       dataIndex: 'timeOfRecent',
+      width: 160,
+      ellipsis: {
+        showTitle: false,
+      },
       render: (text: number) => {
         const val = moment(text).format('YYYY-MM-DD HH:mm:ss');
         return <Tooltip title={val}>{val}</Tooltip>;
@@ -217,10 +231,14 @@ const ErrorList = ({
     {
       title: i18n.t('publisher:cumulative error times'),
       dataIndex: 'totalErr',
+      width: 110,
+      ellipsis: true,
     },
     {
       title: i18n.t('publisher:cumulative number of users affected'),
       dataIndex: 'affectUsers',
+      width: 130,
+      ellipsis: true,
     },
   ];
 

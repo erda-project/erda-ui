@@ -13,7 +13,7 @@
 
 import { Tooltip, Card, Alert } from 'app/nusi';
 import * as React from 'react';
-import { Avatar, UserInfo, TagsColumn } from 'common';
+import { Avatar, UserInfo, TagsRow } from 'common';
 import { ISSUE_ICON } from '../../common/components/issue/issue-config';
 import { useDrag } from 'react-dnd';
 import classnames from 'classnames';
@@ -70,7 +70,7 @@ export default ({ item, onClickItem }: IProps) => {
               </Tooltip>
               <span />
               {item.labels && (
-                <TagsColumn
+                <TagsRow
                   labels={item.labels.map((l) => ({ label: l, color: 'red' }))}
                   showCount={2}
                   containerClassName="ml8"

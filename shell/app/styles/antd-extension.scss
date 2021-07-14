@@ -167,10 +167,6 @@ div.ant-modal-body {
       }
     }
   }
-
-  .erda-icon {
-    transform: translateY(0);
-  }
 }
 
 .ant-table-thead > tr > th {
@@ -414,18 +410,14 @@ div.ant-table {
   }
 }
 
-.ant-select.ant-select-single.ant-select-show-arrow .ant-select-selector span.ant-select-selection-item,
-.ant-select-single.ant-select-show-arrow span.ant-select-selection-placeholder {
-  padding-right: 0;
-}
-
 // Leave the styles unchanged from nusi to antd4.x
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td,
 .ant-table tfoot > tr > th,
 .ant-table tfoot > tr > td {
   line-height: 28px;
-  overflow: visible;
+  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 .ant-table-tbody > tr > td {

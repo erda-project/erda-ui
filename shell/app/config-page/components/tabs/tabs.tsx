@@ -15,6 +15,7 @@ import * as React from 'react';
 import { Tabs } from 'app/nusi';
 import { EmptyHolder, useUpdate } from 'common';
 import { get, find } from 'lodash';
+import './tabs.scss';
 
 export default (props: CP_TABS.Props) => {
   const {
@@ -54,7 +55,7 @@ export default (props: CP_TABS.Props) => {
   return (
     <Tabs
       activeKey={state.activeKey}
-      tabBarExtraContent={tabBarExtraContent}
+      tabBarExtraContent={<div className="dice-cp-tabs-extra">{tabBarExtraContent}</div>}
       onChange={changeTab}
       renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
     >

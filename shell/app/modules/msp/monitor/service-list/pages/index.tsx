@@ -44,13 +44,13 @@ export default () => {
     });
   }, [getCustomDashboardDetail]);
 
-  const handleBoardEvent = ({ eventName, cellValue, dataSource }: DC.BoardEvent) => {
+  const handleBoardEvent = ({ eventName, cellValue, record }: DC.BoardEvent) => {
     if (eventName === 'jumpToDetail') {
       goTo(goTo.pages.mspServiceAnalyze, {
         ...params,
         serviceName: cellValue,
-        applicationId: dataSource?.application_id,
-        serviceId: window.encodeURIComponent(dataSource?.service_id || ''),
+        applicationId: record?.application_id,
+        serviceId: window.encodeURIComponent(record?.service_id || ''),
       });
     }
   };
