@@ -820,6 +820,34 @@ export default ({ scopeType }: { scopeType: string }) => {
   };
 
   const NotifyForm = ({ form }: { form: FormInstance }) => {
+    const Comp = () => (
+      <>
+        <Button
+          className="mb8"
+          type="primary"
+          ghost
+          disabled={isEmpty(customMetricMap.notifySample)}
+          onClick={handleShowNotifySample}
+        >
+          {i18n.t('org:template sample')}
+        </Button>
+        <MarkdownEditor
+          value={form.getFieldValue(['notify', 'content'])}
+          onBlur={(value) => {
+            form.setFieldsValue({
+              notify: {
+                ...(form.getFieldValue('notify') || {}),
+                content: value,
+              },
+            });
+          }}
+          defaultMode="md"
+          placeholder={i18n.t('org:refer to template sample to input')}
+          maxLength={512}
+        />
+      </>
+    );
+
     const fieldsList = [
       {
         label: i18n.t('org:optional notification methods'),
@@ -847,33 +875,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       {
         label: i18n.t('org:message content rules'),
         name: ['notify', 'content'],
-        getComp: () => (
-          <>
-            <Button
-              className="mb8"
-              type="primary"
-              ghost
-              disabled={isEmpty(customMetricMap.notifySample)}
-              onClick={handleShowNotifySample}
-            >
-              {i18n.t('org:template sample')}
-            </Button>
-            <MarkdownEditor
-              value={form.getFieldValue(['notify', 'content'])}
-              onBlur={(value) => {
-                form.setFieldsValue({
-                  notify: {
-                    ...(form.getFieldValue('notify') || {}),
-                    content: value,
-                  },
-                });
-              }}
-              defaultMode="md"
-              placeholder={i18n.t('org:refer to template sample to input')}
-              maxLength={512}
-            />
-          </>
-        ),
+        getComp: () => <Comp />,
       },
     ];
     return <RenderPureForm list={fieldsList} form={form} formItemLayout={formItemLayout} />;

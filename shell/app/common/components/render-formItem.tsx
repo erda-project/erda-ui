@@ -179,11 +179,7 @@ export const RenderFormItem = ({
     case 'custom':
       let Comp = getComp;
       // getFieldDecorator不能直接包裹FunctionalComponent，see https://github.com/ant-design/ant-design/issues/11324
-      ItemComp = (
-        <ClassWrapper {...itemProps}>
-          <Comp form={form} />
-        </ClassWrapper>
-      );
+      ItemComp = <ClassWrapper {...itemProps}>{(getComp as Function)({ form })}</ClassWrapper>;
       break;
     case 'cascader':
       specialConfig.valuePropType = 'array';
