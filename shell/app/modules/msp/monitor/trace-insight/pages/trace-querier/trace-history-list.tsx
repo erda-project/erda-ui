@@ -14,7 +14,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { map as _map } from 'lodash';
-import moment from 'moment';
 import { Spin, Tooltip } from 'app/nusi';
 import { EmptyHolder } from 'common';
 import './trace-history-list.scss';
@@ -59,7 +58,7 @@ const TraceHistoryList = ({
         })}
       >
         <span className="request-url nowrap">{url}</span>
-        <span className="request-time">{moment(createTime).format('MM/DD/YY HH:mm')}</span>
+        <span className="request-time">{createTime}</span>
       </li>
     );
   };
