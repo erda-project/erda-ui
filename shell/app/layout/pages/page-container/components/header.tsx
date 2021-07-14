@@ -158,7 +158,7 @@ const Header = () => {
   }, [currentApp, routes]);
 
   const itemRender = (route: IRoute, _params: Obj<string>, _routes: IRoute[], paths: string[]) => {
-    if (allRoutes.length && allRoutes[allRoutes.length - 1] === route) {
+    if (!route.breadcrumbName || (allRoutes.length && allRoutes[allRoutes.length - 1] === route)) {
       return null;
     }
     const _title = getBreadcrumbTitle(route);
