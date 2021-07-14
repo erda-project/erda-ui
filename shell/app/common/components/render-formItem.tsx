@@ -177,7 +177,6 @@ export const RenderFormItem = ({
       );
       break;
     case 'custom':
-      let Comp = getComp;
       // getFieldDecorator不能直接包裹FunctionalComponent，see https://github.com/ant-design/ant-design/issues/11324
       ItemComp = <ClassWrapper {...itemProps}>{(getComp as Function)({ form })}</ClassWrapper>;
       break;

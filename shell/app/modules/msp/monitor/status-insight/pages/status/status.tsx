@@ -200,7 +200,7 @@ const Status = () => {
     {
       title: i18n.t('operations'),
       dataIndex: 'id',
-      width: 90,
+      width: 100,
       render: (id: string, record: any) => {
         return (
           <div className="table-operations">
