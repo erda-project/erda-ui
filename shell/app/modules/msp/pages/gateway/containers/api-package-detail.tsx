@@ -226,7 +226,7 @@ export const ApiPackageDetail = () => {
     ...PACKAGE_DETAIL_COLS,
     {
       title: i18n.t('operations'),
-      width: 180,
+      width: 200,
       render: (record: any) => (
         <div className="table-operations">
           <span
