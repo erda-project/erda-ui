@@ -76,7 +76,7 @@ const BuildDetail = (props: IProps) => {
     s.changeType,
   ]);
 
-  const rejectRef = React.useRef(null);
+  const rejectContentRef = React.useRef('');
 
   const {
     cancelBuild: cancelBuildCall,
@@ -348,12 +348,18 @@ const BuildDetail = (props: IProps) => {
     if (reviewIdObj) {
       confirm({
         title: i18n.t('reason for rejection'),
-        content: <TextArea ref={rejectRef}>ss</TextArea>,
+        content: (
+          <TextArea
+            onChange={(v) => {
+              rejectContentRef.current = v.target.value;
+            }}
+          />
+        ),
         onOk() {
           updateApproval({
             id: +reviewIdObj.value,
             reject: true,
-            reason: (rejectRef.current as any) && (rejectRef.current as any).state.value,
+            reason: rejectContentRef.current,
           }).then(() => {
             getPipelineDetail({ pipelineID: pipelineDetail.id });
           });
