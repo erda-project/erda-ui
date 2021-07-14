@@ -43,6 +43,7 @@ interface IState {
   info: PROJECT.Detail;
   isAdmin: boolean;
   curProjectId: string;
+  curSpaceId: string;
   statusPageVisible: boolean;
   projectAppList: IApplication[];
   projectAppPaging: IPaging;
@@ -58,6 +59,7 @@ const initState: IState = {
   isAdmin: false,
   statusPageVisible: false,
   curProjectId: '',
+  curSpaceId: '',
   projectAppList: [],
   projectAppPaging: getDefaultPaging(),
   projectSettingAppList: [],
@@ -80,7 +82,7 @@ const project = createStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ params, isIn, isLeaving }) => {
       const { projectId, spaceId } = params;
-      const curProjectId = project.getState((s) => s.curProjectId);
+      const [curProjectId, curSpaceId] = project.getState((s) => [s.curProjectId, s.curSpaceId]);
       if (isIn('project')) {
         if (`${curProjectId}` !== projectId) {
           loadingInProject = true;
@@ -112,10 +114,15 @@ const project = createStore({
         project.effects.getProjectInfo(projectId, true);
       }
 
-      if (isIn('autoTestSpaceDetail')) {
+      if (isIn('autoTestSpaceDetail') && curSpaceId !== spaceId) {
+        project.reducers.updateCurSpaceId(spaceId);
         getAutoTestSpaceDetail({ spaceId }).then((res: any) => {
           breadcrumbStore.reducers.setInfo('testSpaceName', get(res, 'data.name'));
         });
+      }
+
+      if (isLeaving('autoTestSpaceDetail')) {
+        project.reducers.updateCurSpaceId('');
       }
 
       if (isLeaving('project')) {
@@ -226,6 +233,9 @@ const project = createStore({
     },
     updateCurProjectId(state, proId = '') {
       state.curProjectId = proId;
+    },
+    updateCurSpaceId(state, spaceId) {
+      state.curSpaceId = spaceId;
     },
     onProjectIndexEnter() {
       setTimeout(() => {
