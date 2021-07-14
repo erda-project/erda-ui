@@ -98,7 +98,7 @@ const BuildDetail = (props: IProps) => {
   const { blockStatus } = appStore.useStore((s) => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const { blockoutConfig } = currentOrg;
-  const rejectRef = React.useRef(null);
+  const rejectContentRef = React.useRef('');
 
   const {
     cancelBuild: cancelBuildCall,
@@ -384,12 +384,18 @@ const BuildDetail = (props: IProps) => {
     if (reviewIdObj) {
       confirm({
         title: i18n.t('reason for rejection'),
-        content: <TextArea ref={rejectRef} />,
+        content: (
+          <TextArea
+            onChange={(v) => {
+              rejectContentRef.current = v.target.value;
+            }}
+          />
+        ),
         onOk() {
           updateApproval({
             id: +reviewIdObj.value,
             reject: true,
-            reason: (rejectRef.current as any) && (rejectRef.current as any).state.value,
+            reason: rejectContentRef.current,
           }).then(() => {
             getPipelineDetail({ pipelineID: pipelineDetail.id });
           });
