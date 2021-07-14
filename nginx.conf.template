@@ -141,21 +141,6 @@ server {
         proxy_set_header Host $host;
     }
 
-    set $url_backend $arg_url;
-    set $portal_host "";
-    set $portal_dest "";
-
-    location ~* ^/api/[^/]*/(command|proxy) {
-        rewrite  /api/([^/]*)/(.*) /api/$2 break;
-        proxy_set_header org $1;
-        proxy_pass $url_backend;
-        proxy_set_header "portal-host" $portal_host;
-        proxy_set_header "portal-dest" $portal_dest;
-        proxy_http_version 1.1;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-
     location ~* ^/api/[^/]*/ {
         rewrite  /api/([^/]*)/(.*) /api/$2 break;
         proxy_set_header org $1;
