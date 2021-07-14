@@ -83,7 +83,7 @@ const BindDomainForm = (props: any) => {
             <Input
               className="bind-domain-input"
               value={value[index]}
-              onChange={(e: object) => changeItemValue(e.target.value, index)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeItemValue(e.target.value, index)}
             />
             <div className="bind-domain-icons">
               <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
