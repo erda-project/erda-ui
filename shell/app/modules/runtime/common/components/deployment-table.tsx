@@ -23,6 +23,7 @@ const typeMap = {
   BUILD: i18n.t('runtime:build'),
   ROLLBACK: i18n.t('runtime:rollback'),
   REDEPLOY: i18n.t('runtime:restart'),
+  RELEASE: i18n.t('runtime:release deployment'),
 };
 
 interface IProps {
