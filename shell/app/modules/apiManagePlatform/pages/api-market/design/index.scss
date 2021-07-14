@@ -43,8 +43,12 @@
       }
     }
 
-    .api-filter-input > .ant-input-prefix {
-      left: $p16;
+    .api-filter-input {
+      width: auto;
+
+      > .ant-input-prefix {
+        left: $p16;
+      }
     }
 
     .panel-list {
