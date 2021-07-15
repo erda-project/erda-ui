@@ -274,6 +274,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
+      width: 300,
+      ellipsis: true,
       render: (text, record) => (
         <span
           className="hover-active"
@@ -345,7 +347,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (_text, record: ORG_CLUSTER.ICluster) => {
         return renderMenu(record);
       },
-      width: 150,
+      width: 280,
     },
   ];
 
