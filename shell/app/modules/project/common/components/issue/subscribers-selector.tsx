@@ -133,7 +133,7 @@ export const SubscribersSelector = (props: IProps) => {
             <span
               onClick={(e) => {
                 e.stopPropagation();
-                memberRef.current?.show();
+                memberRef.current?.show(true);
               }}
             >
               <IconPlus />
