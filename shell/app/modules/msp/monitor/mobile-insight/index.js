@@ -30,9 +30,9 @@ if (isZh()) {
 const getMIRouter = () => ({
   path: 'mi',
   tabs,
+  pageName: i18n.t('msp:app performance'),
   routes: [
     {
-      pageName: i18n.t('msp:app performance'),
       getComp: (cb) => cb(import('mobile-insight/pages/overview/overview')),
     },
     {

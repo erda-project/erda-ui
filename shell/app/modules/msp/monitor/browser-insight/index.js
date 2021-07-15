@@ -32,11 +32,11 @@ if (isZh()) {
 
 const getBIRouter = () => ({
   path: 'bi',
-  // breadcrumbName: '浏览性能',
+  pageName: i18n.t('msp:browse performance'),
   tabs,
   routes: [
     {
-      pageName: i18n.t('msp:browse performance'),
+      // breadcrumbName: i18n.t('msp:browse performance'),
       getComp: (cb) => cb(import('browser-insight/pages/overview/overview')),
     },
     {
