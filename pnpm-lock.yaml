@@ -9684,10 +9684,6 @@ packages:
     engines: {node: '>=0.1.90'}
     dev: false
 
-  /colors/1.4.0:
-    resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==}
-    engines: {node: '>=0.1.90'}
-
   /columnify/1.5.4:
     resolution: {integrity: sha1-Rzfd8ce2mop8NAVweC6UfuyOeLs=}
     dependencies:
