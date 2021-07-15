@@ -31,7 +31,7 @@ const defaultValue = {
 
 const HealthCheckField = (props: IVariableInputGroupProps) => {
   const { value: propsValue, disabled, onChange } = props;
-  const [{ healthCheckKey, value }, updater, update] = useUpdate({
+  const [{ healthCheckKey, value }, , update] = useUpdate({
     healthCheckKey: Object.keys(propsValue)?.[0],
     value: propsValue || defaultValue,
   });
