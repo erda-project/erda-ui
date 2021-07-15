@@ -14,7 +14,6 @@
 import { Spin, Tabs } from 'app/nusi';
 import * as React from 'react';
 import i18n from 'i18n';
-import { useUnmount } from 'react-use';
 import { CommitList } from '../repo-commit';
 import { CommentList } from './mr-comments';
 import FileDiff from './file-diff';
@@ -30,13 +29,9 @@ interface IProps {
 
 const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
   const [compareDetail, comments] = repoStore.useStore((s) => [s.compareDetail, s.comments]);
-  const { clearComments, clearCompareDetail } = repoStore.reducers;
   const { commits = [], diff, from, to } = compareDetail;
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);
-  useUnmount(() => {
-    clearComments();
-    clearCompareDetail();
-  });
+
   return (
     <Spin spinning={isFetching}>
       <Tabs className="dice-tab" defaultActiveKey={!hideComment ? 'comment' : 'commit'} tabBarGutter={40}>
