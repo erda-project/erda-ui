@@ -74,3 +74,10 @@
     width: 100px;
   }
 }
+
+// todo temporarily，When the overflow style of the global td is removed, remove the style
+.opportunity-table {
+  td {
+    overflow: visible;
+  }
+}
