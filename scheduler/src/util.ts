@@ -11,10 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const path = require('path');
-const fs = require('fs');
-const dotenv = require('dotenv');
-const chalk = require('chalk');
+/* eslint-disable no-console */
+import path from 'path';
+import fs from 'fs';
+import dotenv from 'dotenv';
+import chalk from 'chalk';
 
 const log = (...msg) => console.log(chalk.blue(`[Scheduler] ${msg}`));
 const logWarn = (...msg) => console.log(chalk.yellow(`[Scheduler] ${msg}`));
@@ -45,9 +46,4 @@ const getEnv = () => {
   };
 };
 
-module.exports = {
-  log,
-  logWarn,
-  getDirectories,
-  getEnv,
-};
+export { log, logWarn, getDirectories, getEnv };
