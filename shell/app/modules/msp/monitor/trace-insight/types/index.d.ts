@@ -51,6 +51,14 @@ declare namespace MONITOR_TRACE {
   }
 
   interface ITrace {
+    spans: Array<ITraceSpan>;
+    duration: number;
+    serviceCount: number;
+    depth: number;
+    spanCount: number;
+  }
+
+  interface ITraceSpan {
     id: string;
     traceId: string;
     operationName: string;
@@ -58,6 +66,7 @@ declare namespace MONITOR_TRACE {
     endTime: number;
     parentSpanId: string;
     timestamp: number;
+    duration: number;
     tags: ITag;
   }
 
@@ -118,7 +127,7 @@ declare namespace MONITOR_TRACE {
     limit?: number;
   }
 
-  interface ISpan {
+  interface ISpan extends ITraceSpan {
     depth: number;
     depthClass: number;
     duration: number;

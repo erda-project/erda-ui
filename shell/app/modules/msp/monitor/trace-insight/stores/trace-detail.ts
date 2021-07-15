@@ -16,7 +16,7 @@ import { isEmpty } from 'lodash';
 import traceConvert from '../common/utils/traceConvert';
 import { createStore } from 'app/cube';
 
-const transformTrace = (trace: MONITOR_TRACE.ITrace[]) => {
+const transformTrace = (trace: MONITOR_TRACE.ITrace) => {
   if (isEmpty(trace)) return {};
   const traceDetail = traceConvert(trace);
   traceDetail.spans?.forEach((i) => {
@@ -49,18 +49,7 @@ const traceDetail = createStore({
     async getTraceDetail({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetail, { ...payload, scopeId: terminusKey });
-      // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
-      const traceList = response.map((item) => {
-        const annotations = item.annotations || [];
-        return {
-          ...item,
-          timestamp: item.timestamp * 1000,
-          annotations: annotations.map((annotation) => {
-            return { ...annotation, timestamp: annotation.timestamp * 1000 };
-          }),
-        };
-      });
-      update({ traceDetail: transformTrace(traceList) as MONITOR_TRACE.ITraceDetail });
+      update({ traceDetail: transformTrace(response) as MONITOR_TRACE.ITraceDetail });
     },
     async getSpanDetail({ call, update }, payload) {
       const response = await call(getSpanDetail, payload);
