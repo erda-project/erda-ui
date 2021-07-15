@@ -9,12 +9,8 @@
     align-items: center;
     margin-bottom: 4px;
 
-    .ant-form-item-control-wrapper {
-      width: 100%;
-
-      .ant-form-item-children {
-        display: flex;
-      }
+    .ant-form-item-control-input-content {
+      display: flex;
     }
 
     .bind-domain-icons {
