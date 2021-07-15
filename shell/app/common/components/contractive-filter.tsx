@@ -163,7 +163,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const ops = (
       <Menu>
         {haveFilter && [
-          <Menu.Item key="search-item">
+          <Menu.Item key="search-item options-item">
             <Input
               autoFocus
               size="small"
@@ -185,7 +185,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {!isSigleMode && [
           // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex-box not-select px6 py0">
+          <Menu.Item key="select-info" className="flex-box not-select px6 py0 options-item">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
@@ -197,7 +197,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {quickSelect && !isEmpty(quickSelect)
           ? [
-              <Menu.Item key="quick-select-menu-item">
+              <Menu.Item key="quick-select-menu-item options-item">
                 <span
                   className="fake-link flex-box"
                   onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
@@ -208,7 +208,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Divider key="divider3" />,
             ]
           : null}
-        <Menu.Item key="options" className="pa0 options-container">
+        <Menu.Item key="options" className="pa0 options-container options-item">
           {useableOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
