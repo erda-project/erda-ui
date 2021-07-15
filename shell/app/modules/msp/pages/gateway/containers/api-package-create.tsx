@@ -38,20 +38,13 @@ const BindDomainForm = (props: any) => {
   React.useEffect(() => {
     const curVal = isString(bindDomain) ? [bindDomain] : isEmpty(bindDomain) ? [undefined] : bindDomain;
     setValue(curVal);
+    form.setFieldsValue({ bindDomain: curVal });
   }, [bindDomain]);
-
-  const setFieldsValue = (valList: any[]) => {
-    const reData = {};
-    map(valList, (item, idx) => {
-      reData[`bindDomain_${idx}`] = item;
-    });
-    form.setFieldsValue({ ...reData });
-  };
 
   const addOne = () => {
     const lastItem = value[value.length - 1];
     if (!isEmpty(lastItem)) {
-      setFieldsValue([...value, undefined]);
+      form.setFieldsValue([...value, undefined]);
       setValue([...value, undefined]);
     }
   };
@@ -59,15 +52,16 @@ const BindDomainForm = (props: any) => {
   const dropOne = (index: number) => {
     const valArr = [...value];
     remove(valArr, (_v, idx) => idx === index);
-    setFieldsValue(valArr);
+    form.setFieldsValue(valArr);
     setValue(valArr);
   };
 
   const changeItemValue = (val: string, index: number) => {
     const valArr = [...value];
     set(valArr, `[${index}]`, val);
-    setFieldsValue(valArr);
+    form.setFieldsValue({ bindDomain: valArr });
     setValue(valArr);
+    form.validateFields();
   };
 
   return (
@@ -75,10 +69,9 @@ const BindDomainForm = (props: any) => {
       {map(value, (_item: any, index: number) => {
         return (
           <FormItem
-            name={`bindDomain_${index}`}
+            name={['bindDomain', index]}
             className="full-width bind-domain-item"
             key={`${index}`}
-            initialValue={value[index]}
             rules={[
               {
                 required: true,
@@ -87,7 +80,11 @@ const BindDomainForm = (props: any) => {
               },
             ]}
           >
-            <Input className="bind-domain-input" onChange={(e: object) => changeItemValue(e.target.value, index)} />
+            <Input
+              className="bind-domain-input"
+              value={value[index]}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeItemValue(e.target.value, index)}
+            />
             <div className="bind-domain-icons">
               <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
               {index !== 0 ? (
@@ -296,10 +293,6 @@ export const PureApiPackage = () => {
       <Form
         form={basicForm}
         onValuesChange={(_, changedValues) => {
-          updater.basicForm((prev: any) => {
-            const newData = changeBindDomain({ ...prev, ...changedValues });
-            return { ...newData };
-          });
           if (changedValues.authType === AuthType.aliCloudApp) {
             basicForm.setFieldsValue({ aclType: 'on' });
           }
@@ -308,7 +301,7 @@ export const PureApiPackage = () => {
           }
         }}
       >
-        <RenderPureForm form={basicForm} {...formProps} list={fieldsList} />
+        <RenderPureForm form={basicForm} {...formProps} list={fieldsList} onlyItems />
       </Form>
     );
   };
@@ -397,39 +390,23 @@ export const PureApiPackage = () => {
     const [cb1, cb2] = cbs || [noop, noop];
     if (basicForm) {
       (basicForm as any).validateFields().then((values) => {
-        const newData = changeBindDomain(values) as GATEWAY.UpdataApiPackage;
         if (params.packageId) {
-          updateApiPackage(newData).then((res) => {
-            if (!apiPackageDetail.needBindCloudapi && newData.needBindCloudapi) {
+          updateApiPackage(values).then((res) => {
+            if (!apiPackageDetail.needBindCloudapi && values.needBindCloudapi) {
               bindAliCloudDomain({ packageId: params.packageId });
             }
             // @ts-ignore
-            if ((newData.authType === AuthType.aliCloudApp) !== (apiPackageDetail.authType === AuthType.aliCloudApp)) {
+            if ((values.authType === AuthType.aliCloudApp) !== (apiPackageDetail.authType === AuthType.aliCloudApp)) {
               getConsumerAuthorizes({ packageId: params.packageId });
             }
             cb1(res);
           });
         } else {
           // 保存基本信息后已经有记录了，跳到编辑页面
-          createApiPackage(newData).then(cb2);
+          createApiPackage(values).then(cb2);
         }
       });
     }
-  };
-
-  const changeBindDomain = (obj: any) => {
-    const newData = {};
-    const domains = [] as string[];
-    map(obj, (item, key) => {
-      if (key.includes('bindDomain_')) {
-        const [, idx] = key.split('_');
-        item && set(domains, `[${idx}]`, item);
-      } else {
-        set(newData, `${key}`, item);
-      }
-    });
-    if (!isEmpty(domains)) set(newData, 'bindDomain', domains);
-    return newData;
   };
 
   const handleNextStep = () => {
