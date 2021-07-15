@@ -24,10 +24,15 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const match = /^\/[a-zA-Z-_]+\/market(.*)/.exec(request.path);
     const extension = path.extname(request.path);
-    if (match && !extension) {
-      response.sendFile(path.join(__dirname, '../../public/static/market', 'index.html'));
+    if (!extension) {
+      if (match) {
+        response.sendFile(path.join(__dirname, '../../public/static/market', 'index.html'));
+      } else {
+        response.sendFile(path.join(__dirname, '../../public/static/shell', 'index.html'));
+      }
     } else {
-      response.sendFile(path.join(__dirname, '../../public/static/shell', 'index.html'));
+      response.statusCode = 404;
+      response.end('Not Found');
     }
   }
 }
