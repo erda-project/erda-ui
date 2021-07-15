@@ -469,8 +469,7 @@ export const AddClusterModal = (props: IProps) => {
     repeatValue && (postData.opsConfig.repeatValue = repeatValue.toString());
     launchTime && (postData.opsConfig.launchTime = formatLaunchTime(launchTime));
     cpuSubscribeRatio && (postData.scheduler.cpuSubscribeRatio = `${cpuSubscribeRatio}`);
-    onSubmit &&
-      onSubmit({ credentialType: clusterType === 'edas' ? 'proxy' : undefined, ...postData, type: clusterType });
+    onSubmit?.({ credentialType: clusterType === 'edas' ? 'proxy' : undefined, ...postData, type: clusterType });
     toggleModal();
   };
 

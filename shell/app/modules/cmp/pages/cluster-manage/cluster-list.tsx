@@ -313,7 +313,15 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       dataIndex: 'clusterType',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return clusterTypeMap[get(clusterDetail, 'basic.clusterType.value')] ?? '';
+        const clusterType: keyof typeof clusterTypeMap = get(clusterDetail, 'basic.clusterType.value');
+        return (
+          <If condition={!!clusterType}>
+            <div className="flex items-center">
+              <CustomIcon type={`${clusterType === 'edas' ? 'aliyun' : 'k8s'}`} color className="h-4 w-4 mr-2" />
+              <span>{clusterTypeMap[clusterType] ?? ''}</span>
+            </div>
+          </If>
+        );
       },
     },
     {
