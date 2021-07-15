@@ -34,7 +34,7 @@ export const getSpanDetailContent = ({ span, visible }: any) => {
   };
 };
 
-export const getTraceDetailContent = ({ traceId, ...query }: MONITOR_TRACE.IQuerySpan): MONITOR_TRACE.ITrace[] => {
+export const getTraceDetailContent = ({ traceId, ...query }: MONITOR_TRACE.IQuerySpan): MONITOR_TRACE.ITrace => {
   return agent
     .get(`/api/msp/apm/traces/${traceId}/spans`)
     .query(query)

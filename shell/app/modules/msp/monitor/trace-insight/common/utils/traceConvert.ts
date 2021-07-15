@@ -13,7 +13,7 @@
 
 import fp from 'lodash/fp';
 import { mkDurationStr } from './traceSummary';
-import { findIndex, flatMap, groupBy, values, uniq, Dictionary } from 'lodash';
+import { findIndex, flatMap, groupBy, Dictionary } from 'lodash';
 import { ConstantNames, Constants } from 'trace-insight/common/utils/traceConstants';
 
 interface timeMarkers {
@@ -27,58 +27,53 @@ interface Trace {
   services: number;
   depth: number;
   totalSpans: number;
-  serviceCounts: Array<{
-    name: string;
-    count: number;
-    max: number;
-  }>;
   timeMarkers: timeMarkers[];
   timeMarkersBackup: timeMarkers[];
-  spans: MONITOR_TRACE.ISpan;
+  spans: Array<MONITOR_TRACE.ISpan>;
 }
 
 interface Entry {
-  span: MONITOR_TRACE.ITrace;
+  span: MONITOR_TRACE.ITraceSpan;
   children: Entry[];
 }
 
 const recursiveGetRootMostSpan = (
-  idSpan: Dictionary<MONITOR_TRACE.ITrace>,
-  prevSpan: MONITOR_TRACE.ITrace,
-): MONITOR_TRACE.ITrace => {
+  idSpan: Dictionary<MONITOR_TRACE.ITraceSpan>,
+  prevSpan: MONITOR_TRACE.ITraceSpan,
+): MONITOR_TRACE.ITraceSpan => {
   if (prevSpan.parentSpanId && idSpan[prevSpan.parentSpanId]) {
     return recursiveGetRootMostSpan(idSpan, idSpan[prevSpan.parentSpanId]);
   }
   return prevSpan;
 };
 
-const getRootMostSpan = (traces: MONITOR_TRACE.ITrace[]) => {
+const getRootMostSpan = (traces: MONITOR_TRACE.ITraceSpan[]) => {
   const firstWithoutParent = traces.find((s) => !s.parentSpanId);
   if (firstWithoutParent) {
     return firstWithoutParent;
   }
   const idToSpanMap = fp.flow(
-    fp.groupBy((s: MONITOR_TRACE.ITrace) => s.id),
+    fp.groupBy((s: MONITOR_TRACE.ITraceSpan) => s.id),
     fp.mapValues(([s]) => s),
   )(traces);
   return recursiveGetRootMostSpan(idToSpanMap, traces[0]);
 };
 
 const createSpanTreeEntry = (
-  trace: MONITOR_TRACE.ITrace,
-  traces: MONITOR_TRACE.ITrace[],
-  indexByParentId?: Dictionary<MONITOR_TRACE.ITrace[]>,
+  trace: MONITOR_TRACE.ITraceSpan,
+  traces: MONITOR_TRACE.ITraceSpan[],
+  indexByParentId?: Dictionary<MONITOR_TRACE.ITraceSpan[]>,
 ): Entry => {
   const idx =
     indexByParentId ||
     fp.flow(
-      fp.filter((s: MONITOR_TRACE.ITrace) => s.parentSpanId !== ''),
-      fp.groupBy((s: MONITOR_TRACE.ITrace) => s.parentSpanId),
+      fp.filter((s: MONITOR_TRACE.ITraceSpan) => s.parentSpanId !== ''),
+      fp.groupBy((s: MONITOR_TRACE.ITraceSpan) => s.parentSpanId),
     )(traces);
 
   return {
     span: trace,
-    children: (idx[trace.id] || []).map((s: MONITOR_TRACE.ITrace) => createSpanTreeEntry(s, traces, idx)),
+    children: (idx[trace.id] || []).map((s: MONITOR_TRACE.ITraceSpan) => createSpanTreeEntry(s, traces, idx)),
   };
 };
 
@@ -98,7 +93,7 @@ const treeDepths = (entry: Entry, startDepth: number): Obj<number> => {
   }, initial);
 };
 
-const toSpanDepths = (traces: MONITOR_TRACE.ITrace[]) => {
+const toSpanDepths = (traces: MONITOR_TRACE.ITraceSpan[]) => {
   const root = getRootMostSpan(traces);
   const entry = createSpanTreeEntry(root, traces);
   return treeDepths(entry, 1);
@@ -109,7 +104,7 @@ const toSpanDepths = (traces: MONITOR_TRACE.ITrace[]) => {
  * @param traces
  * @return {{traceId: string; duration: number}}: duration: microsecond
  */
-const traceSummary = (traces: MONITOR_TRACE.ITrace[]): { traceId: string; duration: number } => {
+const traceSummary = (traces: MONITOR_TRACE.ITraceSpan[]): { traceId: string; duration: number } => {
   const duration = traces.reduce((prev, next) => {
     return prev + (next.endTime - next.startTime);
   }, 0);
@@ -120,12 +115,12 @@ const traceSummary = (traces: MONITOR_TRACE.ITrace[]): { traceId: string; durati
   };
 };
 
-const getRootSpans = (traces: MONITOR_TRACE.ITrace[]) => {
+const getRootSpans = (traces: MONITOR_TRACE.ITraceSpan[]) => {
   const ids = traces.map((s) => s.id);
   return traces.filter((s) => ids.indexOf(s.parentSpanId) === -1);
 };
 
-const compareSpan = (s1: MONITOR_TRACE.ITrace, s2: MONITOR_TRACE.ITrace) => {
+const compareSpan = (s1: MONITOR_TRACE.ITraceSpan, s2: MONITOR_TRACE.ITraceSpan) => {
   return (s1.timestamp || 0) - (s2.timestamp || 0);
 };
 
@@ -138,69 +133,67 @@ const childrenToList = (entry: Entry) => {
   return [entry.span, ...deepChildren];
 };
 
-const traceConvert = (traces: MONITOR_TRACE.ITrace[]): Trace => {
-  if (!traces?.length) {
+const traceConvert = (traces: MONITOR_TRACE.ITrace): Trace => {
+  const { spans: oldSpans, duration: durationNs, depth, spanCount, serviceCount } = traces;
+  if (!oldSpans?.length) {
     return {} as Trace;
   }
-  const summary = traceSummary(traces);
-  const spanDepths = toSpanDepths(traces);
-  const depth = Math.max(...values(spanDepths));
-  const groupByParentId = groupBy(traces, (s) => s.parentSpanId);
-  const traceTimestamp = traces[0].timestamp || 0;
-  const allServicesName = uniq(traces.map((item) => item.tags.service_name));
+  const summary = traceSummary(oldSpans);
+  const duration = durationNs / 1000;
+  const spanDepths = toSpanDepths(oldSpans);
+  const groupByParentId = groupBy(oldSpans, (s) => s.parentSpanId);
+  const traceTimestamp = oldSpans[0].timestamp || 0;
 
-  const services = allServicesName?.length || 0;
-  const spans = flatMap(getRootSpans(traces), (rootSpan) => childrenToList(createSpanTreeEntry(rootSpan, traces))).map(
-    (span) => {
-      const spanDuration = (span.endTime - span.startTime) / 1000;
-      const spanStartTs = span.timestamp || traceTimestamp;
-      const spanDepth = spanDepths[span.id] || 1;
-      const width = ((spanDuration || 0) / summary.duration) * 100;
-      let errorType = 'none';
+  const spans = flatMap(getRootSpans(oldSpans), (rootSpan) =>
+    childrenToList(createSpanTreeEntry(rootSpan, oldSpans)),
+  ).map((span) => {
+    const spanDuration = span.duration / 1000;
+    const spanStartTs = span.timestamp || traceTimestamp;
+    const spanDepth = spanDepths[span.id] || 1;
+    const width = ((spanDuration || 0) / duration) * 100;
+    let errorType = 'none';
 
-      if (errorType !== 'critical') {
-        if (findIndex(span.annotations || [], (ann) => ann.value === Constants.ERROR) !== -1) {
-          errorType = 'transient';
-        }
+    if (errorType !== 'critical') {
+      if (findIndex(span.annotations || [], (t) => t.value === Constants.ERROR) !== -1) {
+        errorType = 'transient';
       }
-      const left = ((spanStartTs - traceTimestamp) / summary.duration) * 100;
+    }
+    const left = ((spanStartTs - traceTimestamp) / durationNs) * 100;
 
-      return {
-        ...span,
-        spanId: span.id,
-        parentId: span.parentSpanId || null,
-        duration: spanDuration,
-        durationStr: mkDurationStr(spanDuration),
-        left: left >= 100 ? 0 : left,
-        width: width < 0.1 ? 0.1 : width,
-        depth: (spanDepth + 2) * 5,
-        depthClass: (spanDepth - 1) % 6,
-        children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
-        annotations: (span.annotations || []).map((a) => ({
-          isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
-          left: ((a.timestamp - spanStartTs) / spanDuration) * 100,
-          message: a.message,
-          value: ConstantNames[a.value] || a.value,
-          timestamp: a.timestamp,
-          relativeTime: mkDurationStr(a.timestamp - traceTimestamp),
-          width: 8,
-        })),
-        errorType,
-      };
-    },
-  );
+    return {
+      ...span,
+      spanId: span.id,
+      parentId: span.parentSpanId || null,
+      duration: spanDuration,
+      durationStr: mkDurationStr(spanDuration),
+      left: left >= 100 ? 0 : left,
+      width: width < 0.1 ? 0.1 : width,
+      depth: (spanDepth + 2) * 5,
+      depthClass: (spanDepth - 1) % 6,
+      children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
+      annotations: (span.annotations || []).map((a) => ({
+        isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
+        left: ((a.timestamp - spanStartTs) / spanDuration) * 100,
+        message: a.message,
+        value: ConstantNames[a.value] || a.value,
+        timestamp: a.timestamp,
+        relativeTime: mkDurationStr(a.timestamp - traceTimestamp),
+        width: 8,
+      })),
+      errorType,
+    };
+  });
   const timeMarkers = [0, 0.2, 0.4, 0.6, 0.8, 1].map((p, index) => ({
     index,
-    time: mkDurationStr(summary.duration * p),
+    time: mkDurationStr(duration * p),
   }));
-  const totalSpans = spans.length;
   const timeMarkersBackup = timeMarkers;
   const spansBackup = spans;
   return {
     ...summary,
-    totalSpans,
-    services,
-    duration: mkDurationStr(summary.duration),
+    totalSpans: spanCount,
+    services: serviceCount,
+    duration: mkDurationStr(duration),
     depth,
     spans,
     spansBackup,

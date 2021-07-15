@@ -28,7 +28,7 @@ import TraceSearchDetail from './trace-search-detail';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
-const limits = [10, 20, 50, 100];
+const limits = [10, 20, 50, 100, 200, 500, 1000];
 
 export default () => {
   const initialRange = [moment().subtract(1, 'hours'), moment()];
@@ -227,7 +227,7 @@ export default () => {
     },
     {
       title: i18n.t('msp:start time'),
-      dataIndex: 'start_time',
+      dataIndex: 'startTime',
       render: (time: number) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {

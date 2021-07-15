@@ -33,10 +33,10 @@ const initState: IState = {
   traceDetailContent: {} as any,
 };
 
-const transformTrace = (trace: any) => {
+const transformTrace = (trace: MONITOR_TRACE.ITrace) => {
   if (isEmpty(trace)) return {};
   const traceDetail = traceConvert(trace);
-  traceDetail.spans.forEach((i: any) => {
+  traceDetail.spans.forEach((i) => {
     // eslint-disable-next-line
     i.isExpand = i.isShow = true;
   });
@@ -80,18 +80,7 @@ const trace = createFlatStore({
     async getTraceDetailContent({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
-      // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
-      const traceList = response.map((item: any) => {
-        const annotations = item.annotations || [];
-        return {
-          ...item,
-          timestamp: item.timestamp * 1000,
-          annotations: annotations.map((annotation: any) => {
-            return { ...annotation, timestamp: annotation.timestamp * 1000 };
-          }),
-        };
-      });
-      const content = transformTrace(traceList);
+      const content = transformTrace(response);
       update({ traceDetailContent: content });
       return content;
     },
