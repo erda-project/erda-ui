@@ -160,9 +160,16 @@ table {
   table-layout: fixed;
 
   td {
-    // overflow: hidden;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .ant-table-cell-fix-right,
+  .ant-table-cell-fix-left {
+    overflow: unset;
+    white-space: unset;
+    text-overflow: unset;
   }
 }
 

@@ -91,6 +91,7 @@ const PureDeployList = (props: IProps) => {
       title: i18n.t('project/application/branch'),
       dataIndex: 'projectName',
       width: 240,
+      ellipsis: true,
       render: (projectName: string, record: any) => {
         const mainInfo = `${projectName}/${record.applicationName}/${record.branchName}`;
         return <Tooltip title={mainInfo}>{mainInfo}</Tooltip>;
@@ -243,13 +244,7 @@ const PureDeployList = (props: IProps) => {
     <div>
       <CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />
       <Spin spinning={isFetching}>
-        <Table
-          rowKey="id"
-          columns={columns}
-          dataSource={list}
-          pagination={paging ? autoPagination(paging) : false}
-          scroll={{ x: '100%' }}
-        />
+        <Table rowKey="id" columns={columns} dataSource={list} pagination={paging ? autoPagination(paging) : false} />
       </Spin>
       <FormModal
         title={i18n.t('application:reason for rejection')}
