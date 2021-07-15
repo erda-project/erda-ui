@@ -42,7 +42,7 @@ interface IUploadProps {
   fileNameKey: string | string[];
   fileAccept: string;
 }
-const getUploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProps) => {
+const UploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProps) => {
   const acceptProp = { accept: fileAccept };
   const uploadProps = getUploadProps({
     ...acceptProp,
@@ -101,7 +101,7 @@ const getUploadFieldProps = ({ form, onChangeFile, fileNameKey, fileAccept }: IU
       },
     },
     getComp: () => {
-      return getUploadComp({ form, onChangeFile, fileNameKey, fileAccept });
+      return <UploadComp form={form} onChangeFile={onChangeFile} fileNameKey={fileNameKey} fileAccept={fileAccept} />;
     },
   };
 };
@@ -245,7 +245,7 @@ const Certificate = () => {
               });
               form.setFieldsValue(value);
             },
-            fileNameKey: `${keyPrefix.iosKeyChainP12}.fileName`,
+            fileNameKey: [...keyPrefix.iosKeyChainP12, 'fileName'],
             fileAccept: '.p12',
           }),
         },
@@ -280,7 +280,7 @@ const Certificate = () => {
               });
               form.setFieldsValue(value);
             },
-            fileNameKey: `${keyPrefix.iosDebug}.fileName`,
+            fileNameKey: [...keyPrefix.iosDebug, 'fileName'],
             fileAccept: '.mobileprovision',
           }),
         },
@@ -304,7 +304,7 @@ const Certificate = () => {
               });
               form.setFieldsValue(value);
             },
-            fileNameKey: `${keyPrefix.iosRelease}.fileName`,
+            fileNameKey: [...keyPrefix.iosRelease, 'fileName'],
             fileAccept: '.mobileprovision',
           }),
         },
@@ -353,7 +353,7 @@ const Certificate = () => {
                 },
               });
             },
-            fileNameKey: 'messageInfo.fileName',
+            fileNameKey: ['messageInfo', 'fileName'],
             fileAccept: '',
           }),
         },
@@ -379,7 +379,7 @@ const Certificate = () => {
               });
               form.setFieldsValue(value);
             },
-            fileNameKey: `${keyPrefix.adrManualDebug}.fileName`,
+            fileNameKey: [...keyPrefix.adrManualDebug, 'fileName'],
             fileAccept: '.keystore',
           }),
         },
@@ -430,7 +430,7 @@ const Certificate = () => {
               });
               form.setFieldsValue(value);
             },
-            fileNameKey: `${keyPrefix.adrManualRelease}.fileName`,
+            fileNameKey: [...keyPrefix.adrManualRelease, 'fileName'],
             fileAccept: '.keystore',
           }),
         },
