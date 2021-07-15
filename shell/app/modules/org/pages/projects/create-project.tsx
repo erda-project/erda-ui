@@ -231,7 +231,7 @@ const CreationForm = () => {
   quotaFields[0].label = (
     <>
       {i18n.t('resources quota')}
-      <span className="fz12"> {i18n.t('project:Maximum resource quota for this project')}</span>
+      <span className="fz12 ml4"> {i18n.t('project:Maximum resource quota for this project')}</span>
     </>
   );
   quotaFields[1].label = undefined;
@@ -355,7 +355,7 @@ const CreationForm = () => {
         itemProps: {
           allowClear: true,
         },
-        getComp: () => getCompactSelect('Test'),
+        getComp: () => getCompactSelect('TEST'),
       },
       {
         name: ['clusterConfig', 'STAGING'],
