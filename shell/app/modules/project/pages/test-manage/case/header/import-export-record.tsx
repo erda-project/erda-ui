@@ -27,11 +27,9 @@ import './import-file.scss';
 const ImportExportRecord = ({
   setShowRefresh,
   testSetId,
-  justImportSetId,
 }: {
   setShowRefresh: (bool: boolean) => void;
   testSetId: number;
-  justImportSetId: number | null;
 }) => {
   const [contentVisible, setContentVisible] = useState(false);
   const userMap = useUserMap();
@@ -67,13 +65,12 @@ const ImportExportRecord = ({
               ) {
                 haveJustFinishedJob = true;
               }
-              // new result state is success and not existing in list cache and it's not import by current user,  mean it's newly import record
+              // new result state is success and not existing in list cache,  means it's newly import record
+              const previousItem = list.find((origin) => origin.id === item.id);
               if (
                 item.state === 'success' &&
                 item.testSetID === testSetId &&
-                justImportSetId !== testSetId &&
-                item.operatorID !== loginUser.id &&
-                !list.find((origin) => origin.id === item.id)
+                (!previousItem || previousItem.state !== 'success')
               ) {
                 haveJustSuccessJob = true;
               }
