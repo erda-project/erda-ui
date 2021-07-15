@@ -102,6 +102,10 @@
     background-color: transparent;
   }
 
+  .options-item {
+    color: $color-dark-65;
+  }
+
   .options-container {
     max-height: 300px;
     overflow: auto;
