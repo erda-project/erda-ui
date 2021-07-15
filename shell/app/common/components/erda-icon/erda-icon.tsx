@@ -74,7 +74,7 @@ interface IProps {
   onClick?: React.MouseEventHandler;
 }
 
-export const ErdaIcon = ({ className = '', style, onClick, iconType, ...rest }: IProps) => {
+export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps) => {
   const IconComp = iconMap[iconType];
 
   return IconComp ? <IconComp className={className} onClick={onClick} {...rest} /> : <span>Not Exists</span>;

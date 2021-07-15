@@ -53,6 +53,7 @@ interface IPropertyItemForm {
   formData: Obj;
   siblingProperties?: Obj[];
   extraDataTypes?: Obj;
+  allExtraDataTypes?: Obj;
   allDataTypes?: string[];
   onChange: (formKey: string, e: any, extraProps?: Obj) => void;
   onSetMediaType?: ({ propertyKey, propertyData }: { propertyKey: string; propertyData: string }) => void;
@@ -129,28 +130,44 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   }, []);
 
   const getExampleData = React.useCallback(
-    (data: Obj) => {
+    (data: Obj, extraTypes?: Obj) => {
       if (!data) return '';
+      const _extraTypes = extraTypes || props?.extraDataTypes;
 
       const refTypePath = getRefTypePath(data);
       const customType = refTypePath.split('/').slice(-1)[0];
-      const customTypeData = get(props, ['extraDataTypes', customType]) || {};
+      const customTypeData = get(_extraTypes, [customType]) || customType || {};
+
+      if (typeof customTypeData === 'string') {
+        const _type = get(props, ['allExtraDataTypes', customType, 'type']) || get(props, ['extraDataTypes', customType, 'type']);
+        return _type === 'array' ? [] : {};
+      }
 
       const curType = data.type || customTypeData.type;
 
       if (curType === 'object') {
-        const newExample: Obj = refTypePath ? getExampleData(customTypeData) : {};
+        const newExtraTypes = produce(_extraTypes, draft=> {
+          draft && (draft[customType] = null);
+        });
+
+        const newExample: Obj = refTypePath ? getExampleData(customTypeData, newExtraTypes) : {};
 
         const customProperties = data.properties || {};
         forEach(keys(customProperties), (pName) => {
           const propertyItem = customProperties[pName];
-          newExample[pName] = getExampleData(propertyItem);
+          newExample[pName] = getExampleData(propertyItem, newExtraTypes);
         });
 
         return newExample;
       } else if (curType === 'array') {
-        const newExample: any = refTypePath ? getExampleData(customTypeData) : getExampleData(data.items);
-        return refTypePath ? newExample : [newExample];
+        if (refTypePath) {
+          const newItemExtraTypes = produce(_extraTypes, draft=> {
+            draft && (draft[customType] = null);
+          });
+          return getExampleData(customTypeData, newItemExtraTypes);
+        } else {
+          return [getExampleData(data.items, _extraTypes)];
+        }
       } else if (refTypePath && customTypeData.example !== undefined) {
         return customTypeData.example;
       } else if (data.example !== undefined) {
@@ -222,7 +239,8 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       if (visible) {
         const omitList = getRefTypePath(dataTempStorage) ? ['type', API_FORM_KEY] : [API_FORM_KEY];
         const tempFormData = omit(dataTempStorage, omitList);
-        setTimeout(() => formRef.current!.setFieldsValue(tempFormData));
+        const example = getExampleData(tempFormData);
+        setTimeout(() => formRef.current!.setFieldsValue({...tempFormData, example }));
       }
       updater.dataTempStorage(dataTempStorageRef.current);
       if (curPropertyType === 'array' && arrayItemDataStorage) {
@@ -233,7 +251,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       updater.innerParamList(paramListTempStorageRef.current);
       updater.detailVisible(visible);
     },
-    [arrayItemDataStorage, curPropertyType, dataTempStorage, getRefTypePath, updater],
+    [arrayItemDataStorage, curPropertyType, dataTempStorage, getExampleData, getRefTypePath, updater],
   );
 
   const propertyNameMap = React.useMemo(() => {
@@ -321,7 +339,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
             const customTypeData = get(props, ['extraDataTypes', propertyData]) || {};
             const _newTypeData = {
               ...omit(dataTempStorage, [QUOTE_PREFIX, QUOTE_PREFIX_NO_EXTENDED]),
-              example: customTypeData.example,
+              example: customTypeData.example || getExampleData(customTypeData),
               properties: customTypeData.type === 'object' ? {} : undefined,
               required: dataTempStorage.required,
               type: customTypeData.type,
@@ -780,6 +798,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                       isEditMode={isEditMode}
                       onChange={updateInnerParamList}
                       extraDataTypes={props?.extraDataTypes}
+                      allExtraDataTypes={props?.allExtraDataTypes}
                       siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
                     />
                   </FormBuilder>
@@ -812,6 +831,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                 onChange={onArrayItemChange}
                 isEditMode={isEditMode}
                 extraDataTypes={props?.extraDataTypes}
+                allExtraDataTypes={props?.allExtraDataTypes}
                 siblingProperties={filter(
                   innerParamList,
                   (item) => item[API_FORM_KEY] !== dataTempStorage.items[API_FORM_KEY],
