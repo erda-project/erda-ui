@@ -27,9 +27,9 @@ const getAIRouter = () => ({
   path: 'ai',
   // breadcrumbName: '应用性能',
   tabs,
+  pageName: i18n.t('application performance'),
   routes: [
     {
-      pageName: i18n.t('application performance'),
       getComp: (cb) => cb(import('msp/monitor/application-insight/pages/overview/overview')),
     },
     {
