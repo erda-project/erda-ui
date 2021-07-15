@@ -161,7 +161,7 @@ const MiddlewareDashboard = () => {
       title: i18n.t('org:number of references'),
       dataIndex: 'attachCount',
       key: 'attachCount',
-      width: 100,
+      width: 200,
       sorter: (a: MIDDLEWARE_DASHBOARD.IMiddlewareDetail, b: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) =>
         a.attachCount - b.attachCount,
     },
