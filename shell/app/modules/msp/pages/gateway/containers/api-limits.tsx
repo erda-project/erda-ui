@@ -117,6 +117,43 @@ export const PureApiLimits = () => {
   };
 
   const editMode = !!formData.id;
+  const LimitComp = ({ form: { getFieldValue, setFields }, initialValue }: any) => {
+    const fieldValue = getFieldValue('limit') || {};
+    const targetUnit = Object.keys(fieldValue).length > 0 ? Object.keys(fieldValue)[0] : 'qps';
+    const limitValue = Object.keys(fieldValue).length > 0 ? fieldValue[targetUnit] : 1;
+
+    React.useEffect(() => {
+      setFields([{ name: 'limit', value: initialValue }]);
+    }, []);
+    return (
+      <>
+        <InputGroup compact>
+          <InputNumber
+            min={1}
+            maxLength={10}
+            style={{ width: '70%' }}
+            value={limitValue}
+            onChange={(value) => {
+              setFields([{ name: 'limit', value: { [targetUnit]: Math.round(Number(value) || 0) } }]);
+            }}
+            placeholder={i18n.t('msp:please key in numbers')}
+          />
+          <Select
+            style={{ width: '30%' }}
+            value={targetUnit || 'qps'}
+            onSelect={(unit: string) => {
+              setFields([{ name: 'limit', value: { [unit]: limitValue } }]);
+            }}
+          >
+            <Option value="qps">{i18n.t('msp:times/second')}</Option>
+            <Option value="qpm">{i18n.t('msp:times/minute')}</Option>
+            <Option value="qph">{i18n.t('msp:times/hour')}</Option>
+            <Option value="qpd">{i18n.t('msp:times/day')}</Option>
+          </Select>
+        </InputGroup>
+      </>
+    );
+  };
   const fieldsList = [
     {
       name: 'id',
@@ -162,40 +199,7 @@ export const PureApiLimits = () => {
     {
       label: i18n.t('msp:traffic limit'),
       name: 'limit',
-      config: { initialValue: formData.limit || { qps: 1 } },
-      getComp: ({ form: { getFieldValue, setFieldsValue } }: any) => {
-        const fieldValue = getFieldValue('limit') || {};
-        const targetUnit = Object.keys(fieldValue).length > 0 ? Object.keys(fieldValue)[0] : 'qps';
-        const limitValue = Object.keys(fieldValue).length > 0 ? fieldValue[targetUnit] : 1;
-        return (
-          <>
-            <InputGroup compact>
-              <InputNumber
-                min={1}
-                maxLength={10}
-                style={{ width: '70%' }}
-                value={limitValue}
-                onChange={(value) => {
-                  setFieldsValue({ limit: { [targetUnit]: Math.round(Number(value) || 0) } });
-                }}
-                placeholder={i18n.t('msp:please key in numbers')}
-              />
-              <Select
-                style={{ width: '30%' }}
-                value={targetUnit || 'qps'}
-                onSelect={(unit: string) => {
-                  setFieldsValue({ limit: { [unit]: limitValue } });
-                }}
-              >
-                <Option value="qps">{i18n.t('msp:times/second')}</Option>
-                <Option value="qpm">{i18n.t('msp:times/minute')}</Option>
-                <Option value="qph">{i18n.t('msp:times/hour')}</Option>
-                <Option value="qpd">{i18n.t('msp:times/day')}</Option>
-              </Select>
-            </InputGroup>
-          </>
-        );
-      },
+      getComp: ({ form }: any) => <LimitComp form={form} initialValue={formData.limit || { qps: 1 }} />,
     },
   ];
 
