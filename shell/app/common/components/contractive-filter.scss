@@ -102,6 +102,11 @@
     background-color: transparent;
   }
 
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-submenu-title {
+    color: $color-dark-65;
+  }
+
   .options-container {
     max-height: 300px;
     overflow: auto;
