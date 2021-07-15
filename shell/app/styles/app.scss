@@ -165,7 +165,7 @@ table {
     text-overflow: ellipsis;
   }
 
-  // forbidden [overflow: hidden] to cut out the fixed shadow
+  // forbidden [overflow: hidden] to cut out the fixed shadow;
   .ant-table-cell-fix-right,
   .ant-table-cell-fix-left {
     overflow: unset;
