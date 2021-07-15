@@ -404,6 +404,14 @@ div.ant-table {
   .ant-table tfoot > tr > td {
     line-height: 20px;
   }
+
+  // prevent [overflow: hidden] to cut out the fixed shadow;
+  .ant-table-cell-fix-right,
+  .ant-table-cell-fix-left {
+    overflow: unset;
+    white-space: unset;
+    text-overflow: unset;
+  }
 }
 
 // Leave the styles unchanged from nusi to antd4.x
@@ -412,7 +420,6 @@ div.ant-table {
 .ant-table tfoot > tr > th,
 .ant-table tfoot > tr > td {
   line-height: 28px;
-  overflow-y: visible;
 }
 
 .ant-table-tbody > tr > td {

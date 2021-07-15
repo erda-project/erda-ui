@@ -244,13 +244,7 @@ const PureDeployList = (props: IProps) => {
     <div>
       <CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />
       <Spin spinning={isFetching}>
-        <Table
-          rowKey="id"
-          columns={columns}
-          dataSource={list}
-          pagination={paging ? autoPagination(paging) : false}
-          scroll={{ x: '100%' }}
-        />
+        <Table rowKey="id" columns={columns} dataSource={list} pagination={paging ? autoPagination(paging) : false} />
       </Spin>
       <FormModal
         title={i18n.t('application:reason for rejection')}
