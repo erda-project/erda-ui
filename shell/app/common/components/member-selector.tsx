@@ -64,7 +64,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
         <span className="ml8" title={name}>
           {nick || i18n.t('common:none')}
           {_type === 'normal' && roleMap && showRole
-            ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')}`
+            ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')})`
             : ''}
         </span>
       }
