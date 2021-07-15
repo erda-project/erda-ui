@@ -65,6 +65,10 @@ export default (props: IProps) => {
     return types;
   }, [dataType, openApiDoc]);
 
+  const allExtraDataTypes = React.useMemo(() => {
+    return get(openApiDoc, 'components.schemas') || {};
+  }, [openApiDoc]);
+
   const getForbiddenTypes = React.useCallback((data: Obj, storage: string[]) => {
     if (data?.properties) {
       forEach(values(data.properties), (item) => {
@@ -220,6 +224,7 @@ export default (props: IProps) => {
           formType="DataType"
           formData={propertyFormData}
           extraDataTypes={extraDataTypes}
+          allExtraDataTypes={allExtraDataTypes}
           isEditMode={isEditMode}
           allDataTypes={dataTypeNameMap}
         />
