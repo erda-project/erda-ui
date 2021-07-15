@@ -26,7 +26,7 @@ import { createStore } from 'app/cube';
 
 import i18n from 'i18n';
 
-const transformTrace = (trace: MONITOR_TRACE.ITrace[]) => {
+const transformTrace = (trace: MONITOR_TRACE.ITrace) => {
   if (isEmpty(trace)) return {};
   const traceDetail = traceConvert(trace);
   traceDetail.spans?.forEach((i) => {
@@ -163,18 +163,7 @@ const traceQuerier = createStore({
     ) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
-      // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
-      const traceList = response.map((item) => {
-        const annotations = item.annotations || [];
-        return {
-          ...item,
-          timestamp: item.timestamp * 1000,
-          annotations: annotations.map((annotation) => {
-            return { ...annotation, timestamp: annotation.timestamp * 1000 };
-          }),
-        };
-      });
-      const content = transformTrace(traceList);
+      const content = transformTrace(response);
       const { needReturn } = payload;
       if (needReturn) {
         return content;
