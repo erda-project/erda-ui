@@ -45,7 +45,6 @@ const ManualTest = () => {
   const [searchQuery, setSearchQuery] = React.useState(query.query);
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
   const [showRefresh, setShowRefresh] = React.useState(false);
-  const [justImportSetId, setJustImportSetId] = React.useState<number | null>(null); // to cache the test set id which current user just Import
   const [importExportRecordKey, setImportExportRecordKey] = React.useState(0);
 
   useEffectOnce(() => {
@@ -54,7 +53,6 @@ const ManualTest = () => {
 
   React.useEffect(() => {
     setShowRefresh(false);
-    setJustImportSetId(null);
   }, [query.testSetID]);
 
   const closeEnhanceFilter = () => {
@@ -97,7 +95,6 @@ const ManualTest = () => {
 
   const afterImport = () => {
     const { testSetID, eventKey } = query;
-    setJustImportSetId(testSetID);
     caseRef.current && caseRef.current.reloadLoadData(testSetID, eventKey, false);
     setImportExportRecordKey(importExportRecordKey + 1);
   };
@@ -177,7 +174,6 @@ const ManualTest = () => {
               key={importExportRecordKey}
               setShowRefresh={setShowRefresh}
               testSetId={+query.testSetID}
-              justImportSetId={justImportSetId}
             />
             <ProjectTreeModal />
           </div>
