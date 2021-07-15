@@ -75,6 +75,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       render: (text: string, record: IApplication) => {
         return (
           <Select
+            getPopupContainer={() => document.body}
             style={{ width: 180 }}
             value={text || undefined}
             mode="multiple"
