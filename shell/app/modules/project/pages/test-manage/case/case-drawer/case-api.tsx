@@ -596,6 +596,7 @@ const ApiTabComps = {
         <KeyValEdit
           type="params"
           data={data}
+          order={['key', 'value', 'desc']}
           dataModel={{ key: '', value: '', desc: '' }}
           onChange={(val: any, autoSave?: boolean) => {
             onChange('params', val, autoSave);
@@ -629,6 +630,7 @@ const ApiTabComps = {
         <KeyValEdit
           type="headers"
           data={data}
+          order={['key', 'value', 'desc']}
           dataModel={{ key: '', value: '', desc: '' }}
           onChange={(val: any, autoSave?: boolean) => {
             onChange('headers', val, autoSave);
@@ -691,6 +693,7 @@ const ApiTabComps = {
             <KeyValEdit
               type="outParams"
               data={data.outParams}
+              order={['key', 'source', 'expression']}
               dataModel={{
                 key: '',
                 source: 'body:json',
@@ -751,6 +754,7 @@ const ApiTabComps = {
             <KeyValEdit
               type="asserts"
               data={data.asserts[0]}
+              order={['arg', 'operator', 'value']}
               opList={getOpList(data.asserts[0])}
               dataModel={{
                 arg: '',
@@ -864,6 +868,7 @@ const ValMap = {
     return (
       <KeyValEdit
         type="body"
+        order={['key', 'value', 'desc']}
         data={isString(data.content) ? [] : (data.content as any)}
         dataModel={{
           key: '',
@@ -997,13 +1002,13 @@ interface IKeyValProps {
   type: string;
   dataModel: object;
   itemMap: object;
+  order: string[];
   opList?: any[];
   onChange: (...args: any) => any;
 }
 const KeyValEdit = (props: IKeyValProps) => {
-  const { data, type, dataModel, itemMap, opList = [], onChange } = props;
+  const { data, type, dataModel, itemMap, opList = [], onChange, order } = props;
   const [values, setValues] = React.useState(data || []);
-
   React.useEffect(() => {
     let newVal: any = [];
     if (isEmpty(data)) {
@@ -1097,7 +1102,8 @@ const KeyValEdit = (props: IKeyValProps) => {
         const lastItem = i === values.length - 1;
         return (
           <div className="key-val-item" key={i}>
-            {map(item, (val: string, key: string) => {
+            {map(order, (key: string) => {
+              const val = item[key];
               const { Comp, props: compProps, getProps } = itemMap[key];
               const extraProps = getProps ? getProps(item) : {};
               return (
