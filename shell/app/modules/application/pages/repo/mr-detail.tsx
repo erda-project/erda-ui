@@ -48,6 +48,8 @@ interface IProps {
   getCompareDetail: typeof repoStore.effects.getCompareDetail;
   clearMRStats: typeof repoStore.reducers.clearMRStats;
   clearMRDetail: typeof repoStore.reducers.clearMRDetail;
+  clearComments: typeof repoStore.reducers.clearComments;
+  clearCompareDetail: typeof repoStore.reducers.clearCompareDetail;
 }
 
 interface IState {
@@ -83,6 +85,8 @@ class RepoMR extends React.PureComponent<IProps, IState> {
   componentWillUnmount(): void {
     this.props.clearMRDetail();
     this.props.clearMRStats();
+    this.props.clearComments();
+    this.props.clearCompareDetail();
   }
 
   handleCleanTimeOutComment = () => {
@@ -409,7 +413,7 @@ const Mapper = () => {
     s.info.isLocked,
   ]);
   const { getMRDetail, getMRStats, operateMR, getCompareDetail } = repoStore.effects;
-  const { clearMRDetail, clearMRStats } = repoStore.reducers;
+  const { clearMRDetail, clearMRStats, clearCompareDetail, clearComments } = repoStore.reducers;
   const [isFetching] = useLoading(repoStore, ['getMRDetail']);
   return {
     permMap,
@@ -427,6 +431,8 @@ const Mapper = () => {
     clearMRStats,
     operateMR,
     getCompareDetail,
+    clearCompareDetail,
+    clearComments,
   };
 };
 
