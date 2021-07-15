@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getTraceDetail = ({ traceId, ...query }: MONITOR_TRACE.IQuerySpan): MONITOR_TRACE.ITrace[] => {
+export const getTraceDetail = ({ traceId, ...query }: MONITOR_TRACE.IQuerySpan): MONITOR_TRACE.ITrace => {
   return agent
     .get(`/api/msp/apm/traces/${traceId}/spans`)
     .query(query)
