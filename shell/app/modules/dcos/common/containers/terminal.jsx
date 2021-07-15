@@ -28,7 +28,7 @@ class ServiceTerminal extends React.Component {
   }
 
   render() {
-    const { clusterDetail, instanceTerminal = false } = this.props;
+    const { clusterDetail, clusterName, instanceTerminal = false } = this.props;
     if (isEmpty(clusterDetail)) {
       return (
         <div className="services-terminal">
@@ -75,7 +75,9 @@ class ServiceTerminal extends React.Component {
 
     const replaceProtocol = (value) => value.replace('http', 'ws');
     const _params = {
-      url: `${replaceProtocol(window.location.protocol)}//${window.location.host}/api/${getOrgFromPath()}/terminal`,
+      url: `${replaceProtocol(window.location.protocol)}//${
+        window.location.host
+      }/api/${getOrgFromPath()}/terminal?clusterName=${clusterName}`,
       initData,
     };
 
