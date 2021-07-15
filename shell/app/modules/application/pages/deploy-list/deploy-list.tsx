@@ -91,6 +91,7 @@ const PureDeployList = (props: IProps) => {
       title: i18n.t('project/application/branch'),
       dataIndex: 'projectName',
       width: 240,
+      ellipsis: true,
       render: (projectName: string, record: any) => {
         const mainInfo = `${projectName}/${record.applicationName}/${record.branchName}`;
         return <Tooltip title={mainInfo}>{mainInfo}</Tooltip>;
