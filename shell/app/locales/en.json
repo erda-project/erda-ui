@@ -1979,7 +1979,8 @@
     "{num} {type}": "{num} {type}",
     "{specific} instance": "{specific} instance",
     "{total} item added successfully": "{total} item added successfully",
-    "{total} messages in the site, {unreadCount} unread": "{total} messages in the site, {unreadCount} unread"
+    "{total} messages in the site, {unreadCount} unread": "{total} messages in the site, {unreadCount} unread",
+    "{unreadCount} unread": "{unreadCount} unread"
   },
   "dice-dp": {},
   "dop": {
