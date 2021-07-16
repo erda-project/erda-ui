@@ -37,14 +37,6 @@ declare namespace ORG_CLUSTER {
       scriptBlacklist: string;
     };
     scheduler: {
-      dcosURL?: string;
-      authType: string;
-      authUsername: string;
-      authPassword: string;
-      caCrt: string;
-      clientCrt: string;
-      clientKey: string;
-      enableTag: boolean;
       edasConsoleAddr?: string; // edas集群参数
       accessKey?: string;
       accessSecret?: string;
@@ -73,16 +65,6 @@ declare namespace ORG_CLUSTER {
     type: string;
     description?: string;
     logo?: string;
-    scheduler: {
-      dcosURL: string;
-      authType: string;
-      authUsername: string;
-      authPassword: string;
-      caCrt: string;
-      clientCrt: string;
-      clientKey: string;
-      enableTag: boolean;
-    };
     urls: any;
     orgId?: number;
     id?: number;

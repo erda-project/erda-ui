@@ -20,8 +20,6 @@ import edas_default_svg from 'app/images/resources/edas-1.svg';
 import edas_active_svg from 'app/images/resources/edas.svg';
 import erdc_default_svg from 'app/images/resources/container-service-1.svg';
 import erdc_active_svg from 'app/images/resources/container-service.svg';
-import dcos_default_svg from 'app/images/resources/dcos-1.svg';
-import dcos_active_svg from 'app/images/resources/dcos.svg';
 import alicloud_cs_default_svg from 'app/images/resources/zyb.svg';
 import alicloud_cs_active_svg from 'app/images/resources/zyb2.svg';
 import alicloud_cs_managed_default_svg from 'app/images/resources/tg.svg';
@@ -44,10 +42,6 @@ export const clusterImgMap = {
   erdc: {
     default: erdc_default_svg,
     active: erdc_active_svg,
-  },
-  dcos: {
-    default: dcos_default_svg,
-    active: dcos_active_svg,
   },
   'alicloud-cs': {
     default: alicloud_cs_default_svg,
