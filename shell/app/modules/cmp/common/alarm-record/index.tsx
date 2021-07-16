@@ -72,42 +72,19 @@ export default ({ scope }: { scope: string }) => {
     {
       title: i18n.t('org:alarm status'),
       dataIndex: 'alertState',
-      width: 120,
+      width: 150,
       render: (alertState) => <AlarmState state={alertState} />,
     },
     {
       title: i18n.t('org:alarm type'),
       dataIndex: 'alertType',
-      width: 80,
+      width: 150,
     },
     {
       title: i18n.t('org:alarm time'),
       dataIndex: 'alertTime',
-      width: 180,
+      width: 200,
       render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
-    },
-    {
-      title: i18n.t('org:processing status'),
-      dataIndex: 'handleState',
-      width: 100,
-      render: (handleState) => (handleState ? <IssueState state={handleState} /> : '--'),
-    },
-    {
-      title: i18n.t('org:assignee'),
-      dataIndex: 'handlerId',
-      width: 120,
-      render: (handlerId) => {
-        const userInfo = userMap[handlerId];
-        if (!userInfo) return '--';
-        const { nick, name } = userInfo;
-        return <Avatar name={nick || name} size={24} showName />;
-      },
-    },
-    {
-      title: i18n.t('org:processing time'),
-      dataIndex: 'handleTime',
-      width: 180,
-      render: (handleTime) => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
     },
   ];
 
@@ -139,31 +116,8 @@ export default ({ scope }: { scope: string }) => {
           )),
         },
       },
-      {
-        type: Select,
-        name: 'handleState',
-        customProps: {
-          mode: 'multiple',
-          placeholder: i18n.t('application:filter by handling status'),
-          options: map(alarmAttrs.handleState, ({ key, display }) => (
-            <Select.Option key={key} value={key}>
-              {display}
-            </Select.Option>
-          )),
-        },
-      },
-      {
-        type: MemberSelector,
-        name: 'handlerId',
-        customProps: {
-          mode: 'multiple',
-          valueChangeTrigger: 'onClose',
-          placeholder: i18n.t('filter by handler'),
-          scopeType: memberScopeMap[scope],
-        },
-      },
     ],
-    [alarmAttrs.alertState, alarmAttrs.alertType, alarmAttrs.handleState, scope],
+    [alarmAttrs.alertState, alarmAttrs.alertType],
   );
 
   return (
