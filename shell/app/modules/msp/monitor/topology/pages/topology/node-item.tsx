@@ -216,10 +216,11 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const isMeshNode = node.serviceMesh === 'on';
 
   const handleClickError = (e: any) => {
+    const status = error_rate ? -1 : 1;
     e.stopPropagation();
     const timeFrom = moment(timeSpan.startTimeMs).format('YYYY-MM-DD HH:mm:ss');
     const timeTo = moment(timeSpan.endTimeMs).format('YYYY-MM-DD HH:mm:ss');
-    goTo(goTo.pages.microTraceSearch, { ...params, appId: applicationId, timeFrom, timeTo, status: 1, jumpOut: true });
+    goTo(goTo.pages.microTraceSearch, { ...params, appId: applicationId, timeFrom, timeTo, status, jumpOut: true });
   };
 
   const nodeOperations = (
