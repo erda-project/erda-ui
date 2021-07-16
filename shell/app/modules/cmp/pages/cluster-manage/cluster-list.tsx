@@ -225,7 +225,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     };
     const clusterOpsMap = {
-      dcos: [addMachine, edit, deleteClusterCall],
       edas: [edit, deleteClusterCall],
       k8s: [
         addMachine,

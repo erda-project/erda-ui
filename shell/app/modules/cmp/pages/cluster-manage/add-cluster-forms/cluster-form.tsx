@@ -26,18 +26,6 @@ import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/rea
 import { Link } from 'react-router-dom';
 import './cluster-form.scss';
 
-const getDefaultMasterURL = (type: string, val = '', isEdgeCluster = true) => {
-  const urlMap = {
-    k8s: `inet://${val}?ssl=on/kubernetes.default.svc.cluster.local`,
-    dcos: `inet://${val}/master.mesos`,
-  };
-  const centerUrlMap = {
-    k8s: 'inet://ingress-nginx.kube-system.svc.cluster.local?direct=on&ssl=on/kubernetes.default.svc.cluster.local',
-    dcos: 'http://master.mesos',
-  };
-  return isEdgeCluster ? urlMap[type] : centerUrlMap[type];
-};
-
 const ClusterBasicForm = ({
   form,
   editMode = false,
@@ -51,8 +39,6 @@ const ClusterBasicForm = ({
   clusterList: ORG_CLUSTER.ICluster[];
   clusterType: string;
 }) => {
-  const [isEdgeCluster, setIsEdgeCluster] = React.useState(get(formData, 'isEdgeCluster', true));
-  const [wildcardDomain, setWildcardDomain] = React.useState('');
   const [credentialType, setCredentialType] = React.useState(get(formData, 'credentialType', 'kubeConfig'));
   const { getClusterNewDetail } = clusterStore.effects;
 
@@ -60,19 +46,12 @@ const ClusterBasicForm = ({
     debounce((nameStr: string, callback: Function) => {
       if (editMode) return callback();
       nameStr &&
-        getClusterNewDetail({ clusterName: nameStr }).then((res: any) => {
-          const { basic } = get(res, '[0]', {});
-          const curIsEdgeCluster = get(basic, 'edgeCluster.value', true);
-          setIsEdgeCluster(curIsEdgeCluster);
+        getClusterNewDetail({ clusterName: nameStr }).then(() => {
           callback();
         });
     }, 200),
     [],
   );
-
-  React.useEffect(() => {
-    form.setFieldsValue({ scheduler: { dcosURL: getDefaultMasterURL(clusterType, wildcardDomain, isEdgeCluster) } });
-  }, [isEdgeCluster, wildcardDomain]);
 
   const fieldsList = [
     {
@@ -125,10 +104,6 @@ const ClusterBasicForm = ({
         getValueFromEvent(e: any) {
           const { value } = e.target;
           const newValue = value.replace(/\s/g, '');
-          // 修改泛域名的同时，同步设置dcos地址
-          if (clusterType !== 'edas' && isEdgeCluster) {
-            setWildcardDomain(value);
-          }
           return newValue;
         },
       },
@@ -155,23 +130,6 @@ const ClusterBasicForm = ({
       { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
       { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
       { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
-    ]),
-    ...insertWhen(clusterType === 'dcos', [
-      {
-        label: i18n.t('org:cluster entry'),
-        name: 'scheduler.dcosURL',
-        pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
-        initialValue: getDefaultMasterURL(clusterType),
-        itemProps: {
-          // disabled: true,
-        },
-        config: {
-          getValueFromEvent(e: any) {
-            const { value } = e.target;
-            return value.replace(/\s/g, '').toLowerCase();
-          },
-        },
-      },
     ]),
     ...insertWhen(clusterType === 'k8s', [
       {
@@ -300,31 +258,6 @@ const k8sPrompt = (
 );
 
 const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clusterType: string }) => {
-  const formValues = form.getFieldsValue();
-  const { scheduler } = formValues || ({} as any);
-
-  // CA证书、客户端证书、客户端秘钥 必须同为空或同为不空
-  const haveCrt = !!(scheduler && (scheduler.caCrt || scheduler.clientCrt || scheduler.clientKey));
-  // 当认证类型空时，认证用户名、密码不需要填
-  const authType = scheduler && scheduler.authType;
-  let authFields = [] as any;
-  if (authType !== '') {
-    authFields = [
-      {
-        label: i18n.t('org:authenticated user'),
-        name: ['scheduler', 'authUsername'],
-        initialValue: 'admin',
-        required: true, // 当认证类型不为空时，必填
-      },
-      {
-        label: i18n.t('org:authentication password'),
-        name: ['scheduler', 'authPassword'],
-        initialValue: 'Terminus1234',
-        required: true, // 当认证类型不为空时，必填
-      },
-    ];
-  }
-
   const fieldListMap = {
     k8s: [
       {
@@ -343,53 +276,6 @@ const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clust
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 }),
         },
         initialValue: 1,
-        required: false,
-      },
-    ],
-    dcos: [
-      {
-        label: i18n.t('org:authenticated type'),
-        name: ['scheduler', 'authType'],
-        type: 'radioGroup',
-        options: ['', 'basic', 'token'].map((v) => {
-          return {
-            value: v,
-            name: v || '无',
-          };
-        }),
-        initialValue: '',
-        required: false,
-      },
-      ...authFields,
-      {
-        label: i18n.t('org:CA certificate'),
-        name: ['scheduler', 'caCrt'],
-        type: 'textArea',
-        initialValue: '',
-        itemProps: { autoSize: { minRows: 2, maxRows: 6 } },
-        required: haveCrt,
-      },
-      {
-        label: i18n.t('org:client certificate'),
-        name: ['scheduler', 'clientCrt'],
-        type: 'textArea',
-        initialValue: '',
-        itemProps: { autoSize: { minRows: 2, maxRows: 6 } },
-        required: haveCrt,
-      },
-      {
-        label: i18n.t('org:client secret key'),
-        name: ['scheduler', 'clientKey'],
-        type: 'textArea',
-        initialValue: '',
-        itemProps: { autoSize: { minRows: 2, maxRows: 6 } },
-        required: haveCrt,
-      },
-      {
-        label: `${i18n.t('enable')} dice_tags`,
-        name: ['scheduler', 'enableTag'],
-        type: 'switch',
-        initialValue: true,
         required: false,
       },
     ],
