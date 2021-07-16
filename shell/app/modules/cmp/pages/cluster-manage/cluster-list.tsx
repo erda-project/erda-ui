@@ -274,6 +274,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
+      width: 300,
+      ellipsis: true,
       render: (text, record) => (
         <span
           className="hover-active"
@@ -311,7 +313,15 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       dataIndex: 'clusterType',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return clusterTypeMap[get(clusterDetail, 'basic.clusterType.value')] ?? '';
+        const clusterType: keyof typeof clusterTypeMap = get(clusterDetail, 'basic.clusterType.value');
+        return (
+          <If condition={!!clusterType}>
+            <div className="flex items-center">
+              <CustomIcon type={`${clusterType === 'edas' ? 'aliyun' : 'k8s'}`} color className="h-4 w-4 mr-2" />
+              <span>{clusterTypeMap[clusterType] ?? ''}</span>
+            </div>
+          </If>
+        );
       },
     },
     {
@@ -345,7 +355,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (_text, record: ORG_CLUSTER.ICluster) => {
         return renderMenu(record);
       },
-      width: 150,
+      width: 280,
     },
   ];
 

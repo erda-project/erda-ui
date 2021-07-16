@@ -768,11 +768,12 @@ export default ({ scopeType }: { scopeType: string }) => {
                 {i18n.t('org:add filter rules')}
               </Button>
               <Table
+                className="filter-rule-table"
                 bordered
                 rowKey="uniKey"
                 dataSource={editingFilters}
                 columns={filterColumns}
-                scroll={{ x: '100%' }}
+                // scroll={{ x: '100%' }}
               />
             </>
           ),
