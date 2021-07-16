@@ -619,6 +619,7 @@ export default ({ scopeType, scopeId }: IProps) => {
     {
       title: i18n.t('org:alarm name'),
       dataIndex: 'name',
+      width: 150,
     },
     ...insertWhen(scopeType === ScopeType.ORG, [
       {
@@ -639,8 +640,9 @@ export default ({ scopeType, scopeId }: IProps) => {
     {
       title: i18n.t('default:notification target'),
       dataIndex: ['notifies', '0', 'notifyGroup'],
-      width: 250,
+      width: 400,
       className: 'notify-info',
+      ellipsis: true,
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
         const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
