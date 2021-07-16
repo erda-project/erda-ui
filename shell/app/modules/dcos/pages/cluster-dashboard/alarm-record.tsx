@@ -77,29 +77,6 @@ export default ({ clusters }: { clusters: any }) => {
       width: 200,
       render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
-    {
-      title: i18n.t('org:processing status'),
-      dataIndex: 'handleState',
-      width: 150,
-      render: (handleState) => (handleState ? <IssueState state={handleState} /> : '--'),
-    },
-    {
-      title: i18n.t('org:assignee'),
-      dataIndex: 'handlerId',
-      width: 150,
-      render: (handlerId) => {
-        const userInfo = userMap[handlerId];
-        if (!userInfo) return '--';
-        const { nick, name } = userInfo;
-        return <Avatar name={nick || name} size={24} showName />;
-      },
-    },
-    {
-      title: i18n.t('org:processing time'),
-      dataIndex: 'handleTime',
-      width: 200,
-      render: (handleTime) => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
-    },
   ];
 
   const filterConfig = React.useMemo(
@@ -117,31 +94,8 @@ export default ({ clusters }: { clusters: any }) => {
           )),
         },
       },
-      {
-        type: Select,
-        name: 'handleState',
-        customProps: {
-          mode: 'multiple',
-          placeholder: i18n.t('application:filter by handling status'),
-          options: map(alarmAttrs.handleState, ({ key, display }) => (
-            <Select.Option key={key} value={key}>
-              {display}
-            </Select.Option>
-          )),
-        },
-      },
-      {
-        type: MemberSelector,
-        name: 'handlerId',
-        customProps: {
-          mode: 'multiple',
-          valueChangeTrigger: 'onClose',
-          placeholder: i18n.t('filter by handler'),
-          scopeType: 'org',
-        },
-      },
     ],
-    [alarmAttrs.alertState, alarmAttrs.handleState],
+    [alarmAttrs.alertState],
   );
 
   return (
