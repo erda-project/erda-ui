@@ -11,7 +11,8 @@
   width: 400px;
 }
 // todo temporarily，When the overflow style of the global td is removed, remove the style
-.filter-rule-table {
+.filter-rule-table,
+.field-rule-table {
   td {
     overflow: visible;
   }
