@@ -806,11 +806,11 @@ export default ({ scopeType }: { scopeType: string }) => {
                 {i18n.t('org:add field rules')}
               </Button>
               <Table
+                className="field-rule-table"
                 bordered
                 rowKey="uniKey"
                 dataSource={editingFields}
                 columns={getFieldColumns(form)}
-                scroll={{ x: 800 }}
               />
             </>
           ),
