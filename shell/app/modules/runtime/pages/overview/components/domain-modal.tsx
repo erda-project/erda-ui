@@ -223,18 +223,7 @@ const DomainModal = (props: IProps) => {
                       },
                     ]}
                   >
-                    <Input
-                      placeholder={i18n.t('runtime:Custom domain name needs to be bound at the domain name provider.')}
-                      autoComplete="off"
-                    />
-                    {
-                      <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={() => deleteCustom(index)}>
-                        <span className="delete-domain-icon">
-                          {' '}
-                          <IconReduceOne className="hover-active fz18 pointer" />{' '}
-                        </span>
-                      </Popconfirm>
-                    }
+                    <InputItem onDelete={() => deleteCustom(index)} />
                   </FormItem>
                 </Col>
               </Row>
@@ -247,3 +236,29 @@ const DomainModal = (props: IProps) => {
 };
 
 export default DomainModal as any as (p: Omit<IProps, 'form'>) => JSX.Element;
+
+interface IInputItemProps {
+  value?: string;
+  onChange?: (v: string) => void;
+  onDelete: () => void;
+}
+
+const InputItem = (props: IInputItemProps) => {
+  const { value, onChange, onDelete } = props;
+  return (
+    <>
+      <Input
+        value={value}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange?.(e.target.value)}
+        placeholder={i18n.t('runtime:Custom domain name needs to be bound at the domain name provider.')}
+        autoComplete="off"
+      />
+      <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={onDelete}>
+        <span className="delete-domain-icon">
+          {' '}
+          <IconReduceOne className="hover-active fz18 pointer" />{' '}
+        </span>
+      </Popconfirm>
+    </>
+  );
+};
