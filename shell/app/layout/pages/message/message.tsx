@@ -14,6 +14,7 @@
 import * as React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
+import { Remind as IconRemind } from '@icon-park/react';
 import { Badge, Timeline, Drawer, notification, Button } from 'app/nusi';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
@@ -202,7 +203,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                         <div key={item.id} className="message-item" onClick={() => handleClick(item)}>
                           <div className="message-item-content" title={item.title}>
                             <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
-                            <CustomIcon type="znx" />
+                            <IconRemind size="16px" />
                             <span>{item.title}</span>
                           </div>
                           <div>

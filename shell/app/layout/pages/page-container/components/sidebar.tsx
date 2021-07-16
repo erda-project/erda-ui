@@ -12,22 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { GlobalNavigation, Shell, Badge, Tooltip, Popover, Menu, message } from 'app/nusi';
+import { GlobalNavigation, Shell, Badge, Tooltip, message } from 'app/nusi';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
-import { Icon as CustomIcon, ImgHolder } from 'common';
+import { Icon as CustomIcon, ImgHolder, ErdaCustomIcon } from 'common';
 import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
 import { goTo, ossImg, insertWhen } from 'common/utils';
-import { find, get, map } from 'lodash';
 import { useMount } from 'react-use';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
-import { Help as IconHelp, Remind as IconRemind } from '@icon-park/react';
+import { Help as IconHelp, Remind as IconRemind, Logout as IconLogout } from '@icon-park/react';
 import './sidebar.scss';
 
 const { AppCenter } = Shell;
@@ -102,10 +101,10 @@ const AppCenterEl = () => {
           }
           placement="right"
         >
-          <CustomIcon type="appstore" className="fz20 mr0" />
+          <ErdaCustomIcon type="appstore" color="white" size="20px" />
         </Tooltip>
       }
-      linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
+      linkRender={(_linkTo: any, _children: any, { app }: { app: LAYOUT.IApp }) => {
         return (
           <a
             className="app-list-item"
@@ -174,7 +173,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('default:switch language')} placement="right">
-          <CustomIcon type={current === 'zh' ? 'chinese' : 'english'} style={customIconStyle} />
+          <ErdaCustomIcon type={current === 'zh' ? 'chinese' : 'english'} style={customIconStyle} />
         </Tooltip>
       ),
       onClick: () => {
@@ -207,7 +206,7 @@ const SideBar = () => {
   const useMenuOperations = [
     ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [
       {
-        icon: <CustomIcon type="gerenshezhi" />,
+        icon: <ErdaCustomIcon type="user-config" />,
         title: i18n.t('layout:personal settings'),
         onClick: () => {
           window.open(diceEnv.UC_PUBLIC_URL);
@@ -215,7 +214,7 @@ const SideBar = () => {
       },
     ]),
     {
-      icon: <CustomIcon type="logout" />,
+      icon: <IconLogout />,
       title: i18n.t('layout:logout'),
       onClick: userStore.effects.logout,
     },
@@ -223,7 +222,6 @@ const SideBar = () => {
 
   const userMenu = {
     name: loginUser.nick || loginUser.name,
-    // subtitle: 'slogan here',
     avatar: {
       src: loginUser.avatar ? ossImg(loginUser.avatar, { w: 48 }) : undefined,
       chars: getAvatarChars(loginUser.nick || loginUser.name),
@@ -258,39 +256,6 @@ const SideBar = () => {
           />
         )
       }
-      // appName=''
-      // horizontalBrandIcon={ // 横向sidebar待定
-      //   <div className='flex-box'>
-      //     <img
-      //       className='mr24 pointer'
-      //       src='/images/erda-logo.svg'
-      //       style={{ height: '24px' }}
-      //       onClick={() => {
-      //         goTo(goTo.pages.orgHome);
-      //       }}
-      //     />
-      //     {
-      //       isErdaHome ? (
-      //         <Tooltip title={i18n.t('please select your organization or public organization to start your Erda journey')} placement='right'>
-      //           <CustomIcon type='appstore' className='side-app-center ml4 fz20' />
-      //         </Tooltip>
-      //       ) : (
-      //         <PopoverSelector
-      //           options={[
-      //             { key: 'a', name: 'DevOps平台' },
-      //             { key: 'b', name: '微服务治理平台' },
-      //             { key: 'c', name: '快数据平台' },
-      //             { key: 'd', name: '多云管理平台' },
-      //             { key: 'e', name: '边缘计算平台' },
-      //             { key: 'e', name: '管理中心' },
-      //           ]}
-      //           value="a"
-      //           onChange={() => {}}
-      //         />
-      //       )
-      //     }
-      //   </div>
-      // }
       operations={operations}
       userMenu={userMenu}
       slot={{
@@ -298,45 +263,6 @@ const SideBar = () => {
         element: <AppCenterEl />,
       }}
     />
-  );
-};
-
-interface IPopoverSelectorProps {
-  value: string;
-  options: Array<{ key: string; name: string }>;
-  onChange: () => void;
-}
-
-const PopoverSelector = (props: IPopoverSelectorProps) => {
-  const { options, value } = props;
-  const valueName = get(find(options, { key: value }), 'name') || value;
-  const ValueRender = (
-    <div className=" v-align side-app-center flex-box pointer" onClick={(e: any) => e.stopPropagation()}>
-      {/* <div className='v-align bold'>
-        {valueName || <span className=''>{i18n.t('unspecified')}</span>}
-      </div> */}
-      <CustomIcon type="appstore" className="fz20 ml4" />
-    </div>
-  );
-
-  const onClick = (e: any) => {
-    e.domEvent.stopPropagation();
-  };
-  const menu = (
-    <Menu onClick={onClick}>
-      {map(options, (op) => (
-        <Menu.Item key={op.key} className="app-center-item">
-          {/* <span className='v-align'> */}
-          {op.name}
-          {/* </div> */}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-  return (
-    <Popover content={menu} placement="bottom" overlayClassName="side-app-center-popover">
-      {ValueRender}
-    </Popover>
   );
 };
 
