@@ -1,7 +1,7 @@
 # Frontend UI for Erda platform.
 
 <div>
-  <img src="./docs/files/logo.jpg" alt="logo" width="350">
+  <img src="./docs/files/logo.png" alt="logo" width="350">
 </div>
 
 [![codecov](https://codecov.io/gh/erda-project/erda-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/erda-project/erda-ui)
