@@ -61,7 +61,7 @@ const BindDomainForm = (props: any) => {
     set(valArr, `[${index}]`, val);
     form.setFieldsValue({ bindDomain: valArr });
     setValue(valArr);
-    form.validateFields();
+    form.validateFields([['bindDomain', index]]);
   };
 
   return (
