@@ -14,7 +14,6 @@
 import * as React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
-import { MessageUnread as IconMessageUnread } from '@icon-park/react';
 import { Badge, Timeline, Drawer, notification, Button } from 'app/nusi';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
@@ -186,8 +185,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
       </div>
       <div className="content">
         <div className="summary">
-          {i18n.t('{total} messages in the site, {unreadCount} unread', {
-            total: msgPaging.total,
+          {i18n.t('{unreadCount} unread', {
             unreadCount,
           })}
         </div>
@@ -205,16 +203,17 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                           <div className="message-item-content" title={item.title}>
                             <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
                             <CustomIcon type="znx" />
-                            <span className="fz16">{item.title}</span>
+                            <span>{item.title}</span>
                           </div>
                           <div>
                             {item.unreadCount > 1 && (
                               <span className="unread-count mr12">
-                                <IconMessageUnread className="mr8" />
-                                {item.unreadCount}
+                                <span className="unread-count-text">
+                                  {item.unreadCount > 99 ? '99+' : item.unreadCount}
+                                </span>
                               </span>
                             )}
-                            {moment(item.createdAt).format('HH:mm:ss')}
+                            <span className="message-time">{moment(item.createdAt).format('HH:mm:ss')}</span>
                           </div>
                         </div>
                       );

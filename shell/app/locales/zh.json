@@ -1979,7 +1979,8 @@
     "{num} {type}": "{num}个{type}",
     "{specific} instance": "{specific}实例",
     "{total} item added successfully": "成功添加{total}条",
-    "{total} messages in the site, {unreadCount} unread": "共 {total} 封站内信 有 {unreadCount} 封未读"
+    "{total} messages in the site, {unreadCount} unread": "共 {total} 封站内信 有 {unreadCount} 封未读",
+    "{unreadCount} unread": "共有 {unreadCount} 封未读"
   },
   "dice-dp": {},
   "dop": {
