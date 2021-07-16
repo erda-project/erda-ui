@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Button } from 'app/nusi';
+import { Table, Button, Tooltip } from 'app/nusi';
 import { useUpdate } from 'common';
 import { map } from 'lodash';
 import i18n from 'i18n';
