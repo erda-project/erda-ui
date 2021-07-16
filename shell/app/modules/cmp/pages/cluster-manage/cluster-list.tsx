@@ -351,6 +351,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'operation',
+      fixed: 'right',
       render: (_text, record: ORG_CLUSTER.ICluster) => {
         return renderMenu(record);
       },
