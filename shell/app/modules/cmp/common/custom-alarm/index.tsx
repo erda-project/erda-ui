@@ -235,11 +235,11 @@ export default ({ scopeType }: { scopeType: string }) => {
             <span className="table-operations-btn" onClick={() => openModal(record.id)}>
               {i18n.t('edit')}
             </span>
-            <IF check={record.dashboardId}>
+            {/* <IF check={record.dashboardId}>
               <span className="table-operations-btn" onClick={() => goTo(`./${record.dashboardId}`)}>
                 {i18n.t('org:view dashboard')}
               </span>
-            </IF>
+            </IF> */}
             <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} onConfirm={() => deleteCustomAlarm(record.id)}>
               <span className="table-operations-btn">{i18n.t('delete')}</span>
             </Popconfirm>
