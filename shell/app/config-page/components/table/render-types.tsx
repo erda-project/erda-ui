@@ -320,7 +320,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     default:
-      Comp = val || val === 0 ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
+      Comp = (val || val === 0) ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
       break;
   }
   return Comp;
