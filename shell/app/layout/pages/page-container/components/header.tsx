@@ -162,7 +162,7 @@ const Header = () => {
       return null;
     }
     const _title = getBreadcrumbTitle(route);
-    return <BreadcrumbItem paths={[...paths]} route={route} params={_params} title={_title} />;
+    return _title && <BreadcrumbItem paths={[...paths]} route={route} params={_params} title={_title} />;
   };
 
   return (

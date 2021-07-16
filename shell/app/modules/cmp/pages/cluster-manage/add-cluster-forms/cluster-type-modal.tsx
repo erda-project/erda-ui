@@ -41,12 +41,6 @@ export const clusterTypeMap = [
   ],
   [
     {
-      type: 'dcos',
-      name: 'DCOS',
-      icon: clusterImgMap.dcos,
-      description: i18n.t('org:import an existing Erda {type} cluster', { type: 'DCOS' }),
-    },
-    {
       type: 'k8s',
       name: 'Kubernetes',
       icon: clusterImgMap.k8s,
