@@ -37,6 +37,7 @@
     "restore-iconfont": "node -e 'require(\"./tools/manage-iconfont.js\").restoreIconFont()'",
     "clean": "rm -rf ../public/static/shell",
     "precommit": "lint-staged",
+    "check-unit-test": "node -e 'require(\"./tools/testcase-checker.js\").checkTestCase()'",
     "extra-logic": "node ../../erda-ui-enterprise/extra-job.js",
     "online-extra-logic": "node ../modules/extra-job.js online",
     "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts"
@@ -181,6 +182,7 @@
     "react-test-renderer": "^16.7.0",
     "sass": "^1.32.4",
     "speed-measure-webpack-plugin": "^1.5.0",
+    "string.prototype.replaceall": "^1.0.5",
     "swagger-parser-mock": "^1.1.1",
     "thread-loader": "^3.0.1",
     "ts-jest": "26.5.6",
@@ -196,7 +198,8 @@
     "webpack-merge": "^5.7.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write",
+    "app/common/**/*.{js,jsx,ts,tsx}": "npm run check-unit-test"
   },
   "config": {
     "commitizen": {

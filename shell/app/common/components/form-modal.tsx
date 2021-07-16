@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isEmpty, pick, isFunction, get, set } from 'lodash';
+import { isEmpty, isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { Modal, Form, Button, Spin, Alert } from 'app/nusi';
@@ -20,8 +20,6 @@ import { isPromise } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
 import moment from 'moment';
-
-const noop = () => {};
 
 interface IProps {
   visible: boolean;
@@ -32,7 +30,7 @@ interface IProps {
   title?: string;
   name?: string;
   width?: number | string;
-  PureForm?: typeof React.Component | Function;
+  PureForm?: typeof React.Component;
   formRef?: any;
   formProps?: object;
   loading?: boolean;
@@ -142,7 +140,7 @@ class FormModalComp extends React.Component<IProps, IState> {
   };
 
   handleCancel = () => {
-    (this.props.onCancel || noop)();
+    this.props.onCancel?.();
     // 当点击取消时，modal还未完全关闭时就已经被重置成初始值，加入setTimeout异步重置
     setTimeout(() => {
       this.props.form.resetFields();
@@ -160,7 +158,7 @@ class FormModalComp extends React.Component<IProps, IState> {
       width,
       onOk,
       onCancel,
-      PureForm = noop,
+      PureForm,
       fieldsList,
       formProps = {},
       modalProps = {},
@@ -178,7 +176,7 @@ class FormModalComp extends React.Component<IProps, IState> {
     if (fieldsList) {
       const _list = typeof fieldsList === 'function' ? fieldsList(rest.form, !this.isAddMode) : fieldsList;
       content = <RenderPureForm layout="vertical" list={_list} {...formProps} {...rest} />;
-    } else {
+    } else if (PureForm) {
       content = <PureForm mode={this.isAddMode ? 'add' : 'edit'} layout="vertical" {...rest} />;
     }
 
@@ -249,7 +247,7 @@ const PureFormModalFun = (options: Obj) =>
  * 内部组件可从 mode 属性获得当前模式: 'add' | 'edit'
  * 可通过beforeSubmit方法进行提交前的数据调整或检查，若返回null则不会提交
  */
-export const FormModal = forwardRef((props: any, ref) => {
+export const FormModal = forwardRef((props: IProps, ref) => {
   const formRef = React.useRef(null);
 
   // 将formRef传递至组件内部，为的是当使用PureForm的时候，可以得到fieldsStore来setFieldsValues，故使用FormModal时，要注意ref得到的和预期的不一样

@@ -13,8 +13,9 @@
 
 import React from 'react';
 import { ClassWrapper } from 'common/components/class-wrap';
+import { Input } from 'app/nusi';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
+import { describe, it, jest } from '@jest/globals';
 
 describe('ClassWrapper', () => {
   it('should empty render', () => {
@@ -26,11 +27,24 @@ describe('ClassWrapper', () => {
     expect(wrapper.text()).toBe('erda');
   });
   it('should render with ReactNode', () => {
+    const wrapperChangeFn = jest.fn();
+    const childChangeFn = jest.fn();
     const wrapper = mount(
-      <ClassWrapper>
-        <div className="children">erda</div>
+      <ClassWrapper onChange={wrapperChangeFn}>
+        <Input className="children" onChange={childChangeFn} />
       </ClassWrapper>,
     );
     expect(wrapper.find('.children')).toExist();
+    wrapper.find('Input').simulate('change', { target: { value: 'erda' } });
+    const wrapperEvent = wrapperChangeFn.mock.calls[0][0];
+    const childEvent = wrapperChangeFn.mock.calls[0][0];
+    expect(wrapperChangeFn).toHaveBeenCalled();
+    expect(childChangeFn).toHaveBeenCalled();
+    expect(wrapperEvent.target).toStrictEqual({
+      value: 'erda',
+    });
+    expect(childEvent.target).toStrictEqual({
+      value: 'erda',
+    });
   });
 });
