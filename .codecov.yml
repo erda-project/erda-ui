@@ -27,7 +27,7 @@ coverage:
       default:
         # basic
         target: auto
-        threshold: 0%
+        threshold: 5%
         base: auto
         if_ci_failed: error
         only_pulls: false
