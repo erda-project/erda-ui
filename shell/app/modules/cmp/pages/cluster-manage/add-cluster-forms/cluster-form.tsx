@@ -172,13 +172,6 @@ const ClusterBasicForm = ({
               }
             },
           },
-          suffix: (
-            <div className="flex justify-end">
-              <a href="" target="__blank">
-                {i18n.t('cmp:learn how to write KubeConfig file?')}
-              </a>
-            </div>
-          ),
           required: !editMode,
         },
       ]),
