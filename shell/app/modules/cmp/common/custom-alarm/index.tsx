@@ -46,6 +46,7 @@ import mspMonitorMetaDataStore from 'app/modules/msp/monitor/monitor-alarm/store
 import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
 import './index.scss';
+import { fa } from 'cronstrue/dist/i18n/locales/fa';
 
 enum DataType {
   STRING = 'string',
@@ -261,6 +262,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'tag',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => (
         <Select
+          dropdownMatchSelectWidth={false}
           defaultValue={value}
           className="full-width"
           onSelect={(tag) => {
@@ -283,6 +285,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'operator',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => (
         <Select
+          dropdownMatchSelectWidth={false}
           defaultValue={value}
           className="full-width"
           onSelect={(operator) => {
@@ -312,6 +315,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         if (!isEmpty(_values)) {
           expectedValEle = (
             <Select
+              dropdownMatchSelectWidth={false}
               showSearch
               className="full-width"
               value={value}
@@ -356,6 +360,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'field',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
+          dropdownMatchSelectWidth={false}
           defaultValue={value}
           className="full-width"
           onSelect={(field: any) => {
@@ -390,6 +395,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'aggregator',
       render: (value: string, { uniKey, aggregations }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
+          dropdownMatchSelectWidth={false}
           defaultValue={value}
           className="full-width"
           onSelect={(aggregator: any) => {
@@ -410,6 +416,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       dataIndex: 'operator',
       render: (value: string, { uniKey, aggregatorType }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
+          dropdownMatchSelectWidth={false}
           defaultValue={value}
           className="full-width"
           onSelect={(operator) => {
