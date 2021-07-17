@@ -46,7 +46,6 @@ import mspMonitorMetaDataStore from 'app/modules/msp/monitor/monitor-alarm/store
 import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
 import './index.scss';
-import { fa } from 'cronstrue/dist/i18n/locales/fa';
 
 enum DataType {
   STRING = 'string',
