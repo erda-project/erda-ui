@@ -241,12 +241,7 @@ export const RenderFormItem = ({
     label
   );
   return (
-    <FormItem
-      label={_label}
-      rules={[{ required: true, message: '123' }]}
-      {...layout}
-      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
-    >
+    <FormItem label={_label} {...layout} className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}>
       <FormItem
         name={typeof name === 'string' && name?.includes('.') ? name.split('.') : name}
         noStyle
