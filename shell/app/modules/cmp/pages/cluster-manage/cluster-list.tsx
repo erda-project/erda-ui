@@ -302,11 +302,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:description'),
       dataIndex: 'description',
+      ellipsis: true,
       render: (text) => text || '_',
     },
     {
       title: i18n.t('application:type'),
       dataIndex: 'clusterType',
+      width: 125,
+      ellipsis: true,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const clusterType: keyof typeof clusterTypeMap = get(clusterDetail, 'basic.clusterType.value');
