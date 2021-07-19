@@ -132,6 +132,20 @@ const getMachineGridClass = (containerWidth: number) => {
   return gridClass;
 };
 
+const interpolationComp = (str: string, compMap: Record<string, React.Component>) => {
+  let left = str;
+  const parts: any[] = [];
+  const compNames = str.match(/<(\w+) \/>/g);
+  (compNames || []).forEach((m) => {
+    const k = m.slice(1, -3);
+    const [before, after] = left.split(m);
+    parts.push(before, compMap[k]);
+    left = after;
+  });
+  parts.push(left);
+  return parts;
+};
+
 const SubMachineGroup = ({
   groupName,
   unitGroups,
@@ -618,13 +632,19 @@ const ClusterDashboard = () => {
           <div className="flex flex-col justify-center items-center h-full">
             <div className="font-medium text-2xl mb-2">{i18n.t('cmp:quick start')}</div>
             <div className="text-desc">
-              {i18n.t('cmp:no cluster currently exists, you can click')}{' '}
-              <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
-              {`${i18n.t('cmp:, you can also browse')} `}
-              <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
-                {i18n.t('documentation')}
-              </a>{' '}
-              {i18n.t('cmp:to learn more')}
+              {interpolationComp(
+                i18n.t(
+                  'cmp:no cluster currently exists, you can click <CompA />, you can also view <CompB /> to learn more',
+                ),
+                {
+                  CompA: <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>,
+                  CompB: (
+                    <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
+                      {i18n.t('documentation')}
+                    </a>
+                  ),
+                },
+              )}
             </div>
             <img className="w-80 h-80" src={noClusterPng} />
           </div>

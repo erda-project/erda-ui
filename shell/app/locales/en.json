@@ -666,7 +666,7 @@
     "management method": "management method",
     "must be odd and cannot be greater than 15": "must be odd and cannot be greater than 15",
     "network configuration": "network configuration",
-    "no cluster currently exists, you can click": "no cluster currently exists, you can click",
+    "no cluster currently exists, you can click <CompA />, you can also view <CompB /> to learn more": "no cluster currently exists, you can click <CompA />, you can also view <CompB /> to learn more",
     "note": "note",
     "number": "number",
     "number of Bucket": "number of Bucket",
@@ -715,14 +715,12 @@
     "switch network segment addition method": "switch network segment addition method",
     "the CIDR block cannot be modified after it is set": "the CIDR block cannot be modified after it is set",
     "tips": "tips",
-    "to learn more": "to learn more",
     "total project resources": "total project resources",
     "total storage capacity": "total storage capacity",
     "verification method": "verification method",
     "will execute {operation} operation": "will execute {operation} operation",
     "will expire soon": "will expire soon",
     "your chosen": "your chosen",
-    ", you can also browse": ", you can also browse",
     "{action} renewal time": "{action} renewal time"
   },
   "common": {
