@@ -8,7 +8,6 @@ $po: $p20;
     border-right: 1px solid $color-border;
     margin-right: $po;
     padding-right: $po;
-    margin-bottom: 8px;
 
     &:last-child {
       margin-right: 0;
@@ -21,7 +20,7 @@ $po: $p20;
     display: inline-block;
     min-width: 146px;
     height: 140px;
-    margin-right: $po;
+    margin: $p8 $po $p8 0;
     text-align: center;
     background-color: rgba($black, 0.04);
     border: 1px solid $color-border;
