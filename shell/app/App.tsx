@@ -116,7 +116,7 @@ if (pathname.startsWith('/r/')) {
   switch (to) {
     case 'alarm': // 告警跳到云管
     case 'report': // 运维报告跳到云管
-      newPath = ['', 'cmp', to, ...rest];
+      newPath = ['', '-', 'cmp', to, ...rest];
       break;
 
     default:

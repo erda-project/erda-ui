@@ -69,9 +69,12 @@ const org = createStore({
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
+      // if orgName exist, check valid
+      const resOrg = await call(getOrgByDomain, { domain, orgName });
       const orgs = await call(getJoinedOrgs); // get joined orgs
+
       if (!orgName) return;
-      if (orgName === '-') {
+      if (orgName === '-' && isEmpty(resOrg)) {
         if (orgs?.list?.length) {
           location.href = `/${get(orgs, 'list[0].name')}`;
           return;
@@ -79,9 +82,6 @@ const org = createStore({
         update({ curPathOrg: orgName, initFinish: true });
         return;
       }
-
-      // if orgName exist, check valid
-      const resOrg = await call(getOrgByDomain, { domain, orgName });
       const curPathname = location.pathname;
       if (isEmpty(resOrg)) {
         goTo(goTo.pages.notFound);
@@ -103,7 +103,7 @@ const org = createStore({
           }
         }
         if (currentOrg.name !== orgName) {
-          location.href = `/${currentOrg.name}`;
+          location.href = location.href.replace(`/${orgName}/`, `/${currentOrg.name}/`);
           return;
         }
         if (orgId) {
