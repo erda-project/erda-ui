@@ -119,6 +119,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
           {i18n.t('close')}
         </Button>,
       ]}
+      width={600}
     >
       <Table
         scroll={{ x: '100%' }}
