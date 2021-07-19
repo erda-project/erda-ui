@@ -620,7 +620,7 @@ const ClusterDashboard = () => {
             <div className="text-desc">
               {i18n.t('cmp:no cluster currently exists, you can click')}{' '}
               <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
-              ，也可以通过浏览{' '}
+              {`${i18n.t('cmp:, you can also browse')} `}
               <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
                 {i18n.t('documentation')}
               </a>{' '}
