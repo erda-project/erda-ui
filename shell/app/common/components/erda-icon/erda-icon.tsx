@@ -79,3 +79,34 @@ export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps)
 
   return IconComp ? <IconComp className={className} onClick={onClick} {...rest} /> : <span>Not Exists</span>;
 };
+
+
+type CustomColor = 'primary' | 'light-primary' | 'shallow-primary' | 'white';
+
+interface IErdaCustomIcon {
+  type: string; // unique identification of icon
+  style?: React.CSSProperties;
+  width?: string; // with of svg, and it's more priority than size
+  height?: string; // height of svg, and it's more priority than size
+  spin?: boolean; // use infinite rotate animation like loading icon, the default value is false
+  size?: string; // size of svg with default value of 1rem. Use width and height if width-to-height ratio is not 1
+  fill?: CustomColor; // color of svg fill area, and it's more priority than color
+  stroke?: CustomColor; // color of svg stroke, and it's more priority than color
+  color?: CustomColor; // color of svg
+  rtl?: boolean; // acoustic image, the default value is from left to right
+  onClick?: React.MouseEventHandler;
+}
+
+const COLOR = {
+  primary: '#6a549e',
+  white: '#ffffff',
+  'light-primary': '#6a549e19', // rgba($primary, .1)
+  'shallow-primary': '#6a549e99', // rgba($primary, .6)
+};
+
+export const ErdaCustomIcon = ({
+  type, fill, color, stroke, ...rest
+}: IErdaCustomIcon) => {
+  // @ts-ignore iconpark component
+  return <iconpark-icon name={type} fill={COLOR[fill]} color={COLOR[color]} stroke={COLOR[stroke]} {...rest} />;
+};

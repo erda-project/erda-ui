@@ -249,7 +249,10 @@
     "ywyy",
     "YYYYMMDD",
     "zkproxy",
-    "zujian"
+    "zujian",
+    "appstore",
+    "erdalogo",
+    "iconpark"
   ],
   "flagWords": ["hte"],
   "ignorePaths": ["node_modules"]

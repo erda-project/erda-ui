@@ -34,6 +34,7 @@ declare namespace ORG {
       blockStage: boolean;
       blockProd: boolean;
     };
+    openFdp?: boolean;
   }
 
   interface IOrgReq {
