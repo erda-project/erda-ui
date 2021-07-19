@@ -1,13 +1,11 @@
-$p0: $p20;
-
 .app-type-select {
   display: inline-flex;
   flex-wrap: wrap;
 
   .app-type-group {
     border-right: 1px solid $color-border;
-    margin-right: $p0;
-    padding-right: $p0;
+    margin-right: $p20;
+    padding-right: $p20;
 
     &:last-child {
       margin-right: 0;
@@ -20,7 +18,7 @@ $p0: $p20;
     display: inline-block;
     min-width: 146px;
     height: 140px;
-    margin: $p8 $p0 $p8 0;
+    margin: $p8 $p20 $p8 0;
     text-align: center;
     background-color: rgba($black, 0.04);
     border: 1px solid $color-border;
