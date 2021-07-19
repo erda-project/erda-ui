@@ -69,6 +69,7 @@ declare namespace CP_API_EDITOR {
     methodList: string[];
     params: ICommonTemp;
     apiExecute: IApiExecute;
+    loopFormField: Array<import('app/configForm/form/form').FormField>;
   }
 
   interface IState {
@@ -80,6 +81,17 @@ declare namespace CP_API_EDITOR {
     apiSpecId?: number;
     stepId: number;
     apiSpec: API;
+    loop?: ILoop;
+  }
+
+  interface ILoop {
+    break?: string;
+    strategy?: {
+      max_times: number;
+      decline_ratio: number;
+      decline_limit_sec: number;
+      interval_sec: number;
+    };
   }
 
   interface IStateAttemptTest {
