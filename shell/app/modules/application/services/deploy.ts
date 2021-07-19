@@ -25,7 +25,7 @@ export const getExtensions = (query?: {
 }): DEPLOY.ExtensionAction[] | Obj<Obj<DEPLOY.ExtensionAction[]>> => {
   return agent
     .get('/api/extensions')
-    .query({ all: true, type: 'action', ...query })
+    .query({ public: true, type: 'action', ...query })
     .then((response: any) => response.body);
 };
 
