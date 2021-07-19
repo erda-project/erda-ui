@@ -186,7 +186,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
       </div>
       <div className="content">
         <div className="summary">
-          {i18n.t('{unreadCount} unread', {
+          {i18n.t('{unreadCount} messages unread', {
             unreadCount,
           })}
         </div>
