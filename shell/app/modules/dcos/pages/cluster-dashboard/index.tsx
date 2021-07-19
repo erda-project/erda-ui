@@ -132,7 +132,7 @@ const getMachineGridClass = (containerWidth: number) => {
   return gridClass;
 };
 
-const interpolationComp = (str: string, compMap: Record<string, React.Component>) => {
+const interpolationComp = (str: string, compMap: Record<string, React.Component | Element>) => {
   let left = str;
   const parts: any[] = [];
   const compNames = str.match(/<(\w+) \/>/g);
