@@ -151,7 +151,7 @@ const ConfigPageRender = (props: IProps) => {
 export default ConfigPageRender;
 
 // 根据配置中的container，获取到当前的所有的组件map
-const getContainerMap = (container: Obj<CONFIG_PAGE.Component>) => {
+const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
   const conMap = {};
   map(container, (config, cId) => {
     const Comp = fullContainerMap[config.type];
