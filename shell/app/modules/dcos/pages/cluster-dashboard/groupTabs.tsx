@@ -47,8 +47,6 @@ const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }:
     );
     if (isClickState) {
       setActiveKey('state');
-    } else {
-      setActiveKey('machine');
     }
   }, [isClickState, machineList]);
 

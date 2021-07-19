@@ -188,7 +188,7 @@ const SubMachineGroup = ({
                 <CustomIcon type="grow" />
               </span>
             </div>
-            <Holder when={!subMachines.length}>
+            <Holder when={!subMachines?.length}>
               <p className="group-info">
                 <span>
                   {i18n.t('machines')}：{subMetric.machines}
