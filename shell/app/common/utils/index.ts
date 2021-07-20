@@ -526,6 +526,7 @@ export const downloadFileAxios = (response: AxiosResponse<any>) => {
 export const interpolationComp = (str: string, compMap: Record<string, JSX.Element | string>) => {
   let left = str;
   const parts: Array<JSX.Element | string> = [];
+  //match components character such as <CompA />
   const compNames = str.match(/<(\w+) \/>/g);
   (compNames || []).forEach((m) => {
     const k = m.slice(1, -3);
