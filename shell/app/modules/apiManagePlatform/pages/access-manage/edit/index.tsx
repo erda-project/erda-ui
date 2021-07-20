@@ -399,9 +399,7 @@ const AccessEdit = () => {
   ];
   return (
     <Spin spinning={isLoading.some((t) => t)}>
-      <div>
-        <RenderForm list={fieldsList} layout="vertical" ref={formRef} />
-      </div>
+      <div>{(access.assetID || !accessID) && <RenderForm list={fieldsList} layout="vertical" ref={formRef} />}</div>
     </Spin>
   );
 };
