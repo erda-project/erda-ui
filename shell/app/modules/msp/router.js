@@ -12,72 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import getMonitorRouter from './monitor/monitor-overview';
-import getApiInsightRouter from 'api-insight';
 import getTopologyRouter from 'msp/monitor/topology';
 
 import i18n from 'i18n';
 
 import wrapper from './pages/wait-wrapper';
-
-const auditTabs = () => {
-  return [
-    {
-      key: 'package-analyze',
-      name: i18n.t('msp:endpoint analysis'),
-    },
-    {
-      key: 'consumer-analyze',
-      name: i18n.t('msp:consumer analysis'),
-    },
-    {
-      key: 'hotSpot-analyze',
-      name: i18n.t('msp:hot spot analysis'),
-    },
-    {
-      key: 'error-analyze',
-      name: i18n.t('msp:error analysis'),
-    },
-  ];
-};
-
-const auditRoute = {
-  path: 'consumer-audit', // 调用审计
-  mark: 'consumer-audit',
-  routes: [
-    {
-      path: 'package-analyze',
-      tabs: auditTabs,
-      ignoreTabQuery: true,
-      alwaysShowTabKey: 'package-analyze',
-      breadcrumbName: i18n.t('msp:endpoint analysis'),
-      getComp: (cb) => cb(import('msp/pages/gateway/containers/consumer-audit/package-analyze'), 'PackageAnalyze'),
-    },
-    {
-      path: 'consumer-analyze',
-      tabs: auditTabs,
-      ignoreTabQuery: true,
-      alwaysShowTabKey: 'consumer-analyze',
-      breadcrumbName: i18n.t('msp:consumer analysis'),
-      getComp: (cb) => cb(import('msp/pages/gateway/containers/consumer-audit/consumer-analyze'), 'ConsumerAnalyze'),
-    },
-    {
-      path: 'hotSpot-analyze',
-      tabs: auditTabs,
-      ignoreTabQuery: true,
-      alwaysShowTabKey: 'hotSpot-analyze',
-      breadcrumbName: i18n.t('msp:hot spot analysis'),
-      getComp: (cb) => cb(import('msp/pages/gateway/containers/consumer-audit/hotSpot-analyze'), 'HotSpotAnalyze'),
-    },
-    {
-      path: 'error-analyze',
-      tabs: auditTabs,
-      ignoreTabQuery: true,
-      alwaysShowTabKey: 'error-analyze',
-      breadcrumbName: i18n.t('msp:error analysis'),
-      getComp: (cb) => cb(import('msp/pages/gateway/containers/consumer-audit/error-analyze'), 'ErrorAnalyze'),
-    },
-  ],
-};
 
 const injectWrapper = (route) => {
   route.wrapper = wrapper;
@@ -189,106 +128,6 @@ function getMspRouter() {
             },
 
             // 网关
-            {
-              path: 'gateway',
-              mark: 'gateway-route',
-              routes: [
-                {
-                  path: 'apis', // API管理
-                  mark: 'api',
-                  breadcrumbName: i18n.t('msp:microService API management'),
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('msp/pages/gateway/containers/api')),
-                    },
-                    getApiInsightRouter(), // API 分析
-                  ],
-                },
-                {
-                  path: 'api-package', // 入口流量管理
-                  breadcrumbName: i18n.t('msp:endpoints'),
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('msp/pages/gateway/containers/api-package'), 'ApiPackage'),
-                    },
-                    {
-                      path: 'create',
-                      breadcrumbName: i18n.t('msp:create a endpoint'),
-                      getComp: (cb) => cb(import('msp/pages/gateway/containers/api-package-create')),
-                    },
-                    auditRoute,
-                    {
-                      path: ':packageId/edit',
-                      breadcrumbName: i18n.t('msp:edit a endpoint'),
-                      getComp: (cb) => cb(import('msp/pages/gateway/containers/api-package-create')),
-                    },
-                    {
-                      path: ':packageId/detail',
-                      breadcrumbName: i18n.t('msp:endpoint details'),
-                      routes: [
-                        {
-                          getComp: (cb) =>
-                            cb(import('msp/pages/gateway/containers/api-package-detail'), 'ApiPackageDetail'),
-                        },
-                        {
-                          path: 'api-policies', // API 策略
-                          breadcrumbName: i18n.t('msp:API policies'),
-                          routes: [
-                            {
-                              path: 'safety-policy',
-                              tabs: [
-                                { key: 'api-policies/safety-policy', name: i18n.t('msp:security strategy') },
-                                { key: 'api-policies/business-policy', name: i18n.t('msp:business strategy') },
-                              ],
-                              alwaysShowTabKey: 'api-policies/safety-policy',
-                              getComp: (cb) => cb(import('msp/pages/gateway/containers/safety-policy'), 'SafetyPolicy'),
-                            },
-                            {
-                              path: 'business-policy',
-                              tabs: [
-                                { key: 'api-policies/safety-policy', name: i18n.t('msp:security strategy') },
-                                { key: 'api-policies/business-policy', name: i18n.t('msp:business strategy') },
-                              ],
-                              alwaysShowTabKey: 'api-policies/business-policy',
-                              getComp: (cb) =>
-                                cb(import('msp/pages/gateway/containers/business-policy'), 'BusinessPolicy'),
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  path: 'consumer', // 调用方管理·
-                  breadcrumbName: i18n.t('msp:consumer management'),
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('msp/pages/gateway/containers/consumer-manage'), 'ConsumerManage'),
-                    },
-                    auditRoute,
-                  ],
-                },
-                {
-                  path: 'old-policies', // 非k8s才用，API策略
-                  mark: 'old-policies',
-                  breadcrumbName: i18n.t('msp:API policies'),
-                  routes: [
-                    {
-                      path: 'traffic-policy',
-                      tabs: [{ key: 'api-policies/traffic-policy', name: i18n.t('msp:control strategy') }],
-                      alwaysShowTabKey: 'api-policies/traffic-policy',
-                      getComp: (cb) => cb(import('msp/pages/gateway/containers/traffic-policy'), 'TrafficPolicy'),
-                    },
-                  ],
-                },
-                {
-                  path: 'old-consumer', // 非k8s时才用，调用者授权
-                  breadcrumbName: i18n.t('msp:consumer authorization'),
-                  getComp: (cb) => cb(import('msp/pages/gateway/containers/invoker-authorization')),
-                },
-              ],
-            },
 
             // 配置管理
             {
