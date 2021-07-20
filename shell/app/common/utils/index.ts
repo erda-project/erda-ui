@@ -517,3 +517,22 @@ export const downloadFileAxios = (response: AxiosResponse<any>) => {
     window.URL.revokeObjectURL(fileUrl);
   }, 100);
 };
+
+/**
+ * Replace strings with components
+ * @param str strings
+ * @param compMap components
+ */
+export const interpolationComp = (str: string, compMap: Record<string, JSX.Element>) => {
+  let left = str;
+  const parts: Array<JSX.Element | string> = [];
+  const compNames = str.match(/<(\w+) \/>/g);
+  (compNames || []).forEach((m) => {
+    const k = m.slice(1, -3);
+    const [before, after] = left.split(m);
+    parts.push(before, compMap[k]);
+    left = after;
+  });
+  parts.push(left);
+  return parts;
+};

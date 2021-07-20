@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import { Row, Col, Select, Tooltip, message, TreeSelect, Spin } from 'app/nusi';
 import { useComponentWidth } from 'app/common/components/use-hooks';
 import { IF, Holder, Icon as CustomIcon } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, interpolationComp } from 'common/utils';
 import GroupTabs from './groupTabs';
 import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
@@ -130,20 +130,6 @@ const getMachineGridClass = (containerWidth: number) => {
   }
 
   return gridClass;
-};
-
-const interpolationComp = (str: string, compMap: Record<string, React.Component | Element>) => {
-  let left = str;
-  const parts: any[] = [];
-  const compNames = str.match(/<(\w+) \/>/g);
-  (compNames || []).forEach((m) => {
-    const k = m.slice(1, -3);
-    const [before, after] = left.split(m);
-    parts.push(before, compMap[k]);
-    left = after;
-  });
-  parts.push(left);
-  return parts;
 };
 
 const SubMachineGroup = ({
@@ -634,11 +620,13 @@ const ClusterDashboard = () => {
             <div className="text-desc">
               {interpolationComp(
                 i18n.t(
-                  'cmp:no cluster currently exists, you can click <CompA />, you can also view <CompB /> to learn more',
+                  'cmp:no cluster currently exists, you can click <CreateClusterLink />, you can also view <DocumentationHref /> to learn more',
                 ),
                 {
-                  CompA: <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>,
-                  CompB: (
+                  CreateClusterLink: (
+                    <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
+                  ),
+                  DocumentationHref: (
                     <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
                       {i18n.t('documentation')}
                     </a>

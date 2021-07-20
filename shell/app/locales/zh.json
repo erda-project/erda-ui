@@ -666,7 +666,7 @@
     "management method": "管理方式",
     "must be odd and cannot be greater than 15": "必须为奇数，且不能大于15",
     "network configuration": "网络配置",
-    "no cluster currently exists, you can click <CompA />, you can also view <CompB /> to learn more": "当前没有任何集群存在，可以点击 <CompA />，也可以通过浏览 <CompB /> 来详细了解",
+    "no cluster currently exists, you can click <CreateClusterLink />, you can also view <DocumentationHref /> to learn more": "当前没有任何集群存在，可以点击 <CreateClusterLink />，也可以通过浏览 <DocumentationHref /> 来详细了解",
     "note": "注意",
     "number": "数量",
     "number of Bucket": "Bucket数",
