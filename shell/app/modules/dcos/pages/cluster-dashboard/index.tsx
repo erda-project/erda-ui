@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import { Row, Col, Select, Tooltip, message, TreeSelect, Spin } from 'app/nusi';
 import { useComponentWidth } from 'app/common/components/use-hooks';
 import { IF, Holder, Icon as CustomIcon } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, interpolationComp } from 'common/utils';
 import GroupTabs from './groupTabs';
 import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
@@ -188,7 +188,7 @@ const SubMachineGroup = ({
                 <CustomIcon type="grow" />
               </span>
             </div>
-            <Holder when={!subMachines.length}>
+            <Holder when={!subMachines?.length}>
               <p className="group-info">
                 <span>
                   {i18n.t('machines')}：{subMetric.machines}
@@ -618,13 +618,21 @@ const ClusterDashboard = () => {
           <div className="flex flex-col justify-center items-center h-full">
             <div className="font-medium text-2xl mb-2">{i18n.t('cmp:quick start')}</div>
             <div className="text-desc">
-              {i18n.t('cmp:no cluster currently exists, you can click')}{' '}
-              <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
-              ，也可以通过浏览{' '}
-              <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
-                {i18n.t('documentation')}
-              </a>{' '}
-              {i18n.t('cmp:to learn more')}
+              {interpolationComp(
+                i18n.t(
+                  'cmp:no cluster currently exists, you can click <CreateClusterLink />, you can also view <DocumentationHref /> to learn more',
+                ),
+                {
+                  CreateClusterLink: (
+                    <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
+                  ),
+                  DocumentationHref: (
+                    <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
+                      {i18n.t('documentation')}
+                    </a>
+                  ),
+                },
+              )}
             </div>
             <img className="w-80 h-80" src={noClusterPng} />
           </div>

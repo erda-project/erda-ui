@@ -255,7 +255,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         {operateList.length > 3 ? (
           <>
             {operateList.slice(0, 3)}
-            <Popover content={operateList.slice(3)}>
+            <Popover content={operateList.slice(3)} overlayClassName="z-50">
               <CustomIcon className="fake-link ml4" type="more" />
             </Popover>
           </>
@@ -302,11 +302,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:description'),
       dataIndex: 'description',
+      ellipsis: true,
       render: (text) => text || '_',
     },
     {
       title: i18n.t('application:type'),
       dataIndex: 'clusterType',
+      width: 125,
+      ellipsis: true,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const clusterType: keyof typeof clusterTypeMap = get(clusterDetail, 'basic.clusterType.value');
