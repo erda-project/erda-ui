@@ -55,6 +55,7 @@ module.exports = {
         'shallow-primary': '#6a549e99', // rgba($primary, .6)
         'light-gray': '#bbbbbb',
         'dark-8': '#000000cc',
+        'dark-6': '#00000066',
         'dark-2': '#00000033',
         'dark-1': '#00000019',
         'dark-04': '#0000000a',
