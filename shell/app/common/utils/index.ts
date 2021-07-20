@@ -523,7 +523,7 @@ export const downloadFileAxios = (response: AxiosResponse<any>) => {
  * @param str strings
  * @param compMap components
  */
-export const interpolationComp = (str: string, compMap: Record<string, JSX.Element>) => {
+export const interpolationComp = (str: string, compMap: Record<string, JSX.Element | string>) => {
   let left = str;
   const parts: Array<JSX.Element | string> = [];
   const compNames = str.match(/<(\w+) \/>/g);

@@ -37,6 +37,7 @@ import {
   batchExecute,
   validators,
   getTimeRanges,
+  interpolationComp,
 } from 'common/utils';
 import { describe, it, jest } from '@jest/globals';
 
@@ -196,5 +197,13 @@ describe('utils', () => {
   it('getTimeRanges should work well', () => {
     const range = getTimeRanges();
     expect(Object.keys(range)).toHaveLength(7);
+  });
+  it('interpolationComp should work well', () => {
+    const str = 'This is a test data, test <One />, test <Two />';
+    const compMap = {
+      One: 'one',
+      Two: 'two',
+    };
+    expect(interpolationComp(str, compMap).join('')).toBe('This is a test data, test one, test two');
   });
 });
