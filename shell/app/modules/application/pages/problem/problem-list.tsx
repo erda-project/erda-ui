@@ -97,7 +97,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
     {
       title: i18n.t('type'),
       dataIndex: 'type',
-      width: 140,
+      width: 120,
       render: (text) => {
         const type = getProblemType().find((t) => t.value === text);
         return type ? type.name : '-';
@@ -106,7 +106,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
     {
       title: i18n.t('application:priority'),
       dataIndex: 'priority',
-      width: 90,
+      width: 96,
       render: (text) => {
         const priority: any = ProblemPriority.find((t: any) => t.value === text);
         return <span className={priority.color}>{priority.name}</span>;
@@ -115,19 +115,19 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
     {
       title: i18n.t('creator'),
       dataIndex: 'creator',
-      width: 150,
+      width: 120,
     },
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
-      width: 120,
+      width: 176,
       render: (text) => fromNow(text),
     },
     ...insertWhen(ticketType !== 'open', [
       {
         title: i18n.t('close person'),
         dataIndex: 'content',
-        width: 150,
+        width: 120,
         render: (_text, record) => {
           return record.status === 'closed' ? record.lastOperatorUser : '';
         },
@@ -135,7 +135,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
       {
         title: i18n.t('close time'),
         dataIndex: 'status',
-        width: 120,
+        width: 176,
         render: (text, record) => (text === 'closed' ? fromNow(record[updateKeyMap[text]]) : ''),
       },
     ] as Array<ColumnProps<PROBLEM.Ticket>>),
@@ -164,6 +164,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
               },
             };
           }}
+          scroll={{ x: 1100 }}
         />
       </Spin>
     </React.Fragment>

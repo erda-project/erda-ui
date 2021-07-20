@@ -143,10 +143,12 @@ const extraColumnsMap = {
     {
       title: i18n.t('project:deployment environment'),
       dataIndex: 'workspace',
+      width: 196,
     },
     {
       title: i18n.t('project:artifact deployment environment'),
       dataIndex: 'artifactWorkspace',
+      width: 244,
     },
     // {
     //   title: i18n.t('project:app release confirmation'),
@@ -229,6 +231,7 @@ const BranchRule = (props: IProps) => {
     {
       title: i18n.t('application:branch'),
       dataIndex: 'rule',
+      width: 184,
     },
     ...(extraColumnsMap[scopeType] || []),
     {
@@ -239,7 +242,7 @@ const BranchRule = (props: IProps) => {
       title: i18n.t('common:operation'),
       key: 'operation',
       fixed: 'right',
-      width: 150,
+      width: 152,
       align: 'center',
       render: (_: any, record: PROJECT.IBranchRule) => {
         return (
@@ -320,7 +323,7 @@ const BranchRule = (props: IProps) => {
           </Button>
         </WithAuth>
       </div>
-      <Table rowKey="id" dataSource={branchRules} columns={columns} scroll={{ x: '100%' }} />
+      <Table rowKey="id" dataSource={branchRules} columns={columns} scroll={{ x: 900 }} />
       <FormModal
         name={i18n.t('project:branch rule')}
         onCancel={onCancel}

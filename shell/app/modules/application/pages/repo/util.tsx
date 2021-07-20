@@ -29,7 +29,7 @@ export const renderAsLink = (
 ) => {
   const link = mergeRepoPathWith(`/${replace}/${commitHash}`);
   return (
-    <Link className={`as-link ${className}`} to={link} onClick={(e) => e.stopPropagation()}>
+    <Link className={`as-link ${className}`} to={link} onClick={(e) => e.stopPropagation()} title={text}>
       {text}
     </Link>
   );

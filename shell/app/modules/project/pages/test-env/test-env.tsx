@@ -22,6 +22,7 @@ import './test-env.scss';
 import { PAGINATION } from 'app/constants';
 import routeInfoStore from 'core/stores/route';
 import { insertWhen } from 'common/utils';
+import { ColumnProps } from 'core/common/interface';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
 
 interface IProps {
@@ -77,63 +78,65 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
   );
 
   const columns = React.useMemo(
-    () => [
-      ...insertWhen(testType === 'manual', [
+    () =>
+      [
+        ...insertWhen(testType === 'manual', [
+          {
+            title: i18n.t('project:environment name'),
+            dataIndex: 'name',
+            width: 300,
+          },
+          {
+            title: i18n.t('project:environmental domain name'),
+            dataIndex: 'domain',
+            render: (text: string) => text || '--',
+          },
+        ]),
+        ...insertWhen(testType === 'auto', [
+          {
+            title: i18n.t('application:name'),
+            dataIndex: 'displayName',
+            width: 300,
+          },
+          {
+            title: i18n.t('application:description'),
+            dataIndex: 'desc',
+          },
+        ]),
         {
-          title: i18n.t('project:environment name'),
-          dataIndex: 'name',
-          width: 300,
-        },
-        {
-          title: i18n.t('project:environmental domain name'),
-          dataIndex: 'domain',
-          render: (text: string) => text || '--',
-        },
-      ]),
-      ...insertWhen(testType === 'auto', [
-        {
-          title: i18n.t('application:name'),
-          dataIndex: 'displayName',
-          width: 300,
-        },
-        {
-          title: i18n.t('application:description'),
-          dataIndex: 'desc',
-        },
-      ]),
-      {
-        title: i18n.t('project:operation'),
-        key: 'ops',
-        width: 120,
-        render: (_text: any, record: TEST_ENV.Item) => (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleOpenDetail(record, true);
-              }}
-            >
-              {i18n.t('edit')}
-            </span>
-            <Popconfirm
-              title={i18n.t('project:confirm to delete?')}
-              onConfirm={(e) => {
-                if (e !== undefined) {
+          title: i18n.t('project:operation'),
+          key: 'ops',
+          width: 180,
+          fixed: 'right',
+          render: (_text: any, record: TEST_ENV.Item) => (
+            <div className="table-operations">
+              <span
+                className="table-operations-btn"
+                onClick={(e) => {
                   e.stopPropagation();
-                }
-                onDeleteHandle(record);
-              }}
-              onCancel={(e) => e && e.stopPropagation()}
-            >
-              <span className="table-operations-btn" onClick={(e) => e.stopPropagation()}>
-                {i18n.t('delete')}
+                  handleOpenDetail(record, true);
+                }}
+              >
+                {i18n.t('edit')}
               </span>
-            </Popconfirm>
-          </div>
-        ),
-      },
-    ],
+              <Popconfirm
+                title={i18n.t('project:confirm to delete?')}
+                onConfirm={(e) => {
+                  if (e !== undefined) {
+                    e.stopPropagation();
+                  }
+                  onDeleteHandle(record);
+                }}
+                onCancel={(e) => e && e.stopPropagation()}
+              >
+                <span className="table-operations-btn" onClick={(e) => e.stopPropagation()}>
+                  {i18n.t('delete')}
+                </span>
+              </Popconfirm>
+            </div>
+          ),
+        },
+      ] as Array<ColumnProps<TEST_ENV.Item>>,
     [onDeleteHandle, testType],
   );
 
@@ -178,7 +181,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
         dataSource={testType === 'manual' ? envList : autoEnvList}
         pagination={{ pageSize: PAGINATION.pageSize }}
         onRow={onRowClick}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <TestEnvDetail
         envID={envID}

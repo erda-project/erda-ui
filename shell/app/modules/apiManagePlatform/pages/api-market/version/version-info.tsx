@@ -217,6 +217,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('default:version number'),
       dataIndex: ['version', 'major'],
+      width: 128,
       render: (_text, { version: { major, minor, patch } }) => `${major}.${minor}.${patch}`,
     },
     {
@@ -227,6 +228,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('creator'),
       dataIndex: ['version', 'creatorID'],
+      width: 128,
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
@@ -238,7 +240,8 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('operate'),
       dataIndex: ['version', 'id'],
-      width: 200,
+      width: 264,
+      fixed: 'right',
       render: (_text, { version }) => (
         <TableActions>
           <span
@@ -325,7 +328,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
               },
             };
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
       </div>
       <ExportFile

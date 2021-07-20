@@ -229,7 +229,7 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Issue) => {
         return (
           <Tooltip title={val}>
-            <div className="pointer nowrap pl8 v-align full-width" onClick={() => clickTicket(record)}>
+            <div className="pointer nowrap pl8 full-width truncate" onClick={() => clickTicket(record)}>
               {val}
             </div>
           </Tooltip>
@@ -299,7 +299,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
-      width: 80,
+      width: 104,
       render: (val: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -318,7 +318,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:severity'),
       dataIndex: 'severity',
-      width: 100,
+      width: 104,
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -337,7 +337,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:assignee'),
       dataIndex: 'assignee',
-      width: 120,
+      width: 136,
       render: (v: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -443,7 +443,7 @@ const Ticket = () => {
         dataSource={list}
         rowKey="id"
         pagination={pagination}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <EditIssueDrawer
         id={detailId}

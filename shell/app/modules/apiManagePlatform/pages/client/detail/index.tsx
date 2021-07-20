@@ -178,6 +178,7 @@ const ClientDetail = () => {
       {
         title: i18n.t('API name'),
         dataIndex: 'assetName',
+        width: 200,
         render: (text, record) => {
           return (
             <div className="flex-box flex-start">
@@ -203,6 +204,7 @@ const ClientDetail = () => {
       {
         title: i18n.t('version'),
         dataIndex: 'swaggerVersion',
+        width: 160,
       },
     ];
     if (statue === 'proved') {
@@ -220,6 +222,7 @@ const ClientDetail = () => {
             title: i18n.t('operation'),
             width: '150',
             dataIndex: 'id',
+            fixed: 'right',
             render: (_id: number, record: API_CLIENT.Contract) => (
               <TableActions>
                 <span
@@ -267,7 +270,7 @@ const ClientDetail = () => {
                 onChange={(pagination) => {
                   handleChangeTable(value, pagination);
                 }}
-                scroll={{ x: '100%' }}
+                scroll={{ x: 800 }}
               />
             </TabPane>
           ))}

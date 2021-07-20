@@ -16,6 +16,7 @@ import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
 import { getTimeRanges } from 'common/utils';
+import { ColumnProps } from 'core/common/interface';
 import { Select, DatePicker, Table, Drawer } from 'app/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
@@ -212,33 +213,36 @@ export default () => {
     [traceCount],
   );
 
-  const columns = [
+  const columns: Array<ColumnProps<object>> = [
     {
       title: i18n.t('msp:trace id'),
       dataIndex: 'id',
-      width: 350,
       render: (id: string) => <Copy>{id}</Copy>,
     },
     {
       title: i18n.t('msp:time consuming'),
       dataIndex: 'elapsed',
+      width: 224,
       sorter: (a: any, b: any) => a.elapsed - b.elapsed,
       render: (elapsed: number) => getFormatter('TIME', 'ns').format(elapsed),
     },
     {
       title: i18n.t('msp:start time'),
       dataIndex: 'startTime',
+      width: 184,
       render: (time: number) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('service'),
       dataIndex: 'services',
+      width: 224,
       render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
     },
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operation',
-      width: 180,
+      width: 184,
+      fixed: 'right',
       render: (_: any, record: any) => (
         <div className="table-operations">
           <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
@@ -255,7 +259,7 @@ export default () => {
       <div className="mb24">
         <PureBoardGrid layout={layout} />
       </div>
-      <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: '100%' }} />
+      <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
       <Drawer
         title={i18n.t('msp:link information')}
         visible={detailVisible}

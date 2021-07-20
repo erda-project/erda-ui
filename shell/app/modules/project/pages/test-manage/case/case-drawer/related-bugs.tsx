@@ -110,7 +110,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         return (
           <Tooltip placement="topLeft" title={text}>
             <div
-              className="flex-box flex-start text-link nowrap"
+              className="flex-box flex-start text-link nowrap truncate"
               onClick={() => {
                 goToBugs(record);
               }}
@@ -125,7 +125,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('default:status'),
       dataIndex: 'state',
-      width: 90,
+      width: 96,
       render: (stateName: string, record: any) => {
         return stateName ? (
           <div className="v-align">
@@ -138,7 +138,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
-      width: 70,
+      width: 80,
       render: (text: string) =>
         ISSUE_PRIORITY_MAP[text] ? (
           <>
@@ -152,13 +152,14 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
-      width: 180,
+      width: 184,
       render: (text: string) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: null,
       dataIndex: 'operate',
-      width: 80,
+      width: 144,
+      fixed: 'right',
       render: (text, { issueRelationID }: TEST_CASE.RelatedBug) => {
         return [
           <div className="table-operations">
@@ -261,7 +262,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
           </Button>
         </div>
       ) : null}
-      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: '100%' }} />
+      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: 800 }} />
     </div>
   );
 };

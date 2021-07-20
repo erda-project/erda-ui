@@ -72,11 +72,13 @@ const ClientList = () => {
     {
       title: i18n.t('client name'),
       dataIndex: ['client', 'displayName'],
+      width: 200,
       render: (text, record) => text || record.client.name,
     },
     {
       title: i18n.t('client identifier'),
       dataIndex: ['client', 'name'],
+      width: 200,
     },
     {
       title: i18n.t('description'),
@@ -85,7 +87,8 @@ const ClientList = () => {
     {
       title: i18n.t('operation'),
       dataIndex: ['client', 'id'],
-      width: 120,
+      width: 160,
+      fixed: 'right',
       render: (text, record) => {
         return (
           <TableActions>
@@ -135,7 +138,7 @@ const ClientList = () => {
             },
           };
         }}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <Modal
         title={i18n.t('client info')}

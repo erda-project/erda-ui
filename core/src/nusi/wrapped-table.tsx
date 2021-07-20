@@ -13,24 +13,56 @@
 
 import * as React from 'react';
 import { Table } from 'antd';
-import { ColumnProps, TableProps } from 'antd/lib/table';
+import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
 
-interface NewColumnsProps extends ColumnProps<object> {
-  size?: string;
+export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
+  /**
+   * 64px对应两个中文字符，或者四个英文字符，每增加16px多增加一个中文字符或者两个英文字符
+   *
+   * 超过320px的列可以不写宽度来自适应，但是要加scroll.x，以免宽度太小
+   */
+  width?:
+    | 64
+    | 72
+    | 80
+    | 88
+    | 96
+    | 104
+    | 112
+    | 120
+    | 128
+    | 136
+    | 144
+    | 152
+    | 160
+    | 168
+    | 176
+    | 184
+    | 192
+    | 200
+    | 208
+    | 216
+    | 224
+    | 232
+    | 240
+    | 248
+    | 256
+    | 264
+    | 272
+    | 280
+    | 296
+    | 304
+    | 312
+    | 320;
 }
 
-const sizeWidth: { [key: string]: number } = {
-  s: 120,
-  m: 240,
-  l: 360,
-  xl: 480,
-  xxl: 600,
-};
+interface IProps extends TableProps<object> {
+  columns: Array<ColumnProps<object>>;
+}
 
-const WrappedTable = (({ columns, ...props }: TableProps<object>) => {
-  const newColumns = columns?.map(({ size, width, ...args }: NewColumnsProps) => ({
-    width: width || sizeWidth[size],
-    ellipsis: !!(width || size),
+const WrappedTable = (({ columns, ...props }: IProps) => {
+  const newColumns = columns?.map(({ width, ...args }: ColumnProps<object>) => ({
+    ellipsis: true,
     ...args,
   }));
   return <Table scroll={{ x: '100%' }} columns={newColumns} {...props} />;

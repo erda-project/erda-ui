@@ -170,7 +170,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
             dataSource={dataSource}
             pagination={false}
             rowKey="name"
-            scroll={{ x: '100%' }}
+            scroll={{ x: 800 }}
             onRow={({ name, id }) => {
               const tropicalPathName = encodeURI(name);
               return {
@@ -189,11 +189,11 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Name',
                 dataIndex: 'name',
-                width: '30%',
+                width: 220,
                 render: (text, record) => {
                   const iconProps = record.type === 'tree' ? { type: 'folder' } : { type: 'page' };
                   return (
-                    <span className="column-name">
+                    <span className="column-name" title={text}>
                       {record.type ? <CustomIcon className="mr8" {...iconProps} /> : null}
                       {text}
                     </span>
@@ -203,7 +203,6 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Last Commit',
                 dataIndex: ['commit', 'commitMessage'],
-                width: '55%',
                 render: (text, record) => (
                   <Skeleton active loading={!record.commit} paragraph={false}>
                     {renderAsLink(
@@ -218,7 +217,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Last Update',
                 dataIndex: ['commit', 'author', 'when'],
-                width: 115,
+                width: 220,
                 render: (text) => (text ? fromNow(text) : ''),
               },
             ]}

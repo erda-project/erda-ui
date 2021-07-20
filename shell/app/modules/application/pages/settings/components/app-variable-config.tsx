@@ -15,6 +15,7 @@ import { useLoading } from 'core/stores/loading';
 import configStore from 'app/modules/application/stores/pipeline-config';
 import appStore from 'application/stores/application';
 import { Copy, IF, useUpdate, CustomFilter, FileEditor } from 'common';
+import { ColumnProps } from 'core/common/interface';
 import { WORKSPACE_LIST } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
@@ -203,14 +204,15 @@ const VariableConfig = ({
     });
   };
 
-  const getColumns = (_env: string) => [
+  const getColumns = (_env: string): Array<ColumnProps<IKey>> => [
     {
       title: 'Key',
       dataIndex: 'key',
+      width: 176,
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
         <div className="flex-box">
-          <span className="for-copy nowrap" data-clipboard-text={text}>
+          <span className="for-copy nowrap" data-clipboard-text={text} title={text}>
             {text}
           </span>
           <span>
@@ -228,6 +230,7 @@ const VariableConfig = ({
       title: 'Value',
       dataIndex: 'value',
       className: 'nowrap',
+      width: 176,
       render: (text: string, record: IKey) => {
         return record.type === typeMap.kv ? (
           record.encrypt ? (
@@ -247,6 +250,7 @@ const VariableConfig = ({
     {
       title: i18n.t('application:type'),
       dataIndex: 'type',
+      width: 96,
       render: (text: string) => (text === typeMap.kv ? i18n.t('application:value') : i18n.t('application:file')),
     },
     {
@@ -257,7 +261,8 @@ const VariableConfig = ({
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operations',
-      width: 160,
+      width: 192,
+      fixed: 'right',
       render: (operations: IKeyOperations, record: IKey) => {
         const { canDelete, canDownload, canEdit } = operations || {};
         const { encrypt } = record;
@@ -380,7 +385,7 @@ const VariableConfig = ({
                     </Button>
                   </>
                 )}
-                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} scroll={{ x: '100%' }} />
+                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} scroll={{ x: 800 }} />
               </Panel>
             );
           })}

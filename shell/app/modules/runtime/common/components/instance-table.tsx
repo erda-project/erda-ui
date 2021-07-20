@@ -84,7 +84,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     {
       title: i18n.t('runtime:instance ip'),
       dataIndex: 'ipAddress',
-      // width: 100,
+      width: 112,
       render: (text: string, record: { [prop: string]: any }) => {
         const { status } = record;
         return withHeader ? (
@@ -101,13 +101,13 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     },
     {
       title: i18n.t('runtime:host address'),
-      // width: 100,
+      width: 120,
       dataIndex: 'host',
     },
     {
       title: i18n.t('runtime:status'),
       dataIndex: 'status',
-      width: 150,
+      // width: 150,
       className: 'th-status',
       render: (text: string, record: any) => {
         const { message } = record;
@@ -121,7 +121,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     },
     {
       title: i18n.t('create time'),
-      width: 170,
+      width: 176,
       dataIndex: 'startedAt',
       className: 'th-time nowrap',
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
@@ -159,7 +159,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
         }}
         loading={isFetching}
         pagination={paginationMap[pagingType]}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
         {...tableProps}
       />
     </div>

@@ -16,6 +16,7 @@ import { usePerm } from 'app/user/common';
 import userStore from 'app/user/stores';
 import appMemberStore from 'common/stores/application-member';
 import { AddMemberModal, Copy, FilterGroup, FormModal, IF, DropdownSelect } from 'common';
+import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import { AuthorizeMemberModal } from './authorize-member-modal';
 import i18n from 'i18n';
@@ -331,138 +332,152 @@ export const MembersTable = ({
   );
 
   const columns = React.useMemo(
-    () => [
-      {
-        title: i18n.t('nickname'),
-        dataIndex: 'nick',
-        render: (nick: string, record: IMember) => {
-          const { userId, removed } = record;
-          return (
-            <div className="member-username nowrap">
-              <span>{nick || i18n.t('common:none')}</span>
-              <IF check={currentUserId === userId}>
-                <span className="member-username-info"> [{i18n.t('current user')}]</span>
-              </IF>
-              <IF check={removed}>
-                <span className="member-username-info"> [{i18n.t('exit the organization')}]</span>
-              </IF>
-            </div>
-          );
+    () =>
+      [
+        {
+          title: i18n.t('nickname'),
+          dataIndex: 'nick',
+          width: 184,
+          render: (nick: string, record: IMember) => {
+            const { userId, removed } = record;
+            return (
+              <div
+                className="member-username nowrap"
+                title={`${nick} ${(currentUserId === userId && i18n.t('current user')) || ''} ${
+                  (removed && i18n.t('exit the organization')) || ''
+                }`}
+              >
+                <span>{nick || i18n.t('common:none')}</span>
+                <IF check={currentUserId === userId}>
+                  <span className="member-username-info"> [{i18n.t('current user')}]</span>
+                </IF>
+                <IF check={removed}>
+                  <span className="member-username-info"> [{i18n.t('exit the organization')}]</span>
+                </IF>
+              </div>
+            );
+          },
         },
-      },
-      {
-        title: i18n.t('user name'),
-        dataIndex: 'name',
-        render: (name: string) => {
-          return (
-            <div className="member-username nowrap">
-              <span>{name || i18n.t('common:none')}</span>
-            </div>
-          );
+        {
+          title: i18n.t('user name'),
+          dataIndex: 'name',
+          width: 184,
+          render: (name: string) => {
+            return (
+              <div className="member-username nowrap" title={name || i18n.t('common:none')}>
+                <span>{name || i18n.t('common:none')}</span>
+              </div>
+            );
+          },
         },
-      },
-      {
-        title: 'Email',
-        dataIndex: 'email',
-        render: (value: string) => (
-          <Tooltip title={value}>
-            <span className="for-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
+        {
+          title: 'Email',
+          dataIndex: 'email',
+          width: 184,
+          render: (value: string) => (
+            <Tooltip title={value}>
+              <span className="for-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
+                {value || i18n.t('common:none')}
+              </span>
+            </Tooltip>
+          ),
+        },
+        {
+          title: i18n.t('cellphone'),
+          dataIndex: 'mobile',
+          render: (value: string | number) => (
+            <span className="for-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
               {value || i18n.t('common:none')}
             </span>
-          </Tooltip>
-        ),
-      },
-      {
-        title: i18n.t('cellphone'),
-        dataIndex: 'mobile',
-        render: (value: string | number) => (
-          <span className="for-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
-            {value || i18n.t('common:none')}
-          </span>
-        ),
-      },
-      {
-        title: i18n.t('role'),
-        dataIndex: 'roles',
-        render: (roles: string[]) => {
-          const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
-          return (
-            <div className="members-list-role-operate nowrap">
-              <Tooltip title={rolesStr}>
-                <span className="role-tag">{rolesStr}</span>
-              </Tooltip>
-            </div>
-          );
+          ),
         },
-      },
-      ...insertWhen(scope.type === MemberScope.ORG, [
         {
-          title: i18n.t('member label'),
-          dataIndex: 'labels',
-          render: (val: string[]) => {
-            const curLabels = map(val, (item) => {
-              const labelObj = find(memberLabels, { label: item }) || { name: item, label: item };
-              return (
-                <div className="members-list-label-item" key={labelObj.label}>
-                  {labelObj.name}
-                </div>
-              );
-            });
+          title: i18n.t('role'),
+          dataIndex: 'roles',
+          width: 184,
+          render: (roles: string[]) => {
+            const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
             return (
-              <div className="members-list-label nowrap">
-                <Tooltip
-                  title={curLabels}
-                  getPopupContainer={(triggerNode: unknown) => get(triggerNode, 'parentElement')}
-                >
-                  {curLabels}
+              <div className="members-list-role-operate nowrap">
+                <Tooltip title={rolesStr}>
+                  <span className="role-tag">{rolesStr}</span>
                 </Tooltip>
               </div>
             );
           },
         },
-      ]),
-      ...insertWhen(!readOnly, [
-        {
-          title: i18n.t('operations'),
-          key: 'op',
-          width: 150,
-          fixed: 'right',
-          render: (record: IMember) => {
-            const { userId, removed, labels } = record;
-            const isCurrentUser = currentUserId === userId;
-            const editOp = memberAuth.edit ? (
-              <span
-                className="table-operations-btn"
-                key="edit"
-                onClick={() => updater.editMember({ ...record, labels: labels || [] })}
-              >
-                {i18n.t('edit')}
-              </span>
-            ) : null;
-            const removeOp =
-              isCurrentUser || memberAuth.delete ? (
-                <span className="table-operations-btn" key="del" onClick={() => confirmDelete(record, isCurrentUser)}>
-                  {isCurrentUser ? i18n.t('exit') : memberAuth.delete ? i18n.t('remove') : null}
-                </span>
-              ) : null;
-            const authorizeOp =
-              showAuthorize && memberAuth.showAuthorize ? (
-                <span className="table-operations-btn" key="authorize" onClick={() => updater.authorizeMember(record)}>
-                  {i18n.t('authorize')}
-                </span>
-              ) : null;
-
-            return (
-              <div className="table-operations">
-                {updateMembers && !removed ? editOp : null}
-                {authorizeOp}
-                {removeOp}
-              </div>
-            );
+        ...insertWhen(scope.type === MemberScope.ORG, [
+          {
+            title: i18n.t('member label'),
+            dataIndex: 'labels',
+            render: (val: string[]) => {
+              const curLabels = map(val, (item) => {
+                const labelObj = find(memberLabels, { label: item }) || { name: item, label: item };
+                return (
+                  <div className="members-list-label-item" key={labelObj.label}>
+                    {labelObj.name}
+                  </div>
+                );
+              });
+              return (
+                <div className="members-list-label nowrap">
+                  <Tooltip
+                    title={curLabels}
+                    getPopupContainer={(triggerNode: unknown) => get(triggerNode, 'parentElement')}
+                  >
+                    {curLabels}
+                  </Tooltip>
+                </div>
+              );
+            },
           },
-        },
-      ]),
-    ],
+        ]),
+        ...insertWhen(!readOnly, [
+          {
+            title: i18n.t('operations'),
+            key: 'op',
+            width: 192,
+            fixed: 'right',
+            render: (record: IMember) => {
+              const { userId, removed, labels } = record;
+              const isCurrentUser = currentUserId === userId;
+              const editOp = memberAuth.edit ? (
+                <span
+                  className="table-operations-btn"
+                  key="edit"
+                  onClick={() => updater.editMember({ ...record, labels: labels || [] })}
+                >
+                  {i18n.t('edit')}
+                </span>
+              ) : null;
+              const removeOp =
+                isCurrentUser || memberAuth.delete ? (
+                  <span className="table-operations-btn" key="del" onClick={() => confirmDelete(record, isCurrentUser)}>
+                    {isCurrentUser ? i18n.t('exit') : memberAuth.delete ? i18n.t('remove') : null}
+                  </span>
+                ) : null;
+              const authorizeOp =
+                showAuthorize && memberAuth.showAuthorize ? (
+                  <span
+                    className="table-operations-btn"
+                    key="authorize"
+                    onClick={() => updater.authorizeMember(record)}
+                  >
+                    {i18n.t('authorize')}
+                  </span>
+                ) : null;
+
+              return (
+                <div className="table-operations">
+                  {updateMembers && !removed ? editOp : null}
+                  {authorizeOp}
+                  {removeOp}
+                </div>
+              );
+            },
+          },
+        ]),
+      ] as Array<ColumnProps<IMember>>,
     [
       confirmDelete,
       currentUserId,
@@ -498,8 +513,7 @@ export const MembersTable = ({
         pagination={{ ...paging, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
-        tableLayout="auto"
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1100 }}
       />
     );
   }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater, hideRowSelect]);

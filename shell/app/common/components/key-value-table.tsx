@@ -128,7 +128,6 @@ interface IProps {
     pageSize: number;
     current?: number;
   };
-  size?: 'small' | 'middle' | 'default';
   className?: string;
   addBtnText?: string;
   disableAdd?: boolean;
@@ -246,7 +245,6 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       form,
       title = '',
       pagination = { pageSize: 5, hideOnSinglePage: true },
-      size = 'small',
       className = '',
       addBtnText = i18n.t('common:add'),
       disableAdd = false,
@@ -270,7 +268,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       {
         title: 'KEY',
         dataIndex: 'key',
-        width: '40%',
+        width: 296,
         render: (text: string, record: IItemData) => (
           <InputItem
             form={form}
@@ -290,7 +288,6 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       {
         title: 'VALUE',
         dataIndex: 'value',
-        width: '40%',
         render: (text: string, record: IItemData) => (
           <InputItem
             form={form}
@@ -311,7 +308,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     if (!disableDelete) {
       columns.push({
         title: i18n.t('common:operation'),
-        width: 100,
+        width: 160,
         dataIndex: 'operation',
         className: 'operation',
         render: (_text, record) => {
@@ -344,12 +341,11 @@ export class KeyValueTable extends React.Component<IProps, IState> {
           columns={columns}
           rowKey="uniKey"
           pagination={showPagination ? pagination : false}
-          size={size}
           className={`key-value-table ${className}`}
-          scroll={{ x: '100%' }}
           ref={(ref) => {
             this.table = ref;
           }}
+          scroll={{ x: 800 }}
         />
       </div>
     );

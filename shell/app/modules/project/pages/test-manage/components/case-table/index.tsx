@@ -176,7 +176,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
           return {
             children: <Ellipsis className="color-text-desc" title={record.directory} />,
             props: {
-              colSpan: 6,
+              colSpan: 5,
             },
           };
         },
@@ -188,7 +188,6 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
-        width: isScroll ? 380 : undefined,
         render: (name: string, record: any) => {
           const obj = {
             children: <Ellipsis className="bold" title={name} />,
@@ -299,6 +298,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         pageSize: parseInt(query.pageSize, 10) || defaultPageSize,
         showSizeChanger: true,
       }}
+      scroll={{ x: 900 }}
     />
   );
 };

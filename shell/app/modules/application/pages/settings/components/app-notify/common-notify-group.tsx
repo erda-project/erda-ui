@@ -405,8 +405,9 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       dataIndex: 'targets',
       className: 'notify-info',
       ellipsis: true,
+      width: 184,
       render: (targets) => (
-        <div className="flex-box">
+        <div className="flex-box truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),
@@ -414,17 +415,20 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
+      width: 144,
       render: (text) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
+      width: 176,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 150,
+      width: 152,
+      fixed: 'right',
       render: (id: number, record) => {
         return (
           <div className="table-operations">
@@ -470,7 +474,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} scroll={{ x: '100%' }} />
+        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} scroll={{ x: 800 }} />
       </Spin>
     </div>
   );
