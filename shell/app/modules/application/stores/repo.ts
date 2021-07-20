@@ -516,6 +516,7 @@ const repoStore = createStore({
         },
         { fullResult: true },
       );
+      repoStore.effects.getRepoTree();
       return commitResult;
     },
     async getMRStats({ call, update }, payload: REPOSITORY.MrStats) {
