@@ -2651,6 +2651,7 @@
     "Please enter the cluster name to confirm to go offline.": "请输入集群名确认下线",
     "Please enter the following information to confirm to go offline.": "请输入如下信息，确认下线",
     "Please enter the organization identifier.": "请输入组织标识",
+    "Please enter {name}, to confirm the cluster to go offline": "请输入 {name}， 确认该集群下线",
     "Please fill in the correct IP, separated by semicolon.": "请填写正确IP,以回车或;分隔",
     "Please fill in the correct network segment, separated by pressing Enter.": "请填写正确网段,以回车键分隔",
     "Please fill in the instance specification.": "请填写实例规格",

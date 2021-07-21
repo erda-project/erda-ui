@@ -17,12 +17,11 @@ import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
-import { useUpdate, Icon as CustomIcon, Copy } from 'common';
+import { useUpdate, Icon as CustomIcon, Copy, ConfirmDelete } from 'common';
 import machineStore from 'app/modules/cmp/stores/machine';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
-import DeleteClusterModal from './delete-cluster-modal';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
 import { ColumnProps } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
@@ -77,6 +76,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     cloudModalVis: false,
     deleteModalVis: false,
     curDeleteCluster: null as null | ORG_CLUSTER.ICluster,
+    deleteClusterName: '',
     clusterDetailList: [],
     registerCommandVisible: false,
   });
@@ -146,6 +146,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     } else {
       updater.curDeleteCluster(null);
       updater.deleteModalVis(false);
+      updater.deleteClusterName('');
     }
   };
 
@@ -398,12 +399,25 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onSubmit={onAddCloudMachine}
       />
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
-      <DeleteClusterModal
-        visible={state.deleteModalVis}
-        onCancel={() => toggleDeleteModal()}
-        onSubmit={submitDelete}
-        curCluster={state.curDeleteCluster}
-      />
+      {state.deleteModalVis && (
+        <ConfirmDelete
+          title={i18n.t('org:Please enter the cluster name to confirm to go offline.')}
+          onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
+          secondTitle={i18n.t('org:Please enter {name}, to confirm the cluster to go offline', {
+            name: state.curDeleteCluster?.displayName,
+          })}
+          onCancel={() => toggleDeleteModal()}
+          disabledConfirm={state.deleteClusterName !== state.curDeleteCluster?.displayName}
+          modalChildren={
+            <Input
+              value={state.deleteClusterName}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
+            />
+          }
+          hasTriggerContent={false}
+        />
+      )}
       <Drawer
         visible={state.registerCommandVisible}
         destroyOnClose

@@ -2651,6 +2651,7 @@
     "Please enter the cluster name to confirm to go offline.": "Please enter the cluster name to confirm to go offline.",
     "Please enter the following information to confirm to go offline.": "Please enter the following information to confirm to go offline.",
     "Please enter the organization identifier.": "Please enter the organization identifier.",
+    "Please enter {name}, to confirm the cluster to go offline": "Please enter {name}, to confirm the cluster to go offline",
     "Please fill in the correct IP, separated by semicolon.": "Please fill in the correct IP, separated by semicolon.",
     "Please fill in the correct network segment, separated by pressing Enter.": "Please fill in the correct network segment, separated by pressing Enter.",
     "Please fill in the instance specification.": "Please fill in the instance specification.",
