@@ -415,7 +415,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }
-          isShowModal
+          hasTriggerContent={false}
         />
       )}
       <Drawer

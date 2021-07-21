@@ -24,7 +24,7 @@ interface IProps {
   modalChildren?: JSX.Element;
   deleteItem?: string;
   confirmTip?: string;
-  isShowModal?: boolean;
+  hasTriggerContent?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
 }
@@ -33,7 +33,7 @@ const noop = () => {};
 export const ConfirmDelete = (props: IProps) => {
   const {
     deleteItem,
-    isShowModal = false,
+    hasTriggerContent = true,
     confirmTip,
     children,
     onConfirm = noop,
@@ -43,7 +43,7 @@ export const ConfirmDelete = (props: IProps) => {
     disabledConfirm = false,
     onCancel = noop,
   } = props;
-  const [isVisible, setIsVisible] = React.useState(isShowModal);
+  const [isVisible, setIsVisible] = React.useState(!hasTriggerContent);
 
   const showModal = () => {
     setIsVisible(true);
@@ -66,7 +66,7 @@ export const ConfirmDelete = (props: IProps) => {
 
   return (
     <div>
-      {isShowModal ? null : (
+      {hasTriggerContent && (
         <>
           <div className="color-text-desc mb8">{_confirmTip}</div>
           <span onClick={showModal}>
