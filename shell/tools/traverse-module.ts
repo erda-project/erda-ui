@@ -66,7 +66,13 @@ function moduleResolver(curModulePath: string, requirePath: string) {
   return checkingFile;
 }
 
-function completeModulePath(modulePath) {
+/**
+ * try to fulfil a module file path
+ *
+ * @param {string} modulePath
+ * @returns
+ */
+function completeModulePath(modulePath: string) {
   const EXTS = [...JSON_EXTS, ...JS_EXTS];
   if (modulePath.match(/\.[a-zA-Z]+$/)) {
     return modulePath;
@@ -86,6 +92,7 @@ function completeModulePath(modulePath) {
   }
 
   if (isDirectory(modulePath)) {
+    // e.g. './utils' is folder then try to find './utils/index.ts(js)'
     const tryModulePath = tryCompletePath((ext: string) => join(modulePath, `index${ext}`));
     if (!tryModulePath) {
       reportModuleNotFoundError(modulePath);
@@ -93,6 +100,7 @@ function completeModulePath(modulePath) {
       return tryModulePath;
     }
   } else if (!EXTS.some((ext) => modulePath.endsWith(ext))) {
+    // e.g. 'app/nusi' is not a folder then try to find 'app/nusi.tsx(jsx/js/ts)'
     const tryModulePath = tryCompletePath((ext: string) => `${modulePath}${ext}`);
     if (!tryModulePath) {
       reportModuleNotFoundError(modulePath);
@@ -137,6 +145,7 @@ function traverseJsModule(curModulePath: string, callback: (str: string) => void
 
   traverse(ast, {
     ImportDeclaration(path) {
+      // handle syntax `import react from 'react'`
       const node = path.get('source.value');
       const subModulePath = moduleResolver(curModulePath, Array.isArray(node) ? '' : node.node.toString());
       if (!subModulePath) {
@@ -147,6 +156,7 @@ function traverseJsModule(curModulePath: string, callback: (str: string) => void
     },
     CallExpression(path) {
       if (path.get('callee').toString() === 'require') {
+        // handle syntax `const lodash = require('lodash')`
         const subModulePath = moduleResolver(curModulePath, path.get('arguments.0').toString().replace(/['"]/g, ''));
         if (!subModulePath) {
           return;
@@ -155,6 +165,7 @@ function traverseJsModule(curModulePath: string, callback: (str: string) => void
         traverseModule(subModulePath, callback);
       }
       if (path.get('callee').type === 'Import') {
+        // handle syntax dynamic import `const entry = import('layout/entry')`
         try {
           const importItem = path.get('arguments.0').toString().replace(/['"]/g, '');
           if (importItem && !importItem.includes('`')) {
@@ -171,6 +182,7 @@ function traverseJsModule(curModulePath: string, callback: (str: string) => void
       }
     },
     ExportNamedDeclaration(path) {
+      // handle syntax `export { Copy } from './components/copy'`
       if (path.get('source')) {
         try {
           const node = path.get('source.value');
