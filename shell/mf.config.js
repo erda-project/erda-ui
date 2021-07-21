@@ -42,7 +42,7 @@ MODULES.split(',')
 console.log('================ remotes: =================\n', remotes);
 
 fs.writeFileSync(
-  './app/modules.js',
+  './app/mf-modules.js',
   `
 export default {
   ${entries.join('\n')}

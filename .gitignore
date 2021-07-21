@@ -34,7 +34,7 @@ yarn-error.log
 */.local-pack
 *.env
 
-shell/app/modules.js
+shell/app/mf-modules.js
 shell/sourcemap
 shell/coverage
 .pnpm-debug.log

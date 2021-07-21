@@ -20,7 +20,7 @@ import userStore from './user/stores';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/main';
-import modules from './modules';
+import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import { setConfig } from 'core/config';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';

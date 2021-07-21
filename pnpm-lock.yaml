@@ -291,10 +291,12 @@ importers:
   shell:
     specifiers:
       '@babel/core': ^7.14.3
+      '@babel/parser': ^7.14.7
       '@babel/preset-env': ^7.14.4
       '@babel/preset-react': ^7.13.13
       '@babel/preset-typescript': ^7.13.0
       '@babel/runtime': ^7.12.5
+      '@babel/traverse': ^7.14.7
       '@erda-ui/dashboard-configurator': 1.0.24
       '@erda-ui/react-markdown-editor-lite': ^1.4.3
       '@icon-park/react': ^1.3.3
@@ -326,6 +328,7 @@ importers:
       axios: ^0.21.1
       babel-loader: ^8.2.2
       babel-plugin-jsx-control-statements: ^4.1.0
+      chalk: ^4.1.1
       classnames: ^2.2.5
       clipboard: ^2.0.8
       copy-webpack-plugin: ^7.0.0
@@ -344,6 +347,7 @@ importers:
       enzyme-adapter-react-16: ^1.7.1
       event-hooks-webpack-plugin: ^2.2.0
       events: ^3.3.0
+      fast-glob: ^3.2.7
       file-loader: ^6.0.0
       filemanager-webpack-plugin: ^3.1.0
       git-revision-webpack-plugin: ^3.0.6
@@ -379,6 +383,7 @@ importers:
       mockjs: ^1.0.1-beta3
       moment: ^2.18.1
       node-notifier: ^5.4.0
+      openapi-types: ^9.1.0
       optimize-css-assets-webpack-plugin: ^5.0.4
       ora: ^5.0.0
       path-browserify: ^1.0.1
@@ -430,7 +435,7 @@ importers:
       xterm: 3.12.0
     dependencies:
       '@babel/runtime': 7.14.0
-      '@erda-ui/dashboard-configurator': 1.0.24_89f7d333518b25ce6638797795704a0d
+      '@erda-ui/dashboard-configurator': registry.nlark.com/@erda-ui/dashboard-configurator/1.0.24_89f7d333518b25ce6638797795704a0d
       '@erda-ui/react-markdown-editor-lite': 1.4.3_react@16.14.0
       '@icon-park/react': 1.3.3_react-dom@16.14.0+react@16.14.0
       ace-builds: 1.4.12
@@ -462,6 +467,7 @@ importers:
       marked: 2.0.5
       mock-json-schema: 1.0.8
       moment: 2.29.1
+      openapi-types: 9.1.0
       path-browserify: 1.0.1
       path-to-regexp: 6.2.0
       qiankun: 2.4.2
@@ -485,16 +491,18 @@ importers:
       superagent: 5.3.1
       superagent-use: 0.1.0
       sw-precache-webpack-plugin: 0.11.5_webpack@5.38.1
-      swagger-parser: 10.0.2
+      swagger-parser: 10.0.2_openapi-types@9.1.0
       tailwindcss: 2.2.2_72be89de93206f86f2d67dd5290ec14d
       tiny-pinyin: 1.3.2
       typescript: 4.3.2
       xterm: 3.12.0
     devDependencies:
       '@babel/core': 7.14.3
+      '@babel/parser': 7.14.7
       '@babel/preset-env': 7.14.4_@babel+core@7.14.3
       '@babel/preset-react': 7.13.13_@babel+core@7.14.3
       '@babel/preset-typescript': 7.13.0_@babel+core@7.14.3
+      '@babel/traverse': 7.14.7
       '@module-federation/automatic-vendor-federation': 1.2.1_webpack@5.38.1
       '@paiva/translation-google': 1.0.9
       '@phenomnomnominal/tsquery': 4.1.1_typescript@4.3.2
@@ -520,6 +528,7 @@ importers:
       autoprefixer: 10.2.6_postcss@8.3.5
       babel-loader: 8.2.2_56c0991c8a79bd1374c11f7f6fc4baef
       babel-plugin-jsx-control-statements: 4.1.0
+      chalk: 4.1.1
       copy-webpack-plugin: 7.0.0_webpack@5.38.1
       cross-env: 5.2.1
       css-minimizer-webpack-plugin: 1.3.0_webpack@5.38.1
@@ -527,6 +536,7 @@ importers:
       enzyme: 3.11.0
       enzyme-adapter-react-16: 1.15.6_4f82faf5e8cab057bc46d4d95079ec42
       event-hooks-webpack-plugin: 2.2.0_webpack@5.38.1
+      fast-glob: 3.2.7
       filemanager-webpack-plugin: 3.1.1_webpack@5.38.1
       git-revision-webpack-plugin: 3.0.6
       html-webpack-plugin: 5.3.1_webpack@5.38.1
@@ -643,7 +653,7 @@ packages:
     dev: false
 
   /@ant-design/css-animation/1.7.3:
-    resolution: {integrity: sha512-LrX0OGZtW+W6iLnTAqnTaoIsRelYeuLZWsrmBJFUXDALQphPsN8cE5DCsmoSlL0QYb94BQxINiuS70Ar/8BNgA==}
+    resolution: {integrity: sha1-YKHJcAFOhrKPlAUQ1p5QPkKPETY=, tarball: '@ant-design/css-animation/download/@ant-design/css-animation-1.7.3.tgz'}
     dev: false
 
   /@ant-design/icons-svg/4.1.0:
@@ -709,7 +719,7 @@ packages:
     resolution: {integrity: sha512-QAkD5kK2b1WfjDS/UQn/qQkbwF31uqRjPTrsCs5ZG9BQGAkjwvqGFjjPqAuzac/IYzpPtRzjCP1WrTuAIjMrXg==}
     dev: false
 
-  /@apidevtools/swagger-parser/10.0.2:
+  /@apidevtools/swagger-parser/10.0.2_openapi-types@9.1.0:
     resolution: {integrity: sha512-JFxcEyp8RlNHgBCE98nwuTkZT6eNFPc1aosWV6wPcQph72TSEEu1k3baJD4/x1qznU+JiDdz8F5pTwabZh+Dhg==}
     peerDependencies:
       openapi-types: '>=7'
@@ -719,6 +729,7 @@ packages:
       '@apidevtools/swagger-methods': 3.0.2
       '@jsdevtools/ono': 7.1.3
       call-me-maybe: 1.0.1
+      openapi-types: 9.1.0
       z-schema: 4.2.3
     dev: false
 
@@ -819,6 +830,15 @@ packages:
       '@babel/types': 7.14.4
       jsesc: 2.5.2
       source-map: 0.5.7
+
+  /@babel/generator/7.14.5:
+    resolution: {integrity: sha512-y3rlP+/G25OIX3mYKKIOlQRcqj7YgrvHxOLbVmyLJ9bPmi5ttvUmpydVjcFjZphOktWuA7ovbx91ECloWTfjIA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/types': 7.14.5
+      jsesc: 2.5.2
+      source-map: 0.5.7
+    dev: true
 
   /@babel/helper-annotate-as-pure/7.12.13:
     resolution: {integrity: sha512-7YXfX5wQ5aYM/BOlbSccHDbuXXFPxeoUmfWtz8le2yTkTZc+BxsiEnENFoi2SlmA8ewDkG2LgIMIVzzn2h8kfw==}
@@ -978,6 +998,15 @@ packages:
       '@babel/template': 7.12.13
       '@babel/types': 7.14.4
 
+  /@babel/helper-function-name/7.14.5:
+    resolution: {integrity: sha512-Gjna0AsXWfFvrAuX+VKcN/aNNWonizBj39yGwUzVDVTlMYJMK2Wp6xdpy72mfArFq5uK+NOuexfzZlzI1z9+AQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-get-function-arity': 7.14.5
+      '@babel/template': 7.14.5
+      '@babel/types': 7.14.5
+    dev: true
+
   /@babel/helper-get-function-arity/7.0.0-beta.44:
     resolution: {integrity: sha512-w0YjWVwrM2HwP6/H3sEgrSQdkCaxppqFeJtAnB23pRiJB5E/O9Yp7JAAeWBl+gGEgmBFinnTyOv2RN7rcSmMiw==}
     dependencies:
@@ -989,6 +1018,13 @@ packages:
     dependencies:
       '@babel/types': 7.14.4
 
+  /@babel/helper-get-function-arity/7.14.5:
+    resolution: {integrity: sha512-I1Db4Shst5lewOM4V+ZKJzQ0JGGaZ6VY1jYvMghRjqs6DWgxLCIyFt30GlnKkfUeFLpJt2vzbMVEXVSXlIFYUg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/types': 7.14.5
+    dev: true
+
   /@babel/helper-hoist-variables/7.13.16:
     resolution: {integrity: sha512-1eMtTrXtrwscjcAeO4BVK+vvkxaLJSPFz1w1KLawz6HLNi9bPFGBNwwDyVfiu1Tv/vRRFYfoGaKhmAQPGPn5Wg==}
     dependencies:
@@ -996,6 +1032,13 @@ packages:
       '@babel/types': 7.14.4
     transitivePeerDependencies:
       - supports-color
+
+  /@babel/helper-hoist-variables/7.14.5:
+    resolution: {integrity: sha512-R1PXiz31Uc0Vxy4OEOm07x0oSjKAdPPCh3tPivn/Eo8cvz6gveAeuyUUPB21Hoiif0uoPQSSdhIPS3352nvdyQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/types': 7.14.5
+    dev: true
 
   /@babel/helper-member-expression-to-functions/7.13.12:
     resolution: {integrity: sha512-48ql1CLL59aKbU94Y88Xgb2VFy7a95ykGRbJJaaVv+LX5U8wFpLfiGXJJGUozsmA1oEh/o5Bp60Voq7ACyA/Sw==}
@@ -1080,6 +1123,13 @@ packages:
     dependencies:
       '@babel/types': 7.14.4
 
+  /@babel/helper-split-export-declaration/7.14.5:
+    resolution: {integrity: sha512-hprxVPu6e5Kdp2puZUmvOGjaLv9TCe58E/Fl6hRq4YiVQxIcNvuq6uTM2r1mT/oPskuS9CgR+I94sqAYv0NGKA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/types': 7.14.5
+    dev: true
+
   /@babel/helper-validator-identifier/7.14.0:
     resolution: {integrity: sha512-V3ts7zMSu5lfiwWDVWzRDGIN+lnCEUdaXgtVHJgLb1rGaA6jMrtB9EmE7L18foXJIE8Un/A/h6NJfGQp/e1J4A==}
 
@@ -1141,6 +1191,12 @@ packages:
     resolution: {integrity: sha512-ArliyUsWDUqEGfWcmzpGUzNfLxTdTp6WU4IuP6QFSp9gGfWS6boxFCkJSJ/L4+RG8z/FnIU3WxCk6hPL9SSWeA==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+
+  /@babel/parser/7.14.7:
+    resolution: {integrity: sha512-X67Z5y+VBJuHB/RjwECp8kSl5uYi0BvRbNeWqkaJCVh+LiTPl19WBUfG627psSgp9rSf6ojuXghQM3ha6qHHdA==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+    dev: true
 
   /@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining/7.13.12_@babel+core@7.12.3:
     resolution: {integrity: sha512-d0u3zWKcoZf379fOeJdr1a5WPDny4aOFZ6hlfKivgK0LY7ZxNfoaHL2fWwdGtHyVvra38FC+HVYkO+byfSA8AQ==}
@@ -3094,6 +3150,15 @@ packages:
       '@babel/parser': 7.14.4
       '@babel/types': 7.14.4
 
+  /@babel/template/7.14.5:
+    resolution: {integrity: sha512-6Z3Po85sfxRGachLULUhOmvAaOo7xCvqGQtxINai2mEGPFm6pQ4z5QInFnUrRpfoSV60BnjyF5F3c+15fxFV1g==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/code-frame': 7.14.5
+      '@babel/parser': 7.14.7
+      '@babel/types': 7.14.5
+    dev: true
+
   /@babel/traverse/7.0.0-beta.44:
     resolution: {integrity: sha512-UHuDz8ukQkJCDASKHf+oDt3FVUzFd+QYfuBIsiNu/4+/ix6pP/C+uQZJ6K1oEfbCMv/IKWbgDEh7fcsnIE5AtA==}
     dependencies:
@@ -3123,6 +3188,23 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@babel/traverse/7.14.7:
+    resolution: {integrity: sha512-9vDr5NzHu27wgwejuKL7kIOm4bwEtaPQ4Z6cpCmjSuaRqpH/7xc4qcGEscwMqlkwgcXl6MvqoAjZkQ24uSdIZQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/code-frame': 7.14.5
+      '@babel/generator': 7.14.5
+      '@babel/helper-function-name': 7.14.5
+      '@babel/helper-hoist-variables': 7.14.5
+      '@babel/helper-split-export-declaration': 7.14.5
+      '@babel/parser': 7.14.7
+      '@babel/types': 7.14.5
+      debug: 4.3.2
+      globals: 11.12.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@babel/types/7.0.0-beta.44:
     resolution: {integrity: sha512-5eTV4WRmqbaFM3v9gHAIljEQJU4Ssc6fxL61JN+Oe2ga/BwyjzjamwkCVVAQjHGuAX8i0BWo42dshL8eO5KfLQ==}
     dependencies:
@@ -3142,6 +3224,14 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.14.0
       to-fast-properties: 2.0.0
+
+  /@babel/types/7.14.5:
+    resolution: {integrity: sha512-M/NzBpEL95I5Hh4dwhin5JlE7EzO5PHMAuzjxss3tiOBD46KfQvVedN/3jEPZvdRvtsK2222XfdHogNIttFgcg==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-validator-identifier': 7.14.5
+      to-fast-properties: 2.0.0
+    dev: true
 
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
@@ -3515,47 +3605,6 @@ packages:
 
   /@emotion/weak-memoize/0.2.5:
     resolution: {integrity: sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==}
-    dev: false
-
-  /@erda-ui/dashboard-configurator/1.0.24_89f7d333518b25ce6638797795704a0d:
-    resolution: {integrity: sha512-KlaPTZOSjG6LvEn6V3+A9QmhW0eucrtUKd+r9fi82NPlJiqPBeKgxEfqBjagBGeBZWZis+4c0/TgSkwrN3i+SA==}
-    peerDependencies:
-      react: '>=16.14.0'
-      react-dom: '>=16.14.0'
-    dependencies:
-      '@babel/runtime': 7.14.6
-      '@terminus/nusi': 3.10.113_89f7d333518b25ce6638797795704a0d
-      classnames: 2.3.1
-      cube-state: 1.2.1_react@16.14.0
-      dom-to-image: 2.6.0
-      echarts: 4.9.0
-      echarts-for-react: 2.0.16_echarts@4.9.0+react@16.14.0
-      eslint-plugin-react-hooks: 4.2.0
-      git-revision-webpack-plugin: 3.0.6
-      immer: 8.0.4
-      lodash: 4.17.21
-      moment: 2.29.1
-      react: 16.14.0
-      react-dnd: 11.1.3_react-dom@16.14.0+react@16.14.0
-      react-dnd-html5-backend: 11.1.3
-      react-dom: 16.14.0_react@16.14.0
-      react-grid-layout: 1.2.5_react-dom@16.14.0+react@16.14.0
-      react-use: 15.3.8_react-dom@16.14.0+react@16.14.0
-      superagent: 6.1.0
-      superagent-use: 0.1.0
-      use-immer: 0.4.2_immer@8.0.4+react@16.14.0
-    transitivePeerDependencies:
-      - '@types/react'
-      - braft-convert
-      - draft-js
-      - draft-js-prism
-      - draftjs-utils
-      - eslint
-      - eve
-      - html-table-to-json
-      - prismjs
-      - prop-types
-      - supports-color
     dev: false
 
   /@erda-ui/react-markdown-editor-lite/1.4.3_react@16.14.0:
@@ -5078,11 +5127,9 @@ packages:
     dev: false
 
   /@pm2/pm2-version-check/1.0.4:
-    resolution: {integrity: sha512-SXsM27SGH3yTWKc2fKR4SYNxsmnvuBQ9dd6QHtEWmiZ/VqaOYPAIlS8+vMcn27YLtAEBGvNRSh3TPNvtjZgfqA==}
+    resolution: {integrity: sha1-z5f7sUsOypVDDKBe7cy9JoOAbkM=, tarball: '@pm2/pm2-version-check/download/@pm2/pm2-version-check-1.0.4.tgz'}
     dependencies:
-      debug: 4.3.1
-    transitivePeerDependencies:
-      - supports-color
+      debug: registry.nlark.com/debug/4.3.2
     dev: false
 
   /@pmmmwh/react-refresh-webpack-plugin/0.4.3_9f0995138d24e525eb86c097d82409c0:
@@ -5401,19 +5448,19 @@ packages:
       '@terminus/rc-table': 1.0.28
       '@terminus/react-color': 2.20.9_react@16.14.0
       array-tree-filter: 2.1.0
-      async-validator: 3.5.2
+      async-validator: registry.nlark.com/async-validator/3.5.2
       braft-editor: 2.3.9_react-dom@16.14.0+react@16.14.0
-      braft-extensions: 0.1.1_e32486632413ab16c9f736a23853eba1
-      braft-utils: 3.0.12_immutable@4.0.0-rc.12
-      color: 3.1.3
+      braft-extensions: registry.nlark.com/braft-extensions/0.1.1_e32486632413ab16c9f736a23853eba1
+      braft-utils: registry.nlark.com/braft-utils/3.0.12_immutable@4.0.0-rc.12
+      color: registry.nlark.com/color/3.1.3
       css-animation: 1.6.1
-      css-element-queries: 1.2.3
+      css-element-queries: registry.nlark.com/css-element-queries/1.2.3
       dom-closest: 0.2.0
-      echarts: 4.9.0
+      echarts: registry.nlark.com/echarts/4.9.0
       echarts-for-react: 2.0.16_1e265b3074702054f3744bd834e7f909
       enquire.js: 2.1.6
       immutability-helper: 2.8.0
-      immutable: 4.0.0-rc.12
+      immutable: registry.nlark.com/immutable/4.0.0-rc.12
       intersperse: 1.0.0
       lodash: 4.17.21
       moment: 2.29.1
@@ -5421,39 +5468,39 @@ packages:
       qrcode.react: 1.0.0_react@16.14.0
       raf: 3.4.1
       rc-animate: 2.11.1
-      rc-cascader: 0.17.5
+      rc-cascader: registry.nlark.com/rc-cascader/0.17.5
       rc-checkbox: 2.3.2_react-dom@16.14.0+react@16.14.0
-      rc-collapse: 1.11.8
-      rc-color-picker: 1.2.6_react-dom@16.14.0+react@16.14.0
-      rc-drawer: 4.3.1_react-dom@16.14.0+react@16.14.0
+      rc-collapse: registry.nlark.com/rc-collapse/1.11.8
+      rc-color-picker: registry.nlark.com/rc-color-picker/1.2.6_react-dom@16.14.0+react@16.14.0
+      rc-drawer: registry.nlark.com/rc-drawer/4.3.1_react-dom@16.14.0+react@16.14.0
       rc-dropdown: 2.4.1
       rc-editor-mention: 1.1.13_react-dom@16.14.0+react@16.14.0
-      rc-notification: 3.3.1
-      rc-picker: 1.15.4_react-dom@16.14.0+react@16.14.0
-      rc-progress: 2.6.1
+      rc-notification: registry.nlark.com/rc-notification/3.3.1
+      rc-picker: registry.nlark.com/rc-picker/1.15.4_react-dom@16.14.0+react@16.14.0
+      rc-progress: registry.nlark.com/rc-progress/2.6.1
       rc-rate: 2.9.1_react-dom@16.14.0+react@16.14.0
       rc-resize-observer: 1.0.0_react-dom@16.14.0+react@16.14.0
       rc-slider: 8.6.13
-      rc-tabs: 9.7.0_react@16.14.0
+      rc-tabs: registry.nlark.com/rc-tabs/9.7.0_react@16.14.0
       rc-time-picker: 3.7.3
-      rc-tree: 2.1.4_react-dom@16.14.0+react@16.14.0
-      rc-tree-select: 2.9.4_react-dom@16.14.0+react@16.14.0
-      rc-upload: 2.8.1
-      rc-util: 4.21.1
+      rc-tree: registry.nlark.com/rc-tree/2.1.4_react-dom@16.14.0+react@16.14.0
+      rc-tree-select: registry.nlark.com/rc-tree-select/2.9.4_react-dom@16.14.0+react@16.14.0
+      rc-upload: registry.nlark.com/rc-upload/2.8.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
       react: 16.14.0
       react-color: 2.19.3_react@16.14.0
       react-copy-to-clipboard: 5.0.3_react@16.14.0
       react-dnd: 11.1.3_react-dom@16.14.0+react@16.14.0
       react-dnd-html5-backend: 11.1.3
       react-dom: 16.14.0_react@16.14.0
-      react-grid-layout: 0.18.3_react-dom@16.14.0+react@16.14.0
+      react-grid-layout: registry.nlark.com/react-grid-layout/0.18.3_react-dom@16.14.0+react@16.14.0
       react-lazy-load: 3.1.13_react-dom@16.14.0+react@16.14.0
       react-lifecycles-compat: 3.0.4
-      react-responsive: 8.2.0_react@16.14.0
+      react-responsive: registry.nlark.com/react-responsive/8.2.0_react@16.14.0
       react-slick: 0.23.2_react-dom@16.14.0+react@16.14.0
       shallowequal: 1.1.0
       shortid: 2.2.16
-      store: 2.0.12
+      store: registry.nlark.com/store/2.0.12
       tinycolor2: 1.4.2
       warning: 4.0.3
     transitivePeerDependencies:
@@ -5673,15 +5720,15 @@ packages:
     peerDependencies:
       prop-types: ^15.0
     dependencies:
-      async-validator: 3.5.2
+      async-validator: registry.nlark.com/async-validator/3.5.2
       babel-runtime: 6.26.0
       create-react-class: 15.7.0
       dom-scroll-into-view: 1.2.1
       hoist-non-react-statics: 3.3.2
       lodash: 4.17.21
       prop-types: 15.6.1
-      rc-util: 4.21.1
-      react-is: 16.13.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react-is: registry.nlark.com/react-is/16.13.1
       warning: 4.0.3
     dev: false
 
@@ -9657,7 +9704,7 @@ packages:
     resolution: {integrity: sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=}
 
   /color-name/1.1.4:
-    resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    resolution: {integrity: sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=, tarball: color-name/download/color-name-1.1.4.tgz}
 
   /color-string/1.5.5:
     resolution: {integrity: sha512-jgIoum0OfQfq9Whcfc2z/VhCNcmQjWbey6qBX0vqt7YICflUmBCh9E9CiQD5GSJ+Uehixm3NUwHVhqUAWRivZg==}
@@ -10445,7 +10492,7 @@ packages:
     dev: false
 
   /css-mediaquery/0.1.2:
-    resolution: {integrity: sha1-aiw3NEkoYYYxxUvTPO3TAdoYvqA=}
+    resolution: {integrity: sha1-aiw3NEkoYYYxxUvTPO3TAdoYvqA=, tarball: css-mediaquery/download/css-mediaquery-0.1.2.tgz}
     dev: false
 
   /css-minimizer-webpack-plugin/1.3.0_webpack@5.38.1:
@@ -10651,16 +10698,6 @@ packages:
   /csstype/3.0.8:
     resolution: {integrity: sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==}
 
-  /cube-state/1.2.1_react@16.14.0:
-    resolution: {integrity: sha512-FP3v4cs+mecM3bd7kEu2QWXLi0tU7tu313G6LClxBK8UAmoRe9zJ2rfSNW3Y2Cp4089GSREFgMzjCI+lBmmOLw==}
-    peerDependencies:
-      react: '>=16.8'
-    dependencies:
-      fast-deep-equal: 2.0.1
-      immer: 5.3.6
-      react: 16.14.0
-    dev: false
-
   /cube-state/1.5.2_react@16.14.0:
     resolution: {integrity: sha512-vm6z6M34VCtXz27bkzH0auo7t9CFE4660kL2ssjbolm9fGL2GMjZr1Ac8TJJKDTtfBP/kRtZRF/Re1Oc+3Hodw==}
     peerDependencies:
@@ -10818,6 +10855,18 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+
+  /debug/4.3.2:
+    resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+    dev: true
 
   /debuglog/1.0.1:
     resolution: {integrity: sha1-qiT/uaw9+aI1GDfPstJ5NgzXhJI=}
@@ -11188,7 +11237,7 @@ packages:
     dev: true
 
   /dom-to-image/2.6.0:
-    resolution: {integrity: sha1-ilA2CAiMh7HCL5A0rgMuGJiVWGc=}
+    resolution: {integrity: sha1-ilA2CAiMh7HCL5A0rgMuGJiVWGc=, tarball: dom-to-image/download/dom-to-image-2.6.0.tgz}
     dev: false
 
   /dom-urls/1.1.0:
@@ -11362,7 +11411,7 @@ packages:
     dev: true
 
   /echarts-for-react/2.0.16_1e265b3074702054f3744bd834e7f909:
-    resolution: {integrity: sha512-VmHCktay2qKt/+wpL/C7thbvIa7dYBEey0/U4Zaqo+qeA4wx+uiCd5NeCsPIhD/0Pv+2qqNswqiNiUCtcgccOw==}
+    resolution: {integrity: sha1-gTSlPf+QiCweapXEXOqyHgD2yfU=, tarball: echarts-for-react/download/echarts-for-react-2.0.16.tgz}
     peerDependencies:
       echarts: ^3.0.0 || ^4.0.0
       prop-types: ^15.5.7
@@ -11376,13 +11425,13 @@ packages:
     dev: false
 
   /echarts-for-react/2.0.16_echarts@4.9.0+react@16.14.0:
-    resolution: {integrity: sha512-VmHCktay2qKt/+wpL/C7thbvIa7dYBEey0/U4Zaqo+qeA4wx+uiCd5NeCsPIhD/0Pv+2qqNswqiNiUCtcgccOw==}
+    resolution: {integrity: sha1-gTSlPf+QiCweapXEXOqyHgD2yfU=, tarball: echarts-for-react/download/echarts-for-react-2.0.16.tgz}
     peerDependencies:
       echarts: ^3.0.0 || ^4.0.0
       prop-types: ^15.5.7
       react: '>=0.13.2 || ^0.14 || ^15.0.0 || >=16.0.0'
     dependencies:
-      echarts: 4.9.0
+      echarts: registry.nlark.com/echarts/4.9.0
       fast-deep-equal: 2.0.1
       react: 16.14.0
       size-sensor: 1.0.1
@@ -12041,13 +12090,6 @@ packages:
       prettier: 2.3.1
       prettier-linter-helpers: 1.0.0
     dev: true
-
-  /eslint-plugin-react-hooks/4.2.0:
-    resolution: {integrity: sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
-    dev: false
 
   /eslint-plugin-react-hooks/4.2.0_eslint@7.27.0:
     resolution: {integrity: sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==}
@@ -12721,7 +12763,7 @@ packages:
     dev: false
 
   /fast-deep-equal/2.0.1:
-    resolution: {integrity: sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=}
+    resolution: {integrity: sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=, tarball: fast-deep-equal/download/fast-deep-equal-2.0.1.tgz}
     dev: false
 
   /fast-deep-equal/3.1.3:
@@ -12753,6 +12795,17 @@ packages:
       merge2: 1.4.1
       micromatch: 4.0.4
       picomatch: 2.3.0
+
+  /fast-glob/3.2.7:
+    resolution: {integrity: sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@nodelib/fs.stat': registry.nlark.com/@nodelib/fs.stat/2.0.5
+      '@nodelib/fs.walk': registry.nlark.com/@nodelib/fs.walk/1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.4
+    dev: true
 
   /fast-json-patch/3.0.0-1:
     resolution: {integrity: sha512-6pdFb07cknxvPzCeLsFHStEy+MysPJPgZQ9LbQ/2O67unQF93SNqfdSqnPPl71YMHX+AD8gbl7iuoGFzHEdDuw==}
@@ -12788,6 +12841,12 @@ packages:
     resolution: {integrity: sha512-7Eczs8gIPDrVzT+EksYBcupqMyxSHXXrHOLRRxU2/DicV8789MRBRR8+Hc2uWzUupOs4YS4JzBmBxjjCVBxD/g==}
     dependencies:
       reusify: 1.0.4
+
+  /fastq/1.11.1:
+    resolution: {integrity: sha512-HOnr8Mc60eNYl1gzwp6r5RoUyAn5/glBolUzP/Ez6IFVPMPirxn/9phgL6zhOtaTy7ISwPvQ+wT+hfcRZh/bzw==}
+    dependencies:
+      reusify: 1.0.4
+    dev: true
 
   /faye-websocket/0.11.4:
     resolution: {integrity: sha512-CzbClwlXAuiRQAlUyfqPgvPoNKTckTPGfwZV4ZdAhVcP2lh9KUxJg2b5GkE7XbjKQ3YJnQ9z6D9ntLAlB+tP8g==}
@@ -13556,6 +13615,7 @@ packages:
   /git-revision-webpack-plugin/3.0.6:
     resolution: {integrity: sha512-vW/9dBahGbpKPcccy3xKkHgdWoH/cAPPc3lQw+3edl7b4j29JfNGVrja0a1d8ZoRe4nTN8GCPrF9aBErDnzx5Q==}
     engines: {node: '>=6.11.5'}
+    dev: true
 
   /git-semver-tags/4.1.1:
     resolution: {integrity: sha512-OWyMt5zBe7xFs8vglMmhM9lRQzCWL3WjHtxNNfJTMngGym7pC1kh8sP6jevfydJ6LP3ZvGxfb6ABYgPUM0mtsA==}
@@ -14539,10 +14599,6 @@ packages:
     dev: false
     optional: true
 
-  /immer/5.3.6:
-    resolution: {integrity: sha512-pqWQ6ozVfNOUDjrLfm4Pt7q4Q12cGw2HUZgry4Q5+Myxu9nmHRkWBpI0J4+MK0AxbdFtdMTwEGVl7Vd+vEiK+A==}
-    dev: false
-
   /immer/7.0.15:
     resolution: {integrity: sha512-yM7jo9+hvYgvdCQdqvhCNRRio0SCXc8xDPzA25SvKWa7b1WVPjLwQs1VYU5JPXjcJPTqAa5NP5dqpORGYBQ2AA==}
     dev: false
@@ -14941,9 +14997,6 @@ packages:
 
   /is-arrayish/0.2.1:
     resolution: {integrity: sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=}
-
-  /is-arrayish/0.3.2:
-    resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
 
   /is-bigint/1.0.2:
     resolution: {integrity: sha512-0JV5+SOCQkIdzjBK9buARcV804Ddu7A0Qet6sHi3FimE9ne6m4BGQZfRn+NZiXbBk4F4XmHfDZIipLj9pX8dSA==}
@@ -17986,7 +18039,7 @@ packages:
     resolution: {integrity: sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==}
 
   /ms/2.1.2:
-    resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    resolution: {integrity: sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=, tarball: ms/download/ms-2.1.2.tgz?cache=0&sync_timestamp=1607436580765&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fms%2Fdownload%2Fms-2.1.2.tgz}
 
   /ms/2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
@@ -18687,6 +18740,10 @@ packages:
 
   /openapi-types/1.3.5:
     resolution: {integrity: sha512-11oi4zYorsgvg5yBarZplAqbpev5HkuVNPlZaPTknPDzAynq+lnJdXAmruGWP0s+dNYZS7bjM+xrTpJw7184Fg==}
+    dev: false
+
+  /openapi-types/9.1.0:
+    resolution: {integrity: sha512-mhXh8QN8sbErlxfxBeZ/pzgvmDn443p8CXlxwGSi2bWANZAFvjLPI0PoGjqHW+JdBbXg6uvmvM81WXaweh/SVA==}
     dev: false
 
   /opencollective-postinstall/2.0.3:
@@ -20898,12 +20955,12 @@ packages:
     dev: false
 
   /rc-align/2.4.5:
-    resolution: {integrity: sha512-nv9wYUYdfyfK+qskThf4BQUSIadeI/dCsfaMZfNEoxm9HwOIioQ+LyqmMK6jWHAZQgOzMLaqawhuBXlF63vgjw==}
+    resolution: {integrity: sha1-yUGlhvWdEBfyOkKPC0aGY/txAqs=, tarball: rc-align/download/rc-align-2.4.5.tgz}
     dependencies:
       babel-runtime: 6.26.0
-      dom-align: 1.12.2
+      dom-align: registry.nlark.com/dom-align/1.12.2
       prop-types: 15.7.2
-      rc-util: 4.21.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
     dev: false
 
   /rc-align/4.0.9_react-dom@16.14.0+react@16.14.0:
@@ -20949,12 +21006,12 @@ packages:
     dev: false
 
   /rc-animate/3.1.1:
-    resolution: {integrity: sha512-8wg2Zg3EETy0k/9kYuis30NJNQg1D6/WSQwnCiz6SvyxQXNet/rVraRz3bPngwY6rcU2nlRvoShiYOorXyF7Sg==}
+    resolution: {integrity: sha1-3v3YY/VoFsIiU05Nxo/t3s0IE4Y=, tarball: rc-animate/download/rc-animate-3.1.1.tgz}
     dependencies:
       '@ant-design/css-animation': 1.7.3
       classnames: 2.3.1
       raf: 3.4.1
-      rc-util: 4.21.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
     dev: false
 
   /rc-cascader/0.17.5:
@@ -22437,7 +22494,7 @@ packages:
     dev: false
 
   /react-draggable/4.4.3:
-    resolution: {integrity: sha512-jV4TE59MBuWm7gb6Ns3Q1mxX8Azffb7oTtDtBgFkxRvhDp38YAARmRplrj0+XGkhOJB5XziArX+4HUUABtyZ0w==}
+    resolution: {integrity: sha1-ByfyyuWBPjaw5JYr8RsvnvK0BvM=, tarball: react-draggable/download/react-draggable-4.4.3.tgz}
     dependencies:
       classnames: 2.3.1
       prop-types: 15.7.2
@@ -22458,21 +22515,6 @@ packages:
     transitivePeerDependencies:
       - react
       - react-dom
-    dev: false
-
-  /react-grid-layout/1.2.5_react-dom@16.14.0+react@16.14.0:
-    resolution: {integrity: sha512-P/NNWAExTX/zEq+RUh6hrIG67UBicDNCOOg9LZe8BAtSdYtCnCGgVmWBS+sIbM0C8RJIiyGsFHh5dIfCddhS/w==}
-    peerDependencies:
-      react: '>= 16.3.0'
-      react-dom: '>= 16.3.0'
-    dependencies:
-      classnames: 2.3.1
-      lodash.isequal: 4.5.0
-      prop-types: 15.7.2
-      react: 16.14.0
-      react-dom: 16.14.0_react@16.14.0
-      react-draggable: 4.4.3
-      react-resizable: 3.0.1_react@16.14.0
     dev: false
 
   /react-is/16.13.1:
@@ -22529,16 +22571,6 @@ packages:
       prop-types: 15.7.2
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-draggable: 4.4.3
-    dev: false
-
-  /react-resizable/3.0.1_react@16.14.0:
-    resolution: {integrity: sha512-wban8GguvXrmeObSVTmhxs99G9eUgYSGugf0i32qHXyqKDTzQsCKLhm3VJW24TpTBKJvM+cybNExskOCYkYF5Q==}
-    peerDependencies:
-      react: '>= 16.3'
-    dependencies:
-      prop-types: 15.7.2
-      react: 16.14.0
       react-draggable: 4.4.3
     dev: false
 
@@ -24037,9 +24069,9 @@ packages:
     resolution: {integrity: sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==}
 
   /simple-swizzle/0.2.2:
-    resolution: {integrity: sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=}
+    resolution: {integrity: sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=, tarball: simple-swizzle/download/simple-swizzle-0.2.2.tgz}
     dependencies:
-      is-arrayish: 0.3.2
+      is-arrayish: registry.nlark.com/is-arrayish/0.3.2
 
   /single-spa/5.9.3:
     resolution: {integrity: sha512-qMGraRzIBsodV6569Fob4cQ4/yQNrcZ5Achh3SAQDljmqUtjAZ7BAA7GAyO/l5eizb7GtTmVq9Di7ORyKw82CQ==}
@@ -24058,7 +24090,7 @@ packages:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
   /size-sensor/1.0.1:
-    resolution: {integrity: sha512-QTy7MnuugCFXIedXRpUSk9gUnyNiaxIdxGfUjr8xxXOqIB3QvBUYP9+b51oCg2C4dnhaeNk/h57TxjbvoJrJUA==}
+    resolution: {integrity: sha1-+E5GIG0+JZ+v8dVI5LO+ypMhnbs=, tarball: size-sensor/download/size-sensor-1.0.1.tgz}
     dev: false
 
   /slash/1.0.0:
@@ -25123,11 +25155,11 @@ packages:
       url: 0.11.0
     dev: true
 
-  /swagger-parser/10.0.2:
+  /swagger-parser/10.0.2_openapi-types@9.1.0:
     resolution: {integrity: sha512-9jHkHM+QXyLGFLk1DkXBwV+4HyNm0Za3b8/zk/+mjr8jgOSiqm3FOTHBSDsBjtn9scdL+8eWcHdupp2NLM8tDw==}
     engines: {node: '>=10'}
     dependencies:
-      '@apidevtools/swagger-parser': 10.0.2
+      '@apidevtools/swagger-parser': 10.0.2_openapi-types@9.1.0
     transitivePeerDependencies:
       - openapi-types
     dev: false
@@ -26303,16 +26335,6 @@ packages:
     dependencies:
       react: 16.14.0
       ts-essentials: 2.0.12
-    dev: false
-
-  /use-immer/0.4.2_immer@8.0.4+react@16.14.0:
-    resolution: {integrity: sha512-ONfZHEv/gzt/jyYxrJD3ZFUllKJED8F1mds9Fr9CYj54LmsiuGDg3vkx+R7WHS72p7DbSS1QbM7xNYrVWX+KcA==}
-    peerDependencies:
-      immer: '>=2.0.0'
-      react: ^16.8.0 || ^17.0.1
-    dependencies:
-      immer: 8.0.4
-      react: 16.14.0
     dev: false
 
   /use-isomorphic-layout-effect/1.1.1_2f77d3833b7b833f5364ea085d5a48f2:
@@ -27655,6 +27677,59 @@ packages:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
     dev: true
 
+  registry.nlark.com/@babel/runtime/7.14.6:
+    resolution: {integrity: sha1-U1IDvAiS78fexgvcJ7Ls9uQJBi0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.14.6.tgz}
+    name: '@babel/runtime'
+    version: 7.14.6
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.7
+    dev: false
+
+  registry.nlark.com/@erda-ui/dashboard-configurator/1.0.24_89f7d333518b25ce6638797795704a0d:
+    resolution: {integrity: sha1-MMDausdW6LSb4sH7PPIPfdUGopE=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@erda-ui/dashboard-configurator/download/@erda-ui/dashboard-configurator-1.0.24.tgz}
+    id: registry.nlark.com/@erda-ui/dashboard-configurator/1.0.24
+    name: '@erda-ui/dashboard-configurator'
+    version: 1.0.24
+    peerDependencies:
+      react: '>=16.14.0'
+      react-dom: '>=16.14.0'
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      '@terminus/nusi': 3.10.113_89f7d333518b25ce6638797795704a0d
+      classnames: 2.3.1
+      cube-state: registry.nlark.com/cube-state/1.2.1_react@16.14.0
+      dom-to-image: 2.6.0
+      echarts: registry.nlark.com/echarts/4.9.0
+      echarts-for-react: 2.0.16_echarts@4.9.0+react@16.14.0
+      eslint-plugin-react-hooks: registry.nlark.com/eslint-plugin-react-hooks/4.2.0
+      git-revision-webpack-plugin: registry.nlark.com/git-revision-webpack-plugin/3.0.6
+      immer: registry.nlark.com/immer/8.0.4
+      lodash: 4.17.21
+      moment: 2.29.1
+      react: 16.14.0
+      react-dnd: 11.1.3_react-dom@16.14.0+react@16.14.0
+      react-dnd-html5-backend: 11.1.3
+      react-dom: 16.14.0_react@16.14.0
+      react-grid-layout: registry.nlark.com/react-grid-layout/1.2.5_react-dom@16.14.0+react@16.14.0
+      react-use: registry.nlark.com/react-use/15.3.8_react-dom@16.14.0+react@16.14.0
+      superagent: 6.1.0
+      superagent-use: registry.nlark.com/superagent-use/0.1.0
+      use-immer: registry.nlark.com/use-immer/0.4.2_immer@8.0.4+react@16.14.0
+    transitivePeerDependencies:
+      - '@types/react'
+      - braft-convert
+      - draft-js
+      - draft-js-prism
+      - draftjs-utils
+      - eslint
+      - eve
+      - html-table-to-json
+      - prismjs
+      - prop-types
+      - supports-color
+    dev: false
+
   registry.nlark.com/@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha1-dhnC6yGyVIP20WdUi0z9WnSIw9U=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.5.tgz}
     name: '@nodelib/fs.scandir'
@@ -27665,7 +27740,7 @@ packages:
       run-parallel: 1.2.0
 
   registry.nlark.com/@nodelib/fs.stat/2.0.5:
-    resolution: {integrity: sha1-W9Jir5Tp0lvR5xsF3u1Eh2oiLos=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@nodelib/fs.stat/download/@nodelib/fs.stat-2.0.5.tgz?cache=0&sync_timestamp=1622793630766&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40nodelib%2Ffs.stat%2Fdownload%2F%40nodelib%2Ffs.stat-2.0.5.tgz}
+    resolution: {integrity: sha1-W9Jir5Tp0lvR5xsF3u1Eh2oiLos=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@nodelib/fs.stat/download/@nodelib/fs.stat-2.0.5.tgz}
     name: '@nodelib/fs.stat'
     version: 2.0.5
     engines: {node: '>= 8'}
@@ -27678,3 +27753,707 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': registry.nlark.com/@nodelib/fs.scandir/2.1.5
       fastq: 1.11.0
+
+  registry.nlark.com/@nodelib/fs.walk/1.2.8:
+    resolution: {integrity: sha1-6Vc36LtnRt3t9pxVaVNJTxlv5po=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@nodelib/fs.walk/download/@nodelib/fs.walk-1.2.8.tgz}
+    name: '@nodelib/fs.walk'
+    version: 1.2.8
+    engines: {node: '>= 8'}
+    dependencies:
+      '@nodelib/fs.scandir': registry.nlark.com/@nodelib/fs.scandir/2.1.5
+      fastq: 1.11.1
+    dev: true
+
+  registry.nlark.com/@types/js-cookie/2.2.6:
+    resolution: {integrity: sha1-8aHLNa/0e8XPsFywxEHKkekUwm8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@types/js-cookie/download/@types/js-cookie-2.2.6.tgz}
+    name: '@types/js-cookie'
+    version: 2.2.6
+    dev: false
+
+  registry.nlark.com/@xobotyi/scrollbar-width/1.9.5:
+    resolution: {integrity: sha1-gCJKaRknL0Bbh5E8oTuSkpvfPE0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/@xobotyi/scrollbar-width/download/@xobotyi/scrollbar-width-1.9.5.tgz}
+    name: '@xobotyi/scrollbar-width'
+    version: 1.9.5
+    dev: false
+
+  registry.nlark.com/async-validator/3.5.2:
+    resolution: {integrity: sha1-aOhmqWgk6LJpT/eoMcGiXETV5QA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/async-validator/download/async-validator-3.5.2.tgz}
+    name: async-validator
+    version: 3.5.2
+    dev: false
+
+  registry.nlark.com/braft-convert/2.3.0_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-J9WQUTbDNJA9CDt6I1KnIEVieIg=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/braft-convert/download/braft-convert-2.3.0.tgz}
+    id: registry.nlark.com/braft-convert/2.3.0
+    name: braft-convert
+    version: 2.3.0
+    peerDependencies:
+      react: ^16.0.0
+    dependencies:
+      draft-convert: registry.nlark.com/draft-convert/2.1.11_90ad9ee14655e03081a27e68d6f390a3
+      draft-js: 0.10.5_react-dom@16.14.0+react@16.14.0
+      react: 16.14.0
+    transitivePeerDependencies:
+      - react-dom
+    dev: false
+
+  registry.nlark.com/braft-extensions/0.1.1_e32486632413ab16c9f736a23853eba1:
+    resolution: {integrity: sha1-f9X17B9wjeroQLnNOd36wmPvppw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/braft-extensions/download/braft-extensions-0.1.1.tgz}
+    id: registry.nlark.com/braft-extensions/0.1.1
+    name: braft-extensions
+    version: 0.1.1
+    peerDependencies:
+      draft-js-prism: ^1.0.6
+      html-table-to-json: ^0.4.0
+      prismjs: ^1.15.0
+      react-color: ^2.14.1
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      braft-convert: registry.nlark.com/braft-convert/2.3.0_react-dom@16.14.0+react@16.14.0
+      braft-utils: registry.nlark.com/braft-utils/3.0.12_47b5013fe1ab300d065f532b6540ef8d
+      react-color: 2.19.3_react@16.14.0
+    transitivePeerDependencies:
+      - draft-js
+      - draftjs-utils
+      - immutable
+      - react
+      - react-dom
+    dev: false
+
+  registry.nlark.com/braft-utils/3.0.12_47b5013fe1ab300d065f532b6540ef8d:
+    resolution: {integrity: sha1-K3Vc4dg5fZa2J7Z2f3TQfyVynYU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/braft-utils/download/braft-utils-3.0.12.tgz}
+    id: registry.nlark.com/braft-utils/3.0.12
+    name: braft-utils
+    version: 3.0.12
+    peerDependencies:
+      braft-convert: ^2.1.4
+      draft-js: ^0.10.5
+      draftjs-utils: ^0.9.4
+      immutable: ~3.7.4
+    dependencies:
+      braft-convert: registry.nlark.com/braft-convert/2.3.0_react-dom@16.14.0+react@16.14.0
+      immutable: registry.nlark.com/immutable/4.0.0-rc.12
+    dev: false
+
+  registry.nlark.com/braft-utils/3.0.12_immutable@4.0.0-rc.12:
+    resolution: {integrity: sha1-K3Vc4dg5fZa2J7Z2f3TQfyVynYU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/braft-utils/download/braft-utils-3.0.12.tgz}
+    id: registry.nlark.com/braft-utils/3.0.12
+    name: braft-utils
+    version: 3.0.12
+    peerDependencies:
+      braft-convert: ^2.1.4
+      draft-js: ^0.10.5
+      draftjs-utils: ^0.9.4
+      immutable: ~3.7.4
+    dependencies:
+      immutable: registry.nlark.com/immutable/4.0.0-rc.12
+    dev: false
+
+  registry.nlark.com/color-string/1.5.5:
+    resolution: {integrity: sha1-ZUdKjw50OWJfPSemoZ2J/EUiMBQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/color-string/download/color-string-1.5.5.tgz}
+    name: color-string
+    version: 1.5.5
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+    dev: false
+
+  registry.nlark.com/color/3.1.3:
+    resolution: {integrity: sha1-ymf7TnuX1hHc3jns7tQiBn2RWW4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/color/download/color-3.1.3.tgz}
+    name: color
+    version: 3.1.3
+    dependencies:
+      color-convert: 1.9.3
+      color-string: registry.nlark.com/color-string/1.5.5
+    dev: false
+
+  registry.nlark.com/css-element-queries/1.2.3:
+    resolution: {integrity: sha1-4UlAsfzUvw2mDqQUXQV0LXFy5RY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/css-element-queries/download/css-element-queries-1.2.3.tgz}
+    name: css-element-queries
+    version: 1.2.3
+    dev: false
+
+  registry.nlark.com/cube-state/1.2.1_react@16.14.0:
+    resolution: {integrity: sha1-yCKKSXErwopMHCiwdQ1ilsnphHw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/cube-state/download/cube-state-1.2.1.tgz}
+    id: registry.nlark.com/cube-state/1.2.1
+    name: cube-state
+    version: 1.2.1
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      fast-deep-equal: 2.0.1
+      immer: registry.nlark.com/immer/5.3.6
+      react: 16.14.0
+    dev: false
+
+  registry.nlark.com/date-fns/2.22.1:
+    resolution: {integrity: sha1-Hlr5WYMeux2CmSv2e3ZQUtjw78Q=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/date-fns/download/date-fns-2.22.1.tgz}
+    name: date-fns
+    version: 2.22.1
+    engines: {node: '>=0.11'}
+    dev: false
+
+  registry.nlark.com/dayjs/1.10.5:
+    resolution: {integrity: sha1-VgDfRUj8JFOz8WPrsqu+llzPuYY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/dayjs/download/dayjs-1.10.5.tgz}
+    name: dayjs
+    version: 1.10.5
+    dev: false
+
+  registry.nlark.com/debug/4.3.2:
+    resolution: {integrity: sha1-8KScGKyHeeMdSgxgKd+3aHPHQos=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/debug/download/debug-4.3.2.tgz}
+    name: debug
+    version: 4.3.2
+    engines: {node: '>=6.0'}
+    dependencies:
+      ms: 2.1.2
+    dev: false
+
+  registry.nlark.com/dom-align/1.12.2:
+    resolution: {integrity: sha1-D4Fk69DJwhsMeQMQSTzYVYkqzUs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/dom-align/download/dom-align-1.12.2.tgz}
+    name: dom-align
+    version: 1.12.2
+    dev: false
+
+  registry.nlark.com/draft-convert/2.1.11_90ad9ee14655e03081a27e68d6f390a3:
+    resolution: {integrity: sha1-CXlxUax+2cj3iY0Ra6nzaGmZe98=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/draft-convert/download/draft-convert-2.1.11.tgz}
+    id: registry.nlark.com/draft-convert/2.1.11
+    name: draft-convert
+    version: 2.1.11
+    peerDependencies:
+      draft-js: '>=0.7.0'
+      react: ^15.0.2 || ^16.0.0-rc || ^16.0.0 || ^17.0.0
+      react-dom: ^15.0.2 || ^16.0.0-rc || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      draft-js: 0.10.5_react-dom@16.14.0+react@16.14.0
+      immutable: registry.nlark.com/immutable/3.7.6
+      invariant: 2.2.4
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
+  registry.nlark.com/echarts/4.9.0:
+    resolution: {integrity: sha1-qbm6oD8Doqcx5jQMVb77V6nhNH0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/echarts/download/echarts-4.9.0.tgz}
+    name: echarts
+    version: 4.9.0
+    dependencies:
+      zrender: registry.nlark.com/zrender/4.3.2
+    dev: false
+
+  registry.nlark.com/eslint-plugin-react-hooks/4.2.0:
+    resolution: {integrity: sha1-jCKcJo1GiVYzTJQ7tF/IYCgPVVY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/eslint-plugin-react-hooks/download/eslint-plugin-react-hooks-4.2.0.tgz}
+    name: eslint-plugin-react-hooks
+    version: 4.2.0
+    engines: {node: '>=10'}
+    peerDependencies:
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+    dev: false
+
+  registry.nlark.com/fast-shallow-equal/1.0.0:
+    resolution: {integrity: sha1-1NyvZHJEDc76b4i5jjJR4n8lYos=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/fast-shallow-equal/download/fast-shallow-equal-1.0.0.tgz}
+    name: fast-shallow-equal
+    version: 1.0.0
+    dev: false
+
+  registry.nlark.com/git-revision-webpack-plugin/3.0.6:
+    resolution: {integrity: sha1-XdbGgp+uBbQFBZ3qYZWyOHXWnU0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/git-revision-webpack-plugin/download/git-revision-webpack-plugin-3.0.6.tgz}
+    name: git-revision-webpack-plugin
+    version: 3.0.6
+    engines: {node: '>=6.11.5'}
+    dev: false
+
+  registry.nlark.com/immer/5.3.6:
+    resolution: {integrity: sha1-Ueq4y76xMHX+IkQlDyIVmIGMrAQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/immer/download/immer-5.3.6.tgz}
+    name: immer
+    version: 5.3.6
+    dev: false
+
+  registry.nlark.com/immer/8.0.4:
+    resolution: {integrity: sha1-OiFgWk4t3thS+yr9IIrVCWlze3o=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/immer/download/immer-8.0.4.tgz}
+    name: immer
+    version: 8.0.4
+    dev: false
+
+  registry.nlark.com/immutable/3.7.6:
+    resolution: {integrity: sha1-E7TTyxK++hVIKib+Gy665kAHHks=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/immutable/download/immutable-3.7.6.tgz?cache=0&sync_timestamp=1625819635424&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fimmutable%2Fdownload%2Fimmutable-3.7.6.tgz}
+    name: immutable
+    version: 3.7.6
+    engines: {node: '>=0.8.0'}
+    dev: false
+
+  registry.nlark.com/immutable/4.0.0-rc.12:
+    resolution: {integrity: sha1-ylmn5MGa6Nm/dKl73w9uLypdAhc=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/immutable/download/immutable-4.0.0-rc.12.tgz?cache=0&sync_timestamp=1625819635424&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fimmutable%2Fdownload%2Fimmutable-4.0.0-rc.12.tgz}
+    name: immutable
+    version: 4.0.0-rc.12
+    dev: false
+
+  registry.nlark.com/is-arrayish/0.3.2:
+    resolution: {integrity: sha1-RXSirlb3qyBolvtDHq7tBm/fjwM=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/is-arrayish/download/is-arrayish-0.3.2.tgz}
+    name: is-arrayish
+    version: 0.3.2
+
+  registry.nlark.com/js-cookie/2.2.1:
+    resolution: {integrity: sha1-aeEG3F1YBolFYpAqpbrsN0Tpsrg=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/js-cookie/download/js-cookie-2.2.1.tgz}
+    name: js-cookie
+    version: 2.2.1
+    dev: false
+
+  registry.nlark.com/matchmediaquery/0.3.1:
+    resolution: {integrity: sha1-gkftxH5Jnrt8WPYqn/nM9bgVxtc=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/matchmediaquery/download/matchmediaquery-0.3.1.tgz}
+    name: matchmediaquery
+    version: 0.3.1
+    dependencies:
+      css-mediaquery: 0.1.2
+    dev: false
+
+  registry.nlark.com/rc-cascader/0.17.5:
+    resolution: {integrity: sha1-T96R0jt2CMQgJjw47unAaH+A99w=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-cascader/download/rc-cascader-0.17.5.tgz}
+    name: rc-cascader
+    version: 0.17.5
+    dependencies:
+      array-tree-filter: 2.1.0
+      prop-types: 15.7.2
+      rc-trigger: registry.nlark.com/rc-trigger/2.6.5
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react-lifecycles-compat: 3.0.4
+      shallow-equal: 1.2.1
+      warning: 4.0.3
+    dev: false
+
+  registry.nlark.com/rc-collapse/1.11.8:
+    resolution: {integrity: sha1-ZqQAidRpUZ6UJACasckn4hQEHYA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-collapse/download/rc-collapse-1.11.8.tgz}
+    name: rc-collapse
+    version: 1.11.8
+    dependencies:
+      classnames: 2.3.1
+      css-animation: 1.6.1
+      prop-types: 15.7.2
+      rc-animate: 2.11.1
+      react-is: registry.nlark.com/react-is/16.13.1
+      react-lifecycles-compat: 3.0.4
+      shallowequal: 1.1.0
+    dev: false
+
+  registry.nlark.com/rc-color-picker/1.2.6_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-bNUW5Gxt1vYKGSWQ4dxggAMrJG0=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-color-picker/download/rc-color-picker-1.2.6.tgz}
+    id: registry.nlark.com/rc-color-picker/1.2.6
+    name: rc-color-picker
+    version: 1.2.6
+    peerDependencies:
+      react: 16.x
+      react-dom: 16.x
+    dependencies:
+      classnames: 2.3.1
+      prop-types: 15.7.2
+      rc-trigger: registry.nlark.com/rc-trigger/1.11.5
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      tinycolor2: 1.4.2
+    dev: false
+
+  registry.nlark.com/rc-drawer/4.3.1_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-NWMzp68Bt3er1oXJbCzmLvtE8/M=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-drawer/download/rc-drawer-4.3.1.tgz}
+    id: registry.nlark.com/rc-drawer/4.3.1
+    name: rc-drawer
+    version: 4.3.1
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      classnames: 2.3.1
+      rc-util: registry.nlark.com/rc-util/5.13.1_react-dom@16.14.0+react@16.14.0
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
+  registry.nlark.com/rc-motion/1.1.2_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-ByEvG5bHFbgkXsEhM5FGxKmwlow=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-motion/download/rc-motion-1.1.2.tgz}
+    id: registry.nlark.com/rc-motion/1.1.2
+    name: rc-motion
+    version: 1.1.2
+    peerDependencies:
+      react: ^16.0.0
+      react-dom: ^16.0.0
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      classnames: 2.3.1
+      raf: 3.4.1
+      rc-util: registry.nlark.com/rc-util/5.13.1_react-dom@16.14.0+react@16.14.0
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
+  registry.nlark.com/rc-notification/3.3.1:
+    resolution: {integrity: sha1-C6o+cPjUCrAVzo+njCYMSQ/HvrQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-notification/download/rc-notification-3.3.1.tgz}
+    name: rc-notification
+    version: 3.3.1
+    dependencies:
+      babel-runtime: 6.26.0
+      classnames: 2.3.1
+      prop-types: 15.7.2
+      rc-animate: 2.11.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
+    dev: false
+
+  registry.nlark.com/rc-picker/1.15.4_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-tYeCYPvTLH/6RW3IEfZFs1nYBOo=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-picker/download/rc-picker-1.15.4.tgz}
+    id: registry.nlark.com/rc-picker/1.15.4
+    name: rc-picker
+    version: 1.15.4
+    engines: {node: '>=8.x'}
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      classnames: 2.3.1
+      date-fns: registry.nlark.com/date-fns/2.22.1
+      dayjs: registry.nlark.com/dayjs/1.10.5
+      moment: 2.29.1
+      rc-trigger: registry.nlark.com/rc-trigger/4.4.3_react-dom@16.14.0+react@16.14.0
+      rc-util: registry.nlark.com/rc-util/5.13.1_react-dom@16.14.0+react@16.14.0
+      shallowequal: 1.1.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  registry.nlark.com/rc-progress/2.6.1:
+    resolution: {integrity: sha1-Lguryz+kgjQme15qP2fxTlMDK6Y=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-progress/download/rc-progress-2.6.1.tgz}
+    name: rc-progress
+    version: 2.6.1
+    dependencies:
+      babel-runtime: 6.26.0
+      prop-types: 15.7.2
+    dev: false
+
+  registry.nlark.com/rc-tabs/9.7.0_react@16.14.0:
+    resolution: {integrity: sha1-rglpW+9ZY9bmTnvBBSHHbf3YRIs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-tabs/download/rc-tabs-9.7.0.tgz}
+    id: registry.nlark.com/rc-tabs/9.7.0
+    name: rc-tabs
+    version: 9.7.0
+    peerDependencies:
+      react: '>=15.0.0'
+    dependencies:
+      '@ant-design/create-react-context': 0.2.5_prop-types@15.7.2+react@16.14.0
+      babel-runtime: 6.26.0
+      classnames: 2.3.1
+      lodash: 4.17.21
+      prop-types: 15.7.2
+      raf: 3.4.1
+      rc-hammerjs: 0.6.10
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react: 16.14.0
+      react-lifecycles-compat: 3.0.4
+      resize-observer-polyfill: 1.5.1
+      warning: 4.0.3
+    dev: false
+
+  registry.nlark.com/rc-tree-select/2.9.4_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-aqeU4fDmXGbEBqoKKg50/QpVewk=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-tree-select/download/rc-tree-select-2.9.4.tgz?cache=0&sync_timestamp=1624361318749&other_urls=https%3A%2F%2Fregistry.nlark.com%2Frc-tree-select%2Fdownload%2Frc-tree-select-2.9.4.tgz}
+    id: registry.nlark.com/rc-tree-select/2.9.4
+    name: rc-tree-select
+    version: 2.9.4
+    dependencies:
+      classnames: 2.3.1
+      dom-scroll-into-view: 1.2.1
+      prop-types: 15.7.2
+      raf: 3.4.1
+      rc-animate: 2.11.1
+      rc-tree: registry.nlark.com/rc-tree/2.1.4_react-dom@16.14.0+react@16.14.0
+      rc-trigger: registry.nlark.com/rc-trigger/3.0.0
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react-lifecycles-compat: 3.0.4
+      shallowequal: 1.1.0
+      warning: 4.0.3
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  registry.nlark.com/rc-tree/2.1.4_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-73WfPnmaIbQ8Hs+ceU6hwU5wtZs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-tree/download/rc-tree-2.1.4.tgz}
+    id: registry.nlark.com/rc-tree/2.1.4
+    name: rc-tree
+    version: 2.1.4
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      '@ant-design/create-react-context': 0.2.5_prop-types@15.7.2+react@16.14.0
+      classnames: 2.3.1
+      prop-types: 15.7.2
+      rc-animate: 2.11.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-lifecycles-compat: 3.0.4
+      warning: 4.0.3
+    dev: false
+
+  registry.nlark.com/rc-trigger/1.11.5:
+    resolution: {integrity: sha1-+I+fhODnn44O8cjRv4rCIItxViA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-trigger/download/rc-trigger-1.11.5.tgz}
+    name: rc-trigger
+    version: 1.11.5
+    dependencies:
+      babel-runtime: 6.26.0
+      create-react-class: 15.7.0
+      prop-types: 15.7.2
+      rc-align: 2.4.5
+      rc-animate: 2.11.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
+    dev: false
+
+  registry.nlark.com/rc-trigger/2.6.5:
+    resolution: {integrity: sha1-FAqFfPKL0PoBua7LHialCnAOmIU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-trigger/download/rc-trigger-2.6.5.tgz}
+    name: rc-trigger
+    version: 2.6.5
+    dependencies:
+      babel-runtime: 6.26.0
+      classnames: 2.3.1
+      prop-types: 15.7.2
+      rc-align: 2.4.5
+      rc-animate: 2.11.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
+      react-lifecycles-compat: 3.0.4
+    dev: false
+
+  registry.nlark.com/rc-trigger/3.0.0:
+    resolution: {integrity: sha1-9tmx2oomsrLR2RKgaHbBpIb1mA8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-trigger/download/rc-trigger-3.0.0.tgz}
+    name: rc-trigger
+    version: 3.0.0
+    dependencies:
+      babel-runtime: 6.26.0
+      classnames: 2.3.1
+      prop-types: 15.7.2
+      raf: 3.4.1
+      rc-align: 2.4.5
+      rc-animate: 3.1.1
+      rc-util: registry.nlark.com/rc-util/4.21.1
+    dev: false
+
+  registry.nlark.com/rc-trigger/4.4.3_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-7USc1szkRlVbxX9DlCKcXHFU9LA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-trigger/download/rc-trigger-4.4.3.tgz}
+    id: registry.nlark.com/rc-trigger/4.4.3
+    name: rc-trigger
+    version: 4.4.3
+    engines: {node: '>=8.x'}
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      classnames: 2.3.1
+      raf: 3.4.1
+      rc-align: 4.0.9_react-dom@16.14.0+react@16.14.0
+      rc-motion: registry.nlark.com/rc-motion/1.1.2_react-dom@16.14.0+react@16.14.0
+      rc-util: registry.nlark.com/rc-util/5.13.1_react-dom@16.14.0+react@16.14.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  registry.nlark.com/rc-upload/2.8.1:
+    resolution: {integrity: sha1-ghjrjE7Zz7A0AxHCxgUl/DEGDLY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-upload/download/rc-upload-2.8.1.tgz?cache=0&sync_timestamp=1623402031263&other_urls=https%3A%2F%2Fregistry.nlark.com%2Frc-upload%2Fdownload%2Frc-upload-2.8.1.tgz}
+    name: rc-upload
+    version: 2.8.1
+    dependencies:
+      babel-runtime: 6.26.0
+      classnames: 2.3.1
+      prop-types: 15.7.2
+      warning: 4.0.3
+    dev: false
+
+  registry.nlark.com/rc-util/4.21.1:
+    resolution: {integrity: sha1-iGAtDDGFAgqhBT2aHnDqwWG+ywU=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-util/download/rc-util-4.21.1.tgz}
+    name: rc-util
+    version: 4.21.1
+    dependencies:
+      add-dom-event-listener: 1.1.0
+      prop-types: 15.7.2
+      react-is: registry.nlark.com/react-is/16.13.1
+      react-lifecycles-compat: 3.0.4
+      shallowequal: 1.1.0
+    dev: false
+
+  registry.nlark.com/rc-util/5.13.1_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-A+dJVbXEaljLxiNuTTDdRix1UpA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/rc-util/download/rc-util-5.13.1.tgz}
+    id: registry.nlark.com/rc-util/5.13.1
+    name: rc-util
+    version: 5.13.1
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': registry.nlark.com/@babel/runtime/7.14.6
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-is: registry.nlark.com/react-is/16.13.1
+      shallowequal: 1.1.0
+    dev: false
+
+  registry.nlark.com/react-grid-layout/0.18.3_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-T5VAGZ81IRB36uCqW8gwlqZyw5w=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-grid-layout/download/react-grid-layout-0.18.3.tgz}
+    id: registry.nlark.com/react-grid-layout/0.18.3
+    name: react-grid-layout
+    version: 0.18.3
+    dependencies:
+      classnames: 2.3.1
+      lodash.isequal: 4.5.0
+      prop-types: 15.7.2
+      react-draggable: 4.4.3
+      react-resizable: registry.nlark.com/react-resizable/1.11.1_react-dom@16.14.0+react@16.14.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  registry.nlark.com/react-grid-layout/1.2.5_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-+kAojVofp4NITETOeLHhDrUxPSY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-grid-layout/download/react-grid-layout-1.2.5.tgz}
+    id: registry.nlark.com/react-grid-layout/1.2.5
+    name: react-grid-layout
+    version: 1.2.5
+    peerDependencies:
+      react: '>= 16.3.0'
+      react-dom: '>= 16.3.0'
+    dependencies:
+      classnames: 2.3.1
+      lodash.isequal: 4.5.0
+      prop-types: 15.7.2
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-draggable: 4.4.3
+      react-resizable: registry.nlark.com/react-resizable/3.0.1_react@16.14.0
+    dev: false
+
+  registry.nlark.com/react-is/16.13.1:
+    resolution: {integrity: sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-is/download/react-is-16.13.1.tgz}
+    name: react-is
+    version: 16.13.1
+    dev: false
+
+  registry.nlark.com/react-resizable/1.11.1_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-AspoUK+noiwbPmI+ZK73HuJSr2k=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-resizable/download/react-resizable-1.11.1.tgz}
+    id: registry.nlark.com/react-resizable/1.11.1
+    name: react-resizable
+    version: 1.11.1
+    peerDependencies:
+      react: 0.14.x || 15.x || 16.x || 17.x
+      react-dom: 0.14.x || 15.x || 16.x || 17.x
+    dependencies:
+      prop-types: 15.7.2
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-draggable: 4.4.3
+    dev: false
+
+  registry.nlark.com/react-resizable/3.0.1_react@16.14.0:
+    resolution: {integrity: sha1-lwmDGAnYfTq+hh33/mkeYQPyfcE=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-resizable/download/react-resizable-3.0.1.tgz}
+    id: registry.nlark.com/react-resizable/3.0.1
+    name: react-resizable
+    version: 3.0.1
+    peerDependencies:
+      react: '>= 16.3'
+    dependencies:
+      prop-types: 15.7.2
+      react: 16.14.0
+      react-draggable: 4.4.3
+    dev: false
+
+  registry.nlark.com/react-responsive/8.2.0_react@16.14.0:
+    resolution: {integrity: sha1-4P+zBs/Y84ycEuJnJbnhJF+p3rw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-responsive/download/react-responsive-8.2.0.tgz}
+    id: registry.nlark.com/react-responsive/8.2.0
+    name: react-responsive
+    version: 8.2.0
+    engines: {node: '>= 0.10'}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      hyphenate-style-name: 1.0.4
+      matchmediaquery: registry.nlark.com/matchmediaquery/0.3.1
+      prop-types: 15.7.2
+      react: 16.14.0
+      shallow-equal: 1.2.1
+    dev: false
+
+  registry.nlark.com/react-universal-interface/0.6.2_react@16.14.0+tslib@2.3.0:
+    resolution: {integrity: sha1-Xo1DigFymk27y+7OsLhr4Ub+Kzs=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-universal-interface/download/react-universal-interface-0.6.2.tgz}
+    id: registry.nlark.com/react-universal-interface/0.6.2
+    name: react-universal-interface
+    version: 0.6.2
+    peerDependencies:
+      react: '*'
+      tslib: '*'
+    dependencies:
+      react: 16.14.0
+      tslib: registry.nlark.com/tslib/2.3.0
+    dev: false
+
+  registry.nlark.com/react-use/15.3.8_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha1-yoOax/s9aW5cy+q7yNrcJpiWnTA=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/react-use/download/react-use-15.3.8.tgz}
+    id: registry.nlark.com/react-use/15.3.8
+    name: react-use
+    version: 15.3.8
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+      react-dom: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@types/js-cookie': registry.nlark.com/@types/js-cookie/2.2.6
+      '@xobotyi/scrollbar-width': registry.nlark.com/@xobotyi/scrollbar-width/1.9.5
+      copy-to-clipboard: 3.3.1
+      fast-deep-equal: 3.1.3
+      fast-shallow-equal: registry.nlark.com/fast-shallow-equal/1.0.0
+      js-cookie: registry.nlark.com/js-cookie/2.2.1
+      nano-css: 5.3.1_react-dom@16.14.0+react@16.14.0
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-universal-interface: registry.nlark.com/react-universal-interface/0.6.2_react@16.14.0+tslib@2.3.0
+      resize-observer-polyfill: 1.5.1
+      screenfull: 5.1.0
+      set-harmonic-interval: 1.0.1
+      throttle-debounce: 2.3.0
+      ts-easing: registry.nlark.com/ts-easing/0.2.0
+      tslib: registry.nlark.com/tslib/2.3.0
+    dev: false
+
+  registry.nlark.com/store/2.0.12:
+    resolution: {integrity: sha1-jFNOKguDH3K3X8XxEZhXxE711ZM=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/store/download/store-2.0.12.tgz}
+    name: store
+    version: 2.0.12
+    dev: false
+
+  registry.nlark.com/superagent-use/0.1.0:
+    resolution: {integrity: sha1-0o27v1c7qYAym0ZFiXYIvJlQHP8=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/superagent-use/download/superagent-use-0.1.0.tgz}
+    name: superagent-use
+    version: 0.1.0
+    dependencies:
+      extend: 3.0.2
+      methods: 1.1.2
+    dev: false
+
+  registry.nlark.com/ts-easing/0.2.0:
+    resolution: {integrity: sha1-yKijUCUQVWZYjYfb2gXdf7+lpOw=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/ts-easing/download/ts-easing-0.2.0.tgz}
+    name: ts-easing
+    version: 0.2.0
+    dev: false
+
+  registry.nlark.com/tslib/2.3.0:
+    resolution: {integrity: sha1-gDuM2rPhK6WBpMpByIObuw2ssJ4=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/tslib/download/tslib-2.3.0.tgz}
+    name: tslib
+    version: 2.3.0
+    dev: false
+
+  registry.nlark.com/use-immer/0.4.2_immer@8.0.4+react@16.14.0:
+    resolution: {integrity: sha1-fX59M4bMg01FsiefN9iXQCNVD08=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/use-immer/download/use-immer-0.4.2.tgz}
+    id: registry.nlark.com/use-immer/0.4.2
+    name: use-immer
+    version: 0.4.2
+    peerDependencies:
+      immer: '>=2.0.0'
+      react: ^16.8.0 || ^17.0.1
+    dependencies:
+      immer: registry.nlark.com/immer/8.0.4
+      react: 16.14.0
+    dev: false
+
+  registry.nlark.com/zrender/4.3.2:
+    resolution: {integrity: sha1-7HQy+UFcgsc1hLa3uMR+GwFiCcY=, registry: https://registry.npm.taobao.org/, tarball: https://registry.nlark.com/zrender/download/zrender-4.3.2.tgz}
+    name: zrender
+    version: 4.3.2
+    dev: false
