@@ -11,25 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+declare namespace CONFIGURATION {
+  type ILang = 'DOT_NET' | 'GO' | 'JAVA' | 'NODEJS' | 'PHP';
 
-export const getMspProjectList = (): MS_INDEX.IMspProject[] => {
-  return agent.get('/api/microservice/projects').then((response: any) => response.body);
-};
+  type ILangConf = {
+    language: string;
+    displayName: string;
+    strategies: Array<IStrategy>;
+  };
 
-export const getMspProjects = () => {
-  return agent.get('/api/msp/projects').then((response: any) => response.body);
-};
-
-export const getMspMenuList = ({
-  tenantGroup,
-  tenantId,
-}: {
-  tenantGroup: string;
-  tenantId?: string;
-}): MS_INDEX.IMspMenu[] => {
-  return agent
-    .get(`/api/micro-service/menu/tenantGroup/${tenantGroup}`)
-    .query({ tenantId })
-    .then((response: any) => response.body);
-};
+  interface IStrategy {
+    displayName: string;
+    strategy: string;
+    enable: boolean;
+  }
+}

@@ -11,27 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { goTo } from 'common/utils';
-import i18n from 'i18n';
-import { List as IconList, DataDisplay as IconDataDisplay } from '@icon-park/react';
 import React from 'react';
 
-export const getMspMenu = () => {
-  return [
-    // {
-    //   href: goTo.resolve.mspRoot(),
-    //   icon: <IconServer />,
-    //   text: i18n.t('msp:microService governance'),
-    // },
-    {
-      href: goTo.resolve.mspRootOverview(),
-      icon: <IconDataDisplay />,
-      text: i18n.t('overview'),
-    },
-    {
-      href: goTo.resolve.mspProjects(),
-      icon: <IconList />,
-      text: i18n.t('msp:project list'),
-    },
-  ];
+const Overview = () => {
+  return <div>Overview</div>;
 };
+
+export default Overview;

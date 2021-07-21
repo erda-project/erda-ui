@@ -14,15 +14,29 @@
 import React from 'react';
 
 interface IProps {
-  onChange: () => void;
+  onChange: (...args: unknown[]) => void;
 }
 
 export class ClassWrapper extends React.PureComponent<IProps> {
+  /**
+   * @override
+   * @param args
+   */
+  onChange = (...args: unknown[]) => {
+    const { children, onChange } = this.props;
+    // default onChange form item automatic inject
+    onChange(...args);
+    // child component onChange method
+    children?.props?.onChange?.(...args);
+  };
   render() {
     const { children, ...rest } = this.props;
     if (!children || typeof children !== 'object') {
       return children || null;
     }
-    return React.cloneElement(children as any, rest);
+    return React.cloneElement(children as any, {
+      ...rest,
+      onChange: this.onChange,
+    });
   }
 }

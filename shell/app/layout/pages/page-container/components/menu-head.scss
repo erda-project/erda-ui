@@ -16,7 +16,7 @@
     border-radius: 0;
   }
 
-  svg:not(.i-icon svg) {
+  svg:not(.i-icon svg, .ant-select-arrow svg) {
     width: 56px;
     height: 56px;
   }

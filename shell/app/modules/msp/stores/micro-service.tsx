@@ -23,6 +23,7 @@ import { setGlobal } from 'app/global-space';
 import wfwzl_svg from 'app/images/wfwzl.svg';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import React from 'react';
+import switchEnv from 'msp/pages/micro-service/switch-env';
 
 interface IState {
   mspProjectList: MS_INDEX.IMspProject[];
@@ -32,6 +33,7 @@ interface IState {
   clusterType: string;
   DICE_CLUSTER_TYPE: string;
   isK8S: boolean;
+  currentProject: MS_INDEX.IMspProject;
 }
 const currentLocale = getCurrentLocale();
 
@@ -82,6 +84,7 @@ const initState: IState = {
   clusterType: '',
   DICE_CLUSTER_TYPE: '',
   isK8S: true,
+  currentProject: {},
 };
 
 const mspStore = createStore({
@@ -157,6 +160,7 @@ const mspStore = createStore({
           logo: wfwzl_svg,
           name: siderName,
         },
+        getHeadName: switchEnv,
       });
 
       if (routes[0].mark === 'mspDetail') {

@@ -49,7 +49,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
         key: 'msp',
         name: i18n.t('msp'),
         breadcrumbName: i18n.t('msp'),
-        href: goTo.resolve.mspRoot(),
+        href: goTo.resolve.mspRootOverview(),
       },
       {
         key: 'apiManage',

@@ -13,11 +13,15 @@
 
 declare namespace MS_INDEX {
   interface IMspProject {
-    tenantGroups: [string, string, string, string];
+    id: string;
+    type: PROJECT.ProjectType;
     logoUrl: string;
-    projectId: string;
     projectName: string;
+    workSpaces: Record<string, string>;
+
+    projectId: string;
     envs: [string, string, string, string];
+    tenantGroups: [string, string, string, string];
   }
 
   interface IMspMenu {

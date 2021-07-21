@@ -11,25 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import { apiCreator } from 'core/service';
 
-export const getMspProjectList = (): MS_INDEX.IMspProject[] => {
-  return agent.get('/api/microservice/projects').then((response: any) => response.body);
+const apis = {
+  getAdapters: {
+    api: 'get@/api/msp/apm/adapters',
+  },
+  getDomainList: {
+    api: 'get@/api/domains',
+  },
 };
 
-export const getMspProjects = () => {
-  return agent.get('/api/msp/projects').then((response: any) => response.body);
-};
-
-export const getMspMenuList = ({
-  tenantGroup,
-  tenantId,
-}: {
-  tenantGroup: string;
-  tenantId?: string;
-}): MS_INDEX.IMspMenu[] => {
-  return agent
-    .get(`/api/micro-service/menu/tenantGroup/${tenantGroup}`)
-    .query({ tenantId })
-    .then((response: any) => response.body);
-};
+export const getAdapters = apiCreator<() => CONFIGURATION.ILangConf[]>(apis.getAdapters);
