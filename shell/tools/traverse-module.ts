@@ -18,8 +18,6 @@ import traverse from '@babel/traverse';
 import fs from 'fs';
 import { resolve, dirname, join, extname } from 'path';
 import chalk from 'chalk';
-// import postcss from 'postcss';
-// const postcssScss = require('postcss-scss');
 
 const JS_EXTS = ['.js', '.jsx', '.ts', '.tsx', '.d.ts'];
 const CSS_EXTS = ['.css', '.scss'];
@@ -116,12 +114,6 @@ const resolveBabelSyntaxPlugins = (modulePath: string) => {
   return plugins;
 };
 
-// const resolvePostcssSyntaxPlugin = (modulePath: string) => {
-//   if (modulePath.endsWith('.scss')) {
-//     return postcssScss;
-//   }
-// }
-
 function getModuleType(modulePath: string) {
   const moduleExt = extname(modulePath);
   if (JS_EXTS.some((ext) => ext === moduleExt)) {
@@ -132,34 +124,6 @@ function getModuleType(modulePath: string) {
     return MODULE_TYPES.JSON;
   }
 }
-
-// function traverseCssModule(curModulePath, callback) {
-//   const moduleFileContent = fs.readFileSync(curModulePath, {
-//     encoding: 'utf-8',
-//   });
-
-//   const ast = postcss.parse(moduleFileContent, {
-//     Syntax: resolvePostcssSyntaxPlugin(curModulePath),
-//   });
-//   ast.walkAtRules('import', (rule) => {
-//     const subModulePath = moduleResolver(curModulePath, rule.params.replace(/['"]/g, ''));
-//     if (!subModulePath) {
-//       return;
-//     }
-//     callback(subModulePath);
-//     traverseModule(subModulePath, callback);
-//   });
-//   ast.walkDecls((decl) => {
-//     if (decl.value.includes('url(')) {
-//       const url = /.*url\((.+)\).*/.exec(decl.value)[1].replace(/['"]/g, '');
-//       const subModulePath = moduleResolver(curModulePath, url);
-//       if (!subModulePath) {
-//         return;
-//       }
-//       callback(subModulePath);
-//     }
-//   });
-// }
 
 function traverseJsModule(curModulePath: string, callback: (str: string) => void) {
   const moduleFileContent = fs.readFileSync(curModulePath, {

@@ -67,7 +67,7 @@ const aliasMap = {
 const aliasKeys = Object.keys(aliasMap);
 
 const noneJs = ['zh-cn'];
-const ignoreSuffix = ['.md', '.d.ts'];
+const ignoreSuffix = ['.md', '.d.ts', 'mock.ts'];
 const ignorePath = [
   '__tests__',
   'config-page',
