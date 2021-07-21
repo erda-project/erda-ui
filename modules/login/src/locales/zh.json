@@ -1,0 +1,22 @@
+{
+  "default": {
+    "Already have an account?": "已经有账号?",
+    "can not be empty": "不能为空",
+    "confirm password": "确认密码",
+    "Do not have an account?": "没有账号?",
+    "email": "邮箱",
+    "enter your {name}": "请输入您的{name}",
+    "Hello {name}": "您好 {name}",
+    "inconsistent passwords": "密码不一致",
+    "keep login": "保持登录",
+    "Login": "登录",
+    "Logout": "登出",
+    "mobile": "手机",
+    "nick name": "昵称",
+    "password": "密码",
+    "Please enter the correct {name}": "请输入正确的{name}",
+    "Sign up": "注册",
+    "Update": "更新",
+    "Welcome to Erda": "欢迎登录Erda"
+  }
+}
