@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// import * as history from 'history';
+import * as history from 'history';
 import 'jest-enzyme';
 import { PaginationConfig, SorterResult, FormInstance } from 'core/common/interface';
 import { IFormItem } from 'common/components/render-formItem';
 
-// export interface Location extends history.Location {
-//   query: any;
-// }
+export interface Location extends history.Location {
+  query: any;
+}
 
 declare global {
   interface Window {

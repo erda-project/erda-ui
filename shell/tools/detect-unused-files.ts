@@ -18,7 +18,9 @@ import path from 'path';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const pkg = require(path.resolve(__dirname, '../package.json'));
 const { devDependencies, dependencies } = pkg;
-const nodeModules = Object.keys(dependencies).concat(Object.keys(devDependencies)).concat(['path', 'prop-types']);
+const nodeModules = Object.keys(dependencies)
+  .concat(Object.keys(devDependencies))
+  .concat(['path', 'prop-types', 'history']);
 
 const resolve = (pathname: string) => path.resolve(__dirname, '..', pathname);
 
@@ -45,7 +47,6 @@ const aliasMap = {
   agent: resolve('./app/agent.js'),
   i18n: resolve('./app/i18n.ts'),
   'dice-env': resolve('./app/external/env.ts'),
-
   'monitor-overview': resolve('./app/modules/msp/monitor/monitor-overview'),
   'application-insight': resolve('./app/modules/msp/monitor/application-insight'),
   'external-insight': resolve('./app/modules/msp/monitor/external-insight'),
@@ -66,6 +67,16 @@ const aliasMap = {
 const aliasKeys = Object.keys(aliasMap);
 
 const noneJs = ['zh-cn'];
+const ignoreSuffix = ['.md', '.d.ts'];
+const ignorePath = [
+  '__tests__',
+  'config-page',
+  'app/static',
+  'app/views',
+  'bootstrap.js',
+  'app/index.js',
+  'app/styles',
+];
 
 const detect = () => {
   const result = findUnusedModule({
@@ -86,8 +97,10 @@ const detect = () => {
       }
       return path.resolve(curDir, requirePath);
     },
+    ignoreSuffix,
+    ignorePath,
   });
-  console.log('unused files: ');
+  console.log(`unused files count: ${result.unused.length}`);
   (result.unused || []).forEach((item) => {
     console.log(item);
   });

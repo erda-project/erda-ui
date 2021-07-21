@@ -52,7 +52,7 @@ function moduleResolver(curModulePath: string, requirePath: string) {
     }
   }
 
-  // 过滤掉第三方模块
+  // filter node_modules
   if (checkingFile.includes('node_modules')) {
     return '';
   }
