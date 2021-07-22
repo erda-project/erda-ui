@@ -43,7 +43,6 @@ import {
   Spin,
   Steps,
   Switch,
-  // Table,
   Tabs,
   Transfer,
   Tree,
