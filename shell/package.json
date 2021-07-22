@@ -37,7 +37,7 @@
     "restore-iconfont": "node -e 'require(\"./tools/manage-iconfont.js\").restoreIconFont()'",
     "clean": "rm -rf ../public/static/shell",
     "precommit": "lint-staged",
-    "cp-module": "node tools/copy-external-code.js"
+    "extra-logic": "node ../../erda-ui-enterprise/extra-job.js",
     "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts"
   },
   "author": "Erda-FE",
