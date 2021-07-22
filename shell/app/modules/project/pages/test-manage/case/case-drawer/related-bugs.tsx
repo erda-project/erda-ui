@@ -152,13 +152,13 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
-      width: 184,
+      width: 200,
       render: (text: string) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: null,
       dataIndex: 'operate',
-      width: 144,
+      width: 160,
       fixed: 'right',
       render: (text, { issueRelationID }: TEST_CASE.RelatedBug) => {
         return [

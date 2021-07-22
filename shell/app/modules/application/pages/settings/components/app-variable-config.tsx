@@ -261,7 +261,7 @@ const VariableConfig = ({
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operations',
-      width: 192,
+      width: 200,
       fixed: 'right',
       render: (operations: IKeyOperations, record: IKey) => {
         const { canDelete, canDownload, canEdit } = operations || {};

@@ -99,7 +99,7 @@ const TestPlan = () => {
       title: i18n.t('project:passing rate'),
       dataIndex: 'useCasePassedCount',
       className: 'passing-rate',
-      width: 144,
+      width: 160,
       render: (_text, { relsCount }) => {
         const { total, succ } = relsCount;
         const percent = Math.floor((succ / (total || 1)) * 100 || 0);
@@ -115,7 +115,7 @@ const TestPlan = () => {
       title: i18n.t('project:exacutive rate'),
       dataIndex: 'executionRate',
       className: 'passing-rate',
-      width: 144,
+      width: 160,
       render: (_text, { relsCount }) => {
         const { total, succ, fail, block } = relsCount;
         const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);

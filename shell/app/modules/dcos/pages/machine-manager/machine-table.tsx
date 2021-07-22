@@ -479,7 +479,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
       title: <FirstColTitle filterMap={filterMap} />,
-      width: 152,
+      width: 160,
       fixed: 'left',
       dataIndex: 'ip',
       // ...getInputFilter('ip', { placeholder: '根据IP搜索' }),
@@ -602,7 +602,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       dataIndex: 'id',
       key: 'operation',
       fixed: 'right',
-      width: 152,
+      width: 160,
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>

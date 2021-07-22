@@ -76,7 +76,7 @@ const PodTable = (props: IProps) => {
     {
       title: i18n.t('runtime:pod IP'),
       dataIndex: 'ipAddress',
-      width: 112,
+      width: 120,
     },
     {
       title: i18n.t('org:pod instance'),
@@ -92,7 +92,7 @@ const PodTable = (props: IProps) => {
     {
       title: i18n.t('org:namespace'),
       dataIndex: 'k8sNamespace',
-      width: 128,
+      width: 120,
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
@@ -114,7 +114,7 @@ const PodTable = (props: IProps) => {
     {
       title: i18n.t('application:operation'),
       dataIndex: 'op',
-      width: 88,
+      width: 96,
       fixed: 'right',
       render: (_v: any, record: RUNTIME_SERVICE.Pod) => {
         return (

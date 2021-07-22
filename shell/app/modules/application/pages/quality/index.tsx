@@ -169,7 +169,7 @@ const CodeQuality = () => {
     const columns: Array<ColumnProps<QA.Item>> = [
       {
         title: i18n.t('application:file name'),
-        width: 216,
+        width: 240,
         key: 'name',
         render: ({ name }) => (
           <span className="inline-flex-box">
@@ -185,14 +185,14 @@ const CodeQuality = () => {
       },
       {
         title: SONAR_MAP[type].percentCNName,
-        width: 152,
+        width: 160,
         key: 'percentCNName',
         render: ({ measures }) =>
           `${measures.find((item: QA.Measure) => item.metric === SONAR_MAP[type].percentName)?.value} %`,
       },
       {
         title: SONAR_MAP[type].lineCNName,
-        width: 216,
+        width: 240,
         key: 'lineCNName',
         render: ({ measures }) =>
           `${measures.find((item: QA.Measure) => item.metric === SONAR_MAP[type].linesName)?.value}`,

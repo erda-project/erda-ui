@@ -46,7 +46,7 @@ const columns: Column[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    width: 70,
+    width: 72,
   },
   {
     title: i18n.t('org:announcement content'),

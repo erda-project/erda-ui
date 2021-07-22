@@ -337,7 +337,7 @@ export const MembersTable = ({
         {
           title: i18n.t('nickname'),
           dataIndex: 'nick',
-          width: 184,
+          width: 200,
           render: (nick: string, record: IMember) => {
             const { userId, removed } = record;
             return (
@@ -361,7 +361,7 @@ export const MembersTable = ({
         {
           title: i18n.t('user name'),
           dataIndex: 'name',
-          width: 184,
+          width: 200,
           render: (name: string) => {
             return (
               <div className="member-username nowrap" title={name || i18n.t('common:none')}>
@@ -373,7 +373,7 @@ export const MembersTable = ({
         {
           title: 'Email',
           dataIndex: 'email',
-          width: 184,
+          width: 200,
           render: (value: string) => (
             <Tooltip title={value}>
               <span className="for-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
@@ -394,7 +394,7 @@ export const MembersTable = ({
         {
           title: i18n.t('role'),
           dataIndex: 'roles',
-          width: 184,
+          width: 200,
           render: (roles: string[]) => {
             const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
             return (
@@ -436,7 +436,7 @@ export const MembersTable = ({
           {
             title: i18n.t('operations'),
             key: 'op',
-            width: 192,
+            width: 200,
             fixed: 'right',
             render: (record: IMember) => {
               const { userId, removed, labels } = record;

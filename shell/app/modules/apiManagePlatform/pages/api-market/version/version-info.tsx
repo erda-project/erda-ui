@@ -217,7 +217,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('default:version number'),
       dataIndex: ['version', 'major'],
-      width: 128,
+      width: 120,
       render: (_text, { version: { major, minor, patch } }) => `${major}.${minor}.${patch}`,
     },
     {
@@ -228,19 +228,19 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('creator'),
       dataIndex: ['version', 'creatorID'],
-      width: 128,
+      width: 120,
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
       title: i18n.t('create time'),
       dataIndex: ['version', 'createdAt'],
-      width: 180,
+      width: 200,
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: i18n.t('operate'),
       dataIndex: ['version', 'id'],
-      width: 264,
+      width: 280,
       fixed: 'right',
       render: (_text, { version }) => (
         <TableActions>

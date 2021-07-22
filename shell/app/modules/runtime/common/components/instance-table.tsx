@@ -84,7 +84,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     {
       title: i18n.t('runtime:instance ip'),
       dataIndex: 'ipAddress',
-      width: 112,
+      width: 120,
       render: (text: string, record: { [prop: string]: any }) => {
         const { status } = record;
         return withHeader ? (
@@ -107,7 +107,6 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     {
       title: i18n.t('runtime:status'),
       dataIndex: 'status',
-      // width: 150,
       className: 'th-status',
       render: (text: string, record: any) => {
         const { message } = record;

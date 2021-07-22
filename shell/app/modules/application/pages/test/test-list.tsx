@@ -94,7 +94,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('application:time consuming'),
     dataIndex: ['totals', 'duration'],
-    width: 136,
+    width: 160,
     render: (text) => getTestDuration(text),
   },
   {

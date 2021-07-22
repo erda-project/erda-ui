@@ -218,7 +218,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       dataIndex: ['notifyGroup', 'targets'],
       ellipsis: true,
       className: 'notify-info',
-      width: 184,
+      width: 200,
       render: (targets) => (
         <div className="flex-box truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
@@ -228,7 +228,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
-      width: 144,
+      width: 160,
       render: (text) => userMap[text]?.nick,
     },
     {
@@ -240,7 +240,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 152,
+      width: 160,
       fixed: 'right',
       render: (text, record) => {
         return (

@@ -17,55 +17,27 @@ import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
 
 export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
   /**
-   * 64px对应两个中文字符，或者四个英文字符，每增加16px多增加一个中文字符或者两个英文字符
-   *
-   * 超过320px的列可以不写宽度来自适应，但是要加scroll.x，以免宽度太小
+   * id\number - 72
+   * user\status\type\cpu\memory\ip\host - 120
+   * email\phone\roles - 160
+   * time - 200
+   * operations - 80 * n, according to the number of buttons and the number of words
+   * detail\content\description - No need to increase the width of the adaptive, and add the scroll.x of a certain number to the table
+   * All width should be at least larger than the Title in English
    */
-  width?:
-    | 64
-    | 72
-    | 80
-    | 88
-    | 96
-    | 104
-    | 112
-    | 120
-    | 128
-    | 136
-    | 144
-    | 152
-    | 160
-    | 168
-    | 176
-    | 184
-    | 192
-    | 200
-    | 208
-    | 216
-    | 224
-    | 232
-    | 240
-    | 248
-    | 256
-    | 264
-    | 272
-    | 280
-    | 296
-    | 304
-    | 312
-    | 320;
+  width?: 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
 }
 
-interface IProps extends TableProps<object> {
-  columns: Array<ColumnProps<object>>;
+interface IProps<T extends object = any> extends TableProps<T> {
+  columns: Array<ColumnProps<T>>;
 }
 
-const WrappedTable = (({ columns, ...props }: IProps) => {
-  const newColumns = columns?.map(({ width, ...args }: ColumnProps<object>) => ({
+function WrappedTable<T extends object = any>({ columns, ...props }: IProps<T>) {
+  const newColumns = columns?.map(({ ...args }: ColumnProps<T>) => ({
     ellipsis: true,
     ...args,
   }));
   return <Table scroll={{ x: '100%' }} columns={newColumns} {...props} />;
-}) as unknown as typeof Table;
+}
 
 export default WrappedTable;

@@ -231,7 +231,7 @@ const BranchRule = (props: IProps) => {
     {
       title: i18n.t('application:branch'),
       dataIndex: 'rule',
-      width: 184,
+      width: 200,
     },
     ...(extraColumnsMap[scopeType] || []),
     {
@@ -242,7 +242,7 @@ const BranchRule = (props: IProps) => {
       title: i18n.t('common:operation'),
       key: 'operation',
       fixed: 'right',
-      width: 152,
+      width: 160,
       align: 'center',
       render: (_: any, record: PROJECT.IBranchRule) => {
         return (

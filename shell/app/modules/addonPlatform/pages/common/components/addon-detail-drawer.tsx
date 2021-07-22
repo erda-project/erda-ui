@@ -37,11 +37,13 @@ const refTableList = [
     title: i18n.t('application'),
     dataIndex: 'applicationName',
     key: 'applicationName',
+    width: 220,
   },
   {
     title: i18n.t('application instance'),
     dataIndex: 'runtimeName',
     key: 'runtimeName',
+    width: 220,
   },
   {
     title: i18n.t('addonPlatform:deployment details'),
@@ -106,7 +108,7 @@ const AddonDetailDrawer = (props: IProps) => {
           <div className="ref">
             <span className="title bold-500">{i18n.t('org:reference detail')}</span>
             <Table
-              scroll={{ x: '100%' }}
+              scroll={{ x: 800 }}
               columns={refTableList}
               dataSource={addonReferences}
               pagination={false}

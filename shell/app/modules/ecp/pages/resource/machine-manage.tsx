@@ -88,7 +88,7 @@ export default () => {
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
       title: 'IP',
-      width: 152,
+      width: 160,
       dataIndex: 'ip',
     },
     {

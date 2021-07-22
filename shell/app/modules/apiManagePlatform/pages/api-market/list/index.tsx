@@ -185,7 +185,7 @@ const ApiMarketList = () => {
     {
       title: i18n.t('operation'),
       dataIndex: 'permission',
-      width: 264,
+      width: 280,
       fixed: 'right',
       render: ({ manage, addVersion, hasAccess }: API_MARKET.AssetPermission, { asset }) => {
         return (

@@ -299,7 +299,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
-      width: 104,
+      width: 120,
       render: (val: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -318,7 +318,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:severity'),
       dataIndex: 'severity',
-      width: 104,
+      width: 120,
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -337,7 +337,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:assignee'),
       dataIndex: 'assignee',
-      width: 136,
+      width: 160,
       render: (v: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);

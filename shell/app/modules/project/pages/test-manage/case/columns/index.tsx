@@ -42,7 +42,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     title: i18n.t('project:priority'),
     dataIndex: 'priority',
     key: 'priority',
-    width: 88,
+    width: 96,
     sorter: true,
     render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
@@ -50,7 +50,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     title: i18n.t('project:updater'),
     dataIndex: 'updaterID',
     key: 'updaterID',
-    width: 88,
+    width: 96,
     ellipsis: true,
     sorter: true,
     render: (value: string, record: any) =>
@@ -65,7 +65,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     title: i18n.t('project:updated'),
     dataIndex: 'updatedAt',
     key: 'updatedAt',
-    width: 192,
+    width: 200,
     sorter: true,
     render: (value: string, record: any) =>
       renderContent(

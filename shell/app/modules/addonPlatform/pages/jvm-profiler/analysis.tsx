@@ -138,7 +138,7 @@ export default () => {
         title: i18n.t('common:state'),
         dataIndex: ['state', 'state'],
         key: 'state.state',
-        width: 144,
+        width: 160,
         render: (v) => {
           return (
             {
@@ -155,7 +155,7 @@ export default () => {
         title: i18n.t('create time'),
         dataIndex: 'createTime',
         key: 'createTime',
-        width: 184,
+        width: 200,
         render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
       },
       isHistory

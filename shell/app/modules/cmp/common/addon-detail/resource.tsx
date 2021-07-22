@@ -92,7 +92,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       title: i18n.t('status'),
       dataIndex: 'status',
       key: 'status',
-      width: 100,
+      width: 120,
       render: (v: string) =>
         v === 'Healthy' ? (
           <>

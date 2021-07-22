@@ -76,13 +76,12 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       {
         title: i18n.t('default:description'),
         dataIndex: 'desc',
-        width: 120,
         align: 'center',
       },
       {
         title: i18n.t('project:updater'),
         dataIndex: 'updaterID',
-        width: 100,
+        width: 120,
         align: 'center',
         render: (updaterID: any) => {
           const curUser = userMap[updaterID];
@@ -117,7 +116,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
           columns={columns}
           loading={loading}
           dataSource={dataSource}
-          scroll={{ y: 240 }}
+          scroll={{ y: 240, x: 800 }}
           rowClassName={setRowClassName}
           onRow={(p) => ({
             onClick: (e: any) => {

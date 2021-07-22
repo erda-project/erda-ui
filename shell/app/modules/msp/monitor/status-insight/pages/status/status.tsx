@@ -163,7 +163,7 @@ const Status = () => {
     {
       title: `${i18n.t('msp:response map')}(${i18n.t('msp:nearly 1 hour')})`,
       dataIndex: 'chart',
-      width: 144,
+      width: 160,
       render: (_text: string, record: any) => {
         const { chart } = record;
         if (!chart) {

@@ -43,17 +43,16 @@ const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
     {
       title: i18n.t('default:name'),
       dataIndex: 'name',
-      width: 280,
     },
     {
       title: '',
       dataIndex: 'status',
-      width: 100,
+      width: 120,
     },
     {
       title: '',
       key: 'op',
-      width: 100,
+      width: 160,
       render: () => {
         return (
           <div className="table-operations">
@@ -83,7 +82,7 @@ const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
   return (
     <Modal visible={visible} title={i18n.t('default:restore')} onCancel={onCancel}>
       <RenderForm layout="vertical" list={fieldsList} />
-      <Table loading={isFetch} columns={columns} dataSource={backupFiles} pagination={false} scroll={{ x: '100%' }} />
+      <Table loading={isFetch} columns={columns} dataSource={backupFiles} pagination={false} scroll={{ x: 800 }} />
     </Modal>
   );
 };

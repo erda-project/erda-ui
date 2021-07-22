@@ -127,7 +127,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('client identifier'),
       dataIndex: ['client', 'name'],
-      width: 128,
+      width: 120,
     },
     {
       title: i18n.t('current SLA'),
@@ -151,7 +151,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('operation'),
       dataIndex: 'permission',
-      width: 220,
+      width: 240,
       fixed: 'right',
       render: ({ edit }: API_ACCESS.ClientPermission, { contract }) => {
         if (!edit) {

@@ -213,7 +213,7 @@ export default () => {
     [traceCount],
   );
 
-  const columns: Array<ColumnProps<object>> = [
+  const columns: Array<ColumnProps<any>> = [
     {
       title: i18n.t('msp:trace id'),
       dataIndex: 'id',
@@ -222,26 +222,26 @@ export default () => {
     {
       title: i18n.t('msp:time consuming'),
       dataIndex: 'elapsed',
-      width: 224,
+      width: 240,
       sorter: (a: any, b: any) => a.elapsed - b.elapsed,
       render: (elapsed: number) => getFormatter('TIME', 'ns').format(elapsed),
     },
     {
       title: i18n.t('msp:start time'),
       dataIndex: 'startTime',
-      width: 184,
+      width: 200,
       render: (time: number) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('service'),
       dataIndex: 'services',
-      width: 224,
+      width: 240,
       render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
     },
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operation',
-      width: 184,
+      width: 200,
       fixed: 'right',
       render: (_: any, record: any) => (
         <div className="table-operations">

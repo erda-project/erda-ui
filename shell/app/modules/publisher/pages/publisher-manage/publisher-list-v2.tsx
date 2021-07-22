@@ -142,7 +142,7 @@ export const PurePublisherList = ({
     ]),
     {
       title: i18n.t('default:status'),
-      width: 104,
+      width: 120,
       dataIndex: 'public',
       render: (bool) => {
         return (

@@ -85,7 +85,7 @@ const columns = [
     title: i18n.t('required'),
     dataIndex: 'required',
     render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
-    width: 60,
+    width: 64,
   },
 ];
 
