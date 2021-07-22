@@ -31,6 +31,13 @@ const { Option } = Select;
 
 const limits = [10, 20, 50, 100, 200, 500, 1000];
 
+interface RecordType {
+  id: string;
+  elapsed: number;
+  startTime: number;
+  services: string[];
+}
+
 export default () => {
   const initialRange = [moment().subtract(1, 'hours'), moment()];
   const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
@@ -213,7 +220,7 @@ export default () => {
     [traceCount],
   );
 
-  const columns: Array<ColumnProps<any>> = [
+  const columns: Array<ColumnProps<RecordType>> = [
     {
       title: i18n.t('msp:trace id'),
       dataIndex: 'id',
@@ -243,7 +250,7 @@ export default () => {
       dataIndex: 'operation',
       width: 200,
       fixed: 'right',
-      render: (_: any, record: any) => (
+      render: (_: any, record: RecordType) => (
         <div className="table-operations">
           <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
             {i18n.t('check detail')}
