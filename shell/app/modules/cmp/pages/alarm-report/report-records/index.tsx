@@ -167,13 +167,15 @@ export default () => {
                   </li>
                 ))}
               </ul>
-              <Pagination
-                className="text-center mt12"
-                simple
-                defaultCurrent={1}
-                total={total}
-                onChange={(no) => handleChange(no)}
-              />
+              {total && (
+                <Pagination
+                  className="text-center mt12"
+                  simple
+                  defaultCurrent={1}
+                  total={total}
+                  onChange={(no) => handleChange(no)}
+                />
+              )}
             </Holder>
           </Spin>
         </div>

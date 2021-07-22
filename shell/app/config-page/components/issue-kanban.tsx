@@ -107,7 +107,14 @@ const IssueKanban = (props: IProps) => {
     <div className="dice-cp issue-kanban">
       {map(board || [], (item) => {
         return item ? (
-          <Kanban {...props} exitLabel={labelList} data={item} key={item.key || item.label} isLoadMore={isLoadMore} />
+          <Kanban
+            {...props}
+            exitLabel={labelList}
+            refreshBoard={data?.refreshBoard}
+            data={item}
+            key={item.key || item.label}
+            isLoadMore={isLoadMore}
+          />
         ) : null;
       })}
       {operations?.CreateCustom ? (
@@ -148,10 +155,11 @@ interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
   data: IData;
   isLoadMore: boolean;
   exitLabel: string[];
+  refreshBoard?: boolean;
 }
 
 const Kanban = (props: IKanbanProps) => {
-  const { data, exitLabel, execOperation, isLoadMore, ...rest } = props;
+  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, ...rest } = props;
   const { label, labelKey, list: propsList, total, pageSize, pageNo, operations: boardOp } = data;
   const otherLabel = without(exitLabel, label);
   const userMap = useUserMap();
@@ -162,10 +170,10 @@ const Kanban = (props: IKanbanProps) => {
   const cardType = 'kanban-info-card';
 
   useUpdateEffect(() => {
-    if (isLoadMore) {
+    if (isLoadMore && !refreshBoard) {
       propsList && setList((prev) => (pageNo > 1 ? prev.concat(propsList) : propsList));
     } else {
-      setList(propsList);
+      setList(propsList || []);
     }
   }, [propsList, pageNo]);
 

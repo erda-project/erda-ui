@@ -158,7 +158,17 @@ const ReleaseList = () => {
             <span>{i18n.t('org:No results found? Please try other keywords to search.')}</span>
           </div>
           <ELSE />
-          <Pagination className="release-pagination" simple defaultCurrent={1} total={total} onChange={changePage} />
+          <>
+            {total && (
+              <Pagination
+                className="release-pagination"
+                simple
+                defaultCurrent={1}
+                total={total}
+                onChange={changePage}
+              />
+            )}
+          </>
         </IF>
       </div>
       <div className="release-detail-container">

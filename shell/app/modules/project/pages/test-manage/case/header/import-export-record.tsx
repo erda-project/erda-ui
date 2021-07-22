@@ -13,6 +13,7 @@
 
 import { isEmpty } from 'lodash';
 import React, { useState } from 'react';
+import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import { Badge, Button, Drawer, message, Spin, Table } from 'app/nusi';
 import { useInterval, useMount } from 'react-use';
@@ -187,6 +188,22 @@ const ImportExportRecord = ({
     },
   ];
 
+  const Title = () => {
+    return (
+      <div>
+        <span>{i18n.t('recent import and export records')}</span>
+        {!!badgeCount && !loading && (
+          <span className="align-baseline">
+            <CustomIcon type="warning" className="ml-4 font-bold text-sm text-warning" />
+            <span className="text-sm text-dark-6 font-normal">
+              {i18n.t('project:import and export tasks are in queue, please wait')}
+            </span>
+          </span>
+        )}
+      </div>
+    );
+  };
+
   return (
     <>
       <Badge count={badgeCount}>
@@ -195,12 +212,7 @@ const ImportExportRecord = ({
         </Button>
       </Badge>
 
-      <Drawer
-        width="70%"
-        onClose={() => setContentVisible(false)}
-        visible={contentVisible}
-        title={i18n.t('recent import and export records')}
-      >
+      <Drawer width="70%" onClose={() => setContentVisible(false)} visible={contentVisible} title={<Title />}>
         <Spin spinning={loading}>
           <Table rowKey="id" size="small" columns={columns} dataSource={list} scroll={{ x: '100%' }} />
         </Spin>
