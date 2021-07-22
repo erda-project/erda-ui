@@ -16,11 +16,22 @@ import defaultOrgIcon from 'app/images/default-org-icon.svg';
 import defaultErdaIcon from 'app/static/favicon.ico';
 import defaultOrgImg from 'app/images/resources/org.png';
 import defaultAppIcon from 'app/images/default-app-icon.png';
+import emptyProjectImg from 'app/images/empty-project.png';
 
-export default {
-  '/images/default-project-icon.png': defaultProjectIcon,
-  '/images/default-org-icon.svg': defaultOrgIcon,
-  '/images/favicon.ico': defaultErdaIcon,
-  '/images/resources/org.png': defaultOrgImg,
-  '/images/default-app-icon.svg': defaultAppIcon,
+const ImgMap = {
+  frontImg_default_project_icon: defaultProjectIcon,
+  frontImg_default_org_icon: defaultOrgIcon,
+  frontImg_erda_favicon: defaultErdaIcon,
+  frontImg_default_org_img: defaultOrgImg,
+  frontImg_default_app_icon: defaultAppIcon,
+  frontImg_empty_project: emptyProjectImg,
+};
+
+export default ImgMap;
+
+export const getImg = (imgKey) => {
+  if (imgKey && ImgMap[imgKey]) {
+    return ImgMap[imgKey];
+  }
+  return imgKey;
 };

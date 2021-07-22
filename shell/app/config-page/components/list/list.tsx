@@ -18,7 +18,7 @@ import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';
 import i18n from 'i18n';
-import imgMap from '../../img-map';
+import imgMap, { getImg } from 'app/config-page/img-map';
 import './list.scss';
 
 const emptyArr = [] as any[];
@@ -169,10 +169,7 @@ const Item = (props: ItemProps) => {
     <div className={itemClassNames} onClick={onClickItem}>
       {isString(prefixImg) ? (
         <div className="cp-list-item-prefix-img">
-          <img
-            src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : (prefixImg as string)}
-            className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`}
-          />
+          <img src={getImg(prefixImg)} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
         </div>
       ) : prefixImg ? (
         <div className="cp-list-item-prefix-img">{prefixImg}</div>
