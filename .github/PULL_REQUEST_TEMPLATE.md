@@ -2,8 +2,11 @@
 
 
 ## Does this PR introduce a user interface change?
-- [ ] Yes(screenshot is required)
-- [ ] No
+<!--
+Delete the unchosen one
+-->
+Yes(screenshot is required)
+No
 
 
 ## ChangeLog
