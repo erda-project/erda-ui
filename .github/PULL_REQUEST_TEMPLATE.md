@@ -5,8 +5,8 @@
 <!--
 Delete the unchosen one
 -->
-:white_check_mark: Yes(screenshot is required)
-:negative_squared_cross_mark: No
+✅ Yes(screenshot is required)
+❎ No
 
 
 ## ChangeLog
