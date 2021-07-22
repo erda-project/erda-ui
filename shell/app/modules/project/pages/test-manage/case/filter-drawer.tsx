@@ -59,7 +59,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
           scopeType="project"
           scopeId={params.projectId}
           selectNoneInOption
-          quickSelectInOption
+          selectSelfInOption
         />
       ),
     },
@@ -88,7 +88,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
             scopeType="project"
             scopeId={params.projectId}
             selectNoneInOption
-            quickSelectInOption
+            selectSelfInOption
           />
         ),
       },

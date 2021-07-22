@@ -45,7 +45,7 @@ interface IProps extends ILoadMoreSelectorProps {
   showRole?: boolean;
   scopeId?: string;
   showSelfChosen?: boolean;
-  quickSelectInOption?: boolean;
+  selectSelfInOption?: boolean;
   selectNoneInOption?: boolean;
 }
 
@@ -155,7 +155,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     size,
     showSelfChosen = false,
     placeholder,
-    quickSelectInOption,
+    selectSelfInOption,
     selectNoneInOption,
     onChange: _onChange,
     ...rest
@@ -217,7 +217,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     if (`${value}` !== `${loginUserId}`) onChange(rest?.mode === 'multiple' ? [loginUserId] : loginUserId);
   };
 
-  const selectSelf = quickSelectInOption ? (
+  const selectSelf = selectSelfInOption ? (
     <a
       onClick={() => !rest.disabled && selectSelfOp()}
       className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}

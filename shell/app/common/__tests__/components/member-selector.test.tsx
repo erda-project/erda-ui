@@ -175,7 +175,7 @@ describe('member-selector', () => {
     expect(deleteValueFn).toHaveBeenLastCalledWith(data.list[0]);
     expect(wrapper.find('LoadMoreSelector').prop('quickSelect')).toBeNull();
     wrapper.setProps({
-      quickSelectInOption: true,
+      selectSelfInOption: true,
     });
     const quickSelect = shallow(<div>{wrapper.find('LoadMoreSelector').prop('quickSelect')}</div>);
     quickSelect.find('a').simulate('click');
