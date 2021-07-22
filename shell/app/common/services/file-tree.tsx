@@ -95,7 +95,7 @@ export function fuzzySearch(payload: TREE.FuzzySearch): TREE.NODE[] {
 
 export const getTreeNodeDetailNew = ({ id, ...rest }: { id: string; scope: string; scopeID: string }): TREE.NODE => {
   return agent
-    .get(`/api/project-pipeline/filetree/${id}`)
+    .get(`/api/project-pipeline/filetree/${encodeURIComponent(id)}`)
     .query(rest)
     .then((response: any) => response.body);
 };
@@ -126,7 +126,7 @@ export function createTreeNodeNew(payload: TREE.CreateNodeParams): TREE.NODE {
 export function deleteTreeNodeNew(payload: { inode: string }): TREE.NODE {
   const { inode, ...rest } = payload;
   return agent
-    .delete(`/api/project-pipeline/filetree/${inode}`)
+    .delete(`/api/project-pipeline/filetree/${encodeURIComponent(inode)}`)
     .send(rest)
     .then((response: any) => response.body);
 }
@@ -135,7 +135,7 @@ export function deleteTreeNodeNew(payload: { inode: string }): TREE.NODE {
 export function getAncestorsNew(payload: { inode: string }): TREE.NODE[] {
   const { inode, ...rest } = payload;
   return agent
-    .get(`/api/project-pipeline/filetree/${inode}/actions/find-ancestors`)
+    .get(`/api/project-pipeline/filetree/${encodeURIComponent(inode)}/actions/find-ancestors`)
     .query(rest)
     .then((response: any) => response.body);
 }

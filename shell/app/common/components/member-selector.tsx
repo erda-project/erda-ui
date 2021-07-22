@@ -16,7 +16,7 @@ import * as React from 'react';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
-import { map, debounce, isEmpty, get, isArray, isString, difference } from 'lodash';
+import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
 import { getUsers, getMembers, getUsersNew } from 'common/services';
 import { MemberScope } from 'app/common/stores/member-scope';
 import { LoadMoreSelector, ImgHolder } from 'common';
@@ -46,6 +46,7 @@ interface IProps extends ILoadMoreSelectorProps {
   scopeId?: string;
   showSelfChosen?: boolean;
   quickSelectInOption?: boolean;
+  selectNoneInOption?: boolean;
 }
 
 interface IPropsWithCategory extends ILoadMoreSelectorProps {
@@ -76,7 +77,7 @@ const valueItemRender =
   (size = 'normal') =>
   (user: any, deleteValue: (item: any) => void, isMultiple?: boolean) => {
     const { avatar, nick, name, label, value } = user;
-    const displayName = nick || label || value || i18n.t('common:none');
+    const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:none');
     const cls = {
       normal: {
         img: '20x20',
@@ -137,6 +138,9 @@ export const getNotFoundContent = (scopeType: string) => {
   }
   return tip;
 };
+
+const USER_NONE = 'unassigned';
+
 export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>, ref: any) => {
   const {
     scopeType = 'org',
@@ -152,6 +156,8 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     showSelfChosen = false,
     placeholder,
     quickSelectInOption,
+    selectNoneInOption,
+    onChange: _onChange,
     ...rest
   } = props;
   const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
@@ -207,15 +213,42 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     return <UserSelector {...(props as any)} />;
   }
 
-  const selectSelf = () => {
-    if (`${value}` !== `${loginUserId}`) rest?.onChange(rest?.mode === 'multiple' ? [loginUserId] : loginUserId);
+  const selectSelfOp = () => {
+    if (`${value}` !== `${loginUserId}`) onChange(rest?.mode === 'multiple' ? [loginUserId] : loginUserId);
   };
 
-  const quickSelect = quickSelectInOption ? (
-    <a onClick={() => !rest.disabled && selectSelf()} className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}>
+  const selectSelf = quickSelectInOption ? (
+    <a
+      onClick={() => !rest.disabled && selectSelfOp()}
+      className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}
+    >
       {i18n.t('choose self')}
     </a>
   ) : null;
+
+  const selectNoneOp = () => {
+    onChange(rest?.mode === 'multiple' ? [USER_NONE] : USER_NONE);
+  };
+
+  const selectNone = selectNoneInOption ? (
+    <a
+      onClick={() => !rest.disabled && selectNoneOp()}
+      className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}
+    >
+      {i18n.t('unspecified')}
+    </a>
+  ) : null;
+
+  const quickSelect = compact([selectSelf, selectNone]);
+
+  const onChange = (val: string[] | string, options?: IOption | IOption[]) => {
+    let _val = val;
+    if (isArray(val) && val.includes(USER_NONE) && val.length > 1) {
+      // delete user_none when select other user
+      _val = _val.filter((vItem: string) => vItem !== USER_NONE);
+    }
+    _onChange?.(_val, options);
+  };
 
   return (
     <>
@@ -246,11 +279,12 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
         forwardedRef={ref}
         quickSelect={quickSelect}
         size={size}
+        onChange={onChange}
         {...rest}
       />
       {showSelfChosen ? (
         <a
-          onClick={() => !rest.disabled && selectSelf()}
+          onClick={() => !rest.disabled && selectSelfOp()}
           className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml8`}
         >
           {i18n.t('choose self')}
