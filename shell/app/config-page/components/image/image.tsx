@@ -14,7 +14,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import './image.scss';
-import imgMap, { getImg } from 'app/config-page/img-map';
+import { getImg } from 'app/config-page/img-map';
 
 const Image = (props: CP_IMAGE.Props) => {
   const { props: configProps } = props;

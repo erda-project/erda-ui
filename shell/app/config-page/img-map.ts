@@ -29,7 +29,7 @@ const ImgMap = {
 
 export default ImgMap;
 
-export const getImg = (imgKey) => {
+export const getImg = (imgKey: string) => {
   if (imgKey && ImgMap[imgKey]) {
     return ImgMap[imgKey];
   }

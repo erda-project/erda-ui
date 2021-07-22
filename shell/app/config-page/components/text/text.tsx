@@ -14,9 +14,9 @@
 import * as React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon } from 'common';
-import { Badge, Title, Button } from 'app/nusi';
+import { Badge, Title } from 'app/nusi';
 import i18n from 'i18n';
-import imgMap, { getImg } from 'app/config-page/img-map';
+import { getImg } from 'app/config-page/img-map';
 import classnames from 'classnames';
 import './text.scss';
 

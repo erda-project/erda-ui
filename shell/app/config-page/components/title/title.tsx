@@ -16,9 +16,9 @@
  */
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip, Button, Popconfirm } from 'app/nusi';
+import { Title as NusiTitle, Tooltip, Button } from 'app/nusi';
 import { OperationAction } from 'config-page/utils';
-import imgMap, { getImg } from 'app/config-page/img-map';
+import { getImg } from 'app/config-page/img-map';
 import './title.scss';
 
 const Title = (props: CP_TITLE.Props) => {

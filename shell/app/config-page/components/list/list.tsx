@@ -18,7 +18,7 @@ import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';
 import i18n from 'i18n';
-import imgMap, { getImg } from 'app/config-page/img-map';
+import { getImg } from 'app/config-page/img-map';
 import './list.scss';
 
 const emptyArr = [] as any[];
