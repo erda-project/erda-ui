@@ -302,7 +302,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('default:description'),
       dataIndex: 'description',
-      render: (text) => text || '_',
+      ellipsis: true,
+      render: (text) => text || '-',
     },
     {
       title: i18n.t('application:type'),
