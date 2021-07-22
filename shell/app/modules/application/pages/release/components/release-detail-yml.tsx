@@ -15,7 +15,6 @@ import * as React from 'react';
 import FileContainer from 'application/common/components/file-container';
 import { IF, FileEditor } from 'common';
 import releaseStore from 'app/modules/application/stores/release';
-import { useMount } from 'react-use';
 
 interface IProps {
   releaseId: string;
@@ -24,12 +23,12 @@ interface IProps {
 const ReleaseDetailYml = ({ releaseId }: IProps) => {
   const [yml, setYml] = React.useState('');
 
-  useMount(() => {
+  React.useEffect(() => {
     const { getDiceYml } = releaseStore.effects;
     getDiceYml(releaseId).then((diceYml) => {
       setYml(diceYml);
     });
-  });
+  }, [releaseId]);
 
   return (
     <div className="release-detail-page">
