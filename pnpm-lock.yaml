@@ -354,6 +354,7 @@ importers:
       highlight.js: ^10.5.0
       holderjs: ^2.9.4
       html-webpack-plugin: ^5.2.0
+      https-browserify: ^1.0.0
       i18next: ^17.0.13
       i18next-scanner: ^2.10.2
       identity-obj-proxy: ^3.0.0
@@ -413,6 +414,7 @@ importers:
       snapsvg-cjs: 0.0.6
       sockjs-client: ^1.1.5
       speed-measure-webpack-plugin: ^1.5.0
+      stream-http: ^3.2.0
       style-loader: ^2.0.0
       superagent: ^5.2.2
       superagent-use: ^0.1.0
@@ -455,6 +457,7 @@ importers:
       file-loader: 6.2.0_webpack@5.38.1
       highlight.js: 10.7.2
       holderjs: 2.9.9
+      https-browserify: 1.0.0
       i18next: 17.3.1
       immer: 8.0.4
       intersection-observer: 0.5.1
@@ -487,6 +490,7 @@ importers:
       screenfull: 5.1.0
       snapsvg-cjs: 0.0.6
       sockjs-client: 1.5.1
+      stream-http: 3.2.0
       style-loader: 2.0.0_webpack@5.38.1
       superagent: 5.3.1
       superagent-use: 0.1.0
@@ -13271,6 +13275,7 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.1_supports-color@6.1.0
+    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -14435,7 +14440,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.1_debug@4.3.1
+      follow-redirects: 1.14.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -24613,6 +24618,15 @@ packages:
       inherits: 2.0.4
       readable-stream: 2.3.7
       to-arraybuffer: 1.0.1
+      xtend: 4.0.2
+    dev: false
+
+  /stream-http/3.2.0:
+    resolution: {integrity: sha512-Oq1bLqisTyK3TSCXpPbT4sdeYNdmyZJv1LxpEm2vu1ZhK89kSE5YXwZc3cWk0MagGaKriBh9mCFbVGtO+vY29A==}
+    dependencies:
+      builtin-status-codes: 3.0.0
+      inherits: 2.0.4
+      readable-stream: 3.6.0
       xtend: 4.0.2
     dev: false
 

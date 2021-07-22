@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable no-console */
-/* eslint-disable no-bitwise */
 import * as parser from '@babel/parser';
 import traverse from '@babel/traverse';
 import fs from 'fs';
@@ -26,9 +25,9 @@ const JSON_EXTS = ['.json'];
 let requirePathResolver: (curDir: string, requirePath: string) => string;
 
 const MODULE_TYPES = {
-  JS: 1 << 0,
-  CSS: 1 << 1,
-  JSON: 1 << 2,
+  JS: 0,
+  CSS: 1,
+  JSON: 2,
 };
 
 function isDirectory(filePath) {
@@ -206,7 +205,7 @@ export const traverseModule = (curModulePath: string, callback: (str: string) =>
   const modulePath = completeModulePath(curModulePath);
   const moduleType = getModuleType(modulePath);
 
-  if (moduleType & MODULE_TYPES.JS) {
+  if (moduleType === MODULE_TYPES.JS) {
     traverseJsModule(modulePath, callback);
   }
 };

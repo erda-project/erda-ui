@@ -22,48 +22,9 @@ const nodeModules = Object.keys(dependencies)
   .concat(Object.keys(devDependencies))
   .concat(['path', 'prop-types', 'history']);
 
-const resolve = (pathname: string) => path.resolve(__dirname, '..', pathname);
-
-const aliasMap = {
-  app: resolve('./app'),
-  common: resolve('./app/common'),
-  configForm: resolve('./app/configForm'),
-  'yml-chart': resolve('./app/yml-chart'),
-  'config-page': resolve('./app/config-page'),
-  layout: resolve('./app/layout'),
-  user: resolve('./app/user'),
-  charts: resolve('./app/charts'),
-  dcos: resolve('./app/modules/dcos'),
-  project: resolve('./app/modules/project'),
-  publisher: resolve('./app/modules/publisher'),
-  cmp: resolve('./app/modules/cmp'),
-  org: resolve('./app/modules/org'),
-  application: resolve('./app/modules/application'),
-  runtime: resolve('./app/modules/runtime'),
-  dop: resolve('./app/modules/dop'),
-  addonPlatform: resolve('./app/modules/addonPlatform'),
-  msp: resolve('./app/modules/msp'),
-  apiManagePlatform: resolve('./app/modules/apiManagePlatform'),
-  agent: resolve('./app/agent.js'),
-  i18n: resolve('./app/i18n.ts'),
-  'dice-env': resolve('./app/external/env.ts'),
-  'monitor-overview': resolve('./app/modules/msp/monitor/monitor-overview'),
-  'application-insight': resolve('./app/modules/msp/monitor/application-insight'),
-  'external-insight': resolve('./app/modules/msp/monitor/external-insight'),
-  'service-insight': resolve('./app/modules/msp/monitor/service-insight'),
-  'browser-insight': resolve('./app/modules/msp/monitor/browser-insight'),
-  'gateway-ingress': resolve('./app/modules/msp/monitor/gateway-ingress'),
-  'docker-container': resolve('./app/modules/msp/monitor/docker-container'),
-  'mobile-insight': resolve('./app/modules/msp/monitor/mobile-insight'),
-  'api-insight': resolve('./app/modules/msp/monitor/api-insight'),
-  'trace-insight': resolve('./app/modules/msp/monitor/trace-insight'),
-  'monitor-common': resolve('./app/modules/msp/monitor/monitor-common'),
-  topology: resolve('./app/modules/msp/monitor/topology'),
-  'status-insight': resolve('./app/modules/msp/monitor/status-insight'),
-  'error-insight': resolve('./app/modules/msp/monitor/error-insight'),
-  'monitor-alarm': resolve('./app/modules/msp/monitor/monitor-alarm'),
-};
-
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const webpackConfig = require(path.resolve(__dirname, '../webpack.config.js'));
+const aliasMap = webpackConfig().resolve.alias;
 const aliasKeys = Object.keys(aliasMap);
 
 const noneJs = ['zh-cn'];
