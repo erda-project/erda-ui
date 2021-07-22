@@ -137,7 +137,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   } = configProps;
   const { data = {}, attemptTest } = state;
   const [api, setAPI] = React.useState(data?.apiSpec || {});
-  const [loop, setLoop] = React.useState(data?.loop);
+  const [loop, setLoop] = React.useState({ loop: data?.loop });
 
   const processTempFun = processTemp(execOperation);
 
@@ -163,7 +163,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       }
     });
     setAPI(apiSpec);
-    setLoop(data?.loop);
+    setLoop({ loop: data?.loop });
   }, [data]);
 
   const handleClose = () => {
@@ -233,7 +233,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           message.error(errMsg);
           return;
         }
-        execOperation(operations.onChange, { data: { ...value, loop } });
+        execOperation(operations.onChange, { data: { ...value, ...loop } });
       }
     },
     [api, loop, data, execOperation, operations, validateSpec],
@@ -515,6 +515,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       </div>
     );
   }
+
   return (
     <div className="api-item-editor">
       <Spin size="small" spinning={executingMap[index] || false}>

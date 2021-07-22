@@ -2,8 +2,22 @@
 
 
 ## Does this PR introduce a user interface change?
-- [ ] Yes(screenshot is required)
-- [ ] No
+<!--
+Delete the unchosen one
+-->
+✅ Yes(screenshot is required)
+❎ No
+
+
+## ChangeLog
+<!--
+Describe the specific changes from the user's perspective, as well as possible Breaking Change and other risks.
+-->
+
+| Language | Changelog |
+| --------- | ------------ |
+| 🇺🇸 English |              |
+| 🇨🇳 中文    |              |
 
 
 ## Which versions should be patched?

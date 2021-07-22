@@ -114,7 +114,7 @@ const ClusterManage = () => {
       updateCluster({ ...values, credential });
     } else {
       addCluster({ ...restData, credential });
-      if (restData.credentialType === 'proxy') {
+      if (restData.credentialType === 'proxy' && restData.type === 'k8s') {
         setSearch({ autoOpenCmd: true, clusterName: restData.name }, [], true);
       }
     }
