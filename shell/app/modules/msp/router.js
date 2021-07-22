@@ -85,55 +85,17 @@ function getMspRouter() {
               ],
             },
 
-            // 注册中心
             {
               path: 'nodes', // 节点流量管理
               breadcrumbName: i18n.t('msp:node traffic management'),
               keepQuery: true,
               getComp: (cb) => cb(import('msp/pages/zkproxy/node-list')),
             },
-            {
-              path: 'services', // 服务注册列表
-              breadcrumbName: i18n.t('msp:service registration list'),
-              alwaysShowTabKey: 'services',
-              tabs: [
-                { key: 'services', name: i18n.t('msp:dubbo protocol') },
-                { key: 'services/http', name: i18n.t('msp:http protocol') },
-              ],
-              routes: [
-                {
-                  keepQuery: true,
-                  getComp: (cb) => cb(import('msp/pages/zkproxy/zkproxy-list')),
-                },
-                {
-                  path: 'http',
-                  tabs: [
-                    { key: 'services', name: i18n.t('msp:dubbo protocol') },
-                    { key: 'services/http', name: i18n.t('msp:http protocol') },
-                  ],
-                  alwaysShowTabKey: 'services/http',
-                  keepQuery: true,
-                  getComp: (cb) => cb(import('msp/pages/zkproxy/http-list')),
-                },
-                {
-                  path: 'interface-detail',
-                  getComp: (cb) => cb(import('msp/pages/zkproxy/interface-detail')),
-                },
-              ],
-            },
+            // 注册中心
             {
               path: 'release', // 灰度发布
               breadcrumbName: i18n.t('msp:grayscale release'),
               getComp: (cb) => cb(import('msp/pages/zkproxy/governance')),
-            },
-
-            // 网关
-
-            // 配置管理
-            {
-              path: 'config/:tenantId',
-              breadcrumbName: i18n.t('msp:console'),
-              getComp: (cb) => cb(import('msp/pages/config-center')),
             },
             {
               path: 'info/:tenantId?',
