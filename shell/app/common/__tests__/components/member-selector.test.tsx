@@ -173,7 +173,7 @@ describe('member-selector', () => {
     expect(valueItemRenderWrapper.find('.value-item-wrapper').childAt(0).name()).toBe('Tag');
     valueItemRenderWrapper.find('Tag').prop('onClose')();
     expect(deleteValueFn).toHaveBeenLastCalledWith(data.list[0]);
-    expect(wrapper.find('LoadMoreSelector').prop('quickSelect')).toBeNull();
+    expect(wrapper.find('LoadMoreSelector').prop('quickSelect')).toStrictEqual([]);
     wrapper.setProps({
       selectSelfInOption: true,
     });
