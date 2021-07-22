@@ -6,6 +6,17 @@
 - [ ] No
 
 
+## ChangeLog
+<!--
+Describe the specific changes from the user's perspective, as well as possible Breaking Change and other risks.
+-->
+
+| Language | Changelog |
+| --------- | ------------ |
+| 🇺🇸 English |              |
+| 🇨🇳 中文    |              |
+
+
 ## Which versions should be patched?
 
 
