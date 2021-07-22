@@ -201,13 +201,15 @@ const ProjectReport = ({ type }: IProps) => {
                     </li>
                   ))}
                 </ul>
-                <Pagination
-                  className="project-report-pagination text-right mt12"
-                  simple
-                  defaultCurrent={1}
-                  total={total}
-                  onChange={handleChangePage}
-                />
+                {total && (
+                  <Pagination
+                    className="project-report-pagination text-right mt12"
+                    simple
+                    defaultCurrent={1}
+                    total={total}
+                    onChange={handleChangePage}
+                  />
+                )}
               </Holder>
             </Spin>
           </div>
