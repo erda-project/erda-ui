@@ -144,7 +144,7 @@ const PureLoadMoreSelector = (props: IProps) => {
     valueItemRender = defaultValueItemRender,
     chosenItemConvert,
     changeQuery = emptyFun,
-    quickSelect = [],
+    quickSelect = null,
     onDropdownVisible,
     onVisibleChange,
     dropdownMatchSelectWidth = true,
