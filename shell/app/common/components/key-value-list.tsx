@@ -13,6 +13,7 @@
 
 import * as React from 'react';
 import { map } from 'lodash';
+import Markdown from 'common/utils/marked';
 import './key-value-list.scss';
 
 interface IParam {
@@ -21,6 +22,7 @@ interface IParam {
   className?: string;
   depth?: number;
   shrink?: boolean;
+  withMarkdown?: boolean;
   textRender?: (k: string, v: string) => string | JSX.Element | null;
   listRender?: (b: string[]) => React.ReactNodeArray | JSX.Element;
 }
@@ -32,6 +34,7 @@ export const KeyValueList = ({
   textRender,
   listRender,
   shrink = false,
+  withMarkdown = false,
   ...rest
 }: IParam) => {
   return (
@@ -79,7 +82,14 @@ export const KeyValueList = ({
                 return (
                   <div className="k-v-row" key={normalK}>
                     <span className="key">{normalK}</span>
-                    <span className="value"> {textRender ? textRender(normalK, normalV) : String(normalV)} </span>
+                    {normalK === 'desc' && withMarkdown ? (
+                      <span
+                        className="w-7/10 overflow-auto max-h-72"
+                        dangerouslySetInnerHTML={{ __html: Markdown(normalV || '') }}
+                      />
+                    ) : (
+                      <span className="value"> {textRender ? textRender(normalK, normalV) : String(normalV)} </span>
+                    )}
                   </div>
                 );
               })}
