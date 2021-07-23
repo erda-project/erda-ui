@@ -47,6 +47,7 @@ const DeleteClusterModal = ({ visible, curCluster, onCancel, onSubmit = () => {}
       name: 'clusterName',
     },
   ];
+
   return (
     <FormModal
       title={i18n.t('org:Please enter the cluster name to confirm to go offline.')}

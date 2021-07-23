@@ -132,16 +132,18 @@ export const IterationItem = (props: IProps) => {
           )}
         </Spin>
         <div>
-          <Pagination
-            className="right-flex-box pt8"
-            simple
-            defaultCurrent={1}
-            total={total}
-            pageSize={20}
-            onChange={(_page: number) => {
-              update({ pageNo: _page });
-            }}
-          />
+          {total && (
+            <Pagination
+              className="right-flex-box pt8"
+              simple
+              defaultCurrent={1}
+              total={total}
+              pageSize={20}
+              onChange={(_page: number) => {
+                update({ pageNo: _page });
+              }}
+            />
+          )}
         </div>
       </div>
       {drawerVisible ? (

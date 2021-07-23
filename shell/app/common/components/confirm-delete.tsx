@@ -24,6 +24,7 @@ interface IProps {
   modalChildren?: JSX.Element;
   deleteItem?: string;
   confirmTip?: string;
+  hasTriggerContent?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
 }
@@ -32,6 +33,7 @@ const noop = () => {};
 export const ConfirmDelete = (props: IProps) => {
   const {
     deleteItem,
+    hasTriggerContent = true,
     confirmTip,
     children,
     onConfirm = noop,
@@ -41,7 +43,7 @@ export const ConfirmDelete = (props: IProps) => {
     disabledConfirm = false,
     onCancel = noop,
   } = props;
-  const [isVisible, setIsVisible] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(!hasTriggerContent);
 
   const showModal = () => {
     setIsVisible(true);
@@ -61,16 +63,21 @@ export const ConfirmDelete = (props: IProps) => {
     secondTitle || i18n.t('common:{deleteItem} cannot be restored after deletion. Continue?', { deleteItem });
   const _confirmTip =
     confirmTip || i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', { deleteItem });
+
   return (
     <div>
-      <div className="color-text-desc mb8">{_confirmTip}</div>
-      <span onClick={showModal}>
-        {children || (
-          <Button ghost type="danger">
-            {i18n.t('common:delete current {deleteItem}', { deleteItem })}
-          </Button>
-        )}
-      </span>
+      {hasTriggerContent && (
+        <>
+          <div className="color-text-desc mb8">{_confirmTip}</div>
+          <span onClick={showModal}>
+            {children || (
+              <Button ghost type="danger">
+                {i18n.t('common:delete current {deleteItem}', { deleteItem })}
+              </Button>
+            )}
+          </span>
+        </>
+      )}
       <Modal
         title={
           <div className="wrap-flex-box">

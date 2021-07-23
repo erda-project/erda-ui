@@ -45,7 +45,7 @@ jobs:
       - name: Set pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.0.2
+          version: 6.10.0
 
       - name: Install Dependencies
         run: |

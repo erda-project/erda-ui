@@ -34,6 +34,7 @@ import {
   Menu,
   Tooltip,
 } from 'app/nusi';
+import { Form as ConfigForm } from 'dop/pages/form-editor/index';
 import React from 'react';
 import { Copy as IconCopy } from '@icon-park/react';
 import { produce } from 'immer';
@@ -125,9 +126,18 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       set(draft, `${item}.temp`, commonTemp.temp);
     });
   });
-  const { index, executingMap = {}, methodList, visible = true, apiExecute, showSave = true } = configProps;
+  const {
+    index,
+    executingMap = {},
+    methodList,
+    visible = true,
+    apiExecute,
+    showSave = true,
+    loopFormField,
+  } = configProps;
   const { data = {}, attemptTest } = state;
   const [api, setAPI] = React.useState(data?.apiSpec || {});
+  const [loop, setLoop] = React.useState({ loop: data?.loop });
 
   const processTempFun = processTemp(execOperation);
 
@@ -153,6 +163,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       }
     });
     setAPI(apiSpec);
+    setLoop({ loop: data?.loop });
   }, [data]);
 
   const handleClose = () => {
@@ -222,10 +233,10 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           message.error(errMsg);
           return;
         }
-        execOperation(operations.onChange, { data: value });
+        execOperation(operations.onChange, { data: { ...value, ...loop } });
       }
     },
-    [api, data, execOperation, operations, validateSpec],
+    [api, loop, data, execOperation, operations, validateSpec],
   );
 
   if (!visible) return null;
@@ -504,6 +515,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       </div>
     );
   }
+
   return (
     <div className="api-item-editor">
       <Spin size="small" spinning={executingMap[index] || false}>
@@ -590,6 +602,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           ) : null}
           {apiExecuteButton}
         </div>
+        {loopFormField?.length ? <ConfigForm fields={loopFormField} value={loop} onChange={(v) => setLoop(v)} /> : null}
       </Spin>
     </div>
   );

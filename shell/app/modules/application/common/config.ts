@@ -74,7 +74,7 @@ export const modeOptions = [
     value: appMode.PROJECT_SERVICE,
     src: xmjyy_svg,
     desc: i18n.t('application:project-level-app-form-tip'),
-    groupIndex: 2,
+    groupIndex: 1,
   },
 ];
 
