@@ -52,14 +52,14 @@ interface IProps {
   onChangeCategory?: Function;
   size?: 'small' | 'normal';
   valueChangeTrigger?: 'onChange' | 'onClose';
-  quickSelect?: React.ReactNode;
+  quickSelect?: React.ReactNode | React.ReactNode[];
   resultsRender?: (
     displayName: IOption[],
     deleteValue: (item: IOption) => void,
     isMultiple?: boolean,
     list?: IOption[],
   ) => React.ReactNode;
-  onChange?: (arg: IOption[] | IOption, options: IOption | IOption[]) => void;
+  onChange?: (arg: string[] | string, options?: IOption | IOption[]) => void;
   onClickItem?: (arg: IOption[] | IOption) => void;
   valueItemRender?: (
     item: IOption,
@@ -326,6 +326,8 @@ const PureLoadMoreSelector = (props: IProps) => {
 
   const getOverlay = () => {
     const Comp = CompMap[type];
+
+    const curQuickSelect = isArray(quickSelect) ? quickSelect : quickSelect ? [quickSelect] : [];
     return (
       <Menu className="load-more-dropdown-menu" ref={menuRef} style={{ width: contentWidth }}>
         {showSearch
@@ -362,7 +364,9 @@ const PureLoadMoreSelector = (props: IProps) => {
               <Menu.Divider key="_chosen-info-divider" />,
             ]
           : null}
-        {quickSelect ? [<MenuItem key="quick-select">{quickSelect}</MenuItem>, <Menu.Divider />] : null}
+        {curQuickSelect.map((quickSelectItem, idx) => {
+          return [<MenuItem key={`quick-select-${idx}`}>{quickSelectItem}</MenuItem>, <Menu.Divider />];
+        })}
         <MenuItem className="options" key="options">
           <Comp {...props} width={contentWidth} clickItem={clickItem} value={chosenItem} isMultiple={isMultiple} />
           {/* {
