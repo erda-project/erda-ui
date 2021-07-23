@@ -22,7 +22,7 @@
     "copy:coverage": "cp -R ./coverage ../coverage",
     "watch": "cross-env-shell NODE_ENV=development 'npm run clean && webpack --progress --color -w'",
     "dev-build": "cross-env-shell NODE_ENV=development 'npm run build-app'",
-    "build": "cross-env-shell NODE_ENV=production --max_old_space_size=4096 'npm run cp-module && npm run build-app'",
+    "build": "cross-env-shell NODE_ENV=production --max_old_space_size=4096 'npm run extra-logic && npm run build-app'",
     "build-app": "npm run clean && webpack --progress",
     "commit": "cz-customizable",
     "analyze": "webpack --config webpack.analyze.js --progress --color -w",
