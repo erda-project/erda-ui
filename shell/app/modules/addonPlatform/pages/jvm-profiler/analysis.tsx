@@ -138,7 +138,7 @@ export default () => {
         title: i18n.t('common:state'),
         dataIndex: ['state', 'state'],
         key: 'state.state',
-        width: 140,
+        width: 160,
         render: (v) => {
           return (
             {
@@ -155,7 +155,7 @@ export default () => {
         title: i18n.t('create time'),
         dataIndex: 'createTime',
         key: 'createTime',
-        width: 180,
+        width: 200,
         render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
       },
       isHistory
@@ -217,7 +217,7 @@ export default () => {
           columns={getCols(false)}
           rowKey="profiling"
           pagination={false}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 900 }}
         />
       </Panel>
       <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt20">
@@ -232,7 +232,7 @@ export default () => {
             total: historyPaging.total,
             onChange: (no: number) => getHistoryList({ pageNo: no }),
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 900 }}
         />
       </Panel>
     </div>

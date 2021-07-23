@@ -86,12 +86,12 @@ const PureDeployList = (props: IProps) => {
     {
       title: 'ID',
       dataIndex: 'id',
+      width: 64,
     },
     {
       title: i18n.t('project/application/branch'),
       dataIndex: 'projectName',
       width: 240,
-      ellipsis: true,
       render: (projectName: string, record: any) => {
         const mainInfo = `${projectName}/${record.applicationName}/${record.branchName}`;
         return <Tooltip title={mainInfo}>{mainInfo}</Tooltip>;
@@ -105,6 +105,7 @@ const PureDeployList = (props: IProps) => {
     {
       title: i18n.t('application:pipeline ID'),
       dataIndex: 'buildId',
+      width: 120,
       render: (val: string, record: DEPLOY.IDeploy) => {
         if (!val) return '';
         const { buildId, projectId, applicationId } = record;
@@ -119,6 +120,7 @@ const PureDeployList = (props: IProps) => {
       {
         title: i18n.t('applicant'),
         dataIndex: 'operator',
+        width: 120,
         render: (val: string) => {
           const curUser = userMap[val];
           return curUser ? curUser.nick || curUser.name : '';
@@ -150,6 +152,8 @@ const PureDeployList = (props: IProps) => {
       pending: {
         title: i18n.t('operate'),
         key: 'operation',
+        width: 120,
+        fixed: 'right',
         render: (_: any, record: DEPLOY.IDeploy) => {
           return (
             <div className="table-operations">
@@ -179,6 +183,7 @@ const PureDeployList = (props: IProps) => {
       approved: {
         title: i18n.t('org:approval result'),
         dataIndex: 'approvalStatus',
+        width: 160,
         render: (val: string) => (approvalStatusMap[val] || {}).name,
       },
     },
@@ -194,7 +199,7 @@ const PureDeployList = (props: IProps) => {
   };
 
   const action = get(actionMap, `${type}.${status}`);
-  action && columns.push({ ...action, width: 120, fixed: 'right', align: 'center' });
+  action && columns.push({ ...action, fixed: 'right', align: 'center' });
 
   const { onSubmit, onReset, fetchDataWithQuery, autoPagination } = useFilter({
     getData: getList,
@@ -244,7 +249,13 @@ const PureDeployList = (props: IProps) => {
     <div>
       <CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />
       <Spin spinning={isFetching}>
-        <Table rowKey="id" columns={columns} dataSource={list} pagination={paging ? autoPagination(paging) : false} />
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={list}
+          pagination={paging ? autoPagination(paging) : false}
+          scroll={{ x: 900 }}
+        />
       </Spin>
       <FormModal
         title={i18n.t('application:reason for rejection')}

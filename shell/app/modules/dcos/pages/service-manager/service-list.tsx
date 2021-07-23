@@ -71,7 +71,7 @@ const getImageText = (text: string) => {
   const headTxt = text.substr(0, 5);
   const tailTxt = text.substr(5);
   return (
-    <div className="image-txt-container">
+    <div className="image-txt-container truncate">
       <span className="head">{headTxt}</span>
       <span className={`tail nowrap ${getBrowserInfo().isSafari ? 'hack-safari' : ''}`}>{tailTxt}</span>
     </div>
@@ -188,7 +188,7 @@ function ServiceList({
         title: i18n.t('org:number of instance'),
         dataIndex: 'instance',
         key: 'instance',
-        width: 100,
+        width: 176,
       },
       {
         title: 'CPU',
@@ -269,7 +269,7 @@ function ServiceList({
       {
         title: 'IP',
         key: 'ip_addr',
-        // width: 120,
+        width: 120,
         sorter: (a: any, b: any) =>
           Number((a.ip_addr || a.ipAddress || '').replace(/\./g, '')) -
           Number((b.ip_addr || b.ipAddress || '').replace(/\./g, '')),
@@ -310,7 +310,7 @@ function ServiceList({
         title: 'CPU',
         dataIndex: 'cpu',
         key: 'cpu',
-        width: 125,
+        width: 120,
         sorter: (a: any, b: any) => {
           if (!haveMetrics) return Number(a.cpu) - Number(b.cpu);
           const use_a = getMetricsInfo(a, 'cpuUsagePercent') || 0;
@@ -329,7 +329,7 @@ function ServiceList({
         title: i18n.t('memory'),
         dataIndex: 'memory',
         key: 'memory',
-        width: 125,
+        width: 120,
         sorter: (a: any, b: any) => {
           if (!haveMetrics) return Number(a.memory) - Number(b.memory);
           const use_a = getMetricsInfo(a, 'memUsage') || 0;
@@ -347,7 +347,7 @@ function ServiceList({
         title: i18n.t('disk'),
         dataIndex: 'disk',
         key: 'disk',
-        width: 125,
+        width: 120,
         sorter: (a: any, b: any) => Number(a.disk) - Number(b.disk),
         render: (size: number) => getFormatter('STORAGE', 'MB').format(size),
       },
@@ -393,7 +393,7 @@ function ServiceList({
         pagination={false}
         columns={cols as Array<ColumnProps<any>>}
         dataSource={list}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1100 }}
       />
       <Copy selector=".for-copy-image" />
       {drawer}

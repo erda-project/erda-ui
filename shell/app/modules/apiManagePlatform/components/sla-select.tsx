@@ -75,17 +75,16 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
                 <Table
                   pagination={false}
                   dataSource={limits}
-                  scroll={limits.length > 4 ? { y: 150 } : undefined}
+                  scroll={limits.length > 4 ? { y: 150, x: 800 } : { x: 800 }}
                   columns={[
                     {
                       title: i18n.t('times'),
                       dataIndex: 'limit',
-                      width: 300,
+                      width: 320,
                     },
                     {
                       title: i18n.t('unit'),
                       dataIndex: 'unit',
-                      width: 228,
                       render: (unit) => slaUnitMap[unit],
                     },
                   ]}

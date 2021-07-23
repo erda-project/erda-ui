@@ -334,8 +334,9 @@ const ServiceCard = (props: IProps) => {
   };
   const opsCol = {
     title: i18n.t('operate'),
-    width: 250,
+    width: 240,
     key: 'operate',
+    fixed: 'right',
     render: (record: RUNTIME_SERVICE.Instance) => {
       const { isRunning } = record;
       return (

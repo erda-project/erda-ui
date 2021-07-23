@@ -88,18 +88,18 @@ export default () => {
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
       title: 'IP',
-      width: 150,
+      width: 160,
       dataIndex: 'ip',
     },
     {
       title: i18n.t('org:number of instance'),
       dataIndex: 'tasks',
-      width: 100,
+      width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
     },
     {
       title: 'CPU',
-      width: 125,
+      width: 120,
       dataIndex: 'cpuAllocatable',
       render: (_, data: ORG_MACHINE.IMachine) => {
         const { cpuAllocatable, cpuUsage, cpuRequest, cpuUsagePercent, cpuDispPercent } = data;
@@ -119,7 +119,7 @@ export default () => {
     },
     {
       title: i18n.t('memory'),
-      width: 125,
+      width: 120,
       dataIndex: 'memProportion',
       render: (_, data: ORG_MACHINE.IMachine) => {
         const { memAllocatable, memUsage, memRequest, memUsagePercent, memDispPercent } = data;
@@ -140,7 +140,6 @@ export default () => {
     {
       title: <span className="main-title">{i18n.t('tags')} </span>,
       dataIndex: 'labels',
-      width: 400,
       className: 'machine-labels',
       render: (value: string) => {
         const keyArray = value?.split(',') || [];
@@ -157,7 +156,8 @@ export default () => {
       title: i18n.t('operations'),
       dataIndex: 'id',
       key: 'operation',
-      width: 120,
+      width: 180,
+      fixed: 'right',
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
@@ -194,7 +194,7 @@ export default () => {
         bordered
         columns={columns}
         dataSource={tableList}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1300 }}
       />
       <Drawer
         width="80%"

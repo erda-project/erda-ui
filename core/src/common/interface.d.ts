@@ -19,7 +19,8 @@ export { AntTreeNodeSelectedEvent } from 'antd/lib/tree/Tree';
 export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
-export { PaginationConfig, SorterResult, ColumnProps } from 'antd/lib/table';
+export { PaginationConfig, SorterResult } from 'antd/lib/table';
+export { ColumnProps } from '../nusi/wrapped-table';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 

@@ -27,7 +27,7 @@ const getImageText = (text) => {
   const headTxt = text.substr(0, 5);
   const tailTxt = text.substr(5);
   return (
-    <div className="image-txt-container">
+    <div className="image-txt-container truncate">
       <span className="head">{headTxt}</span>
       <span className={`tail nowrap ${getBrowserInfo().isSafari ? 'hack-safari' : ''}`}>{tailTxt}</span>
     </div>
@@ -52,14 +52,14 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       title: 'CPU',
       dataIndex: 'cpu',
       key: 'cpu',
-      width: 125,
+      width: 120,
       sorter: (a, b) => Number(a.cpu) - Number(b.cpu),
     },
     {
       title: i18n.t('memory'),
       dataIndex: 'memory',
       key: 'memory',
-      width: 125,
+      width: 120,
       sorter: (a, b) => Number(a.memory) - Number(b.memory),
       render: (size) => getFormatter('STORAGE', 'MB').format(size),
     },
@@ -82,7 +82,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       {
         title: i18n.t('project:number of instance'),
         dataIndex: 'instance',
-        width: 100,
+        width: 176,
         sorter: (a, b) => Number(a.instance) - Number(b.instance),
       },
       ...CPU_MEM,
@@ -134,7 +134,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       title: i18n.t('project:memory'),
       dataIndex: 'memory',
       key: 'memory',
-      width: 125,
+      width: 120,
       sorter: (a, b) => Number(a.memory) - Number(b.memory),
       render: (size) => getFormatter('STORAGE', 'MB').format(size),
     };
@@ -147,7 +147,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         loading={isFetching}
         columns={cols}
         dataSource={list}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <Copy selector=".for-copy" />
     </div>

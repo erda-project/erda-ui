@@ -16,6 +16,7 @@ import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
 import { getTimeRanges } from 'common/utils';
+import { ColumnProps } from 'core/common/interface';
 import { Select, DatePicker, Table, Drawer } from 'app/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
@@ -29,6 +30,13 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 const limits = [10, 20, 50, 100, 200, 500, 1000];
+
+interface RecordType {
+  id: string;
+  elapsed: number;
+  startTime: number;
+  services: string[];
+}
 
 export default () => {
   const initialRange = [moment().subtract(1, 'hours'), moment()];
@@ -212,34 +220,37 @@ export default () => {
     [traceCount],
   );
 
-  const columns = [
+  const columns: Array<ColumnProps<RecordType>> = [
     {
       title: i18n.t('msp:trace id'),
       dataIndex: 'id',
-      width: 350,
       render: (id: string) => <Copy>{id}</Copy>,
     },
     {
       title: i18n.t('msp:time consuming'),
       dataIndex: 'elapsed',
+      width: 240,
       sorter: (a: any, b: any) => a.elapsed - b.elapsed,
       render: (elapsed: number) => getFormatter('TIME', 'ns').format(elapsed),
     },
     {
       title: i18n.t('msp:start time'),
       dataIndex: 'startTime',
+      width: 200,
       render: (time: number) => moment(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('service'),
       dataIndex: 'services',
+      width: 240,
       render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
     },
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operation',
-      width: 180,
-      render: (_: any, record: any) => (
+      width: 200,
+      fixed: 'right',
+      render: (_: any, record: RecordType) => (
         <div className="table-operations">
           <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
             {i18n.t('check detail')}
@@ -255,7 +266,7 @@ export default () => {
       <div className="mb24">
         <PureBoardGrid layout={layout} />
       </div>
-      <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: '100%' }} />
+      <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
       <Drawer
         title={i18n.t('msp:link information')}
         visible={detailVisible}

@@ -479,7 +479,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
       title: <FirstColTitle filterMap={filterMap} />,
-      width: 150,
+      width: 160,
       fixed: 'left',
       dataIndex: 'ip',
       // ...getInputFilter('ip', { placeholder: '根据IP搜索' }),
@@ -508,7 +508,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     {
       title: i18n.t('org:number of instance'),
       dataIndex: 'tasks',
-      width: 100,
+      width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
       render: (_val: string, record: ORG_MACHINE.IMachine) => {
         return (
@@ -521,7 +521,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     },
     {
       title: 'CPU',
-      width: 125,
+      width: 120,
       dataIndex: 'cpuAllocatable',
       // sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.cpuUsage / a.cpuTotal) - Number(b.cpuUsage / b.cpuTotal),
       render: (_, data: ORG_MACHINE.IMachine) => {
@@ -543,7 +543,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     },
     {
       title: i18n.t('memory'),
-      width: 125,
+      width: 120,
       dataIndex: 'memProportion',
       // sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.memUsage / a.memTotal) - Number(b.memUsage / b.memTotal),
       render: (_, data: ORG_MACHINE.IMachine) => {
@@ -564,7 +564,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     },
     {
       title: i18n.t('org:Disk usage'),
-      width: 125,
+      width: 120,
       dataIndex: 'diskProportion',
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) =>
         Number(a.diskUsage / a.diskTotal) - Number(b.diskUsage / b.diskTotal),
@@ -586,7 +586,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     {
       title: i18n.t('load'),
       dataIndex: 'load5',
-      width: 90,
+      width: 96,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.load5) - Number(b.load5),
     },
     {
@@ -602,7 +602,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       dataIndex: 'id',
       key: 'operation',
       fixed: 'right',
-      width: 150,
+      width: 160,
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>

@@ -68,6 +68,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('default:name'),
     dataIndex: 'name',
+    width: 176,
     render: (text) => <span>{cutStr(text, 30, { showTip: true })}</span>,
   },
   {
@@ -77,19 +78,23 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('default:creator'),
     dataIndex: 'operatorName',
+    width: 120,
   },
   {
     title: i18n.t('default:create time'),
     dataIndex: 'createdAt',
+    width: 176,
     render: (text) => fromNow(text),
   },
   {
     title: i18n.t('default:type'),
     dataIndex: 'type',
+    width: 120,
   },
   {
     title: i18n.t('application:time consuming'),
     dataIndex: ['totals', 'duration'],
+    width: 160,
     render: (text) => getTestDuration(text),
   },
   {
@@ -134,7 +139,7 @@ const TestList = () => {
             ...testListPaging,
             onChange: handlePageChange,
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 1100 }}
         />
       </Spin>
     </div>

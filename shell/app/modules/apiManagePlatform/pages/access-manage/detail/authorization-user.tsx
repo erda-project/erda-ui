@@ -101,6 +101,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('client name'),
       dataIndex: ['client', 'displayName'],
+      width: 120,
       render: (text, record) => {
         return (
           <div className="flex-box flex-start">
@@ -126,6 +127,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('client identifier'),
       dataIndex: ['client', 'name'],
+      width: 120,
     },
     {
       title: i18n.t('current SLA'),
@@ -138,6 +140,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('status'),
       dataIndex: ['contract', 'status'],
+      width: 80,
       render: (text, { contract }) => {
         if (contract.requestSLAID && text === 'proved') {
           return i18n.t('apply to change SLA');
@@ -148,7 +151,8 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
     {
       title: i18n.t('operation'),
       dataIndex: 'permission',
-      width: 220,
+      width: 240,
+      fixed: 'right',
       render: ({ edit }: API_ACCESS.ClientPermission, { contract }) => {
         if (!edit) {
           return null;
@@ -202,7 +206,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
             },
           };
         }}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <DetailModal
         visible={state.visible}

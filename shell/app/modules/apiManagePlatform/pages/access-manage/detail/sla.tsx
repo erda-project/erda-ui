@@ -86,6 +86,7 @@ const Sla = () => {
     {
       title: i18n.t('request limit'),
       dataIndex: 'limits',
+      width: 160,
       render: (limits: API_ACCESS.SlaLimit[]) => {
         const limitsStr = (limits || []).map(({ limit, unit }) => {
           return `${limit} ${slaUnitMap[unit]}`;
@@ -96,19 +97,20 @@ const Sla = () => {
     {
       title: i18n.t('number of client'),
       dataIndex: 'clientCount',
-      width: 120,
+      width: 160,
       render: (count) => count || 0,
     },
     {
       title: i18n.t('authorization method'),
       dataIndex: 'approval',
-      width: 150,
+      width: 200,
       render: (approval) => slaAuthorizationMap[approval]?.name,
     },
     {
       title: i18n.t('operation'),
       dataIndex: 'id',
-      width: 150,
+      width: 160,
+      fixed: 'right',
       render: (_id, record: API_ACCESS.SlaItem) => {
         if (!canEdit || record.source === 'system') {
           return null;
@@ -144,7 +146,7 @@ const Sla = () => {
         columns={columns}
         dataSource={slaLis}
         pagination={false}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <SlaEditor
         mode="edit"

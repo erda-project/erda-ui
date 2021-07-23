@@ -60,7 +60,7 @@ export const ProjectList = () => {
         dataIndex: 'displayName',
         key: 'displayName',
         fixed: 'left',
-        width: 150,
+        width: 160,
         ellipsis: {
           showTitle: false,
         },
@@ -70,7 +70,7 @@ export const ProjectList = () => {
         title: i18n.t('org:application/Member Statistics'),
         dataIndex: 'stats',
         key: 'countApplications',
-        width: 140,
+        width: 160,
         render: (stats: PROJECT.ProjectStats) => (
           <SplitBox
             data={[
@@ -121,7 +121,7 @@ export const ProjectList = () => {
         title: i18n.t('latest active'),
         dataIndex: 'activeTime',
         key: 'activeTime',
-        width: 110,
+        width: 120,
         sorter: true,
         render: (text) => (text ? fromNow(text) : i18n.t('none')),
       },
@@ -129,7 +129,7 @@ export const ProjectList = () => {
         title: i18n.t('total CPU allocation'),
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
-        width: 180,
+        width: 200,
         sorter: true,
         render: (text: string) => `${text} Core`,
       },
@@ -144,7 +144,6 @@ export const ProjectList = () => {
       {
         title: <span>CPU / {i18n.t('Memory usage')}</span>,
         dataIndex: 'usage',
-        width: 330,
         key: 'usage',
         render: (t, record: PROJECT.Detail) => {
           const {
@@ -237,7 +236,7 @@ export const ProjectList = () => {
         title: i18n.t('operations'),
         key: 'op',
         dataIndex: 'id',
-        width: 100,
+        width: 120,
         fixed: 'right',
         render: (id) => {
           return (
@@ -298,7 +297,7 @@ export const ProjectList = () => {
               total,
             }}
             onChange={handleTableChange}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 1500 }}
           />
         </SearchTable>
       </Spin>

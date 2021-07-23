@@ -80,7 +80,7 @@ export const OperationHistory = () => {
     {
       title: 'ID',
       dataIndex: 'recordID',
-      width: 90,
+      width: 96,
     },
     {
       title: i18n.t('org:cluster name'),
@@ -90,7 +90,7 @@ export const OperationHistory = () => {
     {
       title: `${i18n.t('operation')}${i18n.t('name')}`,
       dataIndex: 'recordType',
-      width: 140,
+      width: 160,
       render: (val: string) => {
         return <Tooltip title={val}>{val}</Tooltip>;
       },
@@ -111,7 +111,7 @@ export const OperationHistory = () => {
     {
       title: i18n.t('time'),
       dataIndex: 'createTime',
-      width: 190,
+      width: 200,
       render: (createTime: string) => {
         return <span>{moment(createTime).format('YYYY-MM-DD HH:mm:ss')}</span>;
       },
@@ -119,7 +119,7 @@ export const OperationHistory = () => {
     {
       title: i18n.t('user'),
       dataIndex: 'userID',
-      width: 100,
+      width: 120,
       render: (id: string) =>
         userMap[id] ? <span>{cutStr(userMap[id].nick || userMap[id].name, 8, { showTip: true })}</span> : null,
     },
@@ -194,7 +194,7 @@ export const OperationHistory = () => {
           total: operationPaging.total,
           onChange: (no: number) => getList({ pageNo: no, ...filters }),
         }}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1100 }}
       />
       <ClusterLog recordID={curRow && curRow.recordID} onClose={() => updater.curRow(null)} />
     </div>

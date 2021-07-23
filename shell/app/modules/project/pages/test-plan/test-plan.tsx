@@ -80,9 +80,11 @@ const TestPlan = () => {
       dataIndex: 'name',
       render: (text, record) => {
         return (
-          <div className="title v-align">
+          <div className="title v-align" title={`${record.id}-${text}`}>
             {iconMap[record.status]}
-            {record.id}-{text}
+            <span className="truncate">
+              {record.id}-{text}
+            </span>
           </div>
         );
       },
@@ -90,12 +92,14 @@ const TestPlan = () => {
     {
       title: i18n.t('project:principal'),
       dataIndex: 'ownerID',
+      width: 120,
       render: (text) => <UserInfo id={text} render={(data) => data.nick || data.name} />,
     },
     {
       title: i18n.t('project:passing rate'),
       dataIndex: 'useCasePassedCount',
       className: 'passing-rate',
+      width: 160,
       render: (_text, { relsCount }) => {
         const { total, succ } = relsCount;
         const percent = Math.floor((succ / (total || 1)) * 100 || 0);
@@ -111,6 +115,7 @@ const TestPlan = () => {
       title: i18n.t('project:exacutive rate'),
       dataIndex: 'executionRate',
       className: 'passing-rate',
+      width: 160,
       render: (_text, { relsCount }) => {
         const { total, succ, fail, block } = relsCount;
         const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);
@@ -125,7 +130,8 @@ const TestPlan = () => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 140,
+      width: 176,
+      fixed: 'right',
       render: (id) => {
         return (
           <div className="table-operations">
@@ -215,7 +221,7 @@ const TestPlan = () => {
             pageSize: page.pageSize,
             onChange: onPageChange,
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
       </Spin>
     </div>

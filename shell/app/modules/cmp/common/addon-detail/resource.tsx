@@ -34,30 +34,34 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       title: i18n.t('container IP'),
       dataIndex: 'containerIP',
       key: 'containerIP',
-      width: 150,
+      width: 160,
       fixed: 'left',
     },
     {
       title: i18n.t('host IP'),
       dataIndex: 'hostIP',
       key: 'hostIP',
+      width: 160,
     },
     {
       title: i18n.t('cpu limit'),
       dataIndex: 'cpuLimit',
       key: 'cpuLimit',
+      width: 120,
       sorter: (a: IResource, b: IResource) => a.cpuLimit - b.cpuLimit,
     },
     {
       title: i18n.t('org:CPU allocation'),
       dataIndex: 'cpuRequest',
       key: 'cpuRequest',
+      width: 120,
       sorter: (a: IResource, b: IResource) => a.cpuRequest - b.cpuRequest,
     },
     {
       title: i18n.t('memory limit'),
       dataIndex: 'memLimit',
       key: 'memLimit',
+      width: 120,
       render: (v: number) => getFormatter('CAPACITY', 'MB').format(v),
       sorter: (a: IResource, b: IResource) => a.memLimit - b.memLimit,
     },
@@ -65,6 +69,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       title: i18n.t('org:MEM allocation'),
       dataIndex: 'memRequest',
       key: 'memRequest',
+      width: 120,
       render: (v: number) => getFormatter('CAPACITY', 'MB').format(v),
       sorter: (a: IResource, b: IResource) => a.memRequest - b.memRequest,
     },
@@ -72,7 +77,6 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       title: i18n.t('image'),
       dataIndex: 'image',
       key: 'image',
-      width: 300,
       render: (image: string) => (
         <Tooltip title={image}>
           <Copy className="for-copy" data-clipboard-tip={i18n.t('image')} data-clipboard-text={image}>
@@ -92,7 +96,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       title: i18n.t('status'),
       dataIndex: 'status',
       key: 'status',
-      width: 100,
+      width: 120,
       render: (v: string) =>
         v === 'Healthy' ? (
           <>
@@ -114,7 +118,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
     {
       title: i18n.t('operations'),
       key: 'operation',
-      width: 120,
+      width: 176,
       fixed: 'right',
       render: renderOp,
     },
