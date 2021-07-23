@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Button, Tooltip } from 'app/nusi';
-import { map, isEmpty, get } from 'lodash';
+import { map, isEmpty, get, find } from 'lodash';
 import autoTestStore from 'project/stores/auto-test-case';
 import { useUpdate } from 'common';
 import { insertWhen, notify } from 'common/utils';
@@ -197,11 +197,17 @@ const ConfigEnvSelector = (props: IProps) => {
   }, [clusterConfig, updater]);
 
   const execute = (p: Obj = {}) => {
+    let curClusterName = clusterConfig?.TEST;
+    const chosenCluster = find(p?.runParams, { name: 'clusterName' });
+    if (chosenCluster) {
+      curClusterName = clusterConfig[chosenCluster.value];
+    }
+
     createPipelineAndRun({
       pipelineYml: get(caseDetail, 'meta.pipelineYml'),
       pipelineSource: scopeConfigData.runPipelineSource,
       pipelineYmlName: caseDetail.inode,
-      clusterName: clusterConfig?.TEST,
+      clusterName: curClusterName,
       autoRunAtOnce: true,
       labels: { orgID: `${orgId}`, projectID: projectId, projectName, orgName },
       ...p,
