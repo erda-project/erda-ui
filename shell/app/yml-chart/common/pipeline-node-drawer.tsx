@@ -68,6 +68,7 @@ export interface IEditStageProps {
   chosenActionName: string;
   chosenAction: DEPLOY.ActionConfig;
   onSubmit?: (options: any) => void;
+  actionSpec: DEPLOY.ActionConfig[];
 }
 const noop = () => {};
 
@@ -88,15 +89,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     onSubmit: handleSubmit = noop,
     chosenActionName,
     chosenAction,
+    actionSpec,
   } = props;
-  const { getActionConfigs } = appDeployStore.effects;
   const [actionConfigs] = appDeployStore.useStore((s) => [s.actionConfigs]);
 
-  useEffectOnce(() => {
-    getCurrentActionConfigs();
-  });
-
-  const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
   const { getFieldValue } = form;
   const [{ actionConfig, resource, originType, originName, task, changeKey }, updater, update] = useUpdate({
     resource: {},
@@ -105,6 +101,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     originName: null as null | string,
     task: {} as IStageTask,
     changeKey: 0,
+  });
+
+  useEffectOnce(() => {
+    handleActionSpec();
   });
 
   React.useEffect(() => {
@@ -143,34 +143,30 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     });
   }, [taskInitName, taskInitVersion, chosenActionName]);
 
-  const getCurrentActionConfigs = () => {
-    if (chosenActionName) {
-      getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
-        let _config = {} as any;
-        let _resource = {} as any;
-        if (propsNodeData && !isEmpty(propsNodeData)) {
-          if (result.length > 0) {
-            _config = propsNodeData.version
-              ? result.find((c) => c.version === propsNodeData.version)
-              : getDefaultVersionConfig(result);
-          }
-          _resource = getResource(propsNodeData, _config);
-        } else {
-          _config = getDefaultVersionConfig(result);
-          const mergedResource = mergeActionAndResource(_config, {} as any);
-          _resource = { ...resource, ...mergedResource };
-        }
-        update({
-          resource: _resource,
-          actionConfig: _config || ({} as DEPLOY.ActionConfig),
-        });
-      });
+  const handleActionSpec = () => {
+    let _config;
+    let _resource;
+    if (propsNodeData && !isEmpty(propsNodeData)) {
+      if (actionSpec.length > 0) {
+        _config = propsNodeData.version
+          ? actionSpec.find((c) => c.version === propsNodeData.version)
+          : getDefaultVersionConfig(actionSpec);
+      }
+      _resource = getResource(propsNodeData, _config);
+    } else {
+      _config = getDefaultVersionConfig(actionSpec);
+      const mergedResource = mergeActionAndResource(_config, {});
+      _resource = { ...resource, ...mergedResource };
     }
+    update({
+      resource: _resource,
+      actionConfig: _config || ({} as DEPLOY.ActionConfig),
+    });
   };
 
   useUpdateEffect(() => {
-    getCurrentActionConfigs();
-  }, [chosenActionName]);
+    handleActionSpec();
+  }, [actionSpec]);
 
   if (!isCreate && isEmpty(actionConfig)) {
     return null;
@@ -625,22 +621,20 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   };
 
   return (
-    <Spin spinning={loading}>
-      <Form form={form} onValuesChange={onValuesChange} layout="vertical" className="edit-service-container">
-        {alert}
-        {taskType}
-        {loopData}
-        {type ? taskName : null}
-        {actionVersion}
-        {executionCondition}
-        {renderTaskTypeStructure()}
-        {editing ? (
-          <Button type="primary" ghost onClick={onSubmit}>
-            {i18n.t('application:save')}
-          </Button>
-        ) : null}
-      </Form>
-    </Spin>
+    <Form form={form} onValuesChange={onValuesChange} layout="vertical" className="edit-service-container">
+      {alert}
+      {taskType}
+      {loopData}
+      {type ? taskName : null}
+      {actionVersion}
+      {executionCondition}
+      {renderTaskTypeStructure()}
+      {editing ? (
+        <Button type="primary" ghost onClick={onSubmit}>
+          {i18n.t('application:save')}
+        </Button>
+      ) : null}
+    </Form>
   );
 };
 
@@ -685,11 +679,18 @@ interface IPipelineNodeForm {
 
 export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   const { editing, nodeData: propsNodeData, visible, scope = '' } = props;
-  const [{ chosenActionName, chosenAction, originActions }, updater, update] = useUpdate({
-    chosenActionName: '',
-    chosenAction: null,
-    originActions: [] as any[],
-  });
+  const [{ chosenActionName, chosenAction, originActions, useProtocol, chosenActionSpec }, updater, update] = useUpdate(
+    {
+      chosenActionName: '',
+      chosenAction: null,
+      originActions: [] as any[],
+      useProtocol: false,
+      chosenActionSpec: [] as DEPLOY.ActionConfig[],
+    },
+  );
+
+  const { getActionConfigs } = appDeployStore.effects;
+  const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
 
   useEffectOnce(() => {
     visible &&
@@ -711,6 +712,25 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   }, [updater, curType]);
 
   React.useEffect(() => {
+    if (protocolActionForms.includes(chosenActionName)) {
+      updater.useProtocol(true);
+    } else if (chosenActionName) {
+      getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
+        const protocolSpec = get(result, '[0].spec.useProtocol');
+        update({
+          chosenActionSpec: result,
+          useProtocol: !!protocolSpec,
+        });
+      });
+    } else {
+      update({
+        chosenActionSpec: [],
+        useProtocol: false,
+      });
+    }
+  }, [chosenActionName, updater, getActionConfigs, update]);
+
+  React.useEffect(() => {
     const curAction = find(
       flatten(map(originActions, (item) => item.items)),
       (curItem) => curItem.name === chosenActionName,
@@ -723,7 +743,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   };
 
   return (
-    <>
+    <Spin spinning={loading}>
       <ActionSelect
         disabled={!editing}
         label={i18n.t('task type')}
@@ -733,15 +753,19 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
         placeholder={`${i18n.t('application:please choose task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
-        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}>
-          {' '}
+        <IF check={!!useProtocol}>
           {/* 使用组件化协议表单 */}
           <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
           <IF.ELSE />
-          <PipelineNodeFormV1 chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
+          <PipelineNodeFormV1
+            chosenAction={chosenAction}
+            chosenActionName={chosenActionName}
+            {...(props as any)}
+            actionSpec={chosenActionSpec}
+          />
         </IF>
       </IF>
-    </>
+    </Spin>
   );
 };
 
