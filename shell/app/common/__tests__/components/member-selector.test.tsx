@@ -185,7 +185,7 @@ describe('member-selector', () => {
     });
     wrapper.find('a').simulate('click');
     expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenLastCalledWith(loginUser.id);
+    expect(onChange).toHaveBeenCalled();
   });
   it('AddMemberSelector should work well', () => {
     const orgWrapper = shallow(<AddMemberSelector scopeType={MemberScope.ORG} />);
