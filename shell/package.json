@@ -22,7 +22,7 @@
     "copy:coverage": "cp -R ./coverage ../coverage",
     "watch": "cross-env-shell NODE_ENV=development 'npm run clean && webpack --progress --color -w'",
     "dev-build": "cross-env-shell NODE_ENV=development 'npm run build-app'",
-    "build": "cross-env-shell NODE_ENV=production --max_old_space_size=4096 'npm run extra-logic && npm run build-app'",
+    "build": "cross-env-shell NODE_ENV=production --max_old_space_size=4096 'npm run build-app'",
     "build-app": "npm run clean && webpack --progress",
     "commit": "cz-customizable",
     "analyze": "webpack --config webpack.analyze.js --progress --color -w",
@@ -38,6 +38,7 @@
     "clean": "rm -rf ../public/static/shell",
     "precommit": "lint-staged",
     "extra-logic": "node ../../erda-ui-enterprise/extra-job.js",
+    "online-extra-logic": "node ../modules/extra-job.js online",
     "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts"
   },
   "author": "Erda-FE",
