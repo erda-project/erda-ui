@@ -320,36 +320,6 @@ function getCmpRouter() {
           ],
         },
         {
-          path: 'log',
-          routes: [
-            {
-              path: 'query',
-              breadcrumbName: i18n.t('log query'),
-              layout: { grayBg: true },
-              getComp: (cb) => cb(import('app/modules/cmp/pages/log-query')),
-            },
-            {
-              path: 'rule',
-              breadcrumbName: i18n.t('analysis rule'),
-              routes: [
-                {
-                  path: 'add',
-                  breadcrumbName: i18n.t('org:add analysis rule'),
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/log-analyze-rule/detail')),
-                },
-                {
-                  path: ':ruleId',
-                  breadcrumbName: i18n.t('org:edit analysis rule'),
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/log-analyze-rule/detail')),
-                },
-                {
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/log-analyze-rule')),
-                },
-              ],
-            },
-          ],
-        },
-        {
           path: 'alarm',
           routes: [
             {
