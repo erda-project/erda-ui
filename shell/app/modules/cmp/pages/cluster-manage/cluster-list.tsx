@@ -287,6 +287,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('application:status'),
       dataIndex: 'clusterStatus',
+      width: 120,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
@@ -309,7 +310,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('application:type'),
       dataIndex: 'clusterType',
-      width: 125,
+      width: 160,
       ellipsis: true,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
@@ -327,6 +328,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('cmp:management method'),
       dataIndex: 'manageType',
+      width: 120,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const manageType = get(clusterDetail, 'basic.manageType.value');
@@ -336,6 +338,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('version'),
       dataIndex: 'clusterVersion',
+      width: 96,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         return get(clusterDetail, 'basic.clusterVersion.value', '');
@@ -344,6 +347,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('machines'),
       dataIndex: 'nodeCount',
+      width: 96,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         return get(clusterDetail, 'basic.nodeCount.value', '-');
@@ -448,6 +452,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           pagination={false}
           rowKey="id"
           loading={loadingList || loadingDetail}
+          scroll={{ x: 1500 }}
         />
       </div>
     </>
