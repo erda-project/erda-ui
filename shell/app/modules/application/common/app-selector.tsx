@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LoadMoreSelector, Icon as CustomIcon } from 'common';
+import { LoadMoreSelector } from 'common';
+import { DownOne as IconDownOne } from '@icon-park/react';
 import { goTo } from 'common/utils';
 import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'app/nusi';
@@ -100,7 +101,7 @@ const headAppRender = (val: any = {}) => {
       <span className="nowrap text-base font-bold" title={name}>
         {name}
       </span>
-      <CustomIcon className="caret" type="caret-down" />
+      <IconDownOne size="12" className="caret ml-1 mb-1" theme="filled" />
     </div>
   );
 };

@@ -226,7 +226,7 @@ export default () => {
         const targets = get(notifyTarget, 'notifyGroup.targets', []);
         const tip = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
-          <div className="justify-start">
+          <div className="flex">
             {isEmpty(targets) ? (
               <Tooltip title={tip}>
                 <span className="text-sub">{tip}</span>

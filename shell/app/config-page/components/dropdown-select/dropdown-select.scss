@@ -12,4 +12,10 @@
     height: 24px;
     border-radius: 50%;
   }
+
+  .caret {
+    svg {
+      margin-bottom: 1px !important;
+    }
+  }
 }

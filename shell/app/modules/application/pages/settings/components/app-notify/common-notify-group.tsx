@@ -16,7 +16,7 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, take, head } from 'lodash';
 import { Spin, Modal, Tooltip, Select, Table, Button, message } from 'app/nusi';
-import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
+import { ErdaCustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
@@ -102,7 +102,7 @@ export const ListTargets = ({
   let text = '';
   let targetsEle = (
     <>
-      <CustomIcon type="sidebarUser" className="text-desc" />
+      <ErdaCustomIcon opacity={0.4} fill="opacity-gray" size="16" type="sidebarUser" class="color-text-desc mr-1" />
       <Tooltip title={`${i18n.t('application:group address')}: ${firstValue}`}>
         <span className="group-address nowrap">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
       </Tooltip>
@@ -148,7 +148,7 @@ export const ListTargets = ({
       text = `${i18n.t('application:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
-          <CustomIcon type="sidebarUser" className="text-desc" />
+          <ErdaCustomIcon opacity={0.4} fill="opacity-gray" size="16" type="sidebarUser" class="mr-1" />
           <Tooltip title={text}>
             <span className="group-address nowrap">{text}</span>
           </Tooltip>
