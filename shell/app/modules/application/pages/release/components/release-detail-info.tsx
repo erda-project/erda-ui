@@ -42,7 +42,7 @@ const ReleaseDetailInfo = ({ data }: IProps) => {
   if (copy.updatedAt) copy.updatedAt = moment(copy.updatedAt).format('YYYY-MM-DD HH:mm:ss');
   return (
     <div className="release-detail-page">
-      <KeyValueList data={{ Image: copy }} listRender={listRender} shrink />
+      <KeyValueList data={{ Image: copy }} listRender={listRender} markdownTextFields={['desc']} shrink />
     </div>
   );
 };
