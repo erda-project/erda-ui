@@ -128,10 +128,8 @@ const ClusterBasicForm = ({
       { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
       { label: 'Region ID', name: ['scheduler', 'regionID'] },
       { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
-      { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
-      { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
     ]),
-    ...insertWhen(clusterType === 'k8s', [
+    ...insertWhen(clusterType === 'k8s' || clusterType === 'edas', [
       {
         label: i18n.t('cmp:verification method'),
         name: 'credentialType',

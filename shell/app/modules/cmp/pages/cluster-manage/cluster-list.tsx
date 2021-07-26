@@ -408,7 +408,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           title={i18n.t('org:Please enter the cluster name to confirm to go offline.')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
           secondTitle={i18n.t('org:Please enter {name}, to confirm the cluster to go offline', {
-            name: state.curDeleteCluster?.displayName,
+            name: state.curDeleteCluster?.displayName || state.curDeleteCluster?.name,
           })}
           onCancel={() => toggleDeleteModal()}
           disabledConfirm={state.deleteClusterName !== state.curDeleteCluster?.displayName}
