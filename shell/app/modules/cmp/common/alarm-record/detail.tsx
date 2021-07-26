@@ -165,21 +165,6 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
       dataIndex: 'alertState',
       render: (alertState) => <AlarmState state={alertState} />,
     },
-    {
-      width: 200,
-      title: i18n.t('operation'),
-      render: (record: ALARM_REPORT.AlarmHistory) => (
-        <div className="table-operations">
-          <IF check={!!record.displayUrl}>
-            <a className="table-operations-btn" href={record.displayUrl} target="_blank" rel="noopener noreferrer">
-              {i18n.t('org:check')}
-            </a>
-            <IF.ELSE />
-            {'--'}
-          </IF>
-        </div>
-      ),
-    },
   ];
 
   return (
