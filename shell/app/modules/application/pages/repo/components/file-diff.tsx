@@ -287,7 +287,6 @@ export const FileDiff = ({
       [lineKey]: true,
     });
   };
-
   return (
     <div ref={forwardRef} className="file-diff">
       <div
@@ -327,13 +326,15 @@ export const FileDiff = ({
               delete: '-',
               add: '+',
             };
+
             const fileKey = `${name}_${i}`;
             return (
               <tbody key={fileKey} className="file-diff-section">
-                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }) => {
+                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }, lineIndex) => {
                   if (hideSectionTitle && actionType === 'section') {
                     return null;
                   }
+
                   const hasWhiteSpace = content.match(/^\s+/);
                   let _content: any = content;
                   let paddingLeft = 0;
@@ -444,7 +445,7 @@ export const FileDiff = ({
                     }
 
                     return (
-                      <React.Fragment key={`${lineKey}`}>
+                      <React.Fragment key={`${lineKey}_${lineIndex}`}>
                         <tr className={lineCls}>
                           {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
                                 {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
