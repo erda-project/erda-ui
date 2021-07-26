@@ -3103,6 +3103,7 @@
     "creation method": "创建方式",
     "creator": "创建人",
     "currently supports importing Xmind and Excel files": "当前支持导入Xmind及Excel两种类型文件",
+    "currently supports importing Excel files": "当前支持导入Excel类型文件",
     "custom addon config": "自定义服务配置",
     "custom config of issue type": "事项类型自定义配置",
     "custom fields": "自定义字段",

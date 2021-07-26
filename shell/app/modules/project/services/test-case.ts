@@ -198,6 +198,14 @@ export function importFileInTestCase({ payload, query }: TEST_CASE.ImportData): 
     .then((response: any) => response.body);
 }
 
+export function importFileInAutoTestCase({ payload, query }: TEST_CASE.ImportAutoData): { successCount: number } {
+  return agent
+    .post('/api/autotests/spaces/actions/import')
+    .query(query)
+    .send(payload)
+    .then((response: any) => response.body);
+}
+
 // 批量更新测试用例
 export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart }) {
   return agent
