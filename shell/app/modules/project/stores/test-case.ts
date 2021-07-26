@@ -187,7 +187,7 @@ const testCaseStore = createStore({
       testSetStore.reducers.updateReloadTestSet(reloadTestSetInfo);
       return res;
     },
-    async importAutoTestCase({ call, getParams }, payload: { file: any }) {
+    async importAutoTestCase({ call, getParams }, payload: { file: File }) {
       const { projectId: projectID } = getParams();
       const { file } = payload;
       const fileType: TEST_CASE.CaseFileType = 'excel';
