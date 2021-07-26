@@ -13,7 +13,7 @@
 
 /* eslint-disable no-console */
 import * as parser from '@babel/parser';
-import traverse from '@babel/traverse';
+import traverse, { NodePath } from '@babel/traverse';
 import fs from 'fs';
 import { resolve, dirname, join, extname } from 'path';
 import chalk from 'chalk';
@@ -132,6 +132,8 @@ function getModuleType(modulePath: string) {
   }
 }
 
+const exportFromMap = {}; // to record `export {a,b,c} from 'd'`
+
 function traverseJsModule(curModulePath: string, callback: (str: string, items: string[], isImport: boolean) => void) {
   const moduleFileContent = fs.readFileSync(curModulePath, {
     encoding: 'utf-8',
@@ -142,24 +144,34 @@ function traverseJsModule(curModulePath: string, callback: (str: string, items: 
     plugins: resolveBabelSyntaxPlugins(curModulePath),
   });
 
+  const collectImportItems = (path: NodePath, subModulePath: string) => {
+    const importItems: string[] = [];
+    const specifiers = path.get('specifiers');
+    if (Array.isArray(specifiers) && specifiers.length) {
+      for (let i = 0; i < specifiers.length; i++) {
+        const importItem = path.get(`specifiers.${i}`).toString();
+        const subItem = `${subModulePath}-${importItem}`;
+        if (exportFromMap[subItem]) {
+          importItems.push(exportFromMap[subItem]);
+        }
+        importItems.push(subItem);
+      }
+    }
+    callback(subModulePath, importItems, true);
+  };
+
   traverse(ast, {
     ImportDeclaration(path) {
       // handle syntax `import react from 'react'`
       const node = path.get('source.value');
       const [subModulePath, visited] = moduleResolver(curModulePath, Array.isArray(node) ? '' : node.node.toString());
-      const specifiers = path.get('specifiers');
-      const importItems: string[] = [];
-      if (Array.isArray(specifiers) && specifiers.length) {
-        for (let i = 0; i < specifiers.length; i++) {
-          const importItem = path.get(`specifiers.${i}`).toString();
-          importItems.push(`${subModulePath}-${importItem}`);
-        }
-      }
-      callback(subModulePath, importItems, true);
+
       if (!subModulePath || visited) {
+        collectImportItems(path, subModulePath);
         return;
       }
       traverseModule(subModulePath, callback);
+      collectImportItems(path, subModulePath);
     },
     CallExpression(path) {
       if (path.get('callee').toString() === 'require') {
@@ -171,7 +183,7 @@ function traverseJsModule(curModulePath: string, callback: (str: string, items: 
         if (!subModulePath) {
           return;
         }
-        callback(subModulePath, [], true);
+        callback(subModulePath, [], visited);
         traverseModule(subModulePath, callback);
       }
       if (path.get('callee').type === 'Import') {
@@ -207,12 +219,14 @@ function traverseJsModule(curModulePath: string, callback: (str: string, items: 
         if (Array.isArray(specifiers) && specifiers.length) {
           for (let i = 0; i < specifiers.length; i++) {
             const importItem = path.get(`specifiers.${i}`).toString();
+            exportFromMap[`${curModulePath}-${importItem}`] = `${subModulePath}-${importItem}`;
             exportItems.push(`${curModulePath}-${importItem}`);
           }
         }
         callback(subModulePath, exportItems, false);
         traverseModule(subModulePath, callback);
       } else if (path.get('declaration').node) {
+        // handle export { a, b, c };
         const declarations = path.get('declaration.declarations');
         const exportItems: string[] = [];
         if (Array.isArray(declarations) && declarations.length) {
