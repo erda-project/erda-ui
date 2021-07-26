@@ -12,7 +12,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import * as Service from '../services/api-market';
+import {
+  updateAsset,
+  createAsset,
+  getApiAssetsList,
+  getAssetVersionDetail,
+  getListOfVersions,
+  getAssetDetail,
+  updateAssetVersion,
+  deleteAssetVersion,
+  deleteAsset,
+  relationInstance,
+  updateInstance,
+  getVersionTree,
+  addNewVersion,
+  runAttemptTest,
+  getInstances,
+} from '../services/api-market';
 import { getDefaultPaging, goTo } from 'common/utils';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import permStore from 'user/stores/permission';
@@ -69,7 +85,7 @@ const apiMarketStore = createStore({
   state: initState,
   effects: {
     async getAssetList({ call, update, select }, payload: API_MARKET.QueryAssets) {
-      const { list } = await call(Service.getApiAssetsList, payload, { paging: { key: 'assetListPaging' } });
+      const { list } = await call(getApiAssetsList, payload, { paging: { key: 'assetListPaging' } });
       let assetList = list || [];
       if (payload.pageNo && payload.pageNo > 1) {
         const prevList = select((s) => s.assetList);
@@ -80,18 +96,18 @@ const apiMarketStore = createStore({
     async createAsset({ call }, payload: Omit<API_MARKET.CreateAsset, 'orgID'>) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(
-        Service.createAsset,
+        createAsset,
         { ...payload, orgID: orgId },
         { successMsg: i18n.t('default:created successfully') },
       );
       return res;
     },
     async editAsset({ call }, payload: API_MARKET.UpdateAsset) {
-      const res = await call(Service.updateAsset, payload, { successMsg: i18n.t('default:updated successfully') });
+      const res = await call(updateAsset, payload, { successMsg: i18n.t('default:updated successfully') });
       return res;
     },
     async getAssetDetail({ call, update }, payload: API_MARKET.QAsset, refreshAuth = false) {
-      const assetDetail = await call(Service.getAssetDetail, payload);
+      const assetDetail = await call(getAssetDetail, payload);
       const { assetName, projectID, creatorID, appID } = assetDetail.asset;
       breadcrumbStore.reducers.setInfo('assetName', assetName);
       const isOrgManage = permStore.getState((s) => s.org.apiAssetEdit.pass);
@@ -128,12 +144,12 @@ const apiMarketStore = createStore({
       return assetDetail;
     },
     async getListOfVersions({ call, update }, payload: API_MARKET.QueryVersionsList) {
-      const res = await call(Service.getListOfVersions, payload);
+      const res = await call(getListOfVersions, payload);
       update({ assetVersionList: res.list || [] });
       return res;
     },
     async getAssetVersionDetail({ call, update }, payload: API_MARKET.QueryVersionDetail) {
-      const assetVersionDetail = await call(Service.getAssetVersionDetail, payload);
+      const assetVersionDetail = await call(getAssetVersionDetail, payload);
       const { assetName, major, minor, patch } = assetVersionDetail.version;
       const { projectID, creatorID, public: isPublic } = assetVersionDetail.asset;
       const name = `${assetName}（V ${major}.${minor}.${patch}）`;
@@ -170,36 +186,36 @@ const apiMarketStore = createStore({
       return assetVersionDetail;
     },
     async deleteAsset({ call }, payload: API_MARKET.QAsset) {
-      const res = await call(Service.deleteAsset, payload, { successMsg: i18n.t('default:deleted successfully') });
+      const res = await call(deleteAsset, payload, { successMsg: i18n.t('default:deleted successfully') });
       return res;
     },
     async deleteAssetVersion({ call }, payload: API_MARKET.QVersion) {
-      const res = await call(Service.deleteAssetVersion, payload, {
+      const res = await call(deleteAssetVersion, payload, {
         successMsg: i18n.t('default:deleted successfully'),
       });
       return res;
     },
 
     async updateAssetVersion({ call }, payload: API_MARKET.UpdateAssetVersion) {
-      const res = call(Service.updateAssetVersion, payload);
+      const res = call(updateAssetVersion, payload);
       return res;
     },
 
     async addNewVersion({ call }, payload: API_MARKET.CreateVersion) {
-      const res = await call(Service.addNewVersion, payload, { successMsg: i18n.t('default:added successfully') });
+      const res = await call(addNewVersion, payload, { successMsg: i18n.t('default:added successfully') });
       return res;
     },
     async getVersionTree({ call, update }, payload: API_MARKET.QueryVersionTree) {
-      const res = await call(Service.getVersionTree, payload);
+      const res = await call(getVersionTree, payload);
       update({ versionTree: res.list });
       return res;
     },
     async editInstance({ call, update }, payload: API_MARKET.UpdateInstance | API_MARKET.RelationInstance) {
       let res = {} as API_MARKET.IInstantiation;
       if ('instantiationID' in payload) {
-        res = await call(Service.updateInstance, payload);
+        res = await call(updateInstance, payload);
       } else {
-        res = await call(Service.relationInstance, payload);
+        res = await call(relationInstance, payload);
         if (payload.type === 'dice') {
           // 初次关联内部实例，项目/应用信息同步至资源关联关系，重新拉取详情
           apiMarketStore.effects.getAssetDetail({ assetID: payload.assetID }, true);
@@ -209,12 +225,12 @@ const apiMarketStore = createStore({
     },
     async getInstance({ call, update }, payload: API_MARKET.QueryInstance) {
       update({ instance: {} as API_MARKET.Instantiation });
-      const res = await call(Service.getInstances, payload);
+      const res = await call(getInstances, payload);
       update({ instance: res.instantiation || {}, instancePermission: res.permission || {} });
       return res;
     },
     async runAttemptTest({ call }, payload: API_MARKET.RunAttemptTest) {
-      const res = await call(Service.runAttemptTest, payload);
+      const res = await call(runAttemptTest, payload);
       return res;
     },
   },

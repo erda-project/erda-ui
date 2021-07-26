@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as ConfigCenterService from '../services/configCenter';
+import { saveConfig, getConfigList, getAppList } from '../services/configCenter';
 import i18n from 'i18n';
 import { createStore } from 'app/cube';
 
@@ -32,7 +32,7 @@ const ConfigCenter = createStore({
   state: initState,
   effects: {
     async getAppList({ call }, payload: ConfigCenter.GetAppList) {
-      const res = await call(ConfigCenterService.getAppList, payload, { paging: { key: 'appListPaging' } });
+      const res = await call(getAppList, payload, { paging: { key: 'appListPaging' } });
       if (!res) {
         return { total: 0, list: [] };
       }
@@ -41,14 +41,14 @@ const ConfigCenter = createStore({
       return { total, list };
     },
     async getConfigList({ call }, payload: ConfigCenter.GetConfigList) {
-      const data = await call(ConfigCenterService.getConfigList, payload);
+      const data = await call(getConfigList, payload);
       if (data) {
         ConfigCenter.reducers.getConfigListSuccess({ ...payload, data });
       }
     },
     async saveConfig({ call }, payload: ConfigCenter.SaveConfig) {
       const { operationType, ...rest } = payload;
-      const res = await call(ConfigCenterService.saveConfig, rest, {
+      const res = await call(saveConfig, rest, {
         successMsg: operationType === 'delete' ? i18n.t('deleted successfully') : i18n.t('saved successfully'),
         fullResult: true,
       });

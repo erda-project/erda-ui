@@ -25,7 +25,7 @@ import { useEffectOnce } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
 import orgStore from 'app/org-home/stores/org';
 
-export const getClusterTasksCols = (userMap: object) => {
+const getClusterTasksCols = (userMap: object) => {
   return [
     {
       title: i18n.t('environment'),

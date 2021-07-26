@@ -65,6 +65,8 @@ const detect = () => {
   (result.unused || []).forEach((item) => {
     console.log(item);
   });
+  console.log(`unused export count: ${result.unusedExport.size}`);
+  console.log(result.unusedExport);
 };
 
 detect();

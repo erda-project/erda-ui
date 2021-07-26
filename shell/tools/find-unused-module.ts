@@ -38,15 +38,26 @@ function findUnusedModule(options: Options) {
   const allFiles = fastGlob.sync(includeContentPath).map((item) => normalize(item));
   const entryModules: string[] = [];
   const usedModules: string[] = [];
+  let exportModules: string[] = [];
+  let importModules: string[] = [];
 
   setRequirePathResolver(resolveRequirePath);
   entries.forEach((entry) => {
     const entryPath = resolve(cwd, entry);
     entryModules.push(entryPath);
-    traverseModule(entryPath, (modulePath: string) => {
+    traverseModule(entryPath, (modulePath: string, items: string[], isImport: boolean) => {
       usedModules.push(modulePath);
+      if (isImport) {
+        importModules = importModules.concat(...items);
+      } else {
+        exportModules = exportModules.concat(...items);
+      }
     });
   });
+
+  const importSet = new Set(importModules);
+  const exportSet = new Set(exportModules);
+  const unusedExport = new Set([...exportSet].filter((x) => !importSet.has(x)));
 
   const unusedModules = allFiles.filter((filePath) => {
     const resolvedFilePath = resolve(filePath);
@@ -61,6 +72,7 @@ function findUnusedModule(options: Options) {
     all: allFiles,
     used: usedModules,
     unused: unusedModules,
+    unusedExport,
   };
 }
 

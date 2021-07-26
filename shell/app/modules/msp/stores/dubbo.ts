@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import * as dubboServices from '../services/dubbo';
+import { getDubboDetailChart, getDubboDetailTime } from '../services/dubbo';
 
 interface IState {
   dubboDetailTime: {
@@ -37,12 +37,12 @@ const dubbo = createStore({
       payload: { az: string; interfacename: string; tenantId: string },
     ) {
       const { env, projectId } = getParams();
-      const dubboDetailTime = await call(dubboServices.getDubboDetailTime, { env, projectId, ...payload });
+      const dubboDetailTime = await call(getDubboDetailTime, { env, projectId, ...payload });
       update({ dubboDetailTime });
     },
     async getDubboDetailChart({ call, getParams }, payload) {
       const { env, projectId } = getParams();
-      return call(dubboServices.getDubboDetailChart, { env, projectId, ...payload });
+      return call(getDubboDetailChart, { env, projectId, ...payload });
     },
   },
 });
