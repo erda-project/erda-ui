@@ -281,10 +281,11 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     <div className={`common-edit-field ${className}`}>
       {label && (
         <div
+          data-required="* "
           className={classnames(
             labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
             'mb4',
-            showRequiredMark ? 'ant-form-item-required' : '',
+            showRequiredMark ? 'before:required' : '',
           )}
           style={{ paddingLeft: '10px' }}
         >

@@ -106,6 +106,13 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    plugin(({ addVariant, e }) => {
+      addVariant('before', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `.${e(`before${separator}${className}`)}::before`;
+        });
+      });
+    }),
     plugin(({ addUtilities }) => {
       const newUtilities = {
         '.nowrap': {
@@ -118,8 +125,15 @@ module.exports = {
           cursor: 'not-allowed',
         },
       };
+      const contentUtilities = {
+        '.required': {
+          content: 'attr(data-required)',
+          color: '#f5222d',
+        },
+      };
 
       addUtilities(newUtilities, ['responsive', 'hover']);
+      addUtilities(contentUtilities, ['before']);
     }),
   ],
   purge: {

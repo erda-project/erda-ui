@@ -414,16 +414,6 @@ div.ant-table {
   }
 }
 
-.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
-  display: inline-block;
-  margin-right: 4px;
-  color: #ff4d4f;
-  font-size: 14px;
-  font-family: SimSun, sans-serif;
-  line-height: 1;
-  content: '*';
-}
-
 // Leave the styles unchanged from nusi to antd4.x
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td,
