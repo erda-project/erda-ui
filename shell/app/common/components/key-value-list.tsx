@@ -22,7 +22,7 @@ interface IParam {
   className?: string;
   depth?: number;
   shrink?: boolean;
-  withMarkdown?: boolean;
+  markdownTextFields?: string[];
   textRender?: (k: string, v: string) => string | JSX.Element | null;
   listRender?: (b: string[]) => React.ReactNodeArray | JSX.Element;
 }
@@ -34,7 +34,7 @@ export const KeyValueList = ({
   textRender,
   listRender,
   shrink = false,
-  withMarkdown = false,
+  markdownTextFields = [],
   ...rest
 }: IParam) => {
   return (
@@ -76,13 +76,14 @@ export const KeyValueList = ({
               normalType[objK] = objV;
             }
           });
+
           return (
             <React.Fragment key={k}>
               {map(normalType, (normalV, normalK) => {
                 return (
                   <div className="k-v-row" key={normalK}>
                     <span className="key">{normalK}</span>
-                    {normalK === 'desc' && withMarkdown ? (
+                    {markdownTextFields.includes(normalK) ? (
                       <span
                         className="w-7/10 overflow-auto max-h-72"
                         dangerouslySetInnerHTML={{ __html: Markdown(normalV || '') }}
