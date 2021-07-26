@@ -184,7 +184,13 @@ export const FileDiff = ({
   const [hasLS, setHasLs] = useState({});
   const [isShowLS, setIsShowLS] = useState({});
 
+  const [diffKey, setDiffKey] = useState(1);
+
   const { projectId, appId, mergeId } = routeInfoStore.useStore((s) => s.params);
+
+  React.useEffect(() => {
+    setDiffKey((prev) => prev + 1);
+  }, [sections]);
 
   if (!sections) {
     if (type === ACTION.ADD || type === ACTION.DELETE || type === ACTION.RENAME || isBin) {
@@ -287,7 +293,6 @@ export const FileDiff = ({
       [lineKey]: true,
     });
   };
-
   return (
     <div ref={forwardRef} className="file-diff">
       <div
@@ -327,13 +332,15 @@ export const FileDiff = ({
               delete: '-',
               add: '+',
             };
-            const fileKey = `${name}_${i}`;
+
+            const fileKey = `${name}_${i}_${diffKey}`;
             return (
               <tbody key={fileKey} className="file-diff-section">
                 {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }) => {
                   if (hideSectionTitle && actionType === 'section') {
                     return null;
                   }
+
                   const hasWhiteSpace = content.match(/^\s+/);
                   let _content: any = content;
                   let paddingLeft = 0;
