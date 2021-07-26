@@ -184,13 +184,7 @@ export const FileDiff = ({
   const [hasLS, setHasLs] = useState({});
   const [isShowLS, setIsShowLS] = useState({});
 
-  const [diffKey, setDiffKey] = useState(1);
-
   const { projectId, appId, mergeId } = routeInfoStore.useStore((s) => s.params);
-
-  React.useEffect(() => {
-    setDiffKey((prev) => prev + 1);
-  }, [sections]);
 
   if (!sections) {
     if (type === ACTION.ADD || type === ACTION.DELETE || type === ACTION.RENAME || isBin) {
@@ -333,10 +327,10 @@ export const FileDiff = ({
               add: '+',
             };
 
-            const fileKey = `${name}_${i}_${diffKey}`;
+            const fileKey = `${name}_${i}`;
             return (
               <tbody key={fileKey} className="file-diff-section">
-                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }) => {
+                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }, lineIndex) => {
                   if (hideSectionTitle && actionType === 'section') {
                     return null;
                   }
@@ -451,7 +445,7 @@ export const FileDiff = ({
                     }
 
                     return (
-                      <React.Fragment key={`${lineKey}`}>
+                      <React.Fragment key={`${lineKey}_${lineIndex}`}>
                         <tr className={lineCls}>
                           {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
                                 {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
