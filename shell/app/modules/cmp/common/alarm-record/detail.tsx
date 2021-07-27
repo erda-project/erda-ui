@@ -163,11 +163,13 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
     {
       title: i18n.t('org:alarm status'),
       dataIndex: 'alertState',
+      width: 200,
       render: (alertState) => <AlarmState state={alertState} />,
     },
     {
       width: 200,
       title: i18n.t('operation'),
+      fixed: 'right',
       render: (record: ALARM_REPORT.AlarmHistory) => (
         <div className="table-operations">
           <IF check={!!record.displayUrl}>
@@ -209,7 +211,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
       </div>
       <IF check={view === 'table'}>
         <Table
-          rowKey="id"
+          rowKey="timestamp"
           dataSource={recordHistories}
           loading={loading}
           columns={columns}
@@ -220,7 +222,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
               </div>
             </div>
           )}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
         <IF.ELSE />
         <PureBoardGrid layout={layout} />
