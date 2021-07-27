@@ -79,7 +79,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { url, value } = val || {};
         Comp = (
-          <a className="fake-link nowrap flex-box full-width" download={value} href={url}>
+          <a className="fake-link nowrap left-flex-box full-width" download={value} href={url}>
             <IconDownLoad /> {value}
           </a>
         );
@@ -320,7 +320,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     default:
-      Comp = (val || val === 0) ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
+      Comp = val || val === 0 ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
       break;
   }
   return Comp;

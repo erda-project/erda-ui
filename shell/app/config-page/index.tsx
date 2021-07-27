@@ -15,7 +15,8 @@ import * as React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
 import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
-import { Spin } from 'app/nusi';
+import { Spin, message } from 'app/nusi';
+import { notify } from 'common/utils';
 import { useUpdate } from 'common';
 import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
@@ -106,7 +107,6 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       inParamsRef.current = inParams;
     }
   }, [inParams]);
-
   React.useEffect(() => {
     if (ref) {
       ref.current = {
@@ -130,10 +130,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     }
   }, [inParams]);
 
-  const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, _showLoading = true) => {
+  const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, op?: CP_COMMON.Operation) => {
     if (fetchingRef.current) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
-    if (_showLoading) updater.fetching(true);
+    if (op?.showLoading !== false) updater.fetching(true);
     fetchingRef.current = true;
     ((useMockMark && _useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
       .then((res: any) => {
@@ -149,6 +149,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         } else {
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
         }
+        if (op?.successMsg) message.success(op.successMsg);
+      })
+      .catch(() => {
+        if (op?.errorMsg) notify('error', op.errorMsg);
       })
       .finally(() => {
         updater.fetching(false);
@@ -203,7 +207,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
 
       const formatConfig = clearLoadMoreData(newConfig);
-      queryPageConfig(formatConfig, partial, op.showLoading);
+      queryPageConfig(formatConfig, partial, op);
     } else if (updateInfo) {
       updateState(updateInfo.dataKey, updateInfo.dataVal);
     }

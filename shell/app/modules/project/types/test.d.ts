@@ -164,6 +164,14 @@ declare namespace TEST_CASE {
     };
   }
 
+  interface ImportAutoData {
+    payload: FormData;
+    query: {
+      projectID: number;
+      fileType: CaseFileType;
+    };
+  }
+
   interface TestApi {
     apis: Array<{ url: string; id: string }>;
     projectTestEnvID: number;
