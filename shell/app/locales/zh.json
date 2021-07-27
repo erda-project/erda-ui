@@ -1154,7 +1154,7 @@
     "October": "10月",
     "On this page, you can check the progress of my application to call the API request, and its specific authentication information after the application is approved.": "本页面中可以及时查看我申请调用 API 请求的处理进度，以及申请通过后 API 调用的具体认证信息",
     "Permanently delete {deleteItem}. Please pay special attention to it.": "永久删除{deleteItem}，请谨慎操作",
-    "Personal dashboard": "个人工作台",
+    "Personal dashboard": "个人仪表盘",
     "Please enter a valid DingTalk address.": "请输入正确钉钉地址",
     "Please enter a valid version number, such as x.y.z.": "请输入有效的版本号, 如：x.y.z",
     "Please enter address started with http": "请输入以http://或https://开头的有效实例地址",
