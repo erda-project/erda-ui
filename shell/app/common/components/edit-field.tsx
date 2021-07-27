@@ -271,12 +271,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
   }
 
-  const onClick = () => {
-    if (!editMode && ((type && !['dateReadonly', 'readonly'].includes(type)) || !type)) {
-      updater.editMode(false);
-    }
-  };
-
   return (
     <div className={`common-edit-field ${className}`}>
       {label && (
@@ -292,7 +286,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           {label}
         </div>
       )}
-      <div onClick={onClick} className={classnames({ 'edit-comp-text': editMode })}>
+      <div className={classnames({ 'edit-comp-text': editMode })}>
         {Comp}
         {suffix}
       </div>
