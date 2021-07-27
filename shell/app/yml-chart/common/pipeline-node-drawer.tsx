@@ -193,7 +193,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
   const taskType = (
     <Item
-      className="hide"
+      className="hidden"
       name={['resource', 'type']}
       initialValue={chosenActionName}
       rules={[
@@ -207,7 +207,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     </Item>
   );
 
-  const loopData = <Item className="hide" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />;
+  const loopData = (
+    <Item className="hidden" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />
+  );
 
   const actionVersion = (
     <Item

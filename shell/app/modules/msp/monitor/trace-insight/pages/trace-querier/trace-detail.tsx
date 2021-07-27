@@ -184,7 +184,7 @@ class TraceDetail extends React.Component<IProps, IState> {
                 <div
                   key={`span${spanId}`}
                   id={spanId}
-                  className={`span service-span depth-${depthClass} ${isShow ? '' : 'hide'}`}
+                  className={`span service-span depth-${depthClass} ${isShow ? '' : 'hidden'}`}
                   data-keys="id,spanName,serviceNames,serviceName,durationStr,duration"
                   data-id={spanId}
                   data-parent-id={parentId}

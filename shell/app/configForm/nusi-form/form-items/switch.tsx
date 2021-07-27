@@ -50,7 +50,7 @@ export const FormSwitch = ({ fixOut = noop, fixIn = noop, extensionFix, required
         colon
         label={getLabel(label, labelTip)}
         // hasFeedback
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

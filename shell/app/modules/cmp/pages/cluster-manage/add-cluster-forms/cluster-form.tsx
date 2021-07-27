@@ -298,7 +298,7 @@ const ClusterAddForm = (props: any) => {
             {i18n.t('advanced settings')}
             {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
           </a>
-          <div className={`more-form ${showMore ? '' : 'hide'}`}>
+          <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <ClusterSchedulerForm
               form={form}
               clusterType={clusterType}

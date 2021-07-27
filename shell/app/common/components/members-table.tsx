@@ -595,7 +595,7 @@ export const MembersTable = ({
             }}
           />
           <AuthorizeMemberModal
-            key={state.authorizeMember ? 'show' : 'hide'} // 关闭后销毁
+            key={state.authorizeMember ? 'show' : 'hidden'} // 关闭后销毁
             type={scope.type}
             member={state.authorizeMember as IMember | null}
             closeModal={() => updater.authorizeMember(null)}

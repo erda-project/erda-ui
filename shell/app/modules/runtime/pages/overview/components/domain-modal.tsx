@@ -209,7 +209,7 @@ const DomainModal = (props: IProps) => {
             ) : (
               <Row key={domainType + index} type="flex" align="middle">
                 <Col span={22}>
-                  <FormItem className="hide" name={`${domainType}@@${index}`} initialValue={serviceName}>
+                  <FormItem className="hidden" name={`${domainType}@@${index}`} initialValue={serviceName}>
                     <Input />
                   </FormItem>
                   <FormItem

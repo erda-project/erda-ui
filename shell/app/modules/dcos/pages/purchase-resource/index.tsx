@@ -489,10 +489,10 @@ class OrderPage extends React.Component<IProps, any> {
           ))}
         </Steps>
         <div className="steps-content">
-          <div className={step === 0 ? '' : 'hide'}>
+          <div className={step === 0 ? '' : 'hidden'}>
             <RenderPureForm list={this.getFormList()} formItemLayout={formItemLayout} {...this.props} />,
           </div>
-          <div className={step === 1 ? '' : 'hide'}>
+          <div className={step === 1 ? '' : 'hidden'}>
             <div className="confirm-block">
               <KeyValueList data={this.confirmData} />
               <div className="op-row">
