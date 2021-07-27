@@ -22,7 +22,7 @@ import { ColumnProps } from 'core/common/interface';
 import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
 import './service-list.scss';
 
-export const statusConfig = {
+const statusConfig = {
   Unknown: { text: i18n.t('dcos:unknown'), state: 'warning' },
   CONTAINER: {
     Stopped: { text: i18n.t('dcos:ready'), state: 'error' },

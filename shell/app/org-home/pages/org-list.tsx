@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import erda_png from 'app/images/Erda.png';
 import './org-list.scss';
 
-export const OrgList = () => {
+const OrgList = () => {
   return (
     <Card className="full-height ma12 auto-overflow">
       <div className="org-home-info mb20">
@@ -35,3 +35,5 @@ export const OrgList = () => {
     </Card>
   );
 };
+
+export default OrgList;

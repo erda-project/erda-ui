@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import * as MetricsServices from 'common/services/metrics';
+import { loadGatewayMetricItem, loadMetricItem, listMetricByResourceType } from 'common/services/metrics';
 import { isEmpty, get, forEach, isArray } from 'lodash';
 import { groupHandler, multipleDataHandler, multipleGroupDataHandler } from 'common/utils/chart-utils';
 
@@ -26,20 +26,20 @@ const metricsMonitorStore = createStore({
   state: initState,
   effects: {
     async listMetricByResourceType({ call }, payload: METRICS.ChartMetaQuerys) {
-      const result = await call(MetricsServices.listMetricByResourceType, payload);
+      const result = await call(listMetricByResourceType, payload);
       if (!isEmpty(result.metrics.data)) {
         metricsMonitorStore.reducers.listMetricByResourceTypeSuccess(result);
       }
     },
     async loadMetricItem({ call }, payload: METRICS.LoadMetricItemQuerys) {
-      const metricItem = await call(MetricsServices.loadMetricItem, payload);
+      const metricItem = await call(loadMetricItem, payload);
       if (!isEmpty(metricItem)) {
         const { resourceType, chartQuery } = payload;
         metricsMonitorStore.reducers.loadMetricItemSuccess({ data: metricItem, query: chartQuery, resourceType });
       }
     },
     async loadGatewayMetricItem({ call }, payload: METRICS.GetGateway) {
-      const metricItem = await call(MetricsServices.loadGatewayMetricItem, payload);
+      const metricItem = await call(loadGatewayMetricItem, payload);
       if (!isEmpty(metricItem)) {
         const { resourceType, chartQuery } = payload;
         metricsMonitorStore.reducers.loadMetricItemSuccess({ data: metricItem, query: chartQuery, resourceType });

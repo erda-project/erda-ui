@@ -17,7 +17,43 @@ import { getTranslateAddonList } from 'app/locales/utils';
 import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { reduce, zipWith, isEmpty, cloneDeep, get } from 'lodash';
 import appStore from 'application/stores/application';
-import * as RepoServices from 'application/services/repo';
+import {
+  getFromRepo,
+  getBuildId,
+  getRepoInfo,
+  createBranch,
+  getBlobRange,
+  parsePipelineYmlStructure,
+  deleteBranch,
+  getTags,
+  getBranches,
+  setDefaultBranch,
+  createTag,
+  deleteTag,
+  getCommitDetail,
+  getCommits,
+  getMRs,
+  commit,
+  getCompareDetail,
+  getCIResource,
+  getAvailableAddonList,
+  createMR,
+  getMRStats,
+  getMRDetail,
+  getAddonVersions,
+  getAddonInstanceList,
+  addComment,
+  getComments,
+  operateMR,
+  getPipelineTemplateYmlContent,
+  getPipelineTemplates,
+  getTemplateConfig,
+  deleteBackup,
+  getBackupList,
+  addBackup,
+  getLatestCommit,
+  setRepoLock,
+} from 'application/services/repo';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
 import { getInfoFromRefName, getSplitPathBy } from 'application/pages/repo/util';
@@ -200,7 +236,7 @@ const repoStore = createStore({
         });
         return { SKIP: true };
       }
-      const info = await call(RepoServices.getRepoInfo, {
+      const info = await call(getRepoInfo, {
         repoPrefix: appDetail.gitRepoAbbrev,
         branch,
       });
@@ -221,7 +257,7 @@ const repoStore = createStore({
       if (!param) {
         return;
       }
-      const buildId = await call(RepoServices.getBuildId, param);
+      const buildId = await call(getBuildId, param);
       update({ buildId });
     },
     async getRepoTree({ getParams, select, update, call }, { force }: REPOSITORY.QueryRepoTree = { force: false }) {
@@ -242,7 +278,7 @@ const repoStore = createStore({
       const isRepoRoot = window.location.pathname.endsWith(
         `/dop/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`,
       );
-      const tree = (await call(RepoServices.getFromRepo, {
+      const tree = (await call(getFromRepo, {
         type: 'tree',
         repoPrefix: appDetail.gitRepoAbbrev,
         path: isRepoRoot ? `/${lsBranchOrTag || info.defaultBranch}` : undefined,
@@ -251,7 +287,7 @@ const repoStore = createStore({
     },
     async getRepoBlame({ call, update }, payload = {}) {
       const appDetail = await getAppDetail();
-      const blame = (await call(RepoServices.getFromRepo, {
+      const blame = (await call(getFromRepo, {
         type: 'blame',
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
@@ -261,7 +297,7 @@ const repoStore = createStore({
     },
     async getRepoBlob({ call, update }, payload: Obj) {
       const { gitRepoAbbrev } = appStore.getState((s) => s.detail);
-      const blob = (await call(RepoServices.getFromRepo, {
+      const blob = (await call(getFromRepo, {
         type: 'blob',
         repoPrefix: gitRepoAbbrev,
         ...payload,
@@ -274,7 +310,7 @@ const repoStore = createStore({
       return blob;
     },
     async parsePipelineYmlStructure({ call, update }, payload: { pipelineYmlContent: any }) {
-      const pipelineYmlStructure = await call(RepoServices.parsePipelineYmlStructure, {
+      const pipelineYmlStructure = await call(parsePipelineYmlStructure, {
         ...payload,
       });
       update({ pipelineYmlStructure });
@@ -302,7 +338,7 @@ const repoStore = createStore({
         return;
       }
       const appDetail = await getAppDetail();
-      const latestCommitDetail = await call(RepoServices.getBlobRange, {
+      const latestCommitDetail = await call(getBlobRange, {
         repoPrefix: appDetail.gitRepoAbbrev,
         commitId,
         ...payload,
@@ -338,15 +374,15 @@ const repoStore = createStore({
       return file;
     },
     async getRepoRaw({ call }) {
-      const raw = await call(RepoServices.getFromRepo, { type: 'raw' });
+      const raw = await call(getFromRepo, { type: 'raw' });
       return raw;
     },
     async getListByType({ call, update }, payload) {
       const appDetail = await getAppDetail();
       const { type, ...rest } = payload;
       const apiMap = {
-        branch: RepoServices.getBranches,
-        tag: RepoServices.getTags,
+        branch: getBranches,
+        tag: getTags,
       };
       const result = await call(apiMap[type], {
         repoPrefix: appDetail.gitRepoAbbrev,
@@ -367,7 +403,7 @@ const repoStore = createStore({
       const appDetail = appStore.getState((s) => s.detail);
       try {
         await call(
-          RepoServices.createBranch,
+          createBranch,
           {
             repoPrefix: appDetail.gitRepoAbbrev,
             ...payload,
@@ -385,7 +421,7 @@ const repoStore = createStore({
     async deleteBranch({ call, getParams }, payload: { branch: string }) {
       const appDetail = await getAppDetail();
       await call(
-        RepoServices.deleteBranch,
+        deleteBranch,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -407,7 +443,7 @@ const repoStore = createStore({
     async deleteTag({ call }, payload: { tag: string }) {
       const appDetail = await getAppDetail();
       await call(
-        RepoServices.deleteTag,
+        deleteTag,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -419,7 +455,7 @@ const repoStore = createStore({
     async createTag({ call }, payload: { ref: string; tag: string; message: string }) {
       const appDetail = appStore.getState((s) => s.detail);
       const result = await call(
-        RepoServices.createTag,
+        createTag,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -432,7 +468,7 @@ const repoStore = createStore({
     async setDefaultBranch({ call, select, update }, branch: string) {
       const appDetail = await getAppDetail();
       await call(
-        RepoServices.setDefaultBranch,
+        setDefaultBranch,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           branch,
@@ -449,7 +485,7 @@ const repoStore = createStore({
       const { pageNo = 1 } = payload;
       const originalList = select((state) => state.mrList);
       const { list, total } = await call(
-        RepoServices.getMRs,
+        getMRs,
         { repoPrefix: appDetail.gitRepoAbbrev, ...payload },
         { paging: { key: 'mrPaging' } },
       );
@@ -460,7 +496,7 @@ const repoStore = createStore({
     async getCommitList({ call, select, update }, payload: REPOSITORY.QueryCommit) {
       const appDetail = await getAppDetail();
       const { commitPaging: paging, commit: prevList } = select((state) => state);
-      const result = await call(RepoServices.getCommits, {
+      const result = await call(getCommits, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...paging,
         ...(payload || {}),
@@ -472,7 +508,7 @@ const repoStore = createStore({
     async getCommitDetail({ getParams, call, update }) {
       const params = getParams();
       const appDetail = await getAppDetail();
-      const commitDetail = await call(RepoServices.getCommitDetail, {
+      const commitDetail = await call(getCommitDetail, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...params,
       });
@@ -481,7 +517,7 @@ const repoStore = createStore({
     async checkCommitId({ call }, payload: { commitId: string }) {
       const appDetail = appStore.getState((s) => s.detail);
       try {
-        const commitDetail = await call(RepoServices.getCommitDetail, {
+        const commitDetail = await call(getCommitDetail, {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
         });
@@ -492,7 +528,7 @@ const repoStore = createStore({
     },
     async getSonarMessage({ getParams, call, update }) {
       const params = getParams();
-      const sonarMessage = await call(RepoServices.getCIResource, {
+      const sonarMessage = await call(getCIResource, {
         type: 'issuesStatistics',
         commitId: params.commitId,
       });
@@ -500,7 +536,7 @@ const repoStore = createStore({
     },
     async getCompareDetail({ call, update }, payload: REPOSITORY.QueryCompareDetail) {
       const appDetail = await getAppDetail();
-      const compareDetail = await call(RepoServices.getCompareDetail, {
+      const compareDetail = await call(getCompareDetail, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
       });
@@ -509,7 +545,7 @@ const repoStore = createStore({
     async commit({ call }, payload: REPOSITORY.Commit) {
       const appDetail = await getAppDetail();
       const commitResult = await call(
-        RepoServices.commit,
+        commit,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           data: payload,
@@ -521,7 +557,7 @@ const repoStore = createStore({
     },
     async getMRStats({ call, update }, payload: REPOSITORY.MrStats) {
       const appDetail = await getAppDetail();
-      const mrStats = await call(RepoServices.getMRStats, {
+      const mrStats = await call(getMRStats, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
       });
@@ -530,7 +566,7 @@ const repoStore = createStore({
     async createMR({ call }, payload: Omit<REPOSITORY.Mr, 'action'>) {
       const appDetail = await getAppDetail();
       const res = await call(
-        RepoServices.createMR,
+        createMR,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -546,19 +582,19 @@ const repoStore = createStore({
         workspace: getEnvFromRefName(getInfoFromRefName(tree.refName).branch),
         projectId: params.projectId,
       };
-      const availableAddonList = await call(RepoServices.getAvailableAddonList, options);
-      let addonInstanceList = await call(RepoServices.getAddonInstanceList, { type: 'addon' });
+      const availableAddonList = await call(getAvailableAddonList, options);
+      let addonInstanceList = await call(getAddonInstanceList, { type: 'addon' });
       addonInstanceList = addonInstanceList.filter((item: any) => item.public !== false && item.deployable !== false);
       await repoStore.reducers.getAvailableAddonListSuccess({ availableAddonList, addonInstanceList });
     },
     async getAddonVersions({ call }, payload: string) {
-      const res = await call(RepoServices.getAddonVersions, { addonName: payload });
+      const res = await call(getAddonVersions, { addonName: payload });
       return res;
     },
     async getMRDetail({ getParams, call, update }) {
       const params = getParams();
       const appDetail = await getAppDetail();
-      const mrDetail = await call(RepoServices.getMRDetail, {
+      const mrDetail = await call(getMRDetail, {
         repoPrefix: appDetail.gitRepoAbbrev,
         mergeId: params.mergeId,
       });
@@ -569,7 +605,7 @@ const repoStore = createStore({
       const appDetail = await getAppDetail();
       const { mergeId } = getParams();
       const res = await call(
-        RepoServices.operateMR,
+        operateMR,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           mergeId,
@@ -582,7 +618,7 @@ const repoStore = createStore({
     async getComments({ getParams, call, update }) {
       const appDetail = await getAppDetail();
       const { mergeId } = getParams();
-      const comments = await call(RepoServices.getComments, {
+      const comments = await call(getComments, {
         repoPrefix: appDetail.gitRepoAbbrev,
         mergeId,
       });
@@ -591,7 +627,7 @@ const repoStore = createStore({
     async addComment({ getParams, call }, payload: Obj) {
       const appDetail = await getAppDetail();
       const { mergeId } = getParams();
-      await call(RepoServices.addComment, {
+      await call(addComment, {
         repoPrefix: appDetail.gitRepoAbbrev,
         mergeId,
         ...payload,
@@ -609,7 +645,7 @@ const repoStore = createStore({
     },
     async getTemplateConfig({ call, update }, payload: Obj) {
       const appDetail = await getAppDetail();
-      const templateConfig = await call(RepoServices.getTemplateConfig, {
+      const templateConfig = await call(getTemplateConfig, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
       });
@@ -617,18 +653,18 @@ const repoStore = createStore({
       return templateConfig;
     },
     async getPipelineTemplates({ call, update }, payload: REPOSITORY.IPipelineTemplateQuery) {
-      const pipelineTemplates = await call(RepoServices.getPipelineTemplates, payload);
+      const pipelineTemplates = await call(getPipelineTemplates, payload);
       update({ pipelineTemplates: pipelineTemplates.data });
       return pipelineTemplates;
     },
     async getPipelineTemplateYmlContent({ call }, payload: REPOSITORY.IPipelineTemplateContentQuery) {
-      const res = await call(RepoServices.getPipelineTemplateYmlContent, payload);
+      const res = await call(getPipelineTemplateYmlContent, payload);
       return res;
     },
     async addBackup({ call }, payload: REPOSITORY.IBackupAppendBody) {
       const appDetail = await getAppDetail();
       await call(
-        RepoServices.addBackup,
+        addBackup,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -639,7 +675,7 @@ const repoStore = createStore({
     async getBackupList({ call, update }, payload: REPOSITORY.ICommitPaging) {
       const appDetail = await getAppDetail();
       const { list = [] } = await call(
-        RepoServices.getBackupList,
+        getBackupList,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -651,7 +687,7 @@ const repoStore = createStore({
     async deleteBackup({ call }, payload: REPOSITORY.IBackupUuid) {
       const appDetail = await getAppDetail();
       await call(
-        RepoServices.deleteBackup,
+        deleteBackup,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
@@ -664,16 +700,16 @@ const repoStore = createStore({
     },
     async getLatestCommit({ call, update }, payload: REPOSITORY.IBackupBranch) {
       const appDetail = await getAppDetail();
-      const { commit } = await call(RepoServices.getLatestCommit, {
+      const { commit: result } = await call(getLatestCommit, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
       });
-      update({ backupLatestCommit: commit });
-      return { backupLatestCommit: commit };
+      update({ backupLatestCommit: result });
+      return { backupLatestCommit: result };
     },
     async setRepoLock({ call }, payload: { isLocked: boolean }) {
       const appDetail = await getAppDetail();
-      const result = await call(RepoServices.setRepoLock, {
+      const result = await call(setRepoLock, {
         isLocked: payload.isLocked,
         repoPrefix: appDetail.gitRepoAbbrev,
       });
