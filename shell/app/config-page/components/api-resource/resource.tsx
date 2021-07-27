@@ -481,7 +481,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     <div className="api-resource" ref={popconfirmRef}>
       <div className="popover">
         {renderSelectMenu()}
-        <FormBuilder isMultiColumn wrappedComponentRef={formRef} className="full-width">
+        <FormBuilder isMultiColumn wrappedComponentRef={formRef} className="w-full">
           <Fields fields={fieldList} />
         </FormBuilder>
       </div>

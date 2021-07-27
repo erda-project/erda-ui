@@ -146,7 +146,7 @@ const IssueKanban = (props: IProps) => {
           )}
         </div>
       ) : null}
-      {isEmpty(data?.board || []) ? <EmptyHolder relative className="full-width" /> : null}
+      {isEmpty(data?.board || []) ? <EmptyHolder relative className="w-full" /> : null}
     </div>
   );
 };

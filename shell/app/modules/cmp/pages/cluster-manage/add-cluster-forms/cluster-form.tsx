@@ -263,7 +263,7 @@ const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clust
         itemProps: {
           min: 1,
           max: 100,
-          className: 'full-width',
+          className: 'w-full',
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 }),
         },
         initialValue: 1,

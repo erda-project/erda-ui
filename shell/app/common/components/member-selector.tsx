@@ -347,7 +347,7 @@ export const UserSelector = (props: any) => {
   };
   return (
     <Select
-      className="full-width"
+      className="w-full"
       showSearch
       notFoundContent={searchKey ? i18n.t('common:please confirm that the user is registered') : ''}
       showArrow={false}

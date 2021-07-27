@@ -326,7 +326,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               <span className="sub-text">{applicationName}</span>
             </div>
             {isMeshNode ? (
-              <div className="full-height">
+              <div className="h-full">
                 <CustomIcon type="sz" onClick={(e: any) => e.stopPropagation()} />
               </div>
             ) : null}
@@ -376,7 +376,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             )}
           </div>
           {isMeshNode ? (
-            <div className="full-height node-operation">
+            <div className="h-full node-operation">
               <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
                 <CustomIcon
                   className="fz18 operation-item pl-2 pr-2 pb-2"

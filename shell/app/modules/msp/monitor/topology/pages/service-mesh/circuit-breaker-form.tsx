@@ -237,15 +237,15 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubbo
   const len = useData.length;
   const currentData = useData.slice((pageNo - 1) * pageSize, pageNo * pageSize);
   return (
-    <div className="circuit-breaker-dubbo full-height">
-      <div className="service-mesh-forms-container full-height">
+    <div className="circuit-breaker-dubbo h-full">
+      <div className="service-mesh-forms-container h-full">
         <div className="service-mesh-search">
           <Input
             placeholder={i18n.t('msp:filter by interface name')}
             onChange={(e: any) => setSearchKey(e.target.value)}
           />
-          <div className="hide-no-rule-interface full-height">
-            <span className="hide-no-rule-interface-label full-height">{i18n.t('msp:hide no rule interface')}</span>
+          <div className="hide-no-rule-interface h-full">
+            <span className="hide-no-rule-interface-label h-full">{i18n.t('msp:hide no rule interface')}</span>
             <Switch
               checked={hideNoRule}
               checkedChildren="ON"

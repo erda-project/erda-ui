@@ -35,19 +35,19 @@ const TraceDetailFilter = (props: IProps) => {
         <Row className="filter-top">
           <Col span={24}>
             <ul className="trace-nav clearfix">
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Duration:</strong> <span className="badge">{duration || 0}</span>
               </li>
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Services:</strong> <span className="badge">{services || 0}</span>
               </li>
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Depth:</strong> <span className="badge">{depth || 0}</span>
               </li>
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Total Spans:</strong> <span className="badge">{totalSpans || 0}</span>
               </li>
-              <li className="pull-right">
+              <li className="float-right">
                 <JsonChecker jsonString={jsonStr} />
               </li>
             </ul>

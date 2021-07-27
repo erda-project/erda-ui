@@ -90,7 +90,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
         />
       ) : editing ? (
         <Tabs
-          className="full-height case-node-chosen-tabs"
+          className="h-full case-node-chosen-tabs"
           activeKey={chosenKey}
           onChange={(aKey: string) => editing && setChosenKey(aKey)}
         >

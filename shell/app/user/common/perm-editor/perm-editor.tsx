@@ -147,7 +147,7 @@ export const PermEditor = () => {
     });
   };
   return (
-    <div className="dice-perm-editor full-height">
+    <div className="dice-perm-editor h-full">
       {isEdit ? (
         <div className="top-button-group">
           <AddScope onSubmit={addScope} currentData={data} />

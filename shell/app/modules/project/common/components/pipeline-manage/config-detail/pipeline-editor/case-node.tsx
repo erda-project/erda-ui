@@ -91,9 +91,9 @@ export const CaseNode = (props: IProps) => {
   let content = ' ';
   let name = ' ';
   let IconComp = data.logoUrl ? (
-    <img src={data.logoUrl} className="full-width full-height" />
+    <img src={data.logoUrl} className="w-full h-full" />
   ) : (
-    <CustomIcon type={'jiedian'} color className="full-width full-height" />
+    <CustomIcon type={'jiedian'} color className="w-full h-full" />
   );
 
   const curNodeScope = get(data, 'snippet_config.labels.snippet_scope') || SCOPE_AUTOTEST;
@@ -113,7 +113,7 @@ export const CaseNode = (props: IProps) => {
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
           color
-          className="full-width full-height"
+          className="w-full h-full"
         />
       );
       break;

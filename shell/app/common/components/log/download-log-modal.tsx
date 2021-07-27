@@ -61,7 +61,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       required: true,
       getComp: ({ form }: { form: FormInstance }) => (
         <DatePicker
-          className="full-width"
+          className="w-full"
           disabledDate={disabledStartDate}
           showTime
           showToday={false}
@@ -83,7 +83,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
           min={1}
           max={60}
           defaultValue={60}
-          className="full-width"
+          className="w-full"
           onChange={(duration) => {
             form.setFieldsValue({ endTime: duration });
           }}

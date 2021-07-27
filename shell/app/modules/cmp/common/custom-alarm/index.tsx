@@ -263,7 +263,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(tag) => {
             handleEditEditingFilters(uniKey, [
               { key: 'tag', value: tag },
@@ -286,7 +286,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(operator) => {
             handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]);
           }}
@@ -316,7 +316,7 @@ export default ({ scopeType }: { scopeType: string }) => {
             <Select
               dropdownMatchSelectWidth={false}
               showSearch
-              className="full-width"
+              className="w-full"
               value={value}
               onSelect={(v: any) => {
                 handleEditEditingFilters(uniKey, [{ key: 'value', value: v }]);
@@ -361,7 +361,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(field: any) => {
             handleEditEditingFields(uniKey, [
               { key: 'field', value: field },
@@ -396,7 +396,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(aggregator: any) => {
             handleEditEditingFields(uniKey, [
               { key: 'aggregator', value: aggregator },
@@ -417,7 +417,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(operator) => {
             handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]);
           }}
@@ -726,7 +726,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         itemProps: {
           min: 0,
           precision: 0,
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {
@@ -735,7 +735,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         type: 'cascader',
         options: metaGroups,
         itemProps: {
-          className: 'full-width',
+          className: 'w-full',
           showSearch: true,
           placeholder: i18n.t('org:please select index group'),
           onChange: (v: any) => {
@@ -793,7 +793,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           itemProps: {
             mode: 'multiple',
             allowClear: true,
-            className: 'full-width',
+            className: 'w-full',
           },
         },
         {
@@ -868,7 +868,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         itemProps: {
           mode: 'multiple',
           allowClear: true,
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {

@@ -39,7 +39,7 @@ const PersonalHome = () => {
           inParams={inParams}
         />
       </div>
-      <div className="home-page-content full-width">
+      <div className="home-page-content w-full">
         <DiceConfigPage
           scenarioType="home-page-content"
           scenarioKey="home-page-content"

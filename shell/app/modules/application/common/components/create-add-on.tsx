@@ -337,7 +337,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
       >
         <Select
           disabled={this.isEditing()}
-          className="full-width"
+          className="w-full"
           placeholder={i18n.t('application:please select the version')}
           onSelect={() => setFieldsValue?.({ plan: undefined })}
         >

@@ -93,7 +93,7 @@ const OptionItem = (props: IOptionItemProps) => {
       key={option.value}
       onClick={() => onClick(option)}
     >
-      <div className="flex-box full-width">
+      <div className="flex-box w-full">
         <span>{option.label}</span>
         <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml-2" /> : null}</span>
       </div>
@@ -552,7 +552,7 @@ export const ContractiveFilter = ({
     <div className="contractive-filter-bar">
       {showList.map((item) => (
         <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
           onClick={() => {
             setCloseAll(false);
@@ -580,7 +580,7 @@ export const ContractiveFilter = ({
       ))}
 
       {displayConditionsLen > 0 && (
-        <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
+        <span className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}>
           <Dropdown
             trigger={['click']}
             overlayClassName="contractive-filter-item-dropdown"
@@ -644,7 +644,7 @@ export const ContractiveFilter = ({
 
       {inputList.map((item) => (
         <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
           onClick={() => setCloseAll(false)}
         >

@@ -120,7 +120,7 @@ export const BaseInfo = () => {
           <Progress strokeWidth={12} style={{ width: '230px' }} percent={percent} showInfo={false} />{' '}
           {i18n.t('project:passing rate')} {percent}%
         </div>
-        <div className="sub pull-right">
+        <div className="sub float-right">
           {<UserInfo id={planItemDetail.creatorID} />} {i18n.t('project:built in')} {createTime}
         </div>
       </div>

@@ -210,7 +210,7 @@ const AppLibraryReference = () => {
         <Copy selector=".for-copy" />
         <Alert className="mb-4" message={i18n.t('application:library-usage-tips')} type="warning" showIcon />
         <p>{i18n.t('application:code content')}</p>
-        <Input className="full-width mb-4" value={state.dependence} addonAfter={addonAfter} />
+        <Input className="w-full mb-4" value={state.dependence} addonAfter={addonAfter} />
       </Modal>
     </>
   );

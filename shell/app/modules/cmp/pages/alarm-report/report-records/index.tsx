@@ -138,12 +138,12 @@ export default () => {
         <div className="mb-2">
           <RangePicker
             borderTime
-            className="full-width"
+            className="w-full"
             onChange={(dates) => handleChange(pageNo, dates)}
             ranges={getTimeRanges()}
           />
         </div>
-        <div className="flex-1 full-height overflow-auto">
+        <div className="flex-1 h-full overflow-auto">
           <Spin spinning={getReportTaskRecordsLoading}>
             <Holder when={isEmpty(reportTaskRecords)}>
               <ul>
@@ -180,7 +180,7 @@ export default () => {
           </Spin>
         </div>
       </div>
-      <div className="flex-1 pl-4 overflow-auto full-height">
+      <div className="flex-1 pl-4 overflow-auto h-full">
         <Spin spinning={getReportTaskRecordLoading}>
           <Holder when={isEmpty(layout)}>
             <PureBoardGrid layout={layout} />

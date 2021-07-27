@@ -20,11 +20,11 @@ import './index.scss';
 
 const BackLogIssue = () => {
   return (
-    <div className="backlog-issue full-height">
-      <Card className="backlog-left full-height">
+    <div className="backlog-issue h-full">
+      <Card className="backlog-left h-full">
         <Backlog />
       </Card>
-      <Card className="backlog-right full-height">
+      <Card className="backlog-right h-full">
         <Iterations />
       </Card>
     </div>

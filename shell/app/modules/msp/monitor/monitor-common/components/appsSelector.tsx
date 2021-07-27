@@ -106,7 +106,7 @@ const AppsSelector = () => {
   const { name } = chosenApp as IApp;
   const nameStyle = `nowrap ${!name ? 'p-holder' : ''}`;
   const switchList = (
-    <div className="app-selector-switcher full-width">
+    <div className="app-selector-switcher w-full">
       <div className="input-wrap" onClick={(e) => e.stopPropagation()}>
         <Input placeholder={i18n.t('msp:search for')} onChange={filterList} value={searchKey} />
       </div>

@@ -173,7 +173,7 @@ export const RenderFormItem = ({
       break;
     case 'datePicker':
       ItemComp = (
-        <DatePicker className="full-width" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
+        <DatePicker className="w-full" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
       );
       break;
     case 'custom':

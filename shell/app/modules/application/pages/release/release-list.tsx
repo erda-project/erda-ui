@@ -129,7 +129,7 @@ const ReleaseList = () => {
         </Select>
         <div className="mb-2 mx-4">
           <DebounceSearch
-            className="full-width"
+            className="w-full"
             value={queryObj?.q}
             placeholder={i18n.t('search by keywords')}
             onChange={(v: string) => {

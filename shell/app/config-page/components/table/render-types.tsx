@@ -79,7 +79,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { url, value } = val || {};
         Comp = (
-          <a className="fake-link nowrap left-flex-box full-width" download={value} href={url}>
+          <a className="fake-link nowrap left-flex-box w-full" download={value} href={url}>
             <IconDownLoad /> {value}
           </a>
         );
@@ -94,7 +94,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
         };
         Comp = (
-          <div className={`table-render-twt full-width pl-2 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
+          <div className={`table-render-twt w-full pl-2 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
@@ -234,7 +234,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         ) : null;
         // const DateUpdateComp = (
         //   <DatePicker
-        //     className={'full-width date-picker '}
+        //     className={'w-full date-picker '}
         //     allowClear={false}
         //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
         //     value={val.value ? moment(val.value) : undefined}
@@ -259,7 +259,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { text, prefix, suffix } = val;
         Comp = (
-          <div className="dice-cp-text-tag full-width pl-2 v-align">
+          <div className="dice-cp-text-tag w-full pl-2 v-align">
             {prefix ? (
               <div className="extra-tags px-2 mr-1" style={{ backgroundColor: prefix.bgColor }}>
                 {prefix.text}
@@ -282,7 +282,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { data = [] } = val;
         Comp = (
-          <div className="dice-cp-level-content full-width pl-2 v-align">
+          <div className="dice-cp-level-content w-full pl-2 v-align">
             {data.map(({ level, text }: { level: number; text: string }) => {
               return <div className={`mr-1 level-${level}-content`}>{text}</div>;
             })}

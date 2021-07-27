@@ -102,7 +102,7 @@ class SearchTable extends React.PureComponent<IProps, IState> {
       searchListOps,
     } = this.props;
     const { searchValue } = this.state;
-    const searchStyleName = `search-input search-input-${searchPosition} ${searchFullWidth ? 'full-width' : ''}`;
+    const searchStyleName = `search-input search-input-${searchPosition} ${searchFullWidth ? 'w-full' : ''}`;
     const extraStyleName = `extra-items-${extraPosition}`;
 
     return (
