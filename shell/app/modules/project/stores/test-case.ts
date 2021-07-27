@@ -34,6 +34,7 @@ import {
   getDetail,
   getFields,
   importFileInTestCase,
+  importFileInAutoTestCase,
   updateCases,
   batchUpdateCase,
   removeRelation,
@@ -184,6 +185,15 @@ const testCaseStore = createStore({
       const res = await call(importFileInTestCase, { payload: formData, query: { testSetID, projectID, fileType } });
       testCaseStore.effects.getCases();
       testSetStore.reducers.updateReloadTestSet(reloadTestSetInfo);
+      return res;
+    },
+    async importAutoTestCase({ call, getParams }, payload: { file: File }) {
+      const { projectId: projectID } = getParams();
+      const { file } = payload;
+      const fileType: TEST_CASE.CaseFileType = 'excel';
+      const query = { projectID, fileType };
+      const formData = convertToFormData({ file });
+      const res = await call(importFileInAutoTestCase, { payload: formData, query });
       return res;
     },
     async create({ call, getParams }, payload: any) {

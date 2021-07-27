@@ -23,6 +23,8 @@ declare namespace CP_COMMON {
     command?: Command | Command[];
     meta?: Obj;
     show?: boolean;
+    successMsg?: string;
+    errorMsg?: string;
     prefixIcon?: string;
     fillMeta?: string;
     showIndex?: number;
