@@ -17,7 +17,7 @@ import { Radio } from 'app/nusi';
 import moment from 'moment';
 import { isEmpty, map, merge, get, startsWith } from 'lodash';
 import { useUpdate, Holder, PureBoardGrid } from 'common';
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { getIterationDetail } from 'project/services/project-iteration';

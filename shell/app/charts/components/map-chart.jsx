@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { produce } from 'immer';
 import ChartRender from './chart-render';
 

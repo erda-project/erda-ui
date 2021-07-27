@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, cloneDeep, get, filter, isEmpty } from 'lodash';
 import { FormEditor as DefaultEditor } from './form-editor';
 import { FormPreview as DefaultPreview } from './form-preview';

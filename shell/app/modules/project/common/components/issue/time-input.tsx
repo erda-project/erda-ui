@@ -14,7 +14,7 @@
 import { Input, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
-import * as React from 'react';
+import React from 'react';
 import './time-input.scss';
 
 export const checkReg = /^(\d+w\s)?(\d+d\s)?(\d+h\s)?(\d+m\s)?$/;

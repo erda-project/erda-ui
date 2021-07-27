@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { regRules } from 'common/utils';

@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Copy, Icon as CustomIcon, IF } from 'common';
 import { get, set, remove, round } from 'lodash';
 import { getFormatter } from 'charts/utils/formatter';
-import * as React from 'react';
+import React from 'react';
 import { getBrowserInfo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';

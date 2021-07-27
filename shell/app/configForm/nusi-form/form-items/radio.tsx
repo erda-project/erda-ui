@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Form, Radio } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { INode } from './components/topology-utils-v1';
 import { Tooltip, Dropdown, Menu } from 'app/nusi';

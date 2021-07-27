@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import BranchCompare from './components/branch-compare';
 import RepoCompareDetail from './components/compare-detail';
 import { Spin } from 'app/nusi';

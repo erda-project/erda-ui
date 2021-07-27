@@ -13,7 +13,7 @@
 
 import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder, Avatar, DeleteConfirm, IF } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { fromNow, replaceEmoji } from 'common/utils';
 import { mergeRepoPathWith } from './util';
 import GotoCommit, { getCommitPath } from 'application/common/components/goto-commit';

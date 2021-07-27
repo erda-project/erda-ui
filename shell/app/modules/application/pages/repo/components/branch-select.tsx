@@ -13,7 +13,7 @@
 
 import { Popover, Input } from 'app/nusi';
 import { isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Check as IconCheck } from '@icon-park/react';
 

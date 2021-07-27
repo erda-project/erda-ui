@@ -14,7 +14,7 @@
 import { Table, Popover, Button, Badge } from 'app/nusi';
 import moment from 'moment';
 import { KeyValueList, connectCube } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'common/utils';
 import AddMachineModal from 'dcos/pages/machine-manager/add-machine-modal';
 import { translate } from 'dcos/common/config';

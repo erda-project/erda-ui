@@ -13,7 +13,7 @@
 
 import { Spin, Button, Tooltip, Rate, Alert } from 'app/nusi';
 import { isEmpty, find, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { IF, FormModal, Avatar, Icon as CustomIcon, connectCube, BackToTop } from 'common';
 
 import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen } from 'common/utils';

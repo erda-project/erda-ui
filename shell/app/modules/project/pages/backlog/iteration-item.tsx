@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { Spin, Tooltip, Pagination } from 'app/nusi';
 import { useDrop } from 'react-dnd';

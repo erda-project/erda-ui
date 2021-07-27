@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button, Menu, Dropdown, message, Tooltip } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { RenderForm, FormModal, connectCube, MemberSelector } from 'common';
 import Markdown from 'common/utils/marked';
 import MarkdownEditor from 'app/common/components/markdown-editor';

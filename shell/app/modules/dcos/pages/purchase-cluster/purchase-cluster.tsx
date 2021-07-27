@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Form, Steps, Button, Tooltip, Row, Col, Spin, Switch } from 'app/nusi';
 import { RenderPureForm, KeyValueList, Icon as CustomIcon, RenderFormItem, connectCube } from 'common';
 import { goTo } from 'common/utils';
-import * as React from 'react';
+import React from 'react';
 import {
   supportLBRegion,
   preOrPostPaid,

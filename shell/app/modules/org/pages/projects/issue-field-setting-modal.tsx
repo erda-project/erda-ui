@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { useUpdate } from 'common';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';

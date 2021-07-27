@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Spin, Button, Timeline, Input } from 'app/nusi';
 import { Copy, Icon as CustomIcon, LoadMore, Holder, Avatar, IF } from 'common';
 import { fromNow, goTo, replaceEmoji, setLS } from 'common/utils';

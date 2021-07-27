@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Drawer, Button } from 'app/nusi';
 import { map, get, find, isNaN, compact, isEmpty, isBoolean } from 'lodash';
 import FormEditor from 'app/yml-chart/form-editor-for-pipeline/form-editor';

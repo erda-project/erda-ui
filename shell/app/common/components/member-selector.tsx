@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';

@@ -13,7 +13,7 @@
 
 import { compact, map } from 'lodash';
 import * as Holderjs from 'holderjs';
-import * as React from 'react';
+import React from 'react';
 import { useMount } from 'react-use';
 import { ossImg } from 'common/utils';
 

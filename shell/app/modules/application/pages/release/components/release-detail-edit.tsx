@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { Tooltip } from 'app/nusi';
 import { Avatar } from 'common';

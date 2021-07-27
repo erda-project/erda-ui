@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Panel, Title, Anchor } from 'app/nusi';
 import { OperationProps, TitleProps, PanelProps, IAnchorContainer } from 'core/common/interface';
 import { IF } from 'common';

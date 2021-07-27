@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { TreeSelect, Button, Select } from 'app/nusi';
 import { get, map, isEmpty, debounce, filter } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';

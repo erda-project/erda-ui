@@ -18,7 +18,7 @@ import clusterDashboardStore from 'dcos/stores/dashboard';
 import i18n from 'i18n';
 import { find, uniq } from 'lodash';
 import machineStore from 'app/modules/cmp/stores/machine';
-import * as React from 'react';
+import React from 'react';
 import orgStore from 'app/org-home/stores/org';
 
 interface IProps {

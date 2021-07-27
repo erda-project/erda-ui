@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, size } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import ChartRender from './chart-render';
 
 class PieChart extends React.Component {

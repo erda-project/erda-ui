@@ -18,7 +18,7 @@
  * @Last Modified by: licao
  * @Last Modified time: 2019-02-21 19:34:32
  */
-import * as React from 'react';
+import React from 'react';
 import { Button, Modal } from 'app/nusi';
 import { Copy } from 'common';
 import { Copy as IconCopy } from '@icon-park/react';

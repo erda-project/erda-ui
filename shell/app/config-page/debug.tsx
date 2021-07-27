@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, Icon as CustomIcon } from 'common';
 import { Button, message, Popover, Input } from 'app/nusi';

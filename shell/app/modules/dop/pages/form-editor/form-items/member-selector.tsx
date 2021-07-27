@@ -13,7 +13,7 @@
 
 import { Form } from 'app/nusi';
 import { MemberSelector } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import { commonFields, rulesField, checkWhen } from 'app/configForm/nusi-form/form-items';
 import i18n from 'i18n';

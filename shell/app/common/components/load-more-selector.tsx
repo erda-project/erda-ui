@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'app/nusi';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';

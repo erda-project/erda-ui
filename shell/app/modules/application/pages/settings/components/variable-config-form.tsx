@@ -16,7 +16,7 @@ import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import { Button, message, Spin, Upload } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { Upload as IconUpload } from '@icon-park/react';
 
 export const ENV_I18N = {

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Divider, Form, Select } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, isArray, map } from 'lodash';
 import { getData } from '../utils';
 import { getLabel, noop } from './common';

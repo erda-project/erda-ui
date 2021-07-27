@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
-import * as React from 'react';
+import React from 'react';
 import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
 import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';

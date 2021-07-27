@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Form as DefaultForm } from '../form';
 import { isEmpty, map, reduce, filter } from 'lodash';
 import i18n from 'i18n';

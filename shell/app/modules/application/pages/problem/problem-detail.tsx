@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { ProblemPriority, getProblemType } from 'application/pages/problem/problem-form';
-import * as React from 'react';
+import React from 'react';
 import { Button, Spin, Tabs, Select } from 'app/nusi';
 import { isEmpty, map, toLower } from 'lodash';
 import problemStore from 'application/stores/problem';

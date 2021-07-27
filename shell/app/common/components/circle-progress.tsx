@@ -13,7 +13,7 @@
 
 import { Progress } from 'app/nusi';
 import { floor } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 
 import './circle-progress.scss';
 

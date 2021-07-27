@@ -14,7 +14,7 @@
 import { Select, Spin } from 'app/nusi';
 import { Holder, IF, connectCube } from 'common';
 import { map, isEmpty, forEach } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import TestDetail from './test-detail';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import i18n from 'i18n';

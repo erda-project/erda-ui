@@ -14,7 +14,7 @@
 import { Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { goTo } from 'common/utils';
-import * as React from 'react';
+import React from 'react';
 import { getSplitPathBy } from '../util';
 import BranchSelect from './branch-select';
 import i18n from 'i18n';

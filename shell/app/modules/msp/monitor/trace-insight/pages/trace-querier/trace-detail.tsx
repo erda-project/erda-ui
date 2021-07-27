@@ -20,7 +20,7 @@
  */
 
 import { each, includes, flattenDeep, map, replace, round } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Modal, Table, Spin, Tooltip, Ellipsis } from 'app/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';

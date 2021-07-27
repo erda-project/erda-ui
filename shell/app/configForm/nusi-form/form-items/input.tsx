@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Form, Input } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, rulesField, checkWhen } from './common/config';
 import i18n from 'i18n';

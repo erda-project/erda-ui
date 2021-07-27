@@ -13,7 +13,7 @@
 
 import { Button, Select, Alert, Input, Spin, Checkbox } from 'app/nusi';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { ImageUpload, RenderForm, CompactSelect } from 'common';
 import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';

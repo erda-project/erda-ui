@@ -13,7 +13,7 @@
 
 import { ConfigLayout, Copy } from 'common';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { getInfoBlock } from '../artifacts/artifacts-info';
 import { Button } from 'app/nusi';
 import errorReportStore from 'publisher/stores/error-report';

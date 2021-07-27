@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map as _map, pickBy } from 'lodash';
 import { Row, Col, Input, Select, Button, Tabs, Form } from 'app/nusi';
 import { Copy, KeyValueEditor, IF } from 'common';

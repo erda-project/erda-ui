@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import PureMonitorChart from 'common/components/monitor/monitor-chart';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import metricsMonitorStore from 'common/stores/metrics';

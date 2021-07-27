@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { map } from 'lodash';
 import { commonChartRender } from 'monitor-common';
 import { groupHandler } from 'common/utils/chart-utils';

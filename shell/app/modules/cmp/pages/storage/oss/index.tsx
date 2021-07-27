@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useUpdate, CRUDStoreTable } from 'common';
 import { Input, Select, Menu, Dropdown, Button } from 'app/nusi';
 import { map } from 'lodash';

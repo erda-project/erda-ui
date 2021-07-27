@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Link } from 'react-router-dom';
-import * as React from 'react';
+import React from 'react';
 
 // 替换 repo/xxx/... -> repo/replace/commitHash
 export const mergeRepoPathWith = (afterPath: string) => {

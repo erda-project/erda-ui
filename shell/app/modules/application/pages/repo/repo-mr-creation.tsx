@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'app/common/utils';
 import RepoMRForm from './components/repo-mr-form';
 import RepoCompareDetail from './components/compare-detail';

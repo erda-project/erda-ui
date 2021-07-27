@@ -13,7 +13,7 @@
 
 import { Spin } from 'app/nusi';
 import { groupBy, map } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { CommitBlock } from './common';
 import FileDiff from './components/file-diff';
 

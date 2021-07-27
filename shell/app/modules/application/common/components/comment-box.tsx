@@ -13,7 +13,7 @@
 
 import { fromNow } from 'common/utils';
 import { Avatar } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { Tooltip } from 'app/nusi';
 import classnames from 'classnames';
 import './comment-box.scss';

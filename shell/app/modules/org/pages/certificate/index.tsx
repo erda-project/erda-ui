@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon, useUpdate } from 'common';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';

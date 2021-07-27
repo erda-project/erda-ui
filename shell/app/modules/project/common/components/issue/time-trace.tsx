@@ -13,7 +13,7 @@
 
 import { Progress, Modal, Button } from 'app/nusi';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { TimeInput, transToStr, checkReg, checkMsg } from './time-input';
 import './time-trace.scss';
 import moment, { Moment } from 'moment';

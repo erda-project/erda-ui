@@ -18,7 +18,7 @@ import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Button, Progress, Table, Select, Ellipsis } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Button, message, Radio, Alert, Modal, Tooltip, Input } from 'app/nusi';
 import { RenderForm, useUpdate, Icon as CustomIcon, CardsLayout, IF, FileEditor } from 'common';
 import { notify, isPromise } from 'common/utils';

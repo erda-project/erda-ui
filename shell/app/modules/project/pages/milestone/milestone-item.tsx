@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Tooltip, Card, Alert } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { Avatar, UserInfo, TagsRow } from 'common';
 import { ISSUE_ICON } from '../../common/components/issue/issue-config';
 import { useDrag } from 'react-dnd';

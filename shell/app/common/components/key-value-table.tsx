@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, find, reject, uniqueId, isEqual } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Form, Table, Input, Popconfirm, Button } from 'app/nusi';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';

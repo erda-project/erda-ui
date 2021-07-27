@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, get, isString, isArray } from 'lodash';
 import { Table, Title, Tag } from 'app/nusi';
 import { FileEditor } from 'common';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react/no-danger */
-import * as React from 'react';
+import React from 'react';
 import pathLib from 'path';
 import FileContainer from 'application/common/components/file-container';
 import { FileEditor, connectCube } from 'common';

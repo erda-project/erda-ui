@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { NusiTree as Tree, NusiPopover as Popover, Ellipsis, Input, Tooltip } from 'app/nusi';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';

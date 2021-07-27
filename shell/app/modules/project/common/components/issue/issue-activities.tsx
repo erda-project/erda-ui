@@ -19,7 +19,7 @@ import moment from 'moment';
 import { Spin, Timeline } from 'app/nusi';
 import issueStore from 'project/stores/issues';
 import { useUserMap } from 'core/stores/userMap';
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'app/common/utils';
 import Markdown from 'common/utils/marked';
 import routeInfoStore from 'core/stores/route';

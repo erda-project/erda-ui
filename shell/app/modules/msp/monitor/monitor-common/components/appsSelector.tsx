@@ -13,7 +13,7 @@
 
 import { Icon as CustomIcon, IF, useUpdate } from 'common';
 import { Dropdown, Input } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { isEqual, isEmpty, debounce } from 'lodash';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';

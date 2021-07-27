@@ -13,7 +13,7 @@
 
 import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate } from 'common';

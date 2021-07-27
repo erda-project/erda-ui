@@ -19,7 +19,7 @@ import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { FormInstance } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
-import * as React from 'react';
+import React from 'react';
 import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 
 interface IProps {

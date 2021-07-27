@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { Button, Row, Col, Tooltip, Drawer, Spin } from 'app/nusi';
 import TraceDetail from 'trace-insight/pages/trace-detail';
 import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog, useUpdate } from 'common';

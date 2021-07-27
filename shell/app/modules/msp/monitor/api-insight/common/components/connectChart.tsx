@@ -14,7 +14,7 @@
 // 适配多组多维度数据的 render
 import { map, merge, size, isEmpty, sortBy, some, keys, values } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import { IF } from 'common';
 import { cutStr } from 'common/utils';
 import { Select } from 'app/nusi';

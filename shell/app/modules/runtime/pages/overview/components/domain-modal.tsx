@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common';
 

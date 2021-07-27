@@ -14,7 +14,7 @@
 import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'app/nusi';
 import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal } from 'common';
 import RepoFileContainer from './components/repo-file-container';

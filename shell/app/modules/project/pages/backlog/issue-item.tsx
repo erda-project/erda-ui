@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { ISSUE_PRIORITY_MAP, ISSUE_OPTION } from 'project/common/components/issue/issue-config';
 import { Icon as CustomIcon, MemberSelector, Avatar } from 'common';
 import { useDrag } from 'react-dnd';

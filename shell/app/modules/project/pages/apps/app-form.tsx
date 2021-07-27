@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Alert, Button, Form, Input, Spin } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { ImageUpload, RenderForm } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
