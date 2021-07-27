@@ -140,10 +140,9 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   });
 
   const [state, updater] = useUpdate({
-    editMode: false,
     editValue: undefined as unknown as string,
   });
-  const { editMode, editValue } = state;
+  const { editValue } = state;
 
   React.useEffect(() => {
     updater.editValue(value || get(data, name));
@@ -164,7 +163,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     if (onChangeCb) {
       onChangeCb(set({}, name, v));
     }
-    updater.editMode(true);
   };
 
   const onBlur = (v?: string, fieldType?: string) => {
@@ -176,7 +174,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
         onChangeCb(set({}, name, v), fieldType);
       }
     }
-    updater.editMode(true);
   };
   switch (type) {
     case 'select': {
@@ -271,12 +268,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
   }
 
-  const onClick = () => {
-    if (!editMode && ((type && !['dateReadonly', 'readonly'].includes(type)) || !type)) {
-      updater.editMode(false);
-    }
-  };
-
   return (
     <div className={`common-edit-field ${className}`}>
       {label && (
@@ -292,7 +283,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           {label}
         </div>
       )}
-      <div onClick={onClick} className={classnames({ 'edit-comp-text': editMode })}>
+      <div>
         {Comp}
         {suffix}
       </div>
