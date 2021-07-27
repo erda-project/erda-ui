@@ -161,7 +161,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onCancel) {
       btns.push(
-        <Button key="md-editor-cancel-btn" className="mt16 mb16" onClick={onCancel}>
+        <Button key="md-editor-cancel-btn" className="mx8 mr8" onClick={onCancel}>
           {i18n.t('common:cancel')}
         </Button>,
       );
@@ -190,8 +190,11 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     const disableEdit = view.html && !view.md; // 纯预览模式时禁用操作栏
 
     const curShowButton = !!onSubmit;
+
+    let height = style.height ? parseInt(style.height, 10) : 400;
+    height = view.md && curShowButton ? height + 50 : height;
     return (
-      <div className="markdown-editor">
+      <div className="markdown-editor relative">
         <div
           className={`markdown-editor-content ${disableEdit ? 'disable-edit' : ''} ${readOnly ? 'read-only' : ''} ${
             curShowButton ? 'show-btn' : ''
@@ -204,12 +207,11 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
               readOnly,
               extraRight,
               onFocus,
-              style,
+              style: { ...style, height },
             }}
             config={{
               view,
             }}
-            style={{ height: curShowButton ? 450 : 400 }}
             value={content}
             onChange={this.onChange}
             onBlur={this.onBlur}
@@ -221,7 +223,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
             <Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
           </div>
         </IF>
-        {view.md ? <div className="relative left-2 -top-14">{this.renderButton()}</div> : null}
+        {view.md ? <div className="absolute left-2 bottom-0	">{this.renderButton()}</div> : null}
       </div>
     );
   }
