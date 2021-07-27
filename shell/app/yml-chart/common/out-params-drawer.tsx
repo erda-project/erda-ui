@@ -107,7 +107,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
               <div className="out-params-content full-width">
                 <Input
                   key="name"
-                  className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`}
+                  className={`flex-1 content-item mr-2 ${!_data.name ? 'empty-error' : ''}`}
                   disabled={!editing}
                   value={_data.name}
                   onChange={(e: any) => updateItem({ name: e.target.value })}
@@ -206,7 +206,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
       <Form fields={fields} value={formValue} formRef={formRef} />
       {editing ? (
         <div className="pipeline-out-params-drawer-footer">
-          <Button onClick={closeDrawer} className="mr8">
+          <Button onClick={closeDrawer} className="mr-2">
             {i18n.t('cancel')}
           </Button>
           <Button onClick={onSubmit} type="primary">

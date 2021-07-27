@@ -332,11 +332,11 @@ const CreationForm = () => {
         ]),
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
-          <Button className="ml12" onClick={() => window.history.back()}>
+          <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('cancel')}
           </Button>
         </div>

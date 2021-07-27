@@ -338,17 +338,17 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
             const mFields = filter(totalFields, { category: 'machine' });
             return (
               <>
-                <div className="bold mb4">{i18n.t('cmp:cluster configuration')}</div>
+                <div className="bold mb-1">{i18n.t('cmp:cluster configuration')}</div>
                 <RenderFields form={form} fields={bFields} />
-                <div className="bold mb4">{i18n.t('cmp:jump server configuration')}</div>
+                <div className="bold mb-1">{i18n.t('cmp:jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />
-                <div className="bold mb4">{i18n.t('cmp:shared storage')}</div>
+                <div className="bold mb-1">{i18n.t('cmp:shared storage')}</div>
                 <RenderFields form={form} fields={stFields} />
-                <div className="bold mb4">{i18n.t('cmp:network configuration')}</div>
+                <div className="bold mb-1">{i18n.t('cmp:network configuration')}</div>
                 <RenderFields form={form} fields={dFields} />
-                <div className="bold mb4">{i18n.t('cmp:domain name server')}</div>
+                <div className="bold mb-1">{i18n.t('cmp:domain name server')}</div>
                 <RenderFields form={form} fields={seFields} />
-                <div className="bold mb4">{i18n.t('cmp:machine information configuration')}</div>
+                <div className="bold mb-1">{i18n.t('cmp:machine information configuration')}</div>
                 <RenderFields form={form} fields={mFields} />
               </>
             );

@@ -102,7 +102,7 @@ export class ImageUpload extends Component<IProps, IState> {
 
   renderPureUploadItem(uploadText: string, queryData: any) {
     return (
-      <div className="image-upload mr8 mb8" key="upload">
+      <div className="image-upload mr-2 mb-2" key="upload">
         <Input type="hidden" />
         <Upload className="pure-upload" accept=".jpg, .jpeg, .png, .gif" {...this.getUploadProps(queryData)}>
           <div>
@@ -119,7 +119,7 @@ export class ImageUpload extends Component<IProps, IState> {
     const { images = [] } = this.state;
 
     return (
-      <div className="image-upload mr8 mb8" key={imageUrl}>
+      <div className="image-upload mr-2 mb-2" key={imageUrl}>
         <img
           alt="upload"
           src={imageUrl}

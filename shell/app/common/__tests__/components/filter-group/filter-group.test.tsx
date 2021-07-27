@@ -211,7 +211,7 @@ describe('filter-group', () => {
       wrapper
         .find('Col.filter-item')
         .at(simpleList.length - 1)
-        .find('.ml12-group'),
+        .find('.ml-3-group'),
     ).toExist();
   });
   it('should FilterBarHandle work well', () => {

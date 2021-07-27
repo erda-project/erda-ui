@@ -167,9 +167,9 @@ const TicketDetail = () => {
       {closedBtn}
       <Spin spinning={getTicketDetailLoading}>
         <div>
-          <div className="detail-title mb8">{detail.title}</div>
-          <div className="mb20">
-            <span className="mr20">
+          <div className="detail-title mb-2">{detail.title}</div>
+          <div className="mb-5">
+            <span className="mr-5">
               <span className="detail-property">{i18n.t('type')}: </span>
               <span className="detail-value">{type ? type.name : '-'}</span>
             </span>
@@ -189,9 +189,9 @@ const TicketDetail = () => {
             comment.commentType === 'issueRelation' ? (
               <div className="comments-association-box">
                 <Avatar name={comment.author} showName size={28} />
-                <span className="mx4">{i18n.t('at')}</span>
-                <span className="mx4">{fromNow(comment.createdAt)}</span>
-                <span className="mx4">{i18n.t('application:associated issue')}</span>
+                <span className="mx-1">{i18n.t('at')}</span>
+                <span className="mx-1">{fromNow(comment.createdAt)}</span>
+                <span className="mx-1">{i18n.t('application:associated issue')}</span>
                 <span
                   className="text-link"
                   onClick={() => {
@@ -215,7 +215,7 @@ const TicketDetail = () => {
               </div>
             ) : (
               <CommentBox
-                className="mb16"
+                className="mb-4"
                 key={comment.id}
                 user={comment.author}
                 time={comment.createdAt}
@@ -324,7 +324,7 @@ const TicketDetail = () => {
                 />
               </div>
               <div className="options-wrap">
-                <Button className="mr8" type="primary" disabled={!activedIssue} onClick={handleAssociationIssue}>
+                <Button className="mr-2" type="primary" disabled={!activedIssue} onClick={handleAssociationIssue}>
                   {i18n.t('association')}
                 </Button>
                 <Button onClick={() => update(initialState)}>{i18n.t('reset')}</Button>

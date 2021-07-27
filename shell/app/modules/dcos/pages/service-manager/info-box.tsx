@@ -26,8 +26,8 @@ const InfoBox = (props: IProps) => {
     <div>
       {map(details, (detail) => {
         return (
-          <div key={detail.label} className="mb12">
-            <Title level={2} title={detail.label} className="mb8" />
+          <div key={detail.label} className="mb-3">
+            <Title level={2} title={detail.label} className="mb-2" />
             <Panel
               fields={map(get(detail, 'items'), (item) => {
                 return {

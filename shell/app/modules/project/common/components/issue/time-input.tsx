@@ -156,10 +156,10 @@ export const TimeInput = React.forwardRef(
         {triggerChangeOnButton && showBtn ? (
           <div className="issue-part-save-group">
             <span className="issue-part-save" onClick={onSave}>
-              <CustomIcon className="mr0" type="duigou" />
+              <CustomIcon className="mr-0" type="duigou" />
             </span>
             <span className="issue-part-cancel" onClick={onCancel}>
-              <CustomIcon className="mr0" type="gb" />
+              <CustomIcon className="mr-0" type="gb" />
             </span>
           </div>
         ) : null}

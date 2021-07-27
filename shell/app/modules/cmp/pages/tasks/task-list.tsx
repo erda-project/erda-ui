@@ -134,7 +134,7 @@ const ServicesList = ({ taskType }: IProps) => {
 
   return (
     <>
-      <div className="mb16">
+      <div className="mb-4">
         <ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />
       </div>
       <Table

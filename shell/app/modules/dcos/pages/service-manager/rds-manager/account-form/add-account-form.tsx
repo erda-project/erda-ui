@@ -112,7 +112,7 @@ const AddAccountForm = (props: IProps) => {
         type: passwordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon
-            className="mr0 pointer"
+            className="mr-0 pointer"
             onClick={togglePasswordVisible}
             type={passwordVisible ? 'openeye' : 'closeeye'}
           />
@@ -131,7 +131,7 @@ const AddAccountForm = (props: IProps) => {
         type: confirmPasswordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon
-            className="mr0 pointer"
+            className="mr-0 pointer"
             onClick={toggleConfirmPasswordVisible}
             type={confirmPasswordVisible ? 'openeye' : 'closeeye'}
           />

@@ -298,43 +298,6 @@
   color: $color-text-holder !important;
 }
 
-// space
-@mixin space($list...) {
-  @each $num in $list {
-    .ml#{$num} {
-      margin-left: #{$num}px !important;
-    }
-
-    .mr#{$num} {
-      margin-right: #{$num}px !important;
-    }
-
-    .mt#{$num} {
-      margin-top: #{$num}px !important;
-    }
-
-    .mb#{$num} {
-      margin-bottom: #{$num}px !important;
-    }
-
-    .mx#{$num} {
-      margin-right: #{$num}px !important;
-      margin-left: #{$num}px !important;
-    }
-
-    .my#{$num} {
-      margin-top: #{$num}px !important;
-      margin-bottom: #{$num}px !important;
-    }
-
-    .ma#{$num} {
-      margin: #{$num}px !important;
-    }
-  }
-}
-
-@include space(0, 2, 4, 8, 12, 16, 20, 24, 28, 32);
-
 // border
 .border-all {
   border: 1px solid $color-border !important;
@@ -795,7 +758,7 @@
   }
 }
 
-.ml12-group {
+.ml-3-group {
   > * {
     &:not(:first-child) {
       margin-left: 12px;
@@ -803,7 +766,7 @@
   }
 }
 
-.mr12-group {
+.mr-3-group {
   > * {
     &:not(:first-child) {
       margin-left: 12px;

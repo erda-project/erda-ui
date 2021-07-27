@@ -122,7 +122,7 @@ const ResourcesChartList = ({ clusters, machineList, setActiveKey }: IProps) => 
 
   return (
     <>
-      <div className="group-indices-ct mb32">
+      <div className="group-indices-ct mb-8">
         <Row type="flex" justify="space-between">
           {map(groupIndices, ({ type, name, value, isWithErrorClass }: any) => (
             <Col span={5} key={name}>
@@ -132,7 +132,7 @@ const ResourcesChartList = ({ clusters, machineList, setActiveKey }: IProps) => 
                   setActiveKey(type);
                 }}
               >
-                <div className="title mb12">{name}</div>
+                <div className="title mb-3">{name}</div>
                 <div
                   className={classNames({
                     num: true,

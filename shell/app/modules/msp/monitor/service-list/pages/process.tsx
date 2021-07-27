@@ -66,11 +66,11 @@ export default () => {
 
   return (
     <div className="service-analyze v-flex-box">
-      <div className="flex-box flex-wrap mb4">
-        <div className="left flex-box mb8">
-          <TimeSelector className="ma0 mr12" />
+      <div className="flex-box flex-wrap mb-1">
+        <div className="left flex-box mb-2">
+          <TimeSelector className="m-0 mr-3" />
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('addonPlatform:select instance')}
             allowClear
             value={instanceId}
@@ -85,7 +85,7 @@ export default () => {
               >
                 <div className="instance-item flex-box">
                   <span className="instance-name nowrap">{ip || v}</span>
-                  <div className="status ml8">
+                  <div className="status ml-2">
                     <span
                       className={classNames({
                         'status-point': true,

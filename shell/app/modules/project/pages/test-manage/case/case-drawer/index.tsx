@@ -334,19 +334,19 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 <>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne
-                    className="for-copy copy-share-link ml12"
+                    className="for-copy copy-share-link ml-3"
                     size="16px"
                     data-clipboard-text={shareLink}
                     type="share-alt"
                   />
                 </>
               ) : null}
-              <IconClose onClick={handleClose} className="ml12 pointer" size="16px" />
+              <IconClose onClick={handleClose} className="ml-3 pointer" size="16px" />
             </div>
           </div>
-          <div className="flex-box mt16">
+          <div className="flex-box mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
-              <div className="flex-1 fz16 nowrap mr20 color-text-desc">
+              <div className="flex-1 fz16 nowrap mr-5 color-text-desc">
                 <CustomIcon type="wjj1" className="color-warning" />
                 {dirName}
               </div>
@@ -417,7 +417,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 />
               </ContentPanel>
             </div>
-            <div className="mt32">
+            <div className="mt-8">
               {visible && scope === 'testPlan' && editMode ? <RelatedBugs relationID={caseDetail.id} /> : null}
             </div>
           </div>

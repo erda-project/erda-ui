@@ -262,8 +262,8 @@ export default () => {
 
   return (
     <>
-      <CustomFilter className="mb16" onSubmit={onSubmit} config={filterConfig} isConnectQuery />
-      <div className="mb24">
+      <CustomFilter className="mb-4" onSubmit={onSubmit} config={filterConfig} isConnectQuery />
+      <div className="mb-6">
         <PureBoardGrid layout={layout} />
       </div>
       <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />

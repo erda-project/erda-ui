@@ -189,12 +189,12 @@ const Transaction = () => {
   return (
     <div className="service-analyze v-flex-box">
       <div>
-        <div className="flex-box flex-wrap mb4">
-          <div className="left flex-box mb8">
-            <TimeSelector className="ma0" />
+        <div className="flex-box flex-wrap mb-1">
+          <div className="left flex-box mb-2">
+            <TimeSelector className="m-0" />
             <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
               <Select
-                className="ml12"
+                className="ml-3"
                 placeholder={i18n.t('msp:select sorting method')}
                 allowClear
                 style={{ width: '180px' }}
@@ -214,7 +214,7 @@ const Transaction = () => {
               onHandleSearch={(v) => updater.search(v)}
             />
           </div>
-          <div className="right flex-box mb8">
+          <div className="right flex-box mb-2">
             <RadioGroup value={type} onChange={handleToggleType}>
               {map(dashboardIdMap, (v, k) => (
                 <RadioButton key={k} value={k}>
@@ -225,7 +225,7 @@ const Transaction = () => {
           </div>
         </div>
         <If condition={!!subSearch}>
-          <Tag className="mb8" closable onClose={() => updater.subSearch(undefined)}>
+          <Tag className="mb-2" closable onClose={() => updater.subSearch(undefined)}>
             {subSearch}
           </Tag>
         </If>
@@ -243,7 +243,7 @@ const Transaction = () => {
         visible={visible}
         onClose={() => updater.visible(false)}
       >
-        <div className="right-flex-box mb12">
+        <div className="right-flex-box mb-3">
           <RadioGroup value={sortType} onChange={handleChangeSortType}>
             {map(sortButtonMap, (v, k) => (
               <RadioButton key={k} value={k}>

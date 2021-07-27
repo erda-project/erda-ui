@@ -58,7 +58,7 @@ export const DataSourceSelector = (props: any) => {
   const dataSourceOptionRender = (item: any) => {
     return (
       <Option key={item.value} value={item.value}>
-        <span className="ml8" title={item.label}>
+        <span className="ml-2" title={item.label}>
           {item.label}
         </span>
       </Option>

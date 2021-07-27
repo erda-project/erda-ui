@@ -328,7 +328,7 @@ export const Build = (props: IProps) => {
     return (
       <Spin spinning={getComboPipelinesLoading || addPipelineLoading || batchCreateTaskLoading}>
         <div className="build-list-wrap">
-          <div className="mr32 mb12 ml12">
+          <div className="mr-8 mb-3 ml-3">
             <Select
               showSearch
               className="full-width"

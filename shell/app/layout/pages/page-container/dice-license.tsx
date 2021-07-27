@@ -68,23 +68,23 @@ export const DiceLicense = () => {
     <Modal title={i18n.t('layout:license tip')} visible={!valid} footer={null} closable={false} width={492}>
       <div className="license-container fz14">
         <img className="license-img" src={gqct_png} />
-        <div className="color-text mt16 bold-500">{message}</div>
-        <div className="row flex-box mt24">
+        <div className="color-text mt-4 bold-500">{message}</div>
+        <div className="row flex-box mt-6">
           {rowOneData.map(({ label, value }) => {
             return (
               <div className="row-one-card border-all text-center" key={label}>
-                <div className="color-text mt20">{value}</div>
-                <div className="color-text-desc mt8">{label}</div>
+                <div className="color-text mt-5">{value}</div>
+                <div className="color-text-desc mt-2">{label}</div>
               </div>
             );
           })}
         </div>
-        <div className="row flex-box mt16 mb8">
+        <div className="row flex-box mt-4 mb-2">
           {rowTwoData.map(({ label, value }) => {
             return (
               <div className="row-two-card border-all text-center" key={label}>
-                <div className="color-text mt20">{value}</div>
-                <div className="color-text-desc mt8">{label}</div>
+                <div className="color-text mt-5">{value}</div>
+                <div className="color-text-desc mt-2">{label}</div>
               </div>
             );
           })}

@@ -135,12 +135,12 @@ const Authenticate = (props: IProps) => {
   ];
   return (
     <div>
-      <div className="flex-box mb16 flex-start">
-        <TimeSelector className="ml0" key="time-selector" inline disabledDate={() => false} />
+      <div className="flex-box mb-4 flex-start">
+        <TimeSelector className="ml-0" key="time-selector" inline disabledDate={() => false} />
         <Select
           value={selectMonitorKey}
           style={{ width: 200 }}
-          className="ml12"
+          className="ml-3"
           onChange={(k) => {
             updater.selectMonitorKey(k);
           }}

@@ -32,7 +32,7 @@ const FormInput = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, t
       (componentProps.onChange || noop)(e);
     };
     return (
-      <div className="dice-form-item mb16">
+      <div className="dice-form-item mb-4">
         <label htmlFor={key}>{label} : </label>
         <input
           id={key}

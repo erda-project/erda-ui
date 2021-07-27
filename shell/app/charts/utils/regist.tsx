@@ -31,7 +31,7 @@ export const registChartControl = () => {
       <div className="chart-selector">
         <span>{title}</span>
         <Select
-          className="my12"
+          className="my-3"
           value={selectedGroup || groups[0]}
           style={{ width: width || 200 }}
           onChange={handleChange}

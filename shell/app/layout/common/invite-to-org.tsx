@@ -67,11 +67,11 @@ export default () => {
   return (
     <div className="invite-to-org full-height center-flex-box">
       <div className="invite-to-org-ct text-center">
-        <Avatar className="mb16" useLoginUser size={80} />
-        <p className="mb32 fz24 bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${nick || name}`}</p>
+        <Avatar className="mb-4" useLoginUser size={80} />
+        <p className="mb-8 fz24 bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${nick || name}`}</p>
         <Input
           value={code}
-          className="mb16"
+          className="mb-4"
           width="100%"
           placeholder={i18n.t('please enter verification code')}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.code(e.target.value.trim())}

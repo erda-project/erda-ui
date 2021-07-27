@@ -174,7 +174,7 @@ const SortDragItem = ({
       >
         <CustomIcon type="up-down" />
       </div>
-      <div className="flex-1 ml4 nowrap pointer v-align sort-drag-item-title">
+      <div className="flex-1 ml-1 nowrap pointer v-align sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
       </div>
       <div>

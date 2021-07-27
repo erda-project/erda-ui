@@ -76,7 +76,7 @@ function SelectPro<T, S>({
       <Select
         value={v}
         style={{ width: '100%' }}
-        actionIcon={<IconIntersection className="hover-active mr4" style={{ transform: 'translateY(-2px)' }} />}
+        actionIcon={<IconIntersection className="hover-active mr-1" style={{ transform: 'translateY(-2px)' }} />}
         onActionClick={handleModal}
         onChange={handleChange}
         {...prop}

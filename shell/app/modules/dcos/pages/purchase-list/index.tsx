@@ -157,7 +157,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
 
     return (
       <div className="purchase-list-table">
-        <Button className="top-button-group mb12" type="primary" onClick={() => goTo('./add')}>
+        <Button className="top-button-group mb-3" type="primary" onClick={() => goTo('./add')}>
           {i18n.t('common:add')}
         </Button>
         <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />

@@ -271,7 +271,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     );
     return (
       <Dropdown overlay={menu}>
-        <span className="inline-v-align fz12 mr8 pointer">
+        <span className="inline-v-align fz12 mr-2 pointer">
           {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')}{' '}
           <IconDown size="16px" />
         </span>
@@ -398,7 +398,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
                 {i18n.t('submit')}
               </Button>
             </Tooltip>
-            <Button className="ml12" onClick={this.onCancel}>
+            <Button className="ml-3" onClick={this.onCancel}>
               {i18n.t('cancel')}
             </Button>
           </div>

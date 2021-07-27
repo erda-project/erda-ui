@@ -33,7 +33,7 @@ planDetailColumns.splice(
       const { total, passed } = record.apiCount || {};
       const percent = record.apiCount ? ((passed || 0) * 100) / total : 0;
       return (
-        <div className="mr24">
+        <div className="mr-6">
           <Progress percent={Math.round(percent)} format={() => `${passed || 0}/${total || 0}`} />
         </div>
       );

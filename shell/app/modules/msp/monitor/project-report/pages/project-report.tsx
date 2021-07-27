@@ -194,7 +194,7 @@ const ProjectReport = ({ type }: IProps) => {
                         handleChangeReport(item.key);
                       }}
                     >
-                      <CustomIcon className="mr8" type="rw" />
+                      <CustomIcon className="mr-2" type="rw" />
                       {type === 'weekly'
                         ? `${item.start.split(' ')[0]}-${item.end.split(' ')[0]}`
                         : `${item.start.split(' ')[0]}`}
@@ -203,7 +203,7 @@ const ProjectReport = ({ type }: IProps) => {
                 </ul>
                 {total && (
                   <Pagination
-                    className="project-report-pagination text-right mt12"
+                    className="project-report-pagination text-right mt-3"
                     simple
                     defaultCurrent={1}
                     total={total}

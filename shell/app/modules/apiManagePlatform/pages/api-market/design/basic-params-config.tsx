@@ -139,14 +139,15 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       const customTypeData = get(_extraTypes, [customType]) || customType || {};
 
       if (typeof customTypeData === 'string') {
-        const _type = get(props, ['allExtraDataTypes', customType, 'type']) || get(props, ['extraDataTypes', customType, 'type']);
+        const _type =
+          get(props, ['allExtraDataTypes', customType, 'type']) || get(props, ['extraDataTypes', customType, 'type']);
         return _type === 'array' ? [] : {};
       }
 
       const curType = data.type || customTypeData.type;
 
       if (curType === 'object') {
-        const newExtraTypes = produce(_extraTypes, draft=> {
+        const newExtraTypes = produce(_extraTypes, (draft) => {
           draft && (draft[customType] = null);
         });
 
@@ -161,7 +162,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
         return newExample;
       } else if (curType === 'array') {
         if (refTypePath) {
-          const newItemExtraTypes = produce(_extraTypes, draft=> {
+          const newItemExtraTypes = produce(_extraTypes, (draft) => {
             draft && (draft[customType] = null);
           });
           return getExampleData(customTypeData, newItemExtraTypes);
@@ -240,7 +241,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
         const omitList = getRefTypePath(dataTempStorage) ? ['type', API_FORM_KEY] : [API_FORM_KEY];
         const tempFormData = omit(dataTempStorage, omitList);
         const example = getExampleData(tempFormData);
-        setTimeout(() => formRef.current!.setFieldsValue({...tempFormData, example }));
+        setTimeout(() => formRef.current!.setFieldsValue({ ...tempFormData, example }));
       }
       updater.dataTempStorage(dataTempStorageRef.current);
       if (curPropertyType === 'array' && arrayItemDataStorage) {
@@ -808,10 +809,10 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
           })}
           {isEditMode && (
             <>
-              <Button className="operation-btn mb16" onClick={addParam}>
+              <Button className="operation-btn mb-4" onClick={addParam}>
                 {i18n.t('common:add parameter')}
               </Button>
-              <Button className="operation-btn mb16 ml8" onClick={() => updater.paramsModalVisible(true)}>
+              <Button className="operation-btn mb-4 ml-2" onClick={() => updater.paramsModalVisible(true)}>
                 {i18n.t('project:import parameters')}
               </Button>
             </>

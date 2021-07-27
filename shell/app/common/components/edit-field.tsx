@@ -264,7 +264,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           data-required={showRequiredMark ? '* ' : ''}
           className={classnames(
             labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
-            'mb4',
+            'mb-1',
             showRequiredMark ? 'before:required' : '',
           )}
           style={{ paddingLeft: '10px' }}

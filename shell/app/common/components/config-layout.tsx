@@ -39,7 +39,7 @@ const ConfigSection = ({
   const highlightColor = highlight ? `highlight-${highlight}` : '';
   return (
     <React.Fragment>
-      <div className="mb12">
+      <div className="mb-3">
         <div className="config-section-title flex-box" {...titleProps}>
           <span className={`name bold-500 ${highlightColor}`}>{title}</span>
           {titleExtra}

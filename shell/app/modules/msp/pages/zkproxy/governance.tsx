@@ -107,14 +107,14 @@ const Governance = () => {
     <Spin spinning={getAppDetailLoading || getBranchesLoading || getBranchesRuleLoading}>
       <Holder when={isEmpty(appDetail) || branches.length < 2}>
         <Card title={i18n.t('msp:branch call control')}>
-          <p className="bold-500 fz16 mb16">{i18n.t('msp:basic information')}</p>
-          <div className="base-info mb24 px-4">
-            <p className="mb8">{`${i18n.t('msp:application name')}：${appDetail.name}`}</p>
-            <p className="mb8">{`${i18n.t('msp:application id')}：${appDetail.id}`}</p>
-            <p className="mb8">{`${i18n.t('msp:environments')}：${ENVS_MAP[env]}`}</p>
+          <p className="bold-500 fz16 mb-4">{i18n.t('msp:basic information')}</p>
+          <div className="base-info mb-6 px-4">
+            <p className="mb-2">{`${i18n.t('msp:application name')}：${appDetail.name}`}</p>
+            <p className="mb-2">{`${i18n.t('msp:application id')}：${appDetail.id}`}</p>
+            <p className="mb-2">{`${i18n.t('msp:environments')}：${ENVS_MAP[env]}`}</p>
           </div>
-          <p className="bold-500 fz16 mb16">{i18n.t('msp:weight configuration')}</p>
-          <ul className="branches-rule-list px-4 mb24">
+          <p className="bold-500 fz16 mb-4">{i18n.t('msp:weight configuration')}</p>
+          <ul className="branches-rule-list px-4 mb-6">
             {map(branches, (name) => (
               <li className="branches-rule-item py-3 flex-box border-bottom" key={name}>
                 <div className="flex-box fz16">
@@ -137,10 +137,10 @@ const Governance = () => {
           </ul>
           {/* <h3 className="text-right">{state.count}</h3> */}
           <div className="branches-rule-action text-right">
-            <Button className="mr16" onClick={handleClearBranchesRule}>
+            <Button className="mr-4" onClick={handleClearBranchesRule}>
               {i18n.t('msp:clear configuration')}
             </Button>
-            <Button type="primary" className="mr16" onClick={handleUpdateBranchesRule}>
+            <Button type="primary" className="mr-4" onClick={handleUpdateBranchesRule}>
               {i18n.t('msp:update configuration')}
             </Button>
           </div>

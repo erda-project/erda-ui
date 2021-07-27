@@ -391,7 +391,7 @@ export default function ScanRule(props: IProps) {
 
   return (
     <>
-      <div className="mb12">
+      <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button
             type="primary"
@@ -412,7 +412,7 @@ export default function ScanRule(props: IProps) {
         </WithAuth>
         {appendedRowKeys.length > 0 && (
           <WithAuth pass={operationAuth}>
-            <Button ghost type="primary" className="ml8" onClick={handleBatchDelete}>
+            <Button ghost type="primary" className="ml-2" onClick={handleBatchDelete}>
               {i18n.t('batch deletion')}
             </Button>
           </WithAuth>

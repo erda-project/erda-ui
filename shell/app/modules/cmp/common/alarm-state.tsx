@@ -36,7 +36,7 @@ export const AlarmState = (props: IProps) => {
 
   return (
     <span className={'inline-flex-box'} style={{ minWidth: '50px' }}>
-      <CustomIcon type={icon} className={`bg-color-icon mr4 ${color}`} />
+      <CustomIcon type={icon} className={`bg-color-icon mr-1 ${color}`} />
       <span className={`color-${color}`}>{label}</span>
     </span>
   );

@@ -72,7 +72,7 @@ const ErrorCheckForm = ({ formRef }: { formRef: any }) => {
           placeholder={`${i18n.t('recommended value {value}', { value: 10 })}`} // 10
         />
       </FormItem>
-      <span className="ml8 mr8">{i18n.t('msp:continuous failure')}</span>
+      <span className="ml-2 mr-2">{i18n.t('msp:continuous failure')}</span>
       <FormItem
         name="consecutiveErrors"
         rules={[
@@ -192,7 +192,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
@@ -391,7 +391,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>

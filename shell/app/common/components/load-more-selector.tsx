@@ -357,7 +357,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                   &nbsp;
                   {i18n.t('common:item')}
                 </div>
-                <span className="fake-link ml8" onClick={clearValue}>
+                <span className="fake-link ml-2" onClick={clearValue}>
                   {i18n.t('common:clear selected')}
                 </span>
               </MenuItem>,

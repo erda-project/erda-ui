@@ -165,9 +165,9 @@ const PureRepoNavOperation = () => {
           )}
         </IF>
         <Dropdown overlay={addMenu}>
-          <Button className="ml8">
+          <Button className="ml-2">
             {i18n.t('add')}
-            <CustomIcon className="ml8" type="caret-down" />
+            <CustomIcon className="ml-2" type="caret-down" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -177,9 +177,9 @@ const PureRepoNavOperation = () => {
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>
-          <Button className="ml8" disabled>
+          <Button className="ml-2" disabled>
             {i18n.t('add')}
-            <CustomIcon className="ml8" type="caret-down" />
+            <CustomIcon className="ml-2" type="caret-down" />
           </Button>
         </Tooltip>
       </IF>

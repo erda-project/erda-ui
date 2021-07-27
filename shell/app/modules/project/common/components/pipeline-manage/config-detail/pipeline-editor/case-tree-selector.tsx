@@ -353,7 +353,7 @@ export const CaseTreeSelector = (props: IProps) => {
         onSearch={onSearch}
         treeDataSimpleMode
         filterTreeNode={false}
-        className="full-width mb16"
+        className="full-width mb-4"
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder={i18n.t('please select')}
@@ -366,13 +366,13 @@ export const CaseTreeSelector = (props: IProps) => {
         }))}
       />
       {!isEmpty(fields) ? (
-        <div className="mb12">
+        <div className="mb-3">
           <Form fields={fields} value={formValue} formRef={formRef} />
         </div>
       ) : null}
       {editing ? (
         <div className="footer">
-          <Button onClick={closeDrawer} className="mr8">
+          <Button onClick={closeDrawer} className="mr-2">
             {i18n.t('cancel')}
           </Button>
           <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>

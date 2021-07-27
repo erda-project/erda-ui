@@ -49,12 +49,12 @@ export const Button = (props: CP_BUTTON.Props) => {
 
   const content = (
     <>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
+      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
       {text}
       {suffixIcon ? (
-        <CustomIcon type={suffixIcon} className="ml4" />
+        <CustomIcon type={suffixIcon} className="ml-1" />
       ) : isEmpty(menu) ? null : (
-        <CustomIcon type={'di'} className="ml4" />
+        <CustomIcon type={'di'} className="ml-1" />
       )}
     </>
   );

@@ -123,14 +123,14 @@ export const useQuotaFields = (
     const tip = (
       <>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('project:total cluster resources')}：CPU：{totalCpu}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{totalMem}GiB</span>
         </div>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('cmp:available resources')}：CPU：{leftCpu}
             {i18n.t('default:core')}
           </span>
@@ -231,7 +231,7 @@ const CreationForm = () => {
   quotaFields[0].label = (
     <>
       {i18n.t('resources quota')}
-      <span className="fz12 ml4"> {i18n.t('project:Maximum resource quota for this project')}</span>
+      <span className="fz12 ml-1"> {i18n.t('project:Maximum resource quota for this project')}</span>
     </>
   );
   quotaFields[1].label = undefined;
@@ -337,9 +337,9 @@ const CreationForm = () => {
     ...insertWhen(ifConfigCluster, [
       {
         label: (
-          <span className="mr4">
+          <span className="mr-1">
             {i18n.t('project:Cluster used by the environment')}
-            <span className="fz12 ml4"> {i18n.t('project:Configure-cluster-environment')}</span>
+            <span className="fz12 ml-1"> {i18n.t('project:Configure-cluster-environment')}</span>
           </span>
         ),
         name: ['clusterConfig', 'DEV'],
@@ -395,7 +395,7 @@ const CreationForm = () => {
           <Button className="btn-save" type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
-          <Button className="ml12" onClick={() => window.history.back()}>
+          <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('cancel')}
           </Button>
         </React.Fragment>

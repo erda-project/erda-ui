@@ -51,7 +51,7 @@ export default (props: IProps) => {
       width={750}
       footer={<Button onClick={() => toggleModal(false)}>{i18n.t('close')}</Button>}
     >
-      <pre className="code-block mt16" style={{ whiteSpace: 'pre-wrap' }}>
+      <pre className="code-block mt-4" style={{ whiteSpace: 'pre-wrap' }}>
         {record ? JSON.stringify(record.detail ? JSON.parse(record.detail) : record.status, null, 2) : 'loading...'}
       </pre>
     </Modal>

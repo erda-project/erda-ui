@@ -95,11 +95,11 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 <span>
                   {item.prefixIcon ? <CustomIcon type={item.prefixIcon} /> : null}
                   {item.prefixImgSrc ? (
-                    <img src={item.prefixImgSrc} className="cp-dice-dropdown-select-image mr8" />
+                    <img src={item.prefixImgSrc} className="cp-dice-dropdown-select-image mr-2" />
                   ) : null}
                   {item.label}
                 </span>
-                <span>{value === item.value ? <CustomIcon type="duigou" className="color-primary ml8" /> : null}</span>
+                <span>{value === item.value ? <CustomIcon type="duigou" className="color-primary ml-2" /> : null}</span>
               </div>
             </Menu.Item>
           );

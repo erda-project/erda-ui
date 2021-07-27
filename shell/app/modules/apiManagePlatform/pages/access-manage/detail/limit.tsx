@@ -67,7 +67,7 @@ const Limit = (props: IProps) => {
     <>
       {renderData.map(({ limit, unit }, index) => {
         return (
-          <InputGroup compact key={String(index)} className="mb4">
+          <InputGroup compact key={String(index)} className="mb-1">
             <InputNumber
               placeholder={i18n.t('please enter')}
               min={1}

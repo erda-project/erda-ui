@@ -146,7 +146,7 @@ const RepoEditor = ({
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
             </Button>
-            <Button className="ml12" onClick={() => changeMode({ editFile: false, addFile: false })}>
+            <Button className="ml-3" onClick={() => changeMode({ editFile: false, addFile: false })}>
               {i18n.t('application:cancel')}
             </Button>
           </div>

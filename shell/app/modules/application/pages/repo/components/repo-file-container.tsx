@@ -180,7 +180,7 @@ const RepoFileContainerComp = (props: IProps) => {
           ];
       return (
         <IF check={isBranchTree && branchAuth}>
-          <ButtonGroup className="mr20">
+          <ButtonGroup className="mr-5">
             <Button size="small" onClick={() => changeMode({ fileBlame: !fileBlame })}>
               {fileBlame ? i18n.t('application:normal view') : i18n.t('application:view by line')}
             </Button>
@@ -257,7 +257,7 @@ const RepoFileContainerComp = (props: IProps) => {
             onConfirm={onYmlUpgrade}
           >
             <div className="file-alert pointer">
-              <CustomIcon className="mr4" type="jg" />
+              <CustomIcon className="mr-1" type="jg" />
               <span className="alert-text">
                 {i18n.t('application:current')} {path} {i18n.t('application:can be upgraded with one click')}！
               </span>

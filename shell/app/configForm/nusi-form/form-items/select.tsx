@@ -132,10 +132,10 @@ const PureFormSelect = (props: any) => {
             <div>
               {mode === 'multiple' && selectAll ? (
                 <div className="pt-2">
-                  <span className="ml8 text-link" onClick={selectAllHandle} onMouseDown={(e) => e.preventDefault()}>
+                  <span className="ml-2 text-link" onClick={selectAllHandle} onMouseDown={(e) => e.preventDefault()}>
                     {i18n.t('project:select all')}
                   </span>
-                  <span className="ml8 text-link" onClick={selectAllCancel} onMouseDown={(e) => e.preventDefault()}>
+                  <span className="ml-2 text-link" onClick={selectAllCancel} onMouseDown={(e) => e.preventDefault()}>
                     {i18n.t('clear')}
                   </span>
                   <Divider style={{ margin: '8px 0' }} />

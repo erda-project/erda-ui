@@ -64,9 +64,9 @@ const Content = (props: IContentProps) => {
   const { crossLine, titleProps, showTitle = true, panelProps, getComp } = props;
   const contentClass = classnames({
     'content-wrapper': true,
-    'mt8 px-3 pb-3': showTitle,
+    'mt-2 px-3 pb-3': showTitle,
     'p-3': !showTitle,
-    'border-top mt8': crossLine,
+    'border-top mt-2': crossLine,
   });
   return (
     <div className="title-box border-all white-bg">
@@ -103,7 +103,7 @@ const DetailsPanel = (props: IProps) => {
   return (
     <div className="details-panel-template">
       <IF check={!isEmpty(baseInfoConf)}>
-        <div className="base-info mb12">
+        <div className="base-info mb-3">
           <Content {...(_baseInfoConf as IContentProps)} />
         </div>
       </IF>

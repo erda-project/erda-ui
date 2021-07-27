@@ -67,11 +67,11 @@ const RenderItem = (props: IRenderProps) => {
         const { titleExtra, ...restProps } = rProps || {};
         Comp =
           data || restProps.title ? (
-            <div className={`${clsPrex} flex-box mb0`}>
+            <div className={`${clsPrex} flex-box mb-0`}>
               <div className="flex-1">
                 <Title showDivider={false} title={data} {...restProps} />
               </div>
-              {titleExtra ? <div className="ml8">{titleExtra}</div> : null}
+              {titleExtra ? <div className="ml-2">{titleExtra}</div> : null}
             </div>
           ) : null;
       }
@@ -163,7 +163,7 @@ const RenderItem = (props: IRenderProps) => {
           <div className={_className}>
             {isArray(data) ? (
               map(data, (itemProps) => (
-                <span className="mr8" key={itemProps.value}>
+                <span className="mr-2" key={itemProps.value}>
                   <Text type="Text" props={itemProps} />
                 </span>
               ))

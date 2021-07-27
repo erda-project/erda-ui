@@ -90,7 +90,7 @@ const ErrorOverview = () => {
           <ErrorCard key={i} data={err} />
         ))}
         {total ? (
-          <div className="mt16 right-flex-box">
+          <div className="mt-4 right-flex-box">
             <Pagination current={pageNo} pageSize={pageSize} total={total} onChange={handleChangePage} />
           </div>
         ) : (

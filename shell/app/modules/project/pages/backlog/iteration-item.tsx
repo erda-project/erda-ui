@@ -111,7 +111,7 @@ export const IterationItem = (props: IProps) => {
             </Tooltip>
           ) : null}
         </div>
-        <div className="iteration-time-duration full-height ml8 mr8 color-text-sub">
+        <div className="iteration-time-duration full-height ml-2 mr-2 color-text-sub">
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>
@@ -222,7 +222,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
         {ISSUE_ICON.iteration}
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-iteration-form' }} />
       </div>
-      <div className="table-operations ml8">
+      <div className="table-operations ml-2">
         <span className="table-operations-btn" onClick={onAdd}>
           {i18n.t('save')}
         </span>

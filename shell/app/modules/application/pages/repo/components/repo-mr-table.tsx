@@ -129,7 +129,7 @@ const RepoMrTable = ({ type }: IProps) => {
                 <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
                   <div className="title bold">
                     {item.title}
-                    <span className="fz14 desc ml12 bold-400">
+                    <span className="fz14 desc ml-3 bold-400">
                       {item.sourceBranch} <CustomIcon type="arrow-right" />
                       {item.targetBranch}
                     </span>
@@ -139,16 +139,16 @@ const RepoMrTable = ({ type }: IProps) => {
                     <Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
                   </div>
                   <div className="sub-title left-flex-box">
-                    <span className="mr4">#{item.mergeId}</span>
-                    <span className="mr24 left-flex-box">
+                    <span className="mr-1">#{item.mergeId}</span>
+                    <span className="mr-6 left-flex-box">
                       <Tooltip title={curActor.name}>
-                        <Avatar className="mb4 mr4" showName name={curActor.nick} />
+                        <Avatar className="mb-1 mr-1" showName name={curActor.nick} />
                       </Tooltip>
                       &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
                     </span>
                   </div>
                   <div className="desc left-flex-box">
-                    <span className="mr4">
+                    <span className="mr-1">
                       <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
                     </span>
                     <span>

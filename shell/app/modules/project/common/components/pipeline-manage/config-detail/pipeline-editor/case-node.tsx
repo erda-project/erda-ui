@@ -211,7 +211,7 @@ export const CaseNode = (props: IProps) => {
     <Tooltip title={editing ? undefined : tooltipTxt} onVisibleChange={onVisibleChange}>
       <div className="yml-chart-node test-case-node column-flex-box" onClick={onClick}>
         <div className={'case-title'}>
-          <div className="title-icon mr12">{IconComp}</div>
+          <div className="title-icon mr-3">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
             <span className="nowrap fz16 bold name">{name}</span>
           </div>
@@ -225,7 +225,7 @@ export const CaseNode = (props: IProps) => {
             getLoopRender()
           )}
         </div>
-        <div className="nowrap mt8">{content}</div>
+        <div className="nowrap mt-2">{content}</div>
       </div>
     </Tooltip>
   );

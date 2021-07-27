@@ -73,7 +73,7 @@ const ReleaseDetailEdit = (props: IProps) => {
         const { nick, name } = userInfo;
         return (
           <span>
-            <Avatar className="mr4 mb4" name={nick || name} />
+            <Avatar className="mr-1 mb-1" name={nick || name} />
             <Tooltip title={name || '暂无'}>{nick || '暂无'}</Tooltip>
           </span>
         );

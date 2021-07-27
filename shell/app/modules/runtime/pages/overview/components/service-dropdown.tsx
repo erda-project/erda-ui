@@ -85,7 +85,7 @@ const ServiceDropdown = (props: IProps) => {
         renderItem={({ addr }: { addr: string }) => {
           return (
             <div className="flex-box">
-              <span className="mr8 vip-addr flex-1 nowrap">
+              <span className="mr-2 vip-addr flex-1 nowrap">
                 <Ellipsis title={addr} />
               </span>
               <Copy selector=".for-copy">

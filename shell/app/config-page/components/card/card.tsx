@@ -92,9 +92,9 @@ export const Card = (props: CP_CARD.Props) => {
   return (
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
       <div className="info-card-content px-3 pt-2 pb-2" key={id} ref={drag}>
-        <div className={'flex-box mb12'}>
+        <div className={'flex-box mb-3'}>
           {isString(titleIcon) ? (
-            <CustomIcon type={titleIcon} color className="head-icon mr4 pt-2" />
+            <CustomIcon type={titleIcon} color className="head-icon mr-1 pt-2" />
           ) : (
             titleIcon || null
           )}
@@ -114,7 +114,7 @@ export const Card = (props: CP_CARD.Props) => {
             </span>
           )}
         </div>
-        {isString(subContent) ? <div className="fz12 color-text-sub mb12">{subContent}</div> : subContent || null}
+        {isString(subContent) ? <div className="fz12 color-text-sub mb-3">{subContent}</div> : subContent || null}
         {isString(description) ? (
           <Tooltip title={description}>
             <div className="fz12 nowrap color-text-desc">{description}</div>

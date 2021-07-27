@@ -119,7 +119,7 @@ const ManualTest = () => {
   return (
     <SplitPage>
       <SplitPage.Left>
-        <div className="section-title mb0">
+        <div className="section-title mb-0">
           <span>{i18n.t('project:test set')}</span>
           <AddTestSet afterCreate={handleAddTestSetFromOut} />
         </div>
@@ -136,7 +136,7 @@ const ManualTest = () => {
         </div>
       </SplitPage.Left>
       <SplitPage.Right>
-        <div className="section-title mb0">
+        <div className="section-title mb-0">
           <span>
             {i18n.t('project:use case list')}
             <Tooltip title={i18n.t('dop:there is a new import case, click to refresh the list')}>
@@ -148,8 +148,8 @@ const ManualTest = () => {
             </Tooltip>
           </span>
         </div>
-        <div className="flex-box mb12">
-          <div className="ml12-group">
+        <div className="flex-box mb-3">
+          <div className="ml-3-group">
             {query.recycled !== 'true' && (
               <>
                 <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>
@@ -177,7 +177,7 @@ const ManualTest = () => {
             />
             <ProjectTreeModal />
           </div>
-          <div className="mr12-group">
+          <div className="mr-3-group">
             <Input
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}

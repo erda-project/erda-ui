@@ -107,7 +107,7 @@ const StatusDetail = () => {
           <div>
             {
               // data.mode === 'browser' ? ( // 暂时去掉
-              //   <Button type="primary" className="mr8" ghost loading={setDatumFetching} onClick={this.setDatumPoint}>{i18n.t('msp:set datum point')}</Button>
+              //   <Button type="primary" className="mr-2" ghost loading={setDatumFetching} onClick={this.setDatumPoint}>{i18n.t('msp:set datum point')}</Button>
               // ) : null
             }
             <Button type="primary" ghost onClick={toggleModal}>

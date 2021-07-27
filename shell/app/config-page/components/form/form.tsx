@@ -87,7 +87,7 @@ export const Form = (props: CP_FORM.Props) => {
                 <PureForm.Submit Button={Button} type="primary" text={i18n.t('application:commit')} />
               )}
               {operations?.cancel && (
-                <Button className="ml8" onClick={onCancel}>
+                <Button className="ml-2" onClick={onCancel}>
                   {i18n.t('common:cancel')}
                 </Button>
               )}
@@ -102,7 +102,7 @@ export const Form = (props: CP_FORM.Props) => {
             </Button>
           )}
           {operations?.cancel && (
-            <Button className="ml8" onClick={onCancel}>
+            <Button className="ml-2" onClick={onCancel}>
               {i18n.t('common:cancel')}
             </Button>
           )}

@@ -118,7 +118,7 @@ const PipelineNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -132,7 +132,7 @@ const PipelineNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
@@ -146,7 +146,7 @@ const PipelineNode = (props: IProps) => {
         // </pre>
       }
       // if (!isEmpty(errors)) {
-      //   detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+      //   detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
       //   detailInfo.push(
       //     <pre className="flow-chart-err-block">
       //       {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}

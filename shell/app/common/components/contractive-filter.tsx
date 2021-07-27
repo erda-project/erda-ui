@@ -95,7 +95,7 @@ const OptionItem = (props: IOptionItemProps) => {
     >
       <div className="flex-box full-width">
         <span>{option.label}</span>
-        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml8" /> : null}</span>
+        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml-2" /> : null}</span>
       </div>
     </div>
   );
@@ -189,7 +189,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
-            <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
+            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
               {i18n.t('common:clear selected')}
             </span>
           </Menu.Item>,
@@ -263,7 +263,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         placement="bottomLeft"
       >
         <span className="contractive-filter-item">
-          <span className="color-text-desc mr2">{label}</span>
+          <span className="color-text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
           <CustomIcon type="caret-down" />
         </span>
@@ -307,7 +307,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="color-text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
           value={startDate ? moment(startDate) : undefined}
@@ -351,7 +351,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onVisibleChange(true);
         }}
       >
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="color-text-desc mr-0.5">{label}</span>
         <MemberSelector
           {...((customProps || {}) as any)}
           onChange={(v) => {
@@ -625,7 +625,7 @@ export const ContractiveFilter = ({
                   };
                   return (
                     <Menu.Item key={key} className="option-item" onClick={handleClick}>
-                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr8" /> {label}
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" /> {label}
                     </Menu.Item>
                   );
                 })}
@@ -634,7 +634,7 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="fz12 mr2 color-text" />
+              <CustomIcon type="tj1" className="fz12 mr-0.5 color-text" />
               <span>{i18n.t('common:filter')}</span>
               <CustomIcon type="caret-down" />
             </span>

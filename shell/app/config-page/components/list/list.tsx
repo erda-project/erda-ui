@@ -108,7 +108,7 @@ const List = (props: CP_LIST.Props) => {
               />
             );
           })}
-          {!isLoadMore && pagination ? <Pagination className="right-flex-box mt12" {...pagination} /> : null}
+          {!isLoadMore && pagination ? <Pagination className="right-flex-box mt-3" {...pagination} /> : null}
           {isLoadMore && total > Math.max(state.combineList?.length, 0) && (
             <div className="hover-active load-more" onClick={loadMore}>
               {i18n.t('more')}
@@ -178,13 +178,13 @@ const Item = (props: ItemProps) => {
         <div className={'body-title'}>
           {titlePrifxIcon ? (
             <Tooltip title={titlePrifxIconTip}>
-              <CustomIcon type={titlePrifxIcon} className="title-icon mr8" />
+              <CustomIcon type={titlePrifxIcon} className="title-icon mr-2" />
             </Tooltip>
           ) : null}
           <Ellipsis className="bold title-text" title={title} />
           {titleSuffixIcon ? (
             <Tooltip title={titleSuffixIconTip}>
-              <CustomIcon type={titleSuffixIcon} className="title-icon ml8" />
+              <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
             </Tooltip>
           ) : null}
         </div>

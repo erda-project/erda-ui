@@ -84,7 +84,7 @@ export const TagsRow = ({
       return (
         <div>
           {map(groupBy(labels, 'group'), (groupItem, gKey) => (
-            <div key={gKey} className="tag-group-container mb8">
+            <div key={gKey} className="tag-group-container mb-2">
               <span className="tag-group-name">{`${gKey} : `}</span>
               <span className="flex-1">
                 {groupItem.map((item) => (
@@ -121,7 +121,7 @@ export const TagsRow = ({
   return (
     <div className={`tags-container left-flex-box ${containerClassName}`} onClick={(e) => e.stopPropagation()}>
       <span className="tags-box colorful-light-bg">{oneAndMoreTag}</span>
-      {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml8 fake-link" size="14" /> : null}
+      {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml-2 fake-link" size="14" /> : null}
     </div>
   );
 };

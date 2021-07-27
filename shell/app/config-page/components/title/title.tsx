@@ -40,11 +40,11 @@ const Title = (props: CP_TITLE.Props) => {
 
   const titleComp = tips ? (
     <div className={`left-flex-box dice-cp-title-detail v-align ${size}`}>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4 pre-icon" /> : null}
+      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1 pre-icon" /> : null}
       {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type="help" className="ml4 fz14 pre-icon" />
+        <CustomIcon type="help" className="ml-1 fz14 pre-icon" />
       </Tooltip>
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>

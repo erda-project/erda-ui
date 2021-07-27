@@ -135,7 +135,7 @@ export default () => {
   return (
     <div className="task-report-records start-flex-box">
       <div className="search-records pr-4 v-flex-box">
-        <div className="mb8">
+        <div className="mb-2">
           <RangePicker
             borderTime
             className="full-width"
@@ -160,7 +160,7 @@ export default () => {
                     key={id}
                     onClick={() => handleClick(id)}
                   >
-                    <CustomIcon className="mr8" type="rw" />
+                    <CustomIcon className="mr-2" type="rw" />
                     {end
                       ? `${moment(start).format('YYYY/MM/DD')}-${moment(end).format('YYYY/MM/DD')}`
                       : moment(start).format('YYYY-MM-DD')}
@@ -169,7 +169,7 @@ export default () => {
               </ul>
               {total && (
                 <Pagination
-                  className="text-center mt12"
+                  className="text-center mt-3"
                   simple
                   defaultCurrent={1}
                   total={total}

@@ -284,7 +284,7 @@ const ConnectChart = (props) => {
       <IF check={hasData}>
         <div className="chart-selecter">
           {i18n.t('msp:select instance')}：
-          <Select className="my12" value={selectedGroup || groups[0]} style={{ width: 200 }} onChange={handleChange}>
+          <Select className="my-3" value={selectedGroup || groups[0]} style={{ width: 200 }} onChange={handleChange}>
             {map(groups, (item) => (
               <Option value={item} key={item}>
                 {item}

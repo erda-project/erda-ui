@@ -193,7 +193,7 @@ const ArrayObjComp = (props: any) => {
                           }
                           CompItem = (
                             <div key={key}>
-                              <div className="bold mt8">{getLabel(label || key, labelTip)}</div>
+                              <div className="bold mt-2">{getLabel(label || key, labelTip)}</div>
                               {map(attrs, (attr: any) => {
                                 const { type: _type, key: _k } = attr;
                                 const attrKey = `${key}.${_k}`;

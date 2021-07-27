@@ -399,7 +399,7 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
@@ -565,7 +565,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>

@@ -190,7 +190,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
         ]}
         onChange={(val: string) => updater.endAt(val)}
         defaultValue={TODAY}
-        className="ma8"
+        className="m-2"
       />
       <Table
         columns={columns}
@@ -287,12 +287,12 @@ const StatisticsDetail = () => {
 
   return (
     <div className="artifacts-statistics">
-      <div className="mt16 block-container">
+      <div className="mt-4 block-container">
         <div className="title flex-box">
           <span className="bold fz16">{get(topTypeMap, `${topType}.title`)}</span>
           <div>
             <FilterGroup
-              className="mr8 version-selector"
+              className="mr-2 version-selector"
               onChange={(val: string | undefined) => updater.lineFilter(val)}
               groups={groups}
               placeholder={get(topTypeMap, `${topType}.groupPlaceholder`)}
@@ -308,12 +308,12 @@ const StatisticsDetail = () => {
             ]}
             defaultValue="fields.firstDayUserId_value"
             onChange={(val: string) => updater.lineGroup(val)}
-            className="ma8"
+            className="m-2"
           />
           <PureBoardGrid layout={lineChart} />
         </div>
       </div>
-      <div className="mt16 block-container">
+      <div className="mt-4 block-container">
         <div className="title flex-box">
           <span className="bold fz16">{i18n.t('publisher:detailed data')}</span>
         </div>

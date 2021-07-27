@@ -316,7 +316,7 @@ const BranchRule = (props: IProps) => {
   };
   return (
     <div>
-      <div className="mb12">
+      <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button ghost type="primary" onClick={() => updater.modalVis(true)}>
             {i18n.t('project:new branch rule')}

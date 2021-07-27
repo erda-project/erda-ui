@@ -223,7 +223,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       <>
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="p-4">
-          <Button type="primary" className="mr12" onClick={checkForm}>
+          <Button type="primary" className="mr-3" onClick={checkForm}>
             {i18n.t('application:save')}
           </Button>
           <Button
@@ -328,7 +328,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
         <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement="bottom">
-          <CustomIcon type="zhongzhi" className="ml8 pointer" />
+          <CustomIcon type="zhongzhi" className="ml-2 pointer" />
         </Popconfirm>
       </Tooltip>
     </>

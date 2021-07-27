@@ -325,7 +325,7 @@ class ServiceManager extends React.Component {
             ) : null}
           </div>
           <IF check={path.length === 1}>
-            <div className="filter-group mb16 ml12-group">
+            <div className="filter-group mb-4 ml-3-group">
               <Select value={cluster} style={{ width: 300 }} onChange={this.handleClusterChange}>
                 {map(list, (v) => (
                   <Option key={v.name} value={v.name}>

@@ -77,7 +77,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
             <CustomIcon
-              className="mr0 pointer"
+              className="mr-0 pointer"
               onClick={this.togglePasswordVisible}
               type={passwordVisible ? 'openeye' : 'closeeye'}
             />

@@ -73,7 +73,7 @@ export const EditCategory = (props: IProps) => {
   };
 
   const content = (
-    <div id="dice-edit-category" className="flex-box mr8" onClick={(e) => e.stopPropagation()}>
+    <div id="dice-edit-category" className="flex-box mr-2" onClick={(e) => e.stopPropagation()}>
       <Input
         autoFocus
         style={{ minWidth: '150px' }}
@@ -82,8 +82,8 @@ export const EditCategory = (props: IProps) => {
         onPressEnter={() => handleSave()}
         onChange={(e) => setValue(e.target.value)}
       />
-      <CustomIcon className="ml12 fz18 pointer" type="duigou" onClick={handleSave} />
-      <CustomIcon className="ml12 fz18 pointer" type="close" onClick={props.onHide || handleHide} />
+      <CustomIcon className="ml-3 fz18 pointer" type="duigou" onClick={handleSave} />
+      <CustomIcon className="ml-3 fz18 pointer" type="close" onClick={props.onHide || handleHide} />
     </div>
   );
 

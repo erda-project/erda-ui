@@ -78,7 +78,7 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
         <>
           <FormEditor fields={fields} ref={formEditorRef} />
           <div className="pipeline-in-params-drawer-footer">
-            <Button onClick={closeDrawer} className="mr8">
+            <Button onClick={closeDrawer} className="mr-2">
               {i18n.t('cancel')}
             </Button>
             <Button onClick={onSubmit} type="primary">

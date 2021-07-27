@@ -60,7 +60,7 @@ const NumberInfo = () => {
       {numInfo.map((info) => (
         <Col span={4} key={info.label}>
           <div className="color-success fz20 text-center">{info.num || 0}</div>
-          <div className="color-text-desc mt4 text-center">{info.label}</div>
+          <div className="color-text-desc mt-1 text-center">{info.label}</div>
         </Col>
       ))}
     </Row>

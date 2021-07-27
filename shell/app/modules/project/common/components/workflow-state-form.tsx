@@ -95,7 +95,7 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
       <div className={'backlog-issue-form-box'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
-      <div className="table-operations ml8 mt8">
+      <div className="table-operations ml-2 mt-2">
         <span className="table-operations-btn" onClick={onAdd}>
           {i18n.t('save')}
         </span>

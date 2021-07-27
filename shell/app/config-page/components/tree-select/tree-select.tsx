@@ -82,7 +82,7 @@ export default (props: CP_TREE_SELECT.Props) => {
   if (!visible) return null;
   const showSearch = !!operations.onSearch;
   return (
-    <div className="mb20">
+    <div className="mb-5">
       {title ? <h4> {title} </h4> : null}
       <TreeSelect
         showSearch={showSearch}

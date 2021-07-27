@@ -206,7 +206,7 @@ export const FileDiff = ({
           <IF check={type === 'rename'}>
             <div className="file-title-move">
               <div className="bold nowrap">
-                <IconFileCodeOne className="mr8" />
+                <IconFileCodeOne className="mr-2" />
                 {old}
               </div>
               <IconArrowRight className="file-move-arrow" />
@@ -216,12 +216,12 @@ export const FileDiff = ({
             <IF.ELSE />
             <div className="file-title inline-flex-box">
               <div className="bold nowrap">
-                <IconFileCodeOne className="mr8" />
+                <IconFileCodeOne className="mr-2" />
                 {name} {text || null}
               </div>
             </div>
             <IF check={fileIsImage}>
-              <div className="text-center my16">
+              <div className="text-center my-4">
                 <img src={setApiWithOrg(imageAddress)} alt={`${name || 'preview-image'}`} />
               </div>
             </IF>
@@ -298,11 +298,11 @@ export const FileDiff = ({
         {title || (
           <div className="bold">
             <IF check={!isExpanding}>
-              <IconRightOne theme="filled" size="16px" className="mr8" />
+              <IconRightOne theme="filled" size="16px" className="mr-2" />
               <ELSE />
-              <IconDownOne theme="filled" size="16px" className="mr8" />
+              <IconDownOne theme="filled" size="16px" className="mr-2" />
             </IF>
-            <IconFileCodeOne className="mr8" />
+            <IconFileCodeOne className="mr-2" />
             {name}
           </div>
         )}
@@ -712,20 +712,20 @@ const FilesDiff = (props: IDiffProps) => {
           <div>
             <span>
               {i18n.t('application:share')}
-              <span className="changed-count ml8">
+              <span className="changed-count ml-2">
                 {filesChanged} {i18n.t('application:changed file(s)')}
               </span>
               <Tooltip
                 title={expandDiffFiles ? i18n.t('application:collapse file') : i18n.t('application:expand file')}
               >
-                <span className="ml8 pointer df-icon" onClick={onToggleDiffFiles}>
+                <span className="ml-2 pointer df-icon" onClick={onToggleDiffFiles}>
                   {expandDiffFiles ? <CustomIcon type="sq" /> : <CustomIcon type="zk" />}
                 </span>
               </Tooltip>
-              <span className="add-count ml8">
+              <span className="add-count ml-2">
                 {totalAddition} {i18n.t('application:additions')}
               </span>
-              <span className="del-count ml8">
+              <span className="del-count ml-2">
                 {totalDeletion} {i18n.t('application:deletions')}
               </span>
             </span>

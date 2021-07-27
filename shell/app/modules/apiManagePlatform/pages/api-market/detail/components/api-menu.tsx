@@ -89,7 +89,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
   const menu = React.useMemo(() => {
     if (isEmpty(menuList)) {
       return (
-        <div className="mt32">
+        <div className="mt-8">
           <EmptyHolder relative style={{ justifyContent: 'start' }} />
         </div>
       );
@@ -136,7 +136,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
     <>
       <div>
         <Input.Search
-          className="mb12"
+          className="mb-3"
           value={filterKey}
           placeholder={i18n.t('default:search by path or description')}
           onChange={handleFilterApi}

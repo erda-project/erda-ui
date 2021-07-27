@@ -79,7 +79,7 @@ const RepoDownload = (props: IDownProp) => {
             />
           </div>
           <Copy selector=".for-copy" />
-          <ButtonGroup className="download-btn-group mb16">
+          <ButtonGroup className="download-btn-group mb-4">
             <Button size="small" onClick={() => download('tar')}>
               {' '}
               tar{' '}
@@ -95,14 +95,14 @@ const RepoDownload = (props: IDownProp) => {
           </ButtonGroup>
           {token && (
             <>
-              <p className="label mb8">username</p>
+              <p className="label mb-2">username</p>
               <Input
-                className="full-width mb16"
+                className="full-width mb-4"
                 value={info.username}
                 addonAfter={renderAddonAfter(info.username, 'username')}
               />
-              <p className="label mb8">token</p>
-              <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+              <p className="label mb-2">token</p>
+              <Input className="full-width mb-4" value={token} addonAfter={renderAddonAfter(token, 'token')} />
             </>
           )}
         </div>
@@ -194,7 +194,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
                   const iconProps = record.type === 'tree' ? { type: 'folder' } : { type: 'page' };
                   return (
                     <span className="column-name" title={text}>
-                      {record.type ? <CustomIcon className="mr8" {...iconProps} /> : null}
+                      {record.type ? <CustomIcon className="mr-2" {...iconProps} /> : null}
                       {text}
                     </span>
                   );

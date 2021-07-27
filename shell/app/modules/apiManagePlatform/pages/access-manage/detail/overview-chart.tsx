@@ -26,8 +26,8 @@ interface IProps {
 
 const OverviewChart = ({ queries }: IProps) => {
   return (
-    <div className="overview-chart mb12 border-all white-bg p-3">
-      <div className="title fz16 bold-500 mb12">{i18n.t('traffic overview')}</div>
+    <div className="overview-chart mb-3 border-all white-bg p-3">
+      <div className="title fz16 bold-500 mb-3">{i18n.t('traffic overview')}</div>
       <CommonChart type="apim_summary" extraQuery={queries} />
     </div>
   );

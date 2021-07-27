@@ -98,7 +98,7 @@ export const ClusterTypeModal = (props: any) => {
       <div>
         {map(clusterTypeMap, (subItem, idx) => {
           return (
-            <Row key={idx} gutter={16} className="cluster-type-row mb16">
+            <Row key={idx} gutter={16} className="cluster-type-row mb-4">
               {map(subItem, (item) => (
                 <Col key={item.type} span={8}>
                   <TypeCard onChosen={handleSubmit} {...item} />

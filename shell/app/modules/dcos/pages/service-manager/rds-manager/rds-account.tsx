@@ -174,7 +174,7 @@ const RdsAccount = () => {
 
   return (
     <div>
-      <div className="text-right mb12">
+      <div className="text-right mb-3">
         <Button type="primary" onClick={() => updater.formVisible(true)}>
           {i18n.t('create an account')}
         </Button>

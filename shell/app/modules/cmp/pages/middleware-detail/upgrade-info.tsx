@@ -85,17 +85,17 @@ const UpgradeInfo = ({ data }: IProps) => {
   };
   return (
     <Spin spinning={isLoading}>
-      <div className="upgrade-info mb32">
+      <div className="upgrade-info mb-8">
         <div className="flex-box">
           <span className="title bold-500">
             {i18n.t('default:configuration information')}
             <Tooltip title={i18n.t('org:please fill in the real configuration information')}>
-              <Icon className="ml8" type="tishi" />
+              <Icon className="ml-2" type="tishi" />
             </Tooltip>
           </span>
           <div>
             <Button
-              className="mr8"
+              className="mr-2"
               onClick={() => {
                 setVisible(true);
               }}

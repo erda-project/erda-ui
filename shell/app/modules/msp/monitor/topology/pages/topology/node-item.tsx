@@ -259,14 +259,14 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <div className="node-title small-node-title bold">
               {stopped ? (
                 <>
-                  <CustomIcon type="wks1" className="error-icon mr20" />
+                  <CustomIcon type="wks1" className="error-icon mr-5" />
                   <span>
                     {stopped}/{running}
                   </span>
                 </>
               ) : (
                 <>
-                  <CustomIcon type="cg" className="common-icon mr20" />
+                  <CustomIcon type="cg" className="common-icon mr-5" />
                   <span>{running}</span>
                 </>
               )}

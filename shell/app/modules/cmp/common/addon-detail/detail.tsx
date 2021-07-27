@@ -121,7 +121,7 @@ export const PureBaseAddonInfo = ({
   return (
     <Spin spinning={loading}>
       <div className="addon-detail-page">
-        <div className="base-info mb32">
+        <div className="base-info mb-8">
           <span className="title bold-500">{i18n.t('org:basic info')}</span>
           <div className="info-grid">
             {map(itemConfigs, ({ title, value, render }) => (
@@ -135,7 +135,7 @@ export const PureBaseAddonInfo = ({
           </div>
         </div>
         {extra}
-        <div className="ref mb32">
+        <div className="ref mb-8">
           <span className="title bold-500">{i18n.t('org:reference detail')}</span>
           <Table
             columns={refTableList}

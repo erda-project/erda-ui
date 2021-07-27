@@ -29,7 +29,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="fz14 color-text-sub ml8" />
+          <CustomIcon type="info" className="fz14 color-text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -101,7 +101,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               <TagsRow
                 labels={tags.map((l) => ({ label: l.tag, color: l.color }))}
                 showCount={2}
-                containerClassName="ml8"
+                containerClassName="ml-2"
               />
             </div>
           </div>
@@ -113,7 +113,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
         Comp = (
           <div className={`${hoverActive} v-align`}>
-            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
+            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr-1 ${colorClassName}`} /> : null}
             <Ellipsis title={value}>{value}</Ellipsis>
           </div>
         );
@@ -176,7 +176,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                         type="avatar"
                       />
                     )}
-                    <span className="ml2 mr4" title={cU.name}>
+                    <span className="ml-0.5 mr-1" title={cU.name}>
                       {cU.nick || cU.name || val.value || i18n.t('common:none')}
                     </span>
                   </span>
@@ -261,13 +261,13 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = (
           <div className="dice-cp-text-tag full-width pl-2 v-align">
             {prefix ? (
-              <div className="extra-tags px-2 mr4" style={{ backgroundColor: prefix.bgColor }}>
+              <div className="extra-tags px-2 mr-1" style={{ backgroundColor: prefix.bgColor }}>
                 {prefix.text}
               </div>
             ) : null}
             <div className="nowrap">{text}</div>
             {suffix ? (
-              <div className="extra-tags px-2 mr4" style={{ backgroundColor: suffix.bgColor }}>
+              <div className="extra-tags px-2 mr-1" style={{ backgroundColor: suffix.bgColor }}>
                 {suffix.text}
               </div>
             ) : null}
@@ -284,7 +284,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = (
           <div className="dice-cp-level-content full-width pl-2 v-align">
             {data.map(({ level, text }: { level: number; text: string }) => {
-              return <div className={`mr4 level-${level}-content`}>{text}</div>;
+              return <div className={`mr-1 level-${level}-content`}>{text}</div>;
             })}
           </div>
         );
@@ -332,7 +332,7 @@ const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
-      <span className={'ml4 fz14 nowrap'} title={name}>
+      <span className={'ml-1 fz14 nowrap'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />

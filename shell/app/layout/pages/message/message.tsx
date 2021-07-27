@@ -208,7 +208,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                           </div>
                           <div>
                             {item.unreadCount > 1 && (
-                              <span className="unread-count mr12">
+                              <span className="unread-count mr-3">
                                 <span className="unread-count-text">
                                   {item.unreadCount > 99 ? '99+' : item.unreadCount}
                                 </span>

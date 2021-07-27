@@ -216,7 +216,7 @@ export const AddonCards = (props: IProps) => {
                 <span>{PLAN_NAME[plan]}</span>
                 <span>{version}</span>
                 <IF check={customAddonType === 'cloud'}>
-                  <CustomIcon className="ml8" type="cloud" />
+                  <CustomIcon className="ml-2" type="cloud" />
                 </IF>
               </div>
             </div>
@@ -239,7 +239,7 @@ export const AddonCards = (props: IProps) => {
                 <IF check={status === 'ATTACHING' || status === 'ATTACHFAILED'}>
                   <Tooltip title={i18n.t('log')}>
                     <span
-                      className="mr12"
+                      className="mr-3"
                       onClick={(e) => {
                         e.stopPropagation();
                         updater.modalVisible(true);
@@ -254,7 +254,7 @@ export const AddonCards = (props: IProps) => {
                 <IF check={onEitAddon && category === 'custom' && customAddonType !== 'cloud'}>
                   <Tooltip title={i18n.t('edit')}>
                     <span
-                      className="mr12"
+                      className="mr-3"
                       onClick={(e) => {
                         e.stopPropagation();
                         // edit third addon
@@ -297,7 +297,7 @@ export const AddonCards = (props: IProps) => {
                 let extra = null;
                 if (get(contents, '[0].category') === 'custom') {
                   extra = (
-                    <Button size="small" className="ml8" onClick={() => updater.customConfigVisible(true)}>
+                    <Button size="small" className="ml-2" onClick={() => updater.customConfigVisible(true)}>
                       {i18n.t('project:view config')}
                     </Button>
                   );

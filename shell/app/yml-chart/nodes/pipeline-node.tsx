@@ -50,7 +50,7 @@ export const PipelineNode = (props: IProps) => {
   return (
     <div className="yml-chart-node pipeline-node column-flex-box" onClick={onClick}>
       <div className={'pipeline-title py-3'}>
-        <div className="title-icon mr12">
+        <div className="title-icon mr-3">
           {data.logoUrl ? (
             <img src={data.logoUrl} alt="logo" />
           ) : (
@@ -58,7 +58,7 @@ export const PipelineNode = (props: IProps) => {
           )}
         </div>
         <div className="title-txt column-flex-box color-text">
-          <span className="mb4 nowrap fz16 bold name">{data.displayName || data.type}</span>
+          <span className="mb-1 nowrap fz16 bold name">{data.displayName || data.type}</span>
           <span className="nowrap fz12 type">{data.alias}</span>
         </div>
         {editing ? (

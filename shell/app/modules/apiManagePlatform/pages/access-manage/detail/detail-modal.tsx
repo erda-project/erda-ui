@@ -75,14 +75,14 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
         }}
       />
       <div className="p-4 record-list">
-        <div className="title fz16 color-text bold-500 mb8">{i18n.t('approval record')}</div>
+        <div className="title fz16 color-text bold-500 mb-2">{i18n.t('approval record')}</div>
         {records.length ? (
           <Timeline>
             {records.map(({ createdAt, action, creatorID, id }) => {
               return (
                 <TimeLineItem key={id}>
-                  <span className="mr16">{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  {creatorID ? <span className="mr16">{<UserInfo id={creatorID} />}</span> : null}
+                  <span className="mr-4">{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  {creatorID ? <span className="mr-4">{<UserInfo id={creatorID} />}</span> : null}
                   <span>{action}</span>
                 </TimeLineItem>
               );

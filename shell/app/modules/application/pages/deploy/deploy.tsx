@@ -62,7 +62,7 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   return (
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
-        <CustomIcon type="tj1" className="fz24 mb16" />
+        <CustomIcon type="tj1" className="fz24 mb-4" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>
@@ -326,7 +326,7 @@ const Deploy = () => {
                   }}
                 />
                 {envBlocked && !!message ? (
-                  <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
+                  <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
                 ) : null}
               </div>
             );

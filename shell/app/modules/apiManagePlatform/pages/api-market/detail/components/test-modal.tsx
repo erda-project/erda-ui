@@ -198,7 +198,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
   const modalTitle = (
     <span className="flex-box flex-start">
       <span>{i18n.t('API test')}</span>
-      <span className="ml12 hover-active" onClick={handleScreenControl}>
+      <span className="ml-3 hover-active" onClick={handleScreenControl}>
         <Tooltip
           placement="right"
           title={fullscreen ? i18n.t('exit full screen') : i18n.t('full screen')}
@@ -242,11 +242,11 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
             <Input disabled style={{ width: '75%' }} value={completeUrl} />
           </Input.Group>
         </div>
-        <Button className="ml8" type="primary" loading={isRunning} onClick={handleRunTest}>
+        <Button className="ml-2" type="primary" loading={isRunning} onClick={handleRunTest}>
           {i18n.t('execute')}
         </Button>
       </div>
-      <Tabs className="mb16">
+      <Tabs className="mb-4">
         {APITabs.map((item) => {
           const { title, dataIndex, render } = item;
           const data = apis[dataIndex] || [];
@@ -257,7 +257,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
           );
         })}
       </Tabs>
-      <Tabs defaultActiveKey="header" activeKey={resTab} className="mb12" onChange={changeTabs}>
+      <Tabs defaultActiveKey="header" activeKey={resTab} className="mb-3" onChange={changeTabs}>
         {map(ResponseTabs, ({ name, value }) => {
           // return <Radio.Button key={value} value={value}>{name}</Radio.Button>;
           return (

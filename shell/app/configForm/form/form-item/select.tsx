@@ -35,7 +35,7 @@ const FormSelect = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, 
       (componentProps.onChange || noop)(e.target.value);
     };
     return (
-      <div className="dice-form-item mb16">
+      <div className="dice-form-item mb-4">
         <label htmlFor={key}>{label}:</label>
         <select
           id={key}

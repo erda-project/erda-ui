@@ -49,19 +49,19 @@ const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }:
   return (
     <div className="blame-commit-item" style={style}>
       <div className="blame-commit-info flex-box">
-        <div className="info-left nowrap mr16">
-          <Avatar className="mr4" size={18} name={author.name} />
+        <div className="info-left nowrap mr-4">
+          <Avatar className="mr-1" size={18} name={author.name} />
           <Popover
             overlayClassName="blame-commit-item-popover"
             placement="topLeft"
             content={
               <div className="commit-info">
-                <div className="main-info mb8">
+                <div className="main-info mb-2">
                   <span className="commit-msg bold">{commitMessage}</span>
                 </div>
                 <div className="sub-info">
-                  <Avatar className="mr8" name={author.name} />
-                  <span className="commit-when mr16">
+                  <Avatar className="mr-2" name={author.name} />
+                  <span className="commit-when mr-4">
                     {author.name} {i18n.t('application:submitted in')} {fromNow(author.when)}
                   </span>
                   <span

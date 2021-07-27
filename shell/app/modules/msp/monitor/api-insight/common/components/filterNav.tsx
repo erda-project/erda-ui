@@ -56,8 +56,8 @@ const FilterNav = ({ isNeedStatusFilters = true, updateFields, resetFields }: IP
   };
 
   return (
-    <div className="api-monitor-filter-nav mb16">
-      <div className="search-container flex-box mb16">
+    <div className="api-monitor-filter-nav mb-4">
+      <div className="search-container flex-box mb-4">
         <div className="search-fields">
           <Row gutter={10} type="flex" justify="end" className="filter-row">
             <IF check={isNeedStatusFilters}>
@@ -85,8 +85,8 @@ const FilterNav = ({ isNeedStatusFilters = true, updateFields, resetFields }: IP
       </div>
       <div className="filter-container flex-box">
         <TimeSelector inline />
-        <div className="search-actions flex-box ml20">
-          <Button className="mr8" onClick={resetAll}>
+        <div className="search-actions flex-box ml-5">
+          <Button className="mr-2" onClick={resetAll}>
             {i18n.t('reset')}
           </Button>
           <Button type="primary" ghost onClick={updateFields}>

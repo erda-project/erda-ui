@@ -139,7 +139,7 @@ export default () => {
           <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
             {label.name}
             <IconClose
-              className="ml4"
+              className="ml-1"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDelete(label);

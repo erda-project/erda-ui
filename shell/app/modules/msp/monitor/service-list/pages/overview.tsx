@@ -27,8 +27,8 @@ export default () => {
 
   return (
     <div className="service-analyze v-flex-box">
-      <div className="flex-box mb12">
-        <TimeSelector className="ma0" />
+      <div className="flex-box mb-3">
+        <TimeSelector className="m-0" />
       </div>
       <div className="auto-overflow flex-1">
         <ServiceListDashboard dashboardId="service_analysis" />

@@ -300,7 +300,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         </Radio.Button>
       </Radio.Group>
       {!editing ? (
-        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml8" size="small">
+        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
           {i18n.t('application:edit')}
         </Button>
       ) : (
@@ -308,7 +308,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           <Button onClick={onCancel} size="small">
             {i18n.t('cancel')}
           </Button>
-          <Button onClick={handleSubmit} type="primary" className="ml8" size="small">
+          <Button onClick={handleSubmit} type="primary" className="ml-2" size="small">
             {i18n.t('save')}
           </Button>
         </div>

@@ -139,7 +139,7 @@ export const Iteration = () => {
         const totalCount = (sumBy(map(record.issueSummary || {}), 'undone') || 0) + doneTotal;
         const percent = ((totalCount ? doneTotal / totalCount : 0) * 100).toFixed(1);
         return (
-          <div className="mr8">
+          <div className="mr-2">
             <Progress percent={+percent} />
           </div>
         );
@@ -193,7 +193,7 @@ export const Iteration = () => {
 
   return (
     <div className="iteration">
-      <Select className="mb16 default-selector-width" value={status} onChange={(value: any) => setStatus(value)}>
+      <Select className="mb-4 default-selector-width" value={status} onChange={(value: any) => setStatus(value)}>
         {iterationOptions}
       </Select>
 

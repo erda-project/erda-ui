@@ -80,7 +80,7 @@ export const AvatarList = ({ names, maxDisplay = 5 }: { names: string[]; maxDisp
   const tooltipElements = [] as JSX.Element[];
   names.forEach((name: string, idx: number) => {
     displayElements.push(<Avatar key={name + idx} name={name} />);
-    tooltipElements.push(<Avatar wrapClassName="mr8 mb4" key={name + idx} name={name} showName />);
+    tooltipElements.push(<Avatar wrapClassName="mr-2 mb-1" key={name + idx} name={name} showName />);
   });
   return (
     <Tooltip title={tooltipElements} overlayStyle={{ maxWidth: 200 }}>

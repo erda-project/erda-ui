@@ -192,7 +192,7 @@ const AddPipelineYml = () => {
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
             </Button>
-            <Button className="ml12" onClick={cancelEdit}>
+            <Button className="ml-3" onClick={cancelEdit}>
               {i18n.t('application:cancel')}
             </Button>
           </div>
@@ -223,7 +223,7 @@ const AddPipelineYml = () => {
         </Radio.Button>
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
-        <CustomIcon type="zhongzhi" className="ml8 pointer" onClick={reset} />
+        <CustomIcon type="zhongzhi" className="ml-2 pointer" onClick={reset} />
       </Tooltip>
     </>
   );
@@ -286,7 +286,7 @@ const AddPipelineYml = () => {
         }}
       />
       <div ref={editViewRef}>
-        <div className="bold fz16 my12">{i18n.t('application:pipeline configuration')}</div>
+        <div className="bold fz16 my-3">{i18n.t('application:pipeline configuration')}</div>
         <FileContainer
           name={
             <FileNameInput
@@ -417,7 +417,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
         <div className="logo">
           {logoUrl ? <img src={logoUrl} /> : <CustomIcon type="dm" className="template-icon" />}
         </div>
-        <div className="name my4">{name}</div>
+        <div className="name my-1">{name}</div>
         <div className="desc">{desc}</div>
       </div>
     );
@@ -425,7 +425,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
 
   return (
     <div className="pipeline-template">
-      <div className="bold fz16 my12">{i18n.t('application:template select')}</div>
+      <div className="bold fz16 my-3">{i18n.t('application:template select')}</div>
       <CardsLayout dataList={pipelineTemplates} contentRender={templateRender} />
     </div>
   );
