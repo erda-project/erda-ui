@@ -787,7 +787,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         {
           label: i18n.t('org:grouping rules'),
           name: ['rule', 'group'],
-          required: false,
+          required: true,
           type: 'select',
           options: map(tags, ({ key, name }) => ({ value: key, name })),
           itemProps: {
