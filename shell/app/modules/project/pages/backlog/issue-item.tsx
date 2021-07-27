@@ -21,7 +21,7 @@ import { isPromise } from 'common/utils';
 import { get } from 'lodash';
 import i18n from 'i18n';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
-import { Ellipsis, Menu, Dropdown, Modal } from 'app/nusi';
+import { Ellipsis, Menu, Dropdown, Modal, message } from 'app/nusi';
 import { Form } from 'dop/pages/form-editor/index';
 import './issue-item.scss';
 import routeInfoStore from 'core/stores/route';
@@ -158,7 +158,11 @@ export const IssueForm = (props: IIssueFormProps) => {
     const curForm = formRef && formRef.current;
     if (curForm) {
       curForm.onSubmit((val: ISSUE.BacklogIssueCreateBody) => {
-        onOk(val).then(() => curForm.reset('title'));
+        if (val.title) {
+          onOk(val).then(() => curForm.reset('title'));
+        } else {
+          message.warn(i18n.t('please enter {name}', { name: i18n.t('title') }));
+        }
       });
     }
   };
@@ -190,7 +194,6 @@ export const IssueForm = (props: IIssueFormProps) => {
       label: '',
       component: 'input',
       key: 'title',
-      required: true,
       wrapperProps: {
         className: 'backlog-issue-add-title-box',
       },
