@@ -297,7 +297,7 @@ export const ProjectList = () => {
               total,
             }}
             onChange={handleTableChange}
-            scroll={{ x: 1500 }}
+            scroll={{ x: 1900 }}
           />
         </SearchTable>
       </Spin>
