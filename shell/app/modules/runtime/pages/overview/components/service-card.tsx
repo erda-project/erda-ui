@@ -245,7 +245,7 @@ const ServiceCard = (props: IProps) => {
 
   const serviceClass = classNames({
     'service-card-wrapper': true,
-    show: visible,
+    block: visible,
   });
 
   const getOperation = () => {

@@ -66,7 +66,7 @@ interface IField {
 export const FormUnitContainer = ({ children, title, curRef }: { children: any; title: string; curRef?: any }) => {
   const [isPresent, setIsPresent] = React.useState(true);
   return (
-    <div className={`form-container ${isPresent ? 'show' : 'hidden'}`} ref={curRef}>
+    <div className={`form-container ${isPresent ? 'block' : 'hidden'}`} ref={curRef}>
       {title ? (
         <div className="form-title">
           {title}

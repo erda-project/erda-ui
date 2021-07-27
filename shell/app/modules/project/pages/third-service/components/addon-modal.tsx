@@ -289,7 +289,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         footer={null}
         wrapClassName="third-addon-modal"
       >
-        <div className={step === STEP.FIRST && !editData ? 'show' : 'hidden'}>
+        <div className={step === STEP.FIRST && !editData ? 'block' : 'hidden'}>
           <ThirdAddonForm
             ref={this.thirdFormRef}
             category={this.props.category}
@@ -302,7 +302,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             configKV={this.configKV}
           />
         </div>
-        <div className={step === STEP.SECOND || editData ? 'show' : 'hidden'}>
+        <div className={step === STEP.SECOND || editData ? 'block' : 'hidden'}>
           <InstanceForm
             ref={this.instanceFormRef}
             category={this.props.category}

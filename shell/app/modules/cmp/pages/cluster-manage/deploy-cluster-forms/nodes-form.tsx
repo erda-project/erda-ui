@@ -127,7 +127,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               <span>{i18n.t('batch setting')}</span>
               <Switch checked={helperVis} onClick={() => setHelperVis(!helperVis)} />
             </div>
-            <div className={`set-helper-form ${helperVis ? 'show' : 'hidden'}`}>
+            <div className={`set-helper-form ${helperVis ? 'block' : 'hidden'}`}>
               <Select
                 mode="tags"
                 tokenSeparators={[';', ',', ' ']}
