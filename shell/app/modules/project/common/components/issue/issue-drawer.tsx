@@ -169,9 +169,9 @@ export const IssueDrawer = (props: IProps) => {
                             value={copyTitle}
                             onChange={(e) => setCopyTitle(e.target.value)}
                           />
-                          <div className="right-flex-box mt-2">
+                          <div className="flex items-center flex-wrap justify-end mt-2">
                             <Button
-                              className="mr8"
+                              className="mr-2"
                               onClick={() => {
                                 setCopyTitle('');
                                 setShowCopy(false);

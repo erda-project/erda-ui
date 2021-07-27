@@ -171,7 +171,7 @@ export class ImageUpload extends Component<IProps, IState> {
 
     return (
       <div className="image-upload-wrap">
-        <div className="wrap-flex-box">{this.renderUploadItem()}</div>
+        <div className="flex flex-wrap items-center">{this.renderUploadItem()}</div>
         {showHint ? <div className="hint">{_hintText}</div> : null}
       </div>
     );

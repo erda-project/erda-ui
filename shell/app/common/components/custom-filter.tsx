@@ -432,7 +432,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     }
     sizeOptions = sortBy(sizeOptions, (item) => +item);
     return (
-      <div className="mt-4 right-flex-box">
+      <div className="mt-4 flex items-center flex-wrap justify-end">
         <Pagination
           current={pageNo}
           pageSize={+pSize}

@@ -227,7 +227,7 @@ const Kanban = (props: IKanbanProps) => {
           <div className="issue-kanban-info mt-2 flex-box color-text-desc">
             <div className="flex-box">
               {curStateObj ? (
-                <div className="v-align mr-2">
+                <div className="flex items-center mr-2">
                   {ISSUE_ICON.state[curStateObj.stateBelong]}
                   {curStateObj.stateName}
                 </div>

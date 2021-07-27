@@ -1189,7 +1189,7 @@ export const EditIssueDrawer = (props: IProps) => {
         />
       </div>
 
-      <div className="v-flex-box">
+      <div className="flex flex-col h-full">
         <EditField
           name="content"
           disabled={!editAuth}

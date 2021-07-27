@@ -187,7 +187,7 @@ const Transaction = () => {
   }, [search, sort, subSearch]);
 
   return (
-    <div className="service-analyze v-flex-box">
+    <div className="service-analyze flex flex-col h-full">
       <div>
         <div className="flex-box flex-wrap mb-1">
           <div className="left flex-box mb-2">
@@ -243,7 +243,7 @@ const Transaction = () => {
         visible={visible}
         onClose={() => updater.visible(false)}
       >
-        <div className="right-flex-box mb-3">
+        <div className="flex items-center flex-wrap justify-end mb-3">
           <RadioGroup value={sortType} onChange={handleChangeSortType}>
             {map(sortButtonMap, (v, k) => (
               <RadioButton key={k} value={k}>

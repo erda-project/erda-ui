@@ -211,14 +211,14 @@ const RepoTag = () => {
             return (
               <div key={name} className="branch-item flex-box">
                 <div className="branch-item-left">
-                  <div className="bold-500 v-align fz16 mb-3">
+                  <div className="bold-500 flex items-center fz16 mb-3">
                     <CustomIcon type="bb" />
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                       <span className="color-text hover-active">{name}</span>
                     </Link>
                   </div>
-                  <div className="v-align color-text-sub">
-                    <span className="inline-v-align">
+                  <div className="flex items-center color-text-sub">
+                    <span className="inline-flex items-center">
                       <Avatar showName name={committerName} />
                       &nbsp;{i18n.t('committed at')}
                     </span>

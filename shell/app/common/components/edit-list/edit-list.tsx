@@ -389,7 +389,7 @@ const RenderItem = (props: IRenderItem) => {
     case 'custom':
       Comp =
         isTitle && titleTip ? (
-          <div className="left-flex-box">
+          <div className="flex items-center flex-wrap justify-start">
             {curVal}
             <Tooltip title={titleTip}>
               <CustomIcon type="help" className="ml-1 fz14" />

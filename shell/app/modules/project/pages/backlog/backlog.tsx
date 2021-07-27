@@ -202,7 +202,7 @@ const Backlog = () => {
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
   return (
-    <div className="backlog-issues column-flex-box h-full" ref={drop}>
+    <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
       <div className="backlog-issues-title flex-box mb-2">
         <div>
           <span className="bold fz16 mr-2">{i18n.t('project:backlog')}</span>
@@ -262,7 +262,7 @@ const Backlog = () => {
               </div>
             }
             <Pagination
-              className="right-flex-box pt-2"
+              className="flex items-center flex-wrap justify-end pt-2"
               defaultCurrent={1}
               showSizeChanger
               total={total}

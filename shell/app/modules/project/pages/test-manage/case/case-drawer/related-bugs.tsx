@@ -110,7 +110,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         return (
           <Tooltip placement="topLeft" title={text}>
             <div
-              className="flex-box flex-start text-link nowrap truncate"
+              className="flex-box justify-start text-link nowrap truncate"
               onClick={() => {
                 goToBugs(record);
               }}
@@ -128,7 +128,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       width: 96,
       render: (stateName: string, record: any) => {
         return stateName ? (
-          <div className="v-align">
+          <div className="flex items-center">
             {ISSUE_ICON.state[record?.stateBelong]}
             {stateName}
           </div>
@@ -240,7 +240,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               {map(bugList, (item) => {
                 return (
                   <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
-                    <div className="flex-box flex-start nowrap">
+                    <div className="flex-box justify-start nowrap">
                       <IssueIcon type={ISSUE_TYPE.BUG} />
                       {item.id}-{item.title}
                     </div>

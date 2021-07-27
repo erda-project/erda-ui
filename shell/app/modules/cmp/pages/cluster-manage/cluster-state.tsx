@@ -61,7 +61,7 @@ const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterN
   }, [clusterName, getCustomDashboard, viewClusterStatus]);
 
   return (
-    <div className="v-flex-box">
+    <div className="flex flex-col h-full">
       <div className="cluster-state-wrapper mb-4">
         {isEmpty(clusterStatus?.components) ? (
           <EmptyHolder />
@@ -74,7 +74,7 @@ const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterN
                 {get(stateSeverityMap, `${get(clusterStatus, 'status')}.displayName`, '')}
               </span>
             </h3>
-            <div className="mt-8 left-flex-box cluster-state-content">
+            <div className="mt-8 flex items-center flex-wrap justify-start cluster-state-content">
               {clusterStateType.map((item) => {
                 return (
                   <div className="mb-5 mr-8 cluster-state-item" key={`${item}`}>

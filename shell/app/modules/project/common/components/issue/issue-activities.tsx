@@ -54,7 +54,7 @@ export const IssueActivities = (props: IProps) => {
       case 'Comment':
         renderContent = (
           <>
-            <div className="left-flex-box">
+            <div className="flex items-center flex-wrap justify-start">
               <Avatar name={user.nick || user.name} showName />
               &nbsp;
               <span>{i18n.t('project:remarked at')}</span>
@@ -76,7 +76,7 @@ export const IssueActivities = (props: IProps) => {
       case 'RelateMR': {
         const { appID, mrID, mrTitle } = mrInfo as ISSUE.IssueStreamMrInfo;
         renderContent = (
-          <div className="left-flex-box">
+          <div className="flex items-center flex-wrap justify-start">
             <Avatar name={user.nick || user.name} showName />
             <span className="mx-2">{i18n.t('project:add relation to MR')}:</span>
             <a onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}>
@@ -88,7 +88,7 @@ export const IssueActivities = (props: IProps) => {
       }
       default:
         renderContent = (
-          <div className="left-flex-box">
+          <div className="flex items-center flex-wrap justify-start">
             <Avatar name={user.nick || user.name} showName />
             <span className="ml-2">{content}</span>
           </div>

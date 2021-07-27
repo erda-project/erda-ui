@@ -87,7 +87,7 @@ const Text = (props: CP_TEXT.Props) => {
           );
         } else if (isArray(text)) {
           TextComp = (
-            <span className={`${isPureText ? '' : 'v-align'}`}>
+            <span className={`${isPureText ? '' : 'flex items-center'}`}>
               {text.map((t, idx) => {
                 if (isString(t)) {
                   return (

@@ -186,7 +186,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           {isExistingTicket ? i18n.t('org:check ticket') : i18n.t('org:create ticket')}
         </Button>
       </div> */}
-      <div className="start-flex-box mb-4">
+      <div className="flex items-start justify-between mb-4">
         <CommonRangePicker defaultTime={defaultTime} onOk={(v) => updater.timeSpan(v)} />
         {/* <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}> */}
         {/*  <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button> */}

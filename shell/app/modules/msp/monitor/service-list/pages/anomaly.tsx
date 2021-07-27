@@ -55,7 +55,7 @@ export default () => {
   }, [serviceId, getExceptionTypes, serviceName, terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs, updater]);
 
   return (
-    <div className="service-analyze v-flex-box">
+    <div className="service-analyze flex flex-col h-full">
       <div className="flex-box flex-wrap mb-1">
         <div className="left flex-box mb-2">
           <TimeSelector className="m-0 mr-3" />

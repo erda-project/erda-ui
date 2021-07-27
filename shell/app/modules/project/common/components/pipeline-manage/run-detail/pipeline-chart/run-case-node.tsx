@@ -207,7 +207,7 @@ export const RunCaseNode = (props: IProps) => {
   const statusContent = (
     <span className={`mt-2 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
-      <span className="inline-flex-box">{status ? status.text : '-'}</span>
+      <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
     </span>
   );
 
@@ -218,13 +218,13 @@ export const RunCaseNode = (props: IProps) => {
     <Container {...renderTooltipTitle()}>
       <div
         onClick={() => onClick('node')}
-        className={`yml-chart-node test-case-result-node column-flex-box ${
+        className={`yml-chart-node test-case-result-node flex flex-col justify-center ${
           data.status === 'Disabled' ? 'disabled-item' : ''
         }`}
       >
         <div className={'case-title'}>
           <div className="title-icon mr-3">{IconComp}</div>
-          <div className="title-txt column-flex-box color-text">
+          <div className="title-txt flex flex-col justify-center color-text">
             <Tooltip title={name}>
               <span className="nowrap fz16 bold name">{name}</span>
             </Tooltip>

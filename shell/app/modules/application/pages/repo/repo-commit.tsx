@@ -39,7 +39,7 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
             <span className="color-text fz16 hover-active bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
-        <div className="flex-box flex-start">
+        <div className="flex-box justify-start">
           <div className="color-text-sub">
             <Avatar className="mb-1" showName name={author.name} />
           </div>

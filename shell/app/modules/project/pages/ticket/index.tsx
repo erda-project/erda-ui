@@ -274,7 +274,7 @@ const Ticket = () => {
             disabled: !item.permission,
             value: item.stateID,
             iconLabel: (
-              <div className="v-align">
+              <div className="flex items-center">
                 {ISSUE_ICON.state[item.stateBelong]}
                 {item.stateName}
               </div>

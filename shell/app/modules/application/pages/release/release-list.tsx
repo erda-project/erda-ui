@@ -99,7 +99,7 @@ const ReleaseList = () => {
   const releaseId = get(list, `[${chosenPos}].releaseId`) || ('' as string);
   return (
     <div className="release-list-container">
-      <div className="release-list-page v-flex-box">
+      <div className="release-list-page flex flex-col h-full">
         <IF check={appDetail.isProjectLevel}>
           <AppSelector
             projectId={`${projectId}`}

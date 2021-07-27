@@ -57,7 +57,7 @@ export default () => {
 
   return (
     <div>
-      <div className="mb-2 wrap-flex-box">
+      <div className="mb-2 flex flex-wrap items-center">
         <TimeSelector className="mb-0" />
         <Search
           allowClear

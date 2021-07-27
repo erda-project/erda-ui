@@ -165,9 +165,9 @@ const TemplateCard = (props: ICardProps) => {
     'px-2',
     'py-3',
     'pointer',
-    'column-flex-box',
-    'v-align',
-    'flex-start',
+    'flex flex-col justify-center',
+    'flex items-center',
+    'justify-start',
     type.disabled ? 'not-allowed' : '',
     isChecked ? 'checked' : '',
   ]);

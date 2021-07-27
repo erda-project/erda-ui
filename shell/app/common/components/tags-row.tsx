@@ -119,7 +119,10 @@ export const TagsRow = ({
   );
 
   return (
-    <div className={`tags-container left-flex-box ${containerClassName}`} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
+      onClick={(e) => e.stopPropagation()}
+    >
       <span className="tags-box colorful-light-bg">{oneAndMoreTag}</span>
       {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml-2 fake-link" size="14" /> : null}
     </div>

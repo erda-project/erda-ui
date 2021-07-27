@@ -91,7 +91,7 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
   );
 
   return (
-    <div className={'backlog-issue-form flex-box flex-start align-top'}>
+    <div className={'backlog-issue-form flex-box justify-start align-top'}>
       <div className={'backlog-issue-form-box'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>

@@ -138,7 +138,7 @@ export const TreeTitle = ({
 
 export const BranchTitle = ({ name, icon = 'branch' }: { name: string; icon?: string }) => {
   return (
-    <div className="left-flex-box">
+    <div className="flex items-center flex-wrap justify-start">
       <CustomIcon type={icon} className="color-text-sub" />
       <Tooltip title={name}>
         <div className="nowrap" style={{ maxWidth: '160px' }}>

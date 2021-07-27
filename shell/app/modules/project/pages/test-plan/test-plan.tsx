@@ -80,7 +80,7 @@ const TestPlan = () => {
       dataIndex: 'name',
       render: (text, record) => {
         return (
-          <div className="title v-align" title={`${record.id}-${text}`}>
+          <div className="title flex items-center" title={`${record.id}-${text}`}>
             {iconMap[record.status]}
             <span className="truncate">
               {record.id}-{text}

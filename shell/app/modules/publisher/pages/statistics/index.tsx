@@ -334,7 +334,7 @@ const Statistics = (props: IProps) => {
         },
         customRender: (chartNode: any) => {
           return (
-            <div className="v-flex-box">
+            <div className="flex flex-col h-full">
               <FilterTab className="mb-2" onChange={OnChangePieVersionType} />
               <div className="flex-1">{chartNode}</div>
             </div>
@@ -379,7 +379,7 @@ const Statistics = (props: IProps) => {
         },
         customRender: (chartNode: any) => {
           return (
-            <div className="v-flex-box">
+            <div className="flex flex-col h-full">
               <FilterTab className="mb-2" onChange={OnChangePieChannelType} />
               <div className="flex-1">{chartNode}</div>
             </div>

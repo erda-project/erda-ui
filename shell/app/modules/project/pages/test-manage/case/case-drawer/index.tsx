@@ -352,7 +352,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               </div>
             </Tooltip>
             {editMode && (
-              <div className="inline-flex-box">
+              <div className="inline-flex justify-between items-center">
                 <Avatar
                   showName
                   name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />}

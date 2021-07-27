@@ -231,7 +231,7 @@ const TicketDetail = () => {
           </TabPane>
           <TabPane tab={i18n.t('relate to issue')} key="relate">
             <div className="flex-box">
-              <div className="selecter-wrap flex-box flex-start flex-1">
+              <div className="selecter-wrap flex-box justify-start flex-1">
                 <LoadMoreSelector
                   className="selecter-item"
                   value={activedProject}

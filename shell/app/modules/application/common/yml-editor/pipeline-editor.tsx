@@ -337,7 +337,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   return (
     <div>
       <FileContainer
-        className={`new-yml-editor app-repo-pipeline column-flex-box full-spin-height ${
+        className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName}

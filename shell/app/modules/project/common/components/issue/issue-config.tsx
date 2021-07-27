@@ -77,7 +77,7 @@ export const BUG_SEVERITY_MAP = {
     label: `P0 ${i18n.t('project:severity-fatal')}`,
     icon: ISSUE_ICON.severity.FATAL,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.severity.FATAL}
         {i18n.t('project:severity-fatal')}
       </div>
@@ -88,7 +88,7 @@ export const BUG_SEVERITY_MAP = {
     label: `P1 ${i18n.t('project:serious')}`,
     icon: ISSUE_ICON.severity.SERIOUS,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.severity.SERIOUS}
         {i18n.t('project:serious')}
       </div>
@@ -99,7 +99,7 @@ export const BUG_SEVERITY_MAP = {
     label: `P2 ${i18n.t('project:normal')}`,
     icon: ISSUE_ICON.severity.NORMAL,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.severity.NORMAL}
         {i18n.t('project:normal')}
       </div>
@@ -110,7 +110,7 @@ export const BUG_SEVERITY_MAP = {
     label: `P3 ${i18n.t('project:slight')}`,
     icon: ISSUE_ICON.severity.SLIGHT,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.severity.SLIGHT}
         {i18n.t('project:slight')}
       </div>
@@ -121,7 +121,7 @@ export const BUG_SEVERITY_MAP = {
     label: `P4 ${i18n.t('project:suggest')}`,
     icon: ISSUE_ICON.severity.SUGGEST,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.severity.SUGGEST}
         {i18n.t('project:suggest')}
       </div>
@@ -135,7 +135,7 @@ export const ISSUE_TYPE_MAP = {
     label: i18n.t('requirement'),
     icon: ISSUE_ICON.issue.REQUIREMENT,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.issue.REQUIREMENT}
         {i18n.t('requirement')}
       </div>
@@ -146,7 +146,7 @@ export const ISSUE_TYPE_MAP = {
     label: i18n.t('task'),
     icon: ISSUE_ICON.issue.TASK,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.issue.TASK}
         {i18n.t('task')}
       </div>
@@ -157,7 +157,7 @@ export const ISSUE_TYPE_MAP = {
     label: i18n.t('bug'),
     icon: ISSUE_ICON.issue.BUG,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.issue.BUG}
         {i18n.t('bug')}
       </div>
@@ -167,14 +167,14 @@ export const ISSUE_TYPE_MAP = {
     value: 'TICKET',
     label: i18n.t('project:ticket'),
     icon: null,
-    iconLabel: <div className="v-align">{i18n.t('project:ticket')}</div>,
+    iconLabel: <div className="flex items-center">{i18n.t('project:ticket')}</div>,
   },
   EPIC: {
     value: 'EPIC',
     label: i18n.t('project:milestone'),
     icon: ISSUE_ICON.issue.EPIC,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.issue.EPIC}
         {i18n.t('project:milestone')}
       </div>
@@ -188,7 +188,7 @@ export const ISSUE_PRIORITY_MAP = {
     label: i18n.t('project:urgent'),
     icon: ISSUE_ICON.priority.URGENT,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.priority.URGENT}
         {i18n.t('project:urgent')}
       </div>
@@ -199,7 +199,7 @@ export const ISSUE_PRIORITY_MAP = {
     label: i18n.t('project:high'),
     icon: ISSUE_ICON.priority.HIGH,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.priority.HIGH}
         {i18n.t('project:high')}
       </div>
@@ -210,7 +210,7 @@ export const ISSUE_PRIORITY_MAP = {
     label: i18n.t('project:medium'),
     icon: ISSUE_ICON.priority.NORMAL,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.priority.NORMAL}
         {i18n.t('project:medium')}
       </div>
@@ -221,7 +221,7 @@ export const ISSUE_PRIORITY_MAP = {
     label: i18n.t('project:low'),
     icon: ISSUE_ICON.priority.LOW,
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.priority.LOW}
         {i18n.t('project:low')}
       </div>
@@ -238,7 +238,7 @@ export const REQUIREMENT_STATE_MAP = {
     label: i18n.t('project:open'),
     color: 'yellow',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.OPEN}
         {i18n.t('project:open')}
       </div>
@@ -250,7 +250,7 @@ export const REQUIREMENT_STATE_MAP = {
     label: i18n.t('project:processing'),
     color: 'blue',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.WORKING}
         {i18n.t('project:processing')}
       </div>
@@ -262,7 +262,7 @@ export const REQUIREMENT_STATE_MAP = {
     label: i18n.t('project:testing'),
     color: 'blue',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.TESTING}
         {i18n.t('project:testing')}
       </div>
@@ -274,7 +274,7 @@ export const REQUIREMENT_STATE_MAP = {
     label: i18n.t('project:done'),
     color: 'green',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.DONE}
         {i18n.t('project:done')}
       </div>
@@ -298,7 +298,7 @@ export const TASK_STATE_MAP: ISSUE.TaskMap = {
     nextStates: ['WORKING'],
     color: 'yellow',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.OPEN}
         {i18n.t('project:open')}
       </div>
@@ -311,7 +311,7 @@ export const TASK_STATE_MAP: ISSUE.TaskMap = {
     nextStates: ['DONE'],
     color: 'blue',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.WORKING}
         {i18n.t('project:processing')}
       </div>
@@ -324,7 +324,7 @@ export const TASK_STATE_MAP: ISSUE.TaskMap = {
     nextStates: [],
     color: 'green',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.DONE}
         {i18n.t('project:done')}
       </div>
@@ -346,7 +346,7 @@ export const BUG_STATE_MAP = {
     label: i18n.t('project:open'),
     color: 'yellow',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.OPEN}
         {i18n.t('project:open')}
       </div>
@@ -358,7 +358,7 @@ export const BUG_STATE_MAP = {
     label: i18n.t('project:resolved'),
     color: 'green',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.RESOLVED}
         {i18n.t('project:resolved')}
       </div>
@@ -370,7 +370,7 @@ export const BUG_STATE_MAP = {
     label: i18n.t('project:reopen'),
     color: 'red',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.REOPEN}
         {i18n.t('project:reopen')}
       </div>
@@ -382,7 +382,7 @@ export const BUG_STATE_MAP = {
     label: i18n.t("project:won't fix"),
     color: 'text',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.WONTFIX}
         {i18n.t("project:won't fix")}
       </div>
@@ -394,7 +394,7 @@ export const BUG_STATE_MAP = {
     label: i18n.t("project:won't fix, duplicated"),
     color: 'text',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.DUP}
         {i18n.t("project:won't fix, duplicated")}
       </div>
@@ -406,7 +406,7 @@ export const BUG_STATE_MAP = {
     label: i18n.t('project:closed'),
     color: 'green',
     iconLabel: (
-      <div className="v-align">
+      <div className="flex items-center">
         {ISSUE_ICON.state.CLOSED}
         {i18n.t('project:closed')}
       </div>

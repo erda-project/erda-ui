@@ -633,7 +633,7 @@ const ApiDesign = () => {
             </Button>
           </div>
           <div className="api-design-wrap">
-            <div className="search-wrap mb-4 flex-box flex-start">
+            <div className="search-wrap mb-4 flex-box justify-start">
               <ApiDocTree
                 treeNodeData={curTreeNodeData}
                 newTreeNode={newTreeNode}
@@ -650,7 +650,7 @@ const ApiDesign = () => {
               )}
               {showErrorDocTip && <ErrorPopover {...errorData} />}
               {inodeQuery && !isEmpty(curTreeNodeData) && (
-                <div className="right-flex-box flex-1">
+                <div className="flex items-center flex-wrap justify-end flex-1">
                   {!apiWs || isDocLocked ? (
                     <WithAuth pass={!isApiReadOnly && docValidData.valid}>
                       <Button type="ghost" onClick={onEditDocHandle}>
@@ -675,7 +675,7 @@ const ApiDesign = () => {
                 <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
               ) : (
                 <div className="api-design-content">
-                  <div className="api-design-content-list column-flex-box flex-start">
+                  <div className="api-design-content-list flex flex-col justify-center justify-start">
                     <Input
                       placeholder={i18n.t('search by keyword')}
                       className="mx-2 my-3 api-filter-input"

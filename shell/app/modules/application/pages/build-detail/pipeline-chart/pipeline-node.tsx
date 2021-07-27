@@ -252,7 +252,7 @@ const PipelineNode = (props: IProps) => {
             <WithAuth key={mark} pass={hasAuth}>
               <Tooltip title={tip}>
                 <span
-                  className="pipeline-item-extra-op center-flex-box"
+                  className="pipeline-item-extra-op flex flex-wrap justify-center items-center"
                   onClick={(e: any) => {
                     e.persist();
                     clickFunc(e);
@@ -298,7 +298,7 @@ const PipelineNode = (props: IProps) => {
   const statusContent = (
     <span className="flex-1">
       <span className="yaml-editor-item-status" style={{ background: itemStatus.toLowerCase() }} />
-      <span className="inline-flex-box">{status ? status.text : '-'}</span>
+      <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
     </span>
   );
   if (data.name || data.displayName) {
@@ -318,7 +318,7 @@ const PipelineNode = (props: IProps) => {
 
   const timeContent =
     time >= 0 ? (
-      <span className="v-align">
+      <span className="flex items-center">
         <CustomIcon type="shijian" />
         <span>{secondsToTime(time || data.costTimeSec)}</span>
       </span>

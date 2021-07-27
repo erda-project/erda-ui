@@ -252,7 +252,7 @@ ${_ymlStr}
               <TabPane tab={item.name} key={key}>
                 {type === 'json' ? (
                   <div className="flex-box dice-perm-export-data">
-                    <div className="flex-1 mr-2 column-flex-box">
+                    <div className="flex-1 mr-2 flex flex-col justify-center">
                       <span>{item.name}权限数据</span>
                       <textarea
                         readOnly={!isEdit}
@@ -261,7 +261,7 @@ ${_ymlStr}
                         onChange={(e) => changeValueStr(e.target.value, key)}
                       />
                     </div>
-                    <div className="flex-1 ml-2 column-flex-box">
+                    <div className="flex-1 ml-2 flex flex-col justify-center">
                       <span>{item.name}角色数据</span>
                       <textarea readOnly className="dice-perm-export-pre" value={_roleStr} />
                     </div>

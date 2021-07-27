@@ -142,7 +142,9 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           className="yaml-editor-item-status"
           style={{ background: approvalResult ? approvalResult.color : item.data.itemStatus.toLowerCase() }}
         />
-        <span className="inline-flex-box">{approvalResult ? approvalResult.text : status ? status.text : '-'}</span>
+        <span className="inline-flex justify-between items-center">
+          {approvalResult ? approvalResult.text : status ? status.text : '-'}
+        </span>
       </span>
     );
     if (item.data.name || item.data.displayName) {

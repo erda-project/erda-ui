@@ -55,7 +55,7 @@ interface IProps {
 }
 const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   const permMap = usePerm((s) => s.app.runtime);
-  const className = classNames('runtime-box new-deploy center-flex-box', {
+  const className = classNames('runtime-box new-deploy flex flex-wrap justify-center items-center', {
     disabled: canCreate,
     'hover-active': !canCreate,
   });

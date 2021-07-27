@@ -72,7 +72,7 @@ const IssueWorkflow = () => {
             <div className="common-list-item">
               <div className="list-item-left">
                 <div className="flex-box">
-                  <div className="panel-title flex-start">
+                  <div className="panel-title justify-start">
                     <IssueIcon type={item.issueType} withName />
                   </div>
                 </div>
@@ -94,7 +94,7 @@ const IssueWorkflow = () => {
                     {map(item.state, (name: string) => {
                       const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
                       return (
-                        <div className="v-align mr-3 mb-2">
+                        <div className="flex items-center mr-3 mb-2">
                           {ISSUE_STATE_MAP[curStateBelong]?.icon}
                           {name}
                         </div>

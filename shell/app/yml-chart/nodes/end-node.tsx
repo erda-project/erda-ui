@@ -34,7 +34,7 @@ export const EndNode = (props: IProps) => {
   const classes = classnames({
     'yml-chart-node': true,
     'end-node': true,
-    'center-flex-box': true,
+    'flex flex-wrap justify-center items-center': true,
     'hover-active': !disabled,
   });
 

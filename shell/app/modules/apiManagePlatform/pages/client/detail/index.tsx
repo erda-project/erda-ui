@@ -181,7 +181,7 @@ const ClientDetail = () => {
         width: 200,
         render: (text, record) => {
           return (
-            <div className="flex-box flex-start">
+            <div className="flex-box justify-start">
               <div className="asset_name">
                 <Ellipsis title={text} />
               </div>

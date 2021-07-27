@@ -351,7 +351,7 @@ const VersionList = (props: IProps) => {
                             </>
                           )}
                         </div>
-                        <div className="version-op right-flex-box">
+                        <div className="version-op flex items-center flex-wrap justify-end">
                           <IF check={versionStates === 'beta'}>
                             <WithAuth pass={publishOperationAuth}>
                               <Button

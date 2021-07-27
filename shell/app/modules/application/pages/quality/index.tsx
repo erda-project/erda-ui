@@ -172,7 +172,7 @@ const CodeQuality = () => {
         width: 240,
         key: 'name',
         render: ({ name }) => (
-          <span className="inline-flex-box">
+          <span className="inline-flex justify-between items-center">
             <CustomIcon type="page" className="mr-2" />
             {name}
           </span>
@@ -253,7 +253,7 @@ const CodeQuality = () => {
       <React.Fragment>
         <div className="file-container quality-file">
           <div className="file-header bold flex-box">
-            <div className="file-title inline-flex-box">
+            <div className="file-title inline-flex justify-between items-center">
               <CustomIcon className="hover-active mb-1 mr-2" type="back" onClick={closeDetail} />
               <span>{name}</span>
             </div>
