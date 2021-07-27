@@ -18,11 +18,17 @@ import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
 export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
   /**
    * id\number - 72
+   *
    * user\status\type\cpu\memory - 120
+   *
    * email\phone\roles\ip - 160
+   *
    * time - 200
+   *
    * operations - 80 * n, according to the number of buttons and the number of words
+   *
    * detail\content\description - No need to increase the width of the adaptive, and add the scroll.x of a certain number to the table
+   *
    * All width should be at least larger than the Title in English
    */
   width?: 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
