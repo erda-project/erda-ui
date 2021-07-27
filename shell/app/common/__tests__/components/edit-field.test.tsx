@@ -64,7 +64,6 @@ describe('EditField', () => {
     expect(changeFn).toHaveBeenCalledTimes(1);
     wrapper.find('input').simulate('blur');
     expect(changeCbFn).toHaveBeenLastCalledWith({ name: 'erda cloud' });
-    expect(wrapper.find('.edit-comp-text')).toExist();
     // wrapper.find('.edit-comp-text').simulate('click');
     // wrapper.update();
     // console.log(wrapper.find('.common-edit-field').html());
