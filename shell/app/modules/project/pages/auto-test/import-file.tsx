@@ -52,19 +52,17 @@ const ImportFile = ({ visible, onClose }: IProps) => {
   ];
 
   return (
-    <>
-      <FormModal
-        loading={confirmLoading}
-        okButtonState={confirmLoading}
-        title={i18n.t('project:upload files')}
-        fieldsList={fieldList}
-        visible={uploadVisible}
-        onOk={handleOk}
-        onCancel={onClose}
-      >
-        <div>{i18n.t('project:currently supports importing Excel files')}</div>
-      </FormModal>
-    </>
+    <FormModal
+      loading={confirmLoading}
+      okButtonState={confirmLoading}
+      title={i18n.t('project:upload files')}
+      fieldsList={fieldList}
+      visible={uploadVisible}
+      onOk={handleOk}
+      onCancel={onClose}
+    >
+      <div>{i18n.t('project:currently supports importing Excel files')}</div>
+    </FormModal>
   );
 };
 
