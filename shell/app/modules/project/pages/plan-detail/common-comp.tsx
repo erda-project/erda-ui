@@ -95,7 +95,7 @@ export const BaseInfo = () => {
     </div>
   );
   return (
-    <div className="common-list-item px0">
+    <div className="common-list-item px-0">
       <div>
         <div className="title">
           {planItemDetail.id} - {planItemDetail.name}
@@ -109,7 +109,7 @@ export const BaseInfo = () => {
               {partnerIDs.slice(0, 4).map((p, index) => (
                 <Avatar key={`${String(index)}-${p}`} />
               ))}
-              {partnerIDs.length > 4 ? <span className="count px4 bold-500">+{partnerIDs.length - 4}</span> : null}
+              {partnerIDs.length > 4 ? <span className="count px-1 bold-500">+{partnerIDs.length - 4}</span> : null}
             </span>
           </Popover>
           {/* <span>{planItemDetail.relatedIterative} 迭代</span> */}

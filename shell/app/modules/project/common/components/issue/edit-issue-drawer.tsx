@@ -473,7 +473,7 @@ const IssueMetaFields = React.forwardRef(
           name: 'expandCustom',
           type: 'custom',
           getComp: () => (
-            <div className="flex-box pa8 mb20 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
+            <div className="flex-box p-2 mb20 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
               <span>{i18n.t('project:custom fields')}</span>
               <CustomIcon type={expandCustomFields ? 'chevron-up' : 'chevron-down'} />
             </div>

@@ -304,7 +304,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           {i18n.t('application:edit')}
         </Button>
       ) : (
-        <div className="px12 py8">
+        <div className="px-3 py-2">
           <Button onClick={onCancel} size="small">
             {i18n.t('cancel')}
           </Button>

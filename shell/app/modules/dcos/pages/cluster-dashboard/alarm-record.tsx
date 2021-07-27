@@ -99,7 +99,7 @@ export default ({ clusters }: { clusters: any }) => {
   );
 
   return (
-    <div className="white-bg pa20">
+    <div className="white-bg p-5">
       <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery={false} />
       <Table
         rowKey="id"

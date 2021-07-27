@@ -259,7 +259,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="p-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}
@@ -480,7 +480,7 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }: IDubbo
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="p-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}

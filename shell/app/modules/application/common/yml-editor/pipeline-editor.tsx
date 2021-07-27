@@ -222,7 +222,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
     return (
       <>
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
-        <div className="pa16">
+        <div className="p-4">
           <Button type="primary" className="mr12" onClick={checkForm}>
             {i18n.t('application:save')}
           </Button>

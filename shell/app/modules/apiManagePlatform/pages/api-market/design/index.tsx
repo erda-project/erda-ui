@@ -684,7 +684,7 @@ const ApiDesign = () => {
                     />
 
                     <div
-                      className={`list-title py12 border-bottom bold ${
+                      className={`list-title py-3 border-bottom bold ${
                         contentKey === 'SUMMARY' ? 'list-title-active' : ''
                       }`}
                       onClick={() => onContentChange('SUMMARY')}
@@ -715,7 +715,7 @@ const ApiDesign = () => {
                       </Collapse>
                     </div>
                   </div>
-                  <div className="api-design-content-detail px16 py12">{renderContent(contentKey)}</div>
+                  <div className="api-design-content-detail px-4 py-3">{renderContent(contentKey)}</div>
                 </div>
               )}
             </Spin>

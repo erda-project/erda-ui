@@ -81,7 +81,7 @@ const Iterations = () => {
         </div>
         <div>
           <WithAuth pass={addAuth}>
-            <Button className="px8 mt12" onClick={onAdd}>
+            <Button className="px-2 mt12" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr4" />
               {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
             </Button>
@@ -112,7 +112,7 @@ const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolea
     <div className="desc">
       {i18n.t('project:add-iteration-tip1')}
       <WithAuth pass={addAuth}>
-        <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
+        <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr4" />
           {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
         </Button>

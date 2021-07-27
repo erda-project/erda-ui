@@ -192,7 +192,7 @@ export default () => {
   return (
     <div className="jvm-profile">
       <Spin spinning={isPending} tip={i18n.t('addonPlatform:attaching to process')}>
-        <div className="px20 pt20 pb4 mb20 white-bg border-all">
+        <div className="px-5 pt-5 pb-1 mb20 white-bg border-all">
           <FilterGroup
             list={[
               {

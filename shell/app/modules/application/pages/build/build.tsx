@@ -385,7 +385,7 @@ export const Build = (props: IProps) => {
 
   return (
     <SplitPage className="runtime-build-main">
-      <SplitPage.Left width={300} className="pr0 spin-full-height">
+      <SplitPage.Left width={300} className="pr-0 spin-full-height">
         {renderLeftSection()}
       </SplitPage.Left>
       <SplitPage.Right pl32>{renderRightSection()}</SplitPage.Right>

@@ -219,7 +219,7 @@ const Backlog = () => {
           </WithAuth>
 
           <Popconfirm title={i18n.t('project:confirm to export')} onConfirm={() => window.open(downloadUrl)}>
-            <Button className="ml8 px8">
+            <Button className="ml8 px-2">
               <CustomIcon type="daochu" />
             </Button>
           </Popconfirm>
@@ -262,7 +262,7 @@ const Backlog = () => {
               </div>
             }
             <Pagination
-              className="right-flex-box pt8"
+              className="right-flex-box pt-2"
               defaultCurrent={1}
               showSizeChanger
               total={total}
@@ -297,7 +297,7 @@ const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean 
     <div className="desc">
       {i18n.t('project:add-todo-issue-tip1')}
       <WithAuth pass={addAuth}>
-        <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
+        <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr4" />
           {i18n.t('add {name}', { name: i18n.t('project:issue') })}
         </Button>

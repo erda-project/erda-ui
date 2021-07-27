@@ -905,7 +905,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     <div className="flex-box">
       <div className="flex-1">{content}</div>
       <IF check={!!previewerKey}>
-        <div className="custom-alarm-previewer px16">
+        <div className="custom-alarm-previewer px-4">
           <Spin spinning={getPreviewMetaDataLoading}>
             <PureBoardGrid layout={layout} />
           </Spin>

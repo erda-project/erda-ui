@@ -127,7 +127,7 @@ export default () => {
               <div>
                 {menu}
                 <Divider className="my4" />
-                <div className="fz12 px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <div className="fz12 px-2 py-1 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"

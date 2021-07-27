@@ -49,7 +49,7 @@ export const PipelineNode = (props: IProps) => {
 
   return (
     <div className="yml-chart-node pipeline-node column-flex-box" onClick={onClick}>
-      <div className={'pipeline-title py12'}>
+      <div className={'pipeline-title py-3'}>
         <div className="title-icon mr12">
           {data.logoUrl ? (
             <img src={data.logoUrl} alt="logo" />
@@ -69,7 +69,7 @@ export const PipelineNode = (props: IProps) => {
           </div>
         ) : null}
       </div>
-      <div className="pipeline-content flex-1 py12">{data.description}</div>
+      <div className="pipeline-content flex-1 py-3">{data.description}</div>
     </div>
   );
 };

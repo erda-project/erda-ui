@@ -251,7 +251,7 @@ const ClientDetail = () => {
         }}
       />
       <Copy selector=".for-copy" />
-      <div className="pa16 api-list">
+      <div className="p-4 api-list">
         <div className="title fz16 color-text bold-500">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"

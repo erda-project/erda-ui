@@ -324,7 +324,7 @@ const AddPipelineYml = () => {
               />
             </IF>
           </div>
-          <RenderForm className="pa16 border-top" list={getFieldsList()} />
+          <RenderForm className="p-4 border-top" list={getFieldsList()} />
         </FileContainer>
       </div>
       <Modal
@@ -411,7 +411,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
     return (
       <div
         key={template.id}
-        className={`pipeline-template-item border-radius pa16 ${value === id ? 'active-item' : ''}`}
+        className={`pipeline-template-item border-radius p-4 ${value === id ? 'active-item' : ''}`}
         onClick={() => changeValue(id)}
       >
         <div className="logo">

@@ -82,12 +82,12 @@ const valueItemRender =
       normal: {
         img: '20x20',
         name: 'ml8 fz14',
-        tag: 'py4 px8',
+        tag: 'py-1 px-2',
       },
       small: {
         img: '14x14',
         name: 'ml8',
-        tag: 'py2 px4 member-value-small',
+        tag: 'py-0.5 px-1 member-value-small',
       },
     };
     const curCls = cls[size] || {};

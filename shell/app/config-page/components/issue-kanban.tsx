@@ -333,7 +333,7 @@ const Kanban = (props: IKanbanProps) => {
           );
         })}
         {hasMore ? (
-          <div className="hover-active py4 text-center load-more" onClick={() => loadMore()}>
+          <div className="hover-active py-1 text-center load-more" onClick={() => loadMore()}>
             {i18n.t('load more')}
           </div>
         ) : null}

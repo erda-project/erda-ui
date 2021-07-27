@@ -162,8 +162,8 @@ const TemplateCard = (props: ICardProps) => {
   const cln = classnames([
     'template-card',
     'border-radius',
-    'px8',
-    'py12',
+    'px-2',
+    'py-3',
     'pointer',
     'column-flex-box',
     'v-align',
@@ -181,7 +181,7 @@ const TemplateCard = (props: ICardProps) => {
           alt="template-icon"
         />
       </div>
-      <div className="template-name fz14 color-text pt8 pb4">{type.name}</div>
+      <div className="template-name fz14 color-text pt-2 pb-1">{type.name}</div>
       <div className="template-description fz12 color-text-sub">{type.description}</div>
     </div>
   );

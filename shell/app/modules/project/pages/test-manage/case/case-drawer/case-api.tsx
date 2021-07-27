@@ -391,7 +391,7 @@ const ApiItem = ({
               <EmptyListHolder />
             ) : (
               <>
-                <div className="request-info color-text-desc pa12">
+                <div className="request-info color-text-desc p-3">
                   <span className="method mr12">{get(request, 'method', '')}</span>
                   <span className="url">{get(request, 'url', '')}</span>
                 </div>
@@ -421,7 +421,7 @@ const ApiItem = ({
                       <EmptyListHolder />
                     ) : (
                       <>
-                        <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
+                        <div className="body-type p-3 border-bottom">Type: {get(request, 'body.type', '')}</div>
                         <Button
                           disabled={!get(request, 'body.content')}
                           className="copy-btn for-copy copy-request"
@@ -970,7 +970,7 @@ const APIBody = (props: any) => {
   const CurValueComp = ValMap[realType] || ValMap.raw;
   return (
     <div className="case-api-body">
-      <div className="body-type-chosen mb8 px12">
+      <div className="body-type-chosen mb8 px-3">
         <Radio.Group onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>

@@ -430,7 +430,7 @@ const Statistics = (props: IProps) => {
         </Select>
         <div className="total-trend block-container">
           <div className="title bold fz16">{i18n.t('publisher:overall trend')}</div>
-          <Row className="pb16">
+          <Row className="pb-4">
             {map(totalTrend, (info, idx) => {
               return (
                 <Col key={`${idx}`} {...layout}>

@@ -205,7 +205,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
 
   const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
-      title: <span className="pl8">{i18n.t('title')}</span>,
+      title: <span className="pl-2">{i18n.t('title')}</span>,
       // width: 400,
       dataIndex: 'title',
       className: 'title',
@@ -366,7 +366,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   return (
-    <div className="pa12 border-radius issue-table-view">
+    <div className="p-3 border-radius issue-table-view">
       <Table
         rowKey="id"
         columns={columns}

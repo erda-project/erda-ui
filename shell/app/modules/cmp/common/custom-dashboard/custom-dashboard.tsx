@@ -230,7 +230,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
           </IF>
         </div>
       </IF>
-      <div className="flex-1 pb12">
+      <div className="flex-1 pb-3">
         <Choose>
           <When condition={isNewVersionDC}>
             <BoardGrid

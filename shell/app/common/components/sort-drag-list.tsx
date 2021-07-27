@@ -169,7 +169,7 @@ const SortDragItem = ({
     >
       <div
         ref={draggable ? drag : undefined}
-        className="px8 icon-block drag-handle"
+        className="px-2 icon-block drag-handle"
         onClick={(e) => e.stopPropagation()}
       >
         <CustomIcon type="up-down" />
@@ -182,7 +182,7 @@ const SortDragItem = ({
           if (op.confirm) {
             return op.disabled ? (
               <span
-                className={`icon-block hover-active px8 not-allowed ${op.hoverShow ? 'hover-show' : ''}`}
+                className={`icon-block hover-active px-2 not-allowed ${op.hoverShow ? 'hover-show' : ''}`}
                 onClick={(e: any) => e && e.stopPropagation()}
               >
                 <CustomIcon
@@ -207,7 +207,7 @@ const SortDragItem = ({
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''}`}
+                  className={`icon-block hover-active px-2 ${op.hoverShow ? 'hover-show' : ''}`}
                 >
                   <CustomIcon type={op.icon} />
                 </span>
@@ -217,7 +217,7 @@ const SortDragItem = ({
           return (
             <Tooltip key={op.icon} title={op.hoverTip}>
               <span
-                className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''} ${
+                className={`icon-block hover-active px-2 ${op.hoverShow ? 'hover-show' : ''} ${
                   op.disabled ? 'not-allowed' : ''
                 }`}
                 onClick={(e) => {

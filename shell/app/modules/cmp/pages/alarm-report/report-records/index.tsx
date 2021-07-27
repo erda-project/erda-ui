@@ -134,7 +134,7 @@ export default () => {
 
   return (
     <div className="task-report-records start-flex-box">
-      <div className="search-records pr16 v-flex-box">
+      <div className="search-records pr-4 v-flex-box">
         <div className="mb8">
           <RangePicker
             borderTime
@@ -151,7 +151,7 @@ export default () => {
                   <li
                     className={classnames({
                       fz16: true,
-                      py16: true,
+                      'py-4': true,
                       'bold-500': true,
                       'text-center': true,
                       'hover-active-bg': true,
@@ -180,7 +180,7 @@ export default () => {
           </Spin>
         </div>
       </div>
-      <div className="flex-1 pl16 auto-overflow full-height">
+      <div className="flex-1 pl-4 auto-overflow full-height">
         <Spin spinning={getReportTaskRecordLoading}>
           <Holder when={isEmpty(layout)}>
             <PureBoardGrid layout={layout} />

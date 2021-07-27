@@ -270,7 +270,7 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubbo
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="p-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}

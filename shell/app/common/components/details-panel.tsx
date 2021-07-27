@@ -64,14 +64,14 @@ const Content = (props: IContentProps) => {
   const { crossLine, titleProps, showTitle = true, panelProps, getComp } = props;
   const contentClass = classnames({
     'content-wrapper': true,
-    'mt8 px12 pb12': showTitle,
-    pa12: !showTitle,
+    'mt8 px-3 pb-3': showTitle,
+    'p-3': !showTitle,
     'border-top mt8': crossLine,
   });
   return (
     <div className="title-box border-all white-bg">
       <IF check={showTitle}>
-        <div className="title-wrapper px12 pt12">
+        <div className="title-wrapper px-3 pt-3">
           <Title {...(titleProps as TitleProps)} />
         </div>
       </IF>

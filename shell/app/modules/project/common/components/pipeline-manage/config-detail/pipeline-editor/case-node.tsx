@@ -175,20 +175,20 @@ export const CaseNode = (props: IProps) => {
       const tip = (
         <div onClick={(e: any) => e.stopPropagation()}>
           <div className="bold">{i18n.t('project:loop strategy')}</div>
-          {loop.break && <div className="pl8">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
+          {loop.break && <div className="pl-2">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
           {strategy.max_times && (
-            <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
+            <div className="pl-2">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
           )}
           {strategy.decline_ratio && (
-            <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
+            <div className="pl-2">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
           )}
           {strategy.decline_limit_sec && (
-            <div className="pl8">{`${i18n.t('project:Maximum value of decline')}: ${strategy.decline_limit_sec}${i18n.t(
-              'common:second(s)',
-            )}`}</div>
+            <div className="pl-2">{`${i18n.t('project:Maximum value of decline')}: ${
+              strategy.decline_limit_sec
+            }${i18n.t('common:second(s)')}`}</div>
           )}
           {strategy.interval_sec && (
-            <div className="pl8">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
+            <div className="pl-2">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
               'common:second(s)',
             )}`}</div>
           )}

@@ -185,7 +185,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {!isSigleMode && [
           // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex-box not-select px6 py0 options-item">
+          <Menu.Item key="select-info" className="flex-box not-select px6 py-0 options-item">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
@@ -208,7 +208,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Divider key="divider3" />,
             ]
           : null}
-        <Menu.Item key="options" className="pa0 options-container options-item">
+        <Menu.Item key="options" className="p-0 options-container options-item">
           {useableOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
@@ -598,7 +598,7 @@ export const ContractiveFilter = ({
                   />
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item className="not-select px6 py0">
+                <Menu.Item className="not-select px6 py-0">
                   <div className="flex-box">
                     <span>
                       {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}

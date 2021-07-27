@@ -313,7 +313,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       afterVisibleChange={handleVisibleChange}
     >
       <Spin spinning={fetchingDetail}>
-        <div className="case-drawer-header px20 py20">
+        <div className="case-drawer-header px-5 py-5">
           <div className="flex-box">
             <div className="flex-1">
               <Input
@@ -364,7 +364,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           </div>
         </div>
         <div className="case-drawer-body flex-box">
-          <div className="case-drawer-body-left flex-1 px20 py16">
+          <div className="case-drawer-body-left flex-1 px-5 py-4">
             <div onBlurCapture={handleAnyBlur}>
               <ContentPanel title={i18n.t('project:preconditions')}>
                 <MarkdownEditor
@@ -421,7 +421,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               {visible && scope === 'testPlan' && editMode ? <RelatedBugs relationID={caseDetail.id} /> : null}
             </div>
           </div>
-          <div className="case-drawer-body-right px20 py16">
+          <div className="case-drawer-body-right px-5 py-4">
             <CaseMeta onBlurCapture={handleAnyBlur} onChange={updateFullData} dataSource={caseMetaData} />
           </div>
         </div>

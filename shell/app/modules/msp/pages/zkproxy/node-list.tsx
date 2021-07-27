@@ -186,8 +186,8 @@ const NodeList = () => {
                 <div
                   className={classnames({
                     'node-item': true,
-                    py4: true,
-                    px12: true,
+                    'py-1': true,
+                    'px-3': true,
                     mb12: true,
                     'hover-active-bg': true,
                     active: state.activeNode === node.address,

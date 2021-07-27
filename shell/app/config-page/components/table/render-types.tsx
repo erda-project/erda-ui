@@ -94,7 +94,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
         };
         Comp = (
-          <div className={`table-render-twt full-width pl8 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
+          <div className={`table-render-twt full-width pl-2 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
@@ -259,15 +259,15 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { text, prefix, suffix } = val;
         Comp = (
-          <div className="dice-cp-text-tag full-width pl8 v-align">
+          <div className="dice-cp-text-tag full-width pl-2 v-align">
             {prefix ? (
-              <div className="extra-tags px8 mr4" style={{ backgroundColor: prefix.bgColor }}>
+              <div className="extra-tags px-2 mr4" style={{ backgroundColor: prefix.bgColor }}>
                 {prefix.text}
               </div>
             ) : null}
             <div className="nowrap">{text}</div>
             {suffix ? (
-              <div className="extra-tags px8 mr4" style={{ backgroundColor: suffix.bgColor }}>
+              <div className="extra-tags px-2 mr4" style={{ backgroundColor: suffix.bgColor }}>
                 {suffix.text}
               </div>
             ) : null}
@@ -282,7 +282,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { data = [] } = val;
         Comp = (
-          <div className="dice-cp-level-content full-width pl8 v-align">
+          <div className="dice-cp-level-content full-width pl-2 v-align">
             {data.map(({ level, text }: { level: number; text: string }) => {
               return <div className={`mr4 level-${level}-content`}>{text}</div>;
             })}

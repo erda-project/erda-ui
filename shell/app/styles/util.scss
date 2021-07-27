@@ -301,36 +301,6 @@
 // space
 @mixin space($list...) {
   @each $num in $list {
-    .pl#{$num} {
-      padding-left: #{$num}px !important;
-    }
-
-    .pr#{$num} {
-      padding-right: #{$num}px !important;
-    }
-
-    .pt#{$num} {
-      padding-top: #{$num}px !important;
-    }
-
-    .pb#{$num} {
-      padding-bottom: #{$num}px !important;
-    }
-
-    .px#{$num} {
-      padding-right: #{$num}px !important;
-      padding-left: #{$num}px !important;
-    }
-
-    .py#{$num} {
-      padding-top: #{$num}px !important;
-      padding-bottom: #{$num}px !important;
-    }
-
-    .pa#{$num} {
-      padding: #{$num}px !important;
-    }
-
     .ml#{$num} {
       margin-left: #{$num}px !important;
     }

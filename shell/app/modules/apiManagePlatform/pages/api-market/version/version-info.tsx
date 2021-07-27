@@ -287,7 +287,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   };
   return (
     <div className="flex-box content-wrap">
-      <div className="left pr16">
+      <div className="left pr-4">
         <Tree
           blockNode
           defaultExpandParent
@@ -298,7 +298,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
           onExpand={handleExpand}
         />
       </div>
-      <div className="right flex-1 pl16">
+      <div className="right flex-1 pl-4">
         <div className="flex-box">
           <div className="title color-text bold-500 fz16 my12">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>

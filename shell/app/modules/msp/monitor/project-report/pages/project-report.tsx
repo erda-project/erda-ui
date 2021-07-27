@@ -171,7 +171,7 @@ const ProjectReport = ({ type }: IProps) => {
           </Button>
         </div>
         <div className="search-table-section">
-          <div className="search-table-header pr20">
+          <div className="search-table-header pr-5">
             <RangePicker onChange={handleRangeChange} ranges={getTimeRanges()} />
           </div>
           <div className="search-table-content">
@@ -183,7 +183,7 @@ const ProjectReport = ({ type }: IProps) => {
                       className={classnames({
                         'report-list-item': true,
                         fz16: true,
-                        pl20: true,
+                        'pl-5': true,
                         'bold-500': true,
                         'text-left': true,
                         'hover-active-bg': true,
@@ -215,7 +215,7 @@ const ProjectReport = ({ type }: IProps) => {
           </div>
         </div>
       </div>
-      <div className="project-report-detail pl32">
+      <div className="project-report-detail pl-8">
         <Spin spinning={isFetchingDetail}>
           <Holder when={!state.reportDetail}>
             {/* eslint-disable-next-line react/no-danger */}

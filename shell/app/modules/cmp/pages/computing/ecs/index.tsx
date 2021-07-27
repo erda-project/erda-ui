@@ -367,7 +367,7 @@ export default () => {
               message={
                 <>
                   <div className="text-left second-title">{i18n.t('cmp:tips')}</div>
-                  <ul className="text-left bold-400 fz14 pl12">
+                  <ul className="text-left bold-400 fz14 pl-3">
                     <li>● {i18n.t('cmp:After successful setting, the system will automatically renew as set.')}</li>
                     <li>● {i18n.t('cmp:keep-money-enough')}</li>
                     <li>● {i18n.t('cmp:artificial-renewal-change-time')}</li>

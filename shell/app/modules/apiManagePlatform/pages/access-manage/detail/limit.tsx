@@ -95,7 +95,7 @@ const Limit = (props: IProps) => {
             </Select>
             {mode === 'multiple' ? (
               <div className="sla-limit-operation">
-                <div className="flex-box pl12">
+                <div className="flex-box pl-3">
                   <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
                     <IconAddOne onClick={handleAddOne} size="20px" />
                   </Tooltip>

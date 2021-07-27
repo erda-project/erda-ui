@@ -335,9 +335,9 @@ const PipelineNode = (props: IProps) => {
   return (
     <Container {...renderTooltipTitle()}>
       <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames}>
-        <div className="flex-box pa12">
+        <div className="flex-box p-3">
           {icon}
-          <div className="yaml-editor-item-content py0 px4">
+          <div className="yaml-editor-item-content py-0 px-1">
             <div className="flex-box">
               {titleContent}
               {renderOperation()}

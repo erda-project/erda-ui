@@ -134,7 +134,7 @@ export const IterationItem = (props: IProps) => {
         <div>
           {total && (
             <Pagination
-              className="right-flex-box pt8"
+              className="right-flex-box pt-2"
               simple
               defaultCurrent={1}
               total={total}

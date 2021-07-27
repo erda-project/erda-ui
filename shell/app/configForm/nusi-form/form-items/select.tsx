@@ -131,7 +131,7 @@ const PureFormSelect = (props: any) => {
           return (
             <div>
               {mode === 'multiple' && selectAll ? (
-                <div className="pt8">
+                <div className="pt-2">
                   <span className="ml8 text-link" onClick={selectAllHandle} onMouseDown={(e) => e.preventDefault()}>
                     {i18n.t('project:select all')}
                   </span>
