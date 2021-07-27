@@ -59,9 +59,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
     <MarkdownEditor
       {...rest}
       value={v}
-      // defaultMode="md"
-      // autoFocus
-      // canView={{ html: false }}
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       onFocus={() => setShowBtn(true)}
