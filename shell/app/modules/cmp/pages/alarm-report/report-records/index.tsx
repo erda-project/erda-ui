@@ -143,7 +143,7 @@ export default () => {
             ranges={getTimeRanges()}
           />
         </div>
-        <div className="flex-1 full-height auto-overflow">
+        <div className="flex-1 full-height overflow-auto">
           <Spin spinning={getReportTaskRecordsLoading}>
             <Holder when={isEmpty(reportTaskRecords)}>
               <ul>
@@ -180,7 +180,7 @@ export default () => {
           </Spin>
         </div>
       </div>
-      <div className="flex-1 pl-4 auto-overflow full-height">
+      <div className="flex-1 pl-4 overflow-auto full-height">
         <Spin spinning={getReportTaskRecordLoading}>
           <Holder when={isEmpty(layout)}>
             <PureBoardGrid layout={layout} />

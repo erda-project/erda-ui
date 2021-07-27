@@ -30,7 +30,7 @@ export default () => {
       <div className="flex-box mb-3">
         <TimeSelector className="m-0" />
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="overflow-auto flex-1">
         <ServiceListDashboard dashboardId="service_analysis" />
       </div>
     </div>

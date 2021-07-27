@@ -201,7 +201,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           columns={columns}
           expandedRowRender={(record: ALARM_REPORT.AlarmHistory) => (
             <div className="pr-8">
-              <div className="code-block auto-overflow content-block">
+              <div className="code-block overflow-auto content-block">
                 <pre className="prewrap">{record.content}</pre>
               </div>
             </div>

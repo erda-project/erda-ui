@@ -111,7 +111,7 @@ export default () => {
                     <Popover
                       placement="top"
                       content={
-                        <div className="code-block auto-overflow" style={{ height: '600px', maxWidth: '600px' }}>
+                        <div className="code-block overflow-auto" style={{ height: '600px', maxWidth: '600px' }}>
                           <pre className="prewrap">{log.data}</pre>
                         </div>
                       }

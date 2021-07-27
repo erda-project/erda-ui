@@ -140,7 +140,7 @@ const ReleaseList = () => {
             }}
           />
         </div>
-        <Spin spinning={loading} wrapperClassName="flex-1 auto-overflow">
+        <Spin spinning={loading} wrapperClassName="flex-1 overflow-auto">
           {map(list, (item, index) => (
             <ReleaseItem
               data={item}
