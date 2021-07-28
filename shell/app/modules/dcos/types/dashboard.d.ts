@@ -21,6 +21,7 @@ declare namespace ORG_DASHBOARD {
   }
 
   interface IGroupInfo {
+    displayName: string; // add by front from other api
     name: string | null;
     metric: {
       machines: number;

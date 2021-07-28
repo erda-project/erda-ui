@@ -78,15 +78,32 @@ const initState: IState = {
   },
 };
 
+const appendDisplayNameToGroupInfo = (groupInfos: ORG_DASHBOARD.IGroupInfo[], clusterList: ORG_CLUSTER.ICluster[]) => {
+  const nameToDisplayName = {};
+  map(clusterList, (item) => {
+    nameToDisplayName[item.name] = item.displayName;
+  });
+  return groupInfos.map((group) => {
+    return {
+      ...group,
+      displayName: group.name ? nameToDisplayName[group.name] || group.name : group.name,
+    };
+  });
+};
+
 const dashboard = createStore({
   name: 'clusterDashboard',
   state: initState,
   effects: {
-    async getFilterTypes({ call, update }) {
+    async getFilterTypes({ call, update, select }) {
       const { id: orgId, name: orgName } = orgStore.getState((s) => s.currentOrg);
       const clusterList = await call(getClusterList, { orgId });
       if (isEmpty(clusterList)) return;
       const clusterNameString = map(clusterList, (item) => item.name).join();
+
+      const groupInfos = select((s) => s.groupInfos);
+      const newGroupInfos = appendDisplayNameToGroupInfo(groupInfos, clusterList);
+      await update({ groupInfos: newGroupInfos });
       const filterGroup = await call(getFilterTypes, { clusterName: clusterNameString, orgName });
 
       update({
@@ -95,14 +112,16 @@ const dashboard = createStore({
         selectedGroups: some(filterGroup, { key: 'cluster' }) ? ['cluster'] : [],
       });
     },
-    async getGroupInfos({ call, update }, payload: Omit<ORG_DASHBOARD.IGroupInfoQuery, 'orgName'>) {
+    async getGroupInfos({ call, update, select }, payload: Omit<ORG_DASHBOARD.IGroupInfoQuery, 'orgName'>) {
       const { name: orgName } = orgStore.getState((s) => s.currentOrg);
       const data = await call(getGroupInfos, { orgName, ...payload });
       const { groups: groupInfos, ...unGroupInfo } = data || {};
+      const clusterList = select((s) => s.clusterList);
+      const newGroupInfos = appendDisplayNameToGroupInfo(groupInfos || [], clusterList);
 
       update({
         unGroupInfo: unGroupInfo || {},
-        groupInfos: groupInfos || [],
+        groupInfos: newGroupInfos || [],
       });
     },
     async getNodeLabels({ call, update }) {
