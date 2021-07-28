@@ -12,19 +12,18 @@
       }
     }
 
-    .pk-tree.pk-tree-directory .pk-tree-child-tree > li.drag-over > span.pk-tree-node-content-wrapper:before {
-      border-color: $primary;
-    }
+    .pk-tree.pk-tree-directory .pk-tree-child-tree {
+      > li.drag-over > span.pk-tree-node-content-wrapper:before {
+        border-color: $primary;
+      }
 
-    .pk-tree.pk-tree-directory .pk-tree-child-tree > li.drag-over-gap-top > span.pk-tree-node-content-wrapper:before {
-      border-top-color: $primary;
-    }
+      > li.drag-over-gap-top > span.pk-tree-node-content-wrapper:before {
+        border-top-color: $primary;
+      }
 
-    .pk-tree.pk-tree-directory
-      .pk-tree-child-tree
-      > li.drag-over-gap-bottom
-      > span.pk-tree-node-content-wrapper:before {
-      border-bottom-color: $primary;
+      > li.drag-over-gap-bottom > span.pk-tree-node-content-wrapper:before {
+        border-bottom-color: $primary;
+      }
     }
 
     .file-tree-container {
