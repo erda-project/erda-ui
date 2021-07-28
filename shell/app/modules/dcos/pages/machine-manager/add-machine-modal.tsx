@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { FormModal, Icon as CustomIcon } from 'common';
 import { regRules } from 'common/utils';
 import { some } from 'lodash';
@@ -77,7 +77,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
             <CustomIcon
-              className="mr0 pointer"
+              className="mr-0 pointer"
               onClick={this.togglePasswordVisible}
               type={passwordVisible ? 'openeye' : 'closeeye'}
             />

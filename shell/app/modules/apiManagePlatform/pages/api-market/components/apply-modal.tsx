@@ -52,7 +52,7 @@ const createNewApp = {
   value: 'create App',
   name: (
     <div className="hover-active text-link">
-      <IconAddOne className="mr8" />
+      <IconAddOne className="mr-2" />
       {i18n.t('create a new client')}
     </div>
   ),
@@ -330,7 +330,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
         onCancel={handleCloseInfo}
         footer={<Button onClick={handleCloseInfo}>{i18n.t('close')}</Button>}
       >
-        <p className="mb8">
+        <p className="mb-2">
           {i18n.t('The administrator has received your request. Please go to')}
           <span
             onClick={() => {
@@ -342,17 +342,17 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
           </span>
           {i18n.t('check whether your request is approved')}
         </p>
-        <p className="mb8">
+        <p className="mb-2">
           {i18n.t('You can use ClientID and ClientSecret below to access API instance after approval.')}
         </p>
-        <p className="mb4">
-          <span className="bold-500">ClientID: </span>
+        <p className="mb-1">
+          <span className="font-medium">ClientID: </span>
           <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>
             {state.clientSk.clientID}
           </span>
         </p>
-        <p className="mb4">
-          <span className="bold-500">ClientSecret: </span>
+        <p className="mb-1">
+          <span className="font-medium">ClientSecret: </span>
           <span className="for-copy" data-clipboard-text={state.clientSk.clientSecret}>
             {state.clientSk.clientSecret}
           </span>

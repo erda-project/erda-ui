@@ -33,9 +33,11 @@ planDetailColumns.splice(
       const { total, passed } = record.apiCount || {};
       const percent = record.apiCount ? ((passed || 0) * 100) / total : 0;
       return (
-        <div className="mr24">
-          <Progress percent={Math.round(percent)} format={() => `${passed || 0}/${total || 0}`} />
-        </div>
+        record.id && (
+          <div className="mr-6">
+            <Progress percent={Math.round(percent)} format={() => `${passed || 0}/${total || 0}`} />
+          </div>
+        )
       );
     },
   },
@@ -56,7 +58,7 @@ export const getColumns = ({ afterDelete }: { afterDelete: (data: number[]) => v
       dataIndex: 'operation',
       key: 'operation',
       width: 240,
-      className: 'auto-overflow',
+      className: 'overflow-auto',
       fixed: 'right',
       render: (_text: any, record: TEST_CASE.CaseTableRecord) =>
         record.id && <Operation afterDelete={afterDelete} record={record} />,

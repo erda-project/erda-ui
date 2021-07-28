@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Modal, Button, Tooltip } from 'app/nusi';
 import { useUpdate } from 'common';
 import { isEmpty, get, map, isString } from 'lodash';
@@ -45,7 +45,7 @@ const getFileRender = (
   if (!uuid) return null;
   return (
     <>
-      <div className="table-operations mb8">
+      <div className="table-operations mb-2">
         <Tooltip title={i18n.t('download')}>
           <a className="table-operations-btn" download={uuid} href={`/api/files/${uuid}`}>
             {fileName || uuid}
@@ -73,7 +73,7 @@ const TextItem = ({ value, label, type }: { value: string; label: string; type?:
   const [show, setShow] = React.useState(false);
   const isPassword = type === 'password';
   return (
-    <div className="mb8">
+    <div className="mb-2">
       {label}: &nbsp;&nbsp;
       {!isPassword ? (
         value
@@ -91,8 +91,8 @@ const TextItem = ({ value, label, type }: { value: string; label: string; type?:
 const InfoItem = ({ title, value, textItem }: IInfoProps) => {
   if (isEmpty(value)) return null;
   return (
-    <div className="mb24">
-      <div className="color-text-desc mb8">{title}</div>
+    <div className="mb-6">
+      <div className="color-text-desc mb-2">{title}</div>
       <div className="color-text">{isString(value) ? value : getFileRender(value, textItem)}</div>
     </div>
   );

@@ -167,13 +167,6 @@ describe('EditField', () => {
     const wrapper = mount(
       <EditMd hasEdited originalValue={`origin-${text}`} value={text} onChange={changeFn} onSave={saveFn} />,
     );
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
-      __html: '<p>this is a piece of text</p>\n',
-    });
-    wrapper.find('.md-content-preview').simulate('click');
-    expect(wrapper.find('MarkdownEditor')).toExist();
-    expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onCancel');
-    expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onSubmit');
     act(() => {
       wrapper.find('MarkdownEditor').prop('onFocus')();
     });

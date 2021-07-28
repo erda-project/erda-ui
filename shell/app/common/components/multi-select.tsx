@@ -232,7 +232,7 @@ export default function MultiSelect(props: IProps) {
     }
   };
   return (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       {data.map((item: any, index: any) => {
         return <SingleSelect {...item} key={`${index}`} onChange={onChange(item.key)} value={get(value, item.key)} />;
       })}

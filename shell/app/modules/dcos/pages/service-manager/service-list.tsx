@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Copy, Icon as CustomIcon, IF } from 'common';
 import { get, set, remove, round } from 'lodash';
 import { getFormatter } from 'charts/utils/formatter';
-import * as React from 'react';
+import React from 'react';
 import { getBrowserInfo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
@@ -178,7 +178,7 @@ function ServiceList({
         key: 'id',
         // width: 320,
         render: (text: string, record: any) => (
-          <span className="bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
+          <span className="font-bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
             <CustomIcon type={iconMap[depth]} />
             {record.name}
           </span>

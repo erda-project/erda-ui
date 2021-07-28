@@ -64,8 +64,8 @@ const MachineDetail = ({ type, machineDetail }: IProps) => {
     switch (type) {
       case 'info':
         Content = map(itemConfigs, ({ title, value, render }) => (
-          <div className="machine-detail-info-item mb28" key={title}>
-            <div className="label mb8">{title}</div>
+          <div className="machine-detail-info-item mb-7" key={title}>
+            <div className="label mb-2">{title}</div>
             <div className="value">
               {isFunction(render)
                 ? render(value ? machineDetail[value] : machineDetail)

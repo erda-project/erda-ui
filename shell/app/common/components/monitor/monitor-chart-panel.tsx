@@ -13,7 +13,7 @@
 
 import { slice, values, map, keys, isEmpty } from 'lodash';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { IF, MonitorChart, TimeSelector } from 'common';
 
 import './monitor-chart-panel.scss';

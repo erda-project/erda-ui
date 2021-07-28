@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Timeline, Drawer, Title, Tooltip } from 'app/nusi';
 import buildStore from 'application/stores/build';
@@ -105,7 +105,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
     <div className={`pipeline-log ${className}`}>
       <Title
         title={i18n.t('deployment log')}
-        className="my12"
+        className="my-3"
         level={2}
         showDivider={false}
         operations={logOperation}
@@ -119,11 +119,11 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
             return (
               <Timeline.Item key={`${String(index)}-${occurrenceTime}`} color={colorMap[level]}>
                 <div className={'pipeline-log-time'}>
-                  <div className="mb8">{occurrenceTime}</div>
+                  <div className="mb-2">{occurrenceTime}</div>
                   <div className="pipeline-log-title align-top">
                     <span className="flex-1">{humanLog}</span>
                     <span
-                      className="always-active ml8"
+                      className="always-active ml-2"
                       onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                     >
                       {i18n.t('check detail')}

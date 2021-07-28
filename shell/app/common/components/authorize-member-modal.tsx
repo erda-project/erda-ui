@@ -20,7 +20,7 @@ import { map, compact, isEmpty } from 'lodash';
 import { Modal, Select, Table, Button } from 'app/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
-import * as React from 'react';
+import React from 'react';
 import { useTempPaging } from './use-hooks';
 import { useEffectOnce } from 'react-use';
 

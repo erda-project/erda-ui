@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Table, Button, Select, Tooltip } from 'app/nusi';
 import { map } from 'lodash';
 import i18n from 'i18n';
@@ -125,7 +125,7 @@ const DataBase = () => {
         return (
           <>
             <Select
-              className="mr20"
+              className="mr-5"
               allowClear
               placeholder={i18n.t('dcos:unauthorized account (default)')}
               style={{ width: '50%' }}
@@ -200,7 +200,7 @@ const DataBase = () => {
 
   return (
     <div>
-      <div className="text-right mb12">
+      <div className="text-right mb-3">
         <Button type="primary" onClick={() => updater.formVisible(true)}>
           {i18n.t('dcos:create database')}
         </Button>

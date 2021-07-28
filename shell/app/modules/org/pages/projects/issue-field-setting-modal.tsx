@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { useUpdate } from 'common';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
@@ -118,8 +118,10 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
           <div className="panel" key={propertyName}>
             <div className="common-list-item">
               <div className="list-item">
-                <div className="flex-box">
-                  <div className="nowrap flex-box flex-start">{renderFieldItem({ displayName, propertyType })}</div>
+                <div className="flex justify-between items-center">
+                  <div className="nowrap flex justify-between items-center justify-start">
+                    {renderFieldItem({ displayName, propertyType })}
+                  </div>
                   <div className="table-operations">
                     <Popconfirm
                       title={`${i18n.t('project:confirm to remove the quote?')}`}
@@ -171,15 +173,15 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
       <div className="issue-field-layout">
         <div className="default-field-panel">
           <div className="name">{i18n.t('project:default field')}</div>
-          <div className="field-grid mb16 pl8">{renderDefaultContent}</div>
+          <div className="field-grid mb-4 pl-2">{renderDefaultContent}</div>
         </div>
         <div className="custom-field-panel">
           <div className="name">{i18n.t('project:custom fields')}</div>
           <div className="custom-field-list">{renderCustomFields()}</div>
-          <div className="create-field-form mt12">
-            <div className="flex-box">
+          <div className="create-field-form mt-3">
+            <div className="flex justify-between items-center">
               <Select
-                className="flex-1 mr8"
+                className="flex-1 mr-2"
                 value={selectedField?.propertyID}
                 placeholder={i18n.t('please choose {name}', { name: i18n.t('project:custom fields') })}
                 onChange={(e: any) => {
@@ -198,7 +200,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
               <div>
                 <Button
                   type="primary"
-                  className={`${isEmpty(selectedField) ? 'disabled' : ''} mr8`}
+                  className={`${isEmpty(selectedField) ? 'disabled' : ''} mr-2`}
                   onClick={onAddField}
                 >
                   {i18n.t('project:reference')}

@@ -14,7 +14,7 @@
 import { Input, Button, Tooltip } from 'app/nusi';
 import { Avatar } from 'common';
 import { fromNow } from 'common/utils';
-import * as React from 'react';
+import React from 'react';
 import { FileDiff } from './file-diff';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import { CommentBox } from 'application/common/components/comment-box';
@@ -36,7 +36,7 @@ export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox
     prop.value = value;
   }
   return (
-    <div className="mt12">
+    <div className="mt-3">
       <Input.TextArea
         autoFocus
         placeholder={`${i18n.t('please enter')}...`}
@@ -44,12 +44,12 @@ export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox
         onChange={onChange}
         autoSize={{ minRows: 4, maxRows: 10 }}
       />
-      <div className="mt12">
+      <div className="mt-3">
         <Button type="primary" onClick={() => onSubmit()}>
           {i18n.t('application:post comment')}
         </Button>
         {onCancel && (
-          <Button className="ml8" onClick={() => onCancel()}>
+          <Button className="ml-2" onClick={() => onCancel()}>
             {i18n.t('cancel')}
           </Button>
         )}
@@ -72,12 +72,12 @@ export const Discussion = ({ comment, commentMap, addComment }: IDiscussion) => 
     sections = [{ lines: data.diffLines }];
   }
   const title = (
-    <div className="bold">
-      <Avatar name={comment.author.nickName} className="mr4" size={28} />
-      <span className="mr4">
+    <div className="font-bold">
+      <Avatar name={comment.author.nickName} className="mr-1" size={28} />
+      <span className="mr-1">
         <Tooltip title={comment.author.username}>{comment.author.nickName}</Tooltip> 在 {comment.data.newPath} 中
       </span>
-      <span className="mx4">{i18n.t('application:commented at')}</span>
+      <span className="mx-1">{i18n.t('application:commented at')}</span>
       {fromNow(comment.createdAt)}
     </div>
   );

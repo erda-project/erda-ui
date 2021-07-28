@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, find, isEmpty, without, get } from 'lodash';
 import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
 import { Card } from './card/card';
@@ -120,16 +120,16 @@ const IssueKanban = (props: IProps) => {
       {operations?.CreateCustom ? (
         <div className="issue-kanban-col add-item">
           {showAdd ? (
-            <div className="mt20">
+            <div className="mt-5">
               <Input
                 value={addValue}
-                className="mb8"
+                className="mb-2"
                 onChange={(e) => updater.addValue(e.target.value)}
                 placeholder={i18n.t('project:input custom board name')}
                 onPressEnter={doAdd}
               />
-              <div className="flex-box">
-                <Button onClick={hideAdd} className="mr8">
+              <div className="flex justify-between items-center">
+                <Button onClick={hideAdd} className="mr-2">
                   {i18n.t('cancel')}
                 </Button>
                 <Button onClick={doAdd} type="primary">
@@ -146,7 +146,7 @@ const IssueKanban = (props: IProps) => {
           )}
         </div>
       ) : null}
-      {isEmpty(data?.board || []) ? <EmptyHolder relative className="full-width" /> : null}
+      {isEmpty(data?.board || []) ? <EmptyHolder relative className="w-full" /> : null}
     </div>
   );
 };
@@ -224,10 +224,10 @@ const Kanban = (props: IKanbanProps) => {
         // description: content,
         operations,
         extraInfo: (
-          <div className="issue-kanban-info mt8 flex-box color-text-desc">
-            <div className="flex-box">
+          <div className="issue-kanban-info mt-2 flex justify-between items-center color-text-desc">
+            <div className="flex justify-between items-center">
               {curStateObj ? (
-                <div className="v-align mr8">
+                <div className="flex items-center mr-2">
                   {ISSUE_ICON.state[curStateObj.stateBelong]}
                   {curStateObj.stateName}
                 </div>
@@ -277,12 +277,16 @@ const Kanban = (props: IKanbanProps) => {
       className={classnames(`issue-kanban-col ${cls}`, { 'issue-kanban-col-special-pdd': updateBoardOp })}
       ref={drop}
     >
-      <div className={`flex-box issue-kanban-col-header ${showShadow ? 'shadow' : ''} ${updateBoardOp ? 'inp' : ''}`}>
-        <div className="fz16 bold-500 flex-1 flex-box">
+      <div
+        className={`flex justify-between items-center issue-kanban-col-header ${showShadow ? 'shadow' : ''} ${
+          updateBoardOp ? 'inp' : ''
+        }`}
+      >
+        <div className="text-base font-medium flex-1 flex justify-between items-center">
           {updateBoardOp ? (
             updateAuth ? (
               <Input
-                className="fz16 bold-500 issue-kanban-label-input"
+                className="text-base font-medium issue-kanban-label-input"
                 value={labelVal}
                 onChange={(e: any) => setLabelVal(e.target.value)}
                 onPressEnter={doUpdate}
@@ -290,13 +294,17 @@ const Kanban = (props: IKanbanProps) => {
               />
             ) : (
               <Tooltip title={updateBoardOp?.disabledTip || i18n.t('common:no permission to operate')}>
-                <Input className="fz16 bold-500 issue-kanban-label-input update-disabled" readOnly value={labelVal} />
+                <Input
+                  className="text-base font-medium issue-kanban-label-input update-disabled"
+                  readOnly
+                  value={labelVal}
+                />
               </Tooltip>
             )
           ) : (
             label
           )}
-          <span className="color-text-desc ml12 fz14">{total}</span>
+          <span className="color-text-desc ml-3 text-sm">{total}</span>
         </div>
         {deleteBoardOp ? (
           deleteBoardOp?.confirm ? (
@@ -307,14 +315,14 @@ const Kanban = (props: IKanbanProps) => {
                   execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })
                 }
               >
-                <CustomIcon type="shanchu" className="delete-item  pointer ml12" />
+                <CustomIcon type="shanchu" className="delete-item  pointer ml-3" />
               </Popconfirm>
             </WithAuth>
           ) : (
             <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
               <CustomIcon
                 type="shanchu"
-                className="delete-item pointer ml12"
+                className="delete-item pointer ml-3"
                 onClick={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })}
               />
             </WithAuth>
@@ -333,7 +341,7 @@ const Kanban = (props: IKanbanProps) => {
           );
         })}
         {hasMore ? (
-          <div className="hover-active py4 text-center load-more" onClick={() => loadMore()}>
+          <div className="hover-active py-1 text-center load-more" onClick={() => loadMore()}>
             {i18n.t('load more')}
           </div>
         ) : null}

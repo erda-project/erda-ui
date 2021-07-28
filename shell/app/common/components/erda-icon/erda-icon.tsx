@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import './erda-icon.scss';
 import {
   Lock as IconLock,
@@ -80,7 +80,6 @@ export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps)
   return IconComp ? <IconComp className={className} onClick={onClick} {...rest} /> : <span>Not Exists</span>;
 };
 
-
 type CustomColor = 'primary' | 'light-primary' | 'shallow-primary' | 'white';
 
 interface IErdaCustomIcon {
@@ -104,9 +103,7 @@ const COLOR = {
   'shallow-primary': '#6a549e99', // rgba($primary, .6)
 };
 
-export const ErdaCustomIcon = ({
-  type, fill, color, stroke, ...rest
-}: IErdaCustomIcon) => {
+export const ErdaCustomIcon = ({ type, fill, color, stroke, ...rest }: IErdaCustomIcon) => {
   // @ts-ignore iconpark component
   return <iconpark-icon name={type} fill={COLOR[fill]} color={COLOR[color]} stroke={COLOR[stroke]} {...rest} />;
 };

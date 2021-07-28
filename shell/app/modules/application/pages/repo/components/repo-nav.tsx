@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'app/nusi';
 import { FormModal, Icon as CustomIcon, IF } from 'common';
 import { goTo, setLS, removeLS } from 'app/common/utils';
@@ -165,9 +165,9 @@ const PureRepoNavOperation = () => {
           )}
         </IF>
         <Dropdown overlay={addMenu}>
-          <Button className="ml8">
+          <Button className="ml-2">
             {i18n.t('add')}
-            <CustomIcon className="ml8" type="caret-down" />
+            <CustomIcon className="ml-2" type="caret-down" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -177,9 +177,9 @@ const PureRepoNavOperation = () => {
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>
-          <Button className="ml8" disabled>
+          <Button className="ml-2" disabled>
             {i18n.t('add')}
-            <CustomIcon className="ml8" type="caret-down" />
+            <CustomIcon className="ml-2" type="caret-down" />
           </Button>
         </Tooltip>
       </IF>
@@ -258,7 +258,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
               : i18n.t('application:branch')}
             :
           </span>
-          <span className="branch-name bold nowrap">{curBranch}</span>
+          <span className="branch-name font-bold nowrap">{curBranch}</span>
           <IconDownOne theme="filled" size="16px" />
         </BranchSelect>
         <RepoBreadcrumb path={tree.path}>

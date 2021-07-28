@@ -24,7 +24,7 @@ import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'app/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import { UrlInviteModal } from './url-invite-modal';
 import { BatchAuthorizeMemberModal } from './batch-authorize-member-modal';
@@ -385,6 +385,7 @@ export const MembersTable = ({
         {
           title: i18n.t('cellphone'),
           dataIndex: 'mobile',
+          width: 160,
           render: (value: string | number) => (
             <span className="for-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
               {value || i18n.t('common:none')}
@@ -513,7 +514,7 @@ export const MembersTable = ({
         pagination={{ ...paging, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
-        scroll={{ x: 1100 }}
+        scroll={{ x: 1400 }}
       />
     );
   }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater, hideRowSelect]);
@@ -570,7 +571,7 @@ export const MembersTable = ({
                     ),
                     type: 'warning',
                     showIcon: true,
-                    className: 'mb8',
+                    className: 'mb-2',
                   }
                 : undefined
             }
@@ -591,11 +592,11 @@ export const MembersTable = ({
               ),
               type: 'warning',
               showIcon: true,
-              className: 'mb8',
+              className: 'mb-2',
             }}
           />
           <AuthorizeMemberModal
-            key={state.authorizeMember ? 'show' : 'hide'} // 关闭后销毁
+            key={state.authorizeMember ? 'show' : 'hidden'} // 关闭后销毁
             type={scope.type}
             member={state.authorizeMember as IMember | null}
             closeModal={() => updater.authorizeMember(null)}

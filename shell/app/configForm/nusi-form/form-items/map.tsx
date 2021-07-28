@@ -13,7 +13,7 @@
 
 import { Form, Input, Col } from 'app/nusi';
 import { getLabel, noop, createCombiner } from 'app/configForm/nusi-form/form-items/common';
-import * as React from 'react';
+import React from 'react';
 import { commonFields, checkWhen } from 'app/configForm/nusi-form/form-items/common/config';
 import i18n from 'i18n';
 import { isEmpty, map, isString, get } from 'lodash';
@@ -123,7 +123,7 @@ export const FormMap = ({ fixOut = noop, fixIn = noop, extensionFix, requiredChe
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

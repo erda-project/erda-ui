@@ -34,7 +34,7 @@ $padding: 16px;
   padding-left: $padding;
   overflow: auto;
 
-  &.pl-32 {
+  &.pl-cls {
     padding-left: $padding * 2;
   }
 }
@@ -58,7 +58,7 @@ $padding: 16px;
     .split-page-right {
       padding-right: $padding;
 
-      &.pl-32 {
+      &.pl-cls {
         padding-left: $padding;
       }
     }

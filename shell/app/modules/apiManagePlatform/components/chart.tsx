@@ -96,7 +96,7 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
   return (
     <Spin spinning={loading}>
       <CommonRangePicker
-        className="mb12"
+        className="mb-3"
         defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]}
         onOk={(v) => updater.timeSpan(v)}
       />

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import { Input, Form } from 'app/nusi';
 import { getLabel, noop, createCombiner } from './common';
@@ -83,7 +83,7 @@ export const FormDataStatic = ({ fixOut = noop, fixIn = noop, extensionFix, requ
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

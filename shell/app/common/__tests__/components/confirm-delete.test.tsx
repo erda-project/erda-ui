@@ -55,7 +55,7 @@ describe('ConfirmDelete', () => {
     expect(wrapper.find('.color-text-desc').text()).toBe(confirmTip);
     expect(wrapper.find('.confirm-children')).toExist();
     wrapper.find('span').at(0).simulate('click');
-    expect(wrapper.find('p.mb8').at(0).text()).toBe(secondTitle);
+    expect(wrapper.find('p.mb-2').at(0).text()).toBe(secondTitle);
     expect(wrapper.find('.ant-modal-title').at(0).text()).toContain(title);
     expect(wrapper.find('Modal').prop('visible')).toBeTruthy();
     wrapper.find('.ant-modal-footer').children().at(1).simulate('click');

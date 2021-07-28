@@ -13,7 +13,7 @@
 
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { renderTopology } from './topology-utils-v2';
 // @ts-ignore
 import Snap from 'snapsvg-cjs';

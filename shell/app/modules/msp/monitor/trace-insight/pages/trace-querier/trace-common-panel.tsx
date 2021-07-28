@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'app/nusi';
 import { isString } from 'lodash';
@@ -28,7 +28,7 @@ const TraceCommonPanel = (props: IProps) => {
   return (
     <Card className={`${className} trace-common-panel`} bordered={false} {...otherProps}>
       <Card.Header
-        title={isString(title) ? <h3 className="trace-common-panel-title bold-500">{title}</h3> : title || null}
+        title={isString(title) ? <h3 className="trace-common-panel-title font-medium">{title}</h3> : title || null}
       />
       <div className="card-body">{children}</div>
     </Card>

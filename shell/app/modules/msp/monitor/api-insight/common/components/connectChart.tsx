@@ -14,7 +14,7 @@
 // 适配多组多维度数据的 render
 import { map, merge, size, isEmpty, sortBy, some, keys, values } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import { IF } from 'common';
 import { cutStr } from 'common/utils';
 import { Select } from 'app/nusi';
@@ -284,7 +284,7 @@ const ConnectChart = (props) => {
       <IF check={hasData}>
         <div className="chart-selecter">
           {i18n.t('msp:select instance')}：
-          <Select className="my12" value={selectedGroup || groups[0]} style={{ width: 200 }} onChange={handleChange}>
+          <Select className="my-3" value={selectedGroup || groups[0]} style={{ width: 200 }} onChange={handleChange}>
             {map(groups, (item) => (
               <Option value={item} key={item}>
                 {item}

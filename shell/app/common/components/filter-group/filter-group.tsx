@@ -284,9 +284,9 @@ export const FilterGroup = ({
           [left, right] = [right, left] as any[];
         }
         return (
-          <div className="filter-group-bar flex-box">
+          <div className="filter-group-bar flex justify-between items-center">
             <div className="filter-group-left flex-1">{left}</div>
-            <div className="filter-group-right ml24">{right}</div>
+            <div className="filter-group-right ml-6">{right}</div>
           </div>
         );
       }}
@@ -374,7 +374,7 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
         filterBarKeys.push(item.name);
         filterBar.push(
           <Tag
-            className="mb4"
+            className="mb-1"
             closable
             key={item.name}
             onClose={(e: any) => {
@@ -506,7 +506,7 @@ export const FilterGroupDrawer = ({
                   );
                 })
               )}
-              <div className="drawer-footer ml12-group">
+              <div className="drawer-footer ml-3-group">
                 <Button
                   onClick={() => {
                     onClose();
@@ -543,11 +543,15 @@ export const FilterGroupV = ({ list, onSearch, onChange, onReset, syncUrlOnSearc
               {CompList.map((item, i: number) => {
                 const data = list[i];
                 return (
-                  <Col key={data.name} span={data.percent || 6} className="filter-item flex-box">
+                  <Col
+                    key={data.name}
+                    span={data.percent || 6}
+                    className="filter-item flex justify-between items-center"
+                  >
                     <div className="filter-item-label">{data.label}</div>
                     <div className="filter-item-content">{item}</div>
                     {i === list.length - 1 && (
-                      <div className="ml16 ml12-group">
+                      <div className="ml-4 ml-3-group">
                         {resetButton}
                         {searchButton}
                       </div>

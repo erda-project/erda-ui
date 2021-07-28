@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'app/nusi';
 import { FormInstance } from 'core/common/interface';
 import classnames from 'classnames';
@@ -173,7 +173,7 @@ export const RenderFormItem = ({
       break;
     case 'datePicker':
       ItemComp = (
-        <DatePicker className="full-width" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
+        <DatePicker className="w-full" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
       );
       break;
     case 'custom':
@@ -244,7 +244,7 @@ export const RenderFormItem = ({
     <FormItem
       label={_label}
       {...layout}
-      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+      className={`${itemProps.type === 'hidden' ? 'hidden' : ''} ${className}`}
       required={required}
     >
       <FormItem

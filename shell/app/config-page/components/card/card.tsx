@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Dropdown, Menu, Popconfirm, Tooltip } from 'app/nusi';
 import { isString, isEmpty, map } from 'lodash';
@@ -91,20 +91,20 @@ export const Card = (props: CP_CARD.Props) => {
   });
   return (
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
-      <div className="info-card-content px12 pt4 pb8" key={id} ref={drag}>
-        <div className={'flex-box mb12'}>
+      <div className="info-card-content px-3 pt-2 pb-2" key={id} ref={drag}>
+        <div className={'flex justify-between items-center mb-3'}>
           {isString(titleIcon) ? (
-            <CustomIcon type={titleIcon} color className="head-icon mr4 pt4" />
+            <CustomIcon type={titleIcon} color className="head-icon mr-1 pt-2" />
           ) : (
             titleIcon || null
           )}
-          <div className="flex-1 fz14 color-text break-word pt4">{title}</div>
+          <div className="flex-1 text-sm color-text break-word pt-2">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
           ) : (
             <span
               ref={opRef}
-              className="pt4 pr4"
+              className="pt-2 pr-1"
               onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}
             >
@@ -114,10 +114,10 @@ export const Card = (props: CP_CARD.Props) => {
             </span>
           )}
         </div>
-        {isString(subContent) ? <div className="fz12 color-text-sub mb12">{subContent}</div> : subContent || null}
+        {isString(subContent) ? <div className="text-xs color-text-sub mb-3">{subContent}</div> : subContent || null}
         {isString(description) ? (
           <Tooltip title={description}>
-            <div className="fz12 nowrap color-text-desc">{description}</div>
+            <div className="text-xs nowrap color-text-desc">{description}</div>
           </Tooltip>
         ) : (
           description || null

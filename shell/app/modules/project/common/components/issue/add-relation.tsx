@@ -90,7 +90,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
   if (!visible) {
     return (
       <WithAuth pass={editAuth}>
-        <Button className="ml12" onClick={() => updater.visible(true)}>
+        <Button className="ml-3" onClick={() => updater.visible(true)}>
           {i18n.t('project:relate to mr')}
         </Button>
       </WithAuth>
@@ -98,8 +98,8 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
   }
 
   return (
-    <div className="issue-comment-box flex-box mt12">
-      <div className="flex-box flex-1">
+    <div className="issue-comment-box flex justify-between items-center mt-3">
+      <div className="flex justify-between items-center flex-1">
         <Select
           className="filter-select"
           onSearch={(q) => getMyProjectApps({ q })}
@@ -142,7 +142,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
       </div>
       <Button
         type="primary"
-        className="ml12"
+        className="ml-3"
         disabled={!(selectApp && selectMr)}
         onClick={() => {
           if (selectApp && selectMr) {

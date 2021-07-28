@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon } from 'common';
 import { Badge, Title } from 'app/nusi';
@@ -87,7 +87,7 @@ const Text = (props: CP_TEXT.Props) => {
           );
         } else if (isArray(text)) {
           TextComp = (
-            <span className={`${isPureText ? '' : 'v-align'}`}>
+            <span className={`${isPureText ? '' : 'flex items-center'}`}>
               {text.map((t, idx) => {
                 if (isString(t)) {
                   return (
@@ -118,13 +118,13 @@ const Text = (props: CP_TEXT.Props) => {
                       className={`${textClassNames} hover-active`}
                     >
                       {tText}
-                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
                       {image && <img src={getImg(image)} className="text-image" />}
                     </a>
                   ) : (
                     <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
                       {withTag ? <span style={tagStyle}>{tText}</span> : tText}
-                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
                       {image && <img src={getImg(image)} className="text-image" />}
                     </span>
                   );
@@ -145,13 +145,13 @@ const Text = (props: CP_TEXT.Props) => {
               }}
             >
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
               {image && <img src={getImg(image)} className="text-image" />}
             </a>
           ) : (
             <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
               {image && <img src={getImg(image)} className="text-image" />}
             </span>
           );

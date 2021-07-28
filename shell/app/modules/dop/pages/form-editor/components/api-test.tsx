@@ -555,7 +555,7 @@ const APIBody = (props: any) => {
   const CurValueComp = ValMap[realType] || ValMap.raw;
   return (
     <div className="api-body">
-      <div className="body-type-chosen mb8 px12">
+      <div className="body-type-chosen mb-2 px-3">
         <Radio.Group disabled={disabled} onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
@@ -565,7 +565,7 @@ const APIBody = (props: any) => {
           <Select
             size="small"
             style={{ width: 160 }}
-            className="mt8"
+            className="mt-2"
             onChange={(t) => changeType(t as string)}
             value={realType}
             disabled={disabled}
@@ -579,7 +579,7 @@ const APIBody = (props: any) => {
           </Select>
         ) : null}
       </div>
-      <div className="body-value-container px12">
+      <div className="body-value-container px-3">
         {CurValueComp && <CurValueComp disabled={disabled} data={data} updateBody={updateBody} />}
       </div>
     </div>

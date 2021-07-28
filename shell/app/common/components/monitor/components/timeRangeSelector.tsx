@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEqual } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { DatePicker } from 'app/nusi';
 import { getTimeSpan, getTimeRanges } from 'common/utils';
 import moment, { Moment } from 'moment';

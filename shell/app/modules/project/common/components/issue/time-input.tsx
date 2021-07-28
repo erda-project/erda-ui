@@ -14,7 +14,7 @@
 import { Input, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
-import * as React from 'react';
+import React from 'react';
 import './time-input.scss';
 
 export const checkReg = /^(\d+w\s)?(\d+d\s)?(\d+h\s)?(\d+m\s)?$/;
@@ -152,14 +152,14 @@ export const TimeInput = React.forwardRef(
           onChange={(e) => onInputChange(e.target.value)}
           onBlur={() => setTimeout(onBlur, 200)}
         />
-        {showTip ? <span className="fz12 color-red">{checkMsg}</span> : null}
+        {showTip ? <span className="text-xs color-red">{checkMsg}</span> : null}
         {triggerChangeOnButton && showBtn ? (
           <div className="issue-part-save-group">
             <span className="issue-part-save" onClick={onSave}>
-              <CustomIcon className="mr0" type="duigou" />
+              <CustomIcon className="mr-0" type="duigou" />
             </span>
             <span className="issue-part-cancel" onClick={onCancel}>
-              <CustomIcon className="mr0" type="gb" />
+              <CustomIcon className="mr-0" type="gb" />
             </span>
           </div>
         ) : null}

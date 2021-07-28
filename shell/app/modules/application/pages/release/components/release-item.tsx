@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Tooltip } from 'app/nusi';
 import { Icon as CustomIcon, IF } from 'common';
 import { cutStr, fromNow } from 'common/utils';
@@ -55,7 +55,7 @@ export const ReleaseItem = (props: IProps) => {
             <span className="nowrap">{displayVersion}</span>
           </Tooltip>
         </div>
-        <div className="sub-info mb12">
+        <div className="sub-info mb-3">
           <IF check={commitId}>
             <React.Fragment>
               <CustomIcon type="commit" />

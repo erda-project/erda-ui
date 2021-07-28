@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { renderRoutes } from 'react-router-config';
 import { ErrorBoundary, useUpdate } from 'common';
 import classnames from 'classnames';
@@ -68,7 +68,7 @@ const PageContainer = ({ route }: IProps) => {
     const content = document.querySelector('#erda-content');
     if (skeleton && content) {
       skeleton.className += ' fade';
-      content.classList.remove('hide');
+      content.classList.remove('hidden');
       setTimeout(() => {
         skeleton.remove();
         const scriptDom = document.querySelector('#init-script');
@@ -159,7 +159,7 @@ const PageContainer = ({ route }: IProps) => {
     MainContent = noWrapper ? (
       Inner
     ) : (
-      <Card className={layout && layout.fullHeight ? 'full-height auto-overflow' : ''}>{Inner}</Card>
+      <Card className={layout && layout.fullHeight ? 'h-full overflow-auto' : ''}>{Inner}</Card>
     );
   }
 
@@ -188,7 +188,7 @@ const PageContainer = ({ route }: IProps) => {
             id="main"
             ref={mainEle}
             style={{ opacity: showMessage ? 0 : undefined }}
-            className={hideHeader ? 'pa0' : ''}
+            className={hideHeader ? 'p-0' : ''}
           >
             {MainContent}
           </div>

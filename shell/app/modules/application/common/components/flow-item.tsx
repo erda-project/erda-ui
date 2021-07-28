@@ -102,10 +102,10 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       icon = <CustomIcon className="table-icon" type="radar-chart" />;
     } else {
       extra = (
-        <ul className="relation-list mt8">
+        <ul className="relation-list mt-2">
           {item.data.relations.map(({ sourceAttr, relAttr, pk }: IRelationItem) => (
             <Tooltip title={`${sourceAttr}: ${relAttr}`}>
-              <li className="relation-item flex-box mt8" key={sourceAttr}>
+              <li className="relation-item flex justify-between items-center mt-2" key={sourceAttr}>
                 <span className="relation-text nowrap">{`${sourceAttr}: ${relAttr}`}</span>
                 <IF check={pk}>
                   <CustomIcon className="relation-icon" type="key" />
@@ -125,7 +125,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     return (
       <React.Fragment>
         <div style={style} onClick={() => onClick && onClick(item.data, item.status)} className={mergedClassNames}>
-          <span className="yaml-editor-item-title-name full-width">
+          <span className="yaml-editor-item-title-name w-full">
             {titleContent}
             {nameContent}
             {extra}

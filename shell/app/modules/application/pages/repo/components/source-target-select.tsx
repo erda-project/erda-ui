@@ -45,7 +45,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
   }
 
   const renderAlert = (msg: any, type: 'success' | 'normal' | 'warning' | 'error' | undefined) => (
-    <Alert className="mb16" message={msg} type={type} showIcon />
+    <Alert className="mb-4" message={msg} type={type} showIcon />
   );
 
   const msgCheckrunTypeMap = {
@@ -196,7 +196,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
           <div className="branch-select-row">
             <BranchSelect {...{ branches: [], hideTagList: true, current: sourceBranch || '' }} disabled>
               <span>{i18n.t('compare')}:</span>
-              <span className="branch-name bold nowrap">{sourceBranch || null}</span>
+              <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
               <IF check={sourceBranch}>
                 <IconDownOne theme="filled" size="16px" />
               </IF>
@@ -206,7 +206,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             </div>
             <BranchSelect {...{ branches: [], hideTagList: true, current: targetBranch || '' }} disabled>
               <span>{i18n.t('based on')}:</span>
-              <span className="branch-name bold nowrap">{targetBranch || null}</span>
+              <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
               <IF check={targetBranch}>
                 <IconDownOne theme="filled" size="16px" />
               </IF>
@@ -231,7 +231,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             disabled={disableSourceBranch}
           >
             <span>{i18n.t('compare')}:</span>
-            <span className="branch-name bold nowrap">{sourceBranch || null}</span>
+            <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
             <IF check={sourceBranch}>
               <IconDownOne theme="filled" size="16px" />
             </IF>
@@ -245,7 +245,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             disabled={disableTargetBranch}
           >
             <span>{i18n.t('based on')}:</span>
-            <span className="branch-name bold nowrap">{targetBranch || null}</span>
+            <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
               <IconDownOne theme="filled" size="16px" />
             </IF>

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, Copy } from 'common';
@@ -263,7 +263,7 @@ const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clust
         itemProps: {
           min: 1,
           max: 100,
-          className: 'full-width',
+          className: 'w-full',
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 }),
         },
         initialValue: 1,
@@ -298,7 +298,7 @@ const ClusterAddForm = (props: any) => {
             {i18n.t('advanced settings')}
             {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
           </a>
-          <div className={`more-form ${showMore ? '' : 'hide'}`}>
+          <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <ClusterSchedulerForm
               form={form}
               clusterType={clusterType}

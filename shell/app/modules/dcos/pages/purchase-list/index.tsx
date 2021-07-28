@@ -14,7 +14,7 @@
 import { Table, Popover, Button, Badge } from 'app/nusi';
 import moment from 'moment';
 import { KeyValueList, connectCube } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'common/utils';
 import AddMachineModal from 'dcos/pages/machine-manager/add-machine-modal';
 import { translate } from 'dcos/common/config';
@@ -157,7 +157,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
 
     return (
       <div className="purchase-list-table">
-        <Button className="top-button-group mb12" type="primary" onClick={() => goTo('./add')}>
+        <Button className="top-button-group mb-3" type="primary" onClick={() => goTo('./add')}>
           {i18n.t('common:add')}
         </Button>
         <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />

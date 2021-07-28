@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Form } from 'dop/pages/form-editor/index';
 import { createFormEditor, DefaultPreview } from 'app/configForm/editor';
 import { FormEditor, basicField, previewRenderField } from 'app/configForm/nusi-form/form-editor';

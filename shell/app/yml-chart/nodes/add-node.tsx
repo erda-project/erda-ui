@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import './add-node.scss';
@@ -29,7 +29,7 @@ export const AddNode = (props: IProps) => {
   };
   return (
     <div className="yml-chart-node add-node" onClick={onClick}>
-      <CustomIcon type="tj1" className="add-icon mb12" />
+      <CustomIcon type="tj1" className="add-icon mb-3" />
       <span className="add-node-txt">{i18n.t('add {name}', { name: i18n.t('node') })}</span>
     </div>
   );

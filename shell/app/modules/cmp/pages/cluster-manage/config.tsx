@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Select } from 'app/nusi';
 import { map, isString } from 'lodash';
 import k8s_default_svg from 'app/images/resources/k8s-1.svg';

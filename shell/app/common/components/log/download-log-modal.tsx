@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { DatePicker, InputNumber, message } from 'app/nusi';
 import { FormModal } from 'common';
 import { qs, setApiWithOrg } from 'common/utils';
@@ -61,7 +61,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       required: true,
       getComp: ({ form }: { form: FormInstance }) => (
         <DatePicker
-          className="full-width"
+          className="w-full"
           disabledDate={disabledStartDate}
           showTime
           showToday={false}
@@ -83,7 +83,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
           min={1}
           max={60}
           defaultValue={60}
-          className="full-width"
+          className="w-full"
           onChange={(duration) => {
             form.setFieldsValue({ endTime: duration });
           }}

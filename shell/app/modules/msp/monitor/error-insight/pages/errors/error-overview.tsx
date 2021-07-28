@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { map } from 'lodash';
 import { commonChartRender } from 'monitor-common';
 import { groupHandler } from 'common/utils/chart-utils';
@@ -90,7 +90,7 @@ const ErrorOverview = () => {
           <ErrorCard key={i} data={err} />
         ))}
         {total ? (
-          <div className="mt16 right-flex-box">
+          <div className="mt-4 flex items-center flex-wrap justify-end">
             <Pagination current={pageNo} pageSize={pageSize} total={total} onChange={handleChangePage} />
           </div>
         ) : (

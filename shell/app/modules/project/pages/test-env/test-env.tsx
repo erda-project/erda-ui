@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Button, Popconfirm, Spin, Table, Alert } from 'app/nusi';
 import { useLoading } from 'core/stores/loading';
@@ -152,7 +152,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
     <Spin spinning={loading}>
       {isSingle ? (
         isEmpty(envList) ? (
-          <Button type="primary" ghost className="mb12" onClick={() => handleOpenDetail({}, true)}>
+          <Button type="primary" ghost className="mb-3" onClick={() => handleOpenDetail({}, true)}>
             {i18n.t('project:add configuration')}
           </Button>
         ) : null
@@ -164,7 +164,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
         </div>
       )}
       <Alert
-        className="color-text-desc mb8"
+        className="color-text-desc mb-2"
         message={
           testType === 'manual'
             ? i18n.t('project:This parameter is provided to the use case interface of Manual Test in Test Case.')

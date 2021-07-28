@@ -55,14 +55,14 @@ interface IProps {
 }
 const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   const permMap = usePerm((s) => s.app.runtime);
-  const className = classNames('runtime-box new-deploy center-flex-box', {
+  const className = classNames('runtime-box new-deploy flex flex-wrap justify-center items-center', {
     disabled: canCreate,
     'hover-active': !canCreate,
   });
   return (
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
-        <CustomIcon type="tj1" className="fz24 mb16" />
+        <CustomIcon type="tj1" className="text-2xl mb-4" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>
@@ -97,7 +97,7 @@ const releaseOptionItem = (release: RELEASE.detail) => {
   );
   return (
     <Tooltip title={tip} key={releaseId}>
-      <span className="full-width nowrap">{displayStr}</span>
+      <span className="w-full nowrap">{displayStr}</span>
     </Tooltip>
   );
 };
@@ -326,7 +326,7 @@ const Deploy = () => {
                   }}
                 />
                 {envBlocked && !!message ? (
-                  <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
+                  <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
                 ) : null}
               </div>
             );

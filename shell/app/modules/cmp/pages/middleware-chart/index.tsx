@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount } from 'react-use';
 import { map, isEmpty, get, forEach, mapKeys } from 'lodash';
 import moment from 'moment';
@@ -93,9 +93,9 @@ const MiddlewareChart = () => {
 
   return (
     <Spin spinning={loading}>
-      {/* <h3 className="title mb16">{i18n.t('org:middleware container chart')}</h3> */}
+      {/* <h3 className="title mb-4">{i18n.t('org:middleware container chart')}</h3> */}
       <PureBoardGrid layout={getLayout([...containerChartMetas, ...middlewareChartMetas])} />
-      {/* <h3 className="title mt24 mb16">{i18n.t('org:middleware indicator chart')}</h3>
+      {/* <h3 className="title mt-6 mb-4">{i18n.t('org:middleware indicator chart')}</h3>
       <PureBoardGrid
         layout={getLayout(middlewareChartMetas)}
       /> */}

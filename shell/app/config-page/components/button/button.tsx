@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'app/nusi';
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
@@ -49,12 +49,12 @@ export const Button = (props: CP_BUTTON.Props) => {
 
   const content = (
     <>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
+      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
       {text}
       {suffixIcon ? (
-        <CustomIcon type={suffixIcon} className="ml4" />
+        <CustomIcon type={suffixIcon} className="ml-1" />
       ) : isEmpty(menu) ? null : (
-        <CustomIcon type={'di'} className="ml4" />
+        <CustomIcon type={'di'} className="ml-1" />
       )}
     </>
   );
@@ -114,7 +114,7 @@ export const Button = (props: CP_BUTTON.Props) => {
           return (
             <Menu.Item key={mItem.key} disabled={mItem.disabled || curOp.disabled}>
               <Tooltip title={mItem.disabledTip || curOp.disabledTip}>
-                <div className="v-align">
+                <div className="flex items-center">
                   {mItem.prefixIcon ? <CustomIcon type={mItem.prefixIcon} /> : null}
                   {mItem.text}
                 </div>

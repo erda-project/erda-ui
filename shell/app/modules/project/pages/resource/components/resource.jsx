@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Breadcrumb } from 'app/nusi';
 import { IF, TimeSelector } from 'common';
 import { isEmpty } from 'lodash';
@@ -83,7 +83,7 @@ class ProjectResource extends React.PureComponent {
     const { timeSpan } = this.props;
     return (
       <div className="project-resource">
-        <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
+        <Breadcrumb separator={<IconRight size="14px" className="text-xs" />} className="path-breadcrumb">
           {paths.map((p, i) => {
             const isLast = i === paths.length - 1;
             return (

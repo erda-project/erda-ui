@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Row, Col, Radio, Select, Table, Tooltip } from 'app/nusi';
 import { map, get } from 'lodash';
 import { Icon as CustomIcon, PureBoardGrid, TimeSelector, useUpdate } from 'common';
@@ -339,7 +339,7 @@ const ErrorReport = (props: IProps) => {
       <Select
         value={selectMonitorKey}
         style={{ width: 200 }}
-        className="mb8"
+        className="mb-2"
         onChange={(k) => {
           updater.selectMonitorKey(k);
         }}
@@ -351,7 +351,7 @@ const ErrorReport = (props: IProps) => {
         ))}
       </Select>
       <div className="total-trend block-container">
-        <div className="title bold fz16">{i18n.t("publisher:Today's error trend")}</div>
+        <div className="title font-bold text-base">{i18n.t("publisher:Today's error trend")}</div>
         <Row>
           {map(errorTrend, (info, idx) => {
             return (
@@ -379,8 +379,8 @@ const ErrorReport = (props: IProps) => {
           })}
         </Row>
       </div>
-      <div className="mt16">
-        <TimeSelector className="ml0 mr12" inline disabledDate={() => false} />
+      <div className="mt-4">
+        <TimeSelector className="ml-0 mr-3" inline disabledDate={() => false} />
         <FilterVersion
           className="version-selector"
           value={lineVersion}
@@ -388,18 +388,18 @@ const ErrorReport = (props: IProps) => {
           groups={groups}
         />
       </div>
-      <div className="mt16 block-container">
-        <div className="title flex-box">
-          <span className="bold fz16">{i18n.t('publisher:error statistics')}</span>
+      <div className="mt-4 block-container">
+        <div className="title flex justify-between items-center">
+          <span className="font-bold text-base">{i18n.t('publisher:error statistics')}</span>
         </div>
         <div>
-          <FilterTab className="ma8" value={lineChartType} onChange={updater.lineChartType} />
+          <FilterTab className="m-2" value={lineChartType} onChange={updater.lineChartType} />
           <PureBoardGrid layout={lineChart} />
         </div>
       </div>
-      <div className="mt16 block-container">
-        <div className="title flex-box">
-          <span className="bold fz16">{i18n.t('publisher:error list')}</span>
+      <div className="mt-4 block-container">
+        <div className="title flex justify-between items-center">
+          <span className="font-bold text-base">{i18n.t('publisher:error list')}</span>
         </div>
         <div>
           <ErrorList monitorKey={monitorKey} artifactsId={publisherItemId} timeSpan={timeSpan} version={lineVersion} />

@@ -16,7 +16,7 @@ import { Holder } from 'common';
 import classNames from 'classnames';
 import { secondsToTime } from 'common/utils';
 import { map, filter, uniqueId, find, debounce, get, floor } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import TestPieChart from './test-pie-chart';
 import { ChartContainer } from 'charts/utils';
 import i18n from 'i18n';
@@ -104,7 +104,7 @@ class TestDetail extends React.Component<IProps, IState> {
     if (!test) return <div className="test-output" />;
     const { error, stdout } = test;
     const { message = '', body = '', type = '' } = error || {};
-    const errorClass = classNames({ show: isShowing });
+    const errorClass = classNames({ block: isShowing });
     const hasLog = stdout || message || body || type;
 
     return (

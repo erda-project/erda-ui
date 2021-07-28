@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Input } from 'app/nusi';
 import { debounce } from 'lodash';
 import { OperationBar } from 'common';
@@ -102,7 +102,7 @@ class SearchTable extends React.PureComponent<IProps, IState> {
       searchListOps,
     } = this.props;
     const { searchValue } = this.state;
-    const searchStyleName = `search-input search-input-${searchPosition} ${searchFullWidth ? 'full-width' : ''}`;
+    const searchStyleName = `search-input search-input-${searchPosition} ${searchFullWidth ? 'w-full' : ''}`;
     const extraStyleName = `extra-items-${extraPosition}`;
 
     return (

@@ -52,17 +52,17 @@ const AddonCard = (props: IProps) => {
   };
 
   return (
-    <div className={`addon-card mb20 ${className}`} onClick={onClick}>
+    <div className={`addon-card mb-5 ${className}`} onClick={onClick}>
       <div className="addon-card-icon-wrapper">
         <img className="logo" src={imgSrc} style={{ width: '40px' }} alt="addon-image" onError={onError} />
       </div>
-      <div className="addon-card-text mr8">
+      <div className="addon-card-text mr-2">
         <Tooltip title={showName}>
           <div className="name nowrap">{showName}</div>
         </Tooltip>
         <div className="sub-info">
           <span>{PLAN_NAME[plan]}</span>
-          <span className="ml8">{version}</span>
+          <span className="ml-2">{version}</span>
         </div>
       </div>
       <div className="addon-card-info">{statusBadge}</div>

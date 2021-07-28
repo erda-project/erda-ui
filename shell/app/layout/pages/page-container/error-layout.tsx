@@ -13,7 +13,7 @@
 
 import Header from 'layout/pages/page-container/components/header';
 import SideBar from 'layout/pages/page-container/components/sidebar';
-import * as React from 'react';
+import React from 'react';
 import './page-container.scss';
 import './error-layout.scss';
 

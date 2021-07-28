@@ -42,10 +42,10 @@ export const IssueCommentBox = (props: IProps) => {
           maxLength={3000}
         />
       </div>
-      <div className="mt12 btn-line-rtl">
+      <div className="mt-3 btn-line-rtl">
         <Button
           type="primary"
-          className="ml12"
+          className="ml-3"
           onClick={() => {
             if (isEmpty(stateMap.content.trim())) {
               message.warning(i18n.t('application:this item cannot be empty'));

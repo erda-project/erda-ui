@@ -60,7 +60,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
       render: (status: string) => (
         <span>
           <span className="nowrap">{ciStatusMap[status].text}</span>
-          <Badge className="ml4" status={ciStatusMap[status].status} />
+          <Badge className="ml-1" status={ciStatusMap[status].status} />
         </span>
       ),
     },

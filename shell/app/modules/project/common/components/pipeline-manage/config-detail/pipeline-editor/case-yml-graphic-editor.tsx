@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Drawer, Tabs } from 'app/nusi';
 import i18n from 'i18n';
 import { get } from 'lodash';
@@ -90,7 +90,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
         />
       ) : editing ? (
         <Tabs
-          className="full-height case-node-chosen-tabs"
+          className="h-full case-node-chosen-tabs"
           activeKey={chosenKey}
           onChange={(aKey: string) => editing && setChosenKey(aKey)}
         >

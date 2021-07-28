@@ -20,7 +20,7 @@
  */
 
 import { each, includes, flattenDeep, map, replace, round } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Modal, Table, Spin, Tooltip, Ellipsis } from 'app/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
@@ -184,7 +184,7 @@ class TraceDetail extends React.Component<IProps, IState> {
                 <div
                   key={`span${spanId}`}
                   id={spanId}
-                  className={`span service-span depth-${depthClass} ${isShow ? '' : 'hide'}`}
+                  className={`span service-span depth-${depthClass} ${isShow ? '' : 'hidden'}`}
                   data-keys="id,spanName,serviceNames,serviceName,durationStr,duration"
                   data-id={spanId}
                   data-parent-id={parentId}

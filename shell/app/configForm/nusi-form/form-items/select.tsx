@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Divider, Form, Select } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, isArray, map } from 'lodash';
 import { getData } from '../utils';
 import { getLabel, noop } from './common';
@@ -110,7 +110,7 @@ const PureFormSelect = (props: any) => {
     <FormItem
       colon
       label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
+      className={visible ? '' : 'hidden'}
       validateStatus={valid[0]}
       help={valid[1]}
       required={required}
@@ -131,11 +131,11 @@ const PureFormSelect = (props: any) => {
           return (
             <div>
               {mode === 'multiple' && selectAll ? (
-                <div className="pt8">
-                  <span className="ml8 text-link" onClick={selectAllHandle} onMouseDown={(e) => e.preventDefault()}>
+                <div className="pt-2">
+                  <span className="ml-2 text-link" onClick={selectAllHandle} onMouseDown={(e) => e.preventDefault()}>
                     {i18n.t('project:select all')}
                   </span>
-                  <span className="ml8 text-link" onClick={selectAllCancel} onMouseDown={(e) => e.preventDefault()}>
+                  <span className="ml-2 text-link" onClick={selectAllCancel} onMouseDown={(e) => e.preventDefault()}>
                     {i18n.t('clear')}
                   </span>
                   <Divider style={{ margin: '8px 0' }} />

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map } from 'lodash';
 import { Select } from 'app/nusi';
 import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/stores/common';

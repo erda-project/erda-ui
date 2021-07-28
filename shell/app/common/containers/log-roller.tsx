@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { first, last } from 'lodash';
 import { LogRoller as PureLogRoller } from '../components/log/log-roller';
 import { DownloadLogModal } from '../components/log/download-log-modal';

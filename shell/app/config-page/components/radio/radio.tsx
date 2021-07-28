@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Tooltip, Dropdown, Menu, Radio, Badge } from 'app/nusi';
 import { map, isArray, find, get } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
@@ -81,12 +81,12 @@ export default (props: CP_RADIO.Props) => {
             <Tooltip key={key} title={tooltip}>
               <Dropdown overlay={getMenu()}>
                 <RadioItem value={key} key={key}>
-                  <div className="flex-box">
-                    {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
+                  <div className="flex justify-between items-center">
+                    {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
                       {childName}
                     </span>
-                    <CustomIcon type="di" className="ml4" />
+                    <CustomIcon type="di" className="ml-1" />
                   </div>
                 </RadioItem>
               </Dropdown>
@@ -102,9 +102,9 @@ export default (props: CP_RADIO.Props) => {
           return (
             <Tooltip key={key} title={tooltip}>
               <RadioItem value={key} key={key} {...extraProps}>
-                <div className="flex-box">
-                  {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
-                  {status ? <Badge status={status || 'default'} className="mr4" /> : null}
+                <div className="flex justify-between items-center">
+                  {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
+                  {status ? <Badge status={status || 'default'} className="mr-1" /> : null}
                   {text}
                 </div>
               </RadioItem>

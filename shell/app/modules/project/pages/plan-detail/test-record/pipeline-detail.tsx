@@ -17,7 +17,7 @@ import { ciBuildStatusSet } from 'application/pages/build-detail/config';
 import { EmptyHolder } from 'common';
 import { isEmpty } from 'lodash';
 import { Spin } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Attention as IconAttention } from '@icon-park/react';
 

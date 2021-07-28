@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo } from 'common/utils';
-import * as React from 'react';
+import React from 'react';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import repoStore from 'application/stores/repo';
 import appStore from 'application/stores/application';

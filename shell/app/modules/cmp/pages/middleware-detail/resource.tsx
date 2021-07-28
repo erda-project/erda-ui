@@ -13,7 +13,7 @@
 
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';

@@ -14,7 +14,7 @@
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { PureBaseAddonInfo } from 'cmp/common/addon-detail/detail';
-import * as React from 'react';
+import React from 'react';
 import { useMount, useUnmount } from 'react-use';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import ScaleInfo from './scale-info';

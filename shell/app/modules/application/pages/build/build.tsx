@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Button, List, Select, Spin, Tooltip } from 'app/nusi';
 import BuildDetail from 'application/pages/build-detail';
 import classnames from 'classnames';
@@ -282,10 +282,10 @@ export const Build = (props: IProps) => {
           });
           return (
             <div key={pipelineID} className={cls} {...liProps}>
-              <div className="list-item flex-box">
-                <div className="title flex-box">
+              <div className="list-item flex justify-between items-center">
+                <div className="title flex justify-between items-center">
                   <Tooltip title={toolTipName} overlayClassName="commit-tip">
-                    <span className="branch-name bold-500 nowrap">
+                    <span className="branch-name font-medium nowrap">
                       <CustomIcon type={iconType} />
                       <span className="nowrap">{displayName}</span>
                     </span>
@@ -293,7 +293,7 @@ export const Build = (props: IProps) => {
                   {!isBigData && renderBuildStatus({ status, cancelUser })}
                 </div>
                 <IF check={!isBigData}>
-                  <div className="yml-name nowrap flex-box">
+                  <div className="yml-name nowrap flex justify-between items-center">
                     <Tooltip title={ymlName} overlayClassName="commit-tip">
                       <span className="name nowrap">
                         <CustomIcon type="wj" />
@@ -328,10 +328,10 @@ export const Build = (props: IProps) => {
     return (
       <Spin spinning={getComboPipelinesLoading || addPipelineLoading || batchCreateTaskLoading}>
         <div className="build-list-wrap">
-          <div className="mr32 mb12 ml12">
+          <div className="mr-8 mb-3 ml-3">
             <Select
               showSearch
-              className="full-width"
+              className="w-full"
               optionFilterProp="children"
               value={chosenCategory}
               onChange={(e: any) => dispatch({ type: 'changeCategory', data: e })}
@@ -385,7 +385,7 @@ export const Build = (props: IProps) => {
 
   return (
     <SplitPage className="runtime-build-main">
-      <SplitPage.Left width={300} className="pr0 spin-full-height">
+      <SplitPage.Left width={300} className="pr-0 spin-h-full">
         {renderLeftSection()}
       </SplitPage.Left>
       <SplitPage.Right pl32>{renderRightSection()}</SplitPage.Right>

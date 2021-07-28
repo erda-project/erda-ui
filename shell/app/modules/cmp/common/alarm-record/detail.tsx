@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount } from 'react-use';
 import { Table, Radio } from 'app/nusi';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
@@ -186,7 +186,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           {isExistingTicket ? i18n.t('org:check ticket') : i18n.t('org:create ticket')}
         </Button>
       </div> */}
-      <div className="start-flex-box mb16">
+      <div className="flex items-start justify-between mb-4">
         <CommonRangePicker defaultTime={defaultTime} onOk={(v) => updater.timeSpan(v)} />
         {/* <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}> */}
         {/*  <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button> */}
@@ -200,8 +200,8 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           loading={loading}
           columns={columns}
           expandedRowRender={(record: ALARM_REPORT.AlarmHistory) => (
-            <div className="pr32">
-              <div className="code-block auto-overflow content-block">
+            <div className="pr-8">
+              <div className="code-block overflow-auto content-block">
                 <pre className="prewrap">{record.content}</pre>
               </div>
             </div>
