@@ -220,7 +220,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       className: 'notify-info',
       render: (targets) => (
         <div className="flex-box">
-          <ListTargets targets={targets} roleMap={roleMap} />
+          <ListTargets targets={targets || []} roleMap={roleMap} />
         </div>
       ),
     },

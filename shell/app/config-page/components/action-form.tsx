@@ -111,7 +111,7 @@ export const ActionForm = (props: IProps) => {
             ...curItem.componentProps,
             onChange: (e: any) => {
               const val = curItem.component === 'input' ? e.target.value : e;
-              execOperation({ ...curKeyOperation, key: 'change' }, { [curKey]: val });
+              execOperation({ key: 'change', ...curKeyOperation }, { [curKey]: val });
             },
           };
         }

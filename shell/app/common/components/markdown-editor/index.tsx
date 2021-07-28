@@ -26,14 +26,6 @@ interface ICanView {
   hideMenu?: boolean;
 }
 
-const defaultCanView = {
-  menu: true,
-  md: true,
-  html: true,
-  fullScreen: true,
-  hideMenu: true,
-};
-
 interface IProps {
   value?: string | null;
   placeholder?: string;
@@ -101,13 +93,12 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     const mdRef = this.mdEditor?.current as any;
     mdRef &&
       mdRef.on('viewchange', (view: { html: boolean; md: boolean; menu: boolean }) => {
-        this.setState({
-          view,
-        });
+        this.setState({ view });
         if (view.md) {
           mdRef.nodeMdText.current && mdRef.nodeMdText.current.focus();
         }
       });
+
     if (this.props.autoFocus && this.state.view.md && mdRef.nodeMdText.current) {
       mdRef.nodeMdText.current.focus();
     }
@@ -154,7 +145,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSubmit) {
       btns.push(
-        <Button key="md-editor-submit-btn" className="mt16 mb16 mr8" type="primary" onClick={this.onSubmit}>
+        <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
           {btnText || i18n.t('common:submit')}
         </Button>,
       );
@@ -162,7 +153,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSetLS) {
       btns.push(
-        <Button key="md-editor-keep-btn" className="mt16 mb16 mr8" onClick={this.onSetLS}>
+        <Button key="md-editor-keep-btn" className="mx8 mr8" onClick={this.onSetLS}>
           {i18n.t('application:temporary storage')}
         </Button>,
       );
@@ -170,7 +161,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onCancel) {
       btns.push(
-        <Button key="md-editor-cancel-btn" className="mt16 mb16" onClick={onCancel}>
+        <Button key="md-editor-cancel-btn" className="mx8 mr8" onClick={onCancel}>
           {i18n.t('common:cancel')}
         </Button>,
       );
@@ -186,12 +177,29 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { placeholder, readOnly, extraRight, onFocus, isShowRate, style = { height: '400px' }, canView } = this.props;
+    const {
+      placeholder,
+      readOnly,
+      extraRight,
+      onFocus,
+      isShowRate,
+      style = { height: '400px' },
+      onSubmit,
+    } = this.props;
     const { content, view } = this.state;
     const disableEdit = view.html && !view.md; // 纯预览模式时禁用操作栏
+
+    const curShowButton = !!onSubmit;
+
+    let height = style.height ? parseInt(style.height, 10) : 400;
+    height = view.md && curShowButton ? height + 50 : height;
     return (
-      <div className="markdown-editor">
-        <div className={`markdown-editor-content ${disableEdit ? 'disable-edit' : ''} ${readOnly ? 'read-only' : ''}`}>
+      <div className="markdown-editor relative">
+        <div
+          className={`markdown-editor-content ${disableEdit ? 'disable-edit' : ''} ${readOnly ? 'read-only' : ''} ${
+            curShowButton ? 'show-btn' : ''
+          }`}
+        >
           <Editor
             ref={this.mdEditor}
             {...{
@@ -199,11 +207,10 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
               readOnly,
               extraRight,
               onFocus,
-              style,
+              style: { ...style, height },
             }}
             config={{
               view,
-              canView: { ...defaultCanView, ...canView },
             }}
             value={content}
             onChange={this.onChange}
@@ -216,7 +223,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
             <Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
           </div>
         </IF>
-        {this.renderButton()}
+        {view.md ? <div className="absolute left-2 bottom-0	">{this.renderButton()}</div> : null}
       </div>
     );
   }
