@@ -88,8 +88,8 @@ const ServiceDropdown = (props: IProps) => {
               <span className="mr-2 vip-addr flex-1 nowrap">
                 <Ellipsis title={addr} />
               </span>
-              <Copy selector=".for-copy">
-                <span className="for-copy copy-icon" data-clipboard-text={addr}>
+              <Copy selector=".cursor-copy">
+                <span className="cursor-copy copy-icon" data-clipboard-text={addr}>
                   <IconCopy />
                 </span>
               </Copy>

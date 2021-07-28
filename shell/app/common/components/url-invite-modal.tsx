@@ -41,7 +41,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
         footer={
           <>
             <span
-              className="for-copy"
+              className="cursor-copy"
               data-clipboard-tip={code ? i18n.t('invitation link and verification code') : i18n.t('invitation link')}
               data-clipboard-text={`${linkPrefixTip || ''}\n${url}\n${
                 code ? `${i18n.t('verification code')}: ${code}` : ''
@@ -49,7 +49,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
             >
               <Button type="primary">{i18n.t('copy')}</Button>
             </span>
-            <Copy selector=".for-copy" />
+            <Copy selector=".cursor-copy" />
           </>
         }
         {...modalProps}

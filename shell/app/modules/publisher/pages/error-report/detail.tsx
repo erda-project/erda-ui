@@ -85,8 +85,8 @@ export default () => {
       title: i18n.t('publisher:detailed log'),
       titleExtra: (
         <>
-          <Copy selector=".for-copy" />
-          <Button className="for-copy" data-clipboard-text={log} type="primary" ghost>
+          <Copy selector=".cursor-copy" />
+          <Button className="cursor-copy" data-clipboard-text={log} type="primary" ghost>
             {i18n.t('copy')}
           </Button>
         </>

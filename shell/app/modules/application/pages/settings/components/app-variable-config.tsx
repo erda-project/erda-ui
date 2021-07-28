@@ -212,7 +212,7 @@ const VariableConfig = ({
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
         <div className="flex justify-between items-center">
-          <span className="for-copy nowrap" data-clipboard-text={text} title={text}>
+          <span className="cursor-copy nowrap" data-clipboard-text={text} title={text}>
             {text}
           </span>
           <span>
@@ -237,7 +237,7 @@ const VariableConfig = ({
             '******'
           ) : (
             <Tooltip title={text} placement="leftTop">
-              <span className="for-copy" data-clipboard-text={text}>
+              <span className="cursor-copy" data-clipboard-text={text}>
                 {text}
               </span>
             </Tooltip>
@@ -435,7 +435,7 @@ const VariableConfig = ({
           className="mb-5"
         />
       </Modal>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

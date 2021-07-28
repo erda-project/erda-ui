@@ -27,7 +27,7 @@ describe('UrlInviteModal', () => {
     expect(wrapper.find('Alert').prop('message')).toBe('tips');
     expect(wrapper.find('Input').at(0).prop('value')).toBe(url);
     expect(wrapper.find('Input').at(1).prop('value')).toBe(code);
-    expect(wrapper.find('span.for-copy').prop('data-clipboard-tip')).toBe('invitation link and verification code');
+    expect(wrapper.find('span.cursor-copy').prop('data-clipboard-tip')).toBe('invitation link and verification code');
     wrapper.setProps({
       code: undefined,
       tip: undefined,
@@ -39,6 +39,6 @@ describe('UrlInviteModal', () => {
     expect(wrapper.find('Modal')).toHaveClassName('UrlInviteModal');
     expect(wrapper.find('Alert')).not.toExist();
     expect(wrapper.find('Input')).toHaveLength(1);
-    expect(wrapper.find('span.for-copy').prop('data-clipboard-tip')).toBe('invitation link');
+    expect(wrapper.find('span.cursor-copy').prop('data-clipboard-tip')).toBe('invitation link');
   });
 });

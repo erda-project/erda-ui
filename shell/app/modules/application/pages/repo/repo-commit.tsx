@@ -45,11 +45,11 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
           </div>
           <span className="ml-1">{i18n.t('committed at')}</span>
           <span className="text-sub ml-1">{fromNow(author.when)}</span>
-          <span className="for-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
+          <span className="cursor-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
             <CustomIcon type="commit" />
             <span className="sha-text">{id.slice(0, 6)}</span>
           </span>
-          <Copy selector=".for-copy" />
+          <Copy selector=".cursor-copy" />
         </div>
       </div>
       <div className="commit-right">{renderAsLink('tree', id, <Button>{i18n.t('application:code')}</Button>)}</div>

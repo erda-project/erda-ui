@@ -42,7 +42,7 @@ const MSComponentInfo = () => {
   return (
     <>
       <SettingsTabs dataSource={dataSource} />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </>
   );
 };

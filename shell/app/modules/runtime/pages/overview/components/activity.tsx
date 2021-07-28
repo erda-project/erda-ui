@@ -118,12 +118,12 @@ const Activity = () => {
           {deployStatusCnMap[status]}
           <span className="ml-2">{`${i18n.t('runtime:time consuming')} ${timeCost}`}</span>
           <Tooltip title={activity.releaseId}>
-            <span data-clipboard-text={activity.releaseId} className="ml-2 for-copy">
+            <span data-clipboard-text={activity.releaseId} className="ml-2 cursor-copy">
               releaseId: {activity.releaseId.substr(0, 6)}
             </span>
           </Tooltip>
         </div>
-        <Copy selector=".for-copy" />
+        <Copy selector=".cursor-copy" />
       </div>
     );
   };

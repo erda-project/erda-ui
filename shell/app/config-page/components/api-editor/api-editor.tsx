@@ -450,7 +450,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                           <>
                             <Button
                               disabled={!get(request, 'body.content')}
-                              className="copy-btn for-copy copy-request"
+                              className="copy-btn cursor-copy copy-request"
                               data-clipboard-text={get(request, 'body.content', '')}
                               shape="circle"
                               icon={<IconCopy />}
@@ -499,7 +499,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                   <>
                     <Button
                       disabled={!body}
-                      className="copy-btn for-copy copy-response"
+                      className="copy-btn cursor-copy copy-response"
                       data-clipboard-text={body}
                       shape="circle"
                       icon={<IconCopy />}

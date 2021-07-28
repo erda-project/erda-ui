@@ -111,7 +111,7 @@ export default () => {
   return (
     <div className="jvm-overview">
       <Spin spinning={isPending}>
-        <div className="p-5 mb-5 white-bg border-all">
+        <div className="p-5 mb-5 bg-white border-all">
           <div className="jvm-profiler flex justify-between items-center">
             <div className="profiler-info flex-1">
               <p className="info-item">

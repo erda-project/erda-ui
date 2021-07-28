@@ -18,7 +18,7 @@ import { message } from 'app/nusi';
 import i18n from 'i18n';
 
 const selectorMap = {};
-const innerClassName = 'for-copy';
+const innerClassName = 'cursor-copy';
 const innerSelector = `.${innerClassName}`;
 
 interface IProps {
@@ -34,7 +34,7 @@ interface IProps {
 export class Copy extends React.PureComponent<IProps> {
   clipboard: any;
 
-  selector: string | '.for-copy';
+  selector: string | '.cursor-copy';
 
   componentDidMount() {
     this.initClipBoard();

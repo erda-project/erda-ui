@@ -250,7 +250,7 @@ const RDS = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <SetTagForm
         visible={ifSetTagFormVisible}
         items={selectedList}

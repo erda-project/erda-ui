@@ -334,7 +334,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 <>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne
-                    className="for-copy copy-share-link ml-3"
+                    className="cursor-copy copy-share-link ml-3"
                     size="16px"
                     data-clipboard-text={shareLink}
                     type="share-alt"

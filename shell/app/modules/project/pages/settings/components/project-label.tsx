@@ -108,11 +108,11 @@ export default () => {
       initialValue: colors[0],
       getComp: ({ form }: { form: FormInstance }) => {
         return (
-          <div className="color-list colorful-bg">
+          <div className="color-list">
             {colors.map((c) => (
               <span
                 key={c}
-                className={`color-option ${c} ${state.activeColor === c ? 'active' : ''}`}
+                className={`color-option bg-${c} ${state.activeColor === c ? 'active' : ''}`}
                 onClick={() => {
                   updater.activeColor(c);
                   form.setFieldsValue({ color: c });

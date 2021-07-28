@@ -297,7 +297,7 @@ const VSW = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <SetTagForm
         items={items}
         visible={tagFormVis}

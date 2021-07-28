@@ -145,7 +145,7 @@ const ClientDetail = () => {
     {
       label: 'ClientID',
       value: (
-        <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
+        <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
           {get(clientDetail, ['sk', 'clientID'])}
         </span>
       ),
@@ -155,7 +155,7 @@ const ClientDetail = () => {
       value: (
         <div className="flex justify-between items-center align-top">
           {showSecret ? (
-            <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
+            <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
               {get(clientDetail, ['sk', 'clientSecret'])}
             </span>
           ) : (
@@ -250,7 +250,7 @@ const ClientDetail = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <div className="p-4 api-list">
         <div className="title text-base text-normal font-medium">{i18n.t('authorized API')}</div>
         <Tabs

@@ -123,7 +123,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
                   <div className="pipeline-log-title align-top">
                     <span className="flex-1">{humanLog}</span>
                     <span
-                      className="always-active ml-2"
+                      className="text-primary cursor-pointer ml-2"
                       onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                     >
                       {i18n.t('check detail')}

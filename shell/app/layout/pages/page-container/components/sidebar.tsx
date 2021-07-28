@@ -189,7 +189,7 @@ const SideBar = () => {
           size="small"
           count={unreadCount}
           offset={[-5, 2]}
-          className="message-icon unselectable"
+          className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >
           <IconRemind className="mr-0" size="20px" style={customIconStyle} />

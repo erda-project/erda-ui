@@ -289,7 +289,7 @@ const Title = ({
   if (!readOnly && !isRecycledRoot && !isTemp) {
     return (
       <Dropdown overlay={getMenu()} trigger={['contextMenu']}>
-        <div className={`flex-1 inline-flex justify-between items-center position-relative ${className}`}>
+        <div className={`flex-1 inline-flex justify-between items-center relative ${className}`}>
           <div className="flex-1 node-name">{value}</div>
           {!isRoot ? (
             <Dropdown

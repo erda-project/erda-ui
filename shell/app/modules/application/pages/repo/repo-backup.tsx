@@ -45,7 +45,7 @@ export default function BackupManagement() {
       width: 150,
       dataIndex: 'commitId',
       render: (commitId: string) => (
-        <span className="for-copy" data-clipboard-text={commitId}>
+        <span className="cursor-copy" data-clipboard-text={commitId}>
           {commitId}
         </span>
       ),
@@ -174,7 +174,7 @@ export default function BackupManagement() {
 
   return (
     <div>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <div className="top-button-group">
         <WithAuth pass={newBackupAuth}>
           <Tooltip

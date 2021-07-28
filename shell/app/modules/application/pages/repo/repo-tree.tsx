@@ -58,7 +58,7 @@ const RepoDownload = (props: IDownProp) => {
     window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`));
   const renderAddonAfter = (text: string, tip: string) => {
     return (
-      <span className="copy-btn for-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
+      <span className="copy-btn cursor-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
         <IconCopy />
       </span>
     );
@@ -78,7 +78,7 @@ const RepoDownload = (props: IDownProp) => {
               addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))}
             />
           </div>
-          <Copy selector=".for-copy" />
+          <Copy selector=".cursor-copy" />
           <ButtonGroup className="download-btn-group mb-4">
             <Button size="small" onClick={() => download('tar')}>
               {' '}

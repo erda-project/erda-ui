@@ -9,10 +9,6 @@
   }
 }
 
-.unselectable {
-  user-select: none;
-}
-
 .full-spin-height {
   height: 100%;
 
@@ -100,41 +96,6 @@
   }
 }
 
-.for-copy {
-  cursor: copy;
-}
-
-//== others
-.colorful-bg {
-  .red {
-    background-color: $red !important;
-  }
-
-  .orange {
-    background-color: $orange !important;
-  }
-
-  .purple {
-    background-color: $purple !important;
-  }
-
-  .blue {
-    background-color: $blue !important;
-  }
-
-  .cyan {
-    background-color: $cyan !important;
-  }
-
-  .green {
-    background-color: $green !important;
-  }
-
-  .gray {
-    background-color: $gray !important;
-  }
-}
-
 .colorful-light-bg {
   .red {
     color: $red !important;
@@ -172,11 +133,6 @@
   }
 }
 
-.always-active {
-  color: $color-primary !important;
-  cursor: pointer;
-}
-
 .code-block {
   padding: 0.5em;
   color: $lightnavy;
@@ -194,12 +150,6 @@
   font-size: 18px;
   font-family: PingFangSC-Medium, serif;
   line-height: 48px;
-}
-
-.nowrap {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .top-button-group {
@@ -509,38 +459,10 @@
   }
 }
 
-.position-relative {
-  position: relative;
-}
-
-.dp-tree-category-title-container {
-  /* stylelint-disable-next-line */
-  .pk-tree-iconEle {
-    width: 20px !important;
-
-    .dp-tree-category-leaf {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-
-.pk-title-title {
-  word-break: break-all;
-}
-
 .prewrap {
   overflow: hidden;
   white-space: pre-wrap;
   text-overflow: ellipsis;
-}
-
-.gray-bg {
-  background-color: $color-bg;
-}
-
-.white-bg {
-  background-color: $white;
 }
 
 .day-split {
@@ -551,10 +473,6 @@
 
 .break-word {
   word-break: break-word;
-}
-
-.break-all {
-  word-break: break-all;
 }
 
 .default-selector-width {

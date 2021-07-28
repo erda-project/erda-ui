@@ -229,7 +229,7 @@ const VPS = () => {
         onCancel={() => update({ tagFormVis: false, tagFormData: null })}
         afterSubmit={afterTagFormSubmit}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </>
   );
 };

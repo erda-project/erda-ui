@@ -150,7 +150,7 @@ export const IssueDrawer = (props: IProps) => {
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne
-                    className="for-copy copy-share-link mr-1 ml-3"
+                    className="cursor-copy copy-share-link mr-1 ml-3"
                     size="16px"
                     data-clipboard-text={shareLink}
                   />

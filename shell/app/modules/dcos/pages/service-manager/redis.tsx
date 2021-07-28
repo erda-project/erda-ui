@@ -238,7 +238,7 @@ const Redis = () => {
         onCancel={() => updater.tagFormVis(false)}
         afterSubmit={afterTagFormSubmit}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <ClusterLog recordID={recordID} onClose={() => updater.recordID('')} />
     </>
   );
