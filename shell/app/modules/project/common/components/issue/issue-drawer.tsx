@@ -89,6 +89,7 @@ export const IssueDrawer = (props: IProps) => {
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
+  const [showCopy, setShowCopy] = React.useState(false);
   const preDataRef = React.useRef(data);
   const preData = preDataRef.current;
 
@@ -158,6 +159,8 @@ export const IssueDrawer = (props: IProps) => {
                   <WithAuth pass={canCreate}>
                     <Popover
                       title={i18n.t('project:copy issue')}
+                      visible={showCopy}
+                      onVisibleChange={(v) => setShowCopy(v)}
                       content={
                         <>
                           <Input
@@ -167,7 +170,13 @@ export const IssueDrawer = (props: IProps) => {
                             onChange={(e) => setCopyTitle(e.target.value)}
                           />
                           <div className="right-flex-box mt8">
-                            <Button className="mr8" onClick={() => setCopyTitle('')}>
+                            <Button
+                              className="mr8"
+                              onClick={() => {
+                                setCopyTitle('');
+                                setShowCopy(false);
+                              }}
+                            >
                               {i18n.t('cancel')}
                             </Button>
                             <Button
@@ -178,6 +187,7 @@ export const IssueDrawer = (props: IProps) => {
                                 }
                                 handleCopy && handleCopy(true, copyTitle);
                                 setCopyTitle('');
+                                setShowCopy(false);
                               }}
                               type="primary"
                             >
