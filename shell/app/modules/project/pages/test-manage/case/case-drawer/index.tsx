@@ -341,7 +341,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   />
                 </>
               ) : null}
-              <IconClose onClick={handleClose} className="ml-3 pointer" size="16px" />
+              <IconClose onClick={handleClose} className="ml-3 cursor-pointer" size="16px" />
             </div>
           </div>
           <div className="flex justify-between items-center mt-4">

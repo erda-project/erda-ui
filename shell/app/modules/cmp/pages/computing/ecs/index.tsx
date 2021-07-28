@@ -45,7 +45,7 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
   return (
     <div>
-      <IconHelp className="mr-1 bg-color-icon yellow" />
+      <IconHelp className="mr-1 rounded-full bg-yellow text-white" />
       <span>{i18n.t('cmp:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>

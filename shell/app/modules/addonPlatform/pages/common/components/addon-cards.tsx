@@ -188,7 +188,7 @@ export const AddonCards = (props: IProps) => {
 
     return (
       <div
-        className="addon-item-container pointer"
+        className="addon-item-container cursor-pointer"
         key={`${instanceId || realInstanceId}-${projectId}-${workspace}`}
         onClick={() => onClickCard(content)}
       >

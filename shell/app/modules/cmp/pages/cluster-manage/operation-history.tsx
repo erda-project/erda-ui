@@ -140,7 +140,7 @@ export const OperationHistory = () => {
         return hasLog ? (
           <CustomIcon
             type="log"
-            className="pointer"
+            className="cursor-pointer"
             onClick={() => {
               updater.curRow(record);
             }}

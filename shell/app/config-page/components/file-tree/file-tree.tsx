@@ -96,8 +96,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         return {
           ...d,
           className: 'insert-node',
-          title: <div className="pointer insert-node-title" onClick={clickInsert} />,
-          icon: <CustomIcon type="cir-add" className="insert-node-icon pointer" onClick={clickInsert} />,
+          title: <div className="cursor-pointer insert-node-title" onClick={clickInsert} />,
+          icon: <CustomIcon type="cir-add" className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
         };
       }
       if (staticSearch && !(matchKeys || []).includes(d.key)) {

@@ -77,7 +77,7 @@ const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: 
               return (
                 <span
                   key={cItem.value}
-                  className={`pointer ${isActive ? 'tag-primary' : 'tag-default'}`}
+                  className={`cursor-pointer ${isActive ? 'tag-primary' : 'tag-default'}`}
                   onClick={() => handleChange(cItem.value, isActive)}
                 >
                   {cItem.desc ? <Tooltip title={cItem.desc}>{cItem.name}</Tooltip> : cItem.name}

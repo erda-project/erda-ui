@@ -236,7 +236,7 @@ const SideBar = () => {
       verticalBrandIcon={
         loginUser.isSysAdmin ? null : (
           <img
-            className="mr-0 pointer"
+            className="mr-0 cursor-pointer"
             src={Logo}
             style={{
               width: '19px',

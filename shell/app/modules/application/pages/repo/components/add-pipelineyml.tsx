@@ -223,7 +223,7 @@ const AddPipelineYml = () => {
         </Radio.Button>
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
-        <CustomIcon type="zhongzhi" className="ml-2 pointer" onClick={reset} />
+        <CustomIcon type="zhongzhi" className="ml-2 cursor-pointer" onClick={reset} />
       </Tooltip>
     </>
   );
@@ -411,7 +411,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
     return (
       <div
         key={template.id}
-        className={`pipeline-template-item border-radius p-4 ${value === id ? 'active-item' : ''}`}
+        className={`pipeline-template-item rounded p-4 ${value === id ? 'active-item' : ''}`}
         onClick={() => changeValue(id)}
       >
         <div className="logo">

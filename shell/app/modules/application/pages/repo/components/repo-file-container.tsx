@@ -256,7 +256,7 @@ const RepoFileContainerComp = (props: IProps) => {
             secondTitle=""
             onConfirm={onYmlUpgrade}
           >
-            <div className="file-alert pointer">
+            <div className="file-alert cursor-pointer">
               <CustomIcon className="mr-1" type="jg" />
               <span className="alert-text">
                 {i18n.t('application:current')} {path} {i18n.t('application:can be upgraded with one click')}！

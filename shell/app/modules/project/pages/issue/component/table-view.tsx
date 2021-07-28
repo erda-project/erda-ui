@@ -366,7 +366,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   return (
-    <div className="p-3 border-radius issue-table-view">
+    <div className="p-3 rounded issue-table-view">
       <Table
         rowKey="id"
         columns={columns}

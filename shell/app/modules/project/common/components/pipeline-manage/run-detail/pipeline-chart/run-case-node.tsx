@@ -205,7 +205,7 @@ export const RunCaseNode = (props: IProps) => {
 
   const status = ciStatusMap[data.status] || ciStatusMap.Unknown;
   const statusContent = (
-    <span className={`mt-2 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
+    <span className={`mt-2 test-case-status-box rounded ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
       <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
     </span>

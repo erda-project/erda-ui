@@ -559,7 +559,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         fileExtension="json"
         minLines={4}
         readOnly={readOnly}
-        className="border-radius border-all"
+        className="rounded border-all"
         maxLines={10}
         actions={{
           copy: true,

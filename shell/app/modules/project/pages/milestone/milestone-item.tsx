@@ -42,7 +42,7 @@ export default ({ item, onClickItem }: IProps) => {
     'drag-wrap': true,
     dragging: isDragging,
     'milestone-info-card': true,
-    'border-radius': true,
+    rounded: true,
     'hover-active-bg': true,
     'border-all': true,
   });
@@ -60,7 +60,7 @@ export default ({ item, onClickItem }: IProps) => {
       )}
       <div key={item.id} onClick={() => onClickItem(item)} ref={drag}>
         <Card className={`shallow-shadow ${cls}`}>
-          <div className="milestone-item-container milestone-info-card-content pointer">
+          <div className="milestone-item-container milestone-info-card-content cursor-pointer">
             <div className="milestone-item nowrap lt">
               <Tooltip placement="top" title={item.title}>
                 <span className="milestone-title">

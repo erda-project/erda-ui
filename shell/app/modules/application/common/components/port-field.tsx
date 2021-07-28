@@ -76,7 +76,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             onChange={(v: any) => this.changeValue(index, 'port', v)}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml-3 pointer" onClick={() => this.deleteVariable(index)} />
+            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.deleteVariable(index)} />
           )}
         </div>
       );
@@ -86,7 +86,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       <div>
         <div className="edit-service-label">
           {i18n.t('application:ports')}
-          {disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNew} />}
+          {disabled ? null : <IconPlus className="variable-icon cursor-pointer" onClick={this.addNew} />}
         </div>
         {content}
       </div>

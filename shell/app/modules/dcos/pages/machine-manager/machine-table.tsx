@@ -57,7 +57,7 @@ const ProgressItem = ({ percent, used, total, unit, unitType }: any) => (
     >
       <div
         className={classNames({
-          pointer: true,
+          'cursor-pointer': true,
           'machine-percent-bar': true,
           'machine-percent-error-bar': percent >= 100,
         })}
@@ -82,7 +82,10 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
           : `${i18n.t('org:allocation')}: ${round(request, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
-      <div className="machine-percent-bar machine-percent-bottom-bar pointer" style={{ width: `${requestPercent}%` }}>
+      <div
+        className="machine-percent-bar machine-percent-bottom-bar cursor-pointer"
+        style={{ width: `${requestPercent}%` }}
+      >
         <span>{`${requestPercent}%`}</span>
       </div>
     </Tooltip>
@@ -99,7 +102,7 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
     >
       <div
         className={classNames({
-          pointer: true,
+          'cursor-pointer': true,
           'machine-percent-bar': true,
           'machine-percent-top-bar': true,
           'machine-percent-error-bar': usedPercent >= requestPercent,
@@ -489,7 +492,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         const { status, abnormalMsg } = record;
         return (
           <div>
-            <span className="status-pointer">
+            <span className="status-cursor-pointer">
               {status === 'normal' ? null : (
                 <HealthPoint
                   type="machine"

@@ -239,7 +239,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = <div className="prewrap pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
+      Comp = <div className="prewrap cursor-pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
       break;
     default:
       Comp = (

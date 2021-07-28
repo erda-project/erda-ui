@@ -26,10 +26,10 @@ import './test-plan.scss';
 
 const { Option } = Select;
 const iconMap = {
-  DOING: <CustomIcon type="jxz" className="bg-color-icon blue" />,
-  PAUSE: <CustomIcon type="zt" className="bg-color-icon yellow" />,
-  DONE: <CustomIcon type="tg" className="bg-color-icon green" />,
-  DISCARD: <CustomIcon type="wtg" className="bg-color-icon red" />,
+  DOING: <CustomIcon type="jxz" className="rounded-full bg-blue text-white" />,
+  PAUSE: <CustomIcon type="zt" className="rounded-full bg-yellow text-white" />,
+  DONE: <CustomIcon type="tg" className="rounded-full bg-green text-white" />,
+  DISCARD: <CustomIcon type="wtg" className="rounded-full bg-red text-white" />,
 };
 const statusMap = [
   { label: i18n.t('project:processing'), value: 'DOING' },

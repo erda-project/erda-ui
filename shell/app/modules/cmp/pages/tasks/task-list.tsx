@@ -111,7 +111,7 @@ const ServicesList = ({ taskType }: IProps) => {
   let extraTableAttr = {};
   if (taskType === 'deployment') {
     extraTableAttr = {
-      rowClassName: 'pointer',
+      rowClassName: 'cursor-pointer',
       onRow: ({ projectID, applicationID, runtimeID }: any) => {
         return {
           onClick: () => {

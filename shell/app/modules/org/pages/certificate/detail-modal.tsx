@@ -79,7 +79,7 @@ const TextItem = ({ value, label, type }: { value: string; label: string; type?:
         value
       ) : (
         <Tooltip title={show ? undefined : i18n.t('click to view password')}>
-          <span className={show ? '' : 'pointer'} onClick={() => setShow(true)}>
+          <span className={show ? '' : 'cursor-pointer'} onClick={() => setShow(true)}>
             {show ? value : '******'}
           </span>
         </Tooltip>

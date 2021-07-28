@@ -95,7 +95,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         };
         Comp = (
           <div
-            className={`table-render-twt w-full pl-2 flex items-center ${hasPointer ? 'pointer' : ''}`}
+            className={`table-render-twt w-full pl-2 flex items-center ${hasPointer ? 'cursor-pointer' : ''}`}
             onClick={onClick}
           >
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}

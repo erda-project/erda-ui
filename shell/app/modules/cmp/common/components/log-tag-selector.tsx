@@ -463,7 +463,7 @@ const LoadMoreMenu = (props: ILoadMoreProps) => {
       {isEmpty(list) ? <EmptyHolder relative /> : null}
       {hasMore ? (
         <div
-          className="pointer load-more"
+          className="cursor-pointer load-more"
           onClick={(e) => {
             e.stopPropagation();
             updater.pageNo(pageNo + 1);

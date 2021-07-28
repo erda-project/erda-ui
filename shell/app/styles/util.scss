@@ -81,11 +81,6 @@
   }
 }
 
-// cursor
-.pointer {
-  cursor: pointer;
-}
-
 .not-allowed {
   color: $color-disabled !important;
   cursor: not-allowed !important;
@@ -93,43 +88,6 @@
   &:hover {
     color: $color-disabled !important;
     text-decoration: unset !important;
-  }
-}
-
-.colorful-light-bg {
-  .red {
-    color: $red !important;
-    background-color: rgba($red, 0.1) !important;
-  }
-
-  .orange {
-    color: $orange !important;
-    background-color: rgba($orange, 0.1) !important;
-  }
-
-  .purple {
-    color: $purple !important;
-    background-color: rgba($purple, 0.1) !important;
-  }
-
-  .blue {
-    color: $blue !important;
-    background-color: rgba($blue, 0.1) !important;
-  }
-
-  .cyan {
-    color: $cyan !important;
-    background-color: rgba($cyan, 0.1) !important;
-  }
-
-  .green {
-    color: $green !important;
-    background-color: rgba($green, 0.1) !important;
-  }
-
-  .gray {
-    color: $gray !important;
-    background-color: rgba($gray, 0.1) !important;
   }
 }
 
@@ -202,12 +160,6 @@
   line-height: 24px;
   white-space: nowrap;
   border-radius: 3px;
-}
-
-.tag-small {
-  height: 18px;
-  padding: 0 4px;
-  line-height: 18px;
 }
 
 .tag-default {
@@ -375,28 +327,6 @@
   }
 }
 
-.bg-color-icon {
-  color: $white;
-  background-color: $color-text-icon;
-  border-radius: 100%;
-
-  &.red {
-    background-color: $color-danger;
-  }
-
-  &.green {
-    background-color: $color-success;
-  }
-
-  &.blue {
-    background-color: $color-info;
-  }
-
-  &.yellow {
-    background-color: $color-warning;
-  }
-}
-
 .common-list-item {
   display: flex;
   justify-content: space-between;
@@ -453,12 +383,6 @@
   white-space: pre-line;
 }
 
-.active-tr {
-  td {
-    background-color: $color-active-bg;
-  }
-}
-
 .prewrap {
   overflow: hidden;
   white-space: pre-wrap;
@@ -477,24 +401,4 @@
 
 .default-selector-width {
   width: 200px;
-}
-
-.border-radius {
-  border-radius: $radius;
-}
-
-.align-top {
-  display: flex;
-  align-items: flex-start;
-}
-
-.no-prevent {
-  .pk-select-arrow {
-    pointer-events: all;
-  }
-}
-
-.color-active-bg {
-  color: $primary;
-  background-color: $color-active-bg;
 }

@@ -283,7 +283,7 @@ export const ProjectList = () => {
             rowKey="id"
             dataSource={list}
             columns={getColumns()}
-            rowClassName={() => 'pointer'}
+            rowClassName={() => 'cursor-pointer'}
             onRow={(record: any) => {
               return {
                 onClick: () => {

@@ -371,7 +371,7 @@ const ApiDesign = () => {
       <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus
-          className="mr-0 pointer"
+          className="mr-0 cursor-pointer"
           size="16px"
           onClick={(e) => {
             e.stopPropagation();
@@ -405,7 +405,11 @@ const ApiDesign = () => {
               onCancel={(e: any) => e.stopPropagation()}
             >
               {!apiLockState && (
-                <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={(e) => e?.stopPropagation()} />
+                <CustomIcon
+                  type="shanchu"
+                  className="list-title-btn cursor-pointer"
+                  onClick={(e) => e?.stopPropagation()}
+                />
               )}
             </Popconfirm>
           </div>

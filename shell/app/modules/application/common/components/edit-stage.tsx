@@ -400,7 +400,10 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
     const addBtn = editing ? (
-      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} />
+      <IconPlus
+        className="cursor-pointer"
+        onClick={() => addNewItemToStructArray(property.value, property.struct[0])}
+      />
     ) : null;
     initialValue.current = {
       [`${parentKey}-data`]: property.value || [],

@@ -202,7 +202,7 @@ const DomainModal = (props: IProps) => {
                 <div className="custom-domain" key="custom">
                   <span>{i18n.t('runtime:custom domain name')}:</span>
                   <span className="add-domain-icon">
-                    <IconAddOne className="hover-active text-lg ml-3 pointer" onClick={() => addCustom()} />
+                    <IconAddOne className="hover-active text-lg ml-3 cursor-pointer" onClick={() => addCustom()} />
                   </span>
                 </div>
               </div>
@@ -256,7 +256,7 @@ const InputItem = (props: IInputItemProps) => {
       <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={onDelete}>
         <span className="delete-domain-icon">
           {' '}
-          <IconReduceOne className="hover-active text-lg pointer" />{' '}
+          <IconReduceOne className="hover-active text-lg cursor-pointer" />{' '}
         </span>
       </Popconfirm>
     </>

@@ -216,10 +216,10 @@ export const IssueDrawer = (props: IProps) => {
                 ) : null}
                 {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                    <IconCheck className="ml-3 pointer" size="16px" />
+                    <IconCheck className="ml-3 cursor-pointer" size="16px" />
                   </Popconfirm>
                 ) : (
-                  <IconCheck className="ml-3 pointer" size="16px" onClick={onClose} />
+                  <IconCheck className="ml-3 cursor-pointer" size="16px" onClick={onClose} />
                 )}
               </div>
             </div>

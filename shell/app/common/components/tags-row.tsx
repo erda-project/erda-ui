@@ -51,14 +51,15 @@ const TagItem = (props: IItemProps) => {
   const { label: _label, size, withCut, onDelete } = props;
   const { label, color = 'gray' } = _label;
   const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };
+  const tagColor = TagColorMap[color] || '';
   return (
     <Tooltip title={withCut && label.length > 15 ? label : undefined}>
-      <span style={style} className={`tag-default twt-tag-item ${size} ${TagColorMap[color] || ''}`}>
+      <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
         {onDelete ? (
           <IconCloseOne
             theme="filled"
             size="12"
-            className="tag-close pointer text-holder"
+            className="tag-close cursor-pointer text-holder"
             onClick={() => onDelete(_label)}
           />
         ) : null}
@@ -106,7 +107,7 @@ export const TagsRow = ({
       ))}
       {showMore ? (
         <Tooltip
-          title={<span className="tags-container colorful-light-bg">{fullTags()}</span>}
+          title={<span className="tags-container">{fullTags()}</span>}
           placement="top"
           overlayClassName="tags-tooltip"
         >
@@ -123,7 +124,7 @@ export const TagsRow = ({
       className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <span className="tags-box colorful-light-bg">{oneAndMoreTag}</span>
+      <span className="tags-box">{oneAndMoreTag}</span>
       {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml-2 fake-link" size="14" /> : null}
     </div>
   );

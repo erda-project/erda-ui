@@ -153,7 +153,7 @@ const ClientDetail = () => {
     {
       label: 'ClientSecret',
       value: (
-        <div className="flex justify-between items-center align-top">
+        <div className="flex justify-between items-center flex items-start">
           {showSecret ? (
             <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
               {get(clientDetail, ['sk', 'clientSecret'])}

@@ -130,13 +130,17 @@ export default () => {
 
   return (
     <div className="project-label-list">
-      <div className="colorful-light-bg">
+      <div>
         <span className="label-item create" onClick={() => updater.modalVisible(true)}>
           <IconPlus size="14px" />
           {i18n.t('project:add label')}
         </span>
         {list.map((label) => (
-          <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
+          <span
+            className={`label-item text-${label.color} bg-${label.color} bg-opacity-10`}
+            key={label.id}
+            onClick={() => onClickLabel(label)}
+          >
             {label.name}
             <IconClose
               className="ml-1"

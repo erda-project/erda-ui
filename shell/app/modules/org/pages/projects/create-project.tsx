@@ -161,10 +161,10 @@ const TemplateCard = (props: ICardProps) => {
   };
   const cln = classnames([
     'template-card',
-    'border-radius',
+    'rounded',
     'px-2',
     'py-3',
-    'pointer',
+    'cursor-pointer',
     'flex flex-col justify-center',
     'flex items-center',
     'justify-start',

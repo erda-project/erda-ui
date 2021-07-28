@@ -63,6 +63,7 @@ module.exports = {
         'white-8': '#ffffffcc',
         'log-font': '#c2c1d0',
         'log-bg': '#3c444f',
+        'light-active': '#6a549e0f', // rgba($primary, .06)
       },
       flex: {
         2: '2 2 0%',

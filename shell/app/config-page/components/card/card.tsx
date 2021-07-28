@@ -85,7 +85,7 @@ export const Card = (props: CP_CARD.Props) => {
     dragging: dragObj && dragObj.isDragging,
     'dice-cp': true,
     'info-card': true,
-    'border-radius': true,
+    rounded: true,
     'hover-active-bg': true,
     'border-all': true,
   });

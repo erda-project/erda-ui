@@ -69,7 +69,7 @@ const DetailBtn = (detailBtnProps: { visible: boolean; onChange: (v: boolean) =>
     <Tooltip title={i18n.t('detail')}>
       <CustomIcon
         type={visible ? 'chevron-up' : 'chevron-down'}
-        className="pointer mt-2"
+        className="cursor-pointer mt-2"
         style={{ width: 'auto' }}
         onClick={() => {
           onChange(!visible);
