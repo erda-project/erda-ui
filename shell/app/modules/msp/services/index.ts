@@ -13,12 +13,24 @@
 
 import agent from 'agent';
 
-export const getMspProjectList = (): MS_INDEX.IMspProject[] => {
-  return agent.get('/api/microservice/projects').then((response: any) => response.body);
+export const getMspProjectList = (): Promise<{ success: boolean; data: MS_INDEX.IMspProject[] }> => {
+  return agent.get('/api/msp/tenant/projects').then((response: any) => response.body);
 };
 
-export const getMspProjects = () => {
-  return agent.get('/api/msp/projects').then((response: any) => response.body);
+export const getMspProjectDetail = (payload: { projectId: string }): MS_INDEX.IMspProject => {
+  return agent
+    .get('/api/msp/tenant/project')
+    .query(payload)
+    .then((response: any) => response.body);
+};
+
+export const createTenantProject = (
+  payload: MS_INDEX.ICreateProject,
+): Promise<{ success: boolean; data: MS_INDEX.IMspProject }> => {
+  return agent
+    .post('/api/msp/tenant/project')
+    .send(payload)
+    .then((response: any) => response.body);
 };
 
 export const getMspMenuList = ({

@@ -19,126 +19,6 @@ import { debounce } from 'lodash';
 import TypeSelect, { Item } from 'msp/pages/configuration/type-select';
 import { getAdapters } from 'msp/services/configuration';
 
-const { data } = {
-  data: [
-    {
-      language: 'JAVA',
-      displayName: 'Java',
-      strategies: [
-        {
-          displayName: 'Java Agent',
-          strategy: 'JAVA_AGENT',
-          enable: true,
-        },
-        {
-          displayName: 'Apache Skywalking',
-          strategy: 'APACHE_SKYWALKING',
-          enable: false,
-        },
-        {
-          displayName: 'Jaeger',
-          strategy: 'JAEGER',
-          enable: false,
-        },
-        {
-          displayName: 'Open Telemetry',
-          strategy: 'OPEN_TELEMETRY',
-          enable: false,
-        },
-      ],
-    },
-    {
-      language: 'GO',
-      displayName: 'Golang',
-      strategies: [
-        {
-          displayName: 'Apache Skywalking',
-          strategy: 'APACHE_SKYWALKING',
-          enable: false,
-        },
-        {
-          displayName: 'Jaeger',
-          strategy: 'JAEGER',
-          enable: false,
-        },
-        {
-          displayName: 'Open Telemetry',
-          strategy: 'OPEN_TELEMETRY',
-          enable: false,
-        },
-      ],
-    },
-    {
-      language: 'PHP',
-      displayName: 'PHP',
-      strategies: [
-        {
-          displayName: 'Apache Skywalking',
-          strategy: 'APACHE_SKYWALKING',
-          enable: false,
-        },
-        {
-          displayName: 'Jaeger',
-          strategy: 'JAEGER',
-          enable: false,
-        },
-        {
-          displayName: 'Open Telemetry',
-          strategy: 'OPEN_TELEMETRY',
-          enable: false,
-        },
-      ],
-    },
-    {
-      language: 'DOT_NET',
-      displayName: '.Net Core',
-      strategies: [
-        {
-          displayName: 'Apache Skywalking',
-          strategy: 'APACHE_SKYWALKING',
-          enable: false,
-        },
-        {
-          displayName: 'Jaeger',
-          strategy: 'JAEGER',
-          enable: false,
-        },
-        {
-          displayName: 'Open Telemetry',
-          strategy: 'OPEN_TELEMETRY',
-          enable: false,
-        },
-      ],
-    },
-    {
-      language: 'NODEJS',
-      displayName: 'Node.js',
-      strategies: [
-        {
-          displayName: 'Node.js Agent',
-          strategy: 'NODEJS_AGENT',
-          enable: true,
-        },
-        {
-          displayName: 'Apache Skywalking',
-          strategy: 'APACHE_SKYWALKING',
-          enable: false,
-        },
-        {
-          displayName: 'Jaeger',
-          strategy: 'JAEGER',
-          enable: false,
-        },
-        {
-          displayName: 'Open Telemetry',
-          strategy: 'OPEN_TELEMETRY',
-          enable: false,
-        },
-      ],
-    },
-  ],
-};
-
 type LangItem = Merge<CONFIGURATION.ILangConf, Item>;
 type Strategy = Merge<CONFIGURATION.IStrategy, Item>;
 
@@ -186,8 +66,8 @@ interface IState {
 
 const ItemRender = ({ title, children }: IProps) => {
   return (
-    <div className="mb24">
-      <div className="bold-500 color-text mb12 fz16">{title}</div>
+    <div className="mb-6">
+      <div className="font-medium color-text mb-3 text-base">{title}</div>
       {children}
     </div>
   );
@@ -262,7 +142,7 @@ const Configuration = () => {
         <TypeSelect<LangItem> value={lang} list={langList} onChange={handleChangeLang} />
       </ItemRender>
       <ItemRender title={i18n.t('msp:choose data collection method')}>
-        <div className="mb12 color-text-desc">{i18n.t('msp:data collection desc')}</div>
+        <div className="mb-3 color-text-desc">{i18n.t('msp:data collection desc')}</div>
         <TypeSelect<Strategy> list={strategies} value={strategy} onChange={handleChangeStrategy} />
       </ItemRender>
       <ItemRender title={i18n.t('msp:service name')}>

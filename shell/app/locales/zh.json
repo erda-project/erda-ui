@@ -1405,6 +1405,7 @@
     "date": "日期",
     "deadline": "截止日期",
     "default": "默认",
+    "default environment": "默认环境",
     "default value": "默认值",
     "delete": "删除",
     "delete certificate": "删除证书",

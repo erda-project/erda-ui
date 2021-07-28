@@ -93,6 +93,7 @@ const mspStore = createStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isEntering, isLeaving }: IRouteInfo) => {
       if (isEntering('mspDetail')) {
+        mspStore.effects.getMspProjectDetail();
         mspStore.effects.getMspMenuList().then((msMenu: MS_INDEX.IMspMenu[]) => {
           if (msMenu.length) {
             const DICE_CLUSTER_NAME = msMenu[0].clusterName;
@@ -123,9 +124,12 @@ const mspStore = createStore({
     });
   },
   effects: {
-    async getMspProjectList({ call, update }) {
-      const mspProjectList = await call(mspService.getMspProjectList);
-      await update({ mspProjectList });
+    async getMspProjectDetail({ call, update, getParams }) {
+      const { projectId } = getParams();
+      const projectDetail = await call(mspService.getMspProjectDetail, { projectId });
+      update({
+        currentProject: projectDetail,
+      });
     },
     async getMspMenuList({ call, select, update }) {
       const [params, routes, query] = routeInfoStore.getState((s) => [s.params, s.routes, s.query]);

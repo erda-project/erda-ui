@@ -17,7 +17,7 @@ import { Tooltip, Button, Input } from 'app/nusi';
 import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
@@ -61,6 +61,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       reloadHeadInfo();
     });
   };
+  const notMSGovernance = info.type !== 'MSGovernance';
   const fieldsList = [
     {
       label: i18n.t('{name} identifier', { name: i18n.t('project') }),
@@ -73,21 +74,23 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       label: i18n.t('project name'),
       name: 'displayName',
     },
-    {
-      label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
-      name: 'isPublic',
-      type: 'radioGroup',
-      options: [
-        {
-          name: i18n.t('project:public project'),
-          value: 'true',
-        },
-        {
-          name: i18n.t('project:private project'),
-          value: 'false',
-        },
-      ],
-    },
+    ...insertWhen(notMSGovernance, [
+      {
+        label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
+        name: 'isPublic',
+        type: 'radioGroup',
+        options: [
+          {
+            name: i18n.t('project:public project'),
+            value: 'true',
+          },
+          {
+            name: i18n.t('project:private project'),
+            value: 'false',
+          },
+        ],
+      },
+    ]),
     {
       label: i18n.t('project:project icon'),
       name: 'logo',
@@ -102,11 +105,14 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       required: false,
       itemProps: { rows: 4, maxLength: 200 },
     },
-    ...useQuotaFields(
-      canEditQuota,
-      showQuotaTip,
-      { cpuQuota: info.cpuQuota, memQuota: info.memQuota },
-      canGetClusterListAndResources,
+    ...insertWhen(
+      notMSGovernance,
+      useQuotaFields(
+        canEditQuota,
+        showQuotaTip,
+        { cpuQuota: info.cpuQuota, memQuota: info.memQuota },
+        canGetClusterListAndResources,
+      ),
     ),
     // {
     //   label: i18n.t('project:DingTalk notification address'),
@@ -188,7 +194,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       updateInfo={updatePrj}
       extraSections={extraSectionList}
       name={
-        info.id && inOrgCenter ? (
+        info.id && inOrgCenter && notMSGovernance ? (
           <div>
             {formName}
             <Tooltip title={i18n.t('project:applications')}>

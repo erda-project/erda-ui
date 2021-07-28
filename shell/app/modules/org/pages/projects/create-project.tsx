@@ -14,11 +14,11 @@
 import { Button, Select, Alert, Input, Spin, Checkbox } from 'app/nusi';
 import i18n from 'i18n';
 import React from 'react';
-import { ImageUpload, RenderForm, CompactSelect } from 'common';
 import { ImageUpload, RenderForm, CompactSelect, ErdaCustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
+import { createTenantProject } from 'msp/services';
 import { goTo, insertWhen } from 'app/common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
@@ -144,7 +144,7 @@ export const useQuotaFields = (
 interface IProjectType {
   list: ICardProps[];
   value?: string;
-  onChange?(type: PROJECT.ProjectType, typeItem: ICardProps): void;
+  onChange?: (type: PROJECT.ProjectType, typeItem: ICardProps) => void;
 }
 
 const ProjectType = (props: IProjectType) => {
@@ -165,18 +165,19 @@ const ProjectType = (props: IProjectType) => {
   );
 
   return (
-    <div className="template-card-row flex-box">
+    <div className="template-card-row flex justify-between items-center">
       {list.map((item) => {
         const isChecked = selectType === item.val;
         const cln = classnames([
           'template-card',
           'border-radius',
-          'px8',
-          'py12',
+          'h-40',
+          'px-2',
+          'py-3',
           'pointer',
-          'column-flex-box',
-          'v-align',
-          'flex-start',
+          'flex flex-col justify-center',
+          'items-center',
+          'justify-start',
           item.disabled ? 'not-allowed' : '',
           isChecked ? 'checked' : '',
         ]);
@@ -188,11 +189,11 @@ const ProjectType = (props: IProjectType) => {
               handleSelect(item);
             }}
           >
-            <div className="template-icon center-flex-box ">
+            <div className="template-icon center-flex-box">
               <ErdaCustomIcon type={item.icon} color={isChecked ? 'primary' : 'lightgray'} size="40px" />
             </div>
-            <div className="template-name fz14 color-text pt8 pb4">{item.name}</div>
-            <div className="template-description fz12 color-text-sub">{item.description}</div>
+            <div className="template-name text-sm color-text pt-2 pb-1">{item.name}</div>
+            <div className="template-description text-xs color-text-sub">{item.description}</div>
           </div>
         );
       })}
@@ -200,7 +201,7 @@ const ProjectType = (props: IProjectType) => {
   );
 };
 
-const templateArr: Array<ICardProps> = [
+const templateArr: ICardProps[] = [
   {
     name: 'DevOps',
     val: 'DevOps',
@@ -256,7 +257,14 @@ const CreationForm = () => {
     form.validateFields().then((values: any) => {
       createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota }).then((res: any) => {
         if (res.success) {
-          goTo('../');
+          createTenantProject({
+            id: `${res.data}`,
+            name: values.name,
+            displayName: values.displayName,
+            type: values.template === 'MSGovernance' ? 'MSP' : 'DOP',
+          }).then((a) => {
+            goTo('../');
+          });
         }
       });
     });

@@ -15,28 +15,29 @@ import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import { Select } from 'app/nusi';
 import mspStore from 'msp/stores/micro-service';
-import { envMap } from 'msp/config';
-import { map } from 'lodash';
 import { goTo } from 'common/utils';
 
 const { Option } = Select;
 
 const SwitchEnv = () => {
-  const [{ workSpaces, id }] = mspStore.useStore((s) => [s.currentProject]);
+  const [{ relationship, id }] = mspStore.useStore((s) => [s.currentProject]);
   const [{ env }] = routeInfoStore.useStore((s) => [s.params]);
   const [currentEnv, setEnv] = React.useState(env);
   React.useEffect(() => {
     setEnv(env);
   }, [env]);
   const handleChangeEnv = (val: string) => {
-    goTo(goTo.pages.mspOverview, { tenantGroup: workSpaces[val], projectId: id, env: val });
+    const selectEnv = relationship.find((item) => item.workspace);
+    if (selectEnv) {
+      goTo(goTo.pages.mspOverview, { tenantGroup: selectEnv.tenantId, projectId: id, env: val });
+    }
   };
   return (
-    <div className="v-flex-box px12">
-      <div className="mb12">{env}</div>
-      <Select className="full-width" value={currentEnv} onSelect={handleChangeEnv}>
-        {map(workSpaces, (_, key) => {
-          return <Option value={key}>{envMap[key]}</Option>;
+    <div className="px-3">
+      <div className="mb-3">{env}</div>
+      <Select className="w-full" value={currentEnv} onSelect={handleChangeEnv}>
+        {relationship.map((item) => {
+          return <Option value={item.workspace}>{item.displayWorkspace}</Option>;
         })}
       </Select>
     </div>

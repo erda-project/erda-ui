@@ -65,20 +65,24 @@ const TypeSelect = <T extends Item>({ list, onChange, value, className }: IProps
     [type, onChange],
   );
   return (
-    <div className={`msp-conf-type-select wrap-flex-box ${className && className}`}>
+    <div className={`msp-conf-type-select flex flex-wrap justify-items-start ${className && className}`}>
       {list.map((item) => {
         const { key, type: itemType, displayName, iconProps = {} } = item;
         const isSelect = type === itemType;
         return (
           <div
-            className={`conf-item mr16 mb16 flex-box flex-start pl12 ${isSelect ? 'select-item' : ''}`}
+            className={`conf-item group mr-4 mb-4 flex justify-items-start items-center pl-3 hover:border-primary ${
+              isSelect ? 'border-primary bg-light-primary' : ''
+            }`}
             key={key || itemType}
             onClick={() => {
               handleClick(item);
             }}
           >
             <ErdaCustomIcon size="60px" type={iconMap[key] ?? defaultIcon} {...iconProps} />
-            <div className="ml12 name bold-500">{displayName}</div>
+            <div className={`ml-3 name font-medium group-hover:text-primary ${isSelect ? 'text-primary' : ''}`}>
+              {displayName}
+            </div>
           </div>
         );
       })}

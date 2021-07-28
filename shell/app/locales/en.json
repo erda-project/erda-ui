@@ -1405,6 +1405,7 @@
     "date": "date",
     "deadline": "deadline",
     "default": "default",
+    "default environment": "default environment",
     "default value": "default value",
     "delete": "delete",
     "delete certificate": "delete certificate",

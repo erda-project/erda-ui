@@ -12,16 +12,31 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MS_INDEX {
+  type IMspProjectEnv = WORKSPACE | 'DEFAULT'; // check 作为函数，应该返回布尔值
+
+  interface IMspRelationship {
+    workspace: IMspProjectEnv;
+    tenantId: string;
+    displayWorkspace: string;
+  }
+
+  interface ICreateProject {
+    name: string;
+    displayName: string;
+    id: string;
+    type: 'MSP' | 'DOP';
+  }
+
   interface IMspProject {
     id: string;
+    name: string;
+    displayName: string;
+    isDelete: boolean;
     type: PROJECT.ProjectType;
-    logoUrl: string;
-    projectName: string;
-    workSpaces: Record<string, string>;
-
-    projectId: string;
-    envs: [string, string, string, string];
-    tenantGroups: [string, string, string, string];
+    displayType: string;
+    relationship: IMspRelationship[];
+    createTime: number;
+    updateTime: number;
   }
 
   interface IMspMenu {

@@ -12,9 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Holder, PureBoardGrid, useUpdate } from 'common';
+import { isEmpty } from 'lodash';
+
+const DashBoard = React.memo(PureBoardGrid);
 
 const Overview = () => {
-  return <div>Overview</div>;
+  const [{ layout }] = useUpdate({ layout: [] });
+  return (
+    <div>
+      <Holder when={isEmpty(layout)}>
+        <DashBoard layout={[]} />
+      </Holder>
+    </div>
+  );
 };
 
 export default Overview;

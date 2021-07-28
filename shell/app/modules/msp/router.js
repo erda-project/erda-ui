@@ -32,14 +32,6 @@ function getMspRouter() {
       path: 'msp',
       mark: 'msp',
       routes: [
-        // {
-        //   path: 'mspManage',
-        //   breadcrumbName: i18n.t('msp:microService governance'),
-        //   getComp: (cb) => cb(import('msp/pages/micro-service/entry'), 'MspEntry'),
-        //   layout: {
-        //     noWrapper: true,
-        //   },
-        // },
         {
           path: 'overview',
           breadcrumbName: i18n.t('msp:microService governance overview'),

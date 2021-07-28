@@ -5,22 +5,5 @@
     border: 1px solid rgba(7, 10, 26, 0.1);
     border-radius: 6px;
     cursor: pointer;
-
-    &:hover {
-      border-color: $primary;
-
-      .name {
-        color: $primary;
-      }
-    }
-
-    &.select-item {
-      border-color: $primary;
-      background: rgba($primary, 0.06);
-
-      .name {
-        color: $primary;
-      }
-    }
   }
 }
