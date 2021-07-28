@@ -322,7 +322,7 @@ const TestSet = ({
     }));
     const nextActiveKey = firstBuild.current && query.eventKey && needActiveKey ? query.eventKey : rootKey;
     setActiveKey(nextActiveKey);
-    setExpandedKeys([rootKey]);
+    expandedKeys.length === 0 && setExpandedKeys([rootKey]);
     setTreeData([
       {
         title: projectInfo.name,
@@ -636,19 +636,10 @@ const TestSet = ({
         eventPath.push(window);
       }
     }
-    let clickInSwitcher = false;
-    const nodes = Array.from(eventPath);
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i] as HTMLElement;
-      if (node.nodeName === 'SPAN' && node.className.includes('ant-tree-switcher')) {
-        clickInSwitcher = true;
-      }
-    }
-    if (clickInSwitcher) {
-      nativeEvent.stopPropagation();
-      remove(nextExpandedKeys, (key) => includes(key, TEMP_MARK));
-      setExpandedKeys(nextExpandedKeys);
-    }
+
+    nativeEvent.stopPropagation();
+    remove(nextExpandedKeys, (key) => includes(key, TEMP_MARK));
+    setExpandedKeys(nextExpandedKeys);
   };
 
   const onSelect = (selectedKeys: string[], _extra?: any) => {
