@@ -135,7 +135,7 @@ const Authenticate = (props: IProps) => {
   ];
   return (
     <div>
-      <div className="flex justify-between items-center mb-4 justify-start">
+      <div className="flex items-center mb-4 justify-start">
         <TimeSelector className="ml-0" key="time-selector" inline disabledDate={() => false} />
         <Select
           value={selectMonitorKey}

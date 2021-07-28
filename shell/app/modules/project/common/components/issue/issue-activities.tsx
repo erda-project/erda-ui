@@ -109,7 +109,7 @@ export const IssueActivities = (props: IProps) => {
         <Timeline className="mt-5">
           {map(daySplit, (items: [], day) => (
             <TimelineItem key={day}>
-              <div className="day-split">{day}</div>
+              <div className="mb-4 text-normal text-base">{day}</div>
               <div className="border-top border-left border-right">{items.map(renderStream)}</div>
             </TimelineItem>
           ))}

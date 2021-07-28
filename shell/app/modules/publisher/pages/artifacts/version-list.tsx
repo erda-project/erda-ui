@@ -263,7 +263,7 @@ const VersionList = (props: IProps) => {
           {map(daySplit, (items: [], day) => {
             return (
               <TimelineItem key={day}>
-                <div className="day-split mb-4">{day}</div>
+                <div className="mb-4 text-normal text-base mb-4">{day}</div>
                 <div className="version-day-list">
                   {map(items, (record: PUBLISHER.IVersion) => {
                     const {

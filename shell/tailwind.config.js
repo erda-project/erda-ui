@@ -125,6 +125,24 @@ module.exports = {
           color: '#00000066',
           cursor: 'not-allowed',
         },
+        '.border-all': {
+          border: '1px solid #00000019',
+        },
+        '.border-top': {
+          'border-top': '1px solid #00000019',
+        },
+        '.border-bottom': {
+          'border-bottom': '1px solid #00000019',
+        },
+        '.border-left': {
+          'border-left': '1px solid #00000019',
+        },
+        '.border-right': {
+          'border-right': '1px solid #00000019',
+        },
+        '.border-dashed': {
+          border: '1px dashed #00000019',
+        },
       };
       const contentUtilities = {
         '.required': {

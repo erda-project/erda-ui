@@ -196,7 +196,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
     });
   };
   const modalTitle = (
-    <span className="flex justify-between items-center justify-start">
+    <span className="flex items-center justify-start">
       <span>{i18n.t('API test')}</span>
       <span className="ml-3 hover-active" onClick={handleScreenControl}>
         <Tooltip

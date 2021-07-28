@@ -119,7 +119,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
             <div className="common-list-item">
               <div className="list-item">
                 <div className="flex justify-between items-center">
-                  <div className="nowrap flex justify-between items-center justify-start">
+                  <div className="nowrap flex items-center justify-start">
                     {renderFieldItem({ displayName, propertyType })}
                   </div>
                   <div className="table-operations">

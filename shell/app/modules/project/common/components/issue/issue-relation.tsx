@@ -110,7 +110,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
               });
         return (
           <Tooltip title={`${v}`}>
-            <Link to={url} target="_blank" className="flex justify-between items-center justify-start  w-full">
+            <Link to={url} target="_blank" className="flex items-center justify-start  w-full">
               <IssueIcon type={record.type as any} />
               <span className="flex-1 nowrap">{`${v}`}</span>
             </Link>
@@ -345,7 +345,7 @@ const AddIssueRelation = ({
 
   return (
     <div className="issue-relation-box mt-3">
-      <div className="flex justify-between items-center justify-start">
+      <div className="flex items-center justify-start">
         <div className="mr-3">{i18n.t('project:filter condition')}:</div>
         <IterationSelect
           value={chosenIterationID}
@@ -385,7 +385,7 @@ const AddIssueRelation = ({
             (issue) => {
               return (
                 <Option key={issue.id} value={issue.id}>
-                  <div className="flex justify-between items-center justify-start">
+                  <div className="flex items-center justify-start">
                     <IssueIcon type={issue.type} />
                     <span className="nowrap">{issue.title}</span>
                   </div>

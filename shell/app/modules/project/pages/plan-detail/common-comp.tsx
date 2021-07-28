@@ -83,7 +83,7 @@ export const BaseInfo = () => {
   const content = (
     <div>
       <span className="text-normal font-medium mb-2">{i18n.t('project:participant')}</span>
-      <div className="flex flex-wrap justify-center items-center participant-items justify-start">
+      <div className="flex flex-wrap items-center participant-items justify-start">
         {partnerIDs.map((value, index) => {
           return (
             <span key={`${String(index)}-${value}`} className="mr-2 mb-2">

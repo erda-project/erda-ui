@@ -39,7 +39,7 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
             <span className="text-normal text-base hover-active font-bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
-        <div className="flex justify-between items-center justify-start">
+        <div className="flex items-center justify-start">
           <div className="text-sub">
             <Avatar className="mb-1" showName name={author.name} />
           </div>
@@ -163,7 +163,7 @@ const RepoCommit = () => {
           <Timeline>
             {map(daySplit, (items: [], day) => (
               <TimelineItem key={day}>
-                <div className="day-split">{day}</div>
+                <div className="mb-4 text-normal text-base">{day}</div>
                 <div className="commit-list">{items.map(renderCommitItem)}</div>
               </TimelineItem>
             ))}

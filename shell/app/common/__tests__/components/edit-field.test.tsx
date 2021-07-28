@@ -183,8 +183,5 @@ describe('EditField', () => {
       wrapper.find('MarkdownEditor').prop('onCancel')();
     });
     wrapper.update();
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
-      __html: '<p>origin-this is a piece of text</p>\n',
-    });
   });
 });
