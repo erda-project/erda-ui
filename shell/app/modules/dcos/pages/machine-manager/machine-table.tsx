@@ -492,7 +492,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         const { status, abnormalMsg } = record;
         return (
           <div>
-            <span className="status-cursor-pointer">
+            <span className="status-pointer">
               {status === 'normal' ? null : (
                 <HealthPoint
                   type="machine"

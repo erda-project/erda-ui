@@ -91,7 +91,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
           text
         ) : (
           <div>
-            <span className="status-cursor-pointer">
+            <span className="status-pointer">
               {status === 'Healthy' ? null : <HealthPoint type="task" status={status} />}
             </span>
             <span className="nowrap">{text}</span>
