@@ -15,7 +15,7 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, take, head } from 'lodash';
-import { Spin, Modal, Tooltip, Select, Table, Button } from 'app/nusi';
+import { Spin, Modal, Tooltip, Select, Table, Button, message, Input } from 'app/nusi';
 import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
@@ -23,6 +23,7 @@ import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import ExternalUserModal from './external-user-table';
+import agent from 'agent';
 
 import './index.scss';
 
@@ -163,6 +164,7 @@ export const ListTargets = ({
 const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const userMap = useUserMap();
+  const formRef = React.useRef<FormInstance>(null);
 
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
@@ -325,6 +327,27 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   let targetField;
   const extraFields: any[] = [];
+  const testDingTalk = () => {
+    const values = formRef.current?.getFieldsValue();
+    const { secret, receiver } = values.targets;
+    if (!secret || !receiver) {
+      message.warn(i18n.t('common:please complete Dingding address and signature'));
+      return;
+    }
+    return agent
+      .post('/api/admin/notify/dingtalk-test')
+      .send({
+        secret: secret,
+        webhook: receiver,
+      })
+      .then((response: any) => {
+        if (response.body.data.success) {
+          message.success(i18n.t('common:sent successfully, please check the test information in the group'));
+        } else {
+          message.warn(i18n.t('common:sending failed, please check the configuration information'));
+        }
+      });
+  };
 
   switch (groupType) {
     case TargetType.USER:
@@ -355,6 +378,11 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         itemProps: {
           maxLength: 200,
         },
+        suffix: (
+          <span className="notify-test-dingtalk" onClick={() => testDingTalk()}>
+            {i18n.t('common:send test notification')}
+          </span>
+        ),
       });
       break;
     case TargetType.WEBHOOK:
@@ -463,6 +491,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       </Tooltip>
       <FormModal
         width={800}
+        ref={formRef}
         title={`${isEditing ? i18n.t('application:edit group') : i18n.t('application:new Group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}

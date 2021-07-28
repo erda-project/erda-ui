@@ -45,3 +45,13 @@
     }
   }
 }
+
+.notify-test-dingtalk {
+  position: absolute;
+  text-align: right;
+  right: 0;
+  bottom: -26px;
+  font-weight: bold;
+  color: $color-primary;
+  cursor: pointer;
+}
