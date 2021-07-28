@@ -79,7 +79,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { url, value } = val || {};
         Comp = (
-          <a className="fake-link nowrap left-flex-box w-full" download={value} href={url}>
+          <a className="fake-link nowrap flex flex-wrap justify-start items-center w-full" download={value} href={url}>
             <IconDownLoad /> {value}
           </a>
         );
