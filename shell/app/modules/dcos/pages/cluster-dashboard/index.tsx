@@ -449,7 +449,10 @@ const ClusterDashboard = () => {
   const getMachineGroupContent = (item: ORG_DASHBOARD.IGroupInfo) => {
     if (isEmpty(item)) return null;
 
-    const { name: groupName, machines, metric, groups, clusterStatus }: ORG_DASHBOARD.IGroupInfo = item;
+    const { name, displayName, machines, metric, groups, clusterStatus }: ORG_DASHBOARD.IGroupInfo = item;
+    const groupName = displayName || name;
+    const activeGroupItem = clusterList.find((c) => c.name === name);
+    const activeGroupDisplayName = activeGroupItem?.displayName || activeGroupItem?.name;
 
     const {
       machines: machineNum,
@@ -465,7 +468,7 @@ const ClusterDashboard = () => {
       <Holder when={isEmpty(machines) && isEmpty(groups)}>
         <IF check={selectedGroups.length}>
           <div className="group-header flex justify-between items-center">
-            <h3 className="group-title">{activeGroup || groupName + unitGroups[0]}</h3>
+            <h3 className="group-title">{activeGroupDisplayName || groupName + unitGroups[0]}</h3>
             <IF check={activeGroup}>
               <span className="group-unactived-op hover-active">
                 <CustomIcon type="shink" />
