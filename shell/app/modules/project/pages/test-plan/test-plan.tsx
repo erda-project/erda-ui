@@ -80,7 +80,7 @@ const TestPlan = () => {
       dataIndex: 'name',
       render: (text, record) => {
         return (
-          <div className="title v-align" title={`${record.id}-${text}`}>
+          <div className="title flex items-center" title={`${record.id}-${text}`}>
             {iconMap[record.status]}
             <span className="truncate">
               {record.id}-{text}
@@ -105,7 +105,7 @@ const TestPlan = () => {
         const percent = Math.floor((succ / (total || 1)) * 100 || 0);
         return (
           <div className="sub">
-            <span className="mr4">{percent}%</span>
+            <span className="mr-1">{percent}%</span>
             <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
           </div>
         );
@@ -121,7 +121,7 @@ const TestPlan = () => {
         const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);
         return (
           <div className="sub">
-            <span className="mr4">{percent}%</span>
+            <span className="mr-1">{percent}%</span>
             <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
           </div>
         );

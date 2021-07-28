@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Tooltip, Switch } from 'app/nusi';
 import { LogRoller, SimpleLog } from 'common';
 import { regLog } from 'common/components/log/log-util';

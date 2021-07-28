@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon, DeleteConfirm, Avatar, IF, MenuPopover } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
 import { Spin, Tooltip, Alert } from 'app/nusi';
@@ -145,12 +145,12 @@ const RuntimeBox = (props: IProps) => {
 
   if (fakeRuntime) {
     return (
-      <div className="flex-box runtime-box">
-        <div className="flex-box runtime-box-header">
+      <div className="flex justify-between items-center runtime-box">
+        <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
             <CustomIcon type="slbb" />
             <Tooltip title={name}>
-              <span className="bold nowrap">{name}</span>
+              <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
         </div>
@@ -161,12 +161,15 @@ const RuntimeBox = (props: IProps) => {
 
   return (
     <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
-      <div className={`flex-box runtime-box ${isWaitApprove ? 'large' : ''}`} onClick={(e) => gotoRuntime(id, e)}>
-        <div className="flex-box runtime-box-header">
+      <div
+        className={`flex justify-between items-center runtime-box ${isWaitApprove ? 'large' : ''}`}
+        onClick={(e) => gotoRuntime(id, e)}
+      >
+        <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
             <CustomIcon type="slbb" />
             <Tooltip title={name}>
-              <span className="bold nowrap">{name}</span>
+              <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
           <IF
@@ -190,9 +193,9 @@ const RuntimeBox = (props: IProps) => {
             </Tooltip>
           </div>
         ) : null}
-        <div className="flex-box runtime-box-body">
-          <div className="flex-box">
-            <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr4" size={20} />
+        <div className="flex justify-between items-center runtime-box-body">
+          <div className="flex justify-between items-center">
+            <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr-1" size={20} />
             {lastOperatorName || ''}
             <span className="deploy-time">{lastOperateTime ? fromNow(lastOperateTime) : ''}</span>
           </div>

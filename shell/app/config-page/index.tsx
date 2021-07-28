@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
 import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
@@ -244,7 +244,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return (
-    <div className="full-height">
+    <div className="h-full">
       <div className={`page-config-spin ${showLoading && fetching ? 'spinning' : ''} `}>
         <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height" />
       </div>

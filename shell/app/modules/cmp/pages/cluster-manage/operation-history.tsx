@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import moment from 'moment';
 import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
 import machineStore from 'app/modules/cmp/stores/machine';
-import * as React from 'react';
+import React from 'react';
 import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
 import { cutStr } from 'app/common/utils';

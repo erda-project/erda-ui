@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Tooltip, Badge, Button } from 'app/nusi';
 import { get, isEmpty } from 'lodash';
@@ -192,7 +192,7 @@ export const AddonCards = (props: IProps) => {
         key={`${instanceId || realInstanceId}-${projectId}-${workspace}`}
         onClick={() => onClickCard(content)}
       >
-        <span className="env-icon bold-500" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}>
+        <span className="env-icon font-medium" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}>
           <CustomIcon type="bq" color />
         </span>
         <div className="addon-item">
@@ -206,7 +206,7 @@ export const AddonCards = (props: IProps) => {
                   <Badge status={status === 'ATTACHING' ? 'processing' : 'error'} />
                 </IF>
                 <Tooltip title={name}>
-                  <span className="title bold-500">
+                  <span className="title font-medium">
                     {name}
                     {tag ? `（${tag}）` : null}
                   </span>
@@ -216,13 +216,13 @@ export const AddonCards = (props: IProps) => {
                 <span>{PLAN_NAME[plan]}</span>
                 <span>{version}</span>
                 <IF check={customAddonType === 'cloud'}>
-                  <CustomIcon className="ml8" type="cloud" />
+                  <CustomIcon className="ml-2" type="cloud" />
                 </IF>
               </div>
             </div>
           </div>
-          <div className="addon-item-footer flex-box">
-            <div className="info flex-box">
+          <div className="addon-item-footer flex justify-between items-center">
+            <div className="info flex justify-between items-center">
               <Tooltip title={projectName}>
                 <span className="nowrap project-name">
                   <CustomIcon type="overview" />
@@ -239,7 +239,7 @@ export const AddonCards = (props: IProps) => {
                 <IF check={status === 'ATTACHING' || status === 'ATTACHFAILED'}>
                   <Tooltip title={i18n.t('log')}>
                     <span
-                      className="mr12"
+                      className="mr-3"
                       onClick={(e) => {
                         e.stopPropagation();
                         updater.modalVisible(true);
@@ -254,7 +254,7 @@ export const AddonCards = (props: IProps) => {
                 <IF check={onEitAddon && category === 'custom' && customAddonType !== 'cloud'}>
                   <Tooltip title={i18n.t('edit')}>
                     <span
-                      className="mr12"
+                      className="mr-3"
                       onClick={(e) => {
                         e.stopPropagation();
                         // edit third addon
@@ -297,14 +297,14 @@ export const AddonCards = (props: IProps) => {
                 let extra = null;
                 if (get(contents, '[0].category') === 'custom') {
                   extra = (
-                    <Button size="small" className="ml8" onClick={() => updater.customConfigVisible(true)}>
+                    <Button size="small" className="ml-2" onClick={() => updater.customConfigVisible(true)}>
                       {i18n.t('project:view config')}
                     </Button>
                   );
                 }
                 return (
                   <li className="addon-category-section" key={title} ref={liRef[title]}>
-                    <span className="content-title bold-500">
+                    <span className="content-title font-medium">
                       {title}
                       {extra}
                     </span>

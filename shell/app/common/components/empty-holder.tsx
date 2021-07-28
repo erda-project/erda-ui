@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import classnames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import './empty-holder.scss';
 import i18n from 'i18n';

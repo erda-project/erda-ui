@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Table, Spin, Button, Tooltip } from 'app/nusi';
 import { ColumnProps } from 'core/common/interface';
@@ -32,7 +32,7 @@ const SplitBox = ({ data }: IBoxProp) => {
         return (
           <div key={String(i)} className="item">
             <div className="count">{item[0]}</div>
-            <div className="fz12">{item[1]}</div>
+            <div className="text-xs">{item[1]}</div>
           </div>
         );
       })}
@@ -213,18 +213,18 @@ export const ProjectList = () => {
                   </Tooltip>
                 </div>
                 <Tooltip title={i18n.t('usage limit exceeded')}>
-                  <CustomIcon type="warning" className="overuse-tip ml4" />
+                  <CustomIcon type="warning" className="overuse-tip ml-1" />
                 </Tooltip>
               </div>
             );
           };
           return (
             <div style={{ minWidth: '200px' }}>
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <div style={{ width: '40px' }}>CPU:</div>
                 {renderBar(+cpuServiceUsed.toFixed(2), +cpuAddonUsed.toFixed(2), cpuQuota, 'Core')}
               </div>
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <div style={{ width: '40px' }}>MEM:</div>
                 {renderBar(+memServiceUsed.toFixed(2), +memAddonUsed.toFixed(2), memQuota, 'GiB')}
               </div>

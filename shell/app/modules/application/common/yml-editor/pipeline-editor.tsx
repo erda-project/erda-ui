@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 // @ts-ignore
 import yaml from 'js-yaml';
@@ -222,8 +222,8 @@ const PipelineEditor = (props: IYmlEditorProps) => {
     return (
       <>
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
-        <div className="pa16">
-          <Button type="primary" className="mr12" onClick={checkForm}>
+        <div className="p-4">
+          <Button type="primary" className="mr-3" onClick={checkForm}>
             {i18n.t('application:save')}
           </Button>
           <Button
@@ -314,7 +314,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
@@ -328,7 +328,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
         <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement="bottom">
-          <CustomIcon type="zhongzhi" className="ml8 pointer" />
+          <CustomIcon type="zhongzhi" className="ml-2 pointer" />
         </Popconfirm>
       </Tooltip>
     </>
@@ -337,7 +337,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   return (
     <div>
       <FileContainer
-        className={`new-yml-editor app-repo-pipeline column-flex-box full-spin-height ${
+        className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName}

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, map } from 'lodash';
 import { useDrop } from 'react-dnd';
 import { Button, Spin, Popconfirm, Pagination } from 'app/nusi';
@@ -202,24 +202,24 @@ const Backlog = () => {
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
   return (
-    <div className="backlog-issues column-flex-box full-height" ref={drop}>
-      <div className="backlog-issues-title flex-box mb8">
+    <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
+      <div className="backlog-issues-title flex justify-between items-center mb-2">
         <div>
-          <span className="bold fz16 mr8">{i18n.t('project:backlog')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('project:backlog')}</span>
           <span className="color-text-desc">
             {i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}
           </span>
         </div>
         <div>
           <WithAuth pass={addAuth}>
-            <Button className="mr8" type="primary" onClick={onAdd}>
-              <CustomIcon type="cir-add" className="mr4" />
+            <Button className="mr-2" type="primary" onClick={onAdd}>
+              <CustomIcon type="cir-add" className="mr-1" />
               {i18n.t('add {name}', { name: i18n.t('project:issue') })}
             </Button>
           </WithAuth>
 
           <Popconfirm title={i18n.t('project:confirm to export')} onConfirm={() => window.open(downloadUrl)}>
-            <Button className="ml8 px8">
+            <Button className="ml-2 px-2">
               <CustomIcon type="daochu" />
             </Button>
           </Popconfirm>
@@ -262,7 +262,7 @@ const Backlog = () => {
               </div>
             }
             <Pagination
-              className="right-flex-box pt8"
+              className="flex items-center flex-wrap justify-end pt-2"
               defaultCurrent={1}
               showSizeChanger
               total={total}
@@ -292,13 +292,13 @@ const Backlog = () => {
 
 const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-issues-empty-holder">
-    <img src={backlog_db_svg} className="mb12" />
-    <div className="fz24 bold my8">{i18n.t('project:backlog')}</div>
+    <img src={backlog_db_svg} className="mb-3" />
+    <div className="text-2xl font-bold my-2">{i18n.t('project:backlog')}</div>
     <div className="desc">
       {i18n.t('project:add-todo-issue-tip1')}
       <WithAuth pass={addAuth}>
-        <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
-          <CustomIcon type="cir-add" className="mr4" />
+        <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
+          <CustomIcon type="cir-add" className="mr-1" />
           {i18n.t('add {name}', { name: i18n.t('project:issue') })}
         </Button>
       </WithAuth>

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Spin } from 'app/nusi';
 import i18n from 'i18n';
 import './file-container.scss';
@@ -44,7 +44,7 @@ const FileContainer = ({ children, name, className = '', ops, isEditing }: IProp
 
   return (
     <article className={`file-container ${clsName}`}>
-      <div className="file-title bold">
+      <div className="file-title font-bold">
         <span className="flex-1 nowrap">
           {isEditing ? i18n.t('application:edit') : null}
           {name}

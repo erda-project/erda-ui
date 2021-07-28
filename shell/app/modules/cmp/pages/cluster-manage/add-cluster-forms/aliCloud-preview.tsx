@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { find, get, map } from 'lodash';
 import { Modal, Button, Table, Checkbox } from 'app/nusi';
 import { useUpdate } from 'common';
@@ -99,7 +99,7 @@ const AliCloudPreview = ({
         dataSource={dataSource}
         scroll={{ x: '100%' }}
       />
-      <Checkbox className="mt12" onChange={() => updater.checkedRead(!checkedRead)} checked={checkedRead} />{' '}
+      <Checkbox className="mt-3" onChange={() => updater.checkedRead(!checkedRead)} checked={checkedRead} />{' '}
       {i18n.t('org:i have confirmed')}
     </Modal>
   );

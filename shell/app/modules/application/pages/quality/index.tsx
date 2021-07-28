@@ -123,7 +123,7 @@ const CodeQuality = () => {
         {QUALITY_DATAS.map(({ key, name, icon, query }) => (
           <Col span={24 / QUALITY_DATAS.length} key={key}>
             <div
-              className="quality-data flex-box"
+              className="quality-data flex justify-between items-center"
               onClick={() => {
                 goTo(goTo.pages.qaTicket, {
                   projectId,
@@ -132,7 +132,7 @@ const CodeQuality = () => {
                 });
               }}
             >
-              <span className="desc flex-box mr16">
+              <span className="desc flex justify-between items-center mr-4">
                 <CustomIcon type={icon} />
                 {name}
               </span>
@@ -172,8 +172,8 @@ const CodeQuality = () => {
         width: 240,
         key: 'name',
         render: ({ name }) => (
-          <span className="inline-flex-box">
-            <CustomIcon type="page" className="mr8" />
+          <span className="inline-flex justify-between items-center">
+            <CustomIcon type="page" className="mr-2" />
             {name}
           </span>
         ),
@@ -252,9 +252,9 @@ const CodeQuality = () => {
     return (
       <React.Fragment>
         <div className="file-container quality-file">
-          <div className="file-header bold flex-box">
-            <div className="file-title inline-flex-box">
-              <CustomIcon className="hover-active mb4 mr8" type="back" onClick={closeDetail} />
+          <div className="file-header font-bold flex justify-between items-center">
+            <div className="file-title inline-flex justify-between items-center">
+              <CustomIcon className="hover-active mb-1 mr-2" type="back" onClick={closeDetail} />
               <span>{name}</span>
             </div>
           </div>
@@ -286,20 +286,20 @@ const CodeQuality = () => {
     <div className="code-quality-content">
       <Spin spinning={isFetchingSonarStatistics}>
         {!isEmpty(headerInfo) && (
-          <Row className="quality-info mb20" gutter={24}>
+          <Row className="quality-info mb-5" gutter={24}>
             <Col span={8}>
-              <div className="label mb8 ">{i18n.t('application:recent detection time')}</div>
+              <div className="label mb-2 ">{i18n.t('application:recent detection time')}</div>
               <span className="value">{moment(headerInfo.time).format('YYYY-MM-DD HH:mm:ss')}</span>
             </Col>
             <Col span={8}>
-              <div className="label mb8">{i18n.t('application:detection branch')}</div>
+              <div className="label mb-2">{i18n.t('application:detection branch')}</div>
               <span className="value">
                 <CustomIcon type="hb" />
                 {headerInfo.branch}
               </span>
             </Col>
             <Col span={8}>
-              <div className="label mb8">{i18n.t('application:submit')} ID</div>
+              <div className="label mb-2">{i18n.t('application:submit')} ID</div>
               <span
                 className="value commit-id hover-table-text"
                 onClick={() => {
@@ -315,7 +315,7 @@ const CodeQuality = () => {
         <IF check={!sonarStatistics.commitId}>
           <EmptyHolder relative />
           <ELSE />
-          <div className="quality-data-panel mb20">{renderDataPanel()}</div>
+          <div className="quality-data-panel mb-5">{renderDataPanel()}</div>
           <div className="quality-data-detail">
             <Tabs defaultActiveKey="coverage" onTabClick={closeDetail} onChange={handleChangeActiveKey}>
               <TabPane key="coverage" tab={`${i18n.t('application: coverage')} ${sonarStatistics.coverage}%`}>

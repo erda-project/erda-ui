@@ -13,7 +13,7 @@
 
 import { isEmpty } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import { Row, Col, Spin } from 'app/nusi';
 import MonthUptime from './month-uptime';
 import monitorStatusStore from 'status-insight/stores/status';

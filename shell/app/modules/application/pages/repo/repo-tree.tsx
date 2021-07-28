@@ -14,7 +14,7 @@
 import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'app/nusi';
 import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal } from 'common';
 import RepoFileContainer from './components/repo-file-container';
@@ -73,13 +73,13 @@ const RepoDownload = (props: IDownProp) => {
         <div className="clone-content">
           <div className="addr">
             <Input
-              className="full-width"
+              className="w-full"
               value={gitRepo}
               addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))}
             />
           </div>
           <Copy selector=".for-copy" />
-          <ButtonGroup className="download-btn-group mb16">
+          <ButtonGroup className="download-btn-group mb-4">
             <Button size="small" onClick={() => download('tar')}>
               {' '}
               tar{' '}
@@ -95,14 +95,14 @@ const RepoDownload = (props: IDownProp) => {
           </ButtonGroup>
           {token && (
             <>
-              <p className="label mb8">username</p>
+              <p className="label mb-2">username</p>
               <Input
-                className="full-width mb16"
+                className="w-full mb-4"
                 value={info.username}
                 addonAfter={renderAddonAfter(info.username, 'username')}
               />
-              <p className="label mb8">token</p>
-              <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+              <p className="label mb-2">token</p>
+              <Input className="w-full mb-4" value={token} addonAfter={renderAddonAfter(token, 'token')} />
             </>
           )}
         </div>
@@ -194,7 +194,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
                   const iconProps = record.type === 'tree' ? { type: 'folder' } : { type: 'page' };
                   return (
                     <span className="column-name" title={text}>
-                      {record.type ? <CustomIcon className="mr8" {...iconProps} /> : null}
+                      {record.type ? <CustomIcon className="mr-2" {...iconProps} /> : null}
                       {text}
                     </span>
                   );

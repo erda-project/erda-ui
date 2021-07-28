@@ -13,7 +13,7 @@
 
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import './env-card.scss';
 
 interface IProps {
@@ -51,7 +51,7 @@ export const EnvCard = ({ type }: IProps) => {
           <CustomIcon color style={{ width: '40px', height: '40px' }} type={envMap[type].icon} className="stage-icon" />
         </div>
         <div className="env-name-container">
-          <span className="env-name bold nowrap">{envMap[type].text}</span>
+          <span className="env-name font-bold nowrap">{envMap[type].text}</span>
           <span className="env-sub-name">{envMap[type].subText}</span>
         </div>
       </div>

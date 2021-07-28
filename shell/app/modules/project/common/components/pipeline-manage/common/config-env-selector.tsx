@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Button, Tooltip } from 'app/nusi';
 import { map, isEmpty, get, find } from 'lodash';
 import autoTestStore from 'project/stores/auto-test-case';
@@ -113,7 +113,7 @@ const ConfigEnvSelector = (props: IProps) => {
         {
           component: 'custom',
           getComp: () => {
-            return <div className="bold-500 border-bottom">{i18n.t('project:params configuration')}</div>;
+            return <div className="font-medium border-bottom">{i18n.t('project:params configuration')}</div>;
           },
         },
         ..._inParamsForm,

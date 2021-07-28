@@ -16,7 +16,7 @@ import { regRules } from 'common/utils';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import machineStore from 'app/modules/cmp/stores/machine';
 import { uniq } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
@@ -119,7 +119,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
         type: state.passwordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon
-            className="mr0 pointer"
+            className="mr-0 pointer"
             onClick={togglePasswordVisible}
             type={state.passwordVisible ? 'openeye' : 'closeeye'}
           />

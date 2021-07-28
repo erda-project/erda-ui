@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common';
 
@@ -160,12 +160,12 @@ const DomainModal = (props: IProps) => {
       onCancel={onCancel}
     >
       <Form layout="vertical" form={form}>
-        <div className="config-item ml12">
-          <div className="flex-box config-item-title bold-500 fz16 mb8">
+        <div className="config-item ml-3">
+          <div className="flex justify-between items-center config-item-title font-medium text-base mb-2">
             <span>{serviceName}</span>
             <span style={{ marginRight: '40px' }}>
               {hrefparams.packageId && hrefparams.tenantGroup ? (
-                <span className="fz12 fake-link" onClick={gotoGetwayDetail}>
+                <span className="text-xs fake-link" onClick={gotoGetwayDetail}>
                   {i18n.t('runtime:route rule configuration')}
                 </span>
               ) : null}
@@ -202,14 +202,14 @@ const DomainModal = (props: IProps) => {
                 <div className="custom-domain" key="custom">
                   <span>{i18n.t('runtime:custom domain name')}:</span>
                   <span className="add-domain-icon">
-                    <IconAddOne className="hover-active fz18 ml12 pointer" onClick={() => addCustom()} />
+                    <IconAddOne className="hover-active text-lg ml-3 pointer" onClick={() => addCustom()} />
                   </span>
                 </div>
               </div>
             ) : (
               <Row key={domainType + index} type="flex" align="middle">
                 <Col span={22}>
-                  <FormItem className="hide" name={`${domainType}@@${index}`} initialValue={serviceName}>
+                  <FormItem className="hidden" name={`${domainType}@@${index}`} initialValue={serviceName}>
                     <Input />
                   </FormItem>
                   <FormItem
@@ -256,7 +256,7 @@ const InputItem = (props: IInputItemProps) => {
       <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={onDelete}>
         <span className="delete-domain-icon">
           {' '}
-          <IconReduceOne className="hover-active fz18 pointer" />{' '}
+          <IconReduceOne className="hover-active text-lg pointer" />{' '}
         </span>
       </Popconfirm>
     </>

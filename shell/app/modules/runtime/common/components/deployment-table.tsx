@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { ColumnProps } from 'core/common/interface';
 import { Avatar, Copy } from 'common';
@@ -46,7 +46,7 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       dataIndex: 'operator',
       render: (operator: string) => {
         const { nick = '', avatar = '', name = '' } = userMap[operator] || {};
-        return <Avatar className="mb4" showName name={<Tooltip title={name}>{nick}</Tooltip>} url={avatar} />;
+        return <Avatar className="mb-1" showName name={<Tooltip title={name}>{nick}</Tooltip>} url={avatar} />;
       },
     },
     {

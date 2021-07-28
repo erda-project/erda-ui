@@ -13,7 +13,7 @@
 
 import { fromNow } from 'common/utils';
 import { Avatar } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { Tooltip } from 'app/nusi';
 import classnames from 'classnames';
 import './comment-box.scss';
@@ -31,7 +31,7 @@ export const CommentBox = ({ user, action, time, content, className }: IProps) =
     <div className={classnames('comment-box', className)}>
       <div className="title">
         <Avatar name={<Tooltip title={user}>{user}</Tooltip>} showName size={28} />
-        <span className="mx4"> {action}</span>
+        <span className="mx-1"> {action}</span>
         {fromNow(time)}
       </div>
       <article

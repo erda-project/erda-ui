@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import CaseInfo from './case-info';
 import fileTreeStore from 'common/stores/file-tree';
 import CasePipelineEditor from './pipeline-editor';
@@ -88,8 +88,8 @@ const PipelineConfigDetail = (props: IProps) => {
 
   return (
     <div>
-      <div className="flex-box mb8">
-        <span className="bold-500 title">{i18n.t('detail')}</span>
+      <div className="flex justify-between items-center mb-2">
+        <span className="font-medium title">{i18n.t('detail')}</span>
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>
       <CaseInfo caseDetail={useCaseDetail} />

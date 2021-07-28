@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { useUpdate } from 'common';
 import { useEffectOnce } from 'react-use';
@@ -316,7 +316,7 @@ const BranchRule = (props: IProps) => {
   };
   return (
     <div>
-      <div className="mb12">
+      <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button ghost type="primary" onClick={() => updater.modalVis(true)}>
             {i18n.t('project:new branch rule')}

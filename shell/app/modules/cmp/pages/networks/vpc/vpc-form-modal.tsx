@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Modal, Button } from 'app/nusi';
 import { useUpdate, RenderForm } from 'common';
 import { get, map } from 'lodash';
@@ -94,7 +94,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
     },
   ];
   return (
-    <div className={`${visible ? '' : 'hide'}`}>
+    <div className={`${visible ? '' : 'hidden'}`}>
       <RenderForm layout="vertical" list={fieldsList} ref={ref} />
     </div>
   );
@@ -185,7 +185,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
     },
   ];
   return (
-    <div className={`${visible ? '' : 'hide'}`}>
+    <div className={`${visible ? '' : 'hidden'}`}>
       <RenderForm layout="vertical" list={fieldsList} ref={ref} />
     </div>
   );

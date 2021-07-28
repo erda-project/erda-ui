@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
 import { Remind as IconRemind } from '@icon-park/react';
@@ -208,7 +208,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                           </div>
                           <div>
                             {item.unreadCount > 1 && (
-                              <span className="unread-count mr12">
+                              <span className="unread-count mr-3">
                                 <span className="unread-count-text">
                                   {item.unreadCount > 99 ? '99+' : item.unreadCount}
                                 </span>

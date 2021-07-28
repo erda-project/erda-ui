@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
-import * as React from 'react';
+import React from 'react';
 import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
 import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
@@ -193,7 +193,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
   const taskType = (
     <Item
-      className="hide"
+      className="hidden"
       name={['resource', 'type']}
       initialValue={chosenActionName}
       rules={[
@@ -207,7 +207,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     </Item>
   );
 
-  const loopData = <Item className="hide" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />;
+  const loopData = (
+    <Item className="hidden" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />
+  );
 
   const actionVersion = (
     <Item
@@ -411,7 +413,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         input = (
           <InputNumber
             disabled={!editing || value.readOnly}
-            className="full-width"
+            className="w-full"
             placeholder={i18n.t('application:please enter data')}
           />
         );

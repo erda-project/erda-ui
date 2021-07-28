@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Input, Select, DatePicker } from 'app/nusi';
 import moment from 'moment';
 import { useMount } from 'react-use';
@@ -173,7 +173,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           showArrow={false}
           showSearch
           allowClear
-          className="full-width"
+          className="w-full"
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
@@ -208,7 +208,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'datePicker':
       Comp = (
         <DatePicker
-          className="full-width"
+          className="w-full"
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
           onChange={(m: moment.Moment) => onSelectChange(m ? m.startOf('day') : undefined)}
@@ -233,13 +233,13 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
     }
     case 'readonly':
-      Comp = <div className="nowrap pl12">{valueRender ? valueRender(editValue) : editValue}</div>;
+      Comp = <div className="nowrap pl-3">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'last_readonly':
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = <div className="prewrap pointer pl12">{moment(editValue).format('YYYY-MM-DD')}</div>;
+      Comp = <div className="prewrap pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
       break;
     default:
       Comp = (
@@ -264,7 +264,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           data-required={showRequiredMark ? '* ' : ''}
           className={classnames(
             labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
-            'mb4',
+            'mb-1',
             showRequiredMark ? 'before:required' : '',
           )}
           style={{ paddingLeft: '10px' }}

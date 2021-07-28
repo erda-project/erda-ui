@@ -16,7 +16,7 @@ import { EmptyListHolder } from 'common';
 import { isEmpty, groupBy, sortBy, filter } from 'lodash';
 import moment from 'moment';
 import { Timeline } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import './milestone-table.scss';
 import MilestoneGroup from './milestone-group';
 

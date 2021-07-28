@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import 'ace-builds';
 import AceEditor, { IAceEditorProps } from 'react-ace';
 import { Icon as CustomIcon, Copy } from 'common';
@@ -176,14 +176,14 @@ export const FileEditor = ({
   const curActions = compact([
     actions.copy ? (
       <Tooltip title={i18n.t('copy')} key="copy">
-        <CustomIcon type="fz1" className="fz18 hover-active for-copy" data-clipboard-text={value} />
+        <CustomIcon type="fz1" className="text-lg hover-active for-copy" data-clipboard-text={value} />
       </Tooltip>
     ) : null,
     actions.format ? (
       <Tooltip title={i18n.t('format')} key="format">
         <CustomIcon
           type="sx"
-          className="fz18 hover-active"
+          className="text-lg hover-active"
           onClick={() => {
             value &&
               isValidJsonStr(value) &&
@@ -197,7 +197,7 @@ export const FileEditor = ({
 
   const ActionComp =
     curActions.length || actions.extra ? (
-      <div className="flex-box file-editor-actions">
+      <div className="flex justify-between items-center file-editor-actions">
         {curActions}
         {actions.extra || null}
       </div>

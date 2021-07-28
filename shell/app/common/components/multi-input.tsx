@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, map, remove, set } from 'lodash';
 import { Input } from 'app/nusi';
 import i18n from 'i18n';
@@ -50,10 +50,10 @@ const MultiInput = (props: any) => {
   };
 
   return (
-    <div className="full-width">
+    <div className="w-full">
       {map(renderData, (item: any, index: number) => {
         return (
-          <div className="flex-box multi-input-item" key={index}>
+          <div className="flex justify-between items-center multi-input-item" key={index}>
             <Input
               className="multi-input-input flex-1"
               value={item}

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 // @ts-ignore
 import yaml from 'js-yaml';
@@ -287,7 +287,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
@@ -300,15 +300,15 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         </Radio.Button>
       </Radio.Group>
       {!editing ? (
-        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml8" size="small">
+        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
           {i18n.t('application:edit')}
         </Button>
       ) : (
-        <div className="px12 py8">
+        <div className="px-3 py-2">
           <Button onClick={onCancel} size="small">
             {i18n.t('cancel')}
           </Button>
-          <Button onClick={handleSubmit} type="primary" className="ml8" size="small">
+          <Button onClick={handleSubmit} type="primary" className="ml-2" size="small">
             {i18n.t('save')}
           </Button>
         </div>
@@ -321,7 +321,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   return (
     <div>
       <FileContainer
-        className={`pipeline-yml-editor column-flex-box full-spin-height ${
+        className={`pipeline-yml-editor flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={name}

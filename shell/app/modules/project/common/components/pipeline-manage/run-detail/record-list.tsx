@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Popover, Button, Badge, Table, Drawer } from 'app/nusi';
 import { isEmpty, map, get } from 'lodash';
 import { Icon as CustomIcon } from 'common';
@@ -74,7 +74,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   };
 
   const setRowClassName = (record: any) => {
-    return record.id !== get(curPipelineDetail, 'id') ? 'pipeline-record-list' : 'selected-row bold-500';
+    return record.id !== get(curPipelineDetail, 'id') ? 'pipeline-record-list' : 'selected-row font-medium';
   };
 
   const getList = (q: any = {}, forceUpdate = false) => {
@@ -120,7 +120,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         render: (status: string) => (
           <span>
             <span className="nowrap">{ciStatusMap[status].text}</span>
-            <Badge className="ml4" status={ciStatusMap[status].status} />
+            <Badge className="ml-1" status={ciStatusMap[status].status} />
           </span>
         ),
       },

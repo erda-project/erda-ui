@@ -13,7 +13,7 @@
 
 import { size } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import Echarts from 'charts/components/echarts';
 import { LinearGradient } from 'echarts/lib/util/graphic';
 import i18n from 'i18n';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
 import CustomDashboardList from 'app/modules/cmp/common/custom-dashboard';
 import orgStore from 'app/org-home/stores/org';

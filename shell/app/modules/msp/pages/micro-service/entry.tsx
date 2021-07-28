@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Tooltip, Input, Spin, Button } from 'app/nusi';
 import { get, isEmpty } from 'lodash';
 import { CardsLayout, Icon as CustomIcon, EmptyListHolder } from 'common';
@@ -69,7 +69,7 @@ export const PureMspEntry = (props: IProps) => {
           </div>
           <div className="ms-item-info">
             <Tooltip title={projectName}>
-              <div className="title bold-500 nowrap">{projectName}</div>
+              <div className="title font-medium nowrap">{projectName}</div>
             </Tooltip>
             <div className="footer">
               <span>
@@ -78,7 +78,7 @@ export const PureMspEntry = (props: IProps) => {
             </div>
           </div>
         </div>
-        <div className="ms-item-footer flex-box">
+        <div className="ms-item-footer flex justify-between items-center">
           <span className="env-btn">
             <Button disabled={!dev} onClick={() => onClickEnv(dev, projectId, 'DEV')}>
               {envMap.DEV}

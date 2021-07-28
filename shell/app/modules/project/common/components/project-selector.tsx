@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { LoadMoreSelector, Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
 import { map } from 'lodash';
@@ -60,7 +60,7 @@ const headProjectRender = (val: any = {}) => {
   const name = val.displayName || val.name || curProject.displayName || curProject.name || '';
   return (
     <div className="head-project-name">
-      <span className="nowrap fz16 bold" title={name}>
+      <span className="nowrap text-base font-bold" title={name}>
         {name}
       </span>
       <CustomIcon className="caret" type="caret-down" />
@@ -71,7 +71,7 @@ const headProjectRender = (val: any = {}) => {
 export const HeadProjectSelector = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className="head-project-selector mt8">
+    <div className="head-project-selector mt-2">
       <ProjectSelector
         valueItemRender={headProjectRender}
         value={projectId}

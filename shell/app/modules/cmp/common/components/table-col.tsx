@@ -15,7 +15,7 @@ import { cutStr } from 'common/utils';
 import i18n from 'i18n';
 import regionData from 'cmp/common/regionData';
 import { Tooltip, Badge } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { get } from 'lodash';
 import { statusMap } from 'cmp/pages/cloud-source/config';

@@ -24,7 +24,7 @@ import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'app/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import { UrlInviteModal } from './url-invite-modal';
 import { BatchAuthorizeMemberModal } from './batch-authorize-member-modal';
@@ -571,7 +571,7 @@ export const MembersTable = ({
                     ),
                     type: 'warning',
                     showIcon: true,
-                    className: 'mb8',
+                    className: 'mb-2',
                   }
                 : undefined
             }
@@ -592,11 +592,11 @@ export const MembersTable = ({
               ),
               type: 'warning',
               showIcon: true,
-              className: 'mb8',
+              className: 'mb-2',
             }}
           />
           <AuthorizeMemberModal
-            key={state.authorizeMember ? 'show' : 'hide'} // 关闭后销毁
+            key={state.authorizeMember ? 'show' : 'hidden'} // 关闭后销毁
             type={scope.type}
             member={state.authorizeMember as IMember | null}
             closeModal={() => updater.authorizeMember(null)}

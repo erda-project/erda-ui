@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Copy } from 'common';
 import { Modal, Alert, Input, Button } from 'app/nusi';
@@ -54,15 +54,15 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
         }
         {...modalProps}
       >
-        {tip ? <Alert className="mb20" message={tip} type="normal" showIcon /> : null}
+        {tip ? <Alert className="mb-5" message={tip} type="normal" showIcon /> : null}
         <div className="content">
-          <div className="item mb16">
-            <p className="label mb8">{i18n.t('url address')}</p>
+          <div className="item mb-4">
+            <p className="label mb-2">{i18n.t('url address')}</p>
             <Input readOnly value={url} />
           </div>
           {code && (
-            <div className="item mb16">
-              <p className="label mb8">
+            <div className="item mb-4">
+              <p className="label mb-2">
                 {i18n.t('verification code')}{' '}
                 <span className="color-text-sub">
                   ({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})

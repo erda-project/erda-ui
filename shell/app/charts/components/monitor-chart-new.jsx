@@ -13,7 +13,7 @@
 
 import { map, merge, size, isEmpty, sortBy, some } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import { cutStr } from 'common/utils';
 import { getFormatter } from '../utils/formatter';
 import { areaColors } from '../theme';

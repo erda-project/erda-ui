@@ -76,7 +76,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         />
         {lock !== false ? <IconLock className="variable-icon variable-input-lock" /> : null}
         {disabled ? null : (
-          <IconDelete className={`variable-icon pointer ${lock === false && 'ml12'}`} onClick={() => onDelete(key)} />
+          <IconDelete className={`variable-icon pointer ${lock === false && 'ml-3'}`} onClick={() => onDelete(key)} />
         )}
       </div>
     );

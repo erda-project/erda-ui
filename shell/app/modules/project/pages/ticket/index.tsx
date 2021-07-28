@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import {
   ISSUE_TYPE,
   ISSUE_PRIORITY_MAP,
@@ -229,7 +229,7 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Issue) => {
         return (
           <Tooltip title={val}>
-            <div className="pointer nowrap pl8 full-width truncate" onClick={() => clickTicket(record)}>
+            <div className="pointer nowrap pl-2 w-full truncate" onClick={() => clickTicket(record)}>
               {val}
             </div>
           </Tooltip>
@@ -274,7 +274,7 @@ const Ticket = () => {
             disabled: !item.permission,
             value: item.stateID,
             iconLabel: (
-              <div className="v-align">
+              <div className="flex items-center">
                 {ISSUE_ICON.state[item.stateBelong]}
                 {item.stateName}
               </div>

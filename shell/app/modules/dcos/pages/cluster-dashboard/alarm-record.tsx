@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Table, Select } from 'app/nusi';
 import { goTo } from 'common/utils';
 import { map } from 'lodash';
@@ -99,7 +99,7 @@ export default ({ clusters }: { clusters: any }) => {
   );
 
   return (
-    <div className="white-bg pa20">
+    <div className="white-bg p-5">
       <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery={false} />
       <Table
         rowKey="id"

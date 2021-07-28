@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon } from 'common';
 import { Button, Spin } from 'app/nusi';
@@ -69,7 +69,7 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
   const { _master } = window;
   if (_master && _master.isLoadingModule()) {
     return (
-      <div className="basic-error-page center-flex-box">
+      <div className="basic-error-page flex flex-wrap justify-center items-center">
         <Spin spinning size="large" tip={i18n.t('please wait, the module is loading')} />
       </div>
     );

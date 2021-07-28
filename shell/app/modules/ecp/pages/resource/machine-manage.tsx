@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'app/nusi';
 import { map } from 'lodash';
@@ -179,7 +179,7 @@ export default () => {
 
   return (
     <div className="machine-table">
-      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
+      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb-2">
         <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.ecpResource)}>
           {siteName}
         </Breadcrumb.Item>

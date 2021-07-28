@@ -47,7 +47,7 @@ const CustomAddonConfigModal = (props: IProps) => {
       destroyOnClose
       footer={null}
     >
-      <Alert showIcon type="normal" className="mb8" message={i18n.t('project:transfer-custom-addon')} />
+      <Alert showIcon type="normal" className="mb-2" message={i18n.t('project:transfer-custom-addon')} />
       <FileEditor fileExtension="json" value={json} minLines={8} onChange={(value: string) => updater.json(value)} />
     </Modal>
   );

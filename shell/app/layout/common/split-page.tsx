@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import './split-page.scss';
 
@@ -43,7 +43,7 @@ interface IRightProps extends IProps {
   pl32?: boolean; // 为true时左右两侧padding一致
 }
 const SplitPageRight = ({ className, pl32 = false, children }: IRightProps) => {
-  return <div className={classnames('split-page-right', className, pl32 && 'pl-32')}>{children}</div>;
+  return <div className={classnames('split-page-right', className, pl32 && 'pl-cls')}>{children}</div>;
 };
 
 SplitPage.Left = SplitPageLeft;

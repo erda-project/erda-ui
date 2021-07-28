@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import {
   map,
@@ -263,7 +263,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(tag) => {
             handleEditEditingFilters(uniKey, [
               { key: 'tag', value: tag },
@@ -286,7 +286,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(operator) => {
             handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]);
           }}
@@ -316,7 +316,7 @@ export default ({ scopeType }: { scopeType: string }) => {
             <Select
               dropdownMatchSelectWidth={false}
               showSearch
-              className="full-width"
+              className="w-full"
               value={value}
               onSelect={(v: any) => {
                 handleEditEditingFilters(uniKey, [{ key: 'value', value: v }]);
@@ -361,7 +361,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(field: any) => {
             handleEditEditingFields(uniKey, [
               { key: 'field', value: field },
@@ -396,7 +396,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(aggregator: any) => {
             handleEditEditingFields(uniKey, [
               { key: 'aggregator', value: aggregator },
@@ -417,7 +417,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           dropdownMatchSelectWidth={false}
           defaultValue={value}
-          className="full-width"
+          className="w-full"
           onSelect={(operator) => {
             handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]);
           }}
@@ -726,7 +726,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         itemProps: {
           min: 0,
           precision: 0,
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {
@@ -735,7 +735,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         type: 'cascader',
         options: metaGroups,
         itemProps: {
-          className: 'full-width',
+          className: 'w-full',
           showSearch: true,
           placeholder: i18n.t('org:please select index group'),
           onChange: (v: any) => {
@@ -766,7 +766,7 @@ export default ({ scopeType }: { scopeType: string }) => {
             <>
               <Button
                 ghost
-                className="mb8"
+                className="mb-2"
                 type="primary"
                 disabled={someValueEmpty(editingFilters, 'value')}
                 onClick={handleAddEditingFilters}
@@ -793,7 +793,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           itemProps: {
             mode: 'multiple',
             allowClear: true,
-            className: 'full-width',
+            className: 'w-full',
           },
         },
         {
@@ -803,7 +803,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           getComp: () => (
             <>
               <Button
-                className="mb8"
+                className="mb-2"
                 type="primary"
                 ghost
                 disabled={someValueEmpty(editingFields, 'value')}
@@ -830,7 +830,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     const Comp = () => (
       <>
         <Button
-          className="mb8"
+          className="mb-2"
           type="primary"
           ghost
           disabled={isEmpty(customMetricMap.notifySample)}
@@ -868,7 +868,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         itemProps: {
           mode: 'multiple',
           allowClear: true,
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {
@@ -893,19 +893,19 @@ export default ({ scopeType }: { scopeType: string }) => {
     return (
       <div className="custom-alarm-form">
         <BasicForm form={form} />
-        <div className="title bold fz16">{i18n.t('org:trigger rules')}</div>
+        <div className="title font-bold text-base">{i18n.t('org:trigger rules')}</div>
         <RuleForm form={form} />
-        <div className="title bold fz16">{i18n.t('org:message template')}</div>
+        <div className="title font-bold text-base">{i18n.t('org:message template')}</div>
         <NotifyForm form={form} />
       </div>
     );
   };
 
   const customRender = (content: JSX.Element) => (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       <div className="flex-1">{content}</div>
       <IF check={!!previewerKey}>
-        <div className="custom-alarm-previewer px16">
+        <div className="custom-alarm-previewer px-4">
           <Spin spinning={getPreviewMetaDataLoading}>
             <PureBoardGrid layout={layout} />
           </Spin>

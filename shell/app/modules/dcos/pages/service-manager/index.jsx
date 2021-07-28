@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Breadcrumb, Spin, Select, Input } from 'app/nusi';
 import { cloneDeep, map, isEmpty, debounce } from 'lodash';
@@ -298,7 +298,7 @@ class ServiceManager extends React.Component {
     return (
       <Spin spinning={isFetchingClusters}>
         <Holder when={isEmpty(list)}>
-          <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
+          <Breadcrumb separator={<IconRight size="14px" className="text-xs" />} className="path-breadcrumb">
             {path.map((p, i) => {
               const isLast = i === path.length - 1;
               return (
@@ -325,7 +325,7 @@ class ServiceManager extends React.Component {
             ) : null}
           </div>
           <IF check={path.length === 1}>
-            <div className="filter-group mb16 ml12-group">
+            <div className="filter-group mb-4 ml-3-group">
               <Select value={cluster} style={{ width: 300 }} onChange={this.handleClusterChange}>
                 {map(list, (v) => (
                   <Option key={v.name} value={v.name}>

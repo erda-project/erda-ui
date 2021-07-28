@@ -89,7 +89,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
   const menu = React.useMemo(() => {
     if (isEmpty(menuList)) {
       return (
-        <div className="mt32">
+        <div className="mt-8">
           <EmptyHolder relative style={{ justifyContent: 'start' }} />
         </div>
       );
@@ -104,7 +104,11 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
       >
         {map(menuList, (apiList: any[], tagName: string) => {
           return (
-            <Panel className="api-group-list-item" header={<span className="bold-500">{tagName}</span>} key={tagName}>
+            <Panel
+              className="api-group-list-item"
+              header={<span className="font-medium">{tagName}</span>}
+              key={tagName}
+            >
               <ul className="api-group">
                 {map(apiList, (api: any) => {
                   const { _method, _path, summary } = api;
@@ -136,7 +140,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
     <>
       <div>
         <Input.Search
-          className="mb12"
+          className="mb-3"
           value={filterKey}
           placeholder={i18n.t('default:search by path or description')}
           onChange={handleFilterApi}

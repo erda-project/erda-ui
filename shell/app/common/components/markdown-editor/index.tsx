@@ -153,7 +153,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSetLS) {
       btns.push(
-        <Button key="md-editor-keep-btn" className="mx8 mr8" onClick={this.onSetLS}>
+        <Button key="md-editor-keep-btn" className="mx-2 mr-2" onClick={this.onSetLS}>
           {i18n.t('application:temporary storage')}
         </Button>,
       );
@@ -161,7 +161,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onCancel) {
       btns.push(
-        <Button key="md-editor-cancel-btn" className="mx8 mr8" onClick={onCancel}>
+        <Button key="md-editor-cancel-btn" className="mx-2 mr-2" onClick={onCancel}>
           {i18n.t('common:cancel')}
         </Button>,
       );

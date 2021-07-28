@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, get, isString, isArray } from 'lodash';
 import { Table, Title, Tag } from 'app/nusi';
 import { FileEditor } from 'common';
@@ -67,11 +67,11 @@ const RenderItem = (props: IRenderProps) => {
         const { titleExtra, ...restProps } = rProps || {};
         Comp =
           data || restProps.title ? (
-            <div className={`${clsPrex} flex-box mb0`}>
+            <div className={`${clsPrex} flex justify-between items-center mb-0`}>
               <div className="flex-1">
                 <Title showDivider={false} title={data} {...restProps} />
               </div>
-              {titleExtra ? <div className="ml8">{titleExtra}</div> : null}
+              {titleExtra ? <div className="ml-2">{titleExtra}</div> : null}
             </div>
           ) : null;
       }
@@ -91,7 +91,7 @@ const RenderItem = (props: IRenderProps) => {
     case 'BlockTitle':
       {
         const title = data || rProps?.title || '';
-        Comp = title ? <div className={`${clsPrex} dice-cp-preview-block-title fz16`}>{title}</div> : null;
+        Comp = title ? <div className={`${clsPrex} dice-cp-preview-block-title text-base`}>{title}</div> : null;
       }
       break;
     case 'API':
@@ -163,7 +163,7 @@ const RenderItem = (props: IRenderProps) => {
           <div className={_className}>
             {isArray(data) ? (
               map(data, (itemProps) => (
-                <span className="mr8" key={itemProps.value}>
+                <span className="mr-2" key={itemProps.value}>
                   <Text type="Text" props={itemProps} />
                 </span>
               ))

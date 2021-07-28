@@ -13,7 +13,7 @@
 
 import { Form } from 'app/nusi';
 import { ApiItem } from '../components/api-test';
-import * as React from 'react';
+import React from 'react';
 import { commonFields, exceptField } from 'app/configForm/nusi-form/form-items';
 
 const FormItem = Form.Item;
@@ -48,7 +48,7 @@ export const FormApiTest = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={false}

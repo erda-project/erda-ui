@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo } from 'common/utils';
-import * as React from 'react';
+import React from 'react';
 import { Button } from 'app/nusi';
 import { PureAppList } from 'application/common/app-list-protocol';
 import { WithAuth, usePerm } from 'app/user/common';

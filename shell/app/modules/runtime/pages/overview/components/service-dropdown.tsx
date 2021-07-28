@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Dropdown, Menu, Modal, List, Ellipsis } from 'app/nusi';
 import { Icon as CustomIcon, Copy, useUpdate } from 'common';
 import { map, isEmpty } from 'lodash';
@@ -84,8 +84,8 @@ const ServiceDropdown = (props: IProps) => {
         dataSource={map(addrs, (addr) => ({ addr }))}
         renderItem={({ addr }: { addr: string }) => {
           return (
-            <div className="flex-box">
-              <span className="mr8 vip-addr flex-1 nowrap">
+            <div className="flex justify-between items-center">
+              <span className="mr-2 vip-addr flex-1 nowrap">
                 <Ellipsis title={addr} />
               </span>
               <Copy selector=".for-copy">
@@ -195,7 +195,7 @@ const ServiceDropdown = (props: IProps) => {
         trigger={['click']}
         getPopupContainer={(triggerNode) => triggerNode.parentNode || document.body}
       >
-        <CustomIcon className="fz24 hover-active" type="more" />
+        <CustomIcon className="text-2xl hover-active" type="more" />
       </Dropdown>
       <ServiceResourceModal
         visible={state.resourceVisible}

@@ -13,7 +13,7 @@
 
 import { insertWhen } from 'common/utils';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useUpdate, FormModal } from 'common';
 import clusterStore from 'cmp/stores/cluster';

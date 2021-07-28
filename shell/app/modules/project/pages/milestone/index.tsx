@@ -16,7 +16,7 @@ import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map } from 'lodash';
 import { Spin, DatePicker, Button } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import issueStore from 'project/stores/issues';
 import routeInfoStore from 'core/stores/route';

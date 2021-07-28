@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Spin, Row, Col, Button, Tooltip } from 'app/nusi';
 import { useUpdate } from 'common';
 import StatusChart from './status-detail-chart';
@@ -107,7 +107,7 @@ const StatusDetail = () => {
           <div>
             {
               // data.mode === 'browser' ? ( // 暂时去掉
-              //   <Button type="primary" className="mr8" ghost loading={setDatumFetching} onClick={this.setDatumPoint}>{i18n.t('msp:set datum point')}</Button>
+              //   <Button type="primary" className="mr-2" ghost loading={setDatumFetching} onClick={this.setDatumPoint}>{i18n.t('msp:set datum point')}</Button>
               // ) : null
             }
             <Button type="primary" ghost onClick={toggleModal}>

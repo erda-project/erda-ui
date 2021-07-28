@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { TimeSelector, Copy, useUpdate } from 'common';
 import authenticateStroe from '../../stores/authenticate';
 import moment from 'moment';
@@ -135,12 +135,12 @@ const Authenticate = (props: IProps) => {
   ];
   return (
     <div>
-      <div className="flex-box mb16 flex-start">
-        <TimeSelector className="ml0" key="time-selector" inline disabledDate={() => false} />
+      <div className="flex justify-between items-center mb-4 justify-start">
+        <TimeSelector className="ml-0" key="time-selector" inline disabledDate={() => false} />
         <Select
           value={selectMonitorKey}
           style={{ width: 200 }}
-          className="ml12"
+          className="ml-3"
           onChange={(k) => {
             updater.selectMonitorKey(k);
           }}

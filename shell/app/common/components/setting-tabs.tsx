@@ -13,7 +13,7 @@
 
 import { updateSearch } from 'common/utils';
 import { map } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import './setting-tabs.scss';
 import routeInfoStore from 'core/stores/route';
 

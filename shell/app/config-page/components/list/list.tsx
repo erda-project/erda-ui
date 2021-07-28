@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Tooltip, Button, Ellipsis, Pagination } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate, EmptyHolder, ErdaIcon } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
@@ -108,7 +108,9 @@ const List = (props: CP_LIST.Props) => {
               />
             );
           })}
-          {!isLoadMore && pagination ? <Pagination className="right-flex-box mt12" {...pagination} /> : null}
+          {!isLoadMore && pagination ? (
+            <Pagination className="flex items-center flex-wrap justify-end mt-3" {...pagination} />
+          ) : null}
           {isLoadMore && total > Math.max(state.combineList?.length, 0) && (
             <div className="hover-active load-more" onClick={loadMore}>
               {i18n.t('more')}
@@ -150,7 +152,7 @@ const Item = (props: ItemProps) => {
   );
 
   const itemClassNames = classnames({
-    'v-align': alignCenter,
+    'flex items-center': alignCenter,
     'no-border': noBorder,
     [size]: size,
     'cp-list-item': true,
@@ -178,13 +180,13 @@ const Item = (props: ItemProps) => {
         <div className={'body-title'}>
           {titlePrifxIcon ? (
             <Tooltip title={titlePrifxIconTip}>
-              <CustomIcon type={titlePrifxIcon} className="title-icon mr8" />
+              <CustomIcon type={titlePrifxIcon} className="title-icon mr-2" />
             </Tooltip>
           ) : null}
-          <Ellipsis className="bold title-text" title={title} />
+          <Ellipsis className="font-bold title-text" title={title} />
           {titleSuffixIcon ? (
             <Tooltip title={titleSuffixIconTip}>
-              <CustomIcon type={titleSuffixIcon} className="title-icon ml8" />
+              <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
             </Tooltip>
           ) : null}
         </div>

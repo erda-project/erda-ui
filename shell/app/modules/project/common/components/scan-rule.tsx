@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isInteger, get } from 'lodash';
 import { Table, Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
@@ -391,7 +391,7 @@ export default function ScanRule(props: IProps) {
 
   return (
     <>
-      <div className="mb12">
+      <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button
             type="primary"
@@ -412,7 +412,7 @@ export default function ScanRule(props: IProps) {
         </WithAuth>
         {appendedRowKeys.length > 0 && (
           <WithAuth pass={operationAuth}>
-            <Button ghost type="primary" className="ml8" onClick={handleBatchDelete}>
+            <Button ghost type="primary" className="ml-2" onClick={handleBatchDelete}>
               {i18n.t('batch deletion')}
             </Button>
           </WithAuth>

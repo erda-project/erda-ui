@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty } from 'lodash';
 import { Row, Col, Tooltip, Button } from 'app/nusi';
 import { Responsive, ErrorBoundary, IF, useMediaLt } from 'common';
@@ -242,7 +242,7 @@ const RuntimeOverView = () => {
             <Tooltip title={i18n.t('runtime:folding')}>
               <Button
                 size="small"
-                className="ml4"
+                className="ml-1"
                 shape="circle"
                 icon={<MenuUnfold />}
                 onClick={() => toggleFold(true)}

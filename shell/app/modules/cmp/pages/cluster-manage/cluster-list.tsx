@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Modal, Table, Popover } from 'app/nusi';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
@@ -244,7 +244,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const operateList = (clusterOpsMap[record.cloudVendor || record.type] || []).map(
       (op: { title: string; onClick: () => void }) => {
         return (
-          <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
+          <span className="fake-link mr-1" key={op.title} onClick={op.onClick}>
             {op.title}
           </span>
         );
@@ -257,7 +257,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           <>
             {operateList.slice(0, 3)}
             <Popover content={operateList.slice(3)} overlayClassName="z-50">
-              <CustomIcon className="fake-link ml4" type="more" />
+              <CustomIcon className="fake-link ml-1" type="more" />
             </Popover>
           </>
         ) : (

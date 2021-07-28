@@ -771,7 +771,7 @@ export const TreeCategory = ({
           notFoundContent={null}
           onSearch={onSearch}
           onChange={handleSearchChange}
-          className="full-width"
+          className="w-full"
           allowClear
         >
           {generateSearchOptions()}

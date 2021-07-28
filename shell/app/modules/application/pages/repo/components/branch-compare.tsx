@@ -14,7 +14,7 @@
 import { Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { goTo } from 'common/utils';
-import * as React from 'react';
+import React from 'react';
 import { getSplitPathBy } from '../util';
 import BranchSelect from './branch-select';
 import i18n from 'i18n';
@@ -56,7 +56,7 @@ const RepoBranchCompare = () => {
     <div className="repo-branch-compare" key={window.location.pathname}>
       <BranchSelect {...{ branches, tags, current: encodeURIComponent(state.from) }} onChange={onChange('from')}>
         <span>{i18n.t('application:based on source')}:</span>
-        <span className="branch-name bold nowrap">{state.from || null}</span>
+        <span className="branch-name font-bold nowrap">{state.from || null}</span>
         {state.from ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <span className="switch-branch" onClick={switchBranch}>
@@ -64,7 +64,7 @@ const RepoBranchCompare = () => {
       </span>
       <BranchSelect {...{ branches, tags, current: state.to }} onChange={onChange('to')}>
         <span>{i18n.t('application:compare')}:</span>
-        <span className="branch-name bold nowrap">{state.to || null}</span>
+        <span className="branch-name font-bold nowrap">{state.to || null}</span>
         {state.to ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>

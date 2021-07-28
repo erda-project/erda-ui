@@ -93,9 +93,9 @@ const OptionItem = (props: IOptionItemProps) => {
       key={option.value}
       onClick={() => onClick(option)}
     >
-      <div className="flex-box full-width">
+      <div className="flex justify-between items-center w-full">
         <span>{option.label}</span>
-        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml8" /> : null}</span>
+        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml-2" /> : null}</span>
       </div>
     </div>
   );
@@ -185,11 +185,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {!isSigleMode && [
           // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex-box not-select px6 py0 options-item">
+          <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
-            <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
+            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
               {i18n.t('common:clear selected')}
             </span>
           </Menu.Item>,
@@ -199,7 +199,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           ? [
               <Menu.Item key="quick-select-menu-item options-item">
                 <span
-                  className="fake-link flex-box"
+                  className="fake-link flex justify-between items-center"
                   onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
                 >
                   {quickSelect.label}
@@ -208,7 +208,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Divider key="divider3" />,
             ]
           : null}
-        <Menu.Item key="options" className="pa0 options-container options-item">
+        <Menu.Item key="options" className="p-0 options-container options-item">
           {useableOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
@@ -263,7 +263,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         placement="bottomLeft"
       >
         <span className="contractive-filter-item">
-          <span className="color-text-desc mr2">{label}</span>
+          <span className="color-text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
           <CustomIcon type="caret-down" />
         </span>
@@ -307,7 +307,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="color-text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
           value={startDate ? moment(startDate) : undefined}
@@ -351,7 +351,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onVisibleChange(true);
         }}
       >
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="color-text-desc mr-0.5">{label}</span>
         <MemberSelector
           {...((customProps || {}) as any)}
           onChange={(v) => {
@@ -552,7 +552,7 @@ export const ContractiveFilter = ({
     <div className="contractive-filter-bar">
       {showList.map((item) => (
         <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
           onClick={() => {
             setCloseAll(false);
@@ -580,7 +580,7 @@ export const ContractiveFilter = ({
       ))}
 
       {displayConditionsLen > 0 && (
-        <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
+        <span className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}>
           <Dropdown
             trigger={['click']}
             overlayClassName="contractive-filter-item-dropdown"
@@ -598,8 +598,8 @@ export const ContractiveFilter = ({
                   />
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item className="not-select px6 py0">
-                  <div className="flex-box">
+                <Menu.Item className="not-select px6 py-0">
+                  <div className="flex justify-between items-center">
                     <span>
                       {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
                       {i18n.t('common:items')}
@@ -625,7 +625,7 @@ export const ContractiveFilter = ({
                   };
                   return (
                     <Menu.Item key={key} className="option-item" onClick={handleClick}>
-                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr8" /> {label}
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" /> {label}
                     </Menu.Item>
                   );
                 })}
@@ -634,7 +634,7 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="fz12 mr2 color-text" />
+              <CustomIcon type="tj1" className="text-xs mr-0.5 color-text" />
               <span>{i18n.t('common:filter')}</span>
               <CustomIcon type="caret-down" />
             </span>
@@ -644,7 +644,7 @@ export const ContractiveFilter = ({
 
       {inputList.map((item) => (
         <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
           onClick={() => setCloseAll(false)}
         >

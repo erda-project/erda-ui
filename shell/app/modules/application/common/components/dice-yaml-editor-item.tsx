@@ -111,7 +111,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           </span>
           {editing ? (
             <Dropdown trigger={['click']} overlay={menu}>
-              <IconMore className="icon-ellipsis mr0" />
+              <IconMore className="icon-ellipsis mr-0" />
             </Dropdown>
           ) : null}
         </div>

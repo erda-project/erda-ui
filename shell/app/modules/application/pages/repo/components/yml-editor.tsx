@@ -416,7 +416,7 @@ const YmlEditor = (props: IProps) => {
       <React.Fragment>
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="commit-file-form-container">
-          <Button type="primary" className="mr12" onClick={checkForm}>
+          <Button type="primary" className="mr-3" onClick={checkForm}>
             {i18n.t('application:save')}
           </Button>
           <Button onClick={cancelEditing}>{i18n.t('application:cancel')}</Button>

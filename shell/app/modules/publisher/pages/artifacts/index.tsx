@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Button, Popconfirm } from 'app/nusi';
 import { get } from 'lodash';
@@ -76,7 +76,7 @@ const Artifacts = () => {
     <div className="artifacts-list-container">
       <div className="top-button-group">
         <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-          <Button type="primary" className="mr8" ghost onClick={openFormModal}>
+          <Button type="primary" className="mr-2" ghost onClick={openFormModal}>
             {i18n.t('edit')}
           </Button>
         </WithAuth>
@@ -89,7 +89,7 @@ const Artifacts = () => {
             }}
           >
             <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-              <Button type="primary" className="mr8" ghost>
+              <Button type="primary" className="mr-2" ghost>
                 {i18n.t('publisher:withdraw')}
               </Button>
             </WithAuth>
@@ -98,14 +98,14 @@ const Artifacts = () => {
           <>
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => setPublic(true)}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                <Button type="primary" className="mr8" ghost>
+                <Button type="primary" className="mr-2" ghost>
                   {i18n.t('publisher:release')}
                 </Button>
               </WithAuth>
             </Popconfirm>
             <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={onDelete}>
               <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                <Button type="primary" className="mr8" ghost>
+                <Button type="primary" className="mr-2" ghost>
                   {i18n.t('delete')}
                 </Button>
               </WithAuth>
@@ -115,7 +115,7 @@ const Artifacts = () => {
         {artifactsDetail.public && artifactsDetail.type === ArtifactsTypeMap.MOBILE.value && (
           <Button
             type="primary"
-            className="mr8"
+            className="mr-2"
             ghost
             onClick={() => {
               window.open(goTo.resolve.market({ publishItemId: id }));
