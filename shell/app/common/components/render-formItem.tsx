@@ -207,6 +207,11 @@ export const RenderFormItem = ({
         required,
         message: `${i18n.t('common:please')}${action}${hasColon ? label.slice(0, label.length - 1) : label}`,
       });
+    } else {
+      rules.push({
+        required,
+        message: i18n.t('can not be empty'),
+      });
     }
   }
   if (pattern && !rules.some((r) => r.pattern && r.pattern.source === pattern.source)) {
@@ -240,6 +245,7 @@ export const RenderFormItem = ({
   ) : (
     label
   );
+
   return (
     <FormItem
       label={_label}

@@ -56,7 +56,7 @@ export const formConfig = {
   },
   label: {
     Zone: (
-      <div className="label-with-required">
+      <div>
         {i18n.t('dcos:availability zone')}
         &nbsp;&nbsp;
         <Tooltip
