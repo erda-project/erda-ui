@@ -55,7 +55,7 @@ export const getColumns = ({ afterDelete }: { afterDelete: (data: number[]) => v
       title: i18n.t('project:operation'),
       dataIndex: 'operation',
       key: 'operation',
-      width: 240,
+      width: 280,
       className: 'auto-overflow',
       fixed: 'right',
       render: (_text: any, record: TEST_CASE.CaseTableRecord) =>
