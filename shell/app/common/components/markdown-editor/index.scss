@@ -9,6 +9,12 @@
         outline: 1px solid $color-active-border;
       }
     }
+
+    &.show-btn {
+      .rc-md-editor {
+        padding-bottom: 50px;
+      }
+    }
   }
 
   .disable-edit {

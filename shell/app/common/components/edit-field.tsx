@@ -18,7 +18,6 @@ import { useMount } from 'react-use';
 import { MarkdownEditor, useUpdate } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { isFunction, get, set } from 'lodash';
-import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 import classnames from 'classnames';
 
@@ -34,7 +33,6 @@ interface IMdProps {
 }
 export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEdited, ...rest }: IMdProps) => {
   const [v, setV] = React.useState(value);
-  const [mdEditing, setMdEditing] = React.useState(false);
   const [showBtn, setShowBtn] = React.useState(false);
   React.useEffect(() => {
     setV(value);
@@ -50,22 +48,17 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
           onSubmit(_v: string) {
             onSave(_v);
             setShowBtn(false);
-            setMdEditing(false);
           },
           onCancel() {
             setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
             setShowBtn(false);
-            setMdEditing(false);
           },
         }
       : {};
-  return mdEditing ? (
+  return (
     <MarkdownEditor
       {...rest}
       value={v}
-      defaultMode="md"
-      autoFocus
-      canView={{ html: false }}
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       onFocus={() => setShowBtn(true)}
@@ -73,10 +66,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       notClearAfterSubmit
       {...btnProps}
     />
-  ) : (
-    <div className="md-content-preview border-radius pa8" onClick={() => setMdEditing(true)}>
-      <div className="md-content" dangerouslySetInnerHTML={{ __html: Markdown(v || '') }} />
-    </div>
   );
 };
 

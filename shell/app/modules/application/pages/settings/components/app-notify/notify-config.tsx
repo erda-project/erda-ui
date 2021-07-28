@@ -221,7 +221,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       width: 200,
       render: (targets) => (
         <div className="flex-box truncate">
-          <ListTargets targets={targets} roleMap={roleMap} />
+          <ListTargets targets={targets || []} roleMap={roleMap} />
         </div>
       ),
     },
