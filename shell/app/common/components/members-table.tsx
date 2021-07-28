@@ -385,6 +385,7 @@ export const MembersTable = ({
         {
           title: i18n.t('cellphone'),
           dataIndex: 'mobile',
+          width: 160,
           render: (value: string | number) => (
             <span className="for-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
               {value || i18n.t('common:none')}
@@ -513,7 +514,7 @@ export const MembersTable = ({
         pagination={{ ...paging, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
-        scroll={{ x: 1100 }}
+        scroll={{ x: 1400 }}
       />
     );
   }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater, hideRowSelect]);
