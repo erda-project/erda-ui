@@ -104,7 +104,7 @@ export const ActionForm = (props: IProps) => {
             },
           ];
         }
-        const curKeyOperation = get(operations, `change.${item.key}`);
+        const curKeyOperation = get(operations, ['change', item.key]);
         const curKey = item.key;
         if (curKeyOperation) {
           curItem.componentProps = {
