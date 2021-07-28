@@ -95,7 +95,7 @@ const Database = () => {
       >
         <CommonPanel
           title={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:link information')}</h3>
             </div>
           }

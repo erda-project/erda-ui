@@ -128,7 +128,7 @@ const IssueKanban = (props: IProps) => {
                 placeholder={i18n.t('project:input custom board name')}
                 onPressEnter={doAdd}
               />
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <Button onClick={hideAdd} className="mr-2">
                   {i18n.t('cancel')}
                 </Button>
@@ -224,8 +224,8 @@ const Kanban = (props: IKanbanProps) => {
         // description: content,
         operations,
         extraInfo: (
-          <div className="issue-kanban-info mt-2 flex-box color-text-desc">
-            <div className="flex-box">
+          <div className="issue-kanban-info mt-2 flex justify-between items-center color-text-desc">
+            <div className="flex justify-between items-center">
               {curStateObj ? (
                 <div className="flex items-center mr-2">
                   {ISSUE_ICON.state[curStateObj.stateBelong]}
@@ -277,8 +277,12 @@ const Kanban = (props: IKanbanProps) => {
       className={classnames(`issue-kanban-col ${cls}`, { 'issue-kanban-col-special-pdd': updateBoardOp })}
       ref={drop}
     >
-      <div className={`flex-box issue-kanban-col-header ${showShadow ? 'shadow' : ''} ${updateBoardOp ? 'inp' : ''}`}>
-        <div className="fz16 bold-500 flex-1 flex-box">
+      <div
+        className={`flex justify-between items-center issue-kanban-col-header ${showShadow ? 'shadow' : ''} ${
+          updateBoardOp ? 'inp' : ''
+        }`}
+      >
+        <div className="fz16 bold-500 flex-1 flex justify-between items-center">
           {updateBoardOp ? (
             updateAuth ? (
               <Input

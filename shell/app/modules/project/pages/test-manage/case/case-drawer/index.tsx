@@ -314,7 +314,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     >
       <Spin spinning={fetchingDetail}>
         <div className="case-drawer-header px-5 py-5">
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <div className="flex-1">
               <Input
                 className={classnames('case-name fz18 bold-500 color-text', titleIsEmpty && 'error')}
@@ -344,7 +344,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               <IconClose onClick={handleClose} className="ml-3 pointer" size="16px" />
             </div>
           </div>
-          <div className="flex-box mt-4">
+          <div className="flex justify-between items-center mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
               <div className="flex-1 fz16 nowrap mr-5 color-text-desc">
                 <CustomIcon type="wjj1" className="color-warning" />
@@ -363,7 +363,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
             )}
           </div>
         </div>
-        <div className="case-drawer-body flex-box">
+        <div className="case-drawer-body flex justify-between items-center">
           <div className="case-drawer-body-left flex-1 px-5 py-4">
             <div onBlurCapture={handleAnyBlur}>
               <ContentPanel title={i18n.t('project:preconditions')}>

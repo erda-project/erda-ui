@@ -118,8 +118,10 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
           <div className="panel" key={propertyName}>
             <div className="common-list-item">
               <div className="list-item">
-                <div className="flex-box">
-                  <div className="nowrap flex-box justify-start">{renderFieldItem({ displayName, propertyType })}</div>
+                <div className="flex justify-between items-center">
+                  <div className="nowrap flex justify-between items-center justify-start">
+                    {renderFieldItem({ displayName, propertyType })}
+                  </div>
                   <div className="table-operations">
                     <Popconfirm
                       title={`${i18n.t('project:confirm to remove the quote?')}`}
@@ -177,7 +179,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
           <div className="name">{i18n.t('project:custom fields')}</div>
           <div className="custom-field-list">{renderCustomFields()}</div>
           <div className="create-field-form mt-3">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <Select
                 className="flex-1 mr-2"
                 value={selectedField?.propertyID}

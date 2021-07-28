@@ -50,7 +50,7 @@ const NewSet = ({ afterCreate }: IProps) => {
   };
 
   const content = (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       <Input
         autoFocus
         placeholder={i18n.t('project:enter test set name')}

@@ -289,7 +289,7 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         staticData: getLineChartLayout(lineData),
         title: () => (
-          <div className="chart-title flex-box  w-full">
+          <div className="chart-title flex justify-between items-center  w-full">
             <FilterTab onChange={OnChangeLineType} />
             <TimeSelector inline disabledDate={() => false} />
           </div>
@@ -308,7 +308,7 @@ const Statistics = (props: IProps) => {
         chartType: 'chart:pie',
         hideReload: true,
         title: () => (
-          <div className="chart-title flex-box w-full">
+          <div className="chart-title flex justify-between items-center w-full">
             <span className="bold fz16">{i18n.t('publisher:top10 version')}</span>
             <span
               className="always-active"
@@ -355,7 +355,7 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         staticData: getPieChartLayout(pieChannelData),
         title: () => (
-          <div className="chart-title flex-box w-full">
+          <div className="chart-title flex justify-between items-center w-full">
             <span className="bold fz16">{i18n.t('publisher:top10 channel')}</span>
             <span
               className="always-active"

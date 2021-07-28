@@ -85,7 +85,7 @@ const RepoBranch = () => {
           const isProtectBranch = get(find(branchInfo, { name }), 'isProtect');
           const curAuth = isProtectBranch ? permMap.writeProtected.pass : permMap.writeNormal.pass;
           return (
-            <div key={name} className="branch-item flex-box">
+            <div key={name} className="branch-item flex justify-between items-center">
               <div className="branch-item-left">
                 <div className="bold-500 flex items-center fz16 mb-3">
                   {isProtect ? (

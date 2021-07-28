@@ -105,7 +105,7 @@ export const BaseInfo = () => {
           <Avatar showName name={<UserInfo id={planItemDetail.ownerID} render={(data) => data.nick || data.name} />} />
           <span className="ml-6">{i18n.t('project:participant')}：</span>
           <Popover overlayStyle={{ width: 280 }} overlayClassName="participant-popover" content={content}>
-            <span className="participant flex-box hover-active">
+            <span className="participant flex justify-between items-center hover-active">
               {partnerIDs.slice(0, 4).map((p, index) => (
                 <Avatar key={`${String(index)}-${p}`} />
               ))}

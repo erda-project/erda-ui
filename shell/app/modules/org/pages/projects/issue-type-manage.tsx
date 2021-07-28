@@ -73,7 +73,7 @@ const IssueTypeManage = () => {
           >
             <div className="common-list-item">
               <div className="list-item-left">
-                <div className="flex-box">
+                <div className="flex justify-between items-center">
                   <IssueIcon type={item.type} withName />
                 </div>
                 <div className="sub">

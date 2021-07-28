@@ -245,7 +245,7 @@ const PipelineNode = (props: IProps) => {
     }
 
     return (
-      <div className="flex-box pipeline-item-extra-op-list">
+      <div className="flex justify-between items-center pipeline-item-extra-op-list">
         {operations.map(([icon, mark, tip]) => {
           const clickFunc = debounce((e: any) => clickIcon(e, mark), 300);
           return (
@@ -335,14 +335,14 @@ const PipelineNode = (props: IProps) => {
   return (
     <Container {...renderTooltipTitle()}>
       <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames}>
-        <div className="flex-box p-3">
+        <div className="flex justify-between items-center p-3">
           {icon}
           <div className="yaml-editor-item-content py-0 px-1">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {titleContent}
               {renderOperation()}
             </div>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {statusContent}
               {timeContent}
             </div>

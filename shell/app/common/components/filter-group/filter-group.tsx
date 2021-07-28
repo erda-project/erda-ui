@@ -284,7 +284,7 @@ export const FilterGroup = ({
           [left, right] = [right, left] as any[];
         }
         return (
-          <div className="filter-group-bar flex-box">
+          <div className="filter-group-bar flex justify-between items-center">
             <div className="filter-group-left flex-1">{left}</div>
             <div className="filter-group-right ml-6">{right}</div>
           </div>
@@ -543,7 +543,11 @@ export const FilterGroupV = ({ list, onSearch, onChange, onReset, syncUrlOnSearc
               {CompList.map((item, i: number) => {
                 const data = list[i];
                 return (
-                  <Col key={data.name} span={data.percent || 6} className="filter-item flex-box">
+                  <Col
+                    key={data.name}
+                    span={data.percent || 6}
+                    className="filter-item flex justify-between items-center"
+                  >
                     <div className="filter-item-label">{data.label}</div>
                     <div className="filter-item-content">{item}</div>
                     {i === list.length - 1 && (

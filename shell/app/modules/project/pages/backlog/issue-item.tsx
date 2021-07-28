@@ -240,7 +240,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   }, [chosenType]);
 
   return (
-    <div className={`${className} backlog-issue-form flex-box`}>
+    <div className={`${className} backlog-issue-form flex justify-between items-center`}>
       <div className={'backlog-issue-form-box h-full'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>

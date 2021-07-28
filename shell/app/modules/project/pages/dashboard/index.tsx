@@ -93,7 +93,7 @@ export const ProjectDashboard = () => {
 
   return (
     <div className="project-dashboard">
-      <div className="flex-box mb-3">
+      <div className="flex justify-between items-center mb-3">
         <RadioGroup onChange={(e: any) => updater.type(e.target.value)} value={type}>
           <RadioButton value={DashboardType.BUG}>{i18n.t('project:bug')}</RadioButton>
           <RadioButton value={DashboardType.WORKING}>{i18n.t('project:workload')}</RadioButton>

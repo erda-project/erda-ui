@@ -92,7 +92,7 @@ export const Card = (props: CP_CARD.Props) => {
   return (
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
       <div className="info-card-content px-3 pt-2 pb-2" key={id} ref={drag}>
-        <div className={'flex-box mb-3'}>
+        <div className={'flex justify-between items-center mb-3'}>
           {isString(titleIcon) ? (
             <CustomIcon type={titleIcon} color className="head-icon mr-1 pt-2" />
           ) : (

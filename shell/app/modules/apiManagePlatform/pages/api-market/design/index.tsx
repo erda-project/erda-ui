@@ -367,7 +367,7 @@ const ApiDesign = () => {
 
   // 左侧列表头部渲染
   const renderPanelHead = (titleKey: IListKey) => (
-    <div className="list-panel-head flex-box">
+    <div className="list-panel-head flex justify-between items-center">
       <span className="bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus
@@ -392,7 +392,7 @@ const ApiDesign = () => {
           className={`list-title ${contentKey === key ? 'list-title-active' : ''}`}
           onClick={() => onContentChange(key)}
         >
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <Ellipsis title={name}>
               <div className="list-title-name w-full nowrap mr-1">{name}</div>
             </Ellipsis>
@@ -633,7 +633,7 @@ const ApiDesign = () => {
             </Button>
           </div>
           <div className="api-design-wrap">
-            <div className="search-wrap mb-4 flex-box justify-start">
+            <div className="search-wrap mb-4 flex justify-between items-center justify-start">
               <ApiDocTree
                 treeNodeData={curTreeNodeData}
                 newTreeNode={newTreeNode}

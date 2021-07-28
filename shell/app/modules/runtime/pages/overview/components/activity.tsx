@@ -96,7 +96,7 @@ const Activity = () => {
 
     return (
       <div className="deployment-card">
-        <div className=" flex-box">
+        <div className=" flex justify-between items-center">
           <Avatar size={32} name={operatorName} url={avatar || ''} className="self-start" />
           <div className="deployment-content ml-2 flex-1">
             <div className="info mb-2">

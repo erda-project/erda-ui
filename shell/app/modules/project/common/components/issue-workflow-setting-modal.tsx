@@ -159,7 +159,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
         </div>
         <IF check={!isEmpty(dataList)}>
           <div className="form-content">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <div className="form-content-left mr-1">
                 <IF check={!formVisible}>
                   <WithAuth pass={hasAuth}>
@@ -176,11 +176,11 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   </WithAuth>
                 </IF>
               </div>
-              <div className="form-content-right flex-box">
+              <div className="form-content-right flex justify-between items-center">
                 {map(dataList, ({ stateName, stateID }, stateDataIndex) => {
                   return (
                     <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
-                      <div className={`state-option-btn flex-box ${flexWidthClass}`}>
+                      <div className={`state-option-btn flex justify-between items-center ${flexWidthClass}`}>
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
                             className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'pointer'}`}
@@ -221,7 +221,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
             <Divider className="my-2" orientation="left">
               {i18n.t('project:set state')}
             </Divider>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <div className="form-content-left">
                 {map(Object.values(issueStateMap[issueType]), (name: string) => {
                   return (
@@ -231,7 +231,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   );
                 })}
               </div>
-              <div className="form-content-right flex-box">
+              <div className="form-content-right flex justify-between items-center">
                 {map(dataList, ({ stateBelong, stateID }, stateDataIndex) => {
                   return (
                     <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
@@ -260,16 +260,16 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
             </Divider>
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
-                <div className="flex-box my-3" key={stateID}>
+                <div className="flex justify-between items-center my-3" key={stateID}>
                   <div className="form-content-left text-center fz12 ">
-                    <div className="flex-box w-120">
+                    <div className="flex justify-between items-center w-120">
                       <Tooltip title={stateName}>
                         <span className="bold-500 nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
                       <span className="ml-2 color-text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
                   </div>
-                  <div className="form-content-right flex-box">
+                  <div className="form-content-right flex justify-between items-center">
                     {map(relations, ({ isRelated, name }, relationIndex) => {
                       return (
                         <div className={`state-radio-group ${flexWidthClass}`}>

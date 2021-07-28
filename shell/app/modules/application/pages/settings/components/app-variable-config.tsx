@@ -211,7 +211,7 @@ const VariableConfig = ({
       width: 176,
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <span className="for-copy nowrap" data-clipboard-text={text} title={text}>
             {text}
           </span>

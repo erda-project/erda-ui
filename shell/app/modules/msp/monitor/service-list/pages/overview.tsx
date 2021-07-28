@@ -27,7 +27,7 @@ export default () => {
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex-box mb-3">
+      <div className="flex justify-between items-center mb-3">
         <TimeSelector className="m-0" />
       </div>
       <div className="overflow-auto flex-1">

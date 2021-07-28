@@ -47,7 +47,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
       {map(options, ({ name }) => {
         return (
           <Menu.Item key={name} onClick={(e) => onChange(e.key)}>
-            <div className="flex-box tag-option">
+            <div className="flex justify-between items-center tag-option">
               <span>{name}</span>
               {name !== 'other' && (
                 <CustomIcon

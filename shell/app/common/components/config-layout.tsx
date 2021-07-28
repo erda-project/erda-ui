@@ -40,7 +40,7 @@ const ConfigSection = ({
   return (
     <React.Fragment>
       <div className="mb-3">
-        <div className="config-section-title flex-box" {...titleProps}>
+        <div className="config-section-title flex justify-between items-center" {...titleProps}>
           <span className={`name bold-500 ${highlightColor}`}>{title}</span>
           {titleExtra}
         </div>

@@ -287,7 +287,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}

@@ -183,11 +183,11 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         <div onClick={() => onClick && onClick(item.data, 'node')} className={mergedClassNames}>
           {icon}
           <span className="yaml-editor-item-title-name">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {titleContent}
               <span className="pipeline-node-icon">{this.renderIcon()}</span>
             </div>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {statusContent}
               {timeContent}
             </div>

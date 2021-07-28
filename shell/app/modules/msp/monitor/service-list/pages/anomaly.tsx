@@ -56,8 +56,8 @@ export default () => {
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex-box flex-wrap mb-1">
-        <div className="left flex-box mb-2">
+      <div className="flex justify-between items-center flex-wrap mb-1">
+        <div className="left flex justify-between items-center mb-2">
           <TimeSelector className="m-0 mr-3" />
           <Select
             className="mr-3"

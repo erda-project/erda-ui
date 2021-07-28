@@ -209,7 +209,7 @@ const RepoTag = () => {
             const { name, id, tagger } = item;
             const { name: committerName, when } = tagger as any;
             return (
-              <div key={name} className="branch-item flex-box">
+              <div key={name} className="branch-item flex justify-between items-center">
                 <div className="branch-item-left">
                   <div className="bold-500 flex items-center fz16 mb-3">
                     <CustomIcon type="bb" />

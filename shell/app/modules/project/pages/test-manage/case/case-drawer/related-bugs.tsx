@@ -110,7 +110,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         return (
           <Tooltip placement="topLeft" title={text}>
             <div
-              className="flex-box justify-start text-link nowrap truncate"
+              className="flex justify-between items-center justify-start text-link nowrap truncate"
               onClick={() => {
                 goToBugs(record);
               }}
@@ -191,7 +191,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
   };
   return (
     <div className="related-bugs">
-      <div className="mb-2 flex-box">
+      <div className="mb-2 flex justify-between items-center">
         {i18n.t('related bugs')}
         <Button
           onClick={() => {
@@ -202,8 +202,8 @@ const RelatedBugs = ({ relationID }: IProps) => {
         </Button>
       </div>
       {showFilterBug ? (
-        <div className="flex-box flex-1 filter-select-wrap mb-3">
-          <div className="flex-box flex-1">
+        <div className="flex justify-between items-center flex-1 filter-select-wrap mb-3">
+          <div className="flex justify-between items-center flex-1">
             <MemberSelector
               mode="multiple"
               className="filter-select"
@@ -240,7 +240,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               {map(bugList, (item) => {
                 return (
                   <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
-                    <div className="flex-box justify-start nowrap">
+                    <div className="flex justify-between items-center justify-start nowrap">
                       <IssueIcon type={ISSUE_TYPE.BUG} />
                       {item.id}-{item.title}
                     </div>

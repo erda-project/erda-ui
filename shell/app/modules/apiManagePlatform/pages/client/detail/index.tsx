@@ -153,7 +153,7 @@ const ClientDetail = () => {
     {
       label: 'ClientSecret',
       value: (
-        <div className="flex-box align-top">
+        <div className="flex justify-between items-center align-top">
           {showSecret ? (
             <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
               {get(clientDetail, ['sk', 'clientSecret'])}
@@ -181,7 +181,7 @@ const ClientDetail = () => {
         width: 200,
         render: (text, record) => {
           return (
-            <div className="flex-box justify-start">
+            <div className="flex justify-between items-center justify-start">
               <div className="asset_name">
                 <Ellipsis title={text} />
               </div>

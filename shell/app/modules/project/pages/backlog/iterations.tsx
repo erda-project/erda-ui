@@ -72,7 +72,7 @@ const Iterations = () => {
 
   return (
     <div className="backlog-iterations flex flex-col justify-center h-full">
-      <div className="backlog-iterations-title  flex-box mb-2">
+      <div className="backlog-iterations-title  flex justify-between items-center mb-2">
         <div>
           <span className="bold fz16 mr-2">{i18n.t('project:unfinished iteration')}</span>
           <span className="color-text-desc">

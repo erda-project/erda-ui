@@ -219,7 +219,7 @@ ${_ymlStr}
   };
 
   return (
-    <div className="dice-perm-export flex-box">
+    <div className="dice-perm-export flex justify-between items-center">
       <Button className="mr-2" size="small" onClick={() => setVisible(true)}>
         {i18n.t('project:export')}
       </Button>
@@ -251,7 +251,7 @@ ${_ymlStr}
             return (
               <TabPane tab={item.name} key={key}>
                 {type === 'json' ? (
-                  <div className="flex-box dice-perm-export-data">
+                  <div className="flex justify-between items-center dice-perm-export-data">
                     <div className="flex-1 mr-2 flex flex-col justify-center">
                       <span>{item.name}权限数据</span>
                       <textarea

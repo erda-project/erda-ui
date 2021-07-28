@@ -102,7 +102,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
     const { testDetail, isFetching } = this.props;
     return (
       <Spin spinning={isFetching}>
-        <div className="test-detail-header flex-box">
+        <div className="test-detail-header flex justify-between items-center">
           <IF check={!isEmpty(detailOptions)}>
             <Select
               onChange={(v) => this.changeDetail(+v)}

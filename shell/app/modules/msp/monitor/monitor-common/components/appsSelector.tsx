@@ -135,7 +135,7 @@ const AppsSelector = () => {
       overlay={switchList}
       onVisibleChange={onCloseSwitch}
     >
-      <div className="flex-box app-selector-name">
+      <div className="flex justify-between items-center app-selector-name">
         <span className={nameStyle}>{`${
           name ? `${i18n.t('msp:application')}: ${name}` : i18n.t('msp:switch application')
         }`}</span>

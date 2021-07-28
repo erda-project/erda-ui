@@ -48,7 +48,7 @@ interface IRepoBlameCommitItem {
 const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }: IRepoBlameCommitItem) => {
   return (
     <div className="blame-commit-item" style={style}>
-      <div className="blame-commit-info flex-box">
+      <div className="blame-commit-info flex justify-between items-center">
         <div className="info-left nowrap mr-4">
           <Avatar className="mr-1" size={18} name={author.name} />
           <Popover

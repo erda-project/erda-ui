@@ -136,7 +136,7 @@ export const IssueDrawer = (props: IProps) => {
       <Spin spinning={loading}>
         <IF check={title !== IssueDrawer.Empty}>
           <div className="task-drawer-header">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <div className="flex-1 nowrap">{title}</div>
               <div className="task-drawer-op">
                 <SubscribersSelector

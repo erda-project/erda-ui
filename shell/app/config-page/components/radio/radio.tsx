@@ -81,7 +81,7 @@ export default (props: CP_RADIO.Props) => {
             <Tooltip key={key} title={tooltip}>
               <Dropdown overlay={getMenu()}>
                 <RadioItem value={key} key={key}>
-                  <div className="flex-box">
+                  <div className="flex justify-between items-center">
                     {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
                       {childName}
@@ -102,7 +102,7 @@ export default (props: CP_RADIO.Props) => {
           return (
             <Tooltip key={key} title={tooltip}>
               <RadioItem value={key} key={key} {...extraProps}>
-                <div className="flex-box">
+                <div className="flex justify-between items-center">
                   {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
                   {status ? <Badge status={status || 'default'} className="mr-1" /> : null}
                   {text}

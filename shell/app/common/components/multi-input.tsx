@@ -53,7 +53,7 @@ const MultiInput = (props: any) => {
     <div className="w-full">
       {map(renderData, (item: any, index: number) => {
         return (
-          <div className="flex-box multi-input-item" key={index}>
+          <div className="flex justify-between items-center multi-input-item" key={index}>
             <Input
               className="multi-input-input flex-1"
               value={item}

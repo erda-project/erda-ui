@@ -33,7 +33,7 @@ export const CommitBlock = ({ commit }: { commit?: ICommit }) => {
   const { id, author, commitMessage } = commit;
   const msg = replaceEmoji(commitMessage);
   return (
-    <div className="repo-commit-block flex-box">
+    <div className="repo-commit-block flex justify-between items-center">
       <div className="commit-left">
         <Avatar name={author.name} showName />
         <span className="commit-content bold nowrap">

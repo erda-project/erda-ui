@@ -73,7 +73,11 @@ export const EditCategory = (props: IProps) => {
   };
 
   const content = (
-    <div id="dice-edit-category" className="flex-box mr-2" onClick={(e) => e.stopPropagation()}>
+    <div
+      id="dice-edit-category"
+      className="flex justify-between items-center mr-2"
+      onClick={(e) => e.stopPropagation()}
+    >
       <Input
         autoFocus
         style={{ minWidth: '150px' }}

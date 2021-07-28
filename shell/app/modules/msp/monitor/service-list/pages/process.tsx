@@ -66,8 +66,8 @@ export default () => {
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex-box flex-wrap mb-1">
-        <div className="left flex-box mb-2">
+      <div className="flex justify-between items-center flex-wrap mb-1">
+        <div className="left flex justify-between items-center mb-2">
           <TimeSelector className="m-0 mr-3" />
           <Select
             className="mr-3"
@@ -83,7 +83,7 @@ export default () => {
                 value={v}
                 title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}
               >
-                <div className="instance-item flex-box">
+                <div className="instance-item flex justify-between items-center">
                   <span className="instance-name nowrap">{ip || v}</span>
                   <div className="status ml-2">
                     <span

@@ -73,7 +73,7 @@ const UploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProp
         </Button>
       </Upload>
       {fileName && (
-        <div className="flex-box upload-file-item nowrap">
+        <div className="flex justify-between items-center upload-file-item nowrap">
           <span>{fileName}</span>
           <CustomIcon type="thin-del" className="hover-active" onClick={deleteFile} />
         </div>

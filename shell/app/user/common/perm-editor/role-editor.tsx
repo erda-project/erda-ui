@@ -88,7 +88,7 @@ const AddRole = (props: IProps) => {
               onChange={(e: any) => updateItem({ name: e.target.value })}
               placeholder={i18n.t('please enter')}
             />,
-            <div key="isCustomRole" className="flex-box">
+            <div key="isCustomRole" className="flex justify-between items-center">
               <span className="color-text-desc nowrap">
                 {i18n.t('customize')} {i18n.t('role')}
               </span>
@@ -132,7 +132,7 @@ const AddRole = (props: IProps) => {
   ];
 
   return (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       <Button size="small" onClick={onOpen}>
         {i18n.t('edit {name}', { name: i18n.t('role') })}
       </Button>

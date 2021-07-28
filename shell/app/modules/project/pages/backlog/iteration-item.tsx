@@ -101,7 +101,10 @@ export const IterationItem = (props: IProps) => {
 
   return (
     <div className={`backlog-iteration-item-container ${isOver ? 'drag-over' : ''}`} ref={drop}>
-      <div className="backlog-iteration-item flex-box hover-active-bg" onClick={() => updater.isOpen(!isOpen)}>
+      <div
+        className="backlog-iteration-item flex justify-between items-center hover-active-bg"
+        onClick={() => updater.isOpen(!isOpen)}
+      >
         <div className={'iteration-info h-full'}>
           <CustomIcon type="chevron-down" className={`open-icon ${isOpen ? 'open' : 'close'}`} />
           {ISSUE_ICON.iteration}
@@ -216,7 +219,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
     }
   };
   return (
-    <div className="backlog-iteration-item flex-box hover-active-bg">
+    <div className="backlog-iteration-item flex justify-between items-center hover-active-bg">
       <div className={'iteration-info h-full'}>
         <CustomIcon type="chevron-down" className={'open-icon close'} />
         {ISSUE_ICON.iteration}

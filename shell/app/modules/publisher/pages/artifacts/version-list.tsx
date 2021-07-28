@@ -212,7 +212,7 @@ const VersionList = (props: IProps) => {
         // mode === ArtifactsTypeMap.MOBILE.value ? <Button type="primary" className="mt-2 mb-4" ghost onClick={openFormModal}>{i18n.t('publisher:add version')}</Button> : null
       }
       {isMobile && (
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <Radio.Group
             buttonStyle="solid"
             className="mb-4"

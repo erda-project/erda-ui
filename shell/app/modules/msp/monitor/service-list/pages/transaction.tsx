@@ -189,8 +189,8 @@ const Transaction = () => {
   return (
     <div className="service-analyze flex flex-col h-full">
       <div>
-        <div className="flex-box flex-wrap mb-1">
-          <div className="left flex-box mb-2">
+        <div className="flex justify-between items-center flex-wrap mb-1">
+          <div className="left flex justify-between items-center mb-2">
             <TimeSelector className="m-0" />
             <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
               <Select
@@ -214,7 +214,7 @@ const Transaction = () => {
               onHandleSearch={(v) => updater.search(v)}
             />
           </div>
-          <div className="right flex-box mb-2">
+          <div className="right flex justify-between items-center mb-2">
             <RadioGroup value={type} onChange={handleToggleType}>
               {map(dashboardIdMap, (v, k) => (
                 <RadioButton key={k} value={k}>

@@ -164,7 +164,7 @@ const SortDragItem = ({
     <div
       ref={draggable ? (node) => drop(preview(node)) : undefined}
       key={index}
-      className={`flex-box sort-drag-item ${hoverCls}`}
+      className={`flex justify-between items-center sort-drag-item ${hoverCls}`}
       onClick={() => onClick && onClick(item)}
     >
       <div

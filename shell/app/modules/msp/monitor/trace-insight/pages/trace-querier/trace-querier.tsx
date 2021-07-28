@@ -269,7 +269,7 @@ const TraceInsightQuerier = () => {
     return (
       <CommonPanel
         title={
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:tracing information')}</h3>
             <IF check={requestTraceParams.responseCode}>
               <div className="response-code">{`${i18n.t('msp:request response status')}：${

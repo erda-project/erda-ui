@@ -116,8 +116,8 @@ const Governance = () => {
           <p className="bold-500 fz16 mb-4">{i18n.t('msp:weight configuration')}</p>
           <ul className="branches-rule-list px-4 mb-6">
             {map(branches, (name) => (
-              <li className="branches-rule-item py-3 flex-box border-bottom" key={name}>
-                <div className="flex-box fz16">
+              <li className="branches-rule-item py-3 flex justify-between items-center border-bottom" key={name}>
+                <div className="flex justify-between items-center fz16">
                   <CustomIcon type="fz" />
                   <span className="branch-name">{name}</span>
                 </div>

@@ -146,7 +146,7 @@ export const PureBaseAddonInfo = ({
           />
         </div>
         <div className="config">
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <span className="title bold-500">{i18n.t('org:basic parameters')}</span>
             {!isEmpty(addonDetail.config) && (
               <span className="copy-all pointer for-copy">

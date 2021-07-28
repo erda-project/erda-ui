@@ -473,7 +473,10 @@ const IssueMetaFields = React.forwardRef(
           name: 'expandCustom',
           type: 'custom',
           getComp: () => (
-            <div className="flex-box p-2 mb-5 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
+            <div
+              className="flex justify-between items-center p-2 mb-5 hover-active-bg"
+              onClick={() => setExpandCustomFields((prev) => !prev)}
+            >
               <span>{i18n.t('project:custom fields')}</span>
               <CustomIcon type={expandCustomFields ? 'chevron-up' : 'chevron-down'} />
             </div>
@@ -1146,7 +1149,7 @@ export const EditIssueDrawer = (props: IProps) => {
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
     >
-      <div className="flex-box">
+      <div className="flex justify-between items-center">
         <IF check={isEditMode}>
           {/* className=''是为了覆盖组件里的className="w-full"，否则选择框宽度为100% */}
           {[ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType) ? (

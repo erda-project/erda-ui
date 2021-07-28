@@ -233,7 +233,7 @@ const TestPlanDetail = () => {
               />
             </SplitPage.Left>
             <SplitPage.Right>
-              <div className="flex-box mb-3 mt-3">
+              <div className="flex justify-between items-center mb-3 mt-3">
                 <div className="ml-3-group">
                   <DropdownSelect
                     menuList={[

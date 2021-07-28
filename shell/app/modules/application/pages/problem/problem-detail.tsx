@@ -230,8 +230,8 @@ const TicketDetail = () => {
             <MarkdownEditor onSubmit={handleSubmit} maxLength={5000} btnText={i18n.t('application:submit comments')} />
           </TabPane>
           <TabPane tab={i18n.t('relate to issue')} key="relate">
-            <div className="flex-box">
-              <div className="selecter-wrap flex-box justify-start flex-1">
+            <div className="flex justify-between items-center">
+              <div className="selecter-wrap flex justify-between items-center justify-start flex-1">
                 <LoadMoreSelector
                   className="selecter-item"
                   value={activedProject}

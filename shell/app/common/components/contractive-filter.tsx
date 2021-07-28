@@ -93,7 +93,7 @@ const OptionItem = (props: IOptionItemProps) => {
       key={option.value}
       onClick={() => onClick(option)}
     >
-      <div className="flex-box w-full">
+      <div className="flex justify-between items-center w-full">
         <span>{option.label}</span>
         <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml-2" /> : null}</span>
       </div>
@@ -185,7 +185,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {!isSigleMode && [
           // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex-box not-select px6 py-0 options-item">
+          <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
@@ -199,7 +199,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           ? [
               <Menu.Item key="quick-select-menu-item options-item">
                 <span
-                  className="fake-link flex-box"
+                  className="fake-link flex justify-between items-center"
                   onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
                 >
                   {quickSelect.label}
@@ -599,7 +599,7 @@ export const ContractiveFilter = ({
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item className="not-select px6 py-0">
-                  <div className="flex-box">
+                  <div className="flex justify-between items-center">
                     <span>
                       {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
                       {i18n.t('common:items')}

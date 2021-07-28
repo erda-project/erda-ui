@@ -65,7 +65,7 @@ export default () => {
   return (
     <div className="h-full">
       <Input value={proxyApi} size="small" className="mb-1" onChange={(e) => setProxyApi(e.target.value)} />
-      <div className="debug-page h-full flex-box">
+      <div className="debug-page h-full flex justify-between items-center">
         <div className="left h-full">
           <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
           <Button type="primary" className="update-button" onClick={() => updateMock()}>

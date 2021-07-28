@@ -32,14 +32,14 @@ const { Item: TimelineItem } = Timeline;
 
 export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.ICommit) => {
   return (
-    <div key={id} className="commit-item flex-box">
+    <div key={id} className="commit-item flex justify-between items-center">
       <div className="commit-left">
         <div className="commit-title mb-2 nowrap">
           <Link to={mergeRepoPathWith(`/commit/${id}`)}>
             <span className="color-text fz16 hover-active bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
-        <div className="flex-box justify-start">
+        <div className="flex justify-between items-center justify-start">
           <div className="color-text-sub">
             <Avatar className="mb-1" showName name={author.name} />
           </div>
@@ -114,7 +114,7 @@ const RepoCommit = () => {
   return (
     <div className="repo-commit">
       <div className="commit-nav mb-5">
-        <div className="nav-left flex-box flex-1">
+        <div className="nav-left flex justify-between items-center flex-1">
           <BranchSelect
             className="mr-4"
             {...{ branches, tags, current: branch || tag || '' }}

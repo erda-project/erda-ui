@@ -91,7 +91,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 }
               }}
             >
-              <div className="flex-box w-full">
+              <div className="flex justify-between items-center w-full">
                 <span>
                   {item.prefixIcon ? <CustomIcon type={item.prefixIcon} /> : null}
                   {item.prefixImgSrc ? (

@@ -407,7 +407,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       ellipsis: true,
       width: 200,
       render: (targets) => (
-        <div className="flex-box truncate">
+        <div className="flex-div truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),

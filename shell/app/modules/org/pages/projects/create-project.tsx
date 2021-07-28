@@ -266,7 +266,7 @@ const CreationForm = () => {
       name: 'template',
       initialValue: templateArr[0].val,
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="template-card-row flex-box">
+        <div className="template-card-row flex justify-between items-center">
           {templateArr.map((item) => (
             <TemplateCard
               key={item.name}

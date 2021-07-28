@@ -100,8 +100,8 @@ export const TreeTitle = ({
   }, [inode, inodeQuery, inputVisible, readOnly]);
 
   return (
-    <div className="api-tree-title flex-box" ref={dropDownRef}>
-      <div className="flex-box">
+    <div className="api-tree-title flex justify-between items-center" ref={dropDownRef}>
+      <div className="flex justify-between items-center">
         <CustomIcon type={icon} className="color-text-sub" />
         {inputVisible ? (
           <>

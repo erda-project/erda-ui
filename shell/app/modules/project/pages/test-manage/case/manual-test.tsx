@@ -148,7 +148,7 @@ const ManualTest = () => {
             </Tooltip>
           </span>
         </div>
-        <div className="flex-box mb-3">
+        <div className="flex justify-between items-center mb-3">
           <div className="ml-3-group">
             {query.recycled !== 'true' && (
               <>

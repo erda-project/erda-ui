@@ -30,7 +30,6 @@ import notifyGroupStore from 'application/stores/notify-group';
 import alarmReportStore from '../../stores/alarm-report';
 import { usePerm, WithAuth } from 'user/common';
 import orgStore from 'app/org-home/stores/org';
-import './index.scss';
 
 const { confirm } = Modal;
 
@@ -227,7 +226,7 @@ export default () => {
         const targets = get(notifyTarget, 'notifyGroup.targets', []);
         const tip = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
-          <div className="flex-box">
+          <div className="justify-start">
             {isEmpty(targets) ? (
               <Tooltip title={tip}>
                 <span className="color-text-sub">{tip}</span>

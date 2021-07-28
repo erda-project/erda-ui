@@ -71,7 +71,7 @@ const IssueWorkflow = () => {
           >
             <div className="common-list-item">
               <div className="list-item-left">
-                <div className="flex-box">
+                <div className="flex justify-between items-center">
                   <div className="panel-title justify-start">
                     <IssueIcon type={item.issueType} withName />
                   </div>
