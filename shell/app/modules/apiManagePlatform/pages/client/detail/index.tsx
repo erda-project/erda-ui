@@ -188,7 +188,7 @@ const ClientDetail = () => {
               {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
                   <CustomIcon
-                    className="ml-2 color-primary hover-active font-bold"
+                    className="ml-2 text-primary hover-active font-bold"
                     type="monitor"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -252,7 +252,7 @@ const ClientDetail = () => {
       />
       <Copy selector=".for-copy" />
       <div className="p-4 api-list">
-        <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
+        <div className="title text-base text-normal font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {

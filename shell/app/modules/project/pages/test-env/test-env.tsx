@@ -164,7 +164,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
         </div>
       )}
       <Alert
-        className="color-text-desc mb-2"
+        className="text-desc mb-2"
         message={
           testType === 'manual'
             ? i18n.t('project:This parameter is provided to the use case interface of Manual Test in Test Case.')

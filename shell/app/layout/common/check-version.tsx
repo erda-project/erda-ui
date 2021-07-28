@@ -32,7 +32,7 @@ const openNotification = () => {
     duration: 0,
     message: i18n.t('New version available'),
     description: i18n.t('Version has been updated, it is recommended to refresh the page'),
-    icon: <IconSmilingFaceWithSquintingEyes className="color-primary" />,
+    icon: <IconSmilingFaceWithSquintingEyes className="text-primary" />,
     btn: (
       <Button type="primary" size="small" onClick={() => location.reload()}>
         {i18n.t('refresh')}

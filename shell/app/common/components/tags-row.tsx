@@ -58,7 +58,7 @@ const TagItem = (props: IItemProps) => {
           <IconCloseOne
             theme="filled"
             size="12"
-            className="tag-close pointer color-text-holder"
+            className="tag-close pointer text-holder"
             onClick={() => onDelete(_label)}
           />
         ) : null}

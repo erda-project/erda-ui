@@ -273,7 +273,7 @@ const CloudSource = () => {
                 return (
                   <div className="no-expire-tip">
                     <img src={ts_svg} alt="no-will-expire-resource" />
-                    <div className="color-text-sub">
+                    <div className="text-sub">
                       {i18n.t('cmp:No service expire within {num} days.', {
                         num: expireData.expireDays,
                       })}

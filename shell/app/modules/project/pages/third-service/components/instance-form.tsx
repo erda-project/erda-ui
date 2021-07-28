@@ -157,10 +157,10 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
         getComp: () => (
           <>
             <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={edit} />
-            <div className="color-red">
+            <div className="text-red">
               {i18n.t('project:Modifying service parameters will restart all associated applications.')}
             </div>
-            <div className="color-red">{i18n.t('project:op-affect-related-app')}</div>
+            <div className="text-red">{i18n.t('project:op-affect-related-app')}</div>
           </>
         ),
       },

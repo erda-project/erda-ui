@@ -280,8 +280,8 @@ const Title = ({
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />
-        <IconCheck className="ml-2 color-primary pointer" onClick={handleSave} />
-        <IconClose className="mx-2 color-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
+        <IconCheck className="ml-2 text-primary pointer" onClick={handleSave} />
+        <IconClose className="mx-2 text-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
       </div>
     );
   }

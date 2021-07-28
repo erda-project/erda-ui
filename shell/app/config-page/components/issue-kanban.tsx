@@ -224,7 +224,7 @@ const Kanban = (props: IKanbanProps) => {
         // description: content,
         operations,
         extraInfo: (
-          <div className="issue-kanban-info mt-2 flex justify-between items-center color-text-desc">
+          <div className="issue-kanban-info mt-2 flex justify-between items-center text-desc">
             <div className="flex justify-between items-center">
               {curStateObj ? (
                 <div className="flex items-center mr-2">
@@ -304,7 +304,7 @@ const Kanban = (props: IKanbanProps) => {
           ) : (
             label
           )}
-          <span className="color-text-desc ml-3 text-sm">{total}</span>
+          <span className="text-desc ml-3 text-sm">{total}</span>
         </div>
         {deleteBoardOp ? (
           deleteBoardOp?.confirm ? (

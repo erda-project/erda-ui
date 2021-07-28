@@ -70,7 +70,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
   }
   const period =
     unBlockEnd && unBlockStart && scope === 'app' ? (
-      <span className="color-text-desc ml-3">
+      <span className="text-desc ml-3">
         {i18n.t('project:time period')}: {moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~
         {moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}
       </span>
@@ -78,7 +78,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
   let unBlock = null;
   if (scope === 'project') {
     unBlock = canOperate ? (
-      <span className="color-primary ml-3 unblock-btn" onClick={handleClick}>
+      <span className="text-primary ml-3 unblock-btn" onClick={handleClick}>
         {i18n.t('project:apply to deploy')}
       </span>
     ) : (
@@ -96,8 +96,8 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
     ),
     unblocking: (
       <>
-        <span className="inline-flex justify-between items-center color-yellow">
-          <CustomIcon type="lock1" className="color-yellow" />
+        <span className="inline-flex justify-between items-center text-yellow">
+          <CustomIcon type="lock1" className="text-yellow" />
           {i18n.t('default:unblocking, please wait')}
         </span>
         {period}
@@ -106,8 +106,8 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
     ),
     unblocked: (
       <>
-        <span className="inline-flex justify-between items-center color-green">
-          <CustomIcon type="unlock1" className="color-green" />
+        <span className="inline-flex justify-between items-center text-green">
+          <CustomIcon type="unlock1" className="text-green" />
           {i18n.t('default:unblocked')}
         </span>
         {period}

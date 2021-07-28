@@ -442,9 +442,9 @@ const Statistics = (props: IProps) => {
                           <>
                             {info.subData}
                             {`${info.subData}`.startsWith('-') ? (
-                              <CustomIcon className="color-red" type="arrow-down" />
+                              <CustomIcon className="text-red" type="arrow-down" />
                             ) : (
-                              <CustomIcon className="color-green" type="arrow-up" />
+                              <CustomIcon className="text-green" type="arrow-up" />
                             )}
                           </>
                         ) : null}

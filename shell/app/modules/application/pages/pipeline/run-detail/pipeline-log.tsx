@@ -95,7 +95,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
               : i18n.t('refresh')
           }
         >
-          <CustomIcon type="refresh" className="pointer color-text-desc" onClick={() => delayGetList(getList, 0)} />
+          <CustomIcon type="refresh" className="pointer text-desc" onClick={() => delayGetList(getList, 0)} />
         </Tooltip>
       ),
     },

@@ -499,7 +499,7 @@ const RepoTreePage = () => {
       <RepoNav ref={repoNavRef} info={info} tree={tree} isFetchingInfo={isFetchingInfo} appId={appDetail.id} />
       <div className="top-button-group">
         <Tooltip title={i18n.t('application:how to start')}>
-          <CustomIcon className="color-text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
+          <CustomIcon className="text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
         </Tooltip>
         <Modal
           title={i18n.t('application:how to start')}

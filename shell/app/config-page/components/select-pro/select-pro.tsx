@@ -59,8 +59,8 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
             const tips = [assetName, version, operationID].filter((t) => !!t);
             option = (
               <Option value={id} key={id} label={`${method} ${path}`}>
-                <div className="color-text-sub nowrap">{tips.join(' / ')}</div>
-                <div className="color-text">
+                <div className="text-sub nowrap">{tips.join(' / ')}</div>
+                <div className="text-normal">
                   {method} {path}
                 </div>
               </Option>

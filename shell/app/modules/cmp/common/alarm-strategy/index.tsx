@@ -405,7 +405,7 @@ export default ({ scopeType, scopeId }: IProps) => {
               <div>
                 {menu}
                 <Divider className="my-1" />
-                <div className="text-xs px-2 py-1 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"
@@ -649,7 +649,7 @@ export default ({ scopeType, scopeId }: IProps) => {
           <div className="flex-div">
             {isEmpty(notifyGroup) ? (
               <Tooltip title={tips}>
-                <span className="color-text-sub">{tips}</span>
+                <span className="text-sub">{tips}</span>
               </Tooltip>
             ) : (
               <ListTargets targets={notifyGroup.targets} roleMap={roleMap} />

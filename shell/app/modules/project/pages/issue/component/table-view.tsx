@@ -57,11 +57,11 @@ const endTimeTip = (time: string, isFinished: boolean) => {
   let tip = <span>{i18n.t('project:due in {num} days', { num: diffDay })}</span>;
   if (!isFinished) {
     if (diffDay === 0) {
-      tip = <span className="color-warning">{i18n.t('due today')}</span>;
+      tip = <span className="text-warning">{i18n.t('due today')}</span>;
     } else if (diffDay === 1) {
-      tip = <span className="color-warning">{i18n.t('due tomorrow')}</span>;
+      tip = <span className="text-warning">{i18n.t('due tomorrow')}</span>;
     } else if (diffDay < 0) {
-      tip = <span className="color-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
+      tip = <span className="text-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
     }
   }
   return <Tooltip title={moment(time).format('YYYY-MM-DD')}>{tip}</Tooltip>;

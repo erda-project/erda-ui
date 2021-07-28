@@ -109,7 +109,7 @@ const Activity = () => {
             </div>
           </div>
           <div className="extra-items self-end">
-            <span className="color-primary pointer" onClick={() => onOpenDeployLog(id)}>
+            <span className="text-primary pointer" onClick={() => onOpenDeployLog(id)}>
               {i18n.t('log')}
             </span>
           </div>

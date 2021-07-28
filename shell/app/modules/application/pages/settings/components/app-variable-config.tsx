@@ -218,7 +218,7 @@ const VariableConfig = ({
           <span>
             {source === 'certificate' && (
               <Tooltip title={i18n.t('common:from certificate push')}>
-                <IconInfo className="ml-1 color-text-sub" />
+                <IconInfo className="ml-1 text-sub" />
               </Tooltip>
             )}
             {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('common:default')}</span>}
@@ -418,7 +418,7 @@ const VariableConfig = ({
           }}
         />
         {isJsonInvalid && (
-          <span className="color-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
+          <span className="text-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
         )}
       </Modal>
       <Modal

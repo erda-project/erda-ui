@@ -92,8 +92,8 @@ const InfoItem = ({ title, value, textItem }: IInfoProps) => {
   if (isEmpty(value)) return null;
   return (
     <div className="mb-6">
-      <div className="color-text-desc mb-2">{title}</div>
-      <div className="color-text">{isString(value) ? value : getFileRender(value, textItem)}</div>
+      <div className="text-desc mb-2">{title}</div>
+      <div className="text-normal">{isString(value) ? value : getFileRender(value, textItem)}</div>
     </div>
   );
 };

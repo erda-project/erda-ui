@@ -64,9 +64,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
             <div className="item mb-4">
               <p className="label mb-2">
                 {i18n.t('verification code')}{' '}
-                <span className="color-text-sub">
-                  ({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})
-                </span>
+                <span className="text-sub">({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})</span>
               </p>
               <Input readOnly value={code} />
             </div>

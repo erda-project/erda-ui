@@ -283,7 +283,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
 
   const append =
     (scope === 'testPlan' && editMode) || !fullData.apisFormat.length ? null : (
-      <span className="color-text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
+      <span className="text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
         <SelectEnv
           envList={envList}
           onClick={(env: any) => {
@@ -317,7 +317,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <div className="flex justify-between items-center">
             <div className="flex-1">
               <Input
-                className={classnames('case-name text-lg font-medium color-text', titleIsEmpty && 'error')}
+                className={classnames('case-name text-lg font-medium text-normal', titleIsEmpty && 'error')}
                 size="large"
                 autoFocus
                 placeholder={i18n.t('project:use case title (required)')}
@@ -346,8 +346,8 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           </div>
           <div className="flex justify-between items-center mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
-              <div className="flex-1 text-base nowrap mr-5 color-text-desc">
-                <CustomIcon type="wjj1" className="color-warning" />
+              <div className="flex-1 text-base nowrap mr-5 text-desc">
+                <CustomIcon type="wjj1" className="text-warning" />
                 {dirName}
               </div>
             </Tooltip>

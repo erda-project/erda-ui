@@ -369,8 +369,8 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     const isSuccess = status < 400 && status >= 200;
     const statusColor = classnames({
       'ml-1': true,
-      'color-success': isSuccess,
-      'color-danger': !isSuccess,
+      'text-success': isSuccess,
+      'text-danger': !isSuccess,
     });
     let responseBody = <pre className="response-body">{JSON.stringify(body, null, 2)}</pre>;
     let isRequestJson = false;
@@ -415,7 +415,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
               <EmptyListHolder />
             ) : (
               <>
-                <div className="request-info color-text-desc p-3">
+                <div className="request-info text-desc p-3">
                   <span className="method mr-3">{get(request, 'method', '')}</span>
                   <span className="url">{get(request, 'url', '')}</span>
                 </div>
@@ -480,7 +480,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             <Tabs
               defaultActiveKey="Body"
               tabBarExtraContent={
-                <span className="mr-3 color-text-desc">
+                <span className="mr-3 text-desc">
                   Status:<span className={statusColor}>{status}</span>
                 </span>
               }

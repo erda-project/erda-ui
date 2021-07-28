@@ -33,7 +33,7 @@ interface IProps {
 const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
   return (
     <div onBlurCapture={onBlurCapture}>
-      <p className="color-text-desc my-0">{i18n.t('project:priority')}</p>
+      <p className="text-desc my-0">{i18n.t('project:priority')}</p>
       <div className="mt-2 mb-5">
         <Select
           style={{ width: '100%' }}
@@ -47,7 +47,7 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           ))}
         </Select>
       </div>
-      <p className="color-text-desc my-0">{i18n.t('project:creator')}</p>
+      <p className="text-desc my-0">{i18n.t('project:creator')}</p>
       <p className="mt-2 mb-5">
         <Avatar
           showName
@@ -55,7 +55,7 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           size={28}
         />
       </p>
-      <p className="color-text-desc my-0">{i18n.t('create time')}</p>
+      <p className="text-desc my-0">{i18n.t('create time')}</p>
       <p className="mt-2 mb-5">
         {dataSource.createdAt ? moment(dataSource.createdAt).format('YYYY-MM-DD HH:mm:ss') : ''}
       </p>

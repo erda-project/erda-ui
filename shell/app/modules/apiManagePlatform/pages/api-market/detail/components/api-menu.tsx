@@ -124,7 +124,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
                         <div className="method-wrapper">
                           <Tag color={colorMap[_method] || '#975FA0'}>{_method.toUpperCase()}</Tag>
                         </div>
-                        <div className="api-summary nowrap color-text">{summary || _path}</div>
+                        <div className="api-summary nowrap text-normal">{summary || _path}</div>
                       </li>
                     </Tooltip>
                   );

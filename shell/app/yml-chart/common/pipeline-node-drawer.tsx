@@ -455,7 +455,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <IconHelp className="color-text-icon" />
+            <IconHelp className="text-icon" />
           </Tooltip>
         </span>
       );
