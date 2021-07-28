@@ -79,14 +79,14 @@ const initState: IState = {
 };
 
 const appendDisplayNameToGroupInfo = (groupInfos: ORG_DASHBOARD.IGroupInfo[], clusterList: ORG_CLUSTER.ICluster[]) => {
-  const nameToDisplayName = {};
+  const nameToDisplayName: Obj<string> = {};
   map(clusterList, (item) => {
     nameToDisplayName[item.name] = item.displayName;
   });
   return groupInfos.map((group) => {
     return {
       ...group,
-      displayName: group.name ? nameToDisplayName[group.name] || group.name : group.name,
+      displayName: nameToDisplayName[group.name || ''] || group.name,
     };
   });
 };
@@ -103,7 +103,7 @@ const dashboard = createStore({
 
       const groupInfos = select((s) => s.groupInfos);
       const newGroupInfos = appendDisplayNameToGroupInfo(groupInfos, clusterList);
-      await update({ groupInfos: newGroupInfos });
+      update({ groupInfos: newGroupInfos });
       const filterGroup = await call(getFilterTypes, { clusterName: clusterNameString, orgName });
 
       update({
