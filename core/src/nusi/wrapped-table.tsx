@@ -38,12 +38,19 @@ interface IProps<T extends object = any> extends TableProps<T> {
   columns: Array<ColumnProps<T>>;
 }
 
-function WrappedTable<T extends object = any>({ columns, ...props }: IProps<T>) {
+function WrappedTable<T extends object = any>({ columns, rowClassName, ...props }: IProps<T>) {
   const newColumns = columns?.map(({ ...args }: ColumnProps<T>) => ({
     ellipsis: true,
     ...args,
   }));
-  return <Table scroll={{ x: '100%' }} columns={newColumns} {...props} />;
+  return (
+    <Table
+      scroll={{ x: '100%' }}
+      columns={newColumns}
+      rowClassName={props.onRow ? `cursor-pointer ${rowClassName}` : rowClassName}
+      {...props}
+    />
+  );
 }
 
 export default WrappedTable;
