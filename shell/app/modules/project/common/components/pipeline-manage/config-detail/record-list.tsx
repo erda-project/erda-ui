@@ -54,7 +54,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   }, [ref]);
   const setRowClassName = (record: any) => {
     return get(record, 'meta.historyID') === get(curPipelineDetail, 'meta.historyID')
-      ? 'selected-row bold-500'
+      ? 'selected-row font-medium'
       : 'pipeline-record-list';
   };
   const getList = () => {

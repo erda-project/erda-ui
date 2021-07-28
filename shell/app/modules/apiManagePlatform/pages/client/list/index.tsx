@@ -148,13 +148,13 @@ const ClientList = () => {
         footer={null}
       >
         <p className="mb-1">
-          <span className="bold-500">ClientID: </span>
+          <span className="font-medium">ClientID: </span>
           <span className="for-copy" data-clipboard-text={resetModalInfo.clientID}>
             {resetModalInfo.clientID}
           </span>
         </p>
         <p className="mb-1">
-          <span className="bold-500">ClientSecret: </span>
+          <span className="font-medium">ClientSecret: </span>
           <span className="for-copy" data-clipboard-text={resetModalInfo.clientSecret}>
             {resetModalInfo.clientSecret}
           </span>

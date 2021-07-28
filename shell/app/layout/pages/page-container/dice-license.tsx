@@ -66,9 +66,9 @@ export const DiceLicense = () => {
 
   return (
     <Modal title={i18n.t('layout:license tip')} visible={!valid} footer={null} closable={false} width={492}>
-      <div className="license-container fz14">
+      <div className="license-container text-sm">
         <img className="license-img" src={gqct_png} />
-        <div className="color-text mt-4 bold-500">{message}</div>
+        <div className="color-text mt-4 font-medium">{message}</div>
         <div className="row flex justify-between items-center mt-6">
           {rowOneData.map(({ label, value }) => {
             return (

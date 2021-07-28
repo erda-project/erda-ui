@@ -89,7 +89,7 @@ const Affairs = () => {
         <CommonPanel
           title={
             <div className="flex justify-between items-center">
-              <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:link information')}</h3>
+              <h3 className="trace-common-panel-title font-medium">{i18n.t('msp:link information')}</h3>
             </div>
           }
           className="trace-status-list-ct"

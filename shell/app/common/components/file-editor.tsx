@@ -176,14 +176,14 @@ export const FileEditor = ({
   const curActions = compact([
     actions.copy ? (
       <Tooltip title={i18n.t('copy')} key="copy">
-        <CustomIcon type="fz1" className="fz18 hover-active for-copy" data-clipboard-text={value} />
+        <CustomIcon type="fz1" className="text-lg hover-active for-copy" data-clipboard-text={value} />
       </Tooltip>
     ) : null,
     actions.format ? (
       <Tooltip title={i18n.t('format')} key="format">
         <CustomIcon
           type="sx"
-          className="fz18 hover-active"
+          className="text-lg hover-active"
           onClick={() => {
             value &&
               isValidJsonStr(value) &&

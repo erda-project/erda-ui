@@ -139,7 +139,7 @@ const getPermHead = (params: { columnKeys: string[]; scope: string; curRoleMap?:
       <div className={`column-head-item ${scope}-head-column-${item}`} key={item}>
         <div className={`head-text nowrap head-column-${item}`} style={{ width }}>
           {headText}
-          {roleText ? <div className="fz12">{roleText}</div> : null}
+          {roleText ? <div className="text-xs">{roleText}</div> : null}
         </div>
       </div>
     );

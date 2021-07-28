@@ -113,7 +113,7 @@ const ConfigEnvSelector = (props: IProps) => {
         {
           component: 'custom',
           getComp: () => {
-            return <div className="bold-500 border-bottom">{i18n.t('project:params configuration')}</div>;
+            return <div className="font-medium border-bottom">{i18n.t('project:params configuration')}</div>;
           },
         },
         ..._inParamsForm,

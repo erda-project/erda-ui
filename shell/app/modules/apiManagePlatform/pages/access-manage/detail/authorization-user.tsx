@@ -111,7 +111,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
             {record.contract.status === 'proved' && (
               <Tooltip title={i18n.t('traffic audit')}>
                 <CustomIcon
-                  className="ml-2 color-primary hover-active bold"
+                  className="ml-2 color-primary hover-active font-bold"
                   type="monitor"
                   onClick={(e) => {
                     e.stopPropagation();

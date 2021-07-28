@@ -59,8 +59,8 @@ const NewSet = ({ afterCreate }: IProps) => {
         onChange={(e) => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
-      <IconCheck className="ml-3 fz18 color-primary pointer" onClick={handleSave} />
-      <IconClose className="ml-3 fz18 pointer" onClick={handleHide} />
+      <IconCheck className="ml-3 text-lg color-primary pointer" onClick={handleSave} />
+      <IconClose className="ml-3 text-lg pointer" onClick={handleHide} />
     </div>
   );
 

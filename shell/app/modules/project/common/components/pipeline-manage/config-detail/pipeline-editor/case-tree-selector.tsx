@@ -189,7 +189,7 @@ export const CaseTreeSelector = (props: IProps) => {
                 {
                   component: 'custom',
                   getComp: () => {
-                    return <div className="bold-500 border-bottom">{i18n.t('project:node params')}</div>;
+                    return <div className="font-medium border-bottom">{i18n.t('project:node params')}</div>;
                   },
                 },
               ];

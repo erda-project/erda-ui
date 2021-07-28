@@ -165,7 +165,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   <WithAuth pass={hasAuth}>
                     <Button
                       type="primary"
-                      className="w-full add-option-btn fz12"
+                      className="w-full add-option-btn text-xs"
                       onClick={() => {
                         updater.formVisible(true);
                       }}
@@ -191,7 +191,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                           />
                         </WithAuth>
                         <Tooltip title={stateName}>
-                          <div className="fz12 nowrap">{stateName}</div>
+                          <div className="text-xs nowrap">{stateName}</div>
                         </Tooltip>
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
@@ -261,10 +261,10 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
                 <div className="flex justify-between items-center my-3" key={stateID}>
-                  <div className="form-content-left text-center fz12 ">
+                  <div className="form-content-left text-center text-xs ">
                     <div className="flex justify-between items-center w-120">
                       <Tooltip title={stateName}>
-                        <span className="bold-500 nowrap state-transfer-name">{stateName}</span>
+                        <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
                       <span className="ml-2 color-text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
@@ -277,7 +277,9 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                             <WithAuth pass={hasAuth}>
                               <CustomIcon
                                 type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}
-                                className={`${isRelated ? '' : 'bold'} ${name === stateName ? 'disabled' : 'pointer'}`}
+                                className={`${isRelated ? '' : 'font-bold'} ${
+                                  name === stateName ? 'disabled' : 'pointer'
+                                }`}
                                 onClick={() => {
                                   name !== stateName && onRelationChange(stateDataIndex, relationIndex, !isRelated);
                                 }}

@@ -893,9 +893,9 @@ export default ({ scopeType }: { scopeType: string }) => {
     return (
       <div className="custom-alarm-form">
         <BasicForm form={form} />
-        <div className="title bold fz16">{i18n.t('org:trigger rules')}</div>
+        <div className="title font-bold text-base">{i18n.t('org:trigger rules')}</div>
         <RuleForm form={form} />
-        <div className="title bold fz16">{i18n.t('org:message template')}</div>
+        <div className="title font-bold text-base">{i18n.t('org:message template')}</div>
         <NotifyForm form={form} />
       </div>
     );

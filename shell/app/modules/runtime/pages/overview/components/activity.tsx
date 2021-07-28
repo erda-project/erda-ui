@@ -101,7 +101,7 @@ const Activity = () => {
           <div className="deployment-content ml-2 flex-1">
             <div className="info mb-2">
               <Tooltip title={name || ''}>
-                <span className="name fz16 bold-500 mr-2">{operatorName}</span>
+                <span className="name text-base font-medium mr-2">{operatorName}</span>
               </Tooltip>
               <Tooltip title={`${i18n.t('runtime:deployment time')}：${deployTime}`}>
                 <span className="start-time">{`${i18n.t('runtime:beginning to deploy')} ${fromNow}`}</span>

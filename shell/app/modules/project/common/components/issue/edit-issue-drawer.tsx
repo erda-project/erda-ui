@@ -518,7 +518,7 @@ const IssueMetaFields = React.forwardRef(
             return (
               <>
                 <Divider className="mb-6 mt-0.5" />
-                <div className="color-text-desc fz12 prewrap">
+                <div className="color-text-desc text-xs prewrap">
                   {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
                   {moment(formData.createdAt).format('YYYY/MM/DD')}
                 </div>
@@ -863,7 +863,7 @@ export const EditIssueDrawer = (props: IProps) => {
       if (warnMessage.length !== 0) {
         message.warn(
           <>
-            <span className="bold">{map(warnMessage, 'msg').join(', ')}</span>
+            <span className="font-bold">{map(warnMessage, 'msg').join(', ')}</span>
             <span>{i18n.t('project:missing')}</span>
           </>,
         );
@@ -1185,7 +1185,7 @@ export const EditIssueDrawer = (props: IProps) => {
           disabled={!editAuth}
           className="flex-1"
           itemProps={{
-            className: 'fz20 color-text',
+            className: 'text-xl color-text',
             maxLength: 255,
             placeholder: specialProps.titlePlaceHolder,
           }}

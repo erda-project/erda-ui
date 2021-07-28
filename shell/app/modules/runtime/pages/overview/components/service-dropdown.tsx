@@ -195,7 +195,7 @@ const ServiceDropdown = (props: IProps) => {
         trigger={['click']}
         getPopupContainer={(triggerNode) => triggerNode.parentNode || document.body}
       >
-        <CustomIcon className="fz24 hover-active" type="more" />
+        <CustomIcon className="text-2xl hover-active" type="more" />
       </Dropdown>
       <ServiceResourceModal
         visible={state.resourceVisible}

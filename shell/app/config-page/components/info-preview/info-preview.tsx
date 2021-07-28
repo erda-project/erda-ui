@@ -91,7 +91,7 @@ const RenderItem = (props: IRenderProps) => {
     case 'BlockTitle':
       {
         const title = data || rProps?.title || '';
-        Comp = title ? <div className={`${clsPrex} dice-cp-preview-block-title fz16`}>{title}</div> : null;
+        Comp = title ? <div className={`${clsPrex} dice-cp-preview-block-title text-base`}>{title}</div> : null;
       }
       break;
     case 'API':

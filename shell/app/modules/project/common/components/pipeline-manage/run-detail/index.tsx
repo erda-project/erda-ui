@@ -334,7 +334,7 @@ const RunDetail = (props: IProps) => {
       <Spin spinning={isFetching}>
         <div className="info-header mb-2">
           <div>
-            <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+            <span className="font-medium title">{i18n.t('application:build detail')}</span>
           </div>
           <div className="info-header-right">
             {renderRunBtn()}

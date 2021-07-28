@@ -51,7 +51,7 @@ export const EnvCard = ({ type }: IProps) => {
           <CustomIcon color style={{ width: '40px', height: '40px' }} type={envMap[type].icon} className="stage-icon" />
         </div>
         <div className="env-name-container">
-          <span className="env-name bold nowrap">{envMap[type].text}</span>
+          <span className="env-name font-bold nowrap">{envMap[type].text}</span>
           <span className="env-sub-name">{envMap[type].subText}</span>
         </div>
       </div>

@@ -150,7 +150,7 @@ const RuntimeBox = (props: IProps) => {
           <div className="branch disabled">
             <CustomIcon type="slbb" />
             <Tooltip title={name}>
-              <span className="bold nowrap">{name}</span>
+              <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
         </div>
@@ -169,7 +169,7 @@ const RuntimeBox = (props: IProps) => {
           <div className="branch">
             <CustomIcon type="slbb" />
             <Tooltip title={name}>
-              <span className="bold nowrap">{name}</span>
+              <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
           <IF

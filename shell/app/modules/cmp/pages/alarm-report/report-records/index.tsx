@@ -150,9 +150,9 @@ export default () => {
                 {map(reportTaskRecords, ({ id, start, end }) => (
                   <li
                     className={classnames({
-                      fz16: true,
+                      'text-base': true,
                       'py-4': true,
-                      'bold-500': true,
+                      'font-medium': true,
                       'text-center': true,
                       'hover-active-bg': true,
                       active: String(activedRecord) === String(id),

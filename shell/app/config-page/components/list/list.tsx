@@ -183,7 +183,7 @@ const Item = (props: ItemProps) => {
               <CustomIcon type={titlePrifxIcon} className="title-icon mr-2" />
             </Tooltip>
           ) : null}
-          <Ellipsis className="bold title-text" title={title} />
+          <Ellipsis className="font-bold title-text" title={title} />
           {titleSuffixIcon ? (
             <Tooltip title={titleSuffixIconTip}>
               <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />

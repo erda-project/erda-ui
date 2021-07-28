@@ -304,7 +304,7 @@ export const TestEnvDetail = (props: IProps) => {
         getComp: () => (
           <div className="flex justify-between items-center">
             <div>
-              <span className="bold">Header</span>
+              <span className="font-bold">Header</span>
             </div>
             <Radio.Group
               value={headerMode}
@@ -370,7 +370,7 @@ export const TestEnvDetail = (props: IProps) => {
       {
         getComp: () => (
           <div className="flex justify-between items-center">
-            <span className="bold">Global</span>
+            <span className="font-bold">Global</span>
             <Radio.Group
               value={globalMode}
               onChange={(e: RadioChangeEvent) => {

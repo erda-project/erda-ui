@@ -293,7 +293,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <>
             <CustomIcon type="play" />
             {i18n.t('project:execute')}
-            <span className="fz12">
+            <span className="text-xs">
               ({i18n.t('project:When you click directly, it will execute cases without environment.')})
             </span>
           </>
@@ -317,7 +317,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <div className="flex justify-between items-center">
             <div className="flex-1">
               <Input
-                className={classnames('case-name fz18 bold-500 color-text', titleIsEmpty && 'error')}
+                className={classnames('case-name text-lg font-medium color-text', titleIsEmpty && 'error')}
                 size="large"
                 autoFocus
                 placeholder={i18n.t('project:use case title (required)')}
@@ -346,7 +346,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           </div>
           <div className="flex justify-between items-center mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
-              <div className="flex-1 fz16 nowrap mr-5 color-text-desc">
+              <div className="flex-1 text-base nowrap mr-5 color-text-desc">
                 <CustomIcon type="wjj1" className="color-warning" />
                 {dirName}
               </div>

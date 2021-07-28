@@ -285,7 +285,7 @@ export const Build = (props: IProps) => {
               <div className="list-item flex justify-between items-center">
                 <div className="title flex justify-between items-center">
                   <Tooltip title={toolTipName} overlayClassName="commit-tip">
-                    <span className="branch-name bold-500 nowrap">
+                    <span className="branch-name font-medium nowrap">
                       <CustomIcon type={iconType} />
                       <span className="nowrap">{displayName}</span>
                     </span>

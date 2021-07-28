@@ -368,7 +368,7 @@ const ApiDesign = () => {
   // 左侧列表头部渲染
   const renderPanelHead = (titleKey: IListKey) => (
     <div className="list-panel-head flex justify-between items-center">
-      <span className="bold">{LIST_TITLE_MAP[titleKey]}</span>
+      <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus
           className="mr-0 pointer"
@@ -684,7 +684,7 @@ const ApiDesign = () => {
                     />
 
                     <div
-                      className={`list-title py-3 border-bottom bold ${
+                      className={`list-title py-3 border-bottom font-bold ${
                         contentKey === 'SUMMARY' ? 'list-title-active' : ''
                       }`}
                       onClick={() => onContentChange('SUMMARY')}

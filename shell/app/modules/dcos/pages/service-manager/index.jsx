@@ -298,7 +298,7 @@ class ServiceManager extends React.Component {
     return (
       <Spin spinning={isFetchingClusters}>
         <Holder when={isEmpty(list)}>
-          <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
+          <Breadcrumb separator={<IconRight size="14px" className="text-xs" />} className="path-breadcrumb">
             {path.map((p, i) => {
               const isLast = i === path.length - 1;
               return (

@@ -401,10 +401,10 @@ const ServiceCard = (props: IProps) => {
               <IF check={status !== 'Healthy'}>
                 <HealthPoint type="service" status={status} />
               </IF>
-              <span className="name fz16">{name}</span>
+              <span className="name text-base">{name}</span>
               {resourceInfo}
             </div>
-            <div className="error-msg fz12 nowrap">{errorMsg}</div>
+            <div className="error-msg text-xs nowrap">{errorMsg}</div>
           </div>
           <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
             {getOperation()}

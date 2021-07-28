@@ -289,7 +289,7 @@ const StatisticsDetail = () => {
     <div className="artifacts-statistics">
       <div className="mt-4 block-container">
         <div className="title flex justify-between items-center">
-          <span className="bold fz16">{get(topTypeMap, `${topType}.title`)}</span>
+          <span className="font-bold text-base">{get(topTypeMap, `${topType}.title`)}</span>
           <div>
             <FilterGroup
               className="mr-2 version-selector"
@@ -315,7 +315,7 @@ const StatisticsDetail = () => {
       </div>
       <div className="mt-4 block-container">
         <div className="title flex justify-between items-center">
-          <span className="bold fz16">{i18n.t('publisher:detailed data')}</span>
+          <span className="font-bold text-base">{i18n.t('publisher:detailed data')}</span>
         </div>
         <div>
           <StatisticList artifactsId={publisherItemId} monitorKey={monitorKey} />

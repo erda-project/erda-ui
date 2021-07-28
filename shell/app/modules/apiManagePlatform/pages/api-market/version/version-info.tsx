@@ -300,7 +300,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       </div>
       <div className="right flex-1 pl-4">
         <div className="flex justify-between items-center">
-          <div className="title color-text bold-500 fz16 my-3">{i18n.t('related instance')}</div>
+          <div className="title color-text font-medium text-base my-3">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>
             <Button onClick={handleRelation}>{i18n.t('edit')}</Button>
           </UnityAuthWrap>
@@ -308,14 +308,14 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
         {instance.type === 'dice' ? (
           <>
             <div className="color-text-desc instance-label">{i18n.t('service name')}</div>
-            <div className="color-text-sub bold-500 instance-name mb-3">{get(instance, 'serviceName', '-')}</div>
+            <div className="color-text-sub font-medium instance-name mb-3">{get(instance, 'serviceName', '-')}</div>
             <div className="color-text-desc instance-label">{i18n.t('msp:deployment branch')}</div>
-            <div className="color-text-sub bold-500 instance-name mb-3">{get(instance, 'runtimeName', '-')}</div>
+            <div className="color-text-sub font-medium instance-name mb-3">{get(instance, 'runtimeName', '-')}</div>
           </>
         ) : null}
         <div className="color-text-desc instance-label">{i18n.t('related instance')}</div>
-        <div className="color-text-sub bold-500 instance-name mb-6">{instanceUrl || '-'}</div>
-        <div className="title color-text bold-500 fz16 mb-3">{i18n.t('version list')}</div>
+        <div className="color-text-sub font-medium instance-name mb-6">{instanceUrl || '-'}</div>
+        <div className="title color-text font-medium text-base mb-3">{i18n.t('version list')}</div>
         <Table<API_MARKET.VersionItem>
           rowKey={({ version: { major, minor, patch } }) => `${major}-${minor}-${patch}`}
           columns={columns}

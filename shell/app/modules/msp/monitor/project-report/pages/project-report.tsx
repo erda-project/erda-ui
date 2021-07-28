@@ -182,9 +182,9 @@ const ProjectReport = ({ type }: IProps) => {
                     <li
                       className={classnames({
                         'report-list-item': true,
-                        fz16: true,
+                        'text-base': true,
                         'pl-5': true,
-                        'bold-500': true,
+                        'font-medium': true,
                         'text-left': true,
                         'hover-active-bg': true,
                         active: state.activeReportKey === item.key,

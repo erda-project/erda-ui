@@ -192,7 +192,7 @@ export const AddonCards = (props: IProps) => {
         key={`${instanceId || realInstanceId}-${projectId}-${workspace}`}
         onClick={() => onClickCard(content)}
       >
-        <span className="env-icon bold-500" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}>
+        <span className="env-icon font-medium" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}>
           <CustomIcon type="bq" color />
         </span>
         <div className="addon-item">
@@ -206,7 +206,7 @@ export const AddonCards = (props: IProps) => {
                   <Badge status={status === 'ATTACHING' ? 'processing' : 'error'} />
                 </IF>
                 <Tooltip title={name}>
-                  <span className="title bold-500">
+                  <span className="title font-medium">
                     {name}
                     {tag ? `（${tag}）` : null}
                   </span>
@@ -304,7 +304,7 @@ export const AddonCards = (props: IProps) => {
                 }
                 return (
                   <li className="addon-category-section" key={title} ref={liRef[title]}>
-                    <span className="content-title bold-500">
+                    <span className="content-title font-medium">
                       {title}
                       {extra}
                     </span>

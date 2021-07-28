@@ -672,7 +672,7 @@ const ApiTabComps = {
           }
           return (
             <Popover
-              content={<pre className="fz12">{cutStr(res.actualValue, 200)}</pre>}
+              content={<pre className="text-xs">{cutStr(res.actualValue, 200)}</pre>}
               title={i18n.t('project:actual value')}
               trigger="hover"
             >

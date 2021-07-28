@@ -351,7 +351,7 @@ const ErrorReport = (props: IProps) => {
         ))}
       </Select>
       <div className="total-trend block-container">
-        <div className="title bold fz16">{i18n.t("publisher:Today's error trend")}</div>
+        <div className="title font-bold text-base">{i18n.t("publisher:Today's error trend")}</div>
         <Row>
           {map(errorTrend, (info, idx) => {
             return (
@@ -390,7 +390,7 @@ const ErrorReport = (props: IProps) => {
       </div>
       <div className="mt-4 block-container">
         <div className="title flex justify-between items-center">
-          <span className="bold fz16">{i18n.t('publisher:error statistics')}</span>
+          <span className="font-bold text-base">{i18n.t('publisher:error statistics')}</span>
         </div>
         <div>
           <FilterTab className="m-2" value={lineChartType} onChange={updater.lineChartType} />
@@ -399,7 +399,7 @@ const ErrorReport = (props: IProps) => {
       </div>
       <div className="mt-4 block-container">
         <div className="title flex justify-between items-center">
-          <span className="bold fz16">{i18n.t('publisher:error list')}</span>
+          <span className="font-bold text-base">{i18n.t('publisher:error list')}</span>
         </div>
         <div>
           <ErrorList monitorKey={monitorKey} artifactsId={publisherItemId} timeSpan={timeSpan} version={lineVersion} />

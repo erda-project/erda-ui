@@ -82,7 +82,7 @@ export const BaseInfo = () => {
   const createTime = planItemDetail.createdAt ? moment(planItemDetail.createdAt).format('YYYY-MM-DD HH:mm:ss') : '';
   const content = (
     <div>
-      <span className="color-text bold-500 mb-2">{i18n.t('project:participant')}</span>
+      <span className="color-text font-medium mb-2">{i18n.t('project:participant')}</span>
       <div className="flex flex-wrap justify-center items-center participant-items justify-start">
         {partnerIDs.map((value, index) => {
           return (
@@ -109,7 +109,7 @@ export const BaseInfo = () => {
               {partnerIDs.slice(0, 4).map((p, index) => (
                 <Avatar key={`${String(index)}-${p}`} />
               ))}
-              {partnerIDs.length > 4 ? <span className="count px-1 bold-500">+{partnerIDs.length - 4}</span> : null}
+              {partnerIDs.length > 4 ? <span className="count px-1 font-medium">+{partnerIDs.length - 4}</span> : null}
             </span>
           </Popover>
           {/* <span>{planItemDetail.relatedIterative} 迭代</span> */}

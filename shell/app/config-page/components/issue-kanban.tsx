@@ -282,11 +282,11 @@ const Kanban = (props: IKanbanProps) => {
           updateBoardOp ? 'inp' : ''
         }`}
       >
-        <div className="fz16 bold-500 flex-1 flex justify-between items-center">
+        <div className="text-base font-medium flex-1 flex justify-between items-center">
           {updateBoardOp ? (
             updateAuth ? (
               <Input
-                className="fz16 bold-500 issue-kanban-label-input"
+                className="text-base font-medium issue-kanban-label-input"
                 value={labelVal}
                 onChange={(e: any) => setLabelVal(e.target.value)}
                 onPressEnter={doUpdate}
@@ -294,13 +294,17 @@ const Kanban = (props: IKanbanProps) => {
               />
             ) : (
               <Tooltip title={updateBoardOp?.disabledTip || i18n.t('common:no permission to operate')}>
-                <Input className="fz16 bold-500 issue-kanban-label-input update-disabled" readOnly value={labelVal} />
+                <Input
+                  className="text-base font-medium issue-kanban-label-input update-disabled"
+                  readOnly
+                  value={labelVal}
+                />
               </Tooltip>
             )
           ) : (
             label
           )}
-          <span className="color-text-desc ml-3 fz14">{total}</span>
+          <span className="color-text-desc ml-3 text-sm">{total}</span>
         </div>
         {deleteBoardOp ? (
           deleteBoardOp?.confirm ? (

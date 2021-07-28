@@ -122,7 +122,7 @@ export const PureBaseAddonInfo = ({
     <Spin spinning={loading}>
       <div className="addon-detail-page">
         <div className="base-info mb-8">
-          <span className="title bold-500">{i18n.t('org:basic info')}</span>
+          <span className="title font-medium">{i18n.t('org:basic info')}</span>
           <div className="info-grid">
             {map(itemConfigs, ({ title, value, render }) => (
               <div key={title}>
@@ -136,7 +136,7 @@ export const PureBaseAddonInfo = ({
         </div>
         {extra}
         <div className="ref mb-8">
-          <span className="title bold-500">{i18n.t('org:reference detail')}</span>
+          <span className="title font-medium">{i18n.t('org:reference detail')}</span>
           <Table
             columns={refTableList}
             dataSource={addonDetail.referenceInfos}
@@ -147,7 +147,7 @@ export const PureBaseAddonInfo = ({
         </div>
         <div className="config">
           <div className="flex justify-between items-center">
-            <span className="title bold-500">{i18n.t('org:basic parameters')}</span>
+            <span className="title font-medium">{i18n.t('org:basic parameters')}</span>
             {!isEmpty(addonDetail.config) && (
               <span className="copy-all pointer for-copy">
                 {i18n.t('org:copy all')}

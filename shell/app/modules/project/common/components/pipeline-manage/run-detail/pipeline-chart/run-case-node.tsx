@@ -226,7 +226,7 @@ export const RunCaseNode = (props: IProps) => {
           <div className="title-icon mr-3">{IconComp}</div>
           <div className="title-txt flex flex-col justify-center color-text">
             <Tooltip title={name}>
-              <span className="nowrap fz16 bold name">{name}</span>
+              <span className="nowrap text-base font-bold name">{name}</span>
             </Tooltip>
           </div>
 

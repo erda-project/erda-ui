@@ -196,8 +196,8 @@ export const FileDiff = ({
 
       const text =
         {
-          [ACTION.ADD]: <IconFileAddition className="fz16 color-green" />,
-          [ACTION.DELETE]: <IconDelete className="fz16 color-red" />,
+          [ACTION.ADD]: <IconFileAddition className="text-base color-green" />,
+          [ACTION.DELETE]: <IconDelete className="text-base color-red" />,
           [ACTION.RENAME]: i18n.t('application:file moved'),
         }[type] || '';
 
@@ -205,17 +205,17 @@ export const FileDiff = ({
         <div ref={forwardRef} className="file-diff">
           <IF check={type === 'rename'}>
             <div className="file-title-move">
-              <div className="bold nowrap">
+              <div className="font-bold nowrap">
                 <IconFileCodeOne className="mr-2" />
                 {old}
               </div>
               <IconArrowRight className="file-move-arrow" />
-              <div className="bold nowrap">{now}</div>
+              <div className="font-bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
             <div className="file-title inline-flex justify-between items-center">
-              <div className="bold nowrap">
+              <div className="font-bold nowrap">
                 <IconFileCodeOne className="mr-2" />
                 {name} {text || null}
               </div>
@@ -296,7 +296,7 @@ export const FileDiff = ({
         }}
       >
         {title || (
-          <div className="bold">
+          <div className="font-bold">
             <IF check={!isExpanding}>
               <IconRightOne theme="filled" size="16px" className="mr-2" />
               <ELSE />

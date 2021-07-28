@@ -110,7 +110,7 @@ export const IterationItem = (props: IProps) => {
           {ISSUE_ICON.iteration}
           {data ? (
             <Tooltip title={data.title}>
-              <div className="bold nowrap">{data.title}</div>
+              <div className="font-bold nowrap">{data.title}</div>
             </Tooltip>
           ) : null}
         </div>

@@ -132,7 +132,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
   return (
     <div className="instance-table">
       <div className={`header ${withHeader ? '' : 'hidden'}`}>
-        <span className="bold-500">{i18n.t('runtime:service details')}</span>
+        <span className="font-medium">{i18n.t('runtime:service details')}</span>
         <Select
           key={defaultValue}
           defaultValue={defaultValue}

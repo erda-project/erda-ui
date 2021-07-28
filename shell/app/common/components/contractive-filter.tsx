@@ -634,7 +634,7 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="fz12 mr-0.5 color-text" />
+              <CustomIcon type="tj1" className="text-xs mr-0.5 color-text" />
               <span>{i18n.t('common:filter')}</span>
               <CustomIcon type="caret-down" />
             </span>

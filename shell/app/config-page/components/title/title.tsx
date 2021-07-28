@@ -44,7 +44,7 @@ const Title = (props: CP_TITLE.Props) => {
       {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type="help" className="ml-1 fz14 pre-icon" />
+        <CustomIcon type="help" className="ml-1 text-sm pre-icon" />
       </Tooltip>
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>

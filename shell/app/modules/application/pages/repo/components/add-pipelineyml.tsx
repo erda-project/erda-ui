@@ -286,7 +286,7 @@ const AddPipelineYml = () => {
         }}
       />
       <div ref={editViewRef}>
-        <div className="bold fz16 my-3">{i18n.t('application:pipeline configuration')}</div>
+        <div className="font-bold text-base my-3">{i18n.t('application:pipeline configuration')}</div>
         <FileContainer
           name={
             <FileNameInput
@@ -425,7 +425,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
 
   return (
     <div className="pipeline-template">
-      <div className="bold fz16 my-3">{i18n.t('application:template select')}</div>
+      <div className="font-bold text-base my-3">{i18n.t('application:template select')}</div>
       <CardsLayout dataList={pipelineTemplates} contentRender={templateRender} />
     </div>
   );

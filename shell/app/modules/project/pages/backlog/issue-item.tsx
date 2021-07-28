@@ -95,7 +95,7 @@ export const IssueItem = (props: IIssueProps) => {
       <div className="issue-info h-full">
         <div className="backlog-item-content">
           <IssueIcon type={type as ISSUE_OPTION} />
-          <Ellipsis className="bold" title={name} />
+          <Ellipsis className="font-bold" title={name} />
         </div>
         <div className="backlog-item-info color-text-sub flex items-center flex-wrap justify-end">
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>

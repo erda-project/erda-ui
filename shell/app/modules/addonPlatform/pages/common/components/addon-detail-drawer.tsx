@@ -90,9 +90,9 @@ const AddonDetailDrawer = (props: IProps) => {
     >
       <Spin spinning={isFetching}>
         <div className="addon-detail">
-          <span className="title bold-500">{getTranslateAddonName(name)}</span>
+          <span className="title font-medium">{getTranslateAddonName(name)}</span>
           <div className="info">
-            <span className="title bold-500">{i18n.t('basic information')}</span>
+            <span className="title font-medium">{i18n.t('basic information')}</span>
             <div className="info-grid">
               {!isEmpty(instanceData) &&
                 instanceData.map(({ key, value }) => {
@@ -106,7 +106,7 @@ const AddonDetailDrawer = (props: IProps) => {
             </div>
           </div>
           <div className="ref">
-            <span className="title bold-500">{i18n.t('org:reference detail')}</span>
+            <span className="title font-medium">{i18n.t('org:reference detail')}</span>
             <Table
               scroll={{ x: 800 }}
               columns={refTableList}
@@ -117,7 +117,7 @@ const AddonDetailDrawer = (props: IProps) => {
           </div>
           <div className="config">
             <div className="flex justify-between items-center">
-              <span className="title bold-500">{i18n.t('org:service basic parameters')}</span>
+              <span className="title font-medium">{i18n.t('org:service basic parameters')}</span>
               {!isEmpty(config) && (
                 <span className="copy-all pointer for-copy">
                   {i18n.t('copy all')}

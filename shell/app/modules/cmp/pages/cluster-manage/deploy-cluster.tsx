@@ -64,7 +64,7 @@ const DeployCluster = () => {
   };
   return (
     <div className="deploy-cluster">
-      <div className="deploy-info bold-500">
+      <div className="deploy-info font-medium">
         {i18n.t('organization')} {currentOrg.name} {i18n.t('org:new cluster deployment')}
         <div className="deploy-operator">
           <Button onClick={() => setLogVisible(true)}>{i18n.t('check log')}</Button>

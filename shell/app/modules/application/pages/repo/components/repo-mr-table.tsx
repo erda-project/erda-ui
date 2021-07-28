@@ -127,9 +127,9 @@ const RepoMrTable = ({ type }: IProps) => {
               const authorUser = get(userMap, `${item.authorId}`) || {};
               return (
                 <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
-                  <div className="title bold">
+                  <div className="title font-bold">
                     {item.title}
-                    <span className="fz14 desc ml-3 bold-400">
+                    <span className="text-sm desc ml-3 font-normal">
                       {item.sourceBranch} <CustomIcon type="arrow-right" />
                       {item.targetBranch}
                     </span>

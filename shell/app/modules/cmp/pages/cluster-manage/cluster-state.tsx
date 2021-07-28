@@ -85,7 +85,7 @@ const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterN
                       <span>
                         {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.icon`, '')}
                       </span>
-                      <span className="bold">
+                      <span className="font-bold">
                         {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.displayName`, '')}
                       </span>
                     </span>

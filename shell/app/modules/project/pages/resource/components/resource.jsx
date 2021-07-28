@@ -83,7 +83,7 @@ class ProjectResource extends React.PureComponent {
     const { timeSpan } = this.props;
     return (
       <div className="project-resource">
-        <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
+        <Breadcrumb separator={<IconRight size="14px" className="text-xs" />} className="path-breadcrumb">
           {paths.map((p, i) => {
             const isLast = i === paths.length - 1;
             return (

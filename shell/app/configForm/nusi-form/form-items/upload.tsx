@@ -65,7 +65,7 @@ export const FormUpload = ({
 
     const uploadButton = (
       <div className="form-item-upload-button">
-        <CustomIcon type="cir-add" className="fz20" />
+        <CustomIcon type="cir-add" className="text-xl" />
         <div>{_placeholder}</div>
       </div>
     );

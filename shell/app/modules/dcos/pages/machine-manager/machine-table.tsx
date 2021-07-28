@@ -498,7 +498,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 />
               )}
             </span>
-            <span className="bold hover-table-text status nowrap" onClick={() => gotoMachineMonitor(record)}>
+            <span className="font-bold hover-table-text status nowrap" onClick={() => gotoMachineMonitor(record)}>
               {value}
             </span>
           </div>
@@ -512,7 +512,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
       render: (_val: string, record: ORG_MACHINE.IMachine) => {
         return (
-          <span onClick={() => gotoMachineTasks(record)} className="bold hover-table-text">
+          <span onClick={() => gotoMachineTasks(record)} className="font-bold hover-table-text">
             {record.tasks}
           </span>
           // record.tasks

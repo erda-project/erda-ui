@@ -32,7 +32,7 @@ const SplitBox = ({ data }: IBoxProp) => {
         return (
           <div key={String(i)} className="item">
             <div className="count">{item[0]}</div>
-            <div className="fz12">{item[1]}</div>
+            <div className="text-xs">{item[1]}</div>
           </div>
         );
       })}

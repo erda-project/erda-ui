@@ -256,7 +256,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             onMouseEnter={() => setHoverFlag(true)}
             onMouseLeave={() => setHoverFlag(false)}
           >
-            <div className="node-title small-node-title bold">
+            <div className="node-title small-node-title font-bold">
               {stopped ? (
                 <>
                   <CustomIcon type="wks1" className="error-icon mr-5" />
@@ -273,7 +273,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             </div>
             <div className="node-info">
               <div className="info-item" onClick={handleClickError}>
-                <span className="info-value small-info-value bold">
+                <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
                     <span className="color-danger">{error_rate}%</span>/<span>{count}</span>
                     <IF.ELSE />
@@ -321,7 +321,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               <img src={iconImg} />
             </div>
             <div className="node-name">
-              <span className="text bold">{nameMap[type] || name}</span>
+              <span className="text font-bold">{nameMap[type] || name}</span>
               <span className="sub-text">{runtimeName}</span>
               <span className="sub-text">{applicationName}</span>
             </div>
@@ -353,7 +353,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <img src={iconImg} />
           </div>
           <div className="node-name">
-            <span className="text bold">{nameMap[type] || name}</span>
+            <span className="text font-bold">{nameMap[type] || name}</span>
             {type === 'Service' ? (
               stopped ? (
                 <div>
@@ -379,7 +379,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <div className="h-full node-operation">
               <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
                 <CustomIcon
-                  className="fz18 operation-item pl-2 pr-2 pb-2"
+                  className="text-lg operation-item pl-2 pr-2 pb-2"
                   type="sz"
                   onClick={(e: any) => e.stopPropagation()}
                 />
@@ -389,7 +389,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
         </div>
         <div className="node-info">
           <div className="info-item" onClick={handleClickError}>
-            <span className="info-value bold">
+            <span className="info-value font-bold">
               <IF check={error_rate}>
                 <span className="color-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
                 <IF.ELSE />
@@ -407,7 +407,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           </div>
           <div className="info-item-separate" />
           <div className="info-item">
-            <span className="info-value bold">{floor(rt, 2)}</span>
+            <span className="info-value font-bold">{floor(rt, 2)}</span>
             <span className="info-key">{i18n.t('response time')}(ms)</span>
           </div>
         </div>

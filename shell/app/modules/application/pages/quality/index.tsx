@@ -252,7 +252,7 @@ const CodeQuality = () => {
     return (
       <React.Fragment>
         <div className="file-container quality-file">
-          <div className="file-header bold flex justify-between items-center">
+          <div className="file-header font-bold flex justify-between items-center">
             <div className="file-title inline-flex justify-between items-center">
               <CustomIcon className="hover-active mb-1 mr-2" type="back" onClick={closeDetail} />
               <span>{name}</span>

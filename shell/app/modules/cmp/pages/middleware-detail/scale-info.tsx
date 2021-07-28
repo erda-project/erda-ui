@@ -59,7 +59,7 @@ const ScaleInfo = ({ data }: IProps) => {
     <Spin spinning={isLoading}>
       <div className="scale-info mb-8">
         <div className="flex justify-between items-center">
-          <span className="title bold-500">{i18n.t('cmp:resource information')}</span>
+          <span className="title font-medium">{i18n.t('cmp:resource information')}</span>
           <Button
             onClick={() => {
               setVisible(true);

@@ -205,7 +205,7 @@ const Backlog = () => {
     <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
       <div className="backlog-issues-title flex justify-between items-center mb-2">
         <div>
-          <span className="bold fz16 mr-2">{i18n.t('project:backlog')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('project:backlog')}</span>
           <span className="color-text-desc">
             {i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}
           </span>
@@ -293,7 +293,7 @@ const Backlog = () => {
 const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-issues-empty-holder">
     <img src={backlog_db_svg} className="mb-3" />
-    <div className="fz24 bold my-2">{i18n.t('project:backlog')}</div>
+    <div className="text-2xl font-bold my-2">{i18n.t('project:backlog')}</div>
     <div className="desc">
       {i18n.t('project:add-todo-issue-tip1')}
       <WithAuth pass={addAuth}>

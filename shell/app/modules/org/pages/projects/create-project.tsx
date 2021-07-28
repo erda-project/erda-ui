@@ -181,8 +181,8 @@ const TemplateCard = (props: ICardProps) => {
           alt="template-icon"
         />
       </div>
-      <div className="template-name fz14 color-text pt-2 pb-1">{type.name}</div>
-      <div className="template-description fz12 color-text-sub">{type.description}</div>
+      <div className="template-name text-sm color-text pt-2 pb-1">{type.name}</div>
+      <div className="template-description text-xs color-text-sub">{type.description}</div>
     </div>
   );
 };
@@ -231,7 +231,7 @@ const CreationForm = () => {
   quotaFields[0].label = (
     <>
       {i18n.t('resources quota')}
-      <span className="fz12 ml-1"> {i18n.t('project:Maximum resource quota for this project')}</span>
+      <span className="text-xs ml-1"> {i18n.t('project:Maximum resource quota for this project')}</span>
     </>
   );
   quotaFields[1].label = undefined;
@@ -339,7 +339,7 @@ const CreationForm = () => {
         label: (
           <span className="mr-1">
             {i18n.t('project:Cluster used by the environment')}
-            <span className="fz12 ml-1"> {i18n.t('project:Configure-cluster-environment')}</span>
+            <span className="text-xs ml-1"> {i18n.t('project:Configure-cluster-environment')}</span>
           </span>
         ),
         name: ['clusterConfig', 'DEV'],

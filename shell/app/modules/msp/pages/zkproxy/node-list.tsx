@@ -179,7 +179,7 @@ const NodeList = () => {
     <div className="node-list-container">
       <div className="host-list mr-4">
         <Card>
-          <p className="mb-3 bold-500">{i18n.t('msp:node list')}</p>
+          <p className="mb-3 font-medium">{i18n.t('msp:node list')}</p>
           <div className="host-list-content">
             <Holder when={isEmpty(nodeData.node)}>
               {map(nodeData.node, (node) => (
