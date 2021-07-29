@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import {
+  Affix,
   Button,
   BackTop,
   Badge,
@@ -29,6 +30,7 @@ import {
   Empty,
   Form,
   Input,
+  InputNumber,
   message,
   Menu,
   Modal,
@@ -58,14 +60,12 @@ import Table from './wrapped-table';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
-  Affix,
   Alert,
   Anchor,
   Avatar,
   // Input,
   Card,
   Container,
-  InputNumber,
   Radio,
   Progress,
   Tooltip,
