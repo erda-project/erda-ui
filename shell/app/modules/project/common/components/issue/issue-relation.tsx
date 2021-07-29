@@ -94,7 +94,6 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     {
       title: i18n.t('{name} title', { name: i18n.t('project:issue') }),
       dataIndex: 'title',
-      width: 240,
       render: (v: string, record: ISSUE.IssueType) => {
         const { type, id, iterationID: _iterationID } = record;
         const url =
@@ -141,6 +140,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     {
       title: i18n.t('project:assignee'),
       dataIndex: 'assignee',
+      width: 240,
       render: (userId: string, record: ISSUE.Task) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(authObj.edit, checkRole);
