@@ -23,7 +23,8 @@ const replaceReg = /<<(\w+)>>/g;
 const expressionReg = /{[^{}]+}/g;
 // eslint-disable-next-line no-console
 const logErr = console.error;
-export default (record: AUDIT.Item) => {
+export default (record: AUDIT.Item, extraTemplates = {}) => {
+  const templates = { ...auditTemplates, ...extraTemplates };
   const { templateName, scopeType, appId, projectId, context, result } = record;
   // 后端把pipelineID改为了pipelineId，兼容下
   const fullContext = { ...context, projectId, appId, env: 'test', pipelineID: context.pipelineId, scopeType } as Obj;
@@ -147,7 +148,7 @@ export default (record: AUDIT.Item) => {
     return contentList.concat([after]);
   };
 
-  const target = auditTemplates[templateName];
+  const target = templates[templateName];
   if (!target) {
     logErr(`audit template:${templateName} not exist`);
     return templateName;
