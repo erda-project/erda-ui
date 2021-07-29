@@ -35,13 +35,16 @@
       > span {
         width: 100%;
       }
-
-      span.color-text-sub {
-        display: block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
     }
   }
+}
+
+.notify-test-dingtalk {
+  position: absolute;
+  text-align: right;
+  right: 0;
+  bottom: -26px;
+  font-weight: bold;
+  color: $color-primary;
+  cursor: pointer;
 }
