@@ -286,7 +286,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     onRelation('instance');
   };
   return (
-    <div className="flex justify-between items-center content-wrap">
+    <div className="flex justify-between items-start content-wrap relative">
       <div className="left pr-4">
         <Tree
           blockNode
