@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// import * as React from 'react';
+// import React from 'react';
 import { IYmlEditorProps } from './index';
 // import i18n from 'i18n';
 // // @ts-ignore
@@ -296,8 +296,8 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //           className="commit-file-form"
   //           list={getFieldsList()}
   //         />
-  //         <div className="pa16">
-  //           <Button type="primary" className="mr12" onClick={checkForm}>
+  //         <div className="p-4">
+  //           <Button type="primary" className="mr-3" onClick={checkForm}>
   //             {i18n.t('application:save')}
   //           </Button>
   //           <Button onClick={cancelEditing}>
@@ -321,7 +321,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
 
   //   return (
   //     <div>
-  //       <FileContainer className="new-yml-editor column-flex-box full-spin-height" name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={ops}>
+  //       <FileContainer className="new-yml-editor flex flex-col justify-center full-spin-height" name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={ops}>
   //         <Spin spinning={loading.commit}>
   //           <YmlChart
   //             data={displayData}

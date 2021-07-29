@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Drawer, Button } from 'app/nusi';
 import { map, get, find, isNaN, compact, isEmpty, isBoolean } from 'lodash';
 import FormEditor from 'app/yml-chart/form-editor-for-pipeline/form-editor';
@@ -78,7 +78,7 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
         <>
           <FormEditor fields={fields} ref={formEditorRef} />
           <div className="pipeline-in-params-drawer-footer">
-            <Button onClick={closeDrawer} className="mr8">
+            <Button onClick={closeDrawer} className="mr-2">
               {i18n.t('cancel')}
             </Button>
             <Button onClick={onSubmit} type="primary">

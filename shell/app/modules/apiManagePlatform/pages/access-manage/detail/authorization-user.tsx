@@ -104,14 +104,14 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
       width: 120,
       render: (text, record) => {
         return (
-          <div className="flex-box flex-start">
+          <div className="flex justify-between items-center justify-start">
             <div className="client_displayName">
               <Ellipsis title={text || record.client?.name} />
             </div>
             {record.contract.status === 'proved' && (
               <Tooltip title={i18n.t('traffic audit')}>
                 <CustomIcon
-                  className="ml8 color-primary hover-active bold"
+                  className="ml-2 color-primary hover-active font-bold"
                   type="monitor"
                   onClick={(e) => {
                     e.stopPropagation();

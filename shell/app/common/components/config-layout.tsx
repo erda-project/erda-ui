@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 
 import './config-layout.scss';
 
@@ -39,9 +39,9 @@ const ConfigSection = ({
   const highlightColor = highlight ? `highlight-${highlight}` : '';
   return (
     <React.Fragment>
-      <div className="mb12">
-        <div className="config-section-title flex-box" {...titleProps}>
-          <span className={`name bold-500 ${highlightColor}`}>{title}</span>
+      <div className="mb-3">
+        <div className="config-section-title flex justify-between items-center" {...titleProps}>
+          <span className={`name font-medium ${highlightColor}`}>{title}</span>
           {titleExtra}
         </div>
         <div className={`config-section-desc ${highlightColor}`} {...descProps}>

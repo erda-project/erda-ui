@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Popover, Button, Table } from 'app/nusi';
 import { isEmpty, get, map } from 'lodash';
 import { Icon as CustomIcon } from 'common';
@@ -54,7 +54,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   }, [ref]);
   const setRowClassName = (record: any) => {
     return get(record, 'meta.historyID') === get(curPipelineDetail, 'meta.historyID')
-      ? 'selected-row bold-500'
+      ? 'selected-row font-medium'
       : 'pipeline-record-list';
   };
   const getList = () => {

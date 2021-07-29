@@ -337,7 +337,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
       >
         <Select
           disabled={this.isEditing()}
-          className="full-width"
+          className="w-full"
           placeholder={i18n.t('application:please select the version')}
           onSelect={() => setFieldsValue?.({ plan: undefined })}
         >
@@ -395,7 +395,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         {plan}
         {editing ? (
           <Item className="add-on-form-btn-group">
-            <Button className="mr8" onClick={cancel}>
+            <Button className="mr-2" onClick={cancel}>
               {i18n.t('application:cancel')}
             </Button>
             <Button type="primary" onClick={this.submitAddon}>

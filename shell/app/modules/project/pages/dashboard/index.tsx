@@ -17,7 +17,7 @@ import { Radio } from 'app/nusi';
 import moment from 'moment';
 import { isEmpty, map, merge, get, startsWith } from 'lodash';
 import { useUpdate, Holder, PureBoardGrid } from 'common';
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { getIterationDetail } from 'project/services/project-iteration';
@@ -93,7 +93,7 @@ export const ProjectDashboard = () => {
 
   return (
     <div className="project-dashboard">
-      <div className="flex-box mb12">
+      <div className="flex justify-between items-center mb-3">
         <RadioGroup onChange={(e: any) => updater.type(e.target.value)} value={type}>
           <RadioButton value={DashboardType.BUG}>{i18n.t('project:bug')}</RadioButton>
           <RadioButton value={DashboardType.WORKING}>{i18n.t('project:workload')}</RadioButton>

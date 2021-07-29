@@ -13,7 +13,7 @@
 
 // @ts-ignore
 import Snap from 'snapsvg-cjs';
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { get, maxBy, map, sumBy } from 'lodash';
 import { externalKey, CHART_CONFIG, NodeType } from './config';

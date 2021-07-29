@@ -51,7 +51,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         <CustomIcon className="bg-color-icon red" type="wtg" />
         {i18n.t('project:not passed')}
       </Button>
-      {hasNext ? <span className="ml4">{i18n.t('project:and next')}</span> : null}
+      {hasNext ? <span className="ml-1">{i18n.t('project:and next')}</span> : null}
     </div>
   );
 };

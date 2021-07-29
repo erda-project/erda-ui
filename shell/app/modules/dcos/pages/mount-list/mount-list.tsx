@@ -15,7 +15,7 @@ import { Table, Popover, Button, Badge, Modal } from 'app/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import { KeyValueList, useUpdate } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'common/utils';
 
 import './mount-list.scss';

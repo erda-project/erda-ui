@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, take, head } from 'lodash';
@@ -114,7 +114,7 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr8">
+          <div className="group-members mr-2">
             {map(take(values, 3), (obj: { receiver: string }) => (
               <Avatar name={obj.receiver} size={24} key={obj.receiver} />
             ))}
@@ -131,7 +131,7 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr8">
+          <div className="group-members mr-2">
             {map(take(values, 3), (obj: { receiver: string }) => {
               const { username } = JSON.parse(obj.receiver);
               return <Avatar name={username} size={24} key={username} />;
@@ -407,7 +407,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       ellipsis: true,
       width: 200,
       render: (targets) => (
-        <div className="flex-box truncate">
+        <div className="flex-div truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),

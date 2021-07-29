@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { last, find } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Menu } from 'common';
 import routeInfoStore from 'core/stores/route';
 

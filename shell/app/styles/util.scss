@@ -9,45 +9,8 @@
   }
 }
 
-.show {
-  display: block !important;
-}
-
-.hide {
-  display: none !important;
-}
-
-.visible {
-  visibility: visible;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.auto-overflow {
-  overflow: auto;
-}
-
 .unselectable {
   user-select: none;
-}
-
-//== positions
-.pull-left {
-  float: left !important;
-}
-
-.pull-right {
-  float: right !important;
-}
-
-.full-width {
-  width: 100% !important;
-}
-
-.full-height {
-  height: 100% !important;
 }
 
 .full-spin-height {
@@ -57,189 +20,6 @@
   .ant-spin-container {
     height: 100%;
   }
-}
-
-// flex
-.flex-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.wrap-flex-box {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.flex-start {
-  justify-content: flex-start !important;
-}
-
-.v-flex-box {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.center-flex-box {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.column-flex-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.start-flex-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-}
-
-.left-flex-box {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.right-flex-box {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.inline-flex-box {
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.v-align {
-  display: flex;
-  align-items: center;
-}
-
-.inline-v-align {
-  display: inline-flex;
-  align-items: center;
-}
-
-.align-middle {
-  vertical-align: middle;
-}
-
-.flex-1 {
-  flex: 1;
-}
-
-.flex-2 {
-  flex: 2;
-}
-
-.flex-3 {
-  flex: 3;
-}
-
-.flex-4 {
-  flex: 4;
-}
-
-.flex-5 {
-  flex: 5;
-}
-
-.flex-6 {
-  flex: 6;
-}
-
-.flex-7 {
-  flex: 7;
-}
-
-.flex-8 {
-  flex: 8;
-}
-
-.self-start {
-  align-self: start;
-}
-
-.self-end {
-  align-self: end;
-}
-
-//== text-positioin
-.text-left {
-  text-align: left !important;
-}
-
-.text-center {
-  text-align: center !important;
-}
-
-.text-right {
-  text-align: right !important;
-}
-
-.text-justify {
-  text-align: justify !important;
-}
-
-// font size
-.fz12 {
-  font-size: 12px;
-}
-
-.fz14 {
-  font-size: 14px;
-}
-
-.fz16 {
-  font-size: 16px;
-}
-
-.fz18 {
-  font-size: 18px;
-}
-
-.fz20 {
-  font-size: 20px;
-}
-
-.fz22 {
-  font-size: 22px;
-}
-
-.fz24 {
-  font-size: 24px;
-}
-
-.fz30 {
-  font-size: 30px;
-}
-
-// font weight
-.bold {
-  font-weight: bold;
-}
-
-.bold-500 {
-  font-weight: 500;
-}
-
-.bold-400 {
-  font-weight: 400;
 }
 
 //== color
@@ -297,73 +77,6 @@
 .color-text-holder {
   color: $color-text-holder !important;
 }
-
-// space
-@mixin space($list...) {
-  @each $num in $list {
-    .pl#{$num} {
-      padding-left: #{$num}px !important;
-    }
-
-    .pr#{$num} {
-      padding-right: #{$num}px !important;
-    }
-
-    .pt#{$num} {
-      padding-top: #{$num}px !important;
-    }
-
-    .pb#{$num} {
-      padding-bottom: #{$num}px !important;
-    }
-
-    .px#{$num} {
-      padding-right: #{$num}px !important;
-      padding-left: #{$num}px !important;
-    }
-
-    .py#{$num} {
-      padding-top: #{$num}px !important;
-      padding-bottom: #{$num}px !important;
-    }
-
-    .pa#{$num} {
-      padding: #{$num}px !important;
-    }
-
-    .ml#{$num} {
-      margin-left: #{$num}px !important;
-    }
-
-    .mr#{$num} {
-      margin-right: #{$num}px !important;
-    }
-
-    .mt#{$num} {
-      margin-top: #{$num}px !important;
-    }
-
-    .mb#{$num} {
-      margin-bottom: #{$num}px !important;
-    }
-
-    .mx#{$num} {
-      margin-right: #{$num}px !important;
-      margin-left: #{$num}px !important;
-    }
-
-    .my#{$num} {
-      margin-top: #{$num}px !important;
-      margin-bottom: #{$num}px !important;
-    }
-
-    .ma#{$num} {
-      margin: #{$num}px !important;
-    }
-  }
-}
-
-@include space(0, 2, 4, 8, 12, 16, 20, 24, 28, 32);
 
 // border
 .border-all {
@@ -825,7 +538,7 @@
   }
 }
 
-.ml12-group {
+.ml-3-group {
   > * {
     &:not(:first-child) {
       margin-left: 12px;
@@ -833,7 +546,7 @@
   }
 }
 
-.mr12-group {
+.mr-3-group {
   > * {
     &:not(:first-child) {
       margin-left: 12px;

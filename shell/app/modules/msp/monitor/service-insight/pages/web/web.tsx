@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Row, Col, Drawer } from 'app/nusi';
 import { getFilterParams } from 'service-insight/common/utils';
 import { useSwitch, SimpleLog } from 'common';
@@ -93,8 +93,8 @@ const Web = () => {
       >
         <CommonPanel
           title={
-            <div className="flex-box">
-              <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:link information')}</h3>
+            <div className="flex justify-between items-center">
+              <h3 className="trace-common-panel-title font-medium">{i18n.t('msp:link information')}</h3>
             </div>
           }
           className="trace-status-list-ct"

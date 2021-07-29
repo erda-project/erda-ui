@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Terminal, connectCube } from 'common';
 import { getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';

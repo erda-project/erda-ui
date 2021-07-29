@@ -21,7 +21,7 @@ import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
 import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';
 import { Info as IconInfo } from '@icon-park/react';
@@ -211,17 +211,17 @@ const VariableConfig = ({
       width: 176,
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <span className="for-copy nowrap" data-clipboard-text={text} title={text}>
             {text}
           </span>
           <span>
             {source === 'certificate' && (
               <Tooltip title={i18n.t('common:from certificate push')}>
-                <IconInfo className="ml4 color-text-sub" />
+                <IconInfo className="ml-1 color-text-sub" />
               </Tooltip>
             )}
-            {isFromDefault && <span className="tag tag-warning ml4">{i18n.t('common:default')}</span>}
+            {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('common:default')}</span>}
           </span>
         </div>
       ),
@@ -361,11 +361,11 @@ const VariableConfig = ({
     <div>
       <Spin spinning={useLoading(configStore, ['getConfigs'])[0]}>
         <CustomFilter config={filterConfig} onSubmit={(v) => updater.searchKey(v.key)} />
-        <Collapse className="mb20 nowrap" activeKey={activeKey} onChange={togglePanel}>
+        <Collapse className="mb-5 nowrap" activeKey={activeKey} onChange={togglePanel}>
           {map(envKeys, (env: string) => {
             return (
               <Panel header={ENV_I18N[env]} key={env}>
-                <Button type="primary" className="mb12" ghost onClick={() => openModal(null, env)}>
+                <Button type="primary" className="mb-3" ghost onClick={() => openModal(null, env)}>
                   {i18n.t('application:add variable')}
                 </Button>
                 {configType === configTypeMap.deploy && (
@@ -373,14 +373,14 @@ const VariableConfig = ({
                     <Button
                       type="primary"
                       ghost
-                      className="mr8 pull-right"
+                      className="mr-2 float-right"
                       onClick={() => {
                         openExportModal(env);
                       }}
                     >
                       {i18n.t('export')}
                     </Button>
-                    <Button type="primary" ghost className="mr8 pull-right" onClick={() => openImportModal(env)}>
+                    <Button type="primary" ghost className="mr-2 float-right" onClick={() => openImportModal(env)}>
                       {i18n.t('import')}
                     </Button>
                   </>
@@ -432,7 +432,7 @@ const VariableConfig = ({
           fileExtension="json"
           value={JSON.stringify(exportValue ? JSON.parse(exportValue) : '{}', null, 2)}
           minLines={8}
-          className="mb20"
+          className="mb-5"
         />
       </Modal>
       <Copy selector=".for-copy" />

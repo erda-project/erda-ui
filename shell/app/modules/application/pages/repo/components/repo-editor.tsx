@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button, message, Input } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { RenderForm, FileEditor, useUpdate } from 'common';
 import { notify } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
@@ -146,7 +146,7 @@ const RepoEditor = ({
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
             </Button>
-            <Button className="ml12" onClick={() => changeMode({ editFile: false, addFile: false })}>
+            <Button className="ml-3" onClick={() => changeMode({ editFile: false, addFile: false })}>
               {i18n.t('application:cancel')}
             </Button>
           </div>

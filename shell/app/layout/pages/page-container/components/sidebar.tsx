@@ -162,7 +162,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <IconHelp className="mr0" size="20px" />
+          <IconHelp className="mr-0" size="20px" />
         </Tooltip>
       ),
       onClick: () => {
@@ -192,7 +192,7 @@ const SideBar = () => {
           className="message-icon unselectable"
           style={{ boxShadow: 'none' }}
         >
-          <IconRemind className="mr0" size="20px" style={customIconStyle} />
+          <IconRemind className="mr-0" size="20px" style={customIconStyle} />
         </Badge>
       ),
       onClick: () => switchMessageCenter(null),
@@ -236,7 +236,7 @@ const SideBar = () => {
       verticalBrandIcon={
         loginUser.isSysAdmin ? null : (
           <img
-            className="mr0 pointer"
+            className="mr-0 pointer"
             src={Logo}
             style={{
               width: '19px',

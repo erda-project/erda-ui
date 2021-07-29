@@ -182,7 +182,7 @@ const SubMachineGroup = ({
             }}
           >
             {subMachineContainerWidthHolder}
-            <div className="group-header flex-box">
+            <div className="group-header flex justify-between items-center">
               <h3 className="group-title">{subGroupName + unitGroups[1]}</h3>
               <span className="group-actived-op hover-active">
                 <CustomIcon type="grow" />
@@ -449,7 +449,10 @@ const ClusterDashboard = () => {
   const getMachineGroupContent = (item: ORG_DASHBOARD.IGroupInfo) => {
     if (isEmpty(item)) return null;
 
-    const { name: groupName, machines, metric, groups, clusterStatus }: ORG_DASHBOARD.IGroupInfo = item;
+    const { name, displayName, machines, metric, groups, clusterStatus }: ORG_DASHBOARD.IGroupInfo = item;
+    const groupName = displayName || name;
+    const activeGroupItem = clusterList.find((c) => c.name === name);
+    const activeGroupDisplayName = activeGroupItem?.displayName || activeGroupItem?.name;
 
     const {
       machines: machineNum,
@@ -464,8 +467,8 @@ const ClusterDashboard = () => {
     return (
       <Holder when={isEmpty(machines) && isEmpty(groups)}>
         <IF check={selectedGroups.length}>
-          <div className="group-header flex-box">
-            <h3 className="group-title">{activeGroup || groupName + unitGroups[0]}</h3>
+          <div className="group-header flex justify-between items-center">
+            <h3 className="group-title">{activeGroupDisplayName || groupName + unitGroups[0]}</h3>
             <IF check={activeGroup}>
               <span className="group-unactived-op hover-active">
                 <CustomIcon type="shink" />
@@ -478,14 +481,14 @@ const ClusterDashboard = () => {
           </div>
         </IF>
         <IF check={selectedGroups.length}>
-          <div className="my8">
+          <div className="my-2">
             <span
               className="cluster-state-link"
               onClick={() =>
                 goTo(goTo.pages.cmpClusterState, { clusterName: activeGroup || groupName + unitGroups[0] })
               }
             >
-              <span className="mr20">{i18n.t('dcos:overall status of cluster')}:</span>
+              <span className="mr-5">{i18n.t('dcos:overall status of cluster')}:</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.icon`)}</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.displayName`)}</span>
             </span>
@@ -586,7 +589,7 @@ const ClusterDashboard = () => {
   const Bottom = React.useMemo(
     () => (
       <IF check={activeMachine.ip}>
-        <div className="content-title mb8">{activeMachine.ip}</div>
+        <div className="content-title mb-2">{activeMachine.ip}</div>
         <MachineTabs activeMachine={activeMachine} activeMachineTab={activeMachineTab} />
         <IF.ELSE />
         <GroupTabs
@@ -639,9 +642,9 @@ const ClusterDashboard = () => {
         </When>
         <Otherwise>
           <div className="cluster-dashboard-top">
-            <div className="filter-group-ct mb16">
+            <div className="filter-group-ct mb-4">
               <Row gutter={20}>
-                <Col span={8} className="filter-item flex-box">
+                <Col span={8} className="filter-item flex justify-between items-center">
                   <div className="filter-item-label">{i18n.t('Group')}</div>
                   <Select
                     value={selectedGroups}
@@ -661,7 +664,7 @@ const ClusterDashboard = () => {
                     )}
                   </Select>
                 </Col>
-                <Col span={8} className="filter-item flex-box">
+                <Col span={8} className="filter-item flex justify-between items-center">
                   <div className="filter-item-label">{i18n.t('filter')}</div>
                   <TreeSelect
                     className="filter-item-content"
@@ -687,7 +690,7 @@ const ClusterDashboard = () => {
                     ))}
                   </TreeSelect>
                 </Col>
-                <Col span={8} className="filter-item flex-box">
+                <Col span={8} className="filter-item flex justify-between items-center">
                   <div className="filter-item-label">{i18n.t('colour')}</div>
                   <Select
                     className="filter-item-content"
@@ -701,7 +704,7 @@ const ClusterDashboard = () => {
                           <div className="comments">
                             <ul className="colour-comment-list">
                               {map(DEGREE_COLOUR_MAP[colorMark], (value, color) => (
-                                <li className="colour-comment-item flex-box" key={color}>
+                                <li className="colour-comment-item flex justify-between items-center" key={color}>
                                   <span className="colour-comment-value">{value.text}</span>
                                   <div className={`color-block ${color}`} />
                                 </li>

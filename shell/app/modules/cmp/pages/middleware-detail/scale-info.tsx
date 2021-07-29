@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { Spin, Button, Col, Row, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
@@ -57,9 +57,9 @@ const ScaleInfo = ({ data }: IProps) => {
   };
   return (
     <Spin spinning={isLoading}>
-      <div className="scale-info mb32">
-        <div className="flex-box">
-          <span className="title bold-500">{i18n.t('cmp:resource information')}</span>
+      <div className="scale-info mb-8">
+        <div className="flex justify-between items-center">
+          <span className="title font-medium">{i18n.t('cmp:resource information')}</span>
           <Button
             onClick={() => {
               setVisible(true);

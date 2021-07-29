@@ -40,7 +40,7 @@ chai：测试断言库，例如 `expect(state.params.a).to.equal('3');`
 ## 单元测试示例
 
 ```tsx
-import * as React from 'react';
+import React from 'react';
 import { JsonShow } from 'common';
 /** 常用方法已在 test/helpers 文件中作为全局变量初始化，测试文件中无需再导入
 global.mount = mount;

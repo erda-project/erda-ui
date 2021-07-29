@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Copy, CRUDStoreTable, LoadMoreSelector, useUpdate, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
@@ -151,8 +151,8 @@ const AppLibraryReference = () => {
                 const { label, desc, refCount, latestVersion } = option;
                 return (
                   <div className="load-more-selector-library">
-                    <div className="library-name mb4">{label}</div>
-                    <div className="library-desc mb8">{desc}</div>
+                    <div className="library-name mb-1">{label}</div>
+                    <div className="library-desc mb-2">{desc}</div>
                     <div className="library-tips">
                       <CustomIcon type="bb1" />
                       {i18n.t('publisher:version number')}: {latestVersion || '--'}
@@ -208,9 +208,9 @@ const AppLibraryReference = () => {
         }
       >
         <Copy selector=".for-copy" />
-        <Alert className="mb16" message={i18n.t('application:library-usage-tips')} type="warning" showIcon />
+        <Alert className="mb-4" message={i18n.t('application:library-usage-tips')} type="warning" showIcon />
         <p>{i18n.t('application:code content')}</p>
-        <Input className="full-width mb16" value={state.dependence} addonAfter={addonAfter} />
+        <Input className="w-full mb-4" value={state.dependence} addonAfter={addonAfter} />
       </Modal>
     </>
   );

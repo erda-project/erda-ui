@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Row, Col } from 'app/nusi';
 import OverviewMap from './config/chartMap';
 import './overview.scss';
@@ -29,7 +29,7 @@ const Overview = () => {
       <Row className="ai-overview" gutter={20}>
         <Col span={8}>
           <div className="ai-overview-sort-list">
-            <div className="list-title bold-500">{i18n.t('msp:web transaction')} Top10</div>
+            <div className="list-title font-medium">{i18n.t('msp:web transaction')} Top10</div>
             <OverviewMap.sortList shouldLoad={shouldLoad} query={{ filter_target_application_id }} />
           </div>
         </Col>

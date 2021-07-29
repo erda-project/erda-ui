@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { useMount } from 'react-use';
@@ -258,20 +258,20 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
           {map(functions, (item, index) => (
-            <div className="function-item flex-box" key={item.field}>
+            <div className="function-item flex-div" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
-                <span className="field-name mr8 nowrap">{allRuleFieldMap[item.field]}</span>
+                <span className="field-name mr-2 nowrap">{allRuleFieldMap[item.field]}</span>
               </Tooltip>
-              <span className="aggregator mr8">{aggregatorMap[item.aggregator]}</span>
+              <span className="aggregator mr-2">{aggregatorMap[item.aggregator]}</span>
               {/* <Select
-                  className="aggregator mr8"
+                  className="aggregator mr-2"
                   defaultValue={item.aggregator}
                   disabled
                 >
                   {map(aggregatorMap, (name, _key) => (<Select.Option key={_key} value={_key}>{name}</Select.Option>))}
                 </Select> */}
               <Select
-                className="operator mr8"
+                className="operator mr-2"
                 defaultValue={item.operator}
                 onSelect={(value: any) => {
                   handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) });
@@ -331,7 +331,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       required: false,
       getComp: () => (
         <>
-          <div className="opportunity-header mb8">
+          <div className="opportunity-header mb-2">
             <Popover
               placement="bottomLeft"
               trigger="click"
@@ -351,7 +351,7 @@ export default ({ scopeType, scopeId }: IProps) => {
                 </div>
               }
             >
-              <Button className="mr8">{i18n.t('org:type template')}</Button>
+              <Button className="mr-2">{i18n.t('org:type template')}</Button>
             </Popover>
             <Button type="primary" ghost onClick={handleAddEditingRule}>
               {i18n.t('org:add rule')}
@@ -404,8 +404,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             dropdownRender={(menu) => (
               <div>
                 {menu}
-                <Divider className="my4" />
-                <div className="fz12 px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <Divider className="my-1" />
+                <div className="text-xs px-2 py-1 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"
@@ -646,7 +646,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
         const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
-          <div className="flex-box">
+          <div className="flex-div">
             {isEmpty(notifyGroup) ? (
               <Tooltip title={tips}>
                 <span className="color-text-sub">{tips}</span>

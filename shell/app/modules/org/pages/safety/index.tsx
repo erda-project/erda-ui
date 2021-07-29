@@ -19,7 +19,7 @@ import moment from 'moment';
 import { DatePicker, Table, Button, Tooltip } from 'app/nusi';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
-import * as React from 'react';
+import React from 'react';
 import { getTimeRanges, qs, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 

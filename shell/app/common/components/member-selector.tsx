@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
@@ -62,7 +62,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
     <>
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
       {
-        <span className="ml8" title={name}>
+        <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
           {_type === 'normal' && roleMap && showRole
             ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')})`
@@ -81,13 +81,13 @@ const valueItemRender =
     const cls = {
       normal: {
         img: '20x20',
-        name: 'ml8 fz14',
-        tag: 'py4 px8',
+        name: 'ml-2 text-sm',
+        tag: 'py-1 px-2',
       },
       small: {
         img: '14x14',
-        name: 'ml8',
-        tag: 'py2 px4 member-value-small',
+        name: 'ml-2',
+        tag: 'py-0.5 px-1 member-value-small',
       },
     };
     const curCls = cls[size] || {};
@@ -285,7 +285,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
       {showSelfChosen ? (
         <a
           onClick={() => !rest.disabled && selectSelfOp()}
-          className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml8`}
+          className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml-2`}
         >
           {i18n.t('choose self')}
         </a>
@@ -339,7 +339,7 @@ export const UserSelector = (props: any) => {
     return (
       <Option key={id} value={id}>
         <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
-        <span className="ml8" title={name}>
+        <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
         </span>
       </Option>
@@ -347,7 +347,7 @@ export const UserSelector = (props: any) => {
   };
   return (
     <Select
-      className="full-width"
+      className="w-full"
       showSearch
       notFoundContent={searchKey ? i18n.t('common:please confirm that the user is registered') : ''}
       showArrow={false}

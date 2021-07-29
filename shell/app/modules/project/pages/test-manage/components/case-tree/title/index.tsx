@@ -269,7 +269,7 @@ const Title = ({
 
   if (!readOnly && isEdit) {
     return (
-      <div className="flex-1 inline-flex-box" onClick={(e) => e.stopPropagation()}>
+      <div className="flex-1 inline-flex justify-between items-center" onClick={(e) => e.stopPropagation()}>
         <Input
           autoFocus
           style={{ height: '32px', minWidth: '110px' }}
@@ -280,8 +280,8 @@ const Title = ({
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />
-        <IconCheck className="ml8 color-primary pointer" onClick={handleSave} />
-        <IconClose className="mx8 color-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
+        <IconCheck className="ml-2 color-primary pointer" onClick={handleSave} />
+        <IconClose className="mx-2 color-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
       </div>
     );
   }
@@ -289,7 +289,7 @@ const Title = ({
   if (!readOnly && !isRecycledRoot && !isTemp) {
     return (
       <Dropdown overlay={getMenu()} trigger={['contextMenu']}>
-        <div className={`flex-1 inline-flex-box position-relative ${className}`}>
+        <div className={`flex-1 inline-flex justify-between items-center position-relative ${className}`}>
           <div className="flex-1 node-name">{value}</div>
           {!isRoot ? (
             <Dropdown

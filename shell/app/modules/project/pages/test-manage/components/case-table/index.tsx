@@ -190,7 +190,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         title: <span>{i18n.t('project:use case title')}</span>,
         render: (name: string, record: any) => {
           const obj = {
-            children: <Ellipsis className="bold" title={name} />,
+            children: <Ellipsis className="font-bold" title={name} />,
             props: {},
           };
           if (!record.id) {

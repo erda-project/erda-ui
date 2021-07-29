@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import Title from '../title/title';
@@ -29,16 +29,16 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   return (
     <div className="table-board">
       <Text props={title?.props} operations={title?.operations} type="Text" {...extraProps} />
-      <div className="table-board-card mt8">
-        <div className="ml4">
+      <div className="table-board-card mt-2">
+        <div className="ml-1">
           <Title props={subtitle} type="Title" {...extraProps} />
         </div>
-        <div className="mt12">
-          <div className="mb12 ml4">
+        <div className="mt-3">
+          <div className="mb-3 ml-1">
             <Text props={description} type="Text" {...extraProps} />
           </div>
           <Table props={table?.props} data={table?.data} operations={table?.operations} {...extraProps} />
-          <div className="mt12 ml4">
+          <div className="mt-3 ml-1">
             <Text props={extraInfo?.props} operations={extraInfo?.operations} type="Text" {...extraProps} />
           </div>
         </div>

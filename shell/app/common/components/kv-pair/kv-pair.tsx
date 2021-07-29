@@ -185,7 +185,16 @@ export const KVPair = ({
           {...compProps}
         />
       ) : null,
-      Op: <Op key={i} index={i} record={item} deleteIndex={deleteIndex} className="fz16 hover-active" {...compProps} />,
+      Op: (
+        <Op
+          key={i}
+          index={i}
+          record={item}
+          deleteIndex={deleteIndex}
+          className="text-base hover-active"
+          {...compProps}
+        />
+      ),
     });
   });
 

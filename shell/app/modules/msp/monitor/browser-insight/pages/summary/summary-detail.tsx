@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { get, isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { EmptyHolder } from 'common';
 import { Row, Col, Progress } from 'app/nusi';
 import { getFormatter } from 'charts/utils/formatter';

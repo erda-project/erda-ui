@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, floor } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { Spin, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import './sort-list.scss';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import { Row, Col, Input, Button } from 'app/nusi';
 import { IF, TimeSelector } from 'common';
@@ -56,8 +56,8 @@ const FilterNav = ({ isNeedStatusFilters = true, updateFields, resetFields }: IP
   };
 
   return (
-    <div className="api-monitor-filter-nav mb16">
-      <div className="search-container flex-box mb16">
+    <div className="api-monitor-filter-nav mb-4">
+      <div className="search-container flex justify-between items-center mb-4">
         <div className="search-fields">
           <Row gutter={10} type="flex" justify="end" className="filter-row">
             <IF check={isNeedStatusFilters}>
@@ -83,10 +83,10 @@ const FilterNav = ({ isNeedStatusFilters = true, updateFields, resetFields }: IP
           </Row>
         </div>
       </div>
-      <div className="filter-container flex-box">
+      <div className="filter-container flex justify-between items-center">
         <TimeSelector inline />
-        <div className="search-actions flex-box ml20">
-          <Button className="mr8" onClick={resetAll}>
+        <div className="search-actions flex justify-between items-center ml-5">
+          <Button className="mr-2" onClick={resetAll}>
             {i18n.t('reset')}
           </Button>
           <Button type="primary" ghost onClick={updateFields}>

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Form, DatePicker } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, isArray, isString } from 'lodash';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
@@ -85,7 +85,7 @@ export const FormDatePicker = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

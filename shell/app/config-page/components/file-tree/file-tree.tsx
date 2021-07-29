@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { NusiTree as Tree, NusiPopover as Popover, Ellipsis, Input, Tooltip } from 'app/nusi';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
@@ -115,7 +115,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
             </div>
           ) : d.operations?.click?.disabled ? (
             <Tooltip title={d.operations.click.disabledTip}>
-              <span className="file-tree-disabled-node not-allowed full-width nowrap">{d.title}</span>
+              <span className="file-tree-disabled-node not-allowed w-full nowrap">{d.title}</span>
             </Tooltip>
           ) : (
             <div className="file-tree-title">
@@ -327,7 +327,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   }
 
   return (
-    <div className="dice-cp file-tree full-height">
+    <div className="dice-cp file-tree h-full">
       {
         // 默认带上search
         searchable ? (

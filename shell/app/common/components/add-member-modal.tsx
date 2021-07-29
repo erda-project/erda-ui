@@ -13,7 +13,7 @@
 
 import { FormModal, AddMemberSelector, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty } from 'lodash';
 import { MemberScope } from 'app/common/stores/member-scope';
 import projectMemberStore from 'common/stores/project-member';

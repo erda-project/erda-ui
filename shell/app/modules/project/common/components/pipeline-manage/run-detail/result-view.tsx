@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Drawer } from 'app/nusi';
 import { get, find, compact, map, isEmpty } from 'lodash';
 import i18n from 'i18n';
@@ -69,7 +69,7 @@ export const ResultView = (props: IProps) => {
         // const jsonObj = JSON.parse(item.value);
         // const jsonStr = JSON.stringify(item.value, null, 2);
         return (
-          <div className="test-case-execute-result-item mb12" key={item.name}>
+          <div className="test-case-execute-result-item mb-3" key={item.name}>
             <div className="label">{labelMap[item.name] || item.name}</div>
             <pre className="value">{jsonStr}</pre>
           </div>

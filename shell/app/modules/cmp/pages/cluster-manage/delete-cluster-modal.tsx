@@ -15,7 +15,7 @@ import { FormModal } from 'common';
 import { get } from 'lodash';
 import { notify } from 'common/utils';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 
 interface IProps {
   visible: boolean;

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import AnsiUp from 'ansi_up';
 import './log-content.scss';

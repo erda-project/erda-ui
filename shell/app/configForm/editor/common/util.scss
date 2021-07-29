@@ -9,14 +9,6 @@ $color-mask: rgba(0, 0, 0, 0.3);
 $color-border: #d9d9d9;
 $white: #ffffff;
 
-.ml8 {
-  margin-left: 8px;
-}
-
-.mr8 {
-  margin-right: 8px;
-}
-
 .border {
   border: 1px solid $color-border;
   border-radius: 5px;
@@ -82,73 +74,6 @@ $white: #ffffff;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
   transition: box-shadow 0.2s ease-in-out;
 }
-
-// space
-@mixin space($list...) {
-  @each $num in $list {
-    .pl#{$num} {
-      padding-left: #{$num}px !important;
-    }
-
-    .pr#{$num} {
-      padding-right: #{$num}px !important;
-    }
-
-    .pt#{$num} {
-      padding-top: #{$num}px !important;
-    }
-
-    .pb#{$num} {
-      padding-bottom: #{$num}px !important;
-    }
-
-    .px#{$num} {
-      padding-right: #{$num}px !important;
-      padding-left: #{$num}px !important;
-    }
-
-    .py#{$num} {
-      padding-top: #{$num}px !important;
-      padding-bottom: #{$num}px !important;
-    }
-
-    .pa#{$num} {
-      padding: #{$num}px !important;
-    }
-
-    .ml#{$num} {
-      margin-left: #{$num}px !important;
-    }
-
-    .mr#{$num} {
-      margin-right: #{$num}px !important;
-    }
-
-    .mt#{$num} {
-      margin-top: #{$num}px !important;
-    }
-
-    .mb#{$num} {
-      margin-bottom: #{$num}px !important;
-    }
-
-    .mx#{$num} {
-      margin-right: #{$num}px !important;
-      margin-left: #{$num}px !important;
-    }
-
-    .my#{$num} {
-      margin-top: #{$num}px !important;
-      margin-bottom: #{$num}px !important;
-    }
-
-    .ma#{$num} {
-      margin: #{$num}px !important;
-    }
-  }
-}
-
-@include space(0, 2, 4, 8, 12, 16, 20, 24, 28, 32);
 
 // space
 @mixin distance($list...) {

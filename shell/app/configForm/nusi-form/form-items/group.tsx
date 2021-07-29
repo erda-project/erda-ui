@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import classnames from 'classnames';
 import './group.scss';
@@ -43,13 +43,16 @@ const FormGroupComp = (p: any) => {
   };
 
   return (
-    <div className={`dice-form-group my12 ${expandable && !expandStatus ? 'hide-children' : ''}`}>
-      <div className={`dice-form-group-title fz14 bold py4 px2 flex-box ${cls}`} onClick={onClick}>
+    <div className={`dice-form-group my-3 ${expandable && !expandStatus ? 'hide-children' : ''}`}>
+      <div
+        className={`dice-form-group-title text-sm font-bold py-1 px-0.5 flex justify-between items-center ${cls}`}
+        onClick={onClick}
+      >
         <span>{title || key}</span>
         {expandable ? <CustomIcon type="chevron-down" className="expand-icon" /> : null}
       </div>
       <div
-        className={`dice-form-group-children ${indentation ? 'pl16' : ''} ${
+        className={`dice-form-group-children ${indentation ? 'pl-4' : ''} ${
           direction === 'row' ? 'dice-form-group-children-row' : ''
         }`}
       >

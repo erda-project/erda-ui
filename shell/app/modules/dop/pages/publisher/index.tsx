@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { createPublisherList, publisherTabs } from 'app/modules/publisher/pages/publisher-manage/publisher-list-v2';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 import { useLoading } from 'core/stores/loading';

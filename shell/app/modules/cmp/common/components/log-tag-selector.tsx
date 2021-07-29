@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Input, Tag, Dropdown, Menu, Tooltip, message } from 'app/nusi';
 import { isEmpty, map, filter, uniq, set } from 'lodash';
 import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';

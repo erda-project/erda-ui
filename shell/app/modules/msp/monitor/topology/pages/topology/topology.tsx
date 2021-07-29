@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { isEmpty, map, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { TimeSelector, ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';
@@ -198,7 +198,7 @@ const Topology = () => {
       <div className="topology-header">
         <div className="left">
           <TimeSelector />
-          <div className="topology-filter mb12">
+          <div className="topology-filter mb-3">
             <ContractiveFilter
               delay={1000}
               values={filterTags}

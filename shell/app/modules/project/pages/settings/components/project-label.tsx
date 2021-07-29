@@ -16,7 +16,7 @@ import i18n from 'app/i18n';
 import { FormInstance } from 'core/common/interface';
 import { Modal } from 'app/nusi';
 import projectLabel from 'project/stores/label';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
 import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
@@ -139,7 +139,7 @@ export default () => {
           <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
             {label.name}
             <IconClose
-              className="ml4"
+              className="ml-1"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDelete(label);

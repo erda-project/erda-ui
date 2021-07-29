@@ -302,9 +302,9 @@ export const TestEnvDetail = (props: IProps) => {
       },
       {
         getComp: () => (
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <div>
-              <span className="bold">Header</span>
+              <span className="font-bold">Header</span>
             </div>
             <Radio.Group
               value={headerMode}
@@ -348,7 +348,7 @@ export const TestEnvDetail = (props: IProps) => {
           </div>
         ),
         extraProps: {
-          className: 'mb8',
+          className: 'mb-2',
         },
       },
       {
@@ -369,8 +369,8 @@ export const TestEnvDetail = (props: IProps) => {
       },
       {
         getComp: () => (
-          <div className="flex-box">
-            <span className="bold">Global</span>
+          <div className="flex justify-between items-center">
+            <span className="font-bold">Global</span>
             <Radio.Group
               value={globalMode}
               onChange={(e: RadioChangeEvent) => {
@@ -410,7 +410,7 @@ export const TestEnvDetail = (props: IProps) => {
           </div>
         ),
         extraProps: {
-          className: 'mb8',
+          className: 'mb-2',
         },
       },
       {

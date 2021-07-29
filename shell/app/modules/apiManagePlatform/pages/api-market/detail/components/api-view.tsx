@@ -175,7 +175,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
       <Button onClick={handleShowTest}>{i18n.t('test')}</Button>
       {
         <Button
-          className="ml8"
+          className="ml-2"
           onClick={() => {
             updater.authModal(true);
           }}
@@ -205,13 +205,13 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   }
   const autoInfo = getAuthInfo();
   return (
-    <div className="apis-view flex-box flex-1">
+    <div className="apis-view flex justify-between items-center flex-1">
       <div className="apis-view-left">
         <ApiMenu list={tagMap} onChange={handleChange} onChangeVersion={onChangeVersion} />
       </div>
       <div className="apis-view-right">
         {deprecated ? (
-          <Alert className="mb16" type="warning" message={i18n.t('the current version is deprecated')} />
+          <Alert className="mb-4" type="warning" message={i18n.t('the current version is deprecated')} />
         ) : null}
         <ApiDetail key={currentApi} dataSource={currentApiSource} extra={testButton} specProtocol={specProtocol} />
       </div>

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Form } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
 
@@ -55,7 +55,7 @@ export const FormCustomDefined = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

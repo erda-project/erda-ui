@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
 import { Table } from 'app/nusi';

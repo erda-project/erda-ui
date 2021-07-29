@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import { useLoading } from 'core/stores/loading';
 import networksStore from 'cmp/stores/networks';
@@ -197,7 +197,7 @@ const Redis = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml-1" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

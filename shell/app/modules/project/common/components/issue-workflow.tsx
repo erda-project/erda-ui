@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { useUpdate } from 'common';
 import { map, find, get } from 'lodash';
@@ -71,8 +71,8 @@ const IssueWorkflow = () => {
           >
             <div className="common-list-item">
               <div className="list-item-left">
-                <div className="flex-box">
-                  <div className="panel-title flex-start">
+                <div className="flex justify-between items-center">
+                  <div className="panel-title justify-start">
                     <IssueIcon type={item.issueType} withName />
                   </div>
                 </div>
@@ -94,7 +94,7 @@ const IssueWorkflow = () => {
                     {map(item.state, (name: string) => {
                       const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
                       return (
-                        <div className="v-align mr12 mb8">
+                        <div className="flex items-center mr-3 mb-2">
                           {ISSUE_STATE_MAP[curStateBelong]?.icon}
                           {name}
                         </div>

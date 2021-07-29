@@ -19,7 +19,7 @@ import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
 import { Spin } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import './addon-settings.scss';
 import { useMount } from 'react-use';
 

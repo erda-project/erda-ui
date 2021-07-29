@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Filter, Pagination, Input, Select } from 'app/nusi';
 import { useUpdate, FilterBarHandle } from 'common';
 import { setSearch } from 'common/utils';
@@ -195,7 +195,7 @@ export const CustomFilter = (props: IFilterProps) => {
   const filterClassName = classNames({
     'dice-custom-filter': true,
     'actions-no-padding': !actionsHasPadding,
-    my12: true,
+    'my-3': true,
     className,
   });
 
@@ -432,7 +432,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     }
     sizeOptions = sortBy(sizeOptions, (item) => +item);
     return (
-      <div className="mt16 right-flex-box">
+      <div className="mt-4 flex items-center flex-wrap justify-end">
         <Pagination
           current={pageNo}
           pageSize={+pSize}

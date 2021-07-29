@@ -55,12 +55,12 @@ export default () => {
   }, [serviceId, getExceptionTypes, serviceName, terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs, updater]);
 
   return (
-    <div className="service-analyze v-flex-box">
-      <div className="flex-box flex-wrap mb4">
-        <div className="left flex-box mb8">
-          <TimeSelector className="ma0 mr12" />
+    <div className="service-analyze flex flex-col h-full">
+      <div className="flex justify-between items-center flex-wrap mb-1">
+        <div className="left flex justify-between items-center mb-2">
+          <TimeSelector className="m-0 mr-3" />
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('msp:select sorting method')}
             allowClear
             style={{ width: '180px' }}
@@ -73,7 +73,7 @@ export default () => {
             ))}
           </Select>
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('msp:maximum number of queries')}
             allowClear
             style={{ width: '180px' }}
@@ -86,7 +86,7 @@ export default () => {
             ))}
           </Select>
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('msp:exception type')}
             allowClear
             style={{ width: '180px' }}
@@ -100,7 +100,7 @@ export default () => {
           </Select>
         </div>
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="overflow-auto flex-1">
         <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
       </div>
     </div>

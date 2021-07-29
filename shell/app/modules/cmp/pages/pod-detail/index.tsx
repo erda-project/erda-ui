@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount } from 'react-use';
 import { map, isEmpty } from 'lodash';
 import { Spin, Table } from 'app/nusi';
@@ -104,8 +104,8 @@ const PodDetail = () => {
     <Spin spinning={loading}>
       <Holder when={isEmpty(podDetail.instances) && isEmpty(podDetail.summary)}>
         <div className="pod-detail">
-          <div className="base-info mb32">
-            <span className="title bold-500">{i18n.t('basic information')}</span>
+          <div className="base-info mb-8">
+            <span className="title font-medium">{i18n.t('basic information')}</span>
             <div className="info-grid">
               {map(SUMMARY_KEY_MAP, (label, key) => (
                 <div key={key}>
@@ -115,8 +115,8 @@ const PodDetail = () => {
               ))}
             </div>
           </div>
-          <div className="instance mb32">
-            <span className="title bold-500">{i18n.t('org:instance list')} TOP10</span>
+          <div className="instance mb-8">
+            <span className="title font-medium">{i18n.t('org:instance list')} TOP10</span>
             <Table
               rowKey="containerId"
               pagination={false}

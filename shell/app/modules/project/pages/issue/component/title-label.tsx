@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import projectLabelStore from 'project/stores/label';
 import { renderLabels } from 'project/common/components/issue/issue-labels';
@@ -33,7 +33,7 @@ const TitleLabel = (props: IProps) => {
     colorMap[l.name] = l.color;
   });
   return (
-    <div className="issue-title-label full-width pointer pl8 v-align" onClick={onClick}>
+    <div className="issue-title-label w-full pointer pl-2 flex items-center" onClick={onClick}>
       {ISSUE_TYPE_MAP[type]?.icon}
       <div className="issue-title-text">
         <div className="nowrap">{title}</div>

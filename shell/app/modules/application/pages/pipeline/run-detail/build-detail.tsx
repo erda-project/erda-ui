@@ -13,7 +13,7 @@
 
 import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate } from 'common';
@@ -463,7 +463,7 @@ const BuildDetail = (props: IProps) => {
   const renderOnceRunBtn = ({ execTitle }: { execTitle: string }) => {
     const { canCancel, canManualRun, canRerun, canRerunFailed } = pipelineButton;
     const paddingEle = (
-      <div className="build-operator mx0">
+      <div className="build-operator mx-0">
         <Tooltip title={i18n.t('preparing')}>
           <IconLoading size="20px" strokeWidth={2} style={{ transform: 'translateY(0)' }} spin />
         </Tooltip>
@@ -543,7 +543,7 @@ const BuildDetail = (props: IProps) => {
   };
 
   const setRowClassName = (record: any) => {
-    return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row bold-500';
+    return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row font-medium';
   };
 
   const handleRecordPageChange = (pageNo: number) => {
@@ -586,7 +586,7 @@ const BuildDetail = (props: IProps) => {
         render: (status: string) => (
           <span>
             <span className="nowrap">{ciStatusMap[status].text}</span>
-            <Badge className="ml4" status={ciStatusMap[status].status} />
+            <Badge className="ml-1" status={ciStatusMap[status].status} />
           </span>
         ),
       },
@@ -664,7 +664,7 @@ const BuildDetail = (props: IProps) => {
         <div className="info">
           <div className="info-header">
             <div>
-              <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+              <span className="font-medium title">{i18n.t('application:build detail')}</span>
               <span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>
                 {i18n.t('historical build')}
               </span>
@@ -686,7 +686,7 @@ const BuildDetail = (props: IProps) => {
               message={i18n.t(
                 'application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
               )}
-              className="mt4"
+              className="mt-1"
               type="normal"
               showIcon
             />
@@ -696,7 +696,7 @@ const BuildDetail = (props: IProps) => {
               <Row>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('submitter')}：</div>
-                  <Avatar name={commitDetail.author} showName className="mb4" size={20} />
+                  <Avatar name={commitDetail.author} showName className="mb-1" size={20} />
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('application:commit message')}：</div>
@@ -742,13 +742,13 @@ const BuildDetail = (props: IProps) => {
                 )}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                {!isExpand ? <IconDown size="18px" className="mr0" /> : <IconUp size="18px" className="mr0" />}
+                {!isExpand ? <IconDown size="18px" className="mr-0" /> : <IconUp size="18px" className="mr-0" />}
               </div>
             </div>
           </div>
           <div>
             {showMessage && showMessage.msg ? (
-              <div className="build-detail-err-msg mb8">
+              <div className="build-detail-err-msg mb-2">
                 <div className="build-err-header">
                   <IconAttention size="18px" className="build-err-icon" />
                   <pre>{showMessage.msg}</pre>

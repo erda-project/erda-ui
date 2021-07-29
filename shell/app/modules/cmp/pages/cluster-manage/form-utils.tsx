@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { regRules } from 'common/utils';
@@ -66,7 +66,7 @@ interface IField {
 export const FormUnitContainer = ({ children, title, curRef }: { children: any; title: string; curRef?: any }) => {
   const [isPresent, setIsPresent] = React.useState(true);
   return (
-    <div className={`form-container ${isPresent ? 'show' : 'hidden'}`} ref={curRef}>
+    <div className={`form-container ${isPresent ? 'block' : 'hidden'}`} ref={curRef}>
       {title ? (
         <div className="form-title">
           {title}

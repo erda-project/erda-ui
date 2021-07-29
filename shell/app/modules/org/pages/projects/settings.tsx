@@ -14,7 +14,7 @@
 import { MemberScope } from 'app/common/stores/member-scope';
 import { ConfigLayout, MembersTable, SettingsTabs } from 'common';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'common/utils';
 import ProjectInfo from 'project/pages/settings/components/project-info';
 import ProjectCluster from 'project/pages/settings/components/project-cluster';

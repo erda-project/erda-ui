@@ -153,7 +153,7 @@ const ClientDetail = () => {
     {
       label: 'ClientSecret',
       value: (
-        <div className="flex-box align-top">
+        <div className="flex justify-between items-center align-top">
           {showSecret ? (
             <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
               {get(clientDetail, ['sk', 'clientSecret'])}
@@ -162,7 +162,7 @@ const ClientDetail = () => {
             <span>******</span>
           )}
           <span
-            className="hover-active ml4"
+            className="hover-active ml-1"
             onClick={() => {
               updater.showSecret(!showSecret);
             }}
@@ -181,14 +181,14 @@ const ClientDetail = () => {
         width: 200,
         render: (text, record) => {
           return (
-            <div className="flex-box flex-start">
+            <div className="flex justify-between items-center justify-start">
               <div className="asset_name">
                 <Ellipsis title={text} />
               </div>
               {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
                   <CustomIcon
-                    className="ml8 color-primary hover-active bold"
+                    className="ml-2 color-primary hover-active font-bold"
                     type="monitor"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -251,8 +251,8 @@ const ClientDetail = () => {
         }}
       />
       <Copy selector=".for-copy" />
-      <div className="pa16 api-list">
-        <div className="title fz16 color-text bold-500">{i18n.t('authorized API')}</div>
+      <div className="p-4 api-list">
+        <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {

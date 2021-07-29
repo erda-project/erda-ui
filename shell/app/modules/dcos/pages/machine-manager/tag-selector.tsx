@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Select } from 'app/nusi';
 import { map } from 'lodash';
 import i18n from 'i18n';
@@ -31,7 +31,7 @@ const TagSelector = React.forwardRef(({ value, onChange }: IProps) => {
   return (
     <Select
       mode="multiple"
-      className="full-width"
+      className="w-full"
       placeholder={i18n.t('dcos:please select the label')}
       value={value || []}
       getPopupContainer={(triggerNode) => triggerNode.parentNode}

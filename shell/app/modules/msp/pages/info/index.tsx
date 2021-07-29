@@ -15,7 +15,7 @@ import { PureAddonSettings } from 'app/common/components/addon-settings';
 import { useLoading } from 'core/stores/loading';
 import { Copy, SettingsTabs } from 'common';
 import { isZh } from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import mspInfoStore from '../../stores/info';
 import routeInfoStore from 'core/stores/route';

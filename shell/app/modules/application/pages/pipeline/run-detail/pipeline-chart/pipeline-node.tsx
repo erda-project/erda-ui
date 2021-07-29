@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, get, isNumber, debounce } from 'lodash';
 import { Popover, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate } from 'common';
@@ -118,7 +118,7 @@ const PipelineNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -132,7 +132,7 @@ const PipelineNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
@@ -146,7 +146,7 @@ const PipelineNode = (props: IProps) => {
         // </pre>
       }
       // if (!isEmpty(errors)) {
-      //   detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+      //   detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
       //   detailInfo.push(
       //     <pre className="flow-chart-err-block">
       //       {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}
@@ -245,14 +245,14 @@ const PipelineNode = (props: IProps) => {
     }
 
     return (
-      <div className="flex-box pipeline-item-extra-op-list">
+      <div className="flex justify-between items-center pipeline-item-extra-op-list">
         {operations.map(([icon, mark, tip]) => {
           const clickFunc = debounce((e: any) => clickIcon(e, mark), 300);
           return (
             <WithAuth key={mark} pass={hasAuth}>
               <Tooltip title={tip}>
                 <span
-                  className="pipeline-item-extra-op center-flex-box"
+                  className="pipeline-item-extra-op flex flex-wrap justify-center items-center"
                   onClick={(e: any) => {
                     e.persist();
                     clickFunc(e);
@@ -298,7 +298,7 @@ const PipelineNode = (props: IProps) => {
   const statusContent = (
     <span className="flex-1">
       <span className="yaml-editor-item-status" style={{ background: itemStatus.toLowerCase() }} />
-      <span className="inline-flex-box">{status ? status.text : '-'}</span>
+      <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
     </span>
   );
   if (data.name || data.displayName) {
@@ -318,7 +318,7 @@ const PipelineNode = (props: IProps) => {
 
   const timeContent =
     time >= 0 ? (
-      <span className="v-align">
+      <span className="flex items-center">
         <CustomIcon type="shijian" />
         <span>{secondsToTime(time || data.costTimeSec)}</span>
       </span>
@@ -335,14 +335,14 @@ const PipelineNode = (props: IProps) => {
   return (
     <Container {...renderTooltipTitle()}>
       <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames}>
-        <div className="flex-box pa12">
+        <div className="flex justify-between items-center p-3">
           {icon}
-          <div className="yaml-editor-item-content py0 px4">
-            <div className="flex-box">
+          <div className="yaml-editor-item-content py-0 px-1">
+            <div className="flex justify-between items-center">
               {titleContent}
               {renderOperation()}
             </div>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {statusContent}
               {timeContent}
             </div>

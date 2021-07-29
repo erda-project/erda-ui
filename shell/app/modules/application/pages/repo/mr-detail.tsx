@@ -13,7 +13,7 @@
 
 import { Spin, Button, Tooltip, Rate, Alert } from 'app/nusi';
 import { isEmpty, find, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { IF, FormModal, Avatar, Icon as CustomIcon, connectCube, BackToTop } from 'common';
 
 import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen } from 'common/utils';
@@ -217,7 +217,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         ),
         update: [
           <React.Fragment>
-            <Avatar className="mr4 mb4" name={authorUser.nick} />
+            <Avatar className="mr-1 mb-1" name={authorUser.nick} />
             <Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>
             {i18n.t('created at')}&nbsp;{fromNow(createdAt)}
           </React.Fragment>,
@@ -237,7 +237,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         // ),
         update: [
           <React.Fragment>
-            <Avatar showName wrapClassName="mr4" name={mergeUser.nick} />
+            <Avatar showName wrapClassName="mr-1" name={mergeUser.nick} />
             {i18n.t('merged at')}&nbsp;{fromNow(mergeAt)}
             {`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
           </React.Fragment>,
@@ -250,7 +250,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
       headerAction: null,
       update: [
         <React.Fragment>
-          <Avatar className="mr4 mb4" name={closeUser.nick} />
+          <Avatar className="mr-1 mb-1" name={closeUser.nick} />
           <Tooltip title={closeUser.name}>{closeUser.nick}</Tooltip>
           {i18n.t('closed at')}&nbsp;{fromNow(closeAt)}
           {`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
@@ -360,7 +360,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
             onCancel={() => this.toggleModal(false)}
           />
 
-          <div className="section-title mb0">
+          <div className="section-title mb-0">
             <div>
               {this.getStateIcon()}
               {title}
@@ -393,7 +393,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
             />
           </div>
 
-          <div className="section-title mt32">{i18n.t('comparison results')}</div>
+          <div className="section-title mt-8">{i18n.t('comparison results')}</div>
           <RepoCompareDetail />
         </div>
       </Spin>

@@ -293,7 +293,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <>
             <CustomIcon type="play" />
             {i18n.t('project:execute')}
-            <span className="fz12">
+            <span className="text-xs">
               ({i18n.t('project:When you click directly, it will execute cases without environment.')})
             </span>
           </>
@@ -313,11 +313,11 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       afterVisibleChange={handleVisibleChange}
     >
       <Spin spinning={fetchingDetail}>
-        <div className="case-drawer-header px20 py20">
-          <div className="flex-box">
+        <div className="case-drawer-header px-5 py-5">
+          <div className="flex justify-between items-center">
             <div className="flex-1">
               <Input
-                className={classnames('case-name fz18 bold-500 color-text', titleIsEmpty && 'error')}
+                className={classnames('case-name text-lg font-medium color-text', titleIsEmpty && 'error')}
                 size="large"
                 autoFocus
                 placeholder={i18n.t('project:use case title (required)')}
@@ -334,25 +334,25 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 <>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne
-                    className="for-copy copy-share-link ml12"
+                    className="for-copy copy-share-link ml-3"
                     size="16px"
                     data-clipboard-text={shareLink}
                     type="share-alt"
                   />
                 </>
               ) : null}
-              <IconClose onClick={handleClose} className="ml12 pointer" size="16px" />
+              <IconClose onClick={handleClose} className="ml-3 pointer" size="16px" />
             </div>
           </div>
-          <div className="flex-box mt16">
+          <div className="flex justify-between items-center mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
-              <div className="flex-1 fz16 nowrap mr20 color-text-desc">
+              <div className="flex-1 text-base nowrap mr-5 color-text-desc">
                 <CustomIcon type="wjj1" className="color-warning" />
                 {dirName}
               </div>
             </Tooltip>
             {editMode && (
-              <div className="inline-flex-box">
+              <div className="inline-flex justify-between items-center">
                 <Avatar
                   showName
                   name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />}
@@ -363,8 +363,8 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
             )}
           </div>
         </div>
-        <div className="case-drawer-body flex-box">
-          <div className="case-drawer-body-left flex-1 px20 py16">
+        <div className="case-drawer-body flex justify-between items-center">
+          <div className="case-drawer-body-left flex-1 px-5 py-4">
             <div onBlurCapture={handleAnyBlur}>
               <ContentPanel title={i18n.t('project:preconditions')}>
                 <MarkdownEditor
@@ -417,11 +417,11 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 />
               </ContentPanel>
             </div>
-            <div className="mt32">
+            <div className="mt-8">
               {visible && scope === 'testPlan' && editMode ? <RelatedBugs relationID={caseDetail.id} /> : null}
             </div>
           </div>
-          <div className="case-drawer-body-right px20 py16">
+          <div className="case-drawer-body-right px-5 py-4">
             <CaseMeta onBlurCapture={handleAnyBlur} onChange={updateFullData} dataSource={caseMetaData} />
           </div>
         </div>

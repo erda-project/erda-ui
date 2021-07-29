@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty, get, find } from 'lodash';
 import { Popover, Dropdown, Menu, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
@@ -39,9 +39,9 @@ export const RunCaseNode = (props: IProps) => {
   // const content = ' ';
   let name = ' ';
   let IconComp = data.logoUrl ? (
-    <img src={data.logoUrl} className="full-width full-height" />
+    <img src={data.logoUrl} className="w-full h-full" />
   ) : (
-    <CustomIcon type={'jiedian'} color className="full-width full-height" />
+    <CustomIcon type={'jiedian'} color className="w-full h-full" />
   );
   switch (data?.type) {
     // case 'api-test': {
@@ -57,7 +57,7 @@ export const RunCaseNode = (props: IProps) => {
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
           color
-          className="full-width full-height"
+          className="w-full h-full"
         />
       );
       break;
@@ -144,7 +144,7 @@ export const RunCaseNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -158,7 +158,7 @@ export const RunCaseNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">
@@ -205,9 +205,9 @@ export const RunCaseNode = (props: IProps) => {
 
   const status = ciStatusMap[data.status] || ciStatusMap.Unknown;
   const statusContent = (
-    <span className={`mt8 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
+    <span className={`mt-2 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
-      <span className="inline-flex-box">{status ? status.text : '-'}</span>
+      <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
     </span>
   );
 
@@ -218,15 +218,15 @@ export const RunCaseNode = (props: IProps) => {
     <Container {...renderTooltipTitle()}>
       <div
         onClick={() => onClick('node')}
-        className={`yml-chart-node test-case-result-node column-flex-box ${
+        className={`yml-chart-node test-case-result-node flex flex-col justify-center ${
           data.status === 'Disabled' ? 'disabled-item' : ''
         }`}
       >
         <div className={'case-title'}>
-          <div className="title-icon mr12">{IconComp}</div>
-          <div className="title-txt column-flex-box color-text">
+          <div className="title-icon mr-3">{IconComp}</div>
+          <div className="title-txt flex flex-col justify-center color-text">
             <Tooltip title={name}>
-              <span className="nowrap fz16 bold name">{name}</span>
+              <span className="nowrap text-base font-bold name">{name}</span>
             </Tooltip>
           </div>
 
@@ -239,7 +239,7 @@ export const RunCaseNode = (props: IProps) => {
           </div>
         </div>
         {/* <Tooltip title={content}>
-          <div className='nowrap mt8'>{content}</div>
+          <div className='nowrap mt-2'>{content}</div>
         </Tooltip> */}
         {statusContent}
       </div>

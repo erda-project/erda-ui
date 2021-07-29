@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { Button, Modal } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import clusterStore from 'cmp/stores/cluster';
 import { useUpdate } from 'common';
 import './addon-cards.scss';
@@ -51,7 +51,7 @@ export default (props: IProps) => {
       width={750}
       footer={<Button onClick={() => toggleModal(false)}>{i18n.t('close')}</Button>}
     >
-      <pre className="code-block mt16" style={{ whiteSpace: 'pre-wrap' }}>
+      <pre className="code-block mt-4" style={{ whiteSpace: 'pre-wrap' }}>
         {record ? JSON.stringify(record.detail ? JSON.parse(record.detail) : record.status, null, 2) : 'loading...'}
       </pre>
     </Modal>

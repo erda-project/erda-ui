@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, map } from 'lodash';
 import { Button, Spin } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate } from 'common';
@@ -71,18 +71,18 @@ const Iterations = () => {
   };
 
   return (
-    <div className="backlog-iterations column-flex-box full-height">
-      <div className="backlog-iterations-title  flex-box mb8">
+    <div className="backlog-iterations flex flex-col justify-center h-full">
+      <div className="backlog-iterations-title  flex justify-between items-center mb-2">
         <div>
-          <span className="bold fz16 mr8">{i18n.t('project:unfinished iteration')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('project:unfinished iteration')}</span>
           <span className="color-text-desc">
             {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('project:iteration') })}
           </span>
         </div>
         <div>
           <WithAuth pass={addAuth}>
-            <Button className="px8 mt12" onClick={onAdd}>
-              <CustomIcon type="cir-add" className="mr4" />
+            <Button className="px-2 mt-3" onClick={onAdd}>
+              <CustomIcon type="cir-add" className="mr-1" />
               {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
             </Button>
           </WithAuth>
@@ -107,13 +107,13 @@ const Iterations = () => {
 
 const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-iterations-empty-holder">
-    <img src={backlog_dd_svg} className="mb12" />
-    <div className="fz24 bold my8">{i18n.t('project:unfinished iteration')}</div>
+    <img src={backlog_dd_svg} className="mb-3" />
+    <div className="text-2xl font-bold my-2">{i18n.t('project:unfinished iteration')}</div>
     <div className="desc">
       {i18n.t('project:add-iteration-tip1')}
       <WithAuth pass={addAuth}>
-        <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
-          <CustomIcon type="cir-add" className="mr4" />
+        <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
+          <CustomIcon type="cir-add" className="mr-1" />
           {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
         </Button>
       </WithAuth>

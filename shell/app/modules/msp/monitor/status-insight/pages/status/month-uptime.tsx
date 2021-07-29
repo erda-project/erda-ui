@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { monthMap } from 'app/locales/utils';
 import './month-uptime.scss';
@@ -41,7 +41,7 @@ const MonthUptime = ({ timestamp, data = [] }: { timestamp: number; data?: any[]
 
   return (
     <div className="month-uptime-block">
-      {/* <div className='month bold-500'>{month} 月</div> */}
+      {/* <div className='month font-medium'>{month} 月</div> */}
       <ul className="day-point-list" data-month={monthMap[`${month}月`]}>
         {list.map((item, i) => {
           if (item !== 'opacity') start += 1;

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { ConfigLayout, ImgHolder } from 'common';
 import { ArtifactsTypeMap } from './config';
 import { get, map } from 'lodash';
@@ -40,14 +40,14 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
         if (val !== undefined && val !== null && val !== '') {
           val = item.render ? item.render(val) : val;
           return (
-            <Col {...layout} key={item.name} className="mb32">
-              <div className="color-text-desc mb8">{item.label}</div>
+            <Col {...layout} key={item.name} className="mb-8">
+              <div className="color-text-desc mb-2">{item.label}</div>
               <div className="nowrap">
                 {item.viewType === 'image' ? (
                   <ImgHolder src={val} rect="100x100" text="image" />
                 ) : item.viewType === 'images' ? (
                   map(val, (url) => (
-                    <span key={url} className="mr8">
+                    <span key={url} className="mr-2">
                       <ImgHolder src={url} rect="100x100" text="image" />
                     </span>
                   ))

@@ -121,7 +121,7 @@ const ClientList = () => {
         description={i18n.t(
           'On this page, you can check the progress of my application to call the API request, and its specific authentication information after the application is approved.',
         )}
-        className="mb8"
+        className="mb-2"
       />
       <Table
         rowKey="client.id"
@@ -147,14 +147,14 @@ const ClientList = () => {
         destroyOnClose
         footer={null}
       >
-        <p className="mb4">
-          <span className="bold-500">ClientID: </span>
+        <p className="mb-1">
+          <span className="font-medium">ClientID: </span>
           <span className="for-copy" data-clipboard-text={resetModalInfo.clientID}>
             {resetModalInfo.clientID}
           </span>
         </p>
-        <p className="mb4">
-          <span className="bold-500">ClientSecret: </span>
+        <p className="mb-1">
+          <span className="font-medium">ClientSecret: </span>
           <span className="for-copy" data-clipboard-text={resetModalInfo.clientSecret}>
             {resetModalInfo.clientSecret}
           </span>

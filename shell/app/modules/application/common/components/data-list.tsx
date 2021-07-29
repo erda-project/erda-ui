@@ -87,7 +87,7 @@ const DataList = (props: IProps) => {
 
   return (
     <div className="data-list">
-      <section className="header flex-box">
+      <section className="header flex justify-between items-center">
         <div className="header-left">
           <Select
             className="data-select"
@@ -136,7 +136,7 @@ const DataList = (props: IProps) => {
                         <span>{item.cnName}</span>
                         <span>{item.enName}</span>
                       </div>
-                      <div className="item-footer flex-box">
+                      <div className="item-footer flex justify-between items-center">
                         <span className="nowrap">{item.desc}</span>
                         <span className="item-table nowrap">{item.table}</span>
                       </div>

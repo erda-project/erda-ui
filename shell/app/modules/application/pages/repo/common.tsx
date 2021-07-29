@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Tooltip } from 'app/nusi';
 import { Copy, Avatar } from 'common';
 import { fromNow, replaceEmoji } from 'common/utils';
@@ -33,16 +33,16 @@ export const CommitBlock = ({ commit }: { commit?: ICommit }) => {
   const { id, author, commitMessage } = commit;
   const msg = replaceEmoji(commitMessage);
   return (
-    <div className="repo-commit-block flex-box">
+    <div className="repo-commit-block flex justify-between items-center">
       <div className="commit-left">
         <Avatar name={author.name} showName />
-        <span className="commit-content bold nowrap">
+        <span className="commit-content font-bold nowrap">
           <Tooltip title={msg}>{renderAsLink('commit', id, msg)}</Tooltip>
         </span>
       </div>
       <div className="commit-right">
         {i18n.t('submitted')}&nbsp;
-        <Copy className="for-copy bold" data-clipboard-tip="commit SHA" data-clipboard-text={id}>
+        <Copy className="for-copy font-bold" data-clipboard-tip="commit SHA" data-clipboard-text={id}>
           {id.slice(0, 6)}
         </Copy>
         &nbsp;{i18n.t('at')}&nbsp;

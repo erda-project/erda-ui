@@ -16,7 +16,7 @@ import { Copy, Icon as CustomIcon } from 'common';
 import { isEmpty } from 'lodash';
 import { getBrowserInfo } from 'common/utils';
 import { getFormatter } from 'charts/utils/formatter';
-import * as React from 'react';
+import React from 'react';
 import { titleCnMap, titleMap, iconMap } from './config';
 import i18n from 'i18n';
 

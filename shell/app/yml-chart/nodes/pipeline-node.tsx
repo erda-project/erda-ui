@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Dropdown, Menu } from 'app/nusi';
 import { map, uniqueId } from 'lodash';
@@ -48,18 +48,18 @@ export const PipelineNode = (props: IProps) => {
   };
 
   return (
-    <div className="yml-chart-node pipeline-node column-flex-box" onClick={onClick}>
-      <div className={'pipeline-title py12'}>
-        <div className="title-icon mr12">
+    <div className="yml-chart-node pipeline-node flex flex-col justify-center" onClick={onClick}>
+      <div className={'pipeline-title py-3'}>
+        <div className="title-icon mr-3">
           {data.logoUrl ? (
             <img src={data.logoUrl} alt="logo" />
           ) : (
-            <CustomIcon type="wfw" color className="full-width full-height" />
+            <CustomIcon type="wfw" color className="w-full h-full" />
           )}
         </div>
-        <div className="title-txt column-flex-box color-text">
-          <span className="mb4 nowrap fz16 bold name">{data.displayName || data.type}</span>
-          <span className="nowrap fz12 type">{data.alias}</span>
+        <div className="title-txt flex flex-col justify-center color-text">
+          <span className="mb-1 nowrap text-base font-bold name">{data.displayName || data.type}</span>
+          <span className="nowrap text-xs type">{data.alias}</span>
         </div>
         {editing ? (
           <div>
@@ -69,7 +69,7 @@ export const PipelineNode = (props: IProps) => {
           </div>
         ) : null}
       </div>
-      <div className="pipeline-content flex-1 py12">{data.description}</div>
+      <div className="pipeline-content flex-1 py-3">{data.description}</div>
     </div>
   );
 };

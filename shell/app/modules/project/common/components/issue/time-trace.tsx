@@ -13,7 +13,7 @@
 
 import { Progress, Modal, Button } from 'app/nusi';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { TimeInput, transToStr, checkReg, checkMsg } from './time-input';
 import './time-trace.scss';
 import moment, { Moment } from 'moment';
@@ -60,7 +60,7 @@ const TimeTraceBar = React.forwardRef(
     return (
       <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
         <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
-        <div className="color-text-sub flex-box fz12">
+        <div className="color-text-sub flex justify-between items-center text-xs">
           <span>
             {_logged + _spent
               ? `${i18n.t('project:logged')} ${transToStr(_logged + _spent)}`
@@ -175,7 +175,7 @@ export const TimeTrace = React.forwardRef(
         componentProps: {
           dateType: 'date',
           showTime: true,
-          className: 'full-width',
+          className: 'w-full',
         },
         labelTip: i18n.t('project:The start time of this counted time, not the start time of the issue'),
         type: 'datePicker',
@@ -251,7 +251,7 @@ export const TimeTrace = React.forwardRef(
               remain={editData.remainingTime ?? defaultRemaining}
               estimate={value.estimateTime}
             />
-            <div className="my16">
+            <div className="my-4">
               {i18n.t('project:The original estimated time for this event is')} {transToStr(value.estimateTime)}
             </div>
             <Form formRef={form} fields={fields} onChange={setEditData} />

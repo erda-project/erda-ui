@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'app/nusi';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
@@ -357,7 +357,7 @@ const PureLoadMoreSelector = (props: IProps) => {
                   &nbsp;
                   {i18n.t('common:item')}
                 </div>
-                <span className="fake-link ml8" onClick={clearValue}>
+                <span className="fake-link ml-2" onClick={clearValue}>
                   {i18n.t('common:clear selected')}
                 </span>
               </MenuItem>,
@@ -480,7 +480,7 @@ const CompMap = {
       <div className="load-more-selector-container">
         <div className="content" style={width ? { width } : {}}>
           <div className="menu">
-            <Menu selectedKeys={[`${chosenCategory}`]} className="full-height">
+            <Menu selectedKeys={[`${chosenCategory}`]} className="h-full">
               {map(category, (item) => (
                 <MenuItem className="menu-item" key={item.value} onClick={() => setChosenCategory(item.value)}>
                   {item.label}

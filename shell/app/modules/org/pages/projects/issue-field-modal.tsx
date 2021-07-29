@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { RadioChangeEvent } from 'core/common/interface';
 import { FormModal, useUpdate } from 'common';
 import { insertWhen } from 'common/utils';

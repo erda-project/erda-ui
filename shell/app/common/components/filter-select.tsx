@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Select, Spin } from 'app/nusi';
-import * as React from 'react';
+import React from 'react';
 import './filter-select.scss';
 
 interface IProps {

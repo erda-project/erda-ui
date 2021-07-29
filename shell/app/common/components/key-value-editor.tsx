@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { KeyValueTextArea, KeyValueTable } from 'common';
 import { Radio } from 'app/nusi';
 import { isEqual } from 'lodash';
@@ -156,7 +156,7 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
     const textData = convertToTextData(dataSource);
     return (
       <div>
-        <div className="flex-box mb12">
+        <div className="flex justify-between items-center mb-3">
           <span className="key-value-title">{title || i18n.t('default:information configuration')}</span>
           {isNeedTextArea ? (
             <Radio.Group size="small" value={tableMode ? 'key-value' : 'text'} onChange={this.toggleEditMode}>
@@ -189,7 +189,7 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
           />
         ) : (
           <div>
-            {/* <div className="mb16" style={{ display: 'flex', flexDirection: 'row-reverse', lineHeight: '28px' }}> */}
+            {/* <div className="mb-4" style={{ display: 'flex', flexDirection: 'row-reverse', lineHeight: '28px' }}> */}
             {/*  {modeSwitch} */}
             {/* </div> */}
             <KeyValueTextArea

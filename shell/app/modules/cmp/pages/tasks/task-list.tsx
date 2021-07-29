@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Table, Badge, message } from 'app/nusi';
@@ -134,7 +134,7 @@ const ServicesList = ({ taskType }: IProps) => {
 
   return (
     <>
-      <div className="mb16">
+      <div className="mb-4">
         <ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />
       </div>
       <Table

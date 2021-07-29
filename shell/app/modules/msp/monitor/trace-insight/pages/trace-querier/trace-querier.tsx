@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map as _map, pickBy } from 'lodash';
 import { Row, Col, Input, Select, Button, Tabs, Form } from 'app/nusi';
 import { Copy, KeyValueEditor, IF } from 'common';
@@ -269,8 +269,8 @@ const TraceInsightQuerier = () => {
     return (
       <CommonPanel
         title={
-          <div className="flex-box">
-            <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:tracing information')}</h3>
+          <div className="flex justify-between items-center">
+            <h3 className="trace-common-panel-title font-medium">{i18n.t('msp:tracing information')}</h3>
             <IF check={requestTraceParams.responseCode}>
               <div className="response-code">{`${i18n.t('msp:request response status')}：${
                 requestTraceParams.responseCode

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import permStore from 'app/user/stores/permission';
 import classnames from 'classnames';
 import { get, intersection } from 'lodash';

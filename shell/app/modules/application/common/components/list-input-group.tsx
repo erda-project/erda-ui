@@ -90,7 +90,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       return (
         <div key={id} className="list-full-input-group">
           {inputField}
-          {disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.onDelete(index)} />}
+          {disabled ? null : <IconDelete className="variable-icon ml-3 pointer" onClick={() => this.onDelete(index)} />}
         </div>
       );
     });
