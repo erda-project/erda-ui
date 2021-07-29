@@ -54,7 +54,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
         <Collapse
           className="sla-select"
           accordion
-          expandIcon={({ panelKey }) => <Radio checked={+panelKey === activeKey} />}
+          expandIcon={({ panelKey }) => <Radio className="pt-1.5" checked={+panelKey === activeKey} />}
           onChange={handleChange}
           activeKey={activeKey}
         >
