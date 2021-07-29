@@ -176,7 +176,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
           return {
             children: <Ellipsis className="color-text-desc" title={record.directory} />,
             props: {
-              colSpan: 6,
+              colSpan: 5,
             },
           };
         },
