@@ -3197,7 +3197,7 @@
     "image": "image",
     "image name": "image name",
     "import": "import",
-    "import and export tasks are in queue, please wait": "import and export tasks are in queue, please wait",
+    "import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait": "import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait",
     "import file": "import file",
     "import parameters": "import parameters",
     "import results": "import results",

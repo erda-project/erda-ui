@@ -366,6 +366,15 @@ declare namespace TEST_CASE {
     types: ImportOrExport[];
   }
 
+  interface ImportExportResult {
+    list: ImportExportRecordItem[];
+    counter: ImportExportCounter;
+  }
+
+  interface ImportExportCounter {
+    import?: number;
+    export?: number;
+  }
   interface ImportExportRecordItem {
     apiFileUUID: string;
     createdAt: string;

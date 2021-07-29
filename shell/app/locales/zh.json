@@ -3197,7 +3197,7 @@
     "image": "镜像",
     "image name": "镜像名",
     "import": "导入",
-    "import and export tasks are in queue, please wait": "导入导出任务正在排队中，请等待",
+    "import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait": "导入导出任务正在排队中，前面还有导出任务({export})，导入任务({import})，请等待",
     "import file": "导入文件",
     "import parameters": "导入参数",
     "import results": "导入结果",
