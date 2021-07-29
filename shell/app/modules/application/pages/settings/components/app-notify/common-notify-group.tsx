@@ -15,7 +15,7 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, take, head } from 'lodash';
-import { Spin, Modal, Tooltip, Select, Table, Button, message, Input } from 'app/nusi';
+import { Spin, Modal, Tooltip, Select, Table, Button, message } from 'app/nusi';
 import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
@@ -337,7 +337,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     return agent
       .post('/api/admin/notify/dingtalk-test')
       .send({
-        secret: secret,
+        secret,
         webhook: receiver,
       })
       .then((response: any) => {
