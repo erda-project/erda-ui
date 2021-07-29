@@ -171,7 +171,6 @@ div.ant-modal-body {
 
 .ant-table-thead > tr > th {
   font-weight: 500;
-  background-color: #f0f0f0;
 }
 
 .dice-layout .pk-table-tbody > tr > td,
@@ -428,4 +427,8 @@ div.ant-table {
 
 .pk-filter .ant-select {
   width: 100%;
+}
+
+div.ant-progress-inner {
+  background-color: rgba(0, 0, 0, 0.06);
 }
