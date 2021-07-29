@@ -35,7 +35,7 @@ export const IssueIcon = ({ type, withName = false }: IProps) => {
     </div>
   );
   return (
-    <div className="flex justify-between items-center justify-start">
+    <div className="flex items-center justify-start">
       {withName ? (
         <>
           {IconRender}

@@ -171,7 +171,7 @@ const AppLibraryReference = () => {
   };
 
   const addonAfter = (
-    <span className="copy-btn for-copy" data-clipboard-text={state.dependence} data-clipboard-tip="dependence">
+    <span className="copy-btn cursor-copy" data-clipboard-text={state.dependence} data-clipboard-tip="dependence">
       <IconCopy />
     </span>
   );
@@ -207,7 +207,7 @@ const AppLibraryReference = () => {
           </Button>
         }
       >
-        <Copy selector=".for-copy" />
+        <Copy selector=".cursor-copy" />
         <Alert className="mb-4" message={i18n.t('application:library-usage-tips')} type="warning" showIcon />
         <p>{i18n.t('application:code content')}</p>
         <Input className="w-full mb-4" value={state.dependence} addonAfter={addonAfter} />

@@ -189,7 +189,7 @@ const SideBar = () => {
           size="small"
           count={unreadCount}
           offset={[-5, 2]}
-          className="message-icon unselectable"
+          className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >
           <IconRemind className="mr-0" size="20px" style={customIconStyle} />
@@ -236,7 +236,7 @@ const SideBar = () => {
       verticalBrandIcon={
         loginUser.isSysAdmin ? null : (
           <img
-            className="mr-0 pointer"
+            className="mr-0 cursor-pointer"
             src={Logo}
             style={{
               width: '19px',

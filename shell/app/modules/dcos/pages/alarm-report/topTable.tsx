@@ -57,7 +57,7 @@ export const topTable = ({ data, valueTitle, unitType, unit, query: { filter_hos
       rowKey="id"
       columns={columns}
       dataSource={get(data, 'list')}
-      rowClassName={() => 'pointer'}
+      rowClassName={() => 'cursor-pointer'}
       onRowClick={handleRowClick}
       scroll={{ x: '100%' }}
     />

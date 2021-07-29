@@ -52,7 +52,7 @@ const { confirm } = Modal;
 const ExternalRepoPage = ({ type }: { type?: string }) => {
   return type ? (
     <div>
-      <p className="color-text-desc">{i18n.t('project:repository address')}</p>
+      <p className="text-desc">{i18n.t('project:repository address')}</p>
       <p>
         <span>{i18n.t('project:external general Git repository')}</span>
         <span>({i18n.t('project:does not support API design')})</span>
@@ -121,7 +121,7 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
   const content = (
     <div>
       <div>
-        <CustomIcon type="warnfill" className="color-warning" />
+        <CustomIcon type="warnfill" className="text-warning" />
         <span>{i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}</span>
         <span className="text-link" onClick={gotoDetail}>
           {' '}
@@ -371,7 +371,7 @@ const ApiDesign = () => {
       <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus
-          className="mr-0 pointer"
+          className="mr-0 cursor-pointer"
           size="16px"
           onClick={(e) => {
             e.stopPropagation();
@@ -405,7 +405,11 @@ const ApiDesign = () => {
               onCancel={(e: any) => e.stopPropagation()}
             >
               {!apiLockState && (
-                <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={(e) => e?.stopPropagation()} />
+                <CustomIcon
+                  type="shanchu"
+                  className="list-title-btn cursor-pointer"
+                  onClick={(e) => e?.stopPropagation()}
+                />
               )}
             </Popconfirm>
           </div>
@@ -633,7 +637,7 @@ const ApiDesign = () => {
             </Button>
           </div>
           <div className="api-design-wrap">
-            <div className="search-wrap mb-4 flex justify-between items-center justify-start">
+            <div className="search-wrap mb-4 flex items-center justify-start">
               <ApiDocTree
                 treeNodeData={curTreeNodeData}
                 newTreeNode={newTreeNode}
@@ -675,7 +679,7 @@ const ApiDesign = () => {
                 <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
               ) : (
                 <div className="api-design-content">
-                  <div className="api-design-content-list flex flex-col justify-center justify-start">
+                  <div className="api-design-content-list flex flex-col justify-start">
                     <Input
                       placeholder={i18n.t('search by keyword')}
                       className="mx-2 my-3 api-filter-input"

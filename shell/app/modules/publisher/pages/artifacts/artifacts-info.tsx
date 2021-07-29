@@ -41,7 +41,7 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
           val = item.render ? item.render(val) : val;
           return (
             <Col {...layout} key={item.name} className="mb-8">
-              <div className="color-text-desc mb-2">{item.label}</div>
+              <div className="text-desc mb-2">{item.label}</div>
               <div className="nowrap">
                 {item.viewType === 'image' ? (
                   <ImgHolder src={val} rect="100x100" text="image" />

@@ -126,7 +126,7 @@ export default () => {
               <div>
                 {menu}
                 <Divider className="my-1" />
-                <div className="text-xs px-2 py-1 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"
@@ -229,7 +229,7 @@ export default () => {
           <div className="justify-start">
             {isEmpty(targets) ? (
               <Tooltip title={tip}>
-                <span className="color-text-sub">{tip}</span>
+                <span className="text-sub">{tip}</span>
               </Tooltip>
             ) : (
               <ListTargets roleMap={roleMap} targets={targets} />

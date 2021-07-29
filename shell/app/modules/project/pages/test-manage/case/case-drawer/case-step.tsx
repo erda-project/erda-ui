@@ -79,7 +79,7 @@ const CaseSteps = ({ value, onChange }: IProps) => {
   );
 
   if (!steps.length) {
-    return <span className="color-text-holder">{i18n.t('none')}</span>;
+    return <span className="text-holder">{i18n.t('none')}</span>;
   }
 
   return (

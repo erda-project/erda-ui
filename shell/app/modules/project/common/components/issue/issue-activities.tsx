@@ -98,7 +98,7 @@ export const IssueActivities = (props: IProps) => {
     return (
       <div key={sId} className="border-bottom p-3">
         {renderContent}
-        <div className="color-text-desc mt-1">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+        <div className="text-desc mt-1">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     );
   };
@@ -109,7 +109,7 @@ export const IssueActivities = (props: IProps) => {
         <Timeline className="mt-5">
           {map(daySplit, (items: [], day) => (
             <TimelineItem key={day}>
-              <div className="day-split">{day}</div>
+              <div className="mb-4 text-normal text-base">{day}</div>
               <div className="border-top border-left border-right">{items.map(renderStream)}</div>
             </TimelineItem>
           ))}

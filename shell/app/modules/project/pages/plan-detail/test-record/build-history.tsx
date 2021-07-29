@@ -22,6 +22,7 @@ import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import { ciStatusMap } from 'application/pages/build-detail/config';
+import './build-history.scss';
 
 interface IProps {
   activeItem: any;

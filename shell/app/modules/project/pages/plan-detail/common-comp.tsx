@@ -82,8 +82,8 @@ export const BaseInfo = () => {
   const createTime = planItemDetail.createdAt ? moment(planItemDetail.createdAt).format('YYYY-MM-DD HH:mm:ss') : '';
   const content = (
     <div>
-      <span className="color-text font-medium mb-2">{i18n.t('project:participant')}</span>
-      <div className="flex flex-wrap justify-center items-center participant-items justify-start">
+      <span className="text-normal font-medium mb-2">{i18n.t('project:participant')}</span>
+      <div className="flex flex-wrap items-center participant-items justify-start">
         {partnerIDs.map((value, index) => {
           return (
             <span key={`${String(index)}-${value}`} className="mr-2 mb-2">
@@ -116,7 +116,7 @@ export const BaseInfo = () => {
         </div>
       </div>
       <div>
-        <div className="color-text">
+        <div className="text-normal">
           <Progress strokeWidth={12} style={{ width: '230px' }} percent={percent} showInfo={false} />{' '}
           {i18n.t('project:passing rate')} {percent}%
         </div>

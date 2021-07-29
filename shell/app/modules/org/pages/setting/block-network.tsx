@@ -71,7 +71,7 @@ const BlockNetwork = () => {
         {metaData.map(({ value, label, disabled }) => {
           return (
             <Col key={value} span={6}>
-              <div className="mb-1 color-text-desc">{label}</div>
+              <div className="mb-1 text-desc">{label}</div>
               <Switch
                 checked={get(state.blockoutConfig, value, false)}
                 checkedChildren={i18n.t('default:on')}

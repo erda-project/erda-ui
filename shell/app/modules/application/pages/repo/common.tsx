@@ -42,7 +42,7 @@ export const CommitBlock = ({ commit }: { commit?: ICommit }) => {
       </div>
       <div className="commit-right">
         {i18n.t('submitted')}&nbsp;
-        <Copy className="for-copy font-bold" data-clipboard-tip="commit SHA" data-clipboard-text={id}>
+        <Copy className="cursor-copy font-bold" data-clipboard-tip="commit SHA" data-clipboard-text={id}>
           {id.slice(0, 6)}
         </Copy>
         &nbsp;{i18n.t('at')}&nbsp;

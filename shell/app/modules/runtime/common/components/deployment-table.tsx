@@ -63,8 +63,8 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       title: 'releaseID',
       dataIndex: 'releaseId',
       render: (text: string) => (
-        <Copy selector=".for-copy">
-          <span className="for-copy" data-clipboard-text={text}>
+        <Copy selector=".cursor-copy">
+          <span className="cursor-copy" data-clipboard-text={text}>
             {text}
           </span>
         </Copy>

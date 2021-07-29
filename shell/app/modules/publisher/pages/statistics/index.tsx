@@ -311,7 +311,7 @@ const Statistics = (props: IProps) => {
           <div className="chart-title flex justify-between items-center w-full">
             <span className="font-bold text-base">{i18n.t('publisher:top10 version')}</span>
             <span
-              className="always-active"
+              className="text-primary cursor-pointer"
               onClick={() => {
                 goTo('./topDetail/version', { query: monitorKey });
               }}
@@ -358,7 +358,7 @@ const Statistics = (props: IProps) => {
           <div className="chart-title flex justify-between items-center w-full">
             <span className="font-bold text-base">{i18n.t('publisher:top10 channel')}</span>
             <span
-              className="always-active"
+              className="text-primary cursor-pointer"
               onClick={() => {
                 goTo('./topDetail/channel', { query: monitorKey });
               }}
@@ -442,9 +442,9 @@ const Statistics = (props: IProps) => {
                           <>
                             {info.subData}
                             {`${info.subData}`.startsWith('-') ? (
-                              <CustomIcon className="color-red" type="arrow-down" />
+                              <CustomIcon className="text-red" type="arrow-down" />
                             ) : (
-                              <CustomIcon className="color-green" type="arrow-up" />
+                              <CustomIcon className="text-green" type="arrow-up" />
                             )}
                           </>
                         ) : null}

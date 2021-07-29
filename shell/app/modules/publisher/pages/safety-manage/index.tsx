@@ -42,7 +42,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       title: i18n.t('user ID'),
       dataIndex: 'userId',
       render: (val: string) => (
-        <span className="for-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -51,7 +51,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       title: i18n.t('user name'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span className="for-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -60,7 +60,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       title: i18n.t('device ID'),
       dataIndex: 'deviceNo',
       render: (val: string) => (
-        <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -144,7 +144,7 @@ const EraseList = ({ artifactId }: IListProps) => {
       title: i18n.t('device ID'),
       dataIndex: 'deviceNo',
       render: (val: string) => (
-        <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -203,7 +203,7 @@ const SafetyManage = (props: IProps) => {
           <EraseList artifactId={artifactId} />
         </Panel>
       </Collapse>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

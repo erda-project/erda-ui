@@ -147,7 +147,7 @@ const CreationForm = () => {
       label: '',
       getComp: () => {
         const cur = modeOptions.find((m) => m.value === mode);
-        return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
+        return <Alert className="text-desc" type="normal" message={cur?.desc} />;
       },
     },
     {

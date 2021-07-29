@@ -69,7 +69,7 @@ const DetailBtn = (detailBtnProps: { visible: boolean; onChange: (v: boolean) =>
     <Tooltip title={i18n.t('detail')}>
       <CustomIcon
         type={visible ? 'chevron-up' : 'chevron-down'}
-        className="pointer mt-2"
+        className="cursor-pointer mt-2"
         style={{ width: 'auto' }}
         onClick={() => {
           onChange(!visible);
@@ -124,7 +124,7 @@ export const EnumRef = React.forwardRef(
     const showAddBtn = React.useMemo(() => enumVisible || isEnumExist, [enumVisible, isEnumExist]);
 
     return (
-      <div className="flex justify-between items-center justify-start">
+      <div className="flex items-center justify-start">
         {disabled ? (
           <div>
             <span className="mr-2">{i18n.t('project:enumerated value')}: </span>

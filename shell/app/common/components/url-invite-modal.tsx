@@ -41,7 +41,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
         footer={
           <>
             <span
-              className="for-copy"
+              className="cursor-copy"
               data-clipboard-tip={code ? i18n.t('invitation link and verification code') : i18n.t('invitation link')}
               data-clipboard-text={`${linkPrefixTip || ''}\n${url}\n${
                 code ? `${i18n.t('verification code')}: ${code}` : ''
@@ -49,7 +49,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
             >
               <Button type="primary">{i18n.t('copy')}</Button>
             </span>
-            <Copy selector=".for-copy" />
+            <Copy selector=".cursor-copy" />
           </>
         }
         {...modalProps}
@@ -64,9 +64,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
             <div className="item mb-4">
               <p className="label mb-2">
                 {i18n.t('verification code')}{' '}
-                <span className="color-text-sub">
-                  ({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})
-                </span>
+                <span className="text-sub">({i18n.t('valid until 1:00 am the next day', { nsSeparator: '|' })})</span>
               </p>
               <Input readOnly value={code} />
             </div>

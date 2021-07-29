@@ -39,22 +39,22 @@ const ContentPanel = ({
   onClick = noop,
   mode = 'common',
 }: IProps) => {
-  const delimiter = <span className="color-text-holder mx-2">|</span>;
+  const delimiter = <span className="text-holder mx-2">|</span>;
   const typeIcon = {
     edit: (
-      <span onClick={onClick} className="color-text-desc hover-active">
+      <span onClick={onClick} className="text-desc hover-active">
         <IconEdit className="mr-1" />
         {i18n.t('project:edit')}
       </span>
     ),
     add: (
-      <span onClick={onClick} className="color-text-desc hover-active">
+      <span onClick={onClick} className="text-desc hover-active">
         <IconPlus className="mr-1" />
         {i18n.t('common:add')}
       </span>
     ),
     upload: (
-      <span onClick={onClick} className="color-text-desc hover-active">
+      <span onClick={onClick} className="text-desc hover-active">
         <IconUpload className="mr-1" />
         {i18n.t('project:upload')}
       </span>
@@ -63,7 +63,7 @@ const ContentPanel = ({
   return (
     <div className={`content-panel ${className}`}>
       <Spin spinning={loading}>
-        <div className="flex justify-between items-center title justify-start mb-2">
+        <div className="flex items-center title justify-start mb-2">
           <span>{title}</span>
           {mode !== 'common' ? (
             <>

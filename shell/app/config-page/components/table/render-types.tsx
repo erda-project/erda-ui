@@ -29,7 +29,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="text-sm color-text-sub ml-2" />
+          <CustomIcon type="info" className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -95,7 +95,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         };
         Comp = (
           <div
-            className={`table-render-twt w-full pl-2 flex items-center ${hasPointer ? 'pointer' : ''}`}
+            className={`table-render-twt w-full pl-2 flex items-center ${hasPointer ? 'cursor-pointer' : ''}`}
             onClick={onClick}
           >
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
@@ -233,7 +233,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { displayTip } = val; // 带展示tip的
         const DisplayTipComp = displayTip ? (
-          <span className={`date-picker-display-tip color-${displayTip.color} `}>{displayTip.text}</span>
+          <span className={`date-picker-display-tip text-${displayTip.color} `}>{displayTip.text}</span>
         ) : null;
         // const DateUpdateComp = (
         //   <DatePicker
@@ -359,7 +359,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
     <div className="flex items-center hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
       <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {value || <span className="color-text-desc">{i18n.t('unspecified')}</span>}
+        {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
       <CustomIcon type="di" className="arrow-icon" />
     </div>
@@ -515,7 +515,7 @@ const getTitleTip = (tip: string | string[]) => {
     let _s = item;
     map(colorKey, (v, k) => {
       if (item.includes(v[0])) {
-        _s = _s.replaceAll(v[0], `<span class="color-${k}">`);
+        _s = _s.replaceAll(v[0], `<span class="text-${k}">`);
         _s = _s.replaceAll(v[1], '</span>');
       }
     });

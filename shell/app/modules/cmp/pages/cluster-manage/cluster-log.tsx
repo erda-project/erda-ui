@@ -49,7 +49,7 @@ const StepListComp = ({
             className={`one-step ${curStatus} ${activeStep === id ? 'on-active' : ''}`}
             onClick={() => !disabled && clickItem(id)}
           >
-            <div className={`${disabled ? 'not-allowed' : 'pointer'} step-task-item`}>
+            <div className={`${disabled ? 'not-allowed' : 'cursor-pointer'} step-task-item`}>
               <CustomIcon type={status === 'default' ? 'circle' : 'circle-fill'} />
               <span className="step-title">
                 <span className="name">{name}</span>(<span className={'status-text'}>{statusText}</span>)

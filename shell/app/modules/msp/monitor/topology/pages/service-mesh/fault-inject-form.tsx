@@ -246,7 +246,11 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
                           e.stopPropagation();
                         }}
                       >
-                        <CustomIcon className="pointer" type="shanchu" onClick={(e: any) => e.stopPropagation()} />
+                        <CustomIcon
+                          className="cursor-pointer"
+                          type="shanchu"
+                          onClick={(e: any) => e.stopPropagation()}
+                        />
                       </Popconfirm>
                     </div>
                   }

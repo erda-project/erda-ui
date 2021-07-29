@@ -23,18 +23,24 @@ export const renderLabels = (labelColorMap: Obj, lbs: string[], clsName = '', ma
   const curShowLen = maxShow || lbs.length;
 
   return (
-    <div className={`project-label-list colorful-light-bg ${clsName}`}>
+    <div className={`project-label-list ${clsName}`}>
       {lbs.slice(0, curShowLen).map((l) => (
-        <span key={l} className={`label-item  small nowrap ${labelColorMap[l]}`}>
+        <span
+          key={l}
+          className={`label-item small nowrap text-${labelColorMap[l]} bg-${labelColorMap[l]} bg-opacity-10`}
+        >
           {l}
         </span>
       ))}
       {lbs.length > curShowLen ? (
         <Tooltip
           title={
-            <div className="project-label-list colorful-light-bg small">
+            <div className="project-label-list small">
               {lbs.slice(curShowLen, lbs.length).map((l) => (
-                <span key={l} className={`label-item small nowrap ${labelColorMap[l]}`}>
+                <span
+                  key={l}
+                  className={`label-item small nowrap text-${labelColorMap[l]} bg-${labelColorMap[l]} bg-opacity-10`}
+                >
                   {l}
                 </span>
               ))}

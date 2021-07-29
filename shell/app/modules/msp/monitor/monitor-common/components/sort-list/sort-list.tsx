@@ -68,7 +68,7 @@ const SortList = (props: IProps) => {
           <Tooltip key={index} title={name} placement="right" overlayClassName="tooltip-word-break">
             <li
               onClick={() => handleClick(name)}
-              className={`sort-list-item ${isChosen ? 'active' : ''} ${onClickItem === null ? '' : 'pointer'}`}
+              className={`sort-list-item ${isChosen ? 'active' : ''} ${onClickItem === null ? '' : 'cursor-pointer'}`}
               style={background}
             >
               <span className="name">

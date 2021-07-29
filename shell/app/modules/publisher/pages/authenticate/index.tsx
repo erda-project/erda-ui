@@ -67,7 +67,7 @@ const Authenticate = (props: IProps) => {
       dataIndex: 'userId',
       render: (v: string) => (
         <Tooltip title={v}>
-          <span className="for-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={v}>
+          <span className="cursor-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={v}>
             {v}
           </span>
         </Tooltip>
@@ -77,7 +77,7 @@ const Authenticate = (props: IProps) => {
       title: i18n.t('user name'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span className="for-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -87,7 +87,7 @@ const Authenticate = (props: IProps) => {
       dataIndex: 'deviceNo',
       render: (v: string) => (
         <Tooltip title={v}>
-          <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={v}>
+          <span className="cursor-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={v}>
             {v}
           </span>
         </Tooltip>
@@ -135,7 +135,7 @@ const Authenticate = (props: IProps) => {
   ];
   return (
     <div>
-      <div className="flex justify-between items-center mb-4 justify-start">
+      <div className="flex items-center mb-4 justify-start">
         <TimeSelector className="ml-0" key="time-selector" inline disabledDate={() => false} />
         <Select
           value={selectMonitorKey}
@@ -155,7 +155,7 @@ const Authenticate = (props: IProps) => {
       <Spin spinning={loading}>
         <Table rowKey={'userId'} columns={columns} dataSource={list} scroll={{ x: '100%' }} />
       </Spin>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

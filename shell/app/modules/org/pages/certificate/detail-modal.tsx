@@ -79,7 +79,7 @@ const TextItem = ({ value, label, type }: { value: string; label: string; type?:
         value
       ) : (
         <Tooltip title={show ? undefined : i18n.t('click to view password')}>
-          <span className={show ? '' : 'pointer'} onClick={() => setShow(true)}>
+          <span className={show ? '' : 'cursor-pointer'} onClick={() => setShow(true)}>
             {show ? value : '******'}
           </span>
         </Tooltip>
@@ -92,8 +92,8 @@ const InfoItem = ({ title, value, textItem }: IInfoProps) => {
   if (isEmpty(value)) return null;
   return (
     <div className="mb-6">
-      <div className="color-text-desc mb-2">{title}</div>
-      <div className="color-text">{isString(value) ? value : getFileRender(value, textItem)}</div>
+      <div className="text-desc mb-2">{title}</div>
+      <div className="text-normal">{isString(value) ? value : getFileRender(value, textItem)}</div>
     </div>
   );
 };

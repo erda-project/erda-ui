@@ -28,7 +28,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
   return (
     <div className="pass-and-next">
       <Button onClick={() => onClick(CaseStatus.INIT)} disabled={current === CaseStatus.INIT}>
-        <CustomIcon className="bg-color-icon" type="wh" />
+        <CustomIcon className="rounded-full bg-icon text-white" type="wh" />
         {i18n.t('project:not performed')}
       </Button>
       <Button
@@ -36,7 +36,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         onClick={() => onClick(CaseStatus.PASSED)}
         disabled={current === CaseStatus.PASSED}
       >
-        <CustomIcon className="bg-color-icon green" type="tg" />
+        <CustomIcon className="rounded-full bg-green text-white" type="tg" />
         {i18n.t('project:pass')}
       </Button>
       <Button
@@ -44,11 +44,11 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         onClick={() => onClick(CaseStatus.BLOCK)}
         disabled={current === CaseStatus.BLOCK}
       >
-        <CustomIcon className="bg-color-icon yellow" type="zs" />
+        <CustomIcon className="rounded-full bg-yellow text-white" type="zs" />
         {i18n.t('project:blocking')}
       </Button>
       <Button className="border-red" onClick={() => onClick(CaseStatus.FAIL)} disabled={current === CaseStatus.FAIL}>
-        <CustomIcon className="bg-color-icon red" type="wtg" />
+        <CustomIcon className="rounded-full bg-red text-white" type="wtg" />
         {i18n.t('project:not passed')}
       </Button>
       {hasNext ? <span className="ml-1">{i18n.t('project:and next')}</span> : null}

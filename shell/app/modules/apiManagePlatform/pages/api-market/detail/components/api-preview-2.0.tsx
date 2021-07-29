@@ -73,7 +73,7 @@ const columns = [
       const { value, tooltip } = val || {};
       return tooltip ? (
         <Tooltip title={tooltip}>
-          <span className="color-active-bg">{value}</span>
+          <span className="text-primary bg-light-active">{value}</span>
         </Tooltip>
       ) : (
         value

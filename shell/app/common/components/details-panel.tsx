@@ -69,7 +69,7 @@ const Content = (props: IContentProps) => {
     'border-top mt-2': crossLine,
   });
   return (
-    <div className="title-box border-all white-bg">
+    <div className="title-box border-all bg-white">
       <IF check={showTitle}>
         <div className="title-wrapper px-3 pt-3">
           <Title {...(titleProps as TitleProps)} />

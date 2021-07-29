@@ -39,7 +39,7 @@ const Title = (props: CP_TITLE.Props) => {
   } = configProps || {};
 
   const titleComp = tips ? (
-    <div className={`flex items-center flex-wrap justify-start dice-cp-title-detail flex items-center ${size}`}>
+    <div className={`flex items-center flex-wrap justify-start dice-cp-title-detail ${size}`}>
       {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1 pre-icon" /> : null}
       {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}

@@ -308,7 +308,7 @@ class OrderPage extends React.Component<IProps, any> {
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
             <CustomIcon
-              className="mr-0 pointer"
+              className="mr-0 cursor-pointer"
               onClick={this.togglePasswordVisible}
               type={passwordVisible ? 'openeye' : 'closeeye'}
             />
@@ -441,7 +441,7 @@ class OrderPage extends React.Component<IProps, any> {
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
             <CustomIcon
-              className="mr-0 pointer"
+              className="mr-0 cursor-pointer"
               onClick={this.togglePasswordVisible}
               type={passwordVisible ? 'openeye' : 'closeeye'}
             />

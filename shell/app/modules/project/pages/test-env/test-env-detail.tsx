@@ -559,7 +559,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         fileExtension="json"
         minLines={4}
         readOnly={readOnly}
-        className="border-radius border-all"
+        className="rounded border-all"
         maxLines={10}
         actions={{
           copy: true,
@@ -570,7 +570,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         }}
         value={value}
       />
-      {_isValid ? null : <span className="color-danger">{i18n.t('project:JSON format error')}</span>}
+      {_isValid ? null : <span className="text-danger">{i18n.t('project:JSON format error')}</span>}
     </>
   );
 };

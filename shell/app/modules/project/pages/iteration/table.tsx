@@ -193,7 +193,7 @@ export const Iteration = () => {
 
   return (
     <div className="iteration">
-      <Select className="mb-4 default-selector-width" value={status} onChange={(value: any) => setStatus(value)}>
+      <Select className="mb-4 w-52" value={status} onChange={(value: any) => setStatus(value)}>
         {iterationOptions}
       </Select>
 

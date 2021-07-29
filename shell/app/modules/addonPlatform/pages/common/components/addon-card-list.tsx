@@ -202,7 +202,7 @@ const AddonCardList = (props: IProps) => {
       return resolvedCategories.map((key: string) => (
         <li
           key={key}
-          className={`category-item pointer ${activeCategory === key ? 'active' : ''}`}
+          className={`category-item cursor-pointer ${activeCategory === key ? 'active' : ''}`}
           value={key}
           onClick={onClickCategory}
         >

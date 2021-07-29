@@ -99,7 +99,7 @@ const AlarmAnalyze = () => {
       {/* <div className="alarm-message">
         <p className="section-title">{i18n.t('org:alarm information')}</p>
         <Select
-          className="default-selector-width mb-4"
+          className="w-52 mb-4"
           placeholder={i18n.t('filter by type')}
           allowClear
           onChange={(value) => setFilterType(value as any)}

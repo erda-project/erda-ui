@@ -238,7 +238,7 @@ const MiddlewareDashboard = () => {
         </div>
       </div>
       <Table
-        className="pointer"
+        className="cursor-pointer"
         rowKey="instanceId"
         columns={middlewareCols}
         dataSource={middlewares}

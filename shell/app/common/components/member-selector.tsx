@@ -220,7 +220,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
   const selectSelf = selectSelfInOption ? (
     <a
       onClick={() => !rest.disabled && selectSelfOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'}`}
     >
       {i18n.t('choose self')}
     </a>
@@ -233,7 +233,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
   const selectNone = selectNoneInOption ? (
     <a
       onClick={() => !rest.disabled && selectNoneOp()}
-      className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}
+      className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'}`}
     >
       {i18n.t('unspecified')}
     </a>
@@ -285,7 +285,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
       {showSelfChosen ? (
         <a
           onClick={() => !rest.disabled && selectSelfOp()}
-          className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml-2`}
+          className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'} ml-2`}
         >
           {i18n.t('choose self')}
         </a>

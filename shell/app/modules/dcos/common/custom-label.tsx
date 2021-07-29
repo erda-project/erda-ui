@@ -76,7 +76,7 @@ export const CustomLabel = React.forwardRef(
             <span key={`${item}_${String(i)}`} className={'tag-default'}>
               {item}
               <IconClose
-                className="pointer"
+                className="cursor-pointer"
                 onClick={() => {
                   deleteLabel(item);
                 }}

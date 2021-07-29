@@ -39,7 +39,7 @@ export default (props: CP_BREADCRUMB.Props) => {
             />
           );
         }
-        const [cls, onClick] = idx !== list.length - 1 ? ['pointer', () => onClickItem(item.key)] : ['', noop];
+        const [cls, onClick] = idx !== list.length - 1 ? ['cursor-pointer', () => onClickItem(item.key)] : ['', noop];
         return (
           <Breadcrumb.Item key={item.key}>
             <span className={cls} onClick={onClick}>

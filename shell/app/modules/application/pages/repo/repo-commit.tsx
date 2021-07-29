@@ -36,20 +36,20 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
       <div className="commit-left">
         <div className="commit-title mb-2 nowrap">
           <Link to={mergeRepoPathWith(`/commit/${id}`)}>
-            <span className="color-text text-base hover-active font-bold">{replaceEmoji(commitMessage)}</span>
+            <span className="text-normal text-base hover-active font-bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
-        <div className="flex justify-between items-center justify-start">
-          <div className="color-text-sub">
+        <div className="flex items-center justify-start">
+          <div className="text-sub">
             <Avatar className="mb-1" showName name={author.name} />
           </div>
           <span className="ml-1">{i18n.t('committed at')}</span>
-          <span className="color-text-sub ml-1">{fromNow(author.when)}</span>
-          <span className="for-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
+          <span className="text-sub ml-1">{fromNow(author.when)}</span>
+          <span className="cursor-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
             <CustomIcon type="commit" />
             <span className="sha-text">{id.slice(0, 6)}</span>
           </span>
-          <Copy selector=".for-copy" />
+          <Copy selector=".cursor-copy" />
         </div>
       </div>
       <div className="commit-right">{renderAsLink('tree', id, <Button>{i18n.t('application:code')}</Button>)}</div>
@@ -163,7 +163,7 @@ const RepoCommit = () => {
           <Timeline>
             {map(daySplit, (items: [], day) => (
               <TimelineItem key={day}>
-                <div className="day-split">{day}</div>
+                <div className="mb-4 text-normal text-base">{day}</div>
                 <div className="commit-list">{items.map(renderCommitItem)}</div>
               </TimelineItem>
             ))}

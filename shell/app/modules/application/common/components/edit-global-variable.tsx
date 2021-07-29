@@ -84,7 +84,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
       <Form ref={this.formRef} className="global-input-form" layout="inline">
         <div className="global-input-form-title">
           {i18n.t('application:global environment variable')}
-          {editing ? <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} /> : null}
+          {editing ? <IconPlus className="variable-icon cursor-pointer" onClick={this.addNewVariable} /> : null}
         </div>
         {content}
         <div className="mt-3">

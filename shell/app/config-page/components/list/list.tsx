@@ -156,7 +156,7 @@ const Item = (props: ItemProps) => {
     'no-border': noBorder,
     [size]: size,
     'cp-list-item': true,
-    pointer: true,
+    'cursor-pointer': true,
   });
   const onClickItem = () => {
     if (operations?.click) {

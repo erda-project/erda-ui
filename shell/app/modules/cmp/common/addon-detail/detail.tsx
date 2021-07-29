@@ -149,9 +149,9 @@ export const PureBaseAddonInfo = ({
           <div className="flex justify-between items-center">
             <span className="title font-medium">{i18n.t('org:basic parameters')}</span>
             {!isEmpty(addonDetail.config) && (
-              <span className="copy-all pointer for-copy">
+              <span className="copy-all cursor-pointer cursor-copy">
                 {i18n.t('org:copy all')}
-                <Copy selector=".for-copy" opts={{ text: () => jsonStr }} />
+                <Copy selector=".cursor-copy" opts={{ text: () => jsonStr }} />
               </span>
             )}
           </div>

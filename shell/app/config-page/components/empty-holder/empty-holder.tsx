@@ -35,7 +35,7 @@ export const EmptyHolder = (props: CP_EMPTY_HOLDER.Props) => {
     'empty-holder': true,
     'multi-line': true,
     relative,
-    'white-bg': whiteBg,
+    'bg-white': whiteBg,
     'padding-vertical': paddingY,
   });
 

@@ -196,8 +196,8 @@ export const FileDiff = ({
 
       const text =
         {
-          [ACTION.ADD]: <IconFileAddition className="text-base color-green" />,
-          [ACTION.DELETE]: <IconDelete className="text-base color-red" />,
+          [ACTION.ADD]: <IconFileAddition className="text-base text-green" />,
+          [ACTION.DELETE]: <IconDelete className="text-base text-red" />,
           [ACTION.RENAME]: i18n.t('application:file moved'),
         }[type] || '';
 
@@ -718,7 +718,7 @@ const FilesDiff = (props: IDiffProps) => {
               <Tooltip
                 title={expandDiffFiles ? i18n.t('application:collapse file') : i18n.t('application:expand file')}
               >
-                <span className="ml-2 pointer df-icon" onClick={onToggleDiffFiles}>
+                <span className="ml-2 cursor-pointer df-icon" onClick={onToggleDiffFiles}>
                   {expandDiffFiles ? <CustomIcon type="sq" /> : <CustomIcon type="zk" />}
                 </span>
               </Tooltip>
@@ -739,7 +739,7 @@ const FilesDiff = (props: IDiffProps) => {
         </div>
         <div className="diff-file-list">
           {map(diff.files, (file) => (
-            <div key={file.name} className="diff-file pointer" onClick={() => navigateToFile(file.name)}>
+            <div key={file.name} className="diff-file cursor-pointer" onClick={() => navigateToFile(file.name)}>
               <div className="diff-count">
                 <span className="diff-add-icon">+{file.addition}</span>
                 <span className="diff-del-icon">-{file.deletion}</span>

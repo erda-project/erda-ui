@@ -80,7 +80,7 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
         </div>
       </div>
       <div
-        className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'gray-bg' : ''}`}
+        className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'bg-gray' : ''}`}
         id="artifacts-content"
       >
         {TabCompMap[chosenTab] || null}

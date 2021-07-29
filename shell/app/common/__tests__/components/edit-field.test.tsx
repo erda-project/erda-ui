@@ -44,14 +44,14 @@ describe('EditField', () => {
     wrapper.find('.common-edit-field').children('div').at(1).simulate('click');
     expect(wrapper.find('.suffix')).toExist();
     expect(wrapper.find('[data-required="* "]')).toExist();
-    expect(wrapper.find('.color-text-sub')).toExist();
+    expect(wrapper.find('.text-sub')).toExist();
     expect(wrapper.find('input').prop('value')).toBe('erda.cloud');
     wrapper.setProps({
       labelStyle: undefined,
       showRequiredMark: false,
     });
     expect(wrapper.find('[data-required="* "]')).not.toExist();
-    expect(wrapper.find('.color-text')).toExist();
+    expect(wrapper.find('.text-normal')).toExist();
     wrapper.setProps({
       value: undefined,
       data: {
@@ -183,8 +183,5 @@ describe('EditField', () => {
       wrapper.find('MarkdownEditor').prop('onCancel')();
     });
     wrapper.update();
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
-      __html: '<p>origin-this is a piece of text</p>\n',
-    });
   });
 });

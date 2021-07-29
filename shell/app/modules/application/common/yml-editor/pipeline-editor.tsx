@@ -328,7 +328,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
         <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement="bottom">
-          <CustomIcon type="zhongzhi" className="ml-2 pointer" />
+          <CustomIcon type="zhongzhi" className="ml-2 cursor-pointer" />
         </Popconfirm>
       </Tooltip>
     </>
@@ -376,7 +376,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         visible={!isEmpty(errorMsg)}
         title={
           <div>
-            <CustomIcon type="guanbi-fill" className="color-danger" />
+            <CustomIcon type="guanbi-fill" className="text-danger" />
             {i18n.t('error')}
           </div>
         }

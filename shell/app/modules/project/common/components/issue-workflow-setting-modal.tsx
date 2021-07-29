@@ -183,7 +183,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                       <div className={`state-option-btn flex justify-between items-center ${flexWidthClass}`}>
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
-                            className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'pointer'}`}
+                            className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'cursor-pointer'}`}
                             type="arrow-left"
                             onClick={() => {
                               onChangeStateOrder(stateDataIndex, -1);
@@ -196,7 +196,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
                             className={`state-move-btn ${
-                              stateDataIndex === dataList.length - 1 ? 'disabled' : 'pointer'
+                              stateDataIndex === dataList.length - 1 ? 'disabled' : 'cursor-pointer'
                             }`}
                             type="arrow-right"
                             onClick={() => {
@@ -209,7 +209,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                             title={`${i18n.t('common:confirm to delete')}?`}
                             onConfirm={() => onDeleteState(stateID)}
                           >
-                            <CustomIcon className="state-delete-btn pointer" type="thin-del" />
+                            <CustomIcon className="state-delete-btn cursor-pointer" type="thin-del" />
                           </Popconfirm>
                         </WithAuth>
                       </div>
@@ -240,7 +240,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                           <div className="state-td" key={k}>
                             <WithAuth pass={hasAuth}>
                               <CustomIcon
-                                className="state-radio-btn pointer"
+                                className="state-radio-btn cursor-pointer"
                                 type={stateBelong !== k ? 'circle' : 'circle-fill'}
                                 onClick={() => {
                                   onStateChange(stateDataIndex, k);
@@ -266,7 +266,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                       <Tooltip title={stateName}>
                         <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
-                      <span className="ml-2 color-text-desc">{i18n.t('project:can circulate to')}</span>
+                      <span className="ml-2 text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
                   </div>
                   <div className="form-content-right flex justify-between items-center">
@@ -278,7 +278,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                               <CustomIcon
                                 type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}
                                 className={`${isRelated ? '' : 'font-bold'} ${
-                                  name === stateName ? 'disabled' : 'pointer'
+                                  name === stateName ? 'disabled' : 'cursor-pointer'
                                 }`}
                                 onClick={() => {
                                   name !== stateName && onRelationChange(stateDataIndex, relationIndex, !isRelated);

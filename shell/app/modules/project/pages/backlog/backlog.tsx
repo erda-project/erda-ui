@@ -206,9 +206,7 @@ const Backlog = () => {
       <div className="backlog-issues-title flex justify-between items-center mb-2">
         <div>
           <span className="font-bold text-base mr-2">{i18n.t('project:backlog')}</span>
-          <span className="color-text-desc">
-            {i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}
-          </span>
+          <span className="text-desc">{i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}</span>
         </div>
         <div>
           <WithAuth pass={addAuth}>

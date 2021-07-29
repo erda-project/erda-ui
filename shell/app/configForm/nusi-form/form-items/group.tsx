@@ -32,7 +32,7 @@ const FormGroupComp = (p: any) => {
 
   const cls = classnames({
     'border-bottom': curShowDivider,
-    pointer: expandable,
+    'cursor-pointer': expandable,
     'hover-active-bg': expandable,
   });
 

@@ -68,7 +68,7 @@ export const ConfirmDelete = (props: IProps) => {
     <div>
       {hasTriggerContent && (
         <>
-          <div className="color-text-desc mb-2">{_confirmTip}</div>
+          <div className="text-desc mb-2">{_confirmTip}</div>
           <span onClick={showModal}>
             {children || (
               <Button ghost type="danger">
@@ -81,7 +81,7 @@ export const ConfirmDelete = (props: IProps) => {
       <Modal
         title={
           <div className="flex flex-wrap items-center">
-            <CustomIcon type="warning" className="mr-1 color-warning text-xl font-bold" />
+            <CustomIcon type="warning" className="mr-1 text-warning text-xl font-bold" />
             {_title}
           </div>
         }

@@ -63,6 +63,7 @@ module.exports = {
         'white-8': '#ffffffcc',
         'log-font': '#c2c1d0',
         'log-bg': '#3c444f',
+        'light-active': '#6a549e0f', // rgba($primary, .06)
       },
       flex: {
         2: '2 2 0%',
@@ -103,7 +104,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      margin: ['first', 'last'],
+      padding: ['first', 'last'],
+    },
   },
   plugins: [
     plugin(({ addVariant, e }) => {
@@ -123,6 +127,24 @@ module.exports = {
         '.not-allowed': {
           color: '#00000066',
           cursor: 'not-allowed',
+        },
+        '.border-all': {
+          border: '1px solid #00000019',
+        },
+        '.border-top': {
+          'border-top': '1px solid #00000019',
+        },
+        '.border-bottom': {
+          'border-bottom': '1px solid #00000019',
+        },
+        '.border-left': {
+          'border-left': '1px solid #00000019',
+        },
+        '.border-right': {
+          'border-right': '1px solid #00000019',
+        },
+        '.border-dashed': {
+          border: '1px dashed #00000019',
         },
       };
       const contentUtilities = {

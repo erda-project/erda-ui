@@ -391,7 +391,7 @@ const PureLoadMoreSelector = (props: IProps) => {
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div
-          className={`results pointer ${disabled ? 'not-allowed' : ''} ${size}`}
+          className={`results cursor-pointer ${disabled ? 'not-allowed' : ''} ${size}`}
           onClick={() => {
             !disabled && !visible && setVisible(true);
           }}
@@ -530,7 +530,7 @@ export interface ILoadMoreSelectorProps extends IProps {
 const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void; loading: boolean }) => {
   return (
     <div
-      className="pointer load-more load-more-list-item"
+      className="cursor-pointer load-more load-more-list-item"
       onClick={(e) => {
         e.stopPropagation();
         onLoadMore();

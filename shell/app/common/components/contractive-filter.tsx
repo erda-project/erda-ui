@@ -95,7 +95,7 @@ const OptionItem = (props: IOptionItemProps) => {
     >
       <div className="flex justify-between items-center w-full">
         <span>{option.label}</span>
-        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml-2" /> : null}</span>
+        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="text-success ml-2" /> : null}</span>
       </div>
     </div>
   );
@@ -263,7 +263,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         placement="bottomLeft"
       >
         <span className="contractive-filter-item">
-          <span className="color-text-desc mr-0.5">{label}</span>
+          <span className="text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
           <CustomIcon type="caret-down" />
         </span>
@@ -307,7 +307,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="color-text-desc mr-0.5">{label}</span>
+        <span className="text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
           value={startDate ? moment(startDate) : undefined}
@@ -316,7 +316,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
           placeholder={i18n.t('common:startDate')}
         />
-        <span className="color-text-desc">{i18n.t('common:to')}</span>
+        <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
           size="small"
           value={endDate ? moment(endDate) : undefined}
@@ -351,7 +351,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onVisibleChange(true);
         }}
       >
-        <span className="color-text-desc mr-0.5">{label}</span>
+        <span className="text-desc mr-0.5">{label}</span>
         <MemberSelector
           {...((customProps || {}) as any)}
           onChange={(v) => {
@@ -634,7 +634,7 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="text-xs mr-0.5 color-text" />
+              <CustomIcon type="tj1" className="text-xs mr-0.5 text-normal" />
               <span>{i18n.t('common:filter')}</span>
               <CustomIcon type="caret-down" />
             </span>

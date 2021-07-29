@@ -201,7 +201,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
                 {name}
               </Option>
             )),
-            className: 'default-selector-width',
+            className: 'w-52',
             allowClear: true,
             onChange: (val: any) => updater.status(val),
           },

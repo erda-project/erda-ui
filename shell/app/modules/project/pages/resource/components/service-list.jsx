@@ -117,7 +117,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
             text && (
               <Tooltip title={`${i18n.t('project:click to copy')}：${text}`} overlayClassName="tooltip-word-break">
                 <span
-                  className="image-name for-copy"
+                  className="image-name cursor-copy"
                   data-clipboard-tip={i18n.t('project:image name')}
                   data-clipboard-text={text}
                 >
@@ -149,7 +149,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         dataSource={list}
         scroll={{ x: 800 }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

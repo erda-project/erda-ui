@@ -205,7 +205,7 @@ export const RunCaseNode = (props: IProps) => {
 
   const status = ciStatusMap[data.status] || ciStatusMap.Unknown;
   const statusContent = (
-    <span className={`mt-2 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
+    <span className={`mt-2 test-case-status-box rounded ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
       <span className="inline-flex justify-between items-center">{status ? status.text : '-'}</span>
     </span>
@@ -224,7 +224,7 @@ export const RunCaseNode = (props: IProps) => {
       >
         <div className={'case-title'}>
           <div className="title-icon mr-3">{IconComp}</div>
-          <div className="title-txt flex flex-col justify-center color-text">
+          <div className="title-txt flex flex-col justify-center text-normal">
             <Tooltip title={name}>
               <span className="nowrap text-base font-bold name">{name}</span>
             </Tooltip>

@@ -35,8 +35,8 @@ export const IssueState = (props: IProps) => {
   const color = STATE_ICON_COLOR[icon];
 
   return (
-    <span className={'inline-flex justify-between items-center justify-start'} style={{ minWidth: '66px' }}>
-      {isString(icon) ? <CustomIcon type={icon} className={`bg-color-icon mr-1 ${color}`} /> : icon}
+    <span className={'inline-flex items-center justify-start'} style={{ minWidth: '66px' }}>
+      {isString(icon) ? <CustomIcon type={icon} className={`rounded-full mr-1 bg-${color}`} /> : icon}
       <span>{label}</span>
     </span>
   );
@@ -59,8 +59,8 @@ export const CustomIssueState = (props: IProps) => {
   const color = STATE_ICON_COLOR[icon];
 
   return (
-    <span className={'inline-flex justify-between items-center justify-start'} style={{ minWidth: '66px' }}>
-      {isString(icon) ? <CustomIcon type={icon} className={`bg-color-icon mr-1 ${color}`} /> : icon}
+    <span className={'inline-flex items-center justify-start'} style={{ minWidth: '66px' }}>
+      {isString(icon) ? <CustomIcon type={icon} className={`rounded-full text-white mr-1 bg-${color}`} /> : icon}
       <span>{label}</span>
     </span>
   );

@@ -54,11 +54,11 @@ const compareClass = (rate: number) => {
     // 超过百分百
     return 'color-crash';
   } else if (rate > 60 && rate < 80) {
-    return 'color-warning';
+    return 'text-warning';
   } else if (rate >= 80) {
-    return 'color-danger';
+    return 'text-danger';
   }
-  return 'color-success';
+  return 'text-success';
 };
 
 const countPercent = (used: number, total: number) => {

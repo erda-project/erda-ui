@@ -116,7 +116,7 @@ const VPS = () => {
         type: Select,
         name: 'vendor',
         customProps: {
-          className: 'default-selector-width',
+          className: 'w-52',
           placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
           options: map(cloudVendor, (item) => (
             <Option key={item.name} value={item.value}>
@@ -229,7 +229,7 @@ const VPS = () => {
         onCancel={() => update({ tagFormVis: false, tagFormData: null })}
         afterSubmit={afterTagFormSubmit}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </>
   );
 };

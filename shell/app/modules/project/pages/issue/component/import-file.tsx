@@ -60,7 +60,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
               {uuid && (
                 <>
                   <span> —— </span>
-                  <span className="color-primary hover-text" onClick={() => window.open(`/api/files/${uuid}`)}>
+                  <span className="text-primary hover-text" onClick={() => window.open(`/api/files/${uuid}`)}>
                     {i18n.t('project:download failed file')}
                   </span>
                 </>
@@ -109,7 +109,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
         }}
       >
         <div className="modal-tip">
-          <span onClick={() => window.open(download)} className="color-primary hover-text">
+          <span onClick={() => window.open(download)} className="text-primary hover-text">
             {i18n.t('project:download template')}
           </span>
         </div>

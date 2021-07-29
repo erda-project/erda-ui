@@ -85,7 +85,7 @@ export const Card = (props: CP_CARD.Props) => {
     dragging: dragObj && dragObj.isDragging,
     'dice-cp': true,
     'info-card': true,
-    'border-radius': true,
+    rounded: true,
     'hover-active-bg': true,
     'border-all': true,
   });
@@ -98,7 +98,7 @@ export const Card = (props: CP_CARD.Props) => {
           ) : (
             titleIcon || null
           )}
-          <div className="flex-1 text-sm color-text break-word pt-2">{title}</div>
+          <div className="flex-1 text-sm text-normal break-word pt-2">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
           ) : (
@@ -114,10 +114,10 @@ export const Card = (props: CP_CARD.Props) => {
             </span>
           )}
         </div>
-        {isString(subContent) ? <div className="text-xs color-text-sub mb-3">{subContent}</div> : subContent || null}
+        {isString(subContent) ? <div className="text-xs text-sub mb-3">{subContent}</div> : subContent || null}
         {isString(description) ? (
           <Tooltip title={description}>
-            <div className="text-xs nowrap color-text-desc">{description}</div>
+            <div className="text-xs nowrap text-desc">{description}</div>
           </Tooltip>
         ) : (
           description || null

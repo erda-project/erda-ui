@@ -79,7 +79,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       key: 'image',
       render: (image: string) => (
         <Tooltip title={image}>
-          <Copy className="for-copy" data-clipboard-tip={i18n.t('image')} data-clipboard-text={image}>
+          <Copy className="cursor-copy" data-clipboard-tip={i18n.t('image')} data-clipboard-text={image}>
             {image}
           </Copy>
         </Tooltip>

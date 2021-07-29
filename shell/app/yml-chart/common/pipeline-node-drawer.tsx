@@ -455,7 +455,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <IconHelp className="color-text-icon" />
+            <IconHelp className="text-icon" />
           </Tooltip>
         </span>
       );
@@ -469,7 +469,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const addBtn = editing ? (
-      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} />
+      <IconPlus className="cursor-pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} />
     ) : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);

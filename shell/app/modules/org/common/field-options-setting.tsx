@@ -73,7 +73,7 @@ const FieldOptionsSetting = (props: IProps) => {
       render: (_value: number, _record: any, index: number) => {
         return index < value.length - 1 ? (
           <CustomIcon
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'cursor-pointer' }}
             type="shanchu"
             onClick={() => {
               const tempList = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
