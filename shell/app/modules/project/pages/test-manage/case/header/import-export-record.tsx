@@ -38,7 +38,7 @@ const ImportExportRecord = ({
   const [isFinished, setIsFinished] = useState(false);
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [list, setList] = useState([] as TEST_CASE.ImportExportRecordItem[]);
-  const [counter, setCounter] = useState({} as TEST_CASE.ImportExportCounter);
+  const [counter, setCounter] = useState<TEST_CASE.ImportExportCounter>({});
   const { getImportExportRecords } = testCaseStore.effects;
   const [loading] = useLoading(testCaseStore, ['getImportExportRecords']);
 
