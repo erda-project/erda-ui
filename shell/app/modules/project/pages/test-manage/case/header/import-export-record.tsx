@@ -38,13 +38,14 @@ const ImportExportRecord = ({
   const [isFinished, setIsFinished] = useState(false);
   const loginUser = userStore.useStore((s) => s.loginUser);
   const [list, setList] = useState([] as TEST_CASE.ImportExportRecordItem[]);
+  const [counter, setCounter] = useState<TEST_CASE.ImportExportCounter>({});
   const { getImportExportRecords } = testCaseStore.effects;
   const [loading] = useLoading(testCaseStore, ['getImportExportRecords']);
 
   const getData = (firstTime: boolean) => {
     getImportExportRecords(['import', 'export'])
-      .then((result: TEST_CASE.ImportExportRecordItem[]) => {
-        if (result.every((item) => ['success', 'fail'].includes(item.state))) {
+      .then((result: TEST_CASE.ImportExportResult) => {
+        if (result?.list.every((item) => ['success', 'fail'].includes(item.state))) {
           setIsFinished(true);
         }
 
@@ -58,7 +59,7 @@ const ImportExportRecord = ({
               }
             });
             let haveJustSuccessJob = false;
-            result.forEach((item) => {
+            result?.list.forEach((item) => {
               if (
                 item.operatorID === loginUser.id &&
                 ['success', 'fail'].includes(item.state) &&
@@ -86,10 +87,11 @@ const ImportExportRecord = ({
             }
             if (haveJustSuccessJob) {
               setShowRefresh(true);
-              setList(result);
+              setList(result?.list);
             }
           }
-          setList(result);
+          setList(result?.list);
+          setCounter(result?.counter);
         }
       })
       .catch(() => {
@@ -192,11 +194,14 @@ const ImportExportRecord = ({
     return (
       <div>
         <span>{i18n.t('recent import and export records')}</span>
-        {!!badgeCount && !loading && (
+        {!!badgeCount && Object.keys(counter).length > 0 && (
           <span className="align-baseline">
             <CustomIcon type="warning" className="ml-4 font-bold text-sm text-warning" />
             <span className="text-sm text-dark-6 font-normal">
-              {i18n.t('project:import and export tasks are in queue, please wait')}
+              {i18n.t(
+                'project:import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait',
+                { export: counter.export || 0, import: counter.import || 0 },
+              )}
             </span>
           </span>
         )}

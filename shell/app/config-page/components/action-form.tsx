@@ -79,7 +79,7 @@ export const ActionForm = (props: IProps) => {
 
   useUpdateEffect(() => {
     if (state && has(state, 'formData')) {
-      updater.formData({ ...(state || {}) });
+      updater.formData({ ...(state.formData || {}) });
     }
   }, [state, updater]);
 
@@ -105,13 +105,12 @@ export const ActionForm = (props: IProps) => {
           ];
         }
         const curKeyOperation = get(operations, ['change', item.key]);
-        const curKey = item.key;
         if (curKeyOperation) {
           curItem.componentProps = {
             ...curItem.componentProps,
-            onChange: (e: any) => {
-              const val = curItem.component === 'input' ? e.target.value : e;
-              execOperation({ key: 'change', ...curKeyOperation }, { [curKey]: val });
+            onChange: () => {
+              const validFormData = formRef.current.getData();
+              execOperation({ key: 'change', ...curKeyOperation }, { formData: validFormData });
             },
           };
         }

@@ -146,7 +146,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
           if (isEdit) {
             const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
             if (addEle) {
-              addEle.classList.add('show');
+              addEle.classList.replace('invisible', 'visible');
             }
           }
         })
@@ -154,7 +154,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
           if (isEdit) {
             const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
             if (addEle) {
-              addEle.classList.remove('show');
+              addEle.classList.replace('visible', 'invisible');
             }
           }
         });
@@ -186,7 +186,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
         const add_xPos = x + width / 2 + MARGIN.X;
         const add_yPos = y - height / 2;
         const addNodeId = `${chartId}-_yml-node-add-${index}_`;
-        const addFobjectSVG = `<foreignObject id="${addNodeId}" class="svg-model-node-carrier hidden" x="${add_xPos}" y="${add_yPos}" width="${width}" height="${height}"></foreignObject>`;
+        const addFobjectSVG = `<foreignObject id="${addNodeId}" class="svg-model-node-carrier invisible" x="${add_xPos}" y="${add_yPos}" width="${width}" height="${height}"></foreignObject>`;
         // g标签上加id，用于设置opcity属性（兼容safari）
         const addG = chart.g().attr({ id: `${chartId}-${nodeId}-g` });
         const addF = Snap.parse(addFobjectSVG);

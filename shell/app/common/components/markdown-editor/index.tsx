@@ -223,7 +223,11 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
             <Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
           </div>
         </IF>
-        {view.md ? <div className="absolute left-2 bottom-0	">{this.renderButton()}</div> : null}
+        {view.md ? (
+          <div className="absolute left-2 " style={{ top: height - 42 }}>
+            {this.renderButton()}
+          </div>
+        ) : null}
       </div>
     );
   }
