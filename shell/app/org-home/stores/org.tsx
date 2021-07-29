@@ -103,7 +103,7 @@ const org = createStore({
           }
         }
         if (currentOrg.name !== orgName) {
-          location.href = location.href.replace(`/${orgName}/`, `/${currentOrg.name}/`);
+          location.href = location.href.replace(`/${orgName}`, `/${currentOrg.name}`); // just replace the first match, which is org name
           return;
         }
         if (orgId) {
