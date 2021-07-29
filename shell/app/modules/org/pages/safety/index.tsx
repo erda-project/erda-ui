@@ -12,19 +12,60 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { useUserMap } from 'core/stores/userMap';
-import { CustomFilter, useFilter, MemberSelector } from 'common';
+import { CustomFilter, useFilter, MemberSelector, FileEditor } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { DatePicker, Table, Button, Tooltip } from 'app/nusi';
+import { DatePicker, Table, Button, Tooltip, Drawer } from 'app/nusi';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import React from 'react';
 import { getTimeRanges, qs, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
+import routeInfoStore from 'core/stores/route';
+
+const TestModal = ({ onOk }: { onOk: (d: Obj) => void }) => {
+  const [value, setValue] = React.useState('');
+  const [err, setErr] = React.useState('');
+  const [visible, setVisible] = React.useState(false);
+  const test = () => {
+    try {
+      onOk(JSON.parse(value));
+      setErr('');
+    } catch (error) {
+      setErr(String(error));
+    }
+  };
+  return (
+    <>
+      <Button onClick={() => setVisible(true)}>Test Template</Button>
+      <Drawer
+        mask={false}
+        height={350}
+        title={
+          <>
+            <Button type="primary" onClick={test}>
+              Test
+            </Button>
+            <span className="ml-1">Paste your template json here, click button to view result</span>
+          </>
+        }
+        placement="bottom"
+        bodyStyle={{ padding: 0 }}
+        visible={visible}
+        onClose={() => setVisible(false)}
+      >
+        <p>{err}</p>
+        <FileEditor fileExtension="json" minLines={13} value={value} onChange={setValue} />
+      </Drawer>
+    </>
+  );
+};
 
 const AuditList = ({ sys }: { sys: boolean }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const query = routeInfoStore.getState((s) => s.query);
+  const [extraTpls, setExtraTpls] = React.useState({});
   const userMap = useUserMap();
   const [loading] = useLoading(auditStore, ['getList']);
   const [list, paging] = auditStore.useStore((s) => [s.auditList, s.auditPaging]);
@@ -48,7 +89,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
       title: i18n.t('org:operation'),
       key: 'op',
       render: (val: string, r: AUDIT.Item) => {
-        const _content = auditTpl(r);
+        const _content = auditTpl(r, extraTpls);
         return (
           <>
             <Tooltip title={_content}>{_content}</Tooltip>
@@ -118,6 +159,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
   return (
     <>
       <div className="top-button-group">
+        {query.testTpl && <TestModal onOk={setExtraTpls} />}
         <Button type="primary" onClick={onExport}>
           {i18n.t('export')}
         </Button>
