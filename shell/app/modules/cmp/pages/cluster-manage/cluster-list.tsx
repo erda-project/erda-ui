@@ -405,17 +405,17 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       {state.deleteModalVis && (
         <ConfirmDelete
-          title={i18n.t('org:Please enter the cluster name to confirm to go offline.')}
+          title={i18n.t('org:Please enter the cluster identity to confirm to go offline.')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
           secondTitle={i18n.t('org:Please enter {name}, to confirm the cluster to go offline', {
-            name: state.curDeleteCluster?.displayName || state.curDeleteCluster?.name,
+            name: state.curDeleteCluster?.name,
           })}
           onCancel={() => toggleDeleteModal()}
-          disabledConfirm={state.deleteClusterName !== state.curDeleteCluster?.displayName}
+          disabledConfirm={state.deleteClusterName !== state.curDeleteCluster?.name}
           modalChildren={
             <Input
               value={state.deleteClusterName}
-              placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('org:cluster identity') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }
