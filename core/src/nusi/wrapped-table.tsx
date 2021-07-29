@@ -15,6 +15,7 @@ import React from 'react';
 import { Table } from 'antd';
 import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
 
+const { Column, ColumnGroup, Summary } = Table;
 export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
   /**
    * id\number - 72
@@ -52,5 +53,9 @@ function WrappedTable<T extends object = any>({ columns, rowClassName, ...props 
     />
   );
 }
+
+WrappedTable.Column = Column;
+WrappedTable.ColumnGroup = ColumnGroup;
+WrappedTable.Summary = Summary;
 
 export default WrappedTable;
