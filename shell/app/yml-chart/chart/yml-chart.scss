@@ -17,13 +17,5 @@
 
   .svg-model-node-carrier {
     overflow: visible;
-
-    &.hidden {
-      visibility: hidden;
-    }
-
-    &.show {
-      visibility: visible;
-    }
   }
 }
