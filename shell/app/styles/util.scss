@@ -913,16 +913,6 @@
   align-items: flex-start;
 }
 
-.label-with-required::before {
-  content: '*';
-  display: inline-block;
-  margin-right: 4px;
-  color: $red;
-  font-size: 14px;
-  font-family: SimSun, sans-serif;
-  line-height: 1;
-}
-
 .no-prevent {
   .pk-select-arrow {
     pointer-events: all;
