@@ -298,7 +298,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         pageSize: parseInt(query.pageSize, 10) || defaultPageSize,
         showSizeChanger: true,
       }}
-      scroll={{ x: 900 }}
+      scroll={{ x: 1500 }}
     />
   );
 };
