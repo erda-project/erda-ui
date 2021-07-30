@@ -13,6 +13,7 @@
 
 import {
   Affix,
+  Alert,
   Button,
   BackTop,
   Badge,
@@ -62,7 +63,6 @@ import Table from './wrapped-table';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
-  Alert,
   Anchor,
   Avatar,
   // Input,

@@ -54,7 +54,7 @@ export default ({ item, onClickItem }: IProps) => {
           message={i18n.t(
             'project:It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.',
           )}
-          type="normal"
+          type="info"
           showIcon
         />
       )}

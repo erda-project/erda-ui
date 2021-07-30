@@ -147,7 +147,7 @@ const CreationForm = () => {
       label: '',
       getComp: () => {
         const cur = modeOptions.find((m) => m.value === mode);
-        return <Alert className="text-desc" type="normal" message={cur?.desc} />;
+        return <Alert className="text-desc" type="info" message={cur?.desc} />;
       },
     },
     {
@@ -279,7 +279,7 @@ const CreationForm = () => {
       : [
           {
             label: '',
-            getComp: () => <Alert type="normal" message={repositoriesTypes[repoType].desc} />,
+            getComp: () => <Alert type="info" message={repositoriesTypes[repoType].desc} />,
           },
           {
             label: '',

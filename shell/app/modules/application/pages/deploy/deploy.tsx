@@ -326,7 +326,7 @@ const Deploy = () => {
                   }}
                 />
                 {envBlocked && !!message ? (
-                  <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
+                  <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'info'} message={message} />
                 ) : null}
               </div>
             );

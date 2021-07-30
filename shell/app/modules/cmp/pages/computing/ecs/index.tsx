@@ -379,7 +379,7 @@ export default () => {
                   </ul>
                 </>
               }
-              type="normal"
+              type="info"
             />
           ),
         },

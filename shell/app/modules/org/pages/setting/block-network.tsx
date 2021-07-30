@@ -17,7 +17,7 @@ import { Switch, Alert, Row, Col, Spin, Modal } from 'app/nusi';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate, Icon as CustomIcon } from 'common';
 
 enum Environment {
   DEV = 'blockDev',
@@ -62,10 +62,13 @@ const BlockNetwork = () => {
   return (
     <Spin spinning={isFetch || isUpdate}>
       <Alert
-        showIcon
         type="error"
-        iconType="warning"
-        message={i18n.t('org:There will be great influence if enabled. Please check carefully.')}
+        message={
+          <>
+            <CustomIcon type="wks1" className="text-red text-xl leading-4 transform translate-y-0.5" />
+            {i18n.t('org:There will be great influence if enabled. Please check carefully.')}
+          </>
+        }
       />
       <Row className="mt-4">
         {metaData.map(({ value, label, disabled }) => {
