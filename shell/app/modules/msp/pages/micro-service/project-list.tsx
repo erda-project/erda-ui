@@ -75,7 +75,7 @@ const MsProjectList = () => {
       title: i18n.t('create time'),
       dataIndex: 'createTime',
       width: 200,
-      render: (createTime: number) => createTime && formatTime(createTime / 1000000, 'YYYY-MM-DD HH:mm:ss'),
+      render: (createTime: number) => (createTime ? formatTime(createTime / 1000000, 'YYYY-MM-DD HH:mm:ss') : null),
     },
     {
       title: i18n.t('application:operation'),

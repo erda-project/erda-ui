@@ -32,7 +32,7 @@ declare namespace MS_INDEX {
     name: string;
     displayName: string;
     isDelete: boolean;
-    type: PROJECT.ProjectType;
+    type: 'MSP' | 'DOP';
     displayType: string;
     relationship: IMspRelationship[];
     createTime: number;
@@ -68,5 +68,14 @@ declare namespace MS_INDEX {
 
   interface MenuMap {
     [k: string]: IMspMenu;
+  }
+
+  interface IChartMetaData {
+    id: string;
+    name: string;
+    desc: string;
+    scope: string;
+    scopeId: string;
+    viewConfig: import('@erda-ui/dashboard-configurator/dist').Layout;
   }
 }

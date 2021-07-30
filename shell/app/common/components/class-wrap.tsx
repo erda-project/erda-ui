@@ -25,7 +25,7 @@ export class ClassWrapper extends React.PureComponent<IProps> {
   onChange = (...args: unknown[]) => {
     const { children, onChange } = this.props;
     // default onChange form item automatic inject
-    onChange(...args);
+    onChange?.(...args);
     // child component onChange method
     children?.props?.onChange?.(...args);
   };

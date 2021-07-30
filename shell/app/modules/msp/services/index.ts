@@ -33,15 +33,17 @@ export const createTenantProject = (
     .then((response: any) => response.body);
 };
 
-export const getMspMenuList = ({
-  tenantGroup,
-  tenantId,
-}: {
-  tenantGroup: string;
-  tenantId?: string;
-}): MS_INDEX.IMspMenu[] => {
+export const getMspMenuList = (payload: { type: string; tenantId?: string }): MS_INDEX.IMspMenu[] => {
   return agent
-    .get(`/api/micro-service/menu/tenantGroup/${tenantGroup}`)
-    .query({ tenantId })
+    .get(`/api/msp/tenant/menu`)
+    .query(payload)
     .then((response: any) => response.body);
+};
+
+export const getDashboard = ({
+  type,
+}: {
+  type: string;
+}): Promise<{ success: boolean; data: MS_INDEX.IChartMetaData }> => {
+  return agent.get(`/api/dashboard/system/blocks/${type}`).then((response: any) => response.body);
 };

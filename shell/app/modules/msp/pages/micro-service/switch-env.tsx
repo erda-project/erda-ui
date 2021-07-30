@@ -14,29 +14,33 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import { Select } from 'app/nusi';
-import mspStore from 'msp/stores/micro-service';
+import { useUpdateEffect } from 'react-use';
+import mspStore, { initMenu } from 'msp/stores/micro-service';
 import { goTo } from 'common/utils';
 
 const { Option } = Select;
 
 const SwitchEnv = () => {
-  const [{ relationship, id }] = mspStore.useStore((s) => [s.currentProject]);
+  const [{ relationship, id, displayName, type }] = mspStore.useStore((s) => [s.currentProject]);
   const [{ env }] = routeInfoStore.useStore((s) => [s.params]);
   const [currentEnv, setEnv] = React.useState(env);
   React.useEffect(() => {
     setEnv(env);
   }, [env]);
+  useUpdateEffect(() => {
+    initMenu(true);
+  }, [env]);
   const handleChangeEnv = (val: string) => {
     const selectEnv = relationship.find((item) => item.workspace);
-    if (selectEnv) {
+    if (selectEnv && val !== env) {
       goTo(goTo.pages.mspOverview, { tenantGroup: selectEnv.tenantId, projectId: id, env: val });
     }
   };
   return (
     <div className="px-3">
-      <div className="mb-3">{env}</div>
-      <Select className="w-full" value={currentEnv} onSelect={handleChangeEnv}>
-        {relationship.map((item) => {
+      <div className="mb-3">{displayName}</div>
+      <Select disabled={type === 'MSP'} className="w-full" value={currentEnv} onSelect={handleChangeEnv}>
+        {relationship?.map((item) => {
           return <Option value={item.workspace}>{item.displayWorkspace}</Option>;
         })}
       </Select>

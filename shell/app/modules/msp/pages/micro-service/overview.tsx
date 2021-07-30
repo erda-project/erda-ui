@@ -12,19 +12,41 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Spin } from 'app/nusi';
 import { Holder, PureBoardGrid, useUpdate } from 'common';
+import { getDashboard } from 'msp/services';
 import { isEmpty } from 'lodash';
+import DC from '@erda-ui/dashboard-configurator/dist';
 
 const DashBoard = React.memo(PureBoardGrid);
 
+interface IState {
+  layout: DC.Layout;
+  loading: boolean;
+}
+
 const Overview = () => {
-  const [{ layout }] = useUpdate({ layout: [] });
+  const [{ layout, loading }, updater] = useUpdate<IState>({ layout: [], loading: false });
+  const gerMetaData = async () => {
+    updater.loading(true);
+    try {
+      const { success, data } = await getDashboard({ type: 'msp_overview' });
+      if (success) {
+        updater.layout(data?.viewConfig);
+      }
+    } finally {
+      updater.loading(false);
+    }
+  };
+  React.useEffect(() => {
+    gerMetaData();
+  }, []);
   return (
-    <div>
+    <Spin spinning={loading}>
       <Holder when={isEmpty(layout)}>
-        <DashBoard layout={[]} />
+        <DashBoard layout={layout} />
       </Holder>
-    </div>
+    </Spin>
   );
 };
 

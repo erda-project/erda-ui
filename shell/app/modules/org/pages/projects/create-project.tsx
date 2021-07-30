@@ -262,7 +262,7 @@ const CreationForm = () => {
             name: values.name,
             displayName: values.displayName,
             type: values.template === 'MSGovernance' ? 'MSP' : 'DOP',
-          }).then((a) => {
+          }).then(() => {
             goTo('../');
           });
         }
@@ -343,8 +343,6 @@ const CreationForm = () => {
     },
     ...insertWhen(template !== 'MSGovernance', [
       {
-        label: i18n.t('select template'),
-        name: 'template1',
         getComp: () => (
           <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
             {i18n.t('org:need to configure project cluster resources')}

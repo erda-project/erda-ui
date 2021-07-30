@@ -76,6 +76,25 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
     });
 };
 
+export const initMenu = (refresh = false) => {
+  mspStore.effects.getMspMenuList({ refresh }).then((msMenu: MS_INDEX.IMspMenu[]) => {
+    if (msMenu.length) {
+      const DICE_CLUSTER_NAME = msMenu[0].clusterName;
+      const DICE_CLUSTER_TYPE = msMenu[0].clusterType || '';
+      const isEdas = DICE_CLUSTER_TYPE.includes('edasv2');
+      const isK8S = DICE_CLUSTER_TYPE === 'kubernetes';
+      const clusterType = isEdas ? 'EDAS' : 'TERMINUS';
+      setGlobal('service-provider', clusterType);
+      mspStore.reducers.updateClusterInfo({
+        clusterType,
+        isK8S,
+        clusterName: DICE_CLUSTER_NAME,
+        DICE_CLUSTER_TYPE,
+      });
+    }
+  });
+};
+
 const initState: IState = {
   mspProjectList: [],
   mspMenu: [],
@@ -91,25 +110,10 @@ const mspStore = createStore({
   name: 'msp',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
-    listenRoute(({ isEntering, isLeaving }: IRouteInfo) => {
+    listenRoute(async ({ isEntering, isLeaving }: IRouteInfo) => {
       if (isEntering('mspDetail')) {
-        mspStore.effects.getMspProjectDetail();
-        mspStore.effects.getMspMenuList().then((msMenu: MS_INDEX.IMspMenu[]) => {
-          if (msMenu.length) {
-            const DICE_CLUSTER_NAME = msMenu[0].clusterName;
-            const DICE_CLUSTER_TYPE = msMenu[0].clusterType || '';
-            const isEdas = DICE_CLUSTER_TYPE.includes('edasv2');
-            const isK8S = DICE_CLUSTER_TYPE === 'kubernetes';
-            const clusterType = isEdas ? 'EDAS' : 'TERMINUS';
-            setGlobal('service-provider', clusterType);
-            mspStore.reducers.updateClusterInfo({
-              clusterType,
-              isK8S,
-              clusterName: DICE_CLUSTER_NAME,
-              DICE_CLUSTER_TYPE,
-            });
-          }
-        });
+        await mspStore.effects.getMspProjectDetail();
+        initMenu();
       }
       if (isLeaving('mspDetail')) {
         setGlobal('service-provider', undefined);
@@ -128,17 +132,17 @@ const mspStore = createStore({
       const { projectId } = getParams();
       const projectDetail = await call(mspService.getMspProjectDetail, { projectId });
       update({
-        currentProject: projectDetail,
+        currentProject: projectDetail || {},
       });
     },
-    async getMspMenuList({ call, select, update }) {
+    async getMspMenuList({ call, select, update }, payload?: { refresh: boolean }) {
       const [params, routes, query] = routeInfoStore.getState((s) => [s.params, s.routes, s.query]);
-      let mspMenu = await select((s) => s.mspMenu);
-      const { env, projectId, tenantGroup, tenantId } = params;
+      let [mspMenu, currentProject] = await select((s) => [s.mspMenu, s.currentProject]);
+      const { env, projectId, tenantGroup } = params;
       let menuData: MS_INDEX.IMspMenu[] = [];
-      if (isEmpty(mspMenu)) {
+      if (isEmpty(mspMenu) || payload?.refresh) {
         // 如果菜单数据为空说明是第一次进入具体微服务，请求菜单接口
-        menuData = await call(mspService.getMspMenuList, { tenantGroup, tenantId });
+        menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
       }
 
       const [firstMenu] = menuData;
