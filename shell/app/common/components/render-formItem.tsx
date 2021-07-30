@@ -207,7 +207,7 @@ export const RenderFormItem = ({
         required,
         message: `${i18n.t('common:please')}${action}${hasColon ? label.slice(0, label.length - 1) : label}`,
       });
-    } else {
+    } else if (label) {
       rules.push({
         required,
         message: i18n.t('can not be empty'),
