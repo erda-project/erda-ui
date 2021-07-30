@@ -46,7 +46,7 @@ const PureAppInfo = (): JSX.Element => {
 
   const [confirmAppName, setConfirmAppName] = React.useState('');
   const permMap = usePerm((s) => s.app.setting);
-  const gitRepo = `${protocol}//${host}/wb/${appDetail.projectName}/${appDetail.name}`;
+  const gitRepo = `${protocol}//${appDetail.gitRepoNew}`;
   const fieldsList = [
     {
       label: i18n.t('application:app name'),
@@ -69,7 +69,7 @@ const PureAppInfo = (): JSX.Element => {
       },
     },
     {
-      label: i18n.t('application:app address'),
+      label: i18n.t('application:app repository address'),
       name: 'gitRepo',
       itemProps: {
         disabled: true,
