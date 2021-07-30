@@ -117,6 +117,10 @@ $border-style: 1px solid $color-border;
   border-bottom: none;
 }
 
+.ant-form-inline {
+  flex-wrap: nowrap;
+}
+
 div.ant-modal-body {
   padding: 16px 20px;
 }
