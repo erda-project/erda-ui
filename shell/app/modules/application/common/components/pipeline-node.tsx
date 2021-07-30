@@ -267,7 +267,8 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
             !skip.includes(m.name) &&
             temp.push(
               <div key={`meta-${String(index)}`} className="flow-chart-panel-msg-item">
-                <span className="flow-chart-panel-msg-item-name">{m.name}</span> {m.value}
+                <span className="flow-chart-panel-msg-item-name">{m.name}</span>
+                <pre>{m.value}</pre>
               </div>,
             ),
         );
@@ -296,7 +297,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="flow-chart-panel-msg-item">
               <span className="flow-chart-panel-msg-item-name error">{error.name || 'error'}</span>
-              {error.value || error.msg}
+              <pre>{error.value || error.msg}</pre>
             </div>
           )),
         );
