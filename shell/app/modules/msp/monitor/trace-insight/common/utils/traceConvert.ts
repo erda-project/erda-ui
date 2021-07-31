@@ -190,7 +190,6 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace): Trace => {
     index,
     time: mkDurationStr(duration * p),
   }));
-  console.log(spans);
   const timeMarkersBackup = timeMarkers;
   const spansBackup = spans;
   return {
