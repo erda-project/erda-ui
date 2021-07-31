@@ -142,13 +142,16 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace): Trace => {
   const duration = durationNs / 1000;
   const spanDepths = toSpanDepths(oldSpans);
   const groupByParentId = groupBy(oldSpans, (s) => s.parentSpanId);
-  const traceTimestamp = oldSpans[0].timestamp || 0;
+  let traceTimestamp = 0;
 
   const spans = flatMap(getRootSpans(oldSpans), (rootSpan) =>
     childrenToList(createSpanTreeEntry(rootSpan, oldSpans)),
-  ).map((span) => {
+  ).map((span, index) => {
+    if (!index) {
+      traceTimestamp = span.startTime;
+    }
     const spanDuration = span.duration / 1000;
-    const spanStartTs = span.timestamp || traceTimestamp;
+    const spanStartTs = span.startTime || traceTimestamp;
     const spanDepth = spanDepths[span.id] || 1;
     const width = ((spanDuration || 0) / duration) * 100;
     let errorType = 'none';
@@ -187,6 +190,7 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace): Trace => {
     index,
     time: mkDurationStr(duration * p),
   }));
+  console.log(spans);
   const timeMarkersBackup = timeMarkers;
   const spansBackup = spans;
   return {
