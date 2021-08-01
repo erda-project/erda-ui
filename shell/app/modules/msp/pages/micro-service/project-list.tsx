@@ -68,7 +68,7 @@ const MsProjectList = () => {
     {
       title: i18n.t('application:environment'),
       dataIndex: 'relationship',
-      width: 80,
+      width: 120,
       render: (relationship) => relationship.length,
     },
     {

@@ -61,7 +61,6 @@ interface IState {
   strategies: Strategy[];
   lang: string;
   strategy: string;
-  data: CONFIGURATION.ILangConf[];
 }
 
 const ItemRender = ({ title, children }: IProps) => {
@@ -73,27 +72,23 @@ const ItemRender = ({ title, children }: IProps) => {
   );
 };
 
+// this page  has been delay
 const Configuration = () => {
-  const [{ serverName, lang, strategy, strategies, data }, updater, update] = useUpdate<IState>({
-    data: [],
+  const [{ serverName, lang, strategy, strategies }, updater, update] = useUpdate<IState>({
     serverName: '',
     strategies: [],
     lang: '',
     strategy: '',
   });
+  const data = getAdapters.useData();
 
   React.useEffect(() => {
-    getAdapters.fetch().then((res) => {
-      if (res.data) {
-        updater.data(res.data);
-      }
-    });
+    getAdapters.fetch();
   }, []);
 
   const handleQuery = React.useCallback(
-    debounce((payload: Omit<IState, 'strategies' | 'data'>) => {
-      console.log(payload);
-    }, 500),
+    // delay feature
+    debounce((payload: Omit<IState, 'strategies' | 'data'>) => {}, 500),
     [],
   );
   React.useEffect(() => {
@@ -107,7 +102,7 @@ const Configuration = () => {
   }, [lang, strategy, serverName, handleQuery]);
 
   const langList: LangItem[] = React.useMemo(() => {
-    const newList = data.map((item) => {
+    const newList = data?.map((item) => {
       return {
         ...item,
         key: item.language,
@@ -120,7 +115,7 @@ const Configuration = () => {
       strategies: newStrategies,
       strategy: newStrategies?.[0].type,
     });
-    return newList;
+    return newList || [];
   }, [data, update]);
 
   const handleChangeLang = (type: string, item: LangItem) => {

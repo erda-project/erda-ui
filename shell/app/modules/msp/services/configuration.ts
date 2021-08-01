@@ -17,9 +17,6 @@ const apis = {
   getAdapters: {
     api: 'get@/api/msp/apm/adapters',
   },
-  getDomainList: {
-    api: 'get@/api/domains',
-  },
 };
 
 export const getAdapters = apiCreator<() => CONFIGURATION.ILangConf[]>(apis.getAdapters);
