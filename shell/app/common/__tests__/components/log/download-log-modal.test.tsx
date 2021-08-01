@@ -44,7 +44,7 @@ describe('DownloadLogModal', () => {
     startWrapper.find('Picker').prop('onOk')();
     expect(setFieldsValue).toHaveBeenCalledTimes(1);
     const durationWrapper = shallow(<div>{duration.getComp({ form: { setFieldsValue } })}</div>);
-    durationWrapper.find('InputNumber').prop('onChange')();
+    durationWrapper.find({ placeholder: 'please enter any time from 1 to 60 minutes' }).prop('onChange')();
     expect(setFieldsValue).toHaveBeenCalledTimes(2);
     wrapper.prop('onCancel')();
     expect(cancelFn).toHaveBeenCalledTimes(2);

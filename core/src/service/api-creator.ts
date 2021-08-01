@@ -87,7 +87,7 @@ type Merge<A, B> = { [K in keyof A]: K extends keyof B ? B[K] : A[K] } & B exten
  * @param apiConfig
  * @returns callable api function
  */
-export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
+export const genRequest = function<T extends FN>(apiConfig: APIConfig) {
   const { api, headers } = apiConfig;
   let [method, path] = api.split('@');
   if (!path) {
@@ -96,8 +96,8 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
   }
 
   // use Merge to extract inner properties
-  return (params: CallParams & Merge<Parameters<T>[0], {}>) => {
-    const { $options, $headers, $body, ...rest } = params;
+  return (params?: CallParams & Merge<Parameters<T>[0], {}>) => {
+    const { $options, $headers, $body, ...rest } = params || {};
     const { bodyOrQuery, pathParams } = extractPathParams(path, rest);
     const { isDownload, uploadFileKey } = $options || {};
     if ('pageNo' in bodyOrQuery && !('pageSize' in bodyOrQuery)) {
@@ -111,7 +111,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
     } else if (method === 'delete') {
       bodyData = $body;
     }
-    return axios({
+    return (axios({
       method: method as any,
       url: generatePath(path, pathParams),
       headers: headers ?? $headers,
@@ -119,7 +119,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
       paramsSerializer: (p: Obj<string>) => qs.stringify(p),
       responseType: isDownload ? 'blob' : 'json',
       data: bodyData,
-    }).then((res) => res.data) as unknown as Promise<RES_BODY<ReturnType<T>>>;
+    }).then((res) => res.data) as unknown) as Promise<RES_BODY<ReturnType<T>>>;
   };
 };
 
@@ -185,7 +185,7 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
   let _toggleLoading: undefined | ((p: boolean) => void);
   let _setData: undefined | Function;
 
-  const onResponse = (body: PICK_BODY<T>, params: Parameters<T>[0]) => {
+  const onResponse = (body: PICK_BODY<T>, params?: Parameters<T>[0]) => {
     // standard response
     if ('success' in body && 'err' in body) {
       const { data, success, err, userInfo } = body;
@@ -193,10 +193,10 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
         setUserMap(userInfo);
       }
 
-      if (isObject(data) && Object.keys(params).includes('pageNo')) {
+      if (isObject(data) && Object.keys(params ?? {}).includes('pageNo')) {
         if ('list' in data && 'total' in data) {
           const { total } = data;
-          const { pageNo, pageSize } = params;
+          const { pageNo, pageSize } = params ?? ({} as Parameters<T>[0]);
           const hasMore = Math.ceil(total / +pageSize) > +pageNo;
           (data as any).paging = { pageNo, pageSize, total, hasMore };
         }
@@ -212,14 +212,14 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
     }
   };
 
-  const service = (params: Parameters<T>[0]): ReturnType<T> =>
+  const service = (params?: Parameters<T>[0]): ReturnType<T> =>
     apiFn(params).then((body: PICK_BODY<T>) => {
       onResponse(body, params);
       return body;
     });
 
   return Object.assign(service, {
-    fetch: (params: Parameters<T>[0]): ReturnType<T> => {
+    fetch: (params?: Parameters<T>[0]): ReturnType<T> => {
       _toggleLoading?.(true);
       return apiFn(params)
         .then((body: PICK_BODY<T>) => {

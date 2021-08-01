@@ -80,7 +80,7 @@ export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps)
   return IconComp ? <IconComp className={className} onClick={onClick} {...rest} /> : <span>Not Exists</span>;
 };
 
-type CustomColor = 'primary' | 'light-primary' | 'shallow-primary' | 'white';
+type CustomColor = keyof typeof COLOR;
 
 interface IErdaCustomIcon {
   type: string; // unique identification of icon
@@ -101,6 +101,9 @@ const COLOR = {
   white: '#ffffff',
   'light-primary': '#6a549e19', // rgba($primary, .1)
   'shallow-primary': '#6a549e99', // rgba($primary, .6)
+  gray: '#666666',
+  darkgray: '#999999',
+  lightgray: '#bbbbbb',
 };
 
 export const ErdaCustomIcon = ({ type, fill, color, stroke, ...rest }: IErdaCustomIcon) => {

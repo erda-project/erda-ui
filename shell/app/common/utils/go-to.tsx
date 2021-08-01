@@ -193,6 +193,8 @@ export enum pages {
   appSetting_config = '/{orgName}/dop/projects/{projectId}/apps/{appId}/setting?tabKey=appConfig',
   buildDetailConfig = '/{orgName}/dop/projects/{projectId}/config/apps/{appId}/runtimes/{branch}/{env}',
   mspRoot = '/{orgName}/msp/mspManage',
+  mspProjects = '/{orgName}/msp/projects',
+  mspRootOverview = '/{orgName}/msp/overview',
   mspOverviewRoot = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}',
   mspOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
   mspApiStrategy = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',
