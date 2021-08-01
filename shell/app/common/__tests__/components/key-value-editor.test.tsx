@@ -39,12 +39,12 @@ describe('KeyValueEditor', () => {
     expect(wrapper.find('KeyValueTable')).toExist();
     expect(wrapper.find('KeyValueTextArea')).not.toExist();
     expect(editor.instance().getEditData()).toStrictEqual(data);
-    await wrapper.find('RadioGroup').prop('onChange')();
+    await wrapper.find({ size: 'small' }).at(0).prop('onChange')();
     editor.update();
     expect(wrapper.find('KeyValueTable')).not.toExist();
     expect(wrapper.find('KeyValueTextArea')).toExist();
     expect(editor.instance().getEditData()).toStrictEqual(data);
-    wrapper.find('RadioGroup').prop('onChange')();
+    await wrapper.find({ size: 'small' }).at(0).prop('onChange')();
     editor.update();
   });
 });
