@@ -176,7 +176,7 @@ const buildModules = async (
             ...process.env,
             isOnline,
             enableSourceMap: enableSourceMap.toString(),
-            dataEngineerInfo: JSON.stringify(dataEngineerInfo),
+            dataEngineerInfo: JSON.stringify(dataEngineerInfo || {}),
           },
           cwd: moduleDir,
         },
