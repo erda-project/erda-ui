@@ -14,6 +14,9 @@
 import { ExceptionFilter, Catch, NotFoundException, HttpException, ArgumentsHost } from '@nestjs/common';
 import { Request, Response } from 'express';
 import path from 'path';
+import { getEnv } from '../util';
+
+const { staticDir } = getEnv();
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
@@ -22,14 +25,9 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-    const match = /^\/[a-zA-Z-_]+\/market(.*)/.exec(request.path);
     const extension = path.extname(request.path);
     if (!extension) {
-      if (match) {
-        response.sendFile(path.join(__dirname, '../../public/static/market', 'index.html'));
-      } else {
-        response.sendFile(path.join(__dirname, '../../public/static/shell', 'index.html'));
-      }
+      response.sendFile(path.join(staticDir, 'shell', 'index.html'));
     } else {
       response.statusCode = 404;
       response.end('Not Found');

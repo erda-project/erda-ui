@@ -23,17 +23,15 @@ if (!envConfig) {
   throw Error('cannot find .env file in erda-ui root directory');
 }
 
-const isProd = process.env.NODE_ENV === 'production';
 const remotes = {};
 const entries = [];
-const { MODULES, SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
+const { MODULES } = envConfig;
 const excludeModules = ['market', 'shell'];
 
 MODULES.split(',')
   .filter((m) => !excludeModules.includes(m))
   .forEach((m) => {
-    const host = isProd ? '' : `${SCHEDULER_URL}:${SCHEDULER_PORT}`;
-    remotes[m] = `mf_${m}@${host}/static/${m}/scripts/mf_${m}.js`;
+    remotes[m] = `mf_${m}@/static/${m}/scripts/mf_${m}.js`;
     if (m !== 'core') {
       entries.push(`${m}: import('${m}/entry'),`);
     }
