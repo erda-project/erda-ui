@@ -238,7 +238,10 @@ export const ProjectList = () => {
         dataIndex: 'id',
         width: 120,
         fixed: 'right',
-        render: (id) => {
+        render: (id, record) => {
+          if (record.type === 'MSGovernance') {
+            return null;
+          }
           return (
             <div className="table-operations">
               <span

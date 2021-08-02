@@ -33,18 +33,24 @@ function getMspRouter() {
       mark: 'msp',
       routes: [
         {
-          path: 'mspManage',
-          breadcrumbName: i18n.t('msp:microService governance'),
-          getComp: (cb) => cb(import('msp/pages/micro-service/entry'), 'MspEntry'),
-          layout: {
-            noWrapper: true,
-          },
+          path: 'overview',
+          breadcrumbName: i18n.t('msp:microService governance overview'),
+          getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
+        },
+        {
+          path: 'projects',
+          breadcrumbName: i18n.t('project list'),
+          getComp: (cb) => cb(import('msp/pages/micro-service/project-list')),
         },
         injectWrapper({
           path: ':projectId/:env/:tenantGroup',
           mark: 'mspDetail',
           routes: [
             getTopologyRouter(),
+            {
+              path: 'configuration',
+              getComp: (cb) => cb(import('msp/pages/configuration')),
+            },
             {
               path: 'monitor',
               // breadcrumbName: i18n.t('msp:monitoring platform'),

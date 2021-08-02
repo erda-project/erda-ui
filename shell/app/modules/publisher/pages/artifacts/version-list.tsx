@@ -17,7 +17,7 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { map, isEmpty, get, find } from 'lodash';
 import publisherStore from '../../stores/publisher';
-import { useUpdate, Icon as CustomIcon, Holder, LoadMore, IF } from 'common';
+import { useUpdate, Holder, LoadMore, IF, ErdaCustomIcon } from 'common';
 import VersionFormModal from './version-form-modal';
 import './vsrsion-list.scss';
 import { useLoading } from 'core/stores/loading';
@@ -28,7 +28,7 @@ import GrayFormModal from './gray-form-modal';
 import { ArtifactsTypeMap } from './config';
 import { useUnmount, useMount } from 'react-use';
 import UploadModal from './upload-modal';
-import { Android as IconAndroid, Apple as IconApple } from '@icon-park/react';
+import { Android as IconAndroid, Apple as IconApple, DownOne as IconDownOne } from '@icon-park/react';
 
 const { Item: TimelineItem } = Timeline;
 
@@ -240,7 +240,7 @@ const VersionList = (props: IProps) => {
               >
                 <Radio.Button value="h5">
                   H5{curPackageName ? `(${curPackageName})` : null}{' '}
-                  <CustomIcon style={{ lineHeight: 1 }} type="caret-down" />
+                  <IconDownOne theme="filled" style={{ lineHeight: 1 }} size="14" />
                 </Radio.Button>
               </Dropdown>
             ) : (
@@ -286,22 +286,26 @@ const VersionList = (props: IProps) => {
                     return (
                       <div key={id} className="version-item">
                         <div className={`version-number mb-3 ${isPublic ? 'on' : 'off'}`}>
-                          <CustomIcon type={isPublic ? 'yuanxingxuanzhongfill' : 'tishi'} />
+                          <ErdaCustomIcon
+                          class="mt-1"
+                            size="16"
+                            type={isPublic ? 'yuanxingxuanzhong-fill' : 'tishi'}
+                          />
                           <span className="number">
                             V{version} ({buildId})
                           </span>
                           {versionStateRender(record)}
                         </div>
                         <div className="version-tips">
-                          <CustomIcon type="xm-2" />
+                          <ErdaCustomIcon type="xm-2" size="16" />
                           <span className="text">{appName}</span>
-                          <CustomIcon type="yy-4" />
+                          <ErdaCustomIcon type="yy-4" size="16" />
                           <span className="text">{projectName}</span>
-                          <CustomIcon type="shijian" />
+                          <ErdaCustomIcon type="shijian" size="16" />
                           <span className="text">{createdAt ? moment(createdAt).format('HH:mm:ss') : '-'}</span>
                           {curMobileType === 'ios' && appStoreURL ? (
                             <>
-                              <CustomIcon type="app" />
+                              <ErdaCustomIcon size="16" type="app" />
                               <a
                                 className="nowrap app-store-url"
                                 target="_blank"

@@ -36,7 +36,7 @@ export const AlarmState = (props: IProps) => {
 
   return (
     <span className={'inline-flex justify-between items-center'} style={{ minWidth: '50px' }}>
-      <CustomIcon type={icon} className={`rounded-full mr-1 bg-${color}`} />
+      <CustomIcon type={icon} className={`rounded-full mr-1 text-white bg-${color}`} />
       <span className={`text-${color}`}>{label}</span>
     </span>
   );

@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button, Dropdown, Menu } from 'app/nusi';
-import { Icon as CustomIcon } from './icon';
 import { ClickParam } from 'core/common/interface';
-
+import { DownOne as IconDownOne } from '@icon-park/react';
 import React from 'react';
 import { map } from 'lodash';
 
@@ -81,7 +80,7 @@ export const DropdownSelect = (props: IProps) => {
       {children || (
         <Button type="default" loading={loading} {...btnProps}>
           {buttonText}
-          <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
+          <IconDownOne className="ml-0.5 mb-1.5" theme="filled" size="11" />
         </Button>
       )}
     </Dropdown>

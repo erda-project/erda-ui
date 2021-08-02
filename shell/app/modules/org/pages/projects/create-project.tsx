@@ -14,36 +14,25 @@
 import { Button, Select, Alert, Input, Spin, Checkbox } from 'app/nusi';
 import i18n from 'i18n';
 import React from 'react';
-import { ImageUpload, RenderForm, CompactSelect } from 'common';
+import { ImageUpload, RenderForm, CompactSelect, ErdaCustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
-import { useEffectOnce } from 'react-use';
 import clusterStore from 'cmp/stores/cluster';
+import { createTenantProject } from 'msp/services';
 import { goTo, insertWhen } from 'app/common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
 import { useLoading } from 'core/stores/loading';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
-import default_devops_svg from 'app/images/devops.svg';
-import active_devops_svg from 'app/images/devops_1.svg';
-import default_dmtd_svg from 'app/images/dmtd.svg';
-import active_dmtd_svg from 'app/images/dmtd_1.svg';
-import default_mjxm_svg from 'app/images/mjxm.svg';
-import active_mjxm_svg from 'app/images/mjxm_1.svg';
 import './create-project.scss';
 
 const { Option } = Select;
 
 interface ICardProps {
   name: string;
-  val?: string;
-  chooseVal: string;
-  choose: React.Dispatch<React.SetStateAction<string>>;
-  icon: {
-    default: string;
-    active: string;
-  };
+  val: PROJECT.ProjectType;
+  icon: string;
   description: string;
   disabled?: boolean;
 }
@@ -152,49 +141,71 @@ export const useQuotaFields = (
   return fields;
 };
 
-const TemplateCard = (props: ICardProps) => {
-  const { chooseVal, choose, ...type } = props;
-  const isChecked = chooseVal && chooseVal === type.val;
-  const onClick = () => {
-    if (type.disabled) return;
-    choose(type.val || '');
-  };
-  const cln = classnames([
-    'template-card',
-    'rounded',
-    'px-2',
-    'py-3',
-    'cursor-pointer',
-    'flex flex-col justify-center',
-    'flex items-center',
-    'justify-start',
-    type.disabled ? 'not-allowed' : '',
-    isChecked ? 'checked' : '',
-  ]);
+interface IProjectType {
+  list: ICardProps[];
+  value?: string;
+  onChange?: (type: PROJECT.ProjectType, typeItem: ICardProps) => void;
+}
+
+const ProjectType = (props: IProjectType) => {
+  const { list, value, onChange } = props;
+  const [selectType, setType] = React.useState<string | undefined>();
+  React.useEffect(() => {
+    setType(value);
+  }, [value]);
+  const handleSelect = React.useCallback(
+    (typeItem: ICardProps) => {
+      if (typeItem.disabled || typeItem.val === selectType) {
+        return;
+      }
+      setType(typeItem.val);
+      onChange?.(typeItem.val, typeItem);
+    },
+    [onChange, selectType],
+  );
 
   return (
-    <div className={cln} onClick={onClick}>
-      <div className="template-icon">
-        <img
-          className="w-full h-full"
-          src={isChecked ? get(type, 'icon.active') : get(type, 'icon.default')}
-          alt="template-icon"
-        />
-      </div>
-      <div className="template-name text-sm text-normal pt-2 pb-1">{type.name}</div>
-      <div className="template-description text-xs text-sub">{type.description}</div>
+    <div className="template-card-row flex justify-between items-center">
+      {list.map((item) => {
+        const isChecked = selectType === item.val;
+        const cln = classnames([
+          'template-card',
+          'border-radius',
+          'h-40',
+          'px-2',
+          'py-3',
+          'pointer',
+          'flex flex-col justify-center',
+          'items-center',
+          'justify-start',
+          item.disabled ? 'not-allowed' : '',
+          isChecked ? 'checked' : '',
+        ]);
+        return (
+          <div
+            key={item.val}
+            className={cln}
+            onClick={() => {
+              handleSelect(item);
+            }}
+          >
+            <div className="template-icon center-flex-box">
+              <ErdaCustomIcon type={item.icon} color={isChecked ? 'primary' : 'lightgray'} size="40px" />
+            </div>
+            <div className="template-name text-sm color-text pt-2 pb-1">{item.name}</div>
+            <div className="template-description text-xs color-text-sub">{item.description}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-const templateArr = [
+const templateArr: ICardProps[] = [
   {
     name: 'DevOps',
     val: 'DevOps',
-    icon: {
-      default: default_devops_svg,
-      active: active_devops_svg,
-    },
+    icon: 'CombinedShape',
     description: i18n.t(
       'org:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.',
     ),
@@ -202,10 +213,8 @@ const templateArr = [
   },
   {
     name: i18n.t('org:code hosting project'),
-    icon: {
-      default: default_dmtd_svg,
-      active: active_dmtd_svg,
-    },
+    val: 'codeHostingProject',
+    icon: 'code',
     description: i18n.t(
       'org:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts',
     ),
@@ -213,12 +222,17 @@ const templateArr = [
   },
   {
     name: i18n.t('org:agile project'),
-    icon: {
-      default: default_mjxm_svg,
-      active: active_mjxm_svg,
-    },
+    val: 'agileProject',
+    icon: 'scrum',
     description: i18n.t('org:support-agile-management'),
     disabled: true,
+  },
+  {
+    name: i18n.t('org:microservice governance project'),
+    val: 'MSGovernance',
+    icon: 'zhili',
+    description: i18n.t('org:microservice governance desc'),
+    disabled: false,
   },
 ];
 
@@ -228,6 +242,7 @@ const CreationForm = () => {
   const clusterList = clusterStore.useStore((s) => s.list);
   const quotaFields = useQuotaFields(true, true, { cpuQuota: 0, memQuota: 0 });
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);
+  const [template, setTemplate] = React.useState(templateArr[0].val);
   quotaFields[0].label = (
     <>
       {i18n.t('resources quota')}
@@ -242,7 +257,14 @@ const CreationForm = () => {
     form.validateFields().then((values: any) => {
       createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota }).then((res: any) => {
         if (res.success) {
-          goTo('../');
+          createTenantProject({
+            id: `${res.data}`,
+            name: values.name,
+            displayName: values.displayName,
+            type: values.template === 'MSGovernance' ? 'MSP' : 'DOP',
+          }).then(() => {
+            goTo('../');
+          });
         }
       });
     });
@@ -265,21 +287,13 @@ const CreationForm = () => {
       label: i18n.t('select template'),
       name: 'template',
       initialValue: templateArr[0].val,
-      getComp: ({ form }: { form: FormInstance }) => (
-        <div className="template-card-row flex justify-between items-center">
-          {templateArr.map((item) => (
-            <TemplateCard
-              key={item.name}
-              chooseVal={form.getFieldsValue().template}
-              choose={(e: any) => {
-                form.setFieldsValue({
-                  template: e,
-                });
-              }}
-              {...item}
-            />
-          ))}
-        </div>
+      getComp: () => (
+        <ProjectType
+          list={templateArr}
+          onChange={(type) => {
+            setTemplate(type);
+          }}
+        />
       ),
     },
     {
@@ -327,14 +341,16 @@ const CreationForm = () => {
         maxLength: 40,
       },
     },
-    {
-      getComp: () => (
-        <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
-          {i18n.t('org:need to configure project cluster resources')}
-        </Checkbox>
-      ),
-    },
-    ...insertWhen(ifConfigCluster, [
+    ...insertWhen(template !== 'MSGovernance', [
+      {
+        getComp: () => (
+          <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
+            {i18n.t('org:need to configure project cluster resources')}
+          </Checkbox>
+        ),
+      },
+    ]),
+    ...insertWhen(template !== 'MSGovernance' && ifConfigCluster, [
       {
         label: (
           <span className="mr-1">

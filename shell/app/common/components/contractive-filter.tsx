@@ -13,12 +13,13 @@
 
 import React from 'react';
 import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'app/nusi';
-import { Icon as CustomIcon, MemberSelector } from 'common';
+import { MemberSelector, ErdaCustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
 import { debounce, isEmpty, isArray, map, max, sortBy, isString, has } from 'lodash';
 import i18n from 'i18n';
+import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck, Plus as IconPlus } from '@icon-park/react';
 
 interface Option {
   label: string;
@@ -95,7 +96,7 @@ const OptionItem = (props: IOptionItemProps) => {
     >
       <div className="flex justify-between items-center w-full">
         <span>{option.label}</span>
-        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="text-success ml-2" /> : null}</span>
+        <span>{value.includes(option.value) ? <IconCheck className="text-success ml-2" /> : null}</span>
       </div>
     </div>
   );
@@ -138,7 +139,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         size="small"
         allowClear
         // ref={inputRef}
-        prefix={<CustomIcon type="search" />}
+        prefix={<IconSearch size="16" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
@@ -168,7 +169,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               autoFocus
               size="small"
               placeholder={i18n.t('common:search')}
-              prefix={<CustomIcon type="search" />}
+              prefix={<IconSearch size="16" />}
               value={filterMap[key]}
               onChange={(e) => {
                 const v = e.target.value;
@@ -265,7 +266,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="contractive-filter-item">
           <span className="text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
-          <CustomIcon type="caret-down" />
+          <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
         </span>
       </Dropdown>
     );
@@ -368,7 +369,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           showSearch={haveFilter}
         />
         {value?.length ? null : <span>{emptyText}</span>}
-        <CustomIcon type="caret-down" />
+        <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
       </span>
     );
   }
@@ -559,9 +560,12 @@ export const ContractiveFilter = ({
           }}
         >
           {!item.fixed && (
-            <CustomIcon
-              className="contractive-filter-item-close"
+            <ErdaCustomIcon
+              fill="shallow-gray"
+              color="shallow-gray"
+              class="contractive-filter-item-close"
               type="guanbi-fill"
+              size="16"
               onClick={() => {
                 setConditions(setConditionShowIndex(conditions, item.key, false));
                 if (valueMap[item.key] !== undefined) handelItemChange({ key: item.key, value: undefined });
@@ -590,7 +594,7 @@ export const ContractiveFilter = ({
                   <Input
                     autoFocus
                     size="small"
-                    prefix={<CustomIcon type="search" />}
+                    prefix={<IconSearch size="16" />}
                     onClick={(e) => e.stopPropagation()}
                     value={hideFilterKey}
                     onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}
@@ -634,9 +638,9 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="text-xs mr-0.5 text-normal" />
+              <IconPlus fill="rgba(0, 0, 0, 0.8)" className="mr-0.5 mb-1 color-text" />
               <span>{i18n.t('common:filter')}</span>
-              <CustomIcon type="caret-down" />
+              <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
             </span>
           </Dropdown>
         </span>

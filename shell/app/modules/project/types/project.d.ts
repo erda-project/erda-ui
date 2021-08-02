@@ -12,6 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace PROJECT {
+  type ProjectType = 'DevOps' | 'codeHostingProject' | 'agileProject' | 'MSGovernance';
+
   type BlockStatus = 'unblocking' | 'unblocked' | 'blocked';
 
   interface EnvConfig<T> {
@@ -19,6 +21,7 @@ declare namespace PROJECT {
     PROD: T;
     STAGING: T;
     TEST: T;
+    DEFAULT: T;
   }
 
   interface ListQuery {
@@ -55,6 +58,7 @@ declare namespace PROJECT {
     updatedAt: string;
     canUnblock?: boolean;
     blockStatus: BlockStatus;
+    type: ProjectType;
   }
 
   interface ProjectStats {

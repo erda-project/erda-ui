@@ -15,7 +15,7 @@ import { debounce } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
 import { Button, Input, Tooltip } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import { ErdaCustomIcon } from 'common';
 import { SplitPage } from 'layout/common';
 import { setSearch, updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -140,9 +140,13 @@ const ManualTest = () => {
           <span>
             {i18n.t('project:use case list')}
             <Tooltip title={i18n.t('dop:there is a new import case, click to refresh the list')}>
-              <CustomIcon
-                className={`ml-3 cursor-pointer ${showRefresh ? '' : 'hidden'}`}
-                type="refresh"
+              <ErdaCustomIcon
+                opacity={0.85}
+                color="opacity-gray"
+                size="16"
+                fill="opacity-gray"
+                class={`ml-3 cursor-pointer ${showRefresh ? '' : 'hidden'}`}
+                type="redo"
                 onClick={() => refreshList()}
               />
             </Tooltip>
@@ -186,7 +190,14 @@ const ManualTest = () => {
               prefix={<IconSearch />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>
-              <CustomIcon type="filter" />
+              <ErdaCustomIcon
+                opacity={0.85}
+                stroke="opacity-gray"
+                class="mt-0.5"
+                width="16"
+                height="18"
+                type="filter"
+              />
             </Button>
             <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
           </div>
