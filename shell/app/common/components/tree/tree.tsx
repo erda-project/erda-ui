@@ -14,7 +14,7 @@
 import React from 'react';
 import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
-import { Spin, Title, NusiTree as Tree, NusiPopover as Popover, NusiSelect as Select } from 'app/nusi';
+import { Spin, Title, NusiTree as Tree, NusiPopover as Popover, Select } from 'app/nusi';
 import i18n from 'i18n';
 import { useUpdate } from 'common';
 import { TreeProps, NusiTreeNode, NusiTreeNodeSelectedEvent, IAction, TreeNodeNormal } from 'core/common/interface';
