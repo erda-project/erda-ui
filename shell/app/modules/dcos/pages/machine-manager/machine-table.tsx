@@ -610,7 +610,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         return (
           <TableActions>
             <span className="table-operations-btn" onClick={() => update({ recordData: record })}>
-              {i18n.t('set tags')}123
+              {i18n.t('set tags')}
             </span>
             {/* <Operation record={record} /> */}
             <span
