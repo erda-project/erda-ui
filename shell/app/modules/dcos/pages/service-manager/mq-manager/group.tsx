@@ -121,7 +121,7 @@ const Group = () => {
               <li>2. {i18n.t('dcos:Group-ID-TCP-HTTP')}</li>
             </ul>
           }
-          type="normal"
+          type="info"
         />
       ),
     },

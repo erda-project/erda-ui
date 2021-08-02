@@ -277,7 +277,7 @@ const AddPipelineYml = () => {
 
   return (
     <div className="repo-add-pipelineyml">
-      <Alert message={i18n.t('application:add-pipeline-tip')} type="normal" showIcon />
+      <Alert message={i18n.t('application:add-pipeline-tip')} type="info" showIcon />
       <PipelineTemplateSelector
         ref={selectorRef}
         onChange={(val: string) => {

@@ -246,7 +246,7 @@ const AccessEdit = () => {
         return (
           <Alert
             showIcon
-            type="normal"
+            type="info"
             message={i18n.t(
               'Note: The precondition to create access management is that the API must first complete the project association and version instance association.',
               { nsSeparator: '|' },
@@ -375,7 +375,7 @@ const AccessEdit = () => {
         return (
           <Alert
             showIcon
-            type="normal"
+            type="info"
             message={i18n.t(
               'Auto authorization: apply and call Manual authorization: apply, manual authorization and call',
               { nsSeparator: '|' },

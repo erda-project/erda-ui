@@ -49,7 +49,7 @@ export const MenuPopover = ({ content, styleName, placement, iconStyle = 'sm-mor
       trigger={trigger || 'click'}
       onVisibleChange={setVisible}
     >
-      <ErdaCustomIcon type="more" class={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
+      <ErdaCustomIcon type="more" className={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
     </Popover>
   );
 };

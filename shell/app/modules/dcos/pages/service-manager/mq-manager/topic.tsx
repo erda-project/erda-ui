@@ -123,7 +123,7 @@ const Topic = () => {
                 {i18n.t('dcos:delete-topics-costs')}
               </li> */
           }
-          type="normal"
+          type="info"
         />
       ),
     },

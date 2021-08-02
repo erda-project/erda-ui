@@ -746,7 +746,7 @@ const BuildDetail = (props: IProps) => {
                 'application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
               )}
               className="mt-1"
-              type="normal"
+              type="info"
               showIcon
             />
           ) : null}

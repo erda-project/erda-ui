@@ -172,7 +172,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
                 'project:This parameter is provided to the use case interface of Automated Interface Test in Test Case.',
               )
         }
-        type="normal"
+        type="info"
         showIcon
       />
       <Table
