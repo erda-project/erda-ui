@@ -13,10 +13,11 @@
 
 import React from 'react';
 import { Spin } from 'app/nusi';
-import { Holder, PureBoardGrid, useUpdate } from 'common';
+import { Holder, PureBoardGrid, TimeSelector, useUpdate } from 'common';
 import { getDashboard } from 'msp/services';
 import { isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
+import monitorCommonStore from 'common/stores/monitorCommon';
 
 const DashBoard = React.memo(PureBoardGrid);
 
@@ -27,6 +28,12 @@ interface IState {
 
 const Overview = () => {
   const [{ layout, loading }, updater] = useUpdate<IState>({ layout: [], loading: false });
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const globalVariable = {
+    startTime: timeSpan.startTimeMs,
+    endTime: timeSpan.endTimeMs,
+  };
+
   const gerMetaData = async () => {
     updater.loading(true);
     try {
@@ -43,8 +50,9 @@ const Overview = () => {
   }, []);
   return (
     <Spin spinning={loading}>
+      <TimeSelector />
       <Holder when={isEmpty(layout)}>
-        <DashBoard layout={layout} />
+        <DashBoard layout={layout} globalVariable={globalVariable} />
       </Holder>
     </Spin>
   );
