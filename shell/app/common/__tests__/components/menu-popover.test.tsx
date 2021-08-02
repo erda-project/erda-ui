@@ -32,7 +32,7 @@ describe('MenuPopover', () => {
     wrapper.setProps({
       trigger: 'click',
     });
-    wrapper.find('.sm-more-icon').at(0).simulate('click', new Event('click'));
+    wrapper.find('iconpark-icon').at(0).simulate('click', new Event('click'));
     expect(wrapper.find('.child-node')).toExist();
   });
 });
