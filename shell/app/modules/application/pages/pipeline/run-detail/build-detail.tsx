@@ -481,7 +481,7 @@ const BuildDetail = (props: IProps) => {
                 <ErdaCustomIcon
                   opacity={0.4}
                   size="20"
-                  fill="opacity-gray"
+                  fill="black"
                   onClick={() => {
                     runBuild();
                   }}
@@ -503,7 +503,7 @@ const BuildDetail = (props: IProps) => {
             >
               <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                 <Tooltip title={i18n.t('application:cancel build')}>
-                  <ErdaCustomIcon opacity={0.4} fill="opacity-gray" size="20" type="pause" />
+                  <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="pause" />
                 </Tooltip>
               </WithAuth>
             </DeleteConfirm>
@@ -518,7 +518,7 @@ const BuildDetail = (props: IProps) => {
             <IF check={canRerunFailed}>
               {deployAuth.hasAuth ? (
                 <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <ErdaCustomIcon opacity={0.4} size="20" fill="opacity-gray" type="redo" />
+                  <ErdaCustomIcon opacity={0.4} size="21" fill="black" type="redo" class="mr-1.5" />
                 </Dropdown>
               ) : (
                 <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
@@ -679,7 +679,7 @@ const BuildDetail = (props: IProps) => {
                 content={renderBuildHistory()}
                 arrowPointAtCenter
               >
-                <ErdaCustomIcon opacity={0.4} fill="opacity-gray" size="20" type="jsjl" />
+                <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="jsjl" class="mb-2 mr-1 cursor-pointer" />
               </Popover>
               {renderRunBtn()}
             </div>

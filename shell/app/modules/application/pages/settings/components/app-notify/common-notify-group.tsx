@@ -102,7 +102,7 @@ export const ListTargets = ({
   let text = '';
   let targetsEle = (
     <>
-      <ErdaCustomIcon opacity={0.4} fill="opacity-gray" size="16" type="sidebarUser" class="color-text-desc mr-1" />
+      <ErdaCustomIcon opacity={0.4} fill="black" size="16" type="sidebarUser" class="color-text-desc mr-1" />
       <Tooltip title={`${i18n.t('application:group address')}: ${firstValue}`}>
         <span className="group-address nowrap">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
       </Tooltip>
@@ -148,7 +148,7 @@ export const ListTargets = ({
       text = `${i18n.t('application:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
-          <ErdaCustomIcon opacity={0.4} fill="opacity-gray" size="16" type="sidebarUser" class="mr-1" />
+          <ErdaCustomIcon opacity={0.4} fill="black" size="16" type="sidebarUser" class="mr-1" />
           <Tooltip title={text}>
             <span className="group-address nowrap">{text}</span>
           </Tooltip>

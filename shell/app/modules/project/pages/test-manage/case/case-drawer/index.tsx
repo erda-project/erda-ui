@@ -291,7 +291,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           }}
         >
           <>
-            <ErdaCustomIcon opacity={0.4} fill="opacity-gray" type="play" size="16" />
+            <ErdaCustomIcon opacity={0.4} fill="black" type="play" size="16" />
             {i18n.t('project:execute')}
             <span className="text-xs">
               ({i18n.t('project:When you click directly, it will execute cases without environment.')})

@@ -90,7 +90,7 @@ export const EditCategory = (props: IProps) => {
       <IconCheck className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
       <ErdaCustomIcon
         opacity={0.85}
-        fill="opacity-gray"
+        fill="black"
         type="close"
         class="ml-3 cursor-pointer"
         onClick={props.onHide || handleHide}

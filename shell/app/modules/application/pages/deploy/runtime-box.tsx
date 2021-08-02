@@ -148,7 +148,7 @@ const RuntimeBox = (props: IProps) => {
       <div className="flex justify-between items-center runtime-box">
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
-            <ErdaCustomIcon opacity={0.8} fill="opacity-gray" width="20" height="21" type="slbb" />
+            <ErdaCustomIcon opacity={0.8} fill="black" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -170,8 +170,8 @@ const RuntimeBox = (props: IProps) => {
             <ErdaCustomIcon
               class="mr-1 mt-0.5"
               opacity={0.85}
-              color="opacity-gray"
-              fill="opacity-gray"
+              color="black"
+              fill="black"
               width="20"
               height="21"
               type="slbb"
