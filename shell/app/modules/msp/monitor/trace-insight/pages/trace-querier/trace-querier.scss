@@ -42,6 +42,7 @@ $border-style: 1px solid $color-border;
 
   .request-editor {
     padding: 20px 0;
+    overflow: auto;
 
     .request-edit-body-form {
       color: $orange;
