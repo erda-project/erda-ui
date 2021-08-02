@@ -142,9 +142,9 @@ const ManualTest = () => {
             <Tooltip title={i18n.t('dop:there is a new import case, click to refresh the list')}>
               <ErdaCustomIcon
                 opacity={0.85}
-                color="opacity-gray"
+                color="black"
                 size="16"
-                fill="opacity-gray"
+                fill="black"
                 class={`ml-3 cursor-pointer ${showRefresh ? '' : 'hidden'}`}
                 type="redo"
                 onClick={() => refreshList()}
@@ -190,14 +190,7 @@ const ManualTest = () => {
               prefix={<IconSearch />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>
-              <ErdaCustomIcon
-                opacity={0.85}
-                stroke="opacity-gray"
-                class="mt-0.5"
-                width="16"
-                height="18"
-                type="filter"
-              />
+              <ErdaCustomIcon opacity={0.85} stroke="black" class="mt-0.5" width="16" height="18" type="filter" />
             </Button>
             <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
           </div>

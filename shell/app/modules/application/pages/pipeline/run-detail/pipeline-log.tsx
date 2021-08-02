@@ -96,11 +96,11 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
           }
         >
           <ErdaCustomIcon
-            opacity={0.85}
-            stroke="opacity-gray"
+            opacity={0.4}
+            color="black"
             size="18"
             type="redo"
-            class="mr-4 cursor-pointer"
+            class="mr-1 cursor-pointer"
             onClick={() => delayGetList(getList, 0)}
           />
         </Tooltip>

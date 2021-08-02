@@ -107,7 +107,7 @@ const RepoBranch = () => {
                     &nbsp;{i18n.t('committed at')}
                   </span>
                   <span className="ml-1">{fromNow(when)}</span>
-                  <span className="ml-6 text-desc nowrap flex-1">
+                  <span className="ml-6 text-desc nowrap flex">
                     <GotoCommit length={6} commitId={id} />
                     &nbsp;·&nbsp;
                     <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
@@ -118,7 +118,7 @@ const RepoBranch = () => {
                   </span>
                 </div>
               </div>
-              <div className="branch-item-right">
+              <div className="branch-item-right flex">
                 <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
                   {i18n.t('application:compare')}
                 </Button>
@@ -153,7 +153,7 @@ const RepoBranch = () => {
                   }
                 >
                   <Button>
-                    <ErdaCustomIcon opacity={0.85} class="hover mt-1" fill="opacity-gray" size="16" type="more" />
+                    <ErdaCustomIcon opacity={0.85} class="hover mt-1" fill="black" size="16" type="more" />
                   </Button>
                 </Dropdown>
               </div>

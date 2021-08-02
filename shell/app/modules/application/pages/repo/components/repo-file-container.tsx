@@ -162,7 +162,7 @@ const RepoFileContainerComp = (props: IProps) => {
             class="cursor-pointer"
             width="20"
             height="21"
-            fill="opacity-gray"
+            fill="black"
             opacity={0.4}
             type="qxbj"
             onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })}
@@ -205,7 +205,7 @@ const RepoFileContainerComp = (props: IProps) => {
             <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:edit')}>
               <div className="mt-1 mr-3">
                 <ErdaCustomIcon
-                  fill="opacity-gray"
+                  fill="black"
                   opacity={0.4}
                   size="20"
                   class={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
@@ -217,7 +217,7 @@ const RepoFileContainerComp = (props: IProps) => {
           </IF>
           <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:delete')}>
             <ErdaCustomIcon
-              fill="opacity-gray"
+              fill="black"
               opacity={0.4}
               width="20"
               height="21"

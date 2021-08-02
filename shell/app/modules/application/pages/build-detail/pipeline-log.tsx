@@ -96,8 +96,8 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
           }
         >
           <ErdaCustomIcon
-            opacity={0.85}
-            color="opacity-gray"
+            opacity={0.4}
+            color="black"
             size="18"
             type="redo"
             class="mr-1 cursor-pointer"

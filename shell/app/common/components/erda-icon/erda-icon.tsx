@@ -102,8 +102,8 @@ interface IErdaCustomIcon {
 const COLOR = {
   primary: '106,84,158',
   white: '255,255,255',
+  black: '0,0,0',
   'shallow-gray': '187,187,187',
-  'opacity-gray': '0,0,0',
   'danger-red': '223,52,9',
   yellow: '254,171,0',
 };
