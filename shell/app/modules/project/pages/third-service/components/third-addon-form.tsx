@@ -58,8 +58,10 @@ const ThirdAddonForm = (props: IProps) => {
 
   // 切换 addon 后如果是支持 tenant 的 addon，默认选复用已有实例
   React.useEffect(() => {
-    updater.mode(curAddon.supportTenant ? MODE_MAP.EXIST : MODE_MAP.NEW);
-  }, [curAddon.supportTenant, updater]);
+    const initialMode = curAddon.supportTenant ? MODE_MAP.EXIST : MODE_MAP.NEW;
+    updater.mode(initialMode);
+    form.setFieldsValue({ mode: initialMode });
+  }, [curAddon.supportTenant, updater, form]);
 
   React.useEffect(() => {
     onFieldChange('addonName', query.addon);

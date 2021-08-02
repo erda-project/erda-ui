@@ -14,7 +14,7 @@
 import { map, isEmpty } from 'lodash';
 import React from 'react';
 import { Spin, Button, Timeline, Input } from 'app/nusi';
-import { Copy, Icon as CustomIcon, LoadMore, Holder, Avatar, IF } from 'common';
+import { Copy, LoadMore, Holder, Avatar, IF, ErdaCustomIcon } from 'common';
 import { fromNow, goTo, replaceEmoji, setLS } from 'common/utils';
 import BranchSelect from './components/branch-select';
 import { RepoBreadcrumb } from './components/repo-breadcrumb';
@@ -45,8 +45,8 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
           </div>
           <span className="ml-1">{i18n.t('committed at')}</span>
           <span className="text-sub ml-1">{fromNow(author.when)}</span>
-          <span className="cursor-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
-            <CustomIcon type="commit" />
+          <span className="cursor-copy commit-sub-sha flex" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
+            <ErdaCustomIcon opacity={0.4} fill="black" size="16" type="commit" />
             <span className="sha-text">{id.slice(0, 6)}</span>
           </span>
           <Copy selector=".cursor-copy" />

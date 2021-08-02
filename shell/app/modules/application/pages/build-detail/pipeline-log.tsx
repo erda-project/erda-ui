@@ -18,7 +18,7 @@ import buildStore from 'application/stores/build';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
+import { useUpdate, EmptyHolder, ErdaCustomIcon } from 'common';
 import './pipeline-log.scss';
 import { Loading as IconLoading } from '@icon-park/react';
 
@@ -95,7 +95,14 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
               : i18n.t('refresh')
           }
         >
-          <CustomIcon type="refresh" className="cursor-pointer text-desc" onClick={() => delayGetList(getList, 0)} />
+          <ErdaCustomIcon
+            opacity={0.4}
+            color="black"
+            size="18"
+            type="redo"
+            class="mr-1 cursor-pointer"
+            onClick={() => delayGetList(getList, 0)}
+          />
         </Tooltip>
       ),
     },

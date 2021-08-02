@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Popover } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import { ErdaCustomIcon } from 'common';
 
 import './menu-popover.scss';
 
@@ -49,7 +49,7 @@ export const MenuPopover = ({ content, styleName, placement, iconStyle = 'sm-mor
       trigger={trigger || 'click'}
       onVisibleChange={setVisible}
     >
-      <CustomIcon type="more" className={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
+      <ErdaCustomIcon type="more" class={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
     </Popover>
   );
 };

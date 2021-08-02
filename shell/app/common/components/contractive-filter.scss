@@ -31,7 +31,8 @@
       }
     }
 
-    i {
+    i,
+    svg {
       margin-right: 0;
       color: $lightgray;
       transition: color 0.1s ease-out;
@@ -42,6 +43,15 @@
 
       i {
         color: $gray;
+      }
+
+      .hover {
+        svg {
+          path {
+            stroke: $gray;
+            fill: $gray;
+          }
+        }
       }
     }
   }

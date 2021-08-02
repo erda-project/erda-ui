@@ -18,7 +18,7 @@ import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';
 import { Spin, Button, message, Radio, Modal } from 'app/nusi';
-import { useUpdate, FileEditor, Icon as CustomIcon } from 'common';
+import { useUpdate, FileEditor, ErdaCustomIcon } from 'common';
 import FileContainer from 'application/common/components/file-container';
 import { NodeType } from './config';
 import { externalKey } from './chart';
@@ -293,10 +293,10 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         onChange={(e: any) => changeViewType(e.target.value)}
       >
         <Radio.Button value={ViewType.graphic}>
-          <CustomIcon type="lc" />
+          <ErdaCustomIcon opacity={0.4} class="hover mt-0.5" width="20" height="21" fill="black" type="lc" />
         </Radio.Button>
         <Radio.Button value={ViewType.code}>
-          <CustomIcon type="html1" />
+          <ErdaCustomIcon opacity={0.4} class="hover mt-0.5" width="20" height="21" fill="black" type="html1" />
         </Radio.Button>
       </Radio.Group>
       {!editing ? (
@@ -357,7 +357,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         visible={!isEmpty(errorMsg)}
         title={
           <div>
-            <CustomIcon type="guanbi-fill" className="text-danger" />
+            <ErdaCustomIcon size="16" type="guanbi-fill" fill="danger-red" />
             {i18n.t('error')}
           </div>
         }

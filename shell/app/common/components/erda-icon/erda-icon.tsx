@@ -13,6 +13,7 @@
 
 import React from 'react';
 import './erda-icon.scss';
+import { isNumber } from 'lodash';
 import {
   Lock as IconLock,
   Unlock as IconUnlock,
@@ -83,6 +84,7 @@ export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps)
 type CustomColor = keyof typeof COLOR;
 
 interface IErdaCustomIcon {
+  class?: string;
   type: string; // unique identification of icon
   style?: React.CSSProperties;
   width?: string; // with of svg, and it's more priority than size
@@ -94,19 +96,40 @@ interface IErdaCustomIcon {
   color?: CustomColor; // color of svg
   rtl?: boolean; // acoustic image, the default value is from left to right
   onClick?: React.MouseEventHandler;
+  opacity?: number;
 }
 
 const COLOR = {
-  primary: '#6a549e',
-  white: '#ffffff',
-  'light-primary': '#6a549e19', // rgba($primary, .1)
-  'shallow-primary': '#6a549e99', // rgba($primary, .6)
-  gray: '#666666',
-  darkgray: '#999999',
-  lightgray: '#bbbbbb',
+  primary: '106,84,158',
+  white: '255,255,255',
+  black: '0,0,0',
+  'shallow-gray': '187,187,187',
+  'danger-red': '223,52,9',
+  yellow: '254,171,0',
+  gray: '102, 102, 102',
+  darkgray: '153, 153, 153',
+  lightgray: '187,187,187',
 };
 
-export const ErdaCustomIcon = ({ type, fill, color, stroke, ...rest }: IErdaCustomIcon) => {
+const getOpacityColor = (color: string, opacity?: number) => {
+  if (color) {
+    if (isNumber(opacity)) {
+      return `rgba(${color},${opacity})`;
+    } else {
+      return `rgb(${color})`;
+    }
+  }
+};
+
+export const ErdaCustomIcon = ({ type, fill, color, stroke, opacity, ...rest }: IErdaCustomIcon) => {
   // @ts-ignore iconpark component
-  return <iconpark-icon name={type} fill={COLOR[fill]} color={COLOR[color]} stroke={COLOR[stroke]} {...rest} />;
+  return (
+    <iconpark-icon
+      name={type}
+      fill={getOpacityColor(COLOR[fill], opacity)}
+      color={getOpacityColor(COLOR[color], opacity)}
+      stroke={getOpacityColor(COLOR[stroke], opacity)}
+      {...rest}
+    />
+  );
 };

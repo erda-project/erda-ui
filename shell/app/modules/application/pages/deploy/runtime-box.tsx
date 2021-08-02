@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon, DeleteConfirm, Avatar, IF, MenuPopover } from 'common';
+import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaCustomIcon } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
 import { Spin, Tooltip, Alert } from 'app/nusi';
 import HealthPoint from 'project/common/components/health-point';
@@ -148,7 +148,7 @@ const RuntimeBox = (props: IProps) => {
       <div className="flex justify-between items-center runtime-box">
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
-            <CustomIcon type="slbb" />
+            <ErdaCustomIcon opacity={0.8} fill="black" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -167,7 +167,15 @@ const RuntimeBox = (props: IProps) => {
       >
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
-            <CustomIcon type="slbb" />
+            <ErdaCustomIcon
+              class="mr-1 mt-0.5"
+              opacity={0.85}
+              color="black"
+              fill="black"
+              width="20"
+              height="21"
+              type="slbb"
+            />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -186,8 +194,8 @@ const RuntimeBox = (props: IProps) => {
         {releaseId ? (
           <div>
             <Tooltip title={i18n.t('application:view version information')}>
-              <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
-                <CustomIcon type="bb" />
+              <span className="text-link release-link flex" onClick={(e) => gotoRelease(releaseId, e)}>
+                <ErdaCustomIcon opacity={0.8} class="mr-1" fill="primary" width="20" height="21" type="bb" />
                 <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
               </span>
             </Tooltip>

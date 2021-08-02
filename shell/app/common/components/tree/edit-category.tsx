@@ -13,9 +13,10 @@
 
 import React from 'react';
 import { message, Input, Popover, Button } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import { ErdaCustomIcon } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
+import { Check as IconCheck } from '@icon-park/react';
 
 interface IProps {
   contentOnly?: boolean;
@@ -86,8 +87,15 @@ export const EditCategory = (props: IProps) => {
         onPressEnter={() => handleSave()}
         onChange={(e) => setValue(e.target.value)}
       />
-      <CustomIcon className="ml-3 text-lg cursor-pointer" type="duigou" onClick={handleSave} />
-      <CustomIcon className="ml-3 text-lg cursor-pointer" type="close" onClick={props.onHide || handleHide} />
+      <IconCheck className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
+      <ErdaCustomIcon
+        opacity={0.85}
+        fill="black"
+        type="close"
+        class="ml-3 cursor-pointer"
+        onClick={props.onHide || handleHide}
+        size="16"
+      />
     </div>
   );
 
@@ -108,7 +116,7 @@ export const EditCategory = (props: IProps) => {
     >
       {createButton || (
         <Button type="primary" onClick={() => value && onSubmit({ name: value })}>
-          <CustomIcon type="cir-add" className="mr4" />
+          <ErdaCustomIcon type="cir-add" class="mr-4" size="16" fill="white" />
           {i18n.t('add')}
         </Button>
       )}

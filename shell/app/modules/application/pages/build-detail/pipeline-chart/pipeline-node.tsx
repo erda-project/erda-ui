@@ -108,7 +108,8 @@ const PipelineNode = (props: IProps) => {
             !skip.includes(m.name) &&
             temp.push(
               <div key={`meta-${String(index)}`} className="app-pipeline-chart-msg-item">
-                <span className="app-pipeline-chart-msg-item-name">{m.name}</span> {m.value}
+                <span className="app-pipeline-chart-msg-item-name">{m.name}</span>
+                <pre>{m.value}</pre>
               </div>,
             ),
         );
@@ -137,7 +138,7 @@ const PipelineNode = (props: IProps) => {
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
               <span className="app-pipeline-chart-msg-item-name error">{error.name || 'error'}</span>
-              {error.value || error.msg}
+              <pre>{error.value || error.msg}</pre>
             </div>
           )),
         );

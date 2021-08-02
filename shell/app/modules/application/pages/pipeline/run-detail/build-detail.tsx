@@ -16,7 +16,7 @@ import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate } from 'common';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate, ErdaCustomIcon } from 'common';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { ColumnProps } from 'core/common/interface';
@@ -478,7 +478,10 @@ const BuildDetail = (props: IProps) => {
           <div className="build-operator">
             <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
               <Tooltip title={execTitle}>
-                <CustomIcon
+                <ErdaCustomIcon
+                  opacity={0.4}
+                  size="20"
+                  fill="black"
                   onClick={() => {
                     runBuild();
                   }}
@@ -500,7 +503,7 @@ const BuildDetail = (props: IProps) => {
             >
               <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                 <Tooltip title={i18n.t('application:cancel build')}>
-                  <CustomIcon type="pause" />
+                  <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="pause" />
                 </Tooltip>
               </WithAuth>
             </DeleteConfirm>
@@ -515,7 +518,7 @@ const BuildDetail = (props: IProps) => {
             <IF check={canRerunFailed}>
               {deployAuth.hasAuth ? (
                 <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <CustomIcon type="refresh" />
+                  <ErdaCustomIcon opacity={0.4} size="21" fill="black" type="redo" class="mr-1.5" />
                 </Dropdown>
               ) : (
                 <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
@@ -621,7 +624,7 @@ const BuildDetail = (props: IProps) => {
             });
           }}
         >
-          <CustomIcon type="shuaxin" />
+          <ErdaCustomIcon class="hover" size="16" type="shuaxin" />
           {i18n.t('fetch latest records')}
         </div>
         <Table
@@ -676,7 +679,7 @@ const BuildDetail = (props: IProps) => {
                 content={renderBuildHistory()}
                 arrowPointAtCenter
               >
-                <CustomIcon type="jsjl" />
+                <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="jsjl" class="mb-2 mr-1 cursor-pointer" />
               </Popover>
               {renderRunBtn()}
             </div>

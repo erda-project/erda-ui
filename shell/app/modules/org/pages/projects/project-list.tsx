@@ -239,7 +239,7 @@ export const ProjectList = () => {
         width: 120,
         fixed: 'right',
         render: (id, record) => {
-          if (record.type === 'MSGovernance') {
+          if (record.type === 'MSP') {
             return null;
           }
           return (
