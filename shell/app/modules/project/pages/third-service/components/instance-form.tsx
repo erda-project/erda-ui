@@ -79,8 +79,9 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
     const curMode = editData && editData.customAddonType;
     if (curMode !== 'cloud') {
       updater.mode(MODE_MAP.CUSTOM);
+      form.setFieldsValue({ mode: MODE_MAP.CUSTOM });
     }
-  }, [editData, updater]);
+  }, [editData, updater, form]);
 
   React.useEffect(() => {
     if (state.mode === MODE_MAP.EXIST) {
