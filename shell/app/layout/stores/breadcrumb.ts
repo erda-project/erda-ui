@@ -31,6 +31,7 @@ interface IState {
     k8sName: string;
     testSpaceName: string;
     curOrgName: string;
+    mspProjectName: string;
   };
 }
 
@@ -52,6 +53,7 @@ const initState: IState = {
     k8sName: '',
     testSpaceName: '',
     curOrgName: '',
+    mspProjectName: '',
   },
 };
 

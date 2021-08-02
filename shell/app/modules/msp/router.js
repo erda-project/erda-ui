@@ -44,6 +44,7 @@ function getMspRouter() {
         },
         injectWrapper({
           path: ':projectId/:env/:tenantGroup',
+          breadcrumbName: '{mspProjectName}',
           mark: 'mspDetail',
           routes: [
             getTopologyRouter(),

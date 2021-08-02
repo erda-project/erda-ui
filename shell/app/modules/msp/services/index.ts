@@ -33,6 +33,15 @@ export const createTenantProject = (
     .then((response: any) => response.body);
 };
 
+export const deleteTenantProject = (payload: {
+  projectId: number;
+}): Promise<{ success: boolean; data: MS_INDEX.IMspProject }> => {
+  return agent
+    .delete('/api/msp/tenant/project')
+    .query(payload)
+    .then((response: any) => response.body);
+};
+
 export const getMspMenuList = (payload: { type: string; tenantId?: string }): MS_INDEX.IMspMenu[] => {
   return agent
     .get(`/api/msp/tenant/menu`)

@@ -31,7 +31,7 @@ const Setting = () => {
       content: <ProjectInfo canEdit canEditQuota canDelete showQuotaTip />,
     },
     // microService governance project doesn't display cluster settings and rollback settings
-    ...insertWhen(info.type !== 'MSGovernance', [
+    ...insertWhen(info.type !== 'MSP', [
       {
         tabTitle: i18n.t('project:cluster setting'),
         tabKey: 'clusterSetting',

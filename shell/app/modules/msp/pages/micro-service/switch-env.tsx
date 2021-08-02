@@ -13,15 +13,14 @@
 
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
-import { Select } from 'app/nusi';
+import { Dropdown, Menu } from 'app/nusi';
 import { useUpdateEffect } from 'react-use';
 import mspStore, { initMenu } from 'msp/stores/micro-service';
+import { ErdaCustomIcon } from 'common';
 import { goTo } from 'common/utils';
 
-const { Option } = Select;
-
 const SwitchEnv = () => {
-  const [{ relationship, id, displayName, type }] = mspStore.useStore((s) => [s.currentProject]);
+  const [{ relationship, id }] = mspStore.useStore((s) => [s.currentProject]);
   const [{ env }] = routeInfoStore.useStore((s) => [s.params]);
   const [currentEnv, setEnv] = React.useState(env);
   React.useEffect(() => {
@@ -30,20 +29,38 @@ const SwitchEnv = () => {
   useUpdateEffect(() => {
     initMenu(true);
   }, [env]);
-  const handleChangeEnv = (val: string) => {
-    const selectEnv = relationship.find((item) => item.workspace);
-    if (selectEnv && val !== env) {
-      goTo(goTo.pages.mspOverview, { tenantGroup: selectEnv.tenantId, projectId: id, env: val });
-    }
-  };
-  return (
-    <div className="px-3">
-      <div className="mb-3">{displayName}</div>
-      <Select disabled={type === 'MSP'} className="w-full" value={currentEnv} onSelect={handleChangeEnv}>
+  const [menu, envName] = React.useMemo(() => {
+    const handleChangeEnv = ({ key }: { key: string }) => {
+      const selectEnv = relationship.find((item) => item.workspace);
+      if (selectEnv && key !== currentEnv) {
+        goTo(goTo.pages.mspOverview, { tenantGroup: selectEnv.tenantId, projectId: id, env: key });
+      }
+    };
+    const { displayWorkspace, workspace } = relationship?.find((t) => t.workspace === currentEnv) ?? {};
+    return [
+      <Menu onClick={handleChangeEnv}>
         {relationship?.map((item) => {
-          return <Option value={item.workspace}>{item.displayWorkspace}</Option>;
+          return (
+            <Menu.Item
+              className={`${workspace === item.workspace ? 'bg-light-primary text-primary' : ''}`}
+              key={item.workspace}
+            >
+              {item.displayWorkspace}
+            </Menu.Item>
+          );
         })}
-      </Select>
+      </Menu>,
+      displayWorkspace,
+    ];
+  }, [relationship, currentEnv]);
+  return (
+    <div className="px-3 mt-2">
+      <Dropdown overlay={menu} trigger={['click']}>
+        <div className="font-bold text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer hover:border-primary">
+          <span className="self-center">{envName}</span>
+          <ErdaCustomIcon class="self-center" type="caret-down" size="16" />
+        </div>
+      </Dropdown>
     </div>
   );
 };

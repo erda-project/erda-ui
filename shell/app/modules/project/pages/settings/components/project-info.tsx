@@ -24,7 +24,7 @@ import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
 import { removeMember } from 'common/services/index';
 import routeInfoStore from 'core/stores/route';
-import diceEnv from 'dice-env';
+import { createTenantProject, deleteTenantProject } from 'msp/services';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import userStore from 'app/user/stores';
 
@@ -56,12 +56,21 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const [canGetClusterListAndResources, setCanGetClusterListAndResources] = React.useState(false);
   const updatePrj = (values: Obj) => {
     const { cpuQuota, memQuota, isPublic } = values;
-    updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(() => {
-      getLeftResources();
-      reloadHeadInfo();
-    });
+    updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(
+      (res) => {
+        console.log(res);
+        createTenantProject({
+          id: `${info.id}`,
+          name: values.name,
+          displayName: values.displayName,
+          type: info.type === 'MSP' ? 'MSP' : 'DOP',
+        });
+        getLeftResources();
+        reloadHeadInfo();
+      },
+    );
   };
-  const notMSGovernance = info.type !== 'MSGovernance';
+  const notMSP = info.type !== 'MSP';
   const fieldsList = [
     {
       label: i18n.t('{name} identifier', { name: i18n.t('project') }),
@@ -74,7 +83,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       label: i18n.t('project name'),
       name: 'displayName',
     },
-    ...insertWhen(notMSGovernance, [
+    ...insertWhen(notMSP, [
       {
         label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
         name: 'isPublic',
@@ -106,7 +115,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       itemProps: { rows: 4, maxLength: 200 },
     },
     ...insertWhen(
-      notMSGovernance,
+      notMSP,
       useQuotaFields(
         canEditQuota,
         showQuotaTip,
@@ -122,15 +131,15 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   ];
 
   const inOrgCenter = location.pathname.startsWith(`/${orgName}/orgCenter`);
-  const onDelete = () => {
+  const onDelete = async () => {
     setConfirmProjectName('');
-    deleteProject().then(() => {
-      if (inOrgCenter) {
-        goTo(goTo.pages.orgCenterRoot, { replace: true });
-      } else {
-        goTo(goTo.pages.dopRoot, { replace: true });
-      }
-    });
+    await deleteProject();
+    await deleteTenantProject({ projectId: info.id });
+    if (inOrgCenter) {
+      goTo(goTo.pages.orgCenterRoot, { replace: true });
+    } else {
+      goTo(goTo.pages.dopRoot, { replace: true });
+    }
   };
 
   const exitProject = () => {
@@ -194,7 +203,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       updateInfo={updatePrj}
       extraSections={extraSectionList}
       name={
-        info.id && inOrgCenter && notMSGovernance ? (
+        info.id && inOrgCenter && notMSP ? (
           <div>
             {formName}
             <Tooltip title={i18n.t('project:applications')}>
