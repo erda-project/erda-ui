@@ -89,7 +89,7 @@ const TagForm = ({ visible, machine, onCancel }: IProps) => {
     <>
       <FormModal
         width={620}
-        title={i18n.t('set tags')}
+        title={i18n.t('Set tags of {ip}', { ip: machine?.ip })}
         fieldsList={fieldsList}
         visible={visible}
         formData={{ labels: normalLabels, customLabels }}

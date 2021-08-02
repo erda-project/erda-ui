@@ -1180,6 +1180,7 @@
     "Supported Android package versions": "支持的 Android 包版本",
     "Supported iOS package versions": "支持的 iOS 包版本",
     "Sydney": "悉尼",
+    "Set tags of {ip}": "设置 {ip} 的标签",
     "The administrator has received your request. Please go to": "管理员已收到您的请求。请稍后到",
     "The current version has been referenced by the management entry. Please dereference before editing.": "当前版本已被管理条目引用，请解除引用后再编辑",
     "The invitation link and verification code have been created": "邀请链接和验证码已创建",
