@@ -24,6 +24,7 @@ import wfwzl_svg from 'app/images/wfwzl.svg';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
+import breadcrumbStore from 'layout/stores/breadcrumb';
 
 interface IState {
   mspProjectList: MS_INDEX.IMspProject[];
@@ -124,6 +125,7 @@ const mspStore = createStore({
           DICE_CLUSTER_TYPE: undefined,
         });
         mspStore.reducers.clearMenuInfo();
+        breadcrumbStore.reducers.setInfo('mspProjectName', '');
       }
     });
   },
@@ -131,6 +133,7 @@ const mspStore = createStore({
     async getMspProjectDetail({ call, update, getParams }) {
       const { projectId } = getParams();
       const projectDetail = await call(mspService.getMspProjectDetail, { projectId });
+      breadcrumbStore.reducers.setInfo('mspProjectName', projectDetail.displayName);
       update({
         currentProject: projectDetail || {},
       });

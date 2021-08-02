@@ -106,6 +106,9 @@ const COLOR = {
   'opacity-gray': '0,0,0',
   'danger-red': '223,52,9',
   yellow: '254,171,0',
+  gray: '102, 102, 102',
+  darkgray: '153, 153, 153',
+  lightgray: '187,187,187',
 };
 
 const getOpacityColor = (color: string, opacity?: number) => {

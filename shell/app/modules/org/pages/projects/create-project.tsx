@@ -229,7 +229,7 @@ const templateArr: ICardProps[] = [
   },
   {
     name: i18n.t('org:microservice governance project'),
-    val: 'MSGovernance',
+    val: 'MSP',
     icon: 'zhili',
     description: i18n.t('org:microservice governance desc'),
     disabled: false,
@@ -261,7 +261,7 @@ const CreationForm = () => {
             id: `${res.data}`,
             name: values.name,
             displayName: values.displayName,
-            type: values.template === 'MSGovernance' ? 'MSP' : 'DOP',
+            type: values.template === 'MSP' ? 'MSP' : 'DOP',
           }).then(() => {
             goTo('../');
           });
@@ -341,7 +341,7 @@ const CreationForm = () => {
         maxLength: 40,
       },
     },
-    ...insertWhen(template !== 'MSGovernance', [
+    ...insertWhen(template !== 'MSP', [
       {
         getComp: () => (
           <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
@@ -350,7 +350,7 @@ const CreationForm = () => {
         ),
       },
     ]),
-    ...insertWhen(template !== 'MSGovernance' && ifConfigCluster, [
+    ...insertWhen(template !== 'MSP' && ifConfigCluster, [
       {
         label: (
           <span className="mr-1">

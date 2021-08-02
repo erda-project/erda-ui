@@ -78,20 +78,24 @@ const MsProjectList = () => {
       render: (createTime: number) => (createTime ? formatTime(createTime / 1000000, 'YYYY-MM-DD HH:mm:ss') : null),
     },
     {
-      title: i18n.t('application:operation'),
       dataIndex: 'id',
       width: 240,
+      className: 'table-operations',
       render: (id: string, { relationship }) =>
-        relationship.map((item, index) => {
-          return (
+        relationship.map((item) => {
+          return item.tenantId ? (
             <a
-              className={index ? 'ml-3' : ''}
+              className="table-operations-btn"
               onClick={() => {
                 goTo(goTo.pages.mspOverview, { tenantGroup: item.tenantId, projectId: id, env: item.workspace });
               }}
             >
               {item.displayWorkspace}
             </a>
+          ) : (
+            <span className="table-operations-btn text-dark-6 cursor-not-allowed no-underline">
+              {item.displayWorkspace}
+            </span>
           );
         }),
     },
