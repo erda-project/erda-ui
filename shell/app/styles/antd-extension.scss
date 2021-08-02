@@ -436,29 +436,3 @@ div.ant-table {
 div.ant-progress-inner {
   background-color: rgba(0, 0, 0, 0.06);
 }
-
-div.ant-alert {
-  color: rgba(9, 24, 33, 0.64);
-}
-
-div.ant-alert-info {
-  border: 1px solid #e0f0ff;
-  background-color: #ebf5ff;
-
-  .ant-alert-icon {
-    color: #339eff;
-  }
-}
-
-div.ant-alert-error {
-  border: 1px solid #fee4de;
-  background-color: #ffede9;
-}
-
-.ant-alert-icon {
-  font-size: 16px;
-}
-
-.ant-alert-message {
-  color: rgba(9, 24, 33, 0.64);
-}
