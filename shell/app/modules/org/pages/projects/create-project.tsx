@@ -133,7 +133,7 @@ export const useQuotaFields = (
       hideWhenReadonly: true,
       getComp: () => (
         <Spin spinning={isLoading}>
-          <Alert message={tip} type="normal" />
+          <Alert message={tip} type="info" />
         </Spin>
       ),
     });

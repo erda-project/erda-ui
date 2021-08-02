@@ -163,7 +163,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
     {
       label: '',
       getComp() {
-        return <Alert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="normal" showIcon />;
+        return <Alert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="info" showIcon />;
       },
     },
     {

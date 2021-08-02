@@ -54,7 +54,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
         }
         {...modalProps}
       >
-        {tip ? <Alert className="mb-5" message={tip} type="normal" showIcon /> : null}
+        {tip ? <Alert className="mb-5" message={tip} type="info" showIcon /> : null}
         <div className="content">
           <div className="item mb-4">
             <p className="label mb-2">{i18n.t('url address')}</p>

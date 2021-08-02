@@ -283,7 +283,7 @@ const ClusterAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <If condition={clusterType === 'k8s'}>
-        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="normal" className="mb-8" />
+        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="info" className="mb-8" />
       </If>
       <ClusterBasicForm
         form={form}

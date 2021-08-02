@@ -127,14 +127,10 @@ export const AddMemberModal = ({
         options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
       },
     ]),
-    ...insertWhen(hasConfigAppAuth && scope.type === MemberScope.PROJECT, [
+    ...insertWhen(!!hasConfigAppAuth && scope.type === MemberScope.PROJECT, [
       {
         getComp: () => (
-          <Alert
-            showIcon
-            type="normal"
-            message={i18n.t('common:You can set application-level roles at the same time')}
-          />
+          <Alert showIcon type="info" message={i18n.t('common:You can set application-level roles at the same time')} />
         ),
       },
       {

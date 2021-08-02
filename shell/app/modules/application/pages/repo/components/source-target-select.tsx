@@ -44,7 +44,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
     resultType = 'progress';
   }
 
-  const renderAlert = (msg: any, type: 'success' | 'normal' | 'warning' | 'error' | undefined) => (
+  const renderAlert = (msg: any, type: 'success' | 'info' | 'warning' | 'error' | undefined) => (
     <Alert className="mb-4" message={msg} type={type} showIcon />
   );
 

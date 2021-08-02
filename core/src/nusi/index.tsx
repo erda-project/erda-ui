@@ -13,6 +13,7 @@
 
 import {
   Affix,
+  Alert,
   Anchor,
   Button,
   BackTop,
@@ -63,7 +64,6 @@ import Table from './wrapped-table';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
-  Alert,
   Avatar,
   // Input,
   Card,
@@ -88,7 +88,6 @@ import {
   ConfigProvider as NusiConfigProvider,
   Tree as NusiTree,
   Popover as NusiPopover,
-  Select as NusiSelect,
   Icon as NusiIcon,
   Empty as NusiEmpty,
   Cascader as NusiCascader,
@@ -185,7 +184,6 @@ export {
   NusiConfigProvider,
   NusiTree,
   NusiPopover,
-  NusiSelect,
   NusiIcon,
   NusiEmpty,
   NusiCascader,
