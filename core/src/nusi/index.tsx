@@ -13,6 +13,7 @@
 
 import {
   Affix,
+  Anchor,
   Button,
   BackTop,
   Badge,
@@ -63,7 +64,6 @@ import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
   Alert,
-  Anchor,
   Avatar,
   // Input,
   Card,

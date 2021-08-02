@@ -111,28 +111,45 @@ const DetailsPanel = (props: IProps) => {
       <IF check={!isEmpty(linkList)}>
         <Anchor getContainer={() => container.current}>
           {map(linkList, (item) => {
-            const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
+            const { linkProps, key } = item;
             const { icon, title } = linkProps;
-            const _titleProps = {
-              title,
-              level: 2,
-              icon,
-              ...titleProps,
-            };
             const href = `#${key}`;
             return (
-              <Link href={href} title={title} key={href} icon={icon}>
-                <Content
-                  crossLine={crossLine}
-                  titleProps={_titleProps}
-                  panelProps={panelProps}
-                  getComp={getComp}
-                  showTitle={showTitle}
-                />
-              </Link>
+              <Link
+                href={href}
+                title={
+                  <div className="pk-title-title_icon">
+                    {icon}
+                    <span className="pk-anchor-link-title_text">{title}</span>
+                  </div>
+                }
+                key={href}
+              />
             );
           })}
         </Anchor>
+
+        {map(linkList, (item) => {
+          const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
+          const { icon, title } = linkProps;
+          const _titleProps = {
+            title,
+            level: 2,
+            icon: <div className="title-icon">{icon}</div>,
+            ...titleProps,
+          };
+          return (
+            <div id={key} className="pt-3">
+              <Content
+                crossLine={crossLine}
+                titleProps={_titleProps}
+                panelProps={panelProps}
+                getComp={getComp}
+                showTitle={showTitle}
+              />
+            </div>
+          );
+        })}
       </IF>
     </div>
   );
