@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Drawer, Spin, Input, Tooltip, message } from 'app/nusi';
-import { Avatar, Copy, Icon as CustomIcon, MarkdownEditor, UserInfo, useUpdate } from 'common';
+import { Avatar, Copy, ErdaCustomIcon, MarkdownEditor, UserInfo, useUpdate } from 'common';
 import testCaseStore from 'project/stores/test-case';
 import i18n from 'i18n';
 import { fromNow, mergeSearch, qs, updateSearch } from 'common/utils';
@@ -291,7 +291,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           }}
         >
           <>
-            <CustomIcon type="play" />
+            <ErdaCustomIcon opacity={0.4} fill="opacity-gray" type="play" size="16" />
             {i18n.t('project:execute')}
             <span className="text-xs">
               ({i18n.t('project:When you click directly, it will execute cases without environment.')})
@@ -346,8 +346,8 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           </div>
           <div className="flex justify-between items-center mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
-              <div className="flex-1 text-base nowrap mr-5 text-desc">
-                <CustomIcon type="wjj1" className="text-warning" />
+              <div className="flex text-base nowrap mr-5 color-text-desc">
+                <ErdaCustomIcon type="wjj1" size="16" class="mr-1" fill="yellow" />
                 {dirName}
               </div>
             </Tooltip>

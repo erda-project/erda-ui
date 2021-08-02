@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { message, Tooltip, Radio, Button } from 'app/nusi';
-import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate } from 'common';
+import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate, ErdaCustomIcon } from 'common';
 import { goTo, updateSearch } from 'common/utils';
 import RepoFile from './repo-file';
 import RepoEditor from './repo-editor';
@@ -158,7 +158,15 @@ const RepoFileContainerComp = (props: IProps) => {
     if (editFile) {
       return (
         <Tooltip title={i18n.t('application:cancel')}>
-          <CustomIcon type="qxbj" onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })} />
+          <ErdaCustomIcon
+            class="cursor-pointer"
+            width="20"
+            height="21"
+            fill="opacity-gray"
+            opacity={0.4}
+            type="qxbj"
+            onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })}
+          />
         </Tooltip>
       );
     } else {
@@ -195,16 +203,25 @@ const RepoFileContainerComp = (props: IProps) => {
           </ButtonGroup>
           <IF check={!binary}>
             <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:edit')}>
-              <CustomIcon
-                className={info.isLocked ? 'disabled' : ''}
-                type="bj"
-                onClick={() => !info.isLocked && changeMode({ editFile: true })}
-              />
+              <div className="mt-1 mr-3">
+                <ErdaCustomIcon
+                  fill="opacity-gray"
+                  opacity={0.4}
+                  size="20"
+                  class={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
+                  type="bj"
+                  onClick={() => !info.isLocked && changeMode({ editFile: true })}
+                />
+              </div>
             </Tooltip>
           </IF>
           <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:delete')}>
-            <CustomIcon
-              className={info.isLocked ? 'disabled' : ''}
+            <ErdaCustomIcon
+              fill="opacity-gray"
+              opacity={0.4}
+              width="20"
+              height="21"
+              class={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
               type="sc1"
               onClick={() => !info.isLocked && toggleModal(true)}
             />

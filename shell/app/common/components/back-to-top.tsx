@@ -14,7 +14,7 @@
 import React from 'react';
 import { Tooltip } from 'app/nusi';
 import { throttle } from 'lodash';
-import { Icon as CustomIcon } from 'common';
+import { ErdaCustomIcon } from 'common';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 
@@ -54,7 +54,7 @@ const BackToTop = ({ containerId }: { containerId?: string }) => {
 
   return visible ? (
     <Tooltip title={i18n.t('back to top')}>
-      <CustomIcon className="scroll-top-btn" type="huidaodingbu" onClick={onBackToTop} />
+      <ErdaCustomIcon size="20" class="scroll-top-btn" type="huidaodingbu" onClick={onBackToTop} />
     </Tooltip>
   ) : null;
 };

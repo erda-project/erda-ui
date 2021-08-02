@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Modal, Button } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import { Attention as IconAttention } from '@icon-park/react';
 import i18n from 'i18n';
 
 interface IProps {
@@ -81,7 +81,7 @@ export const ConfirmDelete = (props: IProps) => {
       <Modal
         title={
           <div className="flex flex-wrap items-center">
-            <CustomIcon type="warning" className="mr-1 text-warning text-xl font-bold" />
+            <IconAttention className="mr-1 color-warning text-xl font-bold" />
             {_title}
           </div>
         }

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'app/nusi';
-import { FormModal, Icon as CustomIcon, IF } from 'common';
+import { FormModal, IF } from 'common';
 import { goTo, setLS, removeLS } from 'app/common/utils';
 import BranchSelect from './branch-select';
 import { getInfoFromRefName, getSplitPathBy } from '../util';
@@ -167,7 +167,7 @@ const PureRepoNavOperation = () => {
         <Dropdown overlay={addMenu}>
           <Button className="ml-2">
             {i18n.t('add')}
-            <CustomIcon className="ml-2" type="caret-down" />
+            <IconDownOne size="14" className="ml-2 hover" theme="filled" fill="rgba(0,0,0,.4)" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -179,7 +179,7 @@ const PureRepoNavOperation = () => {
         <Tooltip title={disabledTips[0]}>
           <Button className="ml-2" disabled>
             {i18n.t('add')}
-            <CustomIcon className="ml-2" type="caret-down" />
+            <IconDownOne size="14" className="ml-2 hover" theme="filled" fill="rgba(0,0,0,.4)" />
           </Button>
         </Tooltip>
       </IF>
