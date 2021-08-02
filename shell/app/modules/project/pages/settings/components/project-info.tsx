@@ -56,19 +56,16 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const [canGetClusterListAndResources, setCanGetClusterListAndResources] = React.useState(false);
   const updatePrj = (values: Obj) => {
     const { cpuQuota, memQuota, isPublic } = values;
-    updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(
-      (res) => {
-        console.log(res);
-        createTenantProject({
-          id: `${info.id}`,
-          name: values.name,
-          displayName: values.displayName,
-          type: info.type === 'MSP' ? 'MSP' : 'DOP',
-        });
-        getLeftResources();
-        reloadHeadInfo();
-      },
-    );
+    updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(() => {
+      createTenantProject({
+        id: `${info.id}`,
+        name: values.name,
+        displayName: values.displayName,
+        type: info.type === 'MSP' ? 'MSP' : 'DOP',
+      });
+      getLeftResources();
+      reloadHeadInfo();
+    });
   };
   const notMSP = info.type !== 'MSP';
   const fieldsList = [
