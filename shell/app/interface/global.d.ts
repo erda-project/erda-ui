@@ -14,7 +14,6 @@
 // no import or export statement in this file
 
 declare module 'path';
-declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
 declare module '@erda-ui/dashboard-configurator';
 

@@ -57,7 +57,7 @@ const getLogItem =
       level = _level;
     }
 
-    const reContent = parseLinkInContent(AU.ansi_to_html(content), pushSlideComp);
+    const reContent = parseLinkInContent(AU.ansi_to_html(content).replaceAll('&quot;', '"'), pushSlideComp);
     return (
       <div className="container-log-item">
         {time && <span className="log-item-logtime">{time}</span>}
