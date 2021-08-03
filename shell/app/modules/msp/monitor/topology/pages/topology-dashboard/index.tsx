@@ -13,7 +13,7 @@
 
 import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import produce from 'immer';
-import { map, get, find } from 'lodash';
+import { map, get, find, isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Button } from 'app/nusi';
 import { PureBoardGrid } from 'common';
@@ -56,12 +56,15 @@ const TopologyDashboard = () => {
   // 缓存同类型节点加载的大盘模板
   const loadedDashBoardMap = useRef<Map<string, DC.Layout>>(new Map());
 
-  const globalVariable: GlobalVariable = useMemo(
-    () => ({
-      terminusKey: params.terminusKey,
-      startTime: timeSpan.startTimeMs,
-      endTime: timeSpan.endTimeMs,
-    }),
+  const globalVariable: Partial<GlobalVariable> = useMemo(
+    () =>
+      params.terminusKey
+        ? {
+            terminusKey: params.terminusKey,
+            startTime: timeSpan.startTimeMs,
+            endTime: timeSpan.endTimeMs,
+          }
+        : {},
     [params.terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs],
   );
 
@@ -74,9 +77,11 @@ const TopologyDashboard = () => {
   };
 
   useEffect(() => {
-    getCustomDashboard({ id: 'global_overview', isSystem: true }).then((res) => {
-      setOverviewBoard(res);
-    });
+    if (params.terminusKey) {
+      getCustomDashboard({ id: 'global_overview', isSystem: true }).then((res) => {
+        setOverviewBoard(res);
+      });
+    }
   }, [getCustomDashboard, params.terminusKey]);
 
   nodeGlobalVariable.current = useMemo(
@@ -135,7 +140,7 @@ const TopologyDashboard = () => {
     <div className="topology-dashboard">
       {/* 全局概览 */}
       <div className="topology-global-dashboard">
-        <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />
+        {!isEmpty(globalVariable) && <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />}
       </div>
       {/*
         可跳转 node type case:
