@@ -18,33 +18,21 @@ import {
   getBiCapacityAjaxErr,
   getBiCapacityAjaxInfo,
   getBiCapacityApdex,
-  getMonitorInstance,
 } from '../services/monitor-overview';
 
 interface IState {
   aiCapacityData: MONITOR_OVERVIEW.IAIData;
   biCapacityData: MONITOR_OVERVIEW.IBIData;
-  instance: MONITOR_OVERVIEW.IMonitorInstance;
-  curTerminusKey: string;
 }
 
 const initState: IState = {
   aiCapacityData: {},
   biCapacityData: {},
-  instance: {},
-  curTerminusKey: '', // 当前的tk
 } as IState;
 
 const monitorOverview = createStore({
   name: 'monitorOverview',
   state: initState,
-  subscriptions({ listenRoute }: IStoreSubs) {
-    listenRoute(({ isIn }) => {
-      if (isIn('monitor')) {
-        monitorOverview.effects.getMonitorInstance();
-      }
-    });
-  },
   effects: {
     async getAiCapacityData({ call, update, getParams }, payload: MONITOR_OVERVIEW.IChartQuery) {
       const { terminusKey } = getParams();
@@ -77,14 +65,6 @@ const monitorOverview = createStore({
         ajaxCpm: get(data, '["cpm.tt"].data') || 0,
       };
       monitorOverview.reducers.getBiCapacityDataSuccess({ ...ajaxInfo });
-    },
-    async getMonitorInstance({ call, update, getParams, select }) {
-      const { terminusKey } = getParams();
-      const curTerminusKey = select((s) => s.curTerminusKey);
-      if (curTerminusKey !== terminusKey) {
-        const instance = await call(getMonitorInstance, { terminusKey });
-        update({ instance, curTerminusKey: terminusKey });
-      }
     },
   },
   reducers: {

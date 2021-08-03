@@ -21,9 +21,7 @@ import ErrorFilters from './error-filters';
 import routeInfoStore from 'core/stores/route';
 import monitorErrorStore from 'error-insight/stores/error';
 import monitorCommonStore from 'common/stores/monitorCommon';
-import monitorOverviewStore from 'monitor-overview/stores/monitor-overview';
 import { useLoading } from 'core/stores/loading';
-import { useEffectOnce } from 'react-use';
 import { Pagination, Spin } from 'app/nusi';
 import { EmptyHolder } from 'common';
 import i18n from 'i18n';
@@ -45,19 +43,12 @@ const ErrorChart = commonChartRender(errorChartConfig) as any;
 
 const ErrorOverview = () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
-  const workspace = monitorOverviewStore.useStore((s) => s.instance.workspace);
-  const { getMonitorInstance } = monitorOverviewStore.effects;
   const [loading] = useLoading(monitorErrorStore, ['getErrorsList']);
   const errors = monitorErrorStore.useStore((s) => s.errors);
   const { getErrorsList } = monitorErrorStore.effects;
   const { clearMonitorErrors } = monitorErrorStore.reducers;
-  const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
+  const { projectId, terminusKey, env } = routeInfoStore.useStore((s) => s.params);
   const [pageNo, setPageNo] = React.useState(1);
-
-  useEffectOnce(() => {
-    getMonitorInstance();
-    return () => clearMonitorErrors();
-  });
 
   React.useEffect(() => {
     clearMonitorErrors();
@@ -78,7 +69,7 @@ const ErrorOverview = () => {
   // shell/app/modules/msp/monitor/monitor-common/components/chartFactory.tsx
   // 临时处理：上面引用的 chartFactory 有个循环渲染的 bug， 受影响的目前只有这一处：
   const query = {
-    query: { filter_workspace: workspace, filter_project_id: projectId, filter_terminus_key: terminusKey },
+    query: { filter_workspace: env, filter_project_id: projectId, filter_terminus_key: terminusKey },
   };
   return (
     <div className="error-overview">
