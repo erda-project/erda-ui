@@ -42,7 +42,3 @@ export const getBiCapacityAjaxInfo = (params: MONITOR_OVERVIEW.IChartQuery) => {
     .query(params)
     .then((response: any) => response.body);
 };
-
-export const getMonitorInstance = ({ terminusKey }: { terminusKey: string }): MONITOR_OVERVIEW.IMonitorInstance => {
-  return agent.get(`/api/spot/monitor/instances/${terminusKey}`).then((response: any) => response.body);
-};
