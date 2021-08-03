@@ -135,14 +135,16 @@ const Topology = () => {
   }, [topologyTags, timeSpan]);
 
   React.useEffect(() => {
-    getTopologyTags({ terminusKey: params.terminusKey }).then((res) => {
-      const initialTags = {};
-      res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
-        Object.assign(initialTags, { [item.tag]: [] });
-      });
+    if (params.terminusKey) {
+      getTopologyTags({ terminusKey: params.terminusKey }).then((res) => {
+        const initialTags = {};
+        res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
+          Object.assign(initialTags, { [item.tag]: [] });
+        });
 
-      setFilterTags(initialTags);
-    });
+        setFilterTags(initialTags);
+      });
+    }
   }, [params.terminusKey]);
 
   React.useEffect(() => {

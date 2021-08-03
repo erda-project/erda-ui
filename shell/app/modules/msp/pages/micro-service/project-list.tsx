@@ -78,6 +78,7 @@ const MsProjectList = () => {
       render: (createTime: number) => (createTime ? formatTime(createTime / 1000000, 'YYYY-MM-DD HH:mm:ss') : null),
     },
     {
+      title: i18n.t('msp:environment entrance'),
       dataIndex: 'id',
       width: 240,
       className: 'table-operations',
