@@ -387,7 +387,7 @@ const PureLoadMoreSelector = (props: IProps) => {
       <Dropdown
         overlay={getOverlay()}
         visible={visible}
-        overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
+        overlayClassName={`${visible ? 'load-more-selector-dropdown' : ''} ${dropdownClassName}`}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div
