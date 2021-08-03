@@ -168,7 +168,7 @@ const RuntimeBox = (props: IProps) => {
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
             <ErdaCustomIcon
-              class="mr-1 mt-0.5"
+              className="mr-1 mt-0.5"
               opacity={0.85}
               color="black"
               fill="black"
@@ -194,8 +194,15 @@ const RuntimeBox = (props: IProps) => {
         {releaseId ? (
           <div>
             <Tooltip title={i18n.t('application:view version information')}>
-              <span className="text-link release-link flex" onClick={(e) => gotoRelease(releaseId, e)}>
-                <ErdaCustomIcon opacity={0.8} class="mr-1" fill="primary" width="20" height="21" type="bb" />
+              <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
+                <ErdaCustomIcon
+                  opacity={0.8}
+                  className="mr-1 transform-icon"
+                  fill="primary"
+                  width="20"
+                  height="21"
+                  type="bb"
+                />
                 <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
               </span>
             </Tooltip>

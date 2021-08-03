@@ -84,7 +84,7 @@ export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps)
 type CustomColor = keyof typeof COLOR;
 
 interface IErdaCustomIcon {
-  class?: string;
+  className?: string;
   type: string; // unique identification of icon
   style?: React.CSSProperties;
   width?: string; // with of svg, and it's more priority than size
@@ -112,24 +112,23 @@ const COLOR = {
 };
 
 const getOpacityColor = (color: string, opacity?: number) => {
-  if (color) {
-    if (isNumber(opacity)) {
-      return `rgba(${color},${opacity})`;
-    } else {
-      return `rgb(${color})`;
-    }
+  if (isNumber(opacity)) {
+    return `rgba(${color},${opacity})`;
+  } else {
+    return `rgb(${color})`;
   }
 };
 
-export const ErdaCustomIcon = ({ type, fill, color, stroke, opacity, ...rest }: IErdaCustomIcon) => {
-  // @ts-ignore iconpark component
+export const ErdaCustomIcon = ({ type, fill, color, stroke, opacity, className, ...rest }: IErdaCustomIcon) => {
   return (
+    // @ts-ignore iconpark component
     <iconpark-icon
       name={type}
-      fill={getOpacityColor(COLOR[fill], opacity)}
-      color={getOpacityColor(COLOR[color], opacity)}
-      stroke={getOpacityColor(COLOR[stroke], opacity)}
+      fill={fill ? getOpacityColor(COLOR[fill], opacity) : undefined}
+      color={color ? getOpacityColor(COLOR[color], opacity) : undefined}
+      stroke={stroke ? getOpacityColor(COLOR[stroke], opacity) : undefined}
       {...rest}
+      class={className}
     />
   );
 };

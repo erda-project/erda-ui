@@ -172,7 +172,7 @@ const SortDragItem = ({
         className="px-2 icon-block drag-handle"
         onClick={(e) => e.stopPropagation()}
       >
-        <ErdaCustomIcon class="hover" type="up-down" size="14" fill="shallo-gray-2" />
+        <ErdaCustomIcon opacity={0.2} className="hover" type="up-down" size="14" fill="black" />
       </div>
       <div className="flex-1 ml-1 nowrap cursor-pointer flex items-center sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
