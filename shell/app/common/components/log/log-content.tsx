@@ -30,7 +30,7 @@ interface IItemProps {
 }
 const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
   const { content, timestamp } = log;
-  let reContent = AU.ansi_to_html(content).replaceAll('&quot;', '"'); // restore escaped quotes
+  let reContent = AU.ansi_to_html(content).replace(/&quot;/g, '"'); // restore escaped quotes
   let suffix = null;
   if (typeof transformContent === 'function') {
     const result = transformContent(reContent);
