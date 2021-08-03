@@ -33,7 +33,7 @@ export const LogItem = ({ log }: { log: COMMON.LogItem }) => {
     showContent = `[${serviceName}] --- ${content.split(parent).join('')}`;
   }
 
-  const reContent = AU.ansi_to_html(showContent).replaceAll('&quot;', '"');
+  const reContent = AU.ansi_to_html(showContent).replace(/&quot;/g, '"');
   return (
     <div className="log-insight-item">
       <span className="log-item-logtime">{time}</span>
