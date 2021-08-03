@@ -124,6 +124,7 @@ const RepoEditor = ({
       {
         name: 'message',
         type: 'textArea',
+        rules: [{ required: true, message: i18n.t('application:submit information can not be empty') }],
         itemProps: {
           placeholder: i18n.t('application:submit information'),
           maxLength: 200,
