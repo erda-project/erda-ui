@@ -26,17 +26,6 @@ declare namespace MONITOR_OVERVIEW {
     cpm?: string;
   }
 
-  interface IMonitorInstance {
-    createTime: string;
-    monitorId: string;
-    monitorName: string;
-    projectId: string;
-    projectName: string;
-    terminusKey: string;
-    updateTime: string;
-    workspace: string;
-  }
-
   interface IAIData {
     webAvg: string;
     webCpm: number;
