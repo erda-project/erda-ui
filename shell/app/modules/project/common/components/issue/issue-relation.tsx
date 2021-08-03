@@ -32,14 +32,12 @@ import './issue-relation.scss';
 import IterationSelect from './iteration-select';
 
 interface IProps {
-  issue: ISSUE.IssueType;
+  issueDetail: ISSUE.IssueType;
   iterationID: number | undefined;
-  issueType?: string;
   onRelationChange?: () => void;
 }
 type IDefaultIssueType = 'BUG' | 'TASK' | 'REQUIREMENT';
 
-const ButtonGroup = Button.Group;
 const { Option } = Select;
 
 // 打开任务详情时，关联事项默认选中bug，打开缺陷详情或者需求详情时，关联事项默认选中task
@@ -50,17 +48,16 @@ const initTypeMap = {
 };
 
 export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
-  const { issue, iterationID, onRelationChange, issueType: propsIssueType } = props;
+  const { issueDetail, iterationID, onRelationChange } = props;
 
-  const [relatingList, setRealtingList] = React.useState([] as ISSUE.IssueType[]);
+  const [relatingList, setRelatingList] = React.useState([] as ISSUE.IssueType[]);
   const [relatedList, setRelatedList] = React.useState([] as ISSUE.IssueType[]);
   const [activeButtonType, setActiveButtonType] = React.useState('');
 
   const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
-  const issueType = propsIssueType || routeIssueType;
+  const issueType = issueDetail?.type || routeIssueType;
   const defaultIssueType = initTypeMap[issueType];
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
-  const issueDetail = issueStore.useStore((s) => s[`${issueType.toLowerCase()}Detail`]);
 
   React.useEffect(() => {
     if (!ref.current) {
@@ -74,8 +71,8 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   }, [issueDetail.iterationID, iterationID]);
 
   const getList = () => {
-    getIssueRelation({ id: issue.id }).then((res) => {
-      setRealtingList(res[0]);
+    getIssueRelation({ id: issueDetail.id }).then((res) => {
+      setRelatingList(res[0]);
       setRelatedList(res[1]);
     });
   };
@@ -87,7 +84,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
 
   const updateRecord = (record: ISSUE.Task, key: string, val: any) => {
     issueStore.effects.updateIssue({ ...record, [key]: val }).finally(() => {
-      getIssueRelation({ id: issue.id });
+      getIssueRelation({ id: issueDetail.id });
     });
   };
   const columns = [
@@ -170,7 +167,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     {
       title: null,
       dataIndex: 'operate',
-      render: (text, record: ISSUE.IssueType) => {
+      render: (_, record: ISSUE.IssueType) => {
         return [
           <WithAuth pass={authObj.edit.pass} key="remove-relation">
             <Popconfirm
@@ -188,29 +185,30 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   const addRelation = (val: number) => {
-    addIssueRelation({ relatedIssues: val, id: issue.id, projectId: +projectId }).then(() => {
+    addIssueRelation({ relatedIssues: val, id: issueDetail.id, projectId: +projectId }).then(() => {
       onRelationChange && onRelationChange();
       getList();
     });
   };
 
   const onDelete = (val: ISSUE.IssueType) => {
-    deleteIssueRelation({ id: issue.id, relatedIssueID: val.id }).then(() => {
+    deleteIssueRelation({ id: issueDetail.id, relatedIssueID: val.id }).then(() => {
       onRelationChange && onRelationChange();
       getList();
     });
   };
 
+  const createAuth: boolean = usePerm((s) => s.project[issueType.toLowerCase()].create.pass);
   return (
     <div className="issue-relation">
       <div>
-        {issue.type === ISSUE_TYPE.TICKET ? null : (
+        {issueDetail.type === ISSUE_TYPE.TICKET ? null : (
           // (
           //   <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} />
           // )
           <>
             <div>
-              <WithAuth pass={usePerm((s) => s.project.requirement.create.pass)}>
+              <WithAuth pass={createAuth}>
                 <Button
                   type={activeButtonType === 'create' ? 'primary' : 'default'}
                   onClick={() => setActiveButtonType('create')}
@@ -243,7 +241,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                 onCancel={() => setActiveButtonType('')}
                 projectId={projectId}
                 iterationID={curIterationID}
-                currentIssue={issue}
+                currentIssue={issueDetail}
                 defaultIssueType={defaultIssueType}
               />
             </IF>
