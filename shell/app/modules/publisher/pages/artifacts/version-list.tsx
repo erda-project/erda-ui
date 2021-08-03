@@ -287,7 +287,7 @@ const VersionList = (props: IProps) => {
                       <div key={id} className="version-item">
                         <div className={`version-number mb-3 ${isPublic ? 'on' : 'off'}`}>
                           <ErdaCustomIcon
-                          class="mt-1"
+                            className="mt-1"
                             size="16"
                             type={isPublic ? 'yuanxingxuanzhong-fill' : 'tishi'}
                           />

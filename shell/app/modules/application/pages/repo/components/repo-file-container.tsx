@@ -159,7 +159,7 @@ const RepoFileContainerComp = (props: IProps) => {
       return (
         <Tooltip title={i18n.t('application:cancel')}>
           <ErdaCustomIcon
-            class="cursor-pointer"
+            className="cursor-pointer"
             width="20"
             height="21"
             fill="black"
@@ -208,7 +208,7 @@ const RepoFileContainerComp = (props: IProps) => {
                   fill="black"
                   opacity={0.4}
                   size="20"
-                  class={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
+                  className={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
                   type="bj"
                   onClick={() => !info.isLocked && changeMode({ editFile: true })}
                 />
@@ -221,7 +221,7 @@ const RepoFileContainerComp = (props: IProps) => {
               opacity={0.4}
               width="20"
               height="21"
-              class={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
+              className={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
               type="sc1"
               onClick={() => !info.isLocked && toggleModal(true)}
             />

@@ -489,10 +489,10 @@ const ApiItem = ({
         <div className="api-title case-index-hover">
           <span ref={dragRef} className="case-index-block">
             <span className={numCls}>{index + 1}</span>
-            <ErdaCustomIcon size="16" class="drag-icon" type="px" />
+            <ErdaCustomIcon size="16" className="drag-icon" type="px" />
           </span>
           <span>
-            <ErdaCustomIcon size="16" class="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
+            <ErdaCustomIcon size="16" className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
           </span>
           <Input
             className="flex-1"
@@ -504,7 +504,7 @@ const ApiItem = ({
           <ErdaCustomIcon
             opacity={0.4}
             fill="black"
-            class={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`}
+            className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`}
             type="chevron-down"
             onClick={() => setCurShow(index)}
           />
@@ -513,7 +513,7 @@ const ApiItem = ({
               <ErdaCustomIcon
                 opacity={0.4}
                 fill="black"
-                class="ml-3 mt-1 api-op hover-active"
+                className="ml-3 mt-1 api-op hover-active"
                 type="play"
                 onClick={() => handleExecute(api, index)}
               />
@@ -524,7 +524,7 @@ const ApiItem = ({
               opacity={0.4}
               fill="black"
               size="18"
-              class="ml-3 delete-icon api-op hover-active"
+              className="ml-3 delete-icon api-op hover-active"
               type="sc1"
             />
           </Popconfirm>
@@ -687,9 +687,9 @@ const ApiTabComps = {
               trigger="hover"
             >
               {res.success === true ? (
-                <ErdaCustomIcon size="16" class="assert-status success" type="tg" />
+                <ErdaCustomIcon size="16" className="assert-status success" type="tg" />
               ) : res.success === false ? (
-                <ErdaCustomIcon size="16" class="assert-status error" type="wtg" />
+                <ErdaCustomIcon size="16" className="assert-status error" type="wtg" />
               ) : null}
             </Popover>
           );
@@ -1153,7 +1153,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                     fill="black"
                     size="16"
                     type="sc1"
-                    class={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
+                    className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
                   />
                 </Popconfirm>
               ) : (
@@ -1165,7 +1165,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                   onClick={() => {
                     handleDelete(i);
                   }}
-                  class={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
+                  className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
                 />
               )}
             </div>
