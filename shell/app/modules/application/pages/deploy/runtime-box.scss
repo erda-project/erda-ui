@@ -94,7 +94,10 @@
     }
   }
 
-  .transform-icon {
-    transform: translateY(5px);
+  .transform-box {
+    transform: translateY(-4px);
+    .transform-icon {
+      transform: translateY(5px);
+    }
   }
 }
