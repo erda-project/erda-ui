@@ -563,7 +563,7 @@ export const ContractiveFilter = ({
             <ErdaCustomIcon
               fill="shallow-gray"
               color="shallow-gray"
-              class="contractive-filter-item-close"
+              className="contractive-filter-item-close"
               type="guanbi-fill"
               size="16"
               onClick={() => {

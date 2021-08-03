@@ -518,7 +518,7 @@ const BuildDetail = (props: IProps) => {
             <IF check={canRerunFailed}>
               {deployAuth.hasAuth ? (
                 <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <ErdaCustomIcon opacity={0.4} size="21" fill="black" type="redo" class="mr-1.5" />
+                  <ErdaCustomIcon opacity={0.4} size="21" fill="black" type="redo" className="mr-1.5" />
                 </Dropdown>
               ) : (
                 <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
@@ -624,7 +624,7 @@ const BuildDetail = (props: IProps) => {
             });
           }}
         >
-          <ErdaCustomIcon class="hover" size="16" type="shuaxin" />
+          <ErdaCustomIcon className="hover" size="16" type="shuaxin" />
           {i18n.t('fetch latest records')}
         </div>
         <Table
@@ -679,7 +679,7 @@ const BuildDetail = (props: IProps) => {
                 content={renderBuildHistory()}
                 arrowPointAtCenter
               >
-                <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="jsjl" class="mb-2 mr-1 cursor-pointer" />
+                <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
               </Popover>
               {renderRunBtn()}
             </div>
