@@ -75,6 +75,7 @@ async function bootstrap() {
     '/api',
     createProxyMiddleware({
       target: BACKEND_URL,
+      secure: false,
       changeOrigin: true,
     }),
   );
