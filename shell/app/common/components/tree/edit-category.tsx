@@ -92,7 +92,7 @@ export const EditCategory = (props: IProps) => {
         opacity={0.85}
         fill="black"
         type="close"
-        class="ml-3 cursor-pointer"
+        className="ml-3 cursor-pointer"
         onClick={props.onHide || handleHide}
         size="16"
       />
@@ -116,7 +116,7 @@ export const EditCategory = (props: IProps) => {
     >
       {createButton || (
         <Button type="primary" onClick={() => value && onSubmit({ name: value })}>
-          <ErdaCustomIcon type="cir-add" class="mr-4" size="16" fill="white" />
+          <ErdaCustomIcon type="cir-add" className="mr-4" size="16" fill="white" />
           {i18n.t('add')}
         </Button>
       )}

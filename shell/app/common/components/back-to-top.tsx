@@ -54,7 +54,7 @@ const BackToTop = ({ containerId }: { containerId?: string }) => {
 
   return visible ? (
     <Tooltip title={i18n.t('back to top')}>
-      <ErdaCustomIcon size="20" class="scroll-top-btn" type="huidaodingbu" onClick={onBackToTop} />
+      <ErdaCustomIcon size="20" className="scroll-top-btn" type="huidaodingbu" onClick={onBackToTop} />
     </Tooltip>
   ) : null;
 };
