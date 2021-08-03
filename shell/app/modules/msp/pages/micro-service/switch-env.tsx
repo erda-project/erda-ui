@@ -31,7 +31,7 @@ const SwitchEnv = () => {
   }, [env]);
   const [menu, envName] = React.useMemo(() => {
     const handleChangeEnv = ({ key }: { key: string }) => {
-      const selectEnv = relationship.find((item) => item.workspace);
+      const selectEnv = relationship.find((item) => item.workspace === key);
       if (selectEnv && key !== currentEnv) {
         goTo(goTo.pages.mspOverview, { tenantGroup: selectEnv.tenantId, projectId: id, env: key });
       }
