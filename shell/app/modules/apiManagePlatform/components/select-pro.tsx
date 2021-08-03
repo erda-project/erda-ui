@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-// 使用nusi Select
 import { Modal, Select } from 'app/nusi';
 import { SelectProps, ModalProps } from 'core/common/interface';
 import { Intersection as IconIntersection } from '@icon-park/react';
