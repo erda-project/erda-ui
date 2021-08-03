@@ -192,7 +192,7 @@ const RuntimeBox = (props: IProps) => {
         </div>
 
         {releaseId ? (
-          <div>
+          <div className="transform-box">
             <Tooltip title={i18n.t('application:view version information')}>
               <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
                 <ErdaCustomIcon
