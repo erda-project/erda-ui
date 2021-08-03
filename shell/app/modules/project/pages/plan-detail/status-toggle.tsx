@@ -46,7 +46,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
     INIT: {
       child: (
         <span className="test-status-toggle">
-          <CustomIcon className="bg-color-icon" type="wh" />
+          <CustomIcon className="bg-color-icon bg-icon rounded-full text-white" type="wh" />
           <span>{i18n.t('project:not performed')}</span>
         </span>
       ),
@@ -54,7 +54,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
     PASSED: {
       child: (
         <span className="test-status-toggle green">
-          <CustomIcon className="bg-color-icon" type="tg" />
+          <CustomIcon className="bg-color-icon rounded-full text-white" type="tg" />
           <span>{i18n.t('project:passed')}</span>
         </span>
       ),
@@ -62,7 +62,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
     FAIL: {
       child: (
         <span className="test-status-toggle red">
-          <CustomIcon className="bg-color-icon" type="wtg" />
+          <CustomIcon className="bg-color-icon rounded-full text-white" type="wtg" />
           <span>{i18n.t('project:not passed')}</span>
         </span>
       ),
@@ -70,7 +70,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
     BLOCK: {
       child: (
         <span className="test-status-toggle yellow">
-          <CustomIcon className="bg-color-icon" type="zs" />
+          <CustomIcon className="bg-color-icon rounded-full text-white" type="zs" />
           <span>{i18n.t('project:blocking')}</span>
         </span>
       ),
@@ -81,7 +81,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       PAUSE: {
         child: (
           <span className="test-status-toggle yellow">
-            <CustomIcon className="bg-color-icon" type="zs" />
+            <CustomIcon className="bg-color-icon rounded-full text-white" type="zs" />
             <span>{i18n.t('project:pause')}</span>
           </span>
         ),
@@ -89,7 +89,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       DOING: {
         child: (
           <span className="test-status-toggle blue">
-            <CustomIcon className="bg-color-icon" type="wh" />
+            <CustomIcon className="bg-color-icon rounded-full text-white" type="wh" />
             <span>{i18n.t('project:processing')}</span>
           </span>
         ),
@@ -97,7 +97,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       DONE: {
         child: (
           <span className="test-status-toggle green">
-            <CustomIcon className="bg-color-icon" type="tg" />
+            <CustomIcon className="bg-color-icon rounded-full text-white" type="tg" />
             <span>{i18n.t('project:completed')}</span>
           </span>
         ),
