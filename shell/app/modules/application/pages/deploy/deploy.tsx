@@ -62,7 +62,7 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   return (
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
-        <ErdaCustomIcon opacity={0.3} fill="black" type="tj1" class="text-2xl mb-5 mr-1 hover" />
+        <ErdaCustomIcon opacity={0.3} fill="black" type="tj1" className="text-2xl mb-5 mr-1 hover" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>

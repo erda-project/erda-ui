@@ -100,7 +100,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
             color="black"
             size="18"
             type="redo"
-            class="mr-1 cursor-pointer"
+            className="mr-1 cursor-pointer"
             onClick={() => delayGetList(getList, 0)}
           />
         </Tooltip>
