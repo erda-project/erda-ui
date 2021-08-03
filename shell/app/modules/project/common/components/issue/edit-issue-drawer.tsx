@@ -1220,8 +1220,7 @@ export const EditIssueDrawer = (props: IProps) => {
           <TabPane tab={i18n.t('relate to issue')} key="issue">
             <IssueRelation
               ref={ref}
-              issue={issueDetail}
-              issueType={issueDetail?.type}
+              issueDetail={issueDetail}
               iterationID={iterationID}
               onRelationChange={() => {
                 setHasEdited(true);
