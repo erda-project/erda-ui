@@ -118,7 +118,7 @@ $border-style: 1px solid $color-border;
 }
 
 .ant-form-inline {
-  flex-wrap: nowrap;
+  flex-wrap: nowrap !important;
 }
 
 div.ant-modal-body {
