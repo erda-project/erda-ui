@@ -24,7 +24,7 @@ import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
 import { removeMember } from 'common/services/index';
 import routeInfoStore from 'core/stores/route';
-import { createTenantProject, deleteTenantProject } from 'msp/services';
+import { updateTenantProject, deleteTenantProject } from 'msp/services';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import userStore from 'app/user/stores';
 
@@ -57,7 +57,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const updatePrj = (values: Obj) => {
     const { cpuQuota, memQuota, isPublic } = values;
     updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(() => {
-      createTenantProject({
+      updateTenantProject({
         id: `${info.id}`,
         name: values.name,
         displayName: values.displayName,
