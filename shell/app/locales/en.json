@@ -707,6 +707,7 @@
   "common": {
     "Application and application roles need to be set at the same time": "Application and application roles need to be set at the same time",
     "Are you sure to quit?": "Are you sure to quit?",
+    "DEFAULT": "DEFAULT",
     "DEV": "DEV",
     "Filter conditions": "Filter conditions",
     "PROD": "PROD",
