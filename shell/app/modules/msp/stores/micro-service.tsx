@@ -34,8 +34,14 @@ interface IState {
   clusterType: string;
   DICE_CLUSTER_TYPE: string;
   isK8S: boolean;
+  currentEnvInfo: {
+    projectId: string;
+    env: MS_INDEX.IMspProjectEnv;
+    tenantGroup: string;
+  };
   currentProject: MS_INDEX.IMspProject;
 }
+
 const currentLocale = getCurrentLocale();
 
 const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, any>, query: Record<string, any>) => {
@@ -104,6 +110,7 @@ const initState: IState = {
   clusterType: '',
   DICE_CLUSTER_TYPE: '',
   isK8S: true,
+  currentEnvInfo: {},
   currentProject: {},
 };
 
@@ -111,10 +118,22 @@ const mspStore = createStore({
   name: 'msp',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
-    listenRoute(async ({ isEntering, isLeaving }: IRouteInfo) => {
-      if (isEntering('mspDetail')) {
-        await mspStore.effects.getMspProjectDetail();
-        initMenu();
+    listenRoute(async ({ params, isLeaving, isIn }: IRouteInfo) => {
+      const { projectId, tenantGroup, env } = params;
+      const mspReg = /\/msp\/\d+\/[A-Z]+\/[a-z0-9A-Z]+$/;
+      const isMspDetailIndex = mspReg.test(location.href);
+      const currentEnvInfo = mspStore.getState((s) => s.currentEnvInfo);
+      if (isIn('mspDetail')) {
+        if (projectId !== currentEnvInfo.projectId) {
+          mspStore.reducers.updateCurrentEnvInfo({ projectId, env, tenantGroup });
+          await mspStore.effects.getMspProjectDetail();
+          initMenu(true);
+        } else if (isMspDetailIndex && (env !== currentEnvInfo.env || tenantGroup !== currentEnvInfo.tenantGroup)) {
+          mspStore.reducers.updateCurrentEnvInfo({ projectId, env, tenantGroup });
+          initMenu(true);
+        } else if (isMspDetailIndex) {
+          initMenu();
+        }
       }
       if (isLeaving('mspDetail')) {
         setGlobal('service-provider', undefined);
@@ -125,6 +144,7 @@ const mspStore = createStore({
           DICE_CLUSTER_TYPE: undefined,
         });
         mspStore.reducers.clearMenuInfo();
+        mspStore.reducers.updateCurrentEnvInfo({});
         breadcrumbStore.reducers.setInfo('mspProjectName', '');
       }
     });
@@ -141,16 +161,16 @@ const mspStore = createStore({
     async getMspMenuList({ call, select, update }, payload?: { refresh: boolean }) {
       const [params, routes, query] = routeInfoStore.getState((s) => [s.params, s.routes, s.query]);
       let [mspMenu, currentProject] = await select((s) => [s.mspMenu, s.currentProject]);
-      const { env, projectId, tenantGroup } = params;
+      const { env, tenantGroup } = params;
       let menuData: MS_INDEX.IMspMenu[] = [];
       if (isEmpty(mspMenu) || payload?.refresh) {
         // 如果菜单数据为空说明是第一次进入具体微服务，请求菜单接口
         menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
       }
-
-      const [firstMenu] = menuData;
-      const siderName = `${currentLocale.key === 'zh' ? firstMenu.cnName : firstMenu.enName}(${envMap[env]})`;
       mspMenu = generateMSMenu(menuData, params, query);
+      const [firstMenu] = mspMenu;
+      const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
+      const siderName = `${firstMenu.text}(${envMap[env]})`;
       const msMenuMap = {};
       menuData.forEach((m) => {
         msMenuMap[m.key] = m;
@@ -176,12 +196,8 @@ const mspStore = createStore({
 
       if (routes[0].mark === 'mspDetail') {
         // 总览页过来的进入拓扑图
-        goTo(goTo.pages.mspTopology, {
+        goTo(firstMenuHref, {
           replace: true,
-          tenantGroup,
-          projectId,
-          env,
-          terminusKey: get(menuData, '[0].children[0].params.terminusKey'),
         });
       }
       return menuData;
@@ -196,6 +212,9 @@ const mspStore = createStore({
     },
     clearMenuInfo(state) {
       state.mspMenu = [];
+    },
+    updateCurrentEnvInfo(state, payload) {
+      state.currentEnvInfo = payload;
     },
   },
 });

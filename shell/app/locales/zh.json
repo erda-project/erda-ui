@@ -707,6 +707,7 @@
   "common": {
     "Application and application roles need to be set at the same time": "应用和应用角色需同时设置",
     "Are you sure to quit?": "您确认要退出",
+    "DEFAULT": "默认",
     "DEV": "开发",
     "Filter conditions": "筛选过滤条件",
     "PROD": "生产",
