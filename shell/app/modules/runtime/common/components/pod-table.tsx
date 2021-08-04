@@ -109,7 +109,7 @@ const PodTable = (props: IProps) => {
       width: 176,
       dataIndex: 'startedAt',
       className: 'th-time nowrap',
-      render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text: string) => (moment(text).isValid() ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
       title: i18n.t('application:operation'),
