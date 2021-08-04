@@ -226,7 +226,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     };
     const clusterOpsMap = {
-      edas: [edit, deleteClusterCall],
+      edas: [
+        edit,
+        deleteClusterCall,
+        ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
+        ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
+          retryInit,
+        ]),
+      ],
       k8s: [
         addMachine,
         addCloudMachines,
@@ -234,7 +241,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         upgrade,
         deleteClusterCall,
         ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
-        ...insertWhen(get(clusterDetail, 'basic.clusterStatus.value') === 'initialize error', [retryInit]),
+        ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
+          retryInit,
+        ]),
       ],
       'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
