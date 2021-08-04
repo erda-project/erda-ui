@@ -53,8 +53,8 @@ describe('TreeCategory', () => {
         onSelectNode={selectNodeFn}
       />,
     );
-    const select = wrapper.find('Select').at(0);
-    expect(wrapper.find('Select')).toExist();
+    const select = wrapper.find('.w-full').at(0);
+    expect(wrapper.find('.w-full')).toExist();
     select.prop('onSearch')();
     expect(fuzzySearch).not.toHaveBeenCalled();
     await act(async () => {
