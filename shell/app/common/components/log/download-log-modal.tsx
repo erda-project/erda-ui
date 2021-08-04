@@ -78,11 +78,11 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       name: 'endTime',
       label: i18n.t('common:duration(minutes)'),
       required: true,
+      initialValue: 60,
       getComp: ({ form }: { form: FormInstance }) => (
         <InputNumber
           min={1}
           max={60}
-          defaultValue={60}
           className="w-full"
           onChange={(duration) => {
             form.setFieldsValue({ endTime: duration });
