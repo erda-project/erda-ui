@@ -166,8 +166,8 @@ const mspStore = createStore({
       if (isEmpty(mspMenu) || payload?.refresh) {
         // 如果菜单数据为空说明是第一次进入具体微服务，请求菜单接口
         menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
+        mspMenu = generateMSMenu(menuData, params, query);
       }
-      mspMenu = generateMSMenu(menuData, params, query);
       const [firstMenu] = mspMenu;
       const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
       const siderName = `${firstMenu.text}(${envMap[env]})`;
