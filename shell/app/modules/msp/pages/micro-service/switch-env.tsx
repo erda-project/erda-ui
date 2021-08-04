@@ -14,8 +14,7 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import { Dropdown, Menu } from 'app/nusi';
-import { useUpdateEffect } from 'react-use';
-import mspStore, { initMenu } from 'msp/stores/micro-service';
+import mspStore from 'msp/stores/micro-service';
 import { ErdaCustomIcon } from 'common';
 import { goTo } from 'common/utils';
 
@@ -25,9 +24,6 @@ const SwitchEnv = () => {
   const [currentEnv, setEnv] = React.useState(env);
   React.useEffect(() => {
     setEnv(env);
-  }, [env]);
-  useUpdateEffect(() => {
-    initMenu(true);
   }, [env]);
   const [menu, envName] = React.useMemo(() => {
     const handleChangeEnv = ({ key }: { key: string }) => {
@@ -58,7 +54,7 @@ const SwitchEnv = () => {
       <Dropdown overlay={menu} trigger={['click']}>
         <div className="font-bold text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer hover:border-primary">
           <span className="self-center">{envName}</span>
-          <ErdaCustomIcon class="self-center" type="caret-down" size="16" />
+          <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
         </div>
       </Dropdown>
     </div>
