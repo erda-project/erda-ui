@@ -109,7 +109,7 @@ const DetailsPanel = (props: IProps) => {
       </IF>
       {children}
       <IF check={!isEmpty(linkList)}>
-        <Anchor getContainer={() => container.current}>
+        <Anchor getContainer={() => container?.current || document.body}>
           {map(linkList, (item) => {
             const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
             const { icon, title } = linkProps;
