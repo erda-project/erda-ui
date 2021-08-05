@@ -165,17 +165,17 @@ const ProjectType = (props: IProjectType) => {
   );
 
   return (
-    <div className="template-card-row flex justify-between items-center">
+    <div className="template-card-row flex justify-between items-center items-stretch">
       {list.map((item) => {
         const isChecked = selectType === item.val;
         const cln = classnames([
           'template-card',
-          'border-radius',
-          'h-40',
+          'rounded',
           'px-2',
           'py-3',
-          'pointer',
-          'flex flex-col justify-center',
+          'cursor-pointer',
+          'flex',
+          'flex-col',
           'items-center',
           'justify-start',
           item.disabled ? 'not-allowed' : '',
@@ -192,8 +192,8 @@ const ProjectType = (props: IProjectType) => {
             <div className="template-icon center-flex-box">
               <ErdaCustomIcon type={item.icon} color={isChecked ? 'primary' : 'lightgray'} size="40px" />
             </div>
-            <div className="template-name text-sm color-text pt-2 pb-1">{item.name}</div>
-            <div className="template-description text-xs color-text-sub">{item.description}</div>
+            <div className="template-name text-sm color-text pt-2 pb-1 text-center">{item.name}</div>
+            <div className="template-description text-xs color-text-sub text-left">{item.description}</div>
           </div>
         );
       })}
