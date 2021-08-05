@@ -15,12 +15,12 @@ import React from 'react';
 import { Tag } from 'antd';
 import { TagProps } from 'antd/lib/tag';
 
-// Regular expression for hexadecimal colors
-const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+// Regular expression for hexadecimal colors such as #ffffff or #fff
+const colorRegex = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
 
 function WrappedTag({ color, ...props }: TagProps) {
   const rest: { color?: string; style?: object } = {};
-  if (color && reg.test(color.toLowerCase())) {
+  if (color && colorRegex.test(color.toLowerCase())) {
     const rgbColor = colorToRgb(color);
     const style = {
       backgroundColor: `rgb(${mixWhite(rgbColor, 0.1)})`,
