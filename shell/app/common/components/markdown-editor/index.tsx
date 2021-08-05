@@ -30,9 +30,9 @@ interface IProps {
   value?: string | null;
   placeholder?: string;
   maxLength?: number;
-  isShowRate: boolean;
-  score: number;
-  defaultMode?: 'md' | 'html' | 'both';
+  isShowRate?: boolean;
+  score?: number;
+  defaultMode?: 'md' | 'html';
   extraRight?: ReactElement | ReactElement[];
   btnText?: string;
   readOnly?: boolean;
@@ -71,8 +71,8 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
       tempContent: props.value || '',
       score: props.score || 0,
       view: {
-        md: defaultMode === 'md' || defaultMode === 'both',
-        html: defaultMode === 'html' || defaultMode === 'both',
+        md: defaultMode === 'md',
+        html: defaultMode === 'html',
         menu: true,
       },
     };
@@ -140,16 +140,12 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
   };
 
   renderButton() {
-    const { onSubmit, onCancel, btnText, onSetLS } = this.props;
-    const btns: JSX.Element[] = [];
-
-    if (onSubmit) {
-      btns.push(
-        <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
-          {btnText || i18n.t('common:submit')}
-        </Button>,
-      );
-    }
+    const { onCancel, btnText, onSetLS } = this.props;
+    const btns: JSX.Element[] = [
+      <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
+        {btnText || i18n.t('common:submit')}
+      </Button>,
+    ];
 
     if (onSetLS) {
       btns.push(
@@ -161,8 +157,8 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onCancel) {
       btns.push(
-        <Button key="md-editor-cancel-btn" className="mx-2 mr-2" onClick={onCancel}>
-          {i18n.t('common:cancel')}
+        <Button key="md-editor-cancel-btn" className="mx-2 mr-2" onClick={() => onCancel()}>
+          {i18n.t('restore')}
         </Button>,
       );
     }
@@ -223,11 +219,9 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
             <Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
           </div>
         </IF>
-        {view.md ? (
-          <div className="absolute left-2 " style={{ top: height - 42 }}>
-            {this.renderButton()}
-          </div>
-        ) : null}
+        <div className="absolute left-2 " style={{ top: height - 42 }}>
+          {this.renderButton()}
+        </div>
       </div>
     );
   }

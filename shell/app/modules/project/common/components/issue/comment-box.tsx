@@ -38,7 +38,7 @@ export const IssueCommentBox = (props: IProps) => {
           onChange={(val: any) => {
             updater.content(val);
           }}
-          style={{ height: '140px' }}
+          style={{ height: '200px' }}
           maxLength={3000}
         />
       </div>
