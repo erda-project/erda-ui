@@ -45,13 +45,13 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
   }
 
   const renderAlert = (msg: any, type: 'success' | 'info' | 'warning' | 'error' | undefined) => (
-    <Alert className="mb-4" message={msg} type={type} showIcon />
+    <Alert className="mb-4" message={msg ?? ''} type={type} showIcon />
   );
 
   const msgCheckrunTypeMap = {
     success: 'success',
     failure: 'warning',
-    progress: 'normal',
+    progress: 'info',
   };
 
   const msgCheckrunTypeTipMap = {
@@ -64,7 +64,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
     <div>
       {hasError && renderAlert(errorMsg, 'error')}
       {hasConflict && renderAlert(i18n.t('application:have conflict'), 'error')}
-      {isMerged && renderAlert(i18n.t('application:no changes to merge'), 'normal')}
+      {isMerged && renderAlert(i18n.t('application:no changes to merge'), 'info')}
       {pipelineID &&
         renderAlert(
           <span>
