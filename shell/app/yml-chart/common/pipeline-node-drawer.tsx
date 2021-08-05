@@ -667,9 +667,17 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
   );
 };
 
-const actionQuery = {
+export enum ActionType {
+  autoTest = 'autoTest',
+  configSheet = 'configSheet',
+  appPipeline = 'appPipeline',
+  projectLevelAppPipeline = 'projectLevelAppPipeline',
+}
+
+export const actionQuery = {
   autoTest: { labels: 'autotest:true' },
   configSheet: { labels: 'configsheet:true' },
+  projectLevelAppPipeline: { labels: 'project_service:true' },
 };
 
 interface IPipelineNodeForm {
