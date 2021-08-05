@@ -15,10 +15,11 @@ import React from 'react';
 import { Tag } from 'antd';
 import { TagProps } from 'antd/lib/tag';
 
+// Regular expression for hexadecimal colors
 const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
 
 function WrappedTag({ color, ...props }: TagProps) {
-  const rest: TagProps = { ...props };
+  const rest: { color?: string; style?: object } = {};
   if (color && reg.test(color.toLowerCase())) {
     const rgbColor = colorToRgb(color);
     const style = {
@@ -30,7 +31,7 @@ function WrappedTag({ color, ...props }: TagProps) {
   } else {
     rest.color = color;
   }
-  return <Tag {...rest} />;
+  return <Tag {...rest} {...props} />;
 }
 
 /**
@@ -61,7 +62,7 @@ const colorToRgb = (color: string) => {
 
   const sColorChange = [];
   for (let i = 1; i < 7; i += 2) {
-    sColorChange.push(parseInt('0x' + sColor.slice(i, i + 2)));
+    sColorChange.push(parseInt(`0x${sColor.slice(i, i + 2)}`, 16));
   }
   return sColorChange.join(',');
 };
