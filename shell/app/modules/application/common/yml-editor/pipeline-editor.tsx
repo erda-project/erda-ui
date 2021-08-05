@@ -29,6 +29,9 @@ import { IYmlEditorProps } from './index';
 import { PipelineGraphicEditor } from 'yml-chart/common/pipeline-graphic-editor';
 import { NodeEleMap, externalKey, NodeType } from 'yml-chart/config';
 import { parsePipelineYmlStructure } from 'application/services/repo';
+import { ActionType } from 'yml-chart/common/pipeline-node-drawer';
+import appStore from 'application/stores/application';
+
 import './pipeline-editor.scss';
 
 enum ViewType {
@@ -39,6 +42,10 @@ enum ViewType {
 const noop = () => {};
 const PipelineEditor = (props: IYmlEditorProps) => {
   const { fileName, ops, editing, viewType: propsViewType = 'code', content = '', onUpdateViewType = noop } = props;
+
+  const appDetail = appStore.useStore((s) => s.detail);
+  const curScope = appDetail.isProjectLevel ? ActionType.projectLevelAppPipeline : ActionType.appPipeline;
+
   const [info, tree, editFile, blob] = repoStore.useStore((s) => [s.info, s.tree, s.mode.editFile, s.blob]);
   const { changeMode } = repoStore.reducers;
   const { commit, getRepoBlob } = repoStore.effects;
@@ -349,6 +356,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
               editing={editing}
               onDeleteData={onDeleteData}
+              addDrawerProps={{ scope: curScope }}
               onAddData={onAddData}
               chartProps={{
                 nodeEleMap: {
