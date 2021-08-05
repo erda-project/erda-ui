@@ -258,7 +258,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
           {map(functions, (item, index) => (
-            <div className="function-item flex-div" key={item.field}>
+            <div className="function-item flex-div flex items-center" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
                 <span className="field-name mr-2 nowrap">{allRuleFieldMap[item.field]}</span>
               </Tooltip>
@@ -364,7 +364,7 @@ export default ({ scopeType, scopeId }: IProps) => {
             dataSource={state.editingRules}
             columns={columns}
             // table's scroll cannot be used with  select's getPopupContainer
-            // scroll={{ x: '100%' }}
+            scroll={undefined}
           />
         </>
       ),
@@ -646,7 +646,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
         const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
-          <div className="flex-div">
+          <div className="flex-div flex">
             {isEmpty(notifyGroup) ? (
               <Tooltip title={tips}>
                 <span className="text-sub">{tips}</span>
