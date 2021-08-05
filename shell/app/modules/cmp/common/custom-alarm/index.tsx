@@ -779,7 +779,7 @@ export default ({ scopeType }: { scopeType: string }) => {
                 rowKey="uniKey"
                 dataSource={editingFilters}
                 columns={filterColumns}
-                // scroll={{ x: '100%' }}
+                scroll={undefined}
               />
             </>
           ),
@@ -817,6 +817,7 @@ export default ({ scopeType }: { scopeType: string }) => {
                 rowKey="uniKey"
                 dataSource={editingFields}
                 columns={getFieldColumns(form)}
+                scroll={undefined}
               />
             </>
           ),
