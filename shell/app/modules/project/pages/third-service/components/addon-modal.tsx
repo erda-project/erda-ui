@@ -89,7 +89,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
       // const kvTableData = pickBy(form2Rest, (v, k) => k.startsWith('_tb_'));
       // const kvTextData = form2Rest['kv-text'];
       if (isCustom) {
-        const configs = this.edit.current.getEditData();
+        const configs = this.edit.current?.getEditData();
         if (isEmpty(configs)) {
           message.warn(i18n.t('parameter cannot be empty'));
           return;
