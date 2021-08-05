@@ -436,3 +436,14 @@ div.ant-table {
 div.ant-progress-inner {
   background-color: rgba(0, 0, 0, 0.06);
 }
+
+.ant-tooltip {
+  .ant-tooltip-inner {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .ant-tooltip-arrow {
+    display: none;
+  }
+}
