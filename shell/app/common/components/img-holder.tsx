@@ -90,11 +90,22 @@ export const ImgHolder = (props: IProps) => {
         theme = 'avatar';
       }
     }
-    const holderParams = encodeURI(
-      compact(
-        map({ random, size, text, theme, fg, bg, font, fontweight }, (v, k) => (v === undefined ? v : `${k}=${v}`)),
-      ).join('&'),
-    );
+    let holderParams = '';
+    try {
+      holderParams = encodeURI(
+        compact(
+          map({ random, size, text, theme, fg, bg, font, fontweight }, (v, k) => (v === undefined ? v : `${k}=${v}`)),
+        ).join('&'),
+      );
+    } catch (error) {
+      holderParams = encodeURI(
+        compact(
+          map({ random, size, text: 'n', theme, fg, bg, font, fontweight }, (v, k) =>
+            v === undefined ? v : `${k}=${v}`,
+          ),
+        ).join('&'),
+      );
+    }
     return (
       <img
         alt="holder"
