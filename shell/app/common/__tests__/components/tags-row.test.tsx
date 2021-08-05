@@ -93,15 +93,16 @@ describe('TagsRow', () => {
     );
     wrapper.find('.tag-close').at(0).simulate('click');
     expect(deleteFn).toHaveBeenLastCalledWith(data[0]);
-    expect(wrapper.find('.twt-tag-item').at(0).children('span').text()).toBe(cutStr(data[0].label, 15));
-    expect(wrapper.find('.twt-tag-item').at(0)).toHaveClassName('small');
-    expect(wrapper.find('.twt-tag-item').at(0)).toHaveClassName('bg-green');
-    expect(wrapper.find('.twt-tag-item').at(1).children('span').text()).toBe(data[1].label);
-    expect(wrapper.find('.twt-tag-item').at(1)).toHaveClassName('default');
-    expect(wrapper.find('.twt-tag-item').at(1).prop('style')).toStrictEqual({
+    const tagItem = wrapper.find('.twt-tag-item');
+    expect(tagItem.at(0).children('span').text()).toBe(cutStr(data[0].label, 15));
+    expect(tagItem.at(0)).toHaveClassName('small');
+    expect(tagItem.at(0)).toHaveClassName('bg-green');
+    expect(tagItem.at(1).children('span').text()).toBe(data[1].label);
+    expect(tagItem.at(1)).toHaveClassName('default');
+    expect(tagItem.at(1).prop('style')).toStrictEqual({
       backgroundColor: 'rgba(yellow, 0.1)',
       color: 'yellow',
     });
-    expect(wrapper.find('.twt-tag-item').at(2)).toHaveClassName('undefined');
+    expect(tagItem.at(2)).toHaveClassName('undefined');
   });
 });
