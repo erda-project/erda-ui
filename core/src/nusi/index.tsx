@@ -15,6 +15,7 @@ import {
   Affix,
   Alert,
   Anchor,
+  Avatar,
   Button,
   BackTop,
   Badge,
@@ -61,10 +62,10 @@ import {
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
+import Tag from './wrapped-tag';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
-  Avatar,
   // Input,
   Card,
   Container,
@@ -77,7 +78,6 @@ import {
   PageHeader,
   GlobalNavigation,
   Breadcrumb,
-  Tag,
   Title,
   Panel,
   List,
