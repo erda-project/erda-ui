@@ -126,7 +126,6 @@ export default function DataSourceManagement() {
 
   return (
     <>
-      <EmptyHolder relative />
       {addonList ? (
         <AddonCardList
           isFetching={loadingAddons}
