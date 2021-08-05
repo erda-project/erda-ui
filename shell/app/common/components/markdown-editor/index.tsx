@@ -140,29 +140,28 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
   };
 
   renderButton() {
-    const { onSubmit, onCancel, btnText, onSetLS } = this.props;
-    const btns: JSX.Element[] = [];
-
-    if (onSubmit) {
-      btns.push(
-        <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
-          {btnText || i18n.t('common:submit')}
-        </Button>,
-      );
-    }
+    const { onCancel, btnText, onSetLS } = this.props;
+    const btns: JSX.Element[] = [
+      <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
+        {btnText || i18n.t('common:submit')}
+      </Button>,
+      <Button
+        key="md-editor-cancel-btn"
+        className="mx-2 mr-2"
+        onClick={() => {
+          onCancel?.();
+        }}
+      >
+        {i18n.t('restore')}
+      </Button>,
+    ];
 
     if (onSetLS) {
-      btns.push(
+      btns.splice(
+        1,
+        0,
         <Button key="md-editor-keep-btn" className="mx-2 mr-2" onClick={this.onSetLS}>
           {i18n.t('application:temporary storage')}
-        </Button>,
-      );
-    }
-
-    if (onCancel) {
-      btns.push(
-        <Button key="md-editor-cancel-btn" className="mx-2 mr-2" onClick={onCancel}>
-          {i18n.t('common:cancel')}
         </Button>,
       );
     }
