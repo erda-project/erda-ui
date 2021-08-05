@@ -32,7 +32,7 @@ interface IProps {
   maxLength?: number;
   isShowRate: boolean;
   score: number;
-  defaultMode?: 'md' | 'html' | 'both';
+  defaultMode?: 'md' | 'html';
   extraRight?: ReactElement | ReactElement[];
   btnText?: string;
   readOnly?: boolean;
@@ -71,8 +71,8 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
       tempContent: props.value || '',
       score: props.score || 0,
       view: {
-        md: defaultMode === 'md' || defaultMode === 'both',
-        html: defaultMode === 'html' || defaultMode === 'both',
+        md: defaultMode === 'md',
+        html: defaultMode === 'html',
         menu: true,
       },
     };
@@ -223,11 +223,9 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
             <Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
           </div>
         </IF>
-        {view.md ? (
-          <div className="absolute left-2 " style={{ top: height - 42 }}>
-            {this.renderButton()}
-          </div>
-        ) : null}
+        <div className="absolute left-2 " style={{ top: height - 42 }}>
+          {this.renderButton()}
+        </div>
       </div>
     );
   }
