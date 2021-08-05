@@ -66,14 +66,17 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
   const { addonName } = addonProto;
   const isEditMode = !isEmpty(editData);
   React.useEffect(() => {
+    let _mode = MODE_MAP.EXIST;
     if (addonName && !CLOUD_TYPES.includes(addonName)) {
       // 类型不为云Addon时时，只能填自定义变量
-      updater.mode(MODE_MAP.CUSTOM);
+      _mode = MODE_MAP.CUSTOM;
     } else if ([AddonType.AliCloudOss, AddonType.AliCloudRedis].includes(addonName)) {
       // oss和redis默认为新购买
-      updater.mode(MODE_MAP.NEW);
+      _mode = MODE_MAP.NEW;
     }
-  }, [addonName, updater]);
+    updater.mode(_mode);
+    form.setFieldsValue({ mode: _mode });
+  }, [addonName, updater, form]);
 
   React.useEffect(() => {
     const curMode = editData && editData.customAddonType;
@@ -211,6 +214,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
   const [form] = Form.useForm();
+
   useImperativeHandle(ref, () => ({
     form,
   }));
