@@ -5,6 +5,10 @@
       border-radius: $radius;
       padding-bottom: 42px;
 
+      .navigation-nav.left {
+        min-width: 120px;
+      }
+
       .editor-container {
         padding: $p8;
         > .section > .section-container {

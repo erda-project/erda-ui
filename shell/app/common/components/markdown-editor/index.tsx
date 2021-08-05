@@ -30,8 +30,8 @@ interface IProps {
   value?: string | null;
   placeholder?: string;
   maxLength?: number;
-  isShowRate: boolean;
-  score: number;
+  isShowRate?: boolean;
+  score?: number;
   defaultMode?: 'md' | 'html';
   extraRight?: ReactElement | ReactElement[];
   btnText?: string;
@@ -145,23 +145,20 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
       <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
         {btnText || i18n.t('common:submit')}
       </Button>,
-      <Button
-        key="md-editor-cancel-btn"
-        className="mx-2 mr-2"
-        onClick={() => {
-          onCancel?.();
-        }}
-      >
-        {i18n.t('restore')}
-      </Button>,
     ];
 
     if (onSetLS) {
-      btns.splice(
-        1,
-        0,
+      btns.push(
         <Button key="md-editor-keep-btn" className="mx-2 mr-2" onClick={this.onSetLS}>
           {i18n.t('application:temporary storage')}
+        </Button>,
+      );
+    }
+
+    if (onCancel) {
+      btns.push(
+        <Button key="md-editor-cancel-btn" className="mx-2 mr-2" onClick={() => onCancel()}>
+          {i18n.t('restore')}
         </Button>,
       );
     }
