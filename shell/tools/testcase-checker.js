@@ -18,6 +18,8 @@ const fg = require('fast-glob');
 const caseFolder = '__tests__';
 const { collectCoverageFrom } = require('../jest.config');
 
+const whiteList = ['app/common/index.ts'];
+
 const typeMap = {
   D: 'Delete',
   AD: 'Delete',
@@ -80,7 +82,9 @@ const checkTestCase = () => {
   const { Modify, Delete, NotTracked } = getChangeFiles();
   const changeFiles = [...NotTracked, ...Modify];
   const caseFiles = [];
-  const commonFiles = changeFiles.filter((file) => !file.includes(caseFolder) && file.includes('app/common'));
+  const commonFiles = changeFiles.filter(
+    (file) => !file.includes(caseFolder) && file.includes('app/common') && !whiteList.includes(file),
+  );
   const uncoverFiles = [];
   commonFiles.forEach((file) => {
     const { exist, file: caseFile } = caseFileExist(file);

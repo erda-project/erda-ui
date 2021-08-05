@@ -200,7 +200,7 @@ describe('filter-group', () => {
     });
     wrapper.update();
     expect(wrapper.find('FilterGroupDrawer').prop('visible')).toBeFalsy();
-    wrapper.find('.nusicon-close').simulate('click');
+    wrapper.find('.ant-tag-close-icon').at(0).simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(3);
     wrapper.find('.clear').simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(4);
