@@ -435,7 +435,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       className: 'notify-info',
       ellipsis: true,
       render: (targets) => (
-        <div className="flex-div truncate">
+        <div className="flex-div flex truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),
