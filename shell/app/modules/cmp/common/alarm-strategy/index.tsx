@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
-import { useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'app/nusi';
 import { FormModal, useSwitch, useUpdate } from 'common';
 import { goTo, insertWhen } from 'common/utils';
@@ -93,6 +93,7 @@ export default ({ scopeType, scopeId }: IProps) => {
   ]);
   const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } =
     alarmStrategyStore.effects;
+  const { clearAlerts } = alarmStrategyStore.reducers;
   const { getNotifyGroups } = notifyGroupStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [modalVisible, openModal, closeModal] = useSwitch(false);
@@ -118,6 +119,10 @@ export default ({ scopeType, scopeId }: IProps) => {
     getAlertTypes();
     getNotifyGroups({ scopeType, scopeId });
     getRoleMap({ scopeType, scopeId });
+  });
+
+  useUnmount(() => {
+    clearAlerts();
   });
 
   // 获取规则枚举
