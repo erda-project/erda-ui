@@ -48,6 +48,7 @@ module.exports = {
         purple: '#6a549e',
         cyan: '#5bd6d0ff',
         gray: '#666666',
+        darkgray: '#999999',
         grey: '#f5f5f5',
         layout: '#f0eef5',
         white: '#ffffff',

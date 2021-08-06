@@ -17,7 +17,6 @@ import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';
-import './radio.scss';
 
 const FormItem = Form.Item;
 
@@ -71,10 +70,10 @@ export const FormRadio = ({
 
       if (displayDesc) {
         return map(options, (item: any) => (
-          <div className="form-item-radio">
+          <div className="h-16">
             <RadioItem key={item.value} value={item.value}>
               {item.name}
-              <div className="form-item-desc">{item.desc}</div>
+              <div className="text-darkgray">{item.desc}</div>
             </RadioItem>
           </div>
         ));
