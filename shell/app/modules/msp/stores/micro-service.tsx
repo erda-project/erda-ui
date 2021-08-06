@@ -145,6 +145,7 @@ const mspStore = createStore({
         });
         mspStore.reducers.clearMenuInfo();
         mspStore.reducers.updateCurrentEnvInfo({});
+        mspStore.reducers.clearMspProjectInfo();
         breadcrumbStore.reducers.setInfo('mspProjectName', '');
       }
     });
@@ -212,6 +213,9 @@ const mspStore = createStore({
     },
     clearMenuInfo(state) {
       state.mspMenu = [];
+    },
+    clearMspProjectInfo(state) {
+      state.currentProject = {};
     },
     updateCurrentEnvInfo(state, payload) {
       state.currentEnvInfo = payload;
