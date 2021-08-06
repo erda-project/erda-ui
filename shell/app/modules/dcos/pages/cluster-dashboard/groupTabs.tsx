@@ -45,12 +45,10 @@ const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }:
         hostIPs,
       })),
     );
-    if (isClickState) {
-      setActiveKey('state');
-    } else {
+    if (!isClickState && activeKey === 'state') {
       setActiveKey('machine');
     }
-  }, [isClickState, machineList]);
+  }, [isClickState, machineList, activeKey]);
 
   return (
     <Tabs activeKey={activeKey} onChange={setActiveKey}>
