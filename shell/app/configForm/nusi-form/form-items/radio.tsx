@@ -71,10 +71,10 @@ export const FormRadio = ({
 
       if (displayDesc) {
         return map(options, (item: any) => (
-          <div className="form-item-radio">
+          <div className="h-16">
             <RadioItem key={item.value} value={item.value}>
               {item.name}
-              <div className="form-item-desc">{item.desc}</div>
+              <div className="text-darkgray">{item.desc}</div>
             </RadioItem>
           </div>
         ));
