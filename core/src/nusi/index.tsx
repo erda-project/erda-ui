@@ -19,6 +19,7 @@ import {
   Button,
   BackTop,
   Badge,
+  Breadcrumb,
   Carousel,
   Cascader,
   Checkbox,
@@ -77,21 +78,15 @@ import {
   SideNavigation,
   PageHeader,
   GlobalNavigation,
-  Breadcrumb,
   Title,
   Panel,
   List,
   Ellipsis,
   SelectCategory,
   SelectCombo,
-  Switch as NusiSwitch,
   ConfigProvider as NusiConfigProvider,
   Tree as NusiTree,
   Popover as NusiPopover,
-  Icon as NusiIcon,
-  Empty as NusiEmpty,
-  Cascader as NusiCascader,
-  Tag as NusiTag,
 } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
@@ -184,8 +179,4 @@ export {
   NusiConfigProvider,
   NusiTree,
   NusiPopover,
-  NusiIcon,
-  NusiEmpty,
-  NusiCascader,
-  NusiTag,
 };
