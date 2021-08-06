@@ -677,7 +677,7 @@ export enum ActionType {
 export const actionQuery = {
   autoTest: { labels: 'autotest:true' },
   configSheet: { labels: 'configsheet:true' },
-  projectLevelAppPipeline: { labels: 'project_service:true' },
+  projectLevelAppPipeline: { labels: 'project_level_app:true' },
 };
 
 interface IPipelineNodeForm {
