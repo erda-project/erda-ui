@@ -17,7 +17,6 @@ import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';
-import './radio.scss';
 
 const FormItem = Form.Item;
 
