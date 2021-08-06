@@ -632,7 +632,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       <Table
         className="machine-list-table"
         loading={isFetching}
-        rowKey="ip"
+        rowKey={(record, index) => `${record.ip}-${index}`}
         pagination={false}
         bordered
         columns={columns}
