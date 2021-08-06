@@ -163,6 +163,10 @@ server {
         }
         index index.html;
         try_files /static/shell/index.html /index.html =404;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
     }
 
     location ^~ /wb {
