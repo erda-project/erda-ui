@@ -24,6 +24,7 @@ import { getApps } from 'common/services';
 import i18n from 'i18n';
 import { Loading as IconLoading } from '@icon-park/react';
 import './log-tag-selector.scss';
+import routeInfoStore from 'core/stores/route';
 
 const MenuItem = Menu.Item;
 
@@ -378,6 +379,7 @@ const loadMap = {
 
 const LoadMoreMenu = (props: ILoadMoreProps) => {
   const { menuInfo, setDynamicMenu = noop, onSelect = noop } = props;
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
 
   const [{ pageNo, pageSize, hasMore, list, loading }, updater] = useUpdate({
     pageNo: 1,
@@ -393,10 +395,12 @@ const LoadMoreMenu = (props: ILoadMoreProps) => {
   }, [pageNo, pageSize]);
 
   const getData = (query: any) => {
-    const loadFun = loadMap[menuInfo.dynamicMenu.dimension].loadData;
+    const { dimension } = menuInfo.dynamicMenu;
+    const loadFun = loadMap[dimension].loadData;
+    const extraQuery = dimension === 'app' ? { projectId } : {};
     if (loadFun) {
       updater.loading(true);
-      const res = loadFun(query);
+      const res = loadFun({ ...query, ...extraQuery });
       if (res && isPromise(res)) {
         res.then((resData: any) => {
           const { total, list: curList } = resData.data || {};
