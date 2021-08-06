@@ -27,9 +27,9 @@ const TraceCommonPanel = (props: IProps) => {
 
   return (
     <Card className={`${className} trace-common-panel`} bordered={false} {...otherProps}>
-      <h3 className="mb-2">
+      <div className="mb-2">
         {isString(title) ? <h3 className="trace-common-panel-title font-medium">{title}</h3> : title || null}
-      </h3>
+      </div>
       <div className="card-body">{children}</div>
     </Card>
   );
