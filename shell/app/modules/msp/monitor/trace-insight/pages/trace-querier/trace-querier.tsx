@@ -211,9 +211,7 @@ const TraceInsightQuerier = () => {
                 resetRequestTrace();
               }}
             >
-              <Button type="primary" className="ml-4">
-                {i18n.t('common:reset')}
-              </Button>
+              <Button className="ml-4">{i18n.t('common:reset')}</Button>
             </Popconfirm>
           </Col>
         </Row>
