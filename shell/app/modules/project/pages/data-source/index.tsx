@@ -17,7 +17,7 @@ import addonStore from 'common/stores/addon';
 import customAddonStore from 'project/stores/custom-addon';
 import { Button, Tooltip } from 'app/nusi';
 import AddonModal from '../third-service/components/addon-modal';
-import { useUpdate } from 'common';
+import { useUpdate, EmptyHolder } from 'common';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';
@@ -126,16 +126,20 @@ export default function DataSourceManagement() {
 
   return (
     <>
-      <AddonCardList
-        isFetching={loadingAddons}
-        searchPlaceHolder={i18n.t('project:filter by data source name')}
-        searchProps={['name']}
-        hideSearch
-        showDataSourceSearch
-        showDataSourceSelect
-        addonList={addonList}
-        onEitAddon={onEditAddon}
-      />
+      {addonList ? (
+        <AddonCardList
+          isFetching={loadingAddons}
+          searchPlaceHolder={i18n.t('project:filter by data source name')}
+          searchProps={['name']}
+          hideSearch
+          showDataSourceSearch
+          showDataSourceSelect
+          addonList={addonList}
+          onEitAddon={onEditAddon}
+        />
+      ) : (
+        <EmptyHolder relative />
+      )}
       <div className="top-button-group">
         <Tooltip
           title={
