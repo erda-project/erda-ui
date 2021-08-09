@@ -269,6 +269,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
         title: 'KEY',
         dataIndex: 'key',
         width: 280,
+        ellipsis: false,
         render: (text: string, record: IItemData) => (
           <InputItem
             form={form}
@@ -288,6 +289,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       {
         title: 'VALUE',
         dataIndex: 'value',
+        ellipsis: false,
         render: (text: string, record: IItemData) => (
           <InputItem
             form={form}
