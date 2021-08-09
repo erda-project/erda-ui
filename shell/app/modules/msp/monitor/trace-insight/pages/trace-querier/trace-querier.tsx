@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map as _map, pickBy } from 'lodash';
-import { Row, Col, Input, Select, Button, Tabs, Form, Modal } from 'app/nusi';
+import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm } from 'app/nusi';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
 import CommonPanel from './trace-common-panel';
@@ -36,7 +36,6 @@ const { banFullWidthPunctuation, url: urlRule } = regRules;
 
 const TraceInsightQuerier = () => {
   const [form] = Form.useForm();
-  const [modalVis, setModalVis] = React.useState(false);
   const [
     requestTraceParams,
     traceHistoryList,
@@ -109,7 +108,6 @@ const TraceInsightQuerier = () => {
   }, [getTraceDetailContent, requestId]);
 
   const resetRequestTrace = () => {
-    setModalVis(false);
     form.resetFields();
     clearRequestTraceParams();
     clearCurrentTraceRequestId();
@@ -206,17 +204,17 @@ const TraceInsightQuerier = () => {
             <Button type="primary" loading={isRequestTraceFetching} onClick={handleRequestTrace}>
               {i18n.t('msp:request')}
             </Button>
-            <Button className="ml-4" danger onClick={() => setModalVis(true)}>
-              {i18n.t('common:reset')}
-            </Button>
-            <Modal
+            <Popconfirm
               title={i18n.t('confirm to reset?')}
-              visible={modalVis}
-              onOk={resetRequestTrace}
-              onCancel={() => {
-                setModalVis(false);
+              placement="bottom"
+              onConfirm={() => {
+                resetRequestTrace();
               }}
-            />
+            >
+              <Button type="primary" className="ml-4">
+                {i18n.t('common:reset')}
+              </Button>
+            </Popconfirm>
           </Col>
         </Row>
       </div>
