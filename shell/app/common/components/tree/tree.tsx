@@ -14,10 +14,10 @@
 import React from 'react';
 import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
-import { Spin, Title, NusiTree as Tree, NusiPopover as Popover, Select } from 'app/nusi';
+import { Spin, Title, Tree, NusiPopover as Popover, Select } from 'app/nusi';
 import i18n from 'i18n';
 import { useUpdate } from 'common';
-import { TreeProps, NusiTreeNode, NusiTreeNodeSelectedEvent, IAction, TreeNodeNormal } from 'core/common/interface';
+import { TreeProps, AntTreeNode, AntTreeNodeSelectedEvent, IAction, TreeNodeNormal } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
@@ -783,7 +783,7 @@ export const TreeCategory = ({
           loadData={(node) => onLoadTreeData(node.props.dataRef.key)}
           treeData={treeData}
           expandedKeys={expandedKeys}
-          iconField="icon"
+          blockNode
           showIcon
           onExpand={onExpand}
           onSelect={onClickNode}
