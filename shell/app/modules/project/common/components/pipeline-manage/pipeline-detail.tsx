@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tabs } from 'app/nusi';
+import { Tabs } from 'core/nusi';
 import PipelineConfigDetail from './config-detail';
 import PipelineRunDetail from './run-detail';
 import ConfigEnvSelector from './common/config-env-selector';

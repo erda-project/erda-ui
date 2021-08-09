@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, Table } from 'app/nusi';
+import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, Table } from 'core/nusi';
 import { groupBy, isNaN, isEmpty, filter, get, map, round } from 'lodash';
 import classNames from 'classnames';
 import { IF, useUpdate, Icon as CustomIcon, TagsRow, TableActions } from 'common';

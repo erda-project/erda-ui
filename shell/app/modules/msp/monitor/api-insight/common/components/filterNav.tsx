@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Row, Col, Input, Button } from 'app/nusi';
+import { Row, Col, Input, Button } from 'core/nusi';
 import { IF, TimeSelector } from 'common';
 import apiMonitorFilterStore from '../../stores/filter';
 import i18n from 'i18n';

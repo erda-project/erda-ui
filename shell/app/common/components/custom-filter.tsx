@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Filter, Pagination, Input, Select } from 'app/nusi';
+import { Filter, Pagination, Input, Select } from 'core/nusi';
 import { useUpdate, FilterBarHandle } from 'common';
 import { setSearch } from 'common/utils';
 import { forIn, set, get, every, omit, isEqual, isEmpty, map, mapValues, some, debounce, sortBy } from 'lodash';

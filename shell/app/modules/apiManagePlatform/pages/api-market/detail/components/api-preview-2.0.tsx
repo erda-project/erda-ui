@@ -15,7 +15,7 @@ import React from 'react';
 import { OpenAPI } from 'openapi-types';
 import { groupBy, Dictionary, get, map, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 import i18n from 'i18n';
 

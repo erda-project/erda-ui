@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Popover, message, Button } from 'app/nusi';
+import { Input, Popover, message, Button } from 'core/nusi';
 import i18n from 'i18n';
 import testSetStore from 'project/stores/test-set';
 import { Close as IconClose, Check as IconCheck } from '@icon-park/react';

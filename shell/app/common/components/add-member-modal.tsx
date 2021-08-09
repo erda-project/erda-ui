@@ -22,7 +22,7 @@ import appMemberStore from 'common/stores/application-member';
 import { insertWhen } from '../utils';
 import { getApps } from 'common/services';
 import { useMount } from 'react-use';
-import { Alert, message } from 'app/nusi';
+import { Alert, message } from 'core/nusi';
 
 interface IProps {
   visible: boolean;

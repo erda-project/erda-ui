@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { KeyValueEditor } from 'common';
-import { Form } from 'app/nusi';
+import { Form } from 'core/nusi';
 import { mount } from 'enzyme';
 import { describe, it } from '@jest/globals';
 

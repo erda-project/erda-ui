@@ -13,7 +13,7 @@
 
 import routeInfoStore from 'core/stores/route';
 import { updateSearch } from 'common/utils';
-import { Radio } from 'app/nusi';
+import { Radio } from 'core/nusi';
 import moment from 'moment';
 import { isEmpty, map, merge, get, startsWith } from 'lodash';
 import { useUpdate, Holder, PureBoardGrid } from 'common';

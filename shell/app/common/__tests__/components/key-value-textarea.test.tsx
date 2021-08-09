@@ -15,7 +15,7 @@ import React from 'react';
 import { KeyValueTextArea } from 'common';
 import { mount } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
-import { Form } from 'app/nusi';
+import { Form } from 'core/nusi';
 
 const Comp = (props) => {
   const [form] = Form.useForm();

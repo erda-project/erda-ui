@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, message } from 'app/nusi';
+import { Button, message } from 'core/nusi';
 import AddonModal from '../third-service/components/addon-modal';
 import { useUpdate } from 'common';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';

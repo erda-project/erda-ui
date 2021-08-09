@@ -21,7 +21,7 @@
 
 import { each, includes, flattenDeep, map, replace, round } from 'lodash';
 import React from 'react';
-import { Modal, Table, Spin, Tooltip, Ellipsis } from 'app/nusi';
+import { Modal, Table, Spin, Tooltip, Ellipsis } from 'core/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
 

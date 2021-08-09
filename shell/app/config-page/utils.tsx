@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { Popconfirm } from 'app/nusi';
+import { Popconfirm } from 'core/nusi';
 import { WithAuth } from 'user/common';
 
 interface IOperationAction {

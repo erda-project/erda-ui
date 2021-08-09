@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { useUpdate, Icon as CustomIcon, IF } from 'common';
 import { map, isEmpty } from 'lodash';
-import { Popconfirm, Modal, Divider, Button, Tooltip } from 'app/nusi';
+import { Popconfirm, Modal, Divider, Button, Tooltip } from 'core/nusi';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 import { issueStateMap } from 'project/common/config';
 import { produce } from 'immer';

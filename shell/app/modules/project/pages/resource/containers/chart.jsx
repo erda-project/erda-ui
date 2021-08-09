@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'app/nusi';
+import { Spin } from 'core/nusi';
 import { find } from 'lodash';
 import PureChartList from '../components/chart';
 import projectResourceStore from 'project/stores/resource';

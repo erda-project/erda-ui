@@ -14,7 +14,7 @@
 import React from 'react';
 import { Form } from './form';
 import { get } from 'lodash';
-import { Form as NForm } from 'app/nusi';
+import { Form as NForm } from 'core/nusi';
 import { createFormEditor, DefaultEditor, DefaultPreview } from '../editor';
 import {
   componentFormConfig,

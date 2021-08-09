@@ -14,7 +14,7 @@
 import React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
-import { Table, Spin } from 'app/nusi';
+import { Table, Spin } from 'core/nusi';
 import MonitorPanel from 'monitor-overview/common/components/monitor-panel';
 
 import './overview-types.scss';

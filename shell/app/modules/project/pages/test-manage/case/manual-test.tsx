@@ -14,7 +14,7 @@
 import { debounce } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
-import { Button, Input, Tooltip } from 'app/nusi';
+import { Button, Input, Tooltip } from 'core/nusi';
 import { ErdaCustomIcon } from 'common';
 import { SplitPage } from 'layout/common';
 import { setSearch, updateSearch } from 'common/utils';

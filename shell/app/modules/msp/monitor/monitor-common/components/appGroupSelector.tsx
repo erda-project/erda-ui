@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Cascader } from 'app/nusi';
+import { Cascader } from 'core/nusi';
 import { get, isFunction, isEmpty, find } from 'lodash';
 import { cutStr } from 'common/utils';
 import monitorCommonStore from 'common/stores/monitorCommon';

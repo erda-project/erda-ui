@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popconfirm, Button, Dropdown, Menu } from 'app/nusi';
+import { Popconfirm, Button, Dropdown, Menu } from 'core/nusi';
 import { IF, NoAuthTip, useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';

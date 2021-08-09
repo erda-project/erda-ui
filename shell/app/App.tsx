@@ -27,7 +27,7 @@ import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
 import { EmptyListHolder } from 'common';
 import orgStore from 'app/org-home/stores/org';
-import * as nusi from 'app/nusi';
+import * as nusi from 'core/nusi';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@icon-park/react/styles/index.css';

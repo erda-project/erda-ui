@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, IF, useUpdate } from 'common';
-import { Dropdown, Input } from 'app/nusi';
+import { Dropdown, Input } from 'core/nusi';
 import React from 'react';
 import { isEqual, isEmpty, debounce } from 'lodash';
 import routeInfoStore from 'core/stores/route';

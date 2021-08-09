@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { MarkdownEditor, useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Menu, Dropdown, FormBuilder } from 'app/nusi';
+import { Input, Menu, Dropdown, FormBuilder } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import { set, keys, map, get, filter, every, forEach } from 'lodash';

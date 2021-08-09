@@ -15,7 +15,7 @@ import { map } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
-import { Table } from 'app/nusi';
+import { Table } from 'core/nusi';
 import { UserInfo } from 'common';
 
 import testPlanStore from 'project/stores/test-plan';

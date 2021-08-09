@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { MutableRefObject } from 'react';
-import { Modal, Button } from 'app/nusi';
+import { Modal, Button } from 'core/nusi';
 import { Copy, FormModal, useUpdate } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';

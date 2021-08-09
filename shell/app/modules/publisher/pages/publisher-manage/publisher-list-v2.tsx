@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Spin, Button, Table } from 'app/nusi';
+import { Input, Spin, Button, Table } from 'core/nusi';
 import { useDebounce, useUnmount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { connectCube, useUpdate, CustomFilter } from 'common';

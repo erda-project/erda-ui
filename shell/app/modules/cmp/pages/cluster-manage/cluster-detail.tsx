@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'app/nusi';
+import { Spin } from 'core/nusi';
 import { get, map, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import { KeyValueList, EmptyHolder } from 'common';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Tabs, Button, message, Popconfirm, Select, Modal, FormBuilder } from 'app/nusi';
+import { Input, Tabs, Button, message, Popconfirm, Select, Modal, FormBuilder } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { ResponseConfig } from './response-config';

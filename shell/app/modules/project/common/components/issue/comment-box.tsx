@@ -13,7 +13,7 @@
 
 import { useUpdate, MarkdownEditor } from 'common';
 import { isEmpty } from 'lodash';
-import { Button, message } from 'app/nusi';
+import { Button, message } from 'core/nusi';
 import React from 'react';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';

@@ -19,7 +19,7 @@ import { slaAuthorizationMap } from 'apiManagePlatform/pages/access-manage/compo
 import Limit from 'apiManagePlatform/pages/access-manage/detail/limit';
 import { map } from 'lodash';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
 import { regRules } from 'common/utils';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Panel } from 'app/nusi';
+import { Panel } from 'core/nusi';
 import { PipelineStatus } from './config';
 import { secondsToTime } from 'common/utils';
 import moment from 'moment';

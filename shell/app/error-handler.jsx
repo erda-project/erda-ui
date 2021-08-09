@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { notification } from 'app/nusi';
+import { notification } from 'core/nusi';
 import userStore from './user/stores';
 
 // use static data instead of i18n match

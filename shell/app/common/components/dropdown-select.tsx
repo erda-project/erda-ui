@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Dropdown, Menu } from 'app/nusi';
+import { Button, Dropdown, Menu } from 'core/nusi';
 import { ClickParam } from 'core/common/interface';
 import { DownOne as IconDownOne } from '@icon-park/react';
 import React from 'react';

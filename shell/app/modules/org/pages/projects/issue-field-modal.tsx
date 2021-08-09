@@ -22,7 +22,7 @@ import orgStore from 'app/org-home/stores/org';
 import { FIELD_WITH_OPTION, TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
 import FieldOptionsSetting from 'org/common/field-options-setting';
 import { isEmpty } from 'lodash';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 
 interface IProps {
   visible: boolean;

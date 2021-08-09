@@ -14,7 +14,7 @@
 import { FormModal, Icon as CustomIcon, useUpdate } from 'app/common';
 import i18n from 'app/i18n';
 import { FormInstance } from 'core/common/interface';
-import { Modal } from 'app/nusi';
+import { Modal } from 'core/nusi';
 import projectLabel from 'project/stores/label';
 import React from 'react';
 import { useEffectOnce } from 'react-use';

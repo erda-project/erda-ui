@@ -13,7 +13,7 @@
 
 import { ProblemPriority, getProblemType } from 'application/pages/problem/problem-form';
 import React from 'react';
-import { Button, Spin, Tabs, Select } from 'app/nusi';
+import { Button, Spin, Tabs, Select } from 'core/nusi';
 import { isEmpty, map, toLower } from 'lodash';
 import problemStore from 'application/stores/problem';
 import { useMount } from 'react-use';

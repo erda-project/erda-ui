@@ -16,7 +16,7 @@
  */
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip, Button } from 'app/nusi';
+import { Title as NusiTitle, Tooltip, Button } from 'core/nusi';
 import { OperationAction } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
 import './title.scss';

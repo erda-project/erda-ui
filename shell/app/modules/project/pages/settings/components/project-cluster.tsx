@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'app/nusi';
+import { Table } from 'core/nusi';
 import { HELP_DOCUMENT, WORKSPACE_LIST } from 'common/constants';
 import { isEmpty } from 'lodash';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';

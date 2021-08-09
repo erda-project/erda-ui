@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal } from 'app/nusi';
+import { Modal } from 'core/nusi';
 import { Build } from './build';
 import { DataTaskCreation } from './data-task-creation';
 import { goTo } from 'app/common/utils';

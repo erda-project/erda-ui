@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { FilterCore } from 'common/components/filter-group/filter-group';
-import { Input } from 'app/nusi';
+import { Input } from 'core/nusi';
 import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
 import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount } from 'enzyme';
