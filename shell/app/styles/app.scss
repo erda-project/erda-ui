@@ -160,11 +160,6 @@ table {
   table-layout: fixed;
 }
 
-// nusi 2.x 表格行高问题临时解决方案
-.pk-test-table-row {
-  line-height: 32px !important;
-}
-
 .monitor-sort-panel {
   padding: 12px 12px 8px;
   background-color: $white;
