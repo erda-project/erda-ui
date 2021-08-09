@@ -38,7 +38,7 @@ interface IProps {
   onEdit: (record: any) => void;
 }
 
-const statusMap = {
+export const statusMap = {
   online: ['green', i18n.t('cmp:online')],
   offline: ['red', i18n.t('cmp:offline')],
   initializing: ['yellow', i18n.t('runtime:initializing')],
@@ -47,7 +47,7 @@ const statusMap = {
   unknown: ['red', i18n.t('dcos:unknown')],
 };
 
-const manageTypeMap = {
+export const manageTypeMap = {
   agent: i18n.t('cmp:agent registration'),
   create: i18n.t('establish'),
   import: i18n.t('import'),
