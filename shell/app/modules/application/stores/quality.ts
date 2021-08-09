@@ -16,7 +16,7 @@ import { getLatestSonarStatistics, getSonarResults } from '../services/quality';
 import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
 import { eventHub } from 'common/utils/event-hub';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 const getAppDetail = () =>
   new Promise((resolve) => {

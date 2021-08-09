@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { createApp, initApp, queryTemplate } from '../services/application';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { getVersionPushConfig, updateVersionPushConfig } from 'application/services/app-setting';

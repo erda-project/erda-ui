@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import projectLabelStore from './label';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging, convertToFormData } from 'common/utils';
 import {

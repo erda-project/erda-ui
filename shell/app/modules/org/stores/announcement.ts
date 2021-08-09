@@ -13,7 +13,7 @@
 
 import layoutStore from 'layout/stores/layout';
 import userStore from 'app/user/stores';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import i18n from 'i18n';
 import {
   getAnnouncementList,

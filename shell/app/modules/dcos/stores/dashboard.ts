@@ -20,7 +20,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 
 import { getFilterTypes, getGroupInfos, getNodeLabels, getInstanceList, getChartData } from '../services/dashboard';
 import orgStore from 'app/org-home/stores/org';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 const RESOURCE_TYPE_MAP = {
   cpu: {

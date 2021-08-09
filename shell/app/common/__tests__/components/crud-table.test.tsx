@@ -17,7 +17,7 @@ import { Input } from 'app/nusi';
 import { mount, shallow } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 const columns = [
   {

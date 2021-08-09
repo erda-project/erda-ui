@@ -13,7 +13,7 @@
 
 import React from 'react';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { theme } from 'app/themes';
 import { pick, isEmpty, get } from 'lodash';
 import {

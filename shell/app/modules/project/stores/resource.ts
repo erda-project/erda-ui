@@ -15,7 +15,7 @@ import { get, map } from 'lodash';
 import * as ResourceServices from '../services/resource';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import i18n from 'i18n';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import orgStore from 'app/org-home/stores/org';
 
 const typeTitleMap = {

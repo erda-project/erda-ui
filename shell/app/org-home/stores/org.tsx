@@ -14,7 +14,7 @@ import { goTo } from 'common/utils';
 import { getSubSiderInfoMap, getAppCenterAppList } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import userStore from 'app/user/stores';
 import { getOrgByDomain, getJoinedOrgs, updateOrg } from '../services/org';
 import { getGlobal } from 'app/global-space';

@@ -14,7 +14,7 @@
 import { extend, find, includes, isBoolean, map, remove, flatMapDeep } from 'lodash';
 import { message } from 'app/nusi';
 import i18n from 'i18n';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { checkNeedEmptyChoosenIds, getChoosenName, getCaseListName, formatQuery } from 'project/utils/test-case';
 import { isImage, regRules, convertToFormData } from 'common/utils';
 import defaultFileTypeImg from 'app/images/defaultFileImage.png';

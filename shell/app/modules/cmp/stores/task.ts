@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { getDefaultPaging } from 'common/utils';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getTaskList } from '../services/task';
 
 interface IState {

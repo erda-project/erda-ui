@@ -13,7 +13,7 @@
 
 import i18n, { getLang } from 'i18n';
 import { message } from 'app/nusi';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getDefaultPaging } from 'common/utils';
 import {
   addTestPlan,

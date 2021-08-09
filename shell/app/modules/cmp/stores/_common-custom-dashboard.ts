@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import { getDefaultPaging, getTimeSpan } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
