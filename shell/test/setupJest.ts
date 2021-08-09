@@ -15,6 +15,9 @@
 import { GlobalWithFetchMock } from 'jest-fetch-mock';
 import { jest } from '@jest/globals';
 import { TextDecoder, TextEncoder } from 'util';
+import replaceAllInserter from 'string.prototype.replaceall';
+
+replaceAllInserter.shim();
 
 jest.mock('i18n', () => {
   return {

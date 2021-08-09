@@ -47,7 +47,7 @@ export const TagColorMap = {
   gray: 'gray',
 };
 
-const TagItem = (props: IItemProps) => {
+export const TagItem = (props: IItemProps) => {
   const { label: _label, size, withCut, onDelete } = props;
   const { label, color = 'gray' } = _label;
   const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };

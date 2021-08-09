@@ -63,7 +63,6 @@ export { SwitchAutoScroll } from './components/switch-auto-scroll';
 export { default as FileSelect } from './components/file-select';
 export { EditField } from './components/edit-field';
 export { default as MarkdownEditor } from './components/markdown-editor';
-export { default as ColorLabel } from './components/color-label';
 export { DropdownSelect } from './components/dropdown-select';
 export {
   FilterGroup,

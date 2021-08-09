@@ -14,7 +14,7 @@
 import React from 'react';
 
 interface IProps {
-  onChange: (...args: unknown[]) => void;
+  onChange?: (...args: unknown[]) => void;
 }
 
 export class ClassWrapper extends React.PureComponent<IProps> {
