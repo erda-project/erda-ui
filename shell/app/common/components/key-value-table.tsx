@@ -347,7 +347,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
           ref={(ref) => {
             this.table = ref;
           }}
-          scroll={{ x: 800 }}
+          scroll={undefined}
         />
       </div>
     );
