@@ -329,9 +329,11 @@ export const AddClusterModal = (props: IProps) => {
       postData.opsConfig = null;
     }
     const credentialContent = get(credential, 'content');
+    const credentialAddress = get(credential, 'address');
     const cpuSubscribeRatio = get(scheduler, 'cpuSubscribeRatio');
     cpuSubscribeRatio && (postData.scheduler.cpuSubscribeRatio = `${cpuSubscribeRatio}`);
     credentialContent && (credential.content = `${credentialContent.trim()}`);
+    credentialAddress && (credential.address = `${credentialAddress.trim()}`);
     onSubmit?.({ ...postData, type: clusterType });
     toggleModal();
   };
