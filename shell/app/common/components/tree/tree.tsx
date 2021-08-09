@@ -16,13 +16,18 @@ import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
 import { Spin, Title, Tree, NusiPopover as Popover, Select } from 'app/nusi';
 import i18n from 'i18n';
-import { useUpdate } from 'common';
-import { TreeProps, AntTreeNode, AntTreeNodeSelectedEvent, IAction, TreeNodeNormal } from 'core/common/interface';
+import { useUpdate, Icon as CustomIcon } from 'common';
+import { TreeProps, AntTreeNodeProps, TreeNodeNormal } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
 
 const { Option, OptGroup } = Select;
+
+interface IAction {
+  node: React.ReactNode;
+  func: (curKey: string | number, curNode: TreeNodeNormal) => void;
+}
 
 export interface TreeNode extends Omit<TreeNodeNormal, 'title'> {
   icon?: React.ReactElement;
@@ -328,8 +333,8 @@ export const TreeCategory = ({
     updater.expandedKeys(keys);
   };
 
-  const onClickNode = (keys: string[], event: NusiTreeNodeSelectedEvent) => {
-    const isLeaf = !!event.node.props.isLeaf;
+  const onClickNode = (keys: string[], info: { node: { props: AntTreeNodeProps } }) => {
+    const isLeaf = !!info.node.props.isLeaf;
     onSelectNode({ inode: isLeaf ? keys[0].slice(5) : keys[0], isLeaf });
   };
 
@@ -783,11 +788,26 @@ export const TreeCategory = ({
           loadData={(node) => onLoadTreeData(node.props.dataRef.key)}
           treeData={treeData}
           expandedKeys={expandedKeys}
+          className="file-tree-container"
           blockNode
           showIcon
           onExpand={onExpand}
           onSelect={onClickNode}
-          actions={getActions}
+          titleRender={(nodeData: TreeNodeNormal) => (
+            <span>
+              {nodeData.title}
+              <Popover
+                content={getActions(nodeData).map((item) => (
+                  <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                    {item.node}
+                  </div>
+                ))}
+                footer={false}
+              >
+                <CustomIcon type="gd" className="tree-node-action" />
+              </Popover>
+            </span>
+          )}
           draggable={!!moveNode && !cuttingNodeKey && !copyingNodeKey} // 当有剪切复制正在进行中时，不能拖动
           onDrop={onDrop}
           {...treeProps}
