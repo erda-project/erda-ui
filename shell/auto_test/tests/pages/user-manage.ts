@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // playwright-dev-page.ts
-import type { Page } from 'playwright';
+import { Page } from '@playwright/test';
 
 export class UserManagePage {
   readonly page: Page;
