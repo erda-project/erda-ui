@@ -158,17 +158,6 @@ input::-moz-placeholder {
 
 table {
   table-layout: fixed;
-
-  td {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-// nusi 2.x 表格行高问题临时解决方案
-.pk-test-table-row {
-  line-height: 32px !important;
 }
 
 .monitor-sort-panel {
