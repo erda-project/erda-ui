@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map as _map, pickBy } from 'lodash';
-import { Row, Col, Input, Select, Button, Tabs, Form } from 'app/nusi';
+import { Row, Col, Input, Select, Button, Tabs, Form, Modal } from 'app/nusi';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
 import CommonPanel from './trace-common-panel';
@@ -36,6 +36,7 @@ const { banFullWidthPunctuation, url: urlRule } = regRules;
 
 const TraceInsightQuerier = () => {
   const [form] = Form.useForm();
+  const [modalVis, setModalVis] = React.useState(false);
   const [
     requestTraceParams,
     traceHistoryList,
@@ -106,6 +107,14 @@ const TraceInsightQuerier = () => {
         setTraceRecords(content);
       });
   }, [getTraceDetailContent, requestId]);
+
+  const resetRequestTrace = () => {
+    setModalVis(false);
+    form.resetFields();
+    clearRequestTraceParams();
+    clearCurrentTraceRequestId();
+    clearTraceStatusDetail();
+  };
 
   const handleSetRequestTraceParams = (payload: any) => {
     return validateFields().then(() => {
@@ -178,12 +187,8 @@ const TraceInsightQuerier = () => {
     return (
       <div className="url-editor">
         <Row gutter={10}>
-          <Col span={21}>
-            <FormItem
-              name="url"
-              initialValue={`${url}${queryStr ? `?${queryStr}` : ''}`}
-              rules={[{ required: true, message: i18n.t('msp:this item is required') }, urlRule]}
-            >
+          <Col span={18}>
+            <FormItem name="url" rules={[{ required: true, message: i18n.t('msp:this item is required') }, urlRule]}>
               <Input
                 addonBefore={selectBefore}
                 placeholder={
@@ -197,10 +202,21 @@ const TraceInsightQuerier = () => {
               />
             </FormItem>
           </Col>
-          <Col span={3}>
+          <Col span={6}>
             <Button type="primary" loading={isRequestTraceFetching} onClick={handleRequestTrace}>
               {i18n.t('msp:request')}
             </Button>
+            <Button className="ml-4" danger onClick={() => setModalVis(true)}>
+              {i18n.t('common:reset')}
+            </Button>
+            <Modal
+              title={i18n.t('confirm to reset?')}
+              visible={modalVis}
+              onOk={resetRequestTrace}
+              onCancel={() => {
+                setModalVis(false);
+              }}
+            />
           </Col>
         </Row>
       </div>
@@ -309,6 +325,7 @@ const TraceInsightQuerier = () => {
               clearTraceStatusDetail={clearTraceStatusDetail}
               clearCurrentTraceRequestId={clearCurrentTraceRequestId}
               clearRequestTraceParams={clearRequestTraceParams}
+              form={form}
             />
           </CommonPanel>
         </Col>
@@ -316,7 +333,7 @@ const TraceInsightQuerier = () => {
           <CommonPanel>
             <React.Fragment>
               {renderMetaViewer()}
-              <Form>
+              <Form form={form}>
                 {renderUrlEditor()}
                 {renderRequestEditor()}
               </Form>
