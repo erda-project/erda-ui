@@ -13,7 +13,7 @@
 
 import { useUpdate, MemberSelector, IF } from 'common';
 import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'app/nusi';
-import React from 'react';
+import React, { useImperativeHandle } from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import issueStore from 'project/stores/issues';
@@ -62,27 +62,23 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
   const issueDetail = issueStore.useStore((s) => s[`${issueType.toLowerCase()}Detail`]);
 
-  React.useEffect(() => {
-    if (!ref.current) {
-      // eslint-disable-next-line no-param-reassign
-      ref.current = { getList };
-    }
-  });
+  const getList = React.useCallback(() => {
+    getIssueRelation({ id: issue.id }).then((res) => {
+      setRealtingList(res[0]);
+      setRelatedList(res[1]);
+    });
+  }, [getIssueRelation, issue]);
+
+  useImperativeHandle(ref, () => ({ getList }), [getList]);
 
   const curIterationID = React.useMemo(() => {
     return issueDetail.iterationID || iterationID;
   }, [issueDetail.iterationID, iterationID]);
 
-  const getList = () => {
-    getIssueRelation({ id: issue.id }).then((res) => {
-      setRealtingList(res[0]);
-      setRelatedList(res[1]);
-    });
-  };
-
   useMount(() => {
     getList();
   });
+
   const authObj = usePerm((s) => s.project.task);
 
   const updateRecord = (record: ISSUE.Task, key: string, val: any) => {
