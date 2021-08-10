@@ -14,6 +14,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getResourcePermissions } from 'user/services/user';
+import { getJoinedOrgs } from 'app/org-home/services/org';
 import { setLS, notify, goTo } from 'common/utils';
 import { registChartControl } from 'charts/utils/regist';
 import userStore from './user/stores';
@@ -22,6 +23,7 @@ import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/main';
 import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import { setConfig } from 'core/config';
+import history from 'core/history';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
@@ -46,7 +48,7 @@ const momentLangMap = {
 };
 
 const hold = nusi;
-const start = (userData: ILoginUser) => {
+const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
   const IconConfig = {
@@ -56,7 +58,7 @@ const start = (userData: ILoginUser) => {
 
   const locale = window.localStorage.getItem('locale') || 'zh';
   moment.locale(momentLangMap[locale]);
-
+  orgStore.reducers.updateJoinedOrg(orgs);
   initAxios();
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
@@ -122,55 +124,59 @@ if (pathname.startsWith('/r/')) {
     default:
       break;
   }
-  window.history.replaceState({ a: 1 }, document.title, newPath.join('/') + search);
+  history.replace(newPath.join('/') + search);
 }
 
 // 3.21版本，应用流水线旧链接兼容
 const oldPipelineReg = /\/dop\/projects\/\d+\/apps\/\d+\/pipeline\/\d+$/;
 if (oldPipelineReg.test(pathname)) {
   const [pPath, pId] = pathname.split('pipeline/');
-  window.history.replaceState({}, document.title, `${pPath}pipeline?pipelineID=${pId}`);
+  history.replace(`${pPath}pipeline?pipelineID=${pId}`);
 }
 
-const setSysAdminLocationByAuth = (authObj: Obj) => {
+const setSysAdminLocationByAuth = () => {
   const curPathname = location.pathname;
   const orgName = get(curPathname.split('/'), '[1]');
   const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
   // 系统管理员打开的不是系统管理员页面，跳转到系统管理员页
-  authObj.hasAuth && !isAdminPage && goTo(goTo.pages.sysAdminOrgs, { orgName: '-', replace: true });
-  // 非系统管理员打开的是系统管理员页面，跳转到首页
-  !authObj.hasAuth && isAdminPage && goTo(goTo.pages.orgRoot, { orgName, replace: true });
+  !isAdminPage && goTo(goTo.pages.sysAdminOrgs, { orgName: '-', replace: true });
 };
 
 const init = (userData: ILoginUser) => {
-  if (location.pathname === '/') {
-    window.location.href = '/-';
-    return;
+  // step1: get user last path
+  const lastPath = window.localStorage.getItem(`${userData.id}-lastPath`);
+  if (lastPath) {
+    window.localStorage.removeItem(`${userData.id}-lastPath`);
+    history.replace(lastPath);
   }
-  const sysPermQuery = { scope: 'sys', scopeID: '0' };
-  // TODO: 调用层次太深需要优化
-  // 先检查是否系统管理员，是进入系统后台，否则根据当前域名查找orgId，用orgId去查企业权限
 
-  getResourcePermissions(sysPermQuery).then((result: Obj) => {
-    if (result.success) {
-      if (!result.data.access) {
-        const lastPath = window.localStorage.getItem('lastPath');
-        if (lastPath) {
-          window.localStorage.removeItem('lastPath');
-          window.location.href = lastPath;
-          return;
-        }
-        start({ ...userData });
-      } else {
-        // 验证系统管理员相关路由
-        setSysAdminLocationByAuth({
-          hasAuth: !!result.data.access,
-        });
-        setGlobal('erdaInfo.isSysAdmin', true);
-        start({ ...userData, isSysAdmin: true });
+  // step2: get user joined orgs
+  getJoinedOrgs()
+    .then((orgResult: Obj) => {
+      const orgs = orgResult?.data?.list || [];
+
+      if (location.pathname === '/') {
+        // replace to default org
+        const defaultOrgPath = `/${orgs?.[0]?.name || '-'}`;
+        history.replace(defaultOrgPath);
       }
-    }
-  });
+      return orgs;
+    })
+    .then((orgs: ORG.IOrg[]) => {
+      // step3: get user isSysAdmin
+      getResourcePermissions({ scope: 'sys', scopeID: '0' }).then((result: Obj) => {
+        if (result.success) {
+          if (!result.data.access) {
+            start({ ...userData }, orgs);
+          } else {
+            // 验证系统管理员相关路由
+            setSysAdminLocationByAuth();
+            setGlobal('erdaInfo.isSysAdmin', true);
+            start({ ...userData, isSysAdmin: true }, orgs);
+          }
+        }
+      });
+    });
 };
 
 if (window._userData) {

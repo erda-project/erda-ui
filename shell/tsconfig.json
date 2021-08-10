@@ -93,6 +93,7 @@
       "agent": ["./app/agent.js"],
       "app/*": ["./app/*"],
       "core/main": ["../core/src/index"],
+      "core/history": ["../core/src/history"],
       "core/cube": ["../core/src/cube"],
       "core/i18n": ["../core/src/i18n"],
       "core/agent": ["../core/src/agent"],

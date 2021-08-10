@@ -63,7 +63,7 @@ const org = createStore({
       await org.effects.getJoinedOrgs(true);
       update({ currentOrg });
     },
-    async getOrgByDomain({ call, update }, payload: { orgName: string }) {
+    async getOrgByDomain({ call, update, select }, payload: { orgName: string }) {
       let domain = window.location.hostname;
       if (domain.startsWith('local')) {
         domain = domain.split('.').slice(1).join('.');
@@ -71,12 +71,12 @@ const org = createStore({
       const { orgName } = payload;
       // if orgName exist, check valid
       const resOrg = await call(getOrgByDomain, { domain, orgName });
-      const orgs = await call(getJoinedOrgs); // get joined orgs
+      const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
       if (orgName === '-' && isEmpty(resOrg)) {
-        if (orgs?.list?.length) {
-          location.href = `/${get(orgs, 'list[0].name')}`;
+        if (orgs?.length) {
+          location.href = `/${get(orgs, '[0].name')}`;
           return;
         }
         update({ curPathOrg: orgName, initFinish: true });
@@ -89,7 +89,7 @@ const org = createStore({
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
         if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) {
-          if (orgs?.list?.find((x) => x.name === currentOrg.name)) {
+          if (orgs?.find((x) => x.name === currentOrg.name)) {
             location.href = `/${currentOrg.name}`;
           }
           return;
@@ -97,7 +97,7 @@ const org = createStore({
         // user doesn't joined the public org, go to dop
         // temporary solution, it will removed until new solution is proposed by PD
         if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
-          if (!orgs?.list?.find((x) => x.name === currentOrg.name) || orgs?.list?.length === 0) {
+          if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
             location.href = goTo.resolve.dopRoot();
             return;
           }
@@ -162,6 +162,9 @@ const org = createStore({
     },
   },
   reducers: {
+    updateJoinedOrg(state, orgs: ORG.IOrg[]) {
+      state.orgs = orgs;
+    },
     clearOrg(state) {
       breadcrumbStore.reducers.setInfo('curOrgName', '');
       state.currentOrg = {} as ORG.IOrg;

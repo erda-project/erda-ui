@@ -113,7 +113,7 @@ const userStore = createStore({
       // effects
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-        !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
+        window.localStorage.setItem(`${loginUser.id}-lastPath`, window.location.href);
         window.location.href = data.url;
       }
     },
@@ -122,7 +122,7 @@ const userStore = createStore({
       setLS('diceLoginState', false);
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-        !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
+        window.localStorage.setItem(`${loginUser.id}-lastPath`, window.location.href);
         window.location.href = data.url;
       }
     },
