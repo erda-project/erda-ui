@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { IF } from 'common';
-import { Row, Col } from 'app/nusi';
+import { Row, Col } from 'core/nusi';
 import { MonitorChartNew } from 'charts';
 import { ChartContainer } from 'charts/utils';
 import { ALARM_REPORT_CHART_MAP } from 'app/modules/dcos/common/config';

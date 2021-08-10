@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Tooltip } from 'app/nusi';
+import { Select, Tooltip } from 'core/nusi';
 import { useUpdate, CRUDTable } from 'common';
 import { map, get, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';

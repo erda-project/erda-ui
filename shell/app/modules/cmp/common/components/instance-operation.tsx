@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer } from 'app/nusi';
+import { Drawer } from 'core/nusi';
 import i18n from 'i18n';
 import { useUpdate, IF } from 'common';
 import Terminal from 'dcos/common/containers/terminal';

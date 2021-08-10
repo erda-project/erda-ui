@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover } from 'app/nusi';
+import { Popover } from 'core/nusi';
 
 export default (props: CP_POPOVER.Props) => {
   const sizeMap = {

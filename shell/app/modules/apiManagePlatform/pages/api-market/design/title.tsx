@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Menu, Dropdown, Tooltip, Modal } from 'app/nusi';
+import { Input, Menu, Dropdown, Tooltip, Modal } from 'core/nusi';
 import i18n from 'i18n';
 import './index.scss';
 import { map } from 'lodash';

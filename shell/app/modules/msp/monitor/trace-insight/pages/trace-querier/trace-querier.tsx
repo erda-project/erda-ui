@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map as _map, pickBy } from 'lodash';
-import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm } from 'app/nusi';
+import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm } from 'core/nusi';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
 import CommonPanel from './trace-common-panel';

@@ -24,7 +24,7 @@ import appMemberStore from 'common/stores/application-member';
 import { getDefaultPaging } from 'common/utils';
 import { act } from 'react-dom/test-utils';
 import _ from 'lodash';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 
 const memberLabels = [
   {

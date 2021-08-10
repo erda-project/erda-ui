@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { MarkdownEditor, useUpdate } from 'common';
-import { Input, Title, FormBuilder } from 'app/nusi';
+import { Input, Title, FormBuilder } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';

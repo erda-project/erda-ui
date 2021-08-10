@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { loadGatewayMetricItem, loadMetricItem, listMetricByResourceType } from 'common/services/metrics';
 import { isEmpty, get, forEach, isArray } from 'lodash';
 import { groupHandler, multipleDataHandler, multipleGroupDataHandler } from 'common/utils/chart-utils';

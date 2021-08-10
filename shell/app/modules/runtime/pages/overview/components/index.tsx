@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, isEmpty } from 'lodash';
-import { Row, Col, Tooltip, Button } from 'app/nusi';
+import { Row, Col, Tooltip, Button } from 'core/nusi';
 import { Responsive, ErrorBoundary, IF, useMediaLt } from 'common';
 import { goTo, getLS, setLS, qs } from 'common/utils';
 import { getMSFrontPathByKey } from 'msp/config';

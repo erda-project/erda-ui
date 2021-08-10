@@ -14,7 +14,7 @@
 import * as TestServices from '../services/test';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getDefaultPaging, goTo } from 'common/utils';
 
 interface IParams {

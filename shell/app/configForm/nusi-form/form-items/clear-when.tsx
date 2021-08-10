@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { filter, isEmpty, map } from 'lodash';
-import { Select, Form } from 'app/nusi';
+import { Select, Form } from 'core/nusi';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
 

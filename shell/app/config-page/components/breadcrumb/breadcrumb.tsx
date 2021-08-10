@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Breadcrumb, Ellipsis, Menu } from 'app/nusi';
+import { Breadcrumb, Ellipsis, Menu } from 'core/nusi';
 import { map } from 'lodash';
 import { Right as IconRight } from '@icon-park/react';
 

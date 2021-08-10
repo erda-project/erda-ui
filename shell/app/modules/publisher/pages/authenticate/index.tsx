@@ -16,7 +16,7 @@ import { TimeSelector, Copy, useUpdate } from 'common';
 import authenticateStroe from '../../stores/authenticate';
 import moment from 'moment';
 import i18n from 'i18n';
-import { Tooltip, Spin, Table, Select } from 'app/nusi';
+import { Tooltip, Spin, Table, Select } from 'core/nusi';
 import { WithAuth, usePerm } from 'user/common';
 import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';

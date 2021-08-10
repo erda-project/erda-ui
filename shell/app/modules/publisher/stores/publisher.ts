@@ -13,7 +13,7 @@
 
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { getDefaultPaging } from 'common/utils';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import orgStore from 'app/org-home/stores/org';
 import i18n from 'i18n';
 import {

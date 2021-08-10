@@ -13,7 +13,7 @@
 
 import { map, floor } from 'lodash';
 import React from 'react';
-import { Spin, Tooltip } from 'app/nusi';
+import { Spin, Tooltip } from 'core/nusi';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import './sort-list.scss';
 

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable no-param-reassign */
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import i18n from 'i18n';
 import {
   createTestEnv,

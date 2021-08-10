@@ -17,7 +17,7 @@
  * 如此更方便后续接组件化协议
  * */
 import React from 'react';
-import { Spin } from 'app/nusi';
+import { Spin } from 'core/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { Icon as CustomIcon, IF, connectCube } from 'common';

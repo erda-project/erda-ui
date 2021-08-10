@@ -36,7 +36,7 @@ import { FormModal, RenderForm, useUpdate } from 'common';
 import { goTo, notify } from 'common/utils';
 
 import { cloneDeep, filter, find, findIndex, forEach, get, omit, isEmpty } from 'lodash';
-import { Button, message, Spin } from 'app/nusi';
+import { Button, message, Spin } from 'core/nusi';
 import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';

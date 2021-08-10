@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import React from 'react';
-import { Modal } from 'app/nusi';
+import { Modal } from 'core/nusi';
 
 import testCaseStore from 'project/stores/test-case';
 import testPlanStore from 'project/stores/test-plan';

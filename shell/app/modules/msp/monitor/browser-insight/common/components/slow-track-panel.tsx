@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'app/nusi';
+import { Table } from 'core/nusi';
 import { get } from 'lodash';
 import { ColumnProps } from 'core/common/interface';
 import moment from 'moment';

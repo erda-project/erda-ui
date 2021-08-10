@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Badge, Button } from 'app/nusi';
+import { Tooltip, Badge, Button } from 'core/nusi';
 import { get, isEmpty } from 'lodash';
 import { Icon as CustomIcon, CardsLayout, Holder, IF, useUpdate } from 'common';
 import { goTo, ossImg } from 'common/utils';

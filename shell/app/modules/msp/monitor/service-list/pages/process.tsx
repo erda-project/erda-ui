@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import classNames from 'classnames';
-import { Spin, Select } from 'app/nusi';
+import { Spin, Select } from 'core/nusi';
 import { TimeSelector, EmptyHolder, useUpdate } from 'common';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';

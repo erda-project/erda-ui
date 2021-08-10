@@ -14,7 +14,7 @@
 import React from 'react';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
-import { Input } from 'app/nusi';
+import { Input } from 'core/nusi';
 import { debounce } from 'lodash';
 import TypeSelect, { Item } from 'msp/pages/configuration/type-select';
 import { getAdapters } from 'msp/services/configuration';

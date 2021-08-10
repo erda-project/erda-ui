@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { isEmpty, get } from 'lodash';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import {
   getClusterList,
   addCluster,

@@ -14,7 +14,7 @@
 import { getTraceDetail, getSpanDetail } from '../services/trace-detail';
 import { isEmpty } from 'lodash';
 import traceConvert from '../common/utils/traceConvert';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 const transformTrace = (trace: MONITOR_TRACE.ITrace) => {
   if (isEmpty(trace)) return {};

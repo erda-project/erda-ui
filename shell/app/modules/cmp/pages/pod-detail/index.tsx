@@ -14,7 +14,7 @@
 import React from 'react';
 import { useMount } from 'react-use';
 import { map, isEmpty } from 'lodash';
-import { Spin, Table } from 'app/nusi';
+import { Spin, Table } from 'core/nusi';
 import { Holder } from 'common';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';

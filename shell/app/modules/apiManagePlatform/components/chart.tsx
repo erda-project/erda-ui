@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'app/nusi';
+import { Spin } from 'core/nusi';
 import { useUpdate, CommonRangePicker, PureBoardGrid } from 'common';
 import { getDashboard } from 'apiManagePlatform/services/api-access';
 import { get, isString, merge, reduce, values, isEmpty } from 'lodash';

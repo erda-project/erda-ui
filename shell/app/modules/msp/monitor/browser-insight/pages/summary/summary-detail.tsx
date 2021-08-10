@@ -14,7 +14,7 @@
 import { get, isEmpty } from 'lodash';
 import React from 'react';
 import { EmptyHolder } from 'common';
-import { Row, Col, Progress } from 'app/nusi';
+import { Row, Col, Progress } from 'core/nusi';
 import { getFormatter } from 'charts/utils/formatter';
 import i18n from 'i18n';
 

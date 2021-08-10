@@ -15,7 +15,7 @@ import { cutStr, qs, reorder } from 'common/utils';
 import classnames from 'classnames';
 import { Copy, ErdaCustomIcon, useListDnD, EmptyListHolder, FileEditor } from 'common';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'app/nusi';
+import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'core/nusi';
 import { Copy as IconCopy } from '@icon-park/react';
 import testEnvStore from 'project/stores/test-env';
 import React from 'react';

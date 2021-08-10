@@ -13,7 +13,7 @@
 
 import { map, isEmpty } from 'lodash';
 import React from 'react';
-import { Spin, Button, Timeline, Input } from 'app/nusi';
+import { Spin, Button, Timeline, Input } from 'core/nusi';
 import { Copy, LoadMore, Holder, Avatar, IF, ErdaCustomIcon } from 'common';
 import { fromNow, goTo, replaceEmoji, setLS } from 'common/utils';
 import BranchSelect from './components/branch-select';

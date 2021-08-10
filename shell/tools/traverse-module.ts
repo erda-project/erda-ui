@@ -99,7 +99,7 @@ function completeModulePath(modulePath: string) {
       return tryModulePath;
     }
   } else if (!EXTS.some((ext) => modulePath.endsWith(ext))) {
-    // e.g. 'app/nusi' is not a folder then try to find 'app/nusi.tsx(jsx/js/ts)'
+    // e.g. 'core/nusi' is not a folder then try to find 'core/nusi.tsx(jsx/js/ts)'
     const tryModulePath = tryCompletePath((ext: string) => `${modulePath}${ext}`);
     if (!tryModulePath) {
       reportModuleNotFoundError(modulePath);

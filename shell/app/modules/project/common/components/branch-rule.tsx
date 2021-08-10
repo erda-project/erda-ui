@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { useUpdate } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
-import { Button, Table, Popconfirm } from 'app/nusi';
+import { Button, Table, Popconfirm } from 'core/nusi';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';

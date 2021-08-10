@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { FormModal, ImgHolder, ConfigLayout } from 'common';
-import { Form, Button } from 'app/nusi';
+import { Form, Button } from 'core/nusi';
 import { isEmpty, concat, get, forEach, isFunction } from 'lodash';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';

@@ -15,7 +15,7 @@ import { getFormatter } from 'charts/utils/formatter';
 import { Holder, MetricsMonitor } from 'common';
 import i18n from 'i18n';
 import { isEmpty, isFunction, map } from 'lodash';
-import { Tag } from 'app/nusi';
+import { Tag } from 'core/nusi';
 import React from 'react';
 import './machine-detail.scss';
 

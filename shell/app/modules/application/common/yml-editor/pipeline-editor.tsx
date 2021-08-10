@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';
-import { Spin, Button, message, Radio, Tooltip, Modal, Popconfirm } from 'app/nusi';
+import { Spin, Button, message, Radio, Tooltip, Modal, Popconfirm } from 'core/nusi';
 import { useUpdate, RenderForm, FileEditor, Icon as CustomIcon } from 'common';
 import repoStore from 'application/stores/repo';
 import { getInfoFromRefName } from 'application/pages/repo/util';

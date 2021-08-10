@@ -15,7 +15,7 @@ import React from 'react';
 import { LoadMoreSelector, Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
 import { map } from 'lodash';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import { getJoinedProjects } from 'user/services/user';
 import routeInfoStore from 'core/stores/route';
 import projectStore from 'project/stores/project';

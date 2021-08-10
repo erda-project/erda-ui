@@ -15,7 +15,7 @@ import React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';
-import { Select, Menu, Dropdown, Button } from 'app/nusi';
+import { Select, Menu, Dropdown, Button } from 'core/nusi';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';

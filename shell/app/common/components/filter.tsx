@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Filter as NusiFilter } from 'app/nusi';
+import { Filter as NusiFilter } from 'core/nusi';
 import { get, map, has, set, isEmpty, debounce } from 'lodash';
 import { IFilterProps } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';

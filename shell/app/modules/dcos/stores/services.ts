@@ -13,7 +13,7 @@
 
 import { get, map } from 'lodash';
 import { fetchContainerList, getServiceList, getRuntimeStatus, getMetrics, getRuntimeJson } from '../services/service';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 const initState: DCOS_SERVICES.IState = {
   containerList: [],

@@ -13,7 +13,7 @@
 
 import * as ProjectReportService from 'msp/services/project-report';
 import i18n from 'i18n';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 interface IState {
   projectReportsPaging: IPaging;

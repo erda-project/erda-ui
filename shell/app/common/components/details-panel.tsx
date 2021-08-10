@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Panel, Title, Anchor } from 'app/nusi';
+import { Panel, Title, Anchor } from 'core/nusi';
 import { OperationProps, TitleProps, PanelProps, IAnchorContainer } from 'core/common/interface';
 import { IF } from 'common';
 import { map, isEmpty } from 'lodash';

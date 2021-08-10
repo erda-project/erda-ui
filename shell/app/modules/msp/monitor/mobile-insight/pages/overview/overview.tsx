@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'app/nusi';
+import { Row, Col } from 'core/nusi';
 import { TimeSelector } from 'common';
 import PositionMap from 'mobile-insight/pages/position/config/chartMap';
 import OverviewMap, { commonAttr } from './config/chartMap';

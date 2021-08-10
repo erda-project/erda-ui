@@ -14,7 +14,7 @@
 import React from 'react';
 import { useUpdate } from 'common';
 import { produce } from 'immer';
-import { FormBuilder, Title } from 'app/nusi';
+import { FormBuilder, Title } from 'core/nusi';
 import { keys, set, isEmpty, get } from 'lodash';
 import { FormInstance } from 'core/common/interface';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';

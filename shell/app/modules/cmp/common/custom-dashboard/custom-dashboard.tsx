@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Input, message } from 'app/nusi';
+import { Input, message } from 'core/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
 import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
 import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Input, Spin, Popconfirm, Tooltip } from 'app/nusi';
+import { Table, Input, Spin, Popconfirm, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import { CustomFilter, useFilter, useUpdate, MemberSelector, LoadMoreSelector } from 'common';
 import { insertWhen, goTo } from 'common/utils';

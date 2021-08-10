@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable no-param-reassign */
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getDefaultPaging } from 'common/utils';
 import { ciNodeStatusSet } from 'application/pages/pipeline/run-detail/config';
 import {

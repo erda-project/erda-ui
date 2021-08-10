@@ -28,7 +28,7 @@ import { CustomIssueState } from 'project/common/components/issue/issue-state';
 import { useUpdate, Filter, MemberSelector } from 'common';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { Input, Table, Button, Select, RangePicker, Tooltip } from 'app/nusi';
+import { Input, Table, Button, Select, RangePicker, Tooltip } from 'core/nusi';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
