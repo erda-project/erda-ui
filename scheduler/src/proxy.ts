@@ -134,7 +134,7 @@ const replaceApiOrgPath = (p: string) => {
 };
 
 const extractOrg = (p: string) => {
-  const match = /https?:\/\/[^/]*\/([^/]*)\//.exec(p);
+  const match = /https?:\/\/[^/]*\/([^/]*)\/?/.exec(p);
   if (match && !p.startsWith('/api/files')) {
     return match[1];
   }
