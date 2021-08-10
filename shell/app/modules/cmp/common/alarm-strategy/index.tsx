@@ -226,8 +226,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             updater.editingRules(rules);
           }}
         >
-          {map(allRules, ({ alertIndex }) => (
-            <Select.Option key={alertIndex} value={alertIndex}>
+          {map(allRules, ({ alertIndex, id }) => (
+            <Select.Option key={id} value={alertIndex}>
               {allRuleMap[alertIndex]}
             </Select.Option>
           ))}
