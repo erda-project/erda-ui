@@ -126,7 +126,7 @@ export const getSchedulerDir = () => {
   return join(process.cwd(), 'scheduler');
 };
 
-export const registryDir = 'registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui';
+export const registryDir = 'registry.erda.cloud/erda/ui';
 
 export const isWindows = process.platform === 'win32';
 export const isMacintosh = process.platform === 'darwin';

@@ -20,7 +20,7 @@ const { staticDir } = getEnv();
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
-  // some action as nginx try_files
+  // same action as nginx try_files
   catch(_exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
