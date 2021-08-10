@@ -785,7 +785,7 @@ export const TreeCategory = ({
       <Spin spinning={!!loading}>
         <Tree
           selectedKeys={currentKey ? [currentKey] : []}
-          loadData={(node) => onLoadTreeData(node.props.dataRef.key)}
+          loadData={(node) => onLoadTreeData(node.key)}
           treeData={treeData}
           expandedKeys={expandedKeys}
           className="file-tree-container"

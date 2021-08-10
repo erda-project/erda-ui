@@ -39,7 +39,8 @@
     "precommit": "lint-staged",
     "extra-logic": "node ../../erda-ui-enterprise/extra-job.js",
     "online-extra-logic": "node ../modules/extra-job.js online",
-    "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts"
+    "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts",
+    "check-type": "tsc --noemit"
   },
   "author": "Erda-FE",
   "license": "AGPL",
@@ -149,6 +150,7 @@
     "dotenv": "^8.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
+    "eslint-webpack-plugin": "^3.0.1",
     "event-hooks-webpack-plugin": "^2.2.0",
     "fast-glob": "^3.2.7",
     "filemanager-webpack-plugin": "^3.1.0",
