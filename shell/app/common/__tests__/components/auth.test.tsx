@@ -14,7 +14,6 @@
 import React from 'react';
 import { NoAuthTip } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('NoAuthTip', () => {
   it('render with no children', () => {

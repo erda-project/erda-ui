@@ -15,7 +15,6 @@ import React from 'react';
 import { KeyValueTable } from 'common';
 import { Form } from 'core/nusi';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const data = {
   env: 'test',

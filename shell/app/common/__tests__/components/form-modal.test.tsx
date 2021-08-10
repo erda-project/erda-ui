@@ -14,7 +14,6 @@
 import React from 'react';
 import { FormModal } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest, afterEach } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 
 const fieldsList = [

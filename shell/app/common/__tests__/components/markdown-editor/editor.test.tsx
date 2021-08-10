@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Editor } from 'common/components/markdown-editor/editor';
-import { describe, it, jest } from '@jest/globals';
 import { shallow } from 'enzyme';
 import agent from 'agent';
 import * as common from 'common/utils';

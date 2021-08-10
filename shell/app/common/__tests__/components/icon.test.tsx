@@ -14,7 +14,6 @@
 import React from 'react';
 import { Icon } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('icon', () => {
   const iconType = 'loading';

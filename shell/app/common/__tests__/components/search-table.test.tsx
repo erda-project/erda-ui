@@ -14,7 +14,6 @@
 import React from 'react';
 import { SearchTable } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const searchValue = 'erda';
 

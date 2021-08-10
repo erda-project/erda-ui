@@ -14,7 +14,6 @@
 import React from 'react';
 import LogContent from 'common/components/log/log-content';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 import moment from 'moment';
 
 const logs = [

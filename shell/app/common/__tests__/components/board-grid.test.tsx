@@ -14,7 +14,6 @@
 import React from 'react';
 import { BoardGrid, PureBoardGrid } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const props = {
   name: 'board-grid',

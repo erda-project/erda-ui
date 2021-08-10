@@ -14,7 +14,6 @@
 import React from 'react';
 import { ConfigLayout } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 interface ISection {
   title?: string | React.ReactNode;

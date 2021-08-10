@@ -14,7 +14,6 @@
 import React from 'react';
 import { TableActions } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('OperationBtn', () => {
   const getWrapper = (props = {}, onClick = () => {}) => {

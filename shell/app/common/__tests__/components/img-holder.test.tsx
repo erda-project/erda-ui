@@ -14,7 +14,6 @@
 import { ImgHolder } from 'common';
 import React from 'react';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const imgUrl = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
 

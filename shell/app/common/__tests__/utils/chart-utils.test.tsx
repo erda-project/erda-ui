@@ -20,7 +20,6 @@ import {
   multipleDataHandler,
   multipleGroupDataHandler,
 } from 'common/utils/chart-utils';
-import { describe, it } from '@jest/globals';
 
 const data = {
   time: '2021-04-14',

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Filter, PureFilter } from 'common';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount, shallow } from 'enzyme';
 import { Input } from 'core/nusi';
 import * as utils from 'common/utils/query-string';

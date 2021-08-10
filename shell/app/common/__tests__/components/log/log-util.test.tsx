@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { regLog } from 'common/components/log/log-util';
-import { describe, it } from '@jest/globals';
 
 describe('regLog', () => {
   it('regLog.LOGSTART should work well', () => {

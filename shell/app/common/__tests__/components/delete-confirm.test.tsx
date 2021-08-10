@@ -14,7 +14,6 @@
 import React from 'react';
 import { DeleteConfirm } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import i18n from 'i18n';
 
 const defaultTitle = `${i18n.t('common:confirm deletion')}？`;

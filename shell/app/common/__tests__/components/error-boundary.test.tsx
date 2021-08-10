@@ -15,7 +15,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { ErrorBoundary } from 'common';
 import { errorCatcher } from 'common/components/error-boundary';
-import { describe, it } from '@jest/globals';
 import { createBrowserHistory } from 'history';
 import { getConfig, setConfig } from 'core/config';
 

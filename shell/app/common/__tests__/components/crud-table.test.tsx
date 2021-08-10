@@ -15,7 +15,6 @@ import React from 'react';
 import { CRUDTable, CRUDStoreTable } from 'common';
 import { Input } from 'core/nusi';
 import { mount, shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 import { createStore } from 'core/cube';
 

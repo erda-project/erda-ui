@@ -14,7 +14,6 @@
 import { Menu } from 'common';
 import React from 'react';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import * as utils from 'common/utils/go-to';
 
 const menus = [
