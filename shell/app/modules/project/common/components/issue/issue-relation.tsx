@@ -13,7 +13,7 @@
 
 import { useUpdate, MemberSelector, IF } from 'common';
 import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'core/nusi';
-import React from 'react';
+import React, { useImperativeHandle } from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import issueStore from 'project/stores/issues';
@@ -66,15 +66,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     });
   }, [getIssueRelation, issueDetail]);
 
-  React.useEffect(() => {
-    if (!ref.current) {
-      // eslint-disable-next-line no-param-reassign
-      ref.current = { getList };
-    }
-    return () => {
-      ref.current = undefined;
-    };
-  }, [getList, ref]);
+  useImperativeHandle(ref, () => ({ getList }), [getList]);
 
   const curIterationID = React.useMemo(() => {
     return issueDetail.iterationID || iterationID;
