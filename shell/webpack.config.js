@@ -25,7 +25,6 @@ const css = require('./app/views/css.js');
 const pkg = require('./package.json');
 const { ModuleFederationPlugin } = require('webpack').container;
 const mfConfigs = require('./mf.config');
-const ESLintPlugin = require('eslint-webpack-plugin');
 
 // const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
@@ -258,7 +257,6 @@ module.exports = () => {
         'process.env.mainVersion': JSON.stringify(mainVersion),
         'process.env.dataEngineerInfo': JSON.stringify(dataEngineerInfo),
       }),
-      new ESLintPlugin(),
       ...mfConfigs.map((mfConfig) => new ModuleFederationPlugin(mfConfig)),
     ],
     optimization: {
