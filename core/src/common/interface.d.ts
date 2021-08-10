@@ -15,7 +15,14 @@ export { FormInstance } from 'antd/lib/form/Form';
 export { SelectValue, SelectProps } from 'antd/lib/select';
 export { DrawerProps } from 'antd/lib/drawer';
 export { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
-export { AntTreeNodeSelectedEvent, TreeProps, TreeNodeNormal } from 'antd/lib/tree/Tree';
+export {
+  AntTreeNodeSelectedEvent,
+  TreeProps,
+  TreeNodeNormal,
+  AntTreeNode,
+  AntTreeNodeProps,
+  AntTreeNodeDropEvent,
+} from 'antd/lib/tree/Tree';
 export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
@@ -37,10 +44,4 @@ export { OperationProps, TitleProps } from '@terminus/nusi/es/title/interface';
 export { PanelProps } from '@terminus/nusi/es/panel/index';
 export { IAnchorContainer } from '@terminus/nusi/es/anchor/interface';
 export { TransferItem } from '@terminus/nusi/es/transfer/index';
-export {
-  AntTreeNode as NusiTreeNode,
-  AntTreeNodeSelectedEvent as NusiTreeNodeSelectedEvent,
-  IAction,
-  AntTreeNodeDropEvent as NusiTreeNodeDropEvent,
-} from '@terminus/nusi/es/tree/interface';
 export { Theme } from '@terminus/nusi/es/global-navigation/interface';

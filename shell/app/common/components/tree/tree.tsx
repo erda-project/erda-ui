@@ -17,7 +17,7 @@ import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from
 import { Spin, Title, Tree, NusiPopover as Popover, Select } from 'app/nusi';
 import i18n from 'i18n';
 import { useUpdate, Icon as CustomIcon } from 'common';
-import { TreeProps, AntTreeNodeProps, TreeNodeNormal } from 'core/common/interface';
+import { TreeProps, AntTreeNodeProps, TreeNodeNormal, AntTreeNode } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
@@ -676,7 +676,7 @@ export const TreeCategory = ({
     return generateActions(folderActions || [], execNode);
   };
 
-  const onDrop = async (info: { dragNode: NusiTreeNode; node: NusiTreeNode }) => {
+  const onDrop = async (info: { dragNode: AntTreeNode; node: AntTreeNode }) => {
     const { dragNode, node: dropNode } = info;
     const dragKey = dragNode.props.dataRef.key;
     let dropKey = dropNode.props.dataRef.key;

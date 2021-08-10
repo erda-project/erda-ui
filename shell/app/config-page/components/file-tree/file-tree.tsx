@@ -17,7 +17,7 @@ import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual 
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { WithAuth } from 'user/common';
-import { TreeNodeNormal, NusiTreeNodeDropEvent } from 'core/common/interface';
+import { TreeNodeNormal, AntTreeNodeDropEvent } from 'core/common/interface';
 import i18n from 'i18n';
 import './file-tree.scss';
 
@@ -304,7 +304,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     updater.searchKey(e.target.value);
   };
 
-  const onDrop = (info: NusiTreeNodeDropEvent) => {
+  const onDrop = (info: AntTreeNodeDropEvent) => {
     const { dragNode, node: dropNode, dropPosition, dropToGap } = info;
     const _dragNode = dragNode.props.dataRef;
     const _dropNode = dropNode.props.dataRef;
