@@ -59,23 +59,26 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const defaultIssueType = initTypeMap[issueType];
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
 
+  const getList = React.useCallback(() => {
+    getIssueRelation({ id: issueDetail.id }).then((res) => {
+      setRelatingList(res[0]);
+      setRelatedList(res[1]);
+    });
+  }, [getIssueRelation, issueDetail]);
+
   React.useEffect(() => {
     if (!ref.current) {
       // eslint-disable-next-line no-param-reassign
       ref.current = { getList };
     }
-  });
+    return () => {
+      ref.current = undefined;
+    };
+  }, [getList, ref]);
 
   const curIterationID = React.useMemo(() => {
     return issueDetail.iterationID || iterationID;
   }, [issueDetail.iterationID, iterationID]);
-
-  const getList = () => {
-    getIssueRelation({ id: issueDetail.id }).then((res) => {
-      setRelatingList(res[0]);
-      setRelatedList(res[1]);
-    });
-  };
 
   useMount(() => {
     getList();
