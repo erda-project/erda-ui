@@ -66,7 +66,7 @@ export function getDateDuration(startAt: string | number | Date, endAt: string |
 
   let timeCost = duration.humanize();
   if (timeCost === i18n.t('common:a few seconds')) {
-    timeCost = `${seconds.toFixed()} ${i18n.t('common:second(s)')}`;
+    timeCost = `${Math.abs(+seconds.toFixed())} ${i18n.t('common:second(s)')}`;
   }
 
   return timeCost;
