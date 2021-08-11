@@ -144,6 +144,7 @@ const setSysAdminLocationByAuth = () => {
 
 const init = (userData: ILoginUser) => {
   // step1: get user last path
+  window.localStorage.removeItem(`lastPath`); // clear old lastPath
   const lastPath = window.localStorage.getItem(`${userData.id}-lastPath`);
   if (lastPath) {
     window.localStorage.removeItem(`${userData.id}-lastPath`);

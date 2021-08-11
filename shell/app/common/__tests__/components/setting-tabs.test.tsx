@@ -17,8 +17,6 @@ import { mount } from 'enzyme';
 import { describe, it, beforeAll, jest, afterAll } from '@jest/globals';
 import * as utils from 'common/utils/query-string';
 import routeInfoStore from 'core/stores/route';
-import { createBrowserHistory } from 'history';
-import { setConfig } from 'core/config';
 
 const dataSource1 = [
   {
@@ -60,14 +58,11 @@ const routerData = {
 describe('SettingsTabs', () => {
   beforeAll(() => {
     jest.mock('core/stores/route');
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
     routeInfoStore.useStore = (fn) => {
       return fn(routerData);
     };
   });
   afterAll(() => {
-    setConfig('history', undefined);
     jest.resetAllMocks();
   });
   it('render with tabGroup', () => {

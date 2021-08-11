@@ -20,8 +20,6 @@ import _ from 'lodash';
 import { act } from 'react-dom/test-utils';
 import routeInfoStore from 'core/stores/route';
 import { getTimeRanges } from 'common/utils';
-import { createBrowserHistory } from 'history';
-import { setConfig } from 'core/config';
 
 const { RangePicker } = DatePicker;
 const filterConfig = [
@@ -93,12 +91,9 @@ describe('custom-filter', () => {
   beforeAll(() => {
     jest.mock('lodash');
     _.debounce = (fn: Function) => fn;
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
   });
   afterAll(() => {
     jest.resetAllMocks();
-    setConfig('history', undefined);
   });
   it('useFilter should work well', () => {
     jest.useFakeTimers();

@@ -70,17 +70,16 @@ const org = createStore({
       }
       const { orgName } = payload;
       // if orgName exist, check valid
-      const resOrg = await call(getOrgByDomain, { domain, orgName });
+      let resOrg = await call(getOrgByDomain, { domain, orgName });
       const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
       if (orgName === '-' && isEmpty(resOrg)) {
         if (orgs?.length) {
-          location.href = `/${get(orgs, '[0].name')}`;
-          return;
+          goTo(`/${get(orgs, '[0].name')}`, { replace: true });
+          resOrg = orgs[0];
         }
         update({ curPathOrg: orgName, initFinish: true });
-        return;
       }
       const curPathname = location.pathname;
       if (isEmpty(resOrg)) {
@@ -90,21 +89,18 @@ const org = createStore({
         const orgId = currentOrg.id;
         if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) {
           if (orgs?.find((x) => x.name === currentOrg.name)) {
-            location.href = `/${currentOrg.name}`;
+            goTo(`/${currentOrg.name}`, { replace: true });
           }
-          return;
         }
         // user doesn't joined the public org, go to dop
         // temporary solution, it will removed until new solution is proposed by PD
         if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
           if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
-            location.href = goTo.resolve.dopRoot();
-            return;
+            goTo(goTo.pages.dopRoot, { replace: true });
           }
         }
         if (currentOrg.name !== orgName) {
-          location.href = location.href.replace(`/${orgName}`, `/${currentOrg.name}`); // just replace the first match, which is org name
-          return;
+          goTo(location.pathname.replace(`/${orgName}`, `/${currentOrg.name}`), { replace: true }); // just replace the first match, which is org name
         }
         if (orgId) {
           // const setHeader = (req: any) => {
@@ -229,6 +225,7 @@ const setLocationByAuth = (authObj: Obj) => {
           // 边缘运维工程师只有边缘计算平台的权限
           resetPath = `/${orgName}/ecp/application`;
         }
+
         location.href = resetPath;
       }
     });

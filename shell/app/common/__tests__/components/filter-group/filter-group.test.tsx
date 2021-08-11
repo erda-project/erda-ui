@@ -20,8 +20,6 @@ import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import * as utils from 'common/utils/query-string';
 import routeInfoStore from 'core/stores/route';
-import { createBrowserHistory } from 'history';
-import { setConfig } from 'core/config';
 
 const list = [
   {
@@ -91,14 +89,11 @@ const routerData = {
 describe('filter-group', () => {
   beforeAll(() => {
     jest.mock('core/stores/route');
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
     routeInfoStore.useStore = (fn) => {
       return fn(routerData);
     };
   });
   afterAll(() => {
-    setConfig('history', undefined);
     jest.resetAllMocks();
   });
   it('FilterCore should render well', () => {
