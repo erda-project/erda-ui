@@ -24,7 +24,7 @@
 
     .ant-tree-treenode-selected:before,
     .ant-tree-treenode:hover:before {
-      background: $color-file-tree-active;
+      background: $color-tree-bg-active;
     }
 
     .ant-tree .ant-tree-treenode {
@@ -52,7 +52,7 @@
   &:hover,
   &:focus {
     cursor: pointer;
-    color: $color-file-tree-action-btn;
-    background-color: $color-file-tree-active;
+    color: $purple;
+    background-color: $color-tree-bg-active;
   }
 }
