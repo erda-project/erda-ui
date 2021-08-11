@@ -115,6 +115,7 @@ const RepoFileContainerComp = (props: IProps) => {
           pathType: 'blob',
         },
       ],
+      isDelete: true,
     }).then((res) => {
       toggleModal(false);
       if (res.success) {
