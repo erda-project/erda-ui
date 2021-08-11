@@ -22,6 +22,10 @@
         height: calc(100% - 40px);
         overflow: auto;
       }
+
+      .ant-pagination-item-link {
+        line-height: 30px;
+      }
     }
 
     .more-container {
