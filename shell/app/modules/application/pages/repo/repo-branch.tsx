@@ -53,9 +53,6 @@ const RepoBranch = () => {
       clearListByType('branch');
     };
   }, [getListByType, clearListByType]);
-  if (!list.length) {
-    return <EmptyHolder relative style={{ justifyContent: 'start' }} />;
-  }
   const goToCompare = (branch: string) => {
     goTo(`./compare/${info.defaultBranch}...${encodeURIComponent(branch)}`);
   };
@@ -77,90 +74,94 @@ const RepoBranch = () => {
       <IF check={info.isLocked}>
         <Alert message={i18n.t('lock-repository-tip')} type="error" />
       </IF>
-      <div className="repo-branch-list">
-        {list.map((item) => {
-          const { name, id, commit, isProtect, isDefault, isMerged } = item;
-          const { commitMessage, author = {} } = commit || {};
-          const { name: committerName, when } = author as any;
-          const isProtectBranch = get(find(branchInfo, { name }), 'isProtect');
-          const curAuth = isProtectBranch ? permMap.writeProtected.pass : permMap.writeNormal.pass;
-          return (
-            <div key={name} className="branch-item flex justify-between items-center">
-              <div className="branch-item-left">
-                <div className="font-medium flex items-center text-base mb-3">
-                  {isProtect ? (
-                    <Tooltip title={i18n.t('protected branch')}>
-                      <ErdaCustomIcon size="22" type="baohu" />
-                    </Tooltip>
-                  ) : (
-                    <ErdaCustomIcon opacity={0.8} fill="black" size="22" type="fz" />
-                  )}
-                  <Link to={mergeRepoPathWith(`/tree/${name}`)}>
-                    <span className="text-normal hover-active">{name}</span>
-                  </Link>
-                  {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
-                  {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
-                </div>
-                <div className="flex items-center text-sub">
+      <IF check={list.length}>
+        <div className="repo-branch-list">
+          {list.map((item) => {
+            const { name, id, commit, isProtect, isDefault, isMerged } = item;
+            const { commitMessage, author = {} } = commit || {};
+            const { name: committerName, when } = author as any;
+            const isProtectBranch = get(find(branchInfo, { name }), 'isProtect');
+            const curAuth = isProtectBranch ? permMap.writeProtected.pass : permMap.writeNormal.pass;
+            return (
+              <div key={name} className="branch-item flex justify-between items-center">
+                <div className="branch-item-left">
+                  <div className="font-medium flex items-center text-base mb-3">
+                    {isProtect ? (
+                      <Tooltip title={i18n.t('protected branch')}>
+                        <ErdaCustomIcon size="22" type="baohu" />
+                      </Tooltip>
+                    ) : (
+                      <ErdaCustomIcon opacity={0.8} fill="black" size="22" type="fz" />
+                    )}
+                    <Link to={mergeRepoPathWith(`/tree/${name}`)}>
+                      <span className="text-normal hover-active">{name}</span>
+                    </Link>
+                    {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
+                    {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
+                  </div>
+                  <div className="flex items-center text-sub">
                   <span className="inline-flex items-center">
                     <Avatar showName name={committerName} />
                     &nbsp;{i18n.t('committed at')}
                   </span>
-                  <span className="ml-1">{fromNow(when)}</span>
-                  <span className="ml-6 text-desc nowrap flex">
+                    <span className="ml-1">{fromNow(when)}</span>
+                    <span className="ml-6 text-desc nowrap flex">
                     <GotoCommit length={6} commitId={id} />
-                    &nbsp;·&nbsp;
-                    <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
+                      &nbsp;·&nbsp;
+                      <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
                       <Link className="text-desc hover-active" to={getCommitPath(id)}>
                         {replaceEmoji(commitMessage)}
                       </Link>
                     </Tooltip>
                   </span>
+                  </div>
+                </div>
+                <div className="branch-item-right flex">
+                  <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
+                    {i18n.t('application:compare')}
+                  </Button>
+                  <DeleteConfirm
+                    onConfirm={() => {
+                      deleteBranch({ branch: name });
+                    }}
+                  >
+                    <WithAuth pass={curAuth}>
+                      <Button disabled={info.isLocked || isDefault} className="mr-3" ghost type="danger">
+                        {i18n.t('delete')}
+                      </Button>
+                    </WithAuth>
+                  </DeleteConfirm>
+                  <Dropdown
+                    overlay={
+                      <Menu
+                        onClick={(e) => {
+                          switch (e.key) {
+                            case 'setDefault':
+                              setDefaultBranch(name);
+                              break;
+                            default:
+                              break;
+                          }
+                        }}
+                      >
+                        <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>
+                          {i18n.t('application:set as default')}
+                        </Menu.Item>
+                      </Menu>
+                    }
+                  >
+                    <Button>
+                      <ErdaCustomIcon opacity={0.85} className="hover mt-1" fill="black" size="16" type="more" />
+                    </Button>
+                  </Dropdown>
                 </div>
               </div>
-              <div className="branch-item-right flex">
-                <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
-                  {i18n.t('application:compare')}
-                </Button>
-                <DeleteConfirm
-                  onConfirm={() => {
-                    deleteBranch({ branch: name });
-                  }}
-                >
-                  <WithAuth pass={curAuth}>
-                    <Button disabled={info.isLocked || isDefault} className="mr-3" ghost type="danger">
-                      {i18n.t('delete')}
-                    </Button>
-                  </WithAuth>
-                </DeleteConfirm>
-                <Dropdown
-                  overlay={
-                    <Menu
-                      onClick={(e) => {
-                        switch (e.key) {
-                          case 'setDefault':
-                            setDefaultBranch(name);
-                            break;
-                          default:
-                            break;
-                        }
-                      }}
-                    >
-                      <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>
-                        {i18n.t('application:set as default')}
-                      </Menu.Item>
-                    </Menu>
-                  }
-                >
-                  <Button>
-                    <ErdaCustomIcon opacity={0.85} className="hover mt-1" fill="black" size="16" type="more" />
-                  </Button>
-                </Dropdown>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+        <IF.ELSE />
+        <EmptyHolder relative style={{ justifyContent: 'start' }} />;
+      </IF>
     </Spin>
   );
 };
