@@ -542,17 +542,18 @@ const repoStore = createStore({
       });
       update({ compareDetail });
     },
-    async commit({ call }, payload: REPOSITORY.Commit) {
+    async commit({ call }, payload: Merge<REPOSITORY.Commit, { isDelete?: boolean }>) {
       const appDetail = await getAppDetail();
+      const { isDelete, ...rest } = payload;
       const commitResult = await call(
         commit,
         {
           repoPrefix: appDetail.gitRepoAbbrev,
-          data: payload,
+          data: rest,
         },
         { fullResult: true },
       );
-      repoStore.effects.getRepoTree();
+      !isDelete && repoStore.effects.getRepoTree();
       return commitResult;
     },
     async getMRStats({ call, update }, payload: REPOSITORY.MrStats) {
