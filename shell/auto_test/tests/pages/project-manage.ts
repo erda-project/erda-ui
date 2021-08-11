@@ -14,7 +14,7 @@
 import Base from './base';
 
 export class ProjectManage extends Base {
-  async fillData(formData) {
+  async fillDatas(formData) {
     await this.page.click('[id="displayName"]');
     await this.page.fill('[id="displayName"]', formData.displayName ?? '');
     await this.page.click('[id="desc"]');
@@ -29,7 +29,7 @@ export class ProjectManage extends Base {
         await this.page.click('text=microservice governance project');
         break;
     }
-    await this.fillData(formData);
+    await this.fillDatas(formData);
     await this.clickButton('save');
     await this.page.waitForEvent('requestfinished');
   }
@@ -47,7 +47,7 @@ export class ProjectManage extends Base {
 
   async editProject(formData) {
     await this.clickButton('edit');
-    await this.fillData(formData);
+    await this.fillDatas(formData);
     await this.clickButton('ok');
     await this.page.waitForEvent('requestfinished');
     await this.page.waitForLoadState('networkidle');

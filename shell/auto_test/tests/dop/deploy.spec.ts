@@ -17,7 +17,7 @@ import { Role, test } from '../../fixtures';
 Role('Manager', () => {
   test('test', async ({ page, expectExist, wait, goTo }) => {
     // Go to https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/deploy
-    await goto('deploy');
+    await goTo('deploy');
 
     if (page.$$('.sm-more-icon svg')) {
       // already has deploy exist

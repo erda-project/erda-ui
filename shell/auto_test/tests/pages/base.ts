@@ -13,6 +13,11 @@
 
 import { Page } from '@playwright/test';
 
+/**
+ * @description shell 模块路径 erda-ui/shell/
+ */
+const MODULE_PATH: string = `${process.cwd()}/`;
+
 export default class Base {
   readonly page: Page;
 
@@ -22,6 +27,20 @@ export default class Base {
 
   private async clickEle(el: keyof HTMLElementTagNameMap, text: string) {
     await this.page.click(`${el}:has-text("${text}")`);
+  }
+
+  async fillData<T extends {}>(key: string, data: T) {
+    await this.page.click(`#${key}`);
+    await this.page.fill(`#${key}`, data?.[key] ?? '');
+  }
+
+  /**
+   * @description 上传文件
+   * @param filePath {string} 文件相对于 erda-ui/shell/ 的路径，
+   * @param selector {string} input 选择器
+   */
+  async uploadFile(filePath: string, selector = '[type="file"]') {
+    await this.page.setInputFiles(selector, `${MODULE_PATH}${filePath}`);
   }
 
   async search(selector: string, keyword: string) {
@@ -36,5 +55,29 @@ export default class Base {
 
   async clickButton(text: string) {
     await this.clickEle('button', text);
+  }
+
+  async clickLabel(text: string) {
+    await this.clickEle('label', text);
+  }
+
+  async clickImg(alt: string) {
+    await this.page.click(`img[alt="${alt}"]`);
+  }
+
+  async clickTdOperation(rowName: string, operationName: string) {
+    await this.page.click(`tr:has-text("${rowName}") >> text=${operationName}`);
+  }
+
+  async clickById(id: string) {
+    await this.page.click(`[id=${id}]`);
+  }
+
+  async toggleSwitch(selector: string, checked: boolean) {
+    const [switchBtn] = await this.page.$$(selector);
+    const checkedAttr = await switchBtn.getAttribute('aria-checked');
+    if (checkedAttr !== `${checked}`) {
+      await this.page.click(selector);
+    }
   }
 }
