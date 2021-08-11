@@ -21,12 +21,18 @@ import './slide-panel-tabs.scss';
 
 const { TabPane } = Tabs;
 
+interface ITabInstance {
+  instance: {
+    ipAddress: string;
+  };
+}
+
 export interface IWithTabs {
   defaultActiveKey: string;
   TopTabRight: React.ComponentClass;
   contents: Array<{
     Comp: React.ComponentClass;
-    props: object;
+    props: ITabInstance;
     tab: JSX.Element;
     key: any;
   }>;
@@ -82,9 +88,10 @@ class PureSlidePanel extends React.Component<IProps, IState> {
           animated={false}
           tabBarExtraContent={tabBarExtraContent}
         >
-          {map(contents, ({ Comp, props, tab, key }) => {
+          {map(contents, ({ Comp, props, key }) => {
+            const { ipAddress } = props.instance;
             return (
-              <TabPane tab={tab} key={key}>
+              <TabPane tab={ipAddress} key={key}>
                 <Comp {...props} />
               </TabPane>
             );
