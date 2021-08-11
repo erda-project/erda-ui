@@ -14,7 +14,6 @@
 import React from 'react';
 import { KeyValueTextArea } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { Form } from 'core/nusi';
 
 const Comp = (props) => {

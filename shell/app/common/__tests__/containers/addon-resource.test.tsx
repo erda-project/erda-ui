@@ -16,7 +16,6 @@ import AddonResource from 'common/containers/addon-resource';
 import routeInfoStore from 'core/stores/route';
 import addonStore from 'common/stores/addon';
 import metricsMonitorStore from 'common/stores/metrics';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount, shallow } from 'enzyme';
 
 const insId = 123;

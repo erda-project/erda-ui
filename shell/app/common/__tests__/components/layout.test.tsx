@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Responsive } from 'common';
-import { describe, it, beforeAll, jest, afterAll } from '@jest/globals';
 import * as hooks from 'common/components/use-hooks';
 import { shallow } from 'enzyme';
 

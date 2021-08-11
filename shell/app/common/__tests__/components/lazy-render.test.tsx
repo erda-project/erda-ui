@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { LazyRender } from 'common';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount } from 'enzyme';
 
 describe('LazyRender', () => {

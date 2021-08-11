@@ -39,7 +39,6 @@ import {
   getTimeRanges,
   interpolationComp,
 } from 'common/utils';
-import { describe, it, jest } from '@jest/globals';
 
 class ClassComp extends React.Component {
   render() {

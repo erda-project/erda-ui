@@ -107,7 +107,6 @@
       "common/all": ["../shell/app/common/index"],
       "core/common/interface": ["../core/src/common/interface.d.ts"]
     },
-    "typeRoots": [],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

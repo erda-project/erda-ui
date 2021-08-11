@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { eventHub } from 'common/utils/event-hub';
-import { describe, it, jest } from '@jest/globals';
 
 describe('eventHub', () => {
   it('should ', () => {

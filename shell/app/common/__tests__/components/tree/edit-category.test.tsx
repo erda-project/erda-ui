@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { EditCategory } from 'common/components/tree/edit-category';
-import { describe, it, jest } from '@jest/globals';
 import { message } from 'core/nusi';
 import { mount, shallow, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';

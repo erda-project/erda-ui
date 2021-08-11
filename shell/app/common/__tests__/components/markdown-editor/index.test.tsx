@@ -14,7 +14,6 @@
 import React from 'react';
 import { MarkdownEditor } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('MarkdownEditor', () => {
   it('MarkdownEditor should worl fine', () => {

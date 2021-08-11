@@ -15,7 +15,6 @@ import React from 'react';
 import { MemberSelector, AddMemberSelector } from 'common';
 import { UserSelector, chosenItemConvert, getNotFoundContent } from 'common/components/member-selector';
 import { mount, shallow } from 'enzyme';
-import { describe, it, beforeAll, afterAll, jest } from '@jest/globals';
 import * as Services from 'common/services';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';

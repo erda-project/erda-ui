@@ -14,7 +14,6 @@
 import React from 'react';
 import { SwitchAutoScroll } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('SwitchAutoScroll', () => {
   it('render with toPageTop', () => {

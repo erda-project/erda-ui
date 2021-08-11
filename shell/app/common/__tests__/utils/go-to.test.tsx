@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { resolvePath, goTo } from 'common/utils';
-import { describe, it, jest } from '@jest/globals';
 import { setConfig } from 'core/config';
 
 describe('go-to', () => {

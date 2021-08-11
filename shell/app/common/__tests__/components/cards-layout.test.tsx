@@ -14,7 +14,6 @@
 import React from 'react';
 import { CardsLayout } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, beforeAll, jest, afterAll } from '@jest/globals';
 import * as hooks from 'common/components/use-hooks';
 
 const widths = [

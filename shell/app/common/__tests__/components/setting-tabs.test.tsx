@@ -14,7 +14,6 @@
 import React from 'react';
 import { SettingsTabs } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, beforeAll, jest, afterAll } from '@jest/globals';
 import * as utils from 'common/utils/query-string';
 import routeInfoStore from 'core/stores/route';
 

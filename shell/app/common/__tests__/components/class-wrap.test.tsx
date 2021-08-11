@@ -15,7 +15,6 @@ import React from 'react';
 import { ClassWrapper } from 'common/components/class-wrap';
 import { Input } from 'core/nusi';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('ClassWrapper', () => {
   it('should empty render', () => {

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { CommonRangePicker } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import moment from 'moment';
