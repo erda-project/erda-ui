@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Collapse, Input, Tooltip, Tag } from 'app/nusi';
+import { Collapse, Input, Tooltip, Tag } from 'core/nusi';
 import { map, isEmpty, get } from 'lodash';
 import { EmptyHolder } from 'common';
 import SelectVersion from './select-version';

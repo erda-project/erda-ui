@@ -15,7 +15,6 @@ import React from 'react';
 import PureMonitorChart from 'common/components/monitor/monitor-chart';
 import { getTimeSpan } from 'common/utils';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('PureMonitorChart', () => {
   it('should render normally', () => {

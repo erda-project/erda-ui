@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Select, Alert, Input, Spin, Checkbox } from 'app/nusi';
+import { Button, Select, Alert, Input, Spin, Checkbox } from 'core/nusi';
 import i18n from 'i18n';
 import React from 'react';
 import { ImageUpload, RenderForm, CompactSelect, ErdaCustomIcon } from 'common';

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { useUpdate, MemberSelector, IF } from 'common';
-import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'app/nusi';
-import React from 'react';
+import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'core/nusi';
+import React, { useImperativeHandle } from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import issueStore from 'project/stores/issues';
@@ -59,23 +59,18 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const defaultIssueType = initTypeMap[issueType];
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
 
-  React.useEffect(() => {
-    if (!ref.current) {
-      // eslint-disable-next-line no-param-reassign
-      ref.current = { getList };
-    }
-  });
-
-  const curIterationID = React.useMemo(() => {
-    return issueDetail.iterationID || iterationID;
-  }, [issueDetail.iterationID, iterationID]);
-
-  const getList = () => {
+  const getList = React.useCallback(() => {
     getIssueRelation({ id: issueDetail.id }).then((res) => {
       setRelatingList(res[0]);
       setRelatedList(res[1]);
     });
-  };
+  }, [getIssueRelation, issueDetail]);
+
+  useImperativeHandle(ref, () => ({ getList }), [getList]);
+
+  const curIterationID = React.useMemo(() => {
+    return issueDetail.iterationID || iterationID;
+  }, [issueDetail.iterationID, iterationID]);
 
   useMount(() => {
     getList();

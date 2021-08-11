@@ -16,7 +16,7 @@ import { useDebounce, useUnmount } from 'react-use';
 import { CustomFilter, TableActions, UserInfo, useUpdate } from 'common';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { Input, Button, Table, Tooltip } from 'app/nusi';
+import { Input, Button, Table, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';

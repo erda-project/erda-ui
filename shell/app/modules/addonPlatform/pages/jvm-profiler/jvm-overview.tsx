@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { forEach, map, isEmpty } from 'lodash';
-import { Button, Spin, message } from 'app/nusi';
+import { Button, Spin, message } from 'core/nusi';
 import { useUpdate, Holder } from 'common';
 import { goTo, fromNow, formatTime } from 'common/utils';
 import { useMount, useUnmount } from 'react-use';

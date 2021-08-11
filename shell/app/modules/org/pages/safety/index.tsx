@@ -16,7 +16,7 @@ import { CustomFilter, useFilter, MemberSelector, FileEditor } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { DatePicker, Table, Button, Tooltip, Drawer } from 'app/nusi';
+import { DatePicker, Table, Button, Tooltip, Drawer } from 'core/nusi';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import React from 'react';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { getJoinedApps } from 'user/services/user';
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import { getStatistic, searchLogAnalytics } from '../services/log-analytics';
 
 interface IState {

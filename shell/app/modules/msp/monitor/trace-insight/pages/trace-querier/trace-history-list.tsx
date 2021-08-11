@@ -14,7 +14,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { map as _map } from 'lodash';
-import { Spin, Tooltip } from 'app/nusi';
+import { Spin, Tooltip } from 'core/nusi';
 import { EmptyHolder } from 'common';
 import './trace-history-list.scss';
 
@@ -28,16 +28,18 @@ const TraceHistoryList = ({
   clearTraceStatusDetail,
   clearCurrentTraceRequestId,
   clearRequestTraceParams,
+  form,
 }: any) => {
   if (!dataSource.length) {
     return <EmptyHolder />;
   }
 
-  const handleClick = (requestId: string) => {
+  const handleClick = (requestId: string, url: string) => {
     const isNewId = currentTraceRequestId !== requestId;
     // 点击已选中的 item 取消选中，currentTraceRequestId 置空
     setCurrentTraceRequestId(isNewId ? requestId : '');
     if (isNewId) {
+      form.setFieldsValue({ url });
       getTraceDetail({ requestId });
       getTraceStatusDetail({ requestId });
     } else {
@@ -51,7 +53,7 @@ const TraceHistoryList = ({
     const isActive = currentTraceRequestId === requestId;
     return (
       <li
-        onClick={() => handleClick(requestId)}
+        onClick={() => handleClick(requestId, url)}
         className={classNames({
           'trace-history-list-item': true,
           active: isActive,

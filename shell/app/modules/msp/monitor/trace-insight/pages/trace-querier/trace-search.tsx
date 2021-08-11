@@ -17,7 +17,7 @@ import moment from 'moment';
 import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { Select, DatePicker, Table, Drawer } from 'app/nusi';
+import { Select, DatePicker, Table, Drawer } from 'core/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider } from 'app/nusi';
+import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider } from 'core/nusi';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
 import moment from 'moment';

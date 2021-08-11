@@ -17,7 +17,7 @@ import { getApps } from 'common/services';
 import appMemberStore from 'common/stores/application-member';
 import i18n from 'i18n';
 import { map, compact, isEmpty } from 'lodash';
-import { Modal, Select, Table, Button } from 'app/nusi';
+import { Modal, Select, Table, Button } from 'core/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import React from 'react';

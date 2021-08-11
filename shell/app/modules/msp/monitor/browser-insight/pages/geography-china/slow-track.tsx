@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { get } from 'lodash';
-import { Table } from 'app/nusi';
+import { Table } from 'core/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
 

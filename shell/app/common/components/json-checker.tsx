@@ -19,7 +19,7 @@
  * @Last Modified time: 2019-02-21 19:34:32
  */
 import React from 'react';
-import { Button, Modal } from 'app/nusi';
+import { Button, Modal } from 'core/nusi';
 import { Copy } from 'common';
 import { Copy as IconCopy } from '@icon-park/react';
 import i18n from 'i18n';
@@ -76,8 +76,8 @@ export class JsonChecker extends React.PureComponent<IProps, IState> {
           <div className="json-detail-wrap">
             {jsonString ? (
               <>
-                <Button className="json-detail-btn cursor-copy" shape="circle" icon={<IconCopy />} />
-                <Copy selector=".cursor-copy" opts={{ text: () => jsonString }} />
+                <Button className="json-detail-btn cursor-copy json-checker-copy" shape="circle" icon={<IconCopy />} />
+                <Copy selector=".json-checker-copy" opts={{ text: () => jsonString }} />
               </>
             ) : null}
             <pre>{jsonString}</pre>

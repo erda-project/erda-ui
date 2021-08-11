@@ -14,7 +14,6 @@
 import React from 'react';
 import { Terminal } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import * as xterm from 'common/utils/xterm';
 
 describe('Terminal', () => {

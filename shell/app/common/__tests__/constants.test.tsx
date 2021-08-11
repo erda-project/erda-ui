@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { FULL_DOC_DOMAIN, HELP_DOCUMENT, WORKSPACE_LIST } from '../constants';
-import { describe, it } from '@jest/globals';
 
 describe('emoji', () => {
   it('should Data normal', () => {

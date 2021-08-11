@@ -13,7 +13,7 @@
 
 import { map, find, reject, uniqueId, isEqual } from 'lodash';
 import React from 'react';
-import { Form, Table, Input, Popconfirm, Button } from 'app/nusi';
+import { Form, Table, Input, Popconfirm, Button } from 'core/nusi';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';
 import { FormInstance, ColumnProps } from 'core/common/interface';
@@ -269,6 +269,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
         title: 'KEY',
         dataIndex: 'key',
         width: 280,
+        ellipsis: false,
         render: (text: string, record: IItemData) => (
           <InputItem
             form={form}
@@ -288,6 +289,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       {
         title: 'VALUE',
         dataIndex: 'value',
+        ellipsis: false,
         render: (text: string, record: IItemData) => (
           <InputItem
             form={form}
@@ -345,7 +347,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
           ref={(ref) => {
             this.table = ref;
           }}
-          scroll={{ x: 800 }}
+          scroll={undefined}
         />
       </div>
     );

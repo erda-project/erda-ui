@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Breadcrumb, Spin, Select, Input } from 'app/nusi';
+import { Breadcrumb, Spin, Select, Input } from 'core/nusi';
 import { cloneDeep, map, isEmpty, debounce } from 'lodash';
 import { JsonChecker, IF, Holder, connectCube } from 'common';
 import PureServiceList from './service-list';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getMembers, updateMembers, removeMember, getRoleMap, genOrgInviteCode } from '../services';
 import userStore from 'app/user/stores';
 import i18n from 'app/i18n';

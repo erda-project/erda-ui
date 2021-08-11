@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { DropdownSelect } from 'common';
-import { describe, it } from '@jest/globals';
 import { mount } from 'enzyme';
 
 const menuList = [

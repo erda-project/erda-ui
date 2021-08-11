@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import routeInfoStore from 'core/stores/route';
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import orgStore from 'app/org-home/stores/org';
 import {
   getAddonList,

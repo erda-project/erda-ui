@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Tooltip, Dropdown, Menu, Progress } from 'app/nusi';
+import { Table, Tooltip, Dropdown, Menu, Progress } from 'core/nusi';
 import issueStore from 'project/stores/issues';
 import moment from 'moment';
 import { map, omit, get, find } from 'lodash';

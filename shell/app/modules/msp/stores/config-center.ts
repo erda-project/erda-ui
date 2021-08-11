@@ -13,7 +13,7 @@
 
 import { saveConfig, getConfigList, getAppList } from '../services/configCenter';
 import i18n from 'i18n';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 interface IState {
   appList: string[];

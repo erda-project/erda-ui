@@ -14,7 +14,7 @@
 import { groupBy, map, get, find } from 'lodash';
 import React from 'react';
 import { useUpdate, FormModal, LoadMoreSelector, ErdaCustomIcon } from 'common';
-import { Spin, Tooltip, Alert, Select } from 'app/nusi';
+import { Spin, Tooltip, Alert, Select } from 'core/nusi';
 import { EnvCard } from './env-card';
 import RuntimeBox from './runtime-box';
 import appDeployStore from 'application/stores/deploy';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col, Radio, Select, Table, Tooltip } from 'app/nusi';
+import { Row, Col, Radio, Select, Table, Tooltip } from 'core/nusi';
 import { map, get } from 'lodash';
 import { Icon as CustomIcon, PureBoardGrid, TimeSelector, useUpdate } from 'common';
 import moment from 'moment';

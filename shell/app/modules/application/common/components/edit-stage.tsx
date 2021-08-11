@@ -17,7 +17,7 @@ import VariableInput from 'application/common/components/object-input-group';
 import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
 import { Icon as CustomIcon, useUpdate } from 'common';
-import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'app/nusi';
+import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'core/nusi';
 import './edit-service.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';

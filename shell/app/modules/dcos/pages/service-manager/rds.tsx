@@ -16,7 +16,7 @@ import { CRUDTable, useUpdate, Copy, TagsRow } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';
-import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
+import { Tooltip, Dropdown, Button, Menu, notification } from 'core/nusi';
 import { MysqlFieldsConfig } from 'project/pages/third-service/components/config';
 import { FormInstance } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';

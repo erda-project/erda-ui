@@ -14,7 +14,6 @@
 import React from 'react';
 import { MembersTable } from 'common';
 import { mount, ReactWrapper } from 'enzyme';
-import { describe, it, beforeAll, afterAll, jest } from '@jest/globals';
 import { MemberScope } from 'common/stores/member-scope';
 import memberLabelStore from 'common/stores/member-label';
 import userStore from 'app/user/stores';
@@ -24,7 +23,7 @@ import appMemberStore from 'common/stores/application-member';
 import { getDefaultPaging } from 'common/utils';
 import { act } from 'react-dom/test-utils';
 import _ from 'lodash';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 
 const memberLabels = [
   {

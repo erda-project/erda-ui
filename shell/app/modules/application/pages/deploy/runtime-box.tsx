@@ -14,7 +14,7 @@
 import React from 'react';
 import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaCustomIcon } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
-import { Spin, Tooltip, Alert } from 'app/nusi';
+import { Spin, Tooltip, Alert } from 'core/nusi';
 import HealthPoint from 'project/common/components/health-point';
 import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';

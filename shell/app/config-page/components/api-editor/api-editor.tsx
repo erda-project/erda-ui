@@ -33,7 +33,7 @@ import {
   Dropdown,
   Menu,
   Tooltip,
-} from 'app/nusi';
+} from 'core/nusi';
 import { Form as ConfigForm } from 'dop/pages/form-editor/index';
 import React from 'react';
 import { Copy as IconCopy } from '@icon-park/react';

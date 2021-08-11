@@ -12,13 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'app/nusi';
+import { Spin } from 'core/nusi';
 import { get, map, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import { KeyValueList, EmptyHolder } from 'common';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import clusterStore from '../../stores/cluster';
+import { manageTypeMap, statusMap } from './cluster-list';
 
 import './cluster-detail.scss';
 
@@ -35,8 +36,14 @@ const ClusterDetail = () => {
         const { URLs: urls = {}, basic } = get(res, '[0]', {});
 
         const basicInfo = {};
-        map(basic, ({ name, value }: any) => {
-          basicInfo[name] = value;
+        map(basic, ({ name, value }: any, key: string) => {
+          if (key === 'manageType') {
+            basicInfo[name] = manageTypeMap[value];
+          } else if (key === 'clusterStatus') {
+            basicInfo[name] = statusMap[value]?.[1];
+          } else {
+            basicInfo[name] = value;
+          }
         });
         const URLs = {};
         map(urls, ({ name, value }: any) => {

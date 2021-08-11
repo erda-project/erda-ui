@@ -24,7 +24,7 @@ import i18n from 'i18n';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
 import { eventHub } from 'common/utils/event-hub';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { PAGINATION } from 'app/constants';
 import { isEmpty } from 'lodash';
 

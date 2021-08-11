@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import { Help as IconHelp } from '@icon-park/react';
 
 export { createCombiner } from './combiner';

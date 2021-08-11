@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Select, InputNumber, Input, Row, Col, Drawer, Tooltip, Tag } from 'app/nusi';
+import { Button, Select, InputNumber, Input, Row, Col, Drawer, Tooltip, Tag } from 'core/nusi';
 import { map, forEach, isArray, isPlainObject, isEmpty, compact, get, find } from 'lodash';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import { updateSearch, qs } from 'common/utils';

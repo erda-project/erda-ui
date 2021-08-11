@@ -14,7 +14,6 @@
 import React from 'react';
 import { EmptyHolder, EmptyListHolder, Holder } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('EmptyHolder Comp', () => {
   it('render EmptyHolder', () => {

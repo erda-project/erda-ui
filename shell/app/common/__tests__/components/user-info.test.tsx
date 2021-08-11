@@ -14,7 +14,6 @@
 import React from 'react';
 import { UserInfo } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import userStore from 'core/stores/userMap';
 
 describe('user-info', () => {

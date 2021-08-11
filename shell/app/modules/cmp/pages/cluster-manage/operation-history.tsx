@@ -16,7 +16,7 @@ import { useLoading } from 'core/stores/loading';
 import { Icon as CustomIcon, useUpdate, LogRoller, FilterGroup } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
+import { Table, Drawer, Badge, Tooltip, Switch } from 'core/nusi';
 import machineStore from 'app/modules/cmp/stores/machine';
 import React from 'react';
 import { useUserMap } from 'core/stores/userMap';

@@ -15,7 +15,7 @@ import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'app/nusi';
+import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'core/nusi';
 import { FormModal, useSwitch, useUpdate } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { FormInstance, ColumnProps } from 'core/common/interface';
@@ -231,8 +231,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             updater.editingRules(rules);
           }}
         >
-          {map(allRules, ({ alertIndex }) => (
-            <Select.Option key={alertIndex} value={alertIndex}>
+          {map(allRules, ({ alertIndex, id }) => (
+            <Select.Option key={id} value={alertIndex}>
               {allRuleMap[alertIndex]}
             </Select.Option>
           ))}

@@ -17,7 +17,7 @@ import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common';
 
 import { setLS, goTo } from 'common/utils';
-import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'app/nusi';
+import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'core/nusi';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import runtimeStore from 'runtime/stores/runtime';

@@ -13,9 +13,8 @@
 
 import React from 'react';
 import { KeyValueEditor } from 'common';
-import { Form } from 'app/nusi';
+import { Form } from 'core/nusi';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const data = {
   env: 'test',
@@ -46,5 +45,7 @@ describe('KeyValueEditor', () => {
     expect(editor.instance().getEditData()).toStrictEqual(data);
     await wrapper.find({ size: 'small' }).at(0).prop('onChange')();
     editor.update();
+    expect(wrapper.find('KeyValueTable')).toExist();
+    expect(wrapper.find('KeyValueTextArea')).not.toExist();
   });
 });

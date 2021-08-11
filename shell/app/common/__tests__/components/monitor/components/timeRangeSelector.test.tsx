@@ -14,7 +14,6 @@
 import React from 'react';
 import TimeSelector from 'common/components/monitor/components/timeRangeSelector';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import moment from 'moment';
 import { getTimeSpan } from 'common/utils';
 

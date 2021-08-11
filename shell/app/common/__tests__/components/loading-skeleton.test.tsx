@@ -14,7 +14,6 @@
 import React from 'react';
 import { LoadingContent, LoadingSkeleton } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 
 describe('loading-skeleton', () => {

@@ -14,8 +14,7 @@
 import React from 'react';
 import { Copy } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 
 const copyText = 'hello world';
 describe('Copy', () => {

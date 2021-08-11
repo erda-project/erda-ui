@@ -14,7 +14,6 @@
 import React from 'react';
 import { FileEditor } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const data = {
   name: 'erda',

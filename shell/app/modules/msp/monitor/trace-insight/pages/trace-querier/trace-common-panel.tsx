@@ -13,7 +13,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'app/nusi';
+import { Card } from 'core/nusi';
 import { isString } from 'lodash';
 import './trace-common-panel.scss';
 
@@ -27,9 +27,9 @@ const TraceCommonPanel = (props: IProps) => {
 
   return (
     <Card className={`${className} trace-common-panel`} bordered={false} {...otherProps}>
-      <Card.Header
-        title={isString(title) ? <h3 className="trace-common-panel-title font-medium">{title}</h3> : title || null}
-      />
+      <div className="mb-2">
+        {isString(title) ? <h3 className="trace-common-panel-title font-medium">{title}</h3> : title || null}
+      </div>
       <div className="card-body">{children}</div>
     </Card>
   );

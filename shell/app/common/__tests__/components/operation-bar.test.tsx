@@ -14,7 +14,6 @@
 import React from 'react';
 import { OperationBar } from 'common';
 import { shallow, mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const searchList = [
   {

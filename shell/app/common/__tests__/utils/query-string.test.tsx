@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { qs, mergeSearch, updateSearch, setSearch } from 'common/utils';
-import { describe, it } from '@jest/globals';
 import { createBrowserHistory } from 'history';
 import { setConfig, getConfig } from 'core/config';
 

@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Button, Row, Col, Tooltip, Drawer, Spin } from 'app/nusi';
+import { Button, Row, Col, Tooltip, Drawer, Spin } from 'core/nusi';
 import TraceDetail from 'trace-insight/pages/trace-detail';
 import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog, useUpdate } from 'common';
 import { get, map, isEmpty } from 'lodash';

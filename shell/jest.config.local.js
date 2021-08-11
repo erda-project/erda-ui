@@ -60,7 +60,7 @@ module.exports = {
     'app/constants': '<rootDir>/app/constants.ts',
     'app/user/stores(.*)': '<rootDir>/app/user/stores/$1',
     'app/layout/stores(.*)': '<rootDir>/app/layout/stores/$1',
-    'app/cube': '<rootDir>/app/cube.ts',
+    'core/cube': '<rootDir>/core/cube.ts',
     'app/global-space': '<rootDir>/app/global-space.ts',
     '^agent$': '<rootDir>/app/agent.js',
     '^dice-env$': '<rootDir>/app/external/env.ts',

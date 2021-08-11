@@ -20,7 +20,7 @@ import { map, debounce, isEmpty, get, isArray, isString, difference, compact } f
 import { getUsers, getMembers, getUsersNew } from 'common/services';
 import { MemberScope } from 'app/common/stores/member-scope';
 import { LoadMoreSelector, ImgHolder } from 'common';
-import { Tag, Select } from 'app/nusi';
+import { Tag, Select } from 'core/nusi';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from './load-more-selector';

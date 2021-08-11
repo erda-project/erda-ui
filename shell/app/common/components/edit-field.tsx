@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Select, DatePicker } from 'app/nusi';
+import { Input, Select, DatePicker } from 'core/nusi';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { MarkdownEditor, useUpdate } from 'common';

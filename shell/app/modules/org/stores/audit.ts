@@ -13,7 +13,7 @@
 
 import { getAuditList, getAuditLogSetting, updateAuditLogSetting } from '../services/audit';
 import { getDefaultPaging } from 'common/utils';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import i18n from 'i18n';
 import orgStore from 'app/org-home/stores/org';
 

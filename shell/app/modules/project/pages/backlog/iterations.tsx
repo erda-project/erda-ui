@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty, map } from 'lodash';
-import { Button, Spin } from 'app/nusi';
+import { Button, Spin } from 'core/nusi';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import { useEffectOnce } from 'react-use';
 import { WithAuth, usePerm } from 'user/common';

@@ -15,7 +15,7 @@ import { isPlainObject, map, forEach, isEmpty, filter, debounce } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { isValidJsonStr } from 'common/utils';
-import { Input, Select, Table, Radio } from 'app/nusi';
+import { Input, Select, Table, Radio } from 'core/nusi';
 import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor, useUpdate } from 'common';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import testEnvStore from 'project/stores/test-env';

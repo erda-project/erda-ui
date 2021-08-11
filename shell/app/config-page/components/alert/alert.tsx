@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Alert } from 'app/nusi';
+import { Alert } from 'core/nusi';
 import { isArray, map } from 'lodash';
 import './alert.scss';
 

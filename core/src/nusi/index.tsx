@@ -20,6 +20,7 @@ import {
   BackTop,
   Badge,
   Breadcrumb,
+  Card,
   Carousel,
   Cascader,
   Checkbox,
@@ -69,7 +70,6 @@ import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
   // Input,
-  Card,
   Container,
   Filter,
   FormBuilder,

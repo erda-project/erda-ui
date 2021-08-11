@@ -15,7 +15,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { RenderPureForm, FormModal, Copy } from 'common';
-import { Alert, Popover, Button } from 'app/nusi';
+import { Alert, Popover, Button } from 'core/nusi';
 import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
@@ -329,9 +329,11 @@ export const AddClusterModal = (props: IProps) => {
       postData.opsConfig = null;
     }
     const credentialContent = get(credential, 'content');
+    const credentialAddress = get(credential, 'address');
     const cpuSubscribeRatio = get(scheduler, 'cpuSubscribeRatio');
     cpuSubscribeRatio && (postData.scheduler.cpuSubscribeRatio = `${cpuSubscribeRatio}`);
     credentialContent && (credential.content = `${credentialContent.trim()}`);
+    credentialAddress && (credential.address = `${credentialAddress.trim()}`);
     onSubmit?.({ ...postData, type: clusterType });
     toggleModal();
   };

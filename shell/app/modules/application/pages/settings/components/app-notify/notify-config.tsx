@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
-import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'app/nusi';
+import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'core/nusi';
 import { useSwitch, FormModal } from 'common';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { MonitorChart } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { render } from 'react-dom';
 import agent from 'agent';
 

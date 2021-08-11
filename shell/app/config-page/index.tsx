@@ -15,7 +15,7 @@ import React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
 import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
-import { Spin, message } from 'app/nusi';
+import { Spin, message } from 'core/nusi';
 import { notify } from 'common/utils';
 import { useUpdate } from 'common';
 import { useMock } from './mock/index';

@@ -13,7 +13,7 @@
 
 import { includes } from 'lodash';
 import React from 'react';
-import { Checkbox } from 'app/nusi';
+import { Checkbox } from 'core/nusi';
 import { getChoosenInfo } from 'project/utils/test-case';
 import testCaseStore from 'project/stores/test-case';
 import { CheckboxChangeEvent } from 'core/common/interface';

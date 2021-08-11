@@ -14,7 +14,6 @@
 import React from 'react';
 import { MultiInput } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 // zero will fix this auto test problem
 describe('MultiInput', () => {

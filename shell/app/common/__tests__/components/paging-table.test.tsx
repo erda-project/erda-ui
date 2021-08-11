@@ -14,7 +14,6 @@
 import React from 'react';
 import { PagingTable } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const dataSource = [{ name: 'erda' }];
 const columns = [

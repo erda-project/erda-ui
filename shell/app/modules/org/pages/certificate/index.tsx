@@ -15,7 +15,7 @@ import React from 'react';
 import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon, useUpdate } from 'common';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
-import { Upload, message, Button, Select, Input } from 'app/nusi';
+import { Upload, message, Button, Select, Input } from 'core/nusi';
 import { formatTime } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { get, map, set } from 'lodash';

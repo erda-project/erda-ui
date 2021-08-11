@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { LogRoller, CompSwitcher } from 'common';
-import { Switch, Drawer } from 'app/nusi';
+import { Switch, Drawer } from 'core/nusi';
 import { map } from 'lodash';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import i18n from 'i18n';

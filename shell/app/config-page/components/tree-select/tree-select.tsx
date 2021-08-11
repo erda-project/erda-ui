@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TreeSelect } from 'app/nusi';
+import { TreeSelect } from 'core/nusi';
 import { debounce, get } from 'lodash';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';

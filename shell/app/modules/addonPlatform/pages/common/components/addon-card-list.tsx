@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Spin, Tooltip } from 'app/nusi';
+import { Select, Input, Spin, Tooltip } from 'core/nusi';
 import { get, cloneDeep, isEmpty, pickBy, head, debounce, forEach, find } from 'lodash';
 import { CategoriesOrder } from 'app/modules/addonPlatform/pages/common/configs';
 import { AddonCards } from './addon-cards';

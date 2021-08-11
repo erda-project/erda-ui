@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Table, Badge, Tooltip } from 'app/nusi';
+import { Table, Badge, Tooltip } from 'core/nusi';
 import moment from 'moment';
 import { Copy } from 'common';
 import { getFormatter } from 'app/charts/utils/formatter';

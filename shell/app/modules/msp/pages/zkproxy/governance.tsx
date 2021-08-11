@@ -16,7 +16,7 @@ import { map, forEach, reduce, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import { Icon as CustomIcon, useUpdate, Holder } from 'common';
 import { useMount } from 'react-use';
-import { Card, InputNumber, Button, Modal, Spin, message } from 'app/nusi';
+import { Card, InputNumber, Button, Modal, Spin, message } from 'core/nusi';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import zkproxyStore from '../../stores/zkproxy';

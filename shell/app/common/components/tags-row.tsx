@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import { some, has, groupBy, map } from 'lodash';
 import { cutStr } from 'common/utils';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
@@ -47,7 +47,7 @@ export const TagColorMap = {
   gray: 'gray',
 };
 
-const TagItem = (props: IItemProps) => {
+export const TagItem = (props: IItemProps) => {
   const { label: _label, size, withCut, onDelete } = props;
   const { label, color = 'gray' } = _label;
   const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };

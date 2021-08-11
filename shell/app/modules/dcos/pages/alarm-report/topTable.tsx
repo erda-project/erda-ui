@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'app/nusi';
+import { Table } from 'core/nusi';
 import { get } from 'lodash';
 import { goTo, qs } from 'common/utils';
 import { getFormatter } from 'charts/utils/formatter';

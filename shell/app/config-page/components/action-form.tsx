@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, get, isEmpty, pick, find, isEqual, omit, has } from 'lodash';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
 import { IProps as FormModalProps } from 'app/configForm/nusi-form/form-modal';

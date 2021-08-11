@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, CustomFilter, UserInfo } from 'common';
-import { Button, Progress, Spin, Table, Select, Input } from 'app/nusi';
+import { Button, Progress, Spin, Table, Select, Input } from 'core/nusi';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo } from 'app/common/utils';

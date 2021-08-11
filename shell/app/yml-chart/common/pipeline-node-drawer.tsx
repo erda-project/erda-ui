@@ -13,7 +13,7 @@
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
 import React from 'react';
-import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
+import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'core/nusi';
 import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
@@ -677,7 +677,7 @@ export enum ActionType {
 export const actionQuery = {
   autoTest: { labels: 'autotest:true' },
   configSheet: { labels: 'configsheet:true' },
-  projectLevelAppPipeline: { labels: 'project_service:true' },
+  projectLevelAppPipeline: { labels: 'project_level_app:true' },
 };
 
 interface IPipelineNodeForm {

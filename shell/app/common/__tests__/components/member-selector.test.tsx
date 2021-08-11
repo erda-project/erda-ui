@@ -15,7 +15,6 @@ import React from 'react';
 import { MemberSelector, AddMemberSelector } from 'common';
 import { UserSelector, chosenItemConvert, getNotFoundContent } from 'common/components/member-selector';
 import { mount, shallow } from 'enzyme';
-import { describe, it, beforeAll, afterAll, jest } from '@jest/globals';
 import * as Services from 'common/services';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
@@ -170,8 +169,8 @@ describe('member-selector', () => {
         )}
       </div>,
     );
-    expect(valueItemRenderWrapper.find('.value-item-wrapper').childAt(0).name()).toBe('Tag');
-    valueItemRenderWrapper.find('Tag').prop('onClose')();
+    expect(valueItemRenderWrapper.find('.value-item-wrapper').childAt(0).name()).toBe('WrappedTag');
+    valueItemRenderWrapper.find('WrappedTag').prop('onClose')();
     expect(deleteValueFn).toHaveBeenLastCalledWith(data.list[0]);
     expect(wrapper.find('LoadMoreSelector').prop('quickSelect')).toStrictEqual([]);
     wrapper.setProps({

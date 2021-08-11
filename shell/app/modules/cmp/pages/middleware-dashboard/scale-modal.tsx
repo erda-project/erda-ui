@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, RenderPureForm } from 'common';
-import { Alert, Modal, Form } from 'app/nusi';
+import { Alert, Modal, Form } from 'core/nusi';
 import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-formItem';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';

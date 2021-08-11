@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { get, map } from 'lodash';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { loadComparative } from '../services/comparative';
 import i18n from 'i18n';
 

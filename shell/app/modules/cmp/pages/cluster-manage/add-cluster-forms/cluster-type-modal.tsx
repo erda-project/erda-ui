@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, get } from 'lodash';
-import { Modal, Row, Col } from 'app/nusi';
+import { Modal, Row, Col } from 'core/nusi';
 import { clusterImgMap } from '../config';
 import i18n from 'i18n';
 import './cluster-type-modal.scss';

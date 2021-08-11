@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { convertNodeType, sortCategory } from 'common/components/tree/utils';
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import { map } from 'lodash';
 import {
   getCategoryById,

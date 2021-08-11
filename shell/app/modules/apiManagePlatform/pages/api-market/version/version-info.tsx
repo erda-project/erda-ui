@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Button, Modal, Table, Tree } from 'app/nusi';
+import { Button, Modal, Table, Tree } from 'core/nusi';
 import React, { useImperativeHandle } from 'react';
 import { Avatar, TableActions, UserInfo, useUpdate } from 'common';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';

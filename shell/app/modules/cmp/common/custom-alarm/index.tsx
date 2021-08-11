@@ -33,7 +33,19 @@ import {
   get,
   merge,
 } from 'lodash';
-import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'app/nusi';
+import {
+  Spin,
+  Button,
+  Switch,
+  Popconfirm,
+  Table,
+  Select,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Tooltip,
+} from 'core/nusi';
 import { PagingTable, FormModal, useUpdate, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import { useMount } from 'react-use';

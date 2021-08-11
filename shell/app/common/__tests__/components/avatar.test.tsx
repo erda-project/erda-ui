@@ -14,7 +14,6 @@
 import React from 'react';
 import { Avatar, AvatarList } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 import userStore from 'user/stores';
 
 const loginUser: ILoginUser = {

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Divider, Form, Select } from 'app/nusi';
+import { Divider, Form, Select } from 'core/nusi';
 import React from 'react';
 import { isEmpty, isArray, map } from 'lodash';
 import { getData } from '../utils';

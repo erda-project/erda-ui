@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Spin, Input, Tooltip, message } from 'app/nusi';
+import { Drawer, Spin, Input, Tooltip, message } from 'core/nusi';
 import { Avatar, Copy, ErdaCustomIcon, MarkdownEditor, UserInfo, useUpdate } from 'common';
 import testCaseStore from 'project/stores/test-case';
 import i18n from 'i18n';
