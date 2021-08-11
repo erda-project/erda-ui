@@ -141,6 +141,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         version: taskInitVersion,
       },
     });
+    updater.changeKey((prev: number) => prev + 1);
   }, [taskInitName, taskInitVersion, chosenActionName]);
 
   const handleActionSpec = () => {
@@ -269,6 +270,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     if (isEmpty(resource)) {
       return null;
     }
+
     const { getFieldsValue } = form;
     const resourceForm = getFieldsValue([
       ['resource', 'alias'],
