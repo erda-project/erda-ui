@@ -89,7 +89,7 @@ class PureSlidePanel extends React.Component<IProps, IState> {
           tabBarExtraContent={tabBarExtraContent}
         >
           {map(contents, ({ Comp, props, key }) => {
-            const { ipAddress } = props?.instance;
+            const { ipAddress } = props.instance;
             return (
               <TabPane tab={ipAddress} key={key}>
                 <Comp {...props} />
