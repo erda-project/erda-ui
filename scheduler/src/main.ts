@@ -13,6 +13,7 @@
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import helmet from 'helmet';
 import { NotFoundExceptionFilter } from './filters/not-found.filter';
 import { AllExceptionsFilter } from './filters/error-catch.filter';
 import compression from 'compression';
@@ -44,6 +45,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     httpsOptions: isProd ? undefined : getHttpsOptions(),
   });
+  app.use(helmet({ contentSecurityPolicy: false, referrerPolicy: false }));
   app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalFilters(new NotFoundExceptionFilter());
   if (isProd) {

@@ -267,6 +267,7 @@ importers:
       compression: ^1.7.4
       dotenv: ^8.6.0
       express: ^4.17.1
+      helmet: ^4.6.0
       http-proxy-middleware: ^2.0.1
       reflect-metadata: ^0.1.13
       source-map-support: ^0.5.19
@@ -281,6 +282,7 @@ importers:
       compression: 1.7.4
       dotenv: 8.6.0
       express: 4.17.1
+      helmet: 4.6.0
       http-proxy-middleware: 2.0.1
       reflect-metadata: 0.1.13
       source-map-support: 0.5.19
@@ -14258,6 +14260,11 @@ packages:
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  /helmet/4.6.0:
+    resolution: {integrity: sha512-HVqALKZlR95ROkrnesdhbbZJFi/rIVSoNq6f3jA/9u6MIbTsPh3xZwihjeI5+DO/2sOV6HMHooXcEOuwskHpTg==}
+    engines: {node: '>=10.0.0'}
+    dev: false
 
   /hex-color-regex/1.1.0:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
