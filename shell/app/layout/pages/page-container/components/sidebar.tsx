@@ -92,6 +92,12 @@ const AppCenterEl = () => {
       visible={visible}
       className="app-list"
       titleProp="name"
+      title={
+        <div className="flex items-center">
+          {i18n.t('App Center')}
+          <span className="app-center-version">{`v${process.env.mainVersion}`}</span>
+        </div>
+      }
       node={
         <Tooltip
           title={
