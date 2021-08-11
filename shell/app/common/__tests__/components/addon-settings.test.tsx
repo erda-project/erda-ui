@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { AddonSettings, PureAddonSettings } from 'common/components/addon-settings';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import routeInfoStore from 'core/stores/route';
 import { mount } from 'enzyme';
 import agent from 'agent';

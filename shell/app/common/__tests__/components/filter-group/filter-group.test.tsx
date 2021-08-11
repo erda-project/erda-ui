@@ -15,7 +15,6 @@ import React from 'react';
 import { FilterCore } from 'common/components/filter-group/filter-group';
 import { Input } from 'core/nusi';
 import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import * as utils from 'common/utils/query-string';

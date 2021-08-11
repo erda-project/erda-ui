@@ -14,7 +14,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { getLabel } from 'common/utils';
-import { describe, it } from '@jest/globals';
 
 describe('getLabel', () => {
   const label = 'i am a label';

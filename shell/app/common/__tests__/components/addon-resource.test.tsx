@@ -14,7 +14,6 @@
 import React from 'react';
 import AddonResource from 'common/components/addon-resource';
 import { mount, shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('AddonResource', () => {
   it('resourceInfo is empty', () => {

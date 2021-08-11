@@ -14,7 +14,6 @@
 import React from 'react';
 import { UrlInviteModal } from 'common/components/url-invite-modal';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('UrlInviteModal', () => {
   it('should ', () => {

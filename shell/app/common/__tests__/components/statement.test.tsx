@@ -14,7 +14,6 @@
 import React from 'react';
 import { IF } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('IF', () => {
   it('check is bool', () => {

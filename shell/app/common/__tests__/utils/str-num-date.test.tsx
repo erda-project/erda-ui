@@ -25,7 +25,6 @@ import {
   getTimeSpan,
   formatTime,
 } from 'common/utils';
-import { describe, it } from '@jest/globals';
 import moment from 'moment';
 
 const title = 'erda cloud';

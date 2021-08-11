@@ -14,7 +14,6 @@
 import React from 'react';
 import { LogRoller } from 'common/components/log/log-roller';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { sleep } from '../../../../../test/utils';
 
 describe('LogRoller', () => {

@@ -14,7 +14,6 @@
 import React from 'react';
 import { MultiSelect } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { get } from 'lodash';
 import { act } from 'react-dom/test-utils';
 

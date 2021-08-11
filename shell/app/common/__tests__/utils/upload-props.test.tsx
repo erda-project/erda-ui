@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { getUploadProps } from '../../utils/upload-props';
-import { describe, it } from '@jest/globals';
 import { getOrgFromPath } from 'common/utils';
 
 describe('getUploadProps', () => {

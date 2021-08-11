@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { initAxios } from 'common/utils/axios-config';
-import { describe, it, jest, beforeEach, afterEach } from '@jest/globals';
 import { setGlobal } from 'app/global-space';
 import axios from 'axios';
 

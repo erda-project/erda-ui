@@ -14,7 +14,6 @@
 import React from 'react';
 import { ImageUpload } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const hintText = 'this is a hint text';
 const imgUrl = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';

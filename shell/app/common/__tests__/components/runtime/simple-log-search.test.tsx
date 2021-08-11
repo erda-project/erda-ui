@@ -14,7 +14,6 @@
 import React from 'react';
 import LogSearchForm from 'common/components/runtime/simple-log-search';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('LogSearchForm', () => {
   it('should ', () => {

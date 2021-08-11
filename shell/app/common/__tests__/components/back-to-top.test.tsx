@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { BackToTop } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 import { render, unmountComponentAtNode } from 'react-dom';
 

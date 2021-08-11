@@ -15,7 +15,6 @@ import React from 'react';
 import { TagsRow } from 'common';
 import { IProps, TagItem } from 'common/components/tags-row';
 import { shallow, mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { cutStr } from 'common/utils';
 
 const labels: IProps['labels'] = [

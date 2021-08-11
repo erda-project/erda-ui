@@ -14,7 +14,6 @@
 import React from 'react';
 import { MenuPopover } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('MenuPopover', () => {
   it('should ', () => {

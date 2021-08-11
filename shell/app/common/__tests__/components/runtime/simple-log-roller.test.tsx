@@ -15,7 +15,6 @@ import React from 'react';
 import { SimpleLogRoller } from 'common';
 import { LogItem } from 'common/components/runtime/simple-log-roller';
 import { mount, shallow } from 'enzyme';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import commonStore from 'common/stores/common';
 
 const logsMap = {

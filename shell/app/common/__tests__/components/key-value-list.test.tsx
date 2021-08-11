@@ -14,7 +14,6 @@
 import React from 'react';
 import { KeyValueList } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const data = {
   name: 'erda',

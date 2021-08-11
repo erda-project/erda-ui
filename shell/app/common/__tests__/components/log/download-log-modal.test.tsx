@@ -14,7 +14,6 @@
 import React from 'react';
 import { DownloadLogModal } from 'common/components/log/download-log-modal';
 import { shallow, mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import moment from 'moment';
 import { sleep } from '../../../../../test/utils';
 

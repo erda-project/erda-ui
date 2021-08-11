@@ -14,7 +14,6 @@
 import React from 'react';
 import TimeSelectorContainer from 'common/components/monitor/timeSelector';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 import routeInfoStore from 'core/stores/route';
 
 describe('TimeSelectorContainer', () => {

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { TreeCategory } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { sleep } from '../../../../../test/utils';

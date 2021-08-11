@@ -15,7 +15,6 @@ import React from 'react';
 import { EditField } from 'common';
 import { EditMd } from 'common/components/edit-field';
 import { mount, shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { Select } from 'core/nusi';
 import i18n from 'i18n';
 import moment from 'moment';

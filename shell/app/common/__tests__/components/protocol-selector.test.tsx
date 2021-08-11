@@ -14,7 +14,6 @@
 import React from 'react';
 import { ProtocolInput } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 describe('ProtocolInput', () => {
   it('should ', () => {

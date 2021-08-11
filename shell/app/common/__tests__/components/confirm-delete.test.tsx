@@ -14,7 +14,6 @@
 import React from 'react';
 import { ConfirmDelete } from 'common';
 import { shallow, mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import i18n from 'i18n';
 
 const deleteItem = 'project';

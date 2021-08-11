@@ -14,7 +14,6 @@
 import React from 'react';
 import { connectCube } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const Comp = (props = {}) => {
   return <div {...props}>Comp</div>;

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { FilterSelect } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { mount } from 'enzyme';
 
 const options = [

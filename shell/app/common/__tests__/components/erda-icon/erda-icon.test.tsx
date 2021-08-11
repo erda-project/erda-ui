@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { ErdaIcon, ErdaCustomIcon } from 'common';
 
 describe('erda-icon', () => {

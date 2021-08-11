@@ -14,7 +14,6 @@
 import React from 'react';
 import { CompactSelect } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('CompactSelect', () => {
   it('should ', () => {

@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { LoadMore } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { shallow } from 'enzyme';
 
 describe('LoadMore', () => {

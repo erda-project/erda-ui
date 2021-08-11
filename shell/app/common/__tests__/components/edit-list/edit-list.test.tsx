@@ -15,7 +15,6 @@ import React from 'react';
 import { EditList } from 'common';
 import { validateValue } from 'common/components/edit-list/edit-list';
 import { mount, shallow, ReactWrapper } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 
 const dataTemp = [
