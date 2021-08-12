@@ -17,7 +17,8 @@
     "f2elint-scan": "f2elint scan",
     "f2elint-fix": "f2elint fix",
     "prepare": "husky install",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "install-cli": "node ./install-cli.js"
   },
   "repository": {
     "type": "git",
