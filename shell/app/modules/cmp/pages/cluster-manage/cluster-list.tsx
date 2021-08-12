@@ -229,7 +229,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       edas: [
         edit,
         deleteClusterCall,
-        ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
+        ...insertWhen(
+          get(clusterDetail, 'basic.manageType.value') === 'agent' && !get(clusterDetail, 'basic.registered.value'),
+          [showRegisterCommand],
+        ),
         ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
           retryInit,
         ]),
