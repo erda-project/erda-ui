@@ -97,6 +97,10 @@ const TraceInsightQuerier = () => {
   let headersEditor: any;
 
   React.useEffect(() => {
+    form.setFieldsValue({ body });
+  }, [body]);
+
+  React.useEffect(() => {
     requestId && setActiveTab('2');
   }, [requestId]);
 
@@ -156,11 +160,13 @@ const TraceInsightQuerier = () => {
   const renderUrlEditor = () => {
     const selectBefore = (
       <FormItem
+        className="mb-0 -mt-0.5 h-7"
         name="method"
         initialValue={method}
         rules={[{ required: true, message: i18n.t('msp:this item is required') }]}
       >
         <Select
+          bordered={false}
           style={{ width: 110 }}
           onSelect={(value) => {
             handleSetRequestTraceParams({ method: value });
@@ -180,6 +186,7 @@ const TraceInsightQuerier = () => {
         <Row gutter={10}>
           <Col span={21}>
             <FormItem
+              className="m-0 h-8"
               name="url"
               initialValue={`${url}${queryStr ? `?${queryStr}` : ''}`}
               rules={[{ required: true, message: i18n.t('msp:this item is required') }, urlRule]}
@@ -316,7 +323,7 @@ const TraceInsightQuerier = () => {
           <CommonPanel>
             <React.Fragment>
               {renderMetaViewer()}
-              <Form>
+              <Form form={form}>
                 {renderUrlEditor()}
                 {renderRequestEditor()}
               </Form>
