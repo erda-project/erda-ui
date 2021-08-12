@@ -38,7 +38,7 @@ export const getSubSiderInfoMap = () => {
     cmp: {
       menu: getCmpMenu(),
       detail: {
-        displayName: i18n.t('cloud management'),
+        displayName: i18n.t('Cloud management'),
       },
     },
     dop: {
@@ -56,7 +56,7 @@ export const getSubSiderInfoMap = () => {
     ecp: {
       menu: getEcpMenu(),
       detail: {
-        displayName: i18n.t('ecp:edge computing'),
+        displayName: i18n.t('ecp:Edge computing'),
       },
     },
     // sysAdmin: {
