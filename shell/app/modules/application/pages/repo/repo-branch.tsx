@@ -100,20 +100,20 @@ const RepoBranch = () => {
                     {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
                   </div>
                   <div className="flex items-center text-sub">
-                  <span className="inline-flex items-center">
-                    <Avatar showName name={committerName} />
-                    &nbsp;{i18n.t('committed at')}
-                  </span>
+                    <span className="inline-flex items-center">
+                      <Avatar showName name={committerName} />
+                      &nbsp;{i18n.t('committed at')}
+                    </span>
                     <span className="ml-1">{fromNow(when)}</span>
                     <span className="ml-6 text-desc nowrap flex">
-                    <GotoCommit length={6} commitId={id} />
+                      <GotoCommit length={6} commitId={id} />
                       &nbsp;·&nbsp;
                       <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
-                      <Link className="text-desc hover-active" to={getCommitPath(id)}>
-                        {replaceEmoji(commitMessage)}
-                      </Link>
-                    </Tooltip>
-                  </span>
+                        <Link className="text-desc hover-active" to={getCommitPath(id)}>
+                          {replaceEmoji(commitMessage)}
+                        </Link>
+                      </Tooltip>
+                    </span>
                   </div>
                 </div>
                 <div className="branch-item-right flex">

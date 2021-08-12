@@ -13,17 +13,11 @@
 
 import { resolvePath, goTo } from 'common/utils';
 import { setConfig } from 'core/config';
-import { createBrowserHistory } from 'history';
 
 describe('go-to', () => {
   let open: any;
   beforeAll(() => {
     open = jest.spyOn(window, 'open').mockImplementation(() => {});
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
-  });
-  afterAll(() => {
-    setConfig('history', undefined);
   });
   const paths = process.env.mock_pathname?.split('/') || [];
   it('resolvePath', () => {

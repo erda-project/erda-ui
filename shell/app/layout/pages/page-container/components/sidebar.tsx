@@ -21,7 +21,6 @@ import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
 import { goTo, ossImg, insertWhen } from 'common/utils';
-import { useMount } from 'react-use';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
@@ -204,10 +203,6 @@ const SideBar = () => {
       onClick: () => switchMessageCenter(null),
     },
   ].filter((a) => a.show);
-
-  useMount(() => {
-    orgStore.effects.getJoinedOrgs();
-  });
 
   const useMenuOperations = [
     ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [

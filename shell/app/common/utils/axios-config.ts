@@ -79,7 +79,7 @@ export const initAxios = () => {
         const data = await axios.get('/api/openapi/login');
         if (data.data && data.data.url) {
           const loginUser = userStore.getState((s) => s.loginUser);
-          !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
+          window.localStorage.setItem(`${loginUser.id}-lastPath`, window.location.href);
           window.location.href = data.data.url;
         }
       }

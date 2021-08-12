@@ -63,24 +63,23 @@ const org = createStore({
       await org.effects.getJoinedOrgs(true);
       update({ currentOrg });
     },
-    async getOrgByDomain({ call, update }, payload: { orgName: string }) {
+    async getOrgByDomain({ call, update, select }, payload: { orgName: string }) {
       let domain = window.location.hostname;
       if (domain.startsWith('local')) {
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
       // if orgName exist, check valid
-      const resOrg = await call(getOrgByDomain, { domain, orgName });
-      const orgs = await call(getJoinedOrgs); // get joined orgs
+      let resOrg = await call(getOrgByDomain, { domain, orgName });
+      const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
       if (orgName === '-' && isEmpty(resOrg)) {
-        if (orgs?.list?.length) {
-          location.href = `/${get(orgs, 'list[0].name')}`;
-          return;
+        if (orgs?.length) {
+          goTo(`/${get(orgs, '[0].name')}`, { replace: true });
+          resOrg = orgs[0];
         }
         update({ curPathOrg: orgName, initFinish: true });
-        return;
       }
       const curPathname = location.pathname;
       if (isEmpty(resOrg)) {
@@ -89,22 +88,19 @@ const org = createStore({
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
         if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) {
-          if (orgs?.list?.find((x) => x.name === currentOrg.name)) {
-            location.href = `/${currentOrg.name}`;
+          if (orgs?.find((x) => x.name === currentOrg.name)) {
+            goTo(`/${currentOrg.name}`, { replace: true });
           }
-          return;
         }
         // user doesn't joined the public org, go to dop
         // temporary solution, it will removed until new solution is proposed by PD
         if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
-          if (!orgs?.list?.find((x) => x.name === currentOrg.name) || orgs?.list?.length === 0) {
-            location.href = goTo.resolve.dopRoot();
-            return;
+          if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
+            goTo(goTo.pages.dopRoot, { replace: true });
           }
         }
         if (currentOrg.name !== orgName) {
-          location.href = location.href.replace(`/${orgName}`, `/${currentOrg.name}`); // just replace the first match, which is org name
-          return;
+          goTo(location.pathname.replace(`/${orgName}`, `/${currentOrg.name}`), { replace: true }); // just replace the first match, which is org name
         }
         if (orgId) {
           // const setHeader = (req: any) => {
@@ -162,6 +158,9 @@ const org = createStore({
     },
   },
   reducers: {
+    updateJoinedOrg(state, orgs: ORG.IOrg[]) {
+      state.orgs = orgs;
+    },
     clearOrg(state) {
       breadcrumbStore.reducers.setInfo('curOrgName', '');
       state.currentOrg = {} as ORG.IOrg;
@@ -226,6 +225,7 @@ const setLocationByAuth = (authObj: Obj) => {
           // 边缘运维工程师只有边缘计算平台的权限
           resetPath = `/${orgName}/ecp/application`;
         }
+
         location.href = resetPath;
       }
     });
