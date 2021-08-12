@@ -12,7 +12,8 @@
   "scripts": {
     "changed": "lerna changed --all",
     "publish": "lerna publish",
-    "clear": "lerna clean -y && rm -r -f ./node_modules"
+    "clear": "lerna clean -y && rm -r -f ./node_modules",
+    "install-cli": "node ./install-cli.js"
   },
   "repository": {
     "type": "git",
