@@ -259,13 +259,15 @@ importers:
       '@nestjs/cli': ^8.0.2
       '@nestjs/common': ^8.0.1
       '@nestjs/core': ^8.0.1
-      '@nestjs/platform-express': ^8.0.1
+      '@nestjs/platform-express': ^8.0.5
       '@nestjs/schematics': ^8.0.0
       '@nestjs/serve-static': ^2.2.2
       '@types/express': ^4.17.13
       chalk: ^4.1.1
+      compression: ^1.7.4
       dotenv: ^8.6.0
       express: ^4.17.1
+      helmet: ^4.6.0
       http-proxy-middleware: ^2.0.1
       reflect-metadata: ^0.1.13
       source-map-support: ^0.5.19
@@ -273,11 +275,14 @@ importers:
     dependencies:
       '@nestjs/cli': 8.0.2
       '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/core': 8.0.1_7897122f362430f7389d3e203ef569ea
-      '@nestjs/platform-express': 8.0.1_1d3982a3146285faca229314653bb7a9
+      '@nestjs/core': 8.0.1_26c134402cf45213da8cdb502bbfe43f
+      '@nestjs/platform-express': 8.0.5_1d3982a3146285faca229314653bb7a9
       '@nestjs/serve-static': 2.2.2_1d3982a3146285faca229314653bb7a9
+      chalk: 4.1.1
+      compression: 1.7.4
       dotenv: 8.6.0
       express: 4.17.1
+      helmet: 4.6.0
       http-proxy-middleware: 2.0.1
       reflect-metadata: 0.1.13
       source-map-support: 0.5.19
@@ -285,7 +290,6 @@ importers:
       '@babel/plugin-transform-async-to-generator': 7.13.0
       '@nestjs/schematics': 8.0.0_typescript@4.3.5
       '@types/express': 4.17.13
-      chalk: 4.1.1
       typescript: 4.3.5
 
   shell:
@@ -4852,7 +4856,7 @@ packages:
       - debug
     dev: false
 
-  /@nestjs/core/8.0.1_7897122f362430f7389d3e203ef569ea:
+  /@nestjs/core/8.0.1_26c134402cf45213da8cdb502bbfe43f:
     resolution: {integrity: sha512-5ikIdzHp8axcodDsMxBI8Bx+Fx/1HP9opDT8eltHs5FWG1gbhUZnjjI82A7mcrrlt9PkPyoInuX6d/F4DTeuAg==}
     requiresBuild: true
     peerDependencies:
@@ -4871,7 +4875,7 @@ packages:
         optional: true
     dependencies:
       '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/platform-express': 8.0.1_1d3982a3146285faca229314653bb7a9
+      '@nestjs/platform-express': 8.0.5_1d3982a3146285faca229314653bb7a9
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.0.7
       iterare: 1.2.1
@@ -4882,14 +4886,14 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@nestjs/platform-express/8.0.1_1d3982a3146285faca229314653bb7a9:
-    resolution: {integrity: sha512-HOqxVcOb70ixZe+oIBcrbKs/5FePFC1VIHlURQc6o4kAPOdSskuns689sNFkd+nW+CXQ1WxmOl2ODxpi0yGwVg==}
+  /@nestjs/platform-express/8.0.5_1d3982a3146285faca229314653bb7a9:
+    resolution: {integrity: sha512-ystcQWv1Hm/V2IoiDrAYzOxZ+fi0HWUM+A4boI+8Vjl8aBqvMC1PwI1+QxhXnVsnR0nT8OJuJ2z77a9WvfT9uA==}
     peerDependencies:
       '@nestjs/common': ^8.0.0
       '@nestjs/core': ^8.0.0
     dependencies:
       '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/core': 8.0.1_7897122f362430f7389d3e203ef569ea
+      '@nestjs/core': 8.0.1_26c134402cf45213da8cdb502bbfe43f
       body-parser: 1.19.0
       cors: 2.8.5
       express: 4.17.1
@@ -4916,7 +4920,7 @@ packages:
       '@nestjs/core': ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       '@nestjs/common': 8.0.1_reflect-metadata@0.1.13
-      '@nestjs/core': 8.0.1_7897122f362430f7389d3e203ef569ea
+      '@nestjs/core': 8.0.1_26c134402cf45213da8cdb502bbfe43f
       path-to-regexp: 0.1.7
     dev: false
 
@@ -5244,7 +5248,7 @@ packages:
   /@pm2/pm2-version-check/1.0.4:
     resolution: {integrity: sha512-SXsM27SGH3yTWKc2fKR4SYNxsmnvuBQ9dd6QHtEWmiZ/VqaOYPAIlS8+vMcn27YLtAEBGvNRSh3TPNvtjZgfqA==}
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -7246,7 +7250,7 @@ packages:
     resolution: {integrity: sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==}
     engines: {node: '>= 0.6'}
     dependencies:
-      mime-types: 2.1.30
+      mime-types: 2.1.32
       negotiator: 0.6.2
 
   /ace-builds/1.4.12:
@@ -9149,6 +9153,9 @@ packages:
   /buffer-from/1.1.1:
     resolution: {integrity: sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==}
 
+  /buffer-from/1.1.2:
+    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
+
   /buffer-indexof/1.1.1:
     resolution: {integrity: sha512-4/rOEg86jivtPTeOUUT61jJO1Ya1TrR/OkqCSZDyq84WJh3LuuiphBYJN+fm5xufIk4XAFcEwte/8WzC8If/1g==}
 
@@ -9995,7 +10002,7 @@ packages:
     resolution: {integrity: sha512-AF3r7P5dWxL8MxyITRMlORQNaOA2IkAFaTr4k7BUumjPtRpGDTZpl0Pb1XCO6JeDCBdp126Cgs9sMxqSjgYyRg==}
     engines: {node: '>= 0.6'}
     dependencies:
-      mime-db: 1.47.0
+      mime-db: 1.49.0
 
   /compression/1.7.4:
     resolution: {integrity: sha512-jaSIDzP9pZVS4ZfQ+TzvtiWhdpFhE2RDHz8QJkpX9SIpLq88VueF5jJw6t+6CUQcAoA6t+x89MLrWAqpfDE8iQ==}
@@ -10020,7 +10027,7 @@ packages:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
     engines: {'0': node >= 0.8}
     dependencies:
-      buffer-from: 1.1.1
+      buffer-from: 1.1.2
       inherits: 2.0.4
       readable-stream: 2.3.7
       typedarray: 0.0.6
@@ -10998,6 +11005,18 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 6.1.0
+
+  /debug/4.3.2:
+    resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+    dev: false
 
   /debuglog/1.0.1:
     resolution: {integrity: sha1-qiT/uaw9+aI1GDfPstJ5NgzXhJI=}
@@ -14241,6 +14260,11 @@ packages:
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  /helmet/4.6.0:
+    resolution: {integrity: sha512-HVqALKZlR95ROkrnesdhbbZJFi/rIVSoNq6f3jA/9u6MIbTsPh3xZwihjeI5+DO/2sOV6HMHooXcEOuwskHpTg==}
+    engines: {node: '>=10.0.0'}
+    dev: false
 
   /hex-color-regex/1.1.0:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
@@ -17975,6 +17999,10 @@ packages:
     resolution: {integrity: sha512-FM3QwxV+TnZYQ2aRqhlKBMHxk10lTbMt3bBkMAp54ddrNeVSfcQYOOKuGuy3Ddrm38I04If834fOUSq1yzslJQ==}
     engines: {node: '>= 0.6'}
 
+  /mime-db/1.49.0:
+    resolution: {integrity: sha512-CIc8j9URtOVApSFCQIF+VBkX1RwXp/oMMOrqdyXSBXq5RWNEsRfyj1kiRnQgmNXmHxPoFIxOroKA3zcU9P+nAA==}
+    engines: {node: '>= 0.6'}
+
   /mime-types/2.1.30:
     resolution: {integrity: sha512-crmjA4bLtR8m9qLpHvgxSChT+XoSlZi8J4n/aIdn3z92e/U47Z0V/yl+Wh9W046GgFVAmoNR/fmdbZYcSSIUeg==}
     engines: {node: '>= 0.6'}
@@ -17986,6 +18014,12 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.48.0
+
+  /mime-types/2.1.32:
+    resolution: {integrity: sha512-hJGaVS4G4c9TSMYh2n6SQAGrC4RnfU+daP8G7cSCmaqNjiOoUY0VHCMS42pxnQmVF1GWwFhbHWn3RIxCqTmZ9A==}
+    engines: {node: '>= 0.6'}
+    dependencies:
+      mime-db: 1.49.0
 
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
@@ -26371,7 +26405,7 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       media-typer: 0.3.0
-      mime-types: 2.1.30
+      mime-types: 2.1.32
 
   /type/1.2.0:
     resolution: {integrity: sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==}

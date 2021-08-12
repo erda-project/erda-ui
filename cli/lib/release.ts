@@ -56,7 +56,7 @@ export default async ({ image: baseImage, skip, enableSourceMap, local }: Props)
     const tag = `${version}-${date}-${sha}`; // 3.20-2020520-182737976
 
     const image = `${registryDir}:${tag}`;
-    await execSync(`docker build -f local_Dockerfile -t ${image} . || exit 1`, { stdio: 'inherit', cwd: rootDir });
+    await execSync(`docker build -f Dockerfile -t ${image} . || exit 1`, { stdio: 'inherit', cwd: rootDir });
     logSuccess('build success');
 
     logInfo(`start pushing image to registry:【${registryDir}】`);

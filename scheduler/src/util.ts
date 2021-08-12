@@ -35,15 +35,55 @@ const getEnv = () => {
       fs.mkdirSync(dir);
     }
   });
-  const { parsed: envConfig } = dotenv.config({ path: `${erdaRoot}/.env` });
-  if (!envConfig) {
-    throw Error('cannot find .env file in erda-ui root directory');
+  let envConfig = {};
+  let dataAppName = '';
+  if (process.env.NODE_ENV !== 'production') {
+    const { parsed: envFileConfig } = dotenv.config({ path: `${erdaRoot}/.env` });
+    envConfig = envFileConfig;
+    if (!envConfig) {
+      throw Error('cannot find .env file in erda-ui root directory');
+    }
+
+    // get data platform info
+    const modulePath = path.resolve(__dirname, '../../../erda-ui-enterprise');
+    const children = fs.readdirSync(modulePath, { withFileTypes: true });
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      if (child.isDirectory()) {
+        const configPath = path.resolve(modulePath, child.name, 'erda-build-config.js');
+        if (fs.existsSync(configPath)) {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
+          const moduleConfig = require(configPath);
+          if (moduleConfig.role === 'DataEngineer') {
+            dataAppName = moduleConfig.name;
+            break;
+          }
+        }
+      }
+    }
+  } else {
+    envConfig = { BACKEND_URL: process.env.OPENAPI_ADDR, GITTAR_ADDR: process.env.GITTAR_ADDR };
+    dataAppName = process.env.DATA_APP_NAME;
   }
+
   return {
     erdaRoot,
     staticDir,
-    envConfig,
+    publicDir,
+    envConfig: envConfig as {
+      BACKEND_URL: string;
+      GITTAR_ADDR?: string;
+      MODULES?: string;
+      SCHEDULER_URL?: string;
+      SCHEDULER_PORT?: number;
+    },
+    dataAppName,
   };
 };
+
+export const getHttpsOptions = () => ({
+  key: fs.readFileSync(path.resolve(__dirname, '../..', `cert/dev/server.key`), 'utf8'),
+  cert: fs.readFileSync(path.resolve(__dirname, '../..', `cert/dev/server.crt`), 'utf8'),
+});
 
 export { log, logWarn, getDirectories, getEnv };
