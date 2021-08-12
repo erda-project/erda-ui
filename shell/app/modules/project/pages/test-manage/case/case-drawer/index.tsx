@@ -363,7 +363,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
             )}
           </div>
         </div>
-        <div className="case-drawer-body flex justify-between items-center">
+        <div className="case-drawer-body flex justify-between">
           <div className="case-drawer-body-left flex-1 px-5 py-4">
             <div onBlurCapture={handleAnyBlur}>
               <ContentPanel title={i18n.t('project:preconditions')}>
