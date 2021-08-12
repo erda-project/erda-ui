@@ -238,7 +238,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
           </BranchSelect>
 
           <div className="branch-merge-arrow">
-            <CustomIcon type="arrow-right" />
+            <CustomIcon type="arrow-left" />
           </div>
           <BranchSelect
             {...{ branches, hideTagList: true, current: sourceBranch || '' }}
