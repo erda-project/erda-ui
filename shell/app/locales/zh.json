@@ -1326,7 +1326,7 @@
     "closed": "已关闭",
     "closed at": "关闭于",
     "cloud accounts": "云账户管理",
-    "cloud management": "多云管理平台",
+    "Cloud management": "多云管理平台",
     "cloud source": "云资源管理",
     "cloud ssd": "云SSD",
     "cloud vendor": "云厂商",
@@ -1935,7 +1935,7 @@
   "ecp": {
     "application": "应用管理",
     "configuration": "配置集管理",
-    "edge computing": "边缘计算平台",
+    "Edge computing": "边缘计算平台",
     "it is getting offline and it will take a effect later": "正在下线，稍后生效",
     "site management": "站点管理"
   },
