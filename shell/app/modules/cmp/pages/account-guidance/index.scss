@@ -22,7 +22,7 @@
       flex-direction: column;
       align-items: center;
       width: 220px;
-      height: 218px;
+      min-height: 218px;
       padding: 16px;
       border: 1px solid $color-border;
       border-radius: $radius-lg;
@@ -60,7 +60,6 @@
         flex: 1;
         color: $color-text-sub;
         font-size: 14px;
-        text-align: justify;
       }
     }
   }
