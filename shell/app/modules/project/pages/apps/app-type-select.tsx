@@ -16,7 +16,7 @@ import classnames from 'classnames';
 import './app-type-select.scss';
 import { Icon as CustomIcon } from 'common';
 import { groupBy, map } from 'lodash';
-
+import { Tooltip } from 'app/nusi';
 interface Img {
   src: string;
   name: string;
@@ -45,7 +45,9 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
                 >
                   <img src={img.src} alt={img.name || 'image-option'} />
                   <CustomIcon type="yuanxingxuanzhongfill" />
-                  <div className="desc">{img.name}</div>
+                  <Tooltip title={img.name}>
+                    <div className="desc truncate">{img.name}</div>
+                  </Tooltip>
                 </div>
               ))}
             </div>
