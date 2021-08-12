@@ -65,14 +65,14 @@ export const appList: () => LAYOUT.IApp[] = () =>
       },
       {
         key: 'cmp',
-        name: i18n.t('cloud management'),
-        breadcrumbName: i18n.t('cloud management'),
+        name: i18n.t('Cloud management'),
+        breadcrumbName: i18n.t('Cloud management'),
         href: goTo.resolve.cmpRoot(),
       },
       {
         key: 'ecp',
-        name: i18n.t('ecp:edge computing'),
-        breadcrumbName: i18n.t('ecp:edge computing'),
+        name: i18n.t('ecp:Edge computing'),
+        breadcrumbName: i18n.t('ecp:Edge computing'),
         href: goTo.resolve.ecpApp(),
       },
       {
