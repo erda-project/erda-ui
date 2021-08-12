@@ -226,20 +226,6 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
       <div className="repo-source-target-select">
         <div className="branch-select-row">
           <BranchSelect
-            {...{ branches, hideTagList: true, current: sourceBranch || '' }}
-            onChange={this.handleChange('sourceBranch')}
-            disabled={disableSourceBranch}
-          >
-            <span>{i18n.t('compare')}:</span>
-            <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
-            <IF check={sourceBranch}>
-              <IconDownOne theme="filled" size="16px" />
-            </IF>
-          </BranchSelect>
-          <div className="branch-merge-arrow">
-            <CustomIcon type="arrow-right" />
-          </div>
-          <BranchSelect
             {...{ branches, hideTagList: true, current: targetBranch || '' }}
             onChange={this.handleChange('targetBranch')}
             disabled={disableTargetBranch}
@@ -247,6 +233,21 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             <span>{i18n.t('based on')}:</span>
             <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
+              <IconDownOne theme="filled" size="16px" />
+            </IF>
+          </BranchSelect>
+
+          <div className="branch-merge-arrow">
+            <CustomIcon type="arrow-left" />
+          </div>
+          <BranchSelect
+            {...{ branches, hideTagList: true, current: sourceBranch || '' }}
+            onChange={this.handleChange('sourceBranch')}
+            disabled={disableSourceBranch}
+          >
+            <span>{i18n.t('compare')}:</span>
+            <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
+            <IF check={sourceBranch}>
               <IconDownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>
