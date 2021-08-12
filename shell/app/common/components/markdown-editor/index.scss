@@ -3,7 +3,6 @@
     display: block;
     .rc-md-editor {
       border-radius: $radius;
-      padding-bottom: 42px;
 
       .navigation-nav.left {
         min-width: 120px;
@@ -37,6 +36,12 @@
 
       .tool-bar {
         display: none;
+      }
+    }
+
+    &.show-btn {
+      .rc-md-editor {
+        padding-bottom: 42px;
       }
     }
 
