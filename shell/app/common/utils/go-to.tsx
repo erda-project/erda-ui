@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import path from 'path';
-import { getConfig } from 'core/config';
 import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
 import routeInfoStore from 'core/stores/route';
+import history from 'core/history';
 
 export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);
@@ -23,7 +23,6 @@ export function resolvePath(goPath: string) {
 
 const changeBrowserHistory = throttle(
   (action, _path) => {
-    const history = getConfig('history');
     action === 'replace' ? history.replace(_path) : history.push(_path);
   },
   1000,
@@ -86,7 +85,6 @@ export const goTo = (pathStr: string, options?: IOptions) => {
   if (forbidRepeat) {
     changeBrowserHistory(action, _path);
   } else {
-    const history = getConfig('history');
     action === 'replace' ? history.replace(_path) : history.push(_path);
   }
 };
