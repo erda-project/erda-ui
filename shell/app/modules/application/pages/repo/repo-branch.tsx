@@ -160,7 +160,7 @@ const RepoBranch = () => {
           })}
         </div>
         <IF.ELSE />
-        <EmptyHolder relative style={{ justifyContent: 'start' }} />;
+        <EmptyHolder relative style={{ justifyContent: 'start' }} />
       </IF>
     </Spin>
   );
