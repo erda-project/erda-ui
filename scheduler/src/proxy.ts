@@ -40,7 +40,7 @@ export const createProxyService = (app: INestApplication) => {
       changeOrigin: !isProd,
       pathRewrite: replaceApiOrgPath,
       onProxyReqWs: (proxyReq, req: Request, socket) => {
-        isProd && proxyReq.setHeader('org', extractOrg(req.headers.referer));
+        proxyReq.setHeader('org', extractOrg(req.headers.referer));
         socket.on('error', (error) => {
           logWarn('Websocket error.', error);
         });
