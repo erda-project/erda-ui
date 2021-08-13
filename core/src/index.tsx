@@ -25,7 +25,7 @@ import { setConfig } from './config';
 
 const holderDractDom = ReactDom; // if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
 
-setConfig('history', browserHistory); // do not remove, used in fdp;
+setConfig('history', browserHistory); // do not remove, used in erda-ui-enterprise;
 
 const App = () => {
   const route = routeInfoStore.useStore((s) => s.parsed);
