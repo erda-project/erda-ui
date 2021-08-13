@@ -232,7 +232,7 @@ const templateArr: ICardProps[] = [
     val: 'MSP',
     icon: 'zhili',
     description: i18n.t('org:microservice governance desc'),
-    disabled: false,
+    disabled: true,
   },
 ];
 
