@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/core",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Core functions for Erda UI",
   "main": "dist/index.js",
   "types": "index.d.ts",
