@@ -61,7 +61,7 @@ export const ProblemContent = ({ detail }: IProps) => {
       case 'vulnerability':
       case 'codeSmell':
         url = !isEmpty(label) ? getUrl(label.path, detail) : null;
-        note = label.path
+        note = label?.path
           ? `${label.code}\n
 ${i18n.t('application:jump to code')}：[${linkLabel || label.path}](${url})`
           : content;
