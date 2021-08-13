@@ -69,7 +69,6 @@ module.exports = `
     if (status === 401) {
       ajax('/api/-/openapi/login', (data) => {
         if (data && data.url) {
-          window.localStorage.setItem('lastPath', window.location.href);
           window.location.href = data.url;
           console.log(data.url);
         }
