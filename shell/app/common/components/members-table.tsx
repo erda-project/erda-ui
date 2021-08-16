@@ -34,6 +34,7 @@ import routeInfoStore from 'core/stores/route';
 import memberLabelStore from 'common/stores/member-label';
 import orgStore from 'app/org-home/stores/org';
 import './members-table.scss';
+import { FULL_ROOT_DOMAIN } from '../constants';
 
 const storeMap = {
   [MemberScope.ORG]: orgMemberStore,
@@ -603,7 +604,7 @@ export const MembersTable = ({
           />
           <UrlInviteModal
             visible={state.inviteModalVisible}
-            url={`${window.location.origin}${goTo.resolve.inviteToOrg()}`}
+            url={`${FULL_ROOT_DOMAIN}${goTo.resolve.inviteToOrg()}`}
             linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
             code={state.verifyCode}
             tip={i18n.t(
