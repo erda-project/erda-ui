@@ -20,24 +20,7 @@ declare namespace BUILD {
     costTimeSec: number;
     timeBegin: string;
     timeEnd: string;
-    pipelineTasks: ITask[];
-  }
-
-  interface ITask {
-    id: number;
-    pipelineID: number;
-    stageID: number;
-    name: string;
-    type: string;
-    status: string;
-    costTimeSec: number;
-    extra: {
-      uuid: string;
-      allowFailure: boolean;
-    };
-    result: {
-      metadata?: MetaData[];
-    };
+    pipelineTasks: PIPELINE.ITask[];
   }
 
   interface IComboPipeline {
@@ -65,6 +48,12 @@ declare namespace BUILD {
     };
     id: number;
     status: string;
+    isSnippet: boolean;
+    progress: number;
+    timeBegin: string;
+    timeCreated: string;
+    timeUpdated: string;
+    triggerMode?: 'cron';
     source: string;
     env: string;
     branch: string;
@@ -133,14 +122,14 @@ declare namespace BUILD {
 
   type ExecuteRecord = Omit<IPipelineDetail, 'pipelineButton'>;
 
-  interface PipelineNode extends ITask {
-    isType: Function;
+  interface PipelineNode extends PIPELINE.ITask {
     starting: boolean;
     stage: string;
     _runtimeDetail: RUNTIME.Detail;
     displayName: string;
     logoUrl: string;
-    findInMeta(fn: (item: BUILD.MetaData) => boolean): BUILD.MetaData | null;
+    isType: (type: string) => boolean;
+    findInMeta: (fn: (item: BUILD.MetaData) => boolean) => BUILD.MetaData | null;
   }
 
   interface IPipelineLogQuery {
