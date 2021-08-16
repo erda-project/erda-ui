@@ -298,7 +298,7 @@ const CreationForm = () => {
             name: ['repoConfig', 'url'],
             rules: [
               {
-                pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,256}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
                 message: i18n.t('project:please enter valid repository address'),
               },
             ],
