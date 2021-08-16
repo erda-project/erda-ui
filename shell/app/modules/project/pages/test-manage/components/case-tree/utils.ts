@@ -22,7 +22,7 @@ export const recycledRoot: TEST_SET.TestSetNode = {
   title: i18n.t('project:recycle bin'),
   key: recycledKey,
   iconType: 'ljt',
-  iconClass: 'color-danger',
+  iconClass: 'text-red',
   id: recycledId,
   parentID: rootId,
   recycled: true,

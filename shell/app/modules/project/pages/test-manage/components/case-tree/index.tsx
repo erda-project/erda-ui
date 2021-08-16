@@ -329,7 +329,7 @@ const TestSet = ({
         key: rootKey,
         id: rootId,
         iconType: 'project',
-        iconClass: 'color-info',
+        iconClass: 'text-blue',
         parentID: rootId,
         isLeaf: false,
         recycled: false,
