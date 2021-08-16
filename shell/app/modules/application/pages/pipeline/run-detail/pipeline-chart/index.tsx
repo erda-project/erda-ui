@@ -21,7 +21,7 @@ import PipelineNode from './pipeline-node';
 interface IProps {
   changeType: string;
   data: PIPELINE.IPipelineDetail;
-  onClickNode: (node: PIPELINE.ITask, mark: string) => void;
+  onClickNode: (node: BUILD.PipelineNode, mark: string) => void;
 }
 
 const notUpdateChanges = ['flow', 'stage'];

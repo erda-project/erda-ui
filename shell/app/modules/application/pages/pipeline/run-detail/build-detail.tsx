@@ -579,24 +579,26 @@ const BuildDetail = (props: IProps) => {
       {
         title: `${i18n.t('commit')}ID`,
         dataIndex: 'commit',
-        width: 100,
+        width: 96,
         render: (commitText: string) => <span> {(commitText || '').slice(0, 6)} </span>,
       },
       {
         title: i18n.t('status'),
         dataIndex: 'status',
-        width: 100,
+        width: 120,
         render: (status: string) => (
-          <span>
-            <span className="nowrap">{ciStatusMap[status].text}</span>
-            <Badge className="ml-1" status={ciStatusMap[status].status} />
-          </span>
+          <Tooltip title={ciStatusMap[status].text}>
+            <span>
+              <span className="nowrap">{ciStatusMap[status].text}</span>
+              <Badge className="ml-1" status={ciStatusMap[status].status} />
+            </span>
+          </Tooltip>
         ),
       },
       {
         title: i18n.t('application:executor'),
         dataIndex: ['extra', 'runUser', 'name'],
-        width: 100,
+        width: 120,
         align: 'center',
       },
       {
