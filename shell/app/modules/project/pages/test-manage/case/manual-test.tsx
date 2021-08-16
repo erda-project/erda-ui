@@ -156,7 +156,7 @@ const ManualTest = () => {
           <div className="ml-3-group">
             {query.recycled !== 'true' && (
               <>
-                <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>
+                <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer} className="mb-2">
                   {i18n.t('project:add use case')}
                 </Button>
                 <ImportFile afterImport={afterImport} />
@@ -181,7 +181,7 @@ const ManualTest = () => {
             />
             <ProjectTreeModal />
           </div>
-          <div className="mr-3-group">
+          <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>
             <Input
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}
