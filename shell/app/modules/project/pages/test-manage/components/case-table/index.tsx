@@ -234,6 +234,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
     // 操作列
     const operationColumn = filter(tempColumns, ({ fixed }: any) => fixed);
     if (!isEmpty(operationColumn)) {
+      operationColumn.width = 120;
       forEach(operationColumn, (single: any) => {
         Object.assign(single, {
           fixed: isScroll ? single.fixed : undefined,
@@ -281,6 +282,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       ref={ref}
       loading={loading}
       className={className}
+      indentSize={0}
       size="middle"
       expandedRowKeys={expandedRowKeys}
       dataSource={dataSource}
