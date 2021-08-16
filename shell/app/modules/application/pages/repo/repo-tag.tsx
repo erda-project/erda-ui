@@ -108,6 +108,7 @@ const RepoTag = () => {
 
   const beforeSubmit = async (values: { ref: string; refType: string }) => {
     if (values.refType === 'commitId') {
+      setRefType(null);
       const ret = await checkCommitId({ commitId: values.ref });
       if (ret === 'error') {
         message.error(i18n.t('application:invalid commit SHA'));
