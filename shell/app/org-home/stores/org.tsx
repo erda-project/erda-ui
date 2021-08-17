@@ -70,16 +70,16 @@ const org = createStore({
       }
       const { orgName } = payload;
       // if orgName exist, check valid
-      let resOrg = await call(getOrgByDomain, { domain, orgName });
+      const resOrg = await call(getOrgByDomain, { domain, orgName });
       const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
       if (orgName === '-' && isEmpty(resOrg)) {
         if (orgs?.length) {
-          goTo(`/${get(orgs, '[0].name')}`, { replace: true });
-          resOrg = orgs[0];
+          location.href = `/${get(orgs, '[0].name')}`;
         }
         update({ curPathOrg: orgName, initFinish: true });
+        return;
       }
       const curPathname = location.pathname;
       if (isEmpty(resOrg)) {
