@@ -154,13 +154,8 @@ const traceConvert = (traces: MONITOR_TRACE.ITrace): Trace => {
     const spanStartTs = span.startTime || traceTimestamp;
     const spanDepth = spanDepths[span.id] || 1;
     const width = ((spanDuration || 0) / duration) * 100;
-    let errorType = 'none';
+    const errorType = span.tags.error ? 'critical' : 'none';
 
-    if (errorType !== 'critical') {
-      if (findIndex(span.annotations || [], (t) => t.value === Constants.ERROR) !== -1) {
-        errorType = 'transient';
-      }
-    }
     const left = ((spanStartTs - traceTimestamp) / durationNs) * 100;
 
     return {
