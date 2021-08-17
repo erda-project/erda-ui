@@ -106,6 +106,7 @@ declare namespace MONITOR_TRACE {
     terminus_logid: string;
     trace_id: string;
     workspace: string;
+    error?: string;
   }
 
   interface ITraceDetail {
