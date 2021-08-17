@@ -27,17 +27,17 @@ interface TestFixtures {
 
 const gotoMap = {
   root: '',
-  deploy: 'integration/dop/projects/123/apps/788/deploy',
-  appList: 'integration/dop/projects/568/apps',
-  createApp: `integration/dop/projects/568/apps/createApp`,
-  appSetting: 'integration/dop/projects/568/apps/840/setting',
-  appBranchRule: 'integration/dop/projects/568/apps/840/setting?tabKey=branchRule',
-  appDeployParameter: 'integration/dop/projects/568/apps/840/setting?tabKey=appConfig',
-  appPipelineParameter: 'integration/dop/projects/568/apps/840/setting?tabKey=privateConfig',
-  appNotifyConfig: 'integration/dop/projects/568/apps/840/setting?tabKey=notifyConfig',
-  appNotifyGroup: 'integration/dop/projects/568/apps/840/setting?tabKey=notifyGroup',
-  orgProjectList: 'integration/orgCenter/projects',
-  orgCreateProject: 'integration/orgCenter/projects/createProject',
+  deploy: '/integration/dop/projects/123/apps/788/deploy',
+  appList: '/integration/dop/projects/568/apps',
+  createApp: `/integration/dop/projects/568/apps/createApp`,
+  appSetting: '/integration/dop/projects/568/apps/840/setting',
+  appBranchRule: '/integration/dop/projects/568/apps/840/setting?tabKey=branchRule',
+  appDeployParameter: '/integration/dop/projects/568/apps/840/setting?tabKey=appConfig',
+  appPipelineParameter: '/integration/dop/projects/568/apps/840/setting?tabKey=privateConfig',
+  appNotifyConfig: '/integration/dop/projects/568/apps/840/setting?tabKey=notifyConfig',
+  appNotifyGroup: '/integration/dop/projects/568/apps/840/setting?tabKey=notifyGroup',
+  orgProjectList: '/integration/orgCenter/projects',
+  orgCreateProject: '/integration/orgCenter/projects/createProject',
   pipeline: '/integration/dop/projects/123/apps/788/pipeline',
 };
 
@@ -103,7 +103,7 @@ const test = base.extend<TestFixtures>({
 
   goTo: async ({ page }, use) => {
     await use(async (key: keyof typeof gotoMap) => {
-      await page.goto(`${authConfig.url}${gotoMap[key]}`);
+      await page.goto(`${gotoMap[key]}`);
     });
   },
 });
@@ -111,6 +111,7 @@ const test = base.extend<TestFixtures>({
 const Role = (role: RoleTypes, fn: () => void) => {
   test.describe(`[${role}]`, () => {
     test.use({
+      baseURL: authConfig.url,
       storageState: `auto_test/auth/${role}.json`,
     });
 
