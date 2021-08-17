@@ -87,6 +87,7 @@ const test = base.extend<TestFixtures>({
   goTo: async ({ page }, use) => {
     const gotoMap = {
       root: '',
+      deploy: 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/deploy',
     };
     await use(async (key) => {
       await page.goto(gotoMap[key]);
