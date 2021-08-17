@@ -436,3 +436,8 @@ div.ant-table {
 div.ant-progress-inner {
   background-color: rgba(0, 0, 0, 0.06);
 }
+
+.pk-form-item .ant-select,
+.pk-form-item .ant-cascader-picker {
+  width: 100%;
+}
