@@ -13,13 +13,18 @@
 
 import { Role, test, expect } from '../../fixtures';
 
-const allRequestUrl = 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/open';
+const openRequestUrl = 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/open';
 const createMRUrl = 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/open/createMR';
 
 const createRequest = async (page, wait, expectExist, title) => {
   await page.click('text=new merge request');
   await wait(1);
   expect(page.url()).toBe(createMRUrl);
+
+  await page.click('.repo-branch-select:has-text("based on:")');
+  expectExist('div[role="tooltip"]', 1);
+  await page.click('div[role="tooltip"] >> li:has-text("test-branch")');
+  expectExist('text=based on:test-branch', 1);
 
   await page.click('.repo-branch-select:has-text("compare:")');
   expectExist('div[role="tooltip"]', 1);
@@ -35,21 +40,30 @@ const createRequest = async (page, wait, expectExist, title) => {
   await page.click('button:has-text("submit")');
   await wait(1);
 
-  expect(page.url()).toBe(allRequestUrl);
+  expect(page.url()).toBe(openRequestUrl);
   expectExist(`text=${title}`, 1);
 };
-
+const now = Date.now();
 Role('Manager', () => {
-  test('merge requests', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+  test.only('create branch', async ({ page, wait, expectRequestSuccess }) => {
     await expectRequestSuccess();
-
-    await page.goto(allRequestUrl);
+    await page.goto('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/tree/develop');
+    await wait(1);
+    await page.click('text=new branch');
     await wait(1);
 
-    const now = Date.now();
+    await page.click('input[type="text"]');
+    await page.fill('input[type="text"]', 'hotfix/do-not-delete');
+    await page.click('button >> text=ok');
+    await wait(1);
+  });
+  test.only('close requests', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+    await expectRequestSuccess();
+
+    await page.goto(openRequestUrl);
+    await wait(1);
 
     await createRequest(page, wait, expectExist, `firstTitle${now}`);
-    await createRequest(page, wait, expectExist, `secondTitle${now}`);
 
     await page.click(`text=firstTitle${now}`);
     await wait(1);
@@ -70,7 +84,7 @@ Role('Manager', () => {
 
     await page.click('button:has-text("close")');
     await wait(1);
-    expect(page.url()).toBe(allRequestUrl);
+    expect(page.url()).toBe(openRequestUrl);
     await page.click('.tab-menu-item >> text=closed');
     await wait(1);
     expect(page.url()).toBe('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/closed');
@@ -79,12 +93,30 @@ Role('Manager', () => {
     await wait(1);
     expectExist('text=merge request detail', 1);
   });
+  test.only('merge', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+    await expectRequestSuccess();
+    await page.goto(openRequestUrl);
+    await wait(1);
+    await createRequest(page, wait, expectExist, `secondTitle${now}`);
+    await createRequest(page, wait, expectExist, `thirdTitle${now}`);
+
+    expectExist(`text=thirdTitle${now}`, 1);
+    await page.click(`text=thirdTitle${now}`);
+    await page.click('button:has-text("merge")');
+    await wait(1);
+    await expectExist('.ant-modal', 1);
+    await expectExist('input[type="checkbox"]', 1);
+    await page.click('button >> text=ok');
+    await wait(1);
+    await page.click('.tab-menu-item >> text=merged');
+    expectExist(`text=thirdTitle${now}`, 1);
+  });
 });
 
 Role('Dev', () => {
   test.only('can not edit or merge request', async ({ page, expectExist, expectRequestSuccess, wait }) => {
     await expectRequestSuccess();
-    await page.goto(allRequestUrl);
+    await page.goto(openRequestUrl);
     await wait(1);
     await page.click(`:text-matches("secondTitle")`);
     await wait(1);
