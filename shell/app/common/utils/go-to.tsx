@@ -274,6 +274,14 @@ export enum pages {
   cloudSourceMq = '/{orgName}/cmp/cloudSource/mq',
   cloudSourceRedis = '/{orgName}/cmp/cloudSource/redis',
   cloudAccounts = '/{orgName}/cmp/cloudSource/accounts',
+  cmpClustersNodes = '/{orgName}/cmp/clusters/{clusterName}/nodes',
+  cmpClustersDetail = '/{orgName}/cmp/clusters/{clusterName}/detail',
+  cmpClustersNodeDetail = '/{orgName}/cmp/clusters/{clusterName}/nodes/{nodeId}/detail',
+  cmpClustersPods = '/{orgName}/cmp/clusters/{clusterName}/pods?nodeId={nodeId}',
+  cmpClustersPodDetail = '/{orgName}/cmp/clusters/{clusterName}/pods/{podId}/detail',
+  cmpClustersWorkload = '/{orgName}/cmp/clusters/{clusterName}/workload',
+  cmpClustersWorkloadDetail = '/{orgName}/cmp/clusters/{clusterName}/workload/{workloadId}/detail',
+  cmpClustersEventLog = '/{orgName}/cmp/clusters/{clusterName}/event-log',
 
   // orgCenter
   orgCenterRoot = '/{orgName}/orgCenter/projects',

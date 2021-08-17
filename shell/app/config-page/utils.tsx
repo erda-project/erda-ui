@@ -72,3 +72,31 @@ export const getUrlQuery = (val: Obj) => {
   });
   return _urlQuery;
 };
+
+export const colorMap = {
+  green: '#6CB38B',
+  purple: '#975FA0',
+  orange: '#F7A76B',
+  red: '#DE5757',
+  brown: '#A98C72',
+  steelBlue: '#4E6097',
+  yellow: '#F7C36B',
+  lightgreen: '#8DB36C',
+  darkcyan: '#498E9E',
+  darksalmon: '#DE6F57',
+  darkslategray: '#2F4F4F',
+  maroon: '#800000',
+  darkseagreen: '#8FBC8F',
+  darkslateblue: '#483D8B',
+  darkgoldenrod: '#B8860B',
+  teal: '#008080',
+  primary: '#6a549e',
+};
+
+export const statusColorMap = {
+  success: colorMap.green,
+  warning: colorMap.orange,
+  error: colorMap.red,
+  danger: colorMap.maroon,
+  normal: colorMap.primary,
+};

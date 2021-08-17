@@ -11,31 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_PANEL {
-  interface Field {
-    label?: string;
-    valueKey?: any;
-    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText';
-    value?: any;
-    operations?: CP_COMMON.Operation;
-  }
+import React from 'react';
+import DiceConfigPage, { useMock } from 'app/config-page';
+import routeInfoStore from 'core/stores/route';
 
-  interface IProps {
-    visible?: boolean;
-    fields: Field[];
-    column?: number;
-    colon?: boolean;
-    columnNum?: number;
-    isMultiColumn?: boolean;
-    layout?: 'vertical' | 'horizontal';
-    data?: Obj;
-    type?: 'Z' | 'N';
-    numOfRowsLimit?: number;
-  }
-  interface Spec {
-    type: 'Panel';
-    props: IProps;
-  }
+const ClusterNodes = () => {
+  const { clusterName } = routeInfoStore.useStore((s) => s.params);
 
-  type Props = MakeProps<Spec>;
-}
+  const inParams = { clusterName };
+  return (
+    <DiceConfigPage
+      scenarioType={'cluster-pods'}
+      scenarioKey={'cluster-pods'}
+      inParams={inParams}
+      useMock={useMock('k8s-pods')}
+      forceMock
+    />
+  );
+};
+
+export default ClusterNodes;

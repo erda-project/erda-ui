@@ -187,6 +187,9 @@ const ChartBaseFactory = {
           Chart = viewRender || MonitorChartNew;
       }
       const title = titleText === false ? '' : data.title || titleText;
+      if (otherProps.chartName === 'apdex') {
+        console.log('------', data, viewProps);
+      }
       return (
         <ChartContainer title={title}>
           {

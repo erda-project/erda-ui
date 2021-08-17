@@ -32,6 +32,7 @@ interface IState {
     testSpaceName: string;
     curOrgName: string;
     mspProjectName: string;
+    cmpCluster: null | ORG_CLUSTER.ICluster;
   };
 }
 
@@ -54,6 +55,7 @@ const initState: IState = {
     testSpaceName: '',
     curOrgName: '',
     mspProjectName: '',
+    cmpCluster: null,
   },
 };
 

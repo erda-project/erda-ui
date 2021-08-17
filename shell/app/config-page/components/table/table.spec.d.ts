@@ -16,6 +16,7 @@ declare namespace CP_TABLE {
     type: 'Table';
     state?: IState;
     operations?: Obj<CP_COMMON.Operation>;
+    batchOperations?: Obj<CP_COMMON.Operation>;
     data?: IData;
     props: IProps;
   }

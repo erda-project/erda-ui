@@ -1,6 +1,5 @@
 .tags-container {
   position: relative;
-  height: 25px;
 
   .tags-box {
     white-space: nowrap;
@@ -56,4 +55,8 @@
       width: 80px;
     }
   }
+}
+
+.tags-tooltip {
+  min-width: 300px;
 }
