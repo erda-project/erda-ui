@@ -12,9 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { qs, mergeSearch, updateSearch, setSearch } from 'common/utils';
-import history from 'core/history';
+import { createBrowserHistory } from 'history';
+import { setConfig, getConfig } from 'core/config';
 
 describe('query-string', () => {
+  beforeAll(() => {
+    const browserHistory = createBrowserHistory();
+    setConfig('history', browserHistory);
+  });
+  afterAll(() => {
+    setConfig('history', undefined);
+  });
   it('qs.parse', () => {
     expect(qs.parse(process.env.mock_search)).toEqual({ id: '1' });
     expect(qs.parse('ids[]=1&ids[]=2&ids[]=3', { arrayFormat: 'bracket' })).toEqual({ ids: ['1', '2', '3'] });
@@ -39,10 +47,12 @@ describe('query-string', () => {
     expect(mergeSearch({ orgName: 'erda' }, false, true)).toEqual({ orgName: 'erda' });
   });
   it('updateSearch', () => {
+    const history = getConfig('history');
     updateSearch({ orgName: 'erda' });
     expect(history.location.search).toContain('orgName=erda');
   });
   it('setSearch', () => {
+    const history = getConfig('history');
     setSearch({ orgName: 'erda' });
     expect(history.location.search).toContain('orgName=erda');
   });

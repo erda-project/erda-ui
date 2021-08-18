@@ -10,6 +10,23 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, UnregisterCallback, LocationState, LocationListener } from 'history';
 
-export default createBrowserHistory();
+const history = createBrowserHistory();
+
+const { listen } = history;
+
+// because of qiankun > single-spa rewrite pushState, lead to history.listen execute twice
+history.listen = (listener: LocationListener<LocationState>): UnregisterCallback => {
+  let lastPathname = '';
+  function enhancerCb(...args: any) {
+    const [location] = args;
+    if (location.pathname === lastPathname) return;
+    lastPathname = location.pathname;
+    // @ts-ignore
+    return listener(...args);
+  }
+  return listen(enhancerCb);
+};
+
+export default history;

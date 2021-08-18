@@ -138,7 +138,6 @@ module.exports = () => {
           './i18n': './src/i18n.ts',
           './agent': './src/agent.ts',
           './config': './src/config.ts',
-          './history': './src/history.ts',
           './stores/route': './src/stores/route.ts',
           './stores/loading': './src/stores/loading.ts',
           './stores/userMap': './src/stores/user-map.ts',

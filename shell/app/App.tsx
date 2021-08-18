@@ -22,8 +22,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/main';
 import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
-import { setConfig } from 'core/config';
-import history from 'core/history';
+import { setConfig, getConfig } from 'core/config';
+
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
@@ -40,6 +40,8 @@ import 'tailwindcss/tailwind.css';
 
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
+
+const history = getConfig('history');
 
 const { NusiConfigProvider, AntdConfigProvider } = nusi;
 const momentLangMap = {
@@ -124,6 +126,7 @@ if (pathname.startsWith('/r/')) {
     default:
       break;
   }
+
   history.replace(newPath.join('/') + search);
 }
 
