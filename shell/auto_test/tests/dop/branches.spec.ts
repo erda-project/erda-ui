@@ -14,9 +14,9 @@
 import { Role, test, expect } from '../../fixtures';
 
 Role('Manager', () => {
-  test('branches list page', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+  test('branches list page', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
-    await page.goto('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/branches');
+    await goTo('branches');
     await wait(1);
     await page.click('.branch-item:has-text("develop") >> iconpark-icon[name="more"]');
     await wait(1);
@@ -37,13 +37,13 @@ Role('Manager', () => {
     expectExist('.commit-summary', 1);
   });
 
-  test('branches tags page', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+  test('branches tags page', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
-    await page.goto('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/branches');
+    await goTo('branches');
     await wait(1);
     await page.click('text=tag');
     await wait(1);
-    expect(page.url()).toBe('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/tags');
+    expect(page.url()).toContain('/repo/tags');
     await page.click('text=add label');
 
     await wait(1);
@@ -87,9 +87,9 @@ Role('Manager', () => {
 });
 
 Role('Dev', () => {
-  test('can not set default branch', async ({ page, expectExist, expectRequestSuccess, wait }) => {
+  test('can not set default branch', async ({ page, expectExist, expectRequestSuccess, wait, goTo }) => {
     await expectRequestSuccess();
-    await page.goto('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/branches');
+    await goTo('branches');
     await wait(1);
     await expectExist('text=develop', 1);
     await page.click('.branch-item:has-text("develop") >> iconpark-icon[name="more"]');

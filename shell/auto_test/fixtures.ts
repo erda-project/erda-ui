@@ -39,6 +39,8 @@ const gotoMap = {
   orgProjectList: '/integration/orgCenter/projects',
   orgCreateProject: '/integration/orgCenter/projects/createProject',
   pipeline: '/integration/dop/projects/123/apps/788/pipeline',
+  branches: 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/branches',
+  mergeRequest: 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/open',
 };
 
 // Extend base test with our fixtures.

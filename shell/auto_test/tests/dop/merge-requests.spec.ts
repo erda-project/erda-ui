@@ -13,13 +13,10 @@
 
 import { Role, test, expect } from '../../fixtures';
 
-const openRequestUrl = 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/open';
-const createMRUrl = 'https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/open/createMR';
-
 const createRequest = async (page, wait, expectExist, title) => {
   await page.click('text=new merge request');
   await wait(1);
-  expect(page.url()).toBe(createMRUrl);
+  expect(page.url()).toContain('/open/createMR');
 
   await page.click('.repo-branch-select:has-text("based on:")');
   expectExist('div[role="tooltip"]', 1);
@@ -40,7 +37,7 @@ const createRequest = async (page, wait, expectExist, title) => {
   await page.click('button:has-text("submit")');
   await wait(1);
 
-  expect(page.url()).toBe(openRequestUrl);
+  expect(page.url()).toContain('/repo/mr/open');
   expectExist(`text=${title}`, 1);
 };
 const now = Date.now();
@@ -57,10 +54,10 @@ Role('Manager', () => {
     await page.click('button >> text=ok');
     await wait(1);
   });
-  test.only('close requests', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+  test.only('close requests', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
 
-    await page.goto(openRequestUrl);
+    await goTo('mergeRequest');
     await wait(1);
 
     await createRequest(page, wait, expectExist, `firstTitle${now}`);
@@ -84,18 +81,18 @@ Role('Manager', () => {
 
     await page.click('button:has-text("close")');
     await wait(1);
-    expect(page.url()).toBe(openRequestUrl);
+    expect(page.url()).toContain('/repo/mr/open');
     await page.click('.tab-menu-item >> text=closed');
     await wait(1);
-    expect(page.url()).toBe('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/mr/closed');
+    expect(page.url()).toContain('/mr/closed');
     expectExist(`text=firstTitle${now}`, 1);
     await page.click(`text=firstTitle${now}`);
     await wait(1);
     expectExist('text=merge request detail', 1);
   });
-  test.only('merge', async ({ page, expectExist, wait, expectRequestSuccess }) => {
+  test.only('merge', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
-    await page.goto(openRequestUrl);
+    await goTo('mergeRequest');
     await wait(1);
     await createRequest(page, wait, expectExist, `secondTitle${now}`);
     await createRequest(page, wait, expectExist, `thirdTitle${now}`);
@@ -114,9 +111,9 @@ Role('Manager', () => {
 });
 
 Role('Dev', () => {
-  test.only('can not edit or merge request', async ({ page, expectExist, expectRequestSuccess, wait }) => {
+  test.only('can not edit or merge request', async ({ page, expectExist, expectRequestSuccess, wait, goTo }) => {
     await expectRequestSuccess();
-    await page.goto(openRequestUrl);
+    await goTo('mergeRequest');
     await wait(1);
     await page.click(`:text-matches("secondTitle")`);
     await wait(1);
