@@ -52,9 +52,10 @@ async function bootstrap() {
     app.use(compression()); // gzip
   }
   app.use(guardMiddleware); // must create global guard middleware here, otherwise the proxy middleware will ignore the guard
-  createProxyService(app);
+  const wsProxy = createProxyService(app);
 
-  await app.listen(isProd ? 80 : SCHEDULER_PORT);
+  const server = await app.listen(isProd ? 80 : SCHEDULER_PORT);
+  server.on('upgrade', wsProxy.upgrade);
 
   if (isProd) {
     log('erda ui server started at port 80');

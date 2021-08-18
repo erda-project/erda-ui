@@ -27,47 +27,37 @@ gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
 
 const wsPathRegex = [
   /^\/api\/[^/]*\/websocket/,
+  RegExp(`^/api/[^/]*/${dataAppName}-websocket`), // http-proxy-middleware can't handle multiple ws proxy https://github.com/chimurai/http-proxy-middleware/issues/463
   /^\/api\/[^/]*\/terminal/,
   /^\/api\/[^/]*\/apim-ws\/api-docs\/filetree/,
 ];
 
 export const createProxyService = (app: INestApplication) => {
-  app.use(
-    `/api/**/${dataAppName}-websocket`,
-    createProxyMiddleware({
+  const wsProxy = createProxyMiddleware(
+    (pathname: string) => {
+      return wsPathRegex.some((regex) => regex.test(pathname));
+    },
+    {
       target: API_URL,
       ws: true,
       changeOrigin: !isProd,
+      xfwd: true,
+      secure: false,
       pathRewrite: replaceApiOrgPath,
       onProxyReqWs: (proxyReq, req: Request, socket) => {
-        proxyReq.setHeader('org', extractOrg(req.headers.referer));
+        const uri = req.headers['x-original-uri'];
+        if (uri && typeof uri === 'string') {
+          const org = uri.split('/')?.[2];
+          proxyReq.setHeader('org', org);
+        }
         socket.on('error', (error) => {
-          logWarn('Websocket error.', error);
+          logWarn('Websocket error.', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
         });
       },
-    }),
+    },
   );
+  app.use(wsProxy);
   app.use(
-    createProxyMiddleware(
-      (pathname: string) => {
-        return wsPathRegex.some((regex) => regex.test(pathname));
-      },
-      {
-        target: API_URL,
-        ws: true,
-        changeOrigin: !isProd,
-        pathRewrite: replaceApiOrgPath,
-        onProxyReqWs: (proxyReq, req: Request, socket) => {
-          proxyReq.setHeader('org', extractOrg(req.headers.referer));
-          socket.on('error', (error) => {
-            logWarn('Websocket error.', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
-          });
-        },
-      },
-    ),
-  );
-  app.use(
-    '/api',
     createProxyMiddleware(
       (pathname: string) => {
         return pathname.match('^/api') && pathname !== '/api/dice-env';
@@ -121,6 +111,7 @@ export const createProxyService = (app: INestApplication) => {
       changeOrigin: !isProd,
     }),
   );
+  return wsProxy;
 };
 
 const replaceApiOrgPath = (p: string) => {
