@@ -21,9 +21,21 @@ export class ProjectManage extends Base {
     await this.page.fill('[id="desc"]', formData.desc ?? '');
   }
 
+  private async selectCluster(env: string) {
+    const selector = `.ant-select:right-of(span:has-text("${env}")) >> nth=0`;
+    await this.page.click(`${selector} >> .ant-select-selection-item`);
+    await this.page.click(`${selector} >> .ant-select-item >> nth=0`);
+  }
+
   async createProject(formData) {
     switch (formData.type) {
       case 'DOP':
+        await this.selectCluster('DEV');
+        await this.selectCluster('TEST');
+        await this.selectCluster('STAGING');
+        await this.selectCluster('PROD');
+        await this.page.fill('text=CPUCore >> input[type="text"]', formData.cpu);
+        await this.page.fill('text=MEMGiB >> input[type="text"]', formData.mem);
         break;
       case 'MSP':
         await this.page.click('text=microservice governance project');
@@ -47,6 +59,11 @@ export class ProjectManage extends Base {
 
   async editProject(formData) {
     await this.clickButton('edit');
+    if (formData.type === 'DOP') {
+      await this.page.click('label:has-text("private project")');
+      await this.page.fill('text=CPUCore >> input[type="text"]', formData.cpu);
+      await this.page.fill('text=MEMGiB >> input[type="text"]', formData.mem);
+    }
     await this.fillDatas(formData);
     await this.clickButton('ok');
     await this.page.waitForEvent('requestfinished');

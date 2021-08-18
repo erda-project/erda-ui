@@ -18,7 +18,7 @@ import AppManage from '../../pages/app-manage';
 const formData = {
   type: 'business app',
   name: `auto-business-app-${Date.now()}`,
-  desc: `auto-business-app-description-${Date.now()}`,
+  desc: `auto-app-description-${Date.now()}`,
   repository: false,
   template: 'none',
 };
@@ -27,6 +27,9 @@ Role('Manager', () => {
   test.describe('create app', () => {
     test.beforeEach(async ({ page, goTo }) => {
       await goTo('createApp');
+    });
+    test.afterEach(async ({ page }) => {
+      await page.close();
     });
     test('business app manage', async ({ page }) => {
       const app = new AppManage(page);
@@ -37,21 +40,51 @@ Role('Manager', () => {
       await page.click('text=Settings');
       await app.editApp();
       await app.deleteApp(formData.name);
-      await page.close();
     });
     test('mobile app manage', async ({ page }) => {
       const app = new AppManage(page);
+      const name = `auto-mobile-app-${Date.now()}`;
       await app.createApp({
         ...formData,
+        name,
         type: 'mobile app',
       });
-      await page.click(`text=${formData.name}`);
+      await page.click(`text=${name}`);
       await page.waitForNavigation();
       expect(page.url()).toMatch(/\d+\/repo$/);
       await page.click('text=Settings');
       await app.editApp();
-      await app.deleteApp(formData.name);
-      await page.close();
+      await app.deleteApp(name);
+    });
+    test('project level app manage', async ({ page }) => {
+      const app = new AppManage(page);
+      const name = `auto-project-level-app-${Date.now()}`;
+      await app.createApp({
+        ...formData,
+        name,
+        type: 'project level app',
+      });
+      await page.click(`text=${name}`);
+      await page.waitForNavigation();
+      expect(page.url()).toMatch(/\d+\/repo$/);
+      await page.click('text=Settings');
+      await app.editApp();
+      await app.deleteApp(name);
+    });
+    test.only('library/module app manage', async ({ page }) => {
+      const app = new AppManage(page);
+      const name = `auto-library-module-app-${Date.now()}`;
+      await app.createApp({
+        ...formData,
+        name,
+        type: 'library/module',
+      });
+      await page.click(`text=${name}`);
+      await page.waitForNavigation();
+      expect(page.url()).toMatch(/\d+\/repo$/);
+      await page.click('text=Settings');
+      await app.editApp();
+      await app.deleteApp(name);
     });
   });
 });

@@ -21,6 +21,14 @@ const mspProject = {
   desc: 'this is a msp project description',
 };
 
+const dopProject = {
+  type: 'DOP',
+  displayName: `auto-dop-${Date.now()}`,
+  desc: 'this is a dop project description',
+  cpu: '0',
+  mem: '0',
+};
+
 Role('Manager', () => {
   test.describe('project manage', () => {
     test.beforeEach(async ({ page, goTo }) => {
@@ -30,16 +38,43 @@ Role('Manager', () => {
     test.afterEach(async ({ page }) => {
       await page.close();
     });
-    test('msp project', async ({ page, goTo }) => {
+    test('msp project', async ({ page, expectExist }) => {
       const projectManage = new ProjectManage(page);
       await projectManage.createProject(mspProject);
       const count = await projectManage.searchProject(mspProject.displayName);
       expect(count).toBe(1);
       await projectManage.jumpProject(mspProject.displayName);
+      await expectExist('[aria-label="icon: link1"]', 0);
       mspProject.displayName = `edit-${mspProject.displayName}`;
       await projectManage.editProject(mspProject);
       await projectManage.deleteProject(mspProject.displayName);
       const countAfterDelete = await projectManage.searchProject(mspProject.displayName);
+      expect(countAfterDelete).toBe(0);
+    });
+    test('dop project', async ({ page, expectExist, wait }) => {
+      const projectManage = new ProjectManage(page);
+      await page.click('text=need to configure project cluster resources');
+      await expectExist('text=Configure cluster resources for different environments', 0);
+      await page.click('text=need to configure project cluster resources');
+      await expectExist('text=Configure cluster resources for different environments', 1);
+      await projectManage.createProject(dopProject);
+      const count = await projectManage.searchProject(dopProject.displayName);
+      expect(count).toBe(1);
+      await projectManage.jumpProject(dopProject.displayName);
+      await page.waitForSelector('[aria-label="icon: link1"]');
+      await expectExist('[aria-label="icon: link1"]', 1);
+      await expectExist(`text=${dopProject.cpu} Core`, 1);
+      await expectExist(`text=${dopProject.mem} GiB`, 1);
+      dopProject.displayName = `edit-${dopProject.displayName}`;
+      dopProject.cpu = '0.1';
+      dopProject.mem = '0.1';
+      await projectManage.editProject(dopProject);
+      await wait(2);
+      await expectExist(`text=${dopProject.cpu} Core`, 1);
+      await expectExist(`text=${dopProject.mem} GiB`, 1);
+      await expectExist('text=private project', 1);
+      await projectManage.deleteProject(dopProject.displayName);
+      const countAfterDelete = await projectManage.searchProject(dopProject.displayName);
       expect(countAfterDelete).toBe(0);
     });
   });

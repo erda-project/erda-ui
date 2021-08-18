@@ -18,7 +18,7 @@ import { Role, test } from '../../fixtures';
 const addPipelineName = 'playwright____test____.yml';
 
 Role('Manager', () => {
-  test.only('application pipeline test', async ({ page, expectExist, wait, goTo }) => {
+  test('application pipeline test', async ({ page, expectExist, wait, goTo }) => {
     // Go to https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/pipeline
     await goTo('pipeline');
 

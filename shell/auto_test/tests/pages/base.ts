@@ -35,9 +35,9 @@ export default class Base {
   }
 
   /**
-   * @description 上传文件
-   * @param filePath {string} 文件相对于 erda-ui/shell/ 的路径，
-   * @param selector {string} input 选择器
+   * @description upload file
+   * @param filePath {string} relative path, based on erda-ui/shell/
+   * @param selector {string} input selector
    */
   async uploadFile(filePath: string, selector = '[type="file"]') {
     await this.page.setInputFiles(selector, `${MODULE_PATH}${filePath}`);
