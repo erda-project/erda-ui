@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint-disable no-console */
 import SockJS from 'sockjs-client';
 
 interface IHandlerMap {
@@ -23,13 +24,23 @@ const tryLimit = 6;
 
 export function connect(api: string) {
   if (!api) {
-    throw new Error('ws api cat not be empty');
+    throw new Error('ws api can not be empty');
   }
-  let socket = new SockJS(api);
-  socket.api = api;
+  let socket = new SockJS(api, null, { transports: 'websocket' });
+
+  let timer: NodeJS.Timeout | null = null;
+  const getTimer = () => {
+    return setTimeout(() => {
+      tryTimes += 1;
+      if (tryTimes < tryLimit) {
+        console.log(`try reconnecting ${tryTimes - 1} times`);
+        socket = connect(api);
+      }
+    }, 10000 * tryTimes);
+  };
 
   socket.onopen = () => {
-    clearTimeout(socket.timer);
+    timer && clearTimeout(timer);
   };
 
   socket.onmessage = (e: any) => {
@@ -38,22 +49,16 @@ export function connect(api: string) {
     (handlerMap[data.type] || []).forEach((cb) => cb(data));
   };
 
-  socket.reconnect = () => {
-    if (socket.connected) {
+  function reconnect() {
+    if (this.connected) {
       console.log('disconnecting...');
-      socket.close();
+      this.close();
     }
-    socket.timer = setTimeout(() => {
-      tryTimes += 1;
-      if (tryTimes < tryLimit) {
-        console.log(`try reconnecting ${tryTimes - 1} times`);
-        socket = connect(socket.api);
-      }
-    }, 10000 * tryTimes);
-  };
+    timer = getTimer();
+  }
 
-  socket.onclose = socket.reconnect;
-  socket.onerror = socket.reconnect;
+  socket.onclose = reconnect;
+  socket.onerror = reconnect;
 
   return socket;
 }
