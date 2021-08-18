@@ -32,7 +32,7 @@ export default async () => {
   }
   const envModules: { [k: string]: string } = {}; // collect modules in .env
   Object.keys(envConfig).forEach((item) => {
-    if (item.endsWith('_DIR') && item !== 'ERDA_DIR') {
+    if (item.endsWith('_DIR')) {
       envModules[item.slice(0, item.indexOf('_DIR')).toLowerCase()] = envConfig[item];
     }
   });
