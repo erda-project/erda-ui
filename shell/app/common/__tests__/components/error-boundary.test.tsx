@@ -15,11 +15,19 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { ErrorBoundary } from 'common';
 import { errorCatcher } from 'common/components/error-boundary';
-import history from 'core/history';
+import { createBrowserHistory } from 'history';
+import { getConfig, setConfig } from 'core/config';
 
 const Something = () => null;
 
 describe('ErrorBoundary', () => {
+  beforeAll(() => {
+    const browserHistory = createBrowserHistory();
+    setConfig('history', browserHistory);
+  });
+  afterAll(() => {
+    setConfig('history', undefined);
+  });
   it('should render if wrapped component throws', () => {
     const wrapper = mount(
       <ErrorBoundary>
@@ -29,6 +37,8 @@ describe('ErrorBoundary', () => {
     const error = new Error('test');
     wrapper.find(Something).simulateError(error);
     wrapper.find('Button').simulate('click');
+    const history = getConfig('history');
+
     expect(history.location.pathname).toBe('/');
   });
   it('errorCatcher should work well', () => {
