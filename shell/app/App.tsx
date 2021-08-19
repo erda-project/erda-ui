@@ -138,11 +138,20 @@ if (oldPipelineReg.test(pathname)) {
 }
 
 const setSysAdminLocationByAuth = () => {
+  redirectAdminDomain();
   const curPathname = location.pathname;
   const orgName = get(curPathname.split('/'), '[1]');
   const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
   // 系统管理员打开的不是系统管理员页面，跳转到系统管理员页
   !isAdminPage && goTo(goTo.pages.sysAdminOrgs, { orgName: '-', replace: true });
+};
+
+// Temporary handle for v1.2: admin need redirect to erda.cloud;
+const redirectAdminDomain = () => {
+  const curHost = location.host;
+  if (curHost.endsWith('.erda.cloud') || curHost.endsWith('.app.terminus.io')) {
+    location.href = 'https://erda.cloud/';
+  }
 };
 
 const init = (userData: ILoginUser) => {
@@ -154,30 +163,32 @@ const init = (userData: ILoginUser) => {
     history.replace(lastPath);
   }
 
-  // step2: get user joined orgs
-  getJoinedOrgs()
-    .then((orgResult: Obj) => {
-      const orgs = orgResult?.data?.list || [];
-      if (location.pathname === '/') {
-        // replace to default org
-        const defaultOrgPath = `/${orgs?.[0]?.name || '-'}`;
-        history.replace(defaultOrgPath);
-      }
-      return orgs;
-    })
-    .then((orgs: ORG.IOrg[]) => {
-      // step3: get user isSysAdmin
-      getResourcePermissions({ scope: 'sys', scopeID: '0' }).then((result: Obj) => {
-        if (result.success) {
-          if (!result.data.access) {
-            start({ ...userData }, orgs);
-          } else {
-            // 验证系统管理员相关路由
-            setSysAdminLocationByAuth();
-            setGlobal('erdaInfo.isSysAdmin', true);
-            start({ ...userData, isSysAdmin: true }, orgs);
-          }
+  // step2: get user isSysAdmin
+  getResourcePermissions({ scope: 'sys', scopeID: '0' })
+    .then((result: Obj) => {
+      if (result.success) {
+        let data: Obj = {};
+        if (!result.data.access) {
+          data = { ...userData };
+        } else {
+          // 验证系统管理员相关路由
+          setSysAdminLocationByAuth();
+          setGlobal('erdaInfo.isSysAdmin', true);
+          data = { ...userData, isSysAdmin: true };
         }
+        return data;
+      }
+    })
+    .then((perRes: ILoginUser) => {
+      // step3: get user joined orgs
+      getJoinedOrgs().then((orgResult: Obj) => {
+        const orgs = orgResult?.data?.list || [];
+        if (location.pathname === '/') {
+          // replace to default org
+          const defaultOrgPath = `/${orgs?.[0]?.name || '-'}`;
+          history.replace(defaultOrgPath);
+        }
+        start(perRes, orgs);
       });
     });
 };
