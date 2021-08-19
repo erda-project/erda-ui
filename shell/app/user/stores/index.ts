@@ -113,7 +113,8 @@ const userStore = createStore({
       // effects
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-        window.localStorage.setItem(`${loginUser.id}-lastPath`, window.location.href);
+        const lastPath = `${window.location.pathname}${window.location.search}`;
+        window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
         window.location.href = data.url;
       }
     },
@@ -122,7 +123,8 @@ const userStore = createStore({
       setLS('diceLoginState', false);
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-        window.localStorage.setItem(`${loginUser.id}-lastPath`, window.location.href);
+        const lastPath = `${window.location.pathname}${window.location.search}`;
+        window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
         window.location.href = data.url;
       }
     },

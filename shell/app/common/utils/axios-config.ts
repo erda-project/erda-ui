@@ -79,7 +79,8 @@ export const initAxios = () => {
         const data = await axios.get('/api/openapi/login');
         if (data.data && data.data.url) {
           const loginUser = userStore.getState((s) => s.loginUser);
-          window.localStorage.setItem(`${loginUser.id}-lastPath`, window.location.href);
+          const lastPath = `${window.location.pathname}${window.location.search}`;
+          window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
           window.location.href = data.data.url;
         }
       }
