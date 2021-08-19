@@ -39,6 +39,9 @@ const gotoMap = {
   orgProjectList: '/integration/orgCenter/projects',
   orgCreateProject: '/integration/orgCenter/projects/createProject',
   pipeline: '/integration/dop/projects/123/apps/788/pipeline',
+  branches: '/integration/dop/projects/123/apps/788/repo/branches',
+  mergeRequest: '/integration/dop/projects/123/apps/788/repo/mr/open',
+  branchDevelop: '/integration/dop/projects/123/apps/788/repo/tree/develop',
 };
 
 // Extend base test with our fixtures.
