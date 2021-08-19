@@ -190,7 +190,7 @@ const CreationForm = () => {
             itemProps: {
               placeholder: i18n.t('application:please choose'),
               onChange: (v) => {
-                const { form } = formRef;
+                const form = formRef.current;
                 // 选择模板后，只能使用内置仓库
                 if (v !== '-1') {
                   collectionRepoTemp(repoType);
