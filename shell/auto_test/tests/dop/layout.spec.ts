@@ -19,7 +19,7 @@ Role('Manager', () => {
     await page.goto('https://erda.hkci.terminus.io/integration');
 
     // Click [aria-label="icon: appstore"]
-    await page.click('[aria-label="icon: appstore"]');
+    await page.click('[name="appstore"]');
 
     await expectExist('a:has-text("DevOps platform")', 1);
     await expectExist('a:has-text("Microservice platform")', 1);
