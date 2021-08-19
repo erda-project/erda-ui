@@ -42,9 +42,9 @@ const createRequest = async (page, wait, expectExist, title) => {
 };
 const now = Date.now();
 Role('Manager', () => {
-  test.only('create branch', async ({ page, wait, expectRequestSuccess }) => {
+  test.only('create branch', async ({ page, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
-    await page.goto('https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/repo/tree/develop');
+    await goTo('branchDevelop');
     await wait(1);
     await page.click('text=new branch');
     await wait(1);
