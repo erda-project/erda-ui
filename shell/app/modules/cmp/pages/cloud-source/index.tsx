@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Card } from 'app/nusi';
+import { Spin, Card } from 'core/nusi';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
 import cloudSourceStore from 'cmp/stores/cloud-source';
@@ -273,7 +273,7 @@ const CloudSource = () => {
                 return (
                   <div className="no-expire-tip">
                     <img src={ts_svg} alt="no-will-expire-resource" />
-                    <div className="color-text-sub">
+                    <div className="text-sub">
                       {i18n.t('cmp:No service expire within {num} days.', {
                         num: expireData.expireDays,
                       })}
@@ -504,7 +504,7 @@ const CloudSource = () => {
     );
   }
   return (
-    <Card className="full-height center-flex-box">
+    <Card className="h-full flex flex-wrap justify-center items-center">
       <Guidance afterSubmit={getResourceInfo} />
     </Card>
   );

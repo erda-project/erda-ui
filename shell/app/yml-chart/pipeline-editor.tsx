@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 // @ts-ignore
 import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';
-import { Spin, Button, message, Radio, Modal } from 'app/nusi';
-import { useUpdate, FileEditor, Icon as CustomIcon } from 'common';
+import { Spin, Button, message, Radio, Modal } from 'core/nusi';
+import { useUpdate, FileEditor, ErdaCustomIcon } from 'common';
 import FileContainer from 'application/common/components/file-container';
 import { NodeType } from './config';
 import { externalKey } from './chart';
@@ -287,28 +287,28 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
       >
         <Radio.Button value={ViewType.graphic}>
-          <CustomIcon type="lc" />
+          <ErdaCustomIcon opacity={0.4} className="hover mt-0.5" width="20" height="21" fill="black" type="lc" />
         </Radio.Button>
         <Radio.Button value={ViewType.code}>
-          <CustomIcon type="html1" />
+          <ErdaCustomIcon opacity={0.4} className="hover mt-0.5" width="20" height="21" fill="black" type="html1" />
         </Radio.Button>
       </Radio.Group>
       {!editing ? (
-        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml8" size="small">
+        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
           {i18n.t('application:edit')}
         </Button>
       ) : (
-        <div className="px12 py8">
+        <div className="px-3 py-2">
           <Button onClick={onCancel} size="small">
             {i18n.t('cancel')}
           </Button>
-          <Button onClick={handleSubmit} type="primary" className="ml8" size="small">
+          <Button onClick={handleSubmit} type="primary" className="ml-2" size="small">
             {i18n.t('save')}
           </Button>
         </div>
@@ -321,7 +321,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   return (
     <div>
       <FileContainer
-        className={`pipeline-yml-editor column-flex-box full-spin-height ${
+        className={`pipeline-yml-editor flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={name}
@@ -357,7 +357,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         visible={!isEmpty(errorMsg)}
         title={
           <div>
-            <CustomIcon type="guanbi-fill" className="color-danger" />
+            <ErdaCustomIcon size="16" type="guanbi-fill" fill="danger-red" />
             {i18n.t('error')}
           </div>
         }

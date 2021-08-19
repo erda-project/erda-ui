@@ -13,10 +13,10 @@
 
 import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import cronstrue from 'cronstrue/i18n';
-import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate } from 'common';
+import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'core/nusi';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate, ErdaCustomIcon } from 'common';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { ColumnProps } from 'core/common/interface';
@@ -463,7 +463,7 @@ const BuildDetail = (props: IProps) => {
   const renderOnceRunBtn = ({ execTitle }: { execTitle: string }) => {
     const { canCancel, canManualRun, canRerun, canRerunFailed } = pipelineButton;
     const paddingEle = (
-      <div className="build-operator mx0">
+      <div className="build-operator mx-0">
         <Tooltip title={i18n.t('preparing')}>
           <IconLoading size="20px" strokeWidth={2} style={{ transform: 'translateY(0)' }} spin />
         </Tooltip>
@@ -478,7 +478,10 @@ const BuildDetail = (props: IProps) => {
           <div className="build-operator">
             <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
               <Tooltip title={execTitle}>
-                <CustomIcon
+                <ErdaCustomIcon
+                  opacity={0.4}
+                  size="20"
+                  fill="black"
                   onClick={() => {
                     runBuild();
                   }}
@@ -500,7 +503,7 @@ const BuildDetail = (props: IProps) => {
             >
               <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                 <Tooltip title={i18n.t('application:cancel build')}>
-                  <CustomIcon type="pause" />
+                  <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="pause" />
                 </Tooltip>
               </WithAuth>
             </DeleteConfirm>
@@ -515,7 +518,7 @@ const BuildDetail = (props: IProps) => {
             <IF check={canRerunFailed}>
               {deployAuth.hasAuth ? (
                 <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <CustomIcon type="refresh" />
+                  <ErdaCustomIcon opacity={0.4} size="21" fill="black" type="redo" className="mr-1.5" />
                 </Dropdown>
               ) : (
                 <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
@@ -543,7 +546,7 @@ const BuildDetail = (props: IProps) => {
   };
 
   const setRowClassName = (record: any) => {
-    return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row bold-500';
+    return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row font-medium';
   };
 
   const handleRecordPageChange = (pageNo: number) => {
@@ -576,24 +579,26 @@ const BuildDetail = (props: IProps) => {
       {
         title: `${i18n.t('commit')}ID`,
         dataIndex: 'commit',
-        width: 100,
+        width: 96,
         render: (commitText: string) => <span> {(commitText || '').slice(0, 6)} </span>,
       },
       {
         title: i18n.t('status'),
         dataIndex: 'status',
-        width: 100,
+        width: 120,
         render: (status: string) => (
-          <span>
-            <span className="nowrap">{ciStatusMap[status].text}</span>
-            <Badge className="ml4" status={ciStatusMap[status].status} />
-          </span>
+          <Tooltip title={ciStatusMap[status].text}>
+            <span>
+              <span className="nowrap">{ciStatusMap[status].text}</span>
+              <Badge className="ml-1" status={ciStatusMap[status].status} />
+            </span>
+          </Tooltip>
         ),
       },
       {
         title: i18n.t('application:executor'),
         dataIndex: ['extra', 'runUser', 'name'],
-        width: 100,
+        width: 120,
         align: 'center',
       },
       {
@@ -621,7 +626,7 @@ const BuildDetail = (props: IProps) => {
             });
           }}
         >
-          <CustomIcon type="shuaxin" />
+          <ErdaCustomIcon className="hover" size="16" type="shuaxin" />
           {i18n.t('fetch latest records')}
         </div>
         <Table
@@ -664,7 +669,7 @@ const BuildDetail = (props: IProps) => {
         <div className="info">
           <div className="info-header">
             <div>
-              <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+              <span className="font-medium title">{i18n.t('application:build detail')}</span>
               <span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>
                 {i18n.t('historical build')}
               </span>
@@ -676,7 +681,7 @@ const BuildDetail = (props: IProps) => {
                 content={renderBuildHistory()}
                 arrowPointAtCenter
               >
-                <CustomIcon type="jsjl" />
+                <ErdaCustomIcon opacity={0.4} fill="black" size="20" type="jsjl" className="mb-2 mr-1 cursor-pointer" />
               </Popover>
               {renderRunBtn()}
             </div>
@@ -686,8 +691,8 @@ const BuildDetail = (props: IProps) => {
               message={i18n.t(
                 'application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
               )}
-              className="mt4"
-              type="normal"
+              className="mt-1"
+              type="info"
               showIcon
             />
           ) : null}
@@ -696,7 +701,7 @@ const BuildDetail = (props: IProps) => {
               <Row>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('submitter')}：</div>
-                  <Avatar name={commitDetail.author} showName className="mb4" size={20} />
+                  <Avatar name={commitDetail.author} showName className="mb-1" size={20} />
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('application:commit message')}：</div>
@@ -742,13 +747,13 @@ const BuildDetail = (props: IProps) => {
                 )}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                {!isExpand ? <IconDown size="18px" className="mr0" /> : <IconUp size="18px" className="mr0" />}
+                {!isExpand ? <IconDown size="18px" className="mr-0" /> : <IconUp size="18px" className="mr-0" />}
               </div>
             </div>
           </div>
           <div>
             {showMessage && showMessage.msg ? (
-              <div className="build-detail-err-msg mb8">
+              <div className="build-detail-err-msg mb-2">
                 <div className="build-err-header">
                   <IconAttention size="18px" className="build-err-icon" />
                   <pre>{showMessage.msg}</pre>

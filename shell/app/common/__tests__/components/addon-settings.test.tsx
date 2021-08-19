@@ -13,13 +13,10 @@
 
 import React from 'react';
 import { AddonSettings, PureAddonSettings } from 'common/components/addon-settings';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import routeInfoStore from 'core/stores/route';
 import { mount } from 'enzyme';
 import agent from 'agent';
 import { act } from 'react-dom/test-utils';
-import { createBrowserHistory } from 'history';
-import { setConfig } from 'core/config';
 
 const insId = 123;
 const routerData = {
@@ -37,8 +34,6 @@ jest.mock('agent');
 describe('addon-settings', () => {
   const fn = jest.fn();
   beforeAll(() => {
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
     routeInfoStore.getState = (fn) => {
       return fn(routerData);
     };
@@ -62,7 +57,6 @@ describe('addon-settings', () => {
     };
   });
   afterAll(() => {
-    setConfig('history', undefined);
     jest.clearAllMocks();
   });
   describe('AddonSettings', () => {

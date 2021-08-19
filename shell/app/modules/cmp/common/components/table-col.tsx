@@ -14,8 +14,8 @@
 import { cutStr } from 'common/utils';
 import i18n from 'i18n';
 import regionData from 'cmp/common/regionData';
-import { Tooltip, Badge } from 'app/nusi';
-import * as React from 'react';
+import { Tooltip, Badge } from 'core/nusi';
+import React from 'react';
 import moment from 'moment';
 import { get } from 'lodash';
 import { statusMap } from 'cmp/pages/cloud-source/config';
@@ -78,7 +78,7 @@ export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', cl
         <div>
           <div>
             <Tooltip title={val}>
-              <div className="for-copy nowrap" data-clipboard-tip="ID" data-clipboard-text={val}>
+              <div className="cursor-copy nowrap" data-clipboard-tip="ID" data-clipboard-text={val}>
                 {val || i18n.t('common:none')}
               </div>
             </Tooltip>

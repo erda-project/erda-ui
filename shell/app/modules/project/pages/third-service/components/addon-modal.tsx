@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { find, isEmpty, cloneDeep, map } from 'lodash';
-import { Button, message, Modal } from 'app/nusi';
+import { Button, message, Modal } from 'core/nusi';
 import React from 'react';
 import InstanceForm from './instance-form';
 import ThirdAddonForm from './third-addon-form';
@@ -89,7 +89,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
       // const kvTableData = pickBy(form2Rest, (v, k) => k.startsWith('_tb_'));
       // const kvTextData = form2Rest['kv-text'];
       if (isCustom) {
-        const configs = this.edit.current.getEditData();
+        const configs = this.edit.current?.getEditData();
         if (isEmpty(configs)) {
           message.warn(i18n.t('parameter cannot be empty'));
           return;
@@ -289,7 +289,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         footer={null}
         wrapClassName="third-addon-modal"
       >
-        <div className={step === STEP.FIRST && !editData ? 'show' : 'hide'}>
+        <div className={step === STEP.FIRST && !editData ? 'block' : 'hidden'}>
           <ThirdAddonForm
             ref={this.thirdFormRef}
             category={this.props.category}
@@ -302,7 +302,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             configKV={this.configKV}
           />
         </div>
-        <div className={step === STEP.SECOND || editData ? 'show' : 'hide'}>
+        <div className={step === STEP.SECOND || editData ? 'block' : 'hidden'}>
           <InstanceForm
             ref={this.instanceFormRef}
             category={this.props.category}

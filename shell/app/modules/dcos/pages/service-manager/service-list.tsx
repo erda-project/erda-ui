@@ -11,18 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Tooltip, Badge } from 'app/nusi';
+import { Table, Tooltip, Badge } from 'core/nusi';
 import i18n from 'i18n';
 import { Copy, Icon as CustomIcon, IF } from 'common';
 import { get, set, remove, round } from 'lodash';
 import { getFormatter } from 'charts/utils/formatter';
-import * as React from 'react';
+import React from 'react';
 import { getBrowserInfo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import { useInstanceOperation } from 'app/modules/cmp/common/components/instance-operation';
 import './service-list.scss';
 
-export const statusConfig = {
+const statusConfig = {
   Unknown: { text: i18n.t('dcos:unknown'), state: 'warning' },
   CONTAINER: {
     Stopped: { text: i18n.t('dcos:ready'), state: 'error' },
@@ -54,11 +54,11 @@ const compareClass = (rate: number) => {
     // 超过百分百
     return 'color-crash';
   } else if (rate > 60 && rate < 80) {
-    return 'color-warning';
+    return 'text-warning';
   } else if (rate >= 80) {
-    return 'color-danger';
+    return 'text-danger';
   }
-  return 'color-success';
+  return 'text-success';
 };
 
 const countPercent = (used: number, total: number) => {
@@ -71,7 +71,7 @@ const getImageText = (text: string) => {
   const headTxt = text.substr(0, 5);
   const tailTxt = text.substr(5);
   return (
-    <div className="image-txt-container">
+    <div className="image-txt-container truncate">
       <span className="head">{headTxt}</span>
       <span className={`tail nowrap ${getBrowserInfo().isSafari ? 'hack-safari' : ''}`}>{tailTxt}</span>
     </div>
@@ -178,7 +178,7 @@ function ServiceList({
         key: 'id',
         // width: 320,
         render: (text: string, record: any) => (
-          <span className="bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
+          <span className="font-bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
             <CustomIcon type={iconMap[depth]} />
             {record.name}
           </span>
@@ -188,7 +188,7 @@ function ServiceList({
         title: i18n.t('org:number of instance'),
         dataIndex: 'instance',
         key: 'instance',
-        width: 100,
+        width: 176,
       },
       {
         title: 'CPU',
@@ -269,7 +269,7 @@ function ServiceList({
       {
         title: 'IP',
         key: 'ip_addr',
-        // width: 120,
+        width: 120,
         sorter: (a: any, b: any) =>
           Number((a.ip_addr || a.ipAddress || '').replace(/\./g, '')) -
           Number((b.ip_addr || b.ipAddress || '').replace(/\./g, '')),
@@ -310,7 +310,7 @@ function ServiceList({
         title: 'CPU',
         dataIndex: 'cpu',
         key: 'cpu',
-        width: 125,
+        width: 120,
         sorter: (a: any, b: any) => {
           if (!haveMetrics) return Number(a.cpu) - Number(b.cpu);
           const use_a = getMetricsInfo(a, 'cpuUsagePercent') || 0;
@@ -329,7 +329,7 @@ function ServiceList({
         title: i18n.t('memory'),
         dataIndex: 'memory',
         key: 'memory',
-        width: 125,
+        width: 120,
         sorter: (a: any, b: any) => {
           if (!haveMetrics) return Number(a.memory) - Number(b.memory);
           const use_a = getMetricsInfo(a, 'memUsage') || 0;
@@ -347,7 +347,7 @@ function ServiceList({
         title: i18n.t('disk'),
         dataIndex: 'disk',
         key: 'disk',
-        width: 125,
+        width: 120,
         sorter: (a: any, b: any) => Number(a.disk) - Number(b.disk),
         render: (size: number) => getFormatter('STORAGE', 'MB').format(size),
       },
@@ -393,7 +393,7 @@ function ServiceList({
         pagination={false}
         columns={cols as Array<ColumnProps<any>>}
         dataSource={list}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1100 }}
       />
       <Copy selector=".for-copy-image" />
       {drawer}

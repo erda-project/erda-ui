@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { PureLogRoller, useUpdate } from 'common';
 import { regLog } from 'common/components/log/log-util';
 import AnsiUp from 'ansi_up';
@@ -33,7 +33,7 @@ export const LogItem = ({ log }: { log: COMMON.LogItem }) => {
     showContent = `[${serviceName}] --- ${content.split(parent).join('')}`;
   }
 
-  const reContent = AU.ansi_to_html(showContent);
+  const reContent = AU.ansi_to_html(showContent).replace(/&quot;/g, '"');
   return (
     <div className="log-insight-item">
       <span className="log-item-logtime">{time}</span>

@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Tabs, Button, Table, Alert, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Tabs, Button, Table, Alert, Tooltip } from 'core/nusi';
 import { useUpdate, FormModal } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
@@ -121,7 +121,7 @@ const Group = () => {
               <li>2. {i18n.t('dcos:Group-ID-TCP-HTTP')}</li>
             </ul>
           }
-          type="normal"
+          type="info"
         />
       ),
     },
@@ -222,8 +222,8 @@ const Group = () => {
 
   return (
     <div>
-      <div className="text-right mb12">
-        <Button type="primary" onClick={() => updater.formVisible(true)} className="mr8">
+      <div className="text-right mb-3">
+        <Button type="primary" onClick={() => updater.formVisible(true)} className="mr-2">
           {i18n.t('dcos:create Group ID')}
         </Button>
         <Button type="primary" disabled={setTagDisabled} onClick={() => updater.tagFormVis(true)}>

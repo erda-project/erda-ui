@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Pagination, Spin, Select } from 'app/nusi';
+import { Pagination, Spin, Select } from 'core/nusi';
 import { map, get } from 'lodash';
 import { EmptyListHolder, EmptyHolder, IF, useUpdate, DebounceSearch } from 'common';
 import { updateSearch } from 'common/utils';
@@ -99,11 +99,11 @@ const ReleaseList = () => {
   const releaseId = get(list, `[${chosenPos}].releaseId`) || ('' as string);
   return (
     <div className="release-list-container">
-      <div className="release-list-page v-flex-box">
+      <div className="release-list-page flex flex-col h-full">
         <IF check={appDetail.isProjectLevel}>
           <AppSelector
             projectId={`${projectId}`}
-            className="mb8 mx16"
+            className="mb-2 mx-4"
             allowClear
             onChange={(_appId: number) => {
               update({
@@ -115,7 +115,7 @@ const ReleaseList = () => {
           />
         </IF>
         <Select
-          className="mb8 mx16"
+          className="mb-2 mx-4"
           value={queryObj?.branchName}
           onChange={(v: any) => updater.queryObj({ ...queryObj, branchName: v })}
           placeholder={i18n.t('filter by {name}', { name: i18n.t('application:branch') })}
@@ -127,9 +127,9 @@ const ReleaseList = () => {
             </Option>
           ))}
         </Select>
-        <div className="mb8 mx16">
+        <div className="mb-2 mx-4">
           <DebounceSearch
-            className="full-width"
+            className="w-full"
             value={queryObj?.q}
             placeholder={i18n.t('search by keywords')}
             onChange={(v: string) => {
@@ -140,7 +140,7 @@ const ReleaseList = () => {
             }}
           />
         </div>
-        <Spin spinning={loading} wrapperClassName="flex-1 auto-overflow">
+        <Spin spinning={loading} wrapperClassName="flex-1 overflow-auto">
           {map(list, (item, index) => (
             <ReleaseItem
               data={item}

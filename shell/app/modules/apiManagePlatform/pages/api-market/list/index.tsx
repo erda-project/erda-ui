@@ -16,7 +16,7 @@ import { useDebounce, useUnmount } from 'react-use';
 import { CustomFilter, TableActions, UserInfo, useUpdate } from 'common';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { Input, Button, Table } from 'app/nusi';
+import { Input, Button, Table, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';
@@ -154,6 +154,7 @@ const ApiMarketList = () => {
     {
       title: i18n.t('API name'),
       dataIndex: ['asset', 'assetName'],
+      width: 240,
     },
     {
       title: i18n.t('API description'),
@@ -162,23 +163,30 @@ const ApiMarketList = () => {
     {
       title: 'API ID',
       dataIndex: ['asset', 'assetID'],
+      width: 200,
     },
     {
       title: i18n.t('update time'),
       dataIndex: ['asset', 'updatedAt'],
-      width: 180,
+      width: 200,
       render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('creator'),
       dataIndex: ['asset', 'creatorID'],
-      width: 180,
-      render: (text) => <UserInfo id={text} />,
+      width: 160,
+      render: (text) => (
+        <Tooltip title={<UserInfo id={text} />}>
+          <UserInfo id={text} />
+          <></>
+        </Tooltip>
+      ),
     },
     {
       title: i18n.t('operation'),
       dataIndex: 'permission',
-      width: 200,
+      width: 280,
+      fixed: 'right',
       render: ({ manage, addVersion, hasAccess }: API_MARKET.AssetPermission, { asset }) => {
         return (
           <TableActions>
@@ -245,7 +253,7 @@ const ApiMarketList = () => {
         }}
         onChange={handleTableChange}
         loading={isFetchList}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1300 }}
       />
       <AssetModal
         visible={state.visible}

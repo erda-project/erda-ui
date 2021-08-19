@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Table, Spin, Button, Tooltip } from 'app/nusi';
+import { Table, Spin, Button, Tooltip } from 'core/nusi';
 import { ColumnProps } from 'core/common/interface';
 import { goTo, fromNow } from 'common/utils';
 import { useEffectOnce } from 'react-use';
@@ -32,7 +32,7 @@ const SplitBox = ({ data }: IBoxProp) => {
         return (
           <div key={String(i)} className="item">
             <div className="count">{item[0]}</div>
-            <div className="fz12">{item[1]}</div>
+            <div className="text-xs">{item[1]}</div>
           </div>
         );
       })}
@@ -60,7 +60,7 @@ export const ProjectList = () => {
         dataIndex: 'displayName',
         key: 'displayName',
         fixed: 'left',
-        width: 150,
+        width: 160,
         ellipsis: {
           showTitle: false,
         },
@@ -70,7 +70,7 @@ export const ProjectList = () => {
         title: i18n.t('org:application/Member Statistics'),
         dataIndex: 'stats',
         key: 'countApplications',
-        width: 140,
+        width: 160,
         render: (stats: PROJECT.ProjectStats) => (
           <SplitBox
             data={[
@@ -121,7 +121,7 @@ export const ProjectList = () => {
         title: i18n.t('latest active'),
         dataIndex: 'activeTime',
         key: 'activeTime',
-        width: 110,
+        width: 120,
         sorter: true,
         render: (text) => (text ? fromNow(text) : i18n.t('none')),
       },
@@ -129,7 +129,7 @@ export const ProjectList = () => {
         title: i18n.t('total CPU allocation'),
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
-        width: 180,
+        width: 200,
         sorter: true,
         render: (text: string) => `${text} Core`,
       },
@@ -144,7 +144,6 @@ export const ProjectList = () => {
       {
         title: <span>CPU / {i18n.t('Memory usage')}</span>,
         dataIndex: 'usage',
-        width: 330,
         key: 'usage',
         render: (t, record: PROJECT.Detail) => {
           const {
@@ -214,18 +213,18 @@ export const ProjectList = () => {
                   </Tooltip>
                 </div>
                 <Tooltip title={i18n.t('usage limit exceeded')}>
-                  <CustomIcon type="warning" className="overuse-tip ml4" />
+                  <CustomIcon type="warning" className="overuse-tip ml-1" />
                 </Tooltip>
               </div>
             );
           };
           return (
             <div style={{ minWidth: '200px' }}>
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <div style={{ width: '40px' }}>CPU:</div>
                 {renderBar(+cpuServiceUsed.toFixed(2), +cpuAddonUsed.toFixed(2), cpuQuota, 'Core')}
               </div>
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <div style={{ width: '40px' }}>MEM:</div>
                 {renderBar(+memServiceUsed.toFixed(2), +memAddonUsed.toFixed(2), memQuota, 'GiB')}
               </div>
@@ -237,9 +236,12 @@ export const ProjectList = () => {
         title: i18n.t('operations'),
         key: 'op',
         dataIndex: 'id',
-        width: 100,
+        width: 120,
         fixed: 'right',
-        render: (id) => {
+        render: (id, record) => {
+          if (record.type === 'MSP') {
+            return null;
+          }
           return (
             <div className="table-operations">
               <span
@@ -284,7 +286,7 @@ export const ProjectList = () => {
             rowKey="id"
             dataSource={list}
             columns={getColumns()}
-            rowClassName={() => 'pointer'}
+            rowClassName={() => 'cursor-pointer'}
             onRow={(record: any) => {
               return {
                 onClick: () => {
@@ -298,7 +300,7 @@ export const ProjectList = () => {
               total,
             }}
             onChange={handleTableChange}
-            scroll={{ x: '100%' }}
+            scroll={{ x: 1900 }}
           />
         </SearchTable>
       </Spin>

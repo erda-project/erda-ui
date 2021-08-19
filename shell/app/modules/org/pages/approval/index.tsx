@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Select, Tooltip } from 'core/nusi';
 import { useUpdate, CRUDTable } from 'common';
 import { map, get, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
@@ -201,7 +201,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
                 {name}
               </Option>
             )),
-            className: 'default-selector-width',
+            className: 'w-52',
             allowClear: true,
             onChange: (val: any) => updater.status(val),
           },

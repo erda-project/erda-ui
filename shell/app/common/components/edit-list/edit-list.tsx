@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Input, Select, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Button, Input, Select, Tooltip } from 'core/nusi';
 import { useUpdate, InputSelect, Icon as CustomIcon } from 'common';
 import { produce } from 'immer';
 import i18n from 'i18n';
@@ -237,8 +237,8 @@ const EditList = (props: IELProps) => {
           />
         ))}
       </div>
-      {validTip ? <div className="pa8 color-red">{validTip}</div> : null}
-      <div className="edit-list-bottom mt4">
+      {validTip ? <div className="p-2 text-red">{validTip}</div> : null}
+      <div className="edit-list-bottom mt-1">
         {disabled ? (
           <Button className="not-allowed" size="small">
             {i18n.t('common:add')}
@@ -252,8 +252,8 @@ const EditList = (props: IELProps) => {
           // autoSave ? null : (
           //   changed ? (
           //     <>
-          //       <Button size='small' className='ml8' onClick={cancelEdit}>取消</Button>
-          //       <Button size='small' type='primary' className='ml8' onClick={onSave} disabled={!!validTip}>保存</Button>
+          //       <Button size='small' className='ml-2' onClick={cancelEdit}>取消</Button>
+          //       <Button size='small' type='primary' className='ml-2' onClick={onSave} disabled={!!validTip}>保存</Button>
           //     </>
           //   ) : null
           // )
@@ -389,10 +389,10 @@ const RenderItem = (props: IRenderItem) => {
     case 'custom':
       Comp =
         isTitle && titleTip ? (
-          <div className="left-flex-box">
+          <div className="flex items-center flex-wrap justify-start">
             {curVal}
             <Tooltip title={titleTip}>
-              <CustomIcon type="help" className="ml4 fz14" />
+              <CustomIcon type="help" className="ml-1 text-sm" />
             </Tooltip>
           </div>
         ) : (
@@ -403,7 +403,7 @@ const RenderItem = (props: IRenderItem) => {
       Comp = (
         <Select
           value={curVal}
-          className={'edit-list-select full-width'}
+          className={'edit-list-select w-full'}
           getPopupContainer={() => document.body}
           onChange={(v: any) => {
             updateItem(v);
@@ -440,7 +440,7 @@ const RenderItem = (props: IRenderItem) => {
     case 'textarea':
       Comp = (
         <textarea
-          className="full-width ant-input edit-list-item-textarea"
+          className="w-full ant-input edit-list-item-textarea"
           ref={ref}
           required={required}
           disabled={disabled}
@@ -459,7 +459,7 @@ const RenderItem = (props: IRenderItem) => {
   return (
     <div style={style} className={`${cls} ${itemCls} edit-list-item`}>
       {Comp}
-      {/* {validTip ? <div className='pa8 color-red'>{validTip}</div> : null} */}
+      {/* {validTip ? <div className='p-2 text-red'>{validTip}</div> : null} */}
     </div>
   );
 };

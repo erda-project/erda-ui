@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Timeline } from 'app/nusi';
+import { Modal, Timeline } from 'core/nusi';
 import { get } from 'lodash';
 import { DetailsPanel, EmptyHolder, UserInfo } from 'common';
 import i18n from 'i18n';
@@ -74,15 +74,15 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
           },
         }}
       />
-      <div className="pa16 record-list">
-        <div className="title fz16 color-text bold-500 mb8">{i18n.t('approval record')}</div>
+      <div className="p-4 record-list">
+        <div className="title text-base text-normal font-medium mb-2">{i18n.t('approval record')}</div>
         {records.length ? (
           <Timeline>
             {records.map(({ createdAt, action, creatorID, id }) => {
               return (
                 <TimeLineItem key={id}>
-                  <span className="mr16">{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                  {creatorID ? <span className="mr16">{<UserInfo id={creatorID} />}</span> : null}
+                  <span className="mr-4">{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  {creatorID ? <span className="mr-4">{<UserInfo id={creatorID} />}</span> : null}
                   <span>{action}</span>
                 </TimeLineItem>
               );

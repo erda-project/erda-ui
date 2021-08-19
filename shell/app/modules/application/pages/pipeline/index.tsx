@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { SplitPage } from 'layout/common';
 import { EmptyHolder } from 'common';
 import PipelineDetail from './pipeline-detail';
@@ -21,6 +21,8 @@ import { scopeConfig } from './scope-config';
 import { updateSearch } from 'common/utils';
 import { getINodeByPipelineId } from 'application/services/build';
 import DiceConfigPage from 'app/config-page';
+import { ActionType } from 'yml-chart/common/pipeline-node-drawer';
+import appStore from 'application/stores/application';
 
 import './index.scss';
 
@@ -28,9 +30,9 @@ interface IProps {
   scope: string;
 }
 
-const curScope = 'appPipeline';
-
 const PipelineManage = (props: IProps) => {
+  const appDetail = appStore.useStore((s) => s.detail);
+  const curScope = appDetail.isProjectLevel ? ActionType.projectLevelAppPipeline : ActionType.appPipeline;
   const { scope = curScope } = props;
   const scopeConfigData = scopeConfig[scope];
   const { clearTreeNodeDetail } = fileTreeStore;

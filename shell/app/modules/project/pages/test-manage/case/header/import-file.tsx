@@ -14,7 +14,7 @@
 import { isNumber } from 'lodash';
 import React, { useState } from 'react';
 import i18n from 'i18n';
-import { Button, message } from 'app/nusi';
+import { Button, message } from 'core/nusi';
 
 import { FileSelect, FormModal } from 'common';
 import { useLoading } from 'core/stores/loading';
@@ -78,14 +78,14 @@ const ImportFile = ({ afterImport }: IProps) => {
       >
         <div className="modal-tip">
           1.{i18n.t('project:currently supports importing Xmind and Excel files')}
-          <p className="my12">
+          <p className="my-3">
             &nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}
             <a href="/static/usecase_model.xlsx" className="modal-tip-link">
               {i18n.t('project:download template')}
             </a>
             ；
           </p>
-          <p className="mb12">
+          <p className="mb-3">
             &nbsp;&nbsp;{i18n.t('project:if you want to import with XMind, please')}
             <a href="/static/usecase_model.xmind" className="modal-tip-link">
               {i18n.t('project:download template')}

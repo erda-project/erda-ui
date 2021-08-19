@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelector } from 'common';
 import routeInfoStore from 'core/stores/route';
@@ -26,11 +26,11 @@ export default () => {
   }
 
   return (
-    <div className="service-analyze v-flex-box">
-      <div className="flex-box mb12">
-        <TimeSelector className="ma0" />
+    <div className="service-analyze flex flex-col h-full">
+      <div className="flex justify-between items-center mb-3">
+        <TimeSelector className="m-0" />
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="overflow-auto flex-1">
         <ServiceListDashboard dashboardId="service_analysis" />
       </div>
     </div>

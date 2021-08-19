@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { isEmpty, map, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { TimeSelector, ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';
@@ -135,14 +135,16 @@ const Topology = () => {
   }, [topologyTags, timeSpan]);
 
   React.useEffect(() => {
-    getTopologyTags({ terminusKey: params.terminusKey }).then((res) => {
-      const initialTags = {};
-      res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
-        Object.assign(initialTags, { [item.tag]: [] });
-      });
+    if (params.terminusKey) {
+      getTopologyTags({ terminusKey: params.terminusKey }).then((res) => {
+        const initialTags = {};
+        res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
+          Object.assign(initialTags, { [item.tag]: [] });
+        });
 
-      setFilterTags(initialTags);
-    });
+        setFilterTags(initialTags);
+      });
+    }
   }, [params.terminusKey]);
 
   React.useEffect(() => {
@@ -198,7 +200,7 @@ const Topology = () => {
       <div className="topology-header">
         <div className="left">
           <TimeSelector />
-          <div className="topology-filter mb12">
+          <div className="topology-filter mb-3">
             <ContractiveFilter
               delay={1000}
               values={filterTags}

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, floor } from 'lodash';
-import * as React from 'react';
-import { Spin, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Spin, Tooltip } from 'core/nusi';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import './sort-list.scss';
 
@@ -68,7 +68,7 @@ const SortList = (props: IProps) => {
           <Tooltip key={index} title={name} placement="right" overlayClassName="tooltip-word-break">
             <li
               onClick={() => handleClick(name)}
-              className={`sort-list-item ${isChosen ? 'active' : ''} ${onClickItem === null ? '' : 'pointer'}`}
+              className={`sort-list-item ${isChosen ? 'active' : ''} ${onClickItem === null ? '' : 'cursor-pointer'}`}
               style={background}
             >
               <span className="name">

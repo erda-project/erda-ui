@@ -15,7 +15,7 @@ import { size } from 'lodash';
 import React, { useState, useCallback, useMemo } from 'react';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
-import { Modal, message, Select } from 'app/nusi';
+import { Modal, message, Select } from 'core/nusi';
 import { priorityList } from '../../test-manage/constants';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
@@ -157,7 +157,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
             mode="multiple"
             value={priorityFilter}
             onChange={handleFilter}
-            className="mb16"
+            className="mb-4"
           >
             {priorityList.map((item) => (
               <Option value={item} key={item}>

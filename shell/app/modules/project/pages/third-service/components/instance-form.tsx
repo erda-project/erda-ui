@@ -15,7 +15,7 @@ import { KeyValueEditor, RenderPureForm, useUpdate } from 'common';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import { isEmpty } from 'lodash';
-import { Form } from 'app/nusi';
+import { Form } from 'core/nusi';
 import customAddonStore from 'project/stores/custom-addon';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import {
@@ -66,21 +66,25 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
   const { addonName } = addonProto;
   const isEditMode = !isEmpty(editData);
   React.useEffect(() => {
+    let _mode = MODE_MAP.EXIST;
     if (addonName && !CLOUD_TYPES.includes(addonName)) {
       // 类型不为云Addon时时，只能填自定义变量
-      updater.mode(MODE_MAP.CUSTOM);
+      _mode = MODE_MAP.CUSTOM;
     } else if ([AddonType.AliCloudOss, AddonType.AliCloudRedis].includes(addonName)) {
       // oss和redis默认为新购买
-      updater.mode(MODE_MAP.NEW);
+      _mode = MODE_MAP.NEW;
     }
-  }, [addonName, updater]);
+    updater.mode(_mode);
+    form.setFieldsValue({ mode: _mode });
+  }, [addonName, updater, form]);
 
   React.useEffect(() => {
     const curMode = editData && editData.customAddonType;
     if (curMode !== 'cloud') {
       updater.mode(MODE_MAP.CUSTOM);
+      form.setFieldsValue({ mode: MODE_MAP.CUSTOM });
     }
-  }, [editData, updater]);
+  }, [editData, updater, form]);
 
   React.useEffect(() => {
     if (state.mode === MODE_MAP.EXIST) {
@@ -157,10 +161,10 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
         getComp: () => (
           <>
             <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={edit} />
-            <div className="color-red">
+            <div className="text-red">
               {i18n.t('project:Modifying service parameters will restart all associated applications.')}
             </div>
-            <div className="color-red">{i18n.t('project:op-affect-related-app')}</div>
+            <div className="text-red">{i18n.t('project:op-affect-related-app')}</div>
           </>
         ),
       },
@@ -210,6 +214,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
   const [form] = Form.useForm();
+
   useImperativeHandle(ref, () => ({
     form,
   }));

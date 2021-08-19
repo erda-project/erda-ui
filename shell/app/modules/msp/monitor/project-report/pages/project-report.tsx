@@ -15,7 +15,7 @@ import React, { useEffect } from 'react';
 import { map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import i18n from 'i18n';
-import { DatePicker, Spin, Pagination, Button } from 'app/nusi';
+import { DatePicker, Spin, Pagination, Button } from 'core/nusi';
 import { useUpdate, Holder, useFormModal, Icon as CustomIcon } from 'common';
 import { getTimeRanges } from 'common/utils';
 import projectReportStore from 'msp/stores/project-report';
@@ -171,7 +171,7 @@ const ProjectReport = ({ type }: IProps) => {
           </Button>
         </div>
         <div className="search-table-section">
-          <div className="search-table-header pr20">
+          <div className="search-table-header pr-5">
             <RangePicker onChange={handleRangeChange} ranges={getTimeRanges()} />
           </div>
           <div className="search-table-content">
@@ -182,9 +182,9 @@ const ProjectReport = ({ type }: IProps) => {
                     <li
                       className={classnames({
                         'report-list-item': true,
-                        fz16: true,
-                        pl20: true,
-                        'bold-500': true,
+                        'text-base': true,
+                        'pl-5': true,
+                        'font-medium': true,
                         'text-left': true,
                         'hover-active-bg': true,
                         active: state.activeReportKey === item.key,
@@ -194,7 +194,7 @@ const ProjectReport = ({ type }: IProps) => {
                         handleChangeReport(item.key);
                       }}
                     >
-                      <CustomIcon className="mr8" type="rw" />
+                      <CustomIcon className="mr-2" type="rw" />
                       {type === 'weekly'
                         ? `${item.start.split(' ')[0]}-${item.end.split(' ')[0]}`
                         : `${item.start.split(' ')[0]}`}
@@ -203,7 +203,7 @@ const ProjectReport = ({ type }: IProps) => {
                 </ul>
                 {total && (
                   <Pagination
-                    className="project-report-pagination text-right mt12"
+                    className="project-report-pagination text-right mt-3"
                     simple
                     defaultCurrent={1}
                     total={total}
@@ -215,7 +215,7 @@ const ProjectReport = ({ type }: IProps) => {
           </div>
         </div>
       </div>
-      <div className="project-report-detail pl32">
+      <div className="project-report-detail pl-8">
         <Spin spinning={isFetchingDetail}>
           <Holder when={!state.reportDetail}>
             {/* eslint-disable-next-line react/no-danger */}

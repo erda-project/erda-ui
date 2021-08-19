@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import { getCloudRegion, setCloudResourceTags } from '../services/cloud-common';
 import { getCloudAccounts } from '../services/cloud-accounts';
 import i18n from 'i18n';

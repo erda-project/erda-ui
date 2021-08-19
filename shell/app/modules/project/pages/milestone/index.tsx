@@ -15,8 +15,8 @@ import { useUpdate, ContractiveFilter } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Spin, DatePicker, Button } from 'app/nusi';
-import * as React from 'react';
+import { Spin, DatePicker, Button } from 'core/nusi';
+import React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import issueStore from 'project/stores/issues';
 import routeInfoStore from 'core/stores/route';
@@ -156,7 +156,7 @@ export const Milestone = () => {
   };
   return (
     <div className="project-milestone">
-      <div className="search-container white-bg">
+      <div className="search-container bg-white">
         <DatePicker
           className="milestone-date-picker"
           onPanelChange={rangeFilter}

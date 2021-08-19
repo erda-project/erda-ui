@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Table, Button, Modal, Tooltip, Select } from 'app/nusi';
+import React from 'react';
+import { Table, Button, Modal, Tooltip, Select } from 'core/nusi';
 import { goTo, cutStr, resolvePath } from 'common/utils';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common';
@@ -163,7 +163,7 @@ const Status = () => {
     {
       title: `${i18n.t('msp:response map')}(${i18n.t('msp:nearly 1 hour')})`,
       dataIndex: 'chart',
-      width: 144,
+      width: 160,
       render: (_text: string, record: any) => {
         const { chart } = record;
         if (!chart) {

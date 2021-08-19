@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Spin, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Spin, Tooltip } from 'core/nusi';
 import { LoadMore, EmptyListHolder, Avatar, Icon as CustomIcon, CustomFilter, MemberSelector, useUpdate } from 'common';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
@@ -127,9 +127,9 @@ const RepoMrTable = ({ type }: IProps) => {
               const authorUser = get(userMap, `${item.authorId}`) || {};
               return (
                 <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
-                  <div className="title bold">
+                  <div className="title font-bold">
                     {item.title}
-                    <span className="fz14 desc ml12 bold-400">
+                    <span className="text-sm desc ml-3 font-normal">
                       {item.sourceBranch} <CustomIcon type="arrow-right" />
                       {item.targetBranch}
                     </span>
@@ -138,17 +138,17 @@ const RepoMrTable = ({ type }: IProps) => {
                     {i18n.t('application:assigned user')}：
                     <Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
                   </div>
-                  <div className="sub-title left-flex-box">
-                    <span className="mr4">#{item.mergeId}</span>
-                    <span className="mr24 left-flex-box">
+                  <div className="sub-title flex items-center flex-wrap justify-start">
+                    <span className="mr-1">#{item.mergeId}</span>
+                    <span className="mr-6 flex items-center flex-wrap justify-start">
                       <Tooltip title={curActor.name}>
-                        <Avatar className="mb4 mr4" showName name={curActor.nick} />
+                        <Avatar className="mb-1 mr-1" showName name={curActor.nick} />
                       </Tooltip>
                       &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
                     </span>
                   </div>
-                  <div className="desc left-flex-box">
-                    <span className="mr4">
+                  <div className="desc flex items-center flex-wrap justify-start">
+                    <span className="mr-1">
                       <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
                     </span>
                     <span>

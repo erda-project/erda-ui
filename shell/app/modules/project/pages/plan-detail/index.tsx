@@ -14,7 +14,7 @@
 import { debounce, get } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Tabs, Input, Spin } from 'app/nusi';
+import { Button, Tabs, Input, Spin } from 'core/nusi';
 import { DropdownSelect, Icon as CustomIcon } from 'common';
 import { SplitPage } from 'app/layout/common';
 import TestEnvDrawer from 'project/pages/test-manage/case/test-env-drawer';
@@ -233,8 +233,8 @@ const TestPlanDetail = () => {
               />
             </SplitPage.Left>
             <SplitPage.Right>
-              <div className="flex-box mb12 mt12">
-                <div className="ml12-group">
+              <div className="flex justify-between items-center mb-3 mt-3">
+                <div className="ml-3-group">
                   <DropdownSelect
                     menuList={[
                       { name: i18n.t('project:new'), key: 'add' },
@@ -252,7 +252,7 @@ const TestPlanDetail = () => {
 
                   <BatchProcessing afterDelete={afterDeleteTestCase} />
                 </div>
-                <div className="mr12-group">
+                <div className="mr-3-group">
                   <Input
                     style={{ width: '160px' }}
                     placeholder={i18n.t('project:search for')}

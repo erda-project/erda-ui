@@ -19,7 +19,7 @@ import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { FormInstance } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
-import * as React from 'react';
+import React from 'react';
 import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 
 interface IProps {
@@ -44,7 +44,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
       itemProps: {
         min: 1,
         max: 20,
-        className: 'full-width',
+        className: 'w-full',
       },
       extraProps: {
         extra: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
@@ -95,7 +95,7 @@ const MoreForm = ({ form }: { form: FormInstance }) => {
       itemProps: {
         min: 1,
         max: 1024,
-        className: 'full-width',
+        className: 'w-full',
         formatter: (v: string) => `${v}G`,
         parser: (v: string) => v.replace('G', ''),
       },
@@ -110,7 +110,7 @@ const MoreForm = ({ form }: { form: FormInstance }) => {
       initialValue: diskTypeMap.cloud_ssd.value,
       options: getOptions('diskType'),
       itemProps: {
-        className: 'full-width',
+        className: 'w-full',
       },
     },
   ];
@@ -131,7 +131,7 @@ const CloudMachineAddForm = (props: any) => {
             {i18n.t('advanced settings')}
             {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
           </a>
-          <div className={`more-form ${showMore ? '' : 'hide'}`}>
+          <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <MoreForm form={form} />
           </div>
         </div>

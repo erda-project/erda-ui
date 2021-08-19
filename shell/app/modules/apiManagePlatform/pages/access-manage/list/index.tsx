@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Popconfirm, Spin, Button, Input } from 'app/nusi';
+import { Table, Popconfirm, Spin, Button, Input } from 'core/nusi';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
@@ -76,6 +76,7 @@ const AccessList = () => {
     {
       title: i18n.t('number of versions'),
       dataIndex: 'totalChildren',
+      width: 160,
     },
   ];
   const subColumns: Array<ColumnProps<API_ACCESS.ITableSubAccess>> = [
@@ -86,16 +87,19 @@ const AccessList = () => {
     {
       title: i18n.t('number of related clients'),
       dataIndex: 'appCount',
+      width: 200,
     },
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
+      width: 176,
       render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('operation'),
       dataIndex: 'permission',
       width: 120,
+      fixed: 'right',
       render: ({ edit, delete: canDelete }: API_ACCESS.AccessPermission, record) => {
         return (
           <TableActions>
@@ -137,7 +141,7 @@ const AccessList = () => {
             },
           };
         }}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
     );
   };

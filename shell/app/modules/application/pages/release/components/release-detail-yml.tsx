@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import FileContainer from 'application/common/components/file-container';
 import { IF, FileEditor } from 'common';
 import releaseStore from 'app/modules/application/stores/release';
@@ -33,7 +33,7 @@ const ReleaseDetailYml = ({ releaseId }: IProps) => {
   return (
     <div className="release-detail-page">
       <IF check={yml}>
-        <FileContainer className="mt12" name="dice.yml">
+        <FileContainer className="mt-3" name="dice.yml">
           <FileEditor name="dice.yml" fileExtension="yml" value={yml} readOnly />
         </FileContainer>
       </IF>

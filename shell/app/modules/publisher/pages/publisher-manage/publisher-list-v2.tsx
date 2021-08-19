@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Input, Spin, Button, Table } from 'app/nusi';
+import React from 'react';
+import { Input, Spin, Button, Table } from 'core/nusi';
 import { useDebounce, useUnmount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { connectCube, useUpdate, CustomFilter } from 'common';
@@ -120,6 +120,7 @@ export const PurePublisherList = ({
     {
       title: i18n.t('publisher:publisher content name'),
       dataIndex: 'name',
+      width: 240,
     },
     {
       title: i18n.t('description'),
@@ -128,7 +129,7 @@ export const PurePublisherList = ({
     ...insertWhen<ColumnProps<PUBLISHER.IPublisher>>(mode === 'LIBRARY', [
       {
         title: i18n.t('publisher:version number'),
-        width: 150,
+        width: 160,
         dataIndex: 'latestVersion',
         render: (text) => text || '-',
       },
@@ -141,7 +142,7 @@ export const PurePublisherList = ({
     ]),
     {
       title: i18n.t('default:status'),
-      width: 100,
+      width: 120,
       dataIndex: 'public',
       render: (bool) => {
         return (
@@ -199,7 +200,7 @@ export const PurePublisherList = ({
             ...paging,
             onChange: handlePageChange,
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
         <ArtifactsFormModal visible={formVisible} onCancel={closeFormModal} afterSubmit={afterSubmitAction} />
       </div>

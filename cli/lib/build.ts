@@ -176,7 +176,7 @@ const buildModules = async (
             ...process.env,
             isOnline,
             enableSourceMap: enableSourceMap.toString(),
-            dataEngineerInfo: JSON.stringify(dataEngineerInfo),
+            dataEngineerInfo: JSON.stringify(dataEngineerInfo || {}),
           },
           cwd: moduleDir,
         },
@@ -282,7 +282,7 @@ const restoreFromDockerImage = async (
   }
   // copy built content from container
   const publicDir = getPublicDir();
-  await asyncExec(`docker cp erda-ui-for-build:/usr/share/nginx/html/. ${publicDir}/`);
+  await asyncExec(`docker cp erda-ui-for-build:/usr/src/app/public/. ${publicDir}/`);
   logSuccess('finished copy image content to local');
   // delete rebuilt module folders
   rebuildList.forEach((module) => {
@@ -395,13 +395,7 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
       localIcon();
     }
 
-    externalModules.forEach(({ nginx, env }) => {
-      if (nginx) {
-        const nginxPath = path.resolve(process.cwd(), 'nginx.conf.template');
-        const nginxContent = fs.readFileSync(nginxPath).toString('utf8').split(EOL);
-        nginxContent.splice(-1, 0, nginx);
-        fs.writeFileSync(nginxPath, nginxContent.join(EOL));
-      }
+    externalModules.forEach(({ env }) => {
       if (env && online) {
         const erdaYmlPath = path.resolve(process.cwd(), 'erda.yml');
         const ymlContent = YAML.parse(fs.readFileSync(erdaYmlPath).toString('utf8'));

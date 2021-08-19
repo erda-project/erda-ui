@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Select } from 'app/nusi';
+import { Select } from 'core/nusi';
 import { priorityList } from 'project/pages/test-manage/constants';
 import { Avatar, UserInfo } from 'common';
 import moment from 'moment';
@@ -33,8 +33,8 @@ interface IProps {
 const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
   return (
     <div onBlurCapture={onBlurCapture}>
-      <p className="color-text-desc my0">{i18n.t('project:priority')}</p>
-      <div className="mt8 mb20">
+      <p className="text-desc my-0">{i18n.t('project:priority')}</p>
+      <div className="mt-2 mb-5">
         <Select
           style={{ width: '100%' }}
           value={dataSource.priority}
@@ -47,16 +47,16 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           ))}
         </Select>
       </div>
-      <p className="color-text-desc my0">{i18n.t('project:creator')}</p>
-      <p className="mt8 mb20">
+      <p className="text-desc my-0">{i18n.t('project:creator')}</p>
+      <p className="mt-2 mb-5">
         <Avatar
           showName
           name={<UserInfo id={dataSource.creatorID} render={(data) => data.nick || data.name} />}
           size={28}
         />
       </p>
-      <p className="color-text-desc my0">{i18n.t('create time')}</p>
-      <p className="mt8 mb20">
+      <p className="text-desc my-0">{i18n.t('create time')}</p>
+      <p className="mt-2 mb-5">
         {dataSource.createdAt ? moment(dataSource.createdAt).format('YYYY-MM-DD HH:mm:ss') : ''}
       </p>
     </div>

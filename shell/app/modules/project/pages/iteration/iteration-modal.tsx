@@ -16,8 +16,8 @@ import { FormModal, useUpdate } from 'common';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import moment, { Moment } from 'moment';
-import { RangePicker } from 'app/nusi';
-import * as React from 'react';
+import { RangePicker } from 'core/nusi';
+import React from 'react';
 
 interface IProps {
   visible: boolean;

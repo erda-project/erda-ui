@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Icon as CustomIcon, DeleteConfirm, Avatar, IF, MenuPopover } from 'common';
+import React from 'react';
+import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaCustomIcon } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
-import { Spin, Tooltip, Alert } from 'app/nusi';
+import { Spin, Tooltip, Alert } from 'core/nusi';
 import HealthPoint from 'project/common/components/health-point';
 import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
@@ -145,12 +145,12 @@ const RuntimeBox = (props: IProps) => {
 
   if (fakeRuntime) {
     return (
-      <div className="flex-box runtime-box">
-        <div className="flex-box runtime-box-header">
+      <div className="flex justify-between items-center runtime-box">
+        <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
-            <CustomIcon type="slbb" />
+            <ErdaCustomIcon opacity={0.8} fill="black" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
-              <span className="bold nowrap">{name}</span>
+              <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
         </div>
@@ -161,12 +161,23 @@ const RuntimeBox = (props: IProps) => {
 
   return (
     <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
-      <div className={`flex-box runtime-box ${isWaitApprove ? 'large' : ''}`} onClick={(e) => gotoRuntime(id, e)}>
-        <div className="flex-box runtime-box-header">
+      <div
+        className={`flex justify-between items-center runtime-box ${isWaitApprove ? 'large' : ''}`}
+        onClick={(e) => gotoRuntime(id, e)}
+      >
+        <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
-            <CustomIcon type="slbb" />
+            <ErdaCustomIcon
+              className="mr-1 mt-0.5"
+              opacity={0.85}
+              color="black"
+              fill="black"
+              width="20"
+              height="21"
+              type="slbb"
+            />
             <Tooltip title={name}>
-              <span className="bold nowrap">{name}</span>
+              <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
           <IF
@@ -181,26 +192,31 @@ const RuntimeBox = (props: IProps) => {
         </div>
 
         {releaseId ? (
-          <div>
+          <div className="transform-box">
             <Tooltip title={i18n.t('application:view version information')}>
               <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
-                <CustomIcon type="bb" />
+                <ErdaCustomIcon
+                  opacity={0.8}
+                  className="mr-1 transform-icon"
+                  fill="primary"
+                  width="20"
+                  height="21"
+                  type="bb"
+                />
                 <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
               </span>
             </Tooltip>
           </div>
         ) : null}
-        <div className="flex-box runtime-box-body">
-          <div className="flex-box">
-            <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr4" size={20} />
+        <div className="flex justify-between items-center runtime-box-body">
+          <div className="flex justify-between items-center">
+            <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr-1" size={20} />
             {lastOperatorName || ''}
             <span className="deploy-time">{lastOperateTime ? fromNow(lastOperateTime) : ''}</span>
           </div>
           {['Healthy', 'OK'].includes(status) ? null : <HealthPoint type="runtime" status={status} />}
         </div>
-        {isWaitApprove ? (
-          <Alert message={i18n.t('application:project admin confirming')} type="normal" showIcon />
-        ) : null}
+        {isWaitApprove ? <Alert message={i18n.t('application:project admin confirming')} type="info" showIcon /> : null}
       </div>
     </Spin>
   );

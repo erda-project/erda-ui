@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { get } from 'lodash';
-import { Table, Button, Popconfirm, Select, Tooltip } from 'app/nusi';
+import { Table, Button, Popconfirm, Select, Tooltip } from 'core/nusi';
 import { WithAuth, usePerm } from 'user/common';
 import { fromNow, setApiWithOrg } from 'common/utils';
 import { Copy, FormModal } from 'common';
@@ -45,7 +45,7 @@ export default function BackupManagement() {
       width: 150,
       dataIndex: 'commitId',
       render: (commitId: string) => (
-        <span className="for-copy" data-clipboard-text={commitId}>
+        <span className="cursor-copy" data-clipboard-text={commitId}>
           {commitId}
         </span>
       ),
@@ -174,7 +174,7 @@ export default function BackupManagement() {
 
   return (
     <div>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <div className="top-button-group">
         <WithAuth pass={newBackupAuth}>
           <Tooltip

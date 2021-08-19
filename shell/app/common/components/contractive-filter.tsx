@@ -12,13 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'app/nusi';
-import { Icon as CustomIcon, MemberSelector } from 'common';
+import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'core/nusi';
+import { MemberSelector, ErdaCustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
 import { debounce, isEmpty, isArray, map, max, sortBy, isString, has } from 'lodash';
 import i18n from 'i18n';
+import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck, Plus as IconPlus } from '@icon-park/react';
 
 interface Option {
   label: string;
@@ -93,9 +94,9 @@ const OptionItem = (props: IOptionItemProps) => {
       key={option.value}
       onClick={() => onClick(option)}
     >
-      <div className="flex-box full-width">
+      <div className="flex justify-between items-center w-full">
         <span>{option.label}</span>
-        <span>{value.includes(option.value) ? <CustomIcon type="duigou" className="color-success ml8" /> : null}</span>
+        <span>{value.includes(option.value) ? <IconCheck className="text-success ml-2" /> : null}</span>
       </div>
     </div>
   );
@@ -138,7 +139,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         size="small"
         allowClear
         // ref={inputRef}
-        prefix={<CustomIcon type="search" />}
+        prefix={<IconSearch size="16" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
@@ -168,7 +169,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               autoFocus
               size="small"
               placeholder={i18n.t('common:search')}
-              prefix={<CustomIcon type="search" />}
+              prefix={<IconSearch size="16" />}
               value={filterMap[key]}
               onChange={(e) => {
                 const v = e.target.value;
@@ -185,11 +186,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {!isSigleMode && [
           // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex-box not-select px6 py0 options-item">
+          <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
-            <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
+            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
               {i18n.t('common:clear selected')}
             </span>
           </Menu.Item>,
@@ -199,7 +200,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           ? [
               <Menu.Item key="quick-select-menu-item options-item">
                 <span
-                  className="fake-link flex-box"
+                  className="fake-link flex justify-between items-center"
                   onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
                 >
                   {quickSelect.label}
@@ -208,7 +209,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Divider key="divider3" />,
             ]
           : null}
-        <Menu.Item key="options" className="pa0 options-container options-item">
+        <Menu.Item key="options" className="p-0 options-container options-item">
           {useableOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;
@@ -263,9 +264,9 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         placement="bottomLeft"
       >
         <span className="contractive-filter-item">
-          <span className="color-text-desc mr2">{label}</span>
+          <span className="text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
-          <CustomIcon type="caret-down" />
+          <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
         </span>
       </Dropdown>
     );
@@ -307,7 +308,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
           value={startDate ? moment(startDate) : undefined}
@@ -316,7 +317,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
           placeholder={i18n.t('common:startDate')}
         />
-        <span className="color-text-desc">{i18n.t('common:to')}</span>
+        <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
           size="small"
           value={endDate ? moment(endDate) : undefined}
@@ -351,7 +352,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onVisibleChange(true);
         }}
       >
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="text-desc mr-0.5">{label}</span>
         <MemberSelector
           {...((customProps || {}) as any)}
           onChange={(v) => {
@@ -368,7 +369,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           showSearch={haveFilter}
         />
         {value?.length ? null : <span>{emptyText}</span>}
-        <CustomIcon type="caret-down" />
+        <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
       </span>
     );
   }
@@ -552,16 +553,19 @@ export const ContractiveFilter = ({
     <div className="contractive-filter-bar">
       {showList.map((item) => (
         <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
           onClick={() => {
             setCloseAll(false);
           }}
         >
           {!item.fixed && (
-            <CustomIcon
+            <ErdaCustomIcon
+              fill="shallow-gray"
+              color="shallow-gray"
               className="contractive-filter-item-close"
               type="guanbi-fill"
+              size="16"
               onClick={() => {
                 setConditions(setConditionShowIndex(conditions, item.key, false));
                 if (valueMap[item.key] !== undefined) handelItemChange({ key: item.key, value: undefined });
@@ -580,7 +584,7 @@ export const ContractiveFilter = ({
       ))}
 
       {displayConditionsLen > 0 && (
-        <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
+        <span className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}>
           <Dropdown
             trigger={['click']}
             overlayClassName="contractive-filter-item-dropdown"
@@ -590,7 +594,7 @@ export const ContractiveFilter = ({
                   <Input
                     autoFocus
                     size="small"
-                    prefix={<CustomIcon type="search" />}
+                    prefix={<IconSearch size="16" />}
                     onClick={(e) => e.stopPropagation()}
                     value={hideFilterKey}
                     onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}
@@ -598,8 +602,8 @@ export const ContractiveFilter = ({
                   />
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item className="not-select px6 py0">
-                  <div className="flex-box">
+                <Menu.Item className="not-select px6 py-0">
+                  <div className="flex justify-between items-center">
                     <span>
                       {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
                       {i18n.t('common:items')}
@@ -625,7 +629,7 @@ export const ContractiveFilter = ({
                   };
                   return (
                     <Menu.Item key={key} className="option-item" onClick={handleClick}>
-                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr8" /> {label}
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" /> {label}
                     </Menu.Item>
                   );
                 })}
@@ -634,9 +638,9 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="fz12 mr2 color-text" />
+              <IconPlus fill="rgba(0, 0, 0, 0.8)" className="mr-0.5 mb-1 color-text" />
               <span>{i18n.t('common:filter')}</span>
-              <CustomIcon type="caret-down" />
+              <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
             </span>
           </Dropdown>
         </span>
@@ -644,7 +648,7 @@ export const ContractiveFilter = ({
 
       {inputList.map((item) => (
         <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
           onClick={() => setCloseAll(false)}
         >

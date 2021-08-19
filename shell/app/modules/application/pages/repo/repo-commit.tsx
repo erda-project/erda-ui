@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, isEmpty } from 'lodash';
-import * as React from 'react';
-import { Spin, Button, Timeline, Input } from 'app/nusi';
-import { Copy, Icon as CustomIcon, LoadMore, Holder, Avatar, IF } from 'common';
+import React from 'react';
+import { Spin, Button, Timeline, Input } from 'core/nusi';
+import { Copy, LoadMore, Holder, Avatar, IF, ErdaCustomIcon } from 'common';
 import { fromNow, goTo, replaceEmoji, setLS } from 'common/utils';
 import BranchSelect from './components/branch-select';
 import { RepoBreadcrumb } from './components/repo-breadcrumb';
@@ -32,24 +32,24 @@ const { Item: TimelineItem } = Timeline;
 
 export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.ICommit) => {
   return (
-    <div key={id} className="commit-item flex-box">
+    <div key={id} className="commit-item flex justify-between items-center">
       <div className="commit-left">
-        <div className="commit-title mb8 nowrap">
+        <div className="commit-title mb-2 nowrap">
           <Link to={mergeRepoPathWith(`/commit/${id}`)}>
-            <span className="color-text fz16 hover-active bold">{replaceEmoji(commitMessage)}</span>
+            <span className="text-normal text-base hover-active font-bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
-        <div className="flex-box flex-start">
-          <div className="color-text-sub">
-            <Avatar className="mb4" showName name={author.name} />
+        <div className="flex items-center justify-start">
+          <div className="text-sub">
+            <Avatar className="mb-1" showName name={author.name} />
           </div>
-          <span className="ml4">{i18n.t('committed at')}</span>
-          <span className="color-text-sub ml4">{fromNow(author.when)}</span>
-          <span className="for-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
-            <CustomIcon type="commit" />
+          <span className="ml-1">{i18n.t('committed at')}</span>
+          <span className="text-sub ml-1">{fromNow(author.when)}</span>
+          <span className="cursor-copy commit-sub-sha flex" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
+            <ErdaCustomIcon opacity={0.4} fill="black" size="16" type="commit" />
             <span className="sha-text">{id.slice(0, 6)}</span>
           </span>
-          <Copy selector=".for-copy" />
+          <Copy selector=".cursor-copy" />
         </div>
       </div>
       <div className="commit-right">{renderAsLink('tree', id, <Button>{i18n.t('application:code')}</Button>)}</div>
@@ -113,27 +113,27 @@ const RepoCommit = () => {
   const path = getSplitPathBy(branch.endsWith('/') ? branch : `${branch}/`).after;
   return (
     <div className="repo-commit">
-      <div className="commit-nav mb20">
-        <div className="nav-left flex-box flex-1">
+      <div className="commit-nav mb-5">
+        <div className="nav-left flex justify-between items-center flex-1">
           <BranchSelect
-            className="mr16"
+            className="mr-4"
             {...{ branches, tags, current: branch || tag || '' }}
             onChange={onBranchChange}
           >
             {branch ? (
               <>
                 <span>{i18n.t('application:branch')}:</span>
-                <span className="branch-name bold nowrap">{branch}</span>
+                <span className="branch-name font-bold nowrap">{branch}</span>
               </>
             ) : tag ? (
               <>
                 <span>{i18n.t('application:tag')}:</span>
-                <span className="branch-name bold nowrap">{tag}</span>
+                <span className="branch-name font-bold nowrap">{tag}</span>
               </>
             ) : (
               <>
                 <span>{i18n.t('application:commit')}:</span>
-                <span className="branch-name bold nowrap">{commitId}</span>
+                <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}
             <IconDownOne theme="filled" size="16px" />
@@ -163,7 +163,7 @@ const RepoCommit = () => {
           <Timeline>
             {map(daySplit, (items: [], day) => (
               <TimelineItem key={day}>
-                <div className="day-split">{day}</div>
+                <div className="mb-4 text-normal text-base">{day}</div>
                 <div className="commit-list">{items.map(renderCommitItem)}</div>
               </TimelineItem>
             ))}

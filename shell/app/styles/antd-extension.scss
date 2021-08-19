@@ -117,6 +117,10 @@ $border-style: 1px solid $color-border;
   border-bottom: none;
 }
 
+.ant-form-inline {
+  flex-wrap: nowrap !important;
+}
+
 div.ant-modal-body {
   padding: 16px 20px;
 }
@@ -171,7 +175,6 @@ div.ant-modal-body {
 
 .ant-table-thead > tr > th {
   font-weight: 500;
-  background-color: #f0f0f0;
 }
 
 .dice-layout .pk-table-tbody > tr > td,
@@ -427,5 +430,34 @@ div.ant-table {
 }
 
 .pk-filter .ant-select {
+  width: 100%;
+}
+
+div.ant-progress-inner {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.ant-tooltip {
+  .ant-tooltip-inner {
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .ant-tooltip-arrow {
+    display: none;
+  }
+}
+
+span.ant-tag {
+  line-height: 22px;
+  font-size: 14px;
+}
+
+div.ant-card-body {
+  padding: 12px 16px;
+}
+
+.pk-form-item .ant-select,
+.pk-form-item .ant-cascader-picker {
   width: 100%;
 }

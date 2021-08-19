@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import i18n from 'i18n';
 import { getNotifyGroups, deleteNotifyGroups, createNotifyGroups, updateNotifyGroups } from '../services/notify-group';
 import { PAGINATION } from 'app/constants';

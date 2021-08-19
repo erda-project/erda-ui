@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Button } from 'app/nusi';
+import { Spin, Button } from 'core/nusi';
 import { isEmpty } from 'lodash';
 import { Holder, useUpdate } from 'common';
 import { goTo, setSearch } from 'common/utils';
@@ -114,7 +114,7 @@ const ClusterManage = () => {
       updateCluster({ ...values, credential });
     } else {
       addCluster({ ...restData, credential });
-      if (restData.credentialType === 'proxy' && restData.type === 'k8s') {
+      if (restData.credentialType === 'proxy') {
         setSearch({ autoOpenCmd: true, clusterName: restData.name }, [], true);
       }
     }

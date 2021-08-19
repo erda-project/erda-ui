@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo } from 'common/utils';
-import * as React from 'react';
-import { Button } from 'app/nusi';
+import React from 'react';
+import { Button } from 'core/nusi';
 import { PureAppList } from 'application/common/app-list-protocol';
 import { WithAuth, usePerm } from 'app/user/common';
 import i18n from 'i18n';

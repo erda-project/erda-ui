@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon, useUpdate, LogRoller } from 'common';
 import i18n from 'i18n';
 import { get, map, find, isEmpty } from 'lodash';
@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { ciStatusMap } from 'application/pages/build-detail/config';
 import clusterStore from '../../stores/cluster';
 import './cluster-log.scss';
-import { Drawer, Switch } from 'app/nusi';
+import { Drawer, Switch } from 'core/nusi';
 
 let intervalObj = null as any;
 const StepListComp = ({
@@ -49,7 +49,7 @@ const StepListComp = ({
             className={`one-step ${curStatus} ${activeStep === id ? 'on-active' : ''}`}
             onClick={() => !disabled && clickItem(id)}
           >
-            <div className={`${disabled ? 'not-allowed' : 'pointer'} step-task-item`}>
+            <div className={`${disabled ? 'not-allowed' : 'cursor-pointer'} step-task-item`}>
               <CustomIcon type={status === 'default' ? 'circle' : 'circle-fill'} />
               <span className="step-title">
                 <span className="name">{name}</span>(<span className={'status-text'}>{statusText}</span>)

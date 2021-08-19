@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search } from 'app/nusi';
+import { Search } from 'core/nusi';
 import { TimeSelector, PureBoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -57,8 +57,8 @@ export default () => {
 
   return (
     <div>
-      <div className="mb8 wrap-flex-box">
-        <TimeSelector className="mb0" />
+      <div className="mb-2 flex flex-wrap items-center">
+        <TimeSelector className="mb-0" />
         <Search
           allowClear
           placeholder={i18n.t('msp:search by service name')}

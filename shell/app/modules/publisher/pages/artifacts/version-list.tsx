@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Popconfirm, Timeline, message, Tooltip, Radio, Menu, Dropdown, Popover } from 'app/nusi';
+import React from 'react';
+import { Button, Popconfirm, Timeline, message, Tooltip, Radio, Menu, Dropdown, Popover } from 'core/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
 import { map, isEmpty, get, find } from 'lodash';
 import publisherStore from '../../stores/publisher';
-import { useUpdate, Icon as CustomIcon, Holder, LoadMore, IF } from 'common';
+import { useUpdate, Holder, LoadMore, IF, ErdaCustomIcon } from 'common';
 import VersionFormModal from './version-form-modal';
 import './vsrsion-list.scss';
 import { useLoading } from 'core/stores/loading';
@@ -28,7 +28,7 @@ import GrayFormModal from './gray-form-modal';
 import { ArtifactsTypeMap } from './config';
 import { useUnmount, useMount } from 'react-use';
 import UploadModal from './upload-modal';
-import { Android as IconAndroid, Apple as IconApple } from '@icon-park/react';
+import { Android as IconAndroid, Apple as IconApple, DownOne as IconDownOne } from '@icon-park/react';
 
 const { Item: TimelineItem } = Timeline;
 
@@ -191,7 +191,7 @@ const VersionList = (props: IProps) => {
       if (versionStates === 'beta') {
         content += `:${grayLevelPercent}%`;
       }
-      return <span className="tag-success ml8">({content})</span>;
+      return <span className="tag-success ml-2">({content})</span>;
     } else {
       return null;
     }
@@ -209,13 +209,13 @@ const VersionList = (props: IProps) => {
     <div className="publisher-version-list">
       {
         // 由于后端逻辑问题，3.15先移除此按钮，
-        // mode === ArtifactsTypeMap.MOBILE.value ? <Button type="primary" className="mt8 mb16" ghost onClick={openFormModal}>{i18n.t('publisher:add version')}</Button> : null
+        // mode === ArtifactsTypeMap.MOBILE.value ? <Button type="primary" className="mt-2 mb-4" ghost onClick={openFormModal}>{i18n.t('publisher:add version')}</Button> : null
       }
       {isMobile && (
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <Radio.Group
             buttonStyle="solid"
-            className="mb16"
+            className="mb-4"
             onChange={(e) => {
               updater.curMobileType(e.target.value);
             }}
@@ -240,7 +240,7 @@ const VersionList = (props: IProps) => {
               >
                 <Radio.Button value="h5">
                   H5{curPackageName ? `(${curPackageName})` : null}{' '}
-                  <CustomIcon style={{ lineHeight: 1 }} type="caret-down" />
+                  <IconDownOne theme="filled" style={{ lineHeight: 1 }} size="14" />
                 </Radio.Button>
               </Dropdown>
             ) : (
@@ -263,7 +263,7 @@ const VersionList = (props: IProps) => {
           {map(daySplit, (items: [], day) => {
             return (
               <TimelineItem key={day}>
-                <div className="day-split mb16">{day}</div>
+                <div className="mb-4 text-normal text-base mb-4">{day}</div>
                 <div className="version-day-list">
                   {map(items, (record: PUBLISHER.IVersion) => {
                     const {
@@ -285,23 +285,27 @@ const VersionList = (props: IProps) => {
                     );
                     return (
                       <div key={id} className="version-item">
-                        <div className={`version-number mb12 ${isPublic ? 'on' : 'off'}`}>
-                          <CustomIcon type={isPublic ? 'yuanxingxuanzhongfill' : 'tishi'} />
+                        <div className={`version-number mb-3 ${isPublic ? 'on' : 'off'}`}>
+                          <ErdaCustomIcon
+                            className="mt-1"
+                            size="16"
+                            type={isPublic ? 'yuanxingxuanzhong-fill' : 'tishi'}
+                          />
                           <span className="number">
                             V{version} ({buildId})
                           </span>
                           {versionStateRender(record)}
                         </div>
                         <div className="version-tips">
-                          <CustomIcon type="xm-2" />
+                          <ErdaCustomIcon type="xm-2" size="16" />
                           <span className="text">{appName}</span>
-                          <CustomIcon type="yy-4" />
+                          <ErdaCustomIcon type="yy-4" size="16" />
                           <span className="text">{projectName}</span>
-                          <CustomIcon type="shijian" />
+                          <ErdaCustomIcon type="shijian" size="16" />
                           <span className="text">{createdAt ? moment(createdAt).format('HH:mm:ss') : '-'}</span>
                           {curMobileType === 'ios' && appStoreURL ? (
                             <>
-                              <CustomIcon type="app" />
+                              <ErdaCustomIcon size="16" type="app" />
                               <a
                                 className="nowrap app-store-url"
                                 target="_blank"
@@ -320,7 +324,7 @@ const VersionList = (props: IProps) => {
                                 content={
                                   <div>
                                     {map(_targetMobiles.ios, (n) => (
-                                      <span className="tag-default mr4 mb4" key={n}>
+                                      <span className="tag-default mr-1 mb-1" key={n}>
                                         {n}
                                       </span>
                                     ))}
@@ -337,7 +341,7 @@ const VersionList = (props: IProps) => {
                                 content={
                                   <div>
                                     {map(_targetMobiles.android, (n) => (
-                                      <span className="tag-default mr4 mb4" key={n}>
+                                      <span className="tag-default mr-1 mb-1" key={n}>
                                         {n}
                                       </span>
                                     ))}
@@ -351,11 +355,11 @@ const VersionList = (props: IProps) => {
                             </>
                           )}
                         </div>
-                        <div className="version-op right-flex-box">
+                        <div className="version-op flex items-center flex-wrap justify-end">
                           <IF check={versionStates === 'beta'}>
                             <WithAuth pass={publishOperationAuth}>
                               <Button
-                                className="mr8"
+                                className="mr-2"
                                 onClick={() => {
                                   setGray(record);
                                 }}

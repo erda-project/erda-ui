@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Col, Row } from 'app/nusi';
+import { Col, Row } from 'core/nusi';
 import moment from 'moment';
 
 import testPlanStore from 'project/stores/test-plan';
@@ -56,11 +56,11 @@ const NumberInfo = () => {
   ];
 
   return (
-    <Row gutter={0} type="flex" justify="space-between" className="px16 py12 border-all">
+    <Row gutter={0} type="flex" justify="space-between" className="px-4 py-3 border-all">
       {numInfo.map((info) => (
         <Col span={4} key={info.label}>
-          <div className="color-success fz20 text-center">{info.num || 0}</div>
-          <div className="color-text-desc mt4 text-center">{info.label}</div>
+          <div className="text-success text-xl text-center">{info.num || 0}</div>
+          <div className="text-desc mt-1 text-center">{info.label}</div>
         </Col>
       ))}
     </Row>

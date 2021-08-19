@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
-import { useMount } from 'react-use';
-import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'app/nusi';
+import { useMount, useUnmount } from 'react-use';
+import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'core/nusi';
 import { FormModal, useSwitch, useUpdate } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { FormInstance, ColumnProps } from 'core/common/interface';
@@ -93,6 +93,7 @@ export default ({ scopeType, scopeId }: IProps) => {
   ]);
   const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } =
     alarmStrategyStore.effects;
+  const { clearAlerts } = alarmStrategyStore.reducers;
   const { getNotifyGroups } = notifyGroupStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [modalVisible, openModal, closeModal] = useSwitch(false);
@@ -118,6 +119,10 @@ export default ({ scopeType, scopeId }: IProps) => {
     getAlertTypes();
     getNotifyGroups({ scopeType, scopeId });
     getRoleMap({ scopeType, scopeId });
+  });
+
+  useUnmount(() => {
+    clearAlerts();
   });
 
   // 获取规则枚举
@@ -226,8 +231,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             updater.editingRules(rules);
           }}
         >
-          {map(allRules, ({ alertIndex }) => (
-            <Select.Option key={alertIndex} value={alertIndex}>
+          {map(allRules, ({ alertIndex, id }) => (
+            <Select.Option key={id} value={alertIndex}>
               {allRuleMap[alertIndex]}
             </Select.Option>
           ))}
@@ -258,20 +263,20 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
           {map(functions, (item, index) => (
-            <div className="function-item flex-box" key={item.field}>
+            <div className="function-item flex-div flex items-center" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
-                <span className="field-name mr8 nowrap">{allRuleFieldMap[item.field]}</span>
+                <span className="field-name mr-2 nowrap">{allRuleFieldMap[item.field]}</span>
               </Tooltip>
-              <span className="aggregator mr8">{aggregatorMap[item.aggregator]}</span>
+              <span className="aggregator mr-2">{aggregatorMap[item.aggregator]}</span>
               {/* <Select
-                  className="aggregator mr8"
+                  className="aggregator mr-2"
                   defaultValue={item.aggregator}
                   disabled
                 >
                   {map(aggregatorMap, (name, _key) => (<Select.Option key={_key} value={_key}>{name}</Select.Option>))}
                 </Select> */}
               <Select
-                className="operator mr8"
+                className="operator mr-2"
                 defaultValue={item.operator}
                 onSelect={(value: any) => {
                   handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) });
@@ -331,7 +336,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       required: false,
       getComp: () => (
         <>
-          <div className="opportunity-header mb8">
+          <div className="opportunity-header mb-2">
             <Popover
               placement="bottomLeft"
               trigger="click"
@@ -351,7 +356,7 @@ export default ({ scopeType, scopeId }: IProps) => {
                 </div>
               }
             >
-              <Button className="mr8">{i18n.t('org:type template')}</Button>
+              <Button className="mr-2">{i18n.t('org:type template')}</Button>
             </Popover>
             <Button type="primary" ghost onClick={handleAddEditingRule}>
               {i18n.t('org:add rule')}
@@ -364,7 +369,7 @@ export default ({ scopeType, scopeId }: IProps) => {
             dataSource={state.editingRules}
             columns={columns}
             // table's scroll cannot be used with  select's getPopupContainer
-            // scroll={{ x: '100%' }}
+            scroll={undefined}
           />
         </>
       ),
@@ -404,8 +409,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             dropdownRender={(menu) => (
               <div>
                 {menu}
-                <Divider className="my4" />
-                <div className="fz12 px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <Divider className="my-1" />
+                <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"
@@ -646,10 +651,10 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
         const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
-          <div className="flex-box">
+          <div className="flex-div flex">
             {isEmpty(notifyGroup) ? (
               <Tooltip title={tips}>
-                <span className="color-text-sub">{tips}</span>
+                <span className="text-sub">{tips}</span>
               </Tooltip>
             ) : (
               <ListTargets targets={notifyGroup.targets} roleMap={roleMap} />

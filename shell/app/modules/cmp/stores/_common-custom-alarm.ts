@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { keyBy, map, isEmpty } from 'lodash';
 import * as mspCustomAlarmService from 'msp/monitor/monitor-alarm/services/custom-alarm';
 import * as orgCustomAlarmService from 'app/modules/cmp/services/custom-alarm';

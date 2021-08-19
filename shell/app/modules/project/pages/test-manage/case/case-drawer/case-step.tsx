@@ -14,7 +14,7 @@
 import { Icon as CustomIcon, useListDnD } from 'common';
 import { reorder } from 'common/utils';
 import { map, cloneDeep } from 'lodash';
-import { Input } from 'app/nusi';
+import { Input } from 'core/nusi';
 import React from 'react';
 import i18n from 'i18n';
 import './case-step.scss';
@@ -79,7 +79,7 @@ const CaseSteps = ({ value, onChange }: IProps) => {
   );
 
   if (!steps.length) {
-    return <span className="color-text-holder">{i18n.t('none')}</span>;
+    return <span className="text-holder">{i18n.t('none')}</span>;
   }
 
   return (
@@ -102,7 +102,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
 
   return (
     <div ref={previewRef} key={index} className="case-step case-index-hover">
-      <div className="flex-box step-detail">
+      <div className="flex justify-between items-center step-detail">
         <div ref={dragRef} className="case-index-block">
           <span className={`index-num ${step.invalid === true ? 'error' : ''}`}>{index + 1}</span>
           <CustomIcon className="drag-icon" type="px" />
@@ -116,7 +116,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
         />
         <CustomIcon className="delete-icon hover-active" type="sc1" onClick={() => handleDelete(index)} />
       </div>
-      <div className="flex-box result-detail">
+      <div className="flex justify-between items-center result-detail">
         <TextArea
           autoSize
           placeholder={i18n.t('project:input expected result')}

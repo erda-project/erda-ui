@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { theme } from 'app/themes';
 import { pick, isEmpty, get } from 'lodash';
 import {

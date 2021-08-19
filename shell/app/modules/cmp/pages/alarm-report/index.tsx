@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'core/nusi';
 import { isEmpty, map, find, get } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -30,7 +30,6 @@ import notifyGroupStore from 'application/stores/notify-group';
 import alarmReportStore from '../../stores/alarm-report';
 import { usePerm, WithAuth } from 'user/common';
 import orgStore from 'app/org-home/stores/org';
-import './index.scss';
 
 const { confirm } = Modal;
 
@@ -126,8 +125,8 @@ export default () => {
             dropdownRender={(menu) => (
               <div>
                 {menu}
-                <Divider className="my4" />
-                <div className="fz12 px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <Divider className="my-1" />
+                <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"
@@ -227,10 +226,10 @@ export default () => {
         const targets = get(notifyTarget, 'notifyGroup.targets', []);
         const tip = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
-          <div className="flex-box">
+          <div className="flex">
             {isEmpty(targets) ? (
               <Tooltip title={tip}>
-                <span className="color-text-sub">{tip}</span>
+                <span className="text-sub">{tip}</span>
               </Tooltip>
             ) : (
               <ListTargets roleMap={roleMap} targets={targets} />

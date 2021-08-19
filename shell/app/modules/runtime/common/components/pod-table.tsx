@@ -11,12 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Table, Modal, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Table, Modal, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import runtimeServiceStore from 'runtime/stores/service';
 import { useUpdate } from 'common';
+import { ColumnProps } from 'core/common/interface';
 
 interface IProps {
   runtimeID: number;
@@ -71,28 +72,33 @@ const PodTable = (props: IProps) => {
     });
   };
 
-  const podTableColumn = [
+  const podTableColumn: Array<ColumnProps<RUNTIME_SERVICE.Pod>> = [
     {
       title: i18n.t('runtime:pod IP'),
       dataIndex: 'ipAddress',
+      width: 120,
     },
     {
       title: i18n.t('org:pod instance'),
       dataIndex: 'podName',
+      width: 160,
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('runtime:status'),
       dataIndex: 'phase',
+      width: 80,
     },
     {
       title: i18n.t('org:namespace'),
       dataIndex: 'k8sNamespace',
+      width: 120,
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('runtime:Host IP'),
       dataIndex: 'host',
+      width: 120,
     },
     {
       title: i18n.t('runtime:message content'),
@@ -100,15 +106,16 @@ const PodTable = (props: IProps) => {
     },
     {
       title: i18n.t('create time'),
-      width: 170,
+      width: 176,
       dataIndex: 'startedAt',
       className: 'th-time nowrap',
-      render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text: string) => (moment(text).isValid() ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
       title: i18n.t('application:operation'),
       dataIndex: 'op',
-      width: 60,
+      width: 96,
+      fixed: 'right',
       render: (_v: any, record: RUNTIME_SERVICE.Pod) => {
         return (
           <div className="table-operations">
@@ -122,7 +129,7 @@ const PodTable = (props: IProps) => {
   ];
   return (
     <Table
-      scroll={{ x: '100%' }}
+      scroll={{ x: 1100 }}
       loading={state.loading}
       columns={podTableColumn}
       dataSource={podList}

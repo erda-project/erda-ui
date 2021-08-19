@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import AnsiUp from 'ansi_up';
 import './log-content.scss';
@@ -30,7 +30,7 @@ interface IItemProps {
 }
 const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
   const { content, timestamp } = log;
-  let reContent = AU.ansi_to_html(content);
+  let reContent = AU.ansi_to_html(content).replace(/&quot;/g, '"'); // restore escaped quotes
   let suffix = null;
   if (typeof transformContent === 'function') {
     const result = transformContent(reContent);

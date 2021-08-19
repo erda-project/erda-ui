@@ -11,14 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Input, Select, DatePicker } from 'app/nusi';
+import React from 'react';
+import { Input, Select, DatePicker } from 'core/nusi';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { MarkdownEditor, useUpdate } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { isFunction, get, set } from 'lodash';
-import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
 import classnames from 'classnames';
 
@@ -34,7 +33,6 @@ interface IMdProps {
 }
 export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEdited, ...rest }: IMdProps) => {
   const [v, setV] = React.useState(value);
-  const [mdEditing, setMdEditing] = React.useState(false);
   const [showBtn, setShowBtn] = React.useState(false);
   React.useEffect(() => {
     setV(value);
@@ -50,22 +48,17 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
           onSubmit(_v: string) {
             onSave(_v);
             setShowBtn(false);
-            setMdEditing(false);
           },
           onCancel() {
             setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
             setShowBtn(false);
-            setMdEditing(false);
           },
         }
       : {};
-  return mdEditing ? (
+  return (
     <MarkdownEditor
       {...rest}
       value={v}
-      defaultMode="md"
-      autoFocus
-      canView={{ html: false }}
       onChange={onChange}
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       onFocus={() => setShowBtn(true)}
@@ -73,10 +66,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       notClearAfterSubmit
       {...btnProps}
     />
-  ) : (
-    <div className="md-content-preview border-radius pa8" onClick={() => setMdEditing(true)}>
-      <div className="md-content" dangerouslySetInnerHTML={{ __html: Markdown(v || '') }} />
-    </div>
   );
 };
 
@@ -140,10 +129,9 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   });
 
   const [state, updater] = useUpdate({
-    editMode: false,
     editValue: undefined as unknown as string,
   });
-  const { editMode, editValue } = state;
+  const { editValue } = state;
 
   React.useEffect(() => {
     updater.editValue(value || get(data, name));
@@ -164,7 +152,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     if (onChangeCb) {
       onChangeCb(set({}, name, v));
     }
-    updater.editMode(true);
   };
 
   const onBlur = (v?: string, fieldType?: string) => {
@@ -176,7 +163,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
         onChangeCb(set({}, name, v), fieldType);
       }
     }
-    updater.editMode(true);
   };
   switch (type) {
     case 'select': {
@@ -187,7 +173,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           showArrow={false}
           showSearch
           allowClear
-          className="full-width"
+          className="w-full"
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
@@ -222,7 +208,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'datePicker':
       Comp = (
         <DatePicker
-          className="full-width"
+          className="w-full"
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
           onChange={(m: moment.Moment) => onSelectChange(m ? m.startOf('day') : undefined)}
@@ -247,13 +233,13 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
     }
     case 'readonly':
-      Comp = <div className="nowrap pl12">{valueRender ? valueRender(editValue) : editValue}</div>;
+      Comp = <div className="nowrap pl-3">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'last_readonly':
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = <div className="prewrap pointer pl12">{moment(editValue).format('YYYY-MM-DD')}</div>;
+      Comp = <div className="prewrap cursor-pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
       break;
     default:
       Comp = (
@@ -271,27 +257,22 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
   }
 
-  const onClick = () => {
-    if (!editMode && ((type && !['dateReadonly', 'readonly'].includes(type)) || !type)) {
-      updater.editMode(false);
-    }
-  };
-
   return (
     <div className={`common-edit-field ${className}`}>
       {label && (
         <div
+          data-required={showRequiredMark ? '* ' : ''}
           className={classnames(
-            labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
-            'mb4',
-            showRequiredMark ? 'ant-form-item-required' : '',
+            labelStyle === 'desc' ? 'text-sub' : 'text-normal',
+            'mb-1',
+            showRequiredMark ? 'before:required' : '',
           )}
           style={{ paddingLeft: '10px' }}
         >
           {label}
         </div>
       )}
-      <div onClick={onClick} className={classnames({ 'edit-comp-text': editMode })}>
+      <div>
         {Comp}
         {suffix}
       </div>

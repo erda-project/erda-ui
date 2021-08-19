@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Menu, Dropdown, Tooltip } from 'app/nusi';
+import { Menu, Dropdown, Tooltip } from 'core/nusi';
 import { Icon as CustomIcon } from 'common';
 import { get, isEmpty, map, find } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
@@ -91,9 +91,9 @@ export const CaseNode = (props: IProps) => {
   let content = ' ';
   let name = ' ';
   let IconComp = data.logoUrl ? (
-    <img src={data.logoUrl} className="full-width full-height" />
+    <img src={data.logoUrl} className="w-full h-full" />
   ) : (
-    <CustomIcon type={'jiedian'} color className="full-width full-height" />
+    <CustomIcon type={'jiedian'} color className="w-full h-full" />
   );
 
   const curNodeScope = get(data, 'snippet_config.labels.snippet_scope') || SCOPE_AUTOTEST;
@@ -113,7 +113,7 @@ export const CaseNode = (props: IProps) => {
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
           color
-          className="full-width full-height"
+          className="w-full h-full"
         />
       );
       break;
@@ -174,21 +174,21 @@ export const CaseNode = (props: IProps) => {
       const { strategy = {} } = loop;
       const tip = (
         <div onClick={(e: any) => e.stopPropagation()}>
-          <div className="bold">{i18n.t('project:loop strategy')}</div>
-          {loop.break && <div className="pl8">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
+          <div className="font-bold">{i18n.t('project:loop strategy')}</div>
+          {loop.break && <div className="pl-2">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
           {strategy.max_times && (
-            <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
+            <div className="pl-2">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
           )}
           {strategy.decline_ratio && (
-            <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
+            <div className="pl-2">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
           )}
           {strategy.decline_limit_sec && (
-            <div className="pl8">{`${i18n.t('project:Maximum value of decline')}: ${strategy.decline_limit_sec}${i18n.t(
-              'common:second(s)',
-            )}`}</div>
+            <div className="pl-2">{`${i18n.t('project:Maximum value of decline')}: ${
+              strategy.decline_limit_sec
+            }${i18n.t('common:second(s)')}`}</div>
           )}
           {strategy.interval_sec && (
-            <div className="pl8">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
+            <div className="pl-2">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
               'common:second(s)',
             )}`}</div>
           )}
@@ -197,7 +197,7 @@ export const CaseNode = (props: IProps) => {
       return (
         <Tooltip title={tip}>
           <CustomIcon
-            className="color-text-desc fz16 hover-active"
+            className="text-desc text-base hover-active"
             type="xunhuan"
             onClick={(e) => e.stopPropagation()}
           />
@@ -209,11 +209,11 @@ export const CaseNode = (props: IProps) => {
 
   return (
     <Tooltip title={editing ? undefined : tooltipTxt} onVisibleChange={onVisibleChange}>
-      <div className="yml-chart-node test-case-node column-flex-box" onClick={onClick}>
+      <div className="yml-chart-node test-case-node flex flex-col justify-center" onClick={onClick}>
         <div className={'case-title'}>
-          <div className="title-icon mr12">{IconComp}</div>
-          <div className="title-txt column-flex-box color-text">
-            <span className="nowrap fz16 bold name">{name}</span>
+          <div className="title-icon mr-3">{IconComp}</div>
+          <div className="title-txt flex flex-col justify-center text-normal">
+            <span className="nowrap text-base font-bold name">{name}</span>
           </div>
           {editing ? (
             <div>
@@ -225,7 +225,7 @@ export const CaseNode = (props: IProps) => {
             getLoopRender()
           )}
         </div>
-        <div className="nowrap mt8">{content}</div>
+        <div className="nowrap mt-2">{content}</div>
       </div>
     </Tooltip>
   );

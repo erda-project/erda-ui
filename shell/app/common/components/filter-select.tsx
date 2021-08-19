@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Select, Spin } from 'app/nusi';
-import * as React from 'react';
+import { Select, Spin } from 'core/nusi';
+import React from 'react';
 import './filter-select.scss';
 
 interface IProps {

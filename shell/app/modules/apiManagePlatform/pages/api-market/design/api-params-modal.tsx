@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, EmptyHolder } from 'common';
-import { Table, Modal, Collapse, Button, Spin, Tooltip } from 'app/nusi';
+import { Table, Modal, Collapse, Button, Spin, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { every, isEmpty, map, values, forEach } from 'lodash';

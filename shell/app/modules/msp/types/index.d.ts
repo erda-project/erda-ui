@@ -12,12 +12,31 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MS_INDEX {
+  type IMspProjectEnv = WORKSPACE | 'DEFAULT'; // check 作为函数，应该返回布尔值
+
+  interface IMspRelationship {
+    workspace: IMspProjectEnv;
+    tenantId: string;
+    displayWorkspace: string;
+  }
+
+  interface ICreateProject {
+    name: string;
+    displayName: string;
+    id: string;
+    type: 'MSP' | 'DOP';
+  }
+
   interface IMspProject {
-    tenantGroups: [string, string, string, string];
-    logoUrl: string;
-    projectId: string;
-    projectName: string;
-    envs: [string, string, string, string];
+    id: string;
+    name: string;
+    displayName: string;
+    isDelete: boolean;
+    type: 'MSP' | 'DOP';
+    displayType: string;
+    relationship: IMspRelationship[];
+    createTime: number;
+    updateTime: number;
   }
 
   interface IMspMenu {
@@ -49,5 +68,14 @@ declare namespace MS_INDEX {
 
   interface MenuMap {
     [k: string]: IMspMenu;
+  }
+
+  interface IChartMetaData {
+    id: string;
+    name: string;
+    desc: string;
+    scope: string;
+    scopeId: string;
+    viewConfig: import('@erda-ui/dashboard-configurator/dist').Layout;
   }
 }

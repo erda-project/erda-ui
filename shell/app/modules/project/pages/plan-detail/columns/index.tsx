@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Progress } from 'app/nusi';
+import { Progress } from 'core/nusi';
 import { commonColumns } from '../../test-manage/case/columns';
 import Operation from './operation';
 import { ColumnProps } from 'core/common/interface';
@@ -33,9 +33,11 @@ planDetailColumns.splice(
       const { total, passed } = record.apiCount || {};
       const percent = record.apiCount ? ((passed || 0) * 100) / total : 0;
       return (
-        <div className="mr24">
-          <Progress percent={Math.round(percent)} format={() => `${passed || 0}/${total || 0}`} />
-        </div>
+        record.id && (
+          <div className="mr-6">
+            <Progress percent={Math.round(percent)} format={() => `${passed || 0}/${total || 0}`} />
+          </div>
+        )
       );
     },
   },
@@ -55,8 +57,7 @@ export const getColumns = ({ afterDelete }: { afterDelete: (data: number[]) => v
       title: i18n.t('project:operation'),
       dataIndex: 'operation',
       key: 'operation',
-      width: 240,
-      className: 'auto-overflow',
+      width: 280,
       fixed: 'right',
       render: (_text: any, record: TEST_CASE.CaseTableRecord) =>
         record.id && <Operation afterDelete={afterDelete} record={record} />,

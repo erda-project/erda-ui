@@ -17,7 +17,7 @@ import React from 'react';
 import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
-import { Drawer, Spin, Popconfirm, Input, message, Popover, Button } from 'app/nusi';
+import { Drawer, Spin, Popconfirm, Input, message, Popover, Button } from 'core/nusi';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import { SubscribersSelector } from './subscribers-selector';
 import './issue-drawer.scss';
@@ -89,6 +89,7 @@ export const IssueDrawer = (props: IProps) => {
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
+  const [showCopy, setShowCopy] = React.useState(false);
   const preDataRef = React.useRef(data);
   const preData = preDataRef.current;
 
@@ -135,7 +136,7 @@ export const IssueDrawer = (props: IProps) => {
       <Spin spinning={loading}>
         <IF check={title !== IssueDrawer.Empty}>
           <div className="task-drawer-header">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <div className="flex-1 nowrap">{title}</div>
               <div className="task-drawer-op">
                 <SubscribersSelector
@@ -149,7 +150,7 @@ export const IssueDrawer = (props: IProps) => {
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne
-                    className="for-copy copy-share-link mr4 ml12"
+                    className="cursor-copy copy-share-link mr-1 ml-3"
                     size="16px"
                     data-clipboard-text={shareLink}
                   />
@@ -158,6 +159,8 @@ export const IssueDrawer = (props: IProps) => {
                   <WithAuth pass={canCreate}>
                     <Popover
                       title={i18n.t('project:copy issue')}
+                      visible={showCopy}
+                      onVisibleChange={(v) => setShowCopy(v)}
                       content={
                         <>
                           <Input
@@ -166,8 +169,14 @@ export const IssueDrawer = (props: IProps) => {
                             value={copyTitle}
                             onChange={(e) => setCopyTitle(e.target.value)}
                           />
-                          <div className="right-flex-box mt8">
-                            <Button className="mr8" onClick={() => setCopyTitle('')}>
+                          <div className="flex items-center flex-wrap justify-end mt-2">
+                            <Button
+                              className="mr-2"
+                              onClick={() => {
+                                setCopyTitle('');
+                                setShowCopy(false);
+                              }}
+                            >
                               {i18n.t('cancel')}
                             </Button>
                             <Button
@@ -178,6 +187,7 @@ export const IssueDrawer = (props: IProps) => {
                                 }
                                 handleCopy && handleCopy(true, copyTitle);
                                 setCopyTitle('');
+                                setShowCopy(false);
                               }}
                               type="primary"
                             >
@@ -189,7 +199,7 @@ export const IssueDrawer = (props: IProps) => {
                       placement="leftTop"
                       trigger="click"
                     >
-                      <IconCopy className="hover-active ml12" size="16px" />
+                      <IconCopy className="hover-active ml-3" size="16px" />
                     </Popover>
                   </WithAuth>
                 </IF>
@@ -200,16 +210,16 @@ export const IssueDrawer = (props: IProps) => {
                       placement="bottomRight"
                       onConfirm={onDelete}
                     >
-                      <IconDelete className="hover-active ml12" size="16px" />
+                      <IconDelete className="hover-active ml-3" size="16px" />
                     </Popconfirm>
                   </WithAuth>
                 ) : null}
                 {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                    <IconCheck className="ml12 pointer" size="16px" />
+                    <IconCheck className="ml-3 cursor-pointer" size="16px" />
                   </Popconfirm>
                 ) : (
-                  <IconCheck className="ml12 pointer" size="16px" onClick={onClose} />
+                  <IconCheck className="ml-3 cursor-pointer" size="16px" onClick={onClose} />
                 )}
               </div>
             </div>

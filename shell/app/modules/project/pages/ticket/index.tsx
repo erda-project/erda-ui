@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import {
   ISSUE_TYPE,
   ISSUE_PRIORITY_MAP,
@@ -27,7 +27,8 @@ import { useMount } from 'react-use';
 import { CustomIssueState } from 'project/common/components/issue/issue-state';
 import { useUpdate, Filter, MemberSelector } from 'common';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
-import { Input, Table, Button, Select, RangePicker, Tooltip } from 'app/nusi';
+import { ColumnProps } from 'core/common/interface';
+import { Input, Table, Button, Select, RangePicker, Tooltip } from 'core/nusi';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
@@ -222,14 +223,14 @@ const Ticket = () => {
     });
   };
 
-  const columns = [
+  const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
       title: i18n.t('application:ticket title'),
       dataIndex: 'title',
       render: (val: string, record: ISSUE.Issue) => {
         return (
           <Tooltip title={val}>
-            <div className="pointer nowrap pl8 v-align full-width" onClick={() => clickTicket(record)}>
+            <div className="cursor-pointer nowrap pl-2 w-full truncate leading-8" onClick={() => clickTicket(record)}>
               {val}
             </div>
           </Tooltip>
@@ -274,7 +275,7 @@ const Ticket = () => {
             disabled: !item.permission,
             value: item.stateID,
             iconLabel: (
-              <div className="v-align">
+              <div className="flex items-center">
                 {ISSUE_ICON.state[item.stateBelong]}
                 {item.stateName}
               </div>
@@ -299,7 +300,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
-      width: 80,
+      width: 120,
       render: (val: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -318,7 +319,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:severity'),
       dataIndex: 'severity',
-      width: 100,
+      width: 120,
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -337,7 +338,7 @@ const Ticket = () => {
     {
       title: i18n.t('project:assignee'),
       dataIndex: 'assignee',
-      width: 120,
+      width: 160,
       render: (v: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
@@ -442,8 +443,9 @@ const Ticket = () => {
         columns={columns}
         dataSource={list}
         rowKey="id"
+        size="small"
         pagination={pagination}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <EditIssueDrawer
         id={detailId}

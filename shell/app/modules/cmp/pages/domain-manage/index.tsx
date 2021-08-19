@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Table, Input, Select, Tooltip } from 'app/nusi';
+import { Spin, Table, Input, Select, Tooltip } from 'core/nusi';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
 import { getClusterList, getDomainList } from 'cmp/services/domain-manage';

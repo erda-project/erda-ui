@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'app/nusi';
+import { Spin } from 'core/nusi';
 import i18n from 'i18n';
 import './content-panel.scss';
 import { Edit as IconEdit, Plus as IconPlus, Upload as IconUpload } from '@icon-park/react';
@@ -39,23 +39,23 @@ const ContentPanel = ({
   onClick = noop,
   mode = 'common',
 }: IProps) => {
-  const delimiter = <span className="color-text-holder mx8">|</span>;
+  const delimiter = <span className="text-holder mx-2">|</span>;
   const typeIcon = {
     edit: (
-      <span onClick={onClick} className="color-text-desc hover-active">
-        <IconEdit className="mr4" />
+      <span onClick={onClick} className="text-desc hover-active">
+        <IconEdit className="mr-1" />
         {i18n.t('project:edit')}
       </span>
     ),
     add: (
-      <span onClick={onClick} className="color-text-desc hover-active">
-        <IconPlus className="mr4" />
+      <span onClick={onClick} className="text-desc hover-active">
+        <IconPlus className="mr-1" />
         {i18n.t('common:add')}
       </span>
     ),
     upload: (
-      <span onClick={onClick} className="color-text-desc hover-active">
-        <IconUpload className="mr4" />
+      <span onClick={onClick} className="text-desc hover-active">
+        <IconUpload className="mr-1" />
         {i18n.t('project:upload')}
       </span>
     ),
@@ -63,7 +63,7 @@ const ContentPanel = ({
   return (
     <div className={`content-panel ${className}`}>
       <Spin spinning={loading}>
-        <div className="flex-box title flex-start mb8">
+        <div className="flex items-center title justify-start mb-2">
           <span>{title}</span>
           {mode !== 'common' ? (
             <>

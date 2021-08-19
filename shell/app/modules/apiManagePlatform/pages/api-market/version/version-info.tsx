@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Button, Modal, Table, Tree } from 'app/nusi';
+import { Button, Modal, Table, Tree } from 'core/nusi';
 import React, { useImperativeHandle } from 'react';
 import { Avatar, TableActions, UserInfo, useUpdate } from 'common';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
@@ -217,6 +217,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('default:version number'),
       dataIndex: ['version', 'major'],
+      width: 120,
       render: (_text, { version: { major, minor, patch } }) => `${major}.${minor}.${patch}`,
     },
     {
@@ -227,18 +228,20 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     {
       title: i18n.t('creator'),
       dataIndex: ['version', 'creatorID'],
+      width: 120,
       render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
       title: i18n.t('create time'),
       dataIndex: ['version', 'createdAt'],
-      width: 180,
+      width: 200,
       render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: i18n.t('operate'),
       dataIndex: ['version', 'id'],
-      width: 200,
+      width: 280,
+      fixed: 'right',
       render: (_text, { version }) => (
         <TableActions>
           <span
@@ -283,8 +286,8 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     onRelation('instance');
   };
   return (
-    <div className="flex-box content-wrap">
-      <div className="left pr16">
+    <div className="flex justify-between items-start content-wrap relative">
+      <div className="left pr-4">
         <Tree
           blockNode
           defaultExpandParent
@@ -295,24 +298,24 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
           onExpand={handleExpand}
         />
       </div>
-      <div className="right flex-1 pl16">
-        <div className="flex-box">
-          <div className="title color-text bold-500 fz16 my12">{i18n.t('related instance')}</div>
+      <div className="right flex-1 pl-4">
+        <div className="flex justify-between items-center">
+          <div className="title text-normal font-medium text-base my-3">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>
             <Button onClick={handleRelation}>{i18n.t('edit')}</Button>
           </UnityAuthWrap>
         </div>
         {instance.type === 'dice' ? (
           <>
-            <div className="color-text-desc instance-label">{i18n.t('service name')}</div>
-            <div className="color-text-sub bold-500 instance-name mb12">{get(instance, 'serviceName', '-')}</div>
-            <div className="color-text-desc instance-label">{i18n.t('msp:deployment branch')}</div>
-            <div className="color-text-sub bold-500 instance-name mb12">{get(instance, 'runtimeName', '-')}</div>
+            <div className="text-desc instance-label">{i18n.t('service name')}</div>
+            <div className="text-sub font-medium instance-name mb-3">{get(instance, 'serviceName', '-')}</div>
+            <div className="text-desc instance-label">{i18n.t('msp:deployment branch')}</div>
+            <div className="text-sub font-medium instance-name mb-3">{get(instance, 'runtimeName', '-')}</div>
           </>
         ) : null}
-        <div className="color-text-desc instance-label">{i18n.t('related instance')}</div>
-        <div className="color-text-sub bold-500 instance-name mb24">{instanceUrl || '-'}</div>
-        <div className="title color-text bold-500 fz16 mb12">{i18n.t('version list')}</div>
+        <div className="text-desc instance-label">{i18n.t('related instance')}</div>
+        <div className="text-sub font-medium instance-name mb-6">{instanceUrl || '-'}</div>
+        <div className="title text-normal font-medium text-base mb-3">{i18n.t('version list')}</div>
         <Table<API_MARKET.VersionItem>
           rowKey={({ version: { major, minor, patch } }) => `${major}-${minor}-${patch}`}
           columns={columns}
@@ -325,7 +328,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
               },
             };
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
       </div>
       <ExportFile

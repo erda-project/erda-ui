@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Alert, Button } from 'app/nusi';
+import { Spin, Alert, Button } from 'core/nusi';
 import { RenderForm, useUpdate, MultiInput } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
@@ -153,7 +153,7 @@ const AccessEdit = () => {
           status: 'ATTACHED',
           name: (
             <div
-              className="flex-box"
+              className="flex justify-between items-center"
               onClick={(e) => {
                 gotoServer(e, item);
               }}
@@ -246,7 +246,7 @@ const AccessEdit = () => {
         return (
           <Alert
             showIcon
-            type="normal"
+            type="info"
             message={i18n.t(
               'Note: The precondition to create access management is that the API must first complete the project association and version instance association.',
               { nsSeparator: '|' },
@@ -375,7 +375,7 @@ const AccessEdit = () => {
         return (
           <Alert
             showIcon
-            type="normal"
+            type="info"
             message={i18n.t(
               'Auto authorization: apply and call Manual authorization: apply, manual authorization and call',
               { nsSeparator: '|' },
@@ -386,11 +386,11 @@ const AccessEdit = () => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('ok')}
           </Button>
-          <Button className="ml12" onClick={() => window.history.back()}>
+          <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('cancel')}
           </Button>
         </div>

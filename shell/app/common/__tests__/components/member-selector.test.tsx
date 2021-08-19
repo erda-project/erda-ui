@@ -15,7 +15,6 @@ import React from 'react';
 import { MemberSelector, AddMemberSelector } from 'common';
 import { UserSelector, chosenItemConvert, getNotFoundContent } from 'common/components/member-selector';
 import { mount, shallow } from 'enzyme';
-import { describe, it, beforeAll, afterAll, jest } from '@jest/globals';
 import * as Services from 'common/services';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
@@ -170,22 +169,22 @@ describe('member-selector', () => {
         )}
       </div>,
     );
-    expect(valueItemRenderWrapper.find('.value-item-wrapper').childAt(0).name()).toBe('Tag');
-    valueItemRenderWrapper.find('Tag').prop('onClose')();
+    expect(valueItemRenderWrapper.find('.value-item-wrapper').childAt(0).name()).toBe('WrappedTag');
+    valueItemRenderWrapper.find('WrappedTag').prop('onClose')();
     expect(deleteValueFn).toHaveBeenLastCalledWith(data.list[0]);
-    expect(wrapper.find('LoadMoreSelector').prop('quickSelect')).toBeNull();
+    expect(wrapper.find('LoadMoreSelector').prop('quickSelect')).toStrictEqual([]);
     wrapper.setProps({
-      quickSelectInOption: true,
+      selectSelfInOption: true,
     });
     const quickSelect = shallow(<div>{wrapper.find('LoadMoreSelector').prop('quickSelect')}</div>);
     quickSelect.find('a').simulate('click');
-    expect(onChange).toHaveBeenLastCalledWith(loginUser.id);
+    expect(onChange).toHaveBeenCalled();
     wrapper.setProps({
       showSelfChosen: true,
     });
     wrapper.find('a').simulate('click');
     expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenLastCalledWith(loginUser.id);
+    expect(onChange).toHaveBeenCalled();
   });
   it('AddMemberSelector should work well', () => {
     const orgWrapper = shallow(<AddMemberSelector scopeType={MemberScope.ORG} />);

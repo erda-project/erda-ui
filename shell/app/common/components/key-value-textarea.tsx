@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Input, Form } from 'app/nusi';
+import React from 'react';
+import { Input, Form } from 'core/nusi';
 import { regRules } from 'common/utils';
 import './key-value-textarea.scss';
 import { FormInstance } from 'core/common/interface';

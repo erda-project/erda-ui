@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import issueFieldStore from 'org/stores/issue-field';
@@ -73,7 +73,7 @@ const IssueTypeManage = () => {
           >
             <div className="common-list-item">
               <div className="list-item-left">
-                <div className="flex-box">
+                <div className="flex justify-between items-center">
                   <IssueIcon type={item.type} withName />
                 </div>
                 <div className="sub">

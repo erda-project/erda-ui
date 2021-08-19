@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'app/nusi';
+import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'core/nusi';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
 import { useUpdate, Icon as CustomIcon } from 'common';
@@ -52,14 +52,14 @@ interface IProps {
   onChangeCategory?: Function;
   size?: 'small' | 'normal';
   valueChangeTrigger?: 'onChange' | 'onClose';
-  quickSelect?: React.ReactNode;
+  quickSelect?: React.ReactNode | React.ReactNode[];
   resultsRender?: (
     displayName: IOption[],
     deleteValue: (item: IOption) => void,
     isMultiple?: boolean,
     list?: IOption[],
   ) => React.ReactNode;
-  onChange?: (arg: IOption[] | IOption, options: IOption | IOption[]) => void;
+  onChange?: (arg: string[] | string, options?: IOption | IOption[]) => void;
   onClickItem?: (arg: IOption[] | IOption) => void;
   valueItemRender?: (
     item: IOption,
@@ -326,6 +326,8 @@ const PureLoadMoreSelector = (props: IProps) => {
 
   const getOverlay = () => {
     const Comp = CompMap[type];
+
+    const curQuickSelect = isArray(quickSelect) ? quickSelect : quickSelect ? [quickSelect] : [];
     return (
       <Menu className="load-more-dropdown-menu" ref={menuRef} style={{ width: contentWidth }}>
         {showSearch
@@ -355,14 +357,16 @@ const PureLoadMoreSelector = (props: IProps) => {
                   &nbsp;
                   {i18n.t('common:item')}
                 </div>
-                <span className="fake-link ml8" onClick={clearValue}>
+                <span className="fake-link ml-2" onClick={clearValue}>
                   {i18n.t('common:clear selected')}
                 </span>
               </MenuItem>,
               <Menu.Divider key="_chosen-info-divider" />,
             ]
           : null}
-        {quickSelect ? [<MenuItem key="quick-select">{quickSelect}</MenuItem>, <Menu.Divider />] : null}
+        {curQuickSelect.map((quickSelectItem, idx) => {
+          return [<MenuItem key={`quick-select-${idx}`}>{quickSelectItem}</MenuItem>, <Menu.Divider />];
+        })}
         <MenuItem className="options" key="options">
           <Comp {...props} width={contentWidth} clickItem={clickItem} value={chosenItem} isMultiple={isMultiple} />
           {/* {
@@ -383,11 +387,11 @@ const PureLoadMoreSelector = (props: IProps) => {
       <Dropdown
         overlay={getOverlay()}
         visible={visible}
-        overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
+        overlayClassName={`${visible ? 'load-more-selector-dropdown' : ''} ${dropdownClassName}`}
         onVisibleChange={(visible) => onVisibleChange?.(visible, innerValue)}
       >
         <div
-          className={`results pointer ${disabled ? 'not-allowed' : ''} ${size}`}
+          className={`results cursor-pointer ${disabled ? 'not-allowed' : ''} ${size}`}
           onClick={() => {
             !disabled && !visible && setVisible(true);
           }}
@@ -476,7 +480,7 @@ const CompMap = {
       <div className="load-more-selector-container">
         <div className="content" style={width ? { width } : {}}>
           <div className="menu">
-            <Menu selectedKeys={[`${chosenCategory}`]} className="full-height">
+            <Menu selectedKeys={[`${chosenCategory}`]} className="h-full">
               {map(category, (item) => (
                 <MenuItem className="menu-item" key={item.value} onClick={() => setChosenCategory(item.value)}>
                   {item.label}
@@ -526,7 +530,7 @@ export interface ILoadMoreSelectorProps extends IProps {
 const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void; loading: boolean }) => {
   return (
     <div
-      className="pointer load-more load-more-list-item"
+      className="cursor-pointer load-more load-more-list-item"
       onClick={(e) => {
         e.stopPropagation();
         onLoadMore();

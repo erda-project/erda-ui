@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'app/nusi';
+import { Table, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'core/nusi';
 import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, Copy, EmptyHolder, IF, FormModal } from 'common';
 import RepoFileContainer from './components/repo-file-container';
@@ -58,7 +58,7 @@ const RepoDownload = (props: IDownProp) => {
     window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`));
   const renderAddonAfter = (text: string, tip: string) => {
     return (
-      <span className="copy-btn for-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
+      <span className="copy-btn cursor-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
         <IconCopy />
       </span>
     );
@@ -73,13 +73,13 @@ const RepoDownload = (props: IDownProp) => {
         <div className="clone-content">
           <div className="addr">
             <Input
-              className="full-width"
+              className="w-full"
               value={gitRepo}
               addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))}
             />
           </div>
-          <Copy selector=".for-copy" />
-          <ButtonGroup className="download-btn-group mb16">
+          <Copy selector=".cursor-copy" />
+          <ButtonGroup className="download-btn-group mb-4">
             <Button size="small" onClick={() => download('tar')}>
               {' '}
               tar{' '}
@@ -95,14 +95,14 @@ const RepoDownload = (props: IDownProp) => {
           </ButtonGroup>
           {token && (
             <>
-              <p className="label mb8">username</p>
+              <p className="label mb-2">username</p>
               <Input
-                className="full-width mb16"
+                className="w-full mb-4"
                 value={info.username}
                 addonAfter={renderAddonAfter(info.username, 'username')}
               />
-              <p className="label mb8">token</p>
-              <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+              <p className="label mb-2">token</p>
+              <Input className="w-full mb-4" value={token} addonAfter={renderAddonAfter(token, 'token')} />
             </>
           )}
         </div>
@@ -170,7 +170,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
             dataSource={dataSource}
             pagination={false}
             rowKey="name"
-            scroll={{ x: '100%' }}
+            scroll={{ x: 800 }}
             onRow={({ name, id }) => {
               const tropicalPathName = encodeURI(name);
               return {
@@ -189,12 +189,12 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Name',
                 dataIndex: 'name',
-                width: '30%',
+                width: 220,
                 render: (text, record) => {
                   const iconProps = record.type === 'tree' ? { type: 'folder' } : { type: 'page' };
                   return (
-                    <span className="column-name">
-                      {record.type ? <CustomIcon className="mr8" {...iconProps} /> : null}
+                    <span className="column-name" title={text}>
+                      {record.type ? <CustomIcon className="mr-2" {...iconProps} /> : null}
                       {text}
                     </span>
                   );
@@ -203,7 +203,6 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Last Commit',
                 dataIndex: ['commit', 'commitMessage'],
-                width: '55%',
                 render: (text, record) => (
                   <Skeleton active loading={!record.commit} paragraph={false}>
                     {renderAsLink(
@@ -218,7 +217,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
               {
                 title: 'Last Update',
                 dataIndex: ['commit', 'author', 'when'],
-                width: 115,
+                width: 220,
                 render: (text) => (text ? fromNow(text) : ''),
               },
             ]}
@@ -500,7 +499,7 @@ const RepoTreePage = () => {
       <RepoNav ref={repoNavRef} info={info} tree={tree} isFetchingInfo={isFetchingInfo} appId={appDetail.id} />
       <div className="top-button-group">
         <Tooltip title={i18n.t('application:how to start')}>
-          <CustomIcon className="color-text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
+          <CustomIcon className="text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
         </Tooltip>
         <Modal
           title={i18n.t('application:how to start')}

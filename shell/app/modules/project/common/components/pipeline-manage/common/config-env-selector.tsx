@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Tooltip } from 'app/nusi';
-import { map, isEmpty, get } from 'lodash';
+import React from 'react';
+import { Button, Tooltip } from 'core/nusi';
+import { map, isEmpty, get, find } from 'lodash';
 import autoTestStore from 'project/stores/auto-test-case';
 import { useUpdate } from 'common';
 import { insertWhen, notify } from 'common/utils';
@@ -113,7 +113,7 @@ const ConfigEnvSelector = (props: IProps) => {
         {
           component: 'custom',
           getComp: () => {
-            return <div className="bold-500 border-bottom">{i18n.t('project:params configuration')}</div>;
+            return <div className="font-medium border-bottom">{i18n.t('project:params configuration')}</div>;
           },
         },
         ..._inParamsForm,
@@ -205,11 +205,17 @@ const ConfigEnvSelector = (props: IProps) => {
   }, [clusterConfig, updater]);
 
   const execute = (p: Obj = {}) => {
+    let curClusterName = clusterConfig?.TEST;
+    const chosenCluster = find(p?.runParams, { name: 'clusterName' });
+    if (chosenCluster) {
+      curClusterName = clusterConfig[chosenCluster.value];
+    }
+
     createPipelineAndRun({
       pipelineYml: get(caseDetail, 'meta.pipelineYml'),
       pipelineSource: scopeConfigData.runPipelineSource,
       pipelineYmlName: caseDetail.inode,
-      clusterName: clusterConfig?.TEST,
+      clusterName: curClusterName,
       autoRunAtOnce: true,
       labels: { orgID: `${orgId}`, projectID: projectId, projectName, orgName },
       ...p,

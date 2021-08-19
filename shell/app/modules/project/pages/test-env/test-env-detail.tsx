@@ -15,7 +15,7 @@ import { isPlainObject, map, forEach, isEmpty, filter, debounce } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { isValidJsonStr } from 'common/utils';
-import { Input, Select, Table, Radio } from 'app/nusi';
+import { Input, Select, Table, Radio } from 'core/nusi';
 import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor, useUpdate } from 'common';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import testEnvStore from 'project/stores/test-env';
@@ -302,9 +302,9 @@ export const TestEnvDetail = (props: IProps) => {
       },
       {
         getComp: () => (
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <div>
-              <span className="bold">Header</span>
+              <span className="font-bold">Header</span>
             </div>
             <Radio.Group
               value={headerMode}
@@ -348,7 +348,7 @@ export const TestEnvDetail = (props: IProps) => {
           </div>
         ),
         extraProps: {
-          className: 'mb8',
+          className: 'mb-2',
         },
       },
       {
@@ -369,8 +369,8 @@ export const TestEnvDetail = (props: IProps) => {
       },
       {
         getComp: () => (
-          <div className="flex-box">
-            <span className="bold">Global</span>
+          <div className="flex justify-between items-center">
+            <span className="font-bold">Global</span>
             <Radio.Group
               value={globalMode}
               onChange={(e: RadioChangeEvent) => {
@@ -410,7 +410,7 @@ export const TestEnvDetail = (props: IProps) => {
           </div>
         ),
         extraProps: {
-          className: 'mb8',
+          className: 'mb-2',
         },
       },
       {
@@ -559,7 +559,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         fileExtension="json"
         minLines={4}
         readOnly={readOnly}
-        className="border-radius border-all"
+        className="rounded border-all"
         maxLines={10}
         actions={{
           copy: true,
@@ -570,7 +570,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         }}
         value={value}
       />
-      {_isValid ? null : <span className="color-danger">{i18n.t('project:JSON format error')}</span>}
+      {_isValid ? null : <span className="text-danger">{i18n.t('project:JSON format error')}</span>}
     </>
   );
 };

@@ -61,18 +61,6 @@ export const getBackupFiles = (payload: MIDDLEWARE_DASHBOARD.IMiddleBase): MIDDL
     .query(payload)
     .then((response: any) => response.body);
 };
-export const getBackup = (payload: MIDDLEWARE_DASHBOARD.IMiddleBase): MIDDLEWARE_DASHBOARD.IBackupFiles => {
-  return agent
-    .get('/api/addons/actions/backup')
-    .query(payload)
-    .then((response: any) => response.body);
-};
-export const saveBackupFiles = (payload: MIDDLEWARE_DASHBOARD.IUpdateBackup): MIDDLEWARE_DASHBOARD.IBackupFiles => {
-  return agent
-    .post('/api/addons/actions/backup')
-    .send(payload)
-    .then((response: any) => response.body);
-};
 
 // 配置更新
 export const getConfig = (

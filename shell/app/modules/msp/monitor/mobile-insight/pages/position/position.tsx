@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Row, Col, Button } from 'app/nusi';
+import React from 'react';
+import { Row, Col, Button } from 'core/nusi';
 import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';

@@ -14,7 +14,7 @@
 import { map, forEach, isFunction } from 'lodash';
 import { getTimeSpan, getDefaultPaging } from 'common/utils';
 import { getApps } from 'common/services';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
 

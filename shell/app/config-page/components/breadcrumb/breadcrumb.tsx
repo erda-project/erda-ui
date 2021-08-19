@@ -11,9 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Breadcrumb, Ellipsis } from 'app/nusi';
+import React from 'react';
+import { Breadcrumb, Ellipsis, Menu } from 'core/nusi';
 import { map } from 'lodash';
+import { Right as IconRight } from '@icon-park/react';
 
 const noop = () => {};
 export default (props: CP_BREADCRUMB.Props) => {
@@ -27,22 +28,32 @@ export default (props: CP_BREADCRUMB.Props) => {
 
   if (!visible) return null;
   return (
-    <Breadcrumb>
+    <Breadcrumb separator={<IconRight size="14px" className="text-xs" />}>
       {map(list, (item, idx) => {
         if (item.menus) {
+          const menu = (
+            <Menu>
+              {item.menus.map((menuItem) => (
+                <Menu.Item>
+                  <span className={cls} onClick={() => onClickItem(menuItem.key)}>
+                    <Ellipsis title={menuItem.item}>{menuItem.item}</Ellipsis>
+                  </span>
+                </Menu.Item>
+              ))}
+            </Menu>
+          );
           return (
-            <Breadcrumb.Menu
-              key={item.key}
-              activeKey={item.activeKey}
-              menuOptions={item.menus}
-              onSelect={(e: any) => onClickItem(e.key)}
-            />
+            <Breadcrumb.Item key={item.activeKey} overlay={menu}>
+              <span className="inline-block align-bottom" style={{ maxWidth: 140 }}>
+                <Ellipsis title={item.item}>{item.item}</Ellipsis>
+              </span>
+            </Breadcrumb.Item>
           );
         }
-        const [cls, onClick] = idx !== list.length - 1 ? ['pointer', () => onClickItem(item.key)] : ['', noop];
+        const [cls, onClick] = idx !== list.length - 1 ? ['cursor-pointer', () => onClickItem(item.key)] : ['', noop];
         return (
           <Breadcrumb.Item key={item.key}>
-            <span className={cls} onClick={onClick}>
+            <span className={`${cls} inline-block align-bottom`} onClick={onClick} style={{ maxWidth: 140 }}>
               <Ellipsis title={item.item}>{item.item}</Ellipsis>
             </span>
           </Breadcrumb.Item>

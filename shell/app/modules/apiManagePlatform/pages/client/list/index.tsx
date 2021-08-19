@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Table, Popconfirm, Input, Modal, Alert } from 'app/nusi';
+import { Spin, Table, Popconfirm, Input, Modal, Alert } from 'core/nusi';
 import { ColumnProps, PaginationProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
@@ -72,11 +72,13 @@ const ClientList = () => {
     {
       title: i18n.t('client name'),
       dataIndex: ['client', 'displayName'],
+      width: 200,
       render: (text, record) => text || record.client.name,
     },
     {
       title: i18n.t('client identifier'),
       dataIndex: ['client', 'name'],
+      width: 200,
     },
     {
       title: i18n.t('description'),
@@ -85,7 +87,8 @@ const ClientList = () => {
     {
       title: i18n.t('operation'),
       dataIndex: ['client', 'id'],
-      width: 120,
+      width: 160,
+      fixed: 'right',
       render: (text, record) => {
         return (
           <TableActions>
@@ -118,7 +121,7 @@ const ClientList = () => {
         description={i18n.t(
           'On this page, you can check the progress of my application to call the API request, and its specific authentication information after the application is approved.',
         )}
-        className="mb8"
+        className="mb-2"
       />
       <Table
         rowKey="client.id"
@@ -135,7 +138,7 @@ const ClientList = () => {
             },
           };
         }}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
       />
       <Modal
         title={i18n.t('client info')}
@@ -144,19 +147,19 @@ const ClientList = () => {
         destroyOnClose
         footer={null}
       >
-        <p className="mb4">
-          <span className="bold-500">ClientID: </span>
-          <span className="for-copy" data-clipboard-text={resetModalInfo.clientID}>
+        <p className="mb-1">
+          <span className="font-medium">ClientID: </span>
+          <span className="cursor-copy" data-clipboard-text={resetModalInfo.clientID}>
             {resetModalInfo.clientID}
           </span>
         </p>
-        <p className="mb4">
-          <span className="bold-500">ClientSecret: </span>
-          <span className="for-copy" data-clipboard-text={resetModalInfo.clientSecret}>
+        <p className="mb-1">
+          <span className="font-medium">ClientSecret: </span>
+          <span className="cursor-copy" data-clipboard-text={resetModalInfo.clientSecret}>
             {resetModalInfo.clientSecret}
           </span>
         </p>
-        <Copy selector=".for-copy" />
+        <Copy selector=".cursor-copy" />
       </Modal>
     </Spin>
   );

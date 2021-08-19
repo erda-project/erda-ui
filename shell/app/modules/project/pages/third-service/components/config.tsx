@@ -13,7 +13,7 @@
 
 import { FormInstance } from 'core/common/interface';
 import { insertWhen } from 'common/utils/index';
-import { Select } from 'app/nusi';
+import { Select } from 'core/nusi';
 import i18n from 'i18n';
 import { produce } from 'immer';
 import { getOptions, groupOptions } from 'app/modules/cmp/pages/cluster-manage/config';
@@ -171,7 +171,7 @@ export const MysqlFieldsConfig = {
           type: 'select',
           options: getOptions('chargePeriod'),
           itemProps: {
-            className: 'full-width',
+            className: 'w-full',
           },
         },
         {
@@ -490,7 +490,7 @@ export const ChargeType = (chargeTypeName: string, chargePeriod: string, autoRen
         type: 'select',
         options: getOptions('chargePeriod'),
         itemProps: {
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {

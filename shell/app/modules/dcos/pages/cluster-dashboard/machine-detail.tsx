@@ -15,7 +15,7 @@ import { getFormatter } from 'charts/utils/formatter';
 import { Holder, MetricsMonitor } from 'common';
 import i18n from 'i18n';
 import { isEmpty, isFunction, map } from 'lodash';
-import { Tag } from 'app/nusi';
+import { Tag } from 'core/nusi';
 import React from 'react';
 import './machine-detail.scss';
 
@@ -64,8 +64,8 @@ const MachineDetail = ({ type, machineDetail }: IProps) => {
     switch (type) {
       case 'info':
         Content = map(itemConfigs, ({ title, value, render }) => (
-          <div className="machine-detail-info-item mb28" key={title}>
-            <div className="label mb8">{title}</div>
+          <div className="machine-detail-info-item mb-7" key={title}>
+            <div className="label mb-2">{title}</div>
             <div className="value">
               {isFunction(render)
                 ? render(value ? machineDetail[value] : machineDetail)

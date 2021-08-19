@@ -18,7 +18,7 @@
  * 2、浏览器需要刷新页面
  */
 import agent from 'agent';
-import { message, notification, Button } from 'app/nusi';
+import { message, notification, Button } from 'core/nusi';
 import React from 'react';
 import { SmilingFaceWithSquintingEyes as IconSmilingFaceWithSquintingEyes } from '@icon-park/react';
 import i18n from 'i18n';
@@ -32,7 +32,7 @@ const openNotification = () => {
     duration: 0,
     message: i18n.t('New version available'),
     description: i18n.t('Version has been updated, it is recommended to refresh the page'),
-    icon: <IconSmilingFaceWithSquintingEyes className="color-primary" />,
+    icon: <IconSmilingFaceWithSquintingEyes className="text-primary" />,
     btn: (
       <Button type="primary" size="small" onClick={() => location.reload()}>
         {i18n.t('refresh')}

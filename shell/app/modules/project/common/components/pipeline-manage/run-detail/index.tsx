@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Spin, Button, Menu, Modal } from 'app/nusi';
+import React from 'react';
+import { Spin, Button, Menu, Modal } from 'core/nusi';
 import BaseInfo from './base-info';
 import RecordList from './record-list';
 import { BuildLog } from 'application/pages/build-detail/build-log';
@@ -296,7 +296,7 @@ const RunDetail = (props: IProps) => {
           }}
         >
           <div className="build-operator">
-            <Button className="mr8">{i18n.t('application:cancel build')}</Button>
+            <Button className="mr-2">{i18n.t('application:cancel build')}</Button>
           </div>
         </DeleteConfirm>
       </IF>
@@ -332,9 +332,9 @@ const RunDetail = (props: IProps) => {
   return (
     <div className="pipeline-detail">
       <Spin spinning={isFetching}>
-        <div className="info-header mb8">
+        <div className="info-header mb-2">
           <div>
-            <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+            <span className="font-medium title">{i18n.t('application:build detail')}</span>
           </div>
           <div className="info-header-right">
             {renderRunBtn()}
@@ -349,7 +349,7 @@ const RunDetail = (props: IProps) => {
         </div>
         <BaseInfo data={pipelineDetail} />
         {showMessage && showMessage.msg ? (
-          <div className="auto-test-detail-err-msg mb8">
+          <div className="auto-test-detail-err-msg mb-2">
             <div className="auto-test-err-header">
               <IconAttention className="auto-test-err-icon" />
               <pre>{showMessage.msg}</pre>

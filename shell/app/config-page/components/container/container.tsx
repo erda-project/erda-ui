@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import './container.scss';
 
@@ -40,9 +40,9 @@ export const Container = (props: CP_CONTAINER.Props) => {
 
     ...(contentSetting ? { [contentSetting]: true } : {}),
     'top-button-group': isTopHead,
-    'white-bg': whiteBg,
+    'bg-white': whiteBg,
     'start-align': startAlign,
-    'full-height': fullHeight,
+    'h-full': fullHeight,
     'flex-height': flexHeight,
     'scroll-auto': scrollAuto,
     [`space-${spaceSize}`]: true,

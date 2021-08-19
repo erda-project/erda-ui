@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, sortBy, get, set, findIndex, isEqual, filter, reduce, reverse } from 'lodash';
 import classnames from 'classnames';
 import { Icon as CustomIcon, DeleteConfirm, RenderForm } from 'common';
-import { Popover, Tooltip, Button } from 'app/nusi';
+import { Popover, Tooltip, Button } from 'core/nusi';
 import { regRules } from 'common/utils';
 import { getTableList } from './utils';
 import { useMount } from 'react-use';
@@ -78,7 +78,7 @@ export const PermTable = (props: IProps) => {
   });
   const roleColumnKeys = map(curRoleMap, (item) => `role-${item.value}`);
   return (
-    <div className="perm-editor-container full-height">
+    <div className="perm-editor-container h-full">
       <div className="perm-head">
         <div className="head-container column-head">{getPermHead({ columnKeys: permColumnKeys, scope })}</div>
         <div className="head-container role-head" ref={headScrollRef} onScroll={onHeadScroll}>
@@ -139,7 +139,7 @@ const getPermHead = (params: { columnKeys: string[]; scope: string; curRoleMap?:
       <div className={`column-head-item ${scope}-head-column-${item}`} key={item}>
         <div className={`head-text nowrap head-column-${item}`} style={{ width }}>
           {headText}
-          {roleText ? <div className="fz12">{roleText}</div> : null}
+          {roleText ? <div className="text-xs">{roleText}</div> : null}
         </div>
       </div>
     );
@@ -396,7 +396,7 @@ const PermOperation = (props: IOperationProps) => {
     {
       label: '添加项',
       name: 'addStr',
-      className: 'mb8',
+      className: 'mb-2',
       rules: [
         {
           validator: (rule: any, v: string, callback: Function) => {
@@ -436,10 +436,10 @@ const PermOperation = (props: IOperationProps) => {
     },
     {
       label: '',
-      className: 'mb4',
+      className: 'mb-1',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="center-flex-box">
+        <div className="flex flex-wrap justify-center items-center">
           <Button type="primary" onClick={() => handleAddSubmit(form)}>
             添加
           </Button>
@@ -459,7 +459,7 @@ const PermOperation = (props: IOperationProps) => {
     {
       label: 'key',
       name: 'key',
-      className: 'mb8',
+      className: 'mb-2',
       initialValue: dataItem.key,
       rules: [
         { ...regRules.commonStr },
@@ -482,7 +482,7 @@ const PermOperation = (props: IOperationProps) => {
     {
       label: '名称',
       name: 'name',
-      className: 'mb8',
+      className: 'mb-2',
       initialValue: dataItem.name,
       itemProps: {
         autoComplete: 'off',
@@ -491,10 +491,10 @@ const PermOperation = (props: IOperationProps) => {
     },
     {
       label: '',
-      className: 'mb4',
+      className: 'mb-1',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="center-flex-box">
+        <div className="flex flex-wrap justify-center items-center">
           <Button type="primary" onClick={() => handleEditSubmit(form)}>
             保存
           </Button>

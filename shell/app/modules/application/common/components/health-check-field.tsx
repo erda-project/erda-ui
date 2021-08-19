@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, InputNumber, Select } from 'app/nusi';
+import { Input, InputNumber, Select } from 'core/nusi';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
 import './variable-input-group.scss';
@@ -107,7 +107,7 @@ const HttpComp = (props: IProps) => {
           <InputNumber
             disabled={disabled}
             min={1}
-            className="full-width"
+            className="w-full"
             value={value?.port}
             onChange={(v?: number) => changeValue(v, 'port')}
             placeholder={i18n.t('application:please enter the port')}
@@ -130,7 +130,7 @@ const HttpComp = (props: IProps) => {
         <span>
           <InputNumber
             disabled={disabled}
-            className="full-width"
+            className="w-full"
             value={value?.duration || 0}
             onChange={(v?: number) => changeValue(v, 'duration')}
             placeholder={i18n.t('application:please enter the duration')}
@@ -169,7 +169,7 @@ const CommandComp = (props: ICommandProps) => {
         <span>
           <InputNumber
             disabled={disabled}
-            className="full-width"
+            className="w-full"
             value={value?.duration || 0}
             onChange={(v?: number) => changeValue(v, 'duration')}
             placeholder={i18n.t('application:please enter the duration')}

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect } from 'react';
-import { Row, Col, Spin, Popover } from 'app/nusi';
+import { Row, Col, Spin, Popover } from 'core/nusi';
 import FileContainer from 'application/common/components/file-container';
 import { Avatar, Icon as CustomIcon, FileEditor, Copy } from 'common';
 import { fromNow, goTo } from 'common/utils';
@@ -48,31 +48,31 @@ interface IRepoBlameCommitItem {
 const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }: IRepoBlameCommitItem) => {
   return (
     <div className="blame-commit-item" style={style}>
-      <div className="blame-commit-info flex-box">
-        <div className="info-left nowrap mr16">
-          <Avatar className="mr4" size={18} name={author.name} />
+      <div className="blame-commit-info flex justify-between items-center">
+        <div className="info-left nowrap mr-4">
+          <Avatar className="mr-1" size={18} name={author.name} />
           <Popover
             overlayClassName="blame-commit-item-popover"
             placement="topLeft"
             content={
               <div className="commit-info">
-                <div className="main-info mb8">
-                  <span className="commit-msg bold">{commitMessage}</span>
+                <div className="main-info mb-2">
+                  <span className="commit-msg font-bold">{commitMessage}</span>
                 </div>
                 <div className="sub-info">
-                  <Avatar className="mr8" name={author.name} />
-                  <span className="commit-when mr16">
+                  <Avatar className="mr-2" name={author.name} />
+                  <span className="commit-when mr-4">
                     {author.name} {i18n.t('application:submitted in')} {fromNow(author.when)}
                   </span>
                   <span
-                    className="for-copy commit-sha hover-text"
+                    className="cursor-copy commit-sha hover-text"
                     data-clipboard-text={commitId}
                     data-clipboard-tip=" commit SHA "
                   >
                     <CustomIcon type="commit" />
                     <span className="sha-text">{commitId.slice(0, 6)}</span>
                   </span>
-                  <Copy selector=".for-copy" />
+                  <Copy selector=".cursor-copy" />
                 </div>
               </div>
             }
@@ -109,7 +109,7 @@ export const RepoBlame = ({ name, className, path, ops }: IProps) => {
   } else {
     content = (
       <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-        <Row className="blame-content full-height">
+        <Row className="blame-content h-full">
           <Col span={8}>
             <Spin spinning={isFetchingRepoBlame}>
               <div className="blame-commits-content">
@@ -130,7 +130,7 @@ export const RepoBlame = ({ name, className, path, ops }: IProps) => {
               </div>
             </Spin>
           </Col>
-          <Col span={16} className="full-height">
+          <Col span={16} className="h-full">
             <FileEditor
               name={name}
               fileExtension={fileExtension || 'text'}

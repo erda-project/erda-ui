@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Input, Select, Radio, Form, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Input, Select, Radio, Form, Tooltip } from 'core/nusi';
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import { getSubnetNum, getIPItemOption, getIPTooltipText } from '../util';
@@ -160,7 +160,7 @@ export const VpcCIDRField = ({ value, onChange, cidrType, onChangeCIDRType }: IC
 
   return (
     <div>
-      <Radio.Group className="mb8" value={cidrType} onChange={(e: any) => onChangeCIDRType(e.target.value)}>
+      <Radio.Group className="mb-2" value={cidrType} onChange={(e: any) => onChangeCIDRType(e.target.value)}>
         {map(formConfig.options.CIDRType, (item) => {
           return (
             <Radio key={item.value} value={item.value}>

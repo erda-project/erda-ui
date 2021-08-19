@@ -14,7 +14,6 @@
 import React from 'react';
 import { DetailsPanel } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const baseInfoConf = {
   title: 'DetailsPanel',

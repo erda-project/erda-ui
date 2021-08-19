@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 // @ts-ignore
 import Snap from 'snapsvg-cjs';
 import { externalKey, CHART_CONFIG, CHART_NODE_SIZE } from './config';
@@ -131,7 +131,7 @@ export const YmlChart = (props: IProps) => {
   }, [data]);
 
   return (
-    <div className={`yml-svg-container-box border-radius full-height full-width ${border ? 'border-all' : ''}`}>
+    <div className={`yml-svg-container-box rounded h-full w-full ${border ? 'border-all' : ''}`}>
       <div className={`yml-svg-container ${editing ? 'editing' : ''}`} ref={boxRef}>
         <svg id={id} width="100%" height="100%" className={'yml-svg'} />
       </div>

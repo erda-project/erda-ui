@@ -14,7 +14,6 @@
 import React from 'react';
 import { MultiSelect } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import { get } from 'lodash';
 import { act } from 'react-dom/test-utils';
 
@@ -59,7 +58,7 @@ describe('MultiSelect', () => {
   });
   it('should render with empty data', () => {
     const wrapper = mount(<MultiSelect />);
-    expect(wrapper.find('.flex-box').html()).toBe('<div class="flex-box"></div>');
+    expect(wrapper.find('.flex').html()).toBe('<div class="flex justify-between items-center"></div>');
   });
   it('should render normally', () => {
     const onChangeNameFn = jest.fn();

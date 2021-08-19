@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isFunction, isEmpty } from 'lodash';
 import moment from 'moment';
-import { Spin, Table, Badge } from 'app/nusi';
+import { Spin, Table, Badge } from 'core/nusi';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
 import { goTo } from 'common/utils';
@@ -121,8 +121,8 @@ export const PureBaseAddonInfo = ({
   return (
     <Spin spinning={loading}>
       <div className="addon-detail-page">
-        <div className="base-info mb32">
-          <span className="title bold-500">{i18n.t('org:basic info')}</span>
+        <div className="base-info mb-8">
+          <span className="title font-medium">{i18n.t('org:basic info')}</span>
           <div className="info-grid">
             {map(itemConfigs, ({ title, value, render }) => (
               <div key={title}>
@@ -135,8 +135,8 @@ export const PureBaseAddonInfo = ({
           </div>
         </div>
         {extra}
-        <div className="ref mb32">
-          <span className="title bold-500">{i18n.t('org:reference detail')}</span>
+        <div className="ref mb-8">
+          <span className="title font-medium">{i18n.t('org:reference detail')}</span>
           <Table
             columns={refTableList}
             dataSource={addonDetail.referenceInfos}
@@ -146,12 +146,12 @@ export const PureBaseAddonInfo = ({
           />
         </div>
         <div className="config">
-          <div className="flex-box">
-            <span className="title bold-500">{i18n.t('org:basic parameters')}</span>
+          <div className="flex justify-between items-center">
+            <span className="title font-medium">{i18n.t('org:basic parameters')}</span>
             {!isEmpty(addonDetail.config) && (
-              <span className="copy-all pointer for-copy">
+              <span className="copy-all cursor-pointer cursor-copy">
                 {i18n.t('org:copy all')}
-                <Copy selector=".for-copy" opts={{ text: () => jsonStr }} />
+                <Copy selector=".cursor-copy" opts={{ text: () => jsonStr }} />
               </span>
             )}
           </div>

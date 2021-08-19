@@ -15,8 +15,8 @@ import { goTo, formatTime, fromNow } from 'app/common/utils';
 import { FilterGroup, Panel, useUpdate } from 'common';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
-import { Button, Cascader, message, Spin, Table, Tooltip } from 'app/nusi';
-import * as React from 'react';
+import { Button, Cascader, message, Spin, Table, Tooltip } from 'core/nusi';
+import React from 'react';
 import addonStore from 'common/stores/addon';
 import jvmStore, { ProfileStateMap } from '../../stores/jvm';
 
@@ -138,7 +138,7 @@ export default () => {
         title: i18n.t('common:state'),
         dataIndex: ['state', 'state'],
         key: 'state.state',
-        width: 140,
+        width: 160,
         render: (v) => {
           return (
             {
@@ -155,7 +155,7 @@ export default () => {
         title: i18n.t('create time'),
         dataIndex: 'createTime',
         key: 'createTime',
-        width: 180,
+        width: 200,
         render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
       },
       isHistory
@@ -192,7 +192,7 @@ export default () => {
   return (
     <div className="jvm-profile">
       <Spin spinning={isPending} tip={i18n.t('addonPlatform:attaching to process')}>
-        <div className="px20 pt20 pb4 mb20 white-bg border-all">
+        <div className="px-5 pt-5 pb-1 mb-5 bg-white border-all">
           <FilterGroup
             list={[
               {
@@ -217,10 +217,10 @@ export default () => {
           columns={getCols(false)}
           rowKey="profiling"
           pagination={false}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 900 }}
         />
       </Panel>
-      <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt20">
+      <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt-5">
         <Table
           dataSource={historyList}
           columns={getCols(true)}
@@ -232,7 +232,7 @@ export default () => {
             total: historyPaging.total,
             onChange: (no: number) => getHistoryList({ pageNo: no }),
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 900 }}
         />
       </Panel>
     </div>

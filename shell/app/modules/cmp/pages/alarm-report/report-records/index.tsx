@@ -16,7 +16,7 @@ import moment, { Moment } from 'moment';
 import { isEmpty, map, get, set, values } from 'lodash';
 import classnames from 'classnames';
 import { useMount, useUnmount } from 'react-use';
-import { Spin, Pagination, RangePicker } from 'app/nusi';
+import { Spin, Pagination, RangePicker } from 'core/nusi';
 import { Holder, Icon as CustomIcon, useUpdate, PureBoardGrid } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { useLoading } from 'core/stores/loading';
@@ -133,26 +133,26 @@ export default () => {
   };
 
   return (
-    <div className="task-report-records start-flex-box">
-      <div className="search-records pr16 v-flex-box">
-        <div className="mb8">
+    <div className="task-report-records flex items-start justify-between">
+      <div className="search-records pr-4 flex flex-col h-full">
+        <div className="mb-2">
           <RangePicker
             borderTime
-            className="full-width"
+            className="w-full"
             onChange={(dates) => handleChange(pageNo, dates)}
             ranges={getTimeRanges()}
           />
         </div>
-        <div className="flex-1 full-height auto-overflow">
+        <div className="flex-1 h-full overflow-auto">
           <Spin spinning={getReportTaskRecordsLoading}>
             <Holder when={isEmpty(reportTaskRecords)}>
               <ul>
                 {map(reportTaskRecords, ({ id, start, end }) => (
                   <li
                     className={classnames({
-                      fz16: true,
-                      py16: true,
-                      'bold-500': true,
+                      'text-base': true,
+                      'py-4': true,
+                      'font-medium': true,
                       'text-center': true,
                       'hover-active-bg': true,
                       active: String(activedRecord) === String(id),
@@ -160,7 +160,7 @@ export default () => {
                     key={id}
                     onClick={() => handleClick(id)}
                   >
-                    <CustomIcon className="mr8" type="rw" />
+                    <CustomIcon className="mr-2" type="rw" />
                     {end
                       ? `${moment(start).format('YYYY/MM/DD')}-${moment(end).format('YYYY/MM/DD')}`
                       : moment(start).format('YYYY-MM-DD')}
@@ -169,7 +169,7 @@ export default () => {
               </ul>
               {total && (
                 <Pagination
-                  className="text-center mt12"
+                  className="text-center mt-3"
                   simple
                   defaultCurrent={1}
                   total={total}
@@ -180,7 +180,7 @@ export default () => {
           </Spin>
         </div>
       </div>
-      <div className="flex-1 pl16 auto-overflow full-height">
+      <div className="flex-1 pl-4 overflow-auto h-full">
         <Spin spinning={getReportTaskRecordLoading}>
           <Holder when={isEmpty(layout)}>
             <PureBoardGrid layout={layout} />

@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { extend, find, includes, isBoolean, map, remove, flatMapDeep } from 'lodash';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 import i18n from 'i18n';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { checkNeedEmptyChoosenIds, getChoosenName, getCaseListName, formatQuery } from 'project/utils/test-case';
 import { isImage, regRules, convertToFormData } from 'common/utils';
 import defaultFileTypeImg from 'app/images/defaultFileImage.png';
@@ -34,6 +34,7 @@ import {
   getDetail,
   getFields,
   importFileInTestCase,
+  importFileInAutoTestCase,
   updateCases,
   batchUpdateCase,
   removeRelation,
@@ -184,6 +185,15 @@ const testCaseStore = createStore({
       const res = await call(importFileInTestCase, { payload: formData, query: { testSetID, projectID, fileType } });
       testCaseStore.effects.getCases();
       testSetStore.reducers.updateReloadTestSet(reloadTestSetInfo);
+      return res;
+    },
+    async importAutoTestCase({ call, getParams }, payload: { file: File }) {
+      const { projectId: projectID } = getParams();
+      const { file } = payload;
+      const fileType: TEST_CASE.CaseFileType = 'excel';
+      const query = { projectID, fileType };
+      const formData = convertToFormData({ file });
+      const res = await call(importFileInAutoTestCase, { payload: formData, query });
       return res;
     },
     async create({ call, getParams }, payload: any) {

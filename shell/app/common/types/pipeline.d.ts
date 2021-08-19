@@ -64,6 +64,7 @@ declare namespace PIPELINE {
     result: {
       metadata?: MetaData[];
     };
+    [k: string]: any;
   }
 
   interface IPipelineDetail {

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Modal } from 'app/nusi';
+import { Modal } from 'core/nusi';
 import { TableActions } from 'common';
 import testPlanStore from 'project/stores/test-plan';
 import testEnvStore from 'project/stores/test-env';
@@ -45,11 +45,11 @@ const Operation = ({ record, afterDelete }: IProps) => {
   return (
     <TableActions>
       <StatusToggle state={record.execStatus} onChange={handleUpdate} />
-      <span className="fake-link ml8" onClick={() => onDelete(record.id)}>
+      <span className="fake-link ml-2" onClick={() => onDelete(record.id)}>
         {i18n.t('project:remove')}
       </span>
       <span
-        className="fake-link ml8"
+        className="fake-link ml-2"
         onClick={() => {
           openEnvVariable({ envID: record.testCaseID, envType: 'case' });
         }}

@@ -16,12 +16,13 @@ import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
 import { ColumnProps } from 'core/common/interface';
-import { Badge, Table } from 'app/nusi';
+import { Badge, Table } from 'core/nusi';
 
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import { ciStatusMap } from 'application/pages/build-detail/config';
+import './build-history.scss';
 
 interface IProps {
   activeItem: any;
@@ -60,7 +61,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
       render: (status: string) => (
         <span>
           <span className="nowrap">{ciStatusMap[status].text}</span>
-          <Badge className="ml4" status={ciStatusMap[status].status} />
+          <Badge className="ml-1" status={ciStatusMap[status].status} />
         </span>
       ),
     },

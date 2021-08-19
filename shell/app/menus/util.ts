@@ -32,7 +32,7 @@ const menuFilterMap = {
   appCenter: {
     // 应用中心
     cmp: (item: IMenuItem) => {
-      const name = i18n.t('cloud management');
+      const name = i18n.t('Cloud management');
       return { ...item, name, breadcrumbName: name };
     },
   },

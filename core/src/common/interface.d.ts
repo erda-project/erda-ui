@@ -15,11 +15,19 @@ export { FormInstance } from 'antd/lib/form/Form';
 export { SelectValue, SelectProps } from 'antd/lib/select';
 export { DrawerProps } from 'antd/lib/drawer';
 export { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
-export { AntTreeNodeSelectedEvent } from 'antd/lib/tree/Tree';
+export {
+  AntTreeNodeSelectedEvent,
+  TreeProps,
+  TreeNodeNormal,
+  AntTreeNode,
+  AntTreeNodeProps,
+  AntTreeNodeDropEvent,
+} from 'antd/lib/tree/Tree';
 export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
-export { PaginationConfig, SorterResult, ColumnProps } from 'antd/lib/table';
+export { PaginationConfig, SorterResult } from 'antd/lib/table';
+export { ColumnProps } from '../nusi/wrapped-table';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 
@@ -35,13 +43,5 @@ export { ClickParam } from '@terminus/nusi/es/menu';
 export { OperationProps, TitleProps } from '@terminus/nusi/es/title/interface';
 export { PanelProps } from '@terminus/nusi/es/panel/index';
 export { IAnchorContainer } from '@terminus/nusi/es/anchor/interface';
-export { TreeProps } from '@terminus/nusi/es/tree';
 export { TransferItem } from '@terminus/nusi/es/transfer/index';
-export {
-  AntTreeNode as NusiTreeNode,
-  AntTreeNodeSelectedEvent as NusiTreeNodeSelectedEvent,
-  IAction,
-  TreeNodeNormal,
-  AntTreeNodeDropEvent as NusiTreeNodeDropEvent,
-} from '@terminus/nusi/es/tree/interface';
 export { Theme } from '@terminus/nusi/es/global-navigation/interface';

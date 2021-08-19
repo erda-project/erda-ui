@@ -14,9 +14,9 @@
 import { FormModal, Icon as CustomIcon, useUpdate } from 'app/common';
 import i18n from 'app/i18n';
 import { FormInstance } from 'core/common/interface';
-import { Modal } from 'app/nusi';
+import { Modal } from 'core/nusi';
 import projectLabel from 'project/stores/label';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
 import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
@@ -108,11 +108,11 @@ export default () => {
       initialValue: colors[0],
       getComp: ({ form }: { form: FormInstance }) => {
         return (
-          <div className="color-list colorful-bg">
+          <div className="color-list">
             {colors.map((c) => (
               <span
                 key={c}
-                className={`color-option ${c} ${state.activeColor === c ? 'active' : ''}`}
+                className={`color-option bg-${c} ${state.activeColor === c ? 'active' : ''}`}
                 onClick={() => {
                   updater.activeColor(c);
                   form.setFieldsValue({ color: c });
@@ -130,16 +130,20 @@ export default () => {
 
   return (
     <div className="project-label-list">
-      <div className="colorful-light-bg">
+      <div>
         <span className="label-item create" onClick={() => updater.modalVisible(true)}>
           <IconPlus size="14px" />
           {i18n.t('project:add label')}
         </span>
         {list.map((label) => (
-          <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
+          <span
+            className={`label-item text-${label.color} bg-${label.color} bg-opacity-10`}
+            key={label.id}
+            onClick={() => onClickLabel(label)}
+          >
             {label.name}
             <IconClose
-              className="ml4"
+              className="ml-1"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDelete(label);

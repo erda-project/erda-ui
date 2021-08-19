@@ -13,7 +13,7 @@
 .envrc
 
 # Files for vscode
-.vscode/*
+**/.vscode/*
 .vendor/*
 
 # Files for local

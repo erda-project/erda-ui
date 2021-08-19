@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Filter as NusiFilter } from 'app/nusi';
+import React from 'react';
+import { Filter as NusiFilter } from 'core/nusi';
 import { get, map, has, set, isEmpty, debounce } from 'lodash';
 import { IFilterProps } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';
@@ -125,7 +125,7 @@ export const PureFilter = (props: IPureFilterProps) => {
   return (
     <NusiFilter
       onSubmit={changeFilterData}
-      className={`dice-filter my12 ${className}`}
+      className={`dice-filter my-3 ${className}`}
       {...rest}
       {...(filterProps[filterTirgger] || {})}
       onRef={(ref: any) => {

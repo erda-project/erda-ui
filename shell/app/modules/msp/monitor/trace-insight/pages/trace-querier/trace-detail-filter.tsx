@@ -18,8 +18,8 @@
  * @Last Modified time: 2019-03-01 17:50:44
  * Just copy from old trace-detail
  */
-import * as React from 'react';
-import { Form, Row, Col, Radio } from 'app/nusi';
+import React from 'react';
+import { Form, Row, Col, Radio } from 'core/nusi';
 import { JsonChecker } from 'common';
 import i18n from 'i18n';
 
@@ -44,19 +44,19 @@ const TraceDetailFilter = (props: IProps) => {
         <Row className="filter-top">
           <Col span={24}>
             <ul className="trace-nav clearfix">
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Duration:</strong> <span className="badge">{duration || 0}</span>
               </li>
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Services:</strong> <span className="badge">{services || 0}</span>
               </li>
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Depth:</strong> <span className="badge">{depth || 0}</span>
               </li>
-              <li className="pull-left">
+              <li className="float-left">
                 <strong>Total Spans:</strong> <span className="badge">{totalSpans || 0}</span>
               </li>
-              <li className="pull-right">
+              <li className="float-right">
                 <JsonChecker jsonString={jsonStr} />
               </li>
             </ul>

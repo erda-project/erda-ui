@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
-import { Button, Input } from 'app/nusi';
+import { Button, Input } from 'core/nusi';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
 import { usePerm } from 'app/user/common';
@@ -46,7 +46,7 @@ const PureAppInfo = (): JSX.Element => {
 
   const [confirmAppName, setConfirmAppName] = React.useState('');
   const permMap = usePerm((s) => s.app.setting);
-  const gitRepo = `${protocol}//${host}/wb/${appDetail.projectName}/${appDetail.name}`;
+  const gitRepo = `${protocol}//${appDetail.gitRepoNew}`;
   const fieldsList = [
     {
       label: i18n.t('application:app name'),
@@ -69,7 +69,7 @@ const PureAppInfo = (): JSX.Element => {
       },
     },
     {
-      label: i18n.t('application:app address'),
+      label: i18n.t('application:app repository address'),
       name: 'gitRepo',
       itemProps: {
         disabled: true,

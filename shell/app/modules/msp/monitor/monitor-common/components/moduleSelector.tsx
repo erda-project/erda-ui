@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { last, get } from 'lodash';
-import { Cascader } from 'app/nusi';
+import { Cascader } from 'core/nusi';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';

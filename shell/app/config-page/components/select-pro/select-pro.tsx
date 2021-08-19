@@ -15,11 +15,11 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/2/4 14:52.
  */
 import React from 'react';
-import { Select as NusiSelect, Modal } from 'app/nusi';
+import { Select, Modal } from 'core/nusi';
 import { omit, map, debounce } from 'lodash';
 import { SelectProps } from 'core/common/interface';
 
-const { Option } = NusiSelect;
+const { Option } = Select;
 const customizeProps = ['renderType'];
 
 const SelectPro = (props: CP_SELECT_PRO.Props) => {
@@ -59,8 +59,8 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
             const tips = [assetName, version, operationID].filter((t) => !!t);
             option = (
               <Option value={id} key={id} label={`${method} ${path}`}>
-                <div className="color-text-sub nowrap">{tips.join(' / ')}</div>
-                <div className="color-text">
+                <div className="text-sub nowrap">{tips.join(' / ')}</div>
+                <div className="text-normal">
                   {method} {path}
                 </div>
               </Option>
@@ -100,9 +100,9 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
 
   return (
     <>
-      <NusiSelect filterOption={false} {...restProps} value={selectVal} onChange={handleChange}>
+      <Select filterOption={false} {...restProps} value={selectVal} onChange={handleChange}>
         {content}
-      </NusiSelect>
+      </Select>
     </>
   );
 };

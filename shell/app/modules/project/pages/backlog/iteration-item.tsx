@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
-import { Spin, Tooltip, Pagination } from 'app/nusi';
+import { Spin, Tooltip, Pagination } from 'core/nusi';
 import { useDrop } from 'react-dnd';
 import moment from 'moment';
 import iterationStore from 'project/stores/iteration';
@@ -101,21 +101,24 @@ export const IterationItem = (props: IProps) => {
 
   return (
     <div className={`backlog-iteration-item-container ${isOver ? 'drag-over' : ''}`} ref={drop}>
-      <div className="backlog-iteration-item flex-box hover-active-bg" onClick={() => updater.isOpen(!isOpen)}>
-        <div className={'iteration-info full-height'}>
+      <div
+        className="backlog-iteration-item flex justify-between items-center hover-active-bg"
+        onClick={() => updater.isOpen(!isOpen)}
+      >
+        <div className={'iteration-info h-full'}>
           <CustomIcon type="chevron-down" className={`open-icon ${isOpen ? 'open' : 'close'}`} />
           {ISSUE_ICON.iteration}
           {data ? (
             <Tooltip title={data.title}>
-              <div className="bold nowrap">{data.title}</div>
+              <div className="font-bold nowrap">{data.title}</div>
             </Tooltip>
           ) : null}
         </div>
-        <div className="iteration-time-duration full-height ml8 mr8 color-text-sub">
+        <div className="iteration-time-duration h-full ml-2 mr-2 text-sub">
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>
-      <div className={`backlog-iteration-issues ${isOpen ? '' : 'hide'}`}>
+      <div className={`backlog-iteration-issues ${isOpen ? '' : 'hidden'}`}>
         <Spin spinning={loading}>
           {isEmpty(list) ? (
             <EmptyHolder relative />
@@ -134,7 +137,7 @@ export const IterationItem = (props: IProps) => {
         <div>
           {total && (
             <Pagination
-              className="right-flex-box pt8"
+              className="flex items-center flex-wrap justify-end pt-2"
               simple
               defaultCurrent={1}
               total={total}
@@ -216,13 +219,13 @@ export const IterarionForm = (props: IIterationFormProps) => {
     }
   };
   return (
-    <div className="backlog-iteration-item flex-box hover-active-bg">
-      <div className={'iteration-info full-height'}>
+    <div className="backlog-iteration-item flex justify-between items-center hover-active-bg">
+      <div className={'iteration-info h-full'}>
         <CustomIcon type="chevron-down" className={'open-icon close'} />
         {ISSUE_ICON.iteration}
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-iteration-form' }} />
       </div>
-      <div className="table-operations ml8">
+      <div className="table-operations ml-2">
         <span className="table-operations-btn" onClick={onAdd}>
           {i18n.t('save')}
         </span>

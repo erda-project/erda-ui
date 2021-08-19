@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Modal, Radio } from 'app/nusi';
+import React from 'react';
+import { Modal, Radio } from 'core/nusi';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
 import { Form } from 'dop/pages/form-editor/index';
 import clusterStore from 'cmp/stores/cluster';
@@ -338,17 +338,17 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
             const mFields = filter(totalFields, { category: 'machine' });
             return (
               <>
-                <div className="bold mb4">{i18n.t('cmp:cluster configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:cluster configuration')}</div>
                 <RenderFields form={form} fields={bFields} />
-                <div className="bold mb4">{i18n.t('cmp:jump server configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />
-                <div className="bold mb4">{i18n.t('cmp:shared storage')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:shared storage')}</div>
                 <RenderFields form={form} fields={stFields} />
-                <div className="bold mb4">{i18n.t('cmp:network configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:network configuration')}</div>
                 <RenderFields form={form} fields={dFields} />
-                <div className="bold mb4">{i18n.t('cmp:domain name server')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:domain name server')}</div>
                 <RenderFields form={form} fields={seFields} />
-                <div className="bold mb4">{i18n.t('cmp:machine information configuration')}</div>
+                <div className="font-bold mb-1">{i18n.t('cmp:machine information configuration')}</div>
                 <RenderFields form={form} fields={mFields} />
               </>
             );

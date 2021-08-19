@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Ellipsis, Badge } from 'app/nusi';
+import React from 'react';
+import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Ellipsis, Badge } from 'core/nusi';
 import { map, isEmpty, get, isArray, sortBy, filter } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy } from 'common';
 import i18n from 'i18n';
@@ -29,7 +29,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="fz14 color-text-sub ml8" />
+          <CustomIcon type="info" className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -79,7 +79,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { url, value } = val || {};
         Comp = (
-          <a className="fake-link nowrap flex-box full-width" download={value} href={url}>
+          <a className="fake-link nowrap flex flex-wrap justify-start items-center w-full" download={value} href={url}>
             <IconDownLoad /> {value}
           </a>
         );
@@ -94,14 +94,17 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
         };
         Comp = (
-          <div className={`table-render-twt full-width pl8 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
+          <div
+            className={`table-render-twt w-full pl-2 flex items-center ${hasPointer ? 'cursor-pointer' : ''}`}
+            onClick={onClick}
+          >
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
               <TagsRow
                 labels={tags.map((l) => ({ label: l.tag, color: l.color }))}
                 showCount={2}
-                containerClassName="ml8"
+                containerClassName="ml-2"
               />
             </div>
           </div>
@@ -112,8 +115,8 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
         Comp = (
-          <div className={`${hoverActive} v-align`}>
-            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
+          <div className={`${hoverActive} flex items-center`}>
+            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr-1 ${colorClassName}`} /> : null}
             <Ellipsis title={value}>{value}</Ellipsis>
           </div>
         );
@@ -176,7 +179,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                         type="avatar"
                       />
                     )}
-                    <span className="ml2 mr4" title={cU.name}>
+                    <span className="ml-0.5 mr-1" title={cU.name}>
                       {cU.nick || cU.name || val.value || i18n.t('common:none')}
                     </span>
                   </span>
@@ -230,11 +233,11 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { displayTip } = val; // 带展示tip的
         const DisplayTipComp = displayTip ? (
-          <span className={`date-picker-display-tip color-${displayTip.color} `}>{displayTip.text}</span>
+          <span className={`date-picker-display-tip text-${displayTip.color} `}>{displayTip.text}</span>
         ) : null;
         // const DateUpdateComp = (
         //   <DatePicker
-        //     className={'full-width date-picker '}
+        //     className={'w-full date-picker '}
         //     allowClear={false}
         //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
         //     value={val.value ? moment(val.value) : undefined}
@@ -259,15 +262,15 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { text, prefix, suffix } = val;
         Comp = (
-          <div className="dice-cp-text-tag full-width pl8 v-align">
+          <div className="dice-cp-text-tag w-full pl-2 flex items-center">
             {prefix ? (
-              <div className="extra-tags px8 mr4" style={{ backgroundColor: prefix.bgColor }}>
+              <div className="extra-tags px-2 mr-1" style={{ backgroundColor: prefix.bgColor }}>
                 {prefix.text}
               </div>
             ) : null}
             <div className="nowrap">{text}</div>
             {suffix ? (
-              <div className="extra-tags px8 mr4" style={{ backgroundColor: suffix.bgColor }}>
+              <div className="extra-tags px-2 mr-1" style={{ backgroundColor: suffix.bgColor }}>
                 {suffix.text}
               </div>
             ) : null}
@@ -282,9 +285,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { data = [] } = val;
         Comp = (
-          <div className="dice-cp-level-content full-width pl8 v-align">
+          <div className="dice-cp-level-content w-full pl-2 flex items-center">
             {data.map(({ level, text }: { level: number; text: string }) => {
-              return <div className={`mr4 level-${level}-content`}>{text}</div>;
+              return <div className={`mr-1 level-${level}-content`}>{text}</div>;
             })}
           </div>
         );
@@ -320,7 +323,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     default:
-      Comp = (val || val === 0) ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
+      Comp = val || val === 0 ? <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis> : null;
       break;
   }
   return Comp;
@@ -330,9 +333,9 @@ const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:none');
   return (
-    <div className="v-align dice-config-table-member-field-selector">
+    <div className="flex items-center dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
-      <span className={'ml4 fz14 nowrap'} title={name}>
+      <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />
@@ -353,10 +356,10 @@ interface IDropdownSelectorProps {
 const DropdownSelector = (props: IDropdownSelectorProps) => {
   const { disabled, disabledTip, operations, prefixIcon, value, execOperation } = props;
   const ValueRender = (
-    <div className="v-align hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
-      <div className="v-align">
+    <div className="flex items-center hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
+      <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {value || <span className="color-text-desc">{i18n.t('unspecified')}</span>}
+        {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
       <CustomIcon type="di" className="arrow-icon" />
     </div>
@@ -378,7 +381,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
       {map(operations, (op) => (
         <Menu.Item disabled={op.disabled} key={op.key}>
           <Tooltip title={op.disabledTip}>
-            <div className="v-align">
+            <div className="flex items-center">
               {op.prefixIcon ? <CustomIcon type={op.prefixIcon} /> : null}
               {op.text}
             </div>
@@ -512,7 +515,7 @@ const getTitleTip = (tip: string | string[]) => {
     let _s = item;
     map(colorKey, (v, k) => {
       if (item.includes(v[0])) {
-        _s = _s.replaceAll(v[0], `<span class="color-${k}">`);
+        _s = _s.replaceAll(v[0], `<span class="text-${k}">`);
         _s = _s.replaceAll(v[1], '</span>');
       }
     });

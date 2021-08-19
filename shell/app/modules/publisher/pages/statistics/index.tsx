@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Row, Col, Radio, Input, Select } from 'app/nusi';
+import React from 'react';
+import { Row, Col, Radio, Input, Select } from 'core/nusi';
 import { map, get, isEmpty } from 'lodash';
 import { Icon as CustomIcon, PureBoardGrid, TimeSelector, useUpdate } from 'common';
 import { goTo } from 'common/utils';
@@ -289,7 +289,7 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         staticData: getLineChartLayout(lineData),
         title: () => (
-          <div className="chart-title flex-box  full-width">
+          <div className="chart-title flex justify-between items-center  w-full">
             <FilterTab onChange={OnChangeLineType} />
             <TimeSelector inline disabledDate={() => false} />
           </div>
@@ -308,10 +308,10 @@ const Statistics = (props: IProps) => {
         chartType: 'chart:pie',
         hideReload: true,
         title: () => (
-          <div className="chart-title flex-box full-width">
-            <span className="bold fz16">{i18n.t('publisher:top10 version')}</span>
+          <div className="chart-title flex justify-between items-center w-full">
+            <span className="font-bold text-base">{i18n.t('publisher:top10 version')}</span>
             <span
-              className="always-active"
+              className="text-primary cursor-pointer"
               onClick={() => {
                 goTo('./topDetail/version', { query: monitorKey });
               }}
@@ -334,8 +334,8 @@ const Statistics = (props: IProps) => {
         },
         customRender: (chartNode: any) => {
           return (
-            <div className="v-flex-box">
-              <FilterTab className="mb8" onChange={OnChangePieVersionType} />
+            <div className="flex flex-col h-full">
+              <FilterTab className="mb-2" onChange={OnChangePieVersionType} />
               <div className="flex-1">{chartNode}</div>
             </div>
           );
@@ -355,10 +355,10 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         staticData: getPieChartLayout(pieChannelData),
         title: () => (
-          <div className="chart-title flex-box full-width">
-            <span className="bold fz16">{i18n.t('publisher:top10 channel')}</span>
+          <div className="chart-title flex justify-between items-center w-full">
+            <span className="font-bold text-base">{i18n.t('publisher:top10 channel')}</span>
             <span
-              className="always-active"
+              className="text-primary cursor-pointer"
               onClick={() => {
                 goTo('./topDetail/channel', { query: monitorKey });
               }}
@@ -379,8 +379,8 @@ const Statistics = (props: IProps) => {
         },
         customRender: (chartNode: any) => {
           return (
-            <div className="v-flex-box">
-              <FilterTab className="mb8" onChange={OnChangePieChannelType} />
+            <div className="flex flex-col h-full">
+              <FilterTab className="mb-2" onChange={OnChangePieChannelType} />
               <div className="flex-1">{chartNode}</div>
             </div>
           );
@@ -417,7 +417,7 @@ const Statistics = (props: IProps) => {
         <Select
           value={selectMonitorKey}
           style={{ width: 200 }}
-          className="mb8"
+          className="mb-2"
           onChange={(k) => {
             updater.selectMonitorKey(k);
           }}
@@ -429,8 +429,8 @@ const Statistics = (props: IProps) => {
           ))}
         </Select>
         <div className="total-trend block-container">
-          <div className="title bold fz16">{i18n.t('publisher:overall trend')}</div>
-          <Row className="pb16">
+          <div className="title font-bold text-base">{i18n.t('publisher:overall trend')}</div>
+          <Row className="pb-4">
             {map(totalTrend, (info, idx) => {
               return (
                 <Col key={`${idx}`} {...layout}>
@@ -442,9 +442,9 @@ const Statistics = (props: IProps) => {
                           <>
                             {info.subData}
                             {`${info.subData}`.startsWith('-') ? (
-                              <CustomIcon className="color-red" type="arrow-down" />
+                              <CustomIcon className="text-red" type="arrow-down" />
                             ) : (
-                              <CustomIcon className="color-green" type="arrow-up" />
+                              <CustomIcon className="text-green" type="arrow-up" />
                             )}
                           </>
                         ) : null}

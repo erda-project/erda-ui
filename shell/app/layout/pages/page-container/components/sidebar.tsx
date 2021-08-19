@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { GlobalNavigation, Shell, Badge, Tooltip, message } from 'app/nusi';
+import { GlobalNavigation, Shell, Badge, Tooltip, message } from 'core/nusi';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
 import { Icon as CustomIcon, ImgHolder, ErdaCustomIcon } from 'common';
@@ -21,7 +21,6 @@ import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
 import { goTo, ossImg, insertWhen } from 'common/utils';
-import { useMount } from 'react-use';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
@@ -92,6 +91,12 @@ const AppCenterEl = () => {
       visible={visible}
       className="app-list"
       titleProp="name"
+      title={
+        <div className="flex items-center">
+          {i18n.t('App Center')}
+          <span className="app-center-version">{`v${process.env.mainVersion}`}</span>
+        </div>
+      }
       node={
         <Tooltip
           title={
@@ -162,7 +167,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <IconHelp className="mr0" size="20px" />
+          <IconHelp className="mr-0" size="20px" />
         </Tooltip>
       ),
       onClick: () => {
@@ -189,19 +194,15 @@ const SideBar = () => {
           size="small"
           count={unreadCount}
           offset={[-5, 2]}
-          className="message-icon unselectable"
+          className="message-icon select-none"
           style={{ boxShadow: 'none' }}
         >
-          <IconRemind className="mr0" size="20px" style={customIconStyle} />
+          <IconRemind className="mr-0" size="20px" style={customIconStyle} />
         </Badge>
       ),
       onClick: () => switchMessageCenter(null),
     },
   ].filter((a) => a.show);
-
-  useMount(() => {
-    orgStore.effects.getJoinedOrgs();
-  });
 
   const useMenuOperations = [
     ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [
@@ -236,7 +237,7 @@ const SideBar = () => {
       verticalBrandIcon={
         loginUser.isSysAdmin ? null : (
           <img
-            className="mr0 pointer"
+            className="mr-0 cursor-pointer"
             src={Logo}
             style={{
               width: '19px',

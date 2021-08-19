@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, filter, cloneDeep, isPlainObject, set } from 'lodash';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';

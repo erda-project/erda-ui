@@ -16,9 +16,9 @@ import { useLoading } from 'core/stores/loading';
 import { Icon as CustomIcon, useUpdate, LogRoller, FilterGroup } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
+import { Table, Drawer, Badge, Tooltip, Switch } from 'core/nusi';
 import machineStore from 'app/modules/cmp/stores/machine';
-import * as React from 'react';
+import React from 'react';
 import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
 import { cutStr } from 'app/common/utils';
@@ -80,7 +80,7 @@ export const OperationHistory = () => {
     {
       title: 'ID',
       dataIndex: 'recordID',
-      width: 90,
+      width: 96,
     },
     {
       title: i18n.t('org:cluster name'),
@@ -90,7 +90,7 @@ export const OperationHistory = () => {
     {
       title: `${i18n.t('operation')}${i18n.t('name')}`,
       dataIndex: 'recordType',
-      width: 140,
+      width: 160,
       render: (val: string) => {
         return <Tooltip title={val}>{val}</Tooltip>;
       },
@@ -111,7 +111,7 @@ export const OperationHistory = () => {
     {
       title: i18n.t('time'),
       dataIndex: 'createTime',
-      width: 190,
+      width: 200,
       render: (createTime: string) => {
         return <span>{moment(createTime).format('YYYY-MM-DD HH:mm:ss')}</span>;
       },
@@ -119,7 +119,7 @@ export const OperationHistory = () => {
     {
       title: i18n.t('user'),
       dataIndex: 'userID',
-      width: 100,
+      width: 120,
       render: (id: string) =>
         userMap[id] ? <span>{cutStr(userMap[id].nick || userMap[id].name, 8, { showTip: true })}</span> : null,
     },
@@ -140,7 +140,7 @@ export const OperationHistory = () => {
         return hasLog ? (
           <CustomIcon
             type="log"
-            className="pointer"
+            className="cursor-pointer"
             onClick={() => {
               updater.curRow(record);
             }}
@@ -194,7 +194,7 @@ export const OperationHistory = () => {
           total: operationPaging.total,
           onChange: (no: number) => getList({ pageNo: no, ...filters }),
         }}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1100 }}
       />
       <ClusterLog recordID={curRow && curRow.recordID} onClose={() => updater.curRow(null)} />
     </div>

@@ -11,10 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-} from 'app/nusi';
-import * as React from 'react';
+import { Form } from 'core/nusi';
+import React from 'react';
 import { isEmpty, map, debounce } from 'lodash';
 import { InputSelect } from 'common';
 import { getLabel, noop } from './common';
@@ -26,13 +24,7 @@ const FormItem = Form.Item;
 
 const empty = {};
 const PureFormSelect = (props: any) => {
-  const {
-    fieldConfig,
-    form,
-    fixOut,
-    fixIn,
-    requiredCheck,
-  } = props || {};
+  const { fieldConfig, form, fixOut, fixIn, requiredCheck } = props || {};
   const [options, setOptions] = React.useState([] as any[] | Function);
   const {
     key,
@@ -71,7 +63,6 @@ const PureFormSelect = (props: any) => {
   };
   registerRequiredCheck(_requiredCheck || requiredCheck);
 
-
   const { placeholder } = componentProps || {};
   const _placeholder = placeholder || i18n.t('please select {name}', { name: label || key });
 
@@ -79,7 +70,7 @@ const PureFormSelect = (props: any) => {
     <FormItem
       colon
       label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
+      className={visible ? '' : 'hidden'}
       validateStatus={valid[0]}
       help={valid[1]}
       required={required}

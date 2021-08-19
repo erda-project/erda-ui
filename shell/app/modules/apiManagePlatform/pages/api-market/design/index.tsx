@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon, EmptyHolder, LazyRender } from 'common';
-import { Input, Button, Collapse, Tooltip, Popconfirm, message, Ellipsis, Spin, Modal, Popover } from 'app/nusi';
+import { Input, Button, Collapse, Tooltip, Popconfirm, message, Ellipsis, Spin, Modal, Popover } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, keys, get, filter, isEmpty, set, unset, forEach } from 'lodash';
@@ -52,7 +52,7 @@ const { confirm } = Modal;
 const ExternalRepoPage = ({ type }: { type?: string }) => {
   return type ? (
     <div>
-      <p className="color-text-desc">{i18n.t('project:repository address')}</p>
+      <p className="text-desc">{i18n.t('project:repository address')}</p>
       <p>
         <span>{i18n.t('project:external general Git repository')}</span>
         <span>({i18n.t('project:does not support API design')})</span>
@@ -121,7 +121,7 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
   const content = (
     <div>
       <div>
-        <CustomIcon type="warnfill" className="color-warning" />
+        <CustomIcon type="warnfill" className="text-warning" />
         <span>{i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}</span>
         <span className="text-link" onClick={gotoDetail}>
           {' '}
@@ -133,7 +133,7 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
   );
   return (
     <Popover placement="bottom" content={content} trigger="hover">
-      <div className="ml8">
+      <div className="ml-2">
         <CustomIcon type="tishi" />
         <span>{i18n.t('project:document is illegal')}</span>
       </div>
@@ -367,11 +367,11 @@ const ApiDesign = () => {
 
   // 左侧列表头部渲染
   const renderPanelHead = (titleKey: IListKey) => (
-    <div className="list-panel-head flex-box">
-      <span className="bold">{LIST_TITLE_MAP[titleKey]}</span>
+    <div className="list-panel-head flex justify-between items-center">
+      <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus
-          className="mr0 pointer"
+          className="mr-0 cursor-pointer"
           size="16px"
           onClick={(e) => {
             e.stopPropagation();
@@ -392,9 +392,9 @@ const ApiDesign = () => {
           className={`list-title ${contentKey === key ? 'list-title-active' : ''}`}
           onClick={() => onContentChange(key)}
         >
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <Ellipsis title={name}>
-              <div className="list-title-name full-width nowrap mr4">{name}</div>
+              <div className="list-title-name w-full nowrap mr-1">{name}</div>
             </Ellipsis>
             <Popconfirm
               title={`${i18n.t('common:confirm to delete')}?`}
@@ -405,7 +405,11 @@ const ApiDesign = () => {
               onCancel={(e: any) => e.stopPropagation()}
             >
               {!apiLockState && (
-                <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={(e) => e?.stopPropagation()} />
+                <CustomIcon
+                  type="shanchu"
+                  className="list-title-btn cursor-pointer"
+                  onClick={(e) => e?.stopPropagation()}
+                />
               )}
             </Popconfirm>
           </div>
@@ -415,7 +419,7 @@ const ApiDesign = () => {
                 const methodIconClass = !isEmpty(apiData[methodKey]) ? `method-icon-${methodKey}` : '';
                 return (
                   <Tooltip title={methodKey} key={methodKey}>
-                    <div className={`method-icon mr8 ${methodIconClass}`} />
+                    <div className={`method-icon mr-2 ${methodIconClass}`} />
                   </Tooltip>
                 );
               })}
@@ -633,7 +637,7 @@ const ApiDesign = () => {
             </Button>
           </div>
           <div className="api-design-wrap">
-            <div className="search-wrap mb16 flex-box flex-start">
+            <div className="search-wrap mb-4 flex items-center justify-start">
               <ApiDocTree
                 treeNodeData={curTreeNodeData}
                 newTreeNode={newTreeNode}
@@ -643,14 +647,14 @@ const ApiDesign = () => {
                 onVisibleChange={onToggleTreeVisible}
               />
               {LockTipVisible && (
-                <span className="ml16">
+                <span className="ml-4">
                   <CustomIcon type="lock" />
                   {docLockTip}
                 </span>
               )}
               {showErrorDocTip && <ErrorPopover {...errorData} />}
               {inodeQuery && !isEmpty(curTreeNodeData) && (
-                <div className="right-flex-box flex-1">
+                <div className="flex items-center flex-wrap justify-end flex-1">
                   {!apiWs || isDocLocked ? (
                     <WithAuth pass={!isApiReadOnly && docValidData.valid}>
                       <Button type="ghost" onClick={onEditDocHandle}>
@@ -663,7 +667,7 @@ const ApiDesign = () => {
                     </Button>
                   )}
                   <WithAuth pass={inodeQuery && docValidData.valid}>
-                    <Button type="primary" className="ml8" onClick={onConfirmPublish}>
+                    <Button type="primary" className="ml-2" onClick={onConfirmPublish}>
                       {i18n.t('publisher:release')}
                     </Button>
                   </WithAuth>
@@ -675,16 +679,16 @@ const ApiDesign = () => {
                 <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
               ) : (
                 <div className="api-design-content">
-                  <div className="api-design-content-list column-flex-box flex-start">
+                  <div className="api-design-content-list flex flex-col justify-start">
                     <Input
                       placeholder={i18n.t('search by keyword')}
-                      className="mx8 my12 api-filter-input"
+                      className="mx-2 my-3 api-filter-input"
                       prefix={<IconSearch />}
                       onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
                     />
 
                     <div
-                      className={`list-title py12 border-bottom bold ${
+                      className={`list-title py-3 border-bottom font-bold ${
                         contentKey === 'SUMMARY' ? 'list-title-active' : ''
                       }`}
                       onClick={() => onContentChange('SUMMARY')}
@@ -715,7 +719,7 @@ const ApiDesign = () => {
                       </Collapse>
                     </div>
                   </div>
-                  <div className="api-design-content-detail px16 py12">{renderContent(contentKey)}</div>
+                  <div className="api-design-content-detail px-4 py-3">{renderContent(contentKey)}</div>
                 </div>
               )}
             </Spin>

@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Timeline, Drawer, Title, Tooltip } from 'app/nusi';
+import { Timeline, Drawer, Title, Tooltip } from 'core/nusi';
 import buildStore from 'application/stores/build';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
+import { useUpdate, EmptyHolder, ErdaCustomIcon } from 'common';
 import './pipeline-log.scss';
 import { Loading as IconLoading } from '@icon-park/react';
 
@@ -95,7 +95,14 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
               : i18n.t('refresh')
           }
         >
-          <CustomIcon type="refresh" className="pointer color-text-desc" onClick={() => delayGetList(getList, 0)} />
+          <ErdaCustomIcon
+            opacity={0.4}
+            color="black"
+            size="18"
+            type="redo"
+            className="mr-1 cursor-pointer"
+            onClick={() => delayGetList(getList, 0)}
+          />
         </Tooltip>
       ),
     },
@@ -105,7 +112,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
     <div className={`pipeline-log ${className}`}>
       <Title
         title={i18n.t('deployment log')}
-        className="my12"
+        className="my-3"
         level={2}
         showDivider={false}
         operations={logOperation}
@@ -119,11 +126,11 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
             return (
               <Timeline.Item key={`${String(index)}-${occurrenceTime}`} color={colorMap[level]}>
                 <div className={'pipeline-log-time'}>
-                  <div className="mb8">{occurrenceTime}</div>
-                  <div className="pipeline-log-title align-top">
+                  <div className="mb-2">{occurrenceTime}</div>
+                  <div className="pipeline-log-title flex items-start">
                     <span className="flex-1">{humanLog}</span>
                     <span
-                      className="always-active ml8"
+                      className="text-primary cursor-pointer ml-2"
                       onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                     >
                       {i18n.t('check detail')}

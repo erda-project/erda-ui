@@ -14,7 +14,6 @@
 import { ImgHolder } from 'common';
 import React from 'react';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 const imgUrl = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
 
@@ -33,6 +32,12 @@ describe('ImgHolder', () => {
     const wrapper = mount(<ImgHolder rect="40x40" type="avatar" text="D" />);
     expect(wrapper.find('img').prop('data-src')).toBe(
       `holder.js/40x40?${encodeURI('size=12&text=D&theme=avatar&font=PingFang SC&fontweight=normal')}`,
+    );
+  });
+  it('render with part of emoji character', () => {
+    const wrapper = mount(<ImgHolder rect="40x40" type="avatar" text={'🍅'.substring(0, 1)} />);
+    expect(wrapper.find('img').prop('data-src')).toBe(
+      `holder.js/40x40?${encodeURI('size=12&text=n&theme=avatar&font=PingFang SC&fontweight=normal')}`,
     );
   });
 });

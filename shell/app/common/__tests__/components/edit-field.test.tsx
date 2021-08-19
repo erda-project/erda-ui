@@ -15,8 +15,7 @@ import React from 'react';
 import { EditField } from 'common';
 import { EditMd } from 'common/components/edit-field';
 import { mount, shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
-import { Select } from 'app/nusi';
+import { Select } from 'core/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import { act } from 'react-dom/test-utils';
@@ -43,15 +42,15 @@ describe('EditField', () => {
     );
     wrapper.find('.common-edit-field').children('div').at(1).simulate('click');
     expect(wrapper.find('.suffix')).toExist();
-    expect(wrapper.find('.ant-form-item-required')).toExist();
-    expect(wrapper.find('.color-text-sub')).toExist();
+    expect(wrapper.find('[data-required="* "]')).toExist();
+    expect(wrapper.find('.text-sub')).toExist();
     expect(wrapper.find('input').prop('value')).toBe('erda.cloud');
     wrapper.setProps({
       labelStyle: undefined,
       showRequiredMark: false,
     });
-    expect(wrapper.find('.ant-form-item-required')).not.toExist();
-    expect(wrapper.find('.color-text')).toExist();
+    expect(wrapper.find('[data-required="* "]')).not.toExist();
+    expect(wrapper.find('.text-normal')).toExist();
     wrapper.setProps({
       value: undefined,
       data: {
@@ -64,7 +63,6 @@ describe('EditField', () => {
     expect(changeFn).toHaveBeenCalledTimes(1);
     wrapper.find('input').simulate('blur');
     expect(changeCbFn).toHaveBeenLastCalledWith({ name: 'erda cloud' });
-    expect(wrapper.find('.edit-comp-text')).toExist();
     // wrapper.find('.edit-comp-text').simulate('click');
     // wrapper.update();
     // console.log(wrapper.find('.common-edit-field').html());
@@ -168,13 +166,6 @@ describe('EditField', () => {
     const wrapper = mount(
       <EditMd hasEdited originalValue={`origin-${text}`} value={text} onChange={changeFn} onSave={saveFn} />,
     );
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
-      __html: '<p>this is a piece of text</p>\n',
-    });
-    wrapper.find('.md-content-preview').simulate('click');
-    expect(wrapper.find('MarkdownEditor')).toExist();
-    expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onCancel');
-    expect(wrapper.find('MarkdownEditor')).not.toHaveProp('onSubmit');
     act(() => {
       wrapper.find('MarkdownEditor').prop('onFocus')();
     });
@@ -191,8 +182,5 @@ describe('EditField', () => {
       wrapper.find('MarkdownEditor').prop('onCancel')();
     });
     wrapper.update();
-    expect(wrapper.find('.md-content').prop('dangerouslySetInnerHTML')).toStrictEqual({
-      __html: '<p>origin-this is a piece of text</p>\n',
-    });
   });
 });

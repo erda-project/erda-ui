@@ -16,7 +16,7 @@ import i18n from 'i18n';
 
 import { DropdownSelect } from 'common';
 import testCaseStore from 'project/stores/test-case';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 
 interface IProps {
   afterExport?: () => void;

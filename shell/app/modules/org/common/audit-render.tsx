@@ -23,7 +23,8 @@ const replaceReg = /<<(\w+)>>/g;
 const expressionReg = /{[^{}]+}/g;
 // eslint-disable-next-line no-console
 const logErr = console.error;
-export default (record: AUDIT.Item) => {
+export default (record: AUDIT.Item, extraTemplates = {}) => {
+  const templates = { ...auditTemplates, ...extraTemplates };
   const { templateName, scopeType, appId, projectId, context, result } = record;
   // 后端把pipelineID改为了pipelineId，兼容下
   const fullContext = { ...context, projectId, appId, env: 'test', pipelineID: context.pipelineId, scopeType } as Obj;
@@ -108,7 +109,7 @@ export default (record: AUDIT.Item) => {
       if (urlKey && !goTo.resolve[urlKey]) {
         logErr(`audit urlKey: ${urlKey} not exist in goTo`, record);
         contentList.push(
-          <span key={`${String(mIndex)}-1`} className="bold">
+          <span key={`${String(mIndex)}-1`} className="font-bold">
             {contextValue}
           </span>,
         );
@@ -126,14 +127,19 @@ export default (record: AUDIT.Item) => {
         contentList.push(userList.join(', '));
       } else if (urlKey) {
         contentList.push(
-          <Link key={`${String(mIndex)}-2`} target="_blank" className="bold" to={goTo.resolve[urlKey](fullContext)}>
+          <Link
+            key={`${String(mIndex)}-2`}
+            target="_blank"
+            className="font-bold"
+            to={goTo.resolve[urlKey](fullContext)}
+          >
             {contextValue}
           </Link>,
         );
       } else {
         // 没有()部分，就只替换，不加链接
         contentList.push(
-          <span key={`${String(mIndex)}-3`} className="bold">
+          <span key={`${String(mIndex)}-3`} className="font-bold">
             {contextValue}
           </span>,
         );
@@ -142,7 +148,7 @@ export default (record: AUDIT.Item) => {
     return contentList.concat([after]);
   };
 
-  const target = auditTemplates[templateName];
+  const target = templates[templateName];
   if (!target) {
     logErr(`audit template:${templateName} not exist`);
     return templateName;

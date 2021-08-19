@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Modal, Table, Popover } from 'app/nusi';
+import React from 'react';
+import { Modal, Table, Popover } from 'core/nusi';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
@@ -38,7 +38,7 @@ interface IProps {
   onEdit: (record: any) => void;
 }
 
-const statusMap = {
+export const statusMap = {
   online: ['green', i18n.t('cmp:online')],
   offline: ['red', i18n.t('cmp:offline')],
   initializing: ['yellow', i18n.t('runtime:initializing')],
@@ -47,7 +47,7 @@ const statusMap = {
   unknown: ['red', i18n.t('dcos:unknown')],
 };
 
-const manageTypeMap = {
+export const manageTypeMap = {
   agent: i18n.t('cmp:agent registration'),
   create: i18n.t('establish'),
   import: i18n.t('import'),
@@ -226,7 +226,17 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       },
     };
     const clusterOpsMap = {
-      edas: [edit, deleteClusterCall],
+      edas: [
+        edit,
+        deleteClusterCall,
+        ...insertWhen(
+          get(clusterDetail, 'basic.manageType.value') === 'agent' && !get(clusterDetail, 'basic.registered.value'),
+          [showRegisterCommand],
+        ),
+        ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
+          retryInit,
+        ]),
+      ],
       k8s: [
         addMachine,
         addCloudMachines,
@@ -234,7 +244,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         upgrade,
         deleteClusterCall,
         ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
-        ...insertWhen(get(clusterDetail, 'basic.clusterStatus.value') === 'initialize error', [retryInit]),
+        ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
+          retryInit,
+        ]),
       ],
       'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
       'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
@@ -244,7 +256,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     const operateList = (clusterOpsMap[record.cloudVendor || record.type] || []).map(
       (op: { title: string; onClick: () => void }) => {
         return (
-          <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
+          <span className="fake-link mr-1" key={op.title} onClick={op.onClick}>
             {op.title}
           </span>
         );
@@ -257,7 +269,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           <>
             {operateList.slice(0, 3)}
             <Popover content={operateList.slice(3)} overlayClassName="z-50">
-              <CustomIcon className="fake-link ml4" type="more" />
+              <CustomIcon className="fake-link ml-1" type="more" />
             </Popover>
           </>
         ) : (
@@ -287,6 +299,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('application:status'),
       dataIndex: 'clusterStatus',
+      width: 120,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const status = get(clusterDetail, 'basic.clusterStatus.value') as keyof typeof statusMap;
@@ -309,7 +322,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('application:type'),
       dataIndex: 'clusterType',
-      width: 125,
+      width: 160,
       ellipsis: true,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
@@ -327,6 +340,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('cmp:management method'),
       dataIndex: 'manageType',
+      width: 120,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         const manageType = get(clusterDetail, 'basic.manageType.value');
@@ -336,6 +350,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('version'),
       dataIndex: 'clusterVersion',
+      width: 96,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         return get(clusterDetail, 'basic.clusterVersion.value', '');
@@ -344,6 +359,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     {
       title: i18n.t('machines'),
       dataIndex: 'nodeCount',
+      width: 96,
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
         return get(clusterDetail, 'basic.nodeCount.value', '-');
@@ -401,17 +417,17 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       {state.deleteModalVis && (
         <ConfirmDelete
-          title={i18n.t('org:Please enter the cluster name to confirm to go offline.')}
+          title={i18n.t('org:Please enter the cluster identity to confirm to go offline.')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
           secondTitle={i18n.t('org:Please enter {name}, to confirm the cluster to go offline', {
-            name: state.curDeleteCluster?.displayName,
+            name: state.curDeleteCluster?.name,
           })}
           onCancel={() => toggleDeleteModal()}
-          disabledConfirm={state.deleteClusterName !== state.curDeleteCluster?.displayName}
+          disabledConfirm={state.deleteClusterName !== state.curDeleteCluster?.name}
           modalChildren={
             <Input
               value={state.deleteClusterName}
-              placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('org:cluster identity') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }
@@ -448,6 +464,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           pagination={false}
           rowKey="id"
           loading={loadingList || loadingDetail}
+          scroll={{ x: 1500 }}
         />
       </div>
     </>

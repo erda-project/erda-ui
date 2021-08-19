@@ -14,15 +14,20 @@
 import React from 'react';
 import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
-import { Spin, Title, NusiTree as Tree, NusiPopover as Popover, NusiSelect as Select } from 'app/nusi';
+import { Spin, Title, Tree, NusiPopover as Popover, Select } from 'core/nusi';
 import i18n from 'i18n';
-import { useUpdate } from 'common';
-import { TreeProps, NusiTreeNode, NusiTreeNodeSelectedEvent, IAction, TreeNodeNormal } from 'core/common/interface';
+import { useUpdate, Icon as CustomIcon } from 'common';
+import { TreeProps, AntTreeNodeProps, TreeNodeNormal, AntTreeNode } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
 
 const { Option, OptGroup } = Select;
+
+interface IAction {
+  node: React.ReactNode;
+  func: (curKey: string | number, curNode: TreeNodeNormal) => void;
+}
 
 export interface TreeNode extends Omit<TreeNodeNormal, 'title'> {
   icon?: React.ReactElement;
@@ -328,8 +333,8 @@ export const TreeCategory = ({
     updater.expandedKeys(keys);
   };
 
-  const onClickNode = (keys: string[], event: NusiTreeNodeSelectedEvent) => {
-    const isLeaf = !!event.node.props.isLeaf;
+  const onClickNode = (keys: string[], info: { node: { props: AntTreeNodeProps } }) => {
+    const isLeaf = !!info.node.props.isLeaf;
     onSelectNode({ inode: isLeaf ? keys[0].slice(5) : keys[0], isLeaf });
   };
 
@@ -671,7 +676,7 @@ export const TreeCategory = ({
     return generateActions(folderActions || [], execNode);
   };
 
-  const onDrop = async (info: { dragNode: NusiTreeNode; node: NusiTreeNode }) => {
+  const onDrop = async (info: { dragNode: AntTreeNode; node: AntTreeNode }) => {
     const { dragNode, node: dropNode } = info;
     const dragKey = dragNode.props.dataRef.key;
     let dropKey = dropNode.props.dataRef.key;
@@ -771,7 +776,7 @@ export const TreeCategory = ({
           notFoundContent={null}
           onSearch={onSearch}
           onChange={handleSearchChange}
-          className="full-width"
+          className="w-full"
           allowClear
         >
           {generateSearchOptions()}
@@ -780,14 +785,29 @@ export const TreeCategory = ({
       <Spin spinning={!!loading}>
         <Tree
           selectedKeys={currentKey ? [currentKey] : []}
-          loadData={(node) => onLoadTreeData(node.props.dataRef.key)}
+          loadData={(node) => onLoadTreeData(node.key)}
           treeData={treeData}
           expandedKeys={expandedKeys}
-          iconField="icon"
+          className="file-tree-container"
+          blockNode
           showIcon
           onExpand={onExpand}
           onSelect={onClickNode}
-          actions={getActions}
+          titleRender={(nodeData: TreeNodeNormal) => (
+            <span>
+              {nodeData.title}
+              <Popover
+                content={getActions(nodeData).map((item) => (
+                  <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                    {item.node}
+                  </div>
+                ))}
+                footer={false}
+              >
+                <CustomIcon type="gd" className="tree-node-action" />
+              </Popover>
+            </span>
+          )}
           draggable={!!moveNode && !cuttingNodeKey && !copyingNodeKey} // 当有剪切复制正在进行中时，不能拖动
           onDrop={onDrop}
           {...treeProps}

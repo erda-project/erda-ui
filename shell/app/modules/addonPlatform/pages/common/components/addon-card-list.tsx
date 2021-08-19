@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select, Input, Spin, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Select, Input, Spin, Tooltip } from 'core/nusi';
 import { get, cloneDeep, isEmpty, pickBy, head, debounce, forEach, find } from 'lodash';
 import { CategoriesOrder } from 'app/modules/addonPlatform/pages/common/configs';
 import { AddonCards } from './addon-cards';
@@ -202,7 +202,7 @@ const AddonCardList = (props: IProps) => {
       return resolvedCategories.map((key: string) => (
         <li
           key={key}
-          className={`category-item pointer ${activeCategory === key ? 'active' : ''}`}
+          className={`category-item cursor-pointer ${activeCategory === key ? 'active' : ''}`}
           value={key}
           onClick={onClickCategory}
         >
@@ -226,7 +226,7 @@ const AddonCardList = (props: IProps) => {
             <Search className="data-select" onChange={onSearchKeyChange} placeholder={searchPlaceHolder} />
           )}
           {props.showDataSourceSearch && (
-            <Search className="data-select mr20" onChange={onNameChange} placeholder={searchPlaceHolder} />
+            <Search className="data-select mr-5" onChange={onNameChange} placeholder={searchPlaceHolder} />
           )}
           {props.showDataSourceSelect && (
             <Select className="data-select" defaultValue="ALL" onChange={onDataSourceChange}>
@@ -237,7 +237,7 @@ const AddonCardList = (props: IProps) => {
         <div className="addons-content">
           <IF check={!isEmpty(addonCategory)}>
             <div className="addon-menu">
-              <span className="content-title bold-500">{i18n.t('addonPlatform:addon category')}</span>
+              <span className="content-title font-medium">{i18n.t('addonPlatform:addon category')}</span>
               <ul className="menu-list">{renderCategoryList()}</ul>
             </div>
           </IF>

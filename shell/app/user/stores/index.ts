@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import i18n from 'i18n';
 import { login, logout, validateLicense, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
 import orgStore from 'app/org-home/stores/org';
@@ -113,7 +113,8 @@ const userStore = createStore({
       // effects
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-        !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
+        const lastPath = `${window.location.pathname}${window.location.search}`;
+        window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
         window.location.href = data.url;
       }
     },
@@ -122,7 +123,8 @@ const userStore = createStore({
       setLS('diceLoginState', false);
       const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-        !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
+        const lastPath = `${window.location.pathname}${window.location.search}`;
+        window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
         window.location.href = data.url;
       }
     },

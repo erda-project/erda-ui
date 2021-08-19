@@ -13,22 +13,22 @@
 
 import React from 'react';
 import { DownloadLogModal } from 'common/components/log/download-log-modal';
-import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
+import { shallow, mount } from 'enzyme';
 import moment from 'moment';
+import { sleep } from '../../../../../test/utils';
 
 describe('DownloadLogModal', () => {
+  const startTimestamp = 1624954155390947968;
+  const defaultPickerValue = moment(startTimestamp / 1000000).subtract(1, 'hours');
+  const anHourAgo = moment().subtract(1, 'hours');
+  const query = {
+    taskID: 1,
+    downloadAPI: '/api/log/download',
+  };
   it('DownloadLogModal should work well', () => {
     const spyOpen = jest.spyOn(window, 'open').mockImplementation(() => {});
-    const startTimestamp = 1624954155390947968;
-    const defaultPickerValue = moment(startTimestamp / 1000000).subtract(1, 'hours');
-    const anHourAgo = moment().subtract(1, 'hours');
     const cancelFn = jest.fn();
     const setFieldsValue = jest.fn();
-    const query = {
-      taskID: 1,
-      downloadAPI: '/api/log/download',
-    };
     const wrapper = shallow(<DownloadLogModal start={startTimestamp} visible query={query} onCancel={cancelFn} />);
     wrapper.prop('onOk')({ startTime: defaultPickerValue, endTime: 5 });
     expect(spyOpen).toHaveBeenLastCalledWith(
@@ -44,10 +44,27 @@ describe('DownloadLogModal', () => {
     startWrapper.find('Picker').prop('onOk')();
     expect(setFieldsValue).toHaveBeenCalledTimes(1);
     const durationWrapper = shallow(<div>{duration.getComp({ form: { setFieldsValue } })}</div>);
-    durationWrapper.find('InputNumber').prop('onChange')();
+    durationWrapper.find({ placeholder: 'please enter any time from 1 to 60 minutes' }).prop('onChange')();
     expect(setFieldsValue).toHaveBeenCalledTimes(2);
     wrapper.prop('onCancel')();
     expect(cancelFn).toHaveBeenCalledTimes(2);
+    spyOpen.mockReset();
+  });
+  it('should download with default endTime', async () => {
+    const spyOpen = jest.spyOn(window, 'open').mockImplementation(() => {});
+    const cancelFn = jest.fn();
+    const wrapper = mount(<DownloadLogModal start={startTimestamp} visible query={query} onCancel={cancelFn} />);
+    wrapper.find('Picker').at(0).prop('onChange')(defaultPickerValue);
+    await wrapper.find('.ant-btn-primary').simulate('click');
+    await sleep(2000);
+    expect(cancelFn).toHaveBeenCalledTimes(1);
+    expect(spyOpen).toHaveBeenCalledTimes(1);
+    wrapper.find('Picker').at(0).prop('onChange')(defaultPickerValue);
+    wrapper.find('InputNumber').at(0).prop('onChange')(1);
+    await wrapper.find('.ant-btn-primary').simulate('click');
+    await sleep(2000);
+    expect(cancelFn).toHaveBeenCalledTimes(2);
+    expect(spyOpen).toHaveBeenCalledTimes(2);
     spyOpen.mockReset();
   });
 });

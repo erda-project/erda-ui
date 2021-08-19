@@ -14,7 +14,6 @@
 import React from 'react';
 import { ConfirmDelete } from 'common';
 import { shallow, mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import i18n from 'i18n';
 
 const deleteItem = 'project';
@@ -32,7 +31,7 @@ const defaultTitle = i18n.t('common:confirm to delete current {deleteItem}', { d
 describe('ConfirmDelete', () => {
   it('render with default props ', () => {
     const wrapper = shallow(<ConfirmDelete deleteItem={deleteItem} />);
-    expect(wrapper.find('.color-text-desc').text()).toBe(defaultConfirmTip);
+    expect(wrapper.find('.text-desc').text()).toBe(defaultConfirmTip);
     const temp = shallow(<div>{wrapper.find('Modal').prop('title')}</div>);
     expect(temp.html()).toContain(defaultTitle);
     expect(wrapper.find('p').text()).toBe(defaultSecondTitle);
@@ -52,10 +51,10 @@ describe('ConfirmDelete', () => {
         <div className="confirm-children" />
       </ConfirmDelete>,
     );
-    expect(wrapper.find('.color-text-desc').text()).toBe(confirmTip);
+    expect(wrapper.find('.text-desc').text()).toBe(confirmTip);
     expect(wrapper.find('.confirm-children')).toExist();
     wrapper.find('span').at(0).simulate('click');
-    expect(wrapper.find('p.mb8').at(0).text()).toBe(secondTitle);
+    expect(wrapper.find('p.mb-2').at(0).text()).toBe(secondTitle);
     expect(wrapper.find('.ant-modal-title').at(0).text()).toContain(title);
     expect(wrapper.find('Modal').prop('visible')).toBeTruthy();
     wrapper.find('.ant-modal-footer').children().at(1).simulate('click');

@@ -11,18 +11,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, take, head } from 'lodash';
-import { Spin, Modal, Tooltip, Select, Table, Button } from 'app/nusi';
-import { Icon as CustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
+import { Spin, Modal, Tooltip, Select, Table, Button, message } from 'core/nusi';
+import { ErdaCustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import ExternalUserModal from './external-user-table';
+import agent from 'agent';
 
 import './index.scss';
 
@@ -101,9 +102,9 @@ export const ListTargets = ({
   let text = '';
   let targetsEle = (
     <>
-      <CustomIcon type="sidebarUser" className="color-text-desc" />
+      <ErdaCustomIcon opacity={0.4} fill="black" size="16" type="sidebarUser" className="color-text-desc mr-1" />
       <Tooltip title={`${i18n.t('application:group address')}: ${firstValue}`}>
-        <span className="group-address color-text-sub">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
+        <span className="group-address nowrap">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
       </Tooltip>
     </>
   );
@@ -114,13 +115,13 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr8">
-            {map(take(values, 3), (obj: { receiver: string }) => (
+          <div className="group-members mr-2">
+            {map(take(values, 6), (obj: { receiver: string }) => (
               <Avatar name={obj.receiver} size={24} key={obj.receiver} />
             ))}
           </div>
           <Tooltip title={text}>
-            <span className="color-text-sub">{text}</span>
+            <span className="nowrap">{text}</span>
           </Tooltip>
         </>
       );
@@ -131,14 +132,14 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr8">
+          <div className="group-members mr-2">
             {map(take(values, 3), (obj: { receiver: string }) => {
               const { username } = JSON.parse(obj.receiver);
               return <Avatar name={username} size={24} key={username} />;
             })}
           </div>
           <Tooltip title={text}>
-            <span className="color-text-sub">{text}</span>
+            <span className="nowrap">{text}</span>
           </Tooltip>
         </>
       );
@@ -147,9 +148,9 @@ export const ListTargets = ({
       text = `${i18n.t('application:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
-          <CustomIcon type="sidebarUser" className="color-text-desc" />
+          <ErdaCustomIcon opacity={0.4} fill="black" size="16" type="sidebarUser" className="mr-1" />
           <Tooltip title={text}>
-            <span className="group-address color-text-sub">{text}</span>
+            <span className="group-address nowrap">{text}</span>
           </Tooltip>
         </>
       );
@@ -163,6 +164,7 @@ export const ListTargets = ({
 const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const userMap = useUserMap();
+  const formRef = React.useRef<FormInstance>(null);
 
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
@@ -325,6 +327,27 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   let targetField;
   const extraFields: any[] = [];
+  const testDingTalk = () => {
+    const values = formRef.current?.getFieldsValue();
+    const { secret, receiver } = values.targets;
+    if (!secret || !receiver) {
+      message.warn(i18n.t('common:please complete Dingding address and signature'));
+      return;
+    }
+    return agent
+      .post('/api/admin/notify/dingtalk-test')
+      .send({
+        secret,
+        webhook: receiver,
+      })
+      .then((response: any) => {
+        if (response.body.data.success) {
+          message.success(i18n.t('common:sent successfully, please check the test information in the group'));
+        } else {
+          message.warn(i18n.t('common:sending failed, please check the configuration information'));
+        }
+      });
+  };
 
   switch (groupType) {
     case TargetType.USER:
@@ -355,6 +378,11 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         itemProps: {
           maxLength: 200,
         },
+        suffix: (
+          <span className="notify-test-dingtalk" onClick={() => testDingTalk()}>
+            {i18n.t('common:send test notification')}
+          </span>
+        ),
       });
       break;
     case TargetType.WEBHOOK:
@@ -399,6 +427,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     {
       title: i18n.t('application:notification name'),
       dataIndex: 'name',
+      width: 200,
     },
     {
       title: i18n.t('default:notification target'),
@@ -406,7 +435,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       className: 'notify-info',
       ellipsis: true,
       render: (targets) => (
-        <div className="flex-box">
+        <div className="flex-div flex truncate">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),
@@ -414,17 +443,20 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
+      width: 160,
       render: (text) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
+      width: 176,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 150,
+      width: 160,
+      fixed: 'right',
       render: (id: number, record) => {
         return (
           <div className="table-operations">
@@ -459,6 +491,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       </Tooltip>
       <FormModal
         width={800}
+        ref={formRef}
         title={`${isEditing ? i18n.t('application:edit group') : i18n.t('application:new Group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
@@ -470,7 +503,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} scroll={{ x: '100%' }} />
+        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} scroll={{ x: 800 }} />
       </Spin>
     </div>
   );

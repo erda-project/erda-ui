@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Collapse, Radio, Row, Col, Table, Empty, Input } from 'app/nusi';
+import { Collapse, Radio, Row, Col, Table, Empty, Input } from 'core/nusi';
 import i18n from 'i18n';
 import './sla-select.scss';
 import { slaAuthorizationMap, slaUnitMap } from 'apiManagePlatform/pages/access-manage/components/config';
@@ -46,7 +46,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
     <>
       <Input.Search
         onChange={handleSearch}
-        className="mb12"
+        className="mb-3"
         allowClear
         placeholder={i18n.t('filter by {name}', { name: i18n.t('SLA name') })}
       />
@@ -54,7 +54,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
         <Collapse
           className="sla-select"
           accordion
-          expandIcon={({ panelKey }) => <Radio checked={+panelKey === activeKey} />}
+          expandIcon={({ panelKey }) => <Radio className="pt-1.5" checked={+panelKey === activeKey} />}
           onChange={handleChange}
           activeKey={activeKey}
         >
@@ -75,17 +75,16 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
                 <Table
                   pagination={false}
                   dataSource={limits}
-                  scroll={limits.length > 4 ? { y: 150 } : undefined}
+                  scroll={limits.length > 4 ? { y: 150, x: 800 } : { x: 800 }}
                   columns={[
                     {
                       title: i18n.t('times'),
                       dataIndex: 'limit',
-                      width: 300,
+                      width: 320,
                     },
                     {
                       title: i18n.t('unit'),
                       dataIndex: 'unit',
-                      width: 228,
                       render: (unit) => slaUnitMap[unit],
                     },
                   ]}

@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Table, Spin } from 'app/nusi';
+import React from 'react';
+import { Button, Table, Spin } from 'core/nusi';
 import { FormModal, useUpdate, CustomFilter, useFilter, IF } from 'common';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
@@ -157,7 +157,7 @@ export function CRUDTable<P>(props: ITableProps<P>) {
         {typeof extraOperation === 'function' ? extraOperation() : extraOperation}
         <IF check={hasForm}>
           <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle}>
-            <Button type="primary" onClick={() => openModal()} className="mb8">
+            <Button type="primary" onClick={() => openModal()} className="mb-2">
               {i18n.t('add {name}', { name })}
             </Button>
           </WithAuth>

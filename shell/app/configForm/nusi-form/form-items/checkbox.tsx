@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, Checkbox } from 'app/nusi';
-import * as React from 'react';
+import { Form, Checkbox } from 'core/nusi';
+import React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import i18n from 'i18n';
 import { getLabel, noop } from './common';
@@ -58,7 +58,7 @@ export const FormCheckBox = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

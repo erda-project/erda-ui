@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Tooltip, Radio, Button } from 'app/nusi';
+import { Tooltip, Radio, Button } from 'core/nusi';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { getOrgFromPath } from 'common/utils';
@@ -196,8 +196,8 @@ export const FileDiff = ({
 
       const text =
         {
-          [ACTION.ADD]: <IconFileAddition className="fz16 color-green" />,
-          [ACTION.DELETE]: <IconDelete className="fz16 color-red" />,
+          [ACTION.ADD]: <IconFileAddition className="text-base text-green" />,
+          [ACTION.DELETE]: <IconDelete className="text-base text-red" />,
           [ACTION.RENAME]: i18n.t('application:file moved'),
         }[type] || '';
 
@@ -205,23 +205,23 @@ export const FileDiff = ({
         <div ref={forwardRef} className="file-diff">
           <IF check={type === 'rename'}>
             <div className="file-title-move">
-              <div className="bold nowrap">
-                <IconFileCodeOne className="mr8" />
+              <div className="font-bold nowrap">
+                <IconFileCodeOne className="mr-2" />
                 {old}
               </div>
               <IconArrowRight className="file-move-arrow" />
-              <div className="bold nowrap">{now}</div>
+              <div className="font-bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
-            <div className="file-title inline-flex-box">
-              <div className="bold nowrap">
-                <IconFileCodeOne className="mr8" />
+            <div className="file-title inline-flex justify-between items-center">
+              <div className="font-bold nowrap">
+                <IconFileCodeOne className="mr-2" />
                 {name} {text || null}
               </div>
             </div>
             <IF check={fileIsImage}>
-              <div className="text-center my16">
+              <div className="text-center my-4">
                 <img src={setApiWithOrg(imageAddress)} alt={`${name || 'preview-image'}`} />
               </div>
             </IF>
@@ -287,7 +287,6 @@ export const FileDiff = ({
       [lineKey]: true,
     });
   };
-
   return (
     <div ref={forwardRef} className="file-diff">
       <div
@@ -297,13 +296,13 @@ export const FileDiff = ({
         }}
       >
         {title || (
-          <div className="bold">
+          <div className="font-bold">
             <IF check={!isExpanding}>
-              <IconRightOne theme="filled" size="16px" className="mr8" />
+              <IconRightOne theme="filled" size="16px" className="mr-2" />
               <ELSE />
-              <IconDownOne theme="filled" size="16px" className="mr8" />
+              <IconDownOne theme="filled" size="16px" className="mr-2" />
             </IF>
-            <IconFileCodeOne className="mr8" />
+            <IconFileCodeOne className="mr-2" />
             {name}
           </div>
         )}
@@ -327,13 +326,15 @@ export const FileDiff = ({
               delete: '-',
               add: '+',
             };
+
             const fileKey = `${name}_${i}`;
             return (
               <tbody key={fileKey} className="file-diff-section">
-                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }) => {
+                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }, lineIndex) => {
                   if (hideSectionTitle && actionType === 'section') {
                     return null;
                   }
+
                   const hasWhiteSpace = content.match(/^\s+/);
                   let _content: any = content;
                   let paddingLeft = 0;
@@ -444,7 +445,7 @@ export const FileDiff = ({
                     }
 
                     return (
-                      <React.Fragment key={`${lineKey}`}>
+                      <React.Fragment key={`${lineKey}_${lineIndex}`}>
                         <tr className={lineCls}>
                           {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
                                 {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
@@ -711,20 +712,20 @@ const FilesDiff = (props: IDiffProps) => {
           <div>
             <span>
               {i18n.t('application:share')}
-              <span className="changed-count ml8">
+              <span className="changed-count ml-2">
                 {filesChanged} {i18n.t('application:changed file(s)')}
               </span>
               <Tooltip
                 title={expandDiffFiles ? i18n.t('application:collapse file') : i18n.t('application:expand file')}
               >
-                <span className="ml8 pointer df-icon" onClick={onToggleDiffFiles}>
+                <span className="ml-2 cursor-pointer df-icon" onClick={onToggleDiffFiles}>
                   {expandDiffFiles ? <CustomIcon type="sq" /> : <CustomIcon type="zk" />}
                 </span>
               </Tooltip>
-              <span className="add-count ml8">
+              <span className="add-count ml-2">
                 {totalAddition} {i18n.t('application:additions')}
               </span>
-              <span className="del-count ml8">
+              <span className="del-count ml-2">
                 {totalDeletion} {i18n.t('application:deletions')}
               </span>
             </span>
@@ -738,7 +739,7 @@ const FilesDiff = (props: IDiffProps) => {
         </div>
         <div className="diff-file-list">
           {map(diff.files, (file) => (
-            <div key={file.name} className="diff-file pointer" onClick={() => navigateToFile(file.name)}>
+            <div key={file.name} className="diff-file cursor-pointer" onClick={() => navigateToFile(file.name)}>
               <div className="diff-count">
                 <span className="diff-add-icon">+{file.addition}</span>
                 <span className="diff-del-icon">-{file.deletion}</span>

@@ -2,90 +2,57 @@
   &.file-tree {
     overflow: auto;
 
-    .pk-tree-title-inner {
-      .pk-tree-title-inner-title {
-        flex: 1;
-      }
+    .tree-node-action {
+      position: absolute;
+      right: 5px;
+      top: calc(50% - 8px);
+      display: none;
+    }
 
-      .file-tree-disabled-node {
-        display: block;
+    .ant-tree-treenode:hover .tree-node-action {
+      display: inline-block;
+    }
+
+    .ant-tree-treenode:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 40px;
+      transition: all 0.3s;
+    }
+
+    .ant-tree-treenode-selected:before,
+    .ant-tree-treenode:hover:before {
+      background: $color-tree-bg-active;
+    }
+
+    .ant-tree .ant-tree-treenode {
+      padding: 0;
+
+      .ant-tree-node-content-wrapper,
+      .ant-tree-switcher,
+      .ant-tree-iconEle {
+        height: 40px;
+        line-height: 40px;
       }
     }
 
-    .file-tree-container {
-      > li:first-child {
-        &.insert-node {
-          margin-top: 8px;
-          padding-top: 0;
-        }
-      }
-
-      .insert-node {
-        height: 4px;
-
-        .pk-tree-title {
-          top: -21px;
-          line-height: 4px;
-        }
-
-        &.pk-tree-treenode-disabled {
-          .pk-tree-node-content-wrapper,
-          .pk-tree-iconEle {
-            cursor: default !important;
-          }
-        }
-
-        .pk-tree-iconEle {
-          position: relative;
-        }
-
-        .pk-tree-node-content-wrapper:before,
-        .pk-tree-switcher,
-        .pk-tree-node-content-wrapper {
-          height: 4px !important;
-          border: 0 !important;
-        }
-
-        .insert-node-title {
-          height: 4px;
-        }
-
-        &:hover {
-          .insert-node-icon {
-            opacity: 1;
-            pointer-events: unset;
-          }
-        }
-      }
+    .ant-tree-node-content-wrapper.ant-tree-node-selected,
+    .ant-tree-node-content-wrapper:hover {
+      background-color: transparent;
     }
   }
+}
 
-  .insert-node-icon {
-    position: absolute;
-    top: -5px;
-    color: $color-active;
-    font-size: 16px;
-    opacity: 0;
-    transition: opacity 0.1s ease-out;
-    pointer-events: none;
-  }
+.action-btn {
+  padding: 5px 12px;
+  border-radius: 3px;
 
-  .pk-tree.pk-tree-directory > li.insert-node span.pk-tree-node-content-wrapper:before,
-  .pk-tree.pk-tree-directory .pk-tree-child-tree > li.insert-node span.pk-tree-node-content-wrapper:before {
+  &:hover,
+  &:focus {
     cursor: pointer;
-    content: none;
-  }
-
-  .dice-cp.file-tree .file-tree-container .insert-node .pk-tree-node-content-wrapper {
-    border-radius: 2px;
-
-    &:hover {
-      background-color: $color-active-border;
-    }
-  }
-
-  .dice-cp.file-tree .file-tree-container .insert-node .pk-tree-iconEle {
-    left: 50%;
-    transform: translateX(-50%);
+    color: $purple;
+    background-color: $color-tree-bg-active;
   }
 }

@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { useUpdate, Icon as CustomIcon, IF } from 'common';
 import { map, isEmpty } from 'lodash';
-import { Popconfirm, Modal, Divider, Button, Tooltip } from 'app/nusi';
+import { Popconfirm, Modal, Divider, Button, Tooltip } from 'core/nusi';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 import { issueStateMap } from 'project/common/config';
 import { produce } from 'immer';
@@ -124,7 +124,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
   );
 
   const flexWidthClass = React.useMemo(() => {
-    return dataList.length <= 4 ? 'full-width' : '';
+    return dataList.length <= 4 ? 'w-full' : '';
   }, [dataList]);
 
   const fName = FIELD_TYPE_ICON_MAP[issueType]?.name;
@@ -146,7 +146,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
       ]}
     >
       <div className="issue-workflow-setting-modal">
-        <div className="mb12">
+        <div className="mb-3">
           <IF check={formVisible}>
             <WorkflowStateForm
               issueType={issueType}
@@ -159,31 +159,31 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
         </div>
         <IF check={!isEmpty(dataList)}>
           <div className="form-content">
-            <div className="flex-box">
-              <div className="form-content-left mr4">
+            <div className="flex justify-between items-center">
+              <div className="form-content-left mr-1">
                 <IF check={!formVisible}>
                   <WithAuth pass={hasAuth}>
                     <Button
                       type="primary"
-                      className="full-width add-option-btn fz12"
+                      className="w-full add-option-btn text-xs"
                       onClick={() => {
                         updater.formVisible(true);
                       }}
                     >
-                      <CustomIcon type="cir-add" className="mr4" />
+                      <CustomIcon type="cir-add" className="mr-1" />
                       {i18n.t('add')}
                     </Button>
                   </WithAuth>
                 </IF>
               </div>
-              <div className="form-content-right flex-box">
+              <div className="form-content-right flex justify-between items-center">
                 {map(dataList, ({ stateName, stateID }, stateDataIndex) => {
                   return (
                     <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
-                      <div className={`state-option-btn flex-box ${flexWidthClass}`}>
+                      <div className={`state-option-btn flex justify-between items-center ${flexWidthClass}`}>
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
-                            className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'pointer'}`}
+                            className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'cursor-pointer'}`}
                             type="arrow-left"
                             onClick={() => {
                               onChangeStateOrder(stateDataIndex, -1);
@@ -191,12 +191,12 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                           />
                         </WithAuth>
                         <Tooltip title={stateName}>
-                          <div className="fz12 nowrap">{stateName}</div>
+                          <div className="text-xs nowrap">{stateName}</div>
                         </Tooltip>
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
                             className={`state-move-btn ${
-                              stateDataIndex === dataList.length - 1 ? 'disabled' : 'pointer'
+                              stateDataIndex === dataList.length - 1 ? 'disabled' : 'cursor-pointer'
                             }`}
                             type="arrow-right"
                             onClick={() => {
@@ -209,7 +209,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                             title={`${i18n.t('common:confirm to delete')}?`}
                             onConfirm={() => onDeleteState(stateID)}
                           >
-                            <CustomIcon className="state-delete-btn pointer" type="thin-del" />
+                            <CustomIcon className="state-delete-btn cursor-pointer" type="thin-del" />
                           </Popconfirm>
                         </WithAuth>
                       </div>
@@ -218,10 +218,10 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                 })}
               </div>
             </div>
-            <Divider className="my8" orientation="left">
+            <Divider className="my-2" orientation="left">
               {i18n.t('project:set state')}
             </Divider>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <div className="form-content-left">
                 {map(Object.values(issueStateMap[issueType]), (name: string) => {
                   return (
@@ -231,7 +231,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   );
                 })}
               </div>
-              <div className="form-content-right flex-box">
+              <div className="form-content-right flex justify-between items-center">
                 {map(dataList, ({ stateBelong, stateID }, stateDataIndex) => {
                   return (
                     <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
@@ -240,7 +240,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                           <div className="state-td" key={k}>
                             <WithAuth pass={hasAuth}>
                               <CustomIcon
-                                className="state-radio-btn pointer"
+                                className="state-radio-btn cursor-pointer"
                                 type={stateBelong !== k ? 'circle' : 'circle-fill'}
                                 onClick={() => {
                                   onStateChange(stateDataIndex, k);
@@ -255,29 +255,31 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                 })}
               </div>
             </div>
-            <Divider className="my8" orientation="left">
+            <Divider className="my-2" orientation="left">
               {i18n.t('project:circulation setting')}
             </Divider>
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
-                <div className="flex-box my12" key={stateID}>
-                  <div className="form-content-left text-center fz12 ">
-                    <div className="flex-box w-120">
+                <div className="flex justify-between items-center my-3" key={stateID}>
+                  <div className="form-content-left text-center text-xs ">
+                    <div className="flex justify-between items-center w-120">
                       <Tooltip title={stateName}>
-                        <span className="bold-500 nowrap state-transfer-name">{stateName}</span>
+                        <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
-                      <span className="ml8 color-text-desc">{i18n.t('project:can circulate to')}</span>
+                      <span className="ml-2 text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
                   </div>
-                  <div className="form-content-right flex-box">
+                  <div className="form-content-right flex justify-between items-center">
                     {map(relations, ({ isRelated, name }, relationIndex) => {
                       return (
                         <div className={`state-radio-group ${flexWidthClass}`}>
-                          <div className={'state-td state-radio-btn mx0 my0'} key={name}>
+                          <div className={'state-td state-radio-btn mx-0 my-0'} key={name}>
                             <WithAuth pass={hasAuth}>
                               <CustomIcon
                                 type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}
-                                className={`${isRelated ? '' : 'bold'} ${name === stateName ? 'disabled' : 'pointer'}`}
+                                className={`${isRelated ? '' : 'font-bold'} ${
+                                  name === stateName ? 'disabled' : 'cursor-pointer'
+                                }`}
                                 onClick={() => {
                                   name !== stateName && onRelationChange(stateDataIndex, relationIndex, !isRelated);
                                 }}

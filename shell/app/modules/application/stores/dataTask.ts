@@ -11,12 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as dataTaskService from '../services/dataTask';
+import {
+  getBusinessScope,
+  batchCreateTask,
+  getWorkFlowFiles,
+  getStarChartSource,
+  getTableAttrs,
+  getOutputTables,
+  getBusinessProcesses,
+} from '../services/dataTask';
 import i18n from 'i18n';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'core/stores/route';
 import { eventHub } from 'common/utils/event-hub';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { PAGINATION } from 'app/constants';
 import { isEmpty } from 'lodash';
 
@@ -52,7 +60,7 @@ const dataTask = createStore({
     async getWorkFlowFiles({ call, update }) {
       const { gitRepoAbbrev } = appStore.getState((s) => s.detail);
       if (gitRepoAbbrev) {
-        let workFlowFiles = await call(dataTaskService.getWorkFlowFiles, { gitRepoAbbrev });
+        let workFlowFiles = await call(getWorkFlowFiles, { gitRepoAbbrev });
         workFlowFiles = workFlowFiles && workFlowFiles.map((file: any) => ({ title: file.name }));
         update({ workFlowFiles });
       }
@@ -60,7 +68,7 @@ const dataTask = createStore({
     async batchCreateTask({ call, getParams }, payload) {
       const { appId } = getParams();
       const result = await call(
-        dataTaskService.batchCreateTask,
+        batchCreateTask,
         { ...payload, appId },
         { successMsg: i18n.t('application:start executing the build') },
       );
@@ -74,7 +82,7 @@ const dataTask = createStore({
         const appDetail = appStore.getState((s) => s.detail);
         gitRepo = appDetail.gitRepo;
       }
-      const businessScope = await call(dataTaskService.getBusinessScope, { remoteUri: gitRepo });
+      const businessScope = await call(getBusinessScope, { remoteUri: gitRepo });
       compName === 'model'
         ? update({ modelBusinessScope: businessScope })
         : update({ marketBusinessScope: businessScope });
@@ -87,7 +95,7 @@ const dataTask = createStore({
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
       const { list, total } =
         (await call(
-          dataTaskService.getBusinessProcesses,
+          getBusinessProcesses,
           { ...params, ...rest, remoteUri: gitRepo },
           { paging: { key: 'businessProcessPaging' } },
         )) || {};
@@ -106,7 +114,7 @@ const dataTask = createStore({
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
       const { list, total } =
         (await call(
-          dataTaskService.getOutputTables,
+          getOutputTables,
           { ...params, ...rest, remoteUri: gitRepo },
           { paging: { key: 'outputTablePaging' } },
         )) || {};
@@ -118,7 +126,7 @@ const dataTask = createStore({
       return { total, list: newList };
     },
     async getTableAttrs({ call, update }, payload) {
-      const { list: tableAttrsList = [], total } = await call(dataTaskService.getTableAttrs, payload, {
+      const { list: tableAttrsList = [], total } = await call(getTableAttrs, payload, {
         paging: { key: 'tableAttrsPaging' },
       });
       update({ tableAttrsList });
@@ -126,7 +134,7 @@ const dataTask = createStore({
     },
     async getStarChartSource({ call, getParams }) {
       const { filePath } = getParams();
-      const startChartSource = await call(dataTaskService.getStarChartSource, { filePath });
+      const startChartSource = await call(getStarChartSource, { filePath });
       return startChartSource;
     },
   },

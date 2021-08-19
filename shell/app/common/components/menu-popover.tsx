@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Popover } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import React from 'react';
+import { Popover } from 'core/nusi';
+import { ErdaCustomIcon } from 'common';
 
 import './menu-popover.scss';
 
@@ -49,7 +49,7 @@ export const MenuPopover = ({ content, styleName, placement, iconStyle = 'sm-mor
       trigger={trigger || 'click'}
       onVisibleChange={setVisible}
     >
-      <CustomIcon type="more" className={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
+      <ErdaCustomIcon type="more" className={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
     </Popover>
   );
 };

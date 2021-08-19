@@ -13,7 +13,7 @@
 
 import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
-import { Form, Button } from 'app/nusi';
+import { Form, Button } from 'core/nusi';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';
@@ -64,7 +64,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
       const input = <VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />;
       return (
         <Item
-          className="mr0"
+          className="mr-0"
           key={item.key}
           name={item.id}
           initialValue={item}
@@ -84,10 +84,10 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
       <Form ref={this.formRef} className="global-input-form" layout="inline">
         <div className="global-input-form-title">
           {i18n.t('application:global environment variable')}
-          {editing ? <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} /> : null}
+          {editing ? <IconPlus className="variable-icon cursor-pointer" onClick={this.addNewVariable} /> : null}
         </div>
         {content}
-        <div className="mt12">
+        <div className="mt-3">
           {editing ? (
             <Button type="primary" ghost onClick={this.onSubmit}>
               {i18n.t('application:save')}

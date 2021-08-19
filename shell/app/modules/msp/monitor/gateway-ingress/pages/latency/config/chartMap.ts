@@ -16,7 +16,7 @@ import { chartRender } from 'gateway-ingress/common/components/giRenderFactory';
 import { ApiMap } from './apiConfig';
 import i18n from 'i18n';
 
-export const commonAttr = {
+const commonAttr = {
   moduleName: 'gatewayIngressLatency',
   groupId: 'gatewayIngressLatency',
 };

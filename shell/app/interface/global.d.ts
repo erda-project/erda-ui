@@ -14,7 +14,6 @@
 // no import or export statement in this file
 
 declare module 'path';
-declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
 declare module '@erda-ui/dashboard-configurator';
 
@@ -32,6 +31,7 @@ declare module '*.scss' {
   const content: any;
   export default content;
 }
+declare module '*.ico';
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.svg';

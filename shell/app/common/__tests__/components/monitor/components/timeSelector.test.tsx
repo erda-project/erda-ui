@@ -14,7 +14,6 @@
 import React from 'react';
 import TimeSelector from 'common/components/monitor/components/timeSelector';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 import moment from 'moment';
 import { getTimeSpan } from 'common/utils';
 

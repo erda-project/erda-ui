@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Radio, Select, Input, Button } from 'app/nusi';
+import { Radio, Select, Input, Button } from 'core/nusi';
 import { map, isString } from 'lodash';
 import KeyValueEdit from 'apiManagePlatform/pages/api-market/detail/components/key-val-edit';
 import { FileEditor } from 'common';
@@ -155,7 +155,7 @@ const APIBody = (props: any) => {
   const CurValueComp = ValMap[realType] || ValMap.raw;
   return (
     <div className="case-api-body">
-      <div className="body-type-chosen mb8 px12">
+      <div className="body-type-chosen mb-2 px-3">
         <Radio.Group onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType} disabled>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>

@@ -17,10 +17,10 @@ import { getApps } from 'common/services';
 import appMemberStore from 'common/stores/application-member';
 import i18n from 'i18n';
 import { map, compact, isEmpty } from 'lodash';
-import { Modal, Select, Table, Button } from 'app/nusi';
+import { Modal, Select, Table, Button } from 'core/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
-import * as React from 'react';
+import React from 'react';
 import { useTempPaging } from './use-hooks';
 import { useEffectOnce } from 'react-use';
 
@@ -121,14 +121,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       ]}
       width={600}
     >
-      <Table
-        scroll={{ x: '100%' }}
-        loading={loading}
-        rowKey={'userId'}
-        pagination={pagination}
-        columns={columns}
-        dataSource={list}
-      />
+      <Table loading={loading} rowKey={'userId'} pagination={pagination} columns={columns} dataSource={list} />
     </Modal>
   );
 };

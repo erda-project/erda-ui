@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Popconfirm, Button, Dropdown, Menu } from 'app/nusi';
+import React from 'react';
+import { Popconfirm, Button, Dropdown, Menu } from 'core/nusi';
 import { IF, NoAuthTip, useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';

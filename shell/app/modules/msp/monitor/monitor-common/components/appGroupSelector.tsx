@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
-import { Cascader } from 'app/nusi';
+import React from 'react';
+import { Cascader } from 'core/nusi';
 import { get, isFunction, isEmpty, find } from 'lodash';
 import { cutStr } from 'common/utils';
 import monitorCommonStore from 'common/stores/monitorCommon';

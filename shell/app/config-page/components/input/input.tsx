@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Input } from 'app/nusi';
+import React from 'react';
+import { Input } from 'core/nusi';
 
 export default (props: CP_INPUT.Props) => {
   const { props: configProps, state: propsState, operations } = props;

@@ -13,7 +13,7 @@
 
 import React, { useState } from 'react';
 import i18n from 'i18n';
-import { message, Modal } from 'app/nusi';
+import { message, Modal } from 'core/nusi';
 import { FileSelect, FormModal } from 'common';
 import { useLoading } from 'core/stores/loading';
 import issueStore from 'project/stores/issues';
@@ -60,7 +60,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
               {uuid && (
                 <>
                   <span> —— </span>
-                  <span className="color-primary hover-text" onClick={() => window.open(`/api/files/${uuid}`)}>
+                  <span className="text-primary hover-text" onClick={() => window.open(`/api/files/${uuid}`)}>
                     {i18n.t('project:download failed file')}
                   </span>
                 </>
@@ -109,7 +109,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
         }}
       >
         <div className="modal-tip">
-          <span onClick={() => window.open(download)} className="color-primary hover-text">
+          <span onClick={() => window.open(download)} className="text-primary hover-text">
             {i18n.t('project:download template')}
           </span>
         </div>

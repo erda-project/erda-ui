@@ -12,9 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import {
+  Affix,
+  Alert,
+  Anchor,
+  Avatar,
   Button,
   BackTop,
   Badge,
+  Breadcrumb,
+  Card,
   Carousel,
   Cascader,
   Checkbox,
@@ -29,6 +35,7 @@ import {
   Empty,
   Form,
   Input,
+  InputNumber,
   message,
   Menu,
   Modal,
@@ -36,6 +43,8 @@ import {
   Pagination,
   Popconfirm,
   Popover,
+  Progress,
+  Radio,
   Rate,
   Row,
   Skeleton,
@@ -43,8 +52,8 @@ import {
   Spin,
   Steps,
   Switch,
-  Table,
   Tabs,
+  Tooltip,
   Transfer,
   Tree,
   TreeSelect,
@@ -55,20 +64,13 @@ import {
 } from 'antd';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
+import Table from './wrapped-table';
+import Tag from './wrapped-tag';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
-  Affix,
-  Alert,
-  Anchor,
-  Avatar,
   // Input,
-  Card,
   Container,
-  InputNumber,
-  Radio,
-  Progress,
-  Tooltip,
   Filter,
   FormBuilder,
   Shell,
@@ -76,23 +78,15 @@ import {
   SideNavigation,
   PageHeader,
   GlobalNavigation,
-  Breadcrumb,
-  Tag,
   Title,
   Panel,
   List,
   Ellipsis,
   SelectCategory,
   SelectCombo,
-  Switch as NusiSwitch,
   ConfigProvider as NusiConfigProvider,
   Tree as NusiTree,
   Popover as NusiPopover,
-  Select as NusiSelect,
-  Icon as NusiIcon,
-  Empty as NusiEmpty,
-  Cascader as NusiCascader,
-  Tag as NusiTag,
 } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
@@ -185,9 +179,4 @@ export {
   NusiConfigProvider,
   NusiTree,
   NusiPopover,
-  NusiSelect,
-  NusiIcon,
-  NusiEmpty,
-  NusiCascader,
-  NusiTag,
 };

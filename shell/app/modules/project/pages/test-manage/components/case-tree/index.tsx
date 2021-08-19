@@ -16,7 +16,7 @@ import { isEmpty, map, includes, max, filter, remove, reduce, uniqBy, set, get }
 import i18n from 'i18n';
 import classnames from 'classnames';
 import { useMount } from 'react-use';
-import { Tree } from 'app/nusi';
+import { Tree } from 'core/nusi';
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -322,14 +322,14 @@ const TestSet = ({
     }));
     const nextActiveKey = firstBuild.current && query.eventKey && needActiveKey ? query.eventKey : rootKey;
     setActiveKey(nextActiveKey);
-    setExpandedKeys([rootKey]);
+    expandedKeys.length === 0 && setExpandedKeys([rootKey]);
     setTreeData([
       {
         title: projectInfo.name,
         key: rootKey,
         id: rootId,
         iconType: 'project',
-        iconClass: 'color-info',
+        iconClass: 'text-blue',
         parentID: rootId,
         isLeaf: false,
         recycled: false,
@@ -427,7 +427,7 @@ const TestSet = ({
       const icon = (
         <CustomIcon
           type={item.iconType || 'wjj1'}
-          className={item.iconClass || (!isRootNode && item.recycled ? 'color-danger' : 'color-yellow')}
+          className={item.iconClass || (!isRootNode && item.recycled ? 'text-danger' : 'text-yellow')}
         />
       );
       const className = classnames({
@@ -636,19 +636,10 @@ const TestSet = ({
         eventPath.push(window);
       }
     }
-    let clickInSwitcher = false;
-    const nodes = Array.from(eventPath);
-    for (let i = 0; i < nodes.length; i++) {
-      const node = nodes[i] as HTMLElement;
-      if (node.nodeName === 'SPAN' && node.className.includes('ant-tree-switcher')) {
-        clickInSwitcher = true;
-      }
-    }
-    if (clickInSwitcher) {
-      nativeEvent.stopPropagation();
-      remove(nextExpandedKeys, (key) => includes(key, TEMP_MARK));
-      setExpandedKeys(nextExpandedKeys);
-    }
+
+    nativeEvent.stopPropagation();
+    remove(nextExpandedKeys, (key) => includes(key, TEMP_MARK));
+    setExpandedKeys(nextExpandedKeys);
   };
 
   const onSelect = (selectedKeys: string[], _extra?: any) => {

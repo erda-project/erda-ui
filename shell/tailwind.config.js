@@ -48,6 +48,7 @@ module.exports = {
         purple: '#6a549e',
         cyan: '#5bd6d0ff',
         gray: '#666666',
+        darkgray: '#999999',
         grey: '#f5f5f5',
         layout: '#f0eef5',
         white: '#ffffff',
@@ -63,6 +64,7 @@ module.exports = {
         'white-8': '#ffffffcc',
         'log-font': '#c2c1d0',
         'log-bg': '#3c444f',
+        'light-active': '#6a549e0f', // rgba($primary, .06)
       },
       flex: {
         2: '2 2 0%',
@@ -88,12 +90,34 @@ module.exports = {
         '3/5': '60%',
         '3/4': '75%',
       },
+      maxHeight: {
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/5': '60%',
+        '3/4': '75%',
+      },
+      width: {
+        '1/10': '10%',
+        '3/10': '30%',
+        '7/10': '70%',
+        '9/10': '90%',
+      },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      margin: ['first', 'last'],
+      padding: ['first', 'last'],
+    },
   },
   plugins: [
+    plugin(({ addVariant, e }) => {
+      addVariant('before', ({ modifySelectors, separator }) => {
+        modifySelectors(({ className }) => {
+          return `.${e(`before${separator}${className}`)}::before`;
+        });
+      });
+    }),
     plugin(({ addUtilities }) => {
       const newUtilities = {
         '.nowrap': {
@@ -105,16 +129,41 @@ module.exports = {
           color: '#00000066',
           cursor: 'not-allowed',
         },
+        '.border-all': {
+          border: '1px solid #00000019',
+        },
+        '.border-top': {
+          'border-top': '1px solid #00000019',
+        },
+        '.border-bottom': {
+          'border-bottom': '1px solid #00000019',
+        },
+        '.border-left': {
+          'border-left': '1px solid #00000019',
+        },
+        '.border-right': {
+          'border-right': '1px solid #00000019',
+        },
+        '.border-dashed': {
+          border: '1px dashed #00000019',
+        },
+      };
+      const contentUtilities = {
+        '.required': {
+          content: 'attr(data-required)',
+          color: '#f5222d',
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'hover']);
+      addUtilities(contentUtilities, ['before']);
     }),
   ],
   purge: {
     enabled: process.env.NODE_ENV === 'production',
     content: ['./app/**/*.tsx', './app/**/*.jsx'],
     options: {
-      safelist: [/red/, /blue/, /yellow/, /green/, /orange/, /gray/, /cyan/, /grey/, /white/],
+      safelist: [/red/, /blue/, /yellow/, /green/, /orange/, /gray/, /cyan/, /grey/, /white/, /purple/, /flex-\d/],
     },
   },
 };

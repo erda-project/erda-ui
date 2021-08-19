@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { get, map } from 'lodash';
-import * as ServiceServices from '../services/service';
-import { createStore } from 'app/cube';
+import { fetchContainerList, getServiceList, getRuntimeStatus, getMetrics, getRuntimeJson } from '../services/service';
+import { createStore } from 'core/cube';
 
 const initState: DCOS_SERVICES.IState = {
   containerList: [],
@@ -42,17 +42,17 @@ const dcosServiceStore = createStore({
           query[key] = qMap[key];
         }
       });
-      const containerList = await call(ServiceServices.fetchContainerList, query);
+      const containerList = await call(fetchContainerList, query);
       update({ containerList });
     },
     async getServiceList({ call, update }, payload: { paths: DCOS_SERVICES.path[]; environment: string }) {
-      const serviceList = await call(ServiceServices.getServiceList, payload);
+      const serviceList = await call(getServiceList, payload);
       update({ serviceList, serviceReqStatus: true });
     },
     async getRuntimeStatus({ select, call, update }, payload: { runtimeIds: string }) {
       try {
         const { runtimeStatus } = select((state) => state);
-        const newStatus = await call(ServiceServices.getRuntimeStatus, payload);
+        const newStatus = await call(getRuntimeStatus, payload);
         update({ runtimeStatus: { ...runtimeStatus, ...newStatus }, serviceReqStatus: true });
       } catch (e) {
         update({ serviceReqStatus: false });
@@ -61,11 +61,11 @@ const dcosServiceStore = createStore({
     },
     async getMetrics({ call }, payload: DCOS_SERVICES.QueryMetrics) {
       const { type, filter_workspace } = payload;
-      const data = await call(ServiceServices.getMetrics, payload);
+      const data = await call(getMetrics, payload);
       dcosServiceStore.reducers.getMetricsDataSuccess({ data, type, filter_workspace });
     },
     async getRuntimeJson({ call, update }, payload: { runtimeId: string }) {
-      const runtimeJson = await call(ServiceServices.getRuntimeJson, payload);
+      const runtimeJson = await call(getRuntimeJson, payload);
       update({ runtimeJson });
     },
   },

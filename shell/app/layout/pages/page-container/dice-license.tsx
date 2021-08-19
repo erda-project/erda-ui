@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
-import { Modal } from 'app/nusi';
+import { Modal } from 'core/nusi';
 import { notify } from 'app/common/utils';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';
@@ -66,25 +66,25 @@ export const DiceLicense = () => {
 
   return (
     <Modal title={i18n.t('layout:license tip')} visible={!valid} footer={null} closable={false} width={492}>
-      <div className="license-container fz14">
+      <div className="license-container text-sm">
         <img className="license-img" src={gqct_png} />
-        <div className="color-text mt16 bold-500">{message}</div>
-        <div className="row flex-box mt24">
+        <div className="text-normal mt-4 font-medium">{message}</div>
+        <div className="row flex justify-between items-center mt-6">
           {rowOneData.map(({ label, value }) => {
             return (
               <div className="row-one-card border-all text-center" key={label}>
-                <div className="color-text mt20">{value}</div>
-                <div className="color-text-desc mt8">{label}</div>
+                <div className="text-normal mt-5">{value}</div>
+                <div className="text-desc mt-2">{label}</div>
               </div>
             );
           })}
         </div>
-        <div className="row flex-box mt16 mb8">
+        <div className="row flex justify-between items-center mt-4 mb-2">
           {rowTwoData.map(({ label, value }) => {
             return (
               <div className="row-two-card border-all text-center" key={label}>
-                <div className="color-text mt20">{value}</div>
-                <div className="color-text-desc mt8">{label}</div>
+                <div className="text-normal mt-5">{value}</div>
+                <div className="text-desc mt-2">{label}</div>
               </div>
             );
           })}

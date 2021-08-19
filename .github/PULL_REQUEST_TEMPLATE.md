@@ -20,7 +20,9 @@ Describe the specific changes from the user's perspective, as well as possible B
 | 🇨🇳 中文    |              |
 
 
-## Which versions should be patched?
+## Does this PR need be patched to older version?
+✅ Yes(version is required)
+❎ No
 
 
 ## Which issue(s) this PR fixes:

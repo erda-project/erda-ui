@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Row, Col } from 'app/nusi';
+import React from 'react';
+import { Row, Col } from 'core/nusi';
 import CacheMap from './config/chartMap';
 import { getFilterParams } from '../../common/utils';
 import TopTabRight from 'msp/monitor/application-insight/common/components/tab-right';

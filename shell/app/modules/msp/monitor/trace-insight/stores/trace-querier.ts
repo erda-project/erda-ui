@@ -22,7 +22,7 @@ import {
 } from '../services/trace-querier';
 import { isEmpty } from 'lodash';
 import traceConvert from '../common/utils/traceConvert';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 import i18n from 'i18n';
 

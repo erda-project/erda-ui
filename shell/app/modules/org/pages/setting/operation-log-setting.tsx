@@ -13,9 +13,9 @@
 
 import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import auditStore from 'org/stores/audit';
-import * as React from 'react';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 
 export const OperationLogSetting = () => {

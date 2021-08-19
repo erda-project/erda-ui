@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CRUDTable, useUpdate, Copy, TagsRow } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';
-import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
+import { Tooltip, Dropdown, Button, Menu, notification } from 'core/nusi';
 import { MysqlFieldsConfig } from 'project/pages/third-service/components/config';
 import { FormInstance } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
@@ -217,7 +217,7 @@ const RDS = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml-1" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );
@@ -250,7 +250,7 @@ const RDS = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <SetTagForm
         visible={ifSetTagFormVisible}
         items={selectedList}

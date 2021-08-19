@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { notification } from 'app/nusi';
+import { notification } from 'core/nusi';
 import i18n from 'i18n';
 import { get } from 'lodash';
 import { PAGINATION } from 'app/constants';
@@ -142,7 +142,7 @@ export const regRules = {
   banFullWidthPunctuation: {
     pattern:
       /^[^\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]+$/,
-    message: i18n.t('project:do not allow full-width punctuation'),
+    message: i18n.t('project:do not allow w-full punctuation'),
   },
   dingding: {
     pattern: /^https:\/\/oapi\.dingtalk\.com\//g,

@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { useUpdate } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
-import { Button, Table, Popconfirm } from 'app/nusi';
+import { Button, Table, Popconfirm } from 'core/nusi';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import branchRuleStore from 'project/stores/branch-rule';
 import { WithAuth } from 'user/common';
@@ -143,10 +143,12 @@ const extraColumnsMap = {
     {
       title: i18n.t('project:deployment environment'),
       dataIndex: 'workspace',
+      width: 196,
     },
     {
       title: i18n.t('project:artifact deployment environment'),
       dataIndex: 'artifactWorkspace',
+      width: 244,
     },
     // {
     //   title: i18n.t('project:app release confirmation'),
@@ -229,6 +231,7 @@ const BranchRule = (props: IProps) => {
     {
       title: i18n.t('application:branch'),
       dataIndex: 'rule',
+      width: 200,
     },
     ...(extraColumnsMap[scopeType] || []),
     {
@@ -239,7 +242,7 @@ const BranchRule = (props: IProps) => {
       title: i18n.t('common:operation'),
       key: 'operation',
       fixed: 'right',
-      width: 150,
+      width: 160,
       align: 'center',
       render: (_: any, record: PROJECT.IBranchRule) => {
         return (
@@ -313,14 +316,14 @@ const BranchRule = (props: IProps) => {
   };
   return (
     <div>
-      <div className="mb12">
+      <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button ghost type="primary" onClick={() => updater.modalVis(true)}>
             {i18n.t('project:new branch rule')}
           </Button>
         </WithAuth>
       </div>
-      <Table rowKey="id" dataSource={branchRules} columns={columns} scroll={{ x: '100%' }} />
+      <Table rowKey="id" dataSource={branchRules} columns={columns} scroll={{ x: 900 }} />
       <FormModal
         name={i18n.t('project:branch rule')}
         onCancel={onCancel}

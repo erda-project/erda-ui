@@ -15,16 +15,16 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import { Router } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
-import { createBrowserHistory } from 'history';
 import { registStore } from './framework/regist-store';
 import { IGetRouter, registRouters } from './framework/regist-router';
 import i18n, { initI18n } from './i18n';
-import { setConfig } from './config';
 import routeInfoStore from './stores/route';
 import { emit } from './utils/event-hub';
+import browserHistory from './history';
+import { setConfig } from './config';
 
 const holderDractDom = ReactDom; // if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
-const browserHistory = createBrowserHistory();
+
 setConfig('history', browserHistory);
 
 const App = () => {

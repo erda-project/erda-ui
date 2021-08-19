@@ -13,7 +13,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { forEach, map } from 'lodash';
-import { Tabs } from 'app/nusi';
+import { Tabs } from 'core/nusi';
 import { MachineList } from 'dcos/pages/cluster-dashboard/machine-list';
 import InstanceList from './instance-list';
 import ResourcesChartList from './resources-chart-list';
@@ -45,10 +45,10 @@ const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }:
         hostIPs,
       })),
     );
-    if (isClickState) {
-      setActiveKey('state');
+    if (!isClickState && activeKey === 'state') {
+      setActiveKey('machine');
     }
-  }, [isClickState, machineList]);
+  }, [isClickState, machineList, activeKey]);
 
   return (
     <Tabs activeKey={activeKey} onChange={setActiveKey}>

@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Table, Tooltip, Dropdown, Menu, Progress } from 'app/nusi';
+import React from 'react';
+import { Table, Tooltip, Dropdown, Menu, Progress } from 'core/nusi';
 import issueStore from 'project/stores/issues';
 import moment from 'moment';
 import { map, omit, get, find } from 'lodash';
@@ -57,11 +57,11 @@ const endTimeTip = (time: string, isFinished: boolean) => {
   let tip = <span>{i18n.t('project:due in {num} days', { num: diffDay })}</span>;
   if (!isFinished) {
     if (diffDay === 0) {
-      tip = <span className="color-warning">{i18n.t('due today')}</span>;
+      tip = <span className="text-warning">{i18n.t('due today')}</span>;
     } else if (diffDay === 1) {
-      tip = <span className="color-warning">{i18n.t('due tomorrow')}</span>;
+      tip = <span className="text-warning">{i18n.t('due tomorrow')}</span>;
     } else if (diffDay < 0) {
-      tip = <span className="color-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
+      tip = <span className="text-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
     }
   }
   return <Tooltip title={moment(time).format('YYYY-MM-DD')}>{tip}</Tooltip>;
@@ -71,9 +71,9 @@ export const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:none');
   return (
-    <div className="v-align hover-active issue-field-selector">
+    <div className="flex items-center hover-active issue-field-selector">
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" />
-      <span className={'ml8 fz14'} title={name}>
+      <span className={'ml-2 text-sm'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />
@@ -97,7 +97,7 @@ export const FieldSelector = (props: IFieldProps) => {
     'iconLabel',
   );
   const ValueRender = (
-    <div className="v-align hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>
+    <div className="flex items-center hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>
       {chosenVal}
       <CustomIcon type="di" className="arrow-icon" />
     </div>
@@ -205,7 +205,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
 
   const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
-      title: <span className="pl8">{i18n.t('title')}</span>,
+      title: <span className="pl-2">{i18n.t('title')}</span>,
       // width: 400,
       dataIndex: 'title',
       className: 'title',
@@ -304,7 +304,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
             disabled: !item.permission,
             value: item.stateID,
             iconLabel: (
-              <div className="v-align">
+              <div className="flex items-center">
                 {ISSUE_ICON.state[item.stateBelong]}
                 {item.stateName}
               </div>
@@ -366,7 +366,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   return (
-    <div className="pa12 border-radius issue-table-view">
+    <div className="p-3 rounded issue-table-view">
       <Table
         rowKey="id"
         columns={columns}

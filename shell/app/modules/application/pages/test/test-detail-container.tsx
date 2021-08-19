@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Select, Spin } from 'app/nusi';
+import { Select, Spin } from 'core/nusi';
 import { Holder, IF, connectCube } from 'common';
 import { map, isEmpty, forEach } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import TestDetail from './test-detail';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import i18n from 'i18n';
@@ -102,7 +102,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
     const { testDetail, isFetching } = this.props;
     return (
       <Spin spinning={isFetching}>
-        <div className="test-detail-header flex-box">
+        <div className="test-detail-header flex justify-between items-center">
           <IF check={!isEmpty(detailOptions)}>
             <Select
               onChange={(v) => this.changeDetail(+v)}

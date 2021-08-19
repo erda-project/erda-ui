@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { cloneDeep, find, findIndex, fill, uniqueId, filter, map, omit, every, some, isEmpty } from 'lodash';
-import { Button, Table, Input, message } from 'app/nusi';
+import { Button, Table, Input, message } from 'core/nusi';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
 
@@ -139,7 +139,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
 
   return (
     <>
-      <Button className="mb8" type="primary" ghost onClick={handleAddExternalUser}>
+      <Button className="mb-2" type="primary" ghost onClick={handleAddExternalUser}>
         {i18n.t('org:add external user')}
       </Button>
       <Table bordered rowKey="uniKey" dataSource={editingExternalUsers} columns={columns} scroll={{ x: '100%' }} />

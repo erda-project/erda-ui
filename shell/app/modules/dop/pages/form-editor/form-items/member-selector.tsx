@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form } from 'app/nusi';
+import { Form } from 'core/nusi';
 import { MemberSelector } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { isEmpty } from 'lodash';
 import { commonFields, rulesField, checkWhen } from 'app/configForm/nusi-form/form-items';
 import i18n from 'i18n';
@@ -52,7 +52,7 @@ export const FormMemberSelector = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

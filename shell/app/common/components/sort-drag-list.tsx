@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaCustomIcon } from 'common';
 import { map, groupBy, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import React from 'react';
-import { Tooltip, Ellipsis, Popconfirm } from 'app/nusi';
+import { Tooltip, Ellipsis, Popconfirm } from 'core/nusi';
 import './sort-drag-list.scss';
 
 interface IBeginDragData<T> {
@@ -164,17 +164,17 @@ const SortDragItem = ({
     <div
       ref={draggable ? (node) => drop(preview(node)) : undefined}
       key={index}
-      className={`flex-box sort-drag-item ${hoverCls}`}
+      className={`flex justify-between items-center sort-drag-item ${hoverCls}`}
       onClick={() => onClick && onClick(item)}
     >
       <div
         ref={draggable ? drag : undefined}
-        className="px8 icon-block drag-handle"
+        className="px-2 icon-block drag-handle"
         onClick={(e) => e.stopPropagation()}
       >
-        <CustomIcon type="up-down" />
+        <ErdaCustomIcon opacity={0.2} className="hover" type="up-down" size="14" fill="black" />
       </div>
-      <div className="flex-1 ml4 nowrap pointer v-align sort-drag-item-title">
+      <div className="flex-1 ml-1 nowrap cursor-pointer flex items-center sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
       </div>
       <div>
@@ -182,7 +182,7 @@ const SortDragItem = ({
           if (op.confirm) {
             return op.disabled ? (
               <span
-                className={`icon-block hover-active px8 not-allowed ${op.hoverShow ? 'hover-show' : ''}`}
+                className={`icon-block hover-active px-2 not-allowed ${op.hoverShow ? 'hover-show' : ''}`}
                 onClick={(e: any) => e && e.stopPropagation()}
               >
                 <CustomIcon
@@ -207,7 +207,7 @@ const SortDragItem = ({
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''}`}
+                  className={`icon-block hover-active px-2 ${op.hoverShow ? 'hover-show' : ''}`}
                 >
                   <CustomIcon type={op.icon} />
                 </span>
@@ -217,7 +217,7 @@ const SortDragItem = ({
           return (
             <Tooltip key={op.icon} title={op.hoverTip}>
               <span
-                className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''} ${
+                className={`icon-block hover-active px-2 ${op.hoverShow ? 'hover-show' : ''} ${
                   op.disabled ? 'not-allowed' : ''
                 }`}
                 onClick={(e) => {
@@ -293,7 +293,10 @@ const SortDragGroup = ({
       className={`sort-drag-group ${hoverCls}`}
     >
       {groupDraggable === false ? null : (
-        <div ref={draggable ? drag : undefined} className="group-drag-handle center-flex-box">
+        <div
+          ref={draggable ? drag : undefined}
+          className="group-drag-handle flex flex-wrap justify-center items-center"
+        >
           <CustomIcon type="up-down" />
         </div>
       )}

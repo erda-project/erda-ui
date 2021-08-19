@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Tooltip, Card, Alert } from 'app/nusi';
-import * as React from 'react';
+import { Tooltip, Card, Alert } from 'core/nusi';
+import React from 'react';
 import { Avatar, UserInfo, TagsRow } from 'common';
 import { ISSUE_ICON } from '../../common/components/issue/issue-config';
 import { useDrag } from 'react-dnd';
@@ -42,7 +42,7 @@ export default ({ item, onClickItem }: IProps) => {
     'drag-wrap': true,
     dragging: isDragging,
     'milestone-info-card': true,
-    'border-radius': true,
+    rounded: true,
     'hover-active-bg': true,
     'border-all': true,
   });
@@ -54,13 +54,13 @@ export default ({ item, onClickItem }: IProps) => {
           message={i18n.t(
             'project:It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.',
           )}
-          type="normal"
+          type="info"
           showIcon
         />
       )}
       <div key={item.id} onClick={() => onClickItem(item)} ref={drag}>
         <Card className={`shallow-shadow ${cls}`}>
-          <div className="milestone-item-container milestone-info-card-content pointer">
+          <div className="milestone-item-container milestone-info-card-content cursor-pointer">
             <div className="milestone-item nowrap lt">
               <Tooltip placement="top" title={item.title}>
                 <span className="milestone-title">
@@ -73,7 +73,7 @@ export default ({ item, onClickItem }: IProps) => {
                 <TagsRow
                   labels={item.labels.map((l) => ({ label: l, color: 'red' }))}
                   showCount={2}
-                  containerClassName="ml8"
+                  containerClassName="ml-2"
                 />
               )}
             </div>

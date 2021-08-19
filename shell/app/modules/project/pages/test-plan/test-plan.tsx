@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, CustomFilter, UserInfo } from 'common';
-import { Button, Progress, Spin, Table, Select, Input } from 'app/nusi';
+import { Button, Progress, Spin, Table, Select, Input } from 'core/nusi';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo } from 'app/common/utils';
@@ -26,10 +26,10 @@ import './test-plan.scss';
 
 const { Option } = Select;
 const iconMap = {
-  DOING: <CustomIcon type="jxz" className="bg-color-icon blue" />,
-  PAUSE: <CustomIcon type="zt" className="bg-color-icon yellow" />,
-  DONE: <CustomIcon type="tg" className="bg-color-icon green" />,
-  DISCARD: <CustomIcon type="wtg" className="bg-color-icon red" />,
+  DOING: <CustomIcon type="jxz" className="rounded-full bg-blue text-white" />,
+  PAUSE: <CustomIcon type="zt" className="rounded-full bg-yellow text-white" />,
+  DONE: <CustomIcon type="tg" className="rounded-full bg-green text-white" />,
+  DISCARD: <CustomIcon type="wtg" className="rounded-full bg-red text-white" />,
 };
 const statusMap = [
   { label: i18n.t('project:processing'), value: 'DOING' },
@@ -80,9 +80,11 @@ const TestPlan = () => {
       dataIndex: 'name',
       render: (text, record) => {
         return (
-          <div className="title v-align">
+          <div className="title flex items-center" title={`${record.id}-${text}`}>
             {iconMap[record.status]}
-            {record.id}-{text}
+            <span className="truncate">
+              {record.id}-{text}
+            </span>
           </div>
         );
       },
@@ -90,18 +92,20 @@ const TestPlan = () => {
     {
       title: i18n.t('project:principal'),
       dataIndex: 'ownerID',
+      width: 120,
       render: (text) => <UserInfo id={text} render={(data) => data.nick || data.name} />,
     },
     {
       title: i18n.t('project:passing rate'),
       dataIndex: 'useCasePassedCount',
       className: 'passing-rate',
+      width: 160,
       render: (_text, { relsCount }) => {
         const { total, succ } = relsCount;
         const percent = Math.floor((succ / (total || 1)) * 100 || 0);
         return (
           <div className="sub">
-            <span className="mr4">{percent}%</span>
+            <span className="mr-1">{percent}%</span>
             <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
           </div>
         );
@@ -111,12 +115,13 @@ const TestPlan = () => {
       title: i18n.t('project:exacutive rate'),
       dataIndex: 'executionRate',
       className: 'passing-rate',
+      width: 160,
       render: (_text, { relsCount }) => {
         const { total, succ, fail, block } = relsCount;
         const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);
         return (
           <div className="sub">
-            <span className="mr4">{percent}%</span>
+            <span className="mr-1">{percent}%</span>
             <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
           </div>
         );
@@ -125,7 +130,8 @@ const TestPlan = () => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 140,
+      width: 176,
+      fixed: 'right',
       render: (id) => {
         return (
           <div className="table-operations">
@@ -215,7 +221,7 @@ const TestPlan = () => {
             pageSize: page.pageSize,
             onChange: onPageChange,
           }}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
       </Spin>
     </div>

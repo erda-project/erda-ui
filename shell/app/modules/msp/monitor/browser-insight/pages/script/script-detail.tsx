@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, get } from 'lodash';
-import * as React from 'react';
-import { Row, Col } from 'app/nusi';
+import React from 'react';
+import { Row, Col } from 'core/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
 import { Attention as IconAttention } from '@icon-park/react';

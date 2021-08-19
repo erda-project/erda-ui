@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Ellipsis, Spin, Table, Tabs, Tooltip } from 'app/nusi';
+import { Ellipsis, Spin, Table, Tabs, Tooltip } from 'core/nusi';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import routeInfoStore from 'core/stores/route';
 import { Copy, DetailsPanel, Icon as CustomIcon, TableActions, useUpdate } from 'common';
@@ -145,7 +145,7 @@ const ClientDetail = () => {
     {
       label: 'ClientID',
       value: (
-        <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
+        <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
           {get(clientDetail, ['sk', 'clientID'])}
         </span>
       ),
@@ -153,16 +153,16 @@ const ClientDetail = () => {
     {
       label: 'ClientSecret',
       value: (
-        <div className="flex-box align-top">
+        <div className="flex justify-between items-start">
           {showSecret ? (
-            <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
+            <span className="cursor-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
               {get(clientDetail, ['sk', 'clientSecret'])}
             </span>
           ) : (
             <span>******</span>
           )}
           <span
-            className="hover-active ml4"
+            className="hover-active ml-1"
             onClick={() => {
               updater.showSecret(!showSecret);
             }}
@@ -178,16 +178,17 @@ const ClientDetail = () => {
       {
         title: i18n.t('API name'),
         dataIndex: 'assetName',
+        width: 200,
         render: (text, record) => {
           return (
-            <div className="flex-box flex-start">
+            <div className="flex items-center justify-start">
               <div className="asset_name">
                 <Ellipsis title={text} />
               </div>
               {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
                   <CustomIcon
-                    className="ml8 color-primary hover-active bold"
+                    className="ml-2 text-primary hover-active font-bold"
                     type="monitor"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -203,6 +204,7 @@ const ClientDetail = () => {
       {
         title: i18n.t('version'),
         dataIndex: 'swaggerVersion',
+        width: 160,
       },
     ];
     if (statue === 'proved') {
@@ -220,6 +222,7 @@ const ClientDetail = () => {
             title: i18n.t('operation'),
             width: '150',
             dataIndex: 'id',
+            fixed: 'right',
             render: (_id: number, record: API_CLIENT.Contract) => (
               <TableActions>
                 <span
@@ -247,9 +250,9 @@ const ClientDetail = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
-      <div className="pa16 api-list">
-        <div className="title fz16 color-text bold-500">{i18n.t('authorized API')}</div>
+      <Copy selector=".cursor-copy" />
+      <div className="p-4 api-list">
+        <div className="title text-base text-normal font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {
@@ -267,7 +270,7 @@ const ClientDetail = () => {
                 onChange={(pagination) => {
                   handleChangeTable(value, pagination);
                 }}
-                scroll={{ x: '100%' }}
+                scroll={{ x: 800 }}
               />
             </TabPane>
           ))}

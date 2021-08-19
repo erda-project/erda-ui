@@ -15,12 +15,13 @@ import { useLoading } from 'core/stores/loading';
 import configStore from 'app/modules/application/stores/pipeline-config';
 import appStore from 'application/stores/application';
 import { Copy, IF, useUpdate, CustomFilter, FileEditor } from 'common';
+import { ColumnProps } from 'core/common/interface';
 import { WORKSPACE_LIST } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
-import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'app/nusi';
-import * as React from 'react';
+import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'core/nusi';
+import React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';
 import { Info as IconInfo } from '@icon-park/react';
@@ -203,23 +204,24 @@ const VariableConfig = ({
     });
   };
 
-  const getColumns = (_env: string) => [
+  const getColumns = (_env: string): Array<ColumnProps<IKey>> => [
     {
       title: 'Key',
       dataIndex: 'key',
+      width: 176,
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
-        <div className="flex-box">
-          <span className="for-copy nowrap" data-clipboard-text={text}>
+        <div className="flex justify-between items-center">
+          <span className="cursor-copy nowrap" data-clipboard-text={text} title={text}>
             {text}
           </span>
           <span>
             {source === 'certificate' && (
               <Tooltip title={i18n.t('common:from certificate push')}>
-                <IconInfo className="ml4 color-text-sub" />
+                <IconInfo className="ml-1 text-sub" />
               </Tooltip>
             )}
-            {isFromDefault && <span className="tag tag-warning ml4">{i18n.t('common:default')}</span>}
+            {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('common:default')}</span>}
           </span>
         </div>
       ),
@@ -228,13 +230,14 @@ const VariableConfig = ({
       title: 'Value',
       dataIndex: 'value',
       className: 'nowrap',
+      width: 176,
       render: (text: string, record: IKey) => {
         return record.type === typeMap.kv ? (
           record.encrypt ? (
             '******'
           ) : (
             <Tooltip title={text} placement="leftTop">
-              <span className="for-copy" data-clipboard-text={text}>
+              <span className="cursor-copy" data-clipboard-text={text}>
                 {text}
               </span>
             </Tooltip>
@@ -247,6 +250,7 @@ const VariableConfig = ({
     {
       title: i18n.t('application:type'),
       dataIndex: 'type',
+      width: 96,
       render: (text: string) => (text === typeMap.kv ? i18n.t('application:value') : i18n.t('application:file')),
     },
     {
@@ -257,7 +261,8 @@ const VariableConfig = ({
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operations',
-      width: 160,
+      width: 200,
+      fixed: 'right',
       render: (operations: IKeyOperations, record: IKey) => {
         const { canDelete, canDownload, canEdit } = operations || {};
         const { encrypt } = record;
@@ -356,11 +361,11 @@ const VariableConfig = ({
     <div>
       <Spin spinning={useLoading(configStore, ['getConfigs'])[0]}>
         <CustomFilter config={filterConfig} onSubmit={(v) => updater.searchKey(v.key)} />
-        <Collapse className="mb20 nowrap" activeKey={activeKey} onChange={togglePanel}>
+        <Collapse className="mb-5 nowrap" activeKey={activeKey} onChange={togglePanel}>
           {map(envKeys, (env: string) => {
             return (
               <Panel header={ENV_I18N[env]} key={env}>
-                <Button type="primary" className="mb12" ghost onClick={() => openModal(null, env)}>
+                <Button type="primary" className="mb-3" ghost onClick={() => openModal(null, env)}>
                   {i18n.t('application:add variable')}
                 </Button>
                 {configType === configTypeMap.deploy && (
@@ -368,19 +373,19 @@ const VariableConfig = ({
                     <Button
                       type="primary"
                       ghost
-                      className="mr8 pull-right"
+                      className="mr-2 float-right"
                       onClick={() => {
                         openExportModal(env);
                       }}
                     >
                       {i18n.t('export')}
                     </Button>
-                    <Button type="primary" ghost className="mr8 pull-right" onClick={() => openImportModal(env)}>
+                    <Button type="primary" ghost className="mr-2 float-right" onClick={() => openImportModal(env)}>
                       {i18n.t('import')}
                     </Button>
                   </>
                 )}
-                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} scroll={{ x: '100%' }} />
+                <Table dataSource={envConfigMap[env]} columns={getColumns(env)} scroll={{ x: 800 }} />
               </Panel>
             );
           })}
@@ -413,7 +418,7 @@ const VariableConfig = ({
           }}
         />
         {isJsonInvalid && (
-          <span className="color-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
+          <span className="text-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
         )}
       </Modal>
       <Modal
@@ -427,10 +432,10 @@ const VariableConfig = ({
           fileExtension="json"
           value={JSON.stringify(exportValue ? JSON.parse(exportValue) : '{}', null, 2)}
           minLines={8}
-          className="mb20"
+          className="mb-5"
         />
       </Modal>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

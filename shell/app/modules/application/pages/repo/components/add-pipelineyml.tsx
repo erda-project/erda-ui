@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, message, Radio, Alert, Modal, Tooltip, Input } from 'app/nusi';
+import React from 'react';
+import { Button, message, Radio, Alert, Modal, Tooltip, Input } from 'core/nusi';
 import { RenderForm, useUpdate, Icon as CustomIcon, CardsLayout, IF, FileEditor } from 'common';
 import { notify, isPromise } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
@@ -192,7 +192,7 @@ const AddPipelineYml = () => {
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
             </Button>
-            <Button className="ml12" onClick={cancelEdit}>
+            <Button className="ml-3" onClick={cancelEdit}>
               {i18n.t('application:cancel')}
             </Button>
           </div>
@@ -210,7 +210,7 @@ const AddPipelineYml = () => {
   const ops = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
@@ -223,7 +223,7 @@ const AddPipelineYml = () => {
         </Radio.Button>
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
-        <CustomIcon type="zhongzhi" className="ml8 pointer" onClick={reset} />
+        <CustomIcon type="zhongzhi" className="ml-2 cursor-pointer" onClick={reset} />
       </Tooltip>
     </>
   );
@@ -277,7 +277,7 @@ const AddPipelineYml = () => {
 
   return (
     <div className="repo-add-pipelineyml">
-      <Alert message={i18n.t('application:add-pipeline-tip')} type="normal" showIcon />
+      <Alert message={i18n.t('application:add-pipeline-tip')} type="info" showIcon />
       <PipelineTemplateSelector
         ref={selectorRef}
         onChange={(val: string) => {
@@ -286,7 +286,7 @@ const AddPipelineYml = () => {
         }}
       />
       <div ref={editViewRef}>
-        <div className="bold fz16 my12">{i18n.t('application:pipeline configuration')}</div>
+        <div className="font-bold text-base my-3">{i18n.t('application:pipeline configuration')}</div>
         <FileContainer
           name={
             <FileNameInput
@@ -324,14 +324,14 @@ const AddPipelineYml = () => {
               />
             </IF>
           </div>
-          <RenderForm className="pa16 border-top" list={getFieldsList()} />
+          <RenderForm className="p-4 border-top" list={getFieldsList()} />
         </FileContainer>
       </div>
       <Modal
         visible={!isEmpty(errorMsg)}
         title={
           <div>
-            <CustomIcon type="guanbi-fill" className="color-danger" />
+            <CustomIcon type="guanbi-fill" className="text-danger" />
             {i18n.t('error')}
           </div>
         }
@@ -411,13 +411,13 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
     return (
       <div
         key={template.id}
-        className={`pipeline-template-item border-radius pa16 ${value === id ? 'active-item' : ''}`}
+        className={`pipeline-template-item rounded p-4 ${value === id ? 'active-item' : ''}`}
         onClick={() => changeValue(id)}
       >
         <div className="logo">
           {logoUrl ? <img src={logoUrl} /> : <CustomIcon type="dm" className="template-icon" />}
         </div>
-        <div className="name my4">{name}</div>
+        <div className="name my-1">{name}</div>
         <div className="desc">{desc}</div>
       </div>
     );
@@ -425,7 +425,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
 
   return (
     <div className="pipeline-template">
-      <div className="bold fz16 my12">{i18n.t('application:template select')}</div>
+      <div className="font-bold text-base my-3">{i18n.t('application:template select')}</div>
       <CardsLayout dataList={pipelineTemplates} contentRender={templateRender} />
     </div>
   );

@@ -13,15 +13,12 @@
 
 import React from 'react';
 import { FilterCore } from 'common/components/filter-group/filter-group';
-import { Input } from 'app/nusi';
+import { Input } from 'core/nusi';
 import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import * as utils from 'common/utils/query-string';
 import routeInfoStore from 'core/stores/route';
-import { createBrowserHistory } from 'history';
-import { setConfig } from 'core/config';
 
 const list = [
   {
@@ -91,14 +88,11 @@ const routerData = {
 describe('filter-group', () => {
   beforeAll(() => {
     jest.mock('core/stores/route');
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
     routeInfoStore.useStore = (fn) => {
       return fn(routerData);
     };
   });
   afterAll(() => {
-    setConfig('history', undefined);
     jest.resetAllMocks();
   });
   it('FilterCore should render well', () => {
@@ -200,7 +194,7 @@ describe('filter-group', () => {
     });
     wrapper.update();
     expect(wrapper.find('FilterGroupDrawer').prop('visible')).toBeFalsy();
-    wrapper.find('.nusicon-close').simulate('click');
+    wrapper.find('.ant-tag-close-icon').at(0).simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(3);
     wrapper.find('.clear').simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(4);
@@ -211,7 +205,7 @@ describe('filter-group', () => {
       wrapper
         .find('Col.filter-item')
         .at(simpleList.length - 1)
-        .find('.ml12-group'),
+        .find('.ml-3-group'),
     ).toExist();
   });
   it('should FilterBarHandle work well', () => {

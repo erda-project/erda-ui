@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider } from 'app/nusi';
+import React from 'react';
+import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider } from 'core/nusi';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
 import moment from 'moment';
@@ -59,7 +59,7 @@ import './edit-issue-drawer.scss';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
-    <CustomIcon type={icon} className="mr8" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
+    <CustomIcon type={icon} className="mr-2" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
   );
 };
 
@@ -119,7 +119,7 @@ const IssueMetaFields = React.forwardRef(
       ));
     }, [taskTypeList]);
 
-    const hideFieldClass = expandCustomFields ? '' : 'hide';
+    const hideFieldClass = expandCustomFields ? '' : 'hidden';
 
     React.useEffect(() => {
       if (ref && !ref.current) {
@@ -170,14 +170,14 @@ const IssueMetaFields = React.forwardRef(
         const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
 
         return {
-          className: `mb20 ${hideFieldClass}`,
+          className: `mb-5 ${hideFieldClass}`,
           name: propertyName,
           label: displayName,
           required,
           type: FIELD_TYPE_ICON_MAP[propertyType]?.component,
           showRequiredMark: required,
           itemProps: {
-            className: 'full-width',
+            className: 'w-full',
             options: getCustomOptions(enumeratedValues || []),
             mode: propertyType === 'MultiSelect' ? 'multiple' : undefined,
             allowClear: !required,
@@ -199,7 +199,7 @@ const IssueMetaFields = React.forwardRef(
               />
             ) : propertyType === 'Number' ? (
               <NumberFieldInput
-                className="full-width"
+                className="w-full"
                 value={value}
                 ref={(r) => {
                   const _refMap = ref?.current?.refMap;
@@ -234,7 +234,7 @@ const IssueMetaFields = React.forwardRef(
     let editFieldList = [
       ...insertWhen(isEditMode, [
         {
-          className: 'mb20',
+          className: 'mb-5',
           name: 'state',
           label: i18n.t('project:state'),
           type: 'select',
@@ -255,7 +255,7 @@ const IssueMetaFields = React.forwardRef(
         },
       ]),
       {
-        className: 'mb20 full-width',
+        className: 'mb-5 w-full',
         name: 'assignee',
         label: i18n.t('project:assignee'),
         type: 'custom',
@@ -277,7 +277,7 @@ const IssueMetaFields = React.forwardRef(
       },
       ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
         {
-          className: 'mb20 full-width',
+          className: 'mb-5 w-full',
           type: 'custom',
           name: 'owner',
           label: i18n.t('project:responsible person'),
@@ -302,7 +302,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType !== ISSUE_TYPE.TICKET && issueType !== ISSUE_TYPE.EPIC, [
         {
-          className: 'mb20 full-width',
+          className: 'mb-5 w-full',
           name: 'iterationID',
           label: i18n.t('project:owned iteration'),
           type: 'custom',
@@ -323,7 +323,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.TICKET && !isMonitorTicket, [
         {
-          className: 'mb20',
+          className: 'mb-5',
           name: 'source',
           label: i18n.t('project:source'),
           itemProps: {
@@ -335,18 +335,18 @@ const IssueMetaFields = React.forwardRef(
       {
         name: 'splitLine1',
         type: 'custom',
-        getComp: () => <Divider className="mb24 mt0" />,
+        getComp: () => <Divider className="mb-6 mt-0" />,
       },
       {
         name: 'priority',
-        className: 'mb20',
+        className: 'mb-5',
         label: i18n.t('project:priority'),
         type: 'select',
         itemProps: { options: priorityOptions, allowClear: false },
       },
       [ISSUE_TYPE.BUG, ISSUE_TYPE.TICKET].includes(issueType) // 工单、缺陷将复杂度改为展示严重程度
         ? {
-            className: 'mb20',
+            className: 'mb-5',
             name: 'severity',
             label: i18n.t('project:severity'),
             type: 'select',
@@ -357,7 +357,7 @@ const IssueMetaFields = React.forwardRef(
             },
           }
         : {
-            className: 'mb20',
+            className: 'mb-5',
             name: 'complexity',
             label: i18n.t('project:complexity'),
             type: 'select',
@@ -368,7 +368,7 @@ const IssueMetaFields = React.forwardRef(
             },
           },
       {
-        className: 'mb20 full-width',
+        className: 'mb-5 w-full',
         name: 'planFinishedAt',
         label: i18n.t('project:deadline'),
         type: 'datePicker',
@@ -379,7 +379,7 @@ const IssueMetaFields = React.forwardRef(
       },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
         {
-          className: 'mb20',
+          className: 'mb-5',
           name: ['issueManHour', 'estimateTime'],
           label: i18n.t('project:EstimateTime'),
           type: 'custom',
@@ -408,7 +408,7 @@ const IssueMetaFields = React.forwardRef(
         },
         ...insertWhen(!isEpic && isEditMode, [
           {
-            className: 'mb20',
+            className: 'mb-5',
             name: 'issueManHour',
             label: i18n.t('project:Time tracking'),
             type: 'custom',
@@ -428,7 +428,7 @@ const IssueMetaFields = React.forwardRef(
         ]),
       ]),
       {
-        className: 'mb20 full-width',
+        className: 'mb-5 w-full',
         name: 'labels',
         label: i18n.t('project:label'),
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
@@ -473,7 +473,10 @@ const IssueMetaFields = React.forwardRef(
           name: 'expandCustom',
           type: 'custom',
           getComp: () => (
-            <div className="flex-box pa8 mb20 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
+            <div
+              className="flex justify-between items-center p-2 mb-5 hover-active-bg"
+              onClick={() => setExpandCustomFields((prev) => !prev)}
+            >
               <span>{i18n.t('project:custom fields')}</span>
               <CustomIcon type={expandCustomFields ? 'chevron-up' : 'chevron-down'} />
             </div>
@@ -482,7 +485,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.TASK, [
         {
-          className: `mb20 full-width ${hideFieldClass}`,
+          className: `mb-5 w-full ${hideFieldClass}`,
           name: 'taskType',
           label: i18n.t('task type'),
           type: 'select',
@@ -492,7 +495,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.BUG, [
         {
-          className: `mb20 full-width ${hideFieldClass}`,
+          className: `mb-5 w-full ${hideFieldClass}`,
           type: 'select',
           name: 'bugStage',
           label: i18n.t('project:import source'),
@@ -514,8 +517,8 @@ const IssueMetaFields = React.forwardRef(
 
             return (
               <>
-                <Divider className="mb24 mt2" />
-                <div className="color-text-desc fz12 prewrap">
+                <Divider className="mb-6 mt-0.5" />
+                <div className="text-desc text-xs prewrap">
                   {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
                   {moment(formData.createdAt).format('YYYY/MM/DD')}
                 </div>
@@ -860,7 +863,7 @@ export const EditIssueDrawer = (props: IProps) => {
       if (warnMessage.length !== 0) {
         message.warn(
           <>
-            <span className="bold">{map(warnMessage, 'msg').join(', ')}</span>
+            <span className="font-bold">{map(warnMessage, 'msg').join(', ')}</span>
             <span>{i18n.t('project:missing')}</span>
           </>,
         );
@@ -1096,13 +1099,13 @@ export const EditIssueDrawer = (props: IProps) => {
             </Menu>
           }
         >
-          <Button className="mr8">{i18n.t('project:one click to backlog')}</Button>
+          <Button className="mr-2">{i18n.t('project:one click to backlog')}</Button>
         </Dropdown>,
       ];
     } else {
       footer = [
         <WithAuth key="create" pass={addQuickIssueAuth}>
-          <Button className="mr8">{i18n.t('project:one click to backlog')}</Button>
+          <Button className="mr-2">{i18n.t('project:one click to backlog')}</Button>
         </WithAuth>,
       ];
     }
@@ -1146,9 +1149,9 @@ export const EditIssueDrawer = (props: IProps) => {
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
     >
-      <div className="flex-box">
+      <div className="flex justify-between items-center">
         <IF check={isEditMode}>
-          {/* className=''是为了覆盖组件里的className="full-width"，否则选择框宽度为100% */}
+          {/* className=''是为了覆盖组件里的className="w-full"，否则选择框宽度为100% */}
           {[ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType) ? (
             <WithAuth pass={switchTypeAuth}>
               <EditField
@@ -1171,7 +1174,7 @@ export const EditIssueDrawer = (props: IProps) => {
               />
             </WithAuth>
           ) : (
-            <span className="mr8">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
+            <span className="mr-2">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
           )}
         </IF>
 
@@ -1182,14 +1185,14 @@ export const EditIssueDrawer = (props: IProps) => {
           disabled={!editAuth}
           className="flex-1"
           itemProps={{
-            className: 'fz20 color-text',
+            className: 'text-xl text-normal',
             maxLength: 255,
             placeholder: specialProps.titlePlaceHolder,
           }}
         />
       </div>
 
-      <div className="v-flex-box">
+      <div className="flex flex-col h-full">
         <EditField
           name="content"
           disabled={!editAuth}
@@ -1200,6 +1203,7 @@ export const EditIssueDrawer = (props: IProps) => {
             hasEdited,
             isEditMode,
             maxLength: 3000,
+            defaultMode: isEditMode ? 'html' : 'md',
           }} // 编辑时默认显示预览
           data={formData}
         />
@@ -1216,8 +1220,7 @@ export const EditIssueDrawer = (props: IProps) => {
           <TabPane tab={i18n.t('relate to issue')} key="issue">
             <IssueRelation
               ref={ref}
-              issue={issueDetail}
-              issueType={issueDetail?.type}
+              issueDetail={issueDetail}
               iterationID={iterationID}
               onRelationChange={() => {
                 setHasEdited(true);

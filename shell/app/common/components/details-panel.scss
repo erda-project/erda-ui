@@ -3,42 +3,30 @@
     border-radius: $radius-lg;
   }
 
-  .pk-anchor-wrapper {
+  .ant-anchor-wrapper {
     background-color: transparent;
 
-    .pk-anchor {
-      width: 100%;
-      margin: 0 0 $p12 0;
-      background-color: $color-white-2;
-    }
-
-    .pk-title-title_icon,
-    .pk-anchor-link-title_icon {
+    .ant-anchor {
       display: flex;
       align-items: center;
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    .pk-affix > .pk-anchor {
+      width: 100%;
+      padding: 0 0 0 16px;
       background-color: $white;
-      border-right: 1px solid $color-border;
-      border-left: 1px solid $color-border;
-    }
 
-    .pk-anchor-content {
-      padding: 0;
-    }
-
-    .pk-anchor-con {
-      padding-top: $p12;
-
-      &:nth-child(1) {
-        padding-top: 0;
+      .ant-anchor-ink {
+        display: none;
       }
+    }
+  }
+
+  .pk-title-title_icon,
+  .anchor-link-title_icon {
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 20px;
+      height: 20px;
     }
   }
 }

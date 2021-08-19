@@ -14,7 +14,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { IF } from 'common';
-import { Row, Col } from 'app/nusi';
+import { Row, Col } from 'core/nusi';
 import { MonitorChartNew } from 'charts';
 import { ChartContainer } from 'charts/utils';
 import { ALARM_REPORT_CHART_MAP } from 'app/modules/dcos/common/config';
@@ -65,7 +65,7 @@ const AlarmReport = () => {
         <MonitorChartNew data={alarmReport} onEvents={onEvents} />
       </ChartContainer>
       <IF check={!['disk', 'cpu', 'load'].includes(alarmType || '')}>
-        <h3 className="mb16 mt32">{`${i18n.t('dcos:process')} TOP（${moment(Number(selectedTime)).format(
+        <h3 className="mb-4 mt-8">{`${i18n.t('dcos:process')} TOP（${moment(Number(selectedTime)).format(
           'YYYY-MM-DD HH:mm:ss',
         )}）`}</h3>
         <Row gutter={20}>

@@ -13,9 +13,9 @@
 
 import { ConfigLayout, Copy } from 'common';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { getInfoBlock } from '../artifacts/artifacts-info';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import errorReportStore from 'publisher/stores/error-report';
 import routeInfoStore from 'core/stores/route';
 import { formatTime } from 'common/utils';
@@ -85,8 +85,8 @@ export default () => {
       title: i18n.t('publisher:detailed log'),
       titleExtra: (
         <>
-          <Copy selector=".for-copy" />
-          <Button className="for-copy" data-clipboard-text={log} type="primary" ghost>
+          <Copy selector=".cursor-copy" />
+          <Button className="cursor-copy" data-clipboard-text={log} type="primary" ghost>
             {i18n.t('copy')}
           </Button>
         </>

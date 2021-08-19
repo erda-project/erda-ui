@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { OpenAPI } from 'openapi-types';
 import { groupBy, Dictionary, get, map, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 import i18n from 'i18n';
 
@@ -73,7 +73,7 @@ const columns = [
       const { value, tooltip } = val || {};
       return tooltip ? (
         <Tooltip title={tooltip}>
-          <span className="color-active-bg">{value}</span>
+          <span className="text-primary bg-light-active">{value}</span>
         </Tooltip>
       ) : (
         value
@@ -85,7 +85,7 @@ const columns = [
     title: i18n.t('required'),
     dataIndex: 'required',
     render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
-    width: 60,
+    width: 64,
   },
 ];
 

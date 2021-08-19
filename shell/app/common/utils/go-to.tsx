@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import path from 'path';
-import { getConfig } from 'core/config';
 import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
 import routeInfoStore from 'core/stores/route';
+import { getConfig } from 'core/config';
 
 export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);
@@ -193,6 +193,8 @@ export enum pages {
   appSetting_config = '/{orgName}/dop/projects/{projectId}/apps/{appId}/setting?tabKey=appConfig',
   buildDetailConfig = '/{orgName}/dop/projects/{projectId}/config/apps/{appId}/runtimes/{branch}/{env}',
   mspRoot = '/{orgName}/msp/mspManage',
+  mspProjects = '/{orgName}/msp/projects',
+  mspRootOverview = '/{orgName}/msp/overview',
   mspOverviewRoot = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}',
   mspOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
   mspApiStrategy = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',

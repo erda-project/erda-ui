@@ -14,7 +14,7 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import { Table, Ellipsis } from 'app/nusi';
+import { Table, Ellipsis } from 'core/nusi';
 
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
@@ -171,12 +171,12 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         className: 'case-table-id',
         render: (id: string, record: any) => {
           if (id) {
-            return <span className="color-text">{`#${record.testCaseID}`}</span>;
+            return <span className="text-normal">{`#${record.testCaseID}`}</span>;
           }
           return {
-            children: <Ellipsis className="color-text-desc" title={record.directory} />,
+            children: <Ellipsis className="text-desc" title={record.directory} />,
             props: {
-              colSpan: 6,
+              colSpan: 5,
             },
           };
         },
@@ -188,10 +188,9 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
-        width: isScroll ? 380 : undefined,
         render: (name: string, record: any) => {
           const obj = {
-            children: <Ellipsis className="bold" title={name} />,
+            children: <Ellipsis className="font-bold" title={name} />,
             props: {},
           };
           if (!record.id) {
@@ -211,7 +210,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
           if (record.id) {
             return <CaseCheckBox mode={scope} id={record.id} />;
           }
-          return <CustomIcon type="wjj1" className="color-warning" />;
+          return <CustomIcon type="wjj1" className="text-warning" />;
         },
       });
     }
@@ -235,6 +234,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
     // 操作列
     const operationColumn = filter(tempColumns, ({ fixed }: any) => fixed);
     if (!isEmpty(operationColumn)) {
+      operationColumn.width = 120;
       forEach(operationColumn, (single: any) => {
         Object.assign(single, {
           fixed: isScroll ? single.fixed : undefined,
@@ -282,6 +282,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       ref={ref}
       loading={loading}
       className={className}
+      indentSize={0}
       size="middle"
       expandedRowKeys={expandedRowKeys}
       dataSource={dataSource}
@@ -299,6 +300,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         pageSize: parseInt(query.pageSize, 10) || defaultPageSize,
         showSizeChanger: true,
       }}
+      scroll={{ x: 1500 }}
     />
   );
 };

@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Select, Input, message, Alert } from 'app/nusi';
+import { Spin, Button, Select, Input, message, Alert } from 'core/nusi';
 import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { fromNow, setApiWithOrg } from 'common/utils';
 import { mergeRepoPathWith } from './util';
 import GotoCommit from 'application/common/components/goto-commit';
@@ -108,6 +108,7 @@ const RepoTag = () => {
 
   const beforeSubmit = async (values: { ref: string; refType: string }) => {
     if (values.refType === 'commitId') {
+      setRefType(null);
       const ret = await checkCommitId({ commitId: values.ref });
       if (ret === 'error') {
         message.error(i18n.t('application:invalid commit SHA'));
@@ -196,7 +197,7 @@ const RepoTag = () => {
         />
       </div>
       <Search
-        className="repo-tag-search-input mb16"
+        className="repo-tag-search-input mb-4"
         placeholder={i18n.t('common:search by {name}', { name: i18n.t('application:tag') })}
         onChange={handleChangeBranchName}
       />
@@ -209,30 +210,30 @@ const RepoTag = () => {
             const { name, id, tagger } = item;
             const { name: committerName, when } = tagger as any;
             return (
-              <div key={name} className="branch-item flex-box">
+              <div key={name} className="branch-item flex justify-between items-center">
                 <div className="branch-item-left">
-                  <div className="bold-500 v-align fz16 mb12">
+                  <div className="font-medium flex items-center text-base mb-3">
                     <CustomIcon type="bb" />
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
-                      <span className="color-text hover-active">{name}</span>
+                      <span className="text-normal hover-active">{name}</span>
                     </Link>
                   </div>
-                  <div className="v-align color-text-sub">
-                    <span className="inline-v-align">
+                  <div className="flex items-center text-sub">
+                    <span className="inline-flex items-center">
                       <Avatar showName name={committerName} />
                       &nbsp;{i18n.t('committed at')}
                     </span>
-                    <span className="ml4">{fromNow(when)}</span>
-                    <span className="ml24 color-text-desc nowrap flex-1">
+                    <span className="ml-1">{fromNow(when)}</span>
+                    <span className="ml-6 text-desc nowrap flex-1">
                       <GotoCommit length={6} commitId={id} />
                     </span>
                   </div>
                 </div>
                 <div className="branch-item-right">
-                  <Button className="ml12" onClick={() => download(name, 'zip')}>
+                  <Button className="ml-3" onClick={() => download(name, 'zip')}>
                     {i18n.t('application:download zip')}
                   </Button>
-                  <Button className="ml12" onClick={() => download(name, 'tar.gz')}>
+                  <Button className="ml-3" onClick={() => download(name, 'tar.gz')}>
                     {i18n.t('application:download tar.gz')}
                   </Button>
                   <DeleteConfirm
@@ -241,7 +242,7 @@ const RepoTag = () => {
                     }}
                   >
                     <WithAuth pass={repoBranchAuth.deleteTag.pass}>
-                      <Button disabled={isLocked} className="ml12" ghost type="danger">
+                      <Button disabled={isLocked} className="ml-3" ghost type="danger">
                         {i18n.t('delete')}
                       </Button>
                     </WithAuth>

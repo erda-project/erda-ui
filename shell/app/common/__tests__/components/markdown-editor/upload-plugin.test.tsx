@@ -13,7 +13,6 @@
 
 import React from 'react';
 import UploadPlugin from 'common/components/markdown-editor/upload-plugin';
-import { describe, it, jest } from '@jest/globals';
 import { mount } from 'enzyme';
 
 const assertMessage = (assert: Function, msg: string) => {

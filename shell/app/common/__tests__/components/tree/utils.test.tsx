@@ -21,7 +21,6 @@ import {
   convertNodeType,
   sortCategory,
 } from 'common/components/tree/utils';
-import { describe, it } from '@jest/globals';
 
 describe('TreeUtils', () => {
   const treeNode = [

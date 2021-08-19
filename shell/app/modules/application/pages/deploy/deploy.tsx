@@ -13,8 +13,8 @@
 
 import { groupBy, map, get, find } from 'lodash';
 import React from 'react';
-import { Icon as CustomIcon, useUpdate, FormModal, LoadMoreSelector } from 'common';
-import { Spin, Tooltip, Alert, Select } from 'app/nusi';
+import { useUpdate, FormModal, LoadMoreSelector, ErdaCustomIcon } from 'common';
+import { Spin, Tooltip, Alert, Select } from 'core/nusi';
 import { EnvCard } from './env-card';
 import RuntimeBox from './runtime-box';
 import appDeployStore from 'application/stores/deploy';
@@ -55,14 +55,14 @@ interface IProps {
 }
 const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   const permMap = usePerm((s) => s.app.runtime);
-  const className = classNames('runtime-box new-deploy center-flex-box', {
+  const className = classNames('runtime-box new-deploy flex flex-wrap justify-center items-center', {
     disabled: canCreate,
     'hover-active': !canCreate,
   });
   return (
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
-        <CustomIcon type="tj1" className="fz24 mb16" />
+        <ErdaCustomIcon opacity={0.3} fill="black" type="tj1" className="text-2xl mb-5 mr-1 hover" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>
@@ -97,7 +97,7 @@ const releaseOptionItem = (release: RELEASE.detail) => {
   );
   return (
     <Tooltip title={tip} key={releaseId}>
-      <span className="full-width nowrap">{displayStr}</span>
+      <span className="w-full nowrap">{displayStr}</span>
     </Tooltip>
   );
 };
@@ -326,7 +326,7 @@ const Deploy = () => {
                   }}
                 />
                 {envBlocked && !!message ? (
-                  <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
+                  <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'info'} message={message} />
                 ) : null}
               </div>
             );

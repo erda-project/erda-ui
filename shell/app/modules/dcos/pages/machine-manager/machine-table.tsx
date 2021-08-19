@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, Table } from 'app/nusi';
+import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, Table } from 'core/nusi';
 import { groupBy, isNaN, isEmpty, filter, get, map, round } from 'lodash';
 import classNames from 'classnames';
 import { IF, useUpdate, Icon as CustomIcon, TagsRow, TableActions } from 'common';
@@ -32,11 +32,11 @@ import './machine-table.scss';
 const { confirm } = Modal;
 const compareClass = (rate: number) => {
   if (rate > 60 && rate < 80) {
-    return 'color-warning';
+    return 'text-warning';
   } else if (rate >= 80) {
-    return 'color-danger';
+    return 'text-danger';
   }
-  return 'color-success';
+  return 'text-success';
 };
 
 const countPercent = (used: number, total: number) => {
@@ -57,7 +57,7 @@ const ProgressItem = ({ percent, used, total, unit, unitType }: any) => (
     >
       <div
         className={classNames({
-          pointer: true,
+          'cursor-pointer': true,
           'machine-percent-bar': true,
           'machine-percent-error-bar': percent >= 100,
         })}
@@ -82,7 +82,10 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
           : `${i18n.t('org:allocation')}: ${round(request, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
-      <div className="machine-percent-bar machine-percent-bottom-bar pointer" style={{ width: `${requestPercent}%` }}>
+      <div
+        className="machine-percent-bar machine-percent-bottom-bar cursor-pointer"
+        style={{ width: `${requestPercent}%` }}
+      >
         <span>{`${requestPercent}%`}</span>
       </div>
     </Tooltip>
@@ -99,7 +102,7 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
     >
       <div
         className={classNames({
-          pointer: true,
+          'cursor-pointer': true,
           'machine-percent-bar': true,
           'machine-percent-top-bar': true,
           'machine-percent-error-bar': usedPercent >= requestPercent,
@@ -479,7 +482,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
       title: <FirstColTitle filterMap={filterMap} />,
-      width: 150,
+      width: 160,
       fixed: 'left',
       dataIndex: 'ip',
       // ...getInputFilter('ip', { placeholder: '根据IP搜索' }),
@@ -498,7 +501,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 />
               )}
             </span>
-            <span className="bold hover-table-text status nowrap" onClick={() => gotoMachineMonitor(record)}>
+            <span className="font-bold hover-table-text status nowrap" onClick={() => gotoMachineMonitor(record)}>
               {value}
             </span>
           </div>
@@ -508,11 +511,11 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     {
       title: i18n.t('org:number of instance'),
       dataIndex: 'tasks',
-      width: 100,
+      width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
       render: (_val: string, record: ORG_MACHINE.IMachine) => {
         return (
-          <span onClick={() => gotoMachineTasks(record)} className="bold hover-table-text">
+          <span onClick={() => gotoMachineTasks(record)} className="font-bold hover-table-text">
             {record.tasks}
           </span>
           // record.tasks
@@ -521,7 +524,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     },
     {
       title: 'CPU',
-      width: 125,
+      width: 120,
       dataIndex: 'cpuAllocatable',
       // sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.cpuUsage / a.cpuTotal) - Number(b.cpuUsage / b.cpuTotal),
       render: (_, data: ORG_MACHINE.IMachine) => {
@@ -543,7 +546,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     },
     {
       title: i18n.t('memory'),
-      width: 125,
+      width: 120,
       dataIndex: 'memProportion',
       // sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.memUsage / a.memTotal) - Number(b.memUsage / b.memTotal),
       render: (_, data: ORG_MACHINE.IMachine) => {
@@ -564,7 +567,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     },
     {
       title: i18n.t('org:Disk usage'),
-      width: 125,
+      width: 120,
       dataIndex: 'diskProportion',
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) =>
         Number(a.diskUsage / a.diskTotal) - Number(b.diskUsage / b.diskTotal),
@@ -586,7 +589,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     {
       title: i18n.t('load'),
       dataIndex: 'load5',
-      width: 90,
+      width: 96,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.load5) - Number(b.load5),
     },
     {
@@ -602,7 +605,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       dataIndex: 'id',
       key: 'operation',
       fixed: 'right',
-      width: 150,
+      width: 160,
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
@@ -629,7 +632,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       <Table
         className="machine-list-table"
         loading={isFetching}
-        rowKey="ip"
+        rowKey={(record, index) => `${record.ip}-${index}`}
         pagination={false}
         bordered
         columns={columns}

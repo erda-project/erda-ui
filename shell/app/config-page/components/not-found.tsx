@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 
 export interface IProps {
@@ -20,7 +20,7 @@ export interface IProps {
 const NotFound = (props: IProps) => {
   const { cId } = props;
   return (
-    <div className={'color-danger'}>
+    <div className={'text-danger'}>
       {i18n.t('common:config-page-not-found-tip')}: {cId}
     </div>
   );

@@ -13,9 +13,9 @@
 
 import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import produce from 'immer';
-import { map, get, find } from 'lodash';
+import { map, get, find, isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
@@ -56,12 +56,15 @@ const TopologyDashboard = () => {
   // 缓存同类型节点加载的大盘模板
   const loadedDashBoardMap = useRef<Map<string, DC.Layout>>(new Map());
 
-  const globalVariable: GlobalVariable = useMemo(
-    () => ({
-      terminusKey: params.terminusKey,
-      startTime: timeSpan.startTimeMs,
-      endTime: timeSpan.endTimeMs,
-    }),
+  const globalVariable: Partial<GlobalVariable> = useMemo(
+    () =>
+      params.terminusKey
+        ? {
+            terminusKey: params.terminusKey,
+            startTime: timeSpan.startTimeMs,
+            endTime: timeSpan.endTimeMs,
+          }
+        : {},
     [params.terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs],
   );
 
@@ -74,9 +77,11 @@ const TopologyDashboard = () => {
   };
 
   useEffect(() => {
-    getCustomDashboard({ id: 'global_overview', isSystem: true }).then((res) => {
-      setOverviewBoard(res);
-    });
+    if (params.terminusKey) {
+      getCustomDashboard({ id: 'global_overview', isSystem: true }).then((res) => {
+        setOverviewBoard(res);
+      });
+    }
   }, [getCustomDashboard, params.terminusKey]);
 
   nodeGlobalVariable.current = useMemo(
@@ -135,7 +140,7 @@ const TopologyDashboard = () => {
     <div className="topology-dashboard">
       {/* 全局概览 */}
       <div className="topology-global-dashboard">
-        <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />
+        {!isEmpty(globalVariable) && <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />}
       </div>
       {/*
         可跳转 node type case:
@@ -145,8 +150,8 @@ const TopologyDashboard = () => {
         [configCenter] to 配置中心
      */}
       <If condition={activedNode}>
-        <div className="topology-node-dashboard-header flex-box mb8">
-          <div className="node-name bold color-text-sub">
+        <div className="topology-node-dashboard-header flex justify-between items-center mb-2">
+          <div className="node-name font-bold text-sub">
             {type === 'service' ? `${i18n.t('common:service')}：${serviceName}` : name}
           </div>
           <If condition={type && name}>

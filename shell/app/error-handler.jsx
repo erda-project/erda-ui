@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { notification } from 'app/nusi';
+import { notification } from 'core/nusi';
 import userStore from './user/stores';
 
 // use static data instead of i18n match
@@ -65,7 +65,7 @@ export default (err) => {
 
   notification[level]({
     message: locale === 'en' ? 'request error' : '请求错误',
-    description: <pre className="notify-error-detail">{backendMsg || msg}</pre>,
+    description: <pre className="whitespace-pre-line">{backendMsg || msg}</pre>,
     style: {
       width: 440,
       marginLeft: 385 - 440,

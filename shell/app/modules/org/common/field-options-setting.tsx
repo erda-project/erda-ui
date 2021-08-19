@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Table, Input } from 'app/nusi';
+import React from 'react';
+import { Table, Input } from 'core/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
 import { produce } from 'immer';
@@ -73,7 +73,7 @@ const FieldOptionsSetting = (props: IProps) => {
       render: (_value: number, _record: any, index: number) => {
         return index < value.length - 1 ? (
           <CustomIcon
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'cursor-pointer' }}
             type="shanchu"
             onClick={() => {
               const tempList = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {

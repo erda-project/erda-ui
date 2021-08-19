@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import classnames from 'classnames';
 import { ClassWrapper } from './class-wrap';
@@ -173,7 +173,7 @@ export const RenderFormItem = ({
       break;
     case 'datePicker':
       ItemComp = (
-        <DatePicker className="full-width" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
+        <DatePicker className="w-full" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
       );
       break;
     case 'custom':
@@ -207,6 +207,11 @@ export const RenderFormItem = ({
         required,
         message: `${i18n.t('common:please')}${action}${hasColon ? label.slice(0, label.length - 1) : label}`,
       });
+    } else if (label) {
+      rules.push({
+        required,
+        message: i18n.t('can not be empty'),
+      });
     }
   }
   if (pattern && !rules.some((r) => r.pattern && r.pattern.source === pattern.source)) {
@@ -234,17 +239,18 @@ export const RenderFormItem = ({
     <span>
       {label}&nbsp;
       <Tooltip title={labelTip}>
-        <IconHelp className="color-text-icon" />
+        <IconHelp className="text-icon" />
       </Tooltip>
     </span>
   ) : (
     label
   );
+
   return (
     <FormItem
       label={_label}
       {...layout}
-      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+      className={`${itemProps.type === 'hidden' ? 'hidden' : ''} ${className}`}
       required={required}
     >
       <FormItem

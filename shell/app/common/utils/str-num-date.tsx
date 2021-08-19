@@ -16,7 +16,7 @@ import { isArray } from 'lodash';
 import moment, { Moment } from 'moment';
 import 'moment/locale/zh-cn';
 import React from 'react';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 
 const locale = window.localStorage.getItem('locale') || 'zh';
 const momentLangMap = {
@@ -66,7 +66,7 @@ export function getDateDuration(startAt: string | number | Date, endAt: string |
 
   let timeCost = duration.humanize();
   if (timeCost === i18n.t('common:a few seconds')) {
-    timeCost = `${seconds.toFixed()} ${i18n.t('common:second(s)')}`;
+    timeCost = `${Math.abs(+seconds.toFixed())} ${i18n.t('common:second(s)')}`;
   }
 
   return timeCost;

@@ -36,7 +36,7 @@ export default function getOrgRouter() {
         },
         {
           path: 'org-list',
-          getComp: (cb) => cb(import('app/org-home/pages/org-list'), 'OrgList'),
+          getComp: (cb) => cb(import('app/org-home/pages/org-list')),
           layout: {
             hideHeader: true,
             showSubSidebar: false,

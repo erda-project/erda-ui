@@ -14,6 +14,7 @@
 import base, { expect } from '@playwright/test';
 import fs from 'fs';
 import { RoleTypes } from './login.spec';
+import authConfig from '../auto_test/auth/config';
 
 interface TestFixtures {
   version: string;
@@ -21,8 +22,27 @@ interface TestFixtures {
   expectExist: (seconds: string, count?: number) => boolean;
   expectRequestSuccess: () => () => void;
   logFailedRequest: () => void;
-  goTo: (key: string) => void;
+  goTo: (key: keyof typeof gotoMap) => void;
 }
+
+const gotoMap = {
+  root: '',
+  deploy: '/integration/dop/projects/123/apps/788/deploy',
+  appList: '/integration/dop/projects/568/apps',
+  createApp: `/integration/dop/projects/568/apps/createApp`,
+  appSetting: '/integration/dop/projects/568/apps/840/setting',
+  appBranchRule: '/integration/dop/projects/568/apps/840/setting?tabKey=branchRule',
+  appDeployParameter: '/integration/dop/projects/568/apps/840/setting?tabKey=appConfig',
+  appPipelineParameter: '/integration/dop/projects/568/apps/840/setting?tabKey=privateConfig',
+  appNotifyConfig: '/integration/dop/projects/568/apps/840/setting?tabKey=notifyConfig',
+  appNotifyGroup: '/integration/dop/projects/568/apps/840/setting?tabKey=notifyGroup',
+  orgProjectList: '/integration/orgCenter/projects',
+  orgCreateProject: '/integration/orgCenter/projects/createProject',
+  pipeline: '/integration/dop/projects/123/apps/788/pipeline',
+  branches: '/integration/dop/projects/123/apps/788/repo/branches',
+  mergeRequest: '/integration/dop/projects/123/apps/788/repo/mr/open',
+  branchDevelop: '/integration/dop/projects/123/apps/788/repo/tree/develop',
+};
 
 // Extend base test with our fixtures.
 const test = base.extend<TestFixtures>({
@@ -85,11 +105,8 @@ const test = base.extend<TestFixtures>({
   ], // pass "auto" to starts fixture automatically for every test.
 
   goTo: async ({ page }, use) => {
-    const gotoMap = {
-      root: '',
-    };
-    await use(async (key) => {
-      await page.goto(gotoMap[key]);
+    await use(async (key: keyof typeof gotoMap) => {
+      await page.goto(`${gotoMap[key]}`);
     });
   },
 });
@@ -97,6 +114,7 @@ const test = base.extend<TestFixtures>({
 const Role = (role: RoleTypes, fn: () => void) => {
   test.describe(`[${role}]`, () => {
     test.use({
+      baseURL: authConfig.url,
       storageState: `auto_test/auth/${role}.json`,
     });
 

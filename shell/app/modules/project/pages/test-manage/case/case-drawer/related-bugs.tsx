@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Table, Select, Button, Popconfirm, Tooltip, message } from 'app/nusi';
+import { Table, Select, Button, Popconfirm, Tooltip, message } from 'core/nusi';
 import React from 'react';
 import { ColumnProps } from 'core/common/interface';
 import { ISSUE_PRIORITY_MAP, ISSUE_TYPE, ISSUE_ICON } from 'project/common/components/issue/issue-config';
@@ -110,7 +110,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         return (
           <Tooltip placement="topLeft" title={text}>
             <div
-              className="flex-box flex-start text-link nowrap"
+              className="flex items-center justify-start text-link nowrap truncate"
               onClick={() => {
                 goToBugs(record);
               }}
@@ -125,10 +125,10 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('default:status'),
       dataIndex: 'state',
-      width: 90,
+      width: 96,
       render: (stateName: string, record: any) => {
         return stateName ? (
-          <div className="v-align">
+          <div className="flex items-center">
             {ISSUE_ICON.state[record?.stateBelong]}
             {stateName}
           </div>
@@ -138,7 +138,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
-      width: 70,
+      width: 80,
       render: (text: string) =>
         ISSUE_PRIORITY_MAP[text] ? (
           <>
@@ -152,13 +152,14 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
-      width: 180,
+      width: 200,
       render: (text: string) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: null,
       dataIndex: 'operate',
-      width: 80,
+      width: 160,
+      fixed: 'right',
       render: (text, { issueRelationID }: TEST_CASE.RelatedBug) => {
         return [
           <div className="table-operations">
@@ -190,7 +191,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
   };
   return (
     <div className="related-bugs">
-      <div className="mb8 flex-box">
+      <div className="mb-2 flex justify-between items-center">
         {i18n.t('related bugs')}
         <Button
           onClick={() => {
@@ -201,8 +202,8 @@ const RelatedBugs = ({ relationID }: IProps) => {
         </Button>
       </div>
       {showFilterBug ? (
-        <div className="flex-box flex-1 filter-select-wrap mb12">
-          <div className="flex-box flex-1">
+        <div className="flex justify-between items-center flex-1 filter-select-wrap mb-3">
+          <div className="flex justify-between items-center flex-1">
             <MemberSelector
               mode="multiple"
               className="filter-select"
@@ -221,7 +222,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               {map(ISSUE_PRIORITY_MAP, (item) => {
                 return (
                   <Option key={item.value} value={item.value}>
-                    <CustomIcon className="priority-icon mr8" type={item.icon} color />
+                    <CustomIcon className="priority-icon mr-2" type={item.icon} color />
                     {item.label}
                   </Option>
                 );
@@ -239,7 +240,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               {map(bugList, (item) => {
                 return (
                   <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
-                    <div className="flex-box flex-start nowrap">
+                    <div className="flex items-center justify-start nowrap">
                       <IssueIcon type={ISSUE_TYPE.BUG} />
                       {item.id}-{item.title}
                     </div>
@@ -248,7 +249,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               })}
             </Select>
           </div>
-          <Button disabled={!selectBug} className="ml12" onClick={handleAddRelation}>
+          <Button disabled={!selectBug} className="ml-3" onClick={handleAddRelation}>
             {i18n.t('default:ok')}
           </Button>
           <Button
@@ -261,7 +262,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
           </Button>
         </div>
       ) : null}
-      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: '100%' }} />
+      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: 800 }} />
     </div>
   );
 };

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty } from 'lodash';
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { KeyValueList } from 'common';
 
@@ -42,7 +42,7 @@ const ReleaseDetailInfo = ({ data }: IProps) => {
   if (copy.updatedAt) copy.updatedAt = moment(copy.updatedAt).format('YYYY-MM-DD HH:mm:ss');
   return (
     <div className="release-detail-page">
-      <KeyValueList data={{ Image: copy }} listRender={listRender} shrink />
+      <KeyValueList data={{ Image: copy }} listRender={listRender} markdownTextFields={['desc']} shrink />
     </div>
   );
 };

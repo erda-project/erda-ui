@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CRUDStoreTable, useUpdate, FormModal, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
 import certRefStore from 'application/stores/certificate-reference';
@@ -21,7 +21,7 @@ import certificateStore from 'org/stores/certificate';
 import { useUnmount } from 'react-use';
 import { WORKSPACE_LIST } from 'common/constants';
 import { get } from 'lodash';
-import { Popconfirm } from 'app/nusi';
+import { Popconfirm } from 'core/nusi';
 import routeInfoStore from 'core/stores/route';
 import { getCertificateList } from 'org/services/certificate';
 

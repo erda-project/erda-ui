@@ -13,9 +13,9 @@
 
 import { cutStr, qs, reorder } from 'common/utils';
 import classnames from 'classnames';
-import { Copy, Icon as CustomIcon, useListDnD, EmptyListHolder, FileEditor } from 'common';
+import { Copy, ErdaCustomIcon, useListDnD, EmptyListHolder, FileEditor } from 'common';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'app/nusi';
+import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'core/nusi';
 import { Copy as IconCopy } from '@icon-park/react';
 import testEnvStore from 'project/stores/test-env';
 import React from 'react';
@@ -227,7 +227,7 @@ export const CaseAPI = (props: IProps) => {
   };
 
   if (!apiList.length) {
-    return <span className="color-text-holder">{i18n.t('project:no content yet')}</span>;
+    return <span className="text-holder">{i18n.t('project:no content yet')}</span>;
   }
 
   return (
@@ -343,9 +343,9 @@ const ApiItem = ({
     const { body, headers, status } = response;
     const isSuccess = status < 400 && status >= 200;
     const statusColor = classnames({
-      ml4: true,
-      'color-success': isSuccess,
-      'color-danger': !isSuccess,
+      'ml-1': true,
+      'text-success': isSuccess,
+      'text-danger': !isSuccess,
     });
     let responseBody = <pre className="response-body">{JSON.stringify(body, null, 2)}</pre>;
     let isRequestJson = false;
@@ -391,8 +391,8 @@ const ApiItem = ({
               <EmptyListHolder />
             ) : (
               <>
-                <div className="request-info color-text-desc pa12">
-                  <span className="method mr12">{get(request, 'method', '')}</span>
+                <div className="request-info text-desc p-3">
+                  <span className="method mr-3">{get(request, 'method', '')}</span>
                   <span className="url">{get(request, 'url', '')}</span>
                 </div>
                 <Tabs>
@@ -421,10 +421,10 @@ const ApiItem = ({
                       <EmptyListHolder />
                     ) : (
                       <>
-                        <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
+                        <div className="body-type p-3 border-bottom">Type: {get(request, 'body.type', '')}</div>
                         <Button
                           disabled={!get(request, 'body.content')}
-                          className="copy-btn for-copy copy-request"
+                          className="copy-btn cursor-copy copy-request"
                           data-clipboard-text={get(request, 'body.content', '')}
                           shape="circle"
                           icon={<IconCopy />}
@@ -452,7 +452,7 @@ const ApiItem = ({
             <Tabs
               defaultActiveKey="Body"
               tabBarExtraContent={
-                <span className="mr12 color-text-desc">
+                <span className="mr-3 text-desc">
                   Status:<span className={statusColor}>{status}</span>
                 </span>
               }
@@ -469,7 +469,7 @@ const ApiItem = ({
               <TabPane key="Body" tab="Body">
                 <Button
                   disabled={!body}
-                  className="copy-btn for-copy copy-response"
+                  className="copy-btn cursor-copy copy-response"
                   data-clipboard-text={body}
                   shape="circle"
                   icon={<IconCopy />}
@@ -489,10 +489,10 @@ const ApiItem = ({
         <div className="api-title case-index-hover">
           <span ref={dragRef} className="case-index-block">
             <span className={numCls}>{index + 1}</span>
-            <CustomIcon className="drag-icon" type="px" />
+            <ErdaCustomIcon size="16" className="drag-icon" type="px" />
           </span>
           <span>
-            <CustomIcon className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
+            <ErdaCustomIcon size="16" className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
           </span>
           <Input
             className="flex-1"
@@ -501,25 +501,35 @@ const ApiItem = ({
             onChange={(e) => updateApi(index, 'name', e.target.value)}
             maxLength={50}
           />
-          <CustomIcon
+          <ErdaCustomIcon
+            opacity={0.4}
+            fill="black"
             className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`}
             type="chevron-down"
             onClick={() => setCurShow(index)}
           />
           {inPlan ? null : (
             <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
-              <CustomIcon
-                className="ml12 mt4 api-op hover-active"
+              <ErdaCustomIcon
+                opacity={0.4}
+                fill="black"
+                className="ml-3 mt-1 api-op hover-active"
                 type="play"
                 onClick={() => handleExecute(api, index)}
               />
             </SelectEnv>
           )}
           <Popconfirm title={`${i18n.t('common:confirm deletion')}？`} onConfirm={() => handleDelete(index)}>
-            <CustomIcon className="ml12 delete-icon api-op hover-active" type="sc1" />
+            <ErdaCustomIcon
+              opacity={0.4}
+              fill="black"
+              size="18"
+              className="ml-3 delete-icon api-op hover-active"
+              type="sc1"
+            />
           </Popconfirm>
         </div>
-        <div className={`api-content ${isShow ? 'show' : 'hide'}`}>
+        <div className={`api-content ${isShow ? 'block' : 'hidden'}`}>
           <div className="api-url">
             <Input
               addonBefore={
@@ -672,14 +682,14 @@ const ApiTabComps = {
           }
           return (
             <Popover
-              content={<pre className="fz12">{cutStr(res.actualValue, 200)}</pre>}
+              content={<pre className="text-xs">{cutStr(res.actualValue, 200)}</pre>}
               title={i18n.t('project:actual value')}
               trigger="hover"
             >
               {res.success === true ? (
-                <CustomIcon className="assert-status success" type="tg" />
+                <ErdaCustomIcon size="16" className="assert-status success" type="tg" />
               ) : res.success === false ? (
-                <CustomIcon className="assert-status error" type="wtg" />
+                <ErdaCustomIcon size="16" className="assert-status error" type="wtg" />
               ) : null}
             </Popover>
           );
@@ -970,7 +980,7 @@ const APIBody = (props: any) => {
   const CurValueComp = ValMap[realType] || ValMap.raw;
   return (
     <div className="case-api-body">
-      <div className="body-type-chosen mb8 px12">
+      <div className="body-type-chosen mb-2 px-3">
         <Radio.Group onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
@@ -1138,11 +1148,20 @@ const KeyValEdit = (props: IKeyValProps) => {
                   )}
                   onConfirm={() => handleDelete(i)}
                 >
-                  <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
+                  <ErdaCustomIcon
+                    opacity={0.85}
+                    fill="black"
+                    size="16"
+                    type="sc1"
+                    className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
+                  />
                 </Popconfirm>
               ) : (
-                <CustomIcon
+                <ErdaCustomIcon
                   type="sc1"
+                  size="16"
+                  fill="black"
+                  opacity={0.85}
                   onClick={() => {
                     handleDelete(i);
                   }}

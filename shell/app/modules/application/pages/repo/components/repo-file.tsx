@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react/no-danger */
-import * as React from 'react';
+import React from 'react';
 import pathLib from 'path';
 import FileContainer from 'application/common/components/file-container';
 import { FileEditor, connectCube } from 'common';
@@ -225,7 +225,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
         const notShow = after === '/' || !after.endsWith(fileExtension);
         return (
           <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-            <div className="text-center mt16">
+            <div className="text-center mt-4">
               {notShow ? null : <img style={{ maxWidth: '80%' }} src={fileSrc} alt="preview-image" />}
             </div>
           </FileContainer>
@@ -234,7 +234,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
         return (
           <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
             <div
-              className="text-center mt16"
+              className="text-center mt-4"
               dangerouslySetInnerHTML={{ __html: blob.content && blob.content.replace('script', '') }}
             />
           </FileContainer>
@@ -276,10 +276,10 @@ class RepoFile extends React.PureComponent<IProps, IState> {
     }
     return (
       <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-        <div className="center-flex-box raw-file-container">
+        <div className="flex flex-wrap justify-center items-center raw-file-container">
           <a href={fileSrc} target="_blank" rel="noopener noreferrer">
             <IconDownload />
-            <div className="mt4"> {i18n.t('application:download')} </div>
+            <div className="mt-1"> {i18n.t('application:download')} </div>
           </a>
         </div>
       </FileContainer>

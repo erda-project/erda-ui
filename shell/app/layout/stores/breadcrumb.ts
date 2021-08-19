@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 
 interface IState {
   infoMap: {
@@ -31,6 +31,7 @@ interface IState {
     k8sName: string;
     testSpaceName: string;
     curOrgName: string;
+    mspProjectName: string;
   };
 }
 
@@ -52,6 +53,7 @@ const initState: IState = {
     k8sName: '',
     testSpaceName: '',
     curOrgName: '',
+    mspProjectName: '',
   },
 };
 

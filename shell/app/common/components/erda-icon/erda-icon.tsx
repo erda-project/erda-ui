@@ -11,8 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import './erda-icon.scss';
+import { isNumber } from 'lodash';
 import {
   Lock as IconLock,
   Unlock as IconUnlock,
@@ -80,10 +81,10 @@ export const ErdaIcon = ({ className = '', onClick, iconType, ...rest }: IProps)
   return IconComp ? <IconComp className={className} onClick={onClick} {...rest} /> : <span>Not Exists</span>;
 };
 
-
-type CustomColor = 'primary' | 'light-primary' | 'shallow-primary' | 'white';
+type CustomColor = keyof typeof COLOR;
 
 interface IErdaCustomIcon {
+  className?: string;
   type: string; // unique identification of icon
   style?: React.CSSProperties;
   width?: string; // with of svg, and it's more priority than size
@@ -95,18 +96,39 @@ interface IErdaCustomIcon {
   color?: CustomColor; // color of svg
   rtl?: boolean; // acoustic image, the default value is from left to right
   onClick?: React.MouseEventHandler;
+  opacity?: number;
 }
 
 const COLOR = {
-  primary: '#6a549e',
-  white: '#ffffff',
-  'light-primary': '#6a549e19', // rgba($primary, .1)
-  'shallow-primary': '#6a549e99', // rgba($primary, .6)
+  primary: '106,84,158',
+  white: '255,255,255',
+  black: '0,0,0',
+  'shallow-gray': '187,187,187',
+  'danger-red': '223,52,9',
+  yellow: '254,171,0',
+  gray: '102, 102, 102',
+  darkgray: '153, 153, 153',
+  lightgray: '187,187,187',
 };
 
-export const ErdaCustomIcon = ({
-  type, fill, color, stroke, ...rest
-}: IErdaCustomIcon) => {
-  // @ts-ignore iconpark component
-  return <iconpark-icon name={type} fill={COLOR[fill]} color={COLOR[color]} stroke={COLOR[stroke]} {...rest} />;
+const getOpacityColor = (color: string, opacity?: number) => {
+  if (isNumber(opacity)) {
+    return `rgba(${color},${opacity})`;
+  } else {
+    return `rgb(${color})`;
+  }
+};
+
+export const ErdaCustomIcon = ({ type, fill, color, stroke, opacity, className, ...rest }: IErdaCustomIcon) => {
+  return (
+    // @ts-ignore iconpark component
+    <iconpark-icon
+      name={type}
+      fill={fill ? getOpacityColor(COLOR[fill], opacity) : undefined}
+      color={color ? getOpacityColor(COLOR[color], opacity) : undefined}
+      stroke={stroke ? getOpacityColor(COLOR[stroke], opacity) : undefined}
+      {...rest}
+      class={className}
+    />
+  );
 };

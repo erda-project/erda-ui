@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 import { MarkdownEditor } from 'common';
 import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
@@ -49,7 +49,7 @@ const DetailIntro = () => {
         <span>{i18n.t('project:test report details')}</span>
         <ExportPdf domId="report-page" tip={i18n.t('project:test report')}>
           {({ exportPdf }) => (
-            <span className="fz14 pointer color-primary" onClick={() => exportPdf()}>
+            <span className="text-sm cursor-pointer text-primary" onClick={() => exportPdf()}>
               <IconUpload />
               {i18n.t('project:export report')}
             </span>

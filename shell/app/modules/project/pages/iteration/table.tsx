@@ -17,8 +17,8 @@ import { DeleteConfirm, useUpdate } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Button, Progress, Table, Select, Ellipsis } from 'app/nusi';
-import * as React from 'react';
+import { Button, Progress, Table, Select, Ellipsis } from 'core/nusi';
+import React from 'react';
 import { map, sumBy } from 'lodash';
 import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
@@ -139,7 +139,7 @@ export const Iteration = () => {
         const totalCount = (sumBy(map(record.issueSummary || {}), 'undone') || 0) + doneTotal;
         const percent = ((totalCount ? doneTotal / totalCount : 0) * 100).toFixed(1);
         return (
-          <div className="mr8">
+          <div className="mr-2">
             <Progress percent={+percent} />
           </div>
         );
@@ -193,7 +193,7 @@ export const Iteration = () => {
 
   return (
     <div className="iteration">
-      <Select className="mb16 default-selector-width" value={status} onChange={(value: any) => setStatus(value)}>
+      <Select className="mb-4 w-52" value={status} onChange={(value: any) => setStatus(value)}>
         {iterationOptions}
       </Select>
 

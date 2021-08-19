@@ -14,7 +14,7 @@
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Row, Col, Select, Input, Spin, Table } from 'app/nusi';
+import { Row, Col, Select, Input, Spin, Table } from 'core/nusi';
 import { IF } from 'common';
 import { goTo } from 'common/utils';
 import { getFormatter } from 'app/charts/utils/formatter';
@@ -120,7 +120,7 @@ const MiddlewareDashboard = () => {
       dataIndex: 'name',
       key: 'name',
       width: '35%',
-      render: (value: string) => <span className="hover-text bold">{value}</span>,
+      render: (value: string) => <span className="hover-text font-bold">{value}</span>,
     },
     {
       title: i18n.t('org:cluster'),
@@ -172,7 +172,7 @@ const MiddlewareDashboard = () => {
     <>
       <div className="middleware-dashboard-content">
         <div className="middleware-dashboard-top">
-          <div className="filter-group-ct mb32">
+          <div className="filter-group-ct mb-8">
             <Row gutter={20}>
               <Col span={6} className="filter-item">
                 <div className="filter-item-label">{i18n.t('environment')}</div>
@@ -222,12 +222,12 @@ const MiddlewareDashboard = () => {
               </Col>
             </Row>
           </div>
-          {/* <Row className="middleware-overview-ct mb16" type="flex" justify="space-between" gutter={50}>
+          {/* <Row className="middleware-overview-ct mb-4" type="flex" justify="space-between" gutter={50}>
           {
             map(overview, (v, k) => (
               <Col span={8} key={k}>
                 <div className="middleware-overview-item border-all">
-                  <div className="title mb20">{overviewItemNameMap[k]}</div>
+                  <div className="title mb-5">{overviewItemNameMap[k]}</div>
                   <div className="num">{v}</div>
                 </div>
               </Col>
@@ -238,7 +238,7 @@ const MiddlewareDashboard = () => {
         </div>
       </div>
       <Table
-        className="pointer"
+        className="cursor-pointer"
         rowKey="instanceId"
         columns={middlewareCols}
         dataSource={middlewares}

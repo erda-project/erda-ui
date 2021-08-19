@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Card } from 'app/nusi';
+import React from 'react';
+import { Card } from 'core/nusi';
 import Backlog from './backlog';
 import Iterations from './iterations';
 
@@ -20,11 +20,11 @@ import './index.scss';
 
 const BackLogIssue = () => {
   return (
-    <div className="backlog-issue full-height">
-      <Card className="backlog-left full-height">
+    <div className="backlog-issue h-full">
+      <Card className="backlog-left h-full">
         <Backlog />
       </Card>
-      <Card className="backlog-right full-height">
+      <Card className="backlog-right h-full">
         <Iterations />
       </Card>
     </div>

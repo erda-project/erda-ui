@@ -17,7 +17,7 @@ import routeInfoStore from 'core/stores/route';
 import { Form } from 'dop/pages/form-editor/index';
 import { issueStateMap } from 'project/common/config';
 import { map } from 'lodash';
-import { Select } from 'app/nusi';
+import { Select } from 'core/nusi';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 
 const { Option } = Select;
@@ -91,11 +91,11 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
   );
 
   return (
-    <div className={'backlog-issue-form flex-box flex-start align-top'}>
+    <div className={'backlog-issue-form flex justify-start items-start'}>
       <div className={'backlog-issue-form-box'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
-      <div className="table-operations ml8 mt8">
+      <div className="table-operations ml-2 mt-2">
         <span className="table-operations-btn" onClick={onAdd}>
           {i18n.t('save')}
         </span>

@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty, filter } from 'lodash';
-import { Select, Input, Tooltip, Form } from 'app/nusi';
+import { Select, Input, Tooltip, Form } from 'core/nusi';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
 import './check-when.scss';
@@ -322,7 +322,7 @@ export const FormCheckWhen = ({ fixOut = noop, fixIn = noop, extensionFix, requi
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

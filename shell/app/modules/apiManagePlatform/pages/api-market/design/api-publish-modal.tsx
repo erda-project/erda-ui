@@ -16,7 +16,7 @@ import { useUpdate, FormModal, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';
-import { message, Tooltip } from 'app/nusi';
+import { message, Tooltip } from 'core/nusi';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';
 import orgStore from 'app/org-home/stores/org';

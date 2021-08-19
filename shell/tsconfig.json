@@ -104,10 +104,8 @@
       "core/stores/loading": ["../core/src/stores/loading.ts"],
       "core/stores/userMap": ["../core/src/stores/user-map.ts"],
       "common/all": ["../shell/app/common/index"],
-      "core/common/interface": ["../core/src/common/interface.d.ts"],
-      "nusi/all": ["../shell/app/external/nusi"]
+      "core/common/interface": ["../core/src/common/interface.d.ts"]
     },
-    "typeRoots": [],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,

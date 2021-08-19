@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { InputSelect } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 
@@ -88,7 +87,7 @@ describe('InputSelect', () => {
     });
     wrapper.update();
     expect(onChangeFn).toHaveBeenLastCalledWith(options[1].value);
-    expect(wrapper.find('.option-item').at(1).prop('className')).toContain('color-active-bg');
+    expect(wrapper.find('.option-item').at(1).prop('className')).toContain('bg-light-active');
     act(() => {
       wrapper
         .find('.input-select-dropdown-box')

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging, goTo } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';

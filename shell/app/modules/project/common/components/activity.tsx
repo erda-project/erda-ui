@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { map, groupBy } from 'lodash';
-import { Timeline, Tooltip } from 'app/nusi';
+import { Timeline, Tooltip } from 'core/nusi';
 import { Avatar, IF } from 'common';
 import { actionMap } from '../config';
 import i18n from 'i18n';
@@ -120,7 +120,7 @@ export const ActiveCard = ({ operator, action, context }: IActivity) => {
         <Avatar size={32} name={nick} url={avatar} />
         <div className="info">
           <Tooltip title={name}>
-            <span className="name mr8 bold-500">{nick}</span>
+            <span className="name mr-2 font-medium">{nick}</span>
           </Tooltip>
           <span>{actionMap[action]}</span>
         </div>

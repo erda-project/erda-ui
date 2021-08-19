@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Card, Button, Table, Modal } from 'app/nusi';
+import React from 'react';
+import { Card, Button, Table, Modal } from 'core/nusi';
 import { isEmpty, map, find, get } from 'lodash';
 import { useMount } from 'react-use';
 import classnames from 'classnames';
@@ -177,18 +177,18 @@ const NodeList = () => {
 
   return (
     <div className="node-list-container">
-      <div className="host-list mr16">
+      <div className="host-list mr-4">
         <Card>
-          <p className="mb12 bold-500">{i18n.t('msp:node list')}</p>
+          <p className="mb-3 font-medium">{i18n.t('msp:node list')}</p>
           <div className="host-list-content">
             <Holder when={isEmpty(nodeData.node)}>
               {map(nodeData.node, (node) => (
                 <div
                   className={classnames({
                     'node-item': true,
-                    py4: true,
-                    px12: true,
-                    mb12: true,
+                    'py-1': true,
+                    'px-3': true,
+                    'mb-3': true,
                     'hover-active-bg': true,
                     active: state.activeNode === node.address,
                   })}
@@ -205,12 +205,12 @@ const NodeList = () => {
         </Card>
       </div>
       <div className="host-detail">
-        <div className="batch-actions mb16">
+        <div className="batch-actions mb-4">
           {map(batchOptionsMap, (name, type) => (
             <Button
               key={type}
               disabled={!isSelected || nodeData.node.length < 2}
-              className="mr8"
+              className="mr-2"
               onClick={() => {
                 handleBatchOption(type);
               }}

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
-import { Button, Row, Col, Tooltip, Drawer, Spin } from 'app/nusi';
+import React from 'react';
+import { Button, Row, Col, Tooltip, Drawer, Spin } from 'core/nusi';
 import TraceDetail from 'trace-insight/pages/trace-detail';
 import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog, useUpdate } from 'common';
 import { get, map, isEmpty } from 'lodash';
@@ -257,7 +257,7 @@ const ErrorDetail = () => {
               <div className="content-block requestid-item">
                 <span className="request-label">Request Id: </span>
                 <Tooltip title={i18n.t('msp:click to copy')}>
-                  <span className="requestid-text for-copy">
+                  <span className="requestid-text cursor-copy">
                     <Copy>{requestId}</Copy>
                   </span>
                 </Tooltip>
@@ -290,7 +290,7 @@ const ErrorDetail = () => {
               <div className="content-title stacks-title">
                 {`${i18n.t('msp:error stack')}:   ${type}`}
                 <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
-                  {showAllStacks ? <IconDown size="20px" className="mr0" /> : <IconUp size="20px" className="mr0" />}
+                  {showAllStacks ? <IconDown size="20px" className="mr-0" /> : <IconUp size="20px" className="mr-0" />}
                 </Button>
               </div>
               <div className="error-msg">{exceptionMsg}</div>
@@ -298,7 +298,11 @@ const ErrorDetail = () => {
                 {showAllStacks ? map(stacks || [], (item) => getStackItem(item)) : getStackItem((stacks || [])[0])}
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
-                    {showAllStacks ? <IconUp size="20px" className="mr0" /> : <IconDown size="20px" className="mr0" />}
+                    {showAllStacks ? (
+                      <IconUp size="20px" className="mr-0" />
+                    ) : (
+                      <IconDown size="20px" className="mr-0" />
+                    )}
                   </div>
                 </IF>
               </div>

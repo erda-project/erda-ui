@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Form } from './form';
 import { get } from 'lodash';
-import { Form as NForm } from 'app/nusi';
+import { Form as NForm } from 'core/nusi';
 import { createFormEditor, DefaultEditor, DefaultPreview } from '../editor';
 import {
   componentFormConfig,

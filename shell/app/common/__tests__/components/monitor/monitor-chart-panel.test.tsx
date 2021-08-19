@@ -13,7 +13,6 @@
 
 import React from 'react';
 import MonitorChartPanel from 'common/components/monitor/monitor-chart-panel';
-import { describe, it } from '@jest/globals';
 import { shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 

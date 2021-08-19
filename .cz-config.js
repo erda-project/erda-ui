@@ -33,6 +33,7 @@ module.exports = {
     { name: 'ecp' },
     { name: 'admin' },
     { name: 'market' },
+    { name: 'scheduler' },
     { name: 'cli' },
   ],
 

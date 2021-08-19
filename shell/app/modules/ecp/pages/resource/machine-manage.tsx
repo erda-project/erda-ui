@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'app/nusi';
+import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'core/nusi';
 import { map } from 'lodash';
 import { useUpdate, TagsRow, TableActions } from 'common';
 import { ColumnProps } from 'core/common/interface';
@@ -88,18 +88,18 @@ export default () => {
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
       title: 'IP',
-      width: 150,
+      width: 160,
       dataIndex: 'ip',
     },
     {
       title: i18n.t('org:number of instance'),
       dataIndex: 'tasks',
-      width: 100,
+      width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
     },
     {
       title: 'CPU',
-      width: 125,
+      width: 120,
       dataIndex: 'cpuAllocatable',
       render: (_, data: ORG_MACHINE.IMachine) => {
         const { cpuAllocatable, cpuUsage, cpuRequest, cpuUsagePercent, cpuDispPercent } = data;
@@ -119,7 +119,7 @@ export default () => {
     },
     {
       title: i18n.t('memory'),
-      width: 125,
+      width: 120,
       dataIndex: 'memProportion',
       render: (_, data: ORG_MACHINE.IMachine) => {
         const { memAllocatable, memUsage, memRequest, memUsagePercent, memDispPercent } = data;
@@ -140,7 +140,6 @@ export default () => {
     {
       title: <span className="main-title">{i18n.t('tags')} </span>,
       dataIndex: 'labels',
-      width: 400,
       className: 'machine-labels',
       render: (value: string) => {
         const keyArray = value?.split(',') || [];
@@ -157,7 +156,8 @@ export default () => {
       title: i18n.t('operations'),
       dataIndex: 'id',
       key: 'operation',
-      width: 120,
+      width: 180,
+      fixed: 'right',
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
@@ -179,7 +179,7 @@ export default () => {
 
   return (
     <div className="machine-table">
-      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
+      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb-2">
         <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.ecpResource)}>
           {siteName}
         </Breadcrumb.Item>
@@ -194,7 +194,7 @@ export default () => {
         bordered
         columns={columns}
         dataSource={tableList}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 1300 }}
       />
       <Drawer
         width="80%"

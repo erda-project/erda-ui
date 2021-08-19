@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, get, isEmpty, pick, find, isEqual, omit, has } from 'lodash';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
 import { IProps as FormModalProps } from 'app/configForm/nusi-form/form-modal';
@@ -79,7 +79,7 @@ export const ActionForm = (props: IProps) => {
 
   useUpdateEffect(() => {
     if (state && has(state, 'formData')) {
-      updater.formData({ ...(state || {}) });
+      updater.formData({ ...(state.formData || {}) });
     }
   }, [state, updater]);
 
@@ -104,14 +104,13 @@ export const ActionForm = (props: IProps) => {
             },
           ];
         }
-        const curKeyOperation = get(operations, `change.${item.key}`);
-        const curKey = item.key;
+        const curKeyOperation = get(operations, ['change', item.key]);
         if (curKeyOperation) {
           curItem.componentProps = {
             ...curItem.componentProps,
-            onChange: (e: any) => {
-              const val = curItem.component === 'input' ? e.target.value : e;
-              execOperation({ ...curKeyOperation, key: 'change' }, { [curKey]: val });
+            onChange: () => {
+              const validFormData = formRef.current.getData();
+              execOperation({ key: 'change', ...curKeyOperation }, { formData: validFormData });
             },
           };
         }

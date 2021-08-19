@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Tooltip } from 'app/nusi';
+import React from 'react';
+import { Tooltip } from 'core/nusi';
 import { Help as IconHelp } from '@icon-park/react';
 
 export { createCombiner } from './combiner';
@@ -24,7 +24,7 @@ export const getLabel = (label: string, labelTip: string) => {
       <span>
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <IconHelp className="color-text-icon" />
+          <IconHelp className="text-icon" />
         </Tooltip>
       </span>
     );

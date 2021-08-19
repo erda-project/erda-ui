@@ -14,7 +14,6 @@
 import React from 'react';
 import { SimpleLog } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('SimpleLog', () => {
   it('render without props', () => {

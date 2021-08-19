@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { ConfigLayout, ReadonlyForm, useUpdate } from 'common';
 import PublisherFormModal, { getPublisherFieldsList } from './publisher-form-modal';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import i18n from 'i18n';
 
 export const PublisherInfo = ({

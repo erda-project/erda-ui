@@ -13,11 +13,11 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Switch, Alert, Row, Col, Spin, Modal } from 'app/nusi';
+import { Switch, Alert, Row, Col, Spin, Modal } from 'core/nusi';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate, Icon as CustomIcon } from 'common';
 
 enum Environment {
   DEV = 'blockDev',
@@ -64,14 +64,13 @@ const BlockNetwork = () => {
       <Alert
         showIcon
         type="error"
-        iconType="warning"
         message={i18n.t('org:There will be great influence if enabled. Please check carefully.')}
       />
-      <Row className="mt16">
+      <Row className="mt-4">
         {metaData.map(({ value, label, disabled }) => {
           return (
             <Col key={value} span={6}>
-              <div className="mb4 color-text-desc">{label}</div>
+              <div className="mb-1 text-desc">{label}</div>
               <Switch
                 checked={get(state.blockoutConfig, value, false)}
                 checkedChildren={i18n.t('default:on')}

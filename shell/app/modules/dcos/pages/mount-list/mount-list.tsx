@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Popover, Button, Badge, Modal } from 'app/nusi';
+import { Table, Popover, Button, Badge, Modal } from 'core/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import { KeyValueList, useUpdate } from 'common';
-import * as React from 'react';
+import React from 'react';
 import { goTo } from 'common/utils';
 
 import './mount-list.scss';

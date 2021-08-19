@@ -11,11 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { filter, omitBy, get } from 'lodash';
 import { FormModal } from 'common';
 import { regRules } from 'common/utils';
-import monitorOverviewStore from 'monitor-overview/stores/monitor-overview';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
@@ -33,11 +32,10 @@ interface IProps {
 const AddModal = (props: IProps) => {
   const { formData, modalVisible, afterSubmit, toggleModal } = props;
 
-  const params = routeInfoStore.useStore((s) => s.params);
+  const { env } = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
-  const instance = monitorOverviewStore.useStore((s) => s.instance);
 
-  const handelSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
+  const handleSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
     const { accountId, ...rest } = _data;
     const expects = filter(rest, (v, k) => k.startsWith('reg_')) as string[];
     const others = omitBy(rest, (v, k) => k.startsWith('reg_')) as any;
@@ -62,7 +60,6 @@ const AddModal = (props: IProps) => {
     };
   }
 
-  const defaultEnv = get(instance, 'workspace') || get(params, 'env');
   const fieldsList = [
     {
       name: 'id',
@@ -72,7 +69,7 @@ const AddModal = (props: IProps) => {
     },
     {
       name: 'env',
-      initialValue: defaultEnv,
+      initialValue: env,
       itemProps: {
         type: 'hidden',
       },
@@ -107,7 +104,7 @@ const AddModal = (props: IProps) => {
       fieldsList={fieldsList}
       visible={modalVisible}
       formData={data}
-      onOk={handelSubmit}
+      onOk={handleSubmit}
       onCancel={toggleModal}
     />
   );

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
+import { ErdaCustomIcon } from 'common';
 import { goTo } from 'common/utils';
 
 import './goto-commit.scss';
@@ -27,7 +27,7 @@ const GotoCommit = ({ projectId, appId, commitId = '', length = 6, className = '
   const params = routeInfoStore.useStore((s) => s.params);
   return (
     <span
-      className={`goto-commit-link inline-v-align text-link ${className}`}
+      className={`goto-commit-link items-center inline-flex text-link ${className}`}
       onClick={() => {
         goTo(goTo.pages.commit, {
           projectId: projectId || params.projectId,
@@ -37,7 +37,7 @@ const GotoCommit = ({ projectId, appId, commitId = '', length = 6, className = '
         });
       }}
     >
-      <CustomIcon type="commit" />
+      <ErdaCustomIcon opacity={0.8} className="mr-1" fill="primary" size="16" type="commit" />
       <span>{commitId.slice(0, length)}</span>
     </span>
   );

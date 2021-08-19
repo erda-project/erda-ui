@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Radio, Table, Tooltip } from 'app/nusi';
+import { Spin, Button, Radio, Table, Tooltip } from 'core/nusi';
 import { map, isEmpty } from 'lodash';
 import { RadioChangeEvent, ColumnProps } from 'core/common/interface';
 import UpgradeModal from 'cmp/pages/middleware-dashboard/upgrade-modal';
@@ -85,17 +85,17 @@ const UpgradeInfo = ({ data }: IProps) => {
   };
   return (
     <Spin spinning={isLoading}>
-      <div className="upgrade-info mb32">
-        <div className="flex-box">
-          <span className="title bold-500">
+      <div className="upgrade-info mb-8">
+        <div className="flex justify-between items-center">
+          <span className="title font-medium">
             {i18n.t('default:configuration information')}
             <Tooltip title={i18n.t('org:please fill in the real configuration information')}>
-              <Icon className="ml8" type="tishi" />
+              <Icon className="ml-2" type="tishi" />
             </Tooltip>
           </span>
           <div>
             <Button
-              className="mr8"
+              className="mr-2"
               onClick={() => {
                 setVisible(true);
               }}

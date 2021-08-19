@@ -11,20 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Button, Input } from 'app/nusi';
+import { Tooltip, Button, Input } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
 import { removeMember } from 'common/services/index';
 import routeInfoStore from 'core/stores/route';
-import diceEnv from 'dice-env';
+import { updateTenantProject, deleteTenantProject } from 'msp/services';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import userStore from 'app/user/stores';
 
@@ -57,10 +57,17 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const updatePrj = (values: Obj) => {
     const { cpuQuota, memQuota, isPublic } = values;
     updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(() => {
+      updateTenantProject({
+        id: `${info.id}`,
+        name: values.name,
+        displayName: values.displayName,
+        type: info.type === 'MSP' ? 'MSP' : 'DOP',
+      });
       getLeftResources();
       reloadHeadInfo();
     });
   };
+  const notMSP = info.type !== 'MSP';
   const fieldsList = [
     {
       label: i18n.t('{name} identifier', { name: i18n.t('project') }),
@@ -73,21 +80,23 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       label: i18n.t('project name'),
       name: 'displayName',
     },
-    {
-      label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
-      name: 'isPublic',
-      type: 'radioGroup',
-      options: [
-        {
-          name: i18n.t('project:public project'),
-          value: 'true',
-        },
-        {
-          name: i18n.t('project:private project'),
-          value: 'false',
-        },
-      ],
-    },
+    ...insertWhen(notMSP, [
+      {
+        label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
+        name: 'isPublic',
+        type: 'radioGroup',
+        options: [
+          {
+            name: i18n.t('project:public project'),
+            value: 'true',
+          },
+          {
+            name: i18n.t('project:private project'),
+            value: 'false',
+          },
+        ],
+      },
+    ]),
     {
       label: i18n.t('project:project icon'),
       name: 'logo',
@@ -102,11 +111,14 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       required: false,
       itemProps: { rows: 4, maxLength: 200 },
     },
-    ...useQuotaFields(
-      canEditQuota,
-      showQuotaTip,
-      { cpuQuota: info.cpuQuota, memQuota: info.memQuota },
-      canGetClusterListAndResources,
+    ...insertWhen(
+      notMSP,
+      useQuotaFields(
+        canEditQuota,
+        showQuotaTip,
+        { cpuQuota: info.cpuQuota, memQuota: info.memQuota },
+        canGetClusterListAndResources,
+      ),
     ),
     // {
     //   label: i18n.t('project:DingTalk notification address'),
@@ -116,15 +128,15 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   ];
 
   const inOrgCenter = location.pathname.startsWith(`/${orgName}/orgCenter`);
-  const onDelete = () => {
+  const onDelete = async () => {
     setConfirmProjectName('');
-    deleteProject().then(() => {
-      if (inOrgCenter) {
-        goTo(goTo.pages.orgCenterRoot, { replace: true });
-      } else {
-        goTo(goTo.pages.dopRoot, { replace: true });
-      }
-    });
+    await deleteProject();
+    await deleteTenantProject({ projectId: info.id });
+    if (inOrgCenter) {
+      goTo(goTo.pages.orgCenterRoot, { replace: true });
+    } else {
+      goTo(goTo.pages.dopRoot, { replace: true });
+    }
   };
 
   const exitProject = () => {
@@ -188,7 +200,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       updateInfo={updatePrj}
       extraSections={extraSectionList}
       name={
-        info.id && inOrgCenter ? (
+        info.id && inOrgCenter && notMSP ? (
           <div>
             {formName}
             <Tooltip title={i18n.t('project:applications')}>

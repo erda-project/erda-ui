@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Table as PureTable, Title } from 'app/nusi';
+import React from 'react';
+import { Table as PureTable, Title } from 'core/nusi';
 import { map, get } from 'lodash';
 import { useUpdate } from 'common';
 import { useUserMap } from 'core/stores/userMap';

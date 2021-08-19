@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Tooltip, Select } from 'app/nusi';
+import { Tooltip, Select } from 'core/nusi';
 import { map } from 'lodash';
 import { ISSUE_FIELD_TYPES, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import 'org/common/issue-field-icon.scss';
@@ -30,12 +30,12 @@ export const IssueIcon = ({ type, withName = false }: IProps) => {
   if (!iconObj) return null;
   const { name, icon, color } = iconObj || {};
   const IconRender = (
-    <div className={`issues-field-type-icon-box ${color} mr8`}>
+    <div className={`issues-field-type-icon-box ${color} mr-2`}>
       <CustomIcon type={icon} color />
     </div>
   );
   return (
-    <div className="flex-box flex-start">
+    <div className="flex items-center justify-start">
       {withName ? (
         <>
           {IconRender}

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { get } from 'lodash';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import { getSubSlowHttpList, getSubErrorHttpList } from '../services';
 
 interface IState {

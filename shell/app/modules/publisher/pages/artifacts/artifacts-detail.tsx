@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Menu } from 'app/nusi';
+import React from 'react';
+import { Menu } from 'core/nusi';
 import { ArtifactsInfo } from './artifacts-info';
 import VersionList from './version-list';
 import i18n from 'i18n';
@@ -80,7 +80,7 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
         </div>
       </div>
       <div
-        className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'gray-bg' : ''}`}
+        className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'bg-gray' : ''}`}
         id="artifacts-content"
       >
         {TabCompMap[chosenTab] || null}

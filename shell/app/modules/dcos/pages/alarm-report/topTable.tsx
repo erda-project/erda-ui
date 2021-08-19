@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Table } from 'app/nusi';
+import React from 'react';
+import { Table } from 'core/nusi';
 import { get } from 'lodash';
 import { goTo, qs } from 'common/utils';
 import { getFormatter } from 'charts/utils/formatter';
@@ -57,7 +57,7 @@ export const topTable = ({ data, valueTitle, unitType, unit, query: { filter_hos
       rowKey="id"
       columns={columns}
       dataSource={get(data, 'list')}
-      rowClassName={() => 'pointer'}
+      rowClassName={() => 'cursor-pointer'}
       onRowClick={handleRowClick}
       scroll={{ x: '100%' }}
     />

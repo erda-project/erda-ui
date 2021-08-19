@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input, InputNumber } from 'app/nusi';
+import { Input, InputNumber } from 'core/nusi';
 import { cloneDeep, map } from 'lodash';
 import './variable-input-group.scss';
 import { uuid } from 'common/utils';
@@ -90,7 +90,9 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       return (
         <div key={id} className="list-full-input-group">
           {inputField}
-          {disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.onDelete(index)} />}
+          {disabled ? null : (
+            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.onDelete(index)} />
+          )}
         </div>
       );
     });
@@ -99,7 +101,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <span className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
           {label ? <span>{label}:</span> : null}
-          {disabled ? null : <IconPlus className="edit-service-label-icon pointer" onClick={this.addPort} />}
+          {disabled ? null : <IconPlus className="edit-service-label-icon cursor-pointer" onClick={this.addPort} />}
         </span>
         {inputs}
       </div>

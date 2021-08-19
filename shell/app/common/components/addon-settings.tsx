@@ -18,8 +18,8 @@ import routeInfoStore from 'core/stores/route';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
-import { Spin } from 'app/nusi';
-import * as React from 'react';
+import { Spin } from 'core/nusi';
+import React from 'react';
 import './addon-settings.scss';
 import { useMount } from 'react-use';
 
@@ -50,7 +50,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
               <div key={k}>
                 <div className="param-k nowrap">{k}</div>
                 <IF check={v}>
-                  <div className="param-v for-copy" data-clipboard-text={v}>
+                  <div className="param-v cursor-copy" data-clipboard-text={v}>
                     {v}
                     <span className="copy-tip">({i18n.t('common:click to copy')})</span>
                   </div>
@@ -59,7 +59,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
                 </IF>
               </div>
             ))}
-            <Copy selector=".for-copy" />
+            <Copy selector=".cursor-copy" />
           </div>
         </div>
         <IF check={canDel}>

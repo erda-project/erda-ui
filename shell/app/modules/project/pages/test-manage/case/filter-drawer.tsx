@@ -16,7 +16,7 @@ import { getTimeRanges } from 'common/utils';
 import React from 'react';
 // import LabelSelect from 'project/common/components/issue/label-select';
 import { priorityList } from '../constants';
-import { DatePicker } from 'app/nusi';
+import { DatePicker } from 'core/nusi';
 import moment from 'moment';
 import { CaseStatus } from '../../plan-detail/status-toggle';
 import { isEmpty } from 'lodash';
@@ -53,7 +53,15 @@ export default ({ visible, onSearch, onClose }: IProps) => {
       name: 'updaterID',
       label: i18n.t('project:updater'),
       value: query.updaterID,
-      Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={params.projectId} />,
+      Comp: (
+        <MemberSelector
+          mode="multiple"
+          scopeType="project"
+          scopeId={params.projectId}
+          selectNoneInOption
+          selectSelfInOption
+        />
+      ),
     },
     {
       type: 'custom',
@@ -74,7 +82,15 @@ export default ({ visible, onSearch, onClose }: IProps) => {
         name: 'executorID',
         label: i18n.t('project:executor'),
         value: query.executorID,
-        Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={params.projectId} />,
+        Comp: (
+          <MemberSelector
+            mode="multiple"
+            scopeType="project"
+            scopeId={params.projectId}
+            selectNoneInOption
+            selectSelfInOption
+          />
+        ),
       },
       {
         type: 'select',

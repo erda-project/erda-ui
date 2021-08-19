@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map } from 'lodash';
-import * as React from 'react';
-import { Select } from 'app/nusi';
+import React from 'react';
+import { Select } from 'core/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { Moment } from 'moment';

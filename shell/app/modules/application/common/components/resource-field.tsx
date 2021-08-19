@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { InputNumber } from 'app/nusi';
+import { InputNumber } from 'core/nusi';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 
@@ -58,7 +58,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           <span>
             <InputNumber
               disabled={disabled}
-              className="full-width"
+              className="w-full"
               value={value.cpu || 0}
               onChange={(e: any) => this.changeValue(e, 'cpu')}
             />
@@ -69,7 +69,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           <span>
             <InputNumber
               disabled={disabled}
-              className="full-width"
+              className="w-full"
               value={value.mem || 0}
               onChange={(e: any) => this.changeValue(e, 'mem')}
             />
@@ -80,7 +80,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           <span>
             <InputNumber
               disabled={disabled}
-              className="full-width"
+              className="w-full"
               value={value.disk || 0}
               onChange={(e: any) => this.changeValue(e, 'disk')}
             />

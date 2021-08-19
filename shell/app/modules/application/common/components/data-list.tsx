@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Button, Spin } from 'app/nusi';
+import { Select, Input, Button, Spin } from 'core/nusi';
 import { isEmpty, get } from 'lodash';
 import { LoadMore, Holder, Icon as CustomIcon, connectCube } from 'common';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
@@ -87,7 +87,7 @@ const DataList = (props: IProps) => {
 
   return (
     <div className="data-list">
-      <section className="header flex-box">
+      <section className="header flex justify-between items-center">
         <div className="header-left">
           <Select
             className="data-select"
@@ -136,7 +136,7 @@ const DataList = (props: IProps) => {
                         <span>{item.cnName}</span>
                         <span>{item.enName}</span>
                       </div>
-                      <div className="item-footer flex-box">
+                      <div className="item-footer flex justify-between items-center">
                         <span className="nowrap">{item.desc}</span>
                         <span className="item-table nowrap">{item.table}</span>
                       </div>

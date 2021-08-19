@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map as _map, pickBy } from 'lodash';
-import { Row, Col, Input, Select, Button, Tabs, Form } from 'app/nusi';
+import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm } from 'core/nusi';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
 import CommonPanel from './trace-common-panel';
@@ -97,6 +97,10 @@ const TraceInsightQuerier = () => {
   let headersEditor: any;
 
   React.useEffect(() => {
+    form.setFieldsValue({ body });
+  }, [body]);
+
+  React.useEffect(() => {
     requestId && setActiveTab('2');
   }, [requestId]);
 
@@ -106,6 +110,13 @@ const TraceInsightQuerier = () => {
         setTraceRecords(content);
       });
   }, [getTraceDetailContent, requestId]);
+
+  const resetRequestTrace = () => {
+    form.resetFields();
+    clearRequestTraceParams();
+    clearCurrentTraceRequestId();
+    clearTraceStatusDetail();
+  };
 
   const handleSetRequestTraceParams = (payload: any) => {
     return validateFields().then(() => {
@@ -156,11 +167,13 @@ const TraceInsightQuerier = () => {
   const renderUrlEditor = () => {
     const selectBefore = (
       <FormItem
+        className="mb-0 -mt-0.5 h-7"
         name="method"
         initialValue={method}
         rules={[{ required: true, message: i18n.t('msp:this item is required') }]}
       >
         <Select
+          bordered={false}
           style={{ width: 110 }}
           onSelect={(value) => {
             handleSetRequestTraceParams({ method: value });
@@ -178,10 +191,10 @@ const TraceInsightQuerier = () => {
     return (
       <div className="url-editor">
         <Row gutter={10}>
-          <Col span={21}>
+          <Col span={18}>
             <FormItem
+              className="m-0 h-8"
               name="url"
-              initialValue={`${url}${queryStr ? `?${queryStr}` : ''}`}
               rules={[{ required: true, message: i18n.t('msp:this item is required') }, urlRule]}
             >
               <Input
@@ -197,10 +210,19 @@ const TraceInsightQuerier = () => {
               />
             </FormItem>
           </Col>
-          <Col span={3}>
+          <Col span={6}>
             <Button type="primary" loading={isRequestTraceFetching} onClick={handleRequestTrace}>
               {i18n.t('msp:request')}
             </Button>
+            <Popconfirm
+              title={i18n.t('confirm to reset?')}
+              placement="bottom"
+              onConfirm={() => {
+                resetRequestTrace();
+              }}
+            >
+              <Button className="ml-4">{i18n.t('common:reset')}</Button>
+            </Popconfirm>
           </Col>
         </Row>
       </div>
@@ -269,8 +291,8 @@ const TraceInsightQuerier = () => {
     return (
       <CommonPanel
         title={
-          <div className="flex-box">
-            <h3 className="trace-common-panel-title bold-500">{i18n.t('msp:tracing information')}</h3>
+          <div className="flex justify-between items-center">
+            <h3 className="trace-common-panel-title font-medium">{i18n.t('msp:tracing information')}</h3>
             <IF check={requestTraceParams.responseCode}>
               <div className="response-code">{`${i18n.t('msp:request response status')}：${
                 requestTraceParams.responseCode
@@ -309,6 +331,7 @@ const TraceInsightQuerier = () => {
               clearTraceStatusDetail={clearTraceStatusDetail}
               clearCurrentTraceRequestId={clearCurrentTraceRequestId}
               clearRequestTraceParams={clearRequestTraceParams}
+              form={form}
             />
           </CommonPanel>
         </Col>
@@ -316,7 +339,7 @@ const TraceInsightQuerier = () => {
           <CommonPanel>
             <React.Fragment>
               {renderMetaViewer()}
-              <Form>
+              <Form form={form}>
                 {renderUrlEditor()}
                 {renderRequestEditor()}
               </Form>

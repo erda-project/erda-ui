@@ -14,7 +14,6 @@
 import React from 'react';
 import { MenuPopover } from 'common';
 import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
 describe('MenuPopover', () => {
   it('should ', () => {
@@ -32,7 +31,7 @@ describe('MenuPopover', () => {
     wrapper.setProps({
       trigger: 'click',
     });
-    wrapper.find('.sm-more-icon').at(0).simulate('click', new Event('click'));
+    wrapper.find('iconpark-icon').at(0).simulate('click', new Event('click'));
     expect(wrapper.find('.child-node')).toExist();
   });
 });

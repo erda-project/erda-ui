@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import dopStore from 'dop/stores';
 import { useMount, useUpdateEffect } from 'react-use';
-import { Select } from 'app/nusi';
+import { Select } from 'core/nusi';
 import i18n from 'i18n';
 
 const { Option } = Select;
@@ -58,7 +58,7 @@ export const DataSourceSelector = (props: any) => {
   const dataSourceOptionRender = (item: any) => {
     return (
       <Option key={item.value} value={item.value}>
-        <span className="ml8" title={item.label}>
+        <span className="ml-2" title={item.label}>
           {item.label}
         </span>
       </Option>
@@ -67,7 +67,7 @@ export const DataSourceSelector = (props: any) => {
 
   return (
     <Select
-      className="full-width"
+      className="w-full"
       notFoundContent={i18n.t('common:no data')}
       showArrow={false}
       showSearch

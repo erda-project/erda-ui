@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { InputNumber, Select } from 'app/nusi';
+import { InputNumber, Select } from 'core/nusi';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 import { map, cloneDeep } from 'lodash';
@@ -71,12 +71,12 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             disabled={disabled}
             style={{ width: '130px' }}
             placeholder={i18n.t('application:please enter the listening port')}
-            className="ml8"
+            className="ml-2"
             value={item.port}
             onChange={(v: any) => this.changeValue(index, 'port', v)}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />
+            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.deleteVariable(index)} />
           )}
         </div>
       );
@@ -86,7 +86,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       <div>
         <div className="edit-service-label">
           {i18n.t('application:ports')}
-          {disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNew} />}
+          {disabled ? null : <IconPlus className="variable-icon cursor-pointer" onClick={this.addNew} />}
         </div>
         {content}
       </div>

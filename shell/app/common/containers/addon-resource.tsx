@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Spin } from 'app/nusi';
+import React from 'react';
+import { Spin } from 'core/nusi';
 import { IF, MetricsMonitor } from 'common';
 import PureAddonResource from '../components/addon-resource';
 import addonStore from 'common/stores/addon';

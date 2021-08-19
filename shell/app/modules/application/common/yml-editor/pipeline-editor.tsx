@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 // @ts-ignore
 import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';
-import { Spin, Button, message, Radio, Tooltip, Modal, Popconfirm } from 'app/nusi';
+import { Spin, Button, message, Radio, Tooltip, Modal, Popconfirm } from 'core/nusi';
 import { useUpdate, RenderForm, FileEditor, Icon as CustomIcon } from 'common';
 import repoStore from 'application/stores/repo';
 import { getInfoFromRefName } from 'application/pages/repo/util';
@@ -29,6 +29,9 @@ import { IYmlEditorProps } from './index';
 import { PipelineGraphicEditor } from 'yml-chart/common/pipeline-graphic-editor';
 import { NodeEleMap, externalKey, NodeType } from 'yml-chart/config';
 import { parsePipelineYmlStructure } from 'application/services/repo';
+import { ActionType } from 'yml-chart/common/pipeline-node-drawer';
+import appStore from 'application/stores/application';
+
 import './pipeline-editor.scss';
 
 enum ViewType {
@@ -39,6 +42,10 @@ enum ViewType {
 const noop = () => {};
 const PipelineEditor = (props: IYmlEditorProps) => {
   const { fileName, ops, editing, viewType: propsViewType = 'code', content = '', onUpdateViewType = noop } = props;
+
+  const appDetail = appStore.useStore((s) => s.detail);
+  const curScope = appDetail.isProjectLevel ? ActionType.projectLevelAppPipeline : ActionType.appPipeline;
+
   const [info, tree, editFile, blob] = repoStore.useStore((s) => [s.info, s.tree, s.mode.editFile, s.blob]);
   const { changeMode } = repoStore.reducers;
   const { commit, getRepoBlob } = repoStore.effects;
@@ -222,8 +229,8 @@ const PipelineEditor = (props: IYmlEditorProps) => {
     return (
       <>
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
-        <div className="pa16">
-          <Button type="primary" className="mr12" onClick={checkForm}>
+        <div className="p-4">
+          <Button type="primary" className="mr-3" onClick={checkForm}>
             {i18n.t('application:save')}
           </Button>
           <Button
@@ -314,7 +321,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
@@ -328,7 +335,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
         <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement="bottom">
-          <CustomIcon type="zhongzhi" className="ml8 pointer" />
+          <CustomIcon type="zhongzhi" className="ml-2 cursor-pointer" />
         </Popconfirm>
       </Tooltip>
     </>
@@ -337,7 +344,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   return (
     <div>
       <FileContainer
-        className={`new-yml-editor app-repo-pipeline column-flex-box full-spin-height ${
+        className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName}
@@ -349,6 +356,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
               editing={editing}
               onDeleteData={onDeleteData}
+              addDrawerProps={{ scope: curScope }}
               onAddData={onAddData}
               chartProps={{
                 nodeEleMap: {
@@ -376,7 +384,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         visible={!isEmpty(errorMsg)}
         title={
           <div>
-            <CustomIcon type="guanbi-fill" className="color-danger" />
+            <CustomIcon type="guanbi-fill" className="text-danger" />
             {i18n.t('error')}
           </div>
         }

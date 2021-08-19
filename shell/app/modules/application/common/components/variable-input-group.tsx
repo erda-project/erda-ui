@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input } from 'app/nusi';
+import { Input } from 'core/nusi';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 import { Lock as IconLock, Delete as IconDelete } from '@icon-park/react';
@@ -76,7 +76,10 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         />
         {lock !== false ? <IconLock className="variable-icon variable-input-lock" /> : null}
         {disabled ? null : (
-          <IconDelete className={`variable-icon pointer ${lock === false && 'ml12'}`} onClick={() => onDelete(key)} />
+          <IconDelete
+            className={`variable-icon cursor-pointer ${lock === false && 'ml-3'}`}
+            onClick={() => onDelete(key)}
+          />
         )}
       </div>
     );

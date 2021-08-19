@@ -14,7 +14,7 @@
 import runtimeDomainStore from 'runtime/stores/domain';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { goTo, removeLS, getDefaultPaging } from 'common/utils';
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import i18n from 'i18n';
 import {
   getRuntimeDetail,

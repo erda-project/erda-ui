@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useUnmount } from 'react-use';
 
 // 同名的css已经在最外的skeleton.css引过了，所以这里不需要额外加scss

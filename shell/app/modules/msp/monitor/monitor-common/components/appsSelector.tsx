@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, IF, useUpdate } from 'common';
-import { Dropdown, Input } from 'app/nusi';
-import * as React from 'react';
+import { Dropdown, Input } from 'core/nusi';
+import React from 'react';
 import { isEqual, isEmpty, debounce } from 'lodash';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -106,7 +106,7 @@ const AppsSelector = () => {
   const { name } = chosenApp as IApp;
   const nameStyle = `nowrap ${!name ? 'p-holder' : ''}`;
   const switchList = (
-    <div className="app-selector-switcher full-width">
+    <div className="app-selector-switcher w-full">
       <div className="input-wrap" onClick={(e) => e.stopPropagation()}>
         <Input placeholder={i18n.t('msp:search for')} onChange={filterList} value={searchKey} />
       </div>
@@ -135,7 +135,7 @@ const AppsSelector = () => {
       overlay={switchList}
       onVisibleChange={onCloseSwitch}
     >
-      <div className="flex-box app-selector-name">
+      <div className="flex justify-between items-center app-selector-name">
         <span className={nameStyle}>{`${
           name ? `${i18n.t('msp:application')}: ${name}` : i18n.t('msp:switch application')
         }`}</span>

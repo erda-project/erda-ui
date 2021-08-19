@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { isEmpty } from 'lodash';
 import { useMount } from 'react-use';
-import { Input, Button, message } from 'app/nusi';
+import { Input, Button, message } from 'core/nusi';
 import { Avatar, useUpdate } from 'common';
 import userStore from 'app/user/stores';
 import { useLoading } from 'core/stores/loading';
@@ -65,13 +65,15 @@ export default () => {
   };
 
   return (
-    <div className="invite-to-org full-height center-flex-box">
+    <div className="invite-to-org h-full flex flex-wrap justify-center items-center">
       <div className="invite-to-org-ct text-center">
-        <Avatar className="mb16" useLoginUser size={80} />
-        <p className="mb32 fz24 bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${nick || name}`}</p>
+        <Avatar className="mb-4" useLoginUser size={80} />
+        <p className="mb-8 text-2xl font-bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${
+          nick || name
+        }`}</p>
         <Input
           value={code}
-          className="mb16"
+          className="mb-4"
           width="100%"
           placeholder={i18n.t('please enter verification code')}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.code(e.target.value.trim())}

@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Tooltip, Popover, Tabs } from 'app/nusi';
+import React from 'react';
+import { Tooltip, Popover, Tabs } from 'core/nusi';
 import { Icon as CustomIcon, IF, NoAuthTip, useUpdate } from 'common';
 import HealthPoint from 'project/common/components/health-point';
 import { map, isEmpty } from 'lodash';
@@ -245,7 +245,7 @@ const ServiceCard = (props: IProps) => {
 
   const serviceClass = classNames({
     'service-card-wrapper': true,
-    show: visible,
+    block: visible,
   });
 
   const getOperation = () => {
@@ -280,7 +280,7 @@ const ServiceCard = (props: IProps) => {
 
     let links =
       expose && expose[0] ? (
-        <a className="mr12" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
+        <a className="mr-3" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
           {i18n.t('runtime:visit domain')}
         </a>
       ) : (
@@ -324,7 +324,7 @@ const ServiceCard = (props: IProps) => {
         {hasCustomDomain ? null : (
           <>
             <CustomIcon className="warning-info" type="tishi" />
-            <span className="warning-info mr12">{i18n.t('runtime:domain not set')}</span>
+            <span className="warning-info mr-3">{i18n.t('runtime:domain not set')}</span>
           </>
         )}
         {links}
@@ -334,8 +334,9 @@ const ServiceCard = (props: IProps) => {
   };
   const opsCol = {
     title: i18n.t('operate'),
-    width: 250,
+    width: 240,
     key: 'operate',
+    fixed: 'right',
     render: (record: RUNTIME_SERVICE.Instance) => {
       const { isRunning } = record;
       return (
@@ -390,7 +391,7 @@ const ServiceCard = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <div className={`${serviceClass} mb20`}>
+      <div className={`${serviceClass} mb-5`}>
         <div className="service-card" onClick={() => togglePanel()}>
           <div className="service-card-icon-wrapper">
             <CustomIcon type={isEndpoint ? 'mysql1' : 'wfw1'} color />
@@ -400,10 +401,10 @@ const ServiceCard = (props: IProps) => {
               <IF check={status !== 'Healthy'}>
                 <HealthPoint type="service" status={status} />
               </IF>
-              <span className="name fz16">{name}</span>
+              <span className="name text-base">{name}</span>
               {resourceInfo}
             </div>
-            <div className="error-msg fz12 nowrap">{errorMsg}</div>
+            <div className="error-msg text-xs nowrap">{errorMsg}</div>
           </div>
           <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
             {getOperation()}

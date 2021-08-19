@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'app/nusi';
+import React from 'react';
+import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'core/nusi';
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';
@@ -45,12 +45,12 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
   return (
     <div>
-      <IconHelp className="mr4 bg-color-icon yellow" />
+      <IconHelp className="mr-1 rounded-full bg-yellow text-white" />
       <span>{i18n.t('cmp:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
-          <IconDownOne className="ml4" theme="filled" size="16px" />
+          <IconDownOne className="ml-1" theme="filled" size="16px" />
         </a>
       </Dropdown>
       <span>
@@ -367,7 +367,7 @@ export default () => {
               message={
                 <>
                   <div className="text-left second-title">{i18n.t('cmp:tips')}</div>
-                  <ul className="text-left bold-400 fz14 pl12">
+                  <ul className="text-left font-normal text-sm pl-3">
                     <li>● {i18n.t('cmp:After successful setting, the system will automatically renew as set.')}</li>
                     <li>● {i18n.t('cmp:keep-money-enough')}</li>
                     <li>● {i18n.t('cmp:artificial-renewal-change-time')}</li>
@@ -379,7 +379,7 @@ export default () => {
                   </ul>
                 </>
               }
-              type="normal"
+              type="info"
             />
           ),
         },
@@ -447,7 +447,7 @@ export default () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <IconDownOne className="ml4" theme="filled" size="16px" />
+            <IconDownOne className="ml-1" theme="filled" size="16px" />
           </Button>
         </Dropdown>
       </div>

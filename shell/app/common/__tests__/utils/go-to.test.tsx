@@ -12,19 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { resolvePath, goTo } from 'common/utils';
-import { describe, it, jest } from '@jest/globals';
 import { setConfig } from 'core/config';
-import { createBrowserHistory } from 'history';
 
 describe('go-to', () => {
   let open: any;
   beforeAll(() => {
     open = jest.spyOn(window, 'open').mockImplementation(() => {});
-    const browserHistory = createBrowserHistory();
-    setConfig('history', browserHistory);
-  });
-  afterAll(() => {
-    setConfig('history', undefined);
   });
   const paths = process.env.mock_pathname?.split('/') || [];
   it('resolvePath', () => {

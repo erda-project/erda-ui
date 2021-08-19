@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { YmlChart } from 'yml-chart/chart';
 import { externalKey } from 'yml-chart/config';
 import { map } from 'lodash';
@@ -21,7 +21,7 @@ import PipelineNode from './pipeline-node';
 interface IProps {
   changeType: string;
   data: PIPELINE.IPipelineDetail;
-  onClickNode: (node: PIPELINE.ITask, mark: string) => void;
+  onClickNode: (node: BUILD.PipelineNode, mark: string) => void;
 }
 
 const notUpdateChanges = ['flow', 'stage'];

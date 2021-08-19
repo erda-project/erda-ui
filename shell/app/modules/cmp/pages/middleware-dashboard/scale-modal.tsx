@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, RenderPureForm } from 'common';
-import { Alert, Modal, Form } from 'app/nusi';
+import { Alert, Modal, Form } from 'core/nusi';
 import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-formItem';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
@@ -163,7 +163,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
     {
       label: '',
       getComp() {
-        return <Alert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="normal" showIcon />;
+        return <Alert message={i18n.t('cmp:must be odd and cannot be greater than 15')} type="info" showIcon />;
       },
     },
     {
@@ -212,14 +212,14 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit }: IProps) => {
     return (
       <>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('cmp:total project resources')}：CPU：{totalCpu}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{setDecimal(totalMem * 1024)}MiB</span>
         </div>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('cmp:available resources')}：CPU：{setDecimal(leftCpu)}
             {i18n.t('default:core')}
           </span>

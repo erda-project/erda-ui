@@ -11,11 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Copy } from 'common';
 import { mount } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 
 const copyText = 'hello world';
 describe('Copy', () => {
@@ -30,15 +29,15 @@ describe('Copy', () => {
       getAttribute,
     };
     const wrapper = mount(
-      <Copy selector="for_copy-select" className="for-copy" copyText="Copy" onError={onError} onSuccess={onSuccess}>
+      <Copy selector="for_copy-select" className="cursor-copy" copyText="Copy" onError={onError} onSuccess={onSuccess}>
         copy
       </Copy>,
     );
     wrapper.setProps({
       copyText,
     });
-    expect(wrapper.find('span.for-copy').length).toEqual(1);
-    expect(wrapper.find('span.for-copy').prop('data-clipboard-text')).toBe(copyText);
+    expect(wrapper.find('span.cursor-copy').length).toEqual(1);
+    expect(wrapper.find('span.cursor-copy').prop('data-clipboard-text')).toBe(copyText);
     wrapper.find('Copy').instance().clipboard.emit('error', { trigger });
     expect(onError).toHaveBeenCalled();
     expect(spyError).toHaveBeenCalled();

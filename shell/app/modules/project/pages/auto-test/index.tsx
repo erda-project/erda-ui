@@ -17,12 +17,16 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
+import ImportFile from './import-file';
 
 const SpaceList = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const [visible, setVisible] = React.useState(false);
   const inParams = {
     projectId: +projectId,
   };
+  const onClose = () => setVisible(false);
+
   return (
     <div>
       <DiceConfigPage
@@ -30,7 +34,15 @@ const SpaceList = () => {
         scenarioKey="auto-test-space-list"
         scenarioType="auto-test-space-list"
         inParams={inParams}
+        customProps={{
+          importButton: {
+            click: () => {
+              setVisible(true);
+            },
+          },
+        }}
       />
+      <ImportFile visible={visible} onClose={onClose} />
     </div>
   );
 };

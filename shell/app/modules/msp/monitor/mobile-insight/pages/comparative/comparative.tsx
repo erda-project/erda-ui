@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, isEmpty } from 'lodash';
-import * as React from 'react';
-import { Row, Col, Select } from 'app/nusi';
+import React from 'react';
+import { Row, Col, Select } from 'core/nusi';
 import { MonitorChartNew } from 'charts';
 import { EmptyHolder, Icon as CustomIcon } from 'common';
 import { useEffectOnce } from 'react-use';

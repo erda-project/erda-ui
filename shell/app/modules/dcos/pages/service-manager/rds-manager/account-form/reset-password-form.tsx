@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { FormModal, Icon as CustomIcon, useUpdate } from 'common';
 import { checkPassword } from 'dcos/common/config';
@@ -62,7 +62,7 @@ const ResetPasswordForm = (props: IProps) => {
         type: passwordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon
-            className="mr0 pointer"
+            className="mr-0 cursor-pointer"
             onClick={togglePasswordVisible}
             type={passwordVisible ? 'openeye' : 'closeeye'}
           />
@@ -81,7 +81,7 @@ const ResetPasswordForm = (props: IProps) => {
         type: confirmPasswordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon
-            className="mr0 pointer"
+            className="mr-0 cursor-pointer"
             onClick={toggleConfirmPasswordVisible}
             type={confirmPasswordVisible ? 'openeye' : 'closeeye'}
           />

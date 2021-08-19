@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import { ColumnProps } from 'core/common/interface';
 import { Avatar, Copy } from 'common';
-import { Table, Tooltip } from 'app/nusi';
+import { Table, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
 
@@ -46,7 +46,7 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       dataIndex: 'operator',
       render: (operator: string) => {
         const { nick = '', avatar = '', name = '' } = userMap[operator] || {};
-        return <Avatar className="mb4" showName name={<Tooltip title={name}>{nick}</Tooltip>} url={avatar} />;
+        return <Avatar className="mb-1" showName name={<Tooltip title={name}>{nick}</Tooltip>} url={avatar} />;
       },
     },
     {
@@ -63,8 +63,8 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       title: 'releaseID',
       dataIndex: 'releaseId',
       render: (text: string) => (
-        <Copy selector=".for-copy">
-          <span className="for-copy" data-clipboard-text={text}>
+        <Copy selector=".cursor-copy">
+          <span className="cursor-copy" data-clipboard-text={text}>
             {text}
           </span>
         </Copy>

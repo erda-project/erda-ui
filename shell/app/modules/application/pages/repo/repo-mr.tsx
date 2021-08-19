@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Alert } from 'app/nusi';
-import * as React from 'react';
+import { Button, Alert } from 'core/nusi';
+import React from 'react';
 import { goTo } from 'app/common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
 import i18n from 'i18n';

@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select, Button, Popconfirm, FormBuilder } from 'app/nusi';
+import React from 'react';
+import { Select, Button, Popconfirm, FormBuilder } from 'core/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import { produce } from 'immer';
@@ -139,14 +139,15 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       const customTypeData = get(_extraTypes, [customType]) || customType || {};
 
       if (typeof customTypeData === 'string') {
-        const _type = get(props, ['allExtraDataTypes', customType, 'type']) || get(props, ['extraDataTypes', customType, 'type']);
+        const _type =
+          get(props, ['allExtraDataTypes', customType, 'type']) || get(props, ['extraDataTypes', customType, 'type']);
         return _type === 'array' ? [] : {};
       }
 
       const curType = data.type || customTypeData.type;
 
       if (curType === 'object') {
-        const newExtraTypes = produce(_extraTypes, draft=> {
+        const newExtraTypes = produce(_extraTypes, (draft) => {
           draft && (draft[customType] = null);
         });
 
@@ -161,7 +162,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
         return newExample;
       } else if (curType === 'array') {
         if (refTypePath) {
-          const newItemExtraTypes = produce(_extraTypes, draft=> {
+          const newItemExtraTypes = produce(_extraTypes, (draft) => {
             draft && (draft[customType] = null);
           });
           return getExampleData(customTypeData, newItemExtraTypes);
@@ -240,7 +241,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
         const omitList = getRefTypePath(dataTempStorage) ? ['type', API_FORM_KEY] : [API_FORM_KEY];
         const tempFormData = omit(dataTempStorage, omitList);
         const example = getExampleData(tempFormData);
-        setTimeout(() => formRef.current!.setFieldsValue({...tempFormData, example }));
+        setTimeout(() => formRef.current!.setFieldsValue({ ...tempFormData, example }));
       }
       updater.dataTempStorage(dataTempStorageRef.current);
       if (curPropertyType === 'array' && arrayItemDataStorage) {
@@ -785,7 +786,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                       title={`${i18n.t('common:confirm deletion')}?`}
                       onConfirm={() => deleteParamByFormKey(record, index)}
                     >
-                      <CustomIcon type="shanchu" className="param-form-operation-btn pointer" />
+                      <CustomIcon type="shanchu" className="param-form-operation-btn cursor-pointer" />
                     </Popconfirm>
                   </div>
                 )}
@@ -799,7 +800,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                       onChange={updateInnerParamList}
                       extraDataTypes={props?.extraDataTypes}
                       allExtraDataTypes={props?.allExtraDataTypes}
-                      siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
+                      siblingProperties={filter(paramListTempStorage, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
                     />
                   </FormBuilder>
                 </div>
@@ -808,10 +809,10 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
           })}
           {isEditMode && (
             <>
-              <Button className="operation-btn mb16" onClick={addParam}>
+              <Button className="operation-btn mb-4" onClick={addParam}>
                 {i18n.t('common:add parameter')}
               </Button>
-              <Button className="operation-btn mb16 ml8" onClick={() => updater.paramsModalVisible(true)}>
+              <Button className="operation-btn mb-4 ml-2" onClick={() => updater.paramsModalVisible(true)}>
                 {i18n.t('project:import parameters')}
               </Button>
             </>
@@ -833,7 +834,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                 extraDataTypes={props?.extraDataTypes}
                 allExtraDataTypes={props?.allExtraDataTypes}
                 siblingProperties={filter(
-                  innerParamList,
+                  paramListTempStorage,
                   (item) => item[API_FORM_KEY] !== dataTempStorage.items[API_FORM_KEY],
                 )}
               />

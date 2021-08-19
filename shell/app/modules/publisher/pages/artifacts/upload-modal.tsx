@@ -15,7 +15,7 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/25 17:57.
  */
 import React from 'react';
-import { Button, message, Upload } from 'app/nusi';
+import { Button, message, Upload } from 'core/nusi';
 import { getUploadProps } from 'common/utils/upload-props';
 import { IFormItem } from 'common/components/render-formItem';
 import { FormInstance } from 'core/common/interface';
@@ -87,9 +87,7 @@ const UploadModal = (props: IProps) => {
                 <IconUpload /> {i18n.t('upload')}
               </Button>
             </Upload>
-            <span className="color-text-desc ml8">
-              {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
-            </span>
+            <span className="text-desc ml-2">{uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}</span>
           </div>
         );
       },

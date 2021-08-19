@@ -85,4 +85,5 @@ export const scopeConfig = {
   projectPipeline: projectPipelineConfig,
   configSheet: configSheetConfig,
   appPipeline: appPipelineConfig,
+  projectLevelAppPipeline: appPipelineConfig,
 } as Obj<ISCOPE_CONFIG>;

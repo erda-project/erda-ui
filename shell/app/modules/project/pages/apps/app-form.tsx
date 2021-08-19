@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Alert, Button, Form, Input, Spin } from 'app/nusi';
-import * as React from 'react';
+import { Alert, Button, Form, Input, Spin } from 'core/nusi';
+import React from 'react';
 import { ImageUpload, RenderForm } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
@@ -147,7 +147,7 @@ const CreationForm = () => {
       label: '',
       getComp: () => {
         const cur = modeOptions.find((m) => m.value === mode);
-        return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
+        return <Alert className="text-desc" type="info" message={cur?.desc} />;
       },
     },
     {
@@ -190,7 +190,7 @@ const CreationForm = () => {
             itemProps: {
               placeholder: i18n.t('application:please choose'),
               onChange: (v) => {
-                const { form } = formRef;
+                const form = formRef.current;
                 // 选择模板后，只能使用内置仓库
                 if (v !== '-1') {
                   collectionRepoTemp(repoType);
@@ -279,7 +279,7 @@ const CreationForm = () => {
       : [
           {
             label: '',
-            getComp: () => <Alert type="normal" message={repositoriesTypes[repoType].desc} />,
+            getComp: () => <Alert type="info" message={repositoriesTypes[repoType].desc} />,
           },
           {
             label: '',
@@ -298,7 +298,7 @@ const CreationForm = () => {
             name: ['repoConfig', 'url'],
             rules: [
               {
-                pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,256}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
                 message: i18n.t('project:please enter valid repository address'),
               },
             ],
@@ -332,11 +332,11 @@ const CreationForm = () => {
         ]),
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
-          <Button className="ml12" onClick={() => window.history.back()}>
+          <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('cancel')}
           </Button>
         </div>

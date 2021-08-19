@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { TreeSelect } from 'app/nusi';
+import React from 'react';
+import { TreeSelect } from 'core/nusi';
 import { debounce, get } from 'lodash';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
@@ -82,11 +82,11 @@ export default (props: CP_TREE_SELECT.Props) => {
   if (!visible) return null;
   const showSearch = !!operations.onSearch;
   return (
-    <div className="mb20">
+    <div className="mb-5">
       {title ? <h4> {title} </h4> : null}
       <TreeSelect
         showSearch={showSearch}
-        className={'full-width'}
+        className={'w-full'}
         treeDataSimpleMode
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}

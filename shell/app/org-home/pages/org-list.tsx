@@ -11,22 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import DiceConfigPage from 'config-page/index';
-import { Card } from 'app/nusi';
+import { Card } from 'core/nusi';
 import i18n from 'i18n';
 import erda_png from 'app/images/Erda.png';
 import './org-list.scss';
 
-export const OrgList = () => {
+const OrgList = () => {
   return (
-    <Card className="full-height ma12 auto-overflow">
-      <div className="org-home-info mb20">
+    <Card className="h-full m-3 overflow-auto">
+      <div className="org-home-info mb-5">
         <div className="info-img">
           <img src={erda_png} />
         </div>
-        <div className="info-text mt20">
-          <span className="desc fz16 bold">{i18n.t('org:org-intro')}</span>
+        <div className="info-text mt-5">
+          <span className="desc text-base font-bold">{i18n.t('org:org-intro')}</span>
         </div>
       </div>
       <div className="org-home-list">
@@ -35,3 +35,5 @@ export const OrgList = () => {
     </Card>
   );
 };
+
+export default OrgList;

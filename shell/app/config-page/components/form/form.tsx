@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Button, Title } from 'app/nusi';
+import React from 'react';
+import { Button, Title } from 'core/nusi';
 import { isEmpty, map, get } from 'lodash';
 import i18n from 'i18n';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
@@ -87,7 +87,7 @@ export const Form = (props: CP_FORM.Props) => {
                 <PureForm.Submit Button={Button} type="primary" text={i18n.t('application:commit')} />
               )}
               {operations?.cancel && (
-                <Button className="ml8" onClick={onCancel}>
+                <Button className="ml-2" onClick={onCancel}>
                   {i18n.t('common:cancel')}
                 </Button>
               )}
@@ -102,7 +102,7 @@ export const Form = (props: CP_FORM.Props) => {
             </Button>
           )}
           {operations?.cancel && (
-            <Button className="ml8" onClick={onCancel}>
+            <Button className="ml-2" onClick={onCancel}>
               {i18n.t('common:cancel')}
             </Button>
           )}

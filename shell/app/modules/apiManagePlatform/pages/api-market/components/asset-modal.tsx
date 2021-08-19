@@ -17,7 +17,7 @@ import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import { getUploadProps } from 'common/utils/upload-props';
-import { Button, message, Upload } from 'app/nusi';
+import { Button, message, Upload } from 'core/nusi';
 import { insertWhen } from 'common/utils';
 import { map } from 'lodash';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
@@ -223,9 +223,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
                   <IconUpload /> {i18n.t('upload')}
                 </Button>
               </Upload>
-              <span className="color-text-desc ml8">
-                {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
-              </span>
+              <span className="text-desc ml-2">{uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}</span>
             </div>
           );
         },

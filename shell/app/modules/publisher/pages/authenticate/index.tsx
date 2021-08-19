@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { TimeSelector, Copy, useUpdate } from 'common';
 import authenticateStroe from '../../stores/authenticate';
 import moment from 'moment';
 import i18n from 'i18n';
-import { Tooltip, Spin, Table, Select } from 'app/nusi';
+import { Tooltip, Spin, Table, Select } from 'core/nusi';
 import { WithAuth, usePerm } from 'user/common';
 import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -67,7 +67,7 @@ const Authenticate = (props: IProps) => {
       dataIndex: 'userId',
       render: (v: string) => (
         <Tooltip title={v}>
-          <span className="for-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={v}>
+          <span className="cursor-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={v}>
             {v}
           </span>
         </Tooltip>
@@ -77,7 +77,7 @@ const Authenticate = (props: IProps) => {
       title: i18n.t('user name'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span className="for-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
+        <span className="cursor-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -87,7 +87,7 @@ const Authenticate = (props: IProps) => {
       dataIndex: 'deviceNo',
       render: (v: string) => (
         <Tooltip title={v}>
-          <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={v}>
+          <span className="cursor-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={v}>
             {v}
           </span>
         </Tooltip>
@@ -135,12 +135,12 @@ const Authenticate = (props: IProps) => {
   ];
   return (
     <div>
-      <div className="flex-box mb16 flex-start">
-        <TimeSelector className="ml0" key="time-selector" inline disabledDate={() => false} />
+      <div className="flex items-center mb-4 justify-start">
+        <TimeSelector className="ml-0" key="time-selector" inline disabledDate={() => false} />
         <Select
           value={selectMonitorKey}
           style={{ width: 200 }}
-          className="ml12"
+          className="ml-3"
           onChange={(k) => {
             updater.selectMonitorKey(k);
           }}
@@ -155,7 +155,7 @@ const Authenticate = (props: IProps) => {
       <Spin spinning={loading}>
         <Table rowKey={'userId'} columns={columns} dataSource={list} scroll={{ x: '100%' }} />
       </Spin>
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
     </div>
   );
 };

@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
-import { Form, Button } from 'app/nusi';
+import { Form, Button } from 'core/nusi';
 import { isEmpty, map, debounce, pick, get, filter, uniq } from 'lodash';
 import { JumpBoardForm } from './deploy-cluster-forms/jump-board-form';
 import { ClusterConfigForm } from './deploy-cluster-forms/cluster-config-form';
@@ -228,7 +228,7 @@ const DeployClusterForm = (props: IProps) => {
           <Button type="primary" onClick={handleSubmit}>
             {i18n.t('done')}
           </Button>
-          <Button className="ml12" onClick={reset}>
+          <Button className="ml-3" onClick={reset}>
             {i18n.t('reset')}
           </Button>
         </div>

@@ -13,7 +13,7 @@
 
 import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
-import { createFlatStore } from 'app/cube';
+import { createFlatStore } from 'core/cube';
 import { map, uniqueId } from 'lodash';
 import i18n from 'i18n';
 import {

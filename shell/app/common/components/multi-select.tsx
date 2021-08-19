@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState } from 'react';
-import { Select, Cascader } from 'app/nusi';
+import { Select, Cascader } from 'core/nusi';
 import { useUpdateEffect } from 'react-use';
 import { get } from 'lodash';
 import './multi-select.scss';
@@ -232,7 +232,7 @@ export default function MultiSelect(props: IProps) {
     }
   };
   return (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       {data.map((item: any, index: any) => {
         return <SingleSelect {...item} key={`${index}`} onChange={onChange(item.key)} value={get(value, item.key)} />;
       })}

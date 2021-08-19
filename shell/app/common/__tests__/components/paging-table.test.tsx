@@ -14,7 +14,6 @@
 import React from 'react';
 import { PagingTable } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
 const dataSource = [{ name: 'erda' }];
 const columns = [
@@ -52,11 +51,11 @@ describe('PagingTable', () => {
       dataSource,
     });
     expect(wrapper.find('.table-title').text()).toBe('project list');
-    expect(wrapper.find('Table').prop('columns')).toHaveLength(columns.length);
+    expect(wrapper.find('WrappedTable').prop('columns')).toHaveLength(columns.length);
     wrapper.setProps({
       basicOperation: true,
     });
-    expect(wrapper.find('Table').prop('columns')).toHaveLength(columns.length + 1);
+    expect(wrapper.find('WrappedTable').prop('columns')).toHaveLength(columns.length + 1);
     const wrapperInstance = wrapper.instance();
     wrapperInstance.onChangePage(2);
     expect(wrapperInstance.page).toStrictEqual({ pageNo: 2, pageSize: 15 });

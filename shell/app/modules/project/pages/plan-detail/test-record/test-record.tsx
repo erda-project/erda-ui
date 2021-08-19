@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Col, Row } from 'app/nusi';
+import React from 'react';
+import { Col, Row } from 'core/nusi';
 
 import { useLoading } from 'core/stores/loading';
 import testPlanStore from 'project/stores/test-plan';

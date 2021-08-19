@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useUpdate, CRUDStoreTable } from 'common';
-import { Input, Select, Menu, Dropdown, Button } from 'app/nusi';
+import { Input, Select, Menu, Dropdown, Button } from 'core/nusi';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import cloudOSSStore from 'app/modules/cmp/stores/storage';
@@ -185,7 +185,7 @@ export default () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml-1" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

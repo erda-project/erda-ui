@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon } from 'common';
-import { Badge, Title, Button } from 'app/nusi';
+import { Badge, Title } from 'core/nusi';
 import i18n from 'i18n';
-import imgMap from '../../img-map';
+import { getImg } from 'app/config-page/img-map';
 import classnames from 'classnames';
 import './text.scss';
 
@@ -87,7 +87,7 @@ const Text = (props: CP_TEXT.Props) => {
           );
         } else if (isArray(text)) {
           TextComp = (
-            <span className={`${isPureText ? '' : 'v-align'}`}>
+            <span className={`${isPureText ? '' : 'flex items-center'}`}>
               {text.map((t, idx) => {
                 if (isString(t)) {
                   return (
@@ -96,7 +96,16 @@ const Text = (props: CP_TEXT.Props) => {
                     </span>
                   );
                 } else if (isPlainObject(t)) {
-                  const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '', withTag, tagStyle={} } = t;
+                  const {
+                    text: tText,
+                    operationKey,
+                    styleConfig: tConfig,
+                    icon,
+                    iconStyleName = '',
+                    image = '',
+                    withTag,
+                    tagStyle = {},
+                  } = t;
                   const tStyle = getStyle(tConfig);
 
                   return operationKey ? (
@@ -109,20 +118,14 @@ const Text = (props: CP_TEXT.Props) => {
                       className={`${textClassNames} hover-active`}
                     >
                       {tText}
-                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-                      {image && (
-                        <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
-                      )}
+                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+                      {image && <img src={getImg(image)} className="text-image" />}
                     </a>
                   ) : (
                     <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
-                      {
-                        withTag ? <span style={tagStyle}>{tText}</span> : tText
-                      }
-                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-                      {image && (
-                        <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
-                      )}
+                      {withTag ? <span style={tagStyle}>{tText}</span> : tText}
+                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+                      {image && <img src={getImg(image)} className="text-image" />}
                     </span>
                   );
                 }
@@ -142,14 +145,14 @@ const Text = (props: CP_TEXT.Props) => {
               }}
             >
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-              {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />}
+              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+              {image && <img src={getImg(image)} className="text-image" />}
             </a>
           ) : (
             <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-              {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />}
+              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+              {image && <img src={getImg(image)} className="text-image" />}
             </span>
           );
         }

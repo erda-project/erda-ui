@@ -12,12 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, Copy } from 'common';
-import { message, Alert, Popover, Button } from 'app/nusi';
-import { find, get, debounce, flatten, isString, isEmpty, every, set } from 'lodash';
+import { Alert, Popover, Button } from 'core/nusi';
+import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
@@ -128,10 +127,8 @@ const ClusterBasicForm = ({
       { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
       { label: 'Region ID', name: ['scheduler', 'regionID'] },
       { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
-      { label: i18n.t('org:cluster address'), name: ['scheduler', 'k8sAddr'] },
-      { label: 'Registry Address', name: ['scheduler', 'regAddr'] },
     ]),
-    ...insertWhen(clusterType === 'k8s', [
+    ...insertWhen(clusterType === 'k8s' || clusterType === 'edas', [
       {
         label: i18n.t('cmp:verification method'),
         name: 'credentialType',
@@ -232,7 +229,7 @@ const k8sAlert = (
       'cmp:during the initialization of the import cluster, all nodes in the cluster will be labeled with the organization name to facilitate the calling of services and tasks of the organization. If you need Erda best calling strategy, you need to enter',
     )}
     <Link to={goTo.resolve.cmpRoot()} className="mx-1" target="_blank" rel="noopener noreferrer">
-      {`${i18n.t('cloud management')} -> ${i18n.t('dcos:cluster overview')} -> ${i18n.t('set tags')}`}
+      {`${i18n.t('Cloud management')} -> ${i18n.t('dcos:cluster overview')} -> ${i18n.t('set tags')}`}
     </Link>
     {i18n.t('cmp:configure')}
   </span>
@@ -265,7 +262,7 @@ const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clust
         itemProps: {
           min: 1,
           max: 100,
-          className: 'full-width',
+          className: 'w-full',
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 }),
         },
         initialValue: 1,
@@ -285,7 +282,7 @@ const ClusterAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <If condition={clusterType === 'k8s'}>
-        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="normal" className="mb-8" />
+        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="info" className="mb-8" />
       </If>
       <ClusterBasicForm
         form={form}
@@ -300,7 +297,7 @@ const ClusterAddForm = (props: any) => {
             {i18n.t('advanced settings')}
             {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
           </a>
-          <div className={`more-form ${showMore ? '' : 'hide'}`}>
+          <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <ClusterSchedulerForm
               form={form}
               clusterType={clusterType}
@@ -325,46 +322,23 @@ interface IProps {
 
 export const AddClusterModal = (props: IProps) => {
   const { initData, toggleModal, visible, onSubmit, clusterList, clusterType } = props;
-  const formatLaunchTime = (ISOTime: Moment | string) => {
-    const isISOString = isString(ISOTime);
-    const ISOString = isISOString ? (ISOTime as string) : (ISOTime as Moment).toISOString();
-    const dateAndTime = ISOString.split('T');
-    const time = dateAndTime[1].split(':');
-    return `${dateAndTime[0]}T${time[0]}:${time[1]}${isISOString ? '' : 'Z'}`;
-  };
   const handleSubmit = (values: any) => {
-    const { scheduler, opsConfig } = values;
+    const { scheduler, opsConfig, credential } = values;
     const postData = { ...values };
     if (every(opsConfig, (item) => isEmpty(item))) {
       postData.opsConfig = null;
     }
+    const credentialContent = get(credential, 'content');
+    const credentialAddress = get(credential, 'address');
     const cpuSubscribeRatio = get(scheduler, 'cpuSubscribeRatio');
-    const repeatValue = get(opsConfig, 'repeatValue');
-    const launchTime = get(opsConfig, 'launchTime');
-    const scaleDuration = get(opsConfig, 'scaleDuration');
-    const scaleNumber = get(opsConfig, 'scaleNumber');
-    scaleDuration && (postData.opsConfig.scaleDuration = Number(scaleDuration));
-    scaleNumber && (postData.opsConfig.scaleNumber = Number(scaleNumber));
-    repeatValue && (postData.opsConfig.repeatValue = repeatValue.toString());
-    launchTime && (postData.opsConfig.launchTime = formatLaunchTime(launchTime));
     cpuSubscribeRatio && (postData.scheduler.cpuSubscribeRatio = `${cpuSubscribeRatio}`);
-    onSubmit?.({ credentialType: clusterType === 'edas' ? 'proxy' : undefined, ...postData, type: clusterType });
+    credentialContent && (credential.content = `${credentialContent.trim()}`);
+    credentialAddress && (credential.address = `${credentialAddress.trim()}`);
+    onSubmit?.({ ...postData, type: clusterType });
     toggleModal();
   };
 
-  const beforeSubmit = (values: any) => {
-    const launchTime = get(values, 'opsConfig.launchTime');
-    return new Promise((resolve, reject) => {
-      if (launchTime && launchTime < moment()) {
-        message.warning(i18n.t('org:the execution time cannot be earlier than the current time'));
-        reject();
-      } else {
-        resolve(values);
-      }
-    });
-  };
-
-  if (clusterType === 'k8s' && initData) {
+  if (['k8s', 'edas'].includes(clusterType) && initData) {
     const { manageConfig } = initData as Obj;
     const { credentialSource, address } = manageConfig || {};
     set(initData, 'credentialType', credentialSource);
@@ -382,7 +356,6 @@ export const AddClusterModal = (props: IProps) => {
       }
       visible={visible}
       onOk={handleSubmit}
-      beforeSubmit={beforeSubmit}
       onCancel={() => toggleModal(true)}
       PureForm={ClusterAddForm}
       formData={initData}

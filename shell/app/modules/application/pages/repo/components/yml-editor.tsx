@@ -36,7 +36,7 @@ import { FormModal, RenderForm, useUpdate } from 'common';
 import { goTo, notify } from 'common/utils';
 
 import { cloneDeep, filter, find, findIndex, forEach, get, omit, isEmpty } from 'lodash';
-import { Button, message, Spin } from 'app/nusi';
+import { Button, message, Spin } from 'core/nusi';
 import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
@@ -416,7 +416,7 @@ const YmlEditor = (props: IProps) => {
       <React.Fragment>
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="commit-file-form-container">
-          <Button type="primary" className="mr12" onClick={checkForm}>
+          <Button type="primary" className="mr-3" onClick={checkForm}>
             {i18n.t('application:save')}
           </Button>
           <Button onClick={cancelEditing}>{i18n.t('application:cancel')}</Button>

@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import classNames from 'classnames';
-import { Spin, Select } from 'app/nusi';
+import { Spin, Select } from 'core/nusi';
 import { TimeSelector, EmptyHolder, useUpdate } from 'common';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
@@ -65,12 +65,12 @@ export default () => {
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
   return (
-    <div className="service-analyze v-flex-box">
-      <div className="flex-box flex-wrap mb4">
-        <div className="left flex-box mb8">
-          <TimeSelector className="ma0 mr12" />
+    <div className="service-analyze flex flex-col h-full">
+      <div className="flex justify-between items-center flex-wrap mb-1">
+        <div className="left flex justify-between items-center mb-2">
+          <TimeSelector className="m-0 mr-3" />
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('addonPlatform:select instance')}
             allowClear
             value={instanceId}
@@ -83,9 +83,9 @@ export default () => {
                 value={v}
                 title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}
               >
-                <div className="instance-item flex-box">
+                <div className="instance-item flex justify-between items-center">
                   <span className="instance-name nowrap">{ip || v}</span>
-                  <div className="status ml8">
+                  <div className="status ml-2">
                     <span
                       className={classNames({
                         'status-point': true,
@@ -100,7 +100,7 @@ export default () => {
           </Select>
         </div>
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="overflow-auto flex-1">
         <Spin spinning={isFetching}>
           {id ? (
             <ServiceListDashboard timeSpan={timeSpan} dashboardId={id} extraGlobalVariable={{ instanceId }} />

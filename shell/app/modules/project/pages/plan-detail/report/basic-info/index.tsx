@@ -14,7 +14,7 @@
 import React from 'react';
 import moment, { Moment } from 'moment';
 import i18n from 'i18n';
-import { Col, DatePicker, Row, message } from 'app/nusi';
+import { Col, DatePicker, Row, message } from 'core/nusi';
 import testPlanStore from 'project/stores/test-plan';
 import { useUserMap } from 'core/stores/userMap';
 import { get, map } from 'lodash';
@@ -73,9 +73,9 @@ const BasicInfo = () => {
   return (
     <Row>
       {basicInfo.map((info) => (
-        <Col span={12} className="mt16" key={info.label}>
-          <div className="color-text-desc">{info.label}</div>
-          <div className="mt8 fz14">
+        <Col span={12} className="mt-4" key={info.label}>
+          <div className="text-desc">{info.label}</div>
+          <div className="mt-2 text-sm">
             {info.dateKey ? (
               <DatePicker
                 allowClear={false}

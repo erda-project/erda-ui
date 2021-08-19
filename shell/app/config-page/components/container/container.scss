@@ -39,8 +39,10 @@
     &.space-middle,
     &.space-big,
     &.space-large {
-      &:first-child {
-        margin-top: 0;
+      > * {
+        &:first-child {
+          margin-top: 0;
+        }
       }
     }
 
@@ -83,8 +85,10 @@
       &.space-middle,
       &.space-big,
       &.space-large {
-        &:first-child {
-          margin-left: 0;
+        > * {
+          &:first-child {
+            margin-left: 0;
+          }
         }
       }
 
@@ -116,7 +120,7 @@
       justify-content: end;
     }
 
-    &.white-bg {
+    &.bg-white {
       padding: 8px;
       background-color: $white;
       border-radius: $radius;

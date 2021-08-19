@@ -14,7 +14,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { useUpdate, EmptyHolder } from 'common';
-import { Popover, Tree, Modal } from 'app/nusi';
+import { Popover, Tree, Modal } from 'core/nusi';
 import i18n from 'i18n';
 import { AntTreeNodeSelectedEvent } from 'core/common/interface';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
@@ -359,7 +359,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
     >
       <button
         onClick={() => onVisibleChange(!popVisible)}
-        className={`api-file-select ${!treeNodeData?.apiDocName ? 'color-text-desc' : ''}`}
+        className={`api-file-select ${!treeNodeData?.apiDocName ? 'text-desc' : ''}`}
       >
         <span>{i18n.t('document')}：</span>
         <span className="name nowrap">

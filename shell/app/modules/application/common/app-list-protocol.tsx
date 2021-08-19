@@ -16,8 +16,8 @@
  * 但为了保持交互和视图跟项目列表的统一性，还是使用了组件化协议的方式来做，前端通过转换数据的方式实现；
  * 如此更方便后续接组件化协议
  * */
-import * as React from 'react';
-import { Spin } from 'app/nusi';
+import React from 'react';
+import { Spin } from 'core/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { Icon as CustomIcon, IF, connectCube } from 'common';

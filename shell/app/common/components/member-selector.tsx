@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
-import { map, debounce, isEmpty, get, isArray, isString, difference } from 'lodash';
+import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
 import { getUsers, getMembers, getUsersNew } from 'common/services';
 import { MemberScope } from 'app/common/stores/member-scope';
 import { LoadMoreSelector, ImgHolder } from 'common';
-import { Tag, Select } from 'app/nusi';
+import { Tag, Select } from 'core/nusi';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from './load-more-selector';
@@ -45,7 +45,8 @@ interface IProps extends ILoadMoreSelectorProps {
   showRole?: boolean;
   scopeId?: string;
   showSelfChosen?: boolean;
-  quickSelectInOption?: boolean;
+  selectSelfInOption?: boolean;
+  selectNoneInOption?: boolean;
 }
 
 interface IPropsWithCategory extends ILoadMoreSelectorProps {
@@ -61,7 +62,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
     <>
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
       {
-        <span className="ml8" title={name}>
+        <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
           {_type === 'normal' && roleMap && showRole
             ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')})`
@@ -76,17 +77,17 @@ const valueItemRender =
   (size = 'normal') =>
   (user: any, deleteValue: (item: any) => void, isMultiple?: boolean) => {
     const { avatar, nick, name, label, value } = user;
-    const displayName = nick || label || value || i18n.t('common:none');
+    const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:none');
     const cls = {
       normal: {
         img: '20x20',
-        name: 'ml8 fz14',
-        tag: 'py4 px8',
+        name: 'ml-2 text-sm',
+        tag: 'py-1 px-2',
       },
       small: {
         img: '14x14',
-        name: 'ml8',
-        tag: 'py2 px4 member-value-small',
+        name: 'ml-2',
+        tag: 'py-0.5 px-1 member-value-small',
       },
     };
     const curCls = cls[size] || {};
@@ -137,6 +138,9 @@ export const getNotFoundContent = (scopeType: string) => {
   }
   return tip;
 };
+
+const USER_NONE = 'unassigned';
+
 export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>, ref: any) => {
   const {
     scopeType = 'org',
@@ -151,7 +155,9 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     size,
     showSelfChosen = false,
     placeholder,
-    quickSelectInOption,
+    selectSelfInOption,
+    selectNoneInOption,
+    onChange: _onChange,
     ...rest
   } = props;
   const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
@@ -207,15 +213,42 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     return <UserSelector {...(props as any)} />;
   }
 
-  const selectSelf = () => {
-    if (`${value}` !== `${loginUserId}`) rest?.onChange(rest?.mode === 'multiple' ? [loginUserId] : loginUserId);
+  const selectSelfOp = () => {
+    if (`${value}` !== `${loginUserId}`) onChange(rest?.mode === 'multiple' ? [loginUserId] : loginUserId);
   };
 
-  const quickSelect = quickSelectInOption ? (
-    <a onClick={() => !rest.disabled && selectSelf()} className={`${rest.disabled ? 'not-allowed' : 'always-active'}`}>
+  const selectSelf = selectSelfInOption ? (
+    <a
+      onClick={() => !rest.disabled && selectSelfOp()}
+      className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'}`}
+    >
       {i18n.t('choose self')}
     </a>
   ) : null;
+
+  const selectNoneOp = () => {
+    onChange(rest?.mode === 'multiple' ? [USER_NONE] : USER_NONE);
+  };
+
+  const selectNone = selectNoneInOption ? (
+    <a
+      onClick={() => !rest.disabled && selectNoneOp()}
+      className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'}`}
+    >
+      {i18n.t('unspecified')}
+    </a>
+  ) : null;
+
+  const quickSelect = compact([selectSelf, selectNone]);
+
+  const onChange = (val: string[] | string, options?: IOption | IOption[]) => {
+    let _val = val;
+    if (isArray(val) && val.includes(USER_NONE) && val.length > 1) {
+      // delete user_none when select other user
+      _val = _val.filter((vItem: string) => vItem !== USER_NONE);
+    }
+    _onChange?.(_val, options);
+  };
 
   return (
     <>
@@ -246,12 +279,13 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
         forwardedRef={ref}
         quickSelect={quickSelect}
         size={size}
+        onChange={onChange}
         {...rest}
       />
       {showSelfChosen ? (
         <a
-          onClick={() => !rest.disabled && selectSelf()}
-          className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml8`}
+          onClick={() => !rest.disabled && selectSelfOp()}
+          className={`${rest.disabled ? 'not-allowed' : 'text-primary cursor-pointer'} ml-2`}
         >
           {i18n.t('choose self')}
         </a>
@@ -305,7 +339,7 @@ export const UserSelector = (props: any) => {
     return (
       <Option key={id} value={id}>
         <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
-        <span className="ml8" title={name}>
+        <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
         </span>
       </Option>
@@ -313,7 +347,7 @@ export const UserSelector = (props: any) => {
   };
   return (
     <Select
-      className="full-width"
+      className="w-full"
       showSearch
       notFoundContent={searchKey ? i18n.t('common:please confirm that the user is registered') : ''}
       showArrow={false}

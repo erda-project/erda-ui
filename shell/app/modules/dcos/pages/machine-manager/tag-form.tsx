@@ -18,7 +18,7 @@ import clusterDashboardStore from 'dcos/stores/dashboard';
 import i18n from 'i18n';
 import { find, uniq } from 'lodash';
 import machineStore from 'app/modules/cmp/stores/machine';
-import * as React from 'react';
+import React from 'react';
 import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
@@ -85,11 +85,12 @@ const TagForm = ({ visible, machine, onCancel }: IProps) => {
     },
   ];
 
+  const machineIp = machine?.ip;
   return (
     <>
       <FormModal
         width={620}
-        title={i18n.t('set tags')}
+        title={i18n.t('dcos:set tags of {ip}', { ip: machineIp })}
         fieldsList={fieldsList}
         visible={visible}
         formData={{ labels: normalLabels, customLabels }}

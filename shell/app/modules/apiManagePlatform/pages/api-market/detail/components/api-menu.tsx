@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Collapse, Input, Tooltip, Tag } from 'app/nusi';
+import { Collapse, Input, Tooltip, Tag } from 'core/nusi';
 import { map, isEmpty, get } from 'lodash';
 import { EmptyHolder } from 'common';
 import SelectVersion from './select-version';
@@ -89,7 +89,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
   const menu = React.useMemo(() => {
     if (isEmpty(menuList)) {
       return (
-        <div className="mt32">
+        <div className="mt-8">
           <EmptyHolder relative style={{ justifyContent: 'start' }} />
         </div>
       );
@@ -104,7 +104,11 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
       >
         {map(menuList, (apiList: any[], tagName: string) => {
           return (
-            <Panel className="api-group-list-item" header={<span className="bold-500">{tagName}</span>} key={tagName}>
+            <Panel
+              className="api-group-list-item"
+              header={<span className="font-medium">{tagName}</span>}
+              key={tagName}
+            >
               <ul className="api-group">
                 {map(apiList, (api: any) => {
                   const { _method, _path, summary } = api;
@@ -120,7 +124,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
                         <div className="method-wrapper">
                           <Tag color={colorMap[_method] || '#975FA0'}>{_method.toUpperCase()}</Tag>
                         </div>
-                        <div className="api-summary nowrap color-text">{summary || _path}</div>
+                        <div className="api-summary nowrap text-normal">{summary || _path}</div>
                       </li>
                     </Tooltip>
                   );
@@ -136,7 +140,7 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
     <>
       <div>
         <Input.Search
-          className="mb12"
+          className="mb-3"
           value={filterKey}
           placeholder={i18n.t('default:search by path or description')}
           onChange={handleFilterApi}

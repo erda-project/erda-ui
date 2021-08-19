@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Tabs, Button, Collapse, Pagination, Input, Form, Switch } from 'app/nusi';
+import React from 'react';
+import { Tabs, Button, Collapse, Pagination, Input, Form, Switch } from 'core/nusi';
 import { isEmpty, map, filter, compact } from 'lodash';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
@@ -72,7 +72,7 @@ const ErrorCheckForm = ({ formRef }: { formRef: any }) => {
           placeholder={`${i18n.t('recommended value {value}', { value: 10 })}`} // 10
         />
       </FormItem>
-      <span className="ml8 mr8">{i18n.t('msp:continuous failure')}</span>
+      <span className="ml-2 mr-2">{i18n.t('msp:continuous failure')}</span>
       <FormItem
         name="consecutiveErrors"
         rules={[
@@ -192,7 +192,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
@@ -237,15 +237,15 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubbo
   const len = useData.length;
   const currentData = useData.slice((pageNo - 1) * pageSize, pageNo * pageSize);
   return (
-    <div className="circuit-breaker-dubbo full-height">
-      <div className="service-mesh-forms-container full-height">
+    <div className="circuit-breaker-dubbo h-full">
+      <div className="service-mesh-forms-container h-full">
         <div className="service-mesh-search">
           <Input
             placeholder={i18n.t('msp:filter by interface name')}
             onChange={(e: any) => setSearchKey(e.target.value)}
           />
-          <div className="hide-no-rule-interface full-height">
-            <span className="hide-no-rule-interface-label full-height">{i18n.t('msp:hide no rule interface')}</span>
+          <div className="hide-no-rule-interface h-full">
+            <span className="hide-no-rule-interface-label h-full">{i18n.t('msp:hide no rule interface')}</span>
             <Switch
               checked={hideNoRule}
               checkedChildren="ON"
@@ -270,7 +270,7 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubbo
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="p-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}
@@ -391,7 +391,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       getComp: ({ form }: { form: FormInstance }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>

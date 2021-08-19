@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { TreeSelect, Button, Select } from 'app/nusi';
+import React from 'react';
+import { TreeSelect, Button, Select } from 'core/nusi';
 import { get, map, isEmpty, debounce, filter } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import { getTreeNodeDetailNew, getCategoryByIdNew, fuzzySearchNew } from 'common/services/file-tree';
@@ -189,7 +189,7 @@ export const CaseTreeSelector = (props: IProps) => {
                 {
                   component: 'custom',
                   getComp: () => {
-                    return <div className="bold-500 border-bottom">{i18n.t('project:node params')}</div>;
+                    return <div className="font-medium border-bottom">{i18n.t('project:node params')}</div>;
                   },
                 },
               ];
@@ -331,11 +331,11 @@ export const CaseTreeSelector = (props: IProps) => {
     }
   }, [chosenCase, updater]);
   return (
-    <div className="full-height auto-test-tree-selector">
+    <div className="h-full auto-test-tree-selector">
       {isEmpty(useableScope) ? null : (
         <>
-          <div className="pb8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
-          <Select value={chosenType} onChange={changeType} className="full-width">
+          <div className="pb-2 text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
+          <Select value={chosenType} onChange={changeType} className="w-full">
             {map(useableScope, (item) => (
               <Option key={item.scope} value={item.scope}>
                 {item.name}
@@ -344,7 +344,7 @@ export const CaseTreeSelector = (props: IProps) => {
           </Select>
         </>
       )}
-      <div className="py8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
+      <div className="py-2 text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
       <TreeSelect
         searchValue={searchValue}
         showSearch
@@ -353,7 +353,7 @@ export const CaseTreeSelector = (props: IProps) => {
         onSearch={onSearch}
         treeDataSimpleMode
         filterTreeNode={false}
-        className="full-width mb16"
+        className="w-full mb-4"
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder={i18n.t('please select')}
@@ -366,13 +366,13 @@ export const CaseTreeSelector = (props: IProps) => {
         }))}
       />
       {!isEmpty(fields) ? (
-        <div className="mb12">
+        <div className="mb-3">
           <Form fields={fields} value={formValue} formRef={formRef} />
         </div>
       ) : null}
       {editing ? (
         <div className="footer">
-          <Button onClick={closeDrawer} className="mr8">
+          <Button onClick={closeDrawer} className="mr-2">
             {i18n.t('cancel')}
           </Button>
           <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>

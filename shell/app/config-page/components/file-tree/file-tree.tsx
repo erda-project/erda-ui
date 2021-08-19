@@ -11,15 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { NusiTree as Tree, NusiPopover as Popover, Ellipsis, Input, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Tree, NusiPopover as Popover, Ellipsis, Input, Tooltip } from 'core/nusi';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { WithAuth } from 'user/common';
-import { IAction, TreeNodeNormal, NusiTreeNodeDropEvent } from 'core/common/interface';
+import { TreeNodeNormal, AntTreeNodeDropEvent } from 'core/common/interface';
 import i18n from 'i18n';
 import './file-tree.scss';
+
+interface IAction {
+  node: React.ReactNode;
+  func: (curKey: string | number, curNode: TreeNodeNormal) => void;
+}
 
 // 获取当前有查询key是的所有match key
 const getAllMatchKeys = (_data: CP_FILE_TREE.INode[], searchKey?: string) => {
@@ -96,8 +101,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         return {
           ...d,
           className: 'insert-node',
-          title: <div className="pointer insert-node-title" onClick={clickInsert} />,
-          icon: <CustomIcon type="cir-add" className="insert-node-icon pointer" onClick={clickInsert} />,
+          title: <div className="cursor-pointer insert-node-title" onClick={clickInsert} />,
+          icon: <CustomIcon type="cir-add" className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
         };
       }
       if (staticSearch && !(matchKeys || []).includes(d.key)) {
@@ -115,7 +120,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
             </div>
           ) : d.operations?.click?.disabled ? (
             <Tooltip title={d.operations.click.disabledTip}>
-              <span className="file-tree-disabled-node not-allowed full-width nowrap">{d.title}</span>
+              <span className="file-tree-disabled-node not-allowed w-full nowrap">{d.title}</span>
             </Tooltip>
           ) : (
             <div className="file-tree-title">
@@ -131,7 +136,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
                   style={{ height: '16px' }}
                   type={icon as string}
                   color={isColorIcon}
-                  className={`color-text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`}
+                  className={`text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`}
                 />
               ),
             }
@@ -244,7 +249,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     return _actions;
   };
 
-  const onExpand = (_expandedKeys: string[], expandObj: any) => {
+  const onExpand = (_expandedKeys: Array<string | number>, expandObj: any) => {
     const curKey = get(expandObj, 'node.props.eventKey');
     const curData = find(data, { key: curKey }) || ({} as Obj);
     const curDataChildren = get(curData, 'children');
@@ -270,7 +275,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedKeys]);
 
-  const onClickNode = (_selectedKeys: string[]) => {
+  const onClickNode = (_selectedKeys: React.ReactText[]) => {
     if (!isEqual(_selectedKeys, selectedKeys)) {
       const curClickableNode = get(clickableNodes, _selectedKeys[0]);
       // 节点上自带了click的operation，则执行自身的operation，否则执行默认的选中key操作
@@ -299,7 +304,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     updater.searchKey(e.target.value);
   };
 
-  const onDrop = (info: NusiTreeNodeDropEvent) => {
+  const onDrop = (info: AntTreeNodeDropEvent) => {
     const { dragNode, node: dropNode, dropPosition, dropToGap } = info;
     const _dragNode = dragNode.props.dataRef;
     const _dropNode = dropNode.props.dataRef;
@@ -327,7 +332,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   }
 
   return (
-    <div className="dice-cp file-tree full-height">
+    <div className="dice-cp file-tree h-full">
       {
         // 默认带上search
         searchable ? (
@@ -344,13 +349,28 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         {...dragProps}
         draggable={draggable}
         treeData={useData}
-        iconField="icon"
         onExpand={onExpand}
         onSelect={onClickNode}
         className="file-tree-container"
         selectedKeys={selectedKeys}
         expandedKeys={expandedKeys}
-        actions={getActions}
+        titleRender={(nodeData: TreeNodeNormal) => (
+          <span>
+            {nodeData.title}
+            <Popover
+              content={getActions(nodeData).map((item) => (
+                <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                  {item.node}
+                </div>
+              ))}
+              footer={false}
+            >
+              <CustomIcon type="gd" className="tree-node-action" />
+            </Popover>
+          </span>
+        )}
+        blockNode
+        showIcon
       />
       {isEmpty(useData) ? <EmptyHolder relative /> : null}
     </div>

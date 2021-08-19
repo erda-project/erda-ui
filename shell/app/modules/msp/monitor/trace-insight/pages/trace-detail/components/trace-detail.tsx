@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { each, includes, flattenDeep, map } from 'lodash';
-import * as React from 'react';
-import { Modal, Table, Spin, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Modal, Table, Spin, Tooltip } from 'core/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
 
@@ -166,7 +166,7 @@ class TraceDetail extends React.Component<IProps, IState> {
                 <div
                   key={`span${spanId}`}
                   id={spanId}
-                  className={`span service-span depth-${depthClass} ${isShow ? '' : 'hide'}`}
+                  className={`span service-span depth-${depthClass} ${isShow ? '' : 'hidden'}`}
                   data-keys="id,spanName,serviceNames,serviceName,durationStr,duration"
                   data-id={spanId}
                   data-parent-id={parentId}

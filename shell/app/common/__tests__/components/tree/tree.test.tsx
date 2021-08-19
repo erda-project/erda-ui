@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { TreeCategory } from 'common';
-import { describe, it, jest } from '@jest/globals';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { sleep } from '../../../../../test/utils';
@@ -53,8 +52,8 @@ describe('TreeCategory', () => {
         onSelectNode={selectNodeFn}
       />,
     );
-    const select = wrapper.find('Select').at(0);
-    expect(wrapper.find('Select')).toExist();
+    const select = wrapper.find('.w-full').at(0);
+    expect(wrapper.find('.w-full')).toExist();
     select.prop('onSearch')();
     expect(fuzzySearch).not.toHaveBeenCalled();
     await act(async () => {
@@ -72,7 +71,7 @@ describe('TreeCategory', () => {
     act(() => {
       select.prop('onChange')('menu1');
     });
-    expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
+    expect(wrapper.find('.file-tree-container').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
     act(() => {
       select.prop('onChange')();
     });
@@ -106,18 +105,20 @@ describe('TreeCategory', () => {
     wrapper.update();
     expect(getAncestors).toHaveBeenCalledTimes(1);
     expect(getAncestors).toHaveBeenLastCalledWith({ inode: 'root' });
-    expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
+    expect(wrapper.find('ForwardRef.file-tree-container').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
     act(() => {
-      wrapper.find('DirectoryTree').prop('onExpand')(['leaf-root']);
+      wrapper.find('ForwardRef.file-tree-container').prop('onExpand')(['leaf-root']);
     });
     wrapper.update();
-    expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual(['leaf-root']);
+    expect(wrapper.find('ForwardRef.file-tree-container').prop('expandedKeys')).toStrictEqual(['leaf-root']);
     act(() => {
-      wrapper.find('DirectoryTree').prop('onSelect')(['leaf-root'], { node: { props: { isLeaf: false } } });
+      wrapper.find('ForwardRef.file-tree-container').prop('onSelect')(['leaf-root'], {
+        node: { props: { isLeaf: false } },
+      });
     });
     expect(selectNodeFn).toHaveBeenLastCalledWith({ inode: 'leaf-root', isLeaf: false });
     await act(async () => {
-      await wrapper.find('DirectoryTree').prop('onDrop')({
+      await wrapper.find('ForwardRef.file-tree-container').prop('onDrop')({
         dragNode: { props: { dataRef: simpleTreeData[0] } },
         node: { props: { dataRef: simpleTreeData[1] } },
       });
@@ -151,6 +152,6 @@ describe('TreeCategory', () => {
     wrapper.update();
     expect(loadData).toHaveBeenCalledTimes(1);
     expect(loadData).toHaveBeenLastCalledWith({ pinode: initTreeData[0].key });
-    expect(wrapper.find('DirectoryTree').prop('expandedKeys')).toStrictEqual([initTreeData[0].key]);
+    expect(wrapper.find('ForwardRef.file-tree-container').prop('expandedKeys')).toStrictEqual([initTreeData[0].key]);
   });
 });

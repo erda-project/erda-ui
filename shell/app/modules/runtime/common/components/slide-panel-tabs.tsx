@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty } from 'lodash';
-import { Drawer, Tabs } from 'app/nusi';
+import { Drawer, Tabs } from 'core/nusi';
 import { CompSwitcher } from 'common';
 import commonStore from 'common/stores/common';
 
@@ -21,12 +21,18 @@ import './slide-panel-tabs.scss';
 
 const { TabPane } = Tabs;
 
+interface ITabInstance {
+  instance: {
+    ipAddress: string;
+  };
+}
+
 export interface IWithTabs {
   defaultActiveKey: string;
   TopTabRight: React.ComponentClass;
   contents: Array<{
     Comp: React.ComponentClass;
-    props: object;
+    props: ITabInstance;
     tab: JSX.Element;
     key: any;
   }>;
@@ -82,9 +88,10 @@ class PureSlidePanel extends React.Component<IProps, IState> {
           animated={false}
           tabBarExtraContent={tabBarExtraContent}
         >
-          {map(contents, ({ Comp, props, tab, key }) => {
+          {map(contents, ({ Comp, props, key }) => {
+            const { ipAddress } = props.instance;
             return (
-              <TabPane tab={tab} key={key}>
+              <TabPane tab={ipAddress} key={key}>
                 <Comp {...props} />
               </TabPane>
             );

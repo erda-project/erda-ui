@@ -14,7 +14,7 @@
 import React from 'react';
 import { isEmpty, groupBy, forEach, map, get, merge, cloneDeep } from 'lodash';
 import i18n from 'i18n';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'core/nusi';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 import { insertWhen } from 'common/utils';
 
@@ -130,7 +130,7 @@ const columns = [
     },
   },
   { title: i18n.t('description'), dataIndex: 'description' },
-  { title: i18n.t('required'), dataIndex: 'required', width: 60 },
+  { title: i18n.t('required'), dataIndex: 'required', width: 80 },
 ];
 
 const getSchema = (content = {}) => {
@@ -368,7 +368,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('response code'),
               columns: [
-                { title: i18n.t('response code'), dataIndex: 'code', width: 100 },
+                { title: i18n.t('response code'), dataIndex: 'code', width: 128 },
                 { title: i18n.t('description'), dataIndex: 'description' },
               ],
             },

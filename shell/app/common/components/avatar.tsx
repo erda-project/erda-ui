@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Tooltip } from 'app/nusi';
+import React from 'react';
+import { Tooltip } from 'core/nusi';
 import { ossImg } from 'common/utils';
 import classnames from 'classnames';
 import { Icon as CustomIcon } from 'common';
@@ -80,7 +80,7 @@ export const AvatarList = ({ names, maxDisplay = 5 }: { names: string[]; maxDisp
   const tooltipElements = [] as JSX.Element[];
   names.forEach((name: string, idx: number) => {
     displayElements.push(<Avatar key={name + idx} name={name} />);
-    tooltipElements.push(<Avatar wrapClassName="mr8 mb4" key={name + idx} name={name} showName />);
+    tooltipElements.push(<Avatar wrapClassName="mr-2 mb-1" key={name + idx} name={name} showName />);
   });
   return (
     <Tooltip title={tooltipElements} overlayStyle={{ maxWidth: 200 }}>

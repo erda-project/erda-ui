@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Drawer, Input, Select, Button } from 'app/nusi';
+import React from 'react';
+import { Drawer, Input, Select, Button } from 'core/nusi';
 import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';
@@ -104,10 +104,10 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
           defaultItem: { name: '', ref: '' },
           itemRender: (_data: Obj, updateItem: Function) => {
             return (
-              <div className="out-params-content full-width">
+              <div className="out-params-content w-full">
                 <Input
                   key="name"
-                  className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`}
+                  className={`flex-1 content-item mr-2 ${!_data.name ? 'empty-error' : ''}`}
                   disabled={!editing}
                   value={_data.name}
                   onChange={(e: any) => updateItem({ name: e.target.value })}
@@ -206,7 +206,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
       <Form fields={fields} value={formValue} formRef={formRef} />
       {editing ? (
         <div className="pipeline-out-params-drawer-footer">
-          <Button onClick={closeDrawer} className="mr8">
+          <Button onClick={closeDrawer} className="mr-2">
             {i18n.t('cancel')}
           </Button>
           <Button onClick={onSubmit} type="primary">

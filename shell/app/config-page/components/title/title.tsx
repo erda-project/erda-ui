@@ -16,9 +16,9 @@
  */
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip, Button, Popconfirm } from 'app/nusi';
+import { Title as NusiTitle, Tooltip, Button } from 'core/nusi';
 import { OperationAction } from 'config-page/utils';
-import imgMap from '../../img-map';
+import { getImg } from 'app/config-page/img-map';
 import './title.scss';
 
 const Title = (props: CP_TITLE.Props) => {
@@ -39,29 +39,19 @@ const Title = (props: CP_TITLE.Props) => {
   } = configProps || {};
 
   const titleComp = tips ? (
-    <div className={`left-flex-box dice-cp-title-detail v-align ${size}`}>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4 pre-icon" /> : null}
-      {prefixImg ? (
-        <img
-          src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg}
-          className={`${isCircle ? 'circle' : ''} pre-image`}
-        />
-      ) : null}
+    <div className={`flex items-center flex-wrap justify-start dice-cp-title-detail ${size}`}>
+      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1 pre-icon" /> : null}
+      {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type="help" className="ml4 fz14 pre-icon" />
+        <CustomIcon type="help" className="ml-1 text-sm pre-icon" />
       </Tooltip>
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>
   ) : (
-    <div className={`dice-cp-title-detail v-align ${size}`}>
+    <div className={`dice-cp-title-detail flex items-center ${size}`}>
       {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-      {prefixImg ? (
-        <img
-          src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg}
-          className={`${isCircle ? 'circle' : ''} pre-image`}
-        />
-      ) : null}
+      {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>

@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
-import { Input, message } from 'app/nusi';
+import { Input, message } from 'core/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
 import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
 import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';
@@ -194,9 +194,9 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   };
 
   return (
-    <div className="custom-dashboard v-flex-box">
+    <div className="custom-dashboard flex flex-col h-full">
       <IF check={!editorToggleStatus}>
-        <div className="header mb12">
+        <div className="header mb-3">
           {/* <Select placeholder="自动刷新间隔" style={{ width: 200 }} allowClear>
             {map(AUTO_RELOAD_OPTIONS, ({ value, name }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
           </Select> */}
@@ -211,7 +211,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
             <div className="dashboard-info-editor">
               <Input
                 maxLength={50}
-                className="mr16"
+                className="mr-4"
                 style={{ width: 200 }}
                 placeholder={i18n.t('org:please input dashboard name')}
                 allowClear
@@ -230,7 +230,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
           </IF>
         </div>
       </IF>
-      <div className="flex-1 pb12">
+      <div className="flex-1 pb-3">
         <Choose>
           <When condition={isNewVersionDC}>
             <BoardGrid

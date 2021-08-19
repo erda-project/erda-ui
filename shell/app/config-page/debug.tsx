@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, Icon as CustomIcon } from 'common';
-import { Button, message, Popover, Input } from 'app/nusi';
+import { Button, message, Popover, Input } from 'core/nusi';
 import agent from 'agent';
 
 import './debug.scss';
@@ -63,10 +63,10 @@ export default () => {
   );
 
   return (
-    <div className="full-height">
-      <Input value={proxyApi} size="small" className="mb4" onChange={(e) => setProxyApi(e.target.value)} />
-      <div className="debug-page full-height flex-box">
-        <div className="left full-height">
+    <div className="h-full">
+      <Input value={proxyApi} size="small" className="mb-1" onChange={(e) => setProxyApi(e.target.value)} />
+      <div className="debug-page h-full flex justify-between items-center">
+        <div className="left h-full">
           <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
           <Button type="primary" className="update-button" onClick={() => updateMock()}>
             更新
@@ -75,7 +75,7 @@ export default () => {
             请求
           </Button>
         </div>
-        <div className="right full-height">
+        <div className="right h-full">
           <ErrorBoundary>
             <DiceConfigPage
               ref={pageRef}
@@ -96,7 +96,7 @@ export default () => {
           <div className="log-panel">
             <h3>
               操作日志
-              <span className="ml8 fake-link" onClick={() => setLogs([])}>
+              <span className="ml-2 fake-link" onClick={() => setLogs([])}>
                 清空
               </span>
             </h3>
@@ -105,13 +105,13 @@ export default () => {
                 <div key={i} className="log-item">
                   <span>
                     {log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
-                    {log.command && <pre className="mb0">{log.command}</pre>}
+                    {log.command && <pre className="mb-0">{log.command}</pre>}
                   </span>
                   {log.data && (
                     <Popover
                       placement="top"
                       content={
-                        <div className="code-block auto-overflow" style={{ height: '600px', maxWidth: '600px' }}>
+                        <div className="code-block overflow-auto" style={{ height: '600px', maxWidth: '600px' }}>
                           <pre className="prewrap">{log.data}</pre>
                         </div>
                       }

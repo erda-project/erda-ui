@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty, get } from 'lodash';
-import * as React from 'react';
-import { Tooltip, Switch } from 'app/nusi';
+import React from 'react';
+import { Tooltip, Switch } from 'core/nusi';
 import { LogRoller, SimpleLog } from 'common';
 import { regLog } from 'common/components/log/log-util';
 import AnsiUp from 'ansi_up';
@@ -57,7 +57,7 @@ const getLogItem =
       level = _level;
     }
 
-    const reContent = parseLinkInContent(AU.ansi_to_html(content), pushSlideComp);
+    const reContent = parseLinkInContent(AU.ansi_to_html(content).replaceAll('&quot;', '"'), pushSlideComp);
     return (
       <div className="container-log-item">
         {time && <span className="log-item-logtime">{time}</span>}

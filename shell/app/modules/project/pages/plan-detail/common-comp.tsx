@@ -17,7 +17,7 @@ import React from 'react';
 import testCaseStore from 'project/stores/test-case';
 import { Avatar, UserInfo } from 'common';
 import { useEffectOnce } from 'react-use';
-import { Progress, Popover } from 'app/nusi';
+import { Progress, Popover } from 'core/nusi';
 import testPlanStore from 'project/stores/test-plan';
 import testEnvStore from 'project/stores/test-env';
 import routeInfoStore from 'core/stores/route';
@@ -82,11 +82,11 @@ export const BaseInfo = () => {
   const createTime = planItemDetail.createdAt ? moment(planItemDetail.createdAt).format('YYYY-MM-DD HH:mm:ss') : '';
   const content = (
     <div>
-      <span className="color-text bold-500 mb8">{i18n.t('project:participant')}</span>
-      <div className="center-flex-box participant-items flex-start">
+      <span className="text-normal font-medium mb-2">{i18n.t('project:participant')}</span>
+      <div className="flex flex-wrap items-center participant-items justify-start">
         {partnerIDs.map((value, index) => {
           return (
-            <span key={`${String(index)}-${value}`} className="mr8 mb8">
+            <span key={`${String(index)}-${value}`} className="mr-2 mb-2">
               <Avatar showName name={<UserInfo id={value} />} />
             </span>
           );
@@ -95,32 +95,32 @@ export const BaseInfo = () => {
     </div>
   );
   return (
-    <div className="common-list-item px0">
+    <div className="common-list-item px-0">
       <div>
         <div className="title">
           {planItemDetail.id} - {planItemDetail.name}
         </div>
         <div className="sub member">
-          <span className="ml4">{i18n.t('project:principal')}：</span>
+          <span className="ml-1">{i18n.t('project:principal')}：</span>
           <Avatar showName name={<UserInfo id={planItemDetail.ownerID} render={(data) => data.nick || data.name} />} />
-          <span className="ml24">{i18n.t('project:participant')}：</span>
+          <span className="ml-6">{i18n.t('project:participant')}：</span>
           <Popover overlayStyle={{ width: 280 }} overlayClassName="participant-popover" content={content}>
-            <span className="participant flex-box hover-active">
+            <span className="participant flex justify-between items-center hover-active">
               {partnerIDs.slice(0, 4).map((p, index) => (
                 <Avatar key={`${String(index)}-${p}`} />
               ))}
-              {partnerIDs.length > 4 ? <span className="count px4 bold-500">+{partnerIDs.length - 4}</span> : null}
+              {partnerIDs.length > 4 ? <span className="count px-1 font-medium">+{partnerIDs.length - 4}</span> : null}
             </span>
           </Popover>
           {/* <span>{planItemDetail.relatedIterative} 迭代</span> */}
         </div>
       </div>
       <div>
-        <div className="color-text">
+        <div className="text-normal">
           <Progress strokeWidth={12} style={{ width: '230px' }} percent={percent} showInfo={false} />{' '}
           {i18n.t('project:passing rate')} {percent}%
         </div>
-        <div className="sub pull-right">
+        <div className="sub float-right">
           {<UserInfo id={planItemDetail.creatorID} />} {i18n.t('project:built in')} {createTime}
         </div>
       </div>

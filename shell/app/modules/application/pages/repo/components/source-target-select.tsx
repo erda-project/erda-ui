@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Checkbox, Alert } from 'app/nusi';
+import { Button, Checkbox, Alert } from 'core/nusi';
 import { IF, Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
 import React from 'react';
@@ -44,14 +44,14 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
     resultType = 'progress';
   }
 
-  const renderAlert = (msg: any, type: 'success' | 'normal' | 'warning' | 'error' | undefined) => (
-    <Alert className="mb16" message={msg} type={type} showIcon />
+  const renderAlert = (msg: any, type: 'success' | 'info' | 'warning' | 'error' | undefined) => (
+    <Alert className="mb-4" message={msg ?? ''} type={type} showIcon />
   );
 
   const msgCheckrunTypeMap = {
     success: 'success',
     failure: 'warning',
-    progress: 'normal',
+    progress: 'info',
   };
 
   const msgCheckrunTypeTipMap = {
@@ -64,7 +64,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
     <div>
       {hasError && renderAlert(errorMsg, 'error')}
       {hasConflict && renderAlert(i18n.t('application:have conflict'), 'error')}
-      {isMerged && renderAlert(i18n.t('application:no changes to merge'), 'normal')}
+      {isMerged && renderAlert(i18n.t('application:no changes to merge'), 'info')}
       {pipelineID &&
         renderAlert(
           <span>
@@ -196,7 +196,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
           <div className="branch-select-row">
             <BranchSelect {...{ branches: [], hideTagList: true, current: sourceBranch || '' }} disabled>
               <span>{i18n.t('compare')}:</span>
-              <span className="branch-name bold nowrap">{sourceBranch || null}</span>
+              <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
               <IF check={sourceBranch}>
                 <IconDownOne theme="filled" size="16px" />
               </IF>
@@ -206,7 +206,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             </div>
             <BranchSelect {...{ branches: [], hideTagList: true, current: targetBranch || '' }} disabled>
               <span>{i18n.t('based on')}:</span>
-              <span className="branch-name bold nowrap">{targetBranch || null}</span>
+              <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
               <IF check={targetBranch}>
                 <IconDownOne theme="filled" size="16px" />
               </IF>
@@ -226,27 +226,28 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
       <div className="repo-source-target-select">
         <div className="branch-select-row">
           <BranchSelect
-            {...{ branches, hideTagList: true, current: sourceBranch || '' }}
-            onChange={this.handleChange('sourceBranch')}
-            disabled={disableSourceBranch}
-          >
-            <span>{i18n.t('compare')}:</span>
-            <span className="branch-name bold nowrap">{sourceBranch || null}</span>
-            <IF check={sourceBranch}>
-              <IconDownOne theme="filled" size="16px" />
-            </IF>
-          </BranchSelect>
-          <div className="branch-merge-arrow">
-            <CustomIcon type="arrow-right" />
-          </div>
-          <BranchSelect
             {...{ branches, hideTagList: true, current: targetBranch || '' }}
             onChange={this.handleChange('targetBranch')}
             disabled={disableTargetBranch}
           >
             <span>{i18n.t('based on')}:</span>
-            <span className="branch-name bold nowrap">{targetBranch || null}</span>
+            <span className="branch-name font-bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
+              <IconDownOne theme="filled" size="16px" />
+            </IF>
+          </BranchSelect>
+
+          <div className="branch-merge-arrow">
+            <CustomIcon type="arrow-left" />
+          </div>
+          <BranchSelect
+            {...{ branches, hideTagList: true, current: sourceBranch || '' }}
+            onChange={this.handleChange('sourceBranch')}
+            disabled={disableSourceBranch}
+          >
+            <span>{i18n.t('compare')}:</span>
+            <span className="branch-name font-bold nowrap">{sourceBranch || null}</span>
+            <IF check={sourceBranch}>
               <IconDownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>

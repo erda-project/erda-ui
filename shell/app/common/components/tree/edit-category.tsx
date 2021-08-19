@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { message, Input, Popover, Button } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import { message, Input, Popover, Button } from 'core/nusi';
+import { ErdaCustomIcon } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
+import { Check as IconCheck } from '@icon-park/react';
 
 interface IProps {
   contentOnly?: boolean;
@@ -73,7 +74,11 @@ export const EditCategory = (props: IProps) => {
   };
 
   const content = (
-    <div id="dice-edit-category" className="flex-box mr8" onClick={(e) => e.stopPropagation()}>
+    <div
+      id="dice-edit-category"
+      className="flex justify-between items-center mr-2"
+      onClick={(e) => e.stopPropagation()}
+    >
       <Input
         autoFocus
         style={{ minWidth: '150px' }}
@@ -82,8 +87,15 @@ export const EditCategory = (props: IProps) => {
         onPressEnter={() => handleSave()}
         onChange={(e) => setValue(e.target.value)}
       />
-      <CustomIcon className="ml12 fz18 pointer" type="duigou" onClick={handleSave} />
-      <CustomIcon className="ml12 fz18 pointer" type="close" onClick={props.onHide || handleHide} />
+      <IconCheck className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
+      <ErdaCustomIcon
+        opacity={0.85}
+        fill="black"
+        type="close"
+        className="ml-3 cursor-pointer"
+        onClick={props.onHide || handleHide}
+        size="16"
+      />
     </div>
   );
 
@@ -104,7 +116,7 @@ export const EditCategory = (props: IProps) => {
     >
       {createButton || (
         <Button type="primary" onClick={() => value && onSubmit({ name: value })}>
-          <CustomIcon type="cir-add" className="mr4" />
+          <ErdaCustomIcon type="cir-add" className="mr-4" size="16" fill="white" />
           {i18n.t('add')}
         </Button>
       )}

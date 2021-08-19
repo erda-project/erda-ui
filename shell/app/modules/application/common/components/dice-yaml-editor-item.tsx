@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu } from 'app/nusi';
+import { Dropdown, Menu } from 'core/nusi';
 import classnames from 'classnames';
 import { Icon as CustomIcon } from 'common';
 import PointComponentAbstract from './point-component-abstract';
@@ -111,7 +111,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           </span>
           {editing ? (
             <Dropdown trigger={['click']} overlay={menu}>
-              <IconMore className="icon-ellipsis mr0" />
+              <IconMore className="icon-ellipsis mr-0" />
             </Dropdown>
           ) : null}
         </div>

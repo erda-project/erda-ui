@@ -11,10 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { UserInfo } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import userStore from 'core/stores/userMap';
 
 describe('user-info', () => {

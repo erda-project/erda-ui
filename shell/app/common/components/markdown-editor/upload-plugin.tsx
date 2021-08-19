@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Popover, message, Upload } from 'app/nusi';
+import React from 'react';
+import { Popover, message, Upload } from 'core/nusi';
 import { Icon as CustomIcon } from 'common';
 import { getCookies, getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';

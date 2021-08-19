@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Badge, message } from 'app/nusi';
+import { Table, Badge, message } from 'core/nusi';
 import { goTo } from 'common/utils';
 import { TASKS_STATUS_MAP, WORKSPACE_MAP } from './config';
 import { ClusterSelector } from 'app/modules/cmp/common/components/cluster-selector';
@@ -25,7 +25,7 @@ import { useEffectOnce } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
 import orgStore from 'app/org-home/stores/org';
 
-export const getClusterTasksCols = (userMap: object) => {
+const getClusterTasksCols = (userMap: object) => {
   return [
     {
       title: i18n.t('environment'),
@@ -111,7 +111,7 @@ const ServicesList = ({ taskType }: IProps) => {
   let extraTableAttr = {};
   if (taskType === 'deployment') {
     extraTableAttr = {
-      rowClassName: 'pointer',
+      rowClassName: 'cursor-pointer',
       onRow: ({ projectID, applicationID, runtimeID }: any) => {
         return {
           onClick: () => {
@@ -134,7 +134,7 @@ const ServicesList = ({ taskType }: IProps) => {
 
   return (
     <>
-      <div className="mb16">
+      <div className="mb-4">
         <ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />
       </div>
       <Table

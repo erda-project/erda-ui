@@ -76,6 +76,7 @@ interface IApplication {
   desc: string;
   gitRepo: string;
   gitRepoAbbrev: string;
+  gitRepoNew: string;
   id: number;
   logo: string;
   mode: APPLICATION.appMode;

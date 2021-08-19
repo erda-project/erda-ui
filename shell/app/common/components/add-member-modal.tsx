@@ -13,7 +13,7 @@
 
 import { FormModal, AddMemberSelector, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
-import * as React from 'react';
+import React from 'react';
 import { map, isEmpty } from 'lodash';
 import { MemberScope } from 'app/common/stores/member-scope';
 import projectMemberStore from 'common/stores/project-member';
@@ -22,7 +22,7 @@ import appMemberStore from 'common/stores/application-member';
 import { insertWhen } from '../utils';
 import { getApps } from 'common/services';
 import { useMount } from 'react-use';
-import { Alert, message } from 'app/nusi';
+import { Alert, message } from 'core/nusi';
 
 interface IProps {
   visible: boolean;
@@ -127,14 +127,10 @@ export const AddMemberModal = ({
         options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
       },
     ]),
-    ...insertWhen(hasConfigAppAuth && scope.type === MemberScope.PROJECT, [
+    ...insertWhen(!!hasConfigAppAuth && scope.type === MemberScope.PROJECT, [
       {
         getComp: () => (
-          <Alert
-            showIcon
-            type="normal"
-            message={i18n.t('common:You can set application-level roles at the same time')}
-          />
+          <Alert showIcon type="info" message={i18n.t('common:You can set application-level roles at the same time')} />
         ),
       },
       {

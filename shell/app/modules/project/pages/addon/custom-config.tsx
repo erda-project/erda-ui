@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Alert, message, Modal } from 'app/nusi';
+import { Alert, message, Modal } from 'core/nusi';
 import React from 'react';
 import addonStore from 'common/stores/addon';
 import { FileEditor, useUpdate } from 'common';
@@ -47,7 +47,7 @@ const CustomAddonConfigModal = (props: IProps) => {
       destroyOnClose
       footer={null}
     >
-      <Alert showIcon type="normal" className="mb8" message={i18n.t('project:transfer-custom-addon')} />
+      <Alert showIcon type="info" className="mb-2" message={i18n.t('project:transfer-custom-addon')} />
       <FileEditor fileExtension="json" value={json} minLines={8} onChange={(value: string) => updater.json(value)} />
     </Modal>
   );

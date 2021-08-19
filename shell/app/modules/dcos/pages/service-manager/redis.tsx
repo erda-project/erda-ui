@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import { useLoading } from 'core/stores/loading';
 import networksStore from 'cmp/stores/networks';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 import { map, get, find } from 'lodash';
-import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
+import { Tooltip, Dropdown, Button, Menu, notification } from 'core/nusi';
 import { RedisFieldConfig } from 'project/pages/third-service/components/config';
 import cloudServiceStore from '../../stores/cloud-service';
 import { FormInstance } from 'core/common/interface';
@@ -197,7 +197,7 @@ const Redis = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml-1" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );
@@ -238,7 +238,7 @@ const Redis = () => {
         onCancel={() => updater.tagFormVis(false)}
         afterSubmit={afterTagFormSubmit}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <ClusterLog recordID={recordID} onClose={() => updater.recordID('')} />
     </>
   );

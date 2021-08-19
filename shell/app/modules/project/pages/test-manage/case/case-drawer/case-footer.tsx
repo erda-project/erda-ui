@@ -13,7 +13,7 @@
 
 import { findIndex } from 'lodash';
 import { PassAndNext } from 'project/pages/plan-detail/pass-and-next';
-import { Button } from 'app/nusi';
+import { Button } from 'core/nusi';
 import { Icon as CustomIcon } from 'common';
 import React from 'react';
 import testCaseStore from 'project/stores/test-case';
@@ -54,7 +54,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
     return (
       <>
         <PassAndNext current={caseDetail.execStatus} hasNext={!!nextCase} onClick={passAndNext} />
-        <Button.Group className="ml12">
+        <Button.Group className="ml-3">
           <Button>
             <span style={{ lineHeight: '1.5' }}>
               {index + 1} / {caseList.length}
@@ -83,7 +83,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
     <>
       <Button onClick={onClose}>{i18n.t('project:cancel')}</Button>
       <Button
-        className="ml12"
+        className="ml-3"
         type="primary"
         ghost
         onClick={() => {
@@ -93,7 +93,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
         {i18n.t('project:save and continue adding')}
       </Button>
       <Button
-        className="ml12"
+        className="ml-3"
         type="primary"
         onClick={() => {
           onOk(true);

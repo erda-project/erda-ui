@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, Upload } from 'app/nusi';
-import * as React from 'react';
+import { Form, Upload } from 'core/nusi';
+import React from 'react';
 import { get } from 'lodash';
 import { getLabel, noop } from './common';
 import { Icon as CustomIcon } from 'common';
@@ -65,7 +65,7 @@ export const FormUpload = ({
 
     const uploadButton = (
       <div className="form-item-upload-button">
-        <CustomIcon type="cir-add" className="fz20" />
+        <CustomIcon type="cir-add" className="text-xl" />
         <div>{_placeholder}</div>
       </div>
     );
@@ -88,7 +88,7 @@ export const FormUpload = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

@@ -46,7 +46,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
     const { resources, deployments, ports, envs } = dataSource;
     const envKeys = Object.keys(envs || {});
     const envContent = envKeys.length ? (
-      <span className="envs-column full-width">
+      <span className="envs-column w-full">
         {i18n.t('application:environment variable')}: <PropertyView dataSource={envs} />
       </span>
     ) : null;

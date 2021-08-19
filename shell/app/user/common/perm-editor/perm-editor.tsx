@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, get, set, filter, uniq } from 'lodash';
-import { Tabs, Button } from 'app/nusi';
+import { Tabs, Button } from 'core/nusi';
 import { Prompt } from 'react-router-dom';
 import { DebounceSearch, useUpdate } from 'common';
 import routeInfoStore from 'core/stores/route';
@@ -147,7 +147,7 @@ export const PermEditor = () => {
     });
   };
   return (
-    <div className="dice-perm-editor full-height">
+    <div className="dice-perm-editor h-full">
       {isEdit ? (
         <div className="top-button-group">
           <AddScope onSubmit={addScope} currentData={data} />
@@ -160,8 +160,8 @@ export const PermEditor = () => {
       <Tabs
         activeKey={tabKey}
         tabBarExtraContent={
-          <div className="flex-box mt8">
-            <DebounceSearch size="small" value={searchKey} className="mr8" onChange={updater.searchKey} />
+          <div className="flex justify-between items-center mt-2">
+            <DebounceSearch size="small" value={searchKey} className="mr-2" onChange={updater.searchKey} />
             {isEdit ? (
               <>
                 <PermExport

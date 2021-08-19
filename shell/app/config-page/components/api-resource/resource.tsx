@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Tabs, Button, message, Popconfirm, Select, Modal, FormBuilder } from 'app/nusi';
+import { Input, Tabs, Button, message, Popconfirm, Select, Modal, FormBuilder } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { ResponseConfig } from './response-config';
@@ -406,7 +406,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           >
             {map(API_METHODS, (methodKey) => {
               const item = (
-                <div className="circle-container center-flex-box">
+                <div className="circle-container flex flex-wrap justify-center items-center">
                   {iconClassMap.emptyIcon[methodKey] ? (
                     <div className={`${iconClassMap.classMap[methodKey]} disableIcon`} />
                   ) : (
@@ -481,7 +481,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     <div className="api-resource" ref={popconfirmRef}>
       <div className="popover">
         {renderSelectMenu()}
-        <FormBuilder isMultiColumn wrappedComponentRef={formRef} className="full-width">
+        <FormBuilder isMultiColumn wrappedComponentRef={formRef} className="w-full">
           <Fields fields={fieldList} />
         </FormBuilder>
       </div>
@@ -534,7 +534,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           {apiData?.apiMethod && <TabPane tab={API_RESOURCE_TAB.Test} key={API_RESOURCE_TAB.Test} />}
         </Tabs>
         {apiData?.apiMethod && (
-          <div className="right-flex-box">
+          <div className="flex items-center flex-wrap justify-end">
             <Button type="primary" onClick={onSaveApiData}>
               {i18n.t('save')}
             </Button>

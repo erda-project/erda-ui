@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Input, Dropdown, Menu, Ellipsis, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Input, Dropdown, Menu, Ellipsis, Tooltip } from 'core/nusi';
 import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
 import { map, get, find, filter, isEmpty, has, some, isEqual, last, compact } from 'lodash';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
@@ -236,7 +236,7 @@ const PureSelect = (props: SelectorProps) => {
   return (
     <div className={'input-select-dropdown-box  dropdown-box column'} style={width ? { width } : undefined}>
       {showSearch ? (
-        <div className="pa4">
+        <div className="p-1">
           <Input
             size="small"
             placeholder={i18n.t('filter')}
@@ -252,7 +252,7 @@ const PureSelect = (props: SelectorProps) => {
           return (
             <div
               key={op.value}
-              className={`option-item ${value === op.value ? 'color-active-bg' : ''}`}
+              className={`option-item ${value === op.value ? 'text-primary bg-light-active' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(op);
@@ -260,7 +260,7 @@ const PureSelect = (props: SelectorProps) => {
             >
               {op.tooltip ? (
                 <Tooltip title={op.tooltip} placement="right">
-                  <span className="full-width">{op.label}</span>
+                  <span className="w-full">{op.label}</span>
                 </Tooltip>
               ) : (
                 <Ellipsis placement="right" title={op.label}>
@@ -377,7 +377,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
   return (
     <div className="option-group dropdown-box">
       {showSearch ? (
-        <div className={`option-group-search pa4 ${showShadow ? 'shadow' : ''}`}>
+        <div className={`option-group-search p-1 ${showShadow ? 'shadow' : ''}`}>
           <Input
             size="small"
             value={searchValue}
@@ -393,7 +393,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
           return (
             <div
               key={op.value}
-              className={`option-item ${op.value === chosenOption?.value ? 'color-active-bg' : ''}`}
+              className={`option-item ${op.value === chosenOption?.value ? 'text-primary bg-light-active' : ''}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(op);
@@ -401,7 +401,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
             >
               {op.tooltip ? (
                 <Tooltip title={op.tooltip} placement="left">
-                  <span className="full-width">{op.label}</span>
+                  <span className="w-full">{op.label}</span>
                 </Tooltip>
               ) : (
                 <Ellipsis placement="left" title={op.label}>

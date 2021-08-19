@@ -11,84 +11,57 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import fs from 'fs';
-import path from 'path';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { NotFoundExceptionFilter } from './not-found-filter';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import { log, logWarn, getDirectories, getEnv } from './util';
+import helmet from 'helmet';
+import { NotFoundExceptionFilter } from './filters/not-found.filter';
+import { AllExceptionsFilter } from './filters/error-catch.filter';
+import compression from 'compression';
+import { log, logWarn, getDirectories, getEnv, getHttpsOptions } from './util';
+import { createProxyService } from './proxy';
+import { guardMiddleware } from './middlewares/guard.middleware';
 
-const httpsOptions = {
-  key: fs.readFileSync(path.resolve(__dirname, '../..', `cert/dev/server.key`), 'utf8'),
-  cert: fs.readFileSync(path.resolve(__dirname, '../..', `cert/dev/server.crt`), 'utf8'),
-};
+const isProd = process.env.NODE_ENV === 'production';
 
 const { staticDir, envConfig } = getEnv();
-const { MODULES, SCHEDULER_URL, SCHEDULER_PORT, BACKEND_URL } = envConfig;
+const { MODULES, SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
 
-const modules: { [k: string]: boolean } = {};
-getDirectories(staticDir).forEach((m) => {
-  modules[m] = true;
-});
+if (!isProd) {
+  const modules: { [k: string]: boolean } = {};
+  getDirectories(staticDir).forEach((m) => {
+    modules[m] = true;
+  });
 
-MODULES.split(',').forEach((m) => {
-  if (!modules[m]) {
-    logWarn(`module:【${m}】have not build to public`);
-  }
-});
-
-log(`Exist static modules: ${Object.keys(modules)}`);
-
-let dataEngineerInfo: Partial<{ name: string }> = {};
-const modulePath = path.resolve(__dirname, '../../../erda-ui-enterprise');
-const children = fs.readdirSync(modulePath, { withFileTypes: true });
-for (let i = 0; i < children.length; i++) {
-  const child = children[i];
-  if (child.isDirectory()) {
-    const configPath = path.resolve(modulePath, child.name, 'erda-build-config.js');
-    if (fs.existsSync(configPath)) {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const moduleConfig = require(configPath);
-      if (moduleConfig.role === 'DataEngineer') {
-        dataEngineerInfo = moduleConfig;
-        break;
-      }
+  MODULES.split(',').forEach((m) => {
+    if (!modules[m]) {
+      logWarn(`module:【${m}】have not build to public`);
     }
-  }
+  });
+
+  log(`Exist static modules: ${Object.keys(modules)}`);
 }
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    httpsOptions,
+    httpsOptions: isProd ? undefined : getHttpsOptions(),
   });
+  app.use(helmet({ contentSecurityPolicy: false, referrerPolicy: false }));
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalFilters(new NotFoundExceptionFilter());
-  app.use(
-    '/api/**/websocket',
-    createProxyMiddleware({
-      target: BACKEND_URL,
-      changeOrigin: true,
-      ws: true,
-    }),
-  );
-  app.use(
-    '/api',
-    createProxyMiddleware({
-      target: BACKEND_URL,
-      changeOrigin: true,
-    }),
-  );
-  app.use(
-    `/${dataEngineerInfo.name}-app/`,
-    createProxyMiddleware({
-      target: BACKEND_URL,
-      changeOrigin: true,
-    }),
-  );
+  if (isProd) {
+    app.use(compression()); // gzip
+  }
+  app.use(guardMiddleware); // must create global guard middleware here, otherwise the proxy middleware will ignore the guard
+  const wsProxy = createProxyService(app);
 
-  await app.listen(SCHEDULER_PORT);
+  const server = await app.listen(isProd ? 80 : SCHEDULER_PORT);
+  server.on('upgrade', wsProxy.upgrade);
 
-  log(`server started at ${SCHEDULER_URL}:${SCHEDULER_PORT}`);
+  if (isProd) {
+    log('erda ui server started at port 80');
+  } else {
+    log(`server started at ${SCHEDULER_URL}:${SCHEDULER_PORT}`);
+  }
 }
 
 bootstrap();

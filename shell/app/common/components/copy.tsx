@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import Clipboard from 'clipboard';
 import { isString } from 'lodash';
-import { message } from 'app/nusi';
+import { message } from 'core/nusi';
 import i18n from 'i18n';
 
 const selectorMap = {};
-const innerClassName = 'for-copy';
+const innerClassName = 'cursor-copy';
 const innerSelector = `.${innerClassName}`;
 
 interface IProps {
@@ -34,7 +34,7 @@ interface IProps {
 export class Copy extends React.PureComponent<IProps> {
   clipboard: any;
 
-  selector: string | '.for-copy';
+  selector: string | '.cursor-copy';
 
   componentDidMount() {
     this.initClipBoard();

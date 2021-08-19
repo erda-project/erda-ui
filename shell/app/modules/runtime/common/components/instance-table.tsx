@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select, Table, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Select, Table, Tooltip } from 'core/nusi';
 import moment from 'moment';
 import HealthPoint, { statusMap } from 'project/common/components/health-point';
 import { ColumnProps } from 'core/common/interface';
@@ -84,7 +84,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     {
       title: i18n.t('runtime:instance ip'),
       dataIndex: 'ipAddress',
-      // width: 100,
+      width: 120,
       render: (text: string, record: { [prop: string]: any }) => {
         const { status } = record;
         return withHeader ? (
@@ -101,13 +101,12 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     },
     {
       title: i18n.t('runtime:host address'),
-      // width: 100,
+      width: 120,
       dataIndex: 'host',
     },
     {
       title: i18n.t('runtime:status'),
       dataIndex: 'status',
-      width: 150,
       className: 'th-status',
       render: (text: string, record: any) => {
         const { message } = record;
@@ -121,7 +120,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
     },
     {
       title: i18n.t('create time'),
-      width: 170,
+      width: 176,
       dataIndex: 'startedAt',
       className: 'th-time nowrap',
       render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
@@ -132,8 +131,8 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
 
   return (
     <div className="instance-table">
-      <div className={`header ${withHeader ? '' : 'hide'}`}>
-        <span className="bold-500">{i18n.t('runtime:service details')}</span>
+      <div className={`header ${withHeader ? '' : 'hidden'}`}>
+        <span className="font-medium">{i18n.t('runtime:service details')}</span>
         <Select
           key={defaultValue}
           defaultValue={defaultValue}
@@ -159,7 +158,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
         }}
         loading={isFetching}
         pagination={paginationMap[pagingType]}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 800 }}
         {...tableProps}
       />
     </div>

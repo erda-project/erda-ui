@@ -16,7 +16,7 @@ import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { secondsToTime } from 'common/utils';
 import classnames from 'classnames';
-import { Popover, Tooltip } from 'app/nusi';
+import { Popover, Tooltip } from 'core/nusi';
 import { isNumber, isEmpty, isEqual, debounce, get, findLast } from 'lodash';
 import PointComponentAbstract from './point-component-abstract';
 import { approvalStatusMap } from 'application/pages/deploy-list/deploy-list';
@@ -142,7 +142,9 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           className="yaml-editor-item-status"
           style={{ background: approvalResult ? approvalResult.color : item.data.itemStatus.toLowerCase() }}
         />
-        <span className="inline-flex-box">{approvalResult ? approvalResult.text : status ? status.text : '-'}</span>
+        <span className="inline-flex justify-between items-center">
+          {approvalResult ? approvalResult.text : status ? status.text : '-'}
+        </span>
       </span>
     );
     if (item.data.name || item.data.displayName) {
@@ -181,11 +183,11 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         <div onClick={() => onClick && onClick(item.data, 'node')} className={mergedClassNames}>
           {icon}
           <span className="yaml-editor-item-title-name">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {titleContent}
               <span className="pipeline-node-icon">{this.renderIcon()}</span>
             </div>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {statusContent}
               {timeContent}
             </div>
@@ -265,7 +267,8 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
             !skip.includes(m.name) &&
             temp.push(
               <div key={`meta-${String(index)}`} className="flow-chart-panel-msg-item">
-                <span className="flow-chart-panel-msg-item-name">{m.name}</span> {m.value}
+                <span className="flow-chart-panel-msg-item-name">{m.name}</span>
+                <pre>{m.value}</pre>
               </div>,
             ),
         );
@@ -275,7 +278,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -289,12 +292,12 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="flow-chart-panel-msg-item">
               <span className="flow-chart-panel-msg-item-name error">{error.name || 'error'}</span>
-              {error.value || error.msg}
+              <pre>{error.value || error.msg}</pre>
             </div>
           )),
         );
@@ -303,7 +306,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         // </pre>
       }
       // if (!isEmpty(errors)) {
-      //   detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+      //   detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
       //   detailInfo.push(
       //     <pre className="flow-chart-err-block">
       //       {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}

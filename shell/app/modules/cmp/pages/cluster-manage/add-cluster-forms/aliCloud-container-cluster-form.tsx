@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Modal, Radio, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Modal, Radio, Tooltip } from 'core/nusi';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
 import { Form } from 'dop/pages/form-editor/index';
 import clusterStore from 'cmp/stores/cluster';
@@ -471,11 +471,11 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
             const region = getFormData('region');
             return (
               <>
-                <div className="bold">{i18n.t('basic settings')}</div>
+                <div className="font-bold">{i18n.t('basic settings')}</div>
                 <RenderFields form={form} fields={basicFields} />
                 {region ? (
                   <>
-                    <div className="bold">{i18n.t('application:more settings')}</div>
+                    <div className="font-bold">{i18n.t('application:more settings')}</div>
                     <RenderFields form={form} fields={moreFields} />
                   </>
                 ) : null}

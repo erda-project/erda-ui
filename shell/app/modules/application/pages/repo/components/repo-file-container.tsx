@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { message, Tooltip, Radio, Button } from 'app/nusi';
-import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate } from 'common';
+import React from 'react';
+import { message, Tooltip, Radio, Button } from 'core/nusi';
+import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate, ErdaCustomIcon } from 'common';
 import { goTo, updateSearch } from 'common/utils';
 import RepoFile from './repo-file';
 import RepoEditor from './repo-editor';
@@ -115,6 +115,7 @@ const RepoFileContainerComp = (props: IProps) => {
           pathType: 'blob',
         },
       ],
+      isDelete: true,
     }).then((res) => {
       toggleModal(false);
       if (res.success) {
@@ -132,7 +133,7 @@ const RepoFileContainerComp = (props: IProps) => {
     const disabled = !!editFile;
     return (
       <Group
-        className="radio-btn-group flex-box"
+        className="radio-btn-group flex justify-between items-center"
         value={viewType}
         size="small"
         onChange={changeRadioValue}
@@ -158,7 +159,15 @@ const RepoFileContainerComp = (props: IProps) => {
     if (editFile) {
       return (
         <Tooltip title={i18n.t('application:cancel')}>
-          <CustomIcon type="qxbj" onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })} />
+          <ErdaCustomIcon
+            className="cursor-pointer"
+            width="20"
+            height="21"
+            fill="black"
+            opacity={0.4}
+            type="qxbj"
+            onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })}
+          />
         </Tooltip>
       );
     } else {
@@ -180,7 +189,7 @@ const RepoFileContainerComp = (props: IProps) => {
           ];
       return (
         <IF check={isBranchTree && branchAuth}>
-          <ButtonGroup className="mr20">
+          <ButtonGroup className="mr-5">
             <Button size="small" onClick={() => changeMode({ fileBlame: !fileBlame })}>
               {fileBlame ? i18n.t('application:normal view') : i18n.t('application:view by line')}
             </Button>
@@ -195,16 +204,25 @@ const RepoFileContainerComp = (props: IProps) => {
           </ButtonGroup>
           <IF check={!binary}>
             <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:edit')}>
-              <CustomIcon
-                className={info.isLocked ? 'disabled' : ''}
-                type="bj"
-                onClick={() => !info.isLocked && changeMode({ editFile: true })}
-              />
+              <div className="mt-1 mr-3">
+                <ErdaCustomIcon
+                  fill="black"
+                  opacity={0.4}
+                  size="20"
+                  className={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
+                  type="bj"
+                  onClick={() => !info.isLocked && changeMode({ editFile: true })}
+                />
+              </div>
             </Tooltip>
           </IF>
           <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:delete')}>
-            <CustomIcon
-              className={info.isLocked ? 'disabled' : ''}
+            <ErdaCustomIcon
+              fill="black"
+              opacity={0.4}
+              width="20"
+              height="21"
+              className={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
               type="sc1"
               onClick={() => !info.isLocked && toggleModal(true)}
             />
@@ -256,8 +274,8 @@ const RepoFileContainerComp = (props: IProps) => {
             secondTitle=""
             onConfirm={onYmlUpgrade}
           >
-            <div className="file-alert pointer">
-              <CustomIcon className="mr4" type="jg" />
+            <div className="file-alert cursor-pointer">
+              <CustomIcon className="mr-1" type="jg" />
               <span className="alert-text">
                 {i18n.t('application:current')} {path} {i18n.t('application:can be upgraded with one click')}！
               </span>

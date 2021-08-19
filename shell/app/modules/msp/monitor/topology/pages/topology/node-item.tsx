@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { INode } from './components/topology-utils-v1';
-import { Tooltip, Dropdown, Menu } from 'app/nusi';
+import { Tooltip, Dropdown, Menu } from 'core/nusi';
 import { floor, map } from 'lodash';
 import { Icon as CustomIcon, IF } from 'common';
 import { goTo } from 'common/utils';
@@ -256,26 +256,26 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             onMouseEnter={() => setHoverFlag(true)}
             onMouseLeave={() => setHoverFlag(false)}
           >
-            <div className="node-title small-node-title bold">
+            <div className="node-title small-node-title font-bold">
               {stopped ? (
                 <>
-                  <CustomIcon type="wks1" className="error-icon mr20" />
+                  <CustomIcon type="wks1" className="error-icon mr-5" />
                   <span>
                     {stopped}/{running}
                   </span>
                 </>
               ) : (
                 <>
-                  <CustomIcon type="cg" className="common-icon mr20" />
+                  <CustomIcon type="cg" className="common-icon mr-5" />
                   <span>{running}</span>
                 </>
               )}
             </div>
             <div className="node-info">
               <div className="info-item" onClick={handleClickError}>
-                <span className="info-value small-info-value bold">
+                <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
-                    <span className="color-danger">{error_rate}%</span>/<span>{count}</span>
+                    <span className="text-danger">{error_rate}%</span>/<span>{count}</span>
                     <IF.ELSE />
                     {count}
                   </IF>
@@ -321,12 +321,12 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               <img src={iconImg} />
             </div>
             <div className="node-name">
-              <span className="text bold">{nameMap[type] || name}</span>
+              <span className="text font-bold">{nameMap[type] || name}</span>
               <span className="sub-text">{runtimeName}</span>
               <span className="sub-text">{applicationName}</span>
             </div>
             {isMeshNode ? (
-              <div className="full-height">
+              <div className="h-full">
                 <CustomIcon type="sz" onClick={(e: any) => e.stopPropagation()} />
               </div>
             ) : null}
@@ -353,12 +353,12 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <img src={iconImg} />
           </div>
           <div className="node-name">
-            <span className="text bold">{nameMap[type] || name}</span>
+            <span className="text font-bold">{nameMap[type] || name}</span>
             {type === 'Service' ? (
               stopped ? (
                 <div>
                   <CustomIcon type="wks1" style={{ color: 'red' }} />
-                  <span className="color-danger">{stopped}</span>/
+                  <span className="text-danger">{stopped}</span>/
                   <span>
                     {running} {i18n.t('instance')}
                   </span>
@@ -376,10 +376,10 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             )}
           </div>
           {isMeshNode ? (
-            <div className="full-height node-operation">
+            <div className="h-full node-operation">
               <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
                 <CustomIcon
-                  className="fz18 operation-item pl8 pr8 pb8"
+                  className="text-lg operation-item pl-2 pr-2 pb-2"
                   type="sz"
                   onClick={(e: any) => e.stopPropagation()}
                 />
@@ -389,16 +389,16 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
         </div>
         <div className="node-info">
           <div className="info-item" onClick={handleClickError}>
-            <span className="info-value bold">
+            <span className="info-value font-bold">
               <IF check={error_rate}>
-                <span className="color-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
+                <span className="text-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
                 <IF.ELSE />
                 {count}
               </IF>
             </span>
             <span className="info-key">
               <IF check={error_rate}>
-                <span className="color-danger">{i18n.t('msp:request error rate')}</span>/
+                <span className="text-danger">{i18n.t('msp:request error rate')}</span>/
                 <span>{i18n.t('call times')}</span>
                 <IF.ELSE />
                 {i18n.t('call times')}
@@ -407,7 +407,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           </div>
           <div className="info-item-separate" />
           <div className="info-item">
-            <span className="info-value bold">{floor(rt, 2)}</span>
+            <span className="info-value font-bold">{floor(rt, 2)}</span>
             <span className="info-key">{i18n.t('response time')}(ms)</span>
           </div>
         </div>

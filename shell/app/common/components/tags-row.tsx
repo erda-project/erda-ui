@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Tooltip } from 'app/nusi';
+import React from 'react';
+import { Tooltip } from 'core/nusi';
 import { some, has, groupBy, map } from 'lodash';
 import { cutStr } from 'common/utils';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
@@ -47,18 +47,19 @@ export const TagColorMap = {
   gray: 'gray',
 };
 
-const TagItem = (props: IItemProps) => {
+export const TagItem = (props: IItemProps) => {
   const { label: _label, size, withCut, onDelete } = props;
   const { label, color = 'gray' } = _label;
   const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };
+  const tagColor = TagColorMap[color] || '';
   return (
     <Tooltip title={withCut && label.length > 15 ? label : undefined}>
-      <span style={style} className={`tag-default twt-tag-item ${size} ${TagColorMap[color] || ''}`}>
+      <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
         {onDelete ? (
           <IconCloseOne
             theme="filled"
             size="12"
-            className="tag-close pointer color-text-holder"
+            className="tag-close cursor-pointer text-holder"
             onClick={() => onDelete(_label)}
           />
         ) : null}
@@ -84,7 +85,7 @@ export const TagsRow = ({
       return (
         <div>
           {map(groupBy(labels, 'group'), (groupItem, gKey) => (
-            <div key={gKey} className="tag-group-container mb8">
+            <div key={gKey} className="tag-group-container mb-2">
               <span className="tag-group-name">{`${gKey} : `}</span>
               <span className="flex-1">
                 {groupItem.map((item) => (
@@ -106,7 +107,7 @@ export const TagsRow = ({
       ))}
       {showMore ? (
         <Tooltip
-          title={<span className="tags-container colorful-light-bg">{fullTags()}</span>}
+          title={<span className="tags-container">{fullTags()}</span>}
           placement="top"
           overlayClassName="tags-tooltip"
         >
@@ -119,9 +120,12 @@ export const TagsRow = ({
   );
 
   return (
-    <div className={`tags-container left-flex-box ${containerClassName}`} onClick={(e) => e.stopPropagation()}>
-      <span className="tags-box colorful-light-bg">{oneAndMoreTag}</span>
-      {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml8 fake-link" size="14" /> : null}
+    <div
+      className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <span className="tags-box">{oneAndMoreTag}</span>
+      {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml-2 fake-link" size="14" /> : null}
     </div>
   );
 };

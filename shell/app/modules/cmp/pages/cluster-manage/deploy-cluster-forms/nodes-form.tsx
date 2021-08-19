@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import i18n from 'i18n';
 import { IFormProps, regRulesMap, FormUnitContainer } from '../form-utils';
 import { EditableTable } from './edit-table';
 import { RenderPureForm, ReadonlyForm } from 'common';
-import { Switch, Select, Radio, Button } from 'app/nusi';
+import { Switch, Select, Radio, Button } from 'core/nusi';
 import { map, uniqBy, get } from 'lodash';
 import clusterDashboardStore from 'app/modules/dcos/stores/dashboard';
 
@@ -127,7 +127,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               <span>{i18n.t('batch setting')}</span>
               <Switch checked={helperVis} onClick={() => setHelperVis(!helperVis)} />
             </div>
-            <div className={`set-helper-form ${helperVis ? 'show' : 'hidden'}`}>
+            <div className={`set-helper-form ${helperVis ? 'block' : 'hidden'}`}>
               <Select
                 mode="tags"
                 tokenSeparators={[';', ',', ' ']}

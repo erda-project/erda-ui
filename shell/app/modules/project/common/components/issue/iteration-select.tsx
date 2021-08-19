@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, isEmpty } from 'lodash';
-import { Select } from 'app/nusi';
-import * as React from 'react';
+import { Select } from 'core/nusi';
+import React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useTempPaging } from 'app/common';
 import { getProjectIterations } from 'app/modules/project/services/project-iteration';

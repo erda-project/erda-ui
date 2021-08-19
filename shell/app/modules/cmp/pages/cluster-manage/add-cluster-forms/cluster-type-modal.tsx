@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, get } from 'lodash';
-import { Modal, Row, Col } from 'app/nusi';
+import { Modal, Row, Col } from 'core/nusi';
 import { clusterImgMap } from '../config';
 import i18n from 'i18n';
 import './cluster-type-modal.scss';
@@ -98,7 +98,7 @@ export const ClusterTypeModal = (props: any) => {
       <div>
         {map(clusterTypeMap, (subItem, idx) => {
           return (
-            <Row key={idx} gutter={16} className="cluster-type-row mb16">
+            <Row key={idx} gutter={16} className="cluster-type-row mb-4">
               {map(subItem, (item) => (
                 <Col key={item.type} span={8}>
                   <TypeCard onChosen={handleSubmit} {...item} />

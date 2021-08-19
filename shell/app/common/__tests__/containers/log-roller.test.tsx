@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { shallow } from 'enzyme';
 import { LogRoller } from 'common';
 import { LogRoller as LogRollerChild } from 'common/containers/log-roller';

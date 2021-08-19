@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Panel } from 'app/nusi';
+import { Modal, Panel } from 'core/nusi';
 import i18n from 'i18n';
 import SLASelect from 'apiManagePlatform/components/sla-select';
 import { insertWhen } from 'common/utils';
@@ -71,9 +71,9 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
       destroyOnClose
       confirmLoading={confirmLoading}
     >
-      <div className="fz16 bold-500 mb12">{i18n.t('current SLA')}</div>
+      <div className="text-base font-medium mb-3">{i18n.t('current SLA')}</div>
       <Panel fields={fields} />
-      <div className="fz16 bold-500 mb12">{i18n.t('replace SLA')}</div>
+      <div className="text-base font-medium mb-3">{i18n.t('replace SLA')}</div>
       <SLASelect
         dataSource={slaList}
         defaultSelectKey={metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : slaList[0]?.id}

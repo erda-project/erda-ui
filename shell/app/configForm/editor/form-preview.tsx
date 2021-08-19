@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, get, isPlainObject, isArray, isString, isEmpty, filter } from 'lodash';
 import { Form as DefaultForm } from '../form';
 import { Modal } from './common';
-import { Button, Modal as NusiModal } from 'app/nusi';
+import { Button, Modal as NusiModal } from 'core/nusi';
 import { FORM_GROUP } from '../nusi-form/config';
 import { Form as DiceForm } from 'app/configForm/nusi-form/form';
 import i18n from 'i18n';
@@ -351,13 +351,13 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
     <div className="dice-form-preview">
       <h4>{i18n.t('common:form preview')}</h4>
       <Form fields={fields} formRef={form} onChange={onFieldChange} renderField={renderF} />
-      <div className="mt16">
-        <button className="dice-form-editor-button mr16" onClick={() => setModalVis(true)}>
+      <div className="mt-4">
+        <button className="dice-form-editor-button mr-4" onClick={() => setModalVis(true)}>
           +
         </button>
         {showGetConfig ? (
           <>
-            <button className="dice-form-editor-button mr16" onClick={getConfig}>
+            <button className="dice-form-editor-button mr-4" onClick={getConfig}>
               {i18n.t('common:get configuration')}
             </button>
 

@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
-import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'app/nusi';
+import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'core/nusi';
 import { useSwitch, FormModal } from 'common';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
@@ -218,26 +218,30 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       dataIndex: ['notifyGroup', 'targets'],
       ellipsis: true,
       className: 'notify-info',
+      width: 200,
       render: (targets) => (
-        <div className="flex-box">
-          <ListTargets targets={targets} roleMap={roleMap} />
+        <div className="flex-div flex truncate">
+          <ListTargets targets={targets || []} roleMap={roleMap} />
         </div>
       ),
     },
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
+      width: 160,
       render: (text) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
+      width: 176,
       render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 150,
+      width: 160,
+      fixed: 'right',
       render: (text, record) => {
         return (
           <div className="table-operations">
@@ -293,7 +297,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} scroll={{ x: '100%' }} />
+        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} scroll={{ x: 800 }} />
       </Spin>
     </div>
   );

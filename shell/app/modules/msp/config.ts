@@ -28,6 +28,7 @@ export const envMap = {
   TEST: i18n.t('common:TEST'),
   STAGING: i18n.t('common:STAGING'),
   PROD: i18n.t('common:PROD'),
+  DEFAULT: i18n.t('common:DEFAULT'),
 };
 
 interface IMSPathParams {

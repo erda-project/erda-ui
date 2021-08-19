@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount } from 'react-use';
-import { Table, Radio } from 'app/nusi';
+import { Table, Radio } from 'core/nusi';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -163,22 +163,8 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
     {
       title: i18n.t('org:alarm status'),
       dataIndex: 'alertState',
+      width: 280,
       render: (alertState) => <AlarmState state={alertState} />,
-    },
-    {
-      width: 200,
-      title: i18n.t('operation'),
-      render: (record: ALARM_REPORT.AlarmHistory) => (
-        <div className="table-operations">
-          <IF check={!!record.displayUrl}>
-            <a className="table-operations-btn" href={record.displayUrl} target="_blank" rel="noopener noreferrer">
-              {i18n.t('org:check')}
-            </a>
-            <IF.ELSE />
-            {'--'}
-          </IF>
-        </div>
-      ),
     },
   ];
 
@@ -200,7 +186,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           {isExistingTicket ? i18n.t('org:check ticket') : i18n.t('org:create ticket')}
         </Button>
       </div> */}
-      <div className="start-flex-box mb16">
+      <div className="flex items-start justify-between mb-4">
         <CommonRangePicker defaultTime={defaultTime} onOk={(v) => updater.timeSpan(v)} />
         {/* <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}> */}
         {/*  <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button> */}
@@ -209,18 +195,18 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
       </div>
       <IF check={view === 'table'}>
         <Table
-          rowKey="id"
+          rowKey="timestamp"
           dataSource={recordHistories}
           loading={loading}
           columns={columns}
           expandedRowRender={(record: ALARM_REPORT.AlarmHistory) => (
-            <div className="pr32">
-              <div className="code-block auto-overflow content-block">
+            <div className="pr-8">
+              <div className="code-block overflow-auto content-block">
                 <pre className="prewrap">{record.content}</pre>
               </div>
             </div>
           )}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
         <IF.ELSE />
         <PureBoardGrid layout={layout} />

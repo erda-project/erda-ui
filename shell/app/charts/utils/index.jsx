@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { getFormatter } from './formatter';
 import './regist';
@@ -29,7 +29,7 @@ export const ChartContainer = ({ title = null, operation = null, className = '',
     <div className={containerClass}>
       {title || operation ? (
         <div>
-          <h2 className="chart-title bold-500">{title}</h2>
+          <h2 className="chart-title font-medium">{title}</h2>
           {operation}
         </div>
       ) : null}

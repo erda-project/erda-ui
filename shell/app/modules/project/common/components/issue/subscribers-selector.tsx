@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Menu, Dropdown } from 'app/nusi';
+import { Menu, Dropdown } from 'core/nusi';
 import { Icon as CustomIcon, MemberSelector, ImgHolder } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
@@ -162,7 +162,7 @@ export const SubscribersSelector = (props: IProps) => {
                     rect="20x20"
                     type="avatar"
                   />
-                  <span className="ml4">{user.nick ?? ''}</span>
+                  <span className="ml-1">{user.nick ?? ''}</span>
                 </div>
               );
             })}
@@ -213,11 +213,11 @@ export const SubscribersSelector = (props: IProps) => {
           }
         }}
       >
-        <span className="attention-dropdown-btn ml4">
+        <span className="attention-dropdown-btn ml-1">
           {subscribers.length !== 0
             ? i18n.t('project:{num} people followed', { num: subscribers.length })
             : i18n.t('project:no attention')}
-          <CustomIcon type="caret-down" className="ml2 mr0" />
+          <CustomIcon type="caret-down" className="ml-0.5 mr-0" />
         </span>
       </Dropdown>
     </>

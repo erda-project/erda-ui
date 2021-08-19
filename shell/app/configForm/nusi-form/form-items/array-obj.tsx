@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { isEmpty, map, get, isString } from 'lodash';
-import { Input, Form, Select, InputNumber, Switch } from 'app/nusi';
+import { Input, Form, Select, InputNumber, Switch } from 'core/nusi';
 import { getLabel, noop, createCombiner } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';
@@ -99,7 +99,11 @@ const ArrayObjComp = (props: any) => {
       }: IArrayObjItemProps) => {
         return (
           <div className={`dice-form-array-obj ${className}`}>
-            <div className={`dice-form-array-obj-item flex-1 ${direction === 'row' ? 'flex-box' : ''}`}>
+            <div
+              className={`dice-form-array-obj-item flex-1 ${
+                direction === 'row' ? 'flex justify-between items-center' : ''
+              }`}
+            >
               {itemRender
                 ? itemRender(data, updateItem)
                 : map(keys, (item) => {
@@ -193,7 +197,7 @@ const ArrayObjComp = (props: any) => {
                           }
                           CompItem = (
                             <div key={key}>
-                              <div className="bold mt8">{getLabel(label || key, labelTip)}</div>
+                              <div className="font-bold mt-2">{getLabel(label || key, labelTip)}</div>
                               {map(attrs, (attr: any) => {
                                 const { type: _type, key: _k } = attr;
                                 const attrKey = `${key}.${_k}`;
@@ -303,7 +307,7 @@ export const FormArrayObj = ({ fixOut = noop, fixIn = noop, extensionFix, requir
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

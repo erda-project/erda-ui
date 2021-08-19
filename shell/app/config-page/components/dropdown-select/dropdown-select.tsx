@@ -11,12 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Dropdown, Menu, Input } from 'app/nusi';
-import { Icon as CustomIcon } from 'common';
+import { Dropdown, Menu, Input } from 'core/nusi';
+import { ErdaCustomIcon } from 'common';
 import React from 'react';
 import { map, get } from 'lodash';
 import i18n from 'i18n';
 import './dropdown-select.scss';
+import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck } from '@icon-park/react';
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const { execOperation, props: configProps, state: propsState } = props;
@@ -66,7 +67,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
             autoFocus
             size="small"
             placeholder={i18n.t('common:search')}
-            prefix={<CustomIcon type="search" />}
+            prefix={<IconSearch size="16" />}
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           />
@@ -91,15 +92,15 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 }
               }}
             >
-              <div className="flex-box full-width">
+              <div className="flex justify-between items-center w-full">
                 <span>
-                  {item.prefixIcon ? <CustomIcon type={item.prefixIcon} /> : null}
+                  {item.prefixIcon ? <ErdaCustomIcon type={item.prefixIcon} /> : null}
                   {item.prefixImgSrc ? (
-                    <img src={item.prefixImgSrc} className="cp-dice-dropdown-select-image mr8" />
+                    <img src={item.prefixImgSrc} className="cp-dice-dropdown-select-image mr-2" />
                   ) : null}
                   {item.label}
                 </span>
-                <span>{value === item.value ? <CustomIcon type="duigou" className="color-primary ml8" /> : null}</span>
+                <span>{value === item.value ? <IconCheck className="ml-2" /> : null}</span>
               </div>
             </Menu.Item>
           );
@@ -130,7 +131,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
     >
       <span className="dropdown-select-button hover-active" onClick={() => setActive(!active)}>
         {propsState?.label || label}
-        <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
+        <IconDownOne className="caret ml-0.5" size="14" theme="filled" />
       </span>
     </Dropdown>
   );

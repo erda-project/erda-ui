@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import projectLabelStore from './label';
-import { createStore } from 'app/cube';
+import { createStore } from 'core/cube';
 import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging, convertToFormData } from 'common/utils';
 import {
@@ -54,7 +54,7 @@ interface IState {
   workingRequirementsPaging: IPaging;
   testingRequirementsPaging: IPaging;
   doneRequirementsPaging: IPaging;
-  requirementDetail: ISSUE.Requirement | undefined;
+  requirementDetail: ISSUE.Requirement | null;
   taskList: ISSUE.Task[];
   openTaskList: ISSUE.Task[];
   workingTaskList: ISSUE.Task[];
@@ -81,7 +81,7 @@ interface IState {
   ticketStreamPaging: IPaging;
   epicList: ISSUE.Epic[];
   epicPaging: IPaging;
-  epicDetail: ISSUE.Requirement | undefined;
+  epicDetail: ISSUE.Requirement | null;
   customFieldDetail: ISSUE.ICreateField;
 }
 
@@ -98,7 +98,7 @@ const initState: IState = {
   workingRequirementsPaging: getDefaultPaging(),
   testingRequirementsPaging: getDefaultPaging(),
   doneRequirementsPaging: getDefaultPaging(),
-  requirementDetail: undefined,
+  requirementDetail: null,
   taskList: [],
   openTaskList: [],
   workingTaskList: [],
@@ -133,7 +133,7 @@ const initState: IState = {
   ticketStreamPaging: getDefaultPaging(),
   epicList: [],
   epicPaging: { ...getDefaultPaging(), pageSize: 200 },
-  epicDetail: undefined,
+  epicDetail: null,
   customFieldDetail: {} as ISSUE.ICreateField,
 };
 

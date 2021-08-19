@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select } from 'app/nusi';
+import React from 'react';
+import { Select } from 'core/nusi';
 import { map } from 'lodash';
 import { Minus as IconMinus, Plus as IconPlus } from '@icon-park/react';
 import './scaleSelector.scss';

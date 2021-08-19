@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';
-import { Select, Menu, Dropdown, Button } from 'app/nusi';
+import { Select, Menu, Dropdown, Button } from 'core/nusi';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';
@@ -127,7 +127,7 @@ const VSW = () => {
         type: Select,
         name: 'vendor',
         customProps: {
-          className: 'default-selector-width',
+          className: 'w-52',
           placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
           options: map(cloudVendor, (item) => (
             <Option key={item.name} value={item.value}>
@@ -266,7 +266,7 @@ const VSW = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml-1" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );
@@ -297,7 +297,7 @@ const VSW = () => {
           },
         }}
       />
-      <Copy selector=".for-copy" />
+      <Copy selector=".cursor-copy" />
       <SetTagForm
         items={items}
         visible={tagFormVis}

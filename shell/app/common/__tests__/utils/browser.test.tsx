@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { getBrowserInfo, getCookies, getLS, setLS, removeLS, clearLS, LSObserver } from 'common/utils';
-import { describe, it, jest } from '@jest/globals';
 
 describe('browser', () => {
   afterEach(() => {

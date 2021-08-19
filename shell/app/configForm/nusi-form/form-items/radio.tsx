@@ -11,13 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, Radio } from 'app/nusi';
-import * as React from 'react';
+import { Form, Radio } from 'core/nusi';
+import React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';
-import './radio.scss';
 
 const FormItem = Form.Item;
 
@@ -71,10 +70,10 @@ export const FormRadio = ({
 
       if (displayDesc) {
         return map(options, (item: any) => (
-          <div className="form-item-radio">
+          <div className="h-16">
             <RadioItem key={item.value} value={item.value}>
               {item.name}
-              <div className="form-item-desc">{item.desc}</div>
+              <div className="text-darkgray">{item.desc}</div>
             </RadioItem>
           </div>
         ));
@@ -91,7 +90,7 @@ export const FormRadio = ({
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

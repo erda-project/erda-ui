@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
-import * as React from 'react';
-import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
+import React from 'react';
+import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'core/nusi';
 import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
@@ -68,6 +68,7 @@ export interface IEditStageProps {
   chosenActionName: string;
   chosenAction: DEPLOY.ActionConfig;
   onSubmit?: (options: any) => void;
+  actionSpec: DEPLOY.ActionConfig[];
 }
 const noop = () => {};
 
@@ -88,15 +89,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     onSubmit: handleSubmit = noop,
     chosenActionName,
     chosenAction,
+    actionSpec,
   } = props;
-  const { getActionConfigs } = appDeployStore.effects;
   const [actionConfigs] = appDeployStore.useStore((s) => [s.actionConfigs]);
 
-  useEffectOnce(() => {
-    getCurrentActionConfigs();
-  });
-
-  const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
   const { getFieldValue } = form;
   const [{ actionConfig, resource, originType, originName, task, changeKey }, updater, update] = useUpdate({
     resource: {},
@@ -105,6 +101,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     originName: null as null | string,
     task: {} as IStageTask,
     changeKey: 0,
+  });
+
+  useEffectOnce(() => {
+    handleActionSpec();
   });
 
   React.useEffect(() => {
@@ -141,36 +141,33 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         version: taskInitVersion,
       },
     });
+    updater.changeKey((prev: number) => prev + 1);
   }, [taskInitName, taskInitVersion, chosenActionName]);
 
-  const getCurrentActionConfigs = () => {
-    if (chosenActionName) {
-      getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
-        let _config = {} as any;
-        let _resource = {} as any;
-        if (propsNodeData && !isEmpty(propsNodeData)) {
-          if (result.length > 0) {
-            _config = propsNodeData.version
-              ? result.find((c) => c.version === propsNodeData.version)
-              : getDefaultVersionConfig(result);
-          }
-          _resource = getResource(propsNodeData, _config);
-        } else {
-          _config = getDefaultVersionConfig(result);
-          const mergedResource = mergeActionAndResource(_config, {} as any);
-          _resource = { ...resource, ...mergedResource };
-        }
-        update({
-          resource: _resource,
-          actionConfig: _config || ({} as DEPLOY.ActionConfig),
-        });
-      });
+  const handleActionSpec = () => {
+    let _config;
+    let _resource;
+    if (propsNodeData && !isEmpty(propsNodeData)) {
+      if (actionSpec.length > 0) {
+        _config = propsNodeData.version
+          ? actionSpec.find((c) => c.version === propsNodeData.version)
+          : getDefaultVersionConfig(actionSpec);
+      }
+      _resource = getResource(propsNodeData, _config);
+    } else {
+      _config = getDefaultVersionConfig(actionSpec);
+      const mergedResource = mergeActionAndResource(_config, {});
+      _resource = { ...resource, ...mergedResource };
     }
+    update({
+      resource: _resource,
+      actionConfig: _config || ({} as DEPLOY.ActionConfig),
+    });
   };
 
   useUpdateEffect(() => {
-    getCurrentActionConfigs();
-  }, [chosenActionName]);
+    handleActionSpec();
+  }, [actionSpec]);
 
   if (!isCreate && isEmpty(actionConfig)) {
     return null;
@@ -197,7 +194,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
   const taskType = (
     <Item
-      className="hide"
+      className="hidden"
       name={['resource', 'type']}
       initialValue={chosenActionName}
       rules={[
@@ -211,7 +208,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     </Item>
   );
 
-  const loopData = <Item className="hide" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />;
+  const loopData = (
+    <Item className="hidden" name={['resource', 'loop']} initialValue={get(actionConfig, 'spec.loop')} />
+  );
 
   const actionVersion = (
     <Item
@@ -271,6 +270,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     if (isEmpty(resource)) {
       return null;
     }
+
     const { getFieldsValue } = form;
     const resourceForm = getFieldsValue([
       ['resource', 'alias'],
@@ -415,7 +415,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         input = (
           <InputNumber
             disabled={!editing || value.readOnly}
-            className="full-width"
+            className="w-full"
             placeholder={i18n.t('application:please enter data')}
           />
         );
@@ -457,7 +457,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <IconHelp className="color-text-icon" />
+            <IconHelp className="text-icon" />
           </Tooltip>
         </span>
       );
@@ -471,7 +471,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const addBtn = editing ? (
-      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} />
+      <IconPlus className="cursor-pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} />
     ) : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);
@@ -625,22 +625,20 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   };
 
   return (
-    <Spin spinning={loading}>
-      <Form form={form} onValuesChange={onValuesChange} layout="vertical" className="edit-service-container">
-        {alert}
-        {taskType}
-        {loopData}
-        {type ? taskName : null}
-        {actionVersion}
-        {executionCondition}
-        {renderTaskTypeStructure()}
-        {editing ? (
-          <Button type="primary" ghost onClick={onSubmit}>
-            {i18n.t('application:save')}
-          </Button>
-        ) : null}
-      </Form>
-    </Spin>
+    <Form form={form} onValuesChange={onValuesChange} layout="vertical" className="edit-service-container">
+      {alert}
+      {taskType}
+      {loopData}
+      {type ? taskName : null}
+      {actionVersion}
+      {executionCondition}
+      {renderTaskTypeStructure()}
+      {editing ? (
+        <Button type="primary" ghost onClick={onSubmit}>
+          {i18n.t('application:save')}
+        </Button>
+      ) : null}
+    </Form>
   );
 };
 
@@ -671,9 +669,17 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
   );
 };
 
-const actionQuery = {
+export enum ActionType {
+  autoTest = 'autoTest',
+  configSheet = 'configSheet',
+  appPipeline = 'appPipeline',
+  projectLevelAppPipeline = 'projectLevelAppPipeline',
+}
+
+export const actionQuery = {
   autoTest: { labels: 'autotest:true' },
   configSheet: { labels: 'configsheet:true' },
+  projectLevelAppPipeline: { labels: 'project_level_app:true' },
 };
 
 interface IPipelineNodeForm {
@@ -685,11 +691,18 @@ interface IPipelineNodeForm {
 
 export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   const { editing, nodeData: propsNodeData, visible, scope = '' } = props;
-  const [{ chosenActionName, chosenAction, originActions }, updater, update] = useUpdate({
-    chosenActionName: '',
-    chosenAction: null,
-    originActions: [] as any[],
-  });
+  const [{ chosenActionName, chosenAction, originActions, useProtocol, chosenActionSpec }, updater, update] = useUpdate(
+    {
+      chosenActionName: '',
+      chosenAction: null,
+      originActions: [] as any[],
+      useProtocol: false,
+      chosenActionSpec: [] as DEPLOY.ActionConfig[],
+    },
+  );
+
+  const { getActionConfigs } = appDeployStore.effects;
+  const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
 
   useEffectOnce(() => {
     visible &&
@@ -711,6 +724,25 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   }, [updater, curType]);
 
   React.useEffect(() => {
+    if (protocolActionForms.includes(chosenActionName)) {
+      updater.useProtocol(true);
+    } else if (chosenActionName) {
+      getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
+        const protocolSpec = get(result, '[0].spec.useProtocol');
+        update({
+          chosenActionSpec: result,
+          useProtocol: !!protocolSpec,
+        });
+      });
+    } else {
+      update({
+        chosenActionSpec: [],
+        useProtocol: false,
+      });
+    }
+  }, [chosenActionName, updater, getActionConfigs, update]);
+
+  React.useEffect(() => {
     const curAction = find(
       flatten(map(originActions, (item) => item.items)),
       (curItem) => curItem.name === chosenActionName,
@@ -723,7 +755,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   };
 
   return (
-    <>
+    <Spin spinning={loading}>
       <ActionSelect
         disabled={!editing}
         label={i18n.t('task type')}
@@ -733,15 +765,19 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
         placeholder={`${i18n.t('application:please choose task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
-        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}>
-          {' '}
+        <IF check={!!useProtocol}>
           {/* 使用组件化协议表单 */}
           <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
           <IF.ELSE />
-          <PipelineNodeFormV1 chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
+          <PipelineNodeFormV1
+            chosenAction={chosenAction}
+            chosenActionName={chosenActionName}
+            {...(props as any)}
+            actionSpec={chosenActionSpec}
+          />
         </IF>
       </IF>
-    </>
+    </Spin>
   );
 };
 

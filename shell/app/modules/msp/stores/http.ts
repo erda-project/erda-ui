@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createStore } from 'app/cube';
-import * as httpServices from '../services/http';
+import { createStore } from 'core/cube';
+import { getServiceList, toggleIPStatus } from '../services/http';
 
 export interface IHttpServiceDto {
   address: string;
@@ -39,15 +39,15 @@ const httpStore = createStore({
   effects: {
     async getServiceList({ call, update, getParams }, payload: { az: string; appId: number; nacosId: string }) {
       const { env, projectId, tenantGroup } = getParams();
-      const { serviceList } = await call(httpServices.getServiceList, { env, projectId, tenantGroup, ...payload });
+      const { serviceList } = await call(getServiceList, { env, projectId, tenantGroup, ...payload });
       update({ serviceList });
     },
     async toggleIPStatus(
       { call, getParams },
-      { az, appId, nacosId, body }: { az: string; appId: number; nacosId: string; body: httpServices.IStatusPayload },
+      { az, appId, nacosId, body }: { az: string; appId: number; nacosId: string; body: IStatusPayload },
     ) {
       const { env, projectId, tenantGroup } = getParams();
-      await call(httpServices.toggleIPStatus, { env, projectId, nacosId, az, appId, body, tenantGroup });
+      await call(toggleIPStatus, { env, projectId, nacosId, az, appId, body, tenantGroup });
       await httpStore.effects.getServiceList({ az, appId, nacosId });
     },
   },

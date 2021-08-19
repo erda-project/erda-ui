@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Popover, message, Button } from 'app/nusi';
+import { Input, Popover, message, Button } from 'core/nusi';
 import i18n from 'i18n';
 import testSetStore from 'project/stores/test-set';
 import { Close as IconClose, Check as IconCheck } from '@icon-park/react';
@@ -50,7 +50,7 @@ const NewSet = ({ afterCreate }: IProps) => {
   };
 
   const content = (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       <Input
         autoFocus
         placeholder={i18n.t('project:enter test set name')}
@@ -59,8 +59,8 @@ const NewSet = ({ afterCreate }: IProps) => {
         onChange={(e) => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
-      <IconCheck className="ml12 fz18 color-primary pointer" onClick={handleSave} />
-      <IconClose className="ml12 fz18 pointer" onClick={handleHide} />
+      <IconCheck className="ml-3 text-lg text-primary cursor-pointer" onClick={handleSave} />
+      <IconClose className="ml-3 text-lg cursor-pointer" onClick={handleHide} />
     </div>
   );
 

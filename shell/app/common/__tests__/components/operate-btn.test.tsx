@@ -14,9 +14,8 @@
 import React from 'react';
 import { TableActions } from 'common';
 import { shallow } from 'enzyme';
-import { describe, it, jest } from '@jest/globals';
 
-describe('OpreationBtn', () => {
+describe('OperationBtn', () => {
   const getWrapper = (props = {}, onClick = () => {}) => {
     return shallow(
       <TableActions {...props}>
@@ -51,10 +50,18 @@ describe('OpreationBtn', () => {
     expect(wrapper.children('.btns')).toHaveLength(2);
   });
   it('should render with customize props', () => {
-    const more = <span className="more-opreations">more-opreations</span>;
+    const stopPropagation = jest.fn();
+    const more = <span className="more-operations">more-operations</span>;
     const wrapper = getWrapper({ limit: 4, ellipses: more, className: 'customize-class' });
-    expect(wrapper.find('.more-opreations').text()).toBe('more-opreations');
+    expect(wrapper.find('.more-operations').text()).toBe('more-operations');
     expect(wrapper).toHaveClassName('customize-class');
     expect(wrapper.children('.btns')).toHaveLength(3);
+    wrapper.find('.operator-dropdown-wrap').simulate('click', { stopPropagation });
+    expect(stopPropagation).toHaveBeenCalledTimes(1);
+  });
+  it('should render with limit greater than the number of btns', () => {
+    const more = <span className="more-operations">more-operations</span>;
+    const wrapper = getWrapper({ limit: 8, ellipses: more, className: 'customize-class' });
+    expect(wrapper.children('.btns')).toHaveLength(6);
   });
 });

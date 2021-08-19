@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Panel, Title, Anchor } from 'app/nusi';
+import React from 'react';
+import { Panel, Title, Anchor } from 'core/nusi';
 import { OperationProps, TitleProps, PanelProps, IAnchorContainer } from 'core/common/interface';
 import { IF } from 'common';
 import { map, isEmpty } from 'lodash';
@@ -64,14 +64,14 @@ const Content = (props: IContentProps) => {
   const { crossLine, titleProps, showTitle = true, panelProps, getComp } = props;
   const contentClass = classnames({
     'content-wrapper': true,
-    'mt8 px12 pb12': showTitle,
-    pa12: !showTitle,
-    'border-top mt8': crossLine,
+    'mt-2 px-3 pb-3': showTitle,
+    'p-3': !showTitle,
+    'border-top mt-2': crossLine,
   });
   return (
-    <div className="title-box border-all white-bg">
+    <div className="title-box border-all bg-white">
       <IF check={showTitle}>
-        <div className="title-wrapper px12 pt12">
+        <div className="title-wrapper px-3 pt-3">
           <Title {...(titleProps as TitleProps)} />
         </div>
       </IF>
@@ -103,36 +103,53 @@ const DetailsPanel = (props: IProps) => {
   return (
     <div className="details-panel-template">
       <IF check={!isEmpty(baseInfoConf)}>
-        <div className="base-info mb12">
+        <div className="base-info mb-3">
           <Content {...(_baseInfoConf as IContentProps)} />
         </div>
       </IF>
       {children}
       <IF check={!isEmpty(linkList)}>
-        <Anchor getContainer={() => container.current}>
+        <Anchor getContainer={() => container?.current || document.body}>
           {map(linkList, (item) => {
-            const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
+            const { linkProps, key } = item;
             const { icon, title } = linkProps;
-            const _titleProps = {
-              title,
-              level: 2,
-              icon,
-              ...titleProps,
-            };
             const href = `#${key}`;
             return (
-              <Link href={href} title={title} key={href} icon={icon}>
-                <Content
-                  crossLine={crossLine}
-                  titleProps={_titleProps}
-                  panelProps={panelProps}
-                  getComp={getComp}
-                  showTitle={showTitle}
-                />
-              </Link>
+              <Link
+                href={href}
+                title={
+                  <div className="anchor-link-title_icon">
+                    {icon}
+                    <span className="pk-anchor-link-title_text">{title}</span>
+                  </div>
+                }
+                key={href}
+              />
             );
           })}
         </Anchor>
+
+        {map(linkList, (item) => {
+          const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
+          const { icon, title } = linkProps;
+          const _titleProps = {
+            title,
+            level: 2,
+            icon: <div className="title-icon">{icon}</div>,
+            ...titleProps,
+          };
+          return (
+            <div id={key} className="pt-3">
+              <Content
+                crossLine={crossLine}
+                titleProps={_titleProps}
+                panelProps={panelProps}
+                getComp={getComp}
+                showTitle={showTitle}
+              />
+            </div>
+          );
+        })}
       </IF>
     </div>
   );

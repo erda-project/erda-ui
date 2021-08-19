@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { useMount, useUnmount } from 'react-use';
 import i18n from 'i18n';
-import { Button, Drawer, message } from 'app/nusi';
+import { Button, Drawer, message } from 'core/nusi';
 import { isEmpty } from 'lodash';
 import DeployClusterLog from './deploy-cluster-log';
 import DeployClusterForm from './deploy-cluster-form';
@@ -64,7 +64,7 @@ const DeployCluster = () => {
   };
   return (
     <div className="deploy-cluster">
-      <div className="deploy-info bold-500">
+      <div className="deploy-info font-medium">
         {i18n.t('organization')} {currentOrg.name} {i18n.t('org:new cluster deployment')}
         <div className="deploy-operator">
           <Button onClick={() => setLogVisible(true)}>{i18n.t('check log')}</Button>

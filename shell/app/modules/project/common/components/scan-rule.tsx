@@ -11,14 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { map, isInteger, get } from 'lodash';
-import { Table, Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'app/nusi';
+import { Table, Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import scanRuleStore from 'project/stores/scan-rule';
 import { useEffectOnce } from 'react-use';
 import { WithAuth } from 'user/common';
 import { useUpdate } from 'common';
+import { ColumnProps } from 'core/common/interface';
 
 interface IProps {
   operationAuth: boolean;
@@ -106,7 +107,7 @@ export default function ScanRule(props: IProps) {
     selectedRowKeys: optionalRowKeys,
     onChange: (rowKeys: string[] | number[]) => onOptionalSelectChange(rowKeys),
   };
-  const optionalColumns = [
+  const optionalColumns: Array<ColumnProps<object>> = [
     {
       title: i18n.t('project:rule name'),
       dataIndex: 'metricKey',
@@ -115,21 +116,27 @@ export default function ScanRule(props: IProps) {
     {
       title: i18n.t('description'),
       dataIndex: 'metricKeyDesc',
-      width: 200,
     },
     {
       title: i18n.t('comparison operator'),
       dataIndex: 'operational',
       align: 'center',
+      width: 176,
     },
     {
       title: i18n.t('project:access control value'),
       dataIndex: 'metricValue',
       align: 'center',
+      width: 160,
       render: (val: string, record: any) => {
         if (record.valueType === 'RATING') {
           return (
-            <Select style={{ width: 120 }} value={val} onChange={(value) => handleChange(value, record)}>
+            <Select
+              style={{ width: 120 }}
+              value={val}
+              onChange={(value) => handleChange(value, record)}
+              getPopupContainer={() => document.body}
+            >
               {map(valueRateMap, (rate) => (
                 <Option value={rate.value} key={rate.value}>
                   {rate.label}
@@ -150,7 +157,7 @@ export default function ScanRule(props: IProps) {
     },
   ];
 
-  const appendedColumns: object[] = [
+  const appendedColumns: Array<ColumnProps<SCAN_RULE.AppendedItem>> = [
     {
       title: i18n.t('project:rule name'),
       dataIndex: 'metricKey',
@@ -159,17 +166,17 @@ export default function ScanRule(props: IProps) {
     {
       title: i18n.t('description'),
       dataIndex: 'metricKeyDesc',
-      width: 200,
     },
     {
       title: i18n.t('comparison operator'),
       dataIndex: 'operational',
       align: 'center',
+      width: 176,
     },
     {
       title: i18n.t('project:access control value'),
       dataIndex: 'metricValue',
-      width: 120,
+      width: 160,
       render: (item: string, record: SCAN_RULE.AppendedItem) => {
         const ruleType = valueTypeMap[record.valueType];
         if (isEdit && record.id === currentId) {
@@ -197,6 +204,8 @@ export default function ScanRule(props: IProps) {
       title: i18n.t('operation'),
       dataIndex: 'operation',
       align: 'center',
+      width: 160,
+      fixed: 'right',
       render: (_: any, record: any) => {
         if (isEdit && record.id === currentId) {
           return (
@@ -382,7 +391,7 @@ export default function ScanRule(props: IProps) {
 
   return (
     <>
-      <div className="mb12">
+      <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button
             type="primary"
@@ -403,7 +412,7 @@ export default function ScanRule(props: IProps) {
         </WithAuth>
         {appendedRowKeys.length > 0 && (
           <WithAuth pass={operationAuth}>
-            <Button ghost type="primary" className="ml8" onClick={handleBatchDelete}>
+            <Button ghost type="primary" className="ml-2" onClick={handleBatchDelete}>
               {i18n.t('batch deletion')}
             </Button>
           </WithAuth>
@@ -419,7 +428,7 @@ export default function ScanRule(props: IProps) {
           current: appendedCurrent,
           onChange: (pageNo) => updater.appendedCurrent(pageNo),
         }}
-        scroll={{ y: 300 }}
+        scroll={{ y: 300, x: 900 }}
       />
       <Modal
         width={800}
@@ -446,7 +455,7 @@ export default function ScanRule(props: IProps) {
           dataSource={operationOptionalRules}
           rowKey="id"
           rowSelection={optionalRowSelection}
-          scroll={{ x: '100%' }}
+          scroll={{ x: 800 }}
         />
       </Modal>
     </>

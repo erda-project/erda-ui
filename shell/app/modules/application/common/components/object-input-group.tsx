@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input, message } from 'app/nusi';
+import { Input, message } from 'core/nusi';
 import { cloneDeep, forEach, isEqual } from 'lodash';
 import i18n from 'i18n';
 import { Plus as IconPlus, Delete as IconDelete } from '@icon-park/react';
@@ -97,7 +97,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
             placeholder={`${i18n.t('application:please enter')}Value`}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />
+            <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.deleteVariable(index)} />
           )}
         </div>
       );
@@ -107,7 +107,8 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
       <div>
         <div className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
-          {label}：{disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} />}
+          {label}：
+          {disabled ? null : <IconPlus className="variable-icon cursor-pointer" onClick={this.addNewVariable} />}
         </div>
         {content}
       </div>
