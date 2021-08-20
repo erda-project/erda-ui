@@ -1,17 +1,30 @@
-import { Role, test, expect } from '../../fixtures';
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { Role, test, expect } from '../../fixtures';
+import Base from '../pages/base';
 const title = 'auto_' + Date.now();
 
 const testData = {
   title,
-  image: `${process.cwd()}/app/images/Erda.png`,
-  svg: `${process.cwd()}/app/images/zx.svg`,
+  image: 'app/images/Erda.png',
+  svg: 'app/images/zx.svg',
 };
 
 Role('Manager', () => {
-  test('add-ticket', async ({ page, expectExist }) => {
-    // Go to https://erda.hkci.terminus.io/integration/dop/projects/123/apps/788/ticket/open?pageNo=1
-    await page.goto('https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1');
+  test('add-ticket', async ({ page, expectExist, goTo }) => {
+    const base = new Base(page);
+    await goTo('problemList');
     // Click button:has-text("add ticket")
     await page.click('button:has-text("add ticket")');
     // Click button:has-text("ok")
@@ -26,9 +39,8 @@ Role('Manager', () => {
     await page.click('.button.button-type-annex');
     // Click span[role="button"]:has-text("image upload")
     await page.click('span[role="button"]:has-text("image upload")');
-    // Upload Erda.png
-    await page.setInputFiles('[type="file"]', testData.image);
-    await page.setInputFiles('[type="file"]', testData.svg);
+    await base.uploadFile(testData.image, '[type="file"]');
+    await base.uploadFile(testData.svg, '[type="file"]');
     // Click text=preview
     await page.click('text=preview');
     // Click text=ticket typeplease select ticket type >> input[role="combobox"]
