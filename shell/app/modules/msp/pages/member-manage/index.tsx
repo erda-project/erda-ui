@@ -11,12 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// if MemberScope is exported in 'common/stores/_member', jest runtime will get the error "Cannot read property 'ORG’ of undefined"
-// it is really confusing
-export enum MemberScope {
-  ORG = 'org',
-  PROJECT = 'project',
-  APP = 'app',
-  MSP = 'msp',
-  SYS = 'sys',
-}
+import React from 'react';
+import { MembersTable } from 'common';
+import { MemberScope } from 'common/stores/member-scope';
+
+const MemberManage = () => {
+  return (
+    <div>
+      <MembersTable scopeKey={MemberScope.MSP} />
+    </div>
+  );
+};
+
+export default MemberManage;

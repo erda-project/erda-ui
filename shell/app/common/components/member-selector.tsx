@@ -29,11 +29,13 @@ import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
 import sysMemberStore from 'common/stores/sys-member';
 import { useUserMap } from 'core/stores/userMap';
+import mspProjectMember from 'common/stores/msp-project-member';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.MSP]: mspProjectMember,
   [MemberScope.SYS]: sysMemberStore,
 };
 

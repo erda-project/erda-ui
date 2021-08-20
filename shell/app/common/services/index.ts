@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { MemberScope } from 'common/stores/member-scope';
 
 interface IPlatformUser {
   avatar: string;
@@ -39,8 +40,9 @@ export const fetchLog = ({
 };
 
 export function getMembers(payload: MEMBER.GetListServiceQuery) {
+  const url = payload.scopeType === MemberScope.MSP ? '/api/apm/msp/members' : '/api/members';
   return agent
-    .get('/api/members')
+    .get(url)
     .query(payload)
     .then((response: any) => response.body);
 }
@@ -64,22 +66,29 @@ export const searchPlatformUserList = (
 };
 
 export function getRoleMap(payload: MEMBER.GetRoleTypeQuery): IPagingResp<MEMBER.IRoleType> {
+  const url =
+    payload.scopeType === MemberScope.MSP
+      ? '/api/apm/msp/members/actions/list-roles'
+      : '/api/members/actions/list-roles';
   return agent
-    .get('/api/members/actions/list-roles')
+    .get(url)
     .query(payload)
     .then((response: any) => response.body);
 }
 
 export function updateMembers(payload: MEMBER.UpdateMemberBody) {
+  const url = payload.scope.type === MemberScope.MSP ? '/api/msp/apm/members' : '/api/members';
   return agent
-    .post('/api/members')
+    .post(url)
     .send({ ...payload, options: { rewrite: true } }) // 接口上写死options.rewrite=true，避免新增用户（已有的用户）设置角色无用
     .then((response: any) => response.body);
 }
 
 export function removeMember(payload: MEMBER.RemoveMemberBody) {
+  const url =
+    payload.scope.type === MemberScope.MSP ? '/api/msp/apm/members/action/remove' : '/api/members/actions/remove';
   return agent
-    .post('/api/members/actions/remove')
+    .post(url)
     .send(payload)
     .then((response: any) => response.body);
 }

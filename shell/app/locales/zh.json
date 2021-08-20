@@ -1414,6 +1414,7 @@
     "default": "默认",
     "default value": "默认值",
     "delete": "删除",
+    "delete {name}": "删除{name}",
     "delete certificate": "删除证书",
     "deleted": "已删除",
     "deleted successfully": "删除成功",

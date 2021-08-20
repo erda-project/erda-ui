@@ -24,6 +24,7 @@ import sysMemberStore from 'common/stores/sys-member';
 import React from 'react';
 import { useTempPaging } from './use-hooks';
 import { useEffectOnce } from 'react-use';
+import mspProjectMember from 'common/stores/msp-project-member';
 
 const { Option } = Select;
 
@@ -37,6 +38,7 @@ const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.MSP]: mspProjectMember,
   [MemberScope.SYS]: sysMemberStore,
 };
 

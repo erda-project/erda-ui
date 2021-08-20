@@ -24,6 +24,7 @@ import { insertWhen } from '../utils';
 import { getApps } from 'common/services';
 import { useMount } from 'react-use';
 import { Alert, message } from 'core/nusi';
+import mspProjectMember from 'common/stores/msp-project-member';
 
 interface IProps {
   visible: boolean;
@@ -41,6 +42,7 @@ const storeMap = {
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
   [MemberScope.SYS]: sysMemberStore,
+  [MemberScope.MSP]: mspProjectMember,
 };
 
 export const AddMemberModal = ({

@@ -20,6 +20,7 @@ import routeInfoStore from 'core/stores/route';
 import { orgPerm, orgRoleMap } from 'user/stores/_perm-org';
 import { appPerm, appRoleMap } from 'user/stores/_perm-app';
 import { projectPerm, projectRoleMap } from 'user/stores/_perm-project';
+import { mspPerm, mspRoleMap } from 'user/stores/_perm-msp';
 import i18n from 'i18n';
 import PermExport from './perm-export';
 import PermRoleEditor, { IRoleData } from './role-editor';
@@ -29,6 +30,7 @@ import AddScope from './add-scope';
 import './perm-editor.scss';
 
 const { TabPane } = Tabs;
+
 interface IAction {
   name: string;
   role: string[];
@@ -44,13 +46,13 @@ interface IPerm {
   [key: string]: IPermItem;
 }
 
-export const originRoleMap = {
+export const roleMaps = {
   org: orgRoleMap,
   app: appRoleMap,
   project: projectRoleMap,
 };
 
-const permData = {
+const permDatas = {
   org: orgPerm,
   project: projectPerm,
   app: appPerm,
@@ -73,11 +75,21 @@ const getRoleMap = (_roleMap: Obj, isEdit: boolean) => {
   return reRoleMap;
 };
 
-export const PermEditor = () => {
-  const [{ scope }, { projectId }] = routeInfoStore.useStore((s) => [s.query, s.params]);
+interface IProps {
+  data: Obj;
+  roleMap: Obj;
+  scope?: string;
+}
+
+export const PermEditor = (props: IProps) => {
+  const [{ scope = 'org', mode }, { projectId }] = routeInfoStore.getState((s) => [s.query, s.params]);
+  const isMsp = props.scope === 'msp';
+  const permData = isMsp ? props.data : permDatas;
+  const originRoleMap = isMsp ? props.roleMap : roleMaps;
+  const defaultScope = isMsp ? props.scope : scope;
   const [{ data, tabKey, searchKey, roleMap, reloadKey }, updater, update] = useUpdate({
     data: permData,
-    tabKey: scope || 'org',
+    tabKey: defaultScope,
     searchKey: '',
     roleMap: originRoleMap,
     reloadKey: 1,
@@ -85,7 +97,7 @@ export const PermEditor = () => {
 
   // 默认在项目下，即为编辑状态： project/:id/perm
   // 在根路由下，即为查看状态:/perm
-  const isEdit = !!projectId;
+  const isEdit = isMsp ? mode === 'edit' : !!projectId;
   const onChangeRole = (_data: IRoleChange) => {
     const { key, role, checked } = _data;
     const newData = produce(data, (draft) => {
@@ -122,7 +134,7 @@ export const PermEditor = () => {
   const reset = () => {
     update({
       data: permData,
-      tabKey: scope || 'org',
+      tabKey: defaultScope,
       searchKey: '',
       roleMap: originRoleMap,
       reloadKey: reloadKey + 1,
@@ -205,4 +217,8 @@ export const PermEditor = () => {
       </Tabs>
     </div>
   );
+};
+
+export const MspPermEditor = () => {
+  return <PermEditor data={{ msp: mspPerm }} roleMap={{ msp: mspRoleMap }} scope="msp" />;
 };

@@ -38,6 +38,12 @@ function getMspRouter() {
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
         },
         {
+          path: 'perm',
+          pageName: i18n.t('role permissions description'),
+          layout: { showSubSidebar: false, fullHeight: true },
+          getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'MspPermEditor'),
+        },
+        {
           path: 'projects',
           breadcrumbName: i18n.t('project list'),
           getComp: (cb) => cb(import('msp/pages/micro-service/project-list')),
@@ -50,7 +56,13 @@ function getMspRouter() {
             getTopologyRouter(),
             {
               path: 'configuration',
+              breadcrumbName: '{mspProjectName}',
               getComp: (cb) => cb(import('msp/pages/configuration')),
+            },
+            {
+              path: 'member',
+              breadcrumbName: i18n.t('org:member management'),
+              getComp: (cb) => cb(import('msp/pages/member-manage')),
             },
             {
               path: 'monitor',
