@@ -22,46 +22,72 @@ const testData = {
 };
 
 Role('Manager', () => {
-  test('add-ticket', async ({ page, expectExist, goTo }) => {
+  test.only('add-ticket', async ({ page, expectExist, goTo }) => {
     const base = new Base(page);
-    await goTo('problemList');
-    // Click button:has-text("add ticket")
+    await goTo('qualityReport');
+    // Click text=Issues
+    await Promise.all([
+      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1' }*/),
+      page.click('text=Issues'),
+    ]);
+
+    // add ticket
     await page.click('button:has-text("add ticket")');
-    // Click button:has-text("ok")
     await page.click('button:has-text("ok")');
-    // Fill text=ticket titleplease input ticket title >> input[type="text"]
     await page.fill('text=ticket titleplease input ticket title >> input[type="text"]', testData.title);
-    // Click textarea[name="textarea"]
     await page.click('textarea[name="textarea"]');
-    // Fill textarea[name="textarea"]
     await page.fill('textarea[name="textarea"]', testData.title);
-    // Click .button.button-type-annex
     await page.click('.button.button-type-annex');
-    // Click span[role="button"]:has-text("image upload")
     await page.click('span[role="button"]:has-text("image upload")');
     await base.uploadFile(testData.image, '[type="file"]');
     await base.uploadFile(testData.svg, '[type="file"]');
-    // Click text=preview
-    await page.click('text=preview');
-    // Click text=ticket typeplease select ticket type >> input[role="combobox"]
     await page.click('text=ticket typeplease select ticket type >> input[role="combobox"]');
-    // Click div[role="document"] >> text=code defect
     await page.click('div[role="document"] >> text=code defect');
-    // Click span:has-text("code defect")
     await page.click('span:has-text("code defect")');
-    // Click .rc-virtual-list-holder-inner div:nth-child(2)
     await page.click('.rc-virtual-list-holder-inner div:nth-child(2)');
-    // Click text=vulnerabilitycode vulnerabilitybugvulnerabilitycodeSmellcode defectcode vulnerab >> div
     await page.click('text=vulnerabilitycode vulnerabilitybugvulnerabilitycodeSmellcode defectcode vulnerab >> div');
-    // Click div[role="document"] >> text=code smell
     await page.click('div[role="document"] >> text=code smell');
-    // Click div[role="document"] >> text=medium
     await page.click('div[role="document"] >> text=medium');
     await page.click('div[role="document"] >> text=high');
     await page.click('div[role="document"] >> text=low');
-    // Click button:has-text("ok")
     await page.click('button:has-text("ok")');
     await expectExist(`text=${testData.title}`, 0);
+
+    // find about ticket
+    await page.click('input[role="combobox"]');
+    await Promise.all([
+      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&type=codeSmell' }*/),
+      page.click('text=code smell'),
+    ]);
+    await page.click('text=no-labelfilter by priority >> input[role="combobox"]');
+    await Promise.all([
+      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&priority=low&type=codeSmell' }*/),
+      page.click('form >> :nth-match(:text("low"), 2)'),
+    ]);
+    await Promise.all([
+      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&q=aaaaaa&type=bug' }*/),
+      page.fill('[placeholder="filter by title"]', testData.title),
+    ]);
+    await expectExist(`text=${testData.title}`);
+    await page.click(`text=${testData.title}`);
+    expect(page.url()).toMatch(/\/dop\/projects\/[1-9]\d*\/apps\/[1-9]\d*\/ticket\/open\/[1-9]\d*/);
+    await page.click('textarea[name="textarea"]');
+    await page.fill('textarea[name="textarea"]', testData.title);
+    await page.click('.button.button-type-annex');
+    await page.click('span[role="button"]:has-text("image upload")');
+    await base.uploadFile(testData.image, '[type="file"]');
+    await base.uploadFile(testData.svg, '[type="file"]');
+    await page.click('button:has-text("submit comments")');
+    await expectExist(`text=${testData.title}`);
+    await page.click('button:has-text("close")');
+    await Promise.all([
+      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1' }*/),
+      page.click(':nth-match(:text("issues"), 2)'),
+    ]);
+    await page.click('text=closed');
+    await page.click(`text=${testData.title}`);
+    expect(page.url()).toMatch(/\/dop\/projects\/[1-9]\d*\/apps\/[1-9]\d*\/ticket\/closed\/[1-9]\d*/);
+    await expectExist(`text=${testData.title}`);
     await page.close();
   });
 });

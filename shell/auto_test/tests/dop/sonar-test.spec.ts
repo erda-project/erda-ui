@@ -36,30 +36,6 @@ Role('Manager', () => {
     await expectExist('text=repeat number of lines', 1);
     await page.click('text=src/pages/join/config.tsx');
     await wait(1);
-    await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/open?pageNo=1&type=bug' }*/),
-      page.click('text=code defect'),
-    ]);
-    await page.click('text=code defect');
-    await page.click('form >> :nth-match(:text("code defect"), 2)');
-    await page.click('text=no-labelfilter by priority >> input[role="combobox"]');
-    await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/all?pageNo=1&priority=low&type=bug' }*/),
-      page.click(':nth-match(:text("low"), 2)'),
-    ]);
-    await page.click(':nth-match(:text("low"), 2)');
-    await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/all?pageNo=1&priority=medium&type=bug' }*/),
-      page.click(':nth-match(:text("medium"), 2)'),
-    ]);
-    await page.click(':nth-match(:text("medium"), 2)');
-    await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/dop/projects/1/apps/16/ticket/all?pageNo=1&priority=high&type=bug' }*/),
-      page.click(':nth-match(:text("high"), 2)'),
-    ]);
-    await page.click('[placeholder="filter by title"]');
-    await page.fill('[placeholder="filter by title"]', 'missing');
-    await expectExist('text=missing', 1);
     await page.close();
   });
 });

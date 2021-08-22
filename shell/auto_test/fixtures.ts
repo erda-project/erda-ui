@@ -43,8 +43,6 @@ const gotoMap = {
   mergeRequest: '/erda/dop/projects/123/apps/788/repo/mr/open',
   branchDevelop: '/erda/dop/projects/123/apps/788/repo/tree/develop',
   qualityReport: '/erda/dop/projects/1/apps/16/test/quality',
-  problemList: '/erda/dop/projects/1/apps/16/ticket/open?pageNo=1',
-  issueDetail: '/erda/dop/projects/1/apps/16/ticket/open/28',
   testDetail: '/erda/dop/projects/1/apps/16/test',
 };
 
