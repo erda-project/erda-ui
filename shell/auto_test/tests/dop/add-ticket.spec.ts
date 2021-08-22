@@ -22,7 +22,7 @@ const testData = {
 };
 
 Role('Manager', () => {
-  test.only('add-ticket', async ({ page, expectExist, goTo }) => {
+  test('add-ticket', async ({ page, expectExist, goTo }) => {
     const base = new Base(page);
     await goTo('qualityReport');
     // Click text=Issues

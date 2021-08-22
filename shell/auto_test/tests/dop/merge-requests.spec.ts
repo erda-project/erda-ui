@@ -42,7 +42,7 @@ const createRequest = async (page, wait, expectExist, title) => {
 };
 const now = Date.now();
 Role('Manager', () => {
-  test('create branch', async ({ page, wait, expectRequestSuccess, goTo }) => {
+  test.only('create branch', async ({ page, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
     await goTo('branchDevelop');
     await wait(1);
@@ -54,7 +54,7 @@ Role('Manager', () => {
     await page.click('button >> text=ok');
     await wait(1);
   });
-  test('close requests', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
+  test.only('close requests', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
 
     await goTo('mergeRequest');
@@ -90,7 +90,7 @@ Role('Manager', () => {
     await wait(1);
     expectExist('text=merge request detail', 1);
   });
-  test('merge', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
+  test.only('merge', async ({ page, expectExist, wait, expectRequestSuccess, goTo }) => {
     await expectRequestSuccess();
     await goTo('mergeRequest');
     await wait(1);
@@ -111,7 +111,7 @@ Role('Manager', () => {
 });
 
 Role('Dev', () => {
-  test('can not edit or merge request', async ({ page, expectExist, expectRequestSuccess, wait, goTo }) => {
+  test.only('can not edit or merge request', async ({ page, expectExist, expectRequestSuccess, wait, goTo }) => {
     await expectRequestSuccess();
     await goTo('mergeRequest');
     await wait(1);
