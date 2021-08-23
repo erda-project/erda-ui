@@ -17,11 +17,10 @@ import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'core/cube';
 import userStore from 'app/user/stores';
 import { getOrgByDomain, getJoinedOrgs, updateOrg } from '../services/org';
-import { getGlobal } from 'app/global-space';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
-import { get, intersection, map, isEmpty } from 'lodash';
+import { get, intersection, map } from 'lodash';
 
 interface IState {
   currentOrg: ORG.IOrg;
@@ -50,12 +49,7 @@ const org = createStore({
       if (isIn('orgIndex')) {
         const { orgName } = params;
         const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
-        if (
-          !isIn('sysAdmin') &&
-          initFinish &&
-          (curPathOrg !== orgName || orgName === '-') &&
-          !isMatch(/\w\/notFound/)
-        ) {
+        if (!isAdminRoute() && initFinish && (curPathOrg !== orgName || orgName === '-') && !isMatch(/\w\/notFound/)) {
           layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
         }
@@ -73,6 +67,10 @@ const org = createStore({
       update({ currentOrg });
     },
     async getOrgByDomain({ call, update, select }, payload: { orgName: string }) {
+      if (isAdminRoute()) {
+        update({ initFinish: true });
+        return;
+      }
       let domain = window.location.hostname;
       if (domain.startsWith('local')) {
         domain = domain.split('.').slice(1).join('.');
@@ -83,15 +81,15 @@ const org = createStore({
       const orgs = select((s) => s.orgs); // get joined orgs
 
       if (!orgName) return;
-      if (orgName === '-' && isEmpty(resOrg)) {
-        if (orgs?.length && !isAdminRoute()) {
+      if (orgName === '-' && !Object.keys(resOrg).length) {
+        if (orgs?.length) {
           goTo(`/${get(orgs, '[0].name')}`);
         }
         update({ curPathOrg: orgName, initFinish: true });
         return;
       }
       const curPathname = location.pathname;
-      if (isEmpty(resOrg)) {
+      if (!resOrg) {
         goTo(goTo.pages.notFound);
       } else {
         const currentOrg = resOrg || {};
@@ -113,7 +111,7 @@ const org = createStore({
         }
         if (orgId) {
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
-          (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
+          getResourcePermissions(orgPermQuery).then((orgPermRes) => {
             const orgAccess = get(orgPermRes, 'data.access');
             // 当前无该企业权限
             if (!orgAccess) {
@@ -122,31 +120,29 @@ const org = createStore({
               goTo(goTo.pages.freshMan);
               return;
             }
-            // 根据权限重定向
+            // redirect path by roles.
+            // due to once orgAccess is false will redirect to freshMan page forcedly, then no need to hasAuth param
             setLocationByAuth({
               roles: get(orgPermRes, 'data.roles'),
-              hasAuth: orgAccess,
               ...payload,
             });
 
-            if (orgAccess) {
-              // 有企业权限，正常用户
-              const appMap = {} as {
-                [k: string]: LAYOUT.IApp;
-              };
-              permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
-              const menusMap = getSubSiderInfoMap();
-              const appCenterAppList = getAppCenterAppList();
-              appCenterAppList.forEach((a) => {
-                appMap[a.key] = a;
-              });
-              layoutStore.reducers.initLayout({
-                appList: appCenterAppList,
-                currentApp: appMap.dop,
-                menusMap,
-                key: 'dop',
-              });
-            }
+            // 有企业权限，正常用户
+            const appMap = {} as {
+              [k: string]: LAYOUT.IApp;
+            };
+            permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
+            const menusMap = getSubSiderInfoMap();
+            const appCenterAppList = getAppCenterAppList();
+            appCenterAppList.forEach((a) => {
+              appMap[a.key] = a;
+            });
+            layoutStore.reducers.initLayout({
+              appList: appCenterAppList,
+              currentApp: appMap.dop,
+              menusMap,
+              key: 'dop',
+            });
           });
           breadcrumbStore.reducers.setInfo('curOrgName', currentOrg.displayName);
           update({ currentOrg, curPathOrg: payload.orgName, initFinish: true });
@@ -155,7 +151,7 @@ const org = createStore({
     },
     async getJoinedOrgs({ call, select, update }, force?: boolean) {
       const orgs = select((state) => state.orgs);
-      if (isEmpty(orgs) || force) {
+      if (!orgs.length || force) {
         const { list } = await call(getJoinedOrgs);
         update({ orgs: list });
       }
@@ -176,9 +172,9 @@ export default org;
 
 const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
 
-const setLocationByAuth = (authObj: { roles: string[]; hasAuth: boolean; orgName: string }) => {
+const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
   const curPathname = location.pathname;
-  const { roles, hasAuth, orgName } = authObj;
+  const { roles, orgName } = authObj;
   const checkMap = {
     dataEngineer: {
       isCurPage: curPathname.startsWith(`/${orgName}/${dataEngineerInfo.name}`),
@@ -212,31 +208,21 @@ const setLocationByAuth = (authObj: { roles: string[]; hasAuth: boolean; orgName
     },
   };
 
-  if (hasAuth) {
-    map(checkMap, (item) => {
-      // 当前页，但是无权限，则重置
-      if (item.isCurPage && isEmpty(item.authRole)) {
-        let resetPath = goTo.resolve.orgRoot({ orgName });
-        if (roles.toString() === 'DataEngineer') {
-          // DataEngineer redirect to DataEngineer role page
-          resetPath = dataEngineerInfo?.indexUrl?.replace('{orgName}', get(location.pathname.split('/'), '[1]') || '-');
-        } else if (roles.toString() === 'Ops') {
-          // 企业运维只有云管的权限
-          resetPath = `/${orgName}/cmp/overview`;
-        } else if (roles.toString() === 'EdgeOps') {
-          // 边缘运维工程师只有边缘计算平台的权限
-          resetPath = `/${orgName}/ecp/application`;
-        }
-        goTo(resetPath);
+  map(checkMap, (item) => {
+    // 当前页，但是无权限，则重置
+    if (item.isCurPage && !item.authRole.length) {
+      let resetPath = goTo.resolve.orgRoot({ orgName });
+      if (roles.toString() === 'DataEngineer') {
+        // DataEngineer redirect to DataEngineer role page
+        resetPath = dataEngineerInfo?.indexUrl?.replace('{orgName}', get(location.pathname.split('/'), '[1]') || '-');
+      } else if (roles.toString() === 'Ops') {
+        // 企业运维只有云管的权限
+        resetPath = `/${orgName}/cmp/overview`;
+      } else if (roles.toString() === 'EdgeOps') {
+        // 边缘运维工程师只有边缘计算平台的权限
+        resetPath = `/${orgName}/ecp/application`;
       }
-    });
-  } else {
-    if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) return;
-    const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
-    const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
-    if (isSysAdmin && !isAdminPage) {
-      // TODO test
-      goTo('/');
+      goTo(resetPath);
     }
-  }
+  });
 };

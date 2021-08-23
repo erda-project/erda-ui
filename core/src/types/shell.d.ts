@@ -27,6 +27,7 @@ declare namespace SHELL {
       name: string;
     }>;
     routes?: Route[];
+    relativePath: string;
     ignoreTabQuery?: boolean;
     keepTabQuery?: string[];
     alwaysShowTabKey?: string;

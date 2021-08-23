@@ -23,7 +23,7 @@ import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/main';
 import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import { setConfig, getConfig } from 'core/config';
-
+import permStore from 'user/stores/permission';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
@@ -153,8 +153,9 @@ const init = (userData: ILoginUser) => {
           const curPathname = location.pathname;
           if (curPathname === '/') {
             // if login user is admin role and its root path, then navigate to admin root index
-            goTo(goTo.pages.sysAdminOrgs, { orgName: '-', replace: true });
+            goTo(goTo.pages.sysAdmin, { orgName: '-', replace: true });
           }
+          permStore.reducers.updatePerm('sys', result.data);
           setGlobal('erdaInfo.isSysAdmin', true);
           data = { ...data, isSysAdmin: true };
         }

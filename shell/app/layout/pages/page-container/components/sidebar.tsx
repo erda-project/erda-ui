@@ -213,7 +213,7 @@ const SideBar = () => {
         icon: <ErdaCustomIcon type="user-config" />,
         title: i18n.d('运营管理平台'),
         onClick: () => {
-          goTo(goTo.pages.sysAdminOrgs, { orgName: '-' });
+          goTo(goTo.pages.sysAdmin, { orgName: '-' });
         },
       },
     ]),
