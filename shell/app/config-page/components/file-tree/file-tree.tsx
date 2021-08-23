@@ -270,7 +270,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedKeys]);
 
-  const onClickNode = (_selectedKeys: string[]) => {
+  const onClickNode = (_selectedKeys: React.ReactText[]) => {
+    if (!configProps?.multiple && !_selectedKeys?.length) return;
     if (!isEqual(_selectedKeys, selectedKeys)) {
       const curClickableNode = get(clickableNodes, _selectedKeys[0]);
       // 节点上自带了click的operation，则执行自身的operation，否则执行默认的选中key操作
