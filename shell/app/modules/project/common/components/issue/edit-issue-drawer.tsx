@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider } from 'core/nusi';
+import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider, Popconfirm } from 'core/nusi';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
 import moment from 'moment';
@@ -1112,11 +1112,18 @@ export const EditIssueDrawer = (props: IProps) => {
   }
 
   if (!isEditMode) {
-    footer = [
+    footer = (isChanged: boolean, confirmCloseTip: string) => [
       <div key="holder" />,
       <Spin key="submit" spinning={updateIssueLoading}>
         <div>
-          <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
+          {isChanged && confirmCloseTip ? (
+            <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
+              <Button>{i18n.t('cancel')}</Button>
+            </Popconfirm>
+          ) : (
+            <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
+          )}
+
           <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
             {i18n.t('ok')}
           </Button>
@@ -1125,7 +1132,7 @@ export const EditIssueDrawer = (props: IProps) => {
     ];
   }
 
-  footer = footer.length ? <>{footer}</> : undefined;
+  footer = typeof footer === 'function' ? footer : footer.length ? <>{footer}</> : undefined;
 
   return (
     <IssueDrawer
@@ -1145,6 +1152,7 @@ export const EditIssueDrawer = (props: IProps) => {
       projectId={projectId}
       issueType={issueType}
       setData={setFormData}
+      footer={footer}
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
@@ -1246,7 +1254,6 @@ export const EditIssueDrawer = (props: IProps) => {
         formData={formData}
         setFieldCb={setFieldCb}
       />
-      {footer}
     </IssueDrawer>
   );
 };
