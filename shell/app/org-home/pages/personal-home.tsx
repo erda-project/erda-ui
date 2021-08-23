@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage from 'config-page/index';
-import orgStore from 'app/org-home/stores/org.tsx';
+import orgStore from 'app/org-home/stores/org';
 import './personal-home.scss';
 import i18n from 'i18n';
 

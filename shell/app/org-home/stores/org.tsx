@@ -37,16 +37,25 @@ const initState: IState = {
   initFinish: false,
 };
 
+const isAdminRoute = () => {
+  const locationPath = window.location.pathname;
+  return locationPath.split('/')?.[2] === 'sysAdmin'; // in case getOrgByDomain is invoked before App load, so that routeMarks is empty, then can't use isIn function
+};
+
 const org = createStore({
   name: 'org',
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
     listenRoute(({ params, isIn, isMatch, isLeaving }) => {
       if (isIn('orgIndex')) {
-        const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
         const { orgName } = params;
         const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
-        if (!isSysAdmin && initFinish && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
+        if (
+          !isIn('sysAdmin') &&
+          initFinish &&
+          (curPathOrg !== orgName || orgName === '-') &&
+          !isMatch(/\w\/notFound/)
+        ) {
           layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
         }
@@ -75,8 +84,8 @@ const org = createStore({
 
       if (!orgName) return;
       if (orgName === '-' && isEmpty(resOrg)) {
-        if (orgs?.length) {
-          location.href = `/${get(orgs, '[0].name')}`;
+        if (orgs?.length && !isAdminRoute()) {
+          goTo(`/${get(orgs, '[0].name')}`);
         }
         update({ curPathOrg: orgName, initFinish: true });
         return;
@@ -103,11 +112,6 @@ const org = createStore({
           goTo(location.pathname.replace(`/${orgName}`, `/${currentOrg.name}`), { replace: true }); // just replace the first match, which is org name
         }
         if (orgId) {
-          // const setHeader = (req: any) => {
-          //   req.set('org', currentOrg.name);
-          // }
-          // agent.use(setHeader);
-
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
             const orgAccess = get(orgPermRes, 'data.access');
@@ -164,10 +168,6 @@ const org = createStore({
     clearOrg(state) {
       breadcrumbStore.reducers.setInfo('curOrgName', '');
       state.currentOrg = {} as ORG.IOrg;
-      // const setHeader = (req: any) => {
-      //   req.set('org', '');
-      // }
-      // agent.use(setHeader);
     },
   },
 });
@@ -176,7 +176,7 @@ export default org;
 
 const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
 
-const setLocationByAuth = (authObj: Obj) => {
+const setLocationByAuth = (authObj: { roles: string[]; hasAuth: boolean; orgName: string }) => {
   const curPathname = location.pathname;
   const { roles, hasAuth, orgName } = authObj;
   const checkMap = {
@@ -210,10 +210,6 @@ const setLocationByAuth = (authObj: Obj) => {
     notFound: {
       isCurPage: curPathname.startsWith(`/${orgName}/notFound`),
     },
-    // apiManage: {
-    //   isCurPage: curPathname.startsWith('/apiManage'),
-    //   authRole: intersection(orgPerm.entryApiManage.role, roles),
-    // },
   };
 
   if (hasAuth) {
@@ -231,16 +227,16 @@ const setLocationByAuth = (authObj: Obj) => {
           // 边缘运维工程师只有边缘计算平台的权限
           resetPath = `/${orgName}/ecp/application`;
         }
-
-        location.href = resetPath;
+        goTo(resetPath);
       }
     });
   } else {
     if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) return;
     const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
     const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
-    if (!(isSysAdmin && isAdminPage)) {
-      window.location.href = '/-';
+    if (isSysAdmin && !isAdminPage) {
+      // TODO test
+      goTo('/');
     }
   }
 };

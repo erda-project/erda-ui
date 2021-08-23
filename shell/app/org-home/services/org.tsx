@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { RES_BODY } from 'core/service';
 
 export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
   return agent
@@ -20,7 +21,7 @@ export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
     .then((response: any) => response.body);
 };
 
-export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
+export const getJoinedOrgs = (): Promise<RES_BODY<IPagingResp<ORG.IOrg>>> => {
   return agent
     .get('/api/orgs')
     .query({ pageNo: 1, pageSize: 100 })
