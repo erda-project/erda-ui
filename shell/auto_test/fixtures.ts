@@ -42,6 +42,8 @@ const gotoMap = {
   branches: '/integration/dop/projects/123/apps/788/repo/branches',
   mergeRequest: '/integration/dop/projects/123/apps/788/repo/mr/open',
   branchDevelop: '/integration/dop/projects/123/apps/788/repo/tree/develop',
+  commitHistory: '/erda/dop/projects/1/apps/16/repo/commits/master',
+  repo: '/erda/dop/projects/1/apps/16/repo/tree/master',
 };
 
 // Extend base test with our fixtures.
