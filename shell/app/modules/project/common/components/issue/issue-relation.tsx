@@ -249,7 +249,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         dataSource={relatingList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 900 }}
       />
       <Title level={2} className="mt-4 mb-2" title={i18n.t('project:related by these issues')} />
       <Table
@@ -257,7 +257,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         dataSource={relatedList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
-        scroll={{ x: '100%' }}
+        scroll={{ x: 900 }}
       />
     </div>
   );
