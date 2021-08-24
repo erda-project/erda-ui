@@ -71,7 +71,7 @@ Role('Manager', () => {
       await app.editApp();
       await app.deleteApp(name);
     });
-    test.only('library/module app manage', async ({ page }) => {
+    test('library/module app manage', async ({ page }) => {
       const app = new AppManage(page);
       const name = `auto-library-module-app-${Date.now()}`;
       await app.createApp({
