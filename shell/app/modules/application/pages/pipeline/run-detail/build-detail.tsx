@@ -250,7 +250,7 @@ const BuildDetail = (props: IProps) => {
         action: disabled ? i18n.t('open') : i18n.t('close'),
         name: node.name,
       }),
-      onOk: () => updateEnv({ id: node.id, disabled: !disabled }),
+      onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
       onCancel: noop,
     });
   };
@@ -372,9 +372,8 @@ const BuildDetail = (props: IProps) => {
     updater.logVisible(false);
   };
 
-  const updateEnv = (info: { id: number; disabled: boolean }) => {
-    const { id, disabled } = info;
-    updateTaskEnv({ taskID: id, disabled, pipelineID: pipelineDetail.id }).then(() => {
+  const updateEnv = (info: Omit<BUILD.ITaskUpdatePayload, 'pipelineID'>) => {
+    updateTaskEnv({ ...info, pipelineID: pipelineDetail.id }).then(() => {
       getPipelineDetail({ pipelineID: +pipelineID });
     });
   };
