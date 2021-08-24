@@ -29,8 +29,6 @@ interface IContentObj {
 }
 type IType = 'default' | 'success' | 'error' | 'warning';
 
-const defaultErrorMsg = '很抱歉，服务出现问题，我们将尽快修复';
-
 const message = {
   default: (content: string | IContentObj) => createMessage(content, 'default'),
   warning: (content: string | IContentObj) => createMessage(content, 'warning'),
@@ -40,7 +38,7 @@ const message = {
 
 let wrap: HTMLElement;
 const defaultTimer = 3000;
-const createMessage = (content: string | IContentObj = defaultErrorMsg, type: IType) => {
+const createMessage = (content: string | IContentObj, type: IType) => {
   if (!wrap) {
     wrap = document.createElement('div');
     document.body.appendChild(wrap);
@@ -70,7 +68,7 @@ const Message = (props: IProps) => {
   return (
     <div className={'fixed top-10 z-50 flex w-screen justify-center'}>
       <div
-        className={`flex bg-white shadow-xl border-solid border-gray-200 rounded-lg p-2	border relative ${_className}`}
+        className={`flex bg-white shadow-xl border-solid border-gray-200 rounded-lg p-2 border relative ${_className}`}
       >
         <img src={iconMap[type]} className="w-5 mr-2" alt="status-icon" />
         <span>{_content}</span>

@@ -186,7 +186,7 @@ export default function Setting() {
             type="submit"
             className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg"
           >
-            {i18n.t('重置密码')}
+            {i18n.t('Reset password')}
           </button>
         </div>
 
