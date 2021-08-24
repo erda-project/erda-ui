@@ -15,20 +15,24 @@ const path = require('path');
 
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 module.exports = {
   webpack: {
     alias: {
       src: path.join(__dirname, 'src'),
     },
-    configure: (webpackConfig, { paths }) => {
-      paths.appBuild = outputPath;
-      webpackConfig.output = {
-        ...webpackConfig.output,
-        path: outputPath,
-        publicPath: '/static/uc/',
-      };
-      return webpackConfig;
-    },
+    configure: !isProd
+      ? undefined
+      : (webpackConfig, { paths }) => {
+          paths.appBuild = outputPath;
+          webpackConfig.output = {
+            ...webpackConfig.output,
+            path: outputPath,
+            publicPath: '/static/uc/',
+          };
+          return webpackConfig;
+        },
   },
   style: {
     postcss: {
