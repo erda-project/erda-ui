@@ -13,10 +13,12 @@
 
 import { axios } from 'src/common';
 
+const apiPrefix = '/api/uc';
+
 const flowApiMap = {
-  login: '/self-service/login/browser',
-  registration: '/self-service/registration/browser',
-  settings: '/self-service/settings/browser',
+  login: `${apiPrefix}/self-service/login/browser`,
+  registration: `${apiPrefix}/self-service/registration/browser`,
+  settings: `${apiPrefix}/self-service/settings/browser`,
 };
 
 const initFlow = (type: keyof typeof flowApiMap): Promise<{ flow: string; csrf_token: string }> => {
@@ -33,7 +35,7 @@ export const login = (payload: UC.ILoginPayload) => {
   const { identifier, password } = payload;
   return initFlow('login').then(({ flow, csrf_token }) => {
     return axios
-      .post(`/self-service/login?flow=${flow}`, {
+      .post(`${apiPrefix}/self-service/login?flow=${flow}`, {
         method: 'password',
         csrf_token,
         password,
@@ -47,7 +49,7 @@ export const registration = (payload: UC.IRegistrationPayload) => {
   const { password, nick, ...rest } = payload;
   return initFlow('registration').then(({ flow, csrf_token }) => {
     return axios
-      .post(`/self-service/registration?flow=${flow}`, {
+      .post(`${apiPrefix}/self-service/registration?flow=${flow}`, {
         method: 'password',
         password,
         csrf_token,
@@ -61,21 +63,21 @@ export const registration = (payload: UC.IRegistrationPayload) => {
 };
 
 export const logout = () => {
-  return axios.get('/self-service/logout/browser').then((res) => {
+  return axios.get(`${apiPrefix}/self-service/logout/browser`).then((res) => {
     const token = res?.data?.logout_url?.split('token=')?.[1];
-    return axios.get(`/self-service/logout?token=${token}`).then((res: any) => res.data);
+    return axios.get(`${apiPrefix}/self-service/logout?token=${token}`).then((res: any) => res.data);
   });
 };
 
 export const whoAmI = () => {
-  return axios.get('/sessions/whoami').then((res: any) => res.data);
+  return axios.get(`${apiPrefix}/sessions/whoami`).then((res: any) => res.data);
 };
 
 export const updateUser = (payload: Omit<UC.IUser, 'id'>) => {
   const { nick, ...rest } = payload;
   return initFlow('settings').then(({ flow, csrf_token }) => {
     return axios
-      .post(`/self-service/settings?flow=${flow}`, {
+      .post(`${apiPrefix}/self-service/settings?flow=${flow}`, {
         method: 'profile',
         csrf_token,
         traits: {
@@ -90,7 +92,7 @@ export const updateUser = (payload: Omit<UC.IUser, 'id'>) => {
 export const updatePassword = (payload: string) => {
   return initFlow('settings').then(({ flow, csrf_token }) => {
     return axios
-      .post(`/self-service/settings?flow=${flow}`, {
+      .post(`${apiPrefix}/self-service/settings?flow=${flow}`, {
         method: 'password',
         csrf_token,
         password: payload,

@@ -42,12 +42,7 @@ module.exports = {
   devServer: {
     port: 3030,
     proxy: {
-      '/self-service': {
-        target: 'http://127.0.0.1:4433',
-        source: false,
-        changeOrigin: true,
-      },
-      '/sessions/whoami': {
+      '/api/uc': {
         target: 'http://127.0.0.1:4433',
         source: false,
         changeOrigin: true,
