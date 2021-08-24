@@ -16,18 +16,16 @@ import { ErdaCustomIcon } from 'common';
 import './type-select.scss';
 
 enum iconMap {
-  GO = 'go',
+  Golang = 'go',
   PHP = 'php',
-  JAVA = 'java',
-  JAEGER = 'jaeger',
-  NODEJS = 'nodejs',
-  DOT_NET = 'net',
-  JAVA_AGENT = 'java',
+  Java = 'java',
+  Jageger = 'jaeger',
+  'Node.js' = 'nodejs',
+  '.NET Core' = 'net',
+  'Java Agent' = 'java',
   NODEJS_AGENT = 'nodejs',
-  OPEN_TELEMETRY = 'opentelemetry',
-  APACHE_SKYWALKING = 'apacheskywalking',
-  manual = 'shoudonganzhuang',
-  automatic = 'code',
+  OpenTelemetry = 'opentelemetry',
+  'Apache SkyWalking' = 'apacheskywalking',
 }
 
 const defaultIcon = 'code';

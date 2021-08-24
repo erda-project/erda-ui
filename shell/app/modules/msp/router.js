@@ -82,8 +82,8 @@ function getMspRouter() {
               routes: [
                 {
                   path: ':terminusKey/configuration',
-                  breadcrumbName: '{mspProjectName}',
-                  getComp: (cb) => cb(import('msp/pages/configuration')),
+                  breadcrumbName: i18n.t('msp:access configuration'),
+                  getComp: (cb) => cb(import('msp/env-setting/configuration')),
                 },
                 {
                   path: ':terminusKey/member',
