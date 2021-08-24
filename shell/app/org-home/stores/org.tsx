@@ -205,6 +205,12 @@ const setLocationByAuth = (authObj: Obj) => {
       isCurPage: curPathname.startsWith(`/${orgName}/dop`),
       authRole: intersection(orgPerm.dop.read.role, roles),
     },
+    freshMan: {
+      isCurPage: curPathname.startsWith(`/${orgName}/freshMan`),
+    },
+    notFound: {
+      isCurPage: curPathname.startsWith(`/${orgName}/notFound`),
+    },
     // apiManage: {
     //   isCurPage: curPathname.startsWith('/apiManage'),
     //   authRole: intersection(orgPerm.entryApiManage.role, roles),
