@@ -13,8 +13,27 @@
 
 export const WORKSPACE_LIST = ['DEV', 'TEST', 'STAGING', 'PROD'];
 export const ROOT_DOMAIN = 'erda.cloud';
-export const DOC_DOMAIN = 'docs.erda.cloud';
 export const FULL_ROOT_DOMAIN = `https://${ROOT_DOMAIN}`;
-export const FULL_DOC_DOMAIN = `https://${DOC_DOMAIN}`;
-export const HELP_DOCUMENT = `${FULL_DOC_DOMAIN}/${process.env.mainVersion}/manual/deploy/resource-management.html#%E7%AE%A1%E7%90%86%E9%85%8D%E9%A2%9D`;
-export const HELP_DOCUMENT_PREFIX = `${FULL_DOC_DOMAIN}/${process.env.mainVersion}/manual`;
+
+// doc domain
+export const DOC_DOMAIN = 'docs.erda.cloud';
+
+// sidebar help > help doc home page
+export const DOC_HELP_HOME = `https://${DOC_DOMAIN}`;
+export const DOC_PREFIX = `${DOC_HELP_HOME}/${process.env.mainVersion}`;
+
+// cmp > cluster overview > when cluster is empty, guid page
+export const DOC_CMP_CLUSTER_CREATE = `${DOC_PREFIX}/manual/o_m/create-cluster.html`;
+
+// project > setting > cluster setting > resource manage help doc
+export const DOC_PROJECT_RESOURCE_MANAGE = `${DOC_PREFIX}/manual/deploy/resource-management.html#管理配额`;
+
+// user dashboard > no org guide page
+export const DOC_ORG_INTRO = `${DOC_PREFIX}/manual/platform-design.html#租户-组织`;
+export const DOC_PROJECT_INTRO = `${DOC_PREFIX}/manual/platform-design.html#项目和应用`;
+
+// msp guid doc
+export const DOC_MSP_API_GATEWAY = `${DOC_PREFIX}/manual/microservice/api-gateway.html`;
+export const DOC_MSP_REGISTER = `${DOC_PREFIX}/manual/microservice/dubbo.html`;
+export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/deploy/config-center.html`;
+export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monitor-app.html`;

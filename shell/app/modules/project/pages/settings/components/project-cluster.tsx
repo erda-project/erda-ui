@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { Table } from 'core/nusi';
-import { HELP_DOCUMENT, WORKSPACE_LIST } from 'common/constants';
-import { isEmpty } from 'lodash';
+import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import projectStore from 'project/stores/project';
@@ -104,7 +103,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           {i18n.t(
             'For cluster resource information corresponding to each environment, the concept and settings of specific clusters, please see',
           )}
-          <a href={HELP_DOCUMENT} target="_blank" rel="noopener noreferrer">
+          <a href={DOC_PROJECT_RESOURCE_MANAGE} target="_blank" rel="noopener noreferrer">
             {' '}
             {i18n.t('documentation')}{' '}
           </a>
