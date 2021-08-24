@@ -156,4 +156,11 @@ declare namespace BUILD {
     branch: string;
     appID: string;
   }
+
+  interface ITaskUpdatePayload {
+    pipelineID: number;
+    taskAlias: string;
+    taskID: number;
+    disabled: boolean;
+  }
 }
