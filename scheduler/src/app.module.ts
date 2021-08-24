@@ -17,6 +17,7 @@ import { HealthController } from './controllers/health.controller';
 import { LegacyRouteController } from './controllers/legacy-route.controller';
 import { getEnv } from './util';
 import { MarketController } from './controllers/market.controller';
+import { UCController } from './controllers/uc.controller';
 import { envController } from './controllers/env.controller';
 
 const { publicDir } = getEnv();
@@ -31,7 +32,7 @@ const { publicDir } = getEnv();
       },
     }),
   ],
-  controllers: [HealthController, LegacyRouteController, MarketController, envController],
+  controllers: [HealthController, LegacyRouteController, MarketController, UCController, envController],
   providers: [],
 })
 export class AppModule {}

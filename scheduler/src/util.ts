@@ -62,7 +62,11 @@ const getEnv = () => {
       }
     }
   } else {
-    envConfig = { BACKEND_URL: process.env.OPENAPI_ADDR, GITTAR_ADDR: process.env.GITTAR_ADDR };
+    envConfig = {
+      BACKEND_URL: process.env.OPENAPI_ADDR,
+      UC_BACKEND_URL: process.env.UC_ADDR,
+      GITTAR_ADDR: process.env.GITTAR_ADDR,
+    };
     dataAppName = process.env.DATA_APP_NAME;
   }
 
@@ -72,6 +76,7 @@ const getEnv = () => {
     publicDir,
     envConfig: envConfig as {
       BACKEND_URL: string;
+      UC_BACKEND_URL: string;
       GITTAR_ADDR?: string;
       MODULES?: string;
       SCHEDULER_URL?: string;

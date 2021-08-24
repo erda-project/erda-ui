@@ -19,9 +19,11 @@ import { INestApplication } from '@nestjs/common';
 const isProd = process.env.NODE_ENV === 'production';
 
 const { envConfig, dataAppName } = getEnv();
-const { BACKEND_URL, GITTAR_ADDR } = envConfig;
+const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL } = envConfig;
 
 const API_URL = BACKEND_URL.startsWith('http') ? BACKEND_URL : `http://${BACKEND_URL}`;
+const UC_API_URL = UC_BACKEND_URL.startsWith('http') ? UC_BACKEND_URL : `http://${UC_BACKEND_URL}`;
+
 let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
 gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
 
@@ -57,6 +59,18 @@ export const createProxyService = (app: INestApplication) => {
     },
   );
   app.use(wsProxy);
+  app.use(
+    createProxyMiddleware(
+      (pathname: string) => {
+        return !!pathname.match('^/api/uc');
+      },
+      {
+        target: UC_API_URL,
+        changeOrigin: !isProd,
+        secure: false,
+      },
+    ),
+  );
   app.use(
     createProxyMiddleware(
       (pathname: string) => {

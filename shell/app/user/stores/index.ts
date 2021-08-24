@@ -77,6 +77,7 @@ const initState: IState = {
     avatar: '',
     token: '',
     isSysAdmin: false,
+    isNewUser: false,
   },
   licenseInfo: {
     valid: true,

@@ -50,6 +50,7 @@ interface ILoginUser {
   phone: string;
   token: string;
   isSysAdmin?: boolean;
+  isNewUser?: boolean;
 }
 
 interface IMember {

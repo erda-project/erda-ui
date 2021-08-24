@@ -11,12 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const WORKSPACE_LIST = ['DEV', 'TEST', 'STAGING', 'PROD'];
-export const ROOT_DOMAIN = 'erda.cloud';
-export const DOC_DOMAIN = 'docs.erda.cloud';
-export const FULL_ROOT_DOMAIN = `https://${ROOT_DOMAIN}`;
-export const FULL_DOC_DOMAIN = `https://${DOC_DOMAIN}`;
-export const HELP_DOCUMENT = `${FULL_DOC_DOMAIN}/${process.env.mainVersion}/manual/deploy/resource-management.html#%E7%AE%A1%E7%90%86%E9%85%8D%E9%A2%9D`;
-export const HELP_DOCUMENT_PREFIX = `${FULL_DOC_DOMAIN}/${process.env.mainVersion}/manual`;
+export { default as i18n, initI18n, isZh } from './i18n';
+export { default as history } from './history';
+export { createStore, createFlatStore } from './cube';
+export { axios } from './axios';
 
-export const USER_SETTINGS = '/uc/settings';
+export { default as message } from './components/message';
+export { default as Container } from './components/container';
+export { default as FormInput } from './components/form-input';
