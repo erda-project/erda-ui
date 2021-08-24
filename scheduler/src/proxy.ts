@@ -45,7 +45,7 @@ export const createProxyService = (app: INestApplication) => {
       secure: false,
       pathRewrite: replaceApiOrgPath,
       onProxyReqWs: (proxyReq, req: Request, socket) => {
-        proxyReq.setHeader('org', extractOrg(req.url));
+        proxyReq.setHeader('org', extractOrg(req.originalUrl));
         socket.on('error', (error) => {
           logWarn('Websocket error.', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
         });
@@ -64,7 +64,7 @@ export const createProxyService = (app: INestApplication) => {
         secure: false,
         pathRewrite: replaceApiOrgPath,
         onProxyReq: (proxyReq, req: Request) => {
-          isProd && proxyReq.setHeader('org', extractOrg(req.url));
+          isProd && proxyReq.setHeader('org', extractOrg(req.originalUrl));
         },
       },
     ),
