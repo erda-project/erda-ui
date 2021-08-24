@@ -21,10 +21,23 @@ import { getCurrentLocale } from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { setGlobal } from 'app/global-space';
 import wfwzl_svg from 'app/images/wfwzl.svg';
-import { FULL_DOC_DOMAIN } from 'common/constants';
+import {
+  DOC_PREFIX,
+  DOC_MSP_API_GATEWAY,
+  DOC_MSP_REGISTER,
+  DOC_MSP_MONITOR,
+  DOC_MSP_CONFIG_CENTER,
+} from 'common/constants';
 import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
 import breadcrumbStore from 'layout/stores/breadcrumb';
+
+const docUrlMap = {
+  apiGatewayIntro: DOC_MSP_API_GATEWAY,
+  registerCenterIntro: DOC_MSP_REGISTER,
+  configCenterIntro: DOC_MSP_CONFIG_CENTER,
+  monitorIntor: DOC_MSP_MONITOR,
+};
 
 interface IState {
   mspProjectList: MS_INDEX.IMspProject[];
@@ -74,7 +87,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
               key: child.key,
               text: currentLocale.key === 'zh' ? child.cnName : child.enName,
               jumpOut: !!child.href,
-              href: child.href ? `${FULL_DOC_DOMAIN}/${child.href}` : `${childHref}${queryStr}`,
+              href: child.href ? docUrlMap[child.href] || `${DOC_PREFIX}${child.href}` : `${childHref}${queryStr}`,
               prefix: `${childHref}`,
             };
           });

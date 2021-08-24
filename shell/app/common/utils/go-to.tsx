@@ -14,6 +14,7 @@
 import path from 'path';
 import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
+import { DOC_ORG_INTRO, DOC_PROJECT_INTRO } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import { getConfig } from 'core/config';
 
@@ -319,7 +320,12 @@ export enum pages {
   sysAdminOrgs = '/{orgName}/sysAdmin/orgs',
 }
 
-goTo.pages = { ...pages };
+goTo.pages = {
+  ...pages,
+  // doc path
+  'doc-project-intro': DOC_PROJECT_INTRO,
+  'doc-org-intro': DOC_ORG_INTRO,
+};
 goTo.pagePathMap = {};
 goTo.resolve = {} as {
   [k in keyof typeof pages]: (params?: Obj, prependOrigin?: boolean) => string;

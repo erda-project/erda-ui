@@ -29,7 +29,7 @@ import { stateSeverityMap } from 'cmp/pages/cluster-manage/cluster-state';
 import noClusterPng from 'app/images/no-cluster.png';
 import { Link } from 'react-router-dom';
 import './index.scss';
-import { HELP_DOCUMENT_PREFIX } from 'app/common/constants';
+import { DOC_CMP_CLUSTER_CREATE } from 'app/common/constants';
 
 const { TreeNode } = TreeSelect;
 const { Option } = Select;
@@ -630,7 +630,7 @@ const ClusterDashboard = () => {
                     <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
                   ),
                   DocumentationHref: (
-                    <a href={`${HELP_DOCUMENT_PREFIX}/o_m/create-cluster.html`} target="__blank">
+                    <a href={DOC_CMP_CLUSTER_CREATE} target="__blank">
                       {i18n.t('documentation')}
                     </a>
                   ),
