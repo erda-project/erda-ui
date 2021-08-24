@@ -1,9 +1,7 @@
-.file-tree {
-  overflow: auto;
-}
+.dice-cp {
+  &.file-tree {
+    overflow: auto;
 
-.ant-tree {
-  &.file-tree-container {
     .tree-node-action {
       position: absolute;
       right: 5px;
@@ -29,7 +27,7 @@
       background: $color-tree-bg-active;
     }
 
-    .ant-tree-treenode {
+    .ant-tree .ant-tree-treenode {
       padding: 0;
 
       .ant-tree-node-content-wrapper,
@@ -43,14 +41,6 @@
     .ant-tree-node-content-wrapper.ant-tree-node-selected,
     .ant-tree-node-content-wrapper:hover {
       background-color: transparent;
-    }
-
-    .ant-tree-iconEle {
-      display: inline-flex;
-      margin: 0 8px 0 0;
-      width: 16px;
-      flex-direction: row;
-      align-items: center;
     }
   }
 }
