@@ -24,8 +24,7 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "http-proxy-middleware": "^2.0.1",
-    "reflect-metadata": "^0.1.13",
-    "source-map-support": "^0.5.19"
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.13.0",
