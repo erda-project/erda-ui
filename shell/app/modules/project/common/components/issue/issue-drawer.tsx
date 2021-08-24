@@ -44,7 +44,7 @@ interface IProps {
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
   setData: (data: object) => void;
-  footer: ElementChild[] | (() => ElementChild[]);
+  footer: ElementChild[] | ((isChanged: boolean, confirmCloseTip: string | undefined) => ElementChild[]);
 }
 
 /**

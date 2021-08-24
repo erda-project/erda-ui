@@ -1112,12 +1112,12 @@ export const EditIssueDrawer = (props: IProps) => {
   }
 
   if (!isEditMode) {
-    footer = (isChanged: boolean, confirmCloseTip: string) => [
+    footer = (isChanged: boolean, confirmCloseTip: string | undefined) => [
       <div key="holder" />,
       <Spin key="submit" spinning={updateIssueLoading}>
         <div>
           {isChanged && confirmCloseTip ? (
-            <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
+            <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={() => onClose()}>
               <Button>{i18n.t('cancel')}</Button>
             </Popconfirm>
           ) : (
