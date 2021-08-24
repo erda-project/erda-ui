@@ -14,6 +14,7 @@
 import { Copy, IF } from 'common';
 import i18n from 'i18n';
 import React from 'react';
+import useEvent from 'react-use/lib/useEvent';
 import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
@@ -90,8 +91,8 @@ export const IssueDrawer = (props: IProps) => {
   const preDataRef = React.useRef(data);
   const preData = preDataRef.current;
 
-  React.useEffect(() => {
-    const escClose = (e) => {
+  const escClose = React.useCallback(
+    (e) => {
       if (e.keyCode === 27) {
         if (isChanged && confirmCloseTip) {
           Modal.confirm({
@@ -104,14 +105,11 @@ export const IssueDrawer = (props: IProps) => {
           onClose(e);
         }
       }
-    };
-    document.removeEventListener('keydown', escClose);
-    document.addEventListener('keydown', escClose);
+    },
+    [isChanged, confirmCloseTip, onClose],
+  );
 
-    return () => {
-      document.removeEventListener('keydown', escClose);
-    };
-  }, [isChanged, confirmCloseTip, onClose]);
+  useEvent('keydown', escClose);
 
   React.useEffect(() => {
     const isIssueDrawerChanged = (initData: CreateDrawerData, currentData: CreateDrawerData) => {
