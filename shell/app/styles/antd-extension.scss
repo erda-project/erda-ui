@@ -462,3 +462,8 @@ div.ant-card-body {
   margin-right: calc(-2em - 16px);
   padding-right: calc(2em + 12px);
 }
+
+.pk-form-item .ant-select,
+.pk-form-item .ant-cascader-picker {
+  width: 100%;
+}

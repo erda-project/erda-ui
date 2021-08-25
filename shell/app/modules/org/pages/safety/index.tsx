@@ -16,7 +16,7 @@ import { CustomFilter, useFilter, MemberSelector, FileEditor } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { DatePicker, Table, Button, Tooltip, Drawer } from 'core/nusi';
+import { DatePicker, Table, Button, Popover, Drawer } from 'core/nusi';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import React from 'react';
@@ -89,12 +89,26 @@ const AuditList = ({ sys }: { sys: boolean }) => {
       title: i18n.t('org:operation'),
       key: 'op',
       render: (val: string, r: AUDIT.Item) => {
-        const _content = auditTpl(r, extraTpls);
+        const content = auditTpl(r, extraTpls);
+        const contentWithBr: Array<string | JSX.Element> = [];
+        if (Array.isArray(content)) {
+          content.forEach((c) => {
+            if (typeof c === 'string' && c.includes('\n')) {
+              c.split('\n').forEach((a) => {
+                contentWithBr.push(a);
+                contentWithBr.push(<br />);
+              });
+              contentWithBr.pop();
+            } else {
+              contentWithBr.push(c);
+            }
+          });
+        }
         return (
-          <>
-            <Tooltip title={_content}>{_content}</Tooltip>
+          <Popover overlayStyle={{ maxWidth: '80%' }} content={contentWithBr.length ? contentWithBr : content}>
+            {content}
             {r.result !== 'success' ? ` (${r.errorMsg})` : null}
-          </>
+          </Popover>
         );
       },
     },

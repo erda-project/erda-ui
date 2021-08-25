@@ -52,19 +52,11 @@ export const getExecuteRecords = (params: BUILD.IGetExecRecordsReq): IPagingResp
     .then((response: any) => response.body);
 };
 
-export const updateTaskEnv = ({
-  pipelineID,
-  taskID,
-  disabled,
-}: {
-  pipelineID: number;
-  taskID: number;
-  disabled: boolean;
-}) => {
+export const updateTaskEnv = ({ pipelineID, taskAlias, taskID, disabled }: BUILD.ITaskUpdatePayload) => {
   // const paramDisable = disabled || undefined; // recover it when add pause
   return agent
     .put(`/api/cicds/${pipelineID}`)
-    .send({ taskOperates: [{ taskID, disable: disabled }] })
+    .send({ taskOperates: [{ taskID, taskAlias, disable: disabled }] })
     .then((response: any) => response.body);
 };
 

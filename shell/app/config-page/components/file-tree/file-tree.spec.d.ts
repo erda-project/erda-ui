@@ -39,6 +39,7 @@ declare namespace CP_FILE_TREE {
   interface IProps {
     searchable?: boolean;
     draggable?: boolean;
+    multiple?: boolean;
   }
   interface IData {
     treeData: INode[];

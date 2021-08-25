@@ -14,10 +14,11 @@
 import { Copy, IF } from 'common';
 import i18n from 'i18n';
 import React from 'react';
+import useEvent from 'react-use/lib/useEvent';
 import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
-import { Drawer, Spin, Popconfirm, Input, message, Popover, Button } from 'core/nusi';
+import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from 'core/nusi';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import { SubscribersSelector } from './subscribers-selector';
 import './issue-drawer.scss';
@@ -43,6 +44,7 @@ interface IProps {
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
   setData: (data: object) => void;
+  footer: ElementChild[] | ((isChanged: boolean, confirmCloseTip: string | undefined) => ElementChild[]);
 }
 
 /**
@@ -77,21 +79,37 @@ export const IssueDrawer = (props: IProps) => {
     issueType,
     projectId,
     setData,
+    footer = IssueDrawer.Empty,
     ...rest
   } = props;
-  const [
-    title = IssueDrawer.Empty,
-    main = IssueDrawer.Empty,
-    tabs = IssueDrawer.Empty,
-    meta = IssueDrawer.Empty,
-    footer = IssueDrawer.Empty,
-  ] = React.Children.toArray(children);
+  const [title = IssueDrawer.Empty, main = IssueDrawer.Empty, tabs = IssueDrawer.Empty, meta = IssueDrawer.Empty] =
+    React.Children.toArray(children);
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [copyTitle, setCopyTitle] = React.useState('');
   const [isChanged, setIsChanged] = React.useState(false);
   const [showCopy, setShowCopy] = React.useState(false);
   const preDataRef = React.useRef(data);
   const preData = preDataRef.current;
+
+  const escClose = React.useCallback(
+    (e) => {
+      if (e.keyCode === 27) {
+        if (isChanged && confirmCloseTip) {
+          Modal.confirm({
+            title: confirmCloseTip,
+            onOk() {
+              onClose(e);
+            },
+          });
+        } else {
+          onClose(e);
+        }
+      }
+    },
+    [isChanged, confirmCloseTip, onClose],
+  );
+
+  useEvent('keydown', escClose);
 
   React.useEffect(() => {
     const isIssueDrawerChanged = (initData: CreateDrawerData, currentData: CreateDrawerData) => {
@@ -131,6 +149,7 @@ export const IssueDrawer = (props: IProps) => {
       visible={visible}
       onClose={onClose}
       maskClosable={maskClosable || !isChanged}
+      keyboard={false}
       {...rest}
     >
       <Spin spinning={loading}>
@@ -237,7 +256,9 @@ export const IssueDrawer = (props: IProps) => {
         </div>
       </Spin>
       <IF check={footer !== IssueDrawer.Empty}>
-        <div className="task-drawer-footer">{footer}</div>
+        <div className="task-drawer-footer">
+          {typeof footer === 'function' ? footer(isChanged, confirmCloseTip) : footer}
+        </div>
       </IF>
     </Drawer>
   );
