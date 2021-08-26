@@ -39,7 +39,7 @@ class Formatter {
 }
 
 class PercentFormatter extends Formatter {
-  format(value, fixed = 2) {
+  format(value, fixed = 3) {
     return `${this.toFixed(value, fixed, 'PERCENTAGE')} %`;
   }
 }
