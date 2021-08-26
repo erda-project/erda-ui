@@ -16,10 +16,10 @@ import { findIndex } from 'lodash';
 class Formatter {
   toFixed(value, fixed = 2, unitType = 'NUMBER') {
     let fixValue = Number(value).toFixed(fixed);
-    // Percentage keep two decimal places, if value less than 0.01%, set value to zero
+    // Percentage keep three decimal places, if value less than 0.01%, set value to zero
     if (unitType === 'PERCENTAGE') {
-      if (value >= 0.01) {
-        return fixValue;
+      if (value >= 0.001) {
+        return Number(value.toFixed(3));
       } else {
         return 0;
       }
