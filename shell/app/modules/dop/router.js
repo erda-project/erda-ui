@@ -182,7 +182,7 @@ export default function getDopRouter() {
           getComp: (cb) => cb(import('app/config-page/mock')),
         },
         // UI_ENV exist and not PROD, then open the debug page
-        ...(process.env.UI_ENV && process.env.UI_ENV !== 'PROD'
+        ...(true || (process.env.UI_ENV && process.env.UI_ENV !== 'PROD')
           ? [
               {
                 path: 'debug',

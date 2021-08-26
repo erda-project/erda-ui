@@ -20,12 +20,12 @@ export const mockData = {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['filter', 'workloadTitle', 'workloadChart', 'logTable'],
+        page: ['filter', 'workloadTitle', 'workloadChartContainer', 'workloadChart', 'logTable'],
       },
     },
     components: {
       page: { type: 'Container' },
-      podTitle: {
+      workloadTitle: {
         type: 'Title',
         props: { title: '工作负载总数: 9982', size: 'small' },
       },
@@ -88,23 +88,56 @@ export const mockData = {
       workloadChart: {
         type: 'Chart',
         props: {
-          // chartType: 'bar',
-          seriesType: 'bar',
-          isLabel: true,
-        },
-        data: {
-          results: [
-            {
-              data: [
-                { name: '满意', value: 10, label: '10%' },
-                { name: '可容忍', value: 10, label: '10%' },
-                { name: '不满意', value: 10, label: '10%' },
-              ],
-              chartType: 'bar',
+          option: {
+            tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                type: 'shadow',
+              },
             },
-          ],
-          xAxis: ['满意', '可容忍', '不满意'],
-          yAxisNames: ['请求次数'],
+            grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              top: '2%',
+              containLabel: true,
+            },
+            color: ['#6CB38B', '#DE5757'],
+            legend: {
+              data: ['Active', 'Error'],
+            },
+            xAxis: {
+              type: 'value',
+            },
+            yAxis: {
+              type: 'category',
+              data: ['CronJobs', 'Jobs', 'DaemonSets', 'StatefulSets', 'Deployments'],
+            },
+            series: [
+              {
+                name: 'Active',
+                type: 'bar',
+                stack: '总量',
+                barWidth: '50%',
+                label: {
+                  show: true,
+                  position: 'insideRight',
+                },
+                data: [75, 590, 400, 244, 68],
+              },
+              {
+                name: 'Error',
+                type: 'bar',
+                stack: '总量',
+                barWidth: '50%',
+                label: {
+                  show: true,
+                  position: 'insideRight',
+                },
+                data: [76, 410, 100, 468, 14],
+              },
+            ],
+          },
         },
       },
       logTable: {
@@ -126,7 +159,7 @@ export const mockData = {
                   click: {
                     command: {
                       key: 'goto',
-                      target: 'cmpClustersWorkload', // 跳转目标待定,
+                      target: 'cmpClustersWorkloadDetail', // 跳转目标待定,
                       state: { params: { workloadId: '1' } },
                       jumpOut: true,
                     },

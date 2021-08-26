@@ -15,6 +15,7 @@ declare namespace CP_CHART {
   interface Spec {
     type: 'Chart';
     props: any;
+    cId: string;
     state: IState;
     data: any;
   }

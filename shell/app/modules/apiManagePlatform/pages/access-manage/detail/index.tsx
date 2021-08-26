@@ -149,7 +149,7 @@ const AccessDetail = () => {
     <Spin spinning={isFetch}>
       <div className="access-detail-page">
         <div className="top-button-group">
-          <WithAuth pass={permission.delete || false}>
+          <WithAuth pass={permission.delete || false} tipProps={{ placement: 'bottom' }}>
             <Button type="danger" onClick={handleDelete}>
               {i18n.t('delete')}
             </Button>

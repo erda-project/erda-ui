@@ -20,27 +20,27 @@ export const mockData = {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['header', 'podInfoTitle', 'podInfo', 'podTableTitle', 'podTable'],
-        header: ['podTitle', 'podStatus'],
+        page: ['header', 'workloadInfoTitle', 'workloadInfo', 'workloadTableTitle', 'workloadTable'],
+        header: ['workloadTitle', 'workloadStatus'],
       },
     },
     components: {
       page: { type: 'Container' },
       header: { type: 'RowContainer' },
-      podStatus: {
+      workloadStatus: {
         type: 'Text',
         props: { value: 'Active', styleConfig: { color: 'green' } },
       },
-      podTitle: {
+      workloadTitle: {
         type: 'Title',
         props: {
           title: 'Deployment: nginx-1.0.23.23',
         },
       },
 
-      podTableTitle: { type: 'Title', props: { title: 'Pods', size: 'small' } },
-      podInfoTitle: { type: 'Title', props: { title: '负载信息', size: 'small' } },
-      podInfo: {
+      workloadTableTitle: { type: 'Title', props: { title: 'Pods', size: 'small' } },
+      workloadInfoTitle: { type: 'Title', props: { title: '负载信息', size: 'small' } },
+      workloadInfo: {
         type: 'Panel',
         data: {
           data: {
@@ -77,7 +77,7 @@ export const mockData = {
           ],
         },
       },
-      podTable: {
+      workloadTable: {
         type: 'Table',
         state: {
           pageNo: 1,

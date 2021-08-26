@@ -974,7 +974,7 @@ export const EditIssueDrawer = (props: IProps) => {
       id: undefined,
     });
     setCustomFormData(customFieldDetail);
-    isEditMode && clearIssueDetail(issueType);
+    isEditMode && issueType && clearIssueDetail(issueType);
   };
 
   const onDelete = () => {

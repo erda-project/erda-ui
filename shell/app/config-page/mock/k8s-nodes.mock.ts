@@ -35,66 +35,91 @@ export const mockData = {
       cpuChart: {
         type: 'Chart',
         props: {
-          chartType: 'pie',
-          legendData: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
-          style: { flex: 1 },
-        },
-        data: {
-          results: [
-            {
-              data: [
-                { value: 335, name: '直接访问' },
-                { value: 310, name: '邮件营销' },
-                { value: 234, name: '联盟广告' },
-                { value: 135, name: '视频广告' },
-                { value: 1548, name: '搜索引擎' },
-              ],
+          option: {
+            color: ['#DE5757', '#F7A76B', '#6CB38B'],
+            legend: {
+              data: ['不可分配', '已分配', '剩余分配'],
             },
-          ],
+            grid: {
+              // left: '3%',
+              // right: '4%',
+              bottom: 0,
+              top: 0,
+              containLabel: true,
+            },
+            series: [
+              {
+                type: 'pie',
+                radius: '60%',
+                data: [
+                  { value: 10, name: '不可分配', label: { formatter: '{d}%\n{c}/60' } },
+                  { value: 20, name: '已分配', label: { formatter: '{d}%\n{c}/60' } },
+                  { value: 30, name: '剩余分配', label: { formatter: '{d}%\n{c}/60' } },
+                ],
+              },
+            ],
+          },
+          style: { flex: 1 },
         },
       },
       memChart: {
         type: 'Chart',
         props: {
-          chartType: 'pie',
-          legendData: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
-          style: { flex: 1 },
-        },
-        data: {
-          results: [
-            {
-              serie: 'a',
-              data: [
-                { value: 335, name: '直接访问' },
-                { value: 310, name: '邮件营销' },
-                { value: 234, name: '联盟广告' },
-                { value: 135, name: '视频广告' },
-                { value: 1548, name: '搜索引擎' },
-              ],
+          option: {
+            color: ['#DE5757', '#F7A76B', '#6CB38B'],
+            legend: {
+              data: ['不可分配', '已分配', '剩余分配'],
             },
-          ],
+            grid: {
+              // left: '3%',
+              // right: '4%',
+              bottom: 0,
+              top: 0,
+              containLabel: true,
+            },
+            series: [
+              {
+                type: 'pie',
+                radius: '60%',
+                data: [
+                  { value: 10, name: '不可分配', label: { formatter: '{d}%\n{c}/60' } },
+                  { value: 20, name: '已分配', label: { formatter: '{d}%\n{c}/60' } },
+                  { value: 30, name: '剩余分配', label: { formatter: '{d}%\n{c}/60' } },
+                ],
+              },
+            ],
+          },
+          style: { flex: 1 },
         },
       },
       podChart: {
         type: 'Chart',
         props: {
-          chartType: 'pie',
-          legendData: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
-          style: { flex: 1 },
-        },
-        data: {
-          results: [
-            {
-              serie: 'a',
-              data: [
-                { value: 335, name: '直接访问' },
-                { value: 310, name: '邮件营销' },
-                { value: 234, name: '联盟广告' },
-                { value: 135, name: '视频广告' },
-                { value: 1548, name: '搜索引擎' },
-              ],
+          option: {
+            color: ['#DE5757', '#F7A76B', '#6CB38B'],
+            legend: {
+              data: ['不可分配', '已分配', '剩余分配'],
             },
-          ],
+            grid: {
+              // left: '3%',
+              // right: '4%',
+              bottom: 0,
+              top: 0,
+              containLabel: true,
+            },
+            series: [
+              {
+                type: 'pie',
+                radius: '60%',
+                data: [
+                  { value: 10, name: '不可分配', label: { formatter: '{d}%\n{c}/60' } },
+                  { value: 20, name: '已分配', label: { formatter: '{d}%\n{c}/60' } },
+                  { value: 30, name: '剩余分配', label: { formatter: '{d}%\n{c}/60' } },
+                ],
+              },
+            ],
+          },
+          style: { flex: 1 },
         },
       },
       filter: {
@@ -606,26 +631,49 @@ export const mockData = {
           title: '添加标签',
           fields: [
             {
-              component: 'select',
-              key: 'labelGroup',
               label: '分组',
+              component: 'select',
               required: true,
+              key: 'labelGroup',
               componentProps: {
                 options: [
-                  {
-                    name: '分组1',
-                    value: 'g1',
-                  },
-                  {
-                    name: '分组2',
-                    value: 'g2',
-                  },
+                  { name: '分组1', value: 'g1' },
+                  { name: '分组2', value: 'g2' },
+                  { name: '自定义分组', value: 'custom' },
                 ],
               },
             },
             {
+              label: '标签',
+              component: 'select',
+              required: true,
+              key: 'g1',
+              componentProps: {
+                options: [
+                  { name: 'g1_1', value: 'g1_1' },
+                  { name: 'g1_2', value: 'g1_2' },
+                  { name: 'g1_3', value: 'g1_3' },
+                ],
+              },
+              removeWhen: [[{ field: 'labelGroup', operator: '!=', value: 'g1' }]],
+            },
+            {
+              label: '标签',
+              component: 'select',
+              required: true,
+              key: 'label_g2',
+              componentProps: {
+                options: [
+                  { name: 'g2_1', value: 'g2_1' },
+                  { name: 'g2_2', value: 'g2_2' },
+                  { name: 'g2_3', value: 'g2_3' },
+                ],
+              },
+              removeWhen: [[{ field: 'labelGroup', operator: '!=', value: 'g2' }]],
+            },
+            {
               component: 'input',
-              key: 'name',
+              key: 'label_custom',
               label: '标签',
               required: true,
               rules: [
@@ -634,6 +682,7 @@ export const mockData = {
                   pattern: '/^[.a-z\\u4e00-\\u9fa5A-Z0-9_-\\s]*$/',
                 },
               ],
+              removeWhen: [[{ field: 'labelGroup', operator: '!=', value: 'custom' }]],
             },
           ],
         },

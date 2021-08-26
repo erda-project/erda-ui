@@ -20,7 +20,7 @@ export const mockData = {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['header', 'statusTitle', 'statusBadge', 'infoTitle', 'infoDetail', 'infoMapTable'],
+        page: ['header', 'statusTitle', 'statusBadge', 'infoTitle', 'infoDetail', 'infoMapTable', 'addLabelModal'],
         header: ['nodeTitle', 'nodeStatus'],
       },
     },
@@ -111,6 +111,78 @@ export const mockData = {
             },
             { label: '注释', valueKey: 'desc', spaceNum: 2, renderType: 'tagsRow' },
           ],
+        },
+      },
+      addLabelModal: {
+        type: 'FormModal',
+        props: {
+          title: '添加标签',
+          fields: [
+            {
+              label: '分组',
+              component: 'select',
+              required: true,
+              key: 'labelGroup',
+              componentProps: {
+                options: [
+                  { name: '分组1', value: 'g1' },
+                  { name: '分组2', value: 'g2' },
+                  { name: '自定义分组', value: 'custom' },
+                ],
+              },
+            },
+            {
+              label: '标签',
+              component: 'select',
+              required: true,
+              key: 'g1',
+              componentProps: {
+                options: [
+                  { name: 'g1_1', value: 'g1_1' },
+                  { name: 'g1_2', value: 'g1_2' },
+                  { name: 'g1_3', value: 'g1_3' },
+                ],
+              },
+              removeWhen: [[{ field: 'labelGroup', operator: '!=', value: 'g1' }]],
+            },
+            {
+              label: '标签',
+              component: 'select',
+              required: true,
+              key: 'label_g2',
+              componentProps: {
+                options: [
+                  { name: 'g2_1', value: 'g2_1' },
+                  { name: 'g2_2', value: 'g2_2' },
+                  { name: 'g2_3', value: 'g2_3' },
+                ],
+              },
+              removeWhen: [[{ field: 'labelGroup', operator: '!=', value: 'g2' }]],
+            },
+            {
+              component: 'input',
+              key: 'label_custom',
+              label: '标签',
+              required: true,
+              rules: [
+                {
+                  msg: '格式：ss',
+                  pattern: '/^[.a-z\\u4e00-\\u9fa5A-Z0-9_-\\s]*$/',
+                },
+              ],
+              removeWhen: [[{ field: 'labelGroup', operator: '!=', value: 'custom' }]],
+            },
+          ],
+        },
+        state: {
+          visible: false,
+          formData: null,
+        },
+        operations: {
+          submit: {
+            key: 'submit',
+            reload: true,
+          },
         },
       },
       infoMapTable: {
