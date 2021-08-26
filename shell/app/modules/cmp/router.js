@@ -41,10 +41,10 @@ const clusterDetailTabs = (params) => {
   const clusterType = params.breadcrumbInfoMap.cmpCluster?.type;
   return ['k8s', 'edas'].includes(clusterType)
     ? [
-        { key: 'nodes', name: '节点列表' },
-        { key: 'pods', name: 'Pod列表' },
-        { key: 'workload', name: '工作负载' },
-        { key: 'event-log', name: '事件日志' },
+        { key: 'nodes', name: i18n.t('cmp:node list') },
+        { key: 'pods', name: i18n.t('cmp:pod list') },
+        { key: 'workload', name: i18n.t('cmp:workload') },
+        { key: 'event-log', name: i18n.t('cmp:event log') },
         { key: 'detail', name: i18n.t('basic information') },
       ]
     : [{ key: 'detail', name: i18n.t('basic information') }];
@@ -92,7 +92,7 @@ function getCmpRouter() {
                     },
                     {
                       path: ':nodeId/detail',
-                      breadcrumbName: '节点详情',
+                      breadcrumbName: i18n.t('cmp:node detail'),
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes-detail')),
                     },
                   ],
@@ -107,7 +107,7 @@ function getCmpRouter() {
                     },
                     {
                       path: ':podId/detail',
-                      breadcrumbName: 'Pod详情',
+                      breadcrumbName: i18n.t('cmp:pod detail'),
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pod-detail')),
                     },
                   ],
@@ -122,7 +122,7 @@ function getCmpRouter() {
                     },
                     {
                       path: ':workloadId/detail',
-                      breadcrumbName: '工作负载详情',
+                      breadcrumbName: i18n.t('cmp:workload detail'),
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload-detail')),
                     },
                   ],
