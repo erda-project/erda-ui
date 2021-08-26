@@ -105,11 +105,11 @@ const RepoBranch = () => {
                       &nbsp;{i18n.t('committed at')}
                     </span>
                     <span className="ml-1">{fromNow(when)}</span>
-                    <span className="ml-6 text-desc nowrap flex">
+                    <span className="ml-6 text-desc nowrap flex branch-item-commit">
                       <GotoCommit length={6} commitId={id} />
                       &nbsp;·&nbsp;
                       <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
-                        <Link className="text-desc hover-active" to={getCommitPath(id)}>
+                        <Link className="text-desc nowrap hover-active" to={getCommitPath(id)}>
                           {replaceEmoji(commitMessage)}
                         </Link>
                       </Tooltip>
