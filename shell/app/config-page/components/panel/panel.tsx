@@ -27,9 +27,9 @@ export default (props: CP_PANEL.Props) => {
 
   if (!visible) return null;
   const curData = data?.data;
-  const _fields = map(fields, (item) => {
+  const _fields: IField[] = map(fields, (item) => {
     const { renderType, operations } = item;
-    const reField = { ...item };
+    const reField: IField = { ...item };
     switch (renderType) {
       case 'ellipsis':
         reField.valueItem = (_p: Obj) => <Ellipsis title={_p.value} />;
@@ -43,9 +43,9 @@ export default (props: CP_PANEL.Props) => {
         break;
       case 'linkText':
         {
-          const _p = {} as any;
+          const _p: Obj = {};
           if (operations?.click) {
-            _p.onClick = (e: any) => {
+            _p.onClick = (e: MouseEvent) => {
               e.stopPropagation();
               execOperation(operations.click);
             };

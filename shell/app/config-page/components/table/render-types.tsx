@@ -129,7 +129,6 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'progress':
       {
-        // 进度条
         const { value, tip, status, ...rest } = val || {};
         Comp = value ? (
           <Tooltip title={tip}>

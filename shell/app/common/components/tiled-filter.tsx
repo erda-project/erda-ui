@@ -145,9 +145,9 @@ const TiledFilter = (props: IProps) => {
         <div className="flex items-center">
           {curValLength ? (
             <>
-              <span>{`已选择${curValLength}项`}</span>
+              <span>{`${i18n.t('selected {xx}', { xx: `${curValLength}${i18n.t('common:items')}` })}`}</span>
               <span className="fake-link ml-2 mr-4" onClick={clearSelect}>
-                {'取消选择'}
+                {i18n.t('common:clear selected')}
               </span>
             </>
           ) : null}
@@ -169,7 +169,7 @@ const TiledFilter = (props: IProps) => {
           </div>
         </div>
         <div className={`flex items-center expand-area`} onClick={() => setExpand(!expand)}>
-          <span className="mr-2">{expand ? '收起' : '展开'}</span>
+          <span className="mr-2">{expand ? i18n.t('fold') : i18n.t('expand')}</span>
           <CustomIcon type="chevron-down" className={`expand-icon ${expand ? 'expand' : ''}`} />
         </div>
       </div>

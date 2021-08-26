@@ -26,8 +26,8 @@ export default (props: CP_LINEAR_DISTRIBUTION.Props) => {
   const labelArr: JSX.Element[] = [];
   const linearArr: JSX.Element[] = [];
   list?.forEach((item, idx) => {
-    const { tip, label, color, value } = item;
-    const _color = colorMap[color] || statusColorMap[color] || color;
+    const { tip, label, color, value, status } = item;
+    const _color = colorMap[color] || statusColorMap[status] || color;
     labelArr.push(
       <div key={`${idx}`} className="cp-linear-distribution-label flex justify-items-center items-center">
         <span className="label-dot rounded-full" style={{ backgroundColor: _color }} />

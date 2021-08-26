@@ -12,20 +12,36 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
+import { getUrlQuery } from 'config-page/utils';
+import { updateSearch } from 'common/utils';
 
 const ClusterNodes = () => {
-  const { clusterName } = routeInfoStore.useStore((s) => s.params);
+  const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [urlQuery, setUrlQuery] = React.useState(query);
 
-  const inParams = { clusterName };
+  React.useEffect(() => {
+    updateSearch({ ...urlQuery });
+  }, [urlQuery]);
+
+  const inParams = { clusterName, ...urlQuery };
+
+  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+
   return (
     <DiceConfigPage
       scenarioType={'cluster-workload'}
       scenarioKey={'cluster-workload'}
       inParams={inParams}
-      useMock={useMock('k8s-workload')}
-      forceMock
+      customProps={{
+        filter: {
+          onFilterChange: urlQueryChange,
+        },
+        logTable: {
+          onStateChange: urlQueryChange,
+        },
+      }}
     />
   );
 };

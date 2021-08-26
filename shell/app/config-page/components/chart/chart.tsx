@@ -18,28 +18,11 @@ import './chart.scss';
 
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps } = props;
-  const { title, style = {}, option, ...rest } = configProps || {};
-  const boxRef = React.useRef<HTMLDivElement>(null);
-
-  // let ChartComp: any;
-  // switch (chartType) {
-  //   case 'pie':
-  //     ChartComp = PieChart;
-  //     break;
-  //   case 'map':
-  //     ChartComp = MapChart;
-  //     break;
-  //   case 'hollow-pie':
-  //     ChartComp = HollowPieChart;
-  //     break;
-  //   default:
-  //     ChartComp = MonitorChartNew;
-  // }
+  const { style = {}, option, ...rest } = configProps || {};
 
   return (
-    <div className="cp-chart" style={style} ref={boxRef}>
+    <div className="cp-chart" style={style}>
       <EChart key={cId} option={option} notMerge theme="monitor" themeObj={{ ...theme }} {...rest} />
-      {/* <ChartComp {...rest} style={style.height ? { height: style.height } : {}} data={{ ...data }} /> */}
     </div>
   );
 };

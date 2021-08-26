@@ -20,7 +20,7 @@ declare namespace CP_BADGE {
     };
   }
 
-  enum StatusColor {
+  enum Status {
     success = 'success',
     processing = 'processing',
     default = 'default',
@@ -30,7 +30,7 @@ declare namespace CP_BADGE {
 
   interface IProps {
     color?: string;
-    status: StatusColor;
+    status: Status;
     withBg: boolean;
     text: string;
     tip?: string;

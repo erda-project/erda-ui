@@ -14,19 +14,13 @@
 declare namespace CP_CHART {
   interface Spec {
     type: 'Chart';
-    props: any;
+    props: IProps;
     cId: string;
-    state: IState;
-    data: any;
   }
 
-  interface IState {}
-
-  interface IData {
-    value: number;
-    label: string;
-    color: string;
-    tip: string;
+  interface IProps {
+    option: Object;
+    style: Object;
   }
 
   type Props = MakeProps<Spec>;

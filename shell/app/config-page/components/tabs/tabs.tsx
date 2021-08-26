@@ -24,21 +24,25 @@ export default (props: CP_TABS.Props) => {
     props: configProps,
     state: propsState,
     operations,
+    customProps,
     execOperation,
   } = props || {};
   const { tabMenu, visible = true } = configProps || {};
+  const customPropsRef = React.useRef(customProps);
 
   const [state, updater, update] = useUpdate({
     activeKey: propsState?.activeKey || get(tabMenu, '[0].key'),
   });
 
   React.useEffect(() => {
-    if (propsState?.activeKey) {
-      update({
-        activeKey: propsState.activeKey,
-      });
-    }
+    update((prev) => ({ ...prev, ...propsState }));
   }, [propsState, update]);
+
+  React.useEffect(() => {
+    if (customPropsRef.current?.onStateChange) {
+      customPropsRef.current.onStateChange(state);
+    }
+  }, [state]);
 
   const changeTab = (ak: string) => {
     updater.activeKey(ak);

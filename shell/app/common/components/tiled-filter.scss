@@ -61,10 +61,10 @@
     cursor: pointer;
     color: $primary;
     .expand-icon {
-      transform: rotate(180deg);
+      transform: rotate(0deg);
       transition: all 0.3s ease-in-out;
       &.expand {
-        transform: rotate(0deg);
+        transform: rotate(180deg);
       }
     }
   }

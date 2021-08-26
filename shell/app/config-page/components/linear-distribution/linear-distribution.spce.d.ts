@@ -15,20 +15,18 @@ declare namespace CP_LINEAR_DISTRIBUTION {
   interface Spec {
     type: 'LinearDistribution';
     props: IProps;
-    state: IState;
     data: {
       list: IData[];
       total?: number;
     };
   }
 
-  interface IState {}
-
   interface IData {
     value: number;
     label: string;
-    color: string;
+    color?: string;
     tip: string;
+    status?: string;
   }
 
   interface IProps {

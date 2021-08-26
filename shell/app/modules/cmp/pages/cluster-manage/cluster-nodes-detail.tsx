@@ -12,21 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
 const ClusterNodes = () => {
-  const { clusterName } = routeInfoStore.useStore((s) => s.params);
+  const { clusterName, nodeId } = routeInfoStore.useStore((s) => s.params);
 
-  const inParams = { clusterName };
+  const inParams = { clusterName, nodeId };
   return (
-    <DiceConfigPage
-      scenarioType={'cluster-nodes-detail'}
-      scenarioKey={'cluster-nodes-detail'}
-      inParams={inParams}
-      useMock={useMock('k8s-node-detail')}
-      forceMock
-    />
+    <DiceConfigPage scenarioType={'cluster-nodes-detail'} scenarioKey={'cluster-nodes-detail'} inParams={inParams} />
   );
 };
 

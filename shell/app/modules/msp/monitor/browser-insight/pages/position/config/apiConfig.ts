@@ -22,14 +22,7 @@ const handleApdex = (originData: object, { chartName, query }: { chartName: stri
   const xAxis: any[] = [];
   let results: any[] = [];
   const dataKey = `range.${query.range}`;
-  // const { data = null } = get(originData, `results[0].data[0]['${dataKey}']`) || {};
-  const data = [
-    { count: 100, percent: 10, min: 10, max: 20 },
-
-    { count: 100, percent: 20, min: 10, max: 20 },
-
-    { count: 100, percent: 30, min: 10, max: 20 },
-  ];
+  const { data = null } = get(originData, `results[0].data[0]['${dataKey}']`) || {};
   if (data) {
     results = map(data, (item, i) => {
       const { count, percent, min, max } = item;

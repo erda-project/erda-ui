@@ -74,15 +74,15 @@ export const getUrlQuery = (val: Obj) => {
 };
 
 export const colorMap = {
-  green: '#6CB38B',
-  purple: '#975FA0',
-  orange: '#F7A76B',
-  red: '#DE5757',
+  green: '#34b37e',
+  purple: '#6a549e',
+  orange: '#f47201',
+  red: '#df3409',
   brown: '#A98C72',
   steelBlue: '#4E6097',
   yellow: '#F7C36B',
   lightgreen: '#8DB36C',
-  darkcyan: '#498E9E',
+  darkcyan: '#498e9e',
   darksalmon: '#DE6F57',
   darkslategray: '#2F4F4F',
   maroon: '#800000',
@@ -90,7 +90,7 @@ export const colorMap = {
   darkslateblue: '#483D8B',
   darkgoldenrod: '#B8860B',
   teal: '#008080',
-  primary: '#6a549e',
+  gray: '#666666',
 };
 
 export const statusColorMap = {
@@ -98,5 +98,6 @@ export const statusColorMap = {
   warning: colorMap.orange,
   error: colorMap.red,
   danger: colorMap.maroon,
-  normal: colorMap.primary,
+  normal: colorMap.purple,
+  defaut: colorMap.gray,
 };

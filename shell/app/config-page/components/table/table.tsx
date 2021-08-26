@@ -17,6 +17,7 @@ import { map, get, find, sortBy, intersection, has } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { getRender, getTitleRender } from './render-types';
+import i18n from 'i18n';
 import classnames from 'classnames';
 import './table.scss';
 
@@ -220,9 +221,9 @@ const BatchOperation = (props: IBatchProps) => {
       const disabledProps = selectedRowKeys?.length
         ? {
             disabled: has(mItem, 'disabled') ? mItem.disabeld : !chosenOpts.includes(mItem.key),
-            disabledTip: '已选项中存在不符合操作条件的项',
+            disabledTip: i18n.t('exist item which not match operation'),
           }
-        : { disabled: true, disabledTip: '未选中任何项' };
+        : { disabled: true, disabledTip: i18n.t('no items selected') };
       const reMenu = {
         ...mItem,
         ...disabledProps,
@@ -233,7 +234,7 @@ const BatchOperation = (props: IBatchProps) => {
 
   const dropdownMenu = (
     <Menu
-      onClick={(e: any) => {
+      onClick={(e) => {
         e.domEvent.stopPropagation();
         const curOp = find(optMenus, { key: e.key });
         !curOp?.disabled && execOperation(curOp, { selectedRowKeys });
@@ -252,10 +253,12 @@ const BatchOperation = (props: IBatchProps) => {
   );
   return (
     <div className="flex items-center">
-      <span className="mr-2">{`已选择 ${selectedRowKeys?.length || 0} 项`}</span>
+      <span className="mr-2">{`${i18n.t('selected {xx}', {
+        xx: `${selectedRowKeys?.length || 0}${i18n.t('common:items')}`,
+      })}`}</span>
       <Dropdown overlay={dropdownMenu}>
         <Button>
-          {'批量操作'}
+          {i18n.t('batch operate')}
           <CustomIcon type={'di'} className="ml-1" />
         </Button>
       </Dropdown>
