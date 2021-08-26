@@ -36,6 +36,7 @@ export {
   daysRange,
   formatTime,
 } from './str-num-date';
+import AnsiUp from 'ansi_up';
 
 export { getLabel } from './component-utils';
 
@@ -536,4 +537,11 @@ export const interpolationComp = (str: string, compMap: Record<string, JSX.Eleme
   });
   parts.push(left);
   return parts;
+};
+
+const AU = new AnsiUp();
+export const transformLog = (content: string) => {
+  return AU.ansi_to_html(content)
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'"); // restore escaped quotes
 };
