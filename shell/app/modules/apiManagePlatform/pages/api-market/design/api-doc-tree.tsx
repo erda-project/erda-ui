@@ -303,7 +303,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       scope: 'application',
       scopeID: +appId,
     }).then((res: API_SETTING.IFileTree[]) => {
-      const validBranches: API_SETTING.IFileTree[] = filter(res, (b) => b?.meta?.hasDoc) || [];
+      const validBranches: API_SETTING.IFileTree[] = res || [];
 
       const tempList = map(validBranches, ({ name, inode }) => {
         return {
