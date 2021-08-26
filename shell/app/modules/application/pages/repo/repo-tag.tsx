@@ -182,7 +182,7 @@ const RepoTag = () => {
   return (
     <Spin spinning={isFetching}>
       <div className="top-button-group">
-        <WithAuth pass={repoBranchAuth.addTag.pass}>
+        <WithAuth pass={repoBranchAuth.addTag.pass} tipProps={{ placement: 'bottom' }}>
           <Button disabled={isLocked} type="primary" onClick={() => setVisible(true)}>
             {i18n.t('dcos:add label')}
           </Button>
