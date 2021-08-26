@@ -14,8 +14,16 @@
 import { findIndex } from 'lodash';
 
 class Formatter {
-  toFixed(value, fixed = 2) {
+  toFixed(value, fixed = 2, unitType = 'NUMBER') {
     let fixValue = Number(value).toFixed(fixed);
+    // Percentage keep two decimal places, if value less than 0.01%, set value to zero
+    if (unitType === 'PERCENTAGE') {
+      if (value >= 0.01) {
+        return fixValue;
+      } else {
+        return 0;
+      }
+    }
     if (parseFloat(fixValue) === 0 && value > 0) {
       // fix之后值为0,改为科学计数
       const reFix = Math.floor(Math.log(value) / Math.LN10);
@@ -32,7 +40,7 @@ class Formatter {
 
 class PercentFormatter extends Formatter {
   format(value, fixed = 2) {
-    return `${this.toFixed(value, fixed)} %`;
+    return `${this.toFixed(value, fixed, 'PERCENTAGE')} %`;
   }
 }
 
