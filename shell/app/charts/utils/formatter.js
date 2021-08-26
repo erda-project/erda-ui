@@ -18,8 +18,8 @@ class Formatter {
     let fixValue = Number(value).toFixed(fixed);
     // Percentage keep three decimal places, if value less than 0.01%, set value to zero
     if (unitType === 'PERCENTAGE') {
-      if (value >= 0.001) {
-        return Number(value.toFixed(3));
+      if (fixValue >= 0.001) {
+        return Number(fixValue);
       } else {
         return 0;
       }
