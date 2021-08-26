@@ -47,7 +47,8 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const { getQuoteMap, onSelectDoc, newTreeNode, treeNodeData, popVisible, onVisibleChange } = props;
 
   const { appId } = routeInfoStore.useStore((s) => s.params);
-  const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore((s) => s.query);
+  const { inode: inodeQuery = localStorage.getItem('inode'), pinode: pinodeQuery = localStorage.getItem('inode') } =
+    routeInfoStore.useStore((s) => s.query);
 
   const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
     s.branchList,
@@ -105,6 +106,9 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       getApiDetail(inode).then((data) => {
         getQuoteMap(data.openApiDoc);
         updateSearch({ inode, pinode });
+        localStorage.setItem('inode', inode);
+        localStorage.setItem('pinode', pinode);
+
         const _branch = find(_branchList, { inode: pinode });
         const _curNodeData = { inode, pinode, branchName: _branch?.name, asset: data?.asset, apiDocName: data?.name };
 
@@ -317,16 +321,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       });
       updater.treeList(tempList);
 
-      if (!pinodeQuery && !isEmpty(validBranches)) {
-        const { inode } = validBranches[0];
-
-        getTreeList({ pinode: inode }).then((docList) => {
-          if (docList?.length) {
-            const { inode: docInode, pinode: docPinode } = docList[0];
-            jumpToNewDoc({ inode: docInode, branches: validBranches, pinode: docPinode });
-          }
-        });
-      } else {
+      if (pinodeQuery && inodeQuery) {
         jumpToNewDoc({ inode: inodeQuery, pinode: pinodeQuery, branches: validBranches });
       }
     });
