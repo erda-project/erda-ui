@@ -438,7 +438,7 @@ const RepoTreePage = () => {
     return (
       <div className="git-repo-config">
         <div className="top-button-group">
-          <WithAuth pass={hasAuth}>
+          <WithAuth pass={hasAuth} tipProps={{ placement: 'bottom' }}>
             <Button
               type="primary"
               disabled={info.isLocked}
