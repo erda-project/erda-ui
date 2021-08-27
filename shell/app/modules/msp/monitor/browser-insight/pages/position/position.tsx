@@ -17,7 +17,7 @@ import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';
 import { SortTab } from 'monitor-common';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import PositionMap from './config/chartMap';
 import './position.scss';
 import i18n from 'i18n';
@@ -96,7 +96,9 @@ class Position extends React.Component<IProps, IState> {
     const curSortObj = find(sortTabList, { key: tabKey }) as ITab;
     return (
       <div>
-        <TimeSelector />
+        <div className="flex justify-end">
+          <TimeSelectWithStore />
+        </div>
         <div className="position-bars">
           <SortTab tabList={sortTabList} onChange={this.changeSortTab} />
           {tabKey === 'comparative' ? (

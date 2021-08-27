@@ -14,6 +14,7 @@
 import React from 'react';
 import { Row, Col } from 'core/nusi';
 import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import PageMap from './config/chartMap';
 import './page.scss';
@@ -42,8 +43,10 @@ const Page = () => {
   };
   return (
     <div>
-      <PageMap.subTab />
-      <TimeSelector inline />
+      <div className="flex justify-between">
+        <PageMap.subTab />
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={8}>
           <div className="monitor-sort-panel">
