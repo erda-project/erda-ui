@@ -35,7 +35,7 @@ interface IItemProps {
   label: ILabel;
   withCut?: boolean;
   size?: 'small' | 'default';
-  deleteCofirm?: boolean;
+  deleteConfirm?: boolean;
   onDelete?: (p: ILabel) => void;
 }
 
@@ -50,7 +50,7 @@ export const TagColorMap = {
 };
 
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size, withCut, onDelete, deleteCofirm = true } = props;
+  const { label: _label, size, withCut, onDelete, deleteConfirm = true } = props;
   const { label, color = 'gray' } = _label;
   const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };
   const tagColor = TagColorMap[color] || '';
@@ -58,7 +58,7 @@ export const TagItem = (props: IItemProps) => {
     <Tooltip title={withCut && label.length > 15 ? label : undefined}>
       <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
         {onDelete ? (
-          deleteCofirm ? (
+          deleteConfirm ? (
             <Popconfirm
               title={`${i18n.t('common:confirm deletion')}?`}
               arrowPointAtCenter
