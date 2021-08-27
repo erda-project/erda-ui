@@ -96,9 +96,12 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   } = node;
   const { width, height } = nodeStyle;
   const style = { width, height };
-  const params = routeInfoStore.useStore((s) => s.params);
+  const [params, curentRoute] = routeInfoStore.useStore((s) => [s.params, s.currentRoute]);
   const scale = topologyStore.useStore((s) => s.scale);
   const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
+  const { serviceName: service } = params;
+  const isDefaultService = service && service === serviceName;
+  const isServiceList = curentRoute.path.includes('service-list');
 
   React.useEffect(() => {
     if (hoverFlag === null) return;
@@ -251,7 +254,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
         <Tooltip title={ServiceTipText}>
           <div
             className={'topology-node'}
-            onClick={onClick}
+            onClick={isServiceList ? () => {} : onClick}
             style={style}
             onMouseEnter={() => setHoverFlag(true)}
             onMouseLeave={() => setHoverFlag(false)}
@@ -272,7 +275,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               )}
             </div>
             <div className="node-info">
-              <div className="info-item" onClick={handleClickError}>
+              <div className="info-item" onClick={isServiceList ? () => {} : handleClickError}>
                 <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
                     <span className="text-danger">{error_rate}%</span>/<span>{count}</span>
@@ -291,7 +294,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <Tooltip title={TipText}>
         <div
           className={'topology-node simple-node'}
-          onClick={onClick}
+          onClick={isServiceList ? () => {} : onClick}
           style={style}
           onMouseEnter={() => setHoverFlag(true)}
           onMouseLeave={() => setHoverFlag(false)}
@@ -311,7 +314,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <Tooltip title={TipText}>
         <div
           className={'topology-node simple-node'}
-          onClick={onClick}
+          onClick={isServiceList ? () => {} : onClick}
           style={style}
           onMouseEnter={() => setHoverFlag(true)}
           onMouseLeave={() => setHoverFlag(false)}
@@ -341,9 +344,9 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <div
         className={classnames({
           'topology-node': true,
-          actived: id === activedNode?.id,
+          actived: id === activedNode?.id || isDefaultService,
         })}
-        onClick={onClick}
+        onClick={isServiceList ? () => {} : onClick}
         style={style}
         onMouseEnter={() => setHoverFlag(true)}
         onMouseLeave={() => setHoverFlag(false)}
@@ -388,7 +391,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           ) : null}
         </div>
         <div className="node-info">
-          <div className="info-item" onClick={handleClickError}>
+          <div className="info-item" onClick={isServiceList ? () => {} : handleClickError}>
             <span className="info-value font-bold">
               <IF check={error_rate}>
                 <span className="text-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>

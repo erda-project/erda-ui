@@ -61,7 +61,8 @@ interface IProps {
   linkTextEle: React.ReactNode;
   scale: number;
   boxEle?: React.ReactNode;
-  onClickNode: (arg: any) => void;
+  isTopologyOverview?: true;
+  onClickNode?: (arg: any) => void;
   setScale: (val: number) => void;
 }
 
@@ -110,7 +111,7 @@ const TopologyChart = (props: IProps) => {
   };
 
   return (
-    <div className="topology-chart spin-full-height">
+    <div className="topology-chart spin-full-height flex-2">
       <div className="chart-box" ref={chartBoxRef}>
         <Spin spinning={isFetching}>
           {isEmpty(data?.nodes) ? (
