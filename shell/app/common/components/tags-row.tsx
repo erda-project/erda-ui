@@ -126,7 +126,7 @@ export const TagsRow = ({
         <Tooltip
           title={<span className="tags-container">{fullTags()}</span>}
           placement="top"
-          overlayClassName="tags-tooltip"
+          overlayClassName="tags-row-tooltip"
         >
           <span>...&nbsp;&nbsp;</span>
         </Tooltip>

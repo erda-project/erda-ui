@@ -53,6 +53,7 @@ describe('TiledFilter', () => {
     expect(wrapper.find('.tiled-filter')).toExist();
     wrapper.find('.tiled-fields-option-item').at(1).simulate('click');
     divEle?.dispatchEvent(event);
+    expect(wrapper.find('.chosen-item')).toHaveLength(1);
     wrapper.unmount();
   });
 });
