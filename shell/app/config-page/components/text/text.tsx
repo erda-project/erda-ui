@@ -15,6 +15,7 @@ import React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon } from 'common';
 import { Badge, Title } from 'core/nusi';
+import { colorMap } from 'app/config-page/utils';
 import i18n from 'i18n';
 import { getImg } from 'app/config-page/img-map';
 import classnames from 'classnames';
@@ -22,9 +23,12 @@ import './text.scss';
 
 const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
   const styleObj = {} as Obj;
-  const { bold, ...rest } = styleConfig || {};
+  const { bold, color, ...rest } = styleConfig || {};
   if (bold) {
     styleObj.fontWeight = 'bold';
+  }
+  if (color) {
+    styleObj.color = colorMap[color] || color;
   }
   map(rest || {}, (v, k) => {
     styleObj[k] = isNumber(v) ? `${v}px` : v;

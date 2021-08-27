@@ -25,7 +25,7 @@ const Title = (props: CP_TITLE.Props) => {
   const { props: configProps, execOperation } = props;
   const {
     title,
-    level,
+    level = 2,
     tips,
     size = 'normal',
     prefixIcon = '',

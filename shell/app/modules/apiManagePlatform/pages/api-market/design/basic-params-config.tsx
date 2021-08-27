@@ -800,7 +800,10 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                       onChange={updateInnerParamList}
                       extraDataTypes={props?.extraDataTypes}
                       allExtraDataTypes={props?.allExtraDataTypes}
-                      siblingProperties={filter(paramListTempStorage, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
+                      siblingProperties={filter(
+                        paramListTempStorage,
+                        (item) => item[API_FORM_KEY] !== record[API_FORM_KEY],
+                      )}
                     />
                   </FormBuilder>
                 </div>

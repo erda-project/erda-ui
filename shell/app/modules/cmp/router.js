@@ -14,6 +14,7 @@
 import getDcosRouter from 'dcos/router';
 import i18n from 'i18n';
 import { map } from 'lodash';
+import clusterStore from 'cmp/stores/cluster';
 import { mqTabs } from 'dcos/pages/service-manager/mq-manager/index';
 import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
@@ -36,10 +37,18 @@ const middlewareTabs = [
   { key: 'detail', name: i18n.t('basic information') },
 ];
 
-const clusterDetailTabs = [
-  { key: 'detail', name: i18n.t('basic information') },
-  { key: 'state', name: i18n.t('dcos:cluster state') },
-];
+const clusterDetailTabs = (params) => {
+  const clusterType = params.breadcrumbInfoMap.cmpCluster?.type;
+  return ['k8s', 'edas'].includes(clusterType)
+    ? [
+        { key: 'nodes', name: i18n.t('cmp:node list') },
+        { key: 'pods', name: i18n.t('cmp:pod list') },
+        { key: 'workload', name: i18n.t('cmp:workload') },
+        { key: 'event-log', name: i18n.t('cmp:event log') },
+        { key: 'detail', name: i18n.t('basic information') },
+      ]
+    : [{ key: 'detail', name: i18n.t('basic information') }];
+};
 
 const kubernetesTabs = [
   { key: 'base', name: i18n.t('cmp:basic information') },
@@ -70,34 +79,88 @@ function getCmpRouter() {
             },
             {
               path: ':clusterName',
+              mark: 'clusterDetail',
               routes: [
+                {
+                  path: 'nodes',
+                  tabs: clusterDetailTabs,
+                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                  routes: [
+                    {
+                      layout: { noWrapper: true },
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes')),
+                    },
+                    {
+                      path: ':nodeId/detail',
+                      breadcrumbName: i18n.t('cmp:node detail'),
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes-detail')),
+                    },
+                  ],
+                },
+                {
+                  path: 'pods',
+                  tabs: clusterDetailTabs,
+                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pods')),
+                    },
+                    {
+                      path: ':podId/detail',
+                      breadcrumbName: i18n.t('cmp:pod detail'),
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pod-detail')),
+                    },
+                  ],
+                },
+                {
+                  path: 'workload',
+                  tabs: clusterDetailTabs,
+                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload')),
+                    },
+                    {
+                      path: ':workloadId/detail',
+                      breadcrumbName: i18n.t('cmp:workload detail'),
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload-detail')),
+                    },
+                  ],
+                },
+                {
+                  path: 'event-log',
+                  tabs: clusterDetailTabs,
+                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-event-log')),
+                    },
+                  ],
+                },
                 {
                   path: 'detail',
                   tabs: clusterDetailTabs,
-                  breadcrumbName: ({ params }) => {
-                    const { clusterName } = params || {};
-                    return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
-                  },
+                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-detail')),
                     },
                   ],
                 },
-                {
-                  path: 'state',
-                  tabs: clusterDetailTabs,
-                  breadcrumbName: ({ params }) => {
-                    const { clusterName } = params || {};
-                    return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
-                  },
-                  layout: { fullHeight: true },
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-state')),
-                    },
-                  ],
-                },
+                // {
+                //   path: 'state',
+                //   tabs: clusterDetailTabs,
+                //   breadcrumbName: ({ params }) => {
+                //     const { clusterName } = params || {};
+                //     return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
+                //   },
+                //   layout: { fullHeight: true },
+                //   routes: [
+                //     {
+                //       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-state')),
+                //     },
+                //   ],
+                // },
                 {
                   path: 'mount',
                   mark: 'cmp', // 侧边栏使用cmp的菜单

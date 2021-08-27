@@ -11,30 +11,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_PANEL {
-  interface Field {
-    label?: string;
-    valueKey?: any;
-    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText';
-    value?: any;
-    operations?: CP_COMMON.Operation;
+declare namespace CP_LINEAR_DISTRIBUTION {
+  interface Spec {
+    type: 'LinearDistribution';
+    props: IProps;
+    data: {
+      list: IData[];
+      total?: number;
+    };
+  }
+
+  interface IData {
+    value: number;
+    label: string;
+    color?: string;
+    tip: string;
+    status?: string;
   }
 
   interface IProps {
-    visible?: boolean;
-    fields: Field[];
-    column?: number;
-    colon?: boolean;
-    columnNum?: number;
-    isMultiColumn?: boolean;
-    layout?: 'vertical' | 'horizontal';
-    data?: Obj;
-    type?: 'Z' | 'N';
-    numOfRowsLimit?: number;
-  }
-  interface Spec {
-    type: 'Panel';
-    props: IProps;
+    size: 'small' | 'normal' | 'big';
   }
 
   type Props = MakeProps<Spec>;

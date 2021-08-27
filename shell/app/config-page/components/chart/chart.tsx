@@ -11,31 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_PANEL {
-  interface Field {
-    label?: string;
-    valueKey?: any;
-    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText';
-    value?: any;
-    operations?: CP_COMMON.Operation;
-  }
+import * as React from 'react';
+import EChart from 'charts/components/echarts';
+import { theme } from 'charts/theme';
+import './chart.scss';
 
-  interface IProps {
-    visible?: boolean;
-    fields: Field[];
-    column?: number;
-    colon?: boolean;
-    columnNum?: number;
-    isMultiColumn?: boolean;
-    layout?: 'vertical' | 'horizontal';
-    data?: Obj;
-    type?: 'Z' | 'N';
-    numOfRowsLimit?: number;
-  }
-  interface Spec {
-    type: 'Panel';
-    props: IProps;
-  }
+const Chart = (props: CP_CHART.Props) => {
+  const { cId, props: configProps } = props;
+  const { style = {}, option, ...rest } = configProps || {};
 
-  type Props = MakeProps<Spec>;
-}
+  return (
+    <div className="cp-chart" style={style}>
+      <EChart key={cId} option={option} notMerge theme="monitor" themeObj={{ ...theme }} {...rest} />
+    </div>
+  );
+};
+
+export default Chart;

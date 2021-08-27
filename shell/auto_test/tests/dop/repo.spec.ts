@@ -14,7 +14,7 @@
 import { Role, test } from '../../fixtures';
 
 const TEXT = `auto_text_${Date.now()}`;
-const pipelineDir = ".dice/pipelines";
+const pipelineDir = '.dice/pipelines';
 
 Role('Manager', () => {
   test('repo', async ({ page, expectExist, wait, goTo }) => {
@@ -60,21 +60,21 @@ Role('Manager', () => {
     await wait(2);
     await page.click(`.list-wrap .branch-item span >> text=${TEXT}`);
     await wait(2);
-    
+
     // edit branch
     await expectExist('.commit-left .commit-content', 1); // content-commit
     await page.click('.commit-right .cursor-copy'); // content-date
     await wait(3);
     await page.click('.commit-content .as-link'); // content-date
     await wait(3);
-    await expectExist('.pk-page-header-title-text span >> text="commit details"')
-    
+    await expectExist('.pk-page-header-title-text span >> text="commit details"');
+
     // get branch detail
     await goTo('repo');
     await wait(5);
     await page.click('.ant-table-row >> nth=0');
     await wait(3);
-    
+
     await goTo('repo');
     await wait(3);
 
@@ -98,13 +98,13 @@ Role('Manager', () => {
     await page.click('[placeholder="file name"]');
     await page.fill('[placeholder="file name"]', TEXT);
     await page.click('.ant-form .ant-btn-primary');
-    
+
     // >> edit file
     await wait(2);
     await page.click(`.column-name >> text=${TEXT}`);
     await wait(2);
-    await page.click(`.file-ops div >> nth=1`);   
-    await wait(2); 
+    await page.click(`.file-ops div >> nth=1`);
+    await wait(2);
     await page.click(`.ace_editor`);
     await page.fill('.ace_editor textarea', TEXT);
     await page.fill('.ant-form textarea', TEXT);
@@ -131,7 +131,7 @@ Role('Manager', () => {
     await expectExist('.repo-add-pipelineyml', 1);
     await expectExist('.add-pipeline-file-container', 1);
     await wait(2);
-    
+
     await page.click('.add-line >> nth=0');
     await expectExist('.yml-node-drawer', 1);
     await page.click('.ant-collapse-content .dice-yml-actions >> nth=0'); // code clone
@@ -175,7 +175,7 @@ Role('Manager', () => {
 
     await page.click('.file-ops .icon-zhongzhi');
     await wait(2);
-    
+
     await page.click('.file-ops .icon-html1');
     await wait(3);
 
@@ -191,7 +191,7 @@ Role('Manager', () => {
     await page.click('.ant-modal-footer button span >> text="ok"');
     await wait(2);
     await expectExist(`.column-name >> text="${TEXT}.yml"`, 0);
-    
+
     await page.close();
   });
 });
