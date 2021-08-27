@@ -13,8 +13,18 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'app/config-page';
+import routeInfoStore from 'core/stores/route';
 
 const Mock = () => {
-  return <DiceConfigPage showLoading scenarioType="mock" scenarioKey={'mock'} useMock={useMock('cmp')} forceMock />;
+  const query = routeInfoStore.useStore((s) => s.query);
+  return (
+    <DiceConfigPage
+      showLoading
+      scenarioType="mock"
+      scenarioKey={'mock'}
+      useMock={useMock(query.page || 'project-list-protocol.mock')}
+      forceMock
+    />
+  );
 };
 export default Mock;
