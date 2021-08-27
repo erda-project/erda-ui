@@ -164,7 +164,7 @@ const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
   });
   const dateRange = React.useRef<ITimeRange['customize']>(cloneDeep(data.customize || {}));
   const triggerChange = (changedValue: ITimeRange) => {
-    onChange?.({ ...data, ...(value ?? {}), ...changedValue });
+    onChange?.({ ...data, ...value, ...changedValue });
   };
 
   const handleSelectQuickTimeRange = (str: string) => {
@@ -226,8 +226,8 @@ const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
 
   const mode = value?.mode || data.mode;
   const activeQuick = value?.quick || data.quick;
-  const start = mode === 'customize' ? value?.customize?.start || data?.customize?.start : undefined;
-  const end = mode === 'customize' ? value?.customize?.end || data?.customize?.end : undefined;
+  const start = mode === 'customize' ? value?.customize.start || data?.customize.start : undefined;
+  const end = mode === 'customize' ? value?.customize.end || data?.customize.end : undefined;
 
   return (
     <div className="flex h-full items-stretch">
@@ -263,9 +263,6 @@ const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
             handleChangeDate('end', ...arg);
           }}
         />
-        {/*<Button disabled={false} type="primary" className="mt-3" onClick={handleOk}>*/}
-        {/*  {i18n.t('ok')}*/}
-        {/*</Button>*/}
       </div>
       <div className="w-44 h-full border-left flex flex-col">
         <p className="px-3 pt-3 font-medium">{i18n.t('relative time range')}</p>
