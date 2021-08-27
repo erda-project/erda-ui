@@ -175,7 +175,7 @@ export const AddonCategory = () => {
         onEitAddon={onEditAddon}
       />
       <div className="top-button-group">
-        <WithAuth pass={!permMap.addProjectService.pass} tipProps={{ placement: 'bottom' }}>
+        <WithAuth pass={permMap.addProjectService.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.modalVisible(true)}>
             {i18n.t('project:add addon')}
           </Button>
