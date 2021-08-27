@@ -16,7 +16,7 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Radio, Search, Select, Drawer, Tag, Table } from 'core/nusi';
-import { TimeSelector, SimpleLog, useUpdate } from 'common';
+import { SimpleLog, useUpdate } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
@@ -24,6 +24,7 @@ import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import TraceSearchDetail from 'msp/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
 import { RadioChangeEvent } from 'core/common/interface';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 enum DASHBOARD_TYPE {
@@ -73,7 +74,7 @@ const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '
 
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
-  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [
@@ -191,7 +192,6 @@ const Transaction = () => {
       <div>
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
-            <TimeSelector className="m-0" />
             <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
               <Select
                 className="ml-3"
@@ -222,6 +222,7 @@ const Transaction = () => {
                 </RadioButton>
               ))}
             </RadioGroup>
+            <TimeSelectWithStore className="ml-3" />
           </div>
         </div>
         <If condition={!!subSearch}>

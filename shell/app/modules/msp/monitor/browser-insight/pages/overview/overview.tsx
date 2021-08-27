@@ -16,13 +16,15 @@ import { Row, Col } from 'core/nusi';
 import GeographyMap from 'browser-insight/pages/geography-china/config/chartMap';
 import PositionMap from 'browser-insight/pages/position/config/chartMap';
 import OverviewMap, { commonAttr } from './config/chartMap';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import i18n, { isZh } from 'i18n';
 
 const Overview = () => {
   return (
     <div>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={16}>
           <OverviewMap.performanceInterval />

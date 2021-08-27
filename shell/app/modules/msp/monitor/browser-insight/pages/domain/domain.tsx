@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import DomainMap from './config/chartMap';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import './domain.scss';
 
 const Domain = () => {
@@ -43,8 +43,10 @@ const Domain = () => {
   };
   return (
     <div>
-      <DomainMap.subTab />
-      <TimeSelector inline />
+      <div className="flex justify-between">
+        <DomainMap.subTab />
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={8}>
           <div className="monitor-sort-panel">

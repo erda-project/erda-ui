@@ -14,11 +14,12 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { Select } from 'core/nusi';
-import { TimeSelector, useUpdate } from 'common';
+import { useUpdate } from 'common';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const sortList = [
   {
@@ -33,7 +34,7 @@ const sortList = [
 const limits = [10, 30, 50];
 
 export default () => {
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const { serviceName, terminusKey, serviceId } = params;
   const { getExceptionTypes } = topologyServiceStore;
@@ -58,7 +59,6 @@ export default () => {
     <div className="service-analyze flex flex-col h-full">
       <div className="flex justify-between items-center flex-wrap mb-1">
         <div className="left flex justify-between items-center mb-2">
-          <TimeSelector className="m-0 mr-3" />
           <Select
             className="mr-3"
             placeholder={i18n.t('msp:select sorting method')}
@@ -98,6 +98,9 @@ export default () => {
               </Select.Option>
             ))}
           </Select>
+        </div>
+        <div>
+          <TimeSelectWithStore className="ml-3" />
         </div>
       </div>
       <div className="overflow-auto flex-1">

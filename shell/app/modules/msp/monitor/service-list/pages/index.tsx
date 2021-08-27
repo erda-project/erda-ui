@@ -13,16 +13,17 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search } from 'core/nusi';
-import { TimeSelector, PureBoardGrid } from 'common';
+import { PureBoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyStore from 'topology/stores/topology';
 import routeInfoStore from 'core/stores/route';
+import { TimeSelectWithStore } from 'msp/components/time-select';
+import monitorCommonStore from 'common/stores/monitorCommon';
 
 export default () => {
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const params = routeInfoStore.useStore((s) => s.params);
   const [layout, setLayout] = useState([]);
   const [serviceName, setServiceName] = useState<string | undefined>(undefined);
@@ -32,10 +33,10 @@ export default () => {
     () => ({
       terminusKey: params.terminusKey,
       serviceName,
-      startTime: timeSpan.startTimeMs,
-      endTime: timeSpan.endTimeMs,
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
     }),
-    [params.terminusKey, serviceName, timeSpan.endTimeMs, timeSpan.startTimeMs],
+    [params.terminusKey, serviceName, range],
   );
 
   useEffect(() => {
@@ -57,13 +58,13 @@ export default () => {
 
   return (
     <div>
-      <div className="mb-2 flex flex-wrap items-center">
-        <TimeSelector className="mb-0" />
+      <div className="mb-2 flex flex-wrap items-center justify-between">
         <Search
           allowClear
           placeholder={i18n.t('msp:search by service name')}
           onHandleSearch={(v) => setServiceName(v)}
         />
+        <TimeSelectWithStore />
       </div>
       <PureBoardGrid layout={layout} globalVariable={globalVariable} onBoardEvent={handleBoardEvent} />
     </div>
