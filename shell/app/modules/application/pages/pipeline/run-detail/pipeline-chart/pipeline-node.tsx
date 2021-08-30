@@ -220,7 +220,10 @@ const PipelineNode = (props: IProps) => {
         }
 
         // only project level app exist pipeline link
-        if (appDetail.isProjectLevel && metadata.find((a: any) => a.name === 'pipelineID')) {
+        if (
+          appDetail.isProjectLevel &&
+          metadata.find((a: { name: string; value: string }) => a.name === 'pipelineID')
+        ) {
           operations.push(['link', 'pipeline-link', i18n.t('application:pipeline')]);
         }
       }
