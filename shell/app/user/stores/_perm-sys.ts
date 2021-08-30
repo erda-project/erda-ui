@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 export const sysRoleMap = {
-  Admin: { name: '系统管理员', value: 'Admin' },
+  Manager: { name: '系统管理员', value: 'Manager' },
   Auditor: { name: '审计人员', value: 'Auditor' },
 };
 
 export const sysPerm = {
   name: '系统',
   view: {
-    role: ['Admin'],
+    role: ['Manager'],
     pass: false,
-    name: '查看组织管理/用户管理/全局配置/集群管理页面',
+    name: '查看组织管理/用户管理/全局配置/集群管理页面(除审计日志之外的页面)',
   },
 };
