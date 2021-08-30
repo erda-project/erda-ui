@@ -46,9 +46,11 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
 
   const { getQuoteMap, onSelectDoc, newTreeNode, treeNodeData, popVisible, onVisibleChange } = props;
 
-  const { appId } = routeInfoStore.useStore((s) => s.params);
-  const { inode: inodeQuery = localStorage.getItem('inode'), pinode: pinodeQuery = localStorage.getItem('inode') } =
-    routeInfoStore.useStore((s) => s.query);
+  const { appId, projectId, orgName } = routeInfoStore.useStore((s) => s.params);
+  const {
+    inode: inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`),
+    pinode: pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`),
+  } = routeInfoStore.useStore((s) => s.query);
 
   const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
     s.branchList,
@@ -106,8 +108,8 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       getApiDetail(inode).then((data) => {
         getQuoteMap(data.openApiDoc);
         updateSearch({ inode, pinode });
-        localStorage.setItem('inode', inode);
-        localStorage.setItem('pinode', pinode);
+        localStorage.setItem(`apim-${orgName}-${projectId}-${appId}-inode`, inode);
+        localStorage.setItem(`apim-${orgName}-${projectId}-${appId}-pinode`, pinode);
 
         const _branch = find(_branchList, { inode: pinode });
         const _curNodeData = { inode, pinode, branchName: _branch?.name, asset: data?.asset, apiDocName: data?.name };
@@ -115,7 +117,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         onSelectDoc(_curNodeData);
       });
     },
-    [apiWs, branchList, getApiDetail, getQuoteMap, onSelectDoc],
+    [apiWs, branchList, getApiDetail, getQuoteMap, onSelectDoc, orgName, projectId, appId],
   );
 
   React.useEffect(() => {
