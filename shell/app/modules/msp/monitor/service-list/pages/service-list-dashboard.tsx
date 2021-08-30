@@ -29,9 +29,9 @@ type IProps = Merge<
 >;
 
 const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, extraGlobalVariable, ...rest }) => {
-  const _timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   // when the parent component depends on timeSpan, use the timeSpan of the parent component to prevent duplicate requests
-  const timeSpan = times || _timeSpan;
+  const timeSpan = times || range;
   const params = routeInfoStore.useStore((s) => s.params);
   const { getCustomDashboard } = dashboardStore;
   const [layout, setLayout] = useState<DC.Layout>([]);

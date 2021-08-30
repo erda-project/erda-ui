@@ -42,7 +42,7 @@ const errorChartConfig = {
 const ErrorChart = commonChartRender(errorChartConfig) as any;
 
 const ErrorOverview = () => {
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const [loading] = useLoading(monitorErrorStore, ['getErrorsList']);
   const errors = monitorErrorStore.useStore((s) => s.errors);
   const { getErrorsList } = monitorErrorStore.effects;
