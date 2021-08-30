@@ -28,7 +28,7 @@ import SelectProjectModal from '../select-project-modal';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 import orgAlarmRecordStore from 'cmp/stores/alarm-record';
-import mspAlarmRecordStore from 'msp/monitor/alarm-record/stores/alarm-record';
+import mspAlarmRecordStore from 'msp/alarm-manage/alarm-record/stores/alarm-record';
 
 import './detail.scss';
 

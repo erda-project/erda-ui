@@ -83,8 +83,9 @@ const groupTargetMap = {
 
 interface IProps {
   commonPayload: {
-    scopeType: string;
+    scopeType: COMMON_NOTIFY.ScopeType;
     scopeId: string;
+    label?: string;
   };
   memberStore: any;
 }

@@ -245,7 +245,7 @@ export enum pages {
   micro_serviceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
-  mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
+  mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
 
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',

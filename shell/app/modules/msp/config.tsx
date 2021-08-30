@@ -1,0 +1,127 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import React from 'react';
+import i18n from 'i18n';
+import { goTo } from 'common/utils';
+import {
+  Server as IconServer,
+  MonitorCamera as IconMonitorCamera,
+  NotebookAndPen as IconNotebookAndPen,
+  Api as IconApi,
+  Config as IconConfig,
+  Log as IconLog,
+  Components as IconComponents,
+} from '@icon-park/react';
+import { ErdaCustomIcon } from 'common';
+
+export const envMap = {
+  DEV: i18n.t('common:DEV'),
+  TEST: i18n.t('common:TEST'),
+  STAGING: i18n.t('common:STAGING'),
+  PROD: i18n.t('common:PROD'),
+  DEFAULT: i18n.t('common:DEFAULT'),
+};
+
+interface IMSPathParams {
+  projectId: string | number;
+  env: string;
+  tenantGroup: string;
+  tenantId: string | number;
+  terminusKey: string;
+  logKey: string;
+}
+
+export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
+  const { projectId, env, tenantGroup, tenantId, terminusKey, logKey } = params;
+
+  const rootPath = `${goTo.resolve.mspOverviewRoot({ projectId, env, tenantGroup })}/`;
+  // service monitor
+  const monitorPrefix = `monitor/${terminusKey}`;
+  // alarm management
+  const alarmManagementPrefix = `alarm-management/${terminusKey}`;
+  // query analysis
+  const analysisPrefix = `analysis/${terminusKey}`;
+  // env synopsis
+  const envOverViewPrefix = `synopsis/${terminusKey}`;
+
+  const targetPath = {
+    Overview: `${envOverViewPrefix}/topology`,
+    AppMonitor: `topology/${terminusKey}`,
+    EnvironmentalOverview: envOverViewPrefix,
+    ServiceList: `${envOverViewPrefix}/service-list`,
+    ServiceObservation: monitorPrefix,
+    ServiceAnalysis: `${monitorPrefix}/service-analysis/overview`,
+    BrowserInsight: `${monitorPrefix}/bi`,
+    AppInsight: `${monitorPrefix}/mi`,
+    ErrorInsight: `${monitorPrefix}/error`,
+    Transaction: `${monitorPrefix}/trace`,
+    StatusPage: `${monitorPrefix}/status`,
+    AlarmManagement: alarmManagementPrefix,
+    AlertStrategy: `${alarmManagementPrefix}/alarm`,
+    AlarmHistory: `${alarmManagementPrefix}/alarm-record`,
+    RuleManagement: `${alarmManagementPrefix}/custom-alarm`,
+    NotifyGroupManagement: `${alarmManagementPrefix}/notify-group`,
+    QueryAnalysis: analysisPrefix,
+    Dashboard: `${analysisPrefix}/custom-dashboard`,
+    Reports: `${monitorPrefix}/reports`,
+
+    LogAnalyze: `log/${logKey}/query`,
+    LogQuery: `log/${logKey}/query`,
+    AnalyzeRule: `log/${logKey}/rule`,
+
+    RegisterCenter: 'registerIntro',
+    RegisterIntro: 'registerIntro',
+    Nodes: 'nodes',
+    Services: 'services',
+    CanaryRelease: 'release',
+
+    ApiGateway: 'gateway/gatewayIntro',
+    GatewayIntro: 'gateway/gatewayIntro',
+    APIs: 'gateway/apis',
+    Endpoints: 'gateway/api-package',
+    ConsumerACL: 'gateway/consumer',
+    Policies: 'gateway/api-policies/safety-policy',
+    OldPolicies: 'gateway/old-policies/traffic-policy',
+    OldConsumerACL: 'gateway/old-consumer',
+
+    ConfigCenter: 'configIntro',
+    ConfigIntro: 'configIntro',
+    Configs: `config/${tenantId}`,
+    EnvironmentSet: 'environment',
+    AccessConfig: `environment/${terminusKey}/configuration`,
+    MemberManagement: `environment/${terminusKey}/member`,
+    ComponentInfo: `environment/info${tenantId ? `/${tenantId}` : ''}`,
+  }[key];
+
+  return rootPath + targetPath;
+};
+
+const renderIcon = (type: string) => () => {
+  return <ErdaCustomIcon className="erda-icon" type={type} fill="primary" />;
+};
+
+export const MSIconMap = {
+  EnvironmentalOverview: renderIcon('huanjinggailan'),
+  QueryAnalysis: renderIcon('chaxunfenxi'),
+  ServiceObservation: renderIcon('fuwuguancesvg'),
+  AlarmManagement: renderIcon('gaojingguanli'),
+  EnvironmentSet: IconComponents,
+  ServiceGovernance: IconServer,
+  AppMonitor: IconMonitorCamera,
+  RegisterCenter: IconNotebookAndPen,
+  APIGateway: IconApi,
+  ConfigCenter: IconConfig,
+  ComponentInfo: IconComponents,
+  LogAnalyze: IconLog,
+};

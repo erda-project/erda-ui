@@ -13,7 +13,7 @@
 
 import { createStore } from 'core/cube';
 import { keyBy, map, isEmpty } from 'lodash';
-import * as mspCustomAlarmService from 'msp/monitor/monitor-alarm/services/custom-alarm';
+import * as mspCustomAlarmService from 'msp/alarm-manage/alarm-strategy/services/custom-alarm';
 import * as orgCustomAlarmService from 'app/modules/cmp/services/custom-alarm';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';

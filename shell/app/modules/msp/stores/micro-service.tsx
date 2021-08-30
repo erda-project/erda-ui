@@ -70,7 +70,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
 
       const IconComp = MSIconMap[key];
-      const siderMenu = {
+      const sideMenu = {
         key,
         icon: IconComp ? <IconComp /> : 'zujian',
         text: currentLocale.key === 'zh' ? cnName : enName,
@@ -79,7 +79,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
         subMenu: [] as any,
       };
       if (children.length) {
-        siderMenu.subMenu = children
+        sideMenu.subMenu = children
           .filter((m) => m.exists)
           .map((child) => {
             const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
@@ -92,7 +92,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
             };
           });
       }
-      return siderMenu;
+      return sideMenu;
     });
 };
 
@@ -182,6 +182,8 @@ const mspStore = createStore({
         menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
         mspMenu = generateMSMenu(menuData, params, query);
       }
+      console.clear();
+      console.log(mspMenu);
       const [firstMenu] = mspMenu;
       const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
       const siderName = `${firstMenu.text}(${envMap[env]})`;

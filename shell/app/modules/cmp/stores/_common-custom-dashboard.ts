@@ -17,7 +17,7 @@ import { getDefaultPaging, getTimeSpan } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 import * as orgCustomDashboardService from 'cmp/services/custom-dashboard';
-import * as mspCustomDashboardService from 'msp/monitor/custom-dashboard/services/custom-dashboard';
+import * as mspCustomDashboardService from 'msp/query-analysis/custom-dashboard/services/custom-dashboard';
 import { ITimeRange, transformRange } from 'common/components/time-select/common';
 
 export enum CustomDashboardScope {
