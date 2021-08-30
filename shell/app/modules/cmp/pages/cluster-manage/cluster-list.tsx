@@ -289,7 +289,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         <span
           className="hover-active"
           onClick={() => {
-            goTo(`./${record.name}/detail`);
+            goTo(['k8s', 'edas'].includes(record.type) ? goTo.pages.cmpClustersNodes : goTo.pages.cmpClustersDetail, {
+              clusterName: record.name,
+            });
           }}
         >
           {text || record.name}

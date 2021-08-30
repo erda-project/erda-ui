@@ -30,7 +30,7 @@ export const ProjectAppList = () => {
   return (
     <React.Fragment>
       <div className="top-button-group">
-        <WithAuth pass={permMap.addApp} disableMode={false}>
+        <WithAuth pass={permMap.addApp} disableMode={false} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => goTo('./createApp')}>
             {i18n.t('project:add application')}
           </Button>

@@ -12,10 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import ServiceChartDashboard from './service-chart-dashboard';
-import ServiceTableDashboard from './service-table-dashboard';
 import ServiceListDashboard from './service-list-dashboard';
-import { TimeSelector } from 'common';
 import routeInfoStore from 'core/stores/route';
 import NodeEle from 'msp/monitor/topology/pages/topology/node-item';
 import LinkText, { linkTextHoverAction } from 'msp/monitor/topology/pages/topology/link-text';
@@ -25,6 +22,7 @@ import topologyStore from 'topology/stores/topology';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty, map } from 'lodash';
 import { useUnmount, useMount } from 'react-use';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
   const { nodes = [] } = data || {};
@@ -59,7 +57,7 @@ const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
     nodes: reNodes,
   };
 };
-// TODO: 缩放拓扑图时会上下滚动
+
 export default () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
@@ -121,8 +119,8 @@ export default () => {
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex justify-between items-center mb-3">
-        <TimeSelector className="m-0" />
+      <div className="flex justify-end items-center mb-3">
+        <TimeSelectWithStore className="m-0" />
       </div>
       <div className="overflow-auto flex-1">
         <div className="topology-content flex flex-1">

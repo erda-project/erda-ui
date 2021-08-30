@@ -85,7 +85,7 @@ describe('TagsRow', () => {
     const deleteFn = jest.fn();
     const wrapper = mount(
       <div>
-        <TagItem label={data[0]} onDelete={deleteFn} withCut size="small" />
+        <TagItem label={data[0]} deleteConfirm={false} onDelete={deleteFn} withCut size="small" />
         <TagItem label={data[1]} size="default" />
         <TagItem label={data[2]} />
       </div>,

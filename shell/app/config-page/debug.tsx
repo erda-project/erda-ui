@@ -56,7 +56,7 @@ export default () => {
         .post(proxyApi)
         .send(payload)
         .then((response: any) => {
-          return response.body;
+          return response.body.protocol ? response.body : response.body.data;
         });
     },
     [proxyApi],

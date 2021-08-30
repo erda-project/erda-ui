@@ -16,13 +16,12 @@ import React from 'react';
 import { Tooltip, Switch } from 'core/nusi';
 import { LogRoller, SimpleLog } from 'common';
 import { regLog } from 'common/components/log/log-util';
-import AnsiUp from 'ansi_up';
+import { transformLog } from 'app/common/utils';
 import i18n from 'i18n';
 import { LeftOne as IconLeftOne } from '@icon-park/react';
 
 import './container-log.scss';
 
-const AU = new AnsiUp();
 const defaultLogName = 'stdout';
 
 const parseLinkInContent = (content, pushSlideComp) => {
@@ -57,7 +56,7 @@ const getLogItem =
       level = _level;
     }
 
-    const reContent = parseLinkInContent(AU.ansi_to_html(content).replaceAll('&quot;', '"'), pushSlideComp);
+    const reContent = parseLinkInContent(transformLog(content), pushSlideComp);
     return (
       <div className="container-log-item">
         {time && <span className="log-item-logtime">{time}</span>}

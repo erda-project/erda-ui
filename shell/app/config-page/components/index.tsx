@@ -41,6 +41,7 @@ import InfoPreview from './info-preview/info-preview';
 import InputSelect from './input-select/input-select';
 import Alert from './alert/alert';
 import List from './list/list';
+import LinearDistribution from './linear-distribution/linear-distribution';
 import Text from './text/text';
 import Icon from './icon/icon';
 import EmptyHolder from './empty-holder/empty-holder';
@@ -48,9 +49,13 @@ import Image from './image/image';
 import DropdownSelect from './dropdown-select/dropdown-select';
 import TableGroup from './table-group/table-group';
 import TextGroup from './text-group/text-group';
+import Chart from './chart/chart';
+import Badge from './badge/badge';
+import TiledFilter from './tiled-filter/tiled-filter';
 
 export const containerMap = {
   Alert,
+  Badge,
   Button,
   FormModal,
   Table,
@@ -89,4 +94,7 @@ export const containerMap = {
   DropdownSelect,
   TableGroup,
   TextGroup,
+  LinearDistribution,
+  Chart,
+  TiledFilter,
 };

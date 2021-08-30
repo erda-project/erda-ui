@@ -33,15 +33,15 @@
           margin-top: 24px;
         }
       }
-    }
 
-    &.space-small,
-    &.space-middle,
-    &.space-big,
-    &.space-large {
-      > * {
-        &:first-child {
-          margin-top: 0;
+      &.space-small,
+      &.space-middle,
+      &.space-big,
+      &.space-large {
+        > * {
+          &:first-child {
+            margin-top: 0;
+          }
         }
       }
     }

@@ -15,8 +15,9 @@ declare namespace CP_PANEL {
   interface Field {
     label?: string;
     valueKey?: any;
-    renderType?: 'ellipsis';
+    renderType?: 'ellipsis' | 'tagsRow' | 'linkText' | 'copyText';
     value?: any;
+    operations?: CP_COMMON.Operation;
   }
 
   interface IProps {

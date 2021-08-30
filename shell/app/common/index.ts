@@ -80,6 +80,7 @@ export { CompactSelect } from './components/compact-select';
 export { Filter, PureFilter } from './components/filter';
 // export type { IDiceFilterProps, IPureFilterProps } from './components/filter';
 export { ContractiveFilter } from './components/contractive-filter';
+export { default as TiledFilter } from './components/tiled-filter';
 export * from './components/use-hooks';
 export { default as LogRoller } from './containers/log-roller';
 export { default as MonitorChart } from './containers/monitor-chart';
