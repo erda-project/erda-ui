@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { isEmpty, map, get } from 'lodash';
 import React from 'react';
-import { TimeSelector, ContractiveFilter } from 'common';
+import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';
 import LinkText, { linkTextHoverAction } from './link-text';
@@ -34,7 +34,7 @@ import './topology.scss';
 const emptyObj = { nodes: [] };
 
 // 拓扑节点中的id，存在非法字符（不能作为id使用），重置id；
-const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
+export const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
   const { nodes = [] } = data || {};
   let nodeId = 0;
   const allIds = {};

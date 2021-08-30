@@ -15,48 +15,15 @@ import React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
 import routeInfoStore from 'core/stores/route';
 import NodeEle from 'msp/monitor/topology/pages/topology/node-item';
+import { setNodeUniqId } from 'msp/monitor/topology/pages/topology/topology';
 import LinkText, { linkTextHoverAction } from 'msp/monitor/topology/pages/topology/link-text';
 import TopologyChart from 'msp/monitor/topology/pages/topology/components';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyStore from 'topology/stores/topology';
 import { useLoading } from 'core/stores/loading';
-import { isEmpty, map } from 'lodash';
+import { isEmpty } from 'lodash';
 import { useUnmount, useMount } from 'react-use';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-
-const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
-  const { nodes = [] } = data || {};
-  let nodeId = 0;
-  const allIds = {};
-  const reNodes = map(nodes, (node) => {
-    const { id, parents = [] } = node;
-    if (!allIds[id]) {
-      nodeId += 1;
-      allIds[id] = `node-${nodeId}`;
-    }
-    return {
-      ...node,
-      originId: id,
-      id: allIds[id],
-      parents: map(parents, (parent) => {
-        const { id: pId } = parent;
-        if (!allIds[pId]) {
-          nodeId += 1;
-          allIds[pId] = `node-${nodeId}`;
-        }
-        return {
-          ...parent,
-          id: allIds[pId],
-          originId: pId,
-        };
-      }),
-    };
-  });
-  return {
-    ...data,
-    nodes: reNodes,
-  };
-};
 
 export default () => {
   const params = routeInfoStore.useStore((s) => s.params);
@@ -133,7 +100,7 @@ export default () => {
             nodeEle={NodeEle}
             linkTextEle={LinkText}
           />
-          <div className="flex-1">
+          <div className="flex-2">
             <ServiceListDashboard dashboardId="service_analysis-instants" />
           </div>
         </div>
