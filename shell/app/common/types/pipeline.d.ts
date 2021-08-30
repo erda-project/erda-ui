@@ -60,11 +60,17 @@ declare namespace PIPELINE {
     extra: {
       uuid: string;
       allowFailure: boolean;
+      taskContainers: ITaskContainers[];
     };
     result: {
       metadata?: MetaData[];
     };
     [k: string]: any;
+  }
+
+  interface ITaskContainers {
+    taskName: string;
+    containerID: string;
   }
 
   interface IPipelineDetail {
