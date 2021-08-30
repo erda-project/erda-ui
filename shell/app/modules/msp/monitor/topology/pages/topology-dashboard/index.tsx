@@ -44,7 +44,7 @@ const childrenKeyMap = {
 
 const TopologyDashboard = () => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
   const mspMenu = mspStore.useStore((s) => s.mspMenu);
   const { serviceName, name, type: sourceType, serviceId, applicationId } = activedNode || {};

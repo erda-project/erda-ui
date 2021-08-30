@@ -36,7 +36,6 @@ const relativeTimeRange = [
   { label: i18n.t('last {count} {unit}', { count: 12, unit: i18n.t('hours') }), value: 'hours:12' },
   { label: i18n.t('last {count} {unit}', { count: 1, unit: i18n.t('days') }), value: 'days:1' },
   { label: i18n.t('last {count} {unit}', { count: 3, unit: i18n.t('days') }), value: 'days:3' },
-  { label: i18n.t('last {count} {unit}', { count: 7, unit: i18n.t('days') }), value: 'days:7' },
   { label: i18n.t('last {count} {unit}', { count: 1, unit: i18n.t('weeks') }), value: 'weeks:1' },
   { label: i18n.t('last {count} {unit}', { count: 1, unit: i18n.t('months') }), value: 'months:1' },
   { label: i18n.t('last {count} {unit}', { count: 3, unit: i18n.t('months') }), value: 'months:3' },
@@ -73,6 +72,7 @@ export const translateRelativeTime = (unit: string, count?: number) => {
   switch (unit) {
     case 'minutes':
     case 'hours':
+    case 'days':
     case 'weeks':
     case 'months':
       start = start.subtract(count, unit);
