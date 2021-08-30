@@ -103,7 +103,7 @@ export const genOrgInviteCode = (payload: { orgId: number }): { verifyCode: stri
 
 export const getRenderPageLayout = (payload: CONFIG_PAGE.RenderConfig) => {
   return agent
-    .post('/api/component-protocol/actions/render')
+    .post(`/api/component-protocol/actions/render?scenario=${payload.scenario.scenarioKey}`)
     .send(payload)
     .then((response: any) => response.body);
 };
