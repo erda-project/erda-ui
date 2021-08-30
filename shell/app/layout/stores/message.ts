@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getMessageList, getMessageStats, readOneMessage } from '../services/message';
+import { getMessageList, getMessageStats, readOneMessage, clearAllMessage } from '../services/message';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';
 
@@ -79,6 +79,12 @@ const messageStore = createStore({
         update({ detail, list: newList });
         await messageStore.effects.getMessageStats();
       }
+    },
+    async clearAll({ call, update }) {
+      await call(clearAllMessage);
+      update({ unreadCount: 0 });
+      await messageStore.effects.getMessageList({ pageNo: 1 });
+      return null;
     },
   },
   reducers: {

@@ -95,7 +95,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     s.msgPaging,
     s.unreadCount,
   ]);
-  const { getMessageList, getMessageStats, readOneMessage } = messageStore.effects;
+  const { getMessageList, getMessageStats, readOneMessage, clearAll } = messageStore.effects;
   const { resetDetail } = messageStore.reducers;
   const [loadingList] = useLoading(messageStore, ['getMessageList']);
   const { switchMessageCenter } = layoutStore.reducers;
@@ -189,6 +189,10 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
           {i18n.t('{unreadCount} messages unread', {
             unreadCount,
           })}
+
+          <a className="float-right mr-6 cursor-pointer" onClick={clearAll}>
+            {i18n.t('one key all read')}
+          </a>
         </div>
         <Holder when={!list.length}>
           <Timeline>
