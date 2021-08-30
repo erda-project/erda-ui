@@ -852,6 +852,7 @@
     "submit": "submit",
     "test case": "test case",
     "text edit": "text edit",
+    "the current data volume exceeds 500kb, please click": "the current data volume exceeds 500kb, please click",
     "the uploaded file must not exceed {size}M": "the uploaded file must not exceed {size}M",
     "this configuration already exists": "this configuration already exists",
     "this item is required": "this item is required",
