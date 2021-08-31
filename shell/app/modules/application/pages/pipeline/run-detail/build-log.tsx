@@ -136,45 +136,35 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       />
     );
 
+    const logRollerFn = (id?: string) => (
+      <LogRoller
+        key={String(isStdErr)}
+        query={{
+          // 此处如果使用了customFetchAPIPrefix，在drawer关闭瞬间又触发了请求会使用后面的api，此时pipelineID为undefined(见自动化测试)
+          fetchApi:
+            customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
+          downloadAPI,
+          taskID,
+          id,
+          stream: isStdErr ? 'stderr' : 'stdout',
+        }}
+        logKey={logId}
+        extraButton={switchLog}
+        transformContent={this.transformContentToLink}
+      />
+    );
+
     const logRollerComp =
-      taskContainers.length !== 0 ? (
-        <Tabs defaultActiveKey="1">
+      Array.isArray(taskContainers) && taskContainers.length !== 0 ? (
+        <Tabs>
           {taskContainers.map((item) => (
             <TabPane tab={item.taskName} key={item.containerID}>
-              <LogRoller
-                key={String(isStdErr)}
-                query={{
-                  // 此处如果使用了customFetchAPIPrefix，在drawer关闭瞬间又触发了请求会使用后面的api，此时pipelineID为undefined(见自动化测试)
-                  fetchApi:
-                    customFetchAPIPrefix ||
-                    (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
-                  downloadAPI,
-                  taskID,
-                  id: item.containerID,
-                  stream: isStdErr ? 'stderr' : 'stdout',
-                }}
-                logKey={logId}
-                extraButton={switchLog}
-                transformContent={this.transformContentToLink}
-              />
+              {logRollerFn(item.containerID)}
             </TabPane>
           ))}
         </Tabs>
       ) : (
-        <LogRoller
-          key={String(isStdErr)}
-          query={{
-            // 此处如果使用了customFetchAPIPrefix，在drawer关闭瞬间又触发了请求会使用后面的api，此时pipelineID为undefined(见自动化测试)
-            fetchApi:
-              customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
-            downloadAPI,
-            taskID,
-            stream: isStdErr ? 'stderr' : 'stdout',
-          }}
-          logKey={logId}
-          extraButton={switchLog}
-          transformContent={this.transformContentToLink}
-        />
+        logRollerFn()
       );
 
     if (withoutDrawer) {
