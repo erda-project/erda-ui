@@ -194,12 +194,12 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
         {i18n.t('site message')}
       </div>
       <div className="content">
-        <div className="summary">
+        <div className="summary flex justify-between">
           {i18n.t('{unreadCount} messages unread', {
             unreadCount,
           })}
 
-          <a className="float-right mr-6 cursor-pointer" onClick={() => clearAllMessage()}>
+          <a className="mr-6 cursor-pointer" onClick={() => clearAllMessage()}>
             {i18n.t('one key all read')}
           </a>
         </div>

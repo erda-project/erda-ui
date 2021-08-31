@@ -80,10 +80,10 @@ const messageStore = createStore({
         await messageStore.effects.getMessageStats();
       }
     },
-    async clearAll({ call, update }) {
+    async clearAll({ call }) {
       await call(clearAllMessage);
-      update({ unreadCount: 0 });
       await messageStore.effects.getMessageList({ pageNo: 1 });
+      await messageStore.effects.getMessageStats();
       return null;
     },
   },
