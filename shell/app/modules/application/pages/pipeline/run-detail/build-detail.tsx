@@ -263,6 +263,7 @@ const BuildDetail = (props: IProps) => {
           taskID,
           pipelineID,
           logId: node.extra.uuid,
+          taskContainers: node.extra.taskContainers,
         });
         updater.logVisible(true);
         break;
