@@ -124,6 +124,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   const { editPartial, create: addTestCase, attemptTestApi } = testCaseStore.effects;
   const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
   const [{ fullData, titleIsEmpty }, updater] = useUpdate<IState>(initState);
+  const preData = React.useRef<ICaseDetail>(defaultData);
   const drawer = React.useRef<{ saved: boolean }>({ saved: false });
   const editMode = !!caseDetail.id;
   React.useEffect(() => {
@@ -145,6 +146,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
         }
       }
       updater.fullData({ ...caseDetail, apisFormat: apis });
+      preData.current = { ...caseDetail, apisFormat: apis };
     }
   }, [caseDetail, params.projectId, updater]);
   const shareLink = `${location.href.split('?')[0]}?${mergeSearch({ caseId: fullData.id }, true)}`;
@@ -212,6 +214,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   };
   const checkName = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
+    if (name === preData.current.name) {
+      return;
+    }
     updater.titleIsEmpty(!name);
     if (editMode && name) {
       handleSave(false);
