@@ -35,3 +35,25 @@
     content: none;
   }
 }
+
+.side-nav-menu {
+  transition: width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
+  scrollbar-width: 0;
+  .ant-menu {
+    background-color: $white;
+    .ant-menu-item-selected {
+      background-color: $color-tree-bg-active;
+    }
+    .ant-menu-item {
+      .ant-menu-item-icon {
+        margin: 0;
+      }
+      &:hover {
+        background-color: $color-click-bg;
+      }
+    }
+    a:focus {
+      text-decoration: none;
+    }
+  }
+}
