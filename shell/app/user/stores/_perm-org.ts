@@ -14,6 +14,7 @@
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
 export const orgRoleMap = {
   Manager: { name: '企业管理员', value: 'Manager' },
+  Auditor: { name: '企业审计员', value: 'Auditor' },
   Dev: { name: '企业研发工程师', value: 'Dev' },
   Ops: { name: '企业运维工程师', value: 'Ops' },
   EdgeOps: { name: '边缘运维工程师', value: 'EdgeOps' },
@@ -115,6 +116,14 @@ export const orgPerm = {
       pass: false,
       role: ['Manager', 'EdgeOps'],
       name: '操作(新建/编辑/删除/发布/下线/重启)',
+    },
+  },
+  orgCenter: {
+    name: '管理中心',
+    viewAuditLog: {
+      pass: false,
+      role: ['Manager', 'Auditor', 'Support'],
+      name: '查看审计日志',
     },
   },
 };

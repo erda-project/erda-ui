@@ -24,6 +24,7 @@ import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'core/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
+import sysMemberStore from 'common/stores/sys-member';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import { UrlInviteModal } from './url-invite-modal';
@@ -40,6 +41,7 @@ const storeMap = {
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.SYS]: sysMemberStore,
 };
 
 enum batchOptionType {
@@ -83,6 +85,7 @@ export const MembersTable = ({
   const [projectMemberPerm, appMemberPerm] = usePerm((s) => [s.project.member, s.app.member]);
   const { id: currentUserId } = loginUser;
   const { params } = routeInfoStore.getState((s) => s);
+  const isAdminManager = scopeKey === MemberScope.SYS && loginUser.adminRoles.includes('Manager');
 
   const memberStore = storeMap[scopeKey];
   const [list, paging, roleMap] = memberStore.useStore((s) => [s.list, s.paging, s.roleMap]);
@@ -116,7 +119,10 @@ export const MembersTable = ({
   };
 
   const scopeId = scopeIdMap[scopeKey];
-  const scope = React.useMemo(() => ({ id: scopeId, type: scopeKey }), [scopeId, scopeKey]);
+  const scope = React.useMemo(
+    () => ({ id: scopeKey === MemberScope.SYS ? '0' : scopeId, type: scopeKey }),
+    [scopeId, scopeKey],
+  );
 
   const memberAuthMap = {
     [MemberScope.PROJECT]: {
@@ -150,7 +156,7 @@ export const MembersTable = ({
   ];
 
   useEffectOnce(() => {
-    getRoleMap({ scopeType: scopeKey, scopeId: +scopeId });
+    getRoleMap({ scopeType: scopeKey, scopeId: scopeKey === MemberScope.SYS ? 0 : +scopeId });
     if (scope.type === MemberScope.ORG) {
       getMemberLabels();
     }
@@ -160,7 +166,7 @@ export const MembersTable = ({
   });
 
   React.useEffect(() => {
-    if (scope.id) {
+    if (scope.id || scope.type === MemberScope.SYS) {
       getMemberList({ scope, ...state.queryParams } as MEMBER.GetListQuery);
     }
   }, [getMemberList, scope, state.queryParams]);
@@ -443,17 +449,18 @@ export const MembersTable = ({
             render: (record: IMember) => {
               const { userId, removed, labels } = record;
               const isCurrentUser = currentUserId === userId;
-              const editOp = memberAuth.edit ? (
-                <span
-                  className="table-operations-btn"
-                  key="edit"
-                  onClick={() => updater.editMember({ ...record, labels: labels || [] })}
-                >
-                  {i18n.t('edit')}
-                </span>
-              ) : null;
+              const editOp =
+                memberAuth.edit || isAdminManager ? (
+                  <span
+                    className="table-operations-btn"
+                    key="edit"
+                    onClick={() => updater.editMember({ ...record, labels: labels || [] })}
+                  >
+                    {i18n.t('edit')}
+                  </span>
+                ) : null;
               const removeOp =
-                isCurrentUser || memberAuth.delete ? (
+                isCurrentUser || memberAuth.delete || isAdminManager ? (
                   <span className="table-operations-btn" key="del" onClick={() => confirmDelete(record, isCurrentUser)}>
                     {isCurrentUser ? i18n.t('exit') : memberAuth.delete ? i18n.t('remove') : null}
                   </span>
@@ -471,7 +478,7 @@ export const MembersTable = ({
 
               return (
                 <div className="table-operations">
-                  {updateMembers && !removed ? editOp : null}
+                  {!!updateMembers && !removed ? editOp : null}
                   {authorizeOp}
                   {removeOp}
                 </div>
@@ -582,41 +589,43 @@ export const MembersTable = ({
             onOk={updateRole}
             onCancel={handleCloseEditModal}
           />
-          <BatchAuthorizeMemberModal
-            projectId={params.projectId}
-            visible={state.batchAuthorizeVisible}
-            onOk={handleBatchAuthorize}
-            onCancel={() => updater.batchAuthorizeVisible(false)}
-            alertProps={{
-              message: i18n.t(
-                "common:The user's original permissions will be overwritten after batch processing. Please be cautious.",
-              ),
-              type: 'warning',
-              showIcon: true,
-              className: 'mb-2',
-            }}
-          />
-          <AuthorizeMemberModal
-            key={state.authorizeMember ? 'show' : 'hidden'} // 关闭后销毁
-            type={scope.type}
-            member={state.authorizeMember as IMember | null}
-            closeModal={() => updater.authorizeMember(null)}
-          />
-          <UrlInviteModal
-            visible={state.inviteModalVisible}
-            url={`${FULL_ROOT_DOMAIN}${goTo.resolve.inviteToOrg()}`}
-            linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
-            code={state.verifyCode}
-            tip={i18n.t(
-              'org:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.',
-            )}
-            onCancel={() => updater.inviteModalVisible(false)}
-            modalProps={{ width: 600 }}
-          />
+          <If condition={scopeKey !== MemberScope.SYS}>
+            <BatchAuthorizeMemberModal
+              projectId={params.projectId}
+              visible={state.batchAuthorizeVisible}
+              onOk={handleBatchAuthorize}
+              onCancel={() => updater.batchAuthorizeVisible(false)}
+              alertProps={{
+                message: i18n.t(
+                  "common:The user's original permissions will be overwritten after batch processing. Please be cautious.",
+                ),
+                type: 'warning',
+                showIcon: true,
+                className: 'mb-2',
+              }}
+            />
+            <AuthorizeMemberModal
+              key={state.authorizeMember ? 'show' : 'hidden'} // 关闭后销毁
+              type={scope.type}
+              member={state.authorizeMember as IMember | null}
+              closeModal={() => updater.authorizeMember(null)}
+            />
+            <UrlInviteModal
+              visible={state.inviteModalVisible}
+              url={`${FULL_ROOT_DOMAIN}${goTo.resolve.inviteToOrg()}`}
+              linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
+              code={state.verifyCode}
+              tip={i18n.t(
+                'org:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.',
+              )}
+              onCancel={() => updater.inviteModalVisible(false)}
+              modalProps={{ width: 600 }}
+            />
+          </If>
           <div className="members-list">
             <FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} reversePosition>
               <>
-                {memberAuth.add && !readOnly ? (
+                {(memberAuth.add || isAdminManager) && !readOnly ? (
                   <Button type="primary" ghost onClick={() => updater.addModalVisible(true)}>
                     {i18n.t('add member')}
                   </Button>

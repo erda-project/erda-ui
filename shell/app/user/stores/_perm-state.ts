@@ -15,6 +15,7 @@ import { map, compact } from 'lodash';
 import { orgPerm } from './_perm-org';
 import { projectPerm } from './_perm-project';
 import { appPerm } from './_perm-app';
+import { sysPerm } from './_perm-sys';
 import yaml from 'js-yaml';
 
 export const permPrefix = 'UI';
@@ -22,6 +23,7 @@ export const permState = {
   org: orgPerm,
   project: projectPerm,
   app: appPerm,
+  sys: sysPerm,
 };
 export type OrgPermType = typeof orgPerm;
 export type ProjectPermType = typeof projectPerm;

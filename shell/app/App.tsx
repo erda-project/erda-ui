@@ -23,7 +23,7 @@ import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/main';
 import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import { setConfig, getConfig } from 'core/config';
-
+import permStore from 'user/stores/permission';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
@@ -64,10 +64,8 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   initAxios();
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)
-    if (!userData.isSysAdmin) {
-      const orgName = get(location.pathname.split('/'), '[1]');
-      await orgStore.effects.getOrgByDomain({ orgName });
-    }
+    const orgName = get(location.pathname.split('/'), '[1]');
+    await orgStore.effects.getOrgByDomain({ orgName });
     [
       import('layout/entry'),
       import('org/entry'),
@@ -137,23 +135,6 @@ if (oldPipelineReg.test(pathname)) {
   history.replace(`${pPath}pipeline?pipelineID=${pId}`);
 }
 
-const setSysAdminLocationByAuth = () => {
-  redirectAdminDomain();
-  const curPathname = location.pathname;
-  const orgName = get(curPathname.split('/'), '[1]');
-  const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
-  // 系统管理员打开的不是系统管理员页面，跳转到系统管理员页
-  !isAdminPage && goTo(goTo.pages.sysAdminOrgs, { orgName: '-', replace: true });
-};
-
-// Temporary handle for v1.2: admin need redirect to erda.cloud;
-const redirectAdminDomain = () => {
-  const curHost = location.host;
-  if (curHost.endsWith('.erda.cloud') || curHost.endsWith('.app.terminus.io')) {
-    location.href = 'https://erda.cloud/';
-  }
-};
-
 const init = (userData: ILoginUser) => {
   // step1: get user last path
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
@@ -165,24 +146,25 @@ const init = (userData: ILoginUser) => {
 
   // step2: get user isSysAdmin
   getResourcePermissions({ scope: 'sys', scopeID: '0' })
-    .then((result: Obj) => {
+    .then((result) => {
       if (result.success) {
-        let data: Obj = {};
-        if (!result.data.access) {
-          data = { ...userData };
-        } else {
-          // 验证系统管理员相关路由
-          setSysAdminLocationByAuth();
+        let data: ILoginUser = { ...userData };
+        if (result.data?.access) {
+          permStore.reducers.updatePerm('sys', result.data);
           setGlobal('erdaInfo.isSysAdmin', true);
-          data = { ...userData, isSysAdmin: true };
+          const { roles } = result.data;
+          data = { ...data, isSysAdmin: true, adminRoles: roles };
         }
         return data;
+      } else {
+        return Promise.reject(Error('fetch sys permission failed'));
       }
     })
     .then((perRes: ILoginUser) => {
       // step3: get user joined orgs
-      getJoinedOrgs().then((orgResult: Obj) => {
-        const orgs = orgResult?.data?.list || [];
+      // TODO check if admin has org permissions
+      getJoinedOrgs().then((orgResult) => {
+        const orgs = orgResult.data?.list || [];
         if (location.pathname === '/') {
           // replace to default org
           const defaultOrgPath = `/${orgs?.[0]?.name || '-'}`;

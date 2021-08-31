@@ -17,7 +17,7 @@ import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
 import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
-import { getUsers, getMembers, getUsersNew } from 'common/services';
+import { getUsers, getMembers, getUsersNew, getPlatformUserList, searchPlatformUserList } from 'common/services';
 import { MemberScope } from 'app/common/stores/member-scope';
 import { LoadMoreSelector, ImgHolder } from 'common';
 import { Tag, Select } from 'core/nusi';
@@ -27,12 +27,14 @@ import { ILoadMoreSelectorProps } from './load-more-selector';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
+import sysMemberStore from 'common/stores/sys-member';
 import { useUserMap } from 'core/stores/userMap';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.SYS]: sysMemberStore,
 };
 
 interface IOption {
@@ -41,7 +43,7 @@ interface IOption {
 }
 
 interface IProps extends ILoadMoreSelectorProps {
-  scopeType: 'org' | 'project' | 'app' | 'uc';
+  scopeType: 'org' | 'project' | 'app' | 'uc' | 'sys';
   showRole?: boolean;
   scopeId?: string;
   showSelfChosen?: boolean;
@@ -149,7 +151,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     type,
     notFoundContent,
     value,
-    categorys: staticCagetory,
+    categorys: staticCategory,
     getData: _getData,
     className = '',
     size,
@@ -182,7 +184,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
   const [categories, setCategories] = React.useState([] as IOption[]);
   const [query, setQuery] = React.useState({} as any);
   const isCategoryMode = type === 'Category';
-  const isStaticCategory = !isEmpty(staticCagetory); // 静态category模式
+  const isStaticCategory = !isEmpty(staticCategory); // 静态category模式
   const userMap = useUserMap();
   const loginUser = userStore.getState((s) => s.loginUser);
   const existUser = {
@@ -191,7 +193,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
   };
   React.useEffect(() => {
     if (isStaticCategory) {
-      setCategories(staticCagetory as IOption[]);
+      setCategories(staticCategory as IOption[]);
       return;
     }
     isCategoryMode && !isUCMember && setCategories(map(roleMap, (val, key) => ({ label: val, value: key })));
@@ -200,6 +202,15 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
   const getData = (q: any = {}) => {
     const { category, ...qRest } = q;
     setQuery(q);
+    if (scopeType === MemberScope.SYS) {
+      if (qRest.q) {
+        return searchPlatformUserList({ ...qRest }).then((res) => ({
+          list: res.data.users,
+          total: res.data.users.length,
+        }));
+      }
+      return getPlatformUserList({ ...qRest }).then((res) => res.data);
+    }
     if (!scopeId) return;
     return getMembers({ scopeId, scopeType, roles: [category], ...qRest }).then((res: any) => res.data);
   };
@@ -263,13 +274,14 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
         category={categories}
         dataFormatter={({ list, total }) => ({
           total,
-          list: map(list, ({ name, userId, nick, ..._rest }) => ({
+          list: map(list, ({ name, userId, nick, id, ..._rest }) => ({
             ..._rest,
+            id,
             userId,
             nick,
             name,
             label: nick || name,
-            value: userId,
+            value: userId || id,
           })),
         })}
         optionRender={(item, _type) => optionRender(item as any, roleMap, _type, isCategoryMode || showRole)} // 若为category模式，默认normal情况显示角色

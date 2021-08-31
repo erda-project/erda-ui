@@ -20,12 +20,11 @@ const { listen } = history;
 history.listen = (listener: LocationListener<LocationState>): UnregisterCallback => {
   let lastPathname = '';
   function enhancerCb(...args: any) {
-    const [_location] = args;
-    const { pathname, search, hash } = _location;
+    const { pathname, search, hash } = window.location;
     const curUrl = `${pathname}${search}${hash}`;
     if (curUrl === lastPathname) return;
     lastPathname = curUrl;
-    // @ts-ignore
+    // @ts-ignore pass args directly
     return listener(...args);
   }
   return listen(enhancerCb);

@@ -14,7 +14,6 @@
 import { createStore } from 'core/cube';
 import i18n from 'i18n';
 import { login, logout, validateLicense, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
-import orgStore from 'app/org-home/stores/org';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
@@ -77,6 +76,7 @@ const initState: IState = {
     avatar: '',
     token: '',
     isSysAdmin: false,
+    adminRoles: [],
   },
   licenseInfo: {
     valid: true,

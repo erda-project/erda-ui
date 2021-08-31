@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { RES_BODY } from 'core/service';
 
 interface IValidateLicense {
   currentHostCount: number;
@@ -82,7 +83,10 @@ export const unpinApp = (appId: number) => {
   return agent.put(`/api/applications/${appId}/actions/unpin`).then((response: any) => response.body);
 };
 
-export const getResourcePermissions = ({ scope, scopeID }: IGetScopePermQuery): IPermResponseData => {
+export const getResourcePermissions = ({
+  scope,
+  scopeID,
+}: IGetScopePermQuery): Promise<RES_BODY<IPermResponseData>> => {
   return agent
     .post('/api/permissions/actions/access')
     .send({ scope: { type: scope, id: String(scopeID) } })
