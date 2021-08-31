@@ -21,18 +21,16 @@ import routeInfoStore from 'core/stores/route';
 import { getUserMap } from 'core/stores/userMap';
 import userStore from './index';
 import { permPrefix, permState } from './_perm-state';
-import { sysRoleMap } from './_perm-sys';
 
 const rolesMap = {
   app: appRoleMap,
   project: projectRoleMap,
   org: orgRoleMap,
-  sys: sysRoleMap,
 };
 
 const getPermObj = (data: IPermResponseData, scope: string) => {
   const newPermObj = cloneDeep({ ...(permState[scope] || {}) });
-  const { permissionList, resourceRoleList = [], access, roles } = data;
+  const { permissionList, resourceRoleList = [], access } = data;
   const ROLES = rolesMap[scope];
   map(permissionList, ({ resource, action }) => {
     if (resource.startsWith(permPrefix)) {
@@ -67,9 +65,6 @@ const getPermObj = (data: IPermResponseData, scope: string) => {
   });
   if (scope === 'project') {
     newPermObj.access = access;
-  }
-  if (scope === 'sys' && roles.includes('Admin')) {
-    newPermObj.view.pass = true;
   }
   return newPermObj;
 };
