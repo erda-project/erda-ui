@@ -273,6 +273,10 @@ const Transaction = () => {
           loading={isFetching}
           rowKey="requestId"
           columns={columns}
+          pagination={{
+            pageSizeOptions: ['10', '20', '50', '100', '200', '500', '1000'],
+            showSizeChanger: true,
+          }}
           dataSource={dataSource}
           scroll={{ x: '100%' }}
         />
