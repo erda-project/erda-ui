@@ -211,7 +211,7 @@ const SideBar = () => {
     ...insertWhen(!!loginUser.isSysAdmin, [
       {
         icon: <ErdaCustomIcon type="user-config" />,
-        title: i18n.d('运营管理平台'),
+        title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
         onClick: () => {
           goTo(goTo.pages.sysAdmin, { orgName: '-' });
         },
