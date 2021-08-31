@@ -84,7 +84,6 @@ const messageStore = createStore({
       await call(clearAllMessage);
       await messageStore.effects.getMessageList({ pageNo: 1 });
       await messageStore.effects.getMessageStats();
-      return null;
     },
   },
   reducers: {
