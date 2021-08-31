@@ -150,11 +150,6 @@ const init = (userData: ILoginUser) => {
       if (result.success) {
         let data: ILoginUser = { ...userData };
         if (result.data?.access) {
-          const curPathname = location.pathname;
-          if (curPathname === '/') {
-            // if login user is admin role and its root path, then navigate to admin root index
-            goTo(goTo.pages.sysAdmin, { orgName: '-', replace: true });
-          }
           permStore.reducers.updatePerm('sys', result.data);
           setGlobal('erdaInfo.isSysAdmin', true);
           const { roles } = result.data;
