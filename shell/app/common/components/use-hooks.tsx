@@ -220,7 +220,7 @@ type UpdaterFn<T> = {
 // };
 
 type NullableValue<T> = {
-  [K in keyof T]: T[K] extends null
+  [K in keyof  Required<T>]: T[K] extends null
     ? null | Obj // 初始状态里对象值可能是null
     : T[K] extends never[]
     ? any[] // 初始值是空数组，则认为可放任意结构数组
