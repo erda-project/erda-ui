@@ -29,6 +29,9 @@ const ImportFile = ({ afterImport }: IProps) => {
   const [uploadVisible, setUploadVisible] = useState(false);
   const { importTestCase } = testCaseStore.effects;
   const [confirmLoading] = useLoading(testCaseStore, ['importTestCase']);
+
+  const locale = window.localStorage.getItem('locale') || 'zh';
+
   const handleCancel = () => {
     setUploadVisible(false);
   };
@@ -80,14 +83,14 @@ const ImportFile = ({ afterImport }: IProps) => {
           1.{i18n.t('project:currently supports importing Xmind and Excel files')}
           <p className="my-3">
             &nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}
-            <a href="/static/usecase_model.xlsx" className="modal-tip-link">
+            <a href={`/static/usecase_model_${locale}.xlsx`} className="modal-tip-link">
               {i18n.t('project:download template')}
             </a>
             ；
           </p>
           <p className="mb-3">
             &nbsp;&nbsp;{i18n.t('project:if you want to import with XMind, please')}
-            <a href="/static/usecase_model.xmind" className="modal-tip-link">
+            <a href={`/static/usecase_model_${locale}.xmind`} className="modal-tip-link">
               {i18n.t('project:download template')}
             </a>
             。
