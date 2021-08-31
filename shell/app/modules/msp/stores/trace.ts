@@ -60,9 +60,9 @@ const trace = createFlatStore({
       });
       update({ traceCount });
     },
-    async getTraceSummary({ call, update, getParams }, payload: Omit<MS_MONITOR.ITraceSummaryQuery, 'scopeId'>) {
+    async getTraceSummary({ call, update, getParams }, payload: Omit<MS_MONITOR.ITraceSummaryQuery, 'tenantId'>) {
       const { terminusKey } = getParams();
-      const traceSummary = await call(getTraceSummary, { scopeId: terminusKey, ...payload });
+      const traceSummary = await call(getTraceSummary, { tenantId: terminusKey, ...payload });
       update({ traceSummary });
     },
     async getSpanDetailContent({ call, update }, payload: any) {

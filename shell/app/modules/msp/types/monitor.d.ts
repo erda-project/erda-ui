@@ -32,12 +32,17 @@ declare namespace MS_MONITOR {
   }
 
   interface ITraceSummaryQuery {
-    scopeId: string;
-    applicationId?: number;
-    status: number; // -1 error, 0 both, 1 success
+    tenantId: string;
+    status: string;
     startTime: number;
     endTime: number;
-    limit?: number;
+    limit: string;
+    traceId?: string;
+    sort: string;
+    serviceName?: string;
+    durationMin?: number;
+    durationMax?: number;
+    httpPath?: string;
   }
 
   interface ITraceSummary {
