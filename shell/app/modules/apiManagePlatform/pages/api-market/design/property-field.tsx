@@ -22,6 +22,7 @@ import { regRules } from 'common/utils';
 import {
   BASE_DATA_TYPE,
   NUMBER_TYPE_MAP,
+  INTEGER_TYPE_MAP,
   REQUIRED_OPTIONS,
   API_PROPERTY_REQUIRED,
   API_MEDIA,
@@ -37,6 +38,12 @@ import {
 
 const { Option } = Select;
 const numberTypeOptions = map(NUMBER_TYPE_MAP, (item) => (
+  <Option key={item} value={item}>
+    {item.slice(0, 1).toUpperCase() + item.slice(1)}
+  </Option>
+));
+
+const integerTypeOptions = map(INTEGER_TYPE_MAP, (item) => (
   <Option key={item} value={item}>
     {item.slice(0, 1).toUpperCase() + item.slice(1)}
   </Option>
@@ -369,6 +376,19 @@ export const numberExampleField = {
   customProps: { className: 'w-full', ...DEFAULT_NUMBER_PROPS },
 };
 
+/** ------integer 的配置项-------------------------------*/
+// integer 数值类型
+export const integerFormatField = {
+  type: Select,
+  label: i18n.t('project:numeric type'),
+  name: 'format',
+  required: false,
+  colSpan: 8,
+  customProps: {
+    children: integerTypeOptions,
+  },
+};
+
 /** ------object 的配置项-------------------------------*/
 // object example 配置项
 export const objectExampleField = {
@@ -460,6 +480,15 @@ export const getPropertyDetailFields = (props: {
     return [
       { ...enumField(curPropertyType) },
       numberFormatField,
+      { ...numberMinimumField(formData) },
+      { ...numberMaximumField(formData) },
+      numberDefaultValueField,
+      numberExampleField,
+    ];
+  } else if (type === BASE_DATA_TYPE.integer) {
+    return [
+      { ...enumField(curPropertyType) },
+      integerFormatField,
       { ...numberMinimumField(formData) },
       { ...numberMaximumField(formData) },
       numberDefaultValueField,

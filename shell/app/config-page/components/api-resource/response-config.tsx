@@ -143,10 +143,13 @@ export const ResponseConfig = React.memo((props: IProps) => {
 
   const onSetMediaType = ({ propertyKey, propertyData }: IFieldProps) => {
     if (propertyKey === API_MEDIA) {
-      const tempFormData: Obj = get(openApiDoc, ['paths', ...dataPath, ...DATA_PATH_MAP[paramIn], mediaType]);
+      const tempFormData: Obj = get(openApiDoc, ['paths', ...dataPath, ...DATA_PATH_MAP[paramIn], mediaType]) || {};
 
       const _tempFormData = produce(tempFormData, (draft) => {
         if (draft?.schema) {
+          draft.schema[API_MEDIA] = propertyData;
+        } else {
+          draft.schema = {};
           draft.schema[API_MEDIA] = propertyData;
         }
       });

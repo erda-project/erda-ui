@@ -19,6 +19,7 @@ export enum BASE_DATA_TYPE {
   boolean = 'boolean',
   array = 'array',
   object = 'object',
+  integer = 'integer',
 }
 
 export const REQUIRED_OPTIONS = [
@@ -33,19 +34,19 @@ export const RADIO_OPTIONS = [
 ];
 
 export enum NUMBER_TYPE_MAP {
-  int32 = 'int32',
-  int64 = 'int64',
-  int = 'int',
-  long = 'long',
   float = 'float',
   double = 'double',
-  int16 = 'int16',
-  int8 = 'int8',
+}
+
+export enum INTEGER_TYPE_MAP {
+  int32 = 'int32',
+  int64 = 'int64',
 }
 
 export const DATATYPE_EXAMPLE_MAP = {
   string: 'Example',
   number: 1,
+  integer: 1,
   boolean: true,
   object: {},
   array: ['Example'],
@@ -68,7 +69,7 @@ export enum API_METHODS {
   options = 'options',
   patch = 'patch',
 }
-export const API_MEDIA_TYPE = ['application/json', 'application/xml'];
+export const API_MEDIA_TYPE = ['application/json', 'application/xml', 'x-www-form-urlencoded'];
 
 export const API_PROTOCOLS = ['HTTP', 'HTTPS'];
 

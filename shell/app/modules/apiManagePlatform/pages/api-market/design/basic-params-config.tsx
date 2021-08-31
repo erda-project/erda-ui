@@ -204,6 +204,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
         _temp[API_PROPERTY_REQUIRED] = requiredNames.includes(pKey);
       }
       _temp[API_FORM_KEY] = pKey;
+
       return _temp;
     });
     updater.innerParamList(tempList);
@@ -314,7 +315,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                 updater.innerParamList([]);
                 updater.paramListTempStorage([]);
               }
-            } else if (['boolean', 'string', 'number'].includes(curType)) {
+            } else if (['boolean', 'string', 'number', 'integer'].includes(curType)) {
               unset(draft, 'items');
               unset(draft, 'properties');
               unset(draft, 'required');
@@ -800,7 +801,10 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                       onChange={updateInnerParamList}
                       extraDataTypes={props?.extraDataTypes}
                       allExtraDataTypes={props?.allExtraDataTypes}
-                      siblingProperties={filter(paramListTempStorage, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
+                      siblingProperties={filter(
+                        paramListTempStorage,
+                        (item) => item[API_FORM_KEY] !== record[API_FORM_KEY],
+                      )}
                     />
                   </FormBuilder>
                 </div>
