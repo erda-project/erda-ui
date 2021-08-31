@@ -578,13 +578,6 @@ export const getServiceApiPrefix = (payload: GATEWAY.QueryApiPrefix): string[] =
     .then((response: any) => response.body);
 };
 
-export const getCloudApiInfo = (packageId: Omit<GATEWAY.Base, 'orgId'>): GATEWAY.CloudapiExists => {
-  return agent
-    .get('/api/gateway/openapi/cloudapi-info')
-    .query(packageId)
-    .then((response: any) => response.body);
-};
-
 export const getAliCloudDomain = ({ packageId }: GATEWAY.Package): GATEWAY.AliCloudDomain => {
   return agent.get(`/api/gateway/openapi/packages/${packageId}/aliyun-bind`).then((response: any) => response.body);
 };

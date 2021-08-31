@@ -85,7 +85,6 @@ import {
   generateAliCloudCredentials,
   getAliCloudCredentials,
   deleteAliCloudCredentials,
-  getCloudApiInfo,
   getAliCloudDomain,
   bindAliCloudDomain,
 } from 'msp/services/gateway';
@@ -946,12 +945,6 @@ const gatewayStore = createStore({
     async deleteAliCloudCredentials({ call }, payload: { consumerId: string }) {
       const res = await call(deleteAliCloudCredentials, payload);
       return res;
-    },
-    async getCloudApiInfo({ call, getParams, select, update }) {
-      const { projectId, env } = getParams();
-      const res = await call(getCloudApiInfo, { projectId, env });
-      const { domain } = select((s) => s.aliCloudDomian);
-      update({ aliCloudDomian: { ...res, domain } });
     },
     async getAliCloudDomain({ call, getParams, update, select }) {
       const { packageId } = getParams();
