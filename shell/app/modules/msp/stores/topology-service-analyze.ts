@@ -38,7 +38,7 @@ const topologyServiceStore = createFlatStore({
       { call },
       payload: Merge<
         TOPOLOGY_SERVICE_ANALYZE.CommonQuery,
-        { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }
+        { operation: string; start: number; end: number; sort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE }
       >,
     ) {
       const traceSlowTranslation = await call(getTraceSlowTranslation, payload);
