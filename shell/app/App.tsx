@@ -157,7 +157,8 @@ const init = (userData: ILoginUser) => {
           }
           permStore.reducers.updatePerm('sys', result.data);
           setGlobal('erdaInfo.isSysAdmin', true);
-          data = { ...data, isSysAdmin: true };
+          const { roles } = result.data;
+          data = { ...data, isSysAdmin: true, adminRoles: roles };
         }
         return data;
       } else {

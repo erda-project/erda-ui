@@ -62,7 +62,6 @@ module.exports = [
       './user/store': './app/user/stores/index.ts',
       './erda-icon': '@icon-park/react',
       './org-home/stores/org': './app/org-home/stores/org.tsx',
-      './user/permission': './app/user/stores/permission.ts',
     },
   },
   {

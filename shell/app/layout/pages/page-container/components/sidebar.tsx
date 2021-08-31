@@ -258,7 +258,7 @@ const SideBar = () => {
             const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
             if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
-            } else if (!orgs?.length) {
+            } else if (!orgs?.length || isAdminRoute) {
               // skipping warning when the user doesn't join any organization.
               goTo(goTo.pages.orgRoot, { orgName: '-' });
             } else {

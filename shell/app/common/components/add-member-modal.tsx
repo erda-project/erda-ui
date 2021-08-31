@@ -19,6 +19,7 @@ import { MemberScope } from 'app/common/stores/member-scope';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
+import sysMemberStore from 'common/stores/sys-member';
 import { insertWhen } from '../utils';
 import { getApps } from 'common/services';
 import { useMount } from 'react-use';
@@ -39,6 +40,7 @@ const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.SYS]: sysMemberStore,
 };
 
 export const AddMemberModal = ({

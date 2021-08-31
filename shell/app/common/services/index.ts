@@ -13,6 +13,18 @@
 
 import agent from 'agent';
 
+interface IPlatformUser {
+  avatar: string;
+  email: string;
+  id: string;
+  locked: boolean;
+  name: string;
+  nick: string;
+  phone: string;
+  lastLoginAt: string;
+  pwdExpireAt: string;
+}
+
 export const fetchLog = ({
   fetchApi,
   ...rest
@@ -32,6 +44,24 @@ export function getMembers(payload: MEMBER.GetListServiceQuery) {
     .query(payload)
     .then((response: any) => response.body);
 }
+
+export const getPlatformUserList = (
+  params: IPagingReq,
+): Promise<RAW_RESPONSE<{ list: IPlatformUser[]; total: number }>> => {
+  return agent
+    .get('/api/users/actions/paging')
+    .query(params)
+    .then((response: any) => response.body);
+};
+
+export const searchPlatformUserList = (
+  params: { q: string } & IPagingReq,
+): Promise<RAW_RESPONSE<{ users: IPlatformUser[] }>> => {
+  return agent
+    .get('/api/users/actions/search')
+    .query(params)
+    .then((response: any) => response.body);
+};
 
 export function getRoleMap(payload: MEMBER.GetRoleTypeQuery): IPagingResp<MEMBER.IRoleType> {
   return agent

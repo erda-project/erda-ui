@@ -164,6 +164,7 @@ const org = createStore({
     clearOrg(state) {
       breadcrumbStore.reducers.setInfo('curOrgName', '');
       state.currentOrg = {} as ORG.IOrg;
+      state.curPathOrg = '';
     },
   },
 });
