@@ -26,6 +26,7 @@ import ServiceListDashboard from './service-list-dashboard';
 import { RadioChangeEvent } from 'core/common/interface';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
+
 enum DASHBOARD_TYPE {
   http = 'http',
   rpc = 'rpc',
@@ -33,11 +34,13 @@ enum DASHBOARD_TYPE {
   database = 'database',
 }
 
-type SORT_TYPE = 'DESC' | 'ASC';
+const defaultSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'timestamp:DESC';
 
-const sortButtonMap: { [key in SORT_TYPE]: string } = {
-  ASC: i18n.t('msp:time ascending'),
-  DESC: i18n.t('msp:time desc'),
+const sortButtonMap: { [key in TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE]: string } = {
+  'timestamp:DESC': i18n.t('msp:time desc'),
+  'timestamp:ASC': i18n.t('msp:time ascending'),
+  'duration:DESC': i18n.t('msp:duration desc'),
+  'duration:ASC': i18n.t('msp:duration asc'),
 };
 
 const dashboardIdMap = {
@@ -71,6 +74,20 @@ const sortList = [
 // 变量为正则需要转义字符
 const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '/'];
 
+interface IState {
+  type: DASHBOARD_TYPE;
+  search?: string;
+  subSearch?: string;
+  sort?: number;
+  url?: string;
+  traceSlowTranslation?: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp;
+  traceId?: string;
+  visible: boolean;
+  detailVisible: boolean;
+  logVisible: boolean;
+  sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
+}
+
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.timeSpan);
@@ -79,18 +96,18 @@ const Transaction = () => {
   const [
     { type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible, sortType },
     updater,
-  ] = useUpdate({
-    type: DASHBOARD_TYPE.http as DASHBOARD_TYPE,
-    search: undefined as string | undefined,
-    subSearch: undefined as string | undefined,
-    sort: undefined as number | undefined,
-    url: undefined as string | undefined,
-    traceSlowTranslation: undefined as TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp | undefined,
-    traceId: undefined as string | undefined,
-    visible: false as boolean,
-    detailVisible: false as boolean,
-    logVisible: false as boolean,
-    sortType: 'DESC' as SORT_TYPE,
+  ] = useUpdate<IState>({
+    type: DASHBOARD_TYPE.http,
+    search: undefined,
+    subSearch: undefined,
+    sort: undefined,
+    url: undefined,
+    traceSlowTranslation: undefined,
+    traceId: undefined,
+    visible: false,
+    detailVisible: false,
+    logVisible: false,
+    sortType: defaultSort,
   });
 
   const handleToggleType = (e: any) => {
@@ -98,7 +115,7 @@ const Transaction = () => {
     updater.subSearch(undefined);
   };
 
-  const queryTraceSlowTranslation = (sort_type: SORT_TYPE, cellValue: string) => {
+  const queryTraceSlowTranslation = (sort_type: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE, cellValue: string) => {
     const { serviceName, terminusKey, serviceId } = params;
     updater.sortType(sort_type);
     getTraceSlowTranslation({
@@ -113,8 +130,8 @@ const Transaction = () => {
   };
 
   const handleChangeSortType = React.useCallback(
-    (e: RadioChangeEvent) => {
-      queryTraceSlowTranslation(e.target.value as SORT_TYPE, url as string);
+    (e) => {
+      queryTraceSlowTranslation(e, url);
     },
     [url],
   );
@@ -127,7 +144,7 @@ const Transaction = () => {
       if (eventName === 'traceSlowTranslation') {
         updater.url(cellValue);
         updater.visible(true);
-        queryTraceSlowTranslation('DESC', cellValue);
+        queryTraceSlowTranslation(defaultSort, cellValue);
       }
     },
     [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
@@ -244,18 +261,22 @@ const Transaction = () => {
         onClose={() => updater.visible(false)}
       >
         <div className="flex items-center flex-wrap justify-end mb-3">
-          <RadioGroup value={sortType} onChange={handleChangeSortType}>
+          <Select value={sortType} onChange={handleChangeSortType}>
             {map(sortButtonMap, (v, k) => (
-              <RadioButton key={k} value={k}>
+              <Select.Option key={k} value={k}>
                 {v}
-              </RadioButton>
+              </Select.Option>
             ))}
-          </RadioGroup>
+          </Select>
         </div>
         <Table
           loading={isFetching}
           rowKey="requestId"
           columns={columns}
+          pagination={{
+            pageSizeOptions: ['10', '20', '50', '100', '200', '500', '1000'],
+            showSizeChanger: true,
+          }}
           dataSource={dataSource}
           scroll={{ x: '100%' }}
         />

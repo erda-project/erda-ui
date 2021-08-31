@@ -12,6 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace TOPOLOGY_SERVICE_ANALYZE {
+  type SORT_TYPE = 'timestamp:DESC' | 'timestamp:ASC' | 'duration:DESC' | 'duration:ASC';
+
   interface ProcessDashboardId {
     dashboardId: 'process_analysis_java' | 'process_analysis_nodejs';
   }
