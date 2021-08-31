@@ -22,6 +22,7 @@ import { regRules } from 'common/utils';
 import {
   BASE_DATA_TYPE,
   NUMBER_TYPE_MAP,
+  INTEGER_TYPE_MAP,
   REQUIRED_OPTIONS,
   API_PROPERTY_REQUIRED,
   API_MEDIA,
@@ -38,7 +39,13 @@ import {
 const { Option } = Select;
 const numberTypeOptions = map(NUMBER_TYPE_MAP, (item) => (
   <Option key={item} value={item}>
-    {item.slice(0, 1).toUpperCase() + item.slice(1)}
+    {`${item.slice(0, 1).toUpperCase()}${item.slice(1)}`}
+  </Option>
+));
+
+const integerTypeOptions = map(INTEGER_TYPE_MAP, (item) => (
+  <Option key={item} value={item}>
+    {`${item.slice(0, 1).toUpperCase()}${item.slice(1)}`}
   </Option>
 ));
 
@@ -79,7 +86,7 @@ const DetailBtn = (detailBtnProps: { visible: boolean; onChange: (v: boolean) =>
   );
 };
 
-// 枚举值
+// Enumerated values
 export const EnumRef = React.forwardRef(
   (enumProps: {
     value: string[];
@@ -153,15 +160,15 @@ export const EnumRef = React.forwardRef(
   },
 );
 
-// object类型的example展示
+// example of object type
 export const ApiFileEditor = React.forwardRef((fileEditorProps: { value: any }) => {
   const { value } = fileEditorProps;
   const _value = value ? JSON.stringify(value, null, 2) : JSON.stringify({}, null, 2);
   return <FileEditor {...fileEditorProps} fileExtension="json" value={_value} />;
 });
 
-/** ------boolean 的配置项-------------------------------*/
-// boolean 默认值
+/** ------Configuration items for boolean-------------------------------*/
+// boolean default value
 export const booleanDefaultValueField = {
   type: RadioGroup,
   label: i18n.t('default value'),
@@ -173,7 +180,7 @@ export const booleanDefaultValueField = {
   },
 };
 
-// boolean 示例
+// boolean example
 export const booleanExampleField = {
   type: RadioGroup,
   label: i18n.t('project:example'),
@@ -186,8 +193,8 @@ export const booleanExampleField = {
   },
 };
 
-/** ------string 的配置项-------------------------------*/
-// string 规则
+/** ------Configuration items for string-------------------------------*/
+// string rules
 export const stringPatternField = {
   type: Input,
   label: i18n.t('project:validation rules'),
@@ -199,7 +206,7 @@ export const stringPatternField = {
   },
 };
 
-// string 最小长度
+// string min
 export const stringMinLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
@@ -226,7 +233,7 @@ export const stringMinLengthField = (dataTempStorage: Obj) => {
     ],
   };
 };
-// string 最大长度
+// string max
 export const stringMaxLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
@@ -254,7 +261,7 @@ export const stringMaxLengthField = (dataTempStorage: Obj) => {
   };
 };
 
-// string 默认值
+// string default value
 export const stringDefaultValueField = {
   type: Input,
   label: i18n.t('default value'),
@@ -267,7 +274,7 @@ export const stringDefaultValueField = {
   },
 };
 
-// string 示例
+// string example
 export const stringExampleField = {
   type: Input,
   label: i18n.t('project:example'),
@@ -281,8 +288,8 @@ export const stringExampleField = {
   },
 };
 
-/** ------number 的配置项-------------------------------*/
-// number 数值类型
+/** ------Configuration items for number-------------------------------*/
+// number value type
 export const numberFormatField = {
   type: Select,
   label: i18n.t('project:numeric type'),
@@ -294,7 +301,7 @@ export const numberFormatField = {
   },
 };
 
-// number 最小值
+// number min
 export const numberMinimumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
@@ -321,7 +328,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
   };
 };
 
-// number 最大值
+// number max
 export const numberMaximumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
@@ -348,7 +355,7 @@ export const numberMaximumField = (dataTempStorage: Obj) => {
   };
 };
 
-// number 默认值
+// number defaule value
 export const numberDefaultValueField = {
   type: InputNumber,
   label: i18n.t('default value'),
@@ -358,7 +365,7 @@ export const numberDefaultValueField = {
   customProps: { className: 'w-full', ...DEFAULT_NUMBER_PROPS },
 };
 
-// number 默认值
+// number example
 export const numberExampleField = {
   type: InputNumber,
   label: i18n.t('project:example'),
@@ -369,8 +376,21 @@ export const numberExampleField = {
   customProps: { className: 'w-full', ...DEFAULT_NUMBER_PROPS },
 };
 
-/** ------object 的配置项-------------------------------*/
-// object example 配置项
+/** ------Configuration items for integer-------------------------------*/
+// value type of integer
+export const integerFormatField = {
+  type: Select,
+  label: i18n.t('project:numeric type'),
+  name: 'format',
+  required: false,
+  colSpan: 8,
+  customProps: {
+    children: integerTypeOptions,
+  },
+};
+
+/** ------Configuration items for object-------------------------------*/
+// object example configuration items
 export const objectExampleField = {
   type: ApiFileEditor,
   label: i18n.t('project:example'),
@@ -394,7 +414,7 @@ export const descriptionField = {
   customProps: { rows: 2, maxLength: TEXTAREA_MAX_LENGTH },
 };
 
-// 枚举值的配置
+// configuration of enumeration values
 export const enumField = (curPropertyType: string) => {
   return {
     type: EnumRef,
@@ -460,6 +480,15 @@ export const getPropertyDetailFields = (props: {
     return [
       { ...enumField(curPropertyType) },
       numberFormatField,
+      { ...numberMinimumField(formData) },
+      { ...numberMaximumField(formData) },
+      numberDefaultValueField,
+      numberExampleField,
+    ];
+  } else if (type === BASE_DATA_TYPE.integer) {
+    return [
+      { ...enumField(curPropertyType) },
+      integerFormatField,
       { ...numberMinimumField(formData) },
       { ...numberMaximumField(formData) },
       numberDefaultValueField,

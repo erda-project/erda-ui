@@ -125,6 +125,14 @@ const userStore = createStore({
       if (data && data.url) {
         const lastPath = `${window.location.pathname}${window.location.search}`;
         window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
+
+        for (let i = 0; i < window.localStorage.length; i++) {
+          const key = window.localStorage.key(i);
+          if (key?.includes('apim-')) {
+            window.localStorage.removeItem(key);
+          }
+        }
+
         window.location.href = data.url;
       }
     },
