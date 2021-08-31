@@ -852,6 +852,7 @@
     "submit": "提交",
     "test case": "用例",
     "text edit": "文本编辑",
+    "the current data volume exceeds 500kb, please click": "当前数据量超过500kb，请点击",
     "the uploaded file must not exceed {size}M": "上传的文件不得超过{size}M",
     "this configuration already exists": "该配置已存在",
     "this item is required": "该项为必填项",
