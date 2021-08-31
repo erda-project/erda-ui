@@ -26,7 +26,7 @@ let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
 gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
 
 const wsPathRegex = [
-  /^\/api\/[^/]*\/websocket/,
+  /^\/api\/[^/]*\/websocket1/,
   RegExp(`^/api/[^/]*/${dataAppName}-websocket`), // http-proxy-middleware can't handle multiple ws proxy https://github.com/chimurai/http-proxy-middleware/issues/463
   /^\/api\/[^/]*\/terminal/,
   /^\/api\/[^/]*\/apim-ws\/api-docs\/filetree/,
@@ -49,7 +49,12 @@ export const createProxyService = (app: INestApplication) => {
         if (uri && typeof uri === 'string') {
           const org = uri.split('/')?.[2];
           proxyReq.setHeader('org', org);
+        } else {
+          proxyReq.setHeader('org', 'terminus');
         }
+
+        proxyReq.setHeader('Sec-WebSocket-Protocol', 'base64.channel.k8s.io');
+
         socket.on('error', (error) => {
           logWarn('Websocket error.', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
         });

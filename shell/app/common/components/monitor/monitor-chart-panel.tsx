@@ -49,6 +49,7 @@ const MonitorChartPanel = (props: IProps) => {
               chartQuery[key] = parameters[key];
             });
           }
+          console.log('------', metricKey, unitType, chartQuery);
           return (
             <div className="monitor-chart-cell spin-full-height" key={metricKey}>
               <MonitorChart

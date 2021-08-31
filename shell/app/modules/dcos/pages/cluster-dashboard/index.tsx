@@ -24,6 +24,7 @@ import MachineTabs from './machineTabs';
 import { COLOUR_MAP } from '../../common/config';
 import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'core/stores/loading';
+import { ViewGridDetail } from '@icon-park/react';
 import { useMount, useUnmount } from 'react-use';
 import { stateSeverityMap } from 'cmp/pages/cluster-manage/cluster-state';
 import noClusterPng from 'app/images/no-cluster.png';
@@ -481,8 +482,15 @@ const ClusterDashboard = () => {
           </div>
         </IF>
         <IF check={selectedGroups.length}>
-          <div className="my-2">
-            <span
+          <div
+            className="my-2 text-link"
+            onClick={() => {
+              goTo(goTo.pages.cmpClustersNodes, { clusterName: activeGroup || `${groupName}${unitGroups[0]}` });
+            }}
+          >
+            <ViewGridDetail />
+            <span className="fake-link">{i18n.t('check detail')}</span>
+            {/* <span
               className="cluster-state-link"
               onClick={() =>
                 goTo(goTo.pages.cmpClusterState, { clusterName: activeGroup || groupName + unitGroups[0] })
@@ -491,7 +499,7 @@ const ClusterDashboard = () => {
               <span className="mr-5">{i18n.t('dcos:overall status of cluster')}:</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.icon`)}</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.displayName`)}</span>
-            </span>
+            </span> */}
           </div>
         </IF>
         <p className="group-info">

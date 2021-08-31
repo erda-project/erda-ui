@@ -67,14 +67,11 @@ const cluster = createStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ params, isIn, isLeaving }) => {
       const { clusterName } = params;
-      console.log('------inClusterDetail', clusterName);
       const curDetail = cluster.getState((s) => s.detail);
       if (isIn('clusterDetail') && curDetail?.name !== clusterName) {
-        console.log('------inClusterDetail', 1);
         cluster.effects.getClusterDetail({ clusterName });
       }
       if (isLeaving('clusterDetail')) {
-        console.log('------inClusterDetail', 2);
         cluster.reducers.clearClusterDetail('');
       }
     });

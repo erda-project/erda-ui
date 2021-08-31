@@ -52,6 +52,7 @@ import TextGroup from './text-group/text-group';
 import Chart from './chart/chart';
 import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
+import FileEditor from './file-editor/file-editor';
 
 export const containerMap = {
   Alert,
@@ -97,4 +98,5 @@ export const containerMap = {
   LinearDistribution,
   Chart,
   TiledFilter,
+  FileEditor,
 };

@@ -14,12 +14,16 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
+import { Button, Drawer } from 'core/nusi';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
+import i18n from 'i18n';
+import K8sClusterTerminal from './cluster-terminal';
 
 const ClusterNodes = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
+  const [consoleVis, setConsoleVis] = React.useState(false);
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -30,28 +34,42 @@ const ClusterNodes = () => {
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   return (
-    <DiceConfigPage
-      scenarioType={'cluster-nodes'}
-      scenarioKey={'cluster-nodes'}
-      inParams={inParams}
-      customProps={{
-        filter: {
-          onFilterChange: urlQueryChange,
-        },
-        cpuTable: {
-          onStateChange: urlQueryChange,
-        },
-        memTable: {
-          onStateChange: urlQueryChange,
-        },
-        podTable: {
-          onStateChange: urlQueryChange,
-        },
-        tableTabs: {
-          onStateChange: urlQueryChange,
-        },
-      }}
-    />
+    <>
+      <div className="top-button-group">
+        <Button onClick={() => setConsoleVis(true)}>控制台</Button>
+      </div>
+      <DiceConfigPage
+        scenarioType={'cluster-nodes'}
+        scenarioKey={'cluster-nodes'}
+        inParams={inParams}
+        customProps={{
+          filter: {
+            onFilterChange: urlQueryChange,
+          },
+          cpuTable: {
+            onStateChange: urlQueryChange,
+          },
+          memTable: {
+            onStateChange: urlQueryChange,
+          },
+          podTable: {
+            onStateChange: urlQueryChange,
+          },
+          tableTabs: {
+            onStateChange: urlQueryChange,
+          },
+        }}
+      />
+
+      <Drawer
+        visible={consoleVis}
+        onClose={() => setConsoleVis(false)}
+        title={`${i18n.t('cluster')} ${clusterName} ${i18n.t('console')}`}
+        width={'80%'}
+      >
+        <K8sClusterTerminal clusterName={clusterName} />
+      </Drawer>
+    </>
   );
 };
 
