@@ -26,7 +26,7 @@ let gittarUrl = isProd ? GITTAR_ADDR : BACKEND_URL;
 gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
 
 const wsPathRegex = [
-  /^\/api\/[^/]*\/websocket1/,
+  /^\/api\/[^/]*\/websocket/,
   RegExp(`^/api/[^/]*/${dataAppName}-websocket`), // http-proxy-middleware can't handle multiple ws proxy https://github.com/chimurai/http-proxy-middleware/issues/463
   /^\/api\/[^/]*\/terminal/,
   /^\/api\/[^/]*\/apim-ws\/api-docs\/filetree/,
