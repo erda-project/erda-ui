@@ -17,7 +17,7 @@ import { getApps } from 'common/services';
 import { createStore } from 'core/cube';
 import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
-import { ITimeRange, transformRange } from 'msp/components/time-select';
+import { ITimeRange, transformRange } from 'common/components/time-select/common';
 
 const defaultHandler = (data: any) => {
   const modules =

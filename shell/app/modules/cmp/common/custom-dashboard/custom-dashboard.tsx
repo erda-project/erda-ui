@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Input, message } from 'core/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
-import { useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
+import { useUpdate, IF, BoardGrid, PureBoardGrid, TimeSelect } from 'common';
 import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';
 import { goTo, getTimeSpan } from 'common/utils';
 import moment, { Moment } from 'moment';
@@ -28,7 +28,7 @@ import mspCustomDashboardStore from 'msp/monitor/custom-dashboard/stores/custom-
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
 import { getVariableStr } from '../utils';
 import { createLoadDataFn as createOldLoadDataFn } from './data-loader';
-import TimeSelect, { ITimeRange } from 'msp/components/time-select';
+import { ITimeRange } from 'common/components/time-select/common';
 import './custom-dashboard.scss';
 
 const storeMap = {

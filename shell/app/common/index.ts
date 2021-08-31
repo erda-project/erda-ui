@@ -72,6 +72,7 @@ export {
   FilterBarHandle,
 } from './components/filter-group/filter-group';
 export { default as TimeSelector } from './components/monitor/timeSelector';
+export { default as TimeSelect } from './components/time-select/time-select';
 export { default as SimpleLog } from './components/runtime/simple-log';
 export { default as SimpleLogRoller } from './components/runtime/simple-log-roller';
 export { ProtocolSelector, ProtocolInput } from './components/protocol-selector';
