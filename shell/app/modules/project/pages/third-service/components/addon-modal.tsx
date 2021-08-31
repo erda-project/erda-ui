@@ -112,17 +112,6 @@ class AddonModal extends React.PureComponent<IProps, IState> {
           form2Rest.topics.forEach((t: any) => ({ ...t, messageType: Number(t.messageType) }));
         }
         finData.configs = {};
-        if (finData.addonName === AddonType.AliCloudGateway) {
-          if (finData.extra.instanceID === '-1') {
-            delete finData.extra.instanceID;
-          }
-          if (finData.extra.slb && finData.extra.slb.instanceID === '-1') {
-            delete finData.extra.slb.instanceID;
-          }
-          if (finData.extra.slb && finData.extra.slb.spec === '-1') {
-            finData.extra.slb.spec = '';
-          }
-        }
       }
       this.setState({ submitLoading: true });
       this.props
