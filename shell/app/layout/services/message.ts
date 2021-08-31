@@ -29,5 +29,5 @@ export const readOneMessage = (id: number) => {
 };
 
 export const clearAllMessage = () => {
-  return agent.post(`/api/mboxs/actions/one-click-read`).then((response: any) => response.body);
+  return agent.post(`/api/mboxs/actions/read-all`).then((response: any) => response.body);
 };
