@@ -2043,6 +2043,8 @@
     "domain name": "domain name",
     "downtime": "downtime",
     "duration": "duration",
+    "duration asc": "duration asc",
+    "duration desc": "duration desc",
     "edit": "edit",
     "enable daily report": "enable daily report",
     "enable weekly report": "enable weekly report",

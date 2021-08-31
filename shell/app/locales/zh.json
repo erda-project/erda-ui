@@ -2043,6 +2043,8 @@
     "domain name": "域名",
     "downtime": "宕机",
     "duration": "持续时间",
+    "duration asc": "耗时升序",
+    "duration desc": "耗时降序",
     "edit": "编辑",
     "enable daily report": "开启日报",
     "enable weekly report": "开启周报",
