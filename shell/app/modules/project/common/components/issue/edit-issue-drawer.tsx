@@ -452,7 +452,7 @@ const IssueMetaFields = React.forwardRef(
           }),
           mode: 'tags',
           optionLabelProp: 'title', // 给select组件添加 optionLabelProp 属性，改变回填到选择框的 Option 的属性值
-          dropdownRender: (menu) => (
+          dropdownRender: (menu: any) => (
             <div>
               {menu}
               <Divider className="my-1" />
