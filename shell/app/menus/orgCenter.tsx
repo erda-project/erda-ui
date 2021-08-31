@@ -14,6 +14,7 @@
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
+import permStore from 'user/stores/permission';
 import {
   ApiApp as IconApiApp,
   CeMarking as IconCeMarking,
@@ -24,62 +25,68 @@ import {
 } from '@icon-park/react';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
+import { filter } from 'lodash';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
+  const orgPerm = permStore.getState((s) => s.org);
   return filterMenu(
-    [
-      {
-        key: 'orgProjects',
-        href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-        icon: <IconApiApp />,
-        text: i18n.t('projects'),
-      },
-      {
-        key: 'orgMarket',
-        href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
-        icon: <IconCeMarking />,
-        text: i18n.t('layout:market'),
-        subMenu: [
-          {
-            key: 'orgMarketPublisher',
-            text: i18n.t('org:publisher info'),
-            href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
-          },
-        ],
-      },
-      {
-        key: 'orgCertificate',
-        href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
-        icon: <IconCertificate />,
-        text: i18n.t('layout:certificate'),
-      },
-      {
-        key: 'orgApproval',
-        href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
-        icon: <CustomIcon type="shenpiguanli" />,
-        text: i18n.t('layout:approval'),
-        prefix: `${goTo.resolve.orgCenterApproval()}/`,
-      },
-      {
-        key: 'orgAnnouncement',
-        href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
-        icon: <IconBill />,
-        text: i18n.t('org:announcement management'),
-      },
-      {
-        key: 'orgSafety',
-        href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-        icon: <IconLog />,
-        text: i18n.t('org:audit log'),
-      },
-      {
-        key: 'orgSetting',
-        href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
-        icon: <IconCity />,
-        text: i18n.t('org setting'),
-      },
-    ],
+    filter(
+      [
+        {
+          key: 'orgProjects',
+          href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
+          icon: <IconApiApp />,
+          text: i18n.t('projects'),
+        },
+        {
+          key: 'orgMarket',
+          href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
+          icon: <IconCeMarking />,
+          text: i18n.t('layout:market'),
+          subMenu: [
+            {
+              key: 'orgMarketPublisher',
+              text: i18n.t('org:publisher info'),
+              href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
+            },
+          ],
+        },
+        {
+          key: 'orgCertificate',
+          href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
+          icon: <IconCertificate />,
+          text: i18n.t('layout:certificate'),
+        },
+        {
+          key: 'orgApproval',
+          href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
+          icon: <CustomIcon type="shenpiguanli" />,
+          text: i18n.t('layout:approval'),
+          prefix: `${goTo.resolve.orgCenterApproval()}/`,
+        },
+        {
+          key: 'orgAnnouncement',
+          href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
+          icon: <IconBill />,
+          text: i18n.t('org:announcement management'),
+        },
+        {
+          key: 'orgSafety',
+          href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
+          icon: <IconLog />,
+          text: i18n.t('org:audit log'),
+          show: orgPerm.orgCenter.viewAuditLog.pass,
+        },
+        {
+          key: 'orgSetting',
+          href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
+          icon: <IconCity />,
+          text: i18n.t('org setting'),
+        },
+      ],
+      (item) => item.show !== false,
+    ),
     MENU_SCOPE.orgCenter,
   );
 };
