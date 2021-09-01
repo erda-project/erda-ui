@@ -29,7 +29,6 @@ import buildStore from 'application/stores/build';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
-import { getPipelineDetail } from 'application/services/build';
 import PipelineLog from './pipeline-log';
 import './build-detail.scss';
 import deployStore from 'application/stores/deploy';
@@ -99,6 +98,18 @@ const BuildDetail = (props: IProps) => {
     'getPipelineDetail',
     'addPipeline',
   ]);
+
+  // set a timer to loop get status, until websocket push is available
+  const timer = React.useRef<NodeJS.Timeout>();
+  React.useEffect(() => {
+    if (pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status)) {
+      timer.current = setTimeout(() => {
+        state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
+      }, 10000);
+    } else {
+      timer.current && clearTimeout(timer.current);
+    }
+  }, [getPipelineDetail, pipelineDetail, state.chosenPipelineId]);
 
   React.useEffect(() => {
     state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
