@@ -17,7 +17,7 @@ import moment, { Moment } from 'moment';
 import { PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { Table, Drawer } from 'core/nusi';
+import { Table, Drawer, message } from 'core/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
@@ -72,7 +72,7 @@ const convertData = (
 
 interface RecordType {
   id: string;
-  elapsed: number;
+  duration: number;
   startTime: number;
   services: string[];
 }
@@ -179,11 +179,15 @@ export default () => {
     const durationMin = transformDuration(duration?.[0]);
     const durationMax = transformDuration(duration?.[1]);
     let durations = {};
-    if (isNumber(durationMin) && isNumber(durationMax) && durationMin <= durationMax) {
-      durations = {
-        durationMin,
-        durationMax,
-      };
+    if (isNumber(durationMin) && isNumber(durationMax)) {
+      if (durationMin <= durationMax) {
+        durations = {
+          durationMin,
+          durationMax,
+        };
+      } else {
+        message.error(i18n.t('msp:wrong duration'));
+      }
     }
     getData({
       startTime,
@@ -250,11 +254,11 @@ export default () => {
       render: (id: string) => <Copy>{id}</Copy>,
     },
     {
-      title: i18n.t('msp:time consuming'),
-      dataIndex: 'elapsed',
+      title: i18n.t('msp:duration'),
+      dataIndex: 'duration',
       width: 240,
-      sorter: (a: any, b: any) => a.elapsed - b.elapsed,
-      render: (elapsed: number) => getFormatter('TIME', 'ns').format(elapsed),
+      sorter: (a: RecordType, b: RecordType) => a.duration - b.duration,
+      render: (duration: number) => getFormatter('TIME', 'ns').format(duration),
     },
     {
       title: i18n.t('msp:start time'),
