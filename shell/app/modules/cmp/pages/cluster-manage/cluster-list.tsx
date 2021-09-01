@@ -268,8 +268,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         {operateList.length > 3 ? (
           <>
             {operateList.slice(0, 3)}
-            <Popover content={operateList.slice(3)} overlayClassName="z-50">
-              <CustomIcon className="fake-link ml-1" type="more" />
+            <Popover content={operateList.slice(3)} overlayClassName="z-50" placement="topLeft">
+              <CustomIcon className="fake-link ml-1 pr-2.5" type="more" />
             </Popover>
           </>
         ) : (
