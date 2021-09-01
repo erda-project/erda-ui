@@ -368,30 +368,44 @@ const VersionList = (props: IProps) => {
                               </Button>
                             </WithAuth>
                           </IF>
-                          <Popconfirm
-                            title={i18n.t('is it confirmed {action}?', {
-                              action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish'),
-                            })}
-                            onConfirm={() => {
-                              openGrayModal(record);
-                            }}
-                          >
-                            <WithAuth pass={publishOperationAuth}>
-                              <Tooltip
-                                title={
-                                  disableVersionConf(record)
-                                    ? i18n.t(
-                                        'publisher:The official and preview version published should be withdrawn first, then other versions can be published.',
-                                      )
-                                    : undefined
-                                }
-                              >
-                                <Button disabled={disableVersionConf(record)}>
-                                  {isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish')}
-                                </Button>
-                              </Tooltip>
-                            </WithAuth>
-                          </Popconfirm>
+                          {record.resources.map((item) => {
+                            if (item.type === 'aab') {
+                              return (
+                                <WithAuth pass={publishOperationAuth}>
+                                  <Button disabled={disableVersionConf(record)} onClick={() => window.open(item.url)}>
+                                    {i18n.t('download')}
+                                  </Button>
+                                </WithAuth>
+                              );
+                            } else {
+                              return (
+                                <Popconfirm
+                                  title={i18n.t('is it confirmed {action}?', {
+                                    action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish'),
+                                  })}
+                                  onConfirm={() => {
+                                    openGrayModal(record);
+                                  }}
+                                >
+                                  <WithAuth pass={publishOperationAuth}>
+                                    <Tooltip
+                                      title={
+                                        disableVersionConf(record)
+                                          ? i18n.t(
+                                              'publisher:The official and preview version published should be withdrawn first, then other versions can be published.',
+                                            )
+                                          : undefined
+                                      }
+                                    >
+                                      <Button disabled={disableVersionConf(record)}>
+                                        {isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish')}
+                                      </Button>
+                                    </Tooltip>
+                                  </WithAuth>
+                                </Popconfirm>
+                              );
+                            }
+                          })}
                         </div>
                       </div>
                     );
