@@ -49,7 +49,7 @@ declare namespace ISSUE_WORKFLOW {
 
   interface IStateQuery {
     projectID: number;
-    issueType: ISSUE_TYPE;
+    issueType?: ISSUE_TYPE;
   }
   interface IUpdateQuery extends IStateQuery {
     data: IIssueStateItem[];
