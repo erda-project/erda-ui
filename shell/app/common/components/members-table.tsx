@@ -87,7 +87,7 @@ export const MembersTable = ({
   const [projectMemberPerm, appMemberPerm, mspProjectMemberPerm] = usePerm((s) => [
     s.project.member,
     s.app.member,
-    s.msp.MSP.member,
+    s.project.microService.member,
   ]);
   const { id: currentUserId } = loginUser;
   const { params } = routeInfoStore.getState((s) => s);
@@ -148,7 +148,7 @@ export const MembersTable = ({
       invite: false,
     },
     [MemberScope.MSP]: {
-      add: mspProjectMemberPerm.addProjectMember.pass || true,
+      add: mspProjectMemberPerm.addProjectMember.pass,
       edit: mspProjectMemberPerm.editProjectMember.pass,
       delete: mspProjectMemberPerm.removeProjectMember.pass,
       showAuthorize: false,

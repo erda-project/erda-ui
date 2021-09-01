@@ -1,5 +1,7 @@
 .msp-notify-group {
-  .notify-group-action {
-    z-index: 10;
+  .notify-group-manage {
+    .notify-group-action {
+      @extend %top-button-group;
+    }
   }
 }

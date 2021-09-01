@@ -389,6 +389,11 @@ export const AddMemberSelector = (props: IAddProps) => {
       scopeType: MemberScope.ORG,
       scopeId: orgId,
     },
+    [MemberScope.MSP]: {
+      // 添加项目成员：从org成员中选择
+      scopeType: MemberScope.ORG,
+      scopeId: orgId,
+    },
     [MemberScope.APP]: {
       // 添加项目成员：从project中选择
       scopeType: MemberScope.PROJECT,

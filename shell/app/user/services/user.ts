@@ -92,3 +92,13 @@ export const getResourcePermissions = ({
     .send({ scope: { type: scope, id: String(scopeID) } })
     .then((response: any) => response.body);
 };
+
+export const getMspResourcePermissions = ({
+  scope,
+  scopeID,
+}: IGetScopePermQuery): Promise<RES_BODY<IPermResponseData>> => {
+  return agent
+    .post('/api/msp/permission/access')
+    .send({ scope: { type: scope, id: String(scopeID) } })
+    .then((response: any) => response.body);
+};

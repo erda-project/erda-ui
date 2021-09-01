@@ -12,6 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
+import i18n from 'i18n';
+
 export const projectRoleMap = {
   Owner: { name: '项目所有者', value: 'Owner' },
   Lead: { name: '研发主管', value: 'Lead' },
@@ -499,6 +501,45 @@ export const projectPerm = {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'Support'],
       name: '查看',
+    },
+  },
+  microService: {
+    name: i18n.t('msp'),
+    member: {
+      name: i18n.t('org:member management'),
+      addProjectMember: {
+        name: i18n.t('add member'),
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      editProjectMember: {
+        name: i18n.t('edit {name}', { name: i18n.t('member') }),
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      removeProjectMember: {
+        name: i18n.t('delete {name}', { name: i18n.t('member') }),
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+    },
+    accessConfiguration: {
+      name: '接入配置',
+      createAccessKey: {
+        name: '创建 AccessKey',
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      deleteAccessKey: {
+        name: '删除 AccessKey',
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      viewAccessKeySecret: {
+        name: '查看 AccessKeySecret',
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
     },
   },
 };

@@ -16,6 +16,12 @@ import routeInfoStore from 'core/stores/route';
 import AlarmStrategy from 'cmp/common/alarm-strategy';
 
 export default () => {
-  const params = routeInfoStore.useStore((s) => s.params);
-  return <AlarmStrategy scopeType="project" scopeId={params.projectId} />;
+  const { env, terminusKey, projectId } = routeInfoStore.useStore((s) => s.params);
+  return (
+    <AlarmStrategy
+      scopeType="msp"
+      scopeId={projectId}
+      commonPayload={{ scopeType: `msp_${env}`, scopeId: `msp_${terminusKey}` }}
+    />
+  );
 };

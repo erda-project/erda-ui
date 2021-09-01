@@ -14,10 +14,10 @@
 import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { isEmpty, map, take, head } from 'lodash';
-import { Spin, Modal, Tooltip, Select, Table, Button, message } from 'core/nusi';
-import { ErdaCustomIcon, Avatar, useSwitch, FormModal, useUpdate, MemberSelector } from 'common';
-import { FormInstance, ColumnProps } from 'core/common/interface';
+import { head, isEmpty, map, take } from 'lodash';
+import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'core/nusi';
+import { Avatar, ErdaCustomIcon, FormModal, MemberSelector, useSwitch, useUpdate } from 'common';
+import { ColumnProps, FormInstance } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';
 import { useLoading } from 'core/stores/loading';
@@ -83,9 +83,9 @@ const groupTargetMap = {
 
 interface IProps {
   commonPayload: {
-    scopeType: COMMON_NOTIFY.ScopeType;
+    scopeType: string;
     scopeId: string;
-    label?: string;
+    projectId?: string;
   };
   memberStore: any;
 }
@@ -180,9 +180,23 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   });
   const isEditing = !isEmpty(activedData);
 
+  const isInMsp = commonPayload.scopeType.includes('msp');
+
+  const memberSelectProps = isInMsp
+    ? {
+        scopeType: 'msp',
+        scopeId: commonPayload.projectId,
+      }
+    : commonPayload;
+
+  const scope = isInMsp ? 'msp' : commonPayload.scopeType;
+
   useMount(() => {
     handleGetNotifyGroups();
-    getRoleMap({ scopeType: commonPayload.scopeType, scopeId: commonPayload.scopeId });
+    getRoleMap({
+      scopeType: scope,
+      scopeId: commonPayload.scopeId,
+    });
   });
 
   useUnmount(() => {
@@ -357,7 +371,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         label: groupTargetMap[groupType],
         required: true,
         getComp: () => {
-          return <MemberSelector {...commonPayload} mode="multiple" type="Category" />;
+          return <MemberSelector {...memberSelectProps} mode="multiple" type="Category" />;
         },
       };
       break;

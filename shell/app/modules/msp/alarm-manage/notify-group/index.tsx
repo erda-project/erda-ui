@@ -15,14 +15,15 @@ import React from 'react';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
 import memberStore from 'common/stores/msp-project-member';
 import routeInfoStore from 'core/stores/route';
+import './index.scss';
 
 const NotifyGroups = () => {
-  const { projectId, env } = routeInfoStore.useStore((s) => s.params);
+  const { env, terminusKey, projectId } = routeInfoStore.useStore((s) => s.params);
   return (
     <div className="msp-notify-group">
       <NotifyGroup
         memberStore={memberStore}
-        commonPayload={{ scopeType: 'project', scopeId: projectId, label: `msp-${env}` }}
+        commonPayload={{ scopeType: `msp_${env}`, scopeId: `msp_${terminusKey}`, projectId }}
       />
     </div>
   );

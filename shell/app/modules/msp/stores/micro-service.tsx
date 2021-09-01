@@ -31,6 +31,7 @@ import {
 import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
 import breadcrumbStore from 'layout/stores/breadcrumb';
+import permStore from 'user/stores/permission';
 
 const docUrlMap = {
   apiGatewayIntro: DOC_MSP_API_GATEWAY,
@@ -137,6 +138,11 @@ const mspStore = createStore({
       const isMspDetailIndex = mspReg.test(location.href);
       const [currentEnvInfo, currentProject] = mspStore.getState((s) => [s.currentEnvInfo, s.currentProject]);
       if (isIn('mspDetail')) {
+        permStore.effects.checkRouteAuth({
+          type: 'msp',
+          id: projectId,
+          routeMark: 'mspDetail',
+        });
         if (projectId !== currentEnvInfo.projectId) {
           mspStore.reducers.updateCurrentEnvInfo({ projectId, env, tenantGroup });
           await mspStore.effects.getMspProjectDetail();
@@ -182,8 +188,6 @@ const mspStore = createStore({
         menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
         mspMenu = generateMSMenu(menuData, params, query);
       }
-      console.clear();
-      console.log(mspMenu);
       const [firstMenu] = mspMenu;
       const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
       const siderName = `${firstMenu.text}(${envMap[env]})`;
