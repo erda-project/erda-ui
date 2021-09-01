@@ -1542,7 +1542,7 @@
     "last login time": "last login time",
     "last month": "last month",
     "last week": "last week",
-    "last {count} {unit}": "last {count} {unit}",
+    "last {amount} {unit}": "last {amount} {unit}",
     "latest active": "latest active",
     "length is {min}~{max}": "length is {min}~{max}",
     "less than": "less than",
