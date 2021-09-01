@@ -18,6 +18,6 @@
  * @returns
  */
 export const getVariableStr = (sourceStr: string) => {
-  const matchTarget = sourceStr.match(/(?<={{).*?(?=}})/);
+  const matchTarget = sourceStr.match(/\{\{.*?\}\}/);
   return matchTarget ? matchTarget[0] : undefined;
 };
