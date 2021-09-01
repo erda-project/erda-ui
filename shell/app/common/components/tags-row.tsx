@@ -87,7 +87,7 @@ export const TagItem = (props: IItemProps) => {
 };
 
 export const TagsRow = ({
-  labels,
+  labels = [],
   showCount = 2,
   containerClassName = '',
   size = 'small',

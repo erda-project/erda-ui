@@ -36,7 +36,7 @@ const docUrlMap = {
   apiGatewayIntro: DOC_MSP_API_GATEWAY,
   registerCenterIntro: DOC_MSP_REGISTER,
   configCenterIntro: DOC_MSP_CONFIG_CENTER,
-  monitorIntor: DOC_MSP_MONITOR,
+  monitorIntro: DOC_MSP_MONITOR,
 };
 
 interface IState {

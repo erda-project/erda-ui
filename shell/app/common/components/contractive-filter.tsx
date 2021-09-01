@@ -232,21 +232,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               }
             };
             if (isGroup) {
-              return (
-                <div className="option-group" key={op.value || op.label}>
-                  <div className="option-group-label">{op.label}</div>
-                  {op.children?.map((cItem) => {
-                    return (
-                      <OptionItem
-                        key={cItem.value}
-                        value={_value}
-                        option={cItem}
-                        onClick={() => onClickOptItem(cItem)}
-                      />
-                    );
-                  })}
-                </div>
-              );
+              return <GroupOpt value={_value} onClickOptItem={onClickOptItem} option={op} />;
             } else {
               return <OptionItem key={op.value} value={_value} option={op} onClick={() => onClickOptItem(op)} />;
             }
@@ -374,6 +360,24 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     );
   }
   return null;
+};
+
+interface IGroupOptProps {
+  value: Array<string | number>;
+  option: Option;
+  onClickOptItem: (op: Option) => void;
+}
+
+const GroupOpt = (props: IGroupOptProps) => {
+  const { option, onClickOptItem, value } = props;
+  return (
+    <div className="option-group" key={option.value || option.label}>
+      <div className="option-group-label">{option.label}</div>
+      {option.children?.map((cItem) => {
+        return <OptionItem key={cItem.value} value={value} option={cItem} onClick={() => onClickOptItem(cItem)} />;
+      })}
+    </div>
+  );
 };
 
 const noop = () => {};

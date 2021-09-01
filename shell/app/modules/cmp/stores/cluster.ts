@@ -69,6 +69,7 @@ const cluster = createStore({
       const { clusterName } = params;
       const curDetail = cluster.getState((s) => s.detail);
       if (isIn('clusterDetail') && curDetail?.name !== clusterName) {
+        console.log('------in cluster detail');
         cluster.effects.getClusterDetail({ clusterName });
       }
       if (isLeaving('clusterDetail')) {

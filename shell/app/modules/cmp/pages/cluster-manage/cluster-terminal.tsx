@@ -31,8 +31,11 @@ const K8sClusterTerminal = (props: IProps) => {
     name: 'test-7c8c8745d4-56vt4',
     clusterName: 'terminus-dev',
   };
+
   const _params = {
-    url: `wss://${window.location.host}/api/${getOrgFromPath()}/websocket/k8s/clusters/${ob.clusterName}/kubectl-shell`,
+    // url: `wss://${window.location.host}/api/erda/v1/namespaces/addon-nacos--r823ba8ce60a94db68dab45557547ada9/pods/nacos-0/exec?container=nacos&stdout=1&stdin=1&stderr=1&tty=1&command=%2Fbin%2Fsh&command=-c&command=TERM%3Dxterm-256color%3B%20export%20TERM%3B%20%5B%20-x%20%2Fbin%2Fbash%20%5D%20%26%26%20(%5B%20-x%20%2Fusr%2Fbin%2Fscript%20%5D%20%26%26%20%2Fusr%2Fbin%2Fscript%20-q%20-c%20%22%2Fbin%2Fbash%22%20%2Fdev%2Fnull%20%7C%7C%20exec%20%2Fbin%2Fbash)%20%7C%7C%20exec%20%2Fbin%2Fsh`,
+    // url: `wss://${window.location.host}/api/terminus/websocket/032/wcwitmd2/websocket`,
+    url: `wss://${window.location.host}/api/erda/websocket/k8s/clusters/terminus-dev/api/v1/namespaces/project-387-dev/pods/cluster-agent-3feb156fc4-bf99775bc-2tpkp/exec?container=cluster-agent&stdout=1&stdin=1&stderr=1&tty=1&command=%2Fbin%2Fsh&command=-c&command=TERM%3Dxterm-256color%3B%20export%20TERM%3B%20%5B%20-x%20%2Fbin%2Fbash%20%5D%20%26%26%20(%5B%20-x%20%2Fusr%2Fbin%2Fscript%20%5D%20%26%26%20%2Fusr%2Fbin%2Fscript%20-q%20-c%20%22%2Fbin%2Fbash%22%20%2Fdev%2Fnull%20%7C%7C%20exec%20%2Fbin%2Fbash)%20%7C%7C%20exec%20%2Fbin%2Fsh`,
     // url: `${replaceProtocol(window.location.protocol)}//${
     //   window.location.host
     // }/api/${getOrgFromPath()}/websocket/k8s/clusters/${ob.clusterName}/api/v1/namespaces/${ob.namespace}/pods/${ob.name}/exec?container=${encodeURIComponent('container-0')}&stdout=1&stdin=1&stderr=1&tty=1&command=${encodeURIComponent('/bin/bash')}
@@ -40,24 +43,26 @@ const K8sClusterTerminal = (props: IProps) => {
     // initData,
   };
 
-  const wss = new WebSocket(_params.url);
-  wss.onopen = function (evt) {
-    console.log('Connection open ...', evt);
-    wss.send('Hello WebSockets!');
-  };
+  React.useEffect(() => {
+    const wss = new WebSocket(_params.url);
+    wss.onopen = function (evt) {
+      console.log('Connection open ...', evt);
+      // wss.send('Hello WebSockets!');
+    };
 
-  wss.onmessage = function (evt) {
-    console.log('Received Message: ' + evt);
-    // wss.close();
-  };
+    wss.onmessage = function (evt) {
+      console.log('Received Message: ' + evt);
+      // wss.close();
+    };
 
-  wss.onclose = function (evt) {
-    console.log('Connection closed.', evt);
-  };
+    wss.onclose = function (evt) {
+      console.log('Connection closed.', evt);
+    };
 
-  wss.onerror = function (evt) {
-    console.log('Connection closed.', evt);
-  };
+    wss.onerror = function (evt, ee) {
+      console.log('Connection error.', evt, ee);
+    };
+  }, []);
 
   return (
     <div className="">

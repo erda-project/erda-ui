@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage from 'app/config-page';
+import DiceConfigPage, { useMock } from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
@@ -34,6 +34,8 @@ const ClusterNodes = () => {
       scenarioType={'cluster-pods'}
       scenarioKey={'cluster-pods'}
       inParams={inParams}
+      forceMock
+      useMock={useMock('k8s-pods')}
       customProps={{
         filter: {
           onFilterChange: urlQueryChange,

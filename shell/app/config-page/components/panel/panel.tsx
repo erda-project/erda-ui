@@ -40,7 +40,12 @@ export default (props: CP_PANEL.Props) => {
           const onAdd = operations?.add && (() => execOperation(operations?.add));
           const onDelete = operations?.delete && ((record: Object) => execOperation(operations?.delete, record));
           reField.valueItem = () => (
-            <TagsRow showCount={showCount} labels={curData?.[reField.valueKey]} onAdd={onAdd} onDelete={onDelete} />
+            <TagsRow
+              showCount={showCount}
+              labels={curData?.[reField.valueKey] || []}
+              onAdd={onAdd}
+              onDelete={onDelete}
+            />
           );
         }
         break;
