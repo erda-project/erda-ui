@@ -577,8 +577,4 @@ declare namespace GATEWAY {
     service: string;
     runtimeId: string;
   }
-
-  interface CloudapiExists {
-    cloudapiExists: boolean;
-  }
 }
