@@ -76,7 +76,7 @@ const SideNavigation = ({
     <div className="h-full side-nav-menu overflow-hidden" style={{ width: isFold ? 80 : 200 }}>
       <div style={{ height: 'calc(100% - 48px)' }} className="pt-2 border-right flex flex-col">
         {!isFold ? extraNode : null}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden h-full">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden h-full menu-container">
           <Menu
             inlineCollapsed={isFold}
             theme="light"
