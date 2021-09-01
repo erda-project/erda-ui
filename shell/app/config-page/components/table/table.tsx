@@ -175,7 +175,7 @@ export function Table(props: CP_TABLE.Props) {
     : undefined;
 
   return visible ? (
-    <div className="relative" style={{ paddingBottom: configProps.pagination === false ? 64 : 'unset' }}>
+    <div className="relative" style={{ paddingBottom: configProps?.pagination === false ? 64 : 'unset' }}>
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
       <PureTable
         className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
