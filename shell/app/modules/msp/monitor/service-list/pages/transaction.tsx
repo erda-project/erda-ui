@@ -32,6 +32,7 @@ enum DASHBOARD_TYPE {
   rpc = 'rpc',
   cache = 'cache',
   database = 'database',
+  mq = 'mq',
 }
 
 const defaultSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'timestamp:DESC';
@@ -60,6 +61,10 @@ const dashboardIdMap = {
     id: 'translation_analysis_database',
     name: i18n.t('msp:Database call'),
   },
+  [DASHBOARD_TYPE.mq]: {
+    id: 'translation_analysis_mq',
+    name: i18n.t('msp:MQ call'),
+  },
 };
 const sortList = [
   {
@@ -70,6 +75,25 @@ const sortList = [
     name: i18n.t('msp:the number of calls in reverse order'),
     value: 1,
   },
+  {
+    name: i18n.t('msp:the number of calls in reverse order'),
+    value: 2,
+  },
+  {
+    name: i18n.t('msp:average delay in reverse order'),
+    value: 3,
+  },
+];
+
+const callTypes = [
+  {
+    name: i18n.t('msp:producer'),
+    value: 'producer',
+  },
+  {
+    name: i18n.t('msp:consumer'),
+    value: 'consumer',
+  },
 ];
 // 变量为正则需要转义字符
 const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '/'];
@@ -77,6 +101,7 @@ const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '
 interface IState {
   type: DASHBOARD_TYPE;
   search?: string;
+  topic?: string;
   subSearch?: string;
   sort?: number;
   url?: string;
@@ -86,6 +111,7 @@ interface IState {
   detailVisible: boolean;
   logVisible: boolean;
   sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
+  callType?: string;
 }
 
 const Transaction = () => {
@@ -94,11 +120,26 @@ const Transaction = () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [
-    { type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible, sortType },
+    {
+      type,
+      search,
+      subSearch,
+      topic,
+      sort,
+      url,
+      visible,
+      traceSlowTranslation,
+      detailVisible,
+      traceId,
+      logVisible,
+      sortType,
+      callType,
+    },
     updater,
   ] = useUpdate<IState>({
     type: DASHBOARD_TYPE.http,
     search: undefined,
+    topic: undefined,
     subSearch: undefined,
     sort: undefined,
     url: undefined,
@@ -108,6 +149,7 @@ const Transaction = () => {
     detailVisible: false,
     logVisible: false,
     sortType: defaultSort,
+    callType: undefined,
   });
 
   const handleToggleType = (e: any) => {
@@ -195,13 +237,14 @@ const Transaction = () => {
       REG_CHARS.forEach((char) => {
         _subSearch = _subSearch?.replaceAll(char, `\\${char}`);
       });
-
     return {
+      topic,
       search,
       sort,
+      type: callType,
       subSearch: _subSearch || undefined,
     };
-  }, [search, sort, subSearch]);
+  }, [search, sort, callType, subSearch, topic]);
 
   return (
     <div className="service-analyze flex flex-col h-full">
@@ -209,27 +252,49 @@ const Transaction = () => {
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
             <TimeSelector className="m-0" />
-            <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
+            <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
                 className="ml-3"
-                placeholder={i18n.t('msp:select sorting method')}
+                placeholder={i18n.t('msp:call type')}
                 allowClear
-                style={{ width: '180px' }}
-                onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+                onChange={(v) => updater.callType(v)}
               >
-                {sortList.map(({ name, value }) => (
+                {callTypes.map(({ name, value }) => (
                   <Select.Option key={value} value={value}>
                     {name}
                   </Select.Option>
                 ))}
               </Select>
             </If>
-            <Search
+            <Select
+              className="ml-3"
+              placeholder={i18n.t('msp:select sorting method')}
               allowClear
-              placeholder={i18n.t('msp:search by transaction name')}
-              style={{ marginLeft: '12px', width: '180px' }}
-              onHandleSearch={(v) => updater.search(v)}
-            />
+              style={{ width: '180px' }}
+              onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+            >
+              {sortList.map(({ name, value }) => (
+                <Select.Option key={value} value={value}>
+                  {name}
+                </Select.Option>
+              ))}
+            </Select>
+            <If condition={type === DASHBOARD_TYPE.mq}>
+              <Search
+                allowClear
+                placeholder={i18n.t('msp:search by Topic')}
+                style={{ marginLeft: '12px' }}
+                onHandleSearch={(v) => updater.topic(v)}
+              />
+            </If>
+            <If condition={type !== DASHBOARD_TYPE.mq}>
+              <Search
+                allowClear
+                placeholder={i18n.t('msp:search by transaction name')}
+                style={{ marginLeft: '12px', width: '180px' }}
+                onHandleSearch={(v) => updater.search(v)}
+              />
+            </If>
           </div>
           <div className="right flex justify-between items-center mb-2">
             <RadioGroup value={type} onChange={handleToggleType}>
