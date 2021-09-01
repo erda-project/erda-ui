@@ -134,7 +134,7 @@ const TestPlan = () => {
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
-      width: 176,
+      width: 200,
       fixed: 'right',
       render: (id, record) => {
         return (
