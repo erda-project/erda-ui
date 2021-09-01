@@ -77,7 +77,7 @@ describe('time-select', () => {
     });
   });
   describe('TimeRange', () => {
-    it('should ', () => {
+    it('TimeRange should work well', () => {
       const changeFn = jest.fn();
       const wrapper = mount(<TimeRange onChange={changeFn} />);
       expect(wrapper.find('.time-quick-select-item')).toHaveLength(relativeTimeRange.length);

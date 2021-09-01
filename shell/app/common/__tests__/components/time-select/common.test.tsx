@@ -18,7 +18,7 @@ import {
 } from 'common/components/time-select/common';
 import moment from 'moment';
 
-describe('', () => {
+describe('time-select-common', () => {
   it('transformRange should work well', () => {
     const start = moment();
     const end = moment();
