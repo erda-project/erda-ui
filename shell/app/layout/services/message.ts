@@ -27,3 +27,7 @@ export const getMessageStats = (): { unreadCount: number } => {
 export const readOneMessage = (id: number) => {
   return agent.get(`/api/mboxs/${id}`).then((response: any) => response.body);
 };
+
+export const clearAllMessage = () => {
+  return agent.post(`/api/mboxs/actions/read-all`).then((response: any) => response.body);
+};
