@@ -577,38 +577,3 @@ export const getServiceApiPrefix = (payload: GATEWAY.QueryApiPrefix): string[] =
     .query(payload)
     .then((response: any) => response.body);
 };
-
-export const getAliCloudDomain = ({ packageId }: GATEWAY.Package): GATEWAY.AliCloudDomain => {
-  return agent.get(`/api/gateway/openapi/packages/${packageId}/aliyun-bind`).then((response: any) => response.body);
-};
-
-export const bindAliCloudDomain = ({ packageId }: GATEWAY.Package): GATEWAY.AliCloudDomain => {
-  return agent.post(`/api/gateway/openapi/packages/${packageId}/aliyun-bind`).then((response: any) => response.body);
-};
-
-export const generateAliCloudCredentials = ({ consumerId }: { consumerId: string }): GATEWAY.AliCloudCredentials[] => {
-  return agent
-    .post(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials`)
-    .then((response: any) => response.body);
-};
-
-export const generateAliCloudCredentialsAsync = ({
-  consumerId,
-}: {
-  consumerId: string;
-}): GATEWAY.AliCloudCredentials[] => {
-  return agent
-    .post(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials-async`)
-    .then((response: any) => response.body);
-};
-
-export const getAliCloudCredentials = ({ consumerId }: { consumerId: string }): GATEWAY.AliCloudCredentials[] => {
-  return agent
-    .get(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials`)
-    .then((response: any) => response.body);
-};
-export const deleteAliCloudCredentials = ({ consumerId }: { consumerId: string }): boolean => {
-  return agent
-    .delete(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials`)
-    .then((response: any) => response.body);
-};

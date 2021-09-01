@@ -82,11 +82,6 @@ import {
   getAuthInfo,
   updateAuthInfo,
   getServiceApiPrefix,
-  generateAliCloudCredentials,
-  getAliCloudCredentials,
-  deleteAliCloudCredentials,
-  getAliCloudDomain,
-  bindAliCloudDomain,
 } from 'msp/services/gateway';
 import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging } from 'common/utils';
@@ -164,8 +159,6 @@ interface IState {
   statusCode: any[];
   countSummary: any[];
   rtSummary: any[];
-  aliCloudCredentials: GATEWAY.AliCloudCredentials[];
-  aliCloudDomian: GATEWAY.AliCloudDomianConfig;
 }
 
 const initState: IState = {
@@ -225,8 +218,6 @@ const initState: IState = {
   statusCode: [],
   rtSummary: [],
   countSummary: [],
-  aliCloudCredentials: [],
-  aliCloudDomian: {} as GATEWAY.AliCloudDomianConfig,
 };
 
 const gatewayStore = createStore({
@@ -927,37 +918,6 @@ const gatewayStore = createStore({
       const res = await call(getServiceApiPrefix, { orgId, projectId, env, ...payload });
       return res;
     },
-
-    async generateAliCloudCredentialsAfterCreate({ call }, payload: { consumerId: string }) {
-      const aliCloudCredentials = await call(generateAliCloudCredentials, payload);
-      return aliCloudCredentials;
-    },
-    async generateAliCloudCredentials({ call, update }, payload: { consumerId: string }) {
-      const aliCloudCredentials = await call(generateAliCloudCredentials, payload);
-      update({ aliCloudCredentials });
-      return aliCloudCredentials;
-    },
-    async getAliCloudCredentials({ call, update }, payload: { consumerId: string }) {
-      const aliCloudCredentials = await call(getAliCloudCredentials, payload);
-      update({ aliCloudCredentials });
-      return aliCloudCredentials;
-    },
-    async deleteAliCloudCredentials({ call }, payload: { consumerId: string }) {
-      const res = await call(deleteAliCloudCredentials, payload);
-      return res;
-    },
-    async getAliCloudDomain({ call, getParams, update, select }) {
-      const { packageId } = getParams();
-      const aliDomain = await call(getAliCloudDomain, { packageId });
-      const { cloudapiExists } = select((s) => s.aliCloudDomian);
-      update({ aliCloudDomian: { ...aliDomain, cloudapiExists } });
-    },
-    async bindAliCloudDomain({ call, update, select }, payload: GATEWAY.Package) {
-      const aliDomain = await call(bindAliCloudDomain, payload);
-      const { cloudapiExists } = select((s) => s.aliCloudDomian);
-      update({ aliCloudDomian: { ...aliDomain, cloudapiExists } });
-      return aliDomain;
-    },
   },
   reducers: {
     updateAuthInfoList(state, data) {
@@ -1010,9 +970,6 @@ const gatewayStore = createStore({
         item.policyId === payload.policyId ? payload : item,
       );
       state.trafficControlPolicy = trafficControlPolicy;
-    },
-    clearAliCloudCredentials(state) {
-      state.aliCloudCredentials = [];
     },
   },
 });
