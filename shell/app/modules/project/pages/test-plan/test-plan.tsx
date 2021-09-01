@@ -36,10 +36,14 @@ const statusMap = [
   { label: i18n.t('project:pause'), value: 'PAUSE' },
   { label: i18n.t('project:completed'), value: 'DONE' },
 ];
+const archiveStatusMap = [
+  { label: i18n.t('project:processing'), value: 'false' },
+  { label: i18n.d('已归档'), value: 'true' },
+];
 
 const TestPlan = () => {
   const [modalProp, setModalProp] = useState({ visible: false, testPlanId: '', mode: 'add' } as IPlanModal);
-  const { getPlanList } = testPlanStore.effects;
+  const { getPlanList, toggleArchived } = testPlanStore.effects;
   const { clearPlanList } = testPlanStore.reducers;
   const [page, planList] = testPlanStore.useStore((s) => [s.planPaging, s.planList]);
   const [isFetching] = useLoading(testPlanStore, ['getPlanList']);
@@ -132,18 +136,20 @@ const TestPlan = () => {
       dataIndex: 'id',
       width: 176,
       fixed: 'right',
-      render: (id) => {
+      render: (id, record) => {
         return (
           <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                updateModalProp({ visible: true, mode: 'edit', testPlanId: id });
-              }}
-            >
-              {i18n.t('project:edit')}
-            </span>
+            {!record.isArchived && (
+              <span
+                className="table-operations-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateModalProp({ visible: true, mode: 'edit', testPlanId: id });
+                }}
+              >
+                {i18n.t('project:edit')}
+              </span>
+            )}
             <span
               className="table-operations-btn"
               onClick={(e) => {
@@ -153,6 +159,15 @@ const TestPlan = () => {
             >
               {i18n.t('project:copy and create')}
             </span>
+            <span
+              className="table-operations-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleArchived({ id, isArchived: !record.isArchived });
+              }}
+            >
+              {record.isArchived ? i18n.d('取消归档') : i18n.d('归档')}
+            </span>
           </div>
         );
       },
@@ -161,6 +176,20 @@ const TestPlan = () => {
 
   const filterConfig: FilterItemConfig[] = React.useMemo(
     () => [
+      {
+        type: Select,
+        name: 'isArchived',
+        customProps: {
+          options: archiveStatusMap.map(({ label, value }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          )),
+          allowClear: true,
+          placeholder: i18n.d('归档状态'),
+          mode: 'multiple',
+        },
+      },
       {
         type: Select,
         name: 'status',
