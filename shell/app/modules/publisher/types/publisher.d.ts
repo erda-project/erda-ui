@@ -139,7 +139,7 @@ declare namespace PUBLISHER {
     resources: IResource[];
   }
 
-  type MobileType = 'ios' | 'android' | 'h5';
+  type MobileType = 'ios' | 'android' | 'h5' | 'aab';
 
   interface VersionListQuery {
     artifactsId: string;
