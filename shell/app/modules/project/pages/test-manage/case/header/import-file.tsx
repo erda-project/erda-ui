@@ -11,9 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isNumber } from 'lodash';
 import React, { useState } from 'react';
-import i18n from 'i18n';
+import i18n, { isZh } from 'i18n';
 import { Button, message } from 'core/nusi';
 
 import { FileSelect, FormModal } from 'common';
@@ -30,7 +29,7 @@ const ImportFile = ({ afterImport }: IProps) => {
   const { importTestCase } = testCaseStore.effects;
   const [confirmLoading] = useLoading(testCaseStore, ['importTestCase']);
 
-  const locale = window.localStorage.getItem('locale') || 'zh';
+  const locale = isZh() ? 'zh' : 'en';
 
   const handleCancel = () => {
     setUploadVisible(false);
