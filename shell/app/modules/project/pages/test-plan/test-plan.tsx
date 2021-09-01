@@ -38,7 +38,7 @@ const statusMap = [
 ];
 const archiveStatusMap = [
   { label: i18n.t('project:processing'), value: 'false' },
-  { label: i18n.d('已归档'), value: 'true' },
+  { label: i18n.t('archived'), value: 'true' },
 ];
 
 const TestPlan = () => {
@@ -166,7 +166,7 @@ const TestPlan = () => {
                 toggleArchived({ id, isArchived: !record.isArchived });
               }}
             >
-              {record.isArchived ? i18n.d('取消归档') : i18n.d('归档')}
+              {record.isArchived ? i18n.t('cancel archiving') : i18n.t('archive')}
             </span>
           </div>
         );
@@ -186,7 +186,7 @@ const TestPlan = () => {
             </Option>
           )),
           allowClear: true,
-          placeholder: i18n.d('归档状态'),
+          placeholder: i18n.t('project:archive status'),
           mode: 'multiple',
         },
       },
