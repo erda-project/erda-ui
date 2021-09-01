@@ -152,7 +152,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const _value = value ? (isString(value) ? [value] : value) : [];
     const _options = options || [];
     const { mode = 'multiple' } = customProps || {};
-    const isSigleMode = mode === 'single';
+    const isSingleMode = mode === 'single';
     const valueText =
       _options
         .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
@@ -184,7 +184,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           </Menu.Item>,
           <Menu.Divider key="divider1" />,
         ]}
-        {!isSigleMode && [
+        {!isSingleMode && [
           // 单选模式下不展示已选择n项
           <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
             <span>
@@ -216,7 +216,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             }
             const isGroup = op.children?.length;
             const onClickOptItem = (_curOpt: Option) => {
-              if (isSigleMode && !_value.includes(_curOpt.value)) {
+              if (isSingleMode && !_value.includes(_curOpt.value)) {
                 onChange({
                   key,
                   value: _curOpt.value,
@@ -472,10 +472,10 @@ export const ContractiveFilter = ({
       const wrappers = Array.from(document.querySelectorAll('.contractive-filter-item-wrap'));
       const dropdowns = Array.from(document.querySelectorAll('.contractive-filter-item-dropdown'));
 
-      const datePcikers = Array.from(document.querySelectorAll('.contractive-filter-date-picker'));
+      const datePickers = Array.from(document.querySelectorAll('.contractive-filter-date-picker'));
       const node = e.target as Node;
       const inner = wrappers.concat(dropdowns).some((wrap) => wrap.contains(node));
-      const isDatePicker = datePcikers.some((wrap) => wrap.contains(node));
+      const isDatePicker = datePickers.some((wrap) => wrap.contains(node));
 
       if (!inner && isDatePicker) {
         setCloseAll(true);
