@@ -36,6 +36,7 @@ const fields = [
     key: 'gender',
     type: 'select',
     label: 'GENDER',
+    multiple: true,
     options: genderMap.map((item) => ({ label: item.name, value: item.id })),
   },
 ];

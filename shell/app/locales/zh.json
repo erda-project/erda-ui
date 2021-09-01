@@ -1542,7 +1542,7 @@
     "last login time": "最近登录时间",
     "last month": "上个月",
     "last week": "上周",
-    "last {count} {unit}": "最近{count}{unit}",
+    "last {amount} {unit}": "最近{amount}{unit}",
     "latest active": "最近活跃",
     "length is {min}~{max}": "长度为 {min}~{max}",
     "less than": "小于",

@@ -18,7 +18,7 @@ import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 import * as orgCustomDashboardService from 'cmp/services/custom-dashboard';
 import * as mspCustomDashboardService from 'msp/monitor/custom-dashboard/services/custom-dashboard';
-import { ITimeRange, transformRange } from 'msp/components/time-select';
+import { ITimeRange, transformRange } from 'common/components/time-select/common';
 
 export enum CustomDashboardScope {
   ORG = 'org',
