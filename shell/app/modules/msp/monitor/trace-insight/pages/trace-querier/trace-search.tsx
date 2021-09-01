@@ -12,24 +12,63 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useMemo } from 'react';
-import { get, isEmpty } from 'lodash';
-import moment from 'moment';
-import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
+import { debounce, get, isEmpty, isNumber } from 'lodash';
+import moment, { Moment } from 'moment';
+import { PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { Select, DatePicker, Table, Drawer } from 'core/nusi';
+import { Table, Drawer } from 'core/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
 import { useLoading } from 'core/stores/loading';
-import monitorCommonStore from 'common/stores/monitorCommon';
 import traceStore from '../../../../stores/trace';
 import TraceSearchDetail from './trace-search-detail';
+import TraceFilter, { IField } from 'trace-insight/components/trace-filter';
+import { getQueryConditions } from 'trace-insight/services/trace-querier';
+import { transformDuration } from 'trace-insight/components/duration';
 
-const { RangePicker } = DatePicker;
-const { Option } = Select;
+const name = {
+  sort: i18n.t('msp:sort method'),
+  limit: i18n.t('msp:number of queries'),
+  traceStatus: i18n.t('msp:tracking status'),
+};
 
-const limits = [10, 20, 50, 100, 200, 500, 1000];
+const convertData = (
+  data: MONITOR_TRACE.TraceConditions,
+): [IField[], { [k in MONITOR_TRACE.IFixedConditionType]: string }] => {
+  const { others, ...rest } = data;
+  const list: IField[] = [];
+  const defaultValue = {};
+  Object.keys(rest).forEach((key) => {
+    const option = data[key];
+    defaultValue[key] = option?.[0]?.value;
+    list.push({
+      type: 'select',
+      fixed: true,
+      key,
+      label: name[key],
+      customProps: {
+        placeholder: i18n.t('please select {name}', { name: name[key] }),
+        className: 'w-64',
+        options: option.map((t) => ({ ...t, label: t.displayName })),
+      },
+    });
+  });
+  others?.forEach(({ paramKey, displayName, type }) => {
+    list.push({
+      type,
+      fixed: false,
+      key: paramKey,
+      label: displayName,
+      customProps: {
+        placeholder: i18n.t('please enter {name}', { name: displayName }),
+        className: 'w-64',
+      },
+    });
+  });
+  return [list, defaultValue];
+};
 
 interface RecordType {
   id: string;
@@ -38,66 +77,122 @@ interface RecordType {
   services: string[];
 }
 
+const initialFilter: IField[] = [
+  {
+    type: 'rangePicker',
+    label: i18n.t('msp:time range'),
+    fixed: true,
+    key: 'time',
+    customProps: {
+      className: 'w-64',
+      showTime: true,
+      allowClear: false,
+      format: 'MM-DD HH:mm',
+      style: { width: 'auto' },
+      ranges: getTimeRanges(),
+    },
+  },
+  {
+    type: 'duration',
+    label: i18n.t('msp:duration'),
+    key: 'duration',
+    fixed: true,
+    customProps: {
+      showTime: true,
+      allowClear: false,
+      format: 'MM-DD HH:mm',
+      style: { width: 'auto' },
+      ranges: getTimeRanges(),
+    },
+  },
+];
+
+interface IState {
+  filter: IField[];
+  traceId?: string;
+  defaultQuery: Obj;
+}
+
+type IQuery = {
+  [k in MONITOR_TRACE.IFixedConditionType]: string;
+} & {
+  time: [Moment, Moment];
+  duration: { timer: number; unit: 'ms' | 's' }[];
+} & {
+  [k: string]: string;
+};
+
 export default () => {
   const initialRange = [moment().subtract(1, 'hours'), moment()];
   const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
-  const projectApps = monitorCommonStore.useStore((s) => s.projectApps);
   const { getTraceCount, getTraceSummary } = traceStore;
-  const { getProjectApps } = monitorCommonStore.effects;
-  const { clearProjectApps } = monitorCommonStore.reducers;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
 
   const [detailVisible, openDetail, closeDetail] = useSwitch(false);
-  const [{ traceId }, updater] = useUpdate({
+  const [{ traceId, filter, defaultQuery }, updater, update] = useUpdate<IState>({
+    filter: [...initialFilter],
     traceId: undefined,
+    defaultQuery: {},
   });
-  // const services = ['s12', 's23', '3s'];
 
   useEffectOnce(() => {
-    getProjectApps({});
-    return () => {
-      clearProjectApps();
-    };
+    getQueryConditions().then((res) => {
+      if (res.success) {
+        const [list, defaultValue] = convertData(res.data);
+        update({
+          defaultQuery: {
+            ...defaultValue,
+            time: initialRange,
+          },
+          filter: [...initialFilter, ...list],
+        });
+        getData({
+          startTime: initialRange[0].valueOf(),
+          endTime: initialRange[1].valueOf(),
+          status: defaultValue.traceStatus,
+          ...defaultValue,
+        });
+      }
+    });
   });
 
-  const getData = (obj?: {
-    timeFrom: number;
-    timeTo: number;
-    limit: number;
-    applicationId: number;
-    status: string;
-    service: string;
-  }) => {
-    const { timeFrom, timeTo, service, limit, applicationId, status } = obj || {};
-    const _status = Number(status);
-    const start = (timeFrom && moment(timeFrom).valueOf()) || initialRange[0].valueOf();
-    const end = (timeTo && moment(timeTo).valueOf()) || initialRange[1].valueOf();
+  const getData = React.useCallback(
+    debounce((obj: Omit<MS_MONITOR.ITraceSummaryQuery, 'tenantId'>) => {
+      const { startTime, endTime, serviceName, status } = obj;
 
-    getTraceCount({
-      start,
-      end,
-      'filter_fields.applications_ids': applicationId,
-      'filter_fields.services_distinct': service,
-      field_gt_errors_sum: _status === -1 ? 0 : undefined,
-      field_eq_errors_sum: _status === 1 ? 0 : undefined,
-    });
-    getTraceSummary({
-      startTime: start,
-      endTime: end,
-      limit,
-      applicationId,
-      status: _status || 0,
+      getTraceCount({
+        start: startTime,
+        end: endTime,
+        'filter_fields.services_distinct': serviceName,
+        field_gt_errors_sum: status === 'trace_error' ? 0 : undefined,
+        field_eq_errors_sum: status === 'trace_success' ? 0 : undefined,
+      });
+      getTraceSummary(obj);
+    }, 500),
+    [],
+  );
+
+  const handleSearch = (query: Partial<IQuery>) => {
+    const { time, duration, traceStatus, ...rest } = query;
+    const startTime = time?.[0].valueOf() ?? initialRange[0].valueOf();
+    const endTime = time?.[1].valueOf() ?? initialRange[1].valueOf();
+    const durationMin = transformDuration(duration?.[0]);
+    const durationMax = transformDuration(duration?.[1]);
+    let durations = {};
+    if (isNumber(durationMin) && isNumber(durationMax) && durationMin <= durationMax) {
+      durations = {
+        durationMin,
+        durationMax,
+      };
+    }
+    getData({
+      startTime,
+      endTime,
+      status: traceStatus,
+      ...durations,
+      ...rest,
     });
   };
-
-  const { onSubmit } = useFilter({
-    getData,
-    initQuery: {
-      timeFrom: initialRange[0],
-      timeTo: initialRange[1],
-    },
-  });
-
   const convertTraceCount = (responseData: any) => {
     if (!responseData) return {};
     const { time, results } = responseData;
@@ -121,78 +216,6 @@ export default () => {
     updater.traceId(id as any);
     openDetail();
   };
-
-  const filterConfig = useMemo(
-    () => [
-      {
-        type: Select,
-        name: 'applicationId',
-        valueType: 'number',
-        customProps: {
-          placeholder: i18n.t('msp:please select application'),
-          options: projectApps.map(({ id, name }) => (
-            <Option key={id} value={id}>
-              {name}
-            </Option>
-          )),
-          allowClear: true,
-        },
-      },
-      // {
-      //   type: Select,
-      //   name: 'service',
-      //   customProps: {
-      //     placeholder: i18n.t('msp:please select service'),
-      //     options: services.map((service) => <Option key={service} value={service}>{service}</Option>),
-      //     allowClear: true,
-      //   },
-      // },
-      {
-        type: Select,
-        name: 'status',
-        valueType: 'number',
-        customProps: {
-          placeholder: i18n.t('msp:please select status'),
-          options: [
-            <Option key={-1} value={-1}>
-              {i18n.t('error')}
-            </Option>,
-            <Option key={1} value={1}>
-              {i18n.t('succeed')}
-            </Option>,
-          ],
-          allowClear: true,
-        },
-      },
-      {
-        type: RangePicker,
-        name: 'time',
-        valueType: 'range',
-        required: true,
-        customProps: {
-          showTime: true,
-          allowClear: false,
-          format: 'MM-DD HH:mm',
-          style: { width: 'auto' },
-          ranges: getTimeRanges(),
-        },
-      },
-      {
-        type: Select,
-        name: 'limit',
-        customProps: {
-          placeholder: i18n.t('msp:Please select the maximum number of queries.'),
-          options: limits.map((limit) => (
-            <Option key={limit} value={limit}>
-              {limit}
-            </Option>
-          )),
-          allowClear: true,
-        },
-      },
-    ],
-    [projectApps],
-  );
 
   const layout = useMemo(
     () => [
@@ -262,7 +285,7 @@ export default () => {
 
   return (
     <>
-      <CustomFilter className="mb-4" onSubmit={onSubmit} config={filterConfig} isConnectQuery />
+      <TraceFilter list={filter} initialValues={defaultQuery} onChange={handleSearch} />
       <div className="mb-6">
         <PureBoardGrid layout={layout} />
       </div>

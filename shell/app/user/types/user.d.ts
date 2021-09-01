@@ -14,7 +14,7 @@
 interface IPermResponseData {
   access: boolean;
   exist: boolean;
-  role: string;
+  roles: string[];
   contactInfo?: string;
   contactsWhenNoPermission: null | string[];
   permissionList: IPerm[];
@@ -50,6 +50,7 @@ interface ILoginUser {
   phone: string;
   token: string;
   isSysAdmin?: boolean;
+  adminRoles: string[];
 }
 
 interface IMember {

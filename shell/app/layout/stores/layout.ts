@@ -104,8 +104,6 @@ const layout = createStore({
         switchToApp('msp');
       } else if (isIn('ecp')) {
         switchToApp('ecp');
-        // } else if (isIn('sysAdmin')) {
-        //   switchToApp(appMap.sysAdmin);
       } else if (isIn('apiManage')) {
         switchToApp('apiManage');
       } else if (isIn(`${dataEngineerInfo.name}`)) {
@@ -196,12 +194,6 @@ const layout = createStore({
         siderInfoMap[key] = {};
       }
       siderInfoMap[key] = { ...siderInfoMap[key], ...rest };
-    },
-    setFullSubSiderInfoMap(state, payload: Obj) {
-      state.subSiderInfoMap = {
-        ...state.subSiderInfoMap,
-        ...payload,
-      };
     },
     setSubSiderSubList(state, payload: Obj) {
       state.subList = { ...state.subList, ...payload };

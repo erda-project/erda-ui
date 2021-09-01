@@ -135,6 +135,12 @@ interface IProps extends IAceEditorProps {
   [prop: string]: any;
 }
 
+const valueExceed = (val: string) => {
+  const bt = new Blob([val]);
+  // more than 500kb
+  return bt.size > 500 * 1024;
+};
+
 export const FileEditor = ({
   fileExtension,
   editorProps,
@@ -172,6 +178,31 @@ export const FileEditor = ({
       });
     }
   }, [mode, value]);
+
+  if (value && valueExceed(value)) {
+    const downloadValue = () => {
+      const blob = new Blob([value], { type: 'application/vnd.ms-excel;charset=utf-8' });
+      const fileName = `result.txt`;
+      const objectUrl = URL.createObjectURL(blob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = objectUrl;
+      downloadLink.setAttribute('download', fileName);
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      window.URL.revokeObjectURL(downloadLink.href);
+    };
+
+    return (
+      <div>
+        {i18n.t('common:the current data volume exceeds 500kb, please click')}&nbsp;
+        <span className="fake-link" onClick={downloadValue}>
+          {i18n.t('download')}
+        </span>
+        &nbsp;
+        {i18n.t('check detail')}
+      </div>
+    );
+  }
 
   const curActions = compact([
     actions.copy ? (

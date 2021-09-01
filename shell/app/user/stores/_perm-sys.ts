@@ -11,11 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// if MemberScope is exported in 'common/stores/_member', jest runtime will get the error "Cannot read property 'ORG’ of undefined"
-// it is really confusing
-export enum MemberScope {
-  ORG = 'org',
-  PROJECT = 'project',
-  APP = 'app',
-  SYS = 'sys',
-}
+export const sysRoleMap = {
+  Manager: { name: '系统管理员', value: 'Manager' },
+  Auditor: { name: '审计人员', value: 'Auditor' },
+};
+
+export const sysPerm = {
+  name: '系统',
+  view: {
+    role: ['Manager'],
+    pass: false,
+    name: '查看组织管理/用户管理/全局配置/集群管理页面(除审计日志之外的页面)',
+  },
+};

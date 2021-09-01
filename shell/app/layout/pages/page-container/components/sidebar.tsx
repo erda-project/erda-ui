@@ -25,6 +25,7 @@ import { DOC_HELP_HOME } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
+import routeStore from 'core/stores/route';
 import { Help as IconHelp, Remind as IconRemind, Logout as IconLogout } from '@icon-park/react';
 import './sidebar.scss';
 
@@ -162,6 +163,8 @@ const SideBar = () => {
   const curOrgName = currentOrg.name;
   const customIconStyle = { fontSize: 20, marginRight: 'unset' };
   const current = window.localStorage.getItem('locale') || 'zh';
+  const isIn = routeStore.getState((s) => s.isIn);
+  const isAdminRoute = isIn('sysAdmin');
   const operations = [
     {
       show: true,
@@ -205,6 +208,15 @@ const SideBar = () => {
   ].filter((a) => a.show);
 
   const useMenuOperations = [
+    ...insertWhen(!!loginUser.isSysAdmin, [
+      {
+        icon: <ErdaCustomIcon type="user-config" />,
+        title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
+        onClick: () => {
+          goTo(goTo.pages.sysAdmin, { orgName: '-' });
+        },
+      },
+    ]),
     ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [
       {
         icon: <ErdaCustomIcon type="user-config" />,
@@ -235,34 +247,36 @@ const SideBar = () => {
     <GlobalNavigation
       layout="vertical"
       verticalBrandIcon={
-        loginUser.isSysAdmin ? null : (
-          <img
-            className="mr-0 cursor-pointer"
-            src={Logo}
-            style={{
-              width: '19px',
-              height: '19px',
-            }}
-            onClick={() => {
-              const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
-              if (isIncludeOrg) {
-                goTo(goTo.pages.orgRoot);
-              } else if (!orgs?.length) {
-                // skipping warning when the user doesn't join any organization.
-                goTo(goTo.pages.orgRoot, { orgName: '-' });
-              } else {
-                message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
-              }
-            }}
-          />
-        )
+        <img
+          className="mr-0 cursor-pointer"
+          src={Logo}
+          style={{
+            width: '19px',
+            height: '19px',
+          }}
+          onClick={() => {
+            const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
+            if (isIncludeOrg) {
+              goTo(goTo.pages.orgRoot);
+            } else if (!orgs?.length || isAdminRoute) {
+              // skipping warning when the user doesn't join any organization.
+              goTo(goTo.pages.orgRoot, { orgName: '-' });
+            } else {
+              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+            }
+          }}
+        />
       }
       operations={operations}
       userMenu={userMenu}
-      slot={{
-        title: ({ compact }: any) => (compact ? <AppCenterEl /> : null),
-        element: <AppCenterEl />,
-      }}
+      slot={
+        !isAdminRoute
+          ? {
+              title: ({ compact }: any) => (compact ? <AppCenterEl /> : null),
+              element: <AppCenterEl />,
+            }
+          : undefined
+      }
     />
   );
 };

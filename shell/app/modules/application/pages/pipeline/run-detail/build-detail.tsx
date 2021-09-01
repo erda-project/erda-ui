@@ -29,6 +29,7 @@ import buildStore from 'application/stores/build';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
+import { getPipelineDetail } from 'application/services/build';
 import PipelineLog from './pipeline-log';
 import './build-detail.scss';
 import deployStore from 'application/stores/deploy';
@@ -263,6 +264,7 @@ const BuildDetail = (props: IProps) => {
           taskID,
           pipelineID,
           logId: node.extra.uuid,
+          taskContainers: node.extra.taskContainers,
         });
         updater.logVisible(true);
         break;
@@ -295,6 +297,16 @@ const BuildDetail = (props: IProps) => {
             type: typeTarget.value || 'MOBILE',
             publisherItemId: publishItemIDTarget.value,
             jumpOut: true,
+          });
+        }
+        break;
+      }
+      case 'pipeline-link': {
+        const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'pipelineID');
+        if (target) {
+          getPipelineDetail({ pipelineID: target.value }).then((res) => {
+            const curAppId = res.data?.applicationID;
+            goTo(goTo.pages.pipeline, { ...params, pipelineID: target.value, appId: curAppId, jumpOut: true });
           });
         }
         break;

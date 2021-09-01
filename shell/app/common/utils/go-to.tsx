@@ -325,7 +325,7 @@ export enum pages {
   ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
 
   // sysAdmin
-  sysAdminOrgs = '/{orgName}/sysAdmin/orgs',
+  sysAdmin = '/{orgName}/sysAdmin',
 }
 
 goTo.pages = {

@@ -25,7 +25,7 @@ export const getProcessDashboardId = (
 export const getTraceSlowTranslation = (
   query: Merge<
     TOPOLOGY_SERVICE_ANALYZE.CommonQuery,
-    { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }
+    { operation: string; start: number; end: number; sort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE }
   >,
 ): TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp => {
   return agent

@@ -109,7 +109,7 @@ const permission = createStore({
         cb?: (arg?: any) => any;
       },
     ) {
-      const data = await call(getResourcePermissions, { scope, scopeID });
+      const data = (await call(getResourcePermissions, { scope, scopeID })) as unknown as IPermResponseData;
       const { access, exist, contactsWhenNoPermission } = data;
       if (exist === false) {
         userStore.reducers.setNotFound();
@@ -135,7 +135,7 @@ const permission = createStore({
     },
   },
   reducers: {
-    updatePerm(state, scope?: string, data?: IPermResponseData) {
+    updatePerm(state, scope?: string, data?: IPermResponseData | null) {
       if (!scope || !data) {
         return;
       }

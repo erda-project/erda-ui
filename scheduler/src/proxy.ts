@@ -70,10 +70,15 @@ export const createProxyService = (app: INestApplication) => {
       {
         target: API_URL,
         changeOrigin: !isProd,
+        xfwd: true,
         secure: false,
         pathRewrite: replaceApiOrgPath,
         onProxyReq: (proxyReq, req: Request) => {
-          isProd && proxyReq.setHeader('org', extractOrg(req.originalUrl));
+          if (!isProd) {
+            proxyReq.setHeader('referer', API_URL);
+          } else {
+            proxyReq.setHeader('org', extractOrg(req.originalUrl));
+          }
         },
       },
     ),

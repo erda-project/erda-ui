@@ -22,6 +22,7 @@ import classnames from 'classnames';
 import { approvalStatusMap } from 'application/pages/deploy-list/deploy-list';
 import i18n from 'i18n';
 import userStore from 'user/stores';
+import appStore from 'application/stores/application';
 import { WithAuth } from 'user/common';
 
 import './pipeline-node.scss';
@@ -35,6 +36,7 @@ interface IProps {
 const { executeStatus } = ciNodeStatusSet;
 const PipelineNode = (props: IProps) => {
   const { data, onClickNode, className = '' } = props;
+  const appDetail = appStore.useStore((s) => s.detail);
   const curUserId = userStore.useStore((s) => s.loginUser.id);
 
   const intervalRef = React.useRef(null as any);
@@ -215,6 +217,11 @@ const PipelineNode = (props: IProps) => {
         const publisherIDObj = metadata.find((a: any) => a.name === 'publisherID');
         if (publisherIDObj) {
           operations.push(['link', 'publisher-link', i18n.t('publisher:publisher content')]);
+        }
+
+        // only project level app exist pipeline link
+        if (appDetail.isProjectLevel && metadata.find((a) => a.name === 'pipelineID')) {
+          operations.push(['link', 'pipeline-link', i18n.t('application:pipeline')]);
         }
       }
     }

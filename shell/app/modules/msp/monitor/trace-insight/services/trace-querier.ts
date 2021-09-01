@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { RES_BODY } from 'core/service';
 
 export const requestTrace = (data?: MONITOR_TRACE.ITraceRequestBody): { requestId: string } => {
   return agent
@@ -80,4 +81,8 @@ export const getSpanDetailContent = ({ span, visible }: { span: any; visible: bo
     visible,
     span,
   };
+};
+
+export const getQueryConditions = (): Promise<RES_BODY<MONITOR_TRACE.TraceConditions>> => {
+  return agent.get('/api/msp/apm/trace/conditions').then((response: any) => response.body);
 };

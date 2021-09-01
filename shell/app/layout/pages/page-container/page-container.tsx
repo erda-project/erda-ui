@@ -19,7 +19,6 @@ import SideBar from 'layout/pages/page-container/components/sidebar';
 import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';
 import Header from 'layout/pages/page-container/components/header';
 import { NoAuth, NotFound } from 'app/layout/common/error-page';
-import { Location } from 'app/interface/common';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DiceLicense } from './dice-license';
@@ -43,25 +42,21 @@ const layoutMap = {
 
 interface IProps {
   route: any;
-  location: Location;
-  params: object;
 }
 const PageContainer = ({ route }: IProps) => {
-  const [loginUser, noAuth, notFound] = userStore.useStore((s: any) => [s.loginUser, s.noAuth, s.notFound]);
+  const [noAuth, notFound] = userStore.useStore((s: any) => [s.noAuth, s.notFound]);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const [showMessage, customMain, announcementList] = layoutStore.useStore((s) => [
     s.showMessage,
     s.customMain,
     s.announcementList,
   ]);
-  const [currentRoute, isIn] = routeInfoStore.useStore((s) => [s.currentRoute, s.isIn]);
+  const [currentRoute, prevRouteInfo, isIn] = routeInfoStore.useStore((s) => [s.currentRoute, s.prevRouteInfo, s.isIn]);
   const [state, updater] = useUpdate({
     startInit: false,
   });
 
-  const mainEle = React.useRef(null);
-
-  let prevPathName: string;
+  const mainEle = React.useRef<HTMLDivElement>(null);
 
   useEffectOnce(() => {
     const skeleton = document.querySelector('#erda-skeleton');
@@ -107,14 +102,12 @@ const PageContainer = ({ route }: IProps) => {
   });
 
   React.useEffect(() => {
-    const curPathName = window.location.pathname;
-    if (prevPathName !== curPathName) {
+    if (prevRouteInfo?.currentRoute.path !== currentRoute.path) {
       if (mainEle && mainEle.current) {
-        (mainEle.current as any).scrollTop = 0;
+        mainEle.current.scrollTop = 0;
       }
     }
-    prevPathName = curPathName;
-  }, [window.location.pathname, mainEle]);
+  }, [currentRoute, prevRouteInfo, mainEle]);
 
   const { layout } = currentRoute;
   const hideHeader = showMessage || layout?.hideHeader;
@@ -194,7 +187,7 @@ const PageContainer = ({ route }: IProps) => {
           >
             {MainContent}
           </div>
-          {!loginUser.isSysAdmin && <MessageCenter show={showMessage} />}
+          {!isIn('sysAdmin') && <MessageCenter show={showMessage} />}
         </Shell>
         <DiceLicense />
       </div>
