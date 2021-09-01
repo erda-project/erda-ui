@@ -27,7 +27,6 @@ export const AddonType = {
   AliCloudRedis: 'alicloud-redis',
   AliCloudOns: 'alicloud-ons',
   AliCloudOss: 'alicloud-oss',
-  AliCloudGateway: 'alicloud-gateway',
   APIGateway: 'api-gateway',
 };
 
