@@ -20,7 +20,11 @@ const ClusterNodes = () => {
 
   const inParams = { clusterName, nodeId };
   return (
-    <DiceConfigPage scenarioType={'cluster-nodes-detail'} scenarioKey={'cluster-nodes-detail'} inParams={inParams} />
+    <DiceConfigPage
+      scenarioType={'cmp-dashboard-nodeDetail'}
+      scenarioKey={'cmp-dashboard-nodeDetail'}
+      inParams={inParams}
+    />
   );
 };
 

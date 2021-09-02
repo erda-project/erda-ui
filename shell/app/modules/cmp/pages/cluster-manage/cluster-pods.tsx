@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
@@ -31,8 +31,8 @@ const ClusterNodes = () => {
 
   return (
     <DiceConfigPage
-      scenarioType={'cluster-pods'}
-      scenarioKey={'cluster-pods'}
+      scenarioType={'cmp-dashboard-pods'}
+      scenarioKey={'cmp-dashboard-pods'}
       inParams={inParams}
       customProps={{
         filter: {

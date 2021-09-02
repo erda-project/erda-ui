@@ -19,7 +19,13 @@ const ClusterNodes = () => {
   const { clusterName, wordloadId } = routeInfoStore.useStore((s) => s.params);
 
   const inParams = { clusterName, wordloadId };
-  return <DiceConfigPage scenarioType={'cluster-workload'} scenarioKey={'cluster-workload'} inParams={inParams} />;
+  return (
+    <DiceConfigPage
+      scenarioType={'cmp-dashboard-workload-detail'}
+      scenarioKey={'cmp-dashboard-workload-detail'}
+      inParams={inParams}
+    />
+  );
 };
 
 export default ClusterNodes;
