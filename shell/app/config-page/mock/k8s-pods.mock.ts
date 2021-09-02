@@ -55,6 +55,7 @@ export const mockData = {
               label: '我的筛选',
               type: 'select',
               haveFilter: true,
+              split: true,
               customProps: { mode: 'single' },
               fixed: true,
               quickAdd: {

@@ -35,6 +35,7 @@ interface ICondition {
   label: string;
   type: ConditionType;
   emptyText?: string;
+  split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
   showIndex?: number; // 0： 隐藏、其他显示
@@ -637,6 +638,7 @@ export const ContractiveFilter = ({
             onChange={handelItemChange}
             onQuickOperation={onQuickOperation}
           />
+          {item.split ? <div className="ml-2 contractive-filter-split" /> : null}
         </span>
       ))}
 
