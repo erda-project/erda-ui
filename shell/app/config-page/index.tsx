@@ -128,7 +128,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     if (forceUpdateKey?.includes('inParams')) {
       queryPageConfig();
     }
-  }, [inParams]);
+  }, [JSON.stringify(inParams)]);
 
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, op?: CP_COMMON.Operation) => {
     if (fetchingRef.current) return; // forbidden request when fetching

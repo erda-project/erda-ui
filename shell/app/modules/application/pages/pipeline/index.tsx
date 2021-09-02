@@ -72,6 +72,7 @@ const PipelineManage = (props: IProps) => {
             scenarioKey={'app-pipeline-tree'}
             inParams={inParams}
             showLoading
+            forceUpdateKey={['inParams']}
             customProps={{
               fileTree: {
                 onClickNode: (_inode: string) => {
