@@ -158,7 +158,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     if (onChangeCb) {
       if ((type && ['input', 'textArea'].includes(type)) || !type) {
         const currentRef = typeof compRef === 'function' ? refMap?.[name] : compRef?.current;
-        onChangeCb(set({}, name, currentRef?.state.value));
+        data[name] !== currentRef?.state.value && onChangeCb(set({}, name, currentRef?.state.value));
       } else if (type === 'markdown') {
         onChangeCb(set({}, name, v), fieldType);
       }

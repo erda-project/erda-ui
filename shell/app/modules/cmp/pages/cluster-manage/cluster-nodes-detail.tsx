@@ -54,8 +54,8 @@ const ClusterNodes = () => {
     <div>
       <div>
         <DiceConfigPage
-          scenarioType={'cluster-nodes-detail'}
-          scenarioKey={'cluster-nodes-detail'}
+          scenarioType={'cmp-dashboard-nodeDetail'}
+          scenarioKey={'cmp-dashboard-nodeDetail'}
           inParams={inParams}
           forceMock
           useMock={useMock('k8s-node-detail')}

@@ -27,8 +27,10 @@ import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/iss
 import { mergeSearch, qs, updateSearch, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { ISSUE_PRIORITY_MAP, ISSUE_OPTION, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
+import { ISSUE_ICON_MAP } from 'project/common/components/issue/issue-icon';
 import backlog_db_svg from 'app/images/backlog-db.svg';
 import i18n from 'i18n';
+import issueWorkflowStore from 'project/stores/issue-workflow';
 import './backlog.scss';
 
 const Backlog = () => {
@@ -44,6 +46,36 @@ const Backlog = () => {
     s.params,
     s.query,
   ]);
+  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
+
+  const stateCollection: { label: string | React.ReactNode; children: { label: string; value: string }[] }[] =
+    React.useMemo(() => {
+      const collection = totalWorkflowStateList.reduce((acc, current) => {
+        const { issueType, stateName, stateID } = current;
+        if (!['BUG', 'REQUIREMENT', 'TASK'].includes(issueType)) {
+          return acc;
+        }
+        if (acc[issueType]) {
+          acc[issueType].push({ label: stateName, value: `${stateID}` });
+        } else {
+          acc[issueType] = [{ label: stateName, value: `${stateID}` }];
+        }
+        return acc;
+      }, {});
+      const options = map(collection, (stateArray, issueType) => {
+        const label = ISSUE_ICON_MAP[issueType];
+        return {
+          label: (
+            <span>
+              {label.icon}
+              {label.name}
+            </span>
+          ),
+          children: stateArray,
+        };
+      });
+      return options;
+    }, [totalWorkflowStateList]);
 
   const [{ isAdding, curIssueDetail, drawerVisible, filterState }, updater, update] = useUpdate({
     isAdding: false,
@@ -63,6 +95,7 @@ const Backlog = () => {
         drawerVisible: true,
       });
     }
+    issueWorkflowStore.getStatesByIssue({ projectID: +projectId });
 
     return () => {
       clearBacklogIssues();
@@ -134,20 +167,11 @@ const Backlog = () => {
         options: [ISSUE_TYPE_MAP.REQUIREMENT, ISSUE_TYPE_MAP.TASK, ISSUE_TYPE_MAP.BUG],
       },
       {
-        key: 'title',
-        label: i18n.t('title'),
-        emptyText: i18n.t('application:all'),
-        fixed: true,
-        showIndex: 2,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-        type: 'input' as const,
-      },
-      {
         key: 'label',
         label: i18n.t('project:label'),
         emptyText: i18n.t('application:all'),
         fixed: false,
-        showIndex: 3,
+        showIndex: 2,
         haveFilter: true,
         type: 'select' as const,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
@@ -158,25 +182,48 @@ const Backlog = () => {
         label: i18n.t('project:priority'),
         emptyText: i18n.t('application:all'),
         fixed: false,
-        showIndex: 4,
+        showIndex: 3,
         type: 'select' as const,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
         options: map(ISSUE_PRIORITY_MAP),
       },
-      // {
-      //   key: 'assginee',
-      //   label: i18n.t('project:assignee'),
-      //   emptyText: i18n.t('application:all'),
-      //   fixed: false,
-      //   showIndex: 0,
-      //   customProps: {
-      //     mode: 'multiple',
-      //     scopeType: 'project',
-      //   },
-      //   type: 'memberSelector' as const,
-      // },
+      {
+        key: 'state',
+        label: i18n.t('project:state'),
+        type: 'select' as const,
+        options: stateCollection,
+        allowClear: false,
+      },
+      {
+        key: 'assignee',
+        label: i18n.t('project:assignee'),
+        fixed: false,
+        type: 'memberSelector',
+      },
+      {
+        key: 'creator',
+        label: i18n.t('project:creator'),
+        fixed: false,
+        type: 'memberSelector',
+      },
+      {
+        key: 'title',
+        label: i18n.t('title'),
+        emptyText: i18n.t('application:all'),
+        fixed: true,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+        type: 'input' as const,
+      },
+      {
+        key: 'id',
+        label: 'IconDown',
+        emptyText: i18n.t('application:all'),
+        fixed: true,
+        placeholder: i18n.t('filter by {name}', { name: 'ID' }),
+        type: 'input' as const,
+      },
     ],
-    [labelList],
+    [labelList, stateCollection],
   );
 
   const onFilter = (val: Obj) => {

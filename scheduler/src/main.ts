@@ -17,7 +17,7 @@ import helmet from 'helmet';
 import { NotFoundExceptionFilter } from './filters/not-found.filter';
 import { AllExceptionsFilter } from './filters/error-catch.filter';
 import compression from 'compression';
-import { log, logWarn, getDirectories, getEnv, getHttpsOptions } from './util';
+import { logger, getDirectories, getEnv, getHttpsOptions } from './util';
 import { createProxyService } from './proxy';
 import { guardMiddleware } from './middlewares/guard.middleware';
 
@@ -34,11 +34,11 @@ if (!isProd) {
 
   MODULES.split(',').forEach((m) => {
     if (!modules[m]) {
-      logWarn(`module:【${m}】have not build to public`);
+      logger.warn(`module:【${m}】have not build to public`);
     }
   });
 
-  log(`Exist static modules: ${Object.keys(modules)}`);
+  logger.info(`Exist static modules: ${Object.keys(modules)}`);
 }
 
 async function bootstrap() {
@@ -58,9 +58,9 @@ async function bootstrap() {
   server.on('upgrade', wsProxy.upgrade);
 
   if (isProd) {
-    log('erda ui server started at port 80');
+    logger.info('erda ui server started at port 80');
   } else {
-    log(`server started at ${SCHEDULER_URL}:${SCHEDULER_PORT}`);
+    logger.info(`server started at ${SCHEDULER_URL}:${SCHEDULER_PORT}`);
   }
 }
 

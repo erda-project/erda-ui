@@ -87,13 +87,14 @@ export const TagItem = (props: IItemProps) => {
 };
 
 export const TagsRow = ({
-  labels = [],
+  labels: propsLabels,
   showCount = 2,
   containerClassName = '',
   size = 'small',
   onDelete,
   onAdd,
 }: IProps) => {
+  const labels = propsLabels || [];
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
 

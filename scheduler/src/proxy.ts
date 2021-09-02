@@ -13,7 +13,7 @@
 
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Request } from 'express';
-import { getEnv, logWarn } from './util';
+import { getEnv, logger } from './util';
 import { INestApplication } from '@nestjs/common';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -56,7 +56,7 @@ export const createProxyService = (app: INestApplication) => {
         proxyReq.setHeader('Sec-WebSocket-Protocol', 'base64.channel.k8s.io');
 
         socket.on('error', (error) => {
-          logWarn('Websocket error.', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
+          logger.warn('Websocket error:', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
         });
       },
     },

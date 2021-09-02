@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { logger } from 'src/util';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -22,8 +23,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    // eslint-disable-next-line no-console
-    console.error('unexpected exception:', exception.stack);
+    logger.error('unexpected exception:', exception.stack);
 
     response.status(status).json({
       statusCode: status,

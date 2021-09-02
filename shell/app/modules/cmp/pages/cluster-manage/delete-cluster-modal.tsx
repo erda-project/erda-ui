@@ -50,7 +50,7 @@ const DeleteClusterModal = ({ visible, curCluster, onCancel, onSubmit = () => {}
 
   return (
     <FormModal
-      title={i18n.t('org:Please enter the cluster name to confirm to go offline.')}
+      title={i18n.t('org:please enter the cluster name to confirm offline')}
       fieldsList={fieldsList}
       visible={visible}
       width={300}

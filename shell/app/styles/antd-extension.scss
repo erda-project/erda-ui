@@ -405,7 +405,7 @@ div.ant-table {
   .ant-table-tbody > tr > td,
   .ant-table tfoot > tr > th,
   .ant-table tfoot > tr > td {
-    line-height: 20px;
+    line-height: 32px;
   }
 
   // prevent [overflow: hidden] to cut out the fixed shadow;
@@ -455,6 +455,7 @@ span.ant-tag {
 
 div.ant-card-body {
   padding: 12px 16px;
+  height: 100%;
 }
 
 // cover Progress percent number fix one decimal;

@@ -15,7 +15,7 @@ import React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
 import { Remind as IconRemind } from '@icon-park/react';
-import { Badge, Timeline, Drawer, notification, Button } from 'core/nusi';
+import { Badge, Timeline, Drawer, notification, Button, Modal, message } from 'core/nusi';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
 import moment from 'moment';
@@ -95,7 +95,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     s.msgPaging,
     s.unreadCount,
   ]);
-  const { getMessageList, getMessageStats, readOneMessage } = messageStore.effects;
+  const { getMessageList, getMessageStats, readOneMessage, clearAll } = messageStore.effects;
   const { resetDetail } = messageStore.reducers;
   const [loadingList] = useLoading(messageStore, ['getMessageList']);
   const { switchMessageCenter } = layoutStore.reducers;
@@ -178,6 +178,15 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     }
   });
 
+  const clearAllMessage = () => {
+    Modal.confirm({
+      title: i18n.t('confirm to read all'),
+      onOk() {
+        return clearAll().then(() => message.success(i18n.t('operated successfully')));
+      },
+    });
+  };
+
   return (
     <div className="message-center" ref={boxRef as React.RefObject<HTMLDivElement>}>
       <div className="header">
@@ -185,10 +194,14 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
         {i18n.t('site message')}
       </div>
       <div className="content">
-        <div className="summary">
+        <div className="summary flex justify-between">
           {i18n.t('{unreadCount} messages unread', {
             unreadCount,
           })}
+
+          <a className="mr-6 cursor-pointer" onClick={() => clearAllMessage()}>
+            {i18n.t('one key all read')}
+          </a>
         </div>
         <Holder when={!list.length}>
           <Timeline>

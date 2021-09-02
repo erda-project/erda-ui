@@ -577,19 +577,4 @@ declare namespace GATEWAY {
     service: string;
     runtimeId: string;
   }
-
-  interface AliCloudDomain {
-    domain: string;
-  }
-
-  interface CloudapiExists {
-    cloudapiExists: boolean;
-  }
-
-  type AliCloudDomianConfig = Merge<AliCloudDomain, CloudapiExists>;
-
-  interface AliCloudCredentials {
-    appKey: string;
-    appSecret: string;
-  }
 }

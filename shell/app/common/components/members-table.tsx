@@ -589,7 +589,7 @@ export const MembersTable = ({
             onOk={updateRole}
             onCancel={handleCloseEditModal}
           />
-          <If condition={scopeKey !== MemberScope.SYS}>
+          <IF check={scopeKey !== MemberScope.SYS}>
             <BatchAuthorizeMemberModal
               projectId={params.projectId}
               visible={state.batchAuthorizeVisible}
@@ -621,7 +621,7 @@ export const MembersTable = ({
               onCancel={() => updater.inviteModalVisible(false)}
               modalProps={{ width: 600 }}
             />
-          </If>
+          </IF>
           <div className="members-list">
             <FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} reversePosition>
               <>

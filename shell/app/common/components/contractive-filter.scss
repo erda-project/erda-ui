@@ -9,6 +9,13 @@
   height: 28px;
   margin: 2px 8px 2px 0;
 
+  .contractive-filter-split {
+    width: 2px;
+    height: 20px;
+    margin-top: 4px;
+    background-color: $color-dark-2;
+  }
+
   &:hover {
     .contractive-filter-item-close {
       display: initial;

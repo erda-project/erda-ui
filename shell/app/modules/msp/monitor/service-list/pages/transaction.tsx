@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { map } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Radio, Search, Select, Drawer, Tag, Table } from 'core/nusi';
+import { Drawer, Radio, Search, Select, Table, Tag } from 'core/nusi';
 import { SimpleLog, useUpdate } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -61,6 +61,9 @@ const dashboardIdMap = {
     name: i18n.t('msp:Database call'),
   },
 };
+
+const limits = [100, 200, 500, 1000];
+
 const sortList = [
   {
     name: i18n.t('msp:the number of errors in reverse order'),
@@ -86,6 +89,7 @@ interface IState {
   detailVisible: boolean;
   logVisible: boolean;
   sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
+  limit: number;
 }
 
 const Transaction = () => {
@@ -94,7 +98,20 @@ const Transaction = () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [
-    { type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible, sortType },
+    {
+      type,
+      search,
+      subSearch,
+      sort,
+      url,
+      visible,
+      traceSlowTranslation,
+      detailVisible,
+      traceId,
+      logVisible,
+      sortType,
+      limit,
+    },
     updater,
   ] = useUpdate<IState>({
     type: DASHBOARD_TYPE.http,
@@ -108,6 +125,7 @@ const Transaction = () => {
     detailVisible: false,
     logVisible: false,
     sortType: defaultSort,
+    limit: limits[0],
   });
 
   const handleToggleType = (e: any) => {
@@ -115,25 +133,38 @@ const Transaction = () => {
     updater.subSearch(undefined);
   };
 
-  const queryTraceSlowTranslation = (sort_type: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE, cellValue: string) => {
+  const queryTraceSlowTranslation = (
+    sort_type: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE,
+    queryLimit: number,
+    cellValue: string,
+  ) => {
     const { serviceName, terminusKey, serviceId } = params;
     updater.sortType(sort_type);
+    updater.limit(queryLimit);
     getTraceSlowTranslation({
       sort: sort_type,
       start: startTimeMs,
       end: endTimeMs,
       terminusKey,
       serviceName,
+      limit: queryLimit,
       serviceId: window.decodeURIComponent(serviceId),
       operation: cellValue,
     }).then((res) => updater.traceSlowTranslation(res));
   };
 
+  const handleChangeLimit = React.useCallback(
+    (v) => {
+      queryTraceSlowTranslation(sortType, v, url);
+    },
+    [sortType, url],
+  );
+
   const handleChangeSortType = React.useCallback(
     (e) => {
-      queryTraceSlowTranslation(e, url);
+      queryTraceSlowTranslation(e, limit, url);
     },
-    [url],
+    [limit, url],
   );
 
   const handleBoardEvent = useCallback(
@@ -144,7 +175,7 @@ const Transaction = () => {
       if (eventName === 'traceSlowTranslation') {
         updater.url(cellValue);
         updater.visible(true);
-        queryTraceSlowTranslation(defaultSort, cellValue);
+        queryTraceSlowTranslation(defaultSort, limits[0], cellValue);
       }
     },
     [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
@@ -261,6 +292,15 @@ const Transaction = () => {
         onClose={() => updater.visible(false)}
       >
         <div className="flex items-center flex-wrap justify-end mb-3">
+          <span>{i18n.t('msp:maximum number of queries')}：</span>
+          <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
+            {limits.map((item) => (
+              <Select.Option key={item} value={item}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+          <span>{i18n.t('msp:sort method')}：</span>
           <Select value={sortType} onChange={handleChangeSortType}>
             {map(sortButtonMap, (v, k) => (
               <Select.Option key={k} value={k}>
@@ -273,10 +313,6 @@ const Transaction = () => {
           loading={isFetching}
           rowKey="requestId"
           columns={columns}
-          pagination={{
-            pageSizeOptions: ['10', '20', '50', '100', '200', '500', '1000'],
-            showSizeChanger: true,
-          }}
           dataSource={dataSource}
           scroll={{ x: '100%' }}
         />

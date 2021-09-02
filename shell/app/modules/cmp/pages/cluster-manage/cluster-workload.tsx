@@ -31,8 +31,8 @@ const ClusterNodes = () => {
 
   return (
     <DiceConfigPage
-      scenarioType={'cluster-workload'}
-      scenarioKey={'cluster-workload'}
+      scenarioType={'cmp-dashboard-workloads-list'}
+      scenarioKey={'cmp-dashboard-workloads-list'}
       inParams={inParams}
       customProps={{
         filter: {

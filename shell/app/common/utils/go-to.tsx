@@ -141,6 +141,7 @@ export enum pages {
   // project
   project = '/{orgName}/dop/projects/{projectId}',
   projectSetting = '/{orgName}/dop/projects/{projectId}/setting',
+  projectLabel = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectLabel',
   projectNotifyGroup = '/{orgName}/dop/projects/{projectId}/setting?tabKey=notifyGroup',
   projectService = '/{orgName}/dop/projects/{projectId}/service',
   testPlanDetail = '/{orgName}/dop/projects/{projectId}/testPlan/manual/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
