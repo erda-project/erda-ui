@@ -43,10 +43,29 @@ export const mockData = {
       },
       filter: {
         type: 'ContractiveFilter',
-        operations: { filter: { key: 'filter', reload: true } },
+        operations: {
+          filter: { key: 'filter', reload: true },
+          saveFilter: { key: 'saveMyFilter', reload: true, fillMeta: 'myFilter', meta: {} },
+        },
         state: {
           conditions: [
             { key: 'q', label: '标题', placeholder: '输入pod名称或IP', type: 'input', fixed: true },
+            {
+              key: 'myFilter',
+              label: '我的筛选',
+              type: 'select',
+              haveFilter: true,
+              customProps: { mode: 'single' },
+              fixed: true,
+              quickAdd: {
+                operationKey: 'saveFilter',
+                show: true,
+              },
+              options: [
+                { label: '我处理的缺陷、需求、任务', value: 'p1' },
+                { label: '不是我处理的缺陷、需求、任务', value: 'p2' },
+              ],
+            },
             {
               key: 'namespace',
               label: '命名空间',

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'core/nusi';
+import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'core/nusi';
 import { MemberSelector, ErdaCustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
@@ -40,6 +40,10 @@ interface ICondition {
   showIndex?: number; // 0： 隐藏、其他显示
   haveFilter?: boolean;
   placeholder?: string;
+  quickAdd?: {
+    operationKey: string;
+    show: boolean;
+  };
   quickSelect?: {
     label: string;
     operationKey: string;
@@ -54,7 +58,7 @@ interface IFilterItemProps {
   active: boolean;
   onVisibleChange: (visible: boolean) => void;
   onChange: (data: { key: string; value: any }, extra?: { forceChange?: boolean }) => void;
-  onQuickSelect: (data: { key: string; value: any }) => void;
+  onQuickOperation: (data: { key: string; value: any }) => void;
 }
 
 const filterMatch = (v: string, f: string) => v.toLowerCase().includes(f.toLowerCase());
@@ -102,7 +106,7 @@ const OptionItem = (props: IOptionItemProps) => {
   );
 };
 
-const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickSelect }: IFilterItemProps) => {
+const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickOperation }: IFilterItemProps) => {
   const {
     key,
     label,
@@ -110,6 +114,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     type,
     placeholder,
     quickSelect,
+    quickAdd,
     options,
     customProps,
     emptyText = i18n.t('application:all'),
@@ -201,10 +206,21 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Item key="quick-select-menu-item options-item">
                 <span
                   className="fake-link flex justify-between items-center"
-                  onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
+                  onClick={() => onQuickOperation({ key: quickSelect.operationKey, value: itemData })}
                 >
                   {quickSelect.label}
                 </span>
+              </Menu.Item>,
+              <Menu.Divider key="divider3" />,
+            ]
+          : null}
+        {quickAdd?.operationKey && quickAdd.show !== false
+          ? [
+              <Menu.Item key="quick-select-menu-item options-item">
+                <QuickSave
+                  onSave={(v) => onQuickOperation({ key: quickAdd.operationKey, value: v })}
+                  options={options}
+                />
               </Menu.Item>,
               <Menu.Divider key="divider3" />,
             ]
@@ -376,6 +392,47 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   return null;
 };
 
+interface IQuickSaveProps {
+  onSave: (val: string) => void;
+  options?: Option[];
+}
+const QuickSave = (props: IQuickSaveProps) => {
+  const { onSave, options } = props;
+  const [v, setV] = React.useState('');
+  const [tip, setTip] = React.useState(`${i18n.t('can not be empty')}`);
+
+  useUpdateEffect(() => {
+    const labels = map(options, 'label') || [];
+    if (!v) {
+      setTip(i18n.t('can not be empty'));
+    } else if (labels.includes(v)) {
+      setTip(`${i18n.t('{name} already exists', { name: i18n.t('name') })}`);
+    } else {
+      setTip('');
+    }
+  }, [v]);
+
+  const save = () => {
+    !tip && onSave(v);
+    setV('');
+  };
+  return (
+    <div className="flex justify-between items-center">
+      <Input
+        size="small"
+        placeholder={i18n.t('please enter')}
+        value={v}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setV(e.target.value)}
+      />
+      <Tooltip title={tip}>
+        <span className={`ml-2 ${!tip ? 'fake-link' : 'not-allowed'}`} onClick={save}>
+          {i18n.t('save')}
+        </span>
+      </Tooltip>
+    </div>
+  );
+};
+
 const noop = () => {};
 interface ContractiveFilterProps {
   initValue?: Obj; // 初始化
@@ -386,7 +443,7 @@ interface ContractiveFilterProps {
   fullWidth?: boolean;
   onConditionsChange?: (data: ICondition[]) => void;
   onChange: (valueMap: Obj) => void;
-  onQuickSelect?: (data: { key: string; value: any }) => void;
+  onQuickOperation?: (data: { key: string; value: any }) => void;
 }
 
 const setConditionShowIndex = (conditions: ICondition[], key: string, show: boolean) => {
@@ -423,7 +480,7 @@ export const ContractiveFilter = ({
   delay,
   visible = true,
   onChange,
-  onQuickSelect = noop,
+  onQuickOperation = noop,
   onConditionsChange = noop,
   fullWidth = false,
 }: ContractiveFilterProps) => {
@@ -578,7 +635,7 @@ export const ContractiveFilter = ({
             active={closeAll ? false : activeMap[item.key]}
             onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
             onChange={handelItemChange}
-            onQuickSelect={onQuickSelect}
+            onQuickOperation={onQuickOperation}
           />
         </span>
       ))}
@@ -658,7 +715,7 @@ export const ContractiveFilter = ({
             active={closeAll ? false : activeMap[item.key]}
             onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
             onChange={handelItemChange}
-            onQuickSelect={onQuickSelect}
+            onQuickOperation={onQuickOperation}
           />
         </span>
       ))}
