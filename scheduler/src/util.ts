@@ -11,14 +11,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/* eslint-disable no-console */
 import path from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
-import chalk from 'chalk';
+import winston from 'winston';
 
-const log = (...msg) => console.log(chalk.blue(`[Scheduler] ${msg}`));
-const logWarn = (...msg) => console.log(chalk.yellow(`[Scheduler] ${msg}`));
+const { combine, timestamp, printf } = winston.format;
+
+const customFormat = printf(({ level, message, timestamp: time }) => {
+  return `${time} [${level.toUpperCase()}]: ${message}`;
+});
+
+export const logger = winston.createLogger({
+  level: 'info',
+  format: combine(timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), customFormat),
+  transports: [
+    //
+    // - Write all logs with level `error` and below to `ui-error.log`
+    // - Write all logs with level `info` and below to `ui.log`
+    //
+    new winston.transports.File({ filename: path.resolve(process.cwd(), 'ui-error.log'), level: 'error' }),
+    new winston.transports.File({ filename: path.resolve(process.cwd(), 'ui.log') }),
+    new winston.transports.Console(),
+  ],
+});
 
 const getDirectories = (source) =>
   fs
@@ -86,4 +102,4 @@ export const getHttpsOptions = () => ({
   cert: fs.readFileSync(path.resolve(__dirname, '../..', `cert/dev/server.crt`), 'utf8'),
 });
 
-export { log, logWarn, getDirectories, getEnv };
+export { getDirectories, getEnv };

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Request, Response, NextFunction } from 'express';
-import { logWarn } from '../util';
+import { logger } from '../util';
 
 const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
 
@@ -20,7 +20,7 @@ export function guardMiddleware(req: Request, res: Response, next: NextFunction)
   // force to be https
   const forwardedProtocol = req.get('x-forwarded-proto');
   if (forwardedProtocol && forwardedProtocol !== 'https') {
-    logWarn('http request redirect to https: ', req.path);
+    logger.warn('http request redirect to https: ', req.path);
     res.redirect(`https://${req.headers.host}${req.url}`);
   }
   // guard unexpected http method
