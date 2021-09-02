@@ -17,11 +17,11 @@ import i18n from 'i18n';
 
 const timeUnit = [
   {
-    label: i18n.t('msp:second'),
+    label: 's',
     value: 's',
   },
   {
-    label: i18n.t('msp:millisecond'),
+    label: 'ms',
     value: 'ms',
   },
 ];
@@ -59,6 +59,7 @@ const InputWithUnit = ({ onChange, defaultUnit = 'ms', value }: ICompProps) => {
   };
   const addonAfter = (
     <Select
+      size="small"
       onChange={handleChangeUnit}
       defaultValue={defaultUnit}
       value={value?.unit || unit}
@@ -73,7 +74,7 @@ const InputWithUnit = ({ onChange, defaultUnit = 'ms', value }: ICompProps) => {
     </Select>
   );
 
-  return <Input value={value?.timer || timer} onChange={handleChange} addonAfter={addonAfter} />;
+  return <Input size="small" value={value?.timer || timer} onChange={handleChange} addonAfter={addonAfter} />;
 };
 
 interface IProps {

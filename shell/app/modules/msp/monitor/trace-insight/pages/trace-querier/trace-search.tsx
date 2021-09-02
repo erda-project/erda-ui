@@ -14,19 +14,20 @@
 import React, { useMemo } from 'react';
 import { debounce, get, isEmpty, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
-import { PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
-import { getTimeRanges } from 'common/utils';
+import { ContractiveFilter, Copy, PureBoardGrid, TagsRow, useSwitch, useUpdate } from 'common';
 import { ColumnProps } from 'core/common/interface';
 import { Table, Drawer, message } from 'core/nusi';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
 import { useLoading } from 'core/stores/loading';
 import traceStore from '../../../../stores/trace';
 import TraceSearchDetail from './trace-search-detail';
-import TraceFilter, { IField } from 'trace-insight/components/trace-filter';
+import { ICondition } from 'common/components/contractive-filter';
 import { getQueryConditions } from 'trace-insight/services/trace-querier';
-import { transformDuration } from 'trace-insight/components/duration';
+import Duration, { transformDuration } from 'trace-insight/components/duration';
+import { TimeSelectWithStore } from 'msp/components/time-select';
+import monitorCommonStore from 'common/stores/monitorCommon';
 
 const name = {
   sort: i18n.t('msp:sort method'),
@@ -36,35 +37,34 @@ const name = {
 
 const convertData = (
   data: MONITOR_TRACE.TraceConditions,
-): [IField[], { [k in MONITOR_TRACE.IFixedConditionType]: string }] => {
+): [any[], { [k in MONITOR_TRACE.IFixedConditionType]: string }] => {
   const { others, ...rest } = data;
-  const list: IField[] = [];
+  const list: ICondition[] = [];
   const defaultValue = {};
-  Object.keys(rest).forEach((key) => {
+  const fixC = Object.keys(rest);
+  fixC.forEach((key, index) => {
     const option = data[key];
     defaultValue[key] = option?.[0]?.value;
     list.push({
       type: 'select',
       fixed: true,
+      showIndex: index + 2,
       key,
       label: name[key],
+      options: option.map((t) => ({ ...t, label: t.displayName })),
       customProps: {
-        placeholder: i18n.t('please select {name}', { name: name[key] }),
-        className: 'w-64',
-        options: option.map((t) => ({ ...t, label: t.displayName })),
+        mode: 'single',
       },
     });
   });
   others?.forEach(({ paramKey, displayName, type }) => {
     list.push({
       type,
+      showIndex: 0,
       fixed: false,
+      placeholder: i18n.t('please enter {name}', { name: displayName }),
       key: paramKey,
       label: displayName,
-      customProps: {
-        placeholder: i18n.t('please enter {name}', { name: displayName }),
-        className: 'w-64',
-      },
     });
   });
   return [list, defaultValue];
@@ -77,40 +77,23 @@ interface RecordType {
   services: string[];
 }
 
-const initialFilter: IField[] = [
+const initialFilter = [
   {
-    type: 'rangePicker',
-    label: i18n.t('msp:time range'),
-    fixed: true,
-    key: 'time',
-    customProps: {
-      className: 'w-64',
-      showTime: true,
-      allowClear: false,
-      format: 'MM-DD HH:mm',
-      style: { width: 'auto' },
-      ranges: getTimeRanges(),
-    },
-  },
-  {
-    type: 'duration',
     label: i18n.t('msp:duration'),
     key: 'duration',
+    showIndex: 1,
     fixed: true,
-    customProps: {
-      showTime: true,
-      allowClear: false,
-      format: 'MM-DD HH:mm',
-      style: { width: 'auto' },
-      ranges: getTimeRanges(),
+    getComp: (props) => {
+      return <Duration {...props} />;
     },
   },
 ];
 
 interface IState {
-  filter: IField[];
+  filter: ICondition[];
   traceId?: string;
   defaultQuery: Obj;
+  query: Obj;
 }
 
 type IQuery = {
@@ -123,16 +106,17 @@ type IQuery = {
 };
 
 export default () => {
-  const initialRange = [moment().subtract(1, 'hours'), moment()];
+  const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
   const { getTraceCount, getTraceSummary } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
 
   const [detailVisible, openDetail, closeDetail] = useSwitch(false);
-  const [{ traceId, filter, defaultQuery }, updater, update] = useUpdate<IState>({
-    filter: [...initialFilter],
+  const [{ traceId, filter, defaultQuery, query }, updater, update] = useUpdate<IState>({
+    filter: [],
     traceId: undefined,
     defaultQuery: {},
+    query: {},
   });
 
   useEffectOnce(() => {
@@ -142,13 +126,15 @@ export default () => {
         update({
           defaultQuery: {
             ...defaultValue,
-            time: initialRange,
+          },
+          query: {
+            ...defaultValue,
           },
           filter: [...initialFilter, ...list],
         });
         getData({
-          startTime: initialRange[0].valueOf(),
-          endTime: initialRange[1].valueOf(),
+          startTime: range.startTimeMs,
+          endTime: range.endTimeMs,
           status: defaultValue.traceStatus,
           ...defaultValue,
         });
@@ -156,9 +142,17 @@ export default () => {
     });
   });
 
+  useUpdateEffect(() => {
+    getData({
+      ...query,
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+    });
+  }, [query, range]);
+
   const getData = React.useCallback(
     debounce((obj: Omit<MS_MONITOR.ITraceSummaryQuery, 'tenantId'>) => {
-      const { startTime, endTime, serviceName, status } = obj;
+      const { serviceName, status, startTime, endTime } = obj;
 
       getTraceCount({
         start: startTime,
@@ -173,9 +167,7 @@ export default () => {
   );
 
   const handleSearch = (query: Partial<IQuery>) => {
-    const { time, duration, traceStatus, ...rest } = query;
-    const startTime = time?.[0].valueOf() ?? initialRange[0].valueOf();
-    const endTime = time?.[1].valueOf() ?? initialRange[1].valueOf();
+    const { duration, traceStatus, ...rest } = query;
     const durationMin = transformDuration(duration?.[0]);
     const durationMax = transformDuration(duration?.[1]);
     let durations = {};
@@ -189,9 +181,7 @@ export default () => {
         message.error(i18n.t('msp:wrong duration'));
       }
     }
-    getData({
-      startTime,
-      endTime,
+    updater.query({
       status: traceStatus,
       ...durations,
       ...rest,
@@ -289,7 +279,14 @@ export default () => {
 
   return (
     <>
-      <TraceFilter list={filter} initialValues={defaultQuery} onChange={handleSearch} />
+      <div className="flex justify-between items-start bg-white px-2 py-2 mb-3">
+        <div className="flex-1">
+          {filter.length > 0 ? (
+            <ContractiveFilter delay={1000} conditions={filter} initValue={defaultQuery} onChange={handleSearch} />
+          ) : null}
+        </div>
+        <TimeSelectWithStore />
+      </div>
       <div className="mb-6">
         <PureBoardGrid layout={layout} />
       </div>

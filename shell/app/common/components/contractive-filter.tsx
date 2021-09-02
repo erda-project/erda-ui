@@ -17,7 +17,7 @@ import { MemberSelector, ErdaCustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
-import { debounce, isEmpty, isArray, map, max, sortBy, isString, has } from 'lodash';
+import { debounce, isEmpty, isArray, map, max, sortBy, isString, has, isNumber } from 'lodash';
 import i18n from 'i18n';
 import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck, Plus as IconPlus } from '@icon-park/react';
 
@@ -30,7 +30,7 @@ interface Option {
 
 type ConditionType = 'select' | 'input' | 'dateRange';
 
-interface ICondition {
+export interface ICondition {
   key: string;
   label: string;
   type: ConditionType;
@@ -49,6 +49,7 @@ interface ICondition {
     label: string;
     operationKey: string;
   };
+  getComp?: (props: Obj) => React.ReactNode;
   options?: Option[];
   customProps: Obj;
 }
@@ -119,6 +120,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     options,
     customProps,
     emptyText = i18n.t('application:all'),
+    getComp,
   } = itemData;
   const [filterMap, setFilterMap] = React.useState({});
   const memberSelectorRef = React.useRef(null as any);
@@ -155,7 +157,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   }
 
   if (type === 'select') {
-    const _value = value ? (isString(value) ? [value] : value) : [];
+    const _value = value ? (isString(value) || isNumber(value) ? [value] : value) : [];
     const _options = options || [];
     const { mode = 'multiple' } = customProps || {};
     const isSingleMode = mode === 'single';
@@ -390,6 +392,19 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       </span>
     );
   }
+  if (getComp) {
+    const comp = getComp({
+      onChange: (v) => {
+        onChange({ key, value: v });
+      },
+    });
+    return (
+      <span className="contractive-filter-item flex items-center">
+        <span className="text-desc mr-0.5">{label}</span>
+        {comp}
+      </span>
+    );
+  }
   return null;
 };
 
@@ -496,8 +511,10 @@ export const ContractiveFilter = ({
 
   const valueMapRef = React.useRef<Obj>();
 
-  const inputList = conditions.filter((a) => a.type === 'input');
-  const displayConditionsLen = conditions.filter((item) => !item.fixed && item.type !== 'input').length;
+  const inputList = conditions.filter((a) => a.type === 'input' && a.fixed !== false);
+  const displayConditionsLen = conditions.filter(
+    (item) => (!item.fixed && item.type !== 'input') || (item.fixed === false && item.type === 'input'),
+  ).length;
 
   useUpdateEffect(() => {
     setValueMap(values || {});
@@ -578,7 +595,7 @@ export const ContractiveFilter = ({
   const handleClearSelected = () => {
     setConditions((prev) =>
       map(prev, (pItem) => {
-        if (pItem.fixed || pItem.type === 'input') {
+        if (pItem.fixed || (pItem.type === 'input' && pItem.fixed !== false)) {
           return { ...pItem };
         } else {
           return { ...pItem, showIndex: 0 };
@@ -588,8 +605,8 @@ export const ContractiveFilter = ({
     const newValueMap = { ...valueMap };
     map(newValueMap, (_v, _k) => {
       const curConditions = conditions[_k] || {};
-      if (!(curConditions.fixed || curConditions.type === 'input')) {
-        newValueMap[_k] = undefined;
+      if (!(curConditions.fixed || (curConditions.type === 'input' && curConditions.fixed !== false))) {
+        newValueMap[_k] = initValue?.[_k] ?? undefined;
       }
     });
     handelItemChange(newValueMap, { batchChange: true });
@@ -602,7 +619,13 @@ export const ContractiveFilter = ({
       if (a.type !== 'input' && (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue)))) {
         return true;
       }
-      return (a.showIndex || a.fixed) && a.type !== 'input';
+      let flag = false;
+      if (a.type !== 'input') {
+        flag = !!a.showIndex || !!a.fixed;
+      } else {
+        flag = !!a.showIndex || a.fixed !== false;
+      }
+      return flag;
     }),
     'showIndex',
   );
@@ -675,7 +698,11 @@ export const ContractiveFilter = ({
                 <Menu.Divider />
                 {conditions.map((item) => {
                   const { key, label, fixed, type } = item;
-                  if (fixed || type === 'input' || !item.label.toLowerCase().includes(hideFilterKey)) {
+                  if (
+                    fixed ||
+                    (type === 'input' && fixed !== false) ||
+                    !item.label.toLowerCase().includes(hideFilterKey)
+                  ) {
                     return null;
                   }
                   const handleClick = () => {
