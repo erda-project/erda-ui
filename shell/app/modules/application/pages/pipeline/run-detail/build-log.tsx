@@ -156,7 +156,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
 
     const logRollerComp =
       Array.isArray(taskContainers) && taskContainers.length !== 0 ? (
-        <Tabs>
+        <Tabs className="log-viewer">
           {taskContainers.map((item) => (
             <TabPane tab={item.taskName} key={item.containerID}>
               {logRollerFn(item.containerID)}
