@@ -68,7 +68,18 @@ const dashboardIdMap = {
 };
 const sortList = [
   {
-    name: i18n.t('msp:the number of errors in reverse order'),
+    name: i18n.t('msp:average delay in reverse order'),
+    value: 0,
+  },
+  {
+    name: i18n.t('msp:the number of calls in reverse order'),
+    value: 1,
+  },
+];
+
+const sortHasErrorList = [
+  {
+    name: i18n.t('msp:average delay in reverse order'),
     value: 0,
   },
   {
@@ -76,14 +87,11 @@ const sortList = [
     value: 1,
   },
   {
-    name: i18n.t('msp:the number of calls in reverse order'),
+    name: i18n.t('msp:the number of errors in reverse order'),
     value: 2,
   },
-  {
-    name: i18n.t('msp:average delay in reverse order'),
-    value: 3,
-  },
 ];
+const hasErrorListTypes = [DASHBOARD_TYPE.http, DASHBOARD_TYPE.rpc];
 
 const callTypes = [
   {
@@ -151,6 +159,12 @@ const Transaction = () => {
     sortType: defaultSort,
     callType: undefined,
   });
+
+  React.useEffect(() => {
+    if (!hasErrorListTypes.includes(type) && sort === 2) {
+      updater.sort(undefined);
+    }
+  }, [type, sort, updater]);
 
   const handleToggleType = (e: any) => {
     updater.type(e.target.value);
@@ -257,7 +271,8 @@ const Transaction = () => {
                 className="ml-3"
                 placeholder={i18n.t('msp:call type')}
                 allowClear
-                onChange={(v) => updater.callType(v)}
+                style={{ width: '150px' }}
+                onChange={(v) => updater.callType(String(v))}
               >
                 {callTypes.map(({ name, value }) => (
                   <Select.Option key={value} value={value}>
@@ -272,8 +287,9 @@ const Transaction = () => {
               allowClear
               style={{ width: '180px' }}
               onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+              value={!hasErrorListTypes.includes(type) && sort === 2 ? undefined : sort}
             >
-              {sortList.map(({ name, value }) => (
+              {(hasErrorListTypes.includes(type) ? sortHasErrorList : sortList).map(({ name, value }) => (
                 <Select.Option key={value} value={value}>
                   {name}
                 </Select.Option>
