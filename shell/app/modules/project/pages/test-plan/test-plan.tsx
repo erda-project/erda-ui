@@ -166,7 +166,7 @@ const TestPlan = () => {
                 toggleArchived({ id, isArchived: !record.isArchived });
               }}
             >
-              {record.isArchived ? i18n.t('cancel archiving') : i18n.t('archive')}
+              {record.isArchived ? i18n.t('project:unarchive') : i18n.t('archive')}
             </span>
           </div>
         );
@@ -187,7 +187,6 @@ const TestPlan = () => {
           )),
           allowClear: true,
           placeholder: i18n.t('project:archive status'),
-          mode: 'multiple',
         },
       },
       {
