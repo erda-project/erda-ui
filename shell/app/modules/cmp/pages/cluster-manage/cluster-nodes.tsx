@@ -31,8 +31,8 @@ const ClusterNodes = () => {
 
   return (
     <DiceConfigPage
-      scenarioType={'cluster-nodes'}
-      scenarioKey={'cluster-nodes'}
+      scenarioType={'cmp-dashboard-nodes'}
+      scenarioKey={'cmp-dashboard-nodes'}
       inParams={inParams}
       customProps={{
         filter: {
