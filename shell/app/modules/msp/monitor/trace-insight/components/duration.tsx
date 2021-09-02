@@ -17,11 +17,11 @@ import i18n from 'i18n';
 
 const timeUnit = [
   {
-    label: i18n.t('msp:second'),
+    label: 's',
     value: 's',
   },
   {
-    label: i18n.t('msp:millisecond'),
+    label: 'ms',
     value: 'ms',
   },
 ];
