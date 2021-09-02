@@ -14,7 +14,6 @@
 import getDcosRouter from 'dcos/router';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import clusterStore from 'cmp/stores/cluster';
 import { mqTabs } from 'dcos/pages/service-manager/mq-manager/index';
 import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';

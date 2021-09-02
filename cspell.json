@@ -186,6 +186,7 @@
     "prefetch",
     "preupdate",
     "prewrap",
+    "printf",
     "proctime",
     "puse",
     "PYTHONEXECUTE",

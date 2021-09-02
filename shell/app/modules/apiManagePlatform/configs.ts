@@ -69,7 +69,7 @@ export enum API_METHODS {
   options = 'options',
   patch = 'patch',
 }
-export const API_MEDIA_TYPE = ['application/json', 'application/xml', 'x-www-form-urlencoded'];
+export const API_MEDIA_TYPE = ['application/json', 'application/xml', 'application/x-www-form-urlencoded'];
 
 export const API_PROTOCOLS = ['HTTP', 'HTTPS'];
 

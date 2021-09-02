@@ -25,6 +25,7 @@ declare namespace TEST_PLAN {
     status: PlanStatus;
     statusName: string;
     summary: null;
+    isArchived: boolean;
     useCaseTotalCount: number;
     useCaseTestedCount: number;
     useCasePassedCount: number;
