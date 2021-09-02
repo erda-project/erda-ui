@@ -223,7 +223,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
                   options={options}
                 />
               </Menu.Item>,
-              <Menu.Divider key="divider3" />,
+              <Menu.Divider key="divider4" />,
             ]
           : null}
         <Menu.Item key="options" className="p-0 options-container options-item">
