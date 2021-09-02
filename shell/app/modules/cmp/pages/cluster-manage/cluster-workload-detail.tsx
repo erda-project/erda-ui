@@ -16,9 +16,9 @@ import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
 const ClusterNodes = () => {
-  const { clusterName, wordloadId } = routeInfoStore.useStore((s) => s.params);
+  const { clusterName, workloadId } = routeInfoStore.useStore((s) => s.params);
 
-  const inParams = { clusterName, wordloadId };
+  const inParams = { clusterName, workloadId };
   return (
     <DiceConfigPage
       scenarioType={'cmp-dashboard-workload-detail'}

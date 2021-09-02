@@ -49,11 +49,7 @@ export const createProxyService = (app: INestApplication) => {
         if (uri && typeof uri === 'string') {
           const org = uri.split('/')?.[2];
           proxyReq.setHeader('org', org);
-        } else {
-          proxyReq.setHeader('org', 'terminus');
         }
-
-        proxyReq.setHeader('Sec-WebSocket-Protocol', 'base64.channel.k8s.io');
 
         socket.on('error', (error) => {
           logger.warn('Websocket error:', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189

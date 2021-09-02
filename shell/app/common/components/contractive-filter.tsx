@@ -19,7 +19,13 @@ import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
 import { debounce, isEmpty, isArray, map, max, sortBy, isString, has } from 'lodash';
 import i18n from 'i18n';
-import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck, Plus as IconPlus } from '@icon-park/react';
+import {
+  DownOne as IconDownOne,
+  Down as IconDown,
+  Search as IconSearch,
+  Check as IconCheck,
+  Plus as IconPlus,
+} from '@icon-park/react';
 
 interface Option {
   label: string;
@@ -420,6 +426,30 @@ const QuickSave = (props: IQuickSaveProps) => {
   );
 };
 
+interface IGroupOptProps {
+  value: Array<string | number>;
+  option: Option;
+  onClickOptItem: (op: Option) => void;
+}
+
+const GroupOpt = (props: IGroupOptProps) => {
+  const { option, onClickOptItem, value } = props;
+  const [expand, setExpand] = React.useState(true);
+
+  return (
+    <div className={'option-group'} key={option.value || option.label}>
+      <div className="option-group-label flex items-center justify-between" onClick={() => setExpand(!expand)}>
+        {option.label}
+        <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
+      </div>
+      <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
+        {option.children?.map((cItem) => {
+          return <OptionItem key={cItem.value} value={value} option={cItem} onClick={() => onClickOptItem(cItem)} />;
+        })}
+      </div>
+    </div>
+  );
+};
 const noop = () => {};
 interface ContractiveFilterProps {
   initValue?: Obj; // 初始化
@@ -482,7 +512,7 @@ export const ContractiveFilter = ({
 
   const valueMapRef = React.useRef<Obj>();
 
-  const inputList = conditions.filter((a) => a.type === 'input');
+  const inputList = conditions.filter((a) => a.type === 'input' && a.fixed !== false);
   const displayConditionsLen = conditions.filter((item) => !item.fixed && item.type !== 'input').length;
 
   useUpdateEffect(() => {

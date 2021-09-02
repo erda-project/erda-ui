@@ -15,6 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
+import { K8sClusterTerminalButton } from './cluster-terminal';
 import { updateSearch } from 'common/utils';
 
 const ClusterNodes = () => {
@@ -30,19 +31,24 @@ const ClusterNodes = () => {
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   return (
-    <DiceConfigPage
-      scenarioType={'cmp-dashboard-workloads-list'}
-      scenarioKey={'cmp-dashboard-workloads-list'}
-      inParams={inParams}
-      customProps={{
-        filter: {
-          onFilterChange: urlQueryChange,
-        },
-        logTable: {
-          onStateChange: urlQueryChange,
-        },
-      }}
-    />
+    <>
+      <div className="top-button-group">
+        <K8sClusterTerminalButton clusterName={clusterName} />
+      </div>
+      <DiceConfigPage
+        scenarioType={'cmp-dashboard-workloads-list'}
+        scenarioKey={'cmp-dashboard-workloads-list'}
+        inParams={inParams}
+        customProps={{
+          filter: {
+            onFilterChange: urlQueryChange,
+          },
+          logTable: {
+            onStateChange: urlQueryChange,
+          },
+        }}
+      />
+    </>
   );
 };
 

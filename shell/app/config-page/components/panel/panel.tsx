@@ -58,11 +58,13 @@ export default (props: CP_PANEL.Props) => {
               execOperation(operations.click);
             };
           }
-          reField.valueItem = (_props: Obj) => (
-            <span className="fake-link" {..._props} {..._p}>
-              {_props.value}
-            </span>
-          );
+          reField.valueItem = (_props) => {
+            return (
+              <span className="fake-link" {..._p}>
+                {_props.value}
+              </span>
+            );
+          };
         }
         break;
       case 'copyText':

@@ -131,6 +131,7 @@ export const mockData = {
         data: {
           list: [
             {
+              id: 1,
               status: { renderType: 'text', value: 'Active', styleConfig: { color: 'green' } },
               ready: '是',
               name: 'nginx',
@@ -141,15 +142,23 @@ export const mockData = {
                 renderType: 'tableOperation',
                 operations: {
                   log: {
-                    key: 'gotoPod',
-                    command: { key: 'goto', target: 'dopRoot', jumpOut: true },
+                    key: 'checkLog',
                     text: '查看日志',
+                    meta: {
+                      containerName: 'api-gateway',
+                      podName: 'api-gateway-0',
+                      namespace: 'addon-api-gateway--bbe2f4a37f1f04a80a1d9cb5c35784f21',
+                    },
                     reload: false,
                   },
                   console: {
-                    key: 'gotoPod',
-                    command: { key: 'goto', target: 'dopRoot', jumpOut: true },
+                    key: 'checkConsole',
                     text: '控制台',
+                    meta: {
+                      containerName: 'cluster-agent',
+                      podName: 'cluster-agent-3feb156fc4-bf99775bc-scv74',
+                      namespace: 'project-387-dev',
+                    },
                     reload: false,
                   },
                 },
@@ -160,6 +169,7 @@ export const mockData = {
         props: {
           pagination: false,
           scroll: { x: 1000 },
+          rowKey: 'id',
           columns: [
             { dataIndex: 'status', title: '状态', width: 120 },
             { dataIndex: 'ready', title: '是否就绪', width: 120 },
@@ -174,10 +184,11 @@ export const mockData = {
       eventTable: {
         type: 'Table',
         data: {
-          list: [{ lastTrigger: '2020-10-10 22:22:22', type: 'Normal', reason: 'xx', info: 'dddd' }],
+          list: [{ id: '1', lastTrigger: '2020-10-10 22:22:22', type: 'Normal', reason: 'xx', info: 'dddd' }],
         },
         props: {
           pagination: false,
+          rowKey: 'id',
           columns: [
             { dataIndex: 'lastTrigger', title: '上次触发', width: 180 },
             { dataIndex: 'type', title: '类型', width: 120 },

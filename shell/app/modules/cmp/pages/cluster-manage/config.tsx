@@ -192,3 +192,5 @@ export const getOptions = (type: string) => {
   }
   return [];
 };
+
+export const TYPE_K8S_AND_EDAS = ['k8s', 'edas'];

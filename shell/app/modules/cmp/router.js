@@ -17,6 +17,7 @@ import { map } from 'lodash';
 import { mqTabs } from 'dcos/pages/service-manager/mq-manager/index';
 import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
+import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 
 export const getOrgProjectTabs = () => [
   {
@@ -38,7 +39,7 @@ const middlewareTabs = [
 
 const clusterDetailTabs = (params) => {
   const clusterType = params.breadcrumbInfoMap.cmpCluster?.type;
-  return ['k8s', 'edas'].includes(clusterType)
+  return TYPE_K8S_AND_EDAS.includes(clusterType)
     ? [
         { key: 'nodes', name: i18n.t('cmp:node list') },
         { key: 'pods', name: i18n.t('cmp:pod list') },

@@ -12,18 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage from 'app/config-page';
+import DiceConfigPage, { useMock } from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { Button, Drawer } from 'core/nusi';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
-import i18n from 'i18n';
-import K8sClusterTerminal from './cluster-terminal';
+
+import { K8sClusterTerminalButton } from './cluster-terminal';
 
 const ClusterNodes = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
-  const [consoleVis, setConsoleVis] = React.useState(false);
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -36,7 +34,7 @@ const ClusterNodes = () => {
   return (
     <>
       <div className="top-button-group">
-        <Button onClick={() => setConsoleVis(true)}>控制台</Button>
+        <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
       <DiceConfigPage
         scenarioType={'cmp-dashboard-nodes'}
@@ -60,15 +58,6 @@ const ClusterNodes = () => {
           },
         }}
       />
-
-      <Drawer
-        visible={consoleVis}
-        onClose={() => setConsoleVis(false)}
-        title={`${i18n.t('cluster')} ${clusterName} ${i18n.t('console')}`}
-        width={'80%'}
-      >
-        <K8sClusterTerminal clusterName={clusterName} />
-      </Drawer>
     </>
   );
 };

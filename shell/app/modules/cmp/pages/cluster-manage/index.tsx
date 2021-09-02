@@ -14,8 +14,7 @@
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Button, Drawer } from 'core/nusi';
-import K8sClusterTerminal from './cluster-terminal';
+import { Spin, Button } from 'core/nusi';
 import { isEmpty } from 'lodash';
 import { Holder, useUpdate } from 'common';
 import { goTo, setSearch } from 'common/utils';
@@ -54,8 +53,6 @@ const ClusterManage = () => {
     aliCloudContainerFormVisible: false,
     aliCloudErdcFormVisible: false,
   });
-
-  const [consoleVis, setConsoleVis] = React.useState(false);
 
   useEffectOnce(() => {
     const query = routeStore.getState((s) => s.query);
@@ -145,7 +142,6 @@ const ClusterManage = () => {
         <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>
           {i18n.t('org:add cluster')}
         </Button>
-        <Button onClick={() => setConsoleVis(true)}>控制台</Button>
       </div>
       <ClusterTypeModal visible={typeSelectorVis} toggleModal={toggleTypeModalVis} onSubmit={handleSelectType} />
       <AddClusterModal
@@ -174,15 +170,6 @@ const ClusterManage = () => {
           updater.aliCloudErdcFormVisible(false);
         }}
       />
-
-      <Drawer
-        visible={consoleVis}
-        onClose={() => setConsoleVis(false)}
-        title={`${i18n.t('cluster')} ${i18n.t('console')}`}
-        width={'80%'}
-      >
-        <K8sClusterTerminal clusterName={'terminus-dev'} />
-      </Drawer>
     </div>
   );
 };

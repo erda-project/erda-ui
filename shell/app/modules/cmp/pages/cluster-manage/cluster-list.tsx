@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Popover } from 'core/nusi';
+import { Modal, Table, Popover, Button, Drawer, Input, Spin } from 'core/nusi';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
@@ -25,9 +25,9 @@ import { ClusterLog } from './cluster-log';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
 import { ColumnProps } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
-import { Button, Drawer, Input, Spin } from 'core/nusi';
 import { bgColorClsMap } from 'app/common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
+import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
 
@@ -289,7 +289,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         <span
           className="hover-active"
           onClick={() => {
-            goTo(['k8s', 'edas'].includes(record.type) ? goTo.pages.cmpClustersNodes : goTo.pages.cmpClustersDetail, {
+            goTo(TYPE_K8S_AND_EDAS.includes(record.type) ? goTo.pages.cmpClustersNodes : goTo.pages.cmpClustersDetail, {
               clusterName: record.name,
             });
           }}
