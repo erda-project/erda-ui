@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useCallback, useMemo } from 'react';
-import { map } from 'lodash';
+import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Drawer, Radio, Search, Select, Table, Tag } from 'core/nusi';
+import { Drawer, Radio, Select, Table, Tag } from 'core/nusi';
 import { SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -96,7 +96,7 @@ const sortHasErrorList = [
     value: 2,
   },
 ];
-
+const differSortList = differenceBy(sortHasErrorList, sortList, 'value');
 const hasErrorListTypes = [DASHBOARD_TYPE.http, DASHBOARD_TYPE.rpc];
 
 const callTypes = [
@@ -172,7 +172,7 @@ const Transaction = () => {
 
   React.useEffect(() => {
     // there are different sort type groups, the count of they is not match, so reset sort when switch type
-    if (!hasErrorListTypes.includes(type) && sort === 2) {
+    if (!hasErrorListTypes.includes(type) && differSortList.find((item) => item.value === sort)) {
       updater.sort(undefined);
     }
   }, [type, sort, updater]);
@@ -224,7 +224,7 @@ const Transaction = () => {
       if (eventName === 'traceSlowTranslation') {
         updater.url(cellValue);
         updater.visible(true);
-        queryTraceSlowTranslation(defaultSort, limits[0], cellValue);
+        queryTraceSlowTranslation(defaultTimeSort, limits[0], cellValue);
       }
     },
     [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
@@ -311,7 +311,7 @@ const Transaction = () => {
               allowClear
               style={{ width: '180px' }}
               onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
-              value={!hasErrorListTypes.includes(type) && sort === 2 ? undefined : sort}
+              value={sort}
             >
               {(hasErrorListTypes.includes(type) ? sortHasErrorList : sortList).map(({ name, value }) => (
                 <Select.Option key={value} value={value}>
