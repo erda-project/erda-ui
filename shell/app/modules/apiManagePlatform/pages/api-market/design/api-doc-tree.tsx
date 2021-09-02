@@ -362,7 +362,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         <span className="name nowrap">
           {treeNodeData?.branchName
             ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}`
-            : i18n.t('common:no data')}
+            : i18n.t('common:expand branch directory selection document')}
         </span>
         <IconDownOne size="16px" theme="filled" />
       </button>

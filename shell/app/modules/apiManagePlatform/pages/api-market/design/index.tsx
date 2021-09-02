@@ -103,7 +103,7 @@ const ErrorEmptyHolder = ({
       />
     );
   } else if (isEmpty(validBranches)) {
-    Comp = <EmptyHolder tip={i18n.t('project:please create a new document')} />;
+    Comp = <EmptyHolder tip={i18n.t('common:expand branch directory selection document or create a new document')} />;
   } else {
     Comp = <EmptyHolder relative />;
   }

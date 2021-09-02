@@ -774,6 +774,8 @@
     "exit current {name}": "退出当前{name}",
     "exit-confirm-tip {name}": "退出当前{name}后，将不再有该{name}的权限，请谨慎操作",
     "exit-sub-tip {name}": "退出当前{name}后，将不再有参与{name}工作的权限，如要再次加入需要{name}管理员添加，请确认是否退出？",
+    "expand branch directory selection document": "展开分支目录选择文档",
+    "expand branch directory selection document or create a new document": "展开分支目录选择文档或新建文档",
     "file upload": "文件上传",
     "filter": "过滤",
     "folder": "文件夹",
