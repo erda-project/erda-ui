@@ -246,6 +246,7 @@ const VersionList = (props: IProps) => {
             ) : (
               <Radio.Button value="h5">H5</Radio.Button>
             )}
+            <Radio.Button value="aab">Android App Bundle</Radio.Button>
           </Radio.Group>
           <WithAuth pass={publishOperationAuth} disableMode>
             <Button
