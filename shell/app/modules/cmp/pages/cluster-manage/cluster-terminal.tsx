@@ -74,13 +74,11 @@ export const K8sPodTerminalConsole = (props: IPodTerminalProps) => {
   };
 
   return (
-    <>
-      <Drawer visible={visible} destroyOnClose onClose={onClose} title={`Pod ${i18n.t('console')}`} width={'80%'}>
-        <div className="k8s-cluster-terminal-container">
-          <ClusterTerminal params={params} />
-        </div>
-      </Drawer>
-    </>
+    <Drawer visible={visible} destroyOnClose onClose={onClose} title={`Pod ${i18n.t('console')}`} width={'80%'}>
+      <div className="k8s-cluster-terminal-container">
+        <ClusterTerminal params={params} />
+      </div>
+    </Drawer>
   );
 };
 
@@ -95,12 +93,10 @@ export const K8sPodTerminalLog = (props: IPodTerminalProps) => {
   };
 
   return (
-    <>
-      <Drawer visible={visible} destroyOnClose onClose={onClose} title={`Pod ${i18n.t('console')}`} width={'80%'}>
-        <div className="k8s-cluster-terminal-container">
-          <ClusterTerminal params={params} />
-        </div>
-      </Drawer>
-    </>
+    <Drawer visible={visible} destroyOnClose onClose={onClose} title={`${i18n.t('log')}`} width={'80%'}>
+      <div className="k8s-cluster-terminal-container">
+        <ClusterTerminal params={params} />
+      </div>
+    </Drawer>
   );
 };

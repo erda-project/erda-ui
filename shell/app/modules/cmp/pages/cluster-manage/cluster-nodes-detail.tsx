@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { TimeSelector, MonitorChart } from 'common';
 import { Row, Col } from 'core/nusi';
@@ -57,8 +57,6 @@ const ClusterNodes = () => {
           scenarioType={'cmp-dashboard-nodeDetail'}
           scenarioKey={'cmp-dashboard-nodeDetail'}
           inParams={inParams}
-          forceMock
-          useMock={useMock('k8s-node-detail')}
         />
       </div>
       <div className="-mt-8">

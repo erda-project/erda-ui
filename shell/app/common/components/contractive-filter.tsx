@@ -512,7 +512,7 @@ export const ContractiveFilter = ({
 
   const valueMapRef = React.useRef<Obj>();
 
-  const inputList = conditions.filter((a) => a.type === 'input' && a.fixed !== false);
+  const inputList = conditions.filter((a) => a.type === 'input');
   const displayConditionsLen = conditions.filter((item) => !item.fixed && item.type !== 'input').length;
 
   useUpdateEffect(() => {

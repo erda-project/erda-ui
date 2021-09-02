@@ -42,7 +42,7 @@ const ServiceTerminal = (props: IProps) => {
 
   if (isEmpty(clusterDetail)) {
     return (
-      <div className="terminal-container">
+      <div className="service-container">
         <span className="terminal-info">{i18n.t('dcos:getting cluster information')}...</span>
       </div>
     );
@@ -69,14 +69,14 @@ const ServiceTerminal = (props: IProps) => {
     };
     if (!initData.args.host) {
       return (
-        <div className="terminal-container">
+        <div className="service-container">
           <span className="terminal-info">{i18n.t('dcos:cannot find current container')}</span>
         </div>
       );
     }
     if (!initData.args.container) {
       return (
-        <div className="terminal-container">
+        <div className="service-container">
           <span className="terminal-info">{i18n.t('dcos:cannot find current host')}</span>
         </div>
       );
@@ -92,7 +92,7 @@ const ServiceTerminal = (props: IProps) => {
   };
 
   return (
-    <div className="terminal-container">
+    <div className="service-container">
       <Terminal params={_params} />
     </div>
   );

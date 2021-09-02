@@ -22,7 +22,7 @@ const Mock = () => {
       showLoading
       scenarioType="mock"
       scenarioKey={'mock'}
-      useMock={useMock(query.page || 'project-list-protocol.mock')}
+      useMock={useMock(query.page || 'project-list-protocol')}
       forceMock
     />
   );
