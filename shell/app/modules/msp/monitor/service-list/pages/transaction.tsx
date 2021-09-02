@@ -16,7 +16,7 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Drawer, Radio, Search, Select, Table, Tag } from 'core/nusi';
-import { SimpleLog, useUpdate } from 'common';
+import { SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
@@ -32,9 +32,12 @@ enum DASHBOARD_TYPE {
   rpc = 'rpc',
   cache = 'cache',
   database = 'database',
+  mq = 'mq',
 }
 
-const defaultSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'timestamp:DESC';
+const defaultTimeSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'duration:DESC';
+
+const defaultSort = 0;
 
 const sortButtonMap: { [key in TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE]: string } = {
   'timestamp:DESC': i18n.t('msp:time desc'),
@@ -60,26 +63,60 @@ const dashboardIdMap = {
     id: 'translation_analysis_database',
     name: i18n.t('msp:Database call'),
   },
+  [DASHBOARD_TYPE.mq]: {
+    id: 'translation_analysis_mq',
+    name: i18n.t('msp:MQ call'),
+  },
 };
 
 const limits = [100, 200, 500, 1000];
 
 const sortList = [
   {
-    name: i18n.t('msp:the number of errors in reverse order'),
+    name: i18n.t('msp:AVG TIME DELAY DESC'),
     value: 0,
   },
   {
-    name: i18n.t('msp:the number of calls in reverse order'),
+    name: i18n.t('msp:REQUEST COUNT DESC'),
     value: 1,
   },
 ];
+
+const sortHasErrorList = [
+  {
+    name: i18n.t('msp:AVG TIME DELAY DESC'),
+    value: 0,
+  },
+  {
+    name: i18n.t('msp:REQUEST COUNT DESC'),
+    value: 1,
+  },
+  {
+    name: i18n.t('msp:ERROR COUNT DESC'),
+    value: 2,
+  },
+];
+
+const hasErrorListTypes = [DASHBOARD_TYPE.http, DASHBOARD_TYPE.rpc];
+
+const callTypes = [
+  {
+    name: i18n.t('msp:producer'),
+    value: 'producer',
+  },
+  {
+    name: i18n.t('msp:consumer'),
+    value: 'consumer',
+  },
+];
+
 // 变量为正则需要转义字符
 const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '/'];
 
 interface IState {
   type: DASHBOARD_TYPE;
   search?: string;
+  topic?: string;
   subSearch?: string;
   sort?: number;
   url?: string;
@@ -89,6 +126,7 @@ interface IState {
   detailVisible: boolean;
   logVisible: boolean;
   sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
+  callType?: string;
   limit: number;
 }
 
@@ -101,6 +139,7 @@ const Transaction = () => {
     {
       type,
       search,
+      topic,
       subSearch,
       sort,
       url,
@@ -110,23 +149,33 @@ const Transaction = () => {
       traceId,
       logVisible,
       sortType,
+      callType,
       limit,
     },
     updater,
   ] = useUpdate<IState>({
     type: DASHBOARD_TYPE.http,
     search: undefined,
+    topic: undefined,
     subSearch: undefined,
-    sort: undefined,
+    sort: defaultSort,
     url: undefined,
     traceSlowTranslation: undefined,
     traceId: undefined,
     visible: false,
     detailVisible: false,
     logVisible: false,
-    sortType: defaultSort,
+    sortType: defaultTimeSort,
+    callType: undefined,
     limit: limits[0],
   });
+
+  React.useEffect(() => {
+    // there are different sort type groups, the count of they is not match, so reset sort when switch type
+    if (!hasErrorListTypes.includes(type) && sort === 2) {
+      updater.sort(undefined);
+    }
+  }, [type, sort, updater]);
 
   const handleToggleType = (e: any) => {
     updater.type(e.target.value);
@@ -228,38 +277,62 @@ const Transaction = () => {
       });
 
     return {
+      topic,
       search,
       sort,
+      type: callType,
       subSearch: _subSearch || undefined,
     };
-  }, [search, sort, subSearch]);
+  }, [search, sort, callType, subSearch, topic]);
 
   return (
     <div className="service-analyze flex flex-col h-full">
       <div>
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
-            <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
+            <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
                 className="ml-3"
-                placeholder={i18n.t('msp:select sorting method')}
+                placeholder={i18n.t('msp:call type')}
                 allowClear
-                style={{ width: '180px' }}
-                onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+                style={{ width: '150px' }}
+                onChange={(v) => updater.callType(String(v))}
               >
-                {sortList.map(({ name, value }) => (
+                {callTypes.map(({ name, value }) => (
                   <Select.Option key={value} value={value}>
                     {name}
                   </Select.Option>
                 ))}
               </Select>
             </If>
-            <Search
+            <Select
+              className="ml-3"
+              placeholder={i18n.t('msp:select sorting method')}
               allowClear
-              placeholder={i18n.t('msp:search by transaction name')}
-              style={{ marginLeft: '12px', width: '180px' }}
-              onHandleSearch={(v) => updater.search(v)}
-            />
+              style={{ width: '180px' }}
+              onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+              value={!hasErrorListTypes.includes(type) && sort === 2 ? undefined : sort}
+            >
+              {(hasErrorListTypes.includes(type) ? sortHasErrorList : sortList).map(({ name, value }) => (
+                <Select.Option key={value} value={value}>
+                  {name}
+                </Select.Option>
+              ))}
+            </Select>
+            <If condition={type === DASHBOARD_TYPE.mq}>
+              <DebounceSearch
+                className="ml-3 w-48"
+                placeholder={i18n.t('msp:search by Topic')}
+                onChange={(v) => updater.topic(v)}
+              />
+            </If>
+            <If condition={type !== DASHBOARD_TYPE.mq}>
+              <DebounceSearch
+                className="ml-3 w-48"
+                placeholder={i18n.t('msp:search by transaction name')}
+                onChange={(v) => updater.search(v)}
+              />
+            </If>
           </div>
           <div className="right flex justify-between items-center mb-2">
             <RadioGroup value={type} onChange={handleToggleType}>
