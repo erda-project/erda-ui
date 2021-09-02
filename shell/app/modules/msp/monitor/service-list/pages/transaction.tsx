@@ -23,7 +23,6 @@ import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import TraceSearchDetail from 'msp/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
-import { RadioChangeEvent } from 'core/common/interface';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
@@ -35,7 +34,7 @@ enum DASHBOARD_TYPE {
   mq = 'mq',
 }
 
-const defaultSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'timestamp:DESC';
+const defaultSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'duration:DESC';
 
 const sortButtonMap: { [key in TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE]: string } = {
   'timestamp:DESC': i18n.t('msp:time desc'),
@@ -66,31 +65,35 @@ const dashboardIdMap = {
     name: i18n.t('msp:MQ call'),
   },
 };
+
+const limits = [100, 200, 500, 1000];
+
 const sortList = [
   {
-    name: i18n.t('msp:average delay in reverse order'),
+    name: i18n.t('msp:AVG TIME DELAY DESC'),
     value: 0,
   },
   {
-    name: i18n.t('msp:the number of calls in reverse order'),
+    name: i18n.t('msp:REQUEST COUNT DESC'),
     value: 1,
   },
 ];
 
 const sortHasErrorList = [
   {
-    name: i18n.t('msp:average delay in reverse order'),
+    name: i18n.t('msp:AVG TIME DELAY DESC'),
     value: 0,
   },
   {
-    name: i18n.t('msp:the number of calls in reverse order'),
+    name: i18n.t('msp:REQUEST COUNT DESC'),
     value: 1,
   },
   {
-    name: i18n.t('msp:the number of errors in reverse order'),
+    name: i18n.t('msp:ERROR COUNT DESC'),
     value: 2,
   },
 ];
+
 const hasErrorListTypes = [DASHBOARD_TYPE.http, DASHBOARD_TYPE.rpc];
 
 const callTypes = [
@@ -120,6 +123,7 @@ interface IState {
   logVisible: boolean;
   sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
   callType?: string;
+  limit: number;
 }
 
 const Transaction = () => {
@@ -142,6 +146,7 @@ const Transaction = () => {
       logVisible,
       sortType,
       callType,
+      limit,
     },
     updater,
   ] = useUpdate<IState>({
@@ -158,6 +163,7 @@ const Transaction = () => {
     logVisible: false,
     sortType: defaultSort,
     callType: undefined,
+    limit: limits[0],
   });
 
   React.useEffect(() => {
@@ -171,25 +177,38 @@ const Transaction = () => {
     updater.subSearch(undefined);
   };
 
-  const queryTraceSlowTranslation = (sort_type: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE, cellValue: string) => {
+  const queryTraceSlowTranslation = (
+    sort_type: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE,
+    queryLimit: number,
+    cellValue: string,
+  ) => {
     const { serviceName, terminusKey, serviceId } = params;
     updater.sortType(sort_type);
+    updater.limit(queryLimit);
     getTraceSlowTranslation({
       sort: sort_type,
       start: startTimeMs,
       end: endTimeMs,
       terminusKey,
       serviceName,
+      limit: queryLimit,
       serviceId: window.decodeURIComponent(serviceId),
       operation: cellValue,
     }).then((res) => updater.traceSlowTranslation(res));
   };
 
+  const handleChangeLimit = React.useCallback(
+    (v) => {
+      queryTraceSlowTranslation(sortType, v, url);
+    },
+    [sortType, url],
+  );
+
   const handleChangeSortType = React.useCallback(
     (e) => {
-      queryTraceSlowTranslation(e, url);
+      queryTraceSlowTranslation(e, limit, url);
     },
-    [url],
+    [limit, url],
   );
 
   const handleBoardEvent = useCallback(
@@ -200,7 +219,7 @@ const Transaction = () => {
       if (eventName === 'traceSlowTranslation') {
         updater.url(cellValue);
         updater.visible(true);
-        queryTraceSlowTranslation(defaultSort, cellValue);
+        queryTraceSlowTranslation(defaultSort, limits[0], cellValue);
       }
     },
     [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
@@ -342,6 +361,15 @@ const Transaction = () => {
         onClose={() => updater.visible(false)}
       >
         <div className="flex items-center flex-wrap justify-end mb-3">
+          <span>{i18n.t('msp:maximum number of queries')}：</span>
+          <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
+            {limits.map((item) => (
+              <Select.Option key={item} value={item}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
+          <span>{i18n.t('msp:sort method')}：</span>
           <Select value={sortType} onChange={handleChangeSortType}>
             {map(sortButtonMap, (v, k) => (
               <Select.Option key={k} value={k}>
@@ -354,10 +382,6 @@ const Transaction = () => {
           loading={isFetching}
           rowKey="requestId"
           columns={columns}
-          pagination={{
-            pageSizeOptions: ['10', '20', '50', '100', '200', '500', '1000'],
-            showSizeChanger: true,
-          }}
           dataSource={dataSource}
           scroll={{ x: '100%' }}
         />
