@@ -69,8 +69,9 @@ const { TabPane } = Tabs;
 
 const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
   const { runAttemptTest } = apiMarketStore.effects;
-  const [assetDetail, assetVersion] = apiMarketStore.useStore((s) => [
+  const [assetDetail, access, assetVersion] = apiMarketStore.useStore((s) => [
     s.assetVersionDetail.asset,
+    s.assetVersionDetail.access,
     s.assetVersionDetail.version,
   ]);
   const [isRunning] = useLoading(apiMarketStore, ['runAttemptTest']);
@@ -104,8 +105,8 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
       };
     }, {});
     const queryStr = qs.stringify(params, { arrayFormat: 'none' });
-    return `${url}${queryStr ? `?${queryStr}` : ''}`;
-  }, [apis.path, dataSource.url, apis.params]);
+    return `${access.bindDomain}${url}${queryStr ? `?${queryStr}` : ''}`;
+  }, [apis.path, dataSource.url, apis.params, access.bindDomain]);
 
   const handleScreenControl = async () => {
     const dom = document.getElementsByClassName('api-test-modal')[0];
