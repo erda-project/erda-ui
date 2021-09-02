@@ -40,7 +40,7 @@ export const K8sClusterTerminalButton = ({ clusterName }: IClusterTerminalProps)
         visible={visible}
         destroyOnClose
         onClose={() => setVisible(false)}
-        title={`${i18n.t('cluster')} ${clusterName} ${i18n.t('console')}`}
+        title={`${i18n.t('cmp:cluster {name} console', { name: clusterName })}`}
         width={'80%'}
       >
         <div className="k8s-cluster-terminal-container">

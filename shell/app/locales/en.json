@@ -616,6 +616,7 @@
     "cloud account": "cloud account",
     "cloud account cannot be restored after deletion, confirm execution?": "cloud account cannot be restored after deletion, confirm execution?",
     "cloud resource overview": "cloud resource overview",
+    "cluster {name} console": "cluster {name} console",
     "cluster configuration": "cluster configuration",
     "cluster registration command": "cluster registration command",
     "configure": "configure",
