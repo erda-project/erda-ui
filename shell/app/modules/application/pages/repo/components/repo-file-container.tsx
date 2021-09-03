@@ -71,6 +71,7 @@ const RepoFileContainerComp = (props: IProps) => {
     'parsePipelineYmlStructure',
     'getRepoBlob',
   ]);
+
   const { commit, getRepoBlob } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
   const toggleModal = (modalVisible: boolean) => {
@@ -120,7 +121,12 @@ const RepoFileContainerComp = (props: IProps) => {
       toggleModal(false);
       if (res.success) {
         message.success(i18n.t('application:file deleted successfully'));
-        goTo('../');
+        // back to parent path
+        const parentPath = res?.data?.commit?.parentDirPath;
+        const { branch, tag } = getInfoFromRefName(info.refName);
+        const curBranch = branch || tag || info.defaultBranch;
+        const newPath = `${goTo.resolve.repo()}/tree/${curBranch}/${parentPath}`;
+        goTo(newPath);
       }
     });
   };
