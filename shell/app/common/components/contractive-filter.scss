@@ -136,8 +136,9 @@
 
     &-delete {
       background-color: $white;
-      transition: right 0.3s ease-in-out;
-      right: -30px;
+      right: 0;
+      transform: translateX(30px);
+      transition: transform 0.3s ease-in-out;
       box-shadow: -3px 0 4px -4px $color-text-sub;
     }
 
@@ -150,7 +151,7 @@
       background-color: $color-click-bg;
 
       .option-item-delete {
-        right: 0;
+        transform: translateX(0);
         &-box {
           background-color: $color-click-bg;
         }
