@@ -124,11 +124,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref, _useMock]);
 
+  const inParamsStr = JSON.stringify(inParams);
+
   useUpdateEffect(() => {
     if (forceUpdateKey?.includes('inParams')) {
       queryPageConfig();
     }
-  }, [inParams]);
+  }, [inParamsStr]);
 
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, op?: CP_COMMON.Operation) => {
     if (fetchingRef.current) return; // forbidden request when fetching

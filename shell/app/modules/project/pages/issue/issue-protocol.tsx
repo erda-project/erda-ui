@@ -22,7 +22,7 @@ import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/iss
 import routeInfoStore from 'core/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
-import { useMount } from 'react-use';
+import { useMount, useUpdateEffect } from 'react-use';
 
 interface IProps {
   issueType: ISSUE_TYPE;
@@ -33,9 +33,17 @@ const getRealIssueType = (issueType: ISSUE_TYPE) => {
   return issueType;
 };
 
+const compareObject = (sourceObj: object, targetObj: object) => {
+  if (Object.keys(sourceObj).length === Object.keys(targetObj).length) {
+    return Object.keys(sourceObj).filter((key) => sourceObj[key] !== targetObj[key]).length === 0;
+  } else {
+    return false;
+  }
+};
+
 export default ({ issueType }: IProps) => {
-  const [{ projectId, iterationId }, { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery }] =
-    routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
   const [{ importFileVisible, filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery }, updater, update] =
@@ -90,9 +98,18 @@ export default ({ issueType }: IProps) => {
     filterObjRef.current = filterObj;
   }, [filterObj]);
 
-  React.useEffect(() => {
-    updateSearch({ ...(urlQuery || {}) });
+  useUpdateEffect(() => {
+    if (!compareObject(urlQuery, restQuery)) {
+      updateSearch({ ...(urlQuery || {}) });
+    }
   }, [urlQuery]);
+
+  useUpdateEffect(() => {
+    // Change the urlQuery when url change such as page go back
+    if (!compareObject(urlQuery, restQuery)) {
+      update({ urlQuery: restQuery });
+    }
+  }, [query]);
 
   const onChosenIssue = (val: ISSUE.Issue) => {
     update({
@@ -141,6 +158,7 @@ export default ({ issueType }: IProps) => {
         scenarioType="issue-manage"
         showLoading
         inParams={inParams}
+        forceUpdateKey={['inParams']}
         ref={reloadRef}
         customProps={{
           // 后端未对接，由前端接管的事件
