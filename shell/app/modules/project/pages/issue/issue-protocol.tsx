@@ -33,9 +33,9 @@ const getRealIssueType = (issueType: ISSUE_TYPE) => {
   return issueType;
 };
 
-const compareObject = (object1: object, object2: object) => {
-  if (Object.keys(object1).length === Object.keys(object2).length) {
-    return Object.keys(object1).filter((key) => object1[key] !== object2[key]).length === 0;
+const compareObject = (sourceObj: object, targetObj: object) => {
+  if (Object.keys(sourceObj).length === Object.keys(targetObj).length) {
+    return Object.keys(sourceObj).filter((key) => sourceObj[key] !== targetObj[key]).length === 0;
   } else {
     return false;
   }
