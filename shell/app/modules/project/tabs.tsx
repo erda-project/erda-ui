@@ -134,6 +134,11 @@ export const PROJECT_TABS = () => {
       name: i18n.t('bug'),
       show: projectPerm.bug.read.pass,
     },
+    {
+      key: 'dashboard',
+      name: i18n.t('project:dashboard'),
+      show: projectPerm.dashboard.viewDashboard.pass,
+    },
   ];
   return tabs;
 };

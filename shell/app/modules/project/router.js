@@ -34,18 +34,6 @@ function getProjectRouter() {
           getComp: (cb) => cb(import('project/pages/apps/app-form')),
         },
         {
-          path: 'dashboard',
-          routes: [
-            {
-              breadcrumbName: i18n.t('project:dashboard'),
-              getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
-              layout: {
-                fullHeight: true,
-              },
-            },
-          ],
-        },
-        {
           path: 'issues',
           mark: 'issues',
           breadcrumbName: i18n.t('project:issues'),
@@ -121,6 +109,20 @@ function getProjectRouter() {
               ignoreTabQuery: true,
               getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
+            },
+            {
+              path: 'dashboard',
+              tabs: PROJECT_TABS,
+              ignoreTabQuery: true,
+              routes: [
+                {
+                  breadcrumbName: i18n.t('project:dashboard'),
+                  getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
+                  layout: {
+                    fullHeight: true,
+                  },
+                },
+              ],
             },
           ],
         },
