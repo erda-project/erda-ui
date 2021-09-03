@@ -40,7 +40,6 @@ import ApiDocTree from './api-doc-tree';
 import { useLoading } from 'core/stores/loading';
 import { goTo } from 'common/utils';
 import appStore from 'application/stores/application';
-import { repositoriesTypes } from 'application/common/config';
 import { Plus as IconPlus, Search as IconSearch } from '@icon-park/react';
 import './index.scss';
 import invalidImg from 'app/images/invalid-doc.svg';
@@ -49,20 +48,6 @@ type IListKey = 'RESOURCE' | 'DATATYPE';
 const { Panel } = Collapse;
 const { confirm } = Modal;
 
-const ExternalRepoPage = ({ type }: { type?: string }) => {
-  return type ? (
-    <div>
-      <p className="text-desc">{i18n.t('project:repository address')}</p>
-      <p>
-        <span>{i18n.t('project:external general Git repository')}</span>
-        <span>({i18n.t('project:does not support API design')})</span>
-      </p>
-      <img className="logo" src={get(repositoriesTypes, [type, 'logo'])} width="46px" />
-    </div>
-  ) : (
-    <></>
-  );
-};
 const ErrorEmptyHolder = ({
   msg,
   branchName,
@@ -627,127 +612,121 @@ const ApiDesign = () => {
   return isExternalRepo === undefined ? (
     <EmptyHolder relative />
   ) : (
-    <>
-      {isExternalRepo === true ? (
-        <ExternalRepoPage type={repoConfig?.type} />
-      ) : (
-        <div className="api-design">
-          <div className="top-button-group">
-            <Button type="primary" onClick={() => updater.treeModalVisible(true)}>
-              {i18n.t('project:new document')}
-            </Button>
-          </div>
-          <div className="api-design-wrap">
-            <div className="search-wrap mb-4 flex items-center justify-start">
-              <ApiDocTree
-                treeNodeData={curTreeNodeData}
-                newTreeNode={newTreeNode}
-                getQuoteMap={getQuoteMap}
-                onSelectDoc={onSelectDoc}
-                popVisible={popVisible}
-                onVisibleChange={onToggleTreeVisible}
-              />
-              {LockTipVisible && (
-                <span className="ml-4">
-                  <CustomIcon type="lock" />
-                  {docLockTip}
-                </span>
-              )}
-              {showErrorDocTip && <ErrorPopover {...errorData} />}
-              {inodeQuery && !isEmpty(curTreeNodeData) && (
-                <div className="flex items-center flex-wrap justify-end flex-1">
-                  {!apiWs || isDocLocked ? (
-                    <WithAuth pass={!isApiReadOnly && docValidData.valid}>
-                      <Button type="ghost" onClick={onEditDocHandle}>
-                        {i18n.t('edit')}
-                      </Button>
-                    </WithAuth>
-                  ) : (
-                    <Button type="ghost" disabled={formErrorNum > 0} onClick={() => commitSaveApi()}>
-                      {i18n.t('save')}
-                    </Button>
-                  )}
-                  <WithAuth pass={inodeQuery && docValidData.valid}>
-                    <Button type="primary" className="ml-2" onClick={onConfirmPublish}>
-                      {i18n.t('publisher:release')}
-                    </Button>
-                  </WithAuth>
-                </div>
-              )}
-            </div>
-            <Spin spinning={getApiDocDetailLoading || commitSaveApiLoading || getTreeListLoading}>
-              {isEmpty(openApiDoc) ? (
-                <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
-              ) : (
-                <div className="api-design-content">
-                  <div className="api-design-content-list flex flex-col justify-start">
-                    <Input
-                      placeholder={i18n.t('search by keyword')}
-                      className="mx-2 my-3 api-filter-input"
-                      prefix={<IconSearch />}
-                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
-                    />
-
-                    <div
-                      className={`list-title py-3 border-bottom font-bold ${
-                        contentKey === 'SUMMARY' ? 'list-title-active' : ''
-                      }`}
-                      onClick={() => onContentChange('SUMMARY')}
-                    >
-                      {i18n.t('project:API overview')}
-                    </div>
-                    <div className="panel-list">
-                      <Collapse
-                        accordion
-                        bordered={false}
-                        defaultActiveKey={['RESOURCE']}
-                        className="api-overview-collapse"
-                      >
-                        <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
-                          {!isEmpty(apiResourceList) ? (
-                            map(apiResourceList, (name) => renderListItem('RESOURCE', name))
-                          ) : (
-                            <EmptyHolder relative />
-                          )}
-                        </Panel>
-                        <Panel header={renderPanelHead('DATATYPE')} key="DATATYPE">
-                          {!isEmpty(apiDataTypeList) ? (
-                            map(apiDataTypeList, (name) => renderListItem('DATATYPE', name))
-                          ) : (
-                            <EmptyHolder relative />
-                          )}
-                        </Panel>
-                      </Collapse>
-                    </div>
-                  </div>
-                  <div className="api-design-content-detail px-4 py-3">{renderContent(contentKey)}</div>
-                </div>
-              )}
-            </Spin>
-            <ApiDocAddModal
-              visible={treeModalVisible}
-              onClose={() => updater.treeModalVisible(false)}
-              onSubmit={onCreateDoc}
-            />
-            <ApiPublishModal
-              visible={apiModalVisible}
-              treeNodeData={curTreeNodeData as API_SETTING.ITreeNodeData}
-              onSubmit={onPublishApi}
-              onClose={() => updater.apiModalVisible(false)}
-            />
-          </div>
-          <Prompt
-            when={isDocChanged}
-            message={(location: any) => {
-              if (location.pathname.endsWith('apiDesign')) {
-                return false;
-              }
-              return `${i18n.t('project:not saved yet, confirm to leave')}?`;
-            }}
+    <div className="api-design">
+      <div className="top-button-group">
+        <Button type="primary" onClick={() => updater.treeModalVisible(true)}>
+          {i18n.t('project:new document')}
+        </Button>
+      </div>
+      <div className="api-design-wrap">
+        <div className="search-wrap mb-4 flex items-center justify-start">
+          <ApiDocTree
+            treeNodeData={curTreeNodeData}
+            newTreeNode={newTreeNode}
+            getQuoteMap={getQuoteMap}
+            onSelectDoc={onSelectDoc}
+            popVisible={popVisible}
+            onVisibleChange={onToggleTreeVisible}
           />
+          {LockTipVisible && (
+            <span className="ml-4">
+              <CustomIcon type="lock" />
+              {docLockTip}
+            </span>
+          )}
+          {showErrorDocTip && <ErrorPopover {...errorData} />}
+          {inodeQuery && !isEmpty(curTreeNodeData) && (
+            <div className="flex items-center flex-wrap justify-end flex-1">
+              {!apiWs || isDocLocked ? (
+                <WithAuth pass={!isApiReadOnly && docValidData.valid}>
+                  <Button type="ghost" onClick={onEditDocHandle}>
+                    {i18n.t('edit')}
+                  </Button>
+                </WithAuth>
+              ) : (
+                <Button type="ghost" disabled={formErrorNum > 0} onClick={() => commitSaveApi()}>
+                  {i18n.t('save')}
+                </Button>
+              )}
+              <WithAuth pass={inodeQuery && docValidData.valid}>
+                <Button type="primary" className="ml-2" onClick={onConfirmPublish}>
+                  {i18n.t('publisher:release')}
+                </Button>
+              </WithAuth>
+            </div>
+          )}
         </div>
-      )}
-    </>
+        <Spin spinning={getApiDocDetailLoading || commitSaveApiLoading || getTreeListLoading}>
+          {isEmpty(openApiDoc) ? (
+            <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
+          ) : (
+            <div className="api-design-content">
+              <div className="api-design-content-list flex flex-col justify-start">
+                <Input
+                  placeholder={i18n.t('search by keyword')}
+                  className="mx-2 my-3 api-filter-input"
+                  prefix={<IconSearch />}
+                  onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
+                />
+
+                <div
+                  className={`list-title py-3 border-bottom font-bold ${
+                    contentKey === 'SUMMARY' ? 'list-title-active' : ''
+                  }`}
+                  onClick={() => onContentChange('SUMMARY')}
+                >
+                  {i18n.t('project:API overview')}
+                </div>
+                <div className="panel-list">
+                  <Collapse
+                    accordion
+                    bordered={false}
+                    defaultActiveKey={['RESOURCE']}
+                    className="api-overview-collapse"
+                  >
+                    <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
+                      {!isEmpty(apiResourceList) ? (
+                        map(apiResourceList, (name) => renderListItem('RESOURCE', name))
+                      ) : (
+                        <EmptyHolder relative />
+                      )}
+                    </Panel>
+                    <Panel header={renderPanelHead('DATATYPE')} key="DATATYPE">
+                      {!isEmpty(apiDataTypeList) ? (
+                        map(apiDataTypeList, (name) => renderListItem('DATATYPE', name))
+                      ) : (
+                        <EmptyHolder relative />
+                      )}
+                    </Panel>
+                  </Collapse>
+                </div>
+              </div>
+              <div className="api-design-content-detail px-4 py-3">{renderContent(contentKey)}</div>
+            </div>
+          )}
+        </Spin>
+        <ApiDocAddModal
+          visible={treeModalVisible}
+          onClose={() => updater.treeModalVisible(false)}
+          onSubmit={onCreateDoc}
+        />
+        <ApiPublishModal
+          visible={apiModalVisible}
+          treeNodeData={curTreeNodeData as API_SETTING.ITreeNodeData}
+          onSubmit={onPublishApi}
+          onClose={() => updater.apiModalVisible(false)}
+        />
+      </div>
+      <Prompt
+        when={isDocChanged}
+        message={(location: any) => {
+          if (location.pathname.endsWith('apiDesign')) {
+            return false;
+          }
+          return `${i18n.t('project:not saved yet, confirm to leave')}?`;
+        }}
+      />
+    </div>
   );
 };
 
