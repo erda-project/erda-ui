@@ -89,6 +89,7 @@ export const mockData = {
               valueKey: 'tag',
               renderType: 'tagsRow',
               spaceNum: 2,
+              showCount: 3,
               operations: {
                 add: {
                   key: 'addLabel',

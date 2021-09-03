@@ -19,7 +19,13 @@ import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
 import { debounce, isEmpty, isArray, map, max, sortBy, isString, has, isNumber } from 'lodash';
 import i18n from 'i18n';
-import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck, Plus as IconPlus } from '@icon-park/react';
+import {
+  DownOne as IconDownOne,
+  Down as IconDown,
+  Search as IconSearch,
+  Check as IconCheck,
+  Plus as IconPlus,
+} from '@icon-park/react';
 
 interface Option {
   label: string;
@@ -251,21 +257,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               }
             };
             if (isGroup) {
-              return (
-                <div className="option-group" key={op.value || op.label}>
-                  <div className="option-group-label">{op.label}</div>
-                  {op.children?.map((cItem) => {
-                    return (
-                      <OptionItem
-                        key={cItem.value}
-                        value={_value}
-                        option={cItem}
-                        onClick={() => onClickOptItem(cItem)}
-                      />
-                    );
-                  })}
-                </div>
-              );
+              return <GroupOpt value={_value} onClickOptItem={onClickOptItem} option={op} />;
             } else {
               return <OptionItem key={op.value} value={_value} option={op} onClick={() => onClickOptItem(op)} />;
             }
@@ -449,6 +441,30 @@ const QuickSave = (props: IQuickSaveProps) => {
   );
 };
 
+interface IGroupOptProps {
+  value: Array<string | number>;
+  option: Option;
+  onClickOptItem: (op: Option) => void;
+}
+
+const GroupOpt = (props: IGroupOptProps) => {
+  const { option, onClickOptItem, value } = props;
+  const [expand, setExpand] = React.useState(true);
+
+  return (
+    <div className={'option-group'} key={option.value || option.label}>
+      <div className="option-group-label flex items-center justify-between" onClick={() => setExpand(!expand)}>
+        {option.label}
+        <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
+      </div>
+      <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
+        {option.children?.map((cItem) => {
+          return <OptionItem key={cItem.value} value={value} option={cItem} onClick={() => onClickOptItem(cItem)} />;
+        })}
+      </div>
+    </div>
+  );
+};
 const noop = () => {};
 interface ContractiveFilterProps {
   initValue?: Obj; // 初始化

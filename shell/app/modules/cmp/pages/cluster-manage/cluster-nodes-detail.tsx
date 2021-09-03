@@ -14,17 +14,63 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
+import { TimeSelector, MonitorChart } from 'common';
+import { Row, Col } from 'core/nusi';
+import i18n from 'i18n';
+
+const nodeDetailChartObj = ({ clusterName, nodeId }: { clusterName: string; nodeId: string }) => ({
+  cpu: {
+    resourceType: 'nodeDetailCpu',
+    resourceId: 'cpu',
+    chartQuery: {
+      customAPIPrefix: '/api/apim/metrics/',
+      fetchMetricKey: 'machine_cpu',
+      filter_hostname: nodeId,
+      filter_cluster_name: clusterName,
+      avg: ['cpu_usage_active'],
+    },
+  },
+  mem: {
+    resourceType: 'nodeDetailMem',
+    resourceId: 'mem',
+    chartQuery: {
+      customAPIPrefix: '/api/apim/metrics/',
+      filter_hostname: nodeId,
+      filter_cluster_name: clusterName,
+      fetchMetricKey: 'machine_mem',
+      avg: ['mem_used_percent'],
+    },
+  },
+});
 
 const ClusterNodes = () => {
   const { clusterName, nodeId } = routeInfoStore.useStore((s) => s.params);
 
   const inParams = { clusterName, nodeId };
+
+  const queryObj = nodeDetailChartObj({ clusterName, nodeId });
+
   return (
-    <DiceConfigPage
-      scenarioType={'cmp-dashboard-nodeDetail'}
-      scenarioKey={'cmp-dashboard-nodeDetail'}
-      inParams={inParams}
-    />
+    <div>
+      <div>
+        <DiceConfigPage
+          scenarioType={'cmp-dashboard-nodeDetail'}
+          scenarioKey={'cmp-dashboard-nodeDetail'}
+          inParams={inParams}
+        />
+      </div>
+      <div className="-mt-8">
+        <TimeSelector defaultTime={1} className="mb-8" />
+        <Row gutter={20}>
+          <Col span={12}>
+            <MonitorChart title={i18n.t('cmp:cpu usage rate')} {...queryObj.cpu} />
+          </Col>
+          <Col span={12}>
+            <MonitorChart title={i18n.t('cmp:memory usage rate')} {...queryObj.mem} />
+          </Col>
+        </Row>
+      </div>
+    </div>
   );
 };
 

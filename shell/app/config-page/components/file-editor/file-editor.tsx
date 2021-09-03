@@ -12,20 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage from 'app/config-page';
-import routeInfoStore from 'core/stores/route';
+import { FileEditor as PureFileEditor } from 'common';
 
-const ClusterNodes = () => {
-  const { clusterName, workloadId } = routeInfoStore.useStore((s) => s.params);
+const FileEditor = (props: CP_FILE_EDITOR.Props) => {
+  const { props: pProps, state } = props;
+  const [value, setValue] = React.useState(state.value);
 
-  const inParams = { clusterName, workloadId };
-  return (
-    <DiceConfigPage
-      scenarioType={'cmp-dashboard-workload-detail'}
-      scenarioKey={'cmp-dashboard-workload-detail'}
-      inParams={inParams}
-    />
-  );
+  React.useEffect(() => {
+    setValue(state.value);
+  }, [state.value]);
+
+  const onChange = (val: string) => {
+    setValue(val);
+  };
+
+  return <PureFileEditor fileExtension="json" value={value} onChange={onChange} {...pProps} />;
 };
 
-export default ClusterNodes;
+export default FileEditor;

@@ -327,10 +327,10 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'tagsRow':
       {
-        const { value, operations } = val;
+        const { value, operations, ..._rest } = val;
         const onAdd = operations?.add && (() => extra.execOperation(operations?.add));
         const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
-        Comp = <TagsRow labels={value} onAdd={onAdd} onDelete={onDelete} />;
+        Comp = <TagsRow {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
       }
       break;
     case 'text':

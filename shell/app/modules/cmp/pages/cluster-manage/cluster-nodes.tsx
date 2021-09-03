@@ -17,6 +17,8 @@ import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 
+import { K8sClusterTerminalButton } from './cluster-terminal';
+
 const ClusterNodes = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
@@ -30,28 +32,33 @@ const ClusterNodes = () => {
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   return (
-    <DiceConfigPage
-      scenarioType={'cmp-dashboard-nodes'}
-      scenarioKey={'cmp-dashboard-nodes'}
-      inParams={inParams}
-      customProps={{
-        filter: {
-          onFilterChange: urlQueryChange,
-        },
-        cpuTable: {
-          onStateChange: urlQueryChange,
-        },
-        memTable: {
-          onStateChange: urlQueryChange,
-        },
-        podTable: {
-          onStateChange: urlQueryChange,
-        },
-        tableTabs: {
-          onStateChange: urlQueryChange,
-        },
-      }}
-    />
+    <>
+      <div className="top-button-group">
+        <K8sClusterTerminalButton clusterName={clusterName} />
+      </div>
+      <DiceConfigPage
+        scenarioType={'cmp-dashboard-nodes'}
+        scenarioKey={'cmp-dashboard-nodes'}
+        inParams={inParams}
+        customProps={{
+          filter: {
+            onFilterChange: urlQueryChange,
+          },
+          cpuTable: {
+            onStateChange: urlQueryChange,
+          },
+          memTable: {
+            onStateChange: urlQueryChange,
+          },
+          podTable: {
+            onStateChange: urlQueryChange,
+          },
+          tableTabs: {
+            onStateChange: urlQueryChange,
+          },
+        }}
+      />
+    </>
   );
 };
 

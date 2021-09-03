@@ -11,21 +11,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import DiceConfigPage from 'app/config-page';
-import routeInfoStore from 'core/stores/route';
+declare namespace CP_FILE_EDITOR {
+  interface Spec {
+    type: 'FileEditor';
+    props: IProps;
+    state: {
+      value: string;
+    };
+    operations?: CP_COMMON.Operation;
+  }
 
-const ClusterNodes = () => {
-  const { clusterName, workloadId } = routeInfoStore.useStore((s) => s.params);
+  interface IProps {
+    fileExtension?: string;
+    minLines?: number;
+    maxLines?: number;
+    readOnly?: boolean;
+    actions?: {
+      copy?: boolean;
+      format?: boolean;
+    };
+  }
 
-  const inParams = { clusterName, workloadId };
-  return (
-    <DiceConfigPage
-      scenarioType={'cmp-dashboard-workload-detail'}
-      scenarioKey={'cmp-dashboard-workload-detail'}
-      inParams={inParams}
-    />
-  );
-};
-
-export default ClusterNodes;
+  type Props = MakeProps<Spec>;
+}

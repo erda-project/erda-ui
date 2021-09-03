@@ -28,7 +28,7 @@ export default (props: CP_PANEL.Props) => {
   if (!visible) return null;
   const curData = data?.data;
   const _fields: IField[] = map(fields, (item) => {
-    const { renderType, operations } = item;
+    const { renderType, operations, ...itemRest } = item;
     const reField: IField = { ...item };
     switch (renderType) {
       case 'ellipsis':
@@ -36,9 +36,17 @@ export default (props: CP_PANEL.Props) => {
         break;
       case 'tagsRow':
         {
+          const { showCount = 2 } = itemRest;
           const onAdd = operations?.add && (() => execOperation(operations?.add));
           const onDelete = operations?.delete && ((record: Object) => execOperation(operations?.delete, record));
-          reField.valueItem = () => <TagsRow labels={curData?.[reField.valueKey]} onAdd={onAdd} onDelete={onDelete} />;
+          reField.valueItem = () => (
+            <TagsRow
+              showCount={showCount}
+              labels={curData?.[reField.valueKey] || []}
+              onAdd={onAdd}
+              onDelete={onDelete}
+            />
+          );
         }
         break;
       case 'linkText':
@@ -50,11 +58,13 @@ export default (props: CP_PANEL.Props) => {
               execOperation(operations.click);
             };
           }
-          reField.valueItem = (_props: Obj) => (
-            <span className="fake-link" {..._props} {..._p}>
-              {_props.value}
-            </span>
-          );
+          reField.valueItem = (_props) => {
+            return (
+              <span className="fake-link" {..._p}>
+                {_props.value}
+              </span>
+            );
+          };
         }
         break;
       case 'copyText':

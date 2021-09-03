@@ -49,7 +49,7 @@ export const mockData = {
         },
         state: {
           conditions: [
-            { key: 'q', label: '标题', placeholder: '输入pod名称或IP', type: 'input', fixed: true },
+            { key: 'q', label: '标题', placeholder: '输入pod名称或IP', type: 'input', fixed: false },
             {
               key: 'myFilter',
               label: '我的筛选',

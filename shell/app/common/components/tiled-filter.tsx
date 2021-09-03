@@ -11,12 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Input } from 'core/nusi';
-import { Search as IconSearch } from '@icon-park/react';
+import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
 import { debounce } from 'lodash';
-import { Icon as CustomIcon } from 'common';
 import './tiled-filter.scss';
 
 export interface IOption {
@@ -170,7 +169,7 @@ const TiledFilter = (props: IProps) => {
         </div>
         <div className={`flex items-center expand-area`} onClick={() => setExpand(!expand)}>
           <span className="mr-2">{expand ? i18n.t('fold') : i18n.t('expand')}</span>
-          <CustomIcon type="chevron-down" className={`expand-icon ${expand ? 'expand' : ''}`} />
+          <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
         </div>
       </div>
     </div>
