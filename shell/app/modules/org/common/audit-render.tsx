@@ -64,7 +64,7 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
       switch (key) {
         case 'scopeType': {
           const replaceMap = {
-            system: i18n.t('platform'),
+            sys: i18n.t('platform'),
             org: `${i18n.t('org')} [@orgName]`,
             project: `${i18n.t('project')} [@projectName](project) `,
             app: `${i18n.t('application')} [@projectName](project) / [@appName](app) `,
