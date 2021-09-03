@@ -18,6 +18,7 @@ import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 import * as orgCustomDashboardService from 'cmp/services/custom-dashboard';
 import * as mspCustomDashboardService from 'msp/monitor/custom-dashboard/services/custom-dashboard';
+import { ITimeRange, transformRange } from 'common/components/time-select/common';
 
 export enum CustomDashboardScope {
   ORG = 'org',
@@ -28,7 +29,20 @@ export interface IState {
   customDashboardList: Custom_Dashboard.DashboardItem[];
   customDashboardPaging: IPaging;
   timeSpan: any;
+  globalTimeSelectSpan: {
+    data: ITimeRange;
+    range: {
+      triggerTime?: number;
+    } & ITimeSpan;
+  };
 }
+
+const defaultRange: ITimeRange = {
+  mode: 'quick',
+  quick: 'hours:1',
+  customize: {},
+};
+const { date } = transformRange(defaultRange);
 
 export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
   const serviceMap = {
@@ -39,6 +53,17 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
     customDashboardList: [],
     customDashboardPaging: getDefaultPaging(),
     timeSpan: getTimeSpan(),
+    globalTimeSelectSpan: {
+      data: {
+        mode: 'quick',
+        quick: 'hours:1',
+        customize: {},
+      },
+      range: {
+        triggerTime: 0,
+        ...getTimeSpan(date),
+      },
+    },
   };
   const {
     getCustomDashboard,
@@ -77,6 +102,9 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
       },
       resetTimeSpan(state) {
         state.timeSpan = getTimeSpan();
+      },
+      updateState(state, payload) {
+        return { ...state, ...payload };
       },
     },
   });

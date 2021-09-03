@@ -30,6 +30,7 @@ import moment from 'moment';
 import { IssueForm } from 'project/pages/backlog/issue-item';
 import './issue-relation.scss';
 import IterationSelect from './iteration-select';
+import { ColumnProps } from 'core/common/interface';
 
 interface IProps {
   issueDetail: ISSUE.IssueType;
@@ -82,7 +83,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       getIssueRelation({ id: issueDetail.id });
     });
   };
-  const columns = [
+  const columns: Array<ColumnProps<ISSUE.IssueType>> = [
     {
       title: i18n.t('{name} title', { name: i18n.t('project:issue') }),
       dataIndex: 'title',
@@ -112,7 +113,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     {
       title: i18n.t('status'),
       dataIndex: 'state',
-      width: 100,
+      width: 96,
       render: (v: number, record: any) => {
         const currentState = find(record?.issueButton, (item) => item.stateID === v);
         return currentState ? (
@@ -156,7 +157,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
-      width: 180,
+      width: 176,
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
@@ -248,16 +249,16 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         columns={columns}
         dataSource={relatingList}
         pagination={false}
-        rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
-        scroll={{ x: '100%' }}
+        rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
+        scroll={{ x: 900 }}
       />
       <Title level={2} className="mt-4 mb-2" title={i18n.t('project:related by these issues')} />
       <Table
         columns={columns}
         dataSource={relatedList}
         pagination={false}
-        rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
-        scroll={{ x: '100%' }}
+        rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
+        scroll={{ x: 900 }}
       />
     </div>
   );

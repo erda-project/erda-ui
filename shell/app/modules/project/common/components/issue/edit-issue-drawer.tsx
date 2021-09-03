@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider } from 'core/nusi';
+import { Button, Select, Tabs, message, Spin, Dropdown, Menu, Divider, Popconfirm } from 'core/nusi';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { map, has, cloneDeep, includes, isEmpty, merge, find } from 'lodash';
 import moment from 'moment';
 import { EditField, Icon as CustomIcon, IF, MemberSelector } from 'common';
-import { insertWhen } from 'common/utils';
+import { Link } from 'react-router-dom';
+import { goTo, insertWhen } from 'common/utils';
 import {
   ISSUE_TYPE,
   ISSUE_TYPE_MAP,
@@ -163,7 +164,7 @@ const IssueMetaFields = React.forwardRef(
 
     React.useEffect(() => {
       setOptionList(labels);
-    }, [labels]);
+    }, [labels, formData.labels]); // reset list after change
 
     const customFieldList = React.useMemo(() => {
       return map(customFieldDetail?.property, (filedData: ISSUE_FIELD.IFiledItem) => {
@@ -437,7 +438,7 @@ const IssueMetaFields = React.forwardRef(
             if (isNewLabel) {
               return (
                 <Option key={labelId} value={name} title={name}>
-                  {i18n.t('new label')}
+                  {i18n.t('does not exist')}
                   {name}
                 </Option>
               );
@@ -451,20 +452,32 @@ const IssueMetaFields = React.forwardRef(
           }),
           mode: 'tags',
           optionLabelProp: 'title', // 给select组件添加 optionLabelProp 属性，改变回填到选择框的 Option 的属性值
-          onSearch: (value: any) => {
-            const bool = labels.some((item: any) => value === item.name);
-            if (bool) return;
-            if (optionList.length > labels.length) {
-              setOptionList([
-                { id: `${value}${optionList.length}`, name: value, isNewLabel: true },
-                ...optionList.slice(1),
-              ]);
-            } else {
-              setOptionList([{ id: `${value}${optionList.length}`, name: value, isNewLabel: true }, ...optionList]);
-            }
+          dropdownRender: (menu: any) => (
+            <div>
+              {menu}
+              <Divider className="my-1" />
+              <Link
+                to={goTo.resolve.projectLabel()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goTo(goTo.resolve.projectLabel(), { jumpOut: true });
+                }}
+              >
+                <div className="mx-3">{i18n.t('project:edit label')}</div>
+              </Link>
+            </div>
+          ),
+          onSearch: (value: string) => {
             if (!value) {
-              setOptionList([...optionList.slice(1)]);
+              setOptionList(labels);
+              return;
             }
+            const match = labels.filter((item: any) => item.name.includes(value.toLowerCase()));
+            if (!match.length) {
+              setOptionList([]);
+              return;
+            }
+            setOptionList(match);
           },
         },
       },
@@ -946,15 +959,12 @@ export const EditIssueDrawer = (props: IProps) => {
       return;
     }
     if (value.labels) {
-      // 创建不存在的标签
       const labelName = cloneDeep(value.labels).pop();
       if (isEmpty(value.labels) || includes(labelNames, labelName)) {
         setField(value);
       } else {
-        createLabel({ type: 'issue', name: labelName, color: 'red', projectID: Number(projectId) }).then(() => {
-          getLabels({ type: 'issue', projectID: Number(projectId) });
-          setField(value);
-        });
+        message.info(i18n.t('project:the label does not exist, please select again'));
+        setField({ ...value, labels: value.labels.slice(0, -1) }); // remove the last label, which is not exist
       }
     } else {
       setField(value);
@@ -974,7 +984,7 @@ export const EditIssueDrawer = (props: IProps) => {
       id: undefined,
     });
     setCustomFormData(customFieldDetail);
-    isEditMode && clearIssueDetail(issueType);
+    isEditMode && issueType && clearIssueDetail(issueType);
   };
 
   const onDelete = () => {
@@ -1112,11 +1122,18 @@ export const EditIssueDrawer = (props: IProps) => {
   }
 
   if (!isEditMode) {
-    footer = [
+    footer = (isChanged: boolean, confirmCloseTip: string | undefined) => [
       <div key="holder" />,
       <Spin key="submit" spinning={updateIssueLoading}>
         <div>
-          <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
+          {isChanged && confirmCloseTip ? (
+            <Popconfirm title={confirmCloseTip} placement="topLeft" onConfirm={() => onClose()}>
+              <Button>{i18n.t('cancel')}</Button>
+            </Popconfirm>
+          ) : (
+            <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
+          )}
+
           <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
             {i18n.t('ok')}
           </Button>
@@ -1125,7 +1142,7 @@ export const EditIssueDrawer = (props: IProps) => {
     ];
   }
 
-  footer = footer.length ? <>{footer}</> : undefined;
+  footer = typeof footer === 'function' ? footer : footer.length ? <>{footer}</> : undefined;
 
   return (
     <IssueDrawer
@@ -1145,6 +1162,7 @@ export const EditIssueDrawer = (props: IProps) => {
       projectId={projectId}
       issueType={issueType}
       setData={setFormData}
+      footer={footer}
       // loading={
       //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
       // }
@@ -1246,7 +1264,6 @@ export const EditIssueDrawer = (props: IProps) => {
         formData={formData}
         setFieldCb={setFieldCb}
       />
-      {footer}
     </IssueDrawer>
   );
 };

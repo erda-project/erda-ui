@@ -14,7 +14,6 @@
 import { createStore } from 'core/cube';
 import i18n from 'i18n';
 import { login, logout, validateLicense, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
-import orgStore from 'app/org-home/stores/org';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
@@ -78,6 +77,7 @@ const initState: IState = {
     token: '',
     isSysAdmin: false,
     isNewUser: false,
+    adminRoles: [],
   },
   licenseInfo: {
     valid: true,
@@ -126,6 +126,14 @@ const userStore = createStore({
       if (data && data.url) {
         const lastPath = `${window.location.pathname}${window.location.search}`;
         window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
+
+        for (let i = 0; i < window.localStorage.length; i++) {
+          const key = window.localStorage.key(i);
+          if (key?.includes('apim-')) {
+            window.localStorage.removeItem(key);
+          }
+        }
+
         window.location.href = data.url;
       }
     },

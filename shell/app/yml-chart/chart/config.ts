@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { StartNode, EndNode } from '../nodes';
+import zxGraySvg from 'app/images/zx-gray.svg';
 
 export const externalKey = '_external_';
 
@@ -67,7 +68,7 @@ export const CHART_CONFIG = {
       marker: [0, 0, 8, 8, 3, 3],
     },
     endMarker: {
-      image: ['/images/zx-gray.svg', 0, 0, 10, 10],
+      image: [zxGraySvg, 0, 0, 10, 10],
       attr: { transform: 'roate(-90deg)', fill: '#bbb' },
       marker: [0, 0, 10, 10, 5, 5],
     },

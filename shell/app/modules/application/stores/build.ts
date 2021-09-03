@@ -140,9 +140,8 @@ const build = createStore({
       update({ executeRecords });
       return executeRecords;
     },
-    async updateTaskEnv({ call }, payload: { pipelineID: number; taskID: number; disabled: boolean }) {
-      const { pipelineID, taskID, disabled } = payload;
-      await call(updateTaskEnv, { taskID, disabled, pipelineID });
+    async updateTaskEnv({ call }, payload: BUILD.ITaskUpdatePayload) {
+      await call(updateTaskEnv, payload);
     },
     async addPipeline({ call, getParams }, payload: BUILD.CreatePipelineBody) {
       const { appId } = getParams();

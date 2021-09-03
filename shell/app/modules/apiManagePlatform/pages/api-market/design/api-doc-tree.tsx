@@ -46,8 +46,11 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
 
   const { getQuoteMap, onSelectDoc, newTreeNode, treeNodeData, popVisible, onVisibleChange } = props;
 
-  const { appId } = routeInfoStore.useStore((s) => s.params);
-  const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore((s) => s.query);
+  const { appId, projectId, orgName } = routeInfoStore.useStore((s) => s.params);
+  const {
+    inode: inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`),
+    pinode: pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`),
+  } = routeInfoStore.useStore((s) => s.query);
 
   const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
     s.branchList,
@@ -105,13 +108,16 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       getApiDetail(inode).then((data) => {
         getQuoteMap(data.openApiDoc);
         updateSearch({ inode, pinode });
+        localStorage.setItem(`apim-${orgName}-${projectId}-${appId}-inode`, inode);
+        localStorage.setItem(`apim-${orgName}-${projectId}-${appId}-pinode`, pinode);
+
         const _branch = find(_branchList, { inode: pinode });
         const _curNodeData = { inode, pinode, branchName: _branch?.name, asset: data?.asset, apiDocName: data?.name };
 
         onSelectDoc(_curNodeData);
       });
     },
-    [apiWs, branchList, getApiDetail, getQuoteMap, onSelectDoc],
+    [apiWs, branchList, getApiDetail, getQuoteMap, onSelectDoc, orgName, projectId, appId],
   );
 
   React.useEffect(() => {
@@ -303,7 +309,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       scope: 'application',
       scopeID: +appId,
     }).then((res: API_SETTING.IFileTree[]) => {
-      const validBranches: API_SETTING.IFileTree[] = filter(res, (b) => b?.meta?.hasDoc) || [];
+      const validBranches: API_SETTING.IFileTree[] = res || [];
 
       const tempList = map(validBranches, ({ name, inode }) => {
         return {
@@ -317,16 +323,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       });
       updater.treeList(tempList);
 
-      if (!pinodeQuery && !isEmpty(validBranches)) {
-        const { inode } = validBranches[0];
-
-        getTreeList({ pinode: inode }).then((docList) => {
-          if (docList?.length) {
-            const { inode: docInode, pinode: docPinode } = docList[0];
-            jumpToNewDoc({ inode: docInode, branches: validBranches, pinode: docPinode });
-          }
-        });
-      } else {
+      if (pinodeQuery && inodeQuery) {
         jumpToNewDoc({ inode: inodeQuery, pinode: pinodeQuery, branches: validBranches });
       }
     });
@@ -365,7 +362,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         <span className="name nowrap">
           {treeNodeData?.branchName
             ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}`
-            : i18n.t('common:no data')}
+            : i18n.t('common:expand branch directory selection document')}
         </span>
         <IconDownOne size="16px" theme="filled" />
       </button>

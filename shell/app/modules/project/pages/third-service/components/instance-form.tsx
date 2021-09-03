@@ -35,7 +35,6 @@ export const CLOUD_TYPES = [
   AddonType.AliCloudRedis,
   AddonType.AliCloudOns,
   AddonType.AliCloudOss,
-  AddonType.AliCloudGateway,
 ];
 const MODE_MAP = {
   NEW: 'new',
@@ -102,14 +101,6 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
               updater.existInstances(res.list);
             });
       }
-    } else if (state.mode === MODE_MAP.NEW) {
-      if (addonName === AddonType.AliCloudGateway) {
-        workspace &&
-          customAddonStore.getCloudGateway({ vendor: 'alicloud', workspace }).then(({ gateways, slbs }) => {
-            updater.gatewaysInstances([defaultInstance, ...(gateways || [])]);
-            updater.slbsInstances([defaultInstance, ...(slbs || [])]);
-          });
-      }
     }
   }, [addonName, state.mode, updater, workspace]);
 
@@ -118,7 +109,6 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
     [AddonType.AliCloudOss]: [],
     [AddonType.AliCloudRds]: useMysqlFields(form),
     [AddonType.AliCloudRedis]: useRedisFields(),
-    [AddonType.AliCloudGateway]: useGatewayFields(state.slbsInstances, state.gatewaysInstances, form),
   };
 
   const subFieldsMap = {
@@ -126,7 +116,6 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
     [AddonType.AliCloudOss]: useBucketField(),
     [AddonType.AliCloudRds]: useDBFields(),
     [AddonType.AliCloudRedis]: [],
-    [AddonType.AliCloudGateway]: [],
   };
 
   const getKeyValueEditorValue = () => {
@@ -182,12 +171,10 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
           {
             name: i18n.t('resource:select existing'),
             value: 'exist',
-            disabled:
-              [AddonType.AliCloudOss, AddonType.AliCloudRedis, AddonType.AliCloudGateway].includes(addonName) ||
-              isEditMode,
+            disabled: [AddonType.AliCloudOss, AddonType.AliCloudRedis].includes(addonName) || isEditMode,
           }, // redis/oss不能通过已有实例创建
           {
-            name: addonName === AddonType.AliCloudGateway ? i18n.t('resource:source') : i18n.t('resource:new purchase'),
+            name: i18n.t('resource:new purchase'),
             value: 'new',
             // 在数据源页面禁用
             disabled: isEditMode || category === 'DATA_SOURCE',

@@ -1,7 +1,7 @@
 {
   "name": "@erda-ui/scheduler",
   "version": "1.2.0",
-  "description": "Scheduler erda-ui modules request in development mode",
+  "description": "Node server for UI, take effect both development & production mode",
   "main": "src/index.js",
   "private": true,
   "scripts": {
@@ -18,14 +18,13 @@
     "@nestjs/core": "^8.0.1",
     "@nestjs/platform-express": "^8.0.5",
     "@nestjs/serve-static": "^2.2.2",
-    "chalk": "^4.1.1",
     "compression": "^1.7.4",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "http-proxy-middleware": "^2.0.1",
     "reflect-metadata": "^0.1.13",
-    "source-map-support": "^0.5.19"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.13.0",

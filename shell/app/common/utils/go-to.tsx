@@ -14,6 +14,7 @@
 import path from 'path';
 import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
+import { DOC_ORG_INTRO, DOC_PROJECT_INTRO } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import { getConfig } from 'core/config';
 
@@ -140,6 +141,7 @@ export enum pages {
   // project
   project = '/{orgName}/dop/projects/{projectId}',
   projectSetting = '/{orgName}/dop/projects/{projectId}/setting',
+  projectLabel = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectLabel',
   projectNotifyGroup = '/{orgName}/dop/projects/{projectId}/setting?tabKey=notifyGroup',
   projectService = '/{orgName}/dop/projects/{projectId}/service',
   testPlanDetail = '/{orgName}/dop/projects/{projectId}/testPlan/manual/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
@@ -276,6 +278,14 @@ export enum pages {
   cloudSourceMq = '/{orgName}/cmp/cloudSource/mq',
   cloudSourceRedis = '/{orgName}/cmp/cloudSource/redis',
   cloudAccounts = '/{orgName}/cmp/cloudSource/accounts',
+  cmpClustersNodes = '/{orgName}/cmp/clusters/{clusterName}/nodes',
+  cmpClustersDetail = '/{orgName}/cmp/clusters/{clusterName}/detail',
+  cmpClustersNodeDetail = '/{orgName}/cmp/clusters/{clusterName}/nodes/{nodeId}/detail',
+  cmpClustersPods = '/{orgName}/cmp/clusters/{clusterName}/pods?nodeId={nodeId}',
+  cmpClustersPodDetail = '/{orgName}/cmp/clusters/{clusterName}/pods/{podId}/detail',
+  cmpClustersWorkload = '/{orgName}/cmp/clusters/{clusterName}/workload',
+  cmpClustersWorkloadDetail = '/{orgName}/cmp/clusters/{clusterName}/workload/{workloadId}/detail',
+  cmpClustersEventLog = '/{orgName}/cmp/clusters/{clusterName}/event-log',
 
   // orgCenter
   orgCenterRoot = '/{orgName}/orgCenter/projects',
@@ -316,10 +326,15 @@ export enum pages {
   ecpSettingDetail = '/{orgName}/ecp/setting/{id}',
 
   // sysAdmin
-  sysAdminOrgs = '/{orgName}/sysAdmin/orgs',
+  sysAdmin = '/{orgName}/sysAdmin',
 }
 
-goTo.pages = { ...pages };
+goTo.pages = {
+  ...pages,
+  // doc path
+  'doc-project-intro': DOC_PROJECT_INTRO,
+  'doc-org-intro': DOC_ORG_INTRO,
+};
 goTo.pagePathMap = {};
 goTo.resolve = {} as {
   [k in keyof typeof pages]: (params?: Obj, prependOrigin?: boolean) => string;

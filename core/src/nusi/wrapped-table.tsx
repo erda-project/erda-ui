@@ -49,6 +49,7 @@ function WrappedTable<T extends object = any>({ columns, rowClassName, ...props 
       scroll={{ x: '100%' }}
       columns={newColumns}
       rowClassName={props.onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
+      size="small"
       {...props}
     />
   );

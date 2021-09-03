@@ -11,33 +11,39 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useMemo, useCallback } from 'react';
-import { map } from 'lodash';
+import React, { useCallback, useMemo } from 'react';
+import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Radio, Search, Select, Drawer, Tag, Table } from 'core/nusi';
-import { TimeSelector, SimpleLog, useUpdate } from 'common';
+import { Drawer, Radio, Select, Table, Tag } from 'core/nusi';
+import { SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import TraceSearchDetail from 'msp/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
-import { RadioChangeEvent } from 'core/common/interface';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
+
 enum DASHBOARD_TYPE {
   http = 'http',
   rpc = 'rpc',
   cache = 'cache',
   database = 'database',
+  mq = 'mq',
 }
 
-type SORT_TYPE = 'DESC' | 'ASC';
+const defaultTimeSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'duration:DESC';
 
-const sortButtonMap: { [key in SORT_TYPE]: string } = {
-  ASC: i18n.t('msp:time ascending'),
-  DESC: i18n.t('msp:time desc'),
+const defaultSort = 0;
+
+const sortButtonMap: { [key in TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE]: string } = {
+  'timestamp:DESC': i18n.t('msp:time desc'),
+  'timestamp:ASC': i18n.t('msp:time ascending'),
+  'duration:DESC': i18n.t('msp:duration desc'),
+  'duration:ASC': i18n.t('msp:duration asc'),
 };
 
 const dashboardIdMap = {
@@ -57,66 +63,157 @@ const dashboardIdMap = {
     id: 'translation_analysis_database',
     name: i18n.t('msp:Database call'),
   },
+  [DASHBOARD_TYPE.mq]: {
+    id: 'translation_analysis_mq',
+    name: i18n.t('msp:MQ call'),
+  },
 };
+
+const limits = [100, 200, 500, 1000];
+
 const sortList = [
   {
-    name: i18n.t('msp:the number of errors in reverse order'),
+    name: i18n.t('msp:AVG TIME DELAY DESC'),
     value: 0,
   },
   {
-    name: i18n.t('msp:the number of calls in reverse order'),
+    name: i18n.t('msp:REQUEST COUNT DESC'),
     value: 1,
   },
 ];
+
+const sortHasErrorList = [
+  {
+    name: i18n.t('msp:AVG TIME DELAY DESC'),
+    value: 0,
+  },
+  {
+    name: i18n.t('msp:REQUEST COUNT DESC'),
+    value: 1,
+  },
+  {
+    name: i18n.t('msp:ERROR COUNT DESC'),
+    value: 2,
+  },
+];
+const differSortList = differenceBy(sortHasErrorList, sortList, 'value');
+const hasErrorListTypes = [DASHBOARD_TYPE.http, DASHBOARD_TYPE.rpc];
+
+const callTypes = [
+  {
+    name: i18n.t('msp:producer'),
+    value: 'producer',
+  },
+  {
+    name: i18n.t('msp:consumer'),
+    value: 'consumer',
+  },
+];
+
 // 变量为正则需要转义字符
 const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '|', '/'];
 
+interface IState {
+  type: DASHBOARD_TYPE;
+  search?: string;
+  topic?: string;
+  subSearch?: string;
+  sort?: number;
+  url?: string;
+  traceSlowTranslation?: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp;
+  traceId?: string;
+  visible: boolean;
+  detailVisible: boolean;
+  logVisible: boolean;
+  sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
+  callType?: string;
+  limit: number;
+}
+
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
-  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [
-    { type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible, sortType },
+    {
+      type,
+      search,
+      topic,
+      subSearch,
+      sort,
+      url,
+      visible,
+      traceSlowTranslation,
+      detailVisible,
+      traceId,
+      logVisible,
+      sortType,
+      callType,
+      limit,
+    },
     updater,
-  ] = useUpdate({
-    type: DASHBOARD_TYPE.http as DASHBOARD_TYPE,
-    search: undefined as string | undefined,
-    subSearch: undefined as string | undefined,
-    sort: undefined as number | undefined,
-    url: undefined as string | undefined,
-    traceSlowTranslation: undefined as TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp | undefined,
-    traceId: undefined as string | undefined,
-    visible: false as boolean,
-    detailVisible: false as boolean,
-    logVisible: false as boolean,
-    sortType: 'DESC' as SORT_TYPE,
+  ] = useUpdate<IState>({
+    type: DASHBOARD_TYPE.http,
+    search: undefined,
+    topic: undefined,
+    subSearch: undefined,
+    sort: defaultSort,
+    url: undefined,
+    traceSlowTranslation: undefined,
+    traceId: undefined,
+    visible: false,
+    detailVisible: false,
+    logVisible: false,
+    sortType: defaultTimeSort,
+    callType: undefined,
+    limit: limits[0],
   });
+
+  React.useEffect(() => {
+    // there are different sort type groups, the count of they is not match, so reset sort when switch type
+    if (!hasErrorListTypes.includes(type) && differSortList.find((item) => item.value === sort)) {
+      updater.sort(undefined);
+    }
+  }, [type, sort, updater]);
 
   const handleToggleType = (e: any) => {
     updater.type(e.target.value);
     updater.subSearch(undefined);
   };
 
-  const queryTraceSlowTranslation = (sort_type: SORT_TYPE, cellValue: string) => {
+  const queryTraceSlowTranslation = (
+    sort_type: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE,
+    queryLimit: number,
+    cellValue: string,
+  ) => {
     const { serviceName, terminusKey, serviceId } = params;
     updater.sortType(sort_type);
+    updater.limit(queryLimit);
     getTraceSlowTranslation({
       sort: sort_type,
       start: startTimeMs,
       end: endTimeMs,
       terminusKey,
       serviceName,
+      limit: queryLimit,
       serviceId: window.decodeURIComponent(serviceId),
       operation: cellValue,
     }).then((res) => updater.traceSlowTranslation(res));
   };
 
-  const handleChangeSortType = React.useCallback(
-    (e: RadioChangeEvent) => {
-      queryTraceSlowTranslation(e.target.value as SORT_TYPE, url as string);
+  const handleChangeLimit = React.useCallback(
+    (v) => {
+      queryTraceSlowTranslation(sortType, v, url);
     },
-    [url],
+    [sortType, url],
+  );
+
+  const handleChangeSortType = React.useCallback(
+    (e) => {
+      queryTraceSlowTranslation(e, limit, url);
+    },
+    [limit, url],
   );
 
   const handleBoardEvent = useCallback(
@@ -127,7 +224,7 @@ const Transaction = () => {
       if (eventName === 'traceSlowTranslation') {
         updater.url(cellValue);
         updater.visible(true);
-        queryTraceSlowTranslation('DESC', cellValue);
+        queryTraceSlowTranslation(defaultTimeSort, limits[0], cellValue);
       }
     },
     [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
@@ -180,39 +277,62 @@ const Transaction = () => {
       });
 
     return {
+      topic,
       search,
       sort,
+      type: callType,
       subSearch: _subSearch || undefined,
     };
-  }, [search, sort, subSearch]);
+  }, [search, sort, callType, subSearch, topic]);
 
   return (
     <div className="service-analyze flex flex-col h-full">
       <div>
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
-            <TimeSelector className="m-0" />
-            <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
+            <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
                 className="ml-3"
-                placeholder={i18n.t('msp:select sorting method')}
+                placeholder={i18n.t('msp:call type')}
                 allowClear
-                style={{ width: '180px' }}
-                onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+                style={{ width: '150px' }}
+                onChange={(v) => updater.callType(String(v))}
               >
-                {sortList.map(({ name, value }) => (
+                {callTypes.map(({ name, value }) => (
                   <Select.Option key={value} value={value}>
                     {name}
                   </Select.Option>
                 ))}
               </Select>
             </If>
-            <Search
+            <Select
+              className="ml-3"
+              placeholder={i18n.t('msp:select sorting method')}
               allowClear
-              placeholder={i18n.t('msp:search by transaction name')}
-              style={{ marginLeft: '12px', width: '180px' }}
-              onHandleSearch={(v) => updater.search(v)}
-            />
+              style={{ width: '180px' }}
+              onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+              value={sort}
+            >
+              {(hasErrorListTypes.includes(type) ? sortHasErrorList : sortList).map(({ name, value }) => (
+                <Select.Option key={value} value={value}>
+                  {name}
+                </Select.Option>
+              ))}
+            </Select>
+            <If condition={type === DASHBOARD_TYPE.mq}>
+              <DebounceSearch
+                className="ml-3 w-48"
+                placeholder={i18n.t('msp:search by Topic')}
+                onChange={(v) => updater.topic(v)}
+              />
+            </If>
+            <If condition={type !== DASHBOARD_TYPE.mq}>
+              <DebounceSearch
+                className="ml-3 w-48"
+                placeholder={i18n.t('msp:search by transaction name')}
+                onChange={(v) => updater.search(v)}
+              />
+            </If>
           </div>
           <div className="right flex justify-between items-center mb-2">
             <RadioGroup value={type} onChange={handleToggleType}>
@@ -222,6 +342,7 @@ const Transaction = () => {
                 </RadioButton>
               ))}
             </RadioGroup>
+            <TimeSelectWithStore className="ml-3" />
           </div>
         </div>
         <If condition={!!subSearch}>
@@ -244,13 +365,22 @@ const Transaction = () => {
         onClose={() => updater.visible(false)}
       >
         <div className="flex items-center flex-wrap justify-end mb-3">
-          <RadioGroup value={sortType} onChange={handleChangeSortType}>
-            {map(sortButtonMap, (v, k) => (
-              <RadioButton key={k} value={k}>
-                {v}
-              </RadioButton>
+          <span>{i18n.t('msp:maximum number of queries')}：</span>
+          <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
+            {limits.map((item) => (
+              <Select.Option key={item} value={item}>
+                {item}
+              </Select.Option>
             ))}
-          </RadioGroup>
+          </Select>
+          <span>{i18n.t('msp:sort method')}：</span>
+          <Select value={sortType} onChange={handleChangeSortType}>
+            {map(sortButtonMap, (v, k) => (
+              <Select.Option key={k} value={k}>
+                {v}
+              </Select.Option>
+            ))}
+          </Select>
         </div>
         <Table
           loading={isFetching}

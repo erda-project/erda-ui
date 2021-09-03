@@ -186,6 +186,7 @@ const ServiceCard = (props: IProps) => {
             Comp: Terminal,
             props: {
               instanceTerminal: true,
+              instance: ins,
               clusterName,
               host,
               containerId: containerId || id,

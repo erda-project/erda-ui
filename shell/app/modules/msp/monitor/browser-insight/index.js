@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import i18n, { isZh } from 'i18n';
 
 const tabs = [
@@ -79,7 +79,7 @@ const getBIRouter = () => ({
       breadcrumbName: i18n.t('msp:access error'),
       alwaysShowTabKey: 'bi/exception',
       tabs,
-      TabRightComp: TimeSelector,
+      TabRightComp: TimeSelectWithStore,
       getComp: (cb) => cb(import('browser-insight/pages/exception/exception')),
     },
     {

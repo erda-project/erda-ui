@@ -15,10 +15,10 @@ import React from 'react';
 import i18n from 'i18n';
 import { Input, message } from 'core/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
-import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
+import { useUpdate, IF, BoardGrid, PureBoardGrid, TimeSelect } from 'common';
 import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';
 import { goTo, getTimeSpan } from 'common/utils';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { useMount } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import orgMonitorMetaDataStore from 'cmp/stores/query-monitor-metadata';
@@ -28,6 +28,7 @@ import mspCustomDashboardStore from 'msp/monitor/custom-dashboard/stores/custom-
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
 import { getVariableStr } from '../utils';
 import { createLoadDataFn as createOldLoadDataFn } from './data-loader';
+import { ITimeRange } from 'common/components/time-select/common';
 import './custom-dashboard.scss';
 
 const storeMap = {
@@ -63,9 +64,9 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   });
 
   const store = storeMap[scope];
-  const timeSpan = store.useStore((s) => s.timeSpan);
-  const { createCustomDashboard, updateCustomDashboard, getCustomDashboardDetail, updateTimeSpan, resetTimeSpan } =
-    store;
+  const timeSpan = store.useStore((s) => s.globalTimeSelectSpan.range);
+  const globalTimeSelectSpan = store.getState((s) => s.globalTimeSelectSpan);
+  const { createCustomDashboard, updateCustomDashboard, getCustomDashboardDetail, updateState } = store;
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { dashboardId } = params;
   const isDashboardDetail = !!dashboardId;
@@ -80,26 +81,6 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
       isNewVersionDC: !isDashboardDetail,
       editorToggleStatus: false,
     });
-
-  useMount(() => {
-    if (query.timestamp) {
-      const targetMS = Number(query.timestamp);
-      const startLimit = moment().subtract(7, 'd');
-      const targetStart = moment(targetMS).subtract(30, 'm');
-      const targetEnd = moment(targetMS).add(30, 'm');
-      let times;
-      if (moment().isBefore(targetEnd)) {
-        times = [moment().subtract(1, 'h'), moment()];
-      } else if (targetStart.isBefore(startLimit)) {
-        times = [startLimit, startLimit.add(1, 'h')];
-      } else {
-        times = [targetStart, targetEnd];
-      }
-      updateTimeSpan(getTimeSpan(times));
-    } else {
-      resetTimeSpan();
-    }
-  });
 
   const _getCustomDashboardDetail = React.useCallback(
     (id: string) => {
@@ -169,6 +150,20 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
     return true;
   };
 
+  const handleChange = (data: ITimeRange, range: Moment[]) => {
+    const triggerTime = Date.now();
+    const span = getTimeSpan(range);
+    updateState({
+      globalTimeSelectSpan: {
+        data,
+        range: {
+          triggerTime,
+          ...span,
+        },
+      },
+    });
+  };
+
   const handleSave = (viewConfig: any) => {
     updater.isEditMode(false);
     if (isDashboardDetail) {
@@ -201,11 +196,9 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
             {map(AUTO_RELOAD_OPTIONS, ({ value, name }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
           </Select> */}
           <IF check={!isEditMode}>
-            <CommonRangePicker
-              defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]}
-              disabledDate={() => false}
-              onOk={(v) => updateTimeSpan(v)}
-            />
+            <div className="flex justify-end">
+              <TimeSelect defaultValue={globalTimeSelectSpan.data} onChange={handleChange} />
+            </div>
           </IF>
           <IF check={isEditMode}>
             <div className="dashboard-info-editor">

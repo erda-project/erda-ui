@@ -17,6 +17,7 @@ import { getApps } from 'common/services';
 import { createStore } from 'core/cube';
 import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
+import { ITimeRange, transformRange } from 'common/components/time-select/common';
 
 const defaultHandler = (data: any) => {
   const modules =
@@ -36,14 +37,23 @@ const defaultHandler = (data: any) => {
   });
   return reModules;
 };
+
 interface IChartQuery {
   api: string;
   query: object;
   dataHandler: Function | undefined;
   type: string;
 }
+
 interface IState {
   timeSpan: ITimeSpan;
+  globalTimeSelectSpan: {
+    refreshStrategy: string;
+    data: ITimeRange;
+    range: {
+      triggerTime?: number;
+    } & ITimeSpan;
+  };
   modules: any;
   appGroup: any;
   chosenAppGroup: {
@@ -62,8 +72,28 @@ interface IState {
   projectApps: any[];
   projectAppsPaging: IPaging;
 }
+
+const defaultRange: ITimeRange = {
+  mode: 'quick',
+  quick: 'hours:1',
+  customize: {},
+};
+const { date } = transformRange(defaultRange);
+
 const defaultState: IState = {
   timeSpan: getTimeSpan(),
+  globalTimeSelectSpan: {
+    refreshStrategy: 'off',
+    data: {
+      mode: 'quick',
+      quick: 'hours:1',
+      customize: {},
+    },
+    range: {
+      triggerTime: 0,
+      ...getTimeSpan(date),
+    },
+  },
   modules: {},
   appGroup: {},
   chosenAppGroup: {},

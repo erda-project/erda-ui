@@ -20,6 +20,7 @@ import { map, compact, isEmpty } from 'lodash';
 import { Modal, Select, Table, Button } from 'core/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
+import sysMemberStore from 'common/stores/sys-member';
 import React from 'react';
 import { useTempPaging } from './use-hooks';
 import { useEffectOnce } from 'react-use';
@@ -36,6 +37,7 @@ const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.SYS]: sysMemberStore,
 };
 
 export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {

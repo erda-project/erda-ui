@@ -17,6 +17,8 @@ import { map, isEmpty, get, isArray, sortBy, filter } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
+import { RowContainer, Container } from '../container/container';
+import { statusColorMap } from 'app/config-page/utils';
 import { Download as IconDownLoad } from '@icon-park/react';
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
@@ -125,8 +127,17 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
     case 'operationsDropdownMenu': // 下拉菜单的操作：可编辑列
       Comp = <DropdownSelector {...val} {...extra} />;
       break;
-    case 'progress': // 进度条
-      Comp = val?.value ? <Progress percent={+val.value || 0} /> : val.value;
+    case 'progress':
+      {
+        const { value, tip, status, ...rest } = val || {};
+        Comp = value ? (
+          <Tooltip title={tip}>
+            <Progress percent={+value || 0} {...rest} strokeColor={statusColorMap[status]} />
+          </Tooltip>
+        ) : (
+          value
+        );
+      }
       break;
     case 'tableOperation': // 渲染table后的操作
       Comp = getTableOperation(val, record, extra);
@@ -316,10 +327,32 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'tagsRow':
       {
-        const { value, operations } = val;
+        const { value, operations, ..._rest } = val;
         const onAdd = operations?.add && (() => extra.execOperation(operations?.add));
         const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
-        Comp = <TagsRow labels={value} onAdd={onAdd} onDelete={onDelete} />;
+        Comp = <TagsRow {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
+      }
+      break;
+    case 'text':
+      {
+        const { renderType, ..._rest } = val || {};
+        Comp = <Text props={_rest} />;
+      }
+      break;
+    case 'multiple':
+      {
+        const { renders } = val || {};
+        Comp = (
+          <Container>
+            {map(renders, (rds, idx) => (
+              <RowContainer key={`${idx}`}>
+                {map(rds, (rd, rdIdx) => (
+                  <div key={`${rdIdx}`}>{getRender(rd, record, extra)}</div>
+                ))}
+              </RowContainer>
+            ))}
+          </Container>
+        );
       }
       break;
     default:

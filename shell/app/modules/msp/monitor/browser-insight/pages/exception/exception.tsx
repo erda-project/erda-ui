@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import ExceptionMap from './config/chartMap';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import './exception.scss';
@@ -35,7 +35,7 @@ const Exception = () => {
   };
   return (
     <div>
-      <TimeSelector />
+      <TimeSelectWithStore />
       <Row gutter={20}>
         <Col span={8}>
           <div className="monitor-sort-panel">

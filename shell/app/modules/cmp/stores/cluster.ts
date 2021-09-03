@@ -37,6 +37,7 @@ import {
   clusterInitRetry,
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
+import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 interface IState {
   list: ORG_CLUSTER.ICluster[];
@@ -63,6 +64,18 @@ const initState: IState = {
 const cluster = createStore({
   name: 'org-cluster',
   state: initState,
+  subscriptions({ listenRoute }: IStoreSubs) {
+    listenRoute(({ params, isIn, isLeaving }) => {
+      const { clusterName } = params;
+      const curDetail = cluster.getState((s) => s.detail);
+      if (isIn('clusterDetail') && curDetail?.name !== clusterName) {
+        cluster.effects.getClusterDetail({ clusterName });
+      }
+      if (isLeaving('clusterDetail')) {
+        cluster.reducers.clearClusterDetail('');
+      }
+    });
+  },
   effects: {
     async getSMSNotifyConfig({ call, update }, payload: { orgId: number }) {
       const notifyConfig = await call(getSMSNotifyConfig, { orgId: payload.orgId });
@@ -97,6 +110,8 @@ const cluster = createStore({
       const { id, name } = prevDetail;
       if ((id && id === payload.clusterId) || (name && name === payload.clusterName)) return prevDetail;
       const detail = await call(getClusterDetail, payload);
+      breadcrumbStore.reducers.setInfo('cmpCluster', detail);
+
       update({ detail: detail || {} });
       return detail;
     },
@@ -189,6 +204,9 @@ const cluster = createStore({
     },
     clearDeployClusterLog(state) {
       state.deployClusterLog = '';
+    },
+    clearClusterDetail(state) {
+      state.detail = {};
     },
   },
 });

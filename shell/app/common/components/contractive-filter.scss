@@ -9,6 +9,13 @@
   height: 28px;
   margin: 2px 8px 2px 0;
 
+  .contractive-filter-split {
+    width: 2px;
+    height: 20px;
+    margin-top: 4px;
+    background-color: $color-dark-2;
+  }
+
   &:hover {
     .contractive-filter-item-close {
       display: initial;
@@ -138,10 +145,31 @@
   }
 
   .option-group {
+    .option-group-content {
+      overflow: hidden auto;
+      max-height: 1000px;
+      transition: max-height 0.1s ease-in-out;
+
+      &.no-expand {
+        max-height: 0;
+      }
+    }
+
     .option-group-label {
+      cursor: pointer;
       padding: 6px 10px;
       color: $color-text-desc;
-      cursor: text;
+      &:hover {
+        color: $primary;
+      }
+
+      .expand-icon {
+        transform: rotate(0deg);
+        transition: all 0.3s ease-in-out;
+        &.expand {
+          transform: rotate(180deg);
+        }
+      }
     }
     .option-item {
       padding: 6px 10px 6px 30px;

@@ -23,6 +23,8 @@ import clusterStore from '../../../stores/cluster';
 import { goTo, insertWhen, regRules } from 'common/utils';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 import { Link } from 'react-router-dom';
+import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
+
 import './cluster-form.scss';
 
 const ClusterBasicForm = ({
@@ -338,7 +340,7 @@ export const AddClusterModal = (props: IProps) => {
     toggleModal();
   };
 
-  if (['k8s', 'edas'].includes(clusterType) && initData) {
+  if (TYPE_K8S_AND_EDAS.includes(clusterType) && initData) {
     const { manageConfig } = initData as Obj;
     const { credentialSource, address } = manageConfig || {};
     set(initData, 'credentialType', credentialSource);

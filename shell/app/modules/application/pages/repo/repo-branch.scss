@@ -13,5 +13,13 @@
       overflow: hidden;
       line-height: 24px;
     }
+
+    &-commit {
+      max-width: calc(100% - 260px);
+    }
+
+    .dice-avatar-wrap .nowrap {
+      max-width: 100px;
+    }
   }
 }

@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip, Popconfirm } from 'core/nusi';
 import { some, has, groupBy, map } from 'lodash';
 import { cutStr } from 'common/utils';
+import i18n from 'i18n';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
 import './tags-row.scss';
 
@@ -34,6 +35,7 @@ interface IItemProps {
   label: ILabel;
   withCut?: boolean;
   size?: 'small' | 'default';
+  deleteConfirm?: boolean;
   onDelete?: (p: ILabel) => void;
 }
 
@@ -48,7 +50,7 @@ export const TagColorMap = {
 };
 
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size, withCut, onDelete } = props;
+  const { label: _label, size, withCut, onDelete, deleteConfirm = true } = props;
   const { label, color = 'gray' } = _label;
   const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };
   const tagColor = TagColorMap[color] || '';
@@ -56,12 +58,27 @@ export const TagItem = (props: IItemProps) => {
     <Tooltip title={withCut && label.length > 15 ? label : undefined}>
       <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
         {onDelete ? (
-          <IconCloseOne
-            theme="filled"
-            size="12"
-            className="tag-close cursor-pointer text-holder"
-            onClick={() => onDelete(_label)}
-          />
+          deleteConfirm ? (
+            <Popconfirm
+              title={`${i18n.t('common:confirm deletion')}?`}
+              arrowPointAtCenter
+              zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
+              onConfirm={(e) => {
+                e && e.stopPropagation();
+                onDelete(_label);
+              }}
+              onCancel={(e) => e && e.stopPropagation()}
+            >
+              <IconCloseOne theme="filled" size="12" className="tag-close cursor-pointer text-holder" />
+            </Popconfirm>
+          ) : (
+            <IconCloseOne
+              theme="filled"
+              size="12"
+              className="tag-close cursor-pointer text-holder"
+              onClick={() => onDelete(_label)}
+            />
+          )
         ) : null}
         <span>{withCut ? cutStr(label, 15) : label}</span>
       </span>
@@ -70,13 +87,14 @@ export const TagItem = (props: IItemProps) => {
 };
 
 export const TagsRow = ({
-  labels,
+  labels: propsLabels,
   showCount = 2,
   containerClassName = '',
   size = 'small',
   onDelete,
   onAdd,
 }: IProps) => {
+  const labels = propsLabels || [];
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
 
@@ -109,7 +127,7 @@ export const TagsRow = ({
         <Tooltip
           title={<span className="tags-container">{fullTags()}</span>}
           placement="top"
-          overlayClassName="tags-tooltip"
+          overlayClassName="tags-row-tooltip"
         >
           <span>...&nbsp;&nbsp;</span>
         </Tooltip>

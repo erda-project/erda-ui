@@ -167,7 +167,7 @@ export const Milestone = () => {
           allowClear={false}
         />
         <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
-        <WithAuth pass={epicAuth.create.pass}>
+        <WithAuth pass={epicAuth.create.pass} tipProps={{ placement: 'bottom' }}>
           <Button className="top-button-group" type="primary" onClick={() => updater.modalVisible(true)}>
             {i18n.t('project:create milestone')}
           </Button>

@@ -21,9 +21,8 @@ import { getPublicDir, getModuleList, registryDir, checkIsRoot, getModules, ERDA
 import { exit } from 'process';
 import generateVersion from './gen-version';
 import localIcon from './local-icon';
-import { EOL } from 'os';
 import YAML from 'yaml';
-import { set, head } from 'lodash';
+import { set } from 'lodash';
 
 const asyncExec = promisify(child_process.exec);
 
@@ -212,11 +211,7 @@ const stopDockerContainer = async () => {
 /**
  * restore built content from an existing image
  */
-const restoreFromDockerImage = async (
-  image: string,
-  requireBuildList: string[],
-  dataEngineerInfo?: ERDA_BUILD_CONFIG,
-) => {
+const restoreFromDockerImage = async (image: string, requireBuildList: string[]) => {
   try {
     // check whether docker is running
     await asyncExec('docker ps');
@@ -244,20 +239,13 @@ const restoreFromDockerImage = async (
     await stopDockerContainer();
     logSuccess('stop & delete erda-ui container successfully');
   }
-  const dataEngineerEnv = head(Object.keys(dataEngineerInfo?.env || {}));
 
   // start docker container names erda-ui for image provided
   await asyncExec(`docker run -d --name erda-ui-for-build \
     -e OPENAPI_ADDR=127.0.0.1 \
-    -e TA_ENABLE=false \
-    -e TERMINUS_KEY=xxx \
-    -e COLLECTOR_PUBLIC_ADDR=127.0.0.1 \
-    -e ENABLE_BIGDATA=false \
-    -e UC_PUBLIC_URL=127.0.0.1 \
-    -e ${dataEngineerEnv}=127.0.0.1 \
+    -e DATA_APP_NAME=xxx
+    -e XXX_UI_ADDR=127.0.0.1 \
     -e GITTAR_ADDR=127.0.0.1 \
-    -e KRATOS_ADDR=127.0.0.1 \
-    -e KRATOS_PRIVATE_ADDR=127.0.0.1 \
     ${registryDir}:${image}`);
   logSuccess('erda-ui docker container has been launched');
 
@@ -383,7 +371,7 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
         }
         const requireBuildList = await getRequireBuildModules(image);
         logInfo(`Will launch a partial build based on image ${image}`);
-        rebuildList = await restoreFromDockerImage(image, requireBuildList, dataEngineerInfo);
+        rebuildList = await restoreFromDockerImage(image, requireBuildList);
       }
       await checkReInstall();
     }

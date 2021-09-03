@@ -14,11 +14,10 @@
 import React from 'react';
 import { PureLogRoller, useUpdate } from 'common';
 import { regLog } from 'common/components/log/log-util';
-import AnsiUp from 'ansi_up';
+import { transformLog } from 'app/common/utils';
 import commonStore from 'app/common/stores/common';
 
 const noop = () => {};
-const AU = new AnsiUp();
 
 export const LogItem = ({ log }: { log: COMMON.LogItem }) => {
   const { content } = log;
@@ -33,7 +32,7 @@ export const LogItem = ({ log }: { log: COMMON.LogItem }) => {
     showContent = `[${serviceName}] --- ${content.split(parent).join('')}`;
   }
 
-  const reContent = AU.ansi_to_html(showContent).replace(/&quot;/g, '"');
+  const reContent = transformLog(showContent);
   return (
     <div className="log-insight-item">
       <span className="log-item-logtime">{time}</span>

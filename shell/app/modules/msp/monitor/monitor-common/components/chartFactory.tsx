@@ -111,7 +111,7 @@ const ChartBaseFactory = {
       const chart = monitorChartStore.useStore((s) => s);
       const data = get(chart, `${moduleName}.${chartName}`, {});
       const [timeSpan, chosenSortItem, chosenApp = {}] = monitorCommonStore.useStore((s) => [
-        s.timeSpan,
+        s.globalTimeSelectSpan.range,
         s.chosenSortItem,
         s.chosenApp,
       ]);

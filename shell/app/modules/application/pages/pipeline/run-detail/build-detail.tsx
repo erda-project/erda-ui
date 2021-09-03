@@ -99,6 +99,18 @@ const BuildDetail = (props: IProps) => {
     'addPipeline',
   ]);
 
+  // set a timer to loop get status, until websocket push is available
+  const timer = React.useRef<NodeJS.Timeout>();
+  React.useEffect(() => {
+    if (pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status)) {
+      timer.current = setTimeout(() => {
+        state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
+      }, 10000);
+    } else {
+      timer.current && clearTimeout(timer.current);
+    }
+  }, [getPipelineDetail, pipelineDetail, state.chosenPipelineId]);
+
   React.useEffect(() => {
     state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
     updateSearch({ pipelineID: state.chosenPipelineId });
@@ -250,7 +262,7 @@ const BuildDetail = (props: IProps) => {
         action: disabled ? i18n.t('open') : i18n.t('close'),
         name: node.name,
       }),
-      onOk: () => updateEnv({ id: node.id, disabled: !disabled }),
+      onOk: () => updateEnv({ taskID: node.id, taskAlias: node.name, disabled: !disabled }),
       onCancel: noop,
     });
   };
@@ -263,6 +275,7 @@ const BuildDetail = (props: IProps) => {
           taskID,
           pipelineID,
           logId: node.extra.uuid,
+          taskContainers: node.extra.taskContainers,
         });
         updater.logVisible(true);
         break;
@@ -295,6 +308,16 @@ const BuildDetail = (props: IProps) => {
             type: typeTarget.value || 'MOBILE',
             publisherItemId: publishItemIDTarget.value,
             jumpOut: true,
+          });
+        }
+        break;
+      }
+      case 'pipeline-link': {
+        const target = node.findInMeta((item: BUILD.MetaData) => item.name === 'pipelineID');
+        if (target) {
+          getPipelineDetail({ pipelineID: target.value }).then((res) => {
+            const curAppId = res.data?.applicationID;
+            goTo(goTo.pages.pipeline, { ...params, pipelineID: target.value, appId: curAppId, jumpOut: true });
           });
         }
         break;
@@ -372,9 +395,8 @@ const BuildDetail = (props: IProps) => {
     updater.logVisible(false);
   };
 
-  const updateEnv = (info: { id: number; disabled: boolean }) => {
-    const { id, disabled } = info;
-    updateTaskEnv({ taskID: id, disabled, pipelineID: pipelineDetail.id }).then(() => {
+  const updateEnv = (info: Omit<BUILD.ITaskUpdatePayload, 'pipelineID'>) => {
+    updateTaskEnv({ ...info, pipelineID: pipelineDetail.id }).then(() => {
       getPipelineDetail({ pipelineID: +pipelineID });
     });
   };

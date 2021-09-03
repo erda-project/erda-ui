@@ -66,7 +66,6 @@ export default async ({
     newConfig.MODULES = ALL_MODULES.concat(externalModules.map(({ name }) => name)).join(',');
     newConfig.SCHEDULER_PORT = port || '3000';
     newConfig.SCHEDULER_URL = hostName || 'https://dice.dev.terminus.io';
-    newConfig.ERDA_DIR = currentDir;
 
     const newFullConfig: string[] = [];
     Object.keys(newConfig).forEach((k) => {

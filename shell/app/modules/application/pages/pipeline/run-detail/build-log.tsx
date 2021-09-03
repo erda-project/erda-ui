@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { LogRoller, CompSwitcher } from 'common';
-import { Switch, Drawer } from 'core/nusi';
+import { Switch, Drawer, Tabs } from 'core/nusi';
 import { map } from 'lodash';
 import DeployLog from 'runtime/common/logs/components/deploy-log';
 import i18n from 'i18n';
@@ -21,6 +21,8 @@ import commonStore from 'common/stores/common';
 import { LeftOne as IconLeftOne } from '@icon-park/react';
 
 const linkMark = '##to_link:';
+
+const { TabPane } = Tabs;
 
 interface IProps {
   withoutDrawer?: boolean;
@@ -36,6 +38,7 @@ interface IProps {
   clearLog: (logKey?: string) => void;
   pushSlideComp: (payload: any) => void;
   popSlideComp: () => void;
+  taskContainers: PIPELINE.ITaskContainers[];
 }
 
 interface IState {
@@ -114,6 +117,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       slidePanelComps,
       title,
       logId,
+      taskContainers = [],
       downloadAPI,
       customFetchAPIPrefix,
       pipelineID,
@@ -131,23 +135,40 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         onChange={this.toggleLogName}
       />
     );
-    if (withoutDrawer) {
-      return (
-        <CompSwitcher comps={slidePanelComps}>
-          <LogRoller
-            key={String(isStdErr)}
-            query={{
-              fetchApi: customFetchAPIPrefix || `/api/cicd/${pipelineID}/tasks/${taskID}/logs`,
-              downloadAPI,
-              taskID,
-              stream: isStdErr ? 'stderr' : 'stdout',
-            }}
-            logKey={logId}
-            extraButton={switchLog}
-            transformContent={this.transformContentToLink}
-          />
-        </CompSwitcher>
+
+    const logRollerFn = (id?: string) => (
+      <LogRoller
+        key={String(isStdErr)}
+        query={{
+          // 此处如果使用了customFetchAPIPrefix，在drawer关闭瞬间又触发了请求会使用后面的api，此时pipelineID为undefined(见自动化测试)
+          fetchApi:
+            customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
+          downloadAPI,
+          taskID,
+          id,
+          stream: isStdErr ? 'stderr' : 'stdout',
+        }}
+        logKey={logId}
+        extraButton={switchLog}
+        transformContent={this.transformContentToLink}
+      />
+    );
+
+    const logRollerComp =
+      Array.isArray(taskContainers) && taskContainers.length !== 0 ? (
+        <Tabs className="log-viewer">
+          {taskContainers.map((item) => (
+            <TabPane tab={item.taskName} key={item.containerID}>
+              {logRollerFn(item.containerID)}
+            </TabPane>
+          ))}
+        </Tabs>
+      ) : (
+        logRollerFn()
       );
+
+    if (withoutDrawer) {
+      return <CompSwitcher comps={slidePanelComps}>{logRollerComp}</CompSwitcher>;
     }
     return (
       <Drawer
@@ -161,22 +182,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         visible={visible}
         onClose={hideLog}
       >
-        <CompSwitcher comps={slidePanelComps}>
-          <LogRoller
-            key={String(isStdErr)}
-            query={{
-              // 此处如果使用了customFetchAPIPrefix，在drawer关闭瞬间又触发了请求会使用后面的api，此时pipelineID为undefined(见自动化测试)
-              fetchApi:
-                customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
-              downloadAPI,
-              taskID,
-              stream: isStdErr ? 'stderr' : 'stdout',
-            }}
-            logKey={logId}
-            extraButton={switchLog}
-            transformContent={this.transformContentToLink}
-          />
-        </CompSwitcher>
+        <CompSwitcher comps={slidePanelComps}>{logRollerComp}</CompSwitcher>
       </Drawer>
     );
   }

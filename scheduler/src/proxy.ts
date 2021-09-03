@@ -13,7 +13,7 @@
 
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Request } from 'express';
-import { getEnv, logWarn } from './util';
+import { getEnv, logger } from './util';
 import { INestApplication } from '@nestjs/common';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -53,7 +53,7 @@ export const createProxyService = (app: INestApplication) => {
           proxyReq.setHeader('org', org);
         }
         socket.on('error', (error) => {
-          logWarn('Websocket error.', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
+          logger.warn('Websocket error:', error); // add error handler to prevent server crash https://github.com/chimurai/http-proxy-middleware/issues/463#issuecomment-676630189
         });
       },
     },
@@ -79,10 +79,15 @@ export const createProxyService = (app: INestApplication) => {
       {
         target: API_URL,
         changeOrigin: !isProd,
+        xfwd: true,
         secure: false,
         pathRewrite: replaceApiOrgPath,
         onProxyReq: (proxyReq, req: Request) => {
-          isProd && proxyReq.setHeader('org', extractOrg(req.headers.referer));
+          if (!isProd) {
+            proxyReq.setHeader('referer', API_URL);
+          } else {
+            proxyReq.setHeader('org', extractOrg(req.originalUrl));
+          }
         },
       },
     ),
@@ -139,7 +144,7 @@ const replaceApiOrgPath = (p: string) => {
 };
 
 const extractOrg = (p: string) => {
-  const match = /https?:\/\/[^/]*\/([^/]*)\/?/.exec(p);
+  const match = /^\/[^/]*\/([^/]*)\/?/.exec(p);
   if (match && !p.startsWith('/api/files')) {
     return match[1];
   }

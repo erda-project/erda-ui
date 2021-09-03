@@ -17,4 +17,5 @@ export enum MemberScope {
   ORG = 'org',
   PROJECT = 'project',
   APP = 'app',
+  SYS = 'sys',
 }

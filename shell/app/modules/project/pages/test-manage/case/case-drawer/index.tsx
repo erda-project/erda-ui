@@ -121,7 +121,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   const envList = testEnvStore.useStore((s) => s.envList);
   const dirName = testSetStore.useStore((s) => s.breadcrumbInfo.pathName);
   const { clearCaseDetail } = testCaseStore.reducers;
-  const { editPartial, create: addTestCase, attemptTestApi } = testCaseStore.effects;
+  const { editPartial, create: addTestCase, attemptTestApi, getCaseDetail } = testCaseStore.effects;
   const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
   const [{ fullData, titleIsEmpty }, updater] = useUpdate<IState>(initState);
   const drawer = React.useRef<{ saved: boolean }>({ saved: false });
@@ -212,6 +212,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   };
   const checkName = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
+    if (name === caseDetail.name) {
+      return;
+    }
     updater.titleIsEmpty(!name);
     if (editMode && name) {
       handleSave(false);
@@ -242,6 +245,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     const payload = editMode ? { ...saveData, id: caseDetail.testCaseID } : saveData;
     const request = editMode ? editPartial : addTestCase;
     const res = await request(payload);
+    getCaseDetail({ id: newData.id, scope });
     drawer.current.saved = true;
     if (afterSave) {
       await afterSave(saveData, editMode, res);
