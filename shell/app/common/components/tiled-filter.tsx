@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import { Input } from 'core/nusi';
 import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
