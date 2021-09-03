@@ -134,6 +134,13 @@
     margin-left: 0;
     padding: 6px 10px;
 
+    &-delete {
+      background-color: $white;
+      transition: right 0.3s ease-in-out;
+      right: -30px;
+      box-shadow: -3px 0 4px -4px $color-text-sub;
+    }
+
     &.checked-item {
       color: $primary;
     }
@@ -141,6 +148,13 @@
     &:hover {
       color: $primary;
       background-color: $color-click-bg;
+
+      .option-item-delete {
+        right: 0;
+        &-box {
+          background-color: $color-click-bg;
+        }
+      }
     }
   }
 
