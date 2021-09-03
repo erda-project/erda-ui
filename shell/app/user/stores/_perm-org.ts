@@ -74,7 +74,7 @@ export const orgPerm = {
   entryOrgCenter: {
     pass: false,
     name: '企业中心',
-    role: ['Manager', 'Support'],
+    role: ['Manager', 'Support', 'Auditor'],
   },
   apiAssetEdit: {
     pass: false,

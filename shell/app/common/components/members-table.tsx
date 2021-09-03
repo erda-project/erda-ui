@@ -462,7 +462,7 @@ export const MembersTable = ({
               const removeOp =
                 isCurrentUser || memberAuth.delete || isAdminManager ? (
                   <span className="table-operations-btn" key="del" onClick={() => confirmDelete(record, isCurrentUser)}>
-                    {isCurrentUser ? i18n.t('exit') : memberAuth.delete ? i18n.t('remove') : null}
+                    {isCurrentUser ? i18n.t('exit') : memberAuth.delete || isAdminManager ? i18n.t('remove') : null}
                   </span>
                 ) : null;
               const authorizeOp =
