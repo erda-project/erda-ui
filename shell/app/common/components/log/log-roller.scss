@@ -3,6 +3,10 @@ $log-bg-color: #3c444f;
 
 .log-viewer {
   height: 100%;
+
+  .ant-tabs-content {
+    height: 100%;
+  }
 }
 
 .log-roller {
