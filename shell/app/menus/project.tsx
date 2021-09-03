@@ -83,12 +83,6 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      href: goTo.resolve.projectDashboard(), // `/dop/projects/${projectId}/dashboard`,
-      icon: <IconDashboardCar />,
-      text: i18n.t('project:dashboard'),
-      show: projectPerm.dashboard.viewDashboard.pass,
-    },
-    {
       href: goTo.resolve.projectService(),
       icon: <CustomIcon type="kuozhanfuwu" />,
       text: i18n.t('project:addon'),
