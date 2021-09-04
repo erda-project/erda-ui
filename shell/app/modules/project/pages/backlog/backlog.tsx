@@ -48,7 +48,7 @@ const Backlog = () => {
   ]);
   const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
 
-  const stateCollection: { label: string | React.ReactNode; children: { label: string; value: string }[] }[] =
+  const stateCollection: Array<{ label: string | React.ReactNode; children: Array<{ label: string; value: string }> }> =
     React.useMemo(() => {
       const collection = totalWorkflowStateList.reduce((acc, current) => {
         const { issueType, stateName, stateID } = current;
@@ -207,19 +207,23 @@ const Backlog = () => {
         type: 'memberSelector',
       },
       {
+        key: 'finishedAtStartEnd',
+        label: i18n.t('project:deadline'),
+        fixed: false,
+        type: 'dateRange',
+      },
+      {
+        key: 'createdAtStartEnd',
+        label: i18n.d('创建日期'),
+        fixed: false,
+        type: 'dateRange',
+      },
+      {
         key: 'title',
-        label: i18n.t('title'),
+        label: i18n.d('请输入标题或ID'),
         emptyText: i18n.t('application:all'),
         fixed: true,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-        type: 'input' as const,
-      },
-      {
-        key: 'id',
-        label: 'IconDown',
-        emptyText: i18n.t('application:all'),
-        fixed: true,
-        placeholder: i18n.t('filter by {name}', { name: 'ID' }),
         type: 'input' as const,
       },
     ],

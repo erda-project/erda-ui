@@ -27,6 +27,7 @@ import './issue-item.scss';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
+import { useMount } from 'react-use';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -44,7 +45,7 @@ interface IIssueProps {
 const noop = () => Promise.resolve();
 export const IssueItem = (props: IIssueProps) => {
   const { data, onDelete, onDragDelete, issueType, onClickIssue = noop } = props;
-  const { title, type, priority, creator, assignee } = data;
+  const { title, type, priority, creator, assignee, id } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const userMap = useUserMap();
   const projectPerm = usePerm((s) => s.project);
@@ -94,6 +95,7 @@ export const IssueItem = (props: IIssueProps) => {
     >
       <div className="issue-info h-full">
         <div className="backlog-item-content">
+          <div className="w-20">{id}</div>
           <IssueIcon type={type as ISSUE_OPTION} />
           <Ellipsis className="font-bold" title={name} />
         </div>
@@ -148,11 +150,17 @@ const placeholderMap = {
   TASK: i18n.t('{name} title', { name: i18n.t('project:task') }),
   BUG: i18n.t('{name} title', { name: i18n.t('project:bug') }),
 };
+
 export const IssueForm = (props: IIssueFormProps) => {
   const { onCancel = noop, onOk = noop, className = '', defaultIssueType } = props;
   const [chosenType, setChosenType] = React.useState(defaultIssueType || ISSUE_OPTION.REQUIREMENT);
   const formRef = React.useRef(null as any);
   const { projectId } = routeInfoStore.getState((s) => s.params);
+  const [shouldAutoFocus, setShouldAutoFocus] = React.useState(true);
+
+  useMount(() => {
+    setShouldAutoFocus(false);
+  });
 
   const onAdd = () => {
     const curForm = formRef && formRef.current;
@@ -201,7 +209,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         placeholder: `${placeholderMap[chosenType]}, ${i18n.t('enter key to save quickly')}`,
         maxLength: 255,
         size: 'small',
-        autoFocus: true,
+        autoFocus: shouldAutoFocus,
         className: 'backlog-issue-add-title',
         onPressEnter: onAdd,
       },
@@ -237,7 +245,7 @@ export const IssueForm = (props: IIssueFormProps) => {
     if (curForm) {
       curForm.setFields(fields);
     }
-  }, [chosenType]);
+  }, [chosenType, shouldAutoFocus]);
 
   return (
     <div className={`${className} backlog-issue-form flex justify-between items-center`}>
