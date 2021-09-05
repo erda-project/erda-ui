@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useMemo, useCallback } from 'react';
-import { map } from 'lodash';
+import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
-import { TimeSelector, SimpleLog, useUpdate } from 'common';
+import { TimeSelector, SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
@@ -34,7 +34,9 @@ enum DASHBOARD_TYPE {
   mq = 'mq',
 }
 
-const defaultSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'duration:DESC';
+const defaultTimeSort: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE = 'duration:DESC';
+
+const defaultSort = 0;
 
 const sortButtonMap: { [key in TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE]: string } = {
   'timestamp:DESC': i18n.t('msp:time desc'),
@@ -94,6 +96,7 @@ const sortHasErrorList = [
   },
 ];
 
+const differSortList = differenceBy(sortHasErrorList, sortList, 'value');
 const hasErrorListTypes = [DASHBOARD_TYPE.http, DASHBOARD_TYPE.rpc];
 
 const callTypes = [
@@ -154,20 +157,20 @@ const Transaction = () => {
     search: undefined,
     topic: undefined,
     subSearch: undefined,
-    sort: undefined,
+    sort: defaultSort,
     url: undefined,
     traceSlowTranslation: undefined,
     traceId: undefined,
     visible: false,
     detailVisible: false,
     logVisible: false,
-    sortType: defaultSort,
+    sortType: defaultTimeSort,
     callType: undefined,
     limit: limits[0],
   });
 
   React.useEffect(() => {
-    if (!hasErrorListTypes.includes(type) && sort === 2) {
+    if (!hasErrorListTypes.includes(type) && differSortList.find((item) => item.value === sort)) {
       updater.sort(undefined);
     }
   }, [type, sort, updater]);
@@ -219,7 +222,7 @@ const Transaction = () => {
       if (eventName === 'traceSlowTranslation') {
         updater.url(cellValue);
         updater.visible(true);
-        queryTraceSlowTranslation(defaultSort, limits[0], cellValue);
+        queryTraceSlowTranslation(defaultTimeSort, limits[0], cellValue);
       }
     },
     [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
@@ -306,7 +309,7 @@ const Transaction = () => {
               allowClear
               style={{ width: '180px' }}
               onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
-              value={!hasErrorListTypes.includes(type) && sort === 2 ? undefined : sort}
+              value={sort}
             >
               {(hasErrorListTypes.includes(type) ? sortHasErrorList : sortList).map(({ name, value }) => (
                 <Select.Option key={value} value={value}>
@@ -315,19 +318,19 @@ const Transaction = () => {
               ))}
             </Select>
             <If condition={type === DASHBOARD_TYPE.mq}>
-              <Search
+              <DebounceSearch
                 allowClear
+                className="ml-3 w-48"
                 placeholder={i18n.t('msp:search by Topic')}
-                style={{ marginLeft: '12px' }}
-                onHandleSearch={(v) => updater.topic(v)}
+                onChange={(v) => updater.topic(v)}
               />
             </If>
             <If condition={type !== DASHBOARD_TYPE.mq}>
-              <Search
+              <DebounceSearch
                 allowClear
+                className="ml-3 w-48"
                 placeholder={i18n.t('msp:search by transaction name')}
-                style={{ marginLeft: '12px', width: '180px' }}
-                onHandleSearch={(v) => updater.search(v)}
+                onChange={(v) => updater.search(v)}
               />
             </If>
           </div>
