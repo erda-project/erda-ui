@@ -35,6 +35,7 @@ import ApiPublishModal from 'apiManagePlatform/pages/api-market/design/api-publi
 import { initApiWs } from 'app/modules/apiManagePlatform/api-ws.ts';
 import { WithAuth } from 'user/common';
 import { Prompt, Link } from 'react-router-dom';
+import { Location } from 'history';
 import ApiDocAddModal from './api-doc-add-modal';
 import ApiDocTree from './api-doc-tree';
 import { useLoading } from 'core/stores/loading';
@@ -719,7 +720,7 @@ const ApiDesign = () => {
       </div>
       <Prompt
         when={isDocChanged}
-        message={(location: any) => {
+        message={(location: Location) => {
           if (location.pathname.endsWith('apiDesign')) {
             return false;
           }
