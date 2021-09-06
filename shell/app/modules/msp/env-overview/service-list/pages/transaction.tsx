@@ -105,7 +105,7 @@ const callTypes = [
     value: 'producer',
   },
   {
-    name: i18n.t('msp:consumer'),
+    name: i18n.t('consumer'),
     value: 'consumer',
   },
 ];
@@ -269,7 +269,7 @@ const Transaction = () => {
   }, [traceSlowTranslation, updater]);
 
   const extraGlobalVariable = useMemo(() => {
-    let _subSearch = subSearch || search;
+    let _subSearch = subSearch || search || topic;
     // 动态注入正则查询变量需要转义字符
     _subSearch &&
       REG_CHARS.forEach((char) => {
@@ -292,7 +292,6 @@ const Transaction = () => {
           <div className="left flex justify-between items-center mb-2">
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
-                className="ml-3"
                 placeholder={i18n.t('msp:call type')}
                 allowClear
                 style={{ width: '150px' }}
