@@ -496,14 +496,18 @@ const repoStore = createStore({
     async getCommitList({ call, select, update }, payload: REPOSITORY.QueryCommit) {
       const appDetail = await getAppDetail();
       const { commitPaging: paging, commit: prevList } = select((state) => state);
-      const result = await call(getCommits, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...paging,
-        ...(payload || {}),
-      });
-      const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
-      const hasMore = result.length === paging.pageSize;
-      update({ commit: newList, commitPaging: { ...paging, ...payload, hasMore } });
+      try {
+        const result = await call(getCommits, {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...paging,
+          ...(payload || {}),
+        });
+        const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
+        const hasMore = result.length === paging.pageSize;
+        update({ commit: newList, commitPaging: { ...paging, ...payload, hasMore } });
+      } catch (e) {
+        update({ commitPaging: { ...paging, ...payload, hasMore: false } });
+      }
     },
     async getCommitDetail({ getParams, call, update }) {
       const params = getParams();

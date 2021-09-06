@@ -13,6 +13,7 @@
 
 import { debounce, throttle } from 'lodash';
 import React from 'react';
+import { isPromise } from 'common/utils';
 import { Spin } from 'core/nusi';
 import i18n from 'i18n';
 
@@ -26,7 +27,14 @@ interface IProps {
   load: () => any;
 }
 
-export class LoadMore extends React.Component<IProps> {
+interface IState {
+  loadError: boolean;
+}
+
+export class LoadMore extends React.Component<IProps, IState> {
+  state = {
+    loadError: false,
+  };
   eventType: string;
 
   target: Element;
@@ -61,7 +69,8 @@ export class LoadMore extends React.Component<IProps> {
     const { scrollHeight, clientHeight } = this.targetDom;
     const { isLoading, hasMore } = this.props;
     const hasScrollBar = scrollHeight > clientHeight;
-    if (!hasScrollBar && hasMore && !isLoading) {
+    const { loadError } = this.state;
+    if (!hasScrollBar && hasMore && !isLoading && !loadError) {
       this.load();
     }
   };
@@ -112,7 +121,17 @@ export class LoadMore extends React.Component<IProps> {
 
   // detachEvent before load and reAttach after get data
   load = () => {
-    this.props.load();
+    const res = this.props.load();
+    if (isPromise(res)) {
+      res.then(
+        () => {
+          this.setState({ loadError: false });
+        },
+        () => {
+          this.setState({ loadError: true });
+        },
+      );
+    }
   };
 
   attachEvent = () => {
