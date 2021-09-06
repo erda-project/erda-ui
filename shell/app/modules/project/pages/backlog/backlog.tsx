@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, map } from 'lodash';
+import { isEmpty, map, unset } from 'lodash';
 import { useDrop } from 'react-dnd';
 import { Button, Spin, Popconfirm, Pagination } from 'core/nusi';
 import { Icon as CustomIcon, useUpdate, ContractiveFilter } from 'common';
@@ -48,7 +48,7 @@ const Backlog = () => {
   ]);
   const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
 
-  const stateCollection: { label: string | React.ReactNode; children: { label: string; value: string }[] }[] =
+  const stateCollection: Array<{ label: string | React.ReactNode; children: Array<{ label: string; value: string }> }> =
     React.useMemo(() => {
       const collection = totalWorkflowStateList.reduce((acc, current) => {
         const { issueType, stateName, stateID } = current;
@@ -125,7 +125,19 @@ const Backlog = () => {
   const getList = React.useCallback(
     (filters: Obj = {}, goTop = true) => {
       goTop && (listRef.current.scrollTop = 0);
-      return getBacklogIssues({ ...filterState, ...filters });
+      const submitValues = { ...filterState, ...filters };
+      const { finishedAtStartEnd, createdAtStartEnd } = submitValues;
+      if (finishedAtStartEnd) {
+        unset(submitValues, 'finishedAtStartEnd');
+        submitValues.startFinishedAt = finishedAtStartEnd[0];
+        submitValues.endFinishedAt = finishedAtStartEnd[1];
+      }
+      if (createdAtStartEnd) {
+        unset(submitValues, 'createdAtStartEnd');
+        submitValues.startCreatedAt = createdAtStartEnd[0];
+        submitValues.endCreatedAt = createdAtStartEnd[1];
+      }
+      return getBacklogIssues(submitValues);
     },
     [filterState, getBacklogIssues],
   );
@@ -199,27 +211,36 @@ const Backlog = () => {
         label: i18n.t('project:assignee'),
         fixed: false,
         type: 'memberSelector',
+        customProps: {
+          mode: 'multiple',
+        },
       },
       {
         key: 'creator',
         label: i18n.t('project:creator'),
         fixed: false,
         type: 'memberSelector',
+        customProps: {
+          mode: 'multiple',
+        },
+      },
+      {
+        key: 'finishedAtStartEnd',
+        label: i18n.t('project:deadline'),
+        fixed: false,
+        type: 'dateRange',
+      },
+      {
+        key: 'createdAtStartEnd',
+        label: i18n.t('project:creation date'),
+        fixed: false,
+        type: 'dateRange',
       },
       {
         key: 'title',
-        label: i18n.t('title'),
         emptyText: i18n.t('application:all'),
         fixed: true,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-        type: 'input' as const,
-      },
-      {
-        key: 'id',
-        label: 'IconDown',
-        emptyText: i18n.t('application:all'),
-        fixed: true,
-        placeholder: i18n.t('filter by {name}', { name: 'ID' }),
+        placeholder: i18n.t('project:please enter title or ID'),
         type: 'input' as const,
       },
     ],

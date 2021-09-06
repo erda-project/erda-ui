@@ -317,7 +317,9 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   }
 
   if (type === 'dateRange') {
-    const [startDate, endDate] = value || [];
+    const [_startDate, _endDate] = value || [];
+    const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
+    const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
     const { borderTime } = customProps || {};
 
     const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
