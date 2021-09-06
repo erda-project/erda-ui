@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getResourcePermissions } from '../services/user';
+import { getResourcePermissions, getMspResourcePermissions } from '../services/user';
 import { orgRoleMap } from './_perm-org';
 import { projectRoleMap } from './_perm-project';
 import { appRoleMap } from './_perm-app';
+import { mspRoleMap } from './_perm-msp';
 import { map, set, get, cloneDeep } from 'lodash';
 import routeInfoStore from 'core/stores/route';
 import { getUserMap } from 'core/stores/userMap';
@@ -26,6 +27,7 @@ const rolesMap = {
   app: appRoleMap,
   project: projectRoleMap,
   org: orgRoleMap,
+  msp: mspRoleMap,
 };
 
 const getPermObj = (data: IPermResponseData, scope: string) => {
@@ -109,17 +111,19 @@ const permission = createStore({
         cb?: (arg?: any) => any;
       },
     ) {
-      const data = (await call(getResourcePermissions, { scope, scopeID })) as unknown as IPermResponseData;
+      const realScope = scope === 'msp' ? 'project' : scope;
+      const request = scope === 'msp' ? getMspResourcePermissions : getResourcePermissions;
+      const data = (await call(request, { scope: realScope, scopeID })) as unknown as IPermResponseData;
       const { access, exist, contactsWhenNoPermission } = data;
       if (exist === false) {
         userStore.reducers.setNotFound();
         return;
       }
       // API 管理可以继承项目和应用权限，
-      const needShowNoAuth = routeMark === 'apiManage' && ['project', 'app'].includes(scope);
+      const needShowNoAuth = routeMark === 'apiManage' && ['project', 'app'].includes(realScope);
       if (!access && !needShowNoAuth) {
         // 新的scope无权限时才清理，新的scope有权限时会在下面更新掉，无需清理
-        permission.reducers.clearScopePerm(scope);
+        permission.reducers.clearScopePerm(realScope);
         const userMap = getUserMap();
         userStore.reducers.setNoAuth(
           map(contactsWhenNoPermission || [], (id) => {
@@ -130,7 +134,7 @@ const permission = createStore({
 
         return;
       }
-      permission.reducers.updatePerm(scope, data);
+      permission.reducers.updatePerm(realScope, data);
       cb(data);
     },
   },

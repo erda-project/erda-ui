@@ -12,6 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace COMMON_NOTIFY {
+  type ScopeType = 'org' | 'app' | 'project' | 'msp';
+
   interface INotifyGroupTarget {
     type: string;
     values: Array<{
@@ -19,26 +21,32 @@ declare namespace COMMON_NOTIFY {
       secret?: string;
     }>;
   }
+
   interface INotifyGroup {
     createdAt: string;
     creator: string;
     id: number;
     name: string;
     scopeId: string;
-    scopeType: string;
+    scopeType: ScopeType;
     targets: INotifyGroupTarget[];
   }
+
   interface ICreateNotifyGroupQuery {
     id?: number;
-    scopeType?: string;
+    scopeType?: ScopeType;
     scopeId?: string;
+    label?: string;
     name: string;
     targets: INotifyGroupTarget[];
   }
+
   interface IGetNotifyGroupQuery {
-    scopeType: string;
+    scopeType: ScopeType;
     scopeId: string;
+    label?: string;
   }
+
   interface ExternalUserInfo {
     uniKey: string;
     username: string;

@@ -26,7 +26,7 @@ import { AlarmState } from 'cmp/common/alarm-state';
 import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
 import orgAlarmRecordStore from 'cmp/stores/alarm-record';
-import mspAlarmRecordStore from 'msp/monitor/alarm-record/stores/alarm-record';
+import mspAlarmRecordStore from 'msp/alarm-manage/alarm-record/stores/alarm-record';
 
 export enum AlarmRecordScope {
   ORG = 'org',

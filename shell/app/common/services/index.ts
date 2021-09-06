@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { MemberScope } from 'common/stores/member-scope';
 
 interface IPlatformUser {
   avatar: string;
@@ -38,10 +39,28 @@ export const fetchLog = ({
     .then((response: any) => response.body);
 };
 
+const convert = (payload: MEMBER.UpdateMemberBody) => {
+  if (payload.scope.type === MemberScope.MSP) {
+    return {
+      ...payload,
+      scope: {
+        ...payload.scope,
+        type: MemberScope.PROJECT,
+      },
+    };
+  }
+  return payload;
+};
+
 export function getMembers(payload: MEMBER.GetListServiceQuery) {
+  const url = payload.scopeType === MemberScope.MSP ? '/api/msp/members' : '/api/members';
+  const newPayload = { ...payload };
+  if (newPayload.scopeType === MemberScope.MSP) {
+    newPayload.scopeType = MemberScope.PROJECT;
+  }
   return agent
-    .get('/api/members')
-    .query(payload)
+    .get(url)
+    .query(newPayload)
     .then((response: any) => response.body);
 }
 
@@ -64,23 +83,31 @@ export const searchPlatformUserList = (
 };
 
 export function getRoleMap(payload: MEMBER.GetRoleTypeQuery): IPagingResp<MEMBER.IRoleType> {
+  const url =
+    payload.scopeType === MemberScope.MSP ? '/api/msp/members/action/list-roles' : '/api/members/actions/list-roles';
+  const newPayload = { ...payload };
+  if (newPayload.scopeType === MemberScope.MSP) {
+    newPayload.scopeType = MemberScope.PROJECT;
+  }
   return agent
-    .get('/api/members/actions/list-roles')
-    .query(payload)
+    .get(url)
+    .query(newPayload)
     .then((response: any) => response.body);
 }
 
 export function updateMembers(payload: MEMBER.UpdateMemberBody) {
+  const url = payload.scope.type === MemberScope.MSP ? '/api/msp/members' : '/api/members';
   return agent
-    .post('/api/members')
-    .send({ ...payload, options: { rewrite: true } }) // 接口上写死options.rewrite=true，避免新增用户（已有的用户）设置角色无用
+    .post(url)
+    .send({ ...convert(payload), options: { rewrite: true } }) // 接口上写死options.rewrite=true，避免新增用户（已有的用户）设置角色无用
     .then((response: any) => response.body);
 }
 
 export function removeMember(payload: MEMBER.RemoveMemberBody) {
+  const url = payload.scope.type === MemberScope.MSP ? '/api/msp/members/action/remove' : '/api/members/actions/remove';
   return agent
-    .post('/api/members/actions/remove')
-    .send(payload)
+    .post(url)
+    .send(convert(payload))
     .then((response: any) => response.body);
 }
 
@@ -137,3 +164,4 @@ export const getRenderPageLayout = (payload: CONFIG_PAGE.RenderConfig) => {
     .send(payload)
     .then((response: any) => response.body);
 };
+// can ignore the default pageSize

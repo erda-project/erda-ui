@@ -13,6 +13,8 @@
 import i18n from 'i18n';
 
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
+import i18n from 'i18n';
+
 export const projectRoleMap = {
   Owner: { name: i18n.t('user:Project Owner'), value: 'Owner' },
   Lead: { name: i18n.t('user:Project Leader'), value: 'Lead' },
@@ -500,6 +502,45 @@ export const projectPerm = {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'Support'],
       name: i18n.t('application:view'),
+    },
+  },
+  microService: {
+    name: i18n.t('msp'),
+    member: {
+      name: i18n.t('org:member management'),
+      addProjectMember: {
+        name: i18n.t('add member'),
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      editProjectMember: {
+        name: i18n.t('edit {name}', { name: i18n.t('member') }),
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      removeProjectMember: {
+        name: i18n.t('delete {name}', { name: i18n.t('member') }),
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+    },
+    accessConfiguration: {
+      name: '接入配置',
+      createAccessKey: {
+        name: '创建 AccessKey',
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      deleteAccessKey: {
+        name: '删除 AccessKey',
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
+      viewAccessKeySecret: {
+        name: '查看 AccessKeySecret',
+        pass: false,
+        role: ['Owner', 'Lead'],
+      },
     },
   },
 };

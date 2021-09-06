@@ -36,11 +36,13 @@ import memberLabelStore from 'common/stores/member-label';
 import orgStore from 'app/org-home/stores/org';
 import './members-table.scss';
 import { FULL_ROOT_DOMAIN } from '../constants';
+import mspProjectMember from 'common/stores/msp-project-member';
 
 const storeMap = {
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.MSP]: mspProjectMember,
   [MemberScope.SYS]: sysMemberStore,
 };
 
@@ -82,7 +84,11 @@ export const MembersTable = ({
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { id: orgId, name: orgName, displayName: orgDisplayName } = currentOrg;
 
-  const [projectMemberPerm, appMemberPerm] = usePerm((s) => [s.project.member, s.app.member]);
+  const [projectMemberPerm, appMemberPerm, mspProjectMemberPerm] = usePerm((s) => [
+    s.project.member,
+    s.app.member,
+    s.project.microService.member,
+  ]);
   const { id: currentUserId } = loginUser;
   const { params } = routeInfoStore.getState((s) => s);
   const isAdminManager = scopeKey === MemberScope.SYS && loginUser.adminRoles.includes('Manager');
@@ -116,6 +122,7 @@ export const MembersTable = ({
     [MemberScope.ORG]: String(orgId),
     [MemberScope.PROJECT]: `${params.projectId || ''}`,
     [MemberScope.APP]: `${params.appId || ''}`,
+    [MemberScope.MSP]: `${params.projectId || ''}`,
   };
 
   const scopeId = scopeIdMap[scopeKey];
@@ -138,6 +145,13 @@ export const MembersTable = ({
       edit: appMemberPerm.editAppMember.pass,
       delete: appMemberPerm.deleteAppMember.pass,
       showAuthorize: false, // 应用级别无授权
+      invite: false,
+    },
+    [MemberScope.MSP]: {
+      add: mspProjectMemberPerm.addProjectMember.pass,
+      edit: mspProjectMemberPerm.editProjectMember.pass,
+      delete: mspProjectMemberPerm.removeProjectMember.pass,
+      showAuthorize: false,
       invite: false,
     },
   };
