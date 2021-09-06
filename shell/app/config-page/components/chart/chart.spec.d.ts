@@ -19,8 +19,8 @@ declare namespace CP_CHART {
   }
 
   interface IProps {
-    option: Object;
-    style: Object;
+    option: Obj;
+    style: Obj;
   }
 
   type Props = MakeProps<Spec>;

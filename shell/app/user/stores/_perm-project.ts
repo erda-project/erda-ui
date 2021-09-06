@@ -13,8 +13,6 @@
 import i18n from 'i18n';
 
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
-import i18n from 'i18n';
-
 export const projectRoleMap = {
   Owner: { name: i18n.t('user:Project Owner'), value: 'Owner' },
   Lead: { name: i18n.t('user:Project Leader'), value: 'Lead' },

@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Popconfirm } from 'core/nusi';
+import { Tooltip, Popconfirm, Ellipsis } from 'core/nusi';
 import { some, has, groupBy, map } from 'lodash';
-import { cutStr } from 'common/utils';
 import i18n from 'i18n';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
 import './tags-row.scss';
@@ -24,7 +23,7 @@ interface ILabel {
   group?: string;
   color?: string;
 }
-export interface IProps extends Omit<IItemProps, 'label' | 'withCut'> {
+export interface IProps extends Omit<IItemProps, 'label'> {
   labels: ILabel[];
   showCount?: number;
   containerClassName?: string;
@@ -33,7 +32,7 @@ export interface IProps extends Omit<IItemProps, 'label' | 'withCut'> {
 
 interface IItemProps {
   label: ILabel;
-  withCut?: boolean;
+  maxWidth?: number;
   size?: 'small' | 'default';
   deleteConfirm?: boolean;
   onDelete?: (p: ILabel) => void;
@@ -50,39 +49,46 @@ export const TagColorMap = {
 };
 
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size, withCut, onDelete, deleteConfirm = true } = props;
+  const { label: _label, size, maxWidth = 200, onDelete, deleteConfirm = true } = props;
   const { label, color = 'gray' } = _label;
-  const style = TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` };
+  const style = {
+    maxWidth,
+    ...(TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` }),
+  };
+
   const tagColor = TagColorMap[color] || '';
   return (
-    <Tooltip title={withCut && label.length > 15 ? label : undefined}>
-      <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
-        {onDelete ? (
-          deleteConfirm ? (
-            <Popconfirm
-              title={`${i18n.t('common:confirm deletion')}?`}
-              arrowPointAtCenter
-              zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
-              onConfirm={(e) => {
-                e && e.stopPropagation();
-                onDelete(_label);
-              }}
-              onCancel={(e) => e && e.stopPropagation()}
-            >
-              <IconCloseOne theme="filled" size="12" className="tag-close cursor-pointer text-holder" />
-            </Popconfirm>
-          ) : (
-            <IconCloseOne
-              theme="filled"
-              size="12"
-              className="tag-close cursor-pointer text-holder"
-              onClick={() => onDelete(_label)}
-            />
-          )
-        ) : null}
-        <span>{withCut ? cutStr(label, 15) : label}</span>
-      </span>
-    </Tooltip>
+    <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
+      {onDelete ? (
+        deleteConfirm ? (
+          <Popconfirm
+            title={`${i18n.t('common:confirm deletion')}?`}
+            arrowPointAtCenter
+            zIndex={2000} //  popconfirm default zIndex=1030, is smaller than tooltip zIndex=1070
+            onConfirm={(e) => {
+              e && e.stopPropagation();
+              onDelete(_label);
+            }}
+            onCancel={(e) => e && e.stopPropagation()}
+          >
+            <IconCloseOne theme="filled" size="12" className="tag-close cursor-pointer text-holder" />
+          </Popconfirm>
+        ) : (
+          <IconCloseOne
+            theme="filled"
+            size="12"
+            className="tag-close cursor-pointer text-holder"
+            onClick={() => onDelete(_label)}
+          />
+        )
+      ) : null}
+
+      <Ellipsis
+        title={label}
+        zIndex={2010} // popconfirm zIndex is bigger than tooltip
+      />
+    </span>
+    // </Tooltip>
   );
 };
 
@@ -121,7 +127,7 @@ export const TagsRow = ({
   const oneAndMoreTag = (
     <React.Fragment>
       {labels.slice(0, showCount).map((l) => (
-        <TagItem key={l.label} label={l} withCut onDelete={onDelete} size={size} />
+        <TagItem key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
       ))}
       {showMore ? (
         <Tooltip
@@ -129,10 +135,12 @@ export const TagsRow = ({
           placement="top"
           overlayClassName="tags-row-tooltip"
         >
-          <span>...&nbsp;&nbsp;</span>
+          <span className={`twt-tag-ellipsis ${size}`}>...&nbsp;&nbsp;</span>
         </Tooltip>
       ) : (
-        labels.slice(showCount).map((l) => <TagItem key={l.label} label={l} withCut onDelete={onDelete} size={size} />)
+        labels
+          .slice(showCount)
+          .map((l) => <TagItem key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />)
       )}
     </React.Fragment>
   );
@@ -142,7 +150,7 @@ export const TagsRow = ({
       className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <span className="tags-box">{oneAndMoreTag}</span>
+      <span className="tags-box flex item-center">{oneAndMoreTag}</span>
       {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml-2 fake-link" size="14" /> : null}
     </div>
   );

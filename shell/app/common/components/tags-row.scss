@@ -5,6 +5,16 @@
     white-space: nowrap;
   }
 
+  .twt-tag-ellipsis {
+    height: 28px;
+    line-height: 28px;
+
+    &.small {
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+
   .twt-tag-item {
     position: relative;
     display: inline-block;
