@@ -18,6 +18,7 @@ import { Icon as CustomIcon, DeleteConfirm, RenderForm } from 'common';
 import { Popover, Tooltip, Button } from 'core/nusi';
 import { regRules } from 'common/utils';
 import { getTableList } from './utils';
+import i18n from 'i18n';
 import { useMount } from 'react-use';
 import './perm-editor.scss';
 
@@ -124,9 +125,9 @@ const getPermHead = (params: { columnKeys: string[]; scope: string; curRoleMap?:
   const { columnKeys, scope, curRoleMap = {} } = params;
   return map(columnKeys, (item) => {
     const headText = item.startsWith('depth')
-      ? `${+item.slice(5) + 1}级权限`
+      ? `${i18n.t('user:permissions level {level}', { level: +item.slice(5) + 1 })}`
       : item === 'action'
-      ? '权限操作'
+      ? i18n.t('user:permission operation')
       : get(curRoleMap, `${item.slice(5)}.name`) || '-';
     const isRoleHead = item.startsWith('role-');
     let width;
