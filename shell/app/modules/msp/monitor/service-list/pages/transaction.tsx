@@ -105,7 +105,7 @@ const callTypes = [
     value: 'producer',
   },
   {
-    name: i18n.t('msp:consumer'),
+    name: i18n.t('consumer'),
     value: 'consumer',
   },
 ];
