@@ -88,7 +88,6 @@ export const TagItem = (props: IItemProps) => {
         zIndex={2010} // popconfirm zIndex is bigger than tooltip
       />
     </span>
-    // </Tooltip>
   );
 };
 
