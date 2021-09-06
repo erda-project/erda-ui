@@ -3,6 +3,7 @@
     &.column {
       display: flex;
       flex-direction: column;
+      flex-shrink: 0;
 
       &.space-none {
         > * {
