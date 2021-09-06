@@ -35,7 +35,7 @@ const alarmManageRouters = [
   },
   {
     path: 'notify-group',
-    breadcrumbName: i18n.t('通知组管理'),
+    breadcrumbName: i18n.t('msp:notification group management'),
     getComp: (cb: RouterGetComp) => cb(import('msp/alarm-manage/notify-group')),
   },
 ];
