@@ -316,7 +316,7 @@ const Configuration = () => {
       </Modal>
 
       <WithAuth pass={accressPerm.createAccessKey.pass}>
-        <Button className="m4 add-key" type="primary" onClick={createAccessKey}>
+        <Button className="font-bold m4 add-key" type="primary" onClick={createAccessKey}>
           {i18n.t('msp:create AccessKey')}
         </Button>
       </WithAuth>
@@ -347,7 +347,7 @@ const Configuration = () => {
         </ItemRender>
       )}
 
-      <div className="container p-4 mt-2 rounded-sm">
+      <div className="h-full border-gray-300 border-solid p-4 mt-2 rounded-sm">
         <span className="text-sm">{InfoData || ''}</span>
       </div>
     </div>
