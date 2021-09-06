@@ -267,7 +267,7 @@ const Transaction = () => {
   }, [traceSlowTranslation, updater]);
 
   const extraGlobalVariable = useMemo(() => {
-    let _subSearch = subSearch || search;
+    let _subSearch = subSearch || search || topic;
     // 动态注入正则查询变量需要转义字符
     _subSearch &&
       REG_CHARS.forEach((char) => {
