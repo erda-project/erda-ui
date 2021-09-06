@@ -1756,5 +1756,38 @@
       "zh": "",
       "en": ""
     }
+  },
+  "redeployRuntime": {
+    "desc": "服务重启",
+    "success": {
+      "zh": "在 [@projectName](project) / [@appName](app) 中, 对 [@serviceName] runtime 进行重启操作",
+      "en": "in [@projectName](project) / [@appName](app) , redeploy the service [@serviceName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "rollbackRuntime": {
+    "desc": "服务回滚",
+    "success": {
+      "zh": "在 [@projectName](project) / [@appName](app) 中, 对 [@serviceName] runtime 进行回滚操作",
+      "en": "in [@projectName](project) / [@appName](app) , rollback the service [@serviceName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "deployRuntime": {
+    "desc": "服务部署",
+    "success": {
+      "zh": "在 [@projectName](project) / [@appName](app) 中, 对 [@serviceName] runtime 进行部署操作",
+      "en": "in [@projectName](project) / [@appName](app) , deploy the service [@serviceName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
   }
 }
