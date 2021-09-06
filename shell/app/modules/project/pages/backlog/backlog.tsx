@@ -214,13 +214,13 @@ const Backlog = () => {
       },
       {
         key: 'createdAtStartEnd',
-        label: i18n.d('创建日期'),
+        label: i18n.t('project:creation date'),
         fixed: false,
         type: 'dateRange',
       },
       {
         key: 'title',
-        label: i18n.d('请输入标题或ID'),
+        label: i18n.t('project:please enter title or ID'),
         emptyText: i18n.t('application:all'),
         fixed: true,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
