@@ -211,12 +211,18 @@ const Backlog = () => {
         label: i18n.t('project:assignee'),
         fixed: false,
         type: 'memberSelector',
+        customProps: {
+          mode: 'multiple',
+        },
       },
       {
         key: 'creator',
         label: i18n.t('project:creator'),
         fixed: false,
         type: 'memberSelector',
+        customProps: {
+          mode: 'multiple',
+        },
       },
       {
         key: 'finishedAtStartEnd',
@@ -232,10 +238,9 @@ const Backlog = () => {
       },
       {
         key: 'title',
-        label: i18n.t('project:please enter title or ID'),
         emptyText: i18n.t('application:all'),
         fixed: true,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+        placeholder: i18n.t('project:please enter title or ID'),
         type: 'input' as const,
       },
     ],
