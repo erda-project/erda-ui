@@ -28,7 +28,6 @@ import {
   getClusterLogTasks,
   upgradeCluster,
   deleteCluster,
-  viewClusterStatus,
   getClusterNewDetail,
   getClusterResourceList,
   getClusterResourceDetail,
@@ -167,10 +166,6 @@ const cluster = createStore({
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(deleteCluster, { orgID: orgId, ...payload });
       cluster.effects.getClusterList();
-      return res;
-    },
-    async viewClusterStatus({ call }, payload: { clusterName: string }) {
-      const res = await call(viewClusterStatus, { ...payload });
       return res;
     },
     async getClusterResourceList({ call, update }, payload: { cluster: string }) {

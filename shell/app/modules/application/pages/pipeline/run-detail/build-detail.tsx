@@ -720,10 +720,10 @@ const BuildDetail = (props: IProps) => {
           ) : null}
           <div className="main-info-parent">
             <div className={style} ref={toggleContainer}>
-              <Row>
+              <Row className="mb-4">
                 <Col span={12}>
                   <div className="info-label">{i18n.t('submitter')}：</div>
-                  <Avatar name={commitDetail.author} showName className="mb-1" size={20} />
+                  <Avatar name={commitDetail.author} showName size={20} />
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('application:commit message')}：</div>
@@ -732,7 +732,7 @@ const BuildDetail = (props: IProps) => {
                   </div>
                 </Col>
               </Row>
-              <Row>
+              <Row className="mb-4">
                 <Col span={12}>
                   <div className="info-label">{i18n.t('commit')} ID：</div>
                   <div className="hover-py">
@@ -744,7 +744,7 @@ const BuildDetail = (props: IProps) => {
                   {commitDetail.time ? moment(new Date(commitDetail.time)).format('YYYY-MM-DD HH:mm:ss') : null}
                 </Col>
               </Row>
-              <Row>
+              <Row className="mb-4">
                 <Col span={12}>
                   <div className="info-label">{i18n.t('duration')}：</div>
                   {costTimeSec !== -1 ? `${i18n.t('application:time cost')} ${secondsToTime(+costTimeSec)}` : ''}
@@ -754,7 +754,7 @@ const BuildDetail = (props: IProps) => {
                   {recordPaging.total || 0} {i18n.t('times')}
                 </Col>
               </Row>
-              <Row>
+              <Row className="mb-4">
                 <Col span={12}>
                   <div className="info-label">{i18n.t('pipeline')} ID：</div>
                   {pipelineID}

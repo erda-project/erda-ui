@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { projectPerm } from './_perm-project';
+import i18n from 'i18n';
 
 export const mspRoleMap = {
-  Owner: { name: '项目所有者', value: 'Owner' },
-  Lead: { name: '研发主管', value: 'Lead' },
-  Dev: { name: '开发工程师', value: 'Dev' },
+  Owner: { name: i18n.t('user:Project Owner'), value: 'Owner' },
+  Lead: { name: i18n.t('user:Project Leader'), value: 'Lead' },
+  Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
 };
 
 export const mspPerm = {

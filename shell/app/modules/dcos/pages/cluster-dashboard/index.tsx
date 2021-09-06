@@ -481,7 +481,7 @@ const ClusterDashboard = () => {
           </div>
         </IF>
         <IF check={selectedGroups.length}>
-          <div
+          <span
             className="my-2 text-link"
             onClick={() => {
               goTo(goTo.pages.cmpClustersNodes, { clusterName: activeGroup || `${groupName}${unitGroups[0]}` });
@@ -489,7 +489,7 @@ const ClusterDashboard = () => {
           >
             <ViewGridDetail />
             <span className="fake-link">{i18n.t('check detail')}</span>
-          </div>
+          </span>
         </IF>
         <p className="group-info">
           <span>

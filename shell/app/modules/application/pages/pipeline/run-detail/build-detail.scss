@@ -90,7 +90,7 @@
 
     &-full {
       width: calc(100% + 32px);
-      height: 280px;
+      height: 300px;
       margin-right: -$p16;
       margin-left: -$p16;
       padding-top: 14px;
@@ -101,7 +101,7 @@
       @extend %shallow-shadow;
 
       .trigger-btn {
-        bottom: -209px;
+        bottom: -229px;
       }
     }
 
@@ -111,7 +111,7 @@
 
     .info-label {
       height: 22px;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
       color: $color-text-desc;
       line-height: 22px;
     }

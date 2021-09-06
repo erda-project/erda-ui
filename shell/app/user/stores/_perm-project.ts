@@ -523,19 +523,19 @@ export const projectPerm = {
       },
     },
     accessConfiguration: {
-      name: '接入配置',
+      name: i18n.t('msp:access configuration'),
       createAccessKey: {
-        name: '创建 AccessKey',
+        name: i18n.t('create {name}', { name: 'AccessKey' }),
         pass: false,
         role: ['Owner', 'Lead'],
       },
       deleteAccessKey: {
-        name: '删除 AccessKey',
+        name: i18n.t('delete {name}', { name: 'AccessKey' }),
         pass: false,
         role: ['Owner', 'Lead'],
       },
       viewAccessKeySecret: {
-        name: '查看 AccessKeySecret',
+        name: i18n.t('view {name}', { name: 'AccessKeySecret' }),
         pass: false,
         role: ['Owner', 'Lead'],
       },
