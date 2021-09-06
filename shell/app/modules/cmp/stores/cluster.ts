@@ -28,7 +28,6 @@ import {
   getClusterLogTasks,
   upgradeCluster,
   deleteCluster,
-  viewClusterStatus,
   getClusterNewDetail,
   getClusterResourceList,
   getClusterResourceDetail,
@@ -154,10 +153,7 @@ const cluster = createStore({
       cluster.effects.getClusterList();
       return res;
     },
-    async viewClusterStatus({ call }, payload: { clusterName: string }) {
-      const res = await call(viewClusterStatus, { ...payload });
-      return res;
-    },
+
     async getClusterResourceList({ call, update }, payload: { cluster: string }) {
       const cloudResource = await call(getClusterResourceList, payload);
       update({ cloudResource });

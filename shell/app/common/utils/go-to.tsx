@@ -202,10 +202,8 @@ export enum pages {
   monitorAPIOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
   microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
   cmpRoot = '/{orgName}/cmp/overview',
-
   createProject = '/{orgName}/orgCenter/projects/createProject',
   cmpClusters = '/{orgName}/cmp/clusters',
-  cmpClusterState = '/{orgName}/cmp/clusters/{clusterName}/state',
   publisherContent = '/{orgName}/dop/publisher/{type}/{publisherItemId}',
   iterationDetail = '/{orgName}/dop/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
   taskList = '/{orgName}/dop/projects/{projectId}/issues/task',
