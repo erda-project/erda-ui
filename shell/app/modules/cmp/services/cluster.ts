@@ -114,13 +114,6 @@ export const deleteCluster = (payload: { orgID: number; clusterName: string }) =
     .then((response: any) => response.body);
 };
 
-export const viewClusterStatus = (payload: { clusterName: string }): ORG_CLUSTER.IViewClusterStatus => {
-  return agent
-    .get('/api/org/clusters/status')
-    .query(payload)
-    .then((response: any) => response.body);
-};
-
 export const getClusterResourceList = (query: { cluster: string }): ORG_CLUSTER.ICloudResource[] => {
   return agent
     .get('/api/ops/cloud-resource-list')

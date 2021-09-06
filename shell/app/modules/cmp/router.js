@@ -36,11 +36,6 @@ const middlewareTabs = [
   { key: 'detail', name: i18n.t('basic information') },
 ];
 
-const clusterDetailTabs = [
-  { key: 'detail', name: i18n.t('basic information') },
-  { key: 'state', name: i18n.t('dcos:cluster state') },
-];
-
 const kubernetesTabs = [
   { key: 'base', name: i18n.t('cmp:basic information') },
   { key: 'pod', name: i18n.t('cmp:related pod information') },
@@ -73,7 +68,6 @@ function getCmpRouter() {
               routes: [
                 {
                   path: 'detail',
-                  tabs: clusterDetailTabs,
                   breadcrumbName: ({ params }) => {
                     const { clusterName } = params || {};
                     return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
@@ -81,20 +75,6 @@ function getCmpRouter() {
                   routes: [
                     {
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-detail')),
-                    },
-                  ],
-                },
-                {
-                  path: 'state',
-                  tabs: clusterDetailTabs,
-                  breadcrumbName: ({ params }) => {
-                    const { clusterName } = params || {};
-                    return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
-                  },
-                  layout: { fullHeight: true },
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-state')),
                     },
                   ],
                 },

@@ -468,7 +468,7 @@ const ClusterDashboard = () => {
       <Holder when={isEmpty(machines) && isEmpty(groups)}>
         <IF check={selectedGroups.length}>
           <div className="group-header flex justify-between items-center">
-            <h3 className="group-title">{activeGroupDisplayName || groupName + unitGroups[0]}</h3>
+            <h3 className="group-title mb-3">{activeGroupDisplayName || groupName + unitGroups[0]}</h3>
             <IF check={activeGroup}>
               <span className="group-unactived-op hover-active">
                 <CustomIcon type="shink" />
@@ -478,20 +478,6 @@ const ClusterDashboard = () => {
                 <CustomIcon type="grow" />
               </span>
             </IF>
-          </div>
-        </IF>
-        <IF check={selectedGroups.length}>
-          <div className="my-2">
-            <span
-              className="cluster-state-link"
-              onClick={() =>
-                goTo(goTo.pages.cmpClusterState, { clusterName: activeGroup || groupName + unitGroups[0] })
-              }
-            >
-              <span className="mr-5">{i18n.t('dcos:overall status of cluster')}:</span>
-              <span>{get(stateSeverityMap, `${clusterStatus}.icon`)}</span>
-              <span>{get(stateSeverityMap, `${clusterStatus}.displayName`)}</span>
-            </span>
           </div>
         </IF>
         <p className="group-info">
