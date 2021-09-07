@@ -138,7 +138,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
     const { before, after } = getSplitPathBy('tree');
 
     return (
-      <div className="repo-tree-holder">
+      <div className="repo-tree-holder relative">
         <EmptyHolder
           tip={`${i18n.t('application:current branch or path')}：${after} ${i18n.t('does not exist')}。`}
           action={<Link to={before.slice(0, -'/tree'.length)}>{i18n.t('back to repo home')}</Link>}

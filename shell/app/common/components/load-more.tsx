@@ -13,6 +13,7 @@
 
 import { debounce, throttle } from 'lodash';
 import React from 'react';
+import { isPromise } from 'common/utils';
 import { Spin } from 'core/nusi';
 import i18n from 'i18n';
 

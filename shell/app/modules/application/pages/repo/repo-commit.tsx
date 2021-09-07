@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map, isEmpty } from 'lodash';
+import { map } from 'lodash';
 import React from 'react';
 import { Spin, Button, Timeline, Input } from 'core/nusi';
 import { Copy, LoadMore, Holder, Avatar, IF, ErdaCustomIcon } from 'common';
@@ -72,9 +72,13 @@ const RepoCommit = () => {
   const { appId } = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(repoStore, ['getCommitList']);
   const [searchValue, setSearchValue] = React.useState('');
+
+  const branchesStr = JSON.stringify(info?.branches);
+
   React.useEffect(() => {
-    !isEmpty(info?.branches) && getCommitList({ pageNo: 1 });
-  }, [getCommitList, info]);
+    branchesStr && getCommitList({ pageNo: 1 });
+  }, [branchesStr, getCommitList]);
+
   React.useEffect(() => {
     return () => {
       resetCommitPaging();

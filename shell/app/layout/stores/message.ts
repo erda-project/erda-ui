@@ -44,9 +44,14 @@ const messageStore = createStore({
   state: initState,
   effects: {
     async getMessageList({ call, update, select }, payload: { pageNo: number; pageSize?: number }) {
-      const { list } = await call(getMessageList, payload, { paging: { key: 'msgPaging' } });
-      const oldList: LAYOUT.IMsg[] = select((s) => s.list);
-      update({ list: payload.pageNo === 1 ? list : oldList.concat(list) });
+      try {
+        const { list } = await call(getMessageList, payload, { paging: { key: 'msgPaging' } });
+        const oldList: LAYOUT.IMsg[] = select((s) => s.list);
+        update({ list: payload.pageNo === 1 ? list : oldList.concat(list) });
+      } catch (e) {
+        const prevMsgPaging = select((s) => s.msgPaging);
+        update({ msgPaging: { ...prevMsgPaging, hasMore: false } });
+      }
     },
     async getMessageStats({ call, update, select }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
