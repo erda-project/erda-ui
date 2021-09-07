@@ -24,7 +24,7 @@ import routeInfoStore from 'core/stores/route';
 import appStore from 'application/stores/application';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
-import diceEnv from 'dice-env';
+import { erdaEnv } from 'common/constants';
 import './app-form.scss';
 
 interface IMobile extends Omit<APPLICATION.initApp, 'applicationID'> {
@@ -44,7 +44,7 @@ const CreationForm = () => {
   const [template, setTemplate] = React.useState([{ name: i18n.t('default:none'), value: '-1' }]);
   const [tempSelected, setTempSelected] = React.useState('-1');
   const [repoType, setRepoType] = React.useState(RepositoryMode.Internal);
-  const { ENABLE_BIGDATA } = diceEnv;
+  const { ENABLE_BIGDATA } = erdaEnv;
   const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
 
   const [isCreateApp, isInitApp] = useLoading(appStore, ['createApp', 'initApp']);

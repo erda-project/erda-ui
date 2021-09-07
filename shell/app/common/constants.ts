@@ -37,3 +37,5 @@ export const DOC_MSP_API_GATEWAY = `${DOC_PREFIX}/manual/microservice/api-gatewa
 export const DOC_MSP_REGISTER = `${DOC_PREFIX}/manual/microservice/dubbo.html`;
 export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/deploy/config-center.html`;
 export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monitor-app.html`;
+
+export const { erdaEnv } = window;

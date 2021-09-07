@@ -118,7 +118,7 @@ interface Window {
       dispatch: (arg: { [k: string]: any; type: string; payload: any }) => any;
     };
   };
-  diceEnv: {
+  erdaEnv: {
     ENABLE_BIGDATA: boolean;
     UC_PUBLIC_URL: string; // 包含protocol
   };

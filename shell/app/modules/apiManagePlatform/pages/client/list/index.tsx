@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { Copy, CustomFilter, TableActions, useUpdate } from 'common';
 import { useLoading } from 'core/stores/loading';
-import { isEmpty } from 'app/external/custom-lodash';
+import { isEmpty } from 'lodash';
 import { goTo } from 'common/utils';
 
 interface IState {
