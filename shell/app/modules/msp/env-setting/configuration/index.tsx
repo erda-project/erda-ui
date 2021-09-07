@@ -347,7 +347,7 @@ const Configuration = () => {
         </ItemRender>
       )}
 
-      <div className="h-full border-gray-300 border-solid p-4 mt-2 rounded-sm">
+      <div className="h-full bg-grey border-all p-4 mt-2 rounded">
         <span className="text-sm">{InfoData || ''}</span>
       </div>
     </div>
