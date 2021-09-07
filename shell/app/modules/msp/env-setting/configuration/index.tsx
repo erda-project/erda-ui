@@ -247,7 +247,6 @@ const Configuration = () => {
         createKeyInfoLoading
       }
     >
-      {' '}
       <div>
         <Modal
           onCancel={() =>
