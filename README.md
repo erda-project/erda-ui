@@ -10,6 +10,8 @@
 
 Erda is an open-source platform created by [Terminus](https://www.terminus.io/) to ensure the development of microservice applications. It provides DevOps, microservice governance, and multi-cloud management capabilities. The multi-cloud architecture based on Kubernetes and application-centric DevOps and microservice governance can make the development, operation, monitoring, and problem diagnosis of complex business applications simpler and more efficient.
 
+For Technology stack and development process, please see [here](./docs/introduction_en.md).
+
 ## ✨ Platforms
 
 - DevOps platform
@@ -82,7 +84,7 @@ Please use the following installation documents to install Erda.
   # Start the dev server, redirect /static/{module}/* to the corresponding module folder in public folder based on the .env file, and redirect /api/* to api server.
 ```
 
-## Architecture
+## [Architecture](./docs/introduction_en.md#Architecture)
 
 Technology stack：
 
