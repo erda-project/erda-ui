@@ -646,7 +646,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
       },
     ]),
-    ...insertWhen(scopeType === ScopeType.MSP, [
+    ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
       {
         title: i18n.t('application'),
         dataIndex: 'appIds',
