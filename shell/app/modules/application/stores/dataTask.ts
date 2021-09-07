@@ -89,41 +89,51 @@ const dataTask = createStore({
     },
     async getBusinessProcesses({ call, update, select }, payload) {
       const { gitRepo } = appStore.getState((s) => s.detail);
-      const originalList = select((s) => s.businessProcessList);
+      const [originalList, businessProcessPaging] = select((s) => [s.businessProcessList, s.businessProcessPaging]);
 
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, ...rest } = payload;
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
-      const { list, total } =
-        (await call(
-          getBusinessProcesses,
-          { ...params, ...rest, remoteUri: gitRepo },
-          { paging: { key: 'businessProcessPaging' } },
-        )) || {};
-      let newList = list;
-      if (pageNo !== 1) {
-        newList = originalList.concat(list);
+      try {
+        const { list, total } =
+          (await call(
+            getBusinessProcesses,
+            { ...params, ...rest, remoteUri: gitRepo },
+            { paging: { key: 'businessProcessPaging' } },
+          )) || {};
+        let newList = list;
+        if (pageNo !== 1) {
+          newList = originalList.concat(list);
+        }
+        update({ businessProcessList: newList });
+        return { total, list: newList };
+      } catch (e) {
+        update({ businessProcessPaging: { ...businessProcessPaging, hasMore: false } });
+        return { total: 0, list: [] };
       }
-      update({ businessProcessList: newList });
-      return { total, list: newList };
     },
     async getOutputTables({ call, update, select }, payload) {
       const { gitRepo } = appStore.getState((s) => s.detail);
-      const originalList = select((s) => s.outputTableList);
+      const [originalList, outputTablePaging] = select((s) => [s.outputTableList, s.outputTablePaging]);
 
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, ...rest } = payload;
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
-      const { list, total } =
-        (await call(
-          getOutputTables,
-          { ...params, ...rest, remoteUri: gitRepo },
-          { paging: { key: 'outputTablePaging' } },
-        )) || {};
-      let newList = originalList;
-      if (pageNo !== 1) {
-        newList = originalList.concat(list);
+      try {
+        const { list, total } =
+          (await call(
+            getOutputTables,
+            { ...params, ...rest, remoteUri: gitRepo },
+            { paging: { key: 'outputTablePaging' } },
+          )) || {};
+        let newList = originalList;
+        if (pageNo !== 1) {
+          newList = originalList.concat(list);
+        }
+        update({ outputTableList: newList });
+        return { total, list: newList };
+      } catch (error) {
+        update({ outputTablePaging: { ...outputTablePaging, hasMore: false } });
+        return { total: 0, list: [] };
       }
-      update({ outputTableList: newList });
-      return { total, list: newList };
     },
     async getTableAttrs({ call, update }, payload) {
       const { list: tableAttrsList = [], total } = await call(getTableAttrs, payload, {

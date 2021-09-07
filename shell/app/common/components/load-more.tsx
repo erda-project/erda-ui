@@ -27,14 +27,7 @@ interface IProps {
   load: () => any;
 }
 
-interface IState {
-  loadError: boolean;
-}
-
-export class LoadMore extends React.Component<IProps, IState> {
-  state = {
-    loadError: false,
-  };
+export class LoadMore extends React.Component<IProps> {
   eventType: string;
 
   target: Element;
@@ -69,8 +62,7 @@ export class LoadMore extends React.Component<IProps, IState> {
     const { scrollHeight, clientHeight } = this.targetDom;
     const { isLoading, hasMore } = this.props;
     const hasScrollBar = scrollHeight > clientHeight;
-    const { loadError } = this.state;
-    if (!hasScrollBar && hasMore && !isLoading && !loadError) {
+    if (!hasScrollBar && hasMore && !isLoading) {
       this.load();
     }
   };
@@ -121,17 +113,7 @@ export class LoadMore extends React.Component<IProps, IState> {
 
   // detachEvent before load and reAttach after get data
   load = () => {
-    const res = this.props.load();
-    if (isPromise(res)) {
-      res.then(
-        () => {
-          this.setState({ loadError: false });
-        },
-        () => {
-          this.setState({ loadError: true });
-        },
-      );
-    }
+    this.props.load();
   };
 
   attachEvent = () => {
