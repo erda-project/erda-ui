@@ -30,22 +30,37 @@ const initState: IState = {
   },
 };
 
+const convertScope = <T extends { scopeType?: COMMON_NOTIFY.ScopeType }>(payload: T): T => {
+  const data = { ...payload };
+  if (payload?.scopeType === 'msp') {
+    data.scopeType = 'project';
+  }
+  return data;
+};
+
 const notifyGroup = createStore({
   name: 'common-notify-group',
   state: initState,
   effects: {
     async getNotifyGroups({ call, update }, payload?: COMMON_NOTIFY.IGetNotifyGroupQuery) {
-      const { list } = await call(getNotifyGroups, payload);
+      const { list } = await call(
+        getNotifyGroups,
+        payload ? convertScope<COMMON_NOTIFY.IGetNotifyGroupQuery>(payload) : payload,
+      );
       update({ notifyGroups: list });
     },
     async deleteNotifyGroups({ call }, payload: string) {
       await call(deleteNotifyGroups, payload, { successMsg: i18n.t('deleted successfully') });
     },
     async createNotifyGroups({ call }, payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) {
-      await call(createNotifyGroups, payload, { successMsg: i18n.t('established successfully') });
+      await call(createNotifyGroups, convertScope<COMMON_NOTIFY.ICreateNotifyGroupQuery>(payload), {
+        successMsg: i18n.t('established successfully'),
+      });
     },
     async updateNotifyGroups({ call }, payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) {
-      await call(updateNotifyGroups, payload, { successMsg: i18n.t('updated successfully') });
+      await call(updateNotifyGroups, convertScope<COMMON_NOTIFY.ICreateNotifyGroupQuery>(payload), {
+        successMsg: i18n.t('updated successfully'),
+      });
     },
   },
   reducers: {

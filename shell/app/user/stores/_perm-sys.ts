@@ -10,17 +10,20 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import i18n from 'i18n';
 
 export const sysRoleMap = {
-  Manager: { name: '系统管理员', value: 'Manager' },
-  Auditor: { name: '审计人员', value: 'Auditor' },
+  Manager: { name: i18n.t('user:System Administrator'), value: 'Manager' },
+  Auditor: { name: i18n.t('user:Auditors'), value: 'Auditor' },
 };
 
 export const sysPerm = {
-  name: '系统',
+  name: i18n.t('application:system'),
   view: {
     role: ['Manager'],
     pass: false,
-    name: '查看组织管理/用户管理/全局配置/集群管理页面(除审计日志之外的页面)',
+    name: i18n.t(
+      'user:view organization management/user management/global configuration/cluster management pages (pages other than audit logs)',
+    ),
   },
 };

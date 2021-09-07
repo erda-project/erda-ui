@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MEMBER {
+  type ScopeType = import('common/stores/member-scope').MemberScope;
   interface GetListQuery extends Partial<ScopeObj> {
     pageNo: number;
     scope: MemberScope;
@@ -28,7 +29,7 @@ declare namespace MEMBER {
   interface GetListServiceQuery {
     pageNo: number;
     pageSize: number;
-    scopeType: string;
+    scopeType: ScopeType;
     scopeId: string;
     role?: string[];
     q?: string;
@@ -46,7 +47,7 @@ declare namespace MEMBER {
 
   interface MemberScope {
     id: string;
-    type: string;
+    type: ScopeType;
   }
 
   interface UpdateMemberBody {
@@ -59,6 +60,7 @@ declare namespace MEMBER {
   }
 
   interface RemoveMemberBody {
+    scopeType: ScopeType;
     scope: MemberScope;
     userIds: string[];
   }

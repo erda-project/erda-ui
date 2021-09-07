@@ -138,7 +138,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
-      width: 80,
+      width: 96,
       render: (text: string) =>
         ISSUE_PRIORITY_MAP[text] ? (
           <>
@@ -158,7 +158,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: null,
       dataIndex: 'operate',
-      width: 160,
+      width: 120,
       fixed: 'right',
       render: (text, { issueRelationID }: TEST_CASE.RelatedBug) => {
         return [
@@ -262,7 +262,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
           </Button>
         </div>
       ) : null}
-      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: 800 }} />
+      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} scroll={{ x: 660 }} />
     </div>
   );
 };

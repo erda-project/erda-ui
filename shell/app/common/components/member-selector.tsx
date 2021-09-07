@@ -29,11 +29,13 @@ import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
 import sysMemberStore from 'common/stores/sys-member';
 import { useUserMap } from 'core/stores/userMap';
+import mspProjectMember from 'common/stores/msp-project-member';
 
 const storeMap = {
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.MSP]: mspProjectMember,
   [MemberScope.SYS]: sysMemberStore,
 };
 
@@ -383,6 +385,11 @@ export const AddMemberSelector = (props: IAddProps) => {
   const scopeInfoMap = {
     [MemberScope.ORG]: {}, // 添加企业成员，无scope
     [MemberScope.PROJECT]: {
+      // 添加项目成员：从org成员中选择
+      scopeType: MemberScope.ORG,
+      scopeId: orgId,
+    },
+    [MemberScope.MSP]: {
       // 添加项目成员：从org成员中选择
       scopeType: MemberScope.ORG,
       scopeId: orgId,

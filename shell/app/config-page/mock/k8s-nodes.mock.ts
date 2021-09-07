@@ -292,7 +292,7 @@ export const mockData = {
                   },
                 },
               },
-              batchOptions: ['delete', 'freeze'],
+              batchOperations: ['delete', 'freeze'],
             },
             {
               id: '2',
@@ -370,12 +370,13 @@ export const mockData = {
                   },
                 },
               },
-              batchOptions: ['unfreeze', 'freeze'],
+              batchOperations: ['unfreeze', 'freeze'],
             },
           ],
         },
         props: {
           pageSizeOptions: ['10', '20', '50', '100'],
+          batchOperations: ['delete', 'freeze', 'unfreeze'],
           scroll: { x: 1200 },
           columns: [
             { dataIndex: 'status', title: '状态', sorter: true, width: 80, fixed: 'left' },
@@ -400,13 +401,10 @@ export const mockData = {
             key: 'changeSort',
             reload: true,
           },
-        },
-        batchOperations: {
           delete: {
             key: 'delete',
             text: '删除',
             reload: true,
-            showIndex: 3,
           },
           freeze: {
             key: 'freeze',

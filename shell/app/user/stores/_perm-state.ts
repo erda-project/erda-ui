@@ -15,6 +15,7 @@ import { map, compact } from 'lodash';
 import { orgPerm } from './_perm-org';
 import { projectPerm } from './_perm-project';
 import { appPerm } from './_perm-app';
+import { mspPerm } from './_perm-msp';
 import { sysPerm } from './_perm-sys';
 import yaml from 'js-yaml';
 
@@ -24,10 +25,12 @@ export const permState = {
   project: projectPerm,
   app: appPerm,
   sys: sysPerm,
+  msp: mspPerm,
 };
 export type OrgPermType = typeof orgPerm;
 export type ProjectPermType = typeof projectPerm;
 export type AppPermType = typeof appPerm;
+export type MspPermType = typeof mspPerm;
 
 const scopeNames = Object.keys(permState);
 

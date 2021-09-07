@@ -45,3 +45,5 @@ shell/auto_test/**/*.secret.ts
 shell/auto_test/tests/results
 
 scheduler/dist/*
+**/temp-translated-words.json
+**/temp-zh-words.json

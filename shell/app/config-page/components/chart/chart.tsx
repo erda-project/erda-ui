@@ -13,16 +13,28 @@
 
 import React from 'react';
 import EChart from 'charts/components/echarts';
+import { colorMap } from 'config-page/utils';
+import { map, uniq } from 'lodash';
 import { theme } from 'charts/theme';
 import './chart.scss';
 
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps } = props;
   const { style = {}, option, ...rest } = configProps || {};
+  const { color, ...optionRest } = option || {};
+  const presetColor = map(colorMap);
+  const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
   return (
     <div className="cp-chart" style={style}>
-      <EChart key={cId} option={option} notMerge theme="monitor" themeObj={{ ...theme }} {...rest} />
+      <EChart
+        key={cId}
+        option={{ color: reColor, ...optionRest }}
+        notMerge
+        theme="monitor"
+        themeObj={{ ...theme }}
+        {...rest}
+      />
     </div>
   );
 };

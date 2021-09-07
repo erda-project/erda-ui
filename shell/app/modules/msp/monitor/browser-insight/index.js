@@ -32,7 +32,7 @@ if (isZh()) {
 
 const getBIRouter = () => ({
   path: 'bi',
-  pageName: i18n.t('msp:browse performance'),
+  pageName: i18n.t('msp:front-end monitor'),
   tabs,
   routes: [
     {

@@ -25,6 +25,7 @@ import {
   Search as IconSearch,
   Check as IconCheck,
   Plus as IconPlus,
+  Delete as IconDelete,
 } from '@icon-park/react';
 
 interface Option {
@@ -50,6 +51,9 @@ export interface ICondition {
   quickAdd?: {
     operationKey: string;
     show: boolean;
+  };
+  quickDelete?: {
+    operationKey: string;
   };
   quickSelect?: {
     label: string;
@@ -97,12 +101,13 @@ interface IOptionItemProps {
   value: Array<string | number>;
   option: Option;
   onClick: (option: Option) => void;
+  onDelete?: (option: Option) => void;
 }
 const OptionItem = (props: IOptionItemProps) => {
-  const { value, option, onClick } = props;
+  const { value, option, onClick, onDelete } = props;
   return (
     <div
-      className={`option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
+      className={`relative option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
       key={option.value}
       onClick={() => onClick(option)}
     >
@@ -110,6 +115,19 @@ const OptionItem = (props: IOptionItemProps) => {
         <span>{option.label}</span>
         <span>{value.includes(option.value) ? <IconCheck className="text-success ml-2" /> : null}</span>
       </div>
+      {onDelete ? (
+        <div
+          className="absolute option-item-delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(option);
+          }}
+        >
+          <div className="option-item-delete-box pl-2">
+            <IconDelete theme="outline" />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -122,6 +140,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     type,
     placeholder,
     quickSelect,
+    quickDelete,
     quickAdd,
     options,
     customProps,
@@ -256,10 +275,24 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
                 });
               }
             };
+            const onDelete = quickDelete?.operationKey
+              ? (optItem: Option) => {
+                  onQuickOperation({ key: quickDelete.operationKey, value: optItem.value });
+                }
+              : undefined;
+
             if (isGroup) {
-              return <GroupOpt value={_value} onClickOptItem={onClickOptItem} option={op} />;
+              return <GroupOpt value={_value} onDelete={onDelete} onClickOptItem={onClickOptItem} option={op} />;
             } else {
-              return <OptionItem key={op.value} value={_value} option={op} onClick={() => onClickOptItem(op)} />;
+              return (
+                <OptionItem
+                  onDelete={onDelete}
+                  key={op.value}
+                  value={_value}
+                  option={op}
+                  onClick={() => onClickOptItem(op)}
+                />
+              );
             }
           })}
         </Menu.Item>
@@ -284,7 +317,9 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   }
 
   if (type === 'dateRange') {
-    const [startDate, endDate] = value || [];
+    const [_startDate, _endDate] = value || [];
+    const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
+    const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
     const { borderTime } = customProps || {};
 
     const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
@@ -444,11 +479,12 @@ const QuickSave = (props: IQuickSaveProps) => {
 interface IGroupOptProps {
   value: Array<string | number>;
   option: Option;
-  onClickOptItem: (op: Option) => void;
+  onClickOptItem: (option: Option) => void;
+  onDelete?: (option: Option) => void;
 }
 
 const GroupOpt = (props: IGroupOptProps) => {
-  const { option, onClickOptItem, value } = props;
+  const { option, onClickOptItem, value, onDelete } = props;
   const [expand, setExpand] = React.useState(true);
 
   return (
@@ -459,7 +495,15 @@ const GroupOpt = (props: IGroupOptProps) => {
       </div>
       <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
         {option.children?.map((cItem) => {
-          return <OptionItem key={cItem.value} value={value} option={cItem} onClick={() => onClickOptItem(cItem)} />;
+          return (
+            <OptionItem
+              onDelete={onDelete}
+              key={cItem.value}
+              value={value}
+              option={cItem}
+              onClick={() => onClickOptItem(cItem)}
+            />
+          );
         })}
       </div>
     </div>
@@ -639,7 +683,7 @@ export const ContractiveFilter = ({
       if (a.type !== 'input') {
         flag = !!a.showIndex || !!a.fixed;
       } else {
-        flag = !!a.showIndex || a.fixed !== false;
+        flag = !!a.showIndex && a.fixed === false;
       }
       return flag;
     }),
@@ -739,7 +783,7 @@ export const ContractiveFilter = ({
             }
             placement="bottomLeft"
           >
-            <span className="contractive-filter-item">
+            <span className="contractive-filter-item more-conditions">
               <IconPlus fill="rgba(0, 0, 0, 0.8)" className="mr-0.5 mb-1 color-text" />
               <span>{i18n.t('common:filter')}</span>
               <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />

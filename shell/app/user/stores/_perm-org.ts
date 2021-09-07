@@ -10,120 +10,121 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import i18n from 'i18n';
 
 // 通过权限配置页面导出角色数据覆盖，勿手动修改
 export const orgRoleMap = {
-  Manager: { name: '企业管理员', value: 'Manager' },
-  Auditor: { name: '企业审计员', value: 'Auditor' },
-  Dev: { name: '企业研发工程师', value: 'Dev' },
-  Ops: { name: '企业运维工程师', value: 'Ops' },
-  EdgeOps: { name: '边缘运维工程师', value: 'EdgeOps' },
-  DataManager: { name: '数据管理员', value: 'DataManager' },
-  DataEngineer: { name: '数据开发工程师', value: 'DataEngineer' },
-  PublisherManager: { name: '发布管理员', value: 'PublisherManager' },
-  Support: { name: '技术支持', value: 'Support', isBuildIn: true }, // 内置角色
-  Reporter: { name: '报告人员', value: 'Reporter' },
-  Guest: { name: '访客用户', value: 'Guest' },
+  Manager: { name: i18n.t('user:Org Manager'), value: 'Manager' },
+  Auditor: { name: i18n.t('user:Org Auditor'), value: 'Auditor' },
+  Dev: { name: i18n.t('user:Org Developer'), value: 'Dev' },
+  Ops: { name: i18n.t('user:Org Operator'), value: 'Ops' },
+  EdgeOps: { name: i18n.t('user:Edge Operator'), value: 'EdgeOps' },
+  DataManager: { name: i18n.t('user:Data manager'), value: 'DataManager' },
+  DataEngineer: { name: i18n.t('user:Data Developer'), value: 'DataEngineer' },
+  PublisherManager: { name: i18n.t('user:Release Manager'), value: 'PublisherManager' },
+  Support: { name: i18n.t('user:Supporter'), value: 'Support', isBuildIn: true }, // 内置角色
+  Reporter: { name: i18n.t('user:Reporter'), value: 'Reporter' },
+  Guest: { name: i18n.t('user:Guest'), value: 'Guest' },
 };
 
 // 通过权限配置页面导出数据覆盖，勿手动修改
 export const orgPerm = {
-  name: '企业',
+  name: i18n.t('user:org'),
   dop: {
-    name: 'DevOps平台',
+    name: i18n.t('user:DevOps platform'),
     read: {
       pass: false,
-      name: '查看',
+      name: i18n.t('application:view'),
       role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
     },
     apiManage: {
-      name: 'API管理',
+      name: i18n.t('user:API management'),
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: '查看',
+        name: i18n.t('application:view'),
       },
     },
     addonService: {
-      name: '扩展服务',
+      name: i18n.t('addon service'),
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: '查看',
+        name: i18n.t('application:view'),
       },
     },
     publisher: {
-      name: '我的发布',
+      name: i18n.t('publisher:my release'),
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: '查看',
+        name: i18n.t('application:view'),
       },
     },
   },
   entryMsp: {
     pass: false,
-    name: '微服务治理平台',
+    name: i18n.t('msp'),
     role: ['Manager', 'Dev', 'Support', 'DataManager'],
   },
   entryFastData: {
     pass: false,
-    name: '快数据平台',
+    name: i18n.t('Fast data'),
     role: ['Manager', 'DataManager', 'DataEngineer', 'Support'],
   },
   entryOrgCenter: {
     pass: false,
-    name: '企业中心',
+    name: i18n.t('user:Org Center'),
     role: ['Manager', 'Support', 'Auditor'],
   },
   apiAssetEdit: {
     pass: false,
-    name: 'API 资源编辑',
+    name: i18n.t('user:API resource editing'),
     role: ['Manager'],
   },
   cmp: {
-    name: '云管平台',
+    name: i18n.t('user:cloud Management Platform'),
     showApp: {
       pass: false,
       role: ['Manager', 'Ops', 'Support'],
-      name: '应用菜单显示',
+      name: i18n.t('user:application menu display'),
     },
     alarms: {
-      name: '运维告警',
+      name: i18n.t('O & M alarm'),
       addNotificationGroup: {
         pass: false,
         role: ['Manager', 'Support'],
-        name: '添加通知组',
+        name: i18n.t('user:add notification group'),
       },
     },
   },
   publisher: {
-    name: '发布管理',
+    name: i18n.t('user:release management'),
     operation: {
       pass: false,
       role: ['PublisherManager', 'Manager'],
-      name: '操作(添加/发布/下架等)',
+      name: i18n.t('user:operation (adding/publishing/delisting, etc.)'),
     },
   },
   ecp: {
-    name: '边缘计算平台',
+    name: i18n.t('ecp:Edge computing'),
     view: {
       pass: false,
       role: ['Manager', 'EdgeOps', 'Support'],
-      name: '查看',
+      name: i18n.t('application:view'),
     },
     operate: {
       pass: false,
       role: ['Manager', 'EdgeOps'],
-      name: '操作(新建/编辑/删除/发布/下线/重启)',
+      name: i18n.t('user:operation (new/edit/delete/publish/offline/restart)'),
     },
   },
   orgCenter: {
-    name: '管理中心',
+    name: i18n.t('orgCenter'),
     viewAuditLog: {
       pass: false,
       role: ['Manager', 'Auditor', 'Support'],
-      name: '查看审计日志',
+      name: i18n.t('user:view audit log'),
     },
   },
 };

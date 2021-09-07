@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import orgCustomDashboardStore from 'app/modules/cmp/stores/custom-dashboard';
-import mspCustomDashboardStore from 'msp/monitor/custom-dashboard/stores/custom-dashboard';
+import mspCustomDashboardStore from 'msp/query-analysis/custom-dashboard/stores/custom-dashboard';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
 
 const storeMap = {

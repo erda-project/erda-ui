@@ -36,11 +36,13 @@ import memberLabelStore from 'common/stores/member-label';
 import orgStore from 'app/org-home/stores/org';
 import './members-table.scss';
 import { FULL_ROOT_DOMAIN } from '../constants';
+import mspProjectMember from 'common/stores/msp-project-member';
 
 const storeMap = {
   [MemberScope.ORG]: orgMemberStore,
   [MemberScope.PROJECT]: projectMemberStore,
   [MemberScope.APP]: appMemberStore,
+  [MemberScope.MSP]: mspProjectMember,
   [MemberScope.SYS]: sysMemberStore,
 };
 
@@ -65,6 +67,7 @@ interface IProps {
     delete?: boolean;
     showAuthorize?: boolean;
   };
+  roleFilter?(data: Obj): Obj;
 }
 
 export const MembersTable = ({
@@ -75,6 +78,7 @@ export const MembersTable = ({
   hideRowSelect = false,
   overwriteAuth = {},
   hasConfigAppAuth = false,
+  roleFilter,
 }: IProps) => {
   const memberLabels = memberLabelStore.useStore((s) => s.memberLabels);
   const { getMemberLabels } = memberLabelStore.effects;
@@ -82,15 +86,20 @@ export const MembersTable = ({
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { id: orgId, name: orgName, displayName: orgDisplayName } = currentOrg;
 
-  const [projectMemberPerm, appMemberPerm] = usePerm((s) => [s.project.member, s.app.member]);
+  const [projectMemberPerm, appMemberPerm, mspProjectMemberPerm] = usePerm((s) => [
+    s.project.member,
+    s.app.member,
+    s.project.microService.member,
+  ]);
   const { id: currentUserId } = loginUser;
   const { params } = routeInfoStore.getState((s) => s);
   const isAdminManager = scopeKey === MemberScope.SYS && loginUser.adminRoles.includes('Manager');
 
   const memberStore = storeMap[scopeKey];
-  const [list, paging, roleMap] = memberStore.useStore((s) => [s.list, s.paging, s.roleMap]);
+  const [list, paging, allRoleMap] = memberStore.useStore((s) => [s.list, s.paging, s.roleMap]);
   const { cleanMembers } = memberStore.reducers;
   const { getMemberList, updateMembers, removeMember, getRoleMap, genOrgInviteCode } = memberStore.effects;
+  const roleMap = roleFilter ? roleFilter(allRoleMap) : allRoleMap;
 
   const [getLoading, removeLoading, addLoading, updateLoading, getInviteLoading] = useLoading(memberStore, [
     'getMemberList',
@@ -116,6 +125,7 @@ export const MembersTable = ({
     [MemberScope.ORG]: String(orgId),
     [MemberScope.PROJECT]: `${params.projectId || ''}`,
     [MemberScope.APP]: `${params.appId || ''}`,
+    [MemberScope.MSP]: `${params.projectId || ''}`,
   };
 
   const scopeId = scopeIdMap[scopeKey];
@@ -138,6 +148,13 @@ export const MembersTable = ({
       edit: appMemberPerm.editAppMember.pass,
       delete: appMemberPerm.deleteAppMember.pass,
       showAuthorize: false, // 应用级别无授权
+      invite: false,
+    },
+    [MemberScope.MSP]: {
+      add: mspProjectMemberPerm.addProjectMember.pass,
+      edit: mspProjectMemberPerm.editProjectMember.pass,
+      delete: mspProjectMemberPerm.removeProjectMember.pass,
+      showAuthorize: false,
       invite: false,
     },
   };

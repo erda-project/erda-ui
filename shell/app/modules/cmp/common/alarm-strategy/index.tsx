@@ -25,7 +25,7 @@ import notifyGroupStore from 'application/stores/notify-group';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
-import mspAlarmStrategyStore from 'app/modules/msp/monitor/monitor-alarm/stores/alarm-strategy';
+import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import {
   notifyChannelOptionsMap,
   smsNotifyChannelOptionsMap,
@@ -35,12 +35,14 @@ import { usePerm, WithAuth } from 'user/common';
 import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
 import './index.scss';
+import routeInfoStore from 'core/stores/route';
 
 const { confirm, warning } = Modal;
 
 enum ScopeType {
   ORG = 'org',
   PROJECT = 'project',
+  MSP = 'msp',
 }
 
 enum SilencePeriodType {
@@ -55,26 +57,28 @@ const SILENCE_PERIOD_POLICY_MAP = {
 
 const alarmStrategyStoreMap = {
   [ScopeType.ORG]: cmpAlarmStrategyStore,
-  [ScopeType.PROJECT]: mspAlarmStrategyStore,
+  [ScopeType.MSP]: mspAlarmStrategyStore,
 };
 
 const memberStoreMap = {
   [ScopeType.ORG]: orgMemberStore,
-  [ScopeType.PROJECT]: projectMemberStore,
+  [ScopeType.MSP]: projectMemberStore,
 };
 
 const notifyGroupPage = {
   [ScopeType.ORG]: goTo.pages.cmpNotifyGroup,
-  [ScopeType.PROJECT]: goTo.pages.projectNotifyGroup,
+  [ScopeType.MSP]: goTo.pages.mspProjectNotifyGroup,
 };
 
 interface IProps {
-  scopeType: ScopeType.ORG | ScopeType.PROJECT;
+  scopeType: ScopeType.ORG | ScopeType.MSP;
   scopeId: string;
+  commonPayload?: Obj;
 }
 
-export default ({ scopeType, scopeId }: IProps) => {
+export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
+  const params = routeInfoStore.useStore((s) => s.params);
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
@@ -117,7 +121,7 @@ export default ({ scopeType, scopeId }: IProps) => {
     getAlerts();
     getAlarmScopes();
     getAlertTypes();
-    getNotifyGroups({ scopeType, scopeId });
+    getNotifyGroups(scopeType === ScopeType.MSP ? commonPayload : { scopeType, scopeId });
     getRoleMap({ scopeType, scopeId });
   });
 
@@ -415,7 +419,7 @@ export default ({ scopeType, scopeId }: IProps) => {
                     <span
                       className="hover-active"
                       onClick={() => {
-                        goTo(notifyGroupPage[scopeType], { projectId: scopeId });
+                        goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
                       }}
                     >
                       {i18n.t('org:add more notification groups')}

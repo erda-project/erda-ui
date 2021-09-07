@@ -36,6 +36,7 @@ declare namespace CP_TABLE {
     selectable?: boolean;
     showHeader?: boolean;
     pagination?: boolean;
+    batchOperations?: string[];
     expandedProps?: {
       columns: Column[];
       rowKey: string;

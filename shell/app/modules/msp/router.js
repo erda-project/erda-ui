@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import getMonitorRouter from './monitor/monitor-overview';
-import getTopologyRouter from 'msp/monitor/topology';
-
+import getAlarmManageRouter from 'msp/alarm-manage';
+import getEnvOverViewRouter from 'msp/env-overview';
 import i18n from 'i18n';
-
 import wrapper from './pages/wait-wrapper';
+import getQueryAnalysisRouter from 'msp/query-analysis';
 
 const injectWrapper = (route) => {
   route.wrapper = wrapper;
@@ -47,10 +47,9 @@ function getMspRouter() {
           breadcrumbName: '{mspProjectName}',
           mark: 'mspDetail',
           routes: [
-            getTopologyRouter(),
             {
-              path: 'configuration',
-              getComp: (cb) => cb(import('msp/pages/configuration')),
+              path: 'synopsis',
+              routes: [getEnvOverViewRouter()],
             },
             {
               path: 'monitor',
@@ -71,10 +70,39 @@ function getMspRouter() {
               getComp: (cb) => cb(import('msp/pages/zkproxy/governance')),
             },
             {
-              path: 'info/:tenantId?',
-              breadcrumbName: i18n.t('msp:component info'),
-              layout: { fullHeight: true },
-              getComp: (cb) => cb(import('msp/pages/info')),
+              path: 'analysis',
+              routes: [getQueryAnalysisRouter()],
+            },
+            {
+              path: 'alarm-management',
+              routes: [getAlarmManageRouter()],
+            },
+            {
+              path: 'environment',
+              routes: [
+                {
+                  path: ':terminusKey/configuration',
+                  breadcrumbName: i18n.t('msp:access configuration'),
+                  getComp: (cb) => cb(import('msp/env-setting/configuration')),
+                },
+                {
+                  path: ':terminusKey/member',
+                  breadcrumbName: i18n.t('org:member management'),
+                  getComp: (cb) => cb(import('msp/env-setting/member-manage')),
+                },
+                {
+                  path: 'info/:tenantId?',
+                  breadcrumbName: i18n.t('msp:component info'),
+                  layout: { fullHeight: true },
+                  getComp: (cb) => cb(import('msp/env-setting/info')),
+                },
+              ],
+            },
+            {
+              path: 'perm',
+              pageName: i18n.t('role permissions description'),
+              layout: { showSubSidebar: false, fullHeight: true },
+              getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'MspPermEditor'),
             },
           ],
         }),

@@ -18,7 +18,6 @@ import { MachineList } from 'dcos/pages/cluster-dashboard/machine-list';
 import InstanceList from './instance-list';
 import ResourcesChartList from './resources-chart-list';
 import AlarmRecord from './alarm-record';
-import ClusterState from 'cmp/pages/cluster-manage/cluster-state';
 import i18n from 'i18n';
 
 const { TabPane } = Tabs;
@@ -26,11 +25,10 @@ const { TabPane } = Tabs;
 interface IProps {
   machineList: any[];
   activedGroup: any;
-  isClickState: boolean;
   onActiveMachine: (payload: object, key?: string) => void;
 }
 
-const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }: IProps) => {
+const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
   const [clusters, setClusters] = useState<any[]>([]);
   const [activeKey, setActiveKey] = useState('machine');
 
@@ -45,10 +43,10 @@ const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }:
         hostIPs,
       })),
     );
-    if (!isClickState && activeKey === 'state') {
+    if (activeKey === 'state') {
       setActiveKey('machine');
     }
-  }, [isClickState, machineList, activeKey]);
+  }, [machineList, activeKey]);
 
   return (
     <Tabs activeKey={activeKey} onChange={setActiveKey}>
@@ -76,11 +74,6 @@ const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }:
       <TabPane tab={`${i18n.t('dcos:task list')}`} key="job">
         <InstanceList instanceType="job" clusters={clusters} />
       </TabPane>
-      {isClickState && (
-        <TabPane tab={`${i18n.t('dcos:cluster summary')}`} key="state">
-          <ClusterState clusterName={activedGroup} />
-        </TabPane>
-      )}
     </Tabs>
   );
 };

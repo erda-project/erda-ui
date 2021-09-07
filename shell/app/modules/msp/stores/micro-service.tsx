@@ -31,6 +31,14 @@ import {
 import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
 import breadcrumbStore from 'layout/stores/breadcrumb';
+import permStore from 'user/stores/permission';
+
+const docUrlMap = {
+  apiGatewayIntro: DOC_MSP_API_GATEWAY,
+  registerCenterIntro: DOC_MSP_REGISTER,
+  configCenterIntro: DOC_MSP_CONFIG_CENTER,
+  monitorIntro: DOC_MSP_MONITOR,
+};
 
 const docUrlMap = {
   apiGatewayIntro: DOC_MSP_API_GATEWAY,
@@ -70,7 +78,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
 
       const IconComp = MSIconMap[key];
-      const siderMenu = {
+      const sideMenu = {
         key,
         icon: IconComp ? <IconComp /> : 'zujian',
         text: currentLocale.key === 'zh' ? cnName : enName,
@@ -79,7 +87,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
         subMenu: [] as any,
       };
       if (children.length) {
-        siderMenu.subMenu = children
+        sideMenu.subMenu = children
           .filter((m) => m.exists)
           .map((child) => {
             const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
@@ -92,7 +100,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
             };
           });
       }
-      return siderMenu;
+      return sideMenu;
     });
 };
 
@@ -137,6 +145,11 @@ const mspStore = createStore({
       const isMspDetailIndex = mspReg.test(location.href);
       const [currentEnvInfo, currentProject] = mspStore.getState((s) => [s.currentEnvInfo, s.currentProject]);
       if (isIn('mspDetail')) {
+        permStore.effects.checkRouteAuth({
+          type: 'msp',
+          id: projectId,
+          routeMark: 'mspDetail',
+        });
         if (projectId !== currentEnvInfo.projectId) {
           mspStore.reducers.updateCurrentEnvInfo({ projectId, env, tenantGroup });
           await mspStore.effects.getMspProjectDetail();
@@ -184,7 +197,7 @@ const mspStore = createStore({
       }
       const [firstMenu] = mspMenu;
       const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
-      const siderName = `${firstMenu.text}(${envMap[env]})`;
+      const siderName = `${firstMenu?.text}(${envMap[env]})`;
       const msMenuMap = {};
       menuData.forEach((m) => {
         msMenuMap[m.key] = m;

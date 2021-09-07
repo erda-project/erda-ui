@@ -18,11 +18,7 @@ import getApiInsightRouter from 'msp/monitor/api-insight';
 import monitorTraceRouter from 'msp/monitor/trace-insight';
 import monitorErrorRouter from 'msp/monitor/error-insight';
 import monitorStatusRouter from 'msp/monitor/status-insight';
-import alarmRouter from 'msp/monitor/monitor-alarm';
 import projectReportRouter from 'msp/monitor/project-report';
-import customDashboardRouter from 'msp/monitor/custom-dashboard';
-import alarmRecordRouter from 'msp/monitor/alarm-record';
-import serviceListRouter from 'msp/monitor/service-list';
 import i18n from 'i18n';
 
 const monitorChildRouters = [
@@ -38,25 +34,6 @@ const monitorChildRouters = [
   monitorTraceRouter(),
   monitorStatusRouter(),
   monitorErrorRouter(),
-  alarmRouter(),
-  serviceListRouter(),
-  {
-    path: 'custom-alarm',
-    breadcrumbName: i18n.t('custom alarm'),
-    routes: [
-      {
-        path: ':dashboardId',
-        breadcrumbName: '{dashboardName}',
-        layout: { fullHeight: true },
-        getComp: (cb) => cb(import('msp/monitor/custom-dashboard/pages/custom-dashboard')),
-      },
-      {
-        getComp: (cb) => cb(import('monitor-alarm/pages/custom-alarm')),
-      },
-    ],
-  },
-  alarmRecordRouter(),
-  customDashboardRouter(),
   projectReportRouter(),
 ];
 

@@ -14,6 +14,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ContractiveFilter } from 'common';
+import { ICondition } from 'common/components/contractive-filter';
 
 const genderMap = [
   {
@@ -26,27 +27,48 @@ const genderMap = [
   },
 ];
 
-const conditionsFilter = [
+const conditionsFilter: ICondition[] = [
   {
     key: 'name',
     type: 'input',
     label: 'NAME',
-    customProps: {},
+    fixed: true,
+    customProps: {
+      className: 'filter-condition-item',
+    },
+  },
+  {
+    key: 'name',
+    type: 'input',
+    label: 'NAME',
+    fixed: false,
+    customProps: {
+      className: 'filter-condition-item',
+    },
   },
   {
     key: 'gender',
     type: 'select',
     label: 'GENDER',
+    fixed: true,
     options: genderMap.map((item) => ({ label: item.name, value: item.id, icon: '' })),
-    customProps: {},
+    customProps: {
+      className: 'filter-condition-item',
+    },
   },
   {
     key: 'birthday',
+    fixed: false,
     type: 'dateRange',
     label: 'BIRTHDAY',
-    customProps: {},
+    customProps: {
+      className: 'filter-condition-item',
+    },
   },
 ];
+
+const fixedCondition = conditionsFilter.filter((t) => t.fixed);
+const dynamicCondition = conditionsFilter.filter((t) => !t.fixed);
 
 // processing
 describe('ContrastiveFilter', () => {
@@ -59,7 +81,22 @@ describe('ContrastiveFilter', () => {
       attachTo: divEle,
     });
     expect(wrapper.find('.contractive-filter-bar')).toExist();
-    wrapper.find('.contractive-filter-item-wrap').at(1).simulate('click');
+    expect(wrapper.find('FilterItem')).toHaveLength(fixedCondition.length);
+    wrapper.find('.more-conditions').simulate('click');
+    expect(wrapper.find('.ant-dropdown-menu-item')).toExist();
+    const moreSelectItem = wrapper.find('.ant-dropdown-menu-item').not('.not-select');
+    expect(moreSelectItem).toHaveLength(dynamicCondition.length);
+    expect(wrapper.find('.contractive-filter-item-close')).not.toExist();
+    moreSelectItem.at(1).simulate('click');
+    expect(wrapper.find('FilterItem')).toHaveLength(fixedCondition.length + 1);
+    expect(wrapper.find('.contractive-filter-item-close')).toExist();
+    wrapper.find('.contractive-filter-item-close').simulate('click');
+    expect(wrapper.find('FilterItem')).toHaveLength(fixedCondition.length);
+    wrapper.find('.more-conditions').simulate('click');
+    moreSelectItem.at(1).simulate('click');
+    expect(wrapper.find('FilterItem')).toHaveLength(fixedCondition.length + 1);
+    wrapper.find('.fake-link').simulate('click');
+    expect(wrapper.find('FilterItem')).toHaveLength(fixedCondition.length);
     divEle?.dispatchEvent(event);
     wrapper.unmount();
   });

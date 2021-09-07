@@ -82,20 +82,7 @@
 }
 
 .top-button-group {
-  position: fixed;
-
-  top: 45px;
-  right: 16px;
-
-  @include md-width() {
-    & {
-      right: 12px;
-    }
-  }
-
-  button {
-    margin-left: $p8;
-  }
+  @extend %top-button-group;
 }
 
 .status-pointer {

@@ -12,14 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table as PureTable, Title, Menu, Button, Dropdown, Tooltip } from 'core/nusi';
-import { map, get, find, sortBy, intersection, has } from 'lodash';
+import { Table as PureTable, Title, Menu, Button, Dropdown, Tooltip, Checkbox } from 'core/nusi';
+import { map, get, find, intersection, has, difference } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { getRender, getTitleRender } from './render-types';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import './table.scss';
+import { compact } from 'app/external/custom-lodash';
 
 interface ISorter {
   order: 'ascend' | 'descend' | undefined;
@@ -45,16 +46,7 @@ const handleState = (_stateObj?: Obj, selectable?: boolean) => {
 };
 
 export function Table(props: CP_TABLE.Props) {
-  const {
-    state: propsState,
-    customProps,
-    props: configProps,
-    operations,
-    data,
-    execOperation,
-    updateState,
-    batchOperations,
-  } = props;
+  const { state: propsState, customProps, props: configProps, operations, data, execOperation, updateState } = props;
   const list = data?.list || emptyArr;
   const {
     visible = true,
@@ -64,6 +56,7 @@ export function Table(props: CP_TABLE.Props) {
     selectable,
     styleNames = {},
     rowKey,
+    batchOperations,
     ...rest
   } = configProps || {};
   const userMap = useUserMap();
@@ -193,10 +186,14 @@ export function Table(props: CP_TABLE.Props) {
       {batchOperations ? (
         <div className="absolute" style={{ bottom: 16 }}>
           <BatchOperation
-            operations={batchOperations}
+            rowKey={rowKey}
+            dataSource={list}
+            operations={operations}
+            batchOperations={batchOperations}
             selectedRowKeys={state.selectedRowKeys}
             chosenItems={chosenItems}
             execOperation={execOperation}
+            onSelectChange={onSelectChange}
           />
         </div>
       ) : null}
@@ -205,6 +202,10 @@ export function Table(props: CP_TABLE.Props) {
 }
 
 interface IBatchProps {
+  rowKey: string;
+  dataSource: Obj[];
+  onSelectChange: (keys: string[]) => void;
+  batchOperations: string[];
   operations?: Obj<CP_COMMON.Operation>;
   chosenItems?: Array<Obj | undefined>;
   execOperation: Function;
@@ -212,11 +213,34 @@ interface IBatchProps {
 }
 
 const BatchOperation = (props: IBatchProps) => {
-  const { operations, chosenItems, execOperation, selectedRowKeys } = props;
+  const {
+    rowKey,
+    dataSource,
+    onSelectChange,
+    operations,
+    chosenItems,
+    execOperation,
+    selectedRowKeys = emptyArr,
+    batchOperations,
+  } = props;
+
+  const [{ checkAll, indeterminate }, updater, update] = useUpdate({
+    checkAll: false,
+    indeterminate: false,
+  });
+
+  React.useEffect(() => {
+    const allKeys = map(dataSource, rowKey);
+    const curChosenKeys = intersection(allKeys, selectedRowKeys);
+    update({
+      checkAll: !!(curChosenKeys.length && curChosenKeys.length === allKeys.length),
+      indeterminate: !!(curChosenKeys.length && curChosenKeys.length < allKeys.length),
+    });
+  }, [update, dataSource, rowKey, selectedRowKeys]);
 
   const optMenus = React.useMemo(() => {
-    const fullMenus = sortBy(map(operations), 'showIndex');
-    const chosenOpts = intersection(...map(chosenItems, 'batchOptions'));
+    const fullMenus = batchOperations.map((btItem) => find(operations, (opItem) => opItem.key === btItem));
+    const chosenOpts = intersection(...map(chosenItems, 'batchOperations'));
     return fullMenus.map((mItem) => {
       const disabledProps = selectedRowKeys?.length
         ? {
@@ -230,7 +254,7 @@ const BatchOperation = (props: IBatchProps) => {
       };
       return reMenu;
     });
-  }, [chosenItems, operations, selectedRowKeys]);
+  }, [batchOperations, chosenItems, operations, selectedRowKeys]);
 
   const dropdownMenu = (
     <Menu
@@ -251,8 +275,19 @@ const BatchOperation = (props: IBatchProps) => {
       })}
     </Menu>
   );
+
+  const onCheckAllChange = () => {
+    const allKeys = map(dataSource, rowKey);
+    if (checkAll) {
+      onSelectChange(difference(selectedRowKeys, allKeys));
+    } else {
+      onSelectChange(compact(selectedRowKeys.concat(allKeys)));
+    }
+  };
+
   return (
     <div className="flex items-center">
+      <Checkbox className="mx-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
       <span className="mr-2">{`${i18n.t('selected {xx}', {
         xx: `${selectedRowKeys?.length || 0}${i18n.t('common:items')}`,
       })}`}</span>
