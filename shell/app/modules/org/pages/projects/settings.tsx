@@ -13,6 +13,7 @@
 
 import { MemberScope } from 'app/common/stores/member-scope';
 import { ConfigLayout, MembersTable, SettingsTabs } from 'common';
+import { pick } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
 import { goTo, insertWhen } from 'common/utils';
@@ -21,9 +22,22 @@ import ProjectCluster from 'project/pages/settings/components/project-cluster';
 import ProjectRollback from 'project/pages/settings/components/project-rollback';
 import { Link } from 'react-router-dom';
 import projectStore from 'project/stores/project';
+import { mspRoleMap } from 'user/stores/_perm-msp';
 
 const Setting = () => {
   const info = projectStore.useStore((s) => s.info);
+
+  const roleFilter = React.useCallback(
+    (data) => {
+      if (info.type === 'MSP') {
+        return pick(data, Object.keys(mspRoleMap));
+      } else {
+        return data;
+      }
+    },
+    [info.type],
+  );
+
   const dataSource = [
     {
       tabTitle: i18n.t('project:project info'),
@@ -60,7 +74,11 @@ const Setting = () => {
                 </div>
               ),
               children: (
-                <MembersTable scopeKey={MemberScope.PROJECT} overwriteAuth={{ add: true, edit: true, delete: true }} />
+                <MembersTable
+                  scopeKey={MemberScope.PROJECT}
+                  overwriteAuth={{ add: true, edit: true, delete: true }}
+                  roleFilter={roleFilter}
+                />
               ),
             },
           ]}
