@@ -17,12 +17,61 @@ declare namespace CONFIGURATION {
   type ILangConf = {
     language: string;
     displayName: string;
-    strategies: Array<IStrategy>;
   };
 
   interface IStrategy {
     displayName: string;
     strategy: string;
-    enable: boolean;
+    languages: Array<ILangConf>;
+  }
+
+  interface IDocs {
+    language: string;
+    strategy: string;
+  }
+
+  interface IAllkey {
+    subjectType: number;
+    subject: string;
+    accessKey?: string;
+    pageNo: number;
+    pageSize: number;
+    scope: string;
+    scopeId: string;
+  }
+
+  interface ICreateKey {
+    description?: string;
+    subject: string;
+    subjectType: number;
+    scope: string;
+    scopeId: string;
+  }
+
+  interface IDelAndFindKey {
+    id: string;
+  }
+
+  interface IDocData {
+    data: string;
+  }
+
+  interface IAllkeyData {
+    accessKey: string;
+    createAt: string;
+    description: string;
+    id: string;
+    secretKey: string;
+    status: string;
+    subject: string;
+    subjectType: string;
+    scope: string;
+    scopeId: string;
+    width?: number;
+  }
+
+  interface IkeyList {
+    list: IAllkeyData[];
+    total: number;
   }
 }

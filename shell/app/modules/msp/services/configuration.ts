@@ -13,10 +13,35 @@
 
 import { apiCreator } from 'core/service';
 
+export const downloadCsvUrl = '/api/msp/credential/access-keys/download';
+
 const apis = {
-  getAdapters: {
-    api: 'get@/api/msp/apm/adapters',
+  getAcquisitionAndLang: {
+    api: 'get@/api/msp/apm/instrumentation-library',
+  },
+  getInfo: {
+    api: 'get@/api/msp/apm/instrumentation-library/config-docs',
+  },
+  getAllkey: {
+    api: 'post@/api/msp/credential/access-keys/records',
+  },
+  createAccesskey: {
+    api: 'post@/api/msp/credential/access-keys',
+  },
+  getDetailKey: {
+    api: 'get@/api/msp/credential/access-keys/:id',
+  },
+  deleteDetailKey: {
+    api: 'delete@/api/msp/credential/access-keys/:id',
   },
 };
-
-export const getAdapters = apiCreator<() => CONFIGURATION.ILangConf[]>(apis.getAdapters);
+export const getAcquisitionAndLang = apiCreator<() => CONFIGURATION.IStrategy[]>(apis.getAcquisitionAndLang);
+export const getInfo = apiCreator<(payload: CONFIGURATION.IDocs) => CONFIGURATION.IDocData>(apis.getInfo);
+export const getDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) => CONFIGURATION.IAllkeyData>(
+  apis.getDetailKey,
+);
+export const deleteDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) => void>(apis.deleteDetailKey);
+export const getAllkey = apiCreator<(payload: CONFIGURATION.IAllkey) => CONFIGURATION.IkeyList>(apis.getAllkey);
+export const createAccesskey = apiCreator<(payload: CONFIGURATION.ICreateKey) => CONFIGURATION.IAllkeyData>(
+  apis.createAccesskey,
+);

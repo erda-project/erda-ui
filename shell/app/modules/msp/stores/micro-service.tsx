@@ -190,7 +190,7 @@ const mspStore = createStore({
       }
       const [firstMenu] = mspMenu;
       const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
-      const siderName = `${firstMenu.text}(${envMap[env]})`;
+      const siderName = `${firstMenu?.text}(${envMap[env]})`;
       const msMenuMap = {};
       menuData.forEach((m) => {
         msMenuMap[m.key] = m;
