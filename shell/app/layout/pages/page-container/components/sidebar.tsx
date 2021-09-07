@@ -21,7 +21,7 @@ import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
 import { goTo, ossImg, insertWhen } from 'common/utils';
-import { DOC_HELP_HOME } from 'common/constants';
+import { DOC_HELP_HOME, UC_USER_SETTINGS } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
@@ -222,7 +222,7 @@ const SideBar = () => {
         icon: <ErdaCustomIcon type="user-config" />,
         title: i18n.t('layout:personal settings'),
         onClick: () => {
-          window.open(diceEnv.UC_PUBLIC_URL);
+          window.open(loginUser.isNewUser ? UC_USER_SETTINGS : diceEnv.UC_PUBLIC_URL);
         },
       },
     ]),

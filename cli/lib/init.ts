@@ -22,7 +22,7 @@ import ora from 'ora';
 
 const asyncExec = promisify(child_process.exec);
 
-const ALL_MODULES = ['core', 'shell', 'market'];
+const ALL_MODULES = ['core', 'shell', 'market', 'uc'];
 
 // precondition
 // pnpm & @erda-ui/cli & npm-check-updates installed globally

@@ -26,6 +26,18 @@ interface IPlatformUser {
   pwdExpireAt: string;
 }
 
+interface IPlatformUser {
+  avatar: string;
+  email: string;
+  id: string;
+  locked: boolean;
+  name: string;
+  nick: string;
+  phone: string;
+  lastLoginAt: string;
+  pwdExpireAt: string;
+}
+
 export const fetchLog = ({
   fetchApi,
   ...rest

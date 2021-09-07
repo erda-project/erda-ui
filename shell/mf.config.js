@@ -26,7 +26,7 @@ if (!envConfig) {
 const remotes = {};
 const entries = [];
 const { MODULES } = envConfig;
-const excludeModules = ['market', 'shell'];
+const excludeModules = ['market', 'shell', 'uc'];
 
 MODULES.split(',')
   .filter((m) => !excludeModules.includes(m))

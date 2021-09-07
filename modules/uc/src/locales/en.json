@@ -1,0 +1,29 @@
+{
+  "default": {
+    "Already have an account?": "Already have an account?",
+    "can not be empty": "can not be empty",
+    "confirm password": "confirm password",
+    "confirm new password": "confirm new password",
+    "Do not have an account?": "Do not have an account?",
+    "email": "email",
+    "enter your {name}": "enter your {name}",
+    "enter your email/username": "enter your email/username",
+    "Hello {name}": "Hello {name}",
+    "inconsistent passwords": "inconsistent passwords",
+    "keep login": "keep login",
+    "Login": "Login",
+    "Logout": "Logout",
+    "mobile": "mobile",
+    "new password": "new password",
+    "nick name": "nick name",
+    "password": "password",
+    "Please enter the correct {name}": "Please enter the correct {name}",
+    "registered successfully": "registered successfully",
+    "Reset password": "Reset password",
+    "Sign up": "Sign up",
+    "Update": "Update",
+    "update successfully": "update successfully",
+    "username": "username",
+    "Welcome to Erda": "Welcome to Erda"
+  }
+}

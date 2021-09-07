@@ -36,6 +36,7 @@ const dirCollection: { [k: string]: string } = {
   core: `${currentDir}/core`,
   shell: `${currentDir}/shell`,
   market: `${currentDir}/modules/market`,
+  uc: `${currentDir}/modules/uc`,
 };
 const dirMap = new Map(Object.entries(dirCollection));
 const noneCurrentRepoModules: string[] = [];
