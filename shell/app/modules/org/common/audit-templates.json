@@ -1812,11 +1812,11 @@
       "en": ""
     }
   },
-  "createIssueStateTemplate": {
+  "createIssueState": {
     "desc": "创建自定义状态",
     "success": {
       "zh": "在 [@projectName](project) 项目中，对<<issueType>>事项追加了状态 [@stateName]",
-      "en": "Add issuestate [@stateName] for <<issueType>> in project [@projectName](project)"
+      "en": "Add issue state [@stateName] for <<issueType>> in project [@projectName](project)"
     },
     "fail": {
       "zh": "",
@@ -1827,7 +1827,7 @@
     "desc": "更新自定义状态",
     "success": {
       "zh": "在 [@projectName](project) 项目中，对<<issueType>>事项更新了状态 [@stateName]",
-      "en": "Update issuestate [@stateName] for <<issueType>> in project [@projectName](project)"
+      "en": "Update issue state [@stateName] for <<issueType>> in project [@projectName](project)"
     },
     "fail": {
       "zh": "",
@@ -1838,7 +1838,7 @@
     "desc": "删除自定义状态",
     "success": {
       "zh": "在 [@projectName](project) 项目中，对<<issueType>>事项删除了状态 [@stateName]",
-      "en": "Delete issuestate [@stateName] for <<issueType>> in project [@projectName](project)"
+      "en": "Delete issue state [@stateName] for <<issueType>> in project [@projectName](project)"
     },
     "fail": {
       "zh": "",
