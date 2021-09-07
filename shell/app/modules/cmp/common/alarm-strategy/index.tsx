@@ -117,11 +117,18 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   });
 
   useMount(() => {
+    let payload = { scopeType, scopeId };
+    if (scopeType === ScopeType.MSP) {
+      payload = {
+        scopeType: commonPayload?.scopeType,
+        scopeId: commonPayload?.scopeId,
+      };
+    }
     getSMSNotifyConfig({ orgId });
     getAlerts();
     getAlarmScopes();
     getAlertTypes();
-    getNotifyGroups(scopeType === ScopeType.MSP ? commonPayload : { scopeType, scopeId });
+    getNotifyGroups(payload);
     getRoleMap({ scopeType, scopeId });
   });
 
@@ -453,7 +460,8 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     });
   }
 
-  if (scopeType === ScopeType.PROJECT) {
+  // msp project has not application，hide application selector
+  if (scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP') {
     fieldsList.splice(1, 0, {
       label: i18n.t('application'),
       name: 'appId',
@@ -638,7 +646,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
       },
     ]),
-    ...insertWhen(scopeType === ScopeType.PROJECT, [
+    ...insertWhen(scopeType === ScopeType.MSP, [
       {
         title: i18n.t('application'),
         dataIndex: 'appIds',
