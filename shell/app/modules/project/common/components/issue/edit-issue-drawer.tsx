@@ -345,29 +345,32 @@ const IssueMetaFields = React.forwardRef(
         type: 'select',
         itemProps: { options: priorityOptions, allowClear: false },
       },
-      [ISSUE_TYPE.BUG, ISSUE_TYPE.TICKET].includes(issueType) // 工单、缺陷将复杂度改为展示严重程度
-        ? {
-            className: 'mb-5',
-            name: 'severity',
-            label: i18n.t('project:severity'),
-            type: 'select',
-            itemProps: {
-              options: severityOptions,
-              allowClear: false,
-              placeholder: i18n.t('please choose {name}', { name: i18n.t('project:severity') }),
-            },
-          }
-        : {
-            className: 'mb-5',
-            name: 'complexity',
-            label: i18n.t('project:complexity'),
-            type: 'select',
-            itemProps: {
-              options: complexityOptions,
-              allowClear: false,
-              placeholder: i18n.t('please choose {name}', { name: i18n.t('project:complexity') }),
-            },
+      ...insertWhen(issueType === ISSUE_TYPE.TICKET || issueType === ISSUE_TYPE.BUG, [
+        {
+          className: 'mb-5',
+          name: 'severity',
+          label: i18n.t('project:severity'),
+          type: 'select',
+          itemProps: {
+            options: severityOptions,
+            allowClear: false,
+            placeholder: i18n.t('please choose {name}', { name: i18n.t('project:severity') }),
           },
+        },
+      ]),
+      ...insertWhen(issueType === ISSUE_TYPE.BUG, [
+        {
+          className: 'mb-5',
+          name: 'complexity',
+          label: i18n.t('project:complexity'),
+          type: 'select',
+          itemProps: {
+            options: complexityOptions,
+            allowClear: false,
+            placeholder: i18n.t('please choose {name}', { name: i18n.t('project:complexity') }),
+          },
+        },
+      ]),
       {
         className: 'mb-5 w-full',
         name: 'planFinishedAt',
