@@ -1789,5 +1789,60 @@
       "zh": "",
       "en": ""
     }
+  },
+  "archiveTestPlan": {
+    "desc": "测试计划归档",
+    "success": {
+      "zh": "在 [@projectName](project) 项目中，对测试计划 [@testPlanName] 进行了归档",
+      "en": "Archive test plan [@testPlanName] in project [@projectName](project)"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "unarchiveTestPlan": {
+    "desc": "测试计划取消归档",
+    "success": {
+      "zh": "在 [@projectName](project) 项目中，对测试计划 [@testPlanName] 取消了归档",
+      "en": "Unarchive test plan [@testPlanName] in project [@projectName](project)"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "createIssueState": {
+    "desc": "创建自定义状态",
+    "success": {
+      "zh": "在 [@projectName](project) 项目中，对<<issueType>>事项追加了状态 [@stateName]",
+      "en": "Add issue state [@stateName] for <<issueType>> in project [@projectName](project)"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "updateIssueState": {
+    "desc": "更新自定义状态",
+    "success": {
+      "zh": "在 [@projectName](project) 项目中，对<<issueType>>事项更新了状态 [@stateName]",
+      "en": "Update issue state [@stateName] for <<issueType>> in project [@projectName](project)"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "deleteIssueState": {
+    "desc": "删除自定义状态",
+    "success": {
+      "zh": "在 [@projectName](project) 项目中，对<<issueType>>事项删除了状态 [@stateName]",
+      "en": "Delete issue state [@stateName] for <<issueType>> in project [@projectName](project)"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
   }
 }
