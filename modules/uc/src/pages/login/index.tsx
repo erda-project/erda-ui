@@ -19,12 +19,12 @@ import { parse } from 'query-string';
 
 const defaultValid = {
   page: '',
-  email: '',
+  identifier: '',
   password: '',
 };
 
 export default function Login() {
-  const [email, setEmail] = React.useState('');
+  const [identifier, setIdentifier] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [validTips, setValidTips] = React.useState(defaultValid);
 
@@ -35,9 +35,9 @@ export default function Login() {
     }));
   };
 
-  const updateEmial = (v: string) => {
-    setEmail(v);
-    updateValid({ email: getValidText(v) });
+  const updateIdentifier = (v: string) => {
+    setIdentifier(v);
+    updateValid({ identifier: getValidText(v) });
   };
 
   const updatePassword = (v: string) => {
@@ -46,21 +46,21 @@ export default function Login() {
   };
 
   const handleSubmit = () => {
-    if (email && password) {
+    if (identifier && password) {
       ucStore
-        .login({ identifier: email, password })
+        .login({ identifier, password })
         .then(() => {
           const query = parse(window.location.search);
           window.location.href = (query?.redirectUrl || '/') as string;
           // history.push('/uc/settings');
         })
         .catch((e) => {
-          const errRes: UC.IErrorRes = e.response?.data;
+          const errRes: UC.IKratosData = e.response?.data;
           updateValid(getErrorValid<typeof defaultValid>(errRes));
         });
     } else {
       updateValid({
-        email: getValidText(email),
+        identifier: getValidText(identifier),
         password: getValidText(password),
       });
     }
@@ -82,11 +82,11 @@ export default function Login() {
           </div>
         ) : null}
         <FormInput
-          label={i18n.t('email')}
-          value={email}
-          onChange={updateEmial}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('email') })}
-          errorTip={validTips.email}
+          label={`${i18n.t('email')}/${i18n.t('username')}`}
+          value={identifier}
+          onChange={updateIdentifier}
+          placeholder={i18n.t('enter your email/username')}
+          errorTip={validTips.identifier}
         />
 
         <FormInput

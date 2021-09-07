@@ -14,7 +14,6 @@
 export { default as i18n, initI18n, isZh } from './i18n';
 export { default as history } from './history';
 export { createStore, createFlatStore } from './cube';
-export { axios } from './axios';
 
 export { default as message } from './components/message';
 export { default as Container } from './components/container';

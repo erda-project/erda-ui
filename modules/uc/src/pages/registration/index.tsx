@@ -20,16 +20,18 @@ const defaultValid = {
   page: '',
   email: '',
   password: '',
-  nick: '',
+  nickname: '',
+  username: '',
   confirmPw: '',
 };
 
 export default function Login() {
   const [email, setEmail] = React.useState('');
   // const [phone, setPhone] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPw, setConfirmPw] = React.useState('');
-  const [nick, setNick] = React.useState('');
+  const [nickname, setNickname] = React.useState('');
   const [validTips, setValidTips] = React.useState(defaultValid);
 
   const updateValid = (updateObj: Partial<typeof defaultValid>) => {
@@ -44,9 +46,14 @@ export default function Login() {
     updateValid({ email: getValidText(v, 'email') });
   };
 
+  const updateUsername = (v: string) => {
+    setUsername(v);
+    updateValid({ username: getValidText(v) });
+  };
+
   const updateNick = (v: string) => {
-    setNick(v);
-    updateValid({ nick: getValidText(v) });
+    setNickname(v);
+    updateValid({ nickname: getValidText(v) });
   };
 
   // const updatePhone = (v: string) => {
@@ -64,22 +71,24 @@ export default function Login() {
   };
 
   const handleSubmit = () => {
-    if (email && password && confirmPw && confirmPw === password) {
+    if (email && username && password && confirmPw && confirmPw === password) {
       ucStore
-        .registration({ email, password, nick })
+        .registration({ email, password, nickname, username })
         .then(() => {
           // registration success, logout
           ucStore.logout();
         })
         .catch((e) => {
-          const errRes: UC.IErrorRes = e.response?.data;
+          const errRes: UC.IKratosData = e.response?.data;
+          console.log('------');
           updateValid(getErrorValid<typeof defaultValid>(errRes));
         });
     } else {
       updateValid({
         email: getValidText(email, 'email'),
         password: getValidText(password),
-        nick: getValidText(nick),
+        username: getValidText(username),
+        nickname: getValidText(nickname),
         confirmPw: confirmPw !== password ? i18n.t('inconsistent passwords') : '',
       });
     }
@@ -109,10 +118,18 @@ export default function Login() {
         />
 
         <FormInput
+          label={i18n.t('username')}
+          value={username}
+          onChange={updateUsername}
+          placeholder={i18n.t('enter your {name}', { name: i18n.t('username') })}
+          errorTip={validTips.username}
+        />
+
+        <FormInput
           label={i18n.t('nick name')}
-          value={nick}
+          value={nickname}
           onChange={updateNick}
-          errorTip={validTips.nick}
+          errorTip={validTips.nickname}
           placeholder={i18n.t('enter your {name}', { name: i18n.t('nick name') })}
         />
 

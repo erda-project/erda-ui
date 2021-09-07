@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { axios } from 'src/common';
+import axios from 'axios';
 
 const apiPrefix = '/api/uc';
 
@@ -23,10 +23,10 @@ const flowApiMap = {
 
 const initFlow = (type: keyof typeof flowApiMap): Promise<{ flow: string; csrf_token: string }> => {
   const flowApi = flowApiMap[type];
-  return axios.get(flowApi).then((res: any) => {
+  return axios.get(flowApi).then((res: UC.IKratosRes) => {
     const flow = res?.data?.id;
     const nodes = res?.data?.ui?.nodes;
-    const ctItem = nodes.find((item: any) => item.attributes.name === 'csrf_token');
+    const ctItem = nodes.find((item) => item.attributes.name === 'csrf_token') as UC.IKratosDataNode;
     return { flow, csrf_token: ctItem?.attributes?.value };
   });
 };
@@ -41,12 +41,12 @@ export const login = (payload: UC.ILoginPayload) => {
         password,
         password_identifier: identifier,
       })
-      .then((res: any) => res.data);
+      .then((res: UC.IKratosRes) => res.data);
   });
 };
 
 export const registration = (payload: UC.IRegistrationPayload) => {
-  const { password, nick, ...rest } = payload;
+  const { password, ...rest } = payload;
   return initFlow('registration').then(({ flow, csrf_token }) => {
     return axios
       .post(`${apiPrefix}/self-service/registration?flow=${flow}`, {
@@ -55,37 +55,32 @@ export const registration = (payload: UC.IRegistrationPayload) => {
         csrf_token,
         traits: {
           ...rest,
-          name: { first: nick, last: nick },
         },
       })
-      .then((res: any) => res.data);
+      .then((res: UC.IKratosRes) => res.data);
   });
 };
 
 export const logout = () => {
   return axios.get(`${apiPrefix}/self-service/logout/browser`).then((res) => {
     const token = res?.data?.logout_url?.split('token=')?.[1];
-    return axios.get(`${apiPrefix}/self-service/logout?token=${token}`).then((res: any) => res.data);
+    return axios.get(`${apiPrefix}/self-service/logout?token=${token}`).then((res: UC.IKratosRes) => res.data);
   });
 };
 
 export const whoAmI = () => {
-  return axios.get(`${apiPrefix}/sessions/whoami`).then((res: any) => res.data);
+  return axios.get(`${apiPrefix}/sessions/whoami`).then((res: UC.IWhoAmIRes) => res.data);
 };
 
 export const updateUser = (payload: Omit<UC.IUser, 'id'>) => {
-  const { nick, ...rest } = payload;
   return initFlow('settings').then(({ flow, csrf_token }) => {
     return axios
       .post(`${apiPrefix}/self-service/settings?flow=${flow}`, {
         method: 'profile',
         csrf_token,
-        traits: {
-          ...rest,
-          name: { first: nick, last: nick },
-        },
+        traits: payload,
       })
-      .then((res: any) => res.data);
+      .then((res: UC.IKratosRes) => res.data);
   });
 };
 
@@ -97,6 +92,6 @@ export const updatePassword = (payload: string) => {
         csrf_token,
         password: payload,
       })
-      .then((res: any) => res.data);
+      .then((res: UC.IKratosRes) => res.data);
   });
 };

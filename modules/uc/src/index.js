@@ -40,7 +40,7 @@ const init = () => {
       startApp();
     })
     .catch((e) => {
-      if (e.response.status === 401) {
+      if (e.response?.status === 401) {
         history.replace('/uc/login');
         startApp();
       }

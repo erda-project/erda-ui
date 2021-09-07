@@ -33,8 +33,8 @@ export const getValidText = (v?: string, validType?: 'phone' | 'email') => {
   }
 };
 
-export const getErrorValid = <T>(errorRes: UC.IErrorRes): Partial<T> => {
-  const errRes: UC.IErrorRes = errorRes;
+export const getErrorValid = <T>(errorRes: UC.IKratosData): Partial<T> => {
+  const errRes: UC.IKratosData = errorRes;
   const uiMsg = errRes?.ui?.messages?.[0]?.text;
   if (uiMsg) {
     return { page: uiMsg } as unknown as Partial<T>;

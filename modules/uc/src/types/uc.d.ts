@@ -20,31 +20,54 @@ declare namespace UC {
   interface IRegistrationPayload {
     email: string;
     password: string;
-    nick: string;
+    nickname: string;
+    username: string;
     // phone: string;
   }
 
   interface IUser {
     id: string;
     email: string;
-    nick: string;
+    nickname: string;
+    username: string;
   }
 
   interface IErrorMsg {
     id: number;
     text: string;
   }
-  interface IErrorRes {
-    ui?: {
-      messages?: IErrorMsg[];
-      nodes?: Array<{
-        attributes?: {
-          name: string;
-          type: string;
-        };
-        messages?: IErrorMsg[];
-      }>;
+  interface IKratosData {
+    id: string;
+    ui: {
+      messages: IErrorMsg[];
+      nodes: IKratosDataNode[];
     };
+  }
+
+  interface IKratosDataNode {
+    attributes: IKratosAttributes;
+    messages: IErrorMsg[];
+  }
+
+  interface IKratosAttributes {
+    name: string;
+    type: string;
+    value: string;
+  }
+
+  interface IKratosRes {
+    data: IKratosData;
+  }
+
+  interface IWhoAmIData {
+    identity: {
+      id: string;
+      traits: IRegistrationPayload;
+    };
+  }
+
+  interface IWhoAmIRes {
+    data: IWhoAmIData;
   }
 
   interface IUpdateUserPayload extends IRegistrationPayload {

@@ -21,7 +21,8 @@ const defaultValid = {
   pagePassword: '',
   email: '',
   password: '',
-  nick: '',
+  username: '',
+  nickname: '',
   confirmPw: '',
   page: '',
 };
@@ -30,9 +31,10 @@ export default function Setting() {
   const user = ucStore.useStore((s) => s.user);
   const [email, setEmail] = React.useState(user?.email);
   // const [phone, setPhone] = React.useState(user?.phone);
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPw, setConfirmPw] = React.useState('');
-  const [nick, setNick] = React.useState(user?.nick);
+  const [nickname, setNick] = React.useState(user?.nickname);
   const [validTips, setValidTips] = React.useState(defaultValid);
 
   React.useEffect(() => {
@@ -40,7 +42,8 @@ export default function Setting() {
       ucStore.whoAmI();
     } else {
       setEmail(user.email);
-      setNick(user.nick);
+      setNick(user.nickname);
+      setUsername(user.username);
     }
   }, [user]);
 
@@ -56,9 +59,14 @@ export default function Setting() {
     updateValid({ email: getValidText(v, 'email') });
   };
 
+  const updateUsername = (v: string) => {
+    setUsername(v);
+    updateValid({ username: getValidText(v) });
+  };
+
   const updateNick = (v: string) => {
     setNick(v);
-    updateValid({ nick: getValidText(v) });
+    updateValid({ nickname: getValidText(v) });
   };
 
   // const updatePhone = (v: string) => {
@@ -76,14 +84,18 @@ export default function Setting() {
   };
 
   const submitInfo = () => {
-    if (nick && email) {
-      ucStore.updateUser({ email, nick }).catch((e) => {
-        const errRes: UC.IErrorRes = e.response?.data;
+    if (nickname && email && username) {
+      ucStore.updateUser({ email, nickname, username }).catch((e) => {
+        const errRes: UC.IKratosData = e.response?.data;
         const errTips = getErrorValid<typeof defaultValid>(errRes);
         updateValid({ ...errTips, pageInfo: errTips.page });
       });
     } else {
-      updateValid({ email: getValidText(email, 'email'), nick: getValidText(nick) });
+      updateValid({
+        email: getValidText(email, 'email'),
+        nickname: getValidText(nickname),
+        username: getValidText(username),
+      });
     }
   };
 
@@ -95,7 +107,7 @@ export default function Setting() {
           goToLogout();
         })
         .catch((e) => {
-          const errRes: UC.IErrorRes = e.response?.data;
+          const errRes: UC.IKratosData = e.response?.data;
           const errTips = getErrorValid<typeof defaultValid>(errRes);
           updateValid({ ...errTips, pagePassword: errTips.page });
         });
@@ -114,7 +126,7 @@ export default function Setting() {
   return (
     <Container>
       <h2 className="text-center text-4xl text-indigo-800 font-display font-semibold lg:text-left xl:text-5xl xl:text-bold">
-        {i18n.t('Hello {name}', { name: user?.nick })}
+        {i18n.t('Hello {name}', { name: user?.nickname })}
       </h2>
       <div className="mt-12">
         {validTips.pageInfo ? (
@@ -131,9 +143,17 @@ export default function Setting() {
         />
 
         <FormInput
+          label={i18n.t('username')}
+          value={username}
+          errorTip={validTips.username}
+          onChange={updateUsername}
+          placeholder={i18n.t('enter your {name}', { name: i18n.t('username') })}
+        />
+
+        <FormInput
           label={i18n.t('nick name')}
-          value={nick}
-          errorTip={validTips.nick}
+          value={nickname}
+          errorTip={validTips.nickname}
           onChange={updateNick}
           placeholder={i18n.t('enter your {name}', { name: i18n.t('nick name') })}
         />
@@ -163,19 +183,19 @@ export default function Setting() {
         ) : null}
 
         <FormInput
-          label={i18n.t('password')}
+          label={i18n.t('new password')}
           value={password}
           onChange={updatePassword}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('password') })}
+          placeholder={i18n.t('enter your {name}', { name: i18n.t('new password') })}
           errorTip={validTips.password}
           type="password"
         />
 
         <FormInput
-          label={i18n.t('confirm password')}
+          label={i18n.t('confirm new password')}
           value={confirmPw}
           onChange={updateConfirmPw}
-          placeholder={i18n.t('enter your {name}', { name: i18n.t('confirm password') })}
+          placeholder={i18n.t('enter your {name}', { name: i18n.t('confirm new password') })}
           errorTip={validTips.confirmPw}
           type="password"
         />

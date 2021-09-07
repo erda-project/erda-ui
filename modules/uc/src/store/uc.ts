@@ -44,8 +44,9 @@ const ucStore = createFlatStore({
       const resObj = res?.identity?.traits;
       const user = {
         email: resObj?.email,
-        nick: resObj?.name?.first,
+        nickname: resObj?.nickname,
         id: res?.identity?.id,
+        username: resObj.username,
       };
       update({ user });
       return res;

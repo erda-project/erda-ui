@@ -40,12 +40,15 @@ module.exports = {
     },
   },
   devServer: {
-    port: 3030,
+    port: 3031,
     proxy: {
       '/api/uc': {
-        target: 'http://127.0.0.1:4433',
+        target: 'http://30.43.48.143:4433',
         source: false,
         changeOrigin: true,
+        pathRewrite: {
+          '/api/uc': '',
+        },
       },
     },
   },
