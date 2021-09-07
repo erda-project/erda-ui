@@ -1,8 +1,19 @@
+.debug-page-container {
+  .no-expand {
+    transform: rotate(180deg);
+  }
+}
+
 .debug-page {
   .left {
     position: relative;
     width: 40%;
     max-width: 40%;
+
+    &.hide-left {
+      width: 0%;
+      max-width: 0%;
+    }
 
     .update-button,
     .request-button {
@@ -20,12 +31,16 @@
     position: relative;
     width: 59%;
     max-width: 59%;
+
+    &.full-right {
+      width: 100%;
+      max-width: 100%;
+    }
   }
 
   .log-panel {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    overflow: auto;
+    height: 240px;
     width: 100%;
     padding: 6px;
     background-color: #ffffff;

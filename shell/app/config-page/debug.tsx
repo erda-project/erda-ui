@@ -15,6 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, Icon as CustomIcon } from 'common';
 import { Button, message, Popover, Input } from 'core/nusi';
+import { MenuUnfold as IconMenuUnfold } from '@icon-park/react';
 import agent from 'agent';
 
 import './debug.scss';
@@ -26,6 +27,7 @@ export default () => {
   const [config, setConfig] = React.useState(defaultData);
   const [logs, setLogs] = React.useState([] as any);
   const [proxyApi, setProxyApi] = React.useState('');
+  const [expand, setExpand] = React.useState(true);
 
   const updateMock = () => {
     try {
@@ -63,37 +65,31 @@ export default () => {
   );
 
   return (
-    <div className="h-full">
-      <Input value={proxyApi} size="small" className="mb-1" onChange={(e) => setProxyApi(e.target.value)} />
+    <div className="h-full debug-page-container">
+      <div className="flex justify-between mb-1 item-center">
+        <IconMenuUnfold
+          theme="outline"
+          size="24"
+          fill={'#6a549e'}
+          strokeLinejoin="miter"
+          strokeLinecap="butt"
+          className={`cursor-pointer ${expand ? '' : 'no-expand'}`}
+          onClick={() => setExpand(!expand)}
+        />
+        <Input value={proxyApi} size="small" onChange={(e) => setProxyApi(e.target.value)} />
+      </div>
       <div className="debug-page h-full flex justify-between items-center">
-        <div className="left h-full">
-          <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
-          <Button type="primary" className="update-button" onClick={() => updateMock()}>
-            更新
-          </Button>
-          <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>
-            请求
-          </Button>
-        </div>
-        <div className="right h-full">
-          <ErrorBoundary>
-            <DiceConfigPage
-              ref={pageRef}
-              showLoading
-              scenarioType={config?.scenario?.scenarioType}
-              scenarioKey={config?.scenario?.scenarioKey}
-              inParams={config?.inParams}
-              debugConfig={config}
-              onExecOp={onExecOp}
-              useMock={getMock}
-              forceMock={!!proxyApi}
-              updateConfig={(v) => {
-                setConfig(v);
-                setText(JSON.stringify(v, null, 2));
-              }}
-            />
-          </ErrorBoundary>
-          <div className="log-panel">
+        <div className={`flex flex-col	 left h-full ${expand ? '' : 'hide-left'}`}>
+          <div className="flex-1">
+            <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
+            <Button type="primary" className="update-button" onClick={() => updateMock()}>
+              更新
+            </Button>
+            <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>
+              请求
+            </Button>
+          </div>
+          <div className={`log-panel ${expand ? '' : 'hidden'}`}>
             <h3>
               操作日志
               <span className="ml-2 fake-link" onClick={() => setLogs([])}>
@@ -123,6 +119,25 @@ export default () => {
               );
             })}
           </div>
+        </div>
+        <div className={`right h-full ${expand ? '' : 'full-right'}`}>
+          <ErrorBoundary>
+            <DiceConfigPage
+              ref={pageRef}
+              showLoading
+              scenarioType={config?.scenario?.scenarioType}
+              scenarioKey={config?.scenario?.scenarioKey}
+              inParams={config?.inParams}
+              debugConfig={config}
+              onExecOp={onExecOp}
+              useMock={getMock}
+              forceMock={!!proxyApi}
+              updateConfig={(v) => {
+                setConfig(v);
+                setText(JSON.stringify(v, null, 2));
+              }}
+            />
+          </ErrorBoundary>
         </div>
       </div>
     </div>
