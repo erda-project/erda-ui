@@ -17,7 +17,7 @@ import { ColumnProps } from 'core/common/interface';
 import { useUpdate, ErdaCustomIcon, Copy, EmptyHolder } from 'common';
 import { setApiWithOrg } from 'common/utils';
 import i18n from 'i18n';
-import { Button, Table, Modal, Alert, Popconfirm, message } from 'core/nusi';
+import { Button, Table, Modal, Alert, Popconfirm, message, Spin } from 'core/nusi';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
@@ -87,6 +87,12 @@ const Configuration = () => {
   const keyDetailInfo = getDetailKey.useData();
   const InfoData = getInfo.useData();
   const createKeyInfo = createAccesskey.useData();
+
+  const AcquisitionAndLangDataLoading = getAcquisitionAndLang.useLoading();
+  const allKeyLoading = getAllkey.useLoading();
+  const keyDetailInfoLoading = getDetailKey.useLoading();
+  const InfoDataLoading = getInfo.useLoading();
+  const createKeyInfoLoading = createAccesskey.useLoading();
 
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
@@ -232,125 +238,136 @@ const Configuration = () => {
     });
   };
   return (
-    <div>
-      <Modal
-        onCancel={() =>
-          update({
-            keyDetailShow: false,
-          })
-        }
-        width={720}
-        title={i18n.t('msp:accessKey details')}
-        visible={keyDetailShow}
-        footer={[
-          <Button
-            onClick={() =>
-              update({
-                keyDetailShow: false,
-              })
-            }
-          >
-            {i18n.t('application:close')}
-          </Button>,
-        ]}
-      >
-        <div className="rounded-sm p-4 container-key text-gray mb-2">
-          <div className="flex items-center mb-2">
-            <span>accessKey ID</span>
-            <span className="ml-32">{keyDetailInfo?.accessKey}</span>
+    <Spin
+      spinning={
+        AcquisitionAndLangDataLoading ||
+        allKeyLoading ||
+        keyDetailInfoLoading ||
+        InfoDataLoading ||
+        createKeyInfoLoading
+      }
+    >
+      {' '}
+      <div>
+        <Modal
+          onCancel={() =>
+            update({
+              keyDetailShow: false,
+            })
+          }
+          width={720}
+          title={i18n.t('msp:accessKey details')}
+          visible={keyDetailShow}
+          footer={[
+            <Button
+              onClick={() =>
+                update({
+                  keyDetailShow: false,
+                })
+              }
+            >
+              {i18n.t('application:close')}
+            </Button>,
+          ]}
+        >
+          <div className="rounded-sm p-4 container-key text-gray mb-2">
+            <div className="flex items-center mb-2">
+              <span>accessKey ID</span>
+              <span className="ml-32">{keyDetailInfo?.accessKey}</span>
+            </div>
+            <div className="flex items-center">
+              <span>accessKey Secret</span>
+              <span className="ml-24">{accressPerm.viewAccessKeySecret.pass ? keyDetailInfo?.secretKey : '***'}</span>
+            </div>
           </div>
-          <div className="flex items-center">
-            <span>accessKey Secret</span>
-            <span className="ml-24">{accressPerm.viewAccessKeySecret.pass ? keyDetailInfo?.secretKey : '***'}</span>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
 
-      <Modal
-        onCancel={() => {
-          update({
-            modalShow: false,
-          });
-        }}
-        width={720}
-        title={i18n.t('msp:create AccessKey')}
-        visible={modalShow}
-        footer={[
-          <Button
-            key="close"
-            onClick={() =>
-              update({
-                modalShow: false,
-              })
-            }
-          >
-            {i18n.t('application:close')}
-          </Button>,
-        ]}
-      >
-        <Alert message={i18n.t('msp:createAccessKey info')} type="warning" showIcon />
-        <div className="flex items-center ml-4 my-8">
-          <ErdaCustomIcon className="mr-2" size="18" type="yuanxingxuanzhong-fill" />
-          <h3>{i18n.t('msp:created successfully, please save in time')}</h3>
-        </div>
-        <div className="rounded-sm container-key p-4 text-gray mb-2">
-          <div className="flex items-center mb-2">
-            <span>accessKey ID</span>
-            <span className="ml-32">{createKeyInfo?.accessKey}</span>
+        <Modal
+          onCancel={() => {
+            update({
+              modalShow: false,
+            });
+          }}
+          width={720}
+          title={i18n.t('msp:create AccessKey')}
+          visible={modalShow}
+          footer={[
+            <Button
+              key="close"
+              onClick={() =>
+                update({
+                  modalShow: false,
+                })
+              }
+            >
+              {i18n.t('application:close')}
+            </Button>,
+          ]}
+        >
+          <Alert message={i18n.t('msp:createAccessKey info')} type="warning" showIcon />
+          <div className="flex items-center ml-4 my-8">
+            <ErdaCustomIcon className="mr-2" size="18" type="yuanxingxuanzhong-fill" />
+            <h3>{i18n.t('msp:created successfully, please save in time')}</h3>
           </div>
-          <div className="flex items-center">
-            <span>accessKey Secret</span>
-            <span className="ml-24">{createKeyInfo?.secretKey}</span>
+          <div className="rounded-sm container-key p-4 text-gray mb-2">
+            <div className="flex items-center mb-2">
+              <span>accessKey ID</span>
+              <span className="ml-32">{createKeyInfo?.accessKey}</span>
+            </div>
+            <div className="flex items-center">
+              <span>accessKey Secret</span>
+              <span className="ml-24">{createKeyInfo?.secretKey}</span>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center text-primary">
-          <div className="cursor-pointer" onClick={() => createKeyInfo && downloadCsvFile(createKeyInfo.id)}>
-            <IconDownload size="14" />
-            <span className="mr-8">{i18n.t('msp:download csv file')}</span>
+          <div className="flex items-center text-primary">
+            <div className="cursor-pointer" onClick={() => createKeyInfo && downloadCsvFile(createKeyInfo.id)}>
+              <IconDownload size="14" />
+              <span className="mr-8">{i18n.t('msp:download csv file')}</span>
+            </div>
+            <IconCopy size="14" />
+            <Copy selector=".container-key" copyText={`${createKeyInfo?.accessKey}\n${createKeyInfo?.secretKey}`}>
+              {i18n.t('copy')}
+            </Copy>
           </div>
-          <IconCopy size="14" />
-          <Copy selector=".container-key" copyText={`${createKeyInfo?.accessKey}\n${createKeyInfo?.secretKey}`}>
-            {i18n.t('copy')}
-          </Copy>
-        </div>
-      </Modal>
+        </Modal>
 
-      <WithAuth pass={accressPerm.createAccessKey.pass}>
-        <Button className="font-bold m4 add-key" type="primary" onClick={createAccessKey}>
-          {i18n.t('msp:create AccessKey')}
-        </Button>
-      </WithAuth>
-      <Table
-        className="mt-2 mb-4"
-        columns={columns}
-        dataSource={allKey?.list || []}
-        scroll={{ x: '100%' }}
-        rowKey={(record) => `${record?.accessKey}` || 'accessKey'}
-        pagination={{
-          current: currentPage,
-          pageSize: PAGINATION.pageSize,
-          total: allKey?.total,
-          onChange: pageChange,
-        }}
-      />
+        <WithAuth pass={accressPerm.createAccessKey.pass}>
+          <Button className="top-button-group font-bold m4 add-key" type="primary" onClick={createAccessKey}>
+            {i18n.t('msp:create AccessKey')}
+          </Button>
+        </WithAuth>
+        <Table
+          className="mt-2 mb-4"
+          columns={columns}
+          dataSource={allKey?.list || []}
+          scroll={{ x: '100%' }}
+          rowKey={(record) => `${record?.accessKey}` || 'accessKey'}
+          pagination={{
+            current: currentPage,
+            pageSize: PAGINATION.pageSize,
+            total: allKey?.total,
+            onChange: pageChange,
+          }}
+        />
 
-      <ItemRender title={i18n.t('msp:choose data collection method')}>
-        <div className="mb-3 color-text-desc">{i18n.t('msp:data collection desc')}</div>
-        <TypeSelect<Strategy> list={strategies || []} value={strategy} onChange={handleChangeStrategy} />
-      </ItemRender>
-
-      {!languages ? (
-        <EmptyHolder relative />
-      ) : (
-        <ItemRender title={i18n.t('msp:choose the language you want to connect')}>
-          <TypeSelect<LangItem> value={lang} list={languages || []} onChange={handleChangeLang} />
+        <ItemRender title={i18n.t('msp:choose data collection method')}>
+          <div className="mb-3 color-text-desc">{i18n.t('msp:data collection desc')}</div>
+          <TypeSelect<Strategy> list={strategies || []} value={strategy} onChange={handleChangeStrategy} />
         </ItemRender>
-      )}
 
-      <div className="h-full bg-grey border-all p-4 mt-2 rounded">
-        <span className="text-sm">{InfoData || ''}</span>
+        {!languages ? (
+          <EmptyHolder relative />
+        ) : (
+          <ItemRender title={i18n.t('msp:choose the language you want to connect')}>
+            <TypeSelect<LangItem> value={lang} list={languages || []} onChange={handleChangeLang} />
+          </ItemRender>
+        )}
+
+        <div className="h-full bg-grey border-all p-4 mt-2 rounded">
+          <span className="text-sm">{InfoData || ''}</span>
+        </div>
       </div>
-    </div>
+    </Spin>
   );
 };
 
