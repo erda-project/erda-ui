@@ -67,6 +67,7 @@ interface IProps {
     delete?: boolean;
     showAuthorize?: boolean;
   };
+  roleFilter?(data: Obj): Obj;
 }
 
 export const MembersTable = ({
@@ -77,6 +78,7 @@ export const MembersTable = ({
   hideRowSelect = false,
   overwriteAuth = {},
   hasConfigAppAuth = false,
+  roleFilter,
 }: IProps) => {
   const memberLabels = memberLabelStore.useStore((s) => s.memberLabels);
   const { getMemberLabels } = memberLabelStore.effects;
@@ -94,9 +96,10 @@ export const MembersTable = ({
   const isAdminManager = scopeKey === MemberScope.SYS && loginUser.adminRoles.includes('Manager');
 
   const memberStore = storeMap[scopeKey];
-  const [list, paging, roleMap] = memberStore.useStore((s) => [s.list, s.paging, s.roleMap]);
+  const [list, paging, allRoleMap] = memberStore.useStore((s) => [s.list, s.paging, s.roleMap]);
   const { cleanMembers } = memberStore.reducers;
   const { getMemberList, updateMembers, removeMember, getRoleMap, genOrgInviteCode } = memberStore.effects;
+  const roleMap = roleFilter ? roleFilter(allRoleMap) : allRoleMap;
 
   const [getLoading, removeLoading, addLoading, updateLoading, getInviteLoading] = useLoading(memberStore, [
     'getMemberList',
