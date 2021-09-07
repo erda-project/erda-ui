@@ -20,8 +20,8 @@ const { publicDir, staticDir } = getEnv();
 
 @Controller('uc')
 export class UCController {
-  @Get('*')
-  handleMarket(@Req() req: Request, @Res() res: Response) {
+  @Get('uc/*')
+  handleUC(@Req() req: Request, @Res() res: Response) {
     const extension = path.extname(req.path);
     if (!extension) {
       res.sendFile(path.join(staticDir, 'uc', 'index.html'));

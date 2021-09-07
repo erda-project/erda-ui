@@ -68,6 +68,7 @@ export const createProxyService = (app: INestApplication) => {
         target: UC_API_URL,
         changeOrigin: !isProd,
         secure: false,
+        pathRewrite: (api) => api.replace('/api/uc', ''),
       },
     ),
   );
@@ -134,7 +135,7 @@ export const createProxyService = (app: INestApplication) => {
 };
 
 const replaceApiOrgPath = (p: string) => {
-  if (isProd) {
+  if (true || isProd) {
     const match = /\/api\/([^/]*)\/(.*)/.exec(p); // /api/orgName/path => /api/path
     if (match && !p.startsWith('/api/files')) {
       return `/api/${match[2]}`;

@@ -40,13 +40,6 @@ const docUrlMap = {
   monitorIntro: DOC_MSP_MONITOR,
 };
 
-const docUrlMap = {
-  apiGatewayIntro: DOC_MSP_API_GATEWAY,
-  registerCenterIntro: DOC_MSP_REGISTER,
-  configCenterIntro: DOC_MSP_CONFIG_CENTER,
-  monitorIntro: DOC_MSP_MONITOR,
-};
-
 interface IState {
   mspProjectList: MS_INDEX.IMspProject[];
   mspMenu: MS_INDEX.Menu[];

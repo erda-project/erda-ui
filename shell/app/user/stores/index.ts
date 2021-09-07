@@ -205,7 +205,7 @@ const userStore = createStore({
   },
   reducers: {
     setLoginUser(state, userData: ILoginUser) {
-      state.loginUser = userData;
+      state.loginUser = { ...userData, isNewUser: userData.userType === 'new' };
     },
     setJoinOrgTip(state, joinOrgTip: string) {
       state.joinOrgTip = joinOrgTip;

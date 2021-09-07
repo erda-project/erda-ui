@@ -80,7 +80,7 @@ const getEnv = () => {
   } else {
     envConfig = {
       BACKEND_URL: process.env.OPENAPI_ADDR,
-      UC_BACKEND_URL: process.env.UC_ADDR,
+      UC_BACKEND_URL: process.env.KRATOS_ADDR,
       GITTAR_ADDR: process.env.GITTAR_ADDR,
     };
     dataAppName = process.env.DATA_APP_NAME;
