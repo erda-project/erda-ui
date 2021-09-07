@@ -358,7 +358,7 @@ const IssueMetaFields = React.forwardRef(
           },
         },
       ]),
-      ...insertWhen(issueType === ISSUE_TYPE.BUG, [
+      ...insertWhen(issueType !== ISSUE_TYPE.TICKET, [
         {
           className: 'mb-5',
           name: 'complexity',
