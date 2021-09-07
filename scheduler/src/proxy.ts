@@ -135,7 +135,7 @@ export const createProxyService = (app: INestApplication) => {
 };
 
 const replaceApiOrgPath = (p: string) => {
-  if (true || isProd) {
+  if (isProd) {
     const match = /\/api\/([^/]*)\/(.*)/.exec(p); // /api/orgName/path => /api/path
     if (match && !p.startsWith('/api/files')) {
       return `/api/${match[2]}`;
