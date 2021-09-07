@@ -358,7 +358,7 @@ const Transaction = () => {
         />
       </div>
       <Drawer
-        title={`${i18n.t('msp:tracking details')}(${url})`}
+        title={`${i18n.t('msp:tracing details')}(${url})`}
         width="55%"
         visible={visible}
         onClose={() => updater.visible(false)}
