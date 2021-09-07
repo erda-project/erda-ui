@@ -25,6 +25,7 @@ import addon_png from 'app/images/resources/addon.png';
 import './addon-cards.scss';
 import addonStore from 'common/stores/addon';
 import CustomAddonConfigModal from 'project/pages/addon/custom-config';
+import routeInfoStore from 'core/stores/route';
 
 interface IProps {
   dataSource?: any[];
@@ -49,6 +50,7 @@ export const AddonCards = (props: IProps) => {
       customConfigVisible: false,
     });
   const [addonDetail, addonReferences] = addonStore.useStore((s) => [s.addonDetail, s.addonReferences]);
+  const routeParams = routeInfoStore.useStore((s) => s.params);
 
   React.useEffect(() => {
     if (dataSource) {
@@ -295,7 +297,7 @@ export const AddonCards = (props: IProps) => {
                 const [title, contents] = category;
                 const liRef = categoryRefs && categoryRefs.find((x) => x[title]);
                 let extra = null;
-                if (get(contents, '[0].category') === 'custom') {
+                if (get(contents, '[0].category') === 'custom' && routeParams.projectId) {
                   extra = (
                     <Button size="small" className="ml-2" onClick={() => updater.customConfigVisible(true)}>
                       {i18n.t('project:view config')}
