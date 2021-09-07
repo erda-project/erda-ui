@@ -23,7 +23,6 @@
     "eject": "react-scripts eject",
     "build": "npm run clean && npm run build-app",
     "clean": "rm -rf dist",
-    "copy": "erda-ui copy uc",
     "precommit": "lint-staged"
   },
   "eslintConfig": {

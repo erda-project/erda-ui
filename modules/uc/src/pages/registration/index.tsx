@@ -80,7 +80,6 @@ export default function Login() {
         })
         .catch((e) => {
           const errRes: UC.IKratosData = e.response?.data;
-          console.log('------');
           updateValid(getErrorValid<typeof defaultValid>(errRes));
         });
     } else {
