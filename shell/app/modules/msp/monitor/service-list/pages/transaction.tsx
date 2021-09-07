@@ -352,6 +352,7 @@ const Transaction = () => {
       </div>
       <div className="overflow-auto flex-1">
         <ServiceListDashboard
+          key={`${startTimeMs}-${endTimeMs}`}
           dashboardId={dashboardIdMap[type].id}
           extraGlobalVariable={extraGlobalVariable}
           onBoardEvent={handleBoardEvent}
