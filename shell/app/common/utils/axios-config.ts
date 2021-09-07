@@ -68,13 +68,7 @@ export const initAxios = () => {
       }
       // if paging list is null, transform to array
       const { data } = response.data;
-      // const { pageNo } = response.config.params;
-      // if (pageNo) {
-      //   if ('list' in data && 'total' in data && data.list === null) {
-      //     data.list = [];
-      //   }
-      // }
-      if (typeof data === 'object') {
+      if (Object.prototype.toString.call(data) === '[object Object]') {
         if ('list' in data && 'total' in data && data.list === null) {
           data.list = [];
         }
