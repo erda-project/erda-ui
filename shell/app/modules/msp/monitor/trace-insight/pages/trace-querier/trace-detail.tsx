@@ -204,7 +204,6 @@ class TraceDetail extends React.Component<IProps, IState> {
                       </Tooltip>
                     </div>
                   </div>
-
                   <div
                     className="duration-container"
                     onClick={() => this.props.getSpanDetailContent({ span, visible: true })}
@@ -216,28 +215,32 @@ class TraceDetail extends React.Component<IProps, IState> {
                         </div>
                       );
                     })}
-                    <div className="duration" style={{ left: `${span.left}%`, width: `${span.width}%` }}>
-                      {map(annotations, (annotation, index) => {
-                        const { isCore, left, value, endpoint, timestamp, relativeTime, serviceName } = annotation;
-                        return (
-                          <div
-                            key={`annotation${index}`}
-                            className={`annotation${isCore ? 'core' : ''}`}
-                            style={{ left: `${left}%` }}
-                            title={value}
-                            data-keys="endpoint,value,timestamp,relativeTime,serviceName"
-                            data-endpoint={endpoint}
-                            data-value={value}
-                            data-timestamp={timestamp}
-                            data-relative-time={relativeTime}
-                            data-service-name={serviceName}
-                          />
-                        );
-                      })}
-                    </div>
-                    <Tooltip title={tags.spanName} overlayClassName="span-tooltip" arrowPointAtCenter>
-                      <span className="span-name" style={{ left: `${span.left}%`, width: `${100 - span.left}%` }}>
-                        {durationStr} : {operationName}
+                    <Tooltip
+                      title={`${durationStr} : ${operationName}`}
+                      overlayClassName="span-tooltip"
+                      arrowPointAtCenter
+                    >
+                      <div className="duration" style={{ left: `${span.left}%`, width: `${span.width}%` }}>
+                        {map(annotations, (annotation, index) => {
+                          const { isCore, left, value, endpoint, timestamp, relativeTime, serviceName } = annotation;
+                          return (
+                            <div
+                              key={`annotation${index}`}
+                              className={`annotation${isCore ? 'core' : ''}`}
+                              style={{ left: `${left}%` }}
+                              title={value}
+                              data-keys="endpoint,value,timestamp,relativeTime,serviceName"
+                              data-endpoint={endpoint}
+                              data-value={value}
+                              data-timestamp={timestamp}
+                              data-relative-time={relativeTime}
+                              data-service-name={serviceName}
+                            />
+                          );
+                        })}
+                      </div>
+                      <span className="span-name" style={{ left: `${span.left}%` }}>
+                        {durationStr}
                       </span>
                     </Tooltip>
                   </div>
