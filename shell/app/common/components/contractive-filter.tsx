@@ -783,7 +783,7 @@ export const ContractiveFilter = ({
             }
             placement="bottomLeft"
           >
-            <span className="contractive-filter-item">
+            <span className="contractive-filter-item more-conditions">
               <IconPlus fill="rgba(0, 0, 0, 0.8)" className="mr-0.5 mb-1 color-text" />
               <span>{i18n.t('common:filter')}</span>
               <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
