@@ -75,7 +75,7 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return pathname.match('^/api');
+        return !!pathname.match('^/api');
       },
       {
         target: API_URL,
