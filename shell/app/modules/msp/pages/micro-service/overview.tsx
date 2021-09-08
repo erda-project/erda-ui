@@ -14,6 +14,7 @@
 import React from 'react';
 import { Spin } from 'app/nusi';
 import { Holder, PureBoardGrid, TimeSelector, useUpdate } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import { getDashboard } from 'msp/services';
 import { isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
@@ -28,7 +29,7 @@ interface IState {
 
 const Overview = () => {
   const [{ layout, loading }, updater] = useUpdate<IState>({ layout: [], loading: false });
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const globalVariable = {
     startTime: timeSpan.startTimeMs,
     endTime: timeSpan.endTimeMs,
@@ -50,7 +51,9 @@ const Overview = () => {
   }, []);
   return (
     <Spin spinning={loading}>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <Holder when={isEmpty(layout)}>
         <DashBoard layout={layout} globalVariable={globalVariable} />
       </Holder>

@@ -144,4 +144,24 @@ declare namespace MONITOR_TRACE {
     spanName: string;
     width: number;
   }
+
+  type IFixedConditionType = 'sort' | 'limit' | 'traceStatus';
+
+  type IFixedCondition = {
+    [k in IFixedConditionType]: {
+      key: string;
+      value: string;
+      displayName: string;
+    }[];
+  };
+
+  interface TraceConditions extends IFixedCondition {
+    others: {
+      key: string;
+      value: string;
+      displayName: string;
+      type: string;
+      paramKey: string;
+    }[];
+  }
 }

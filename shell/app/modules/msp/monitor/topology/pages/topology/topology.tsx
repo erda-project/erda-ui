@@ -28,6 +28,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import { useLoading } from 'core/stores/loading';
 import { useUnmount, useMount } from 'react-use';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import './topology.scss';
 
 const emptyObj = { nodes: [] };
@@ -69,7 +70,7 @@ const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
 
 const Topology = () => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const { getProjectApps } = monitorCommonStore.effects;
   const [isFetching] = useLoading(topologyStore, ['getMonitorTopology']);
   const { clearMonitorTopology, setScale } = topologyStore.reducers;
@@ -102,7 +103,7 @@ const Topology = () => {
   }, [sourceData]);
 
   const getData = () => {
-    const { startTimeMs, endTimeMs } = timeSpan;
+    const { startTimeMs, endTimeMs } = range;
 
     // filterTags = { a: ['a1', 'a2'], b: ['b1']}
     // 需要转换成 ['a:a1', 'a:a2', 'b:b1']
@@ -121,7 +122,7 @@ const Topology = () => {
   };
 
   React.useEffect(() => {
-    const { startTimeMs, endTimeMs } = timeSpan;
+    const { startTimeMs, endTimeMs } = range;
     const query = {
       startTime: startTimeMs,
       endTime: endTimeMs,
@@ -132,7 +133,7 @@ const Topology = () => {
       // 这个接口可能有问题，可能不需要依赖于startTime和endTime
       getTagsOptions({ ...query, tag: item.tag });
     });
-  }, [topologyTags, timeSpan]);
+  }, [topologyTags, range]);
 
   React.useEffect(() => {
     if (params.terminusKey) {
@@ -152,7 +153,7 @@ const Topology = () => {
     if (params.terminusKey) {
       getData();
     }
-  }, [timeSpan, params.terminusKey, filterTags]);
+  }, [range, params.terminusKey, filterTags]);
 
   React.useEffect(() => {
     if (!isEmpty(topologyData)) {
@@ -174,7 +175,7 @@ const Topology = () => {
 
   const nodeExternalParam = {
     terminusKey: params.terminusKey,
-    timeSpan,
+    timeSpan: range,
     linkTextHoverAction,
     originData: useData,
     toggleDrawer,
@@ -199,7 +200,6 @@ const Topology = () => {
     <div className="topology-container">
       <div className="topology-header">
         <div className="left">
-          <TimeSelector />
           <div className="topology-filter mb-3">
             <ContractiveFilter
               delay={1000}
@@ -213,6 +213,7 @@ const Topology = () => {
         </div>
         <div className="right">
           <ScaleSelector scale={scale} onChange={(val) => setScale(val)} />
+          <TimeSelectWithStore className="ml-3" />
         </div>
       </div>
       <div className="topology-content">

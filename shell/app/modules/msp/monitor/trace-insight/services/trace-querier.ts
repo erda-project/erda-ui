@@ -81,3 +81,6 @@ export const getSpanDetailContent = ({ span, visible }: { span: any; visible: bo
     span,
   };
 };
+export const getQueryConditions = (): Promise<RES_BODY<MONITOR_TRACE.TraceConditions>> => {
+  return agent.get('/api/msp/apm/trace/conditions').then((response: any) => response.body);
+};

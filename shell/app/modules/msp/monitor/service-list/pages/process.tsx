@@ -15,18 +15,19 @@ import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import classNames from 'classnames';
 import { Spin, Select } from 'app/nusi';
-import { TimeSelector, EmptyHolder, useUpdate } from 'common';
+import { EmptyHolder, useUpdate } from 'common';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import { get } from 'lodash';
 
 import './index.scss';
 
 export default () => {
-  const _timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore((s) => s.params);
   const { terminusKey, serviceName, serviceId } = params;
@@ -68,7 +69,6 @@ export default () => {
     <div className="service-analyze flex flex-col h-full">
       <div className="flex justify-between items-center flex-wrap mb-1">
         <div className="left flex justify-between items-center mb-2">
-          <TimeSelector className="m-0 mr-3" />
           <Select
             className="mr-3"
             placeholder={i18n.t('addonPlatform:select instance')}
@@ -98,6 +98,9 @@ export default () => {
               </Select.Option>
             ))}
           </Select>
+        </div>
+        <div>
+          <TimeSelectWithStore className="m-0 ml-3" />
         </div>
       </div>
       <div className="overflow-auto flex-1">

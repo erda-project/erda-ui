@@ -12,92 +12,178 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useMemo } from 'react';
-import { get, isEmpty } from 'lodash';
-import moment from 'moment';
-import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsRow } from 'common';
-import { getTimeRanges } from 'common/utils';
+import { get, isEmpty, isNumber } from 'lodash';
+import moment, { Moment } from 'moment';
+import { ContractiveFilter, Copy, PureBoardGrid, TagsRow, useSwitch, useUpdate } from 'common';
 import { ColumnProps } from 'core/common/interface';
-import { Select, DatePicker, Table, Drawer } from 'app/nusi';
-import { useEffectOnce } from 'react-use';
+import { Drawer, message, Table } from 'core/nusi';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
 import { useLoading } from 'core/stores/loading';
-import monitorCommonStore from 'common/stores/monitorCommon';
 import traceStore from '../../../../stores/trace';
 import TraceSearchDetail from './trace-search-detail';
+import { ICondition } from 'common/components/contractive-filter';
+import { getQueryConditions } from 'trace-insight/services/trace-querier';
+import Duration, { transformDuration } from 'trace-insight/components/duration';
+import { TimeSelectWithStore } from 'msp/components/time-select';
+import monitorCommonStore from 'common/stores/monitorCommon';
 
-const { RangePicker } = DatePicker;
-const { Option } = Select;
+const name = {
+  sort: i18n.t('msp:sort method'),
+  limit: i18n.t('msp:number of queries'),
+  traceStatus: i18n.t('msp:tracking status'),
+};
 
-const limits = [10, 20, 50, 100, 200, 500, 1000];
+const convertData = (
+  data: MONITOR_TRACE.TraceConditions,
+): [any[], { [k in MONITOR_TRACE.IFixedConditionType]: string }] => {
+  const { others, ...rest } = data;
+  const list: ICondition[] = [];
+  const defaultValue = {};
+  const fixC = Object.keys(rest);
+  fixC.forEach((key, index) => {
+    const option = data[key];
+    defaultValue[key] = option?.[0]?.value;
+    list.push({
+      type: 'select',
+      fixed: true,
+      showIndex: index + 2,
+      key,
+      label: name[key],
+      options: option.map((t) => ({ ...t, label: t.displayName })),
+      customProps: {
+        mode: 'single',
+      },
+    });
+  });
+  others?.forEach(({ paramKey, displayName, type }) => {
+    list.push({
+      type,
+      showIndex: 0,
+      fixed: false,
+      placeholder: i18n.t('please enter {name}', { name: displayName }),
+      key: paramKey,
+      label: displayName,
+    });
+  });
+  return [list, defaultValue];
+};
 
 interface RecordType {
   id: string;
-  elapsed: number;
+  duration: number;
   startTime: number;
   services: string[];
 }
 
+const initialFilter = [
+  {
+    label: i18n.t('msp:duration'),
+    key: 'duration',
+    showIndex: 1,
+    fixed: true,
+    getComp: (props) => {
+      return <Duration {...props} />;
+    },
+  },
+];
+
+interface IState {
+  filter: ICondition[];
+  traceId?: string;
+  defaultQuery: Obj;
+  query: Obj;
+}
+
+type IQuery = {
+  [k in MONITOR_TRACE.IFixedConditionType]: string;
+} & {
+  time: [Moment, Moment];
+  duration: { timer: number; unit: 'ms' | 's' }[];
+} & {
+  [k: string]: string;
+};
+
 export default () => {
-  const initialRange = [moment().subtract(1, 'hours'), moment()];
+  const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
-  const projectApps = monitorCommonStore.useStore((s) => s.projectApps);
   const { getTraceCount, getTraceSummary } = traceStore;
-  const { getProjectApps } = monitorCommonStore.effects;
-  const { clearProjectApps } = monitorCommonStore.reducers;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
 
   const [detailVisible, openDetail, closeDetail] = useSwitch(false);
-  const [{ traceId }, updater] = useUpdate({
+  const [{ traceId, filter, defaultQuery, query }, updater, update] = useUpdate<IState>({
+    filter: [],
     traceId: undefined,
+    defaultQuery: {},
+    query: {},
   });
-  // const services = ['s12', 's23', '3s'];
 
   useEffectOnce(() => {
-    getProjectApps({});
-    return () => {
-      clearProjectApps();
-    };
+    getQueryConditions().then((res) => {
+      if (res.success) {
+        const [list, defaultValue] = convertData(res.data);
+        update({
+          defaultQuery: {
+            ...defaultValue,
+          },
+          query: {
+            ...defaultValue,
+          },
+          filter: [...initialFilter, ...list],
+        });
+        getData({
+          startTime: range.startTimeMs,
+          endTime: range.endTimeMs,
+          status: defaultValue.traceStatus,
+          ...defaultValue,
+        });
+      }
+    });
   });
 
-  const getData = (obj?: {
-    timeFrom: number;
-    timeTo: number;
-    limit: number;
-    applicationId: number;
-    status: string;
-    service: string;
-  }) => {
-    const { timeFrom, timeTo, service, limit, applicationId, status } = obj || {};
-    const _status = Number(status);
-    const start = (timeFrom && moment(timeFrom).valueOf()) || initialRange[0].valueOf();
-    const end = (timeTo && moment(timeTo).valueOf()) || initialRange[1].valueOf();
+  useUpdateEffect(() => {
+    getData({
+      ...query,
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+    });
+  }, [query, range]);
+
+  const getData = React.useCallback((obj: Omit<MS_MONITOR.ITraceSummaryQuery, 'tenantId'>) => {
+    const { serviceName, status, startTime, endTime } = obj;
 
     getTraceCount({
-      start,
-      end,
-      'filter_fields.applications_ids': applicationId,
-      'filter_fields.services_distinct': service,
-      field_gt_errors_sum: _status === -1 ? 0 : undefined,
-      field_eq_errors_sum: _status === 1 ? 0 : undefined,
+      start: startTime,
+      end: endTime,
+      'filter_fields.services_distinct': serviceName,
+      field_gt_errors_sum: status === 'trace_error' ? 0 : undefined,
+      field_eq_errors_sum: status === 'trace_success' ? 0 : undefined,
     });
-    getTraceSummary({
-      startTime: start,
-      endTime: end,
-      limit,
-      applicationId,
-      status: _status || 0,
+    getTraceSummary(obj);
+  }, []);
+
+  const handleSearch = (query: Partial<IQuery>) => {
+    const { duration, traceStatus, ...rest } = query;
+    const durationMin = transformDuration(duration?.[0]);
+    const durationMax = transformDuration(duration?.[1]);
+    let durations = {};
+    if (isNumber(durationMin) && isNumber(durationMax)) {
+      if (durationMin <= durationMax) {
+        durations = {
+          durationMin,
+          durationMax,
+        };
+      } else {
+        message.error(i18n.t('msp:wrong duration'));
+      }
+    }
+    updater.query({
+      status: traceStatus,
+      ...durations,
+      ...rest,
     });
   };
-
-  const { onSubmit } = useFilter({
-    getData,
-    initQuery: {
-      timeFrom: initialRange[0],
-      timeTo: initialRange[1],
-    },
-  });
-
   const convertTraceCount = (responseData: any) => {
     if (!responseData) return {};
     const { time, results } = responseData;
@@ -121,78 +207,6 @@ export default () => {
     updater.traceId(id as any);
     openDetail();
   };
-
-  const filterConfig = useMemo(
-    () => [
-      {
-        type: Select,
-        name: 'applicationId',
-        valueType: 'number',
-        customProps: {
-          placeholder: i18n.t('msp:please select application'),
-          options: projectApps.map(({ id, name }) => (
-            <Option key={id} value={id}>
-              {name}
-            </Option>
-          )),
-          allowClear: true,
-        },
-      },
-      // {
-      //   type: Select,
-      //   name: 'service',
-      //   customProps: {
-      //     placeholder: i18n.t('msp:please select service'),
-      //     options: services.map((service) => <Option key={service} value={service}>{service}</Option>),
-      //     allowClear: true,
-      //   },
-      // },
-      {
-        type: Select,
-        name: 'status',
-        valueType: 'number',
-        customProps: {
-          placeholder: i18n.t('msp:please select status'),
-          options: [
-            <Option key={-1} value={-1}>
-              {i18n.t('error')}
-            </Option>,
-            <Option key={1} value={1}>
-              {i18n.t('succeed')}
-            </Option>,
-          ],
-          allowClear: true,
-        },
-      },
-      {
-        type: RangePicker,
-        name: 'time',
-        valueType: 'range',
-        required: true,
-        customProps: {
-          showTime: true,
-          allowClear: false,
-          format: 'MM-DD HH:mm',
-          style: { width: 'auto' },
-          ranges: getTimeRanges(),
-        },
-      },
-      {
-        type: Select,
-        name: 'limit',
-        customProps: {
-          placeholder: i18n.t('msp:Please select the maximum number of queries.'),
-          options: limits.map((limit) => (
-            <Option key={limit} value={limit}>
-              {limit}
-            </Option>
-          )),
-          allowClear: true,
-        },
-      },
-    ],
-    [projectApps],
-  );
 
   const layout = useMemo(
     () => [
@@ -227,11 +241,11 @@ export default () => {
       render: (id: string) => <Copy>{id}</Copy>,
     },
     {
-      title: i18n.t('msp:time consuming'),
-      dataIndex: 'elapsed',
+      title: i18n.t('msp:duration'),
+      dataIndex: 'duration',
       width: 240,
-      sorter: (a: any, b: any) => a.elapsed - b.elapsed,
-      render: (elapsed: number) => getFormatter('TIME', 'ns').format(elapsed),
+      sorter: (a: RecordType, b: RecordType) => a.duration - b.duration,
+      render: (duration: number) => getFormatter('TIME', 'ns').format(duration),
     },
     {
       title: i18n.t('msp:start time'),
@@ -262,7 +276,14 @@ export default () => {
 
   return (
     <>
-      <CustomFilter className="mb-4" onSubmit={onSubmit} config={filterConfig} isConnectQuery />
+      <div className="flex justify-between items-start bg-white px-2 py-2 mb-3">
+        <div className="flex-1">
+          {filter.length > 0 ? (
+            <ContractiveFilter delay={1000} conditions={filter} initValue={defaultQuery} onChange={handleSearch} />
+          ) : null}
+        </div>
+        <TimeSelectWithStore />
+      </div>
       <div className="mb-6">
         <PureBoardGrid layout={layout} />
       </div>

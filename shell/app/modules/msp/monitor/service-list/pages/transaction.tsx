@@ -23,6 +23,7 @@ import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import TraceSearchDetail from 'msp/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
@@ -131,7 +132,7 @@ interface IState {
 
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
-  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [
@@ -287,7 +288,6 @@ const Transaction = () => {
       <div>
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
-            <TimeSelector className="m-0" />
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
                 className="ml-3"
@@ -342,6 +342,7 @@ const Transaction = () => {
                 </RadioButton>
               ))}
             </RadioGroup>
+            <TimeSelectWithStore className="ml-3" />
           </div>
         </div>
         <If condition={!!subSearch}>
