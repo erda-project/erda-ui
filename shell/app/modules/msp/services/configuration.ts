@@ -22,10 +22,10 @@ const apis = {
   getInfo: {
     api: 'get@/api/msp/apm/instrumentation-library/config-docs',
   },
-  getAllkey: {
+  getAllKey: {
     api: 'post@/api/msp/credential/access-keys/records',
   },
-  createAccesskey: {
+  createAccessKey: {
     api: 'post@/api/msp/credential/access-keys',
   },
   getDetailKey: {
@@ -37,11 +37,11 @@ const apis = {
 };
 export const getAcquisitionAndLang = apiCreator<() => CONFIGURATION.IStrategy[]>(apis.getAcquisitionAndLang);
 export const getInfo = apiCreator<(payload: CONFIGURATION.IDocs) => CONFIGURATION.IDocData>(apis.getInfo);
-export const getDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) => CONFIGURATION.IAllkeyData>(
+export const getDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) => CONFIGURATION.IAllKeyData>(
   apis.getDetailKey,
 );
 export const deleteDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) => void>(apis.deleteDetailKey);
-export const getAllkey = apiCreator<(payload: CONFIGURATION.IAllkey) => CONFIGURATION.IkeyList>(apis.getAllkey);
-export const createAccesskey = apiCreator<(payload: CONFIGURATION.ICreateKey) => CONFIGURATION.IAllkeyData>(
-  apis.createAccesskey,
+export const getAllKey = apiCreator<(payload: CONFIGURATION.IAllKey) => CONFIGURATION.IKeyList>(apis.getAllKey);
+export const createAccessKey = apiCreator<(payload: CONFIGURATION.ICreateKey) => CONFIGURATION.IAllKeyData>(
+  apis.createAccessKey,
 );
