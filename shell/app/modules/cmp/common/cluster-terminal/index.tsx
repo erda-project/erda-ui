@@ -22,6 +22,7 @@ import i18n from 'i18n';
 
 interface IProps {
   params: IWSParams;
+  extraOptions?: JSX.Element[];
 }
 
 const terminalMap = {
@@ -41,7 +42,7 @@ interface IWSParams {
 }
 
 export const ClusterTerminal = (props: IProps) => {
-  const { params } = props;
+  const { params, extraOptions } = props;
 
   const terminalRef = React.useRef<HTMLDivElement>(null);
   const term = React.useRef<ITerminal>();
@@ -71,6 +72,7 @@ export const ClusterTerminal = (props: IProps) => {
         <Button className="resize-button" onClick={changeSize} type="ghost">
           {max ? i18n.t('exit full screen') : i18n.t('full screen')}
         </Button>
+        {extraOptions}
       </div>
     </div>
   );

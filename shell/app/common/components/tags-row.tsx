@@ -131,7 +131,7 @@ export const TagsRow = ({
       {showMore ? (
         <Tooltip
           title={<span className="tags-container">{fullTags()}</span>}
-          placement="top"
+          placement="right"
           overlayClassName="tags-row-tooltip"
         >
           <span className={`twt-tag-ellipsis ${size}`}>...&nbsp;&nbsp;</span>
