@@ -350,9 +350,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           </div>
           <div className="flex justify-between items-center mt-4">
             <Tooltip title={dirName && dirName.length < 40 ? null : dirName}>
-              <div className="flex text-base nowrap mr-5 color-text-desc">
+              <div className="flex text-base nowrap mr-5 color-text-desc case-drawer-header-desc">
                 <ErdaCustomIcon type="wjj1" size="16" className="mr-1" fill="yellow" />
-                {dirName}
+                <span className="truncate">{dirName}</span>
               </div>
             </Tooltip>
             {editMode && (
