@@ -15,7 +15,7 @@ import React, { useMemo, useCallback } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
+import { Radio, Ellipsis, Select, Drawer, Tag, Table } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -266,6 +266,13 @@ const Transaction = () => {
     return [c, traceSlowTranslation?.data];
   }, [traceSlowTranslation, updater]);
 
+  const tracingDrawerTitle = (
+    <div className="w-60">
+      <Ellipsis title={`${i18n.t('msp:tracking details')}(${url})`}>{`${i18n.t(
+        'msp:tracking details',
+      )}(${url})`}</Ellipsis>
+    </div>
+  );
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
     // 动态注入正则查询变量需要转义字符
@@ -273,11 +280,12 @@ const Transaction = () => {
       REG_CHARS.forEach((char) => {
         _subSearch = _subSearch?.replaceAll(char, `\\${char}`);
       });
+
     return {
       topic,
       search,
       sort,
-      type: callType,
+      type: callType === 'undefined' ? undefined : callType,
       subSearch: _subSearch || undefined,
     };
   }, [search, sort, callType, subSearch, topic]);
@@ -345,8 +353,8 @@ const Transaction = () => {
           </div>
         </div>
         <If condition={!!subSearch}>
-          <Tag className="mb-2" closable onClose={() => updater.subSearch(undefined)}>
-            {subSearch}
+          <Tag className="mb-2 max-w-md" closable onClose={() => updater.subSearch(undefined)}>
+            <Ellipsis title={subSearch}>{subSearch}</Ellipsis>
           </Tag>
         </If>
       </div>
@@ -358,12 +366,7 @@ const Transaction = () => {
           onBoardEvent={handleBoardEvent}
         />
       </div>
-      <Drawer
-        title={`${i18n.t('msp:tracking details')}(${url})`}
-        width="55%"
-        visible={visible}
-        onClose={() => updater.visible(false)}
-      >
+      <Drawer title={tracingDrawerTitle} width="55%" visible={visible} onClose={() => updater.visible(false)}>
         <div className="flex items-center flex-wrap justify-end mb-3">
           <span>{i18n.t('msp:maximum number of queries')}：</span>
           <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
