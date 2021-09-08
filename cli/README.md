@@ -8,9 +8,9 @@ Command line interface for rapid Erda UI development.
 
 ## Usage
 
-#### setup module config
+#### install dependency & initialize .env config
 
-> erda-ui setup <module> <port>
+> erda-ui init
 
 #### launch modules
 
@@ -24,9 +24,6 @@ Command line interface for rapid Erda UI development.
 > -i, —image release based on docker image
 > -l, —local enable local build mode, default be false, if image is given, it would forcibly be true
 
-#### copy build directory to public
-
-> erda-ui copy <module>
 
 #### build and make docker image
 
@@ -38,6 +35,10 @@ Command line interface for rapid Erda UI development.
 #### do translate job
 
 > erda-ui i18n [workDir]
+
+#### generate service by API swagger
+
+> erda-ui generate-service [workDir]
 
 #### check file license header
 

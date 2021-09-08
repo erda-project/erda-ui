@@ -15,9 +15,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erda/erda-ui.git"
+    "url": "git+https://github.com/erda-project/erda-ui.git"
   },
-  "homepage": "https://github.com/erda/erda-ui/cli#readme",
+  "homepage": "https://github.com/erda-project/erda-ui/blob/master/cli/README.md",
   "keywords": [
     "erda",
     "ui",
