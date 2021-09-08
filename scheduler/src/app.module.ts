@@ -17,6 +17,7 @@ import { HealthController } from './controllers/health.controller';
 import { LegacyRouteController } from './controllers/legacy-route.controller';
 import { getEnv } from './util';
 import { MarketController } from './controllers/market.controller';
+import { UCController } from './controllers/uc.controller';
 
 const { publicDir } = getEnv();
 @Module({
@@ -30,7 +31,7 @@ const { publicDir } = getEnv();
       },
     }),
   ],
-  controllers: [HealthController, LegacyRouteController, MarketController],
+  controllers: [HealthController, LegacyRouteController, MarketController, UCController],
   providers: [],
 })
 export class AppModule {}

@@ -20,7 +20,6 @@ services:
       GITTAR_ADDR: "gittar:5566"
       COLLECTOR_ADDR: "collector:7076"
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
-      UC_ADDR: "uc:8080"
       SCHEDULER_ADDR: "scheduler:9091"
       UC_PUBLIC_URL: ""
     resources:

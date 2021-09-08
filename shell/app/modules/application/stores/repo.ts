@@ -483,27 +483,36 @@ const repoStore = createStore({
     async getMrList({ call, select, update }, payload: REPOSITORY.QueryMrs) {
       const appDetail = await getAppDetail();
       const { pageNo = 1 } = payload;
-      const originalList = select((state) => state.mrList);
-      const { list, total } = await call(
-        getMRs,
-        { repoPrefix: appDetail.gitRepoAbbrev, ...payload },
-        { paging: { key: 'mrPaging' } },
-      );
-      const mrList = pageNo === 1 ? list : [...originalList, ...list];
-      update({ mrList });
-      return { list: mrList, total };
+      const [originalList, mrPaging] = select((state) => [state.mrList, state.mrPaging]);
+      try {
+        const { list, total } = await call(
+          getMRs,
+          { repoPrefix: appDetail.gitRepoAbbrev, ...payload },
+          { paging: { key: 'mrPaging' } },
+        );
+        const mrList = pageNo === 1 ? list : [...originalList, ...list];
+        update({ mrList });
+        return { list: mrList, total };
+      } catch (e) {
+        update({ mrPaging: { ...mrPaging, hasMore: false } });
+        return { list: [], total: 0 };
+      }
     },
     async getCommitList({ call, select, update }, payload: REPOSITORY.QueryCommit) {
       const appDetail = await getAppDetail();
       const { commitPaging: paging, commit: prevList } = select((state) => state);
-      const result = await call(getCommits, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...paging,
-        ...(payload || {}),
-      });
-      const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
-      const hasMore = result.length === paging.pageSize;
-      update({ commit: newList, commitPaging: { ...paging, ...payload, hasMore } });
+      try {
+        const result = await call(getCommits, {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...paging,
+          ...(payload || {}),
+        });
+        const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
+        const hasMore = result.length === paging.pageSize;
+        update({ commit: newList, commitPaging: { ...paging, ...payload, hasMore } });
+      } catch (e) {
+        update({ commitPaging: { ...paging, ...payload, hasMore: false } });
+      }
     },
     async getCommitDetail({ getParams, call, update }) {
       const params = getParams();
@@ -784,6 +793,7 @@ const repoStore = createStore({
       return {
         ...state,
         mrList: [],
+        mrPaging: getDefaultPaging(),
       };
     },
   },

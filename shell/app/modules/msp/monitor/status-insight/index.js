@@ -20,6 +20,9 @@ function monitorStatusRouter() {
     routes: [
       {
         getComp: (cb) => cb(import('status-insight/pages/status/status')),
+        layout: {
+          noWrapper: true,
+        },
       },
       {
         path: ':metricId',

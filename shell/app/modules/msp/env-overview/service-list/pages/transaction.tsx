@@ -292,6 +292,7 @@ const Transaction = () => {
           <div className="left flex justify-between items-center mb-2">
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
+                className="ml-3"
                 placeholder={i18n.t('msp:call type')}
                 allowClear
                 style={{ width: '150px' }}

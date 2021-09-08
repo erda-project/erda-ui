@@ -197,11 +197,16 @@ const publisher = createStore({
     },
     // 版本
     async getVersionList({ call, update, select }, payload: Parameters<typeof getVersionList>[0]) {
-      const result = await call(getVersionList, payload, { paging: { key: 'versionPaging' } });
-      const prevList = select((s) => s.versionList);
-      const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result.list) : result.list;
-      update({ versionList: newList });
-      return { ...result };
+      const [prevList, versionPaging] = select((s) => [s.versionList, s.versionPaging]);
+      try {
+        const result = await call(getVersionList, payload, { paging: { key: 'versionPaging' } });
+        const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result.list) : result.list;
+        update({ versionList: newList });
+        return { ...result };
+      } catch (e) {
+        update({ versionPaging: { ...versionPaging, hasMore: false } });
+        return { list: [], total: 0 };
+      }
     },
     async addVersion({ call }, payload: Parameters<typeof addVersion>[0]) {
       const res = await call(addVersion, payload, { successMsg: i18n.t('added successfully') });

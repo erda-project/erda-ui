@@ -39,3 +39,5 @@ export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/deploy/config-center.
 export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monitor-app.html`;
 
 export const { erdaEnv } = window;
+// uc page
+export const UC_USER_SETTINGS = '/uc/settings';

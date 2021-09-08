@@ -49,7 +49,9 @@ interface ILoginUser {
   avatar: string;
   phone: string;
   token: string;
+  userType?: string;
   isSysAdmin?: boolean;
+  isNewUser?: boolean;
   adminRoles: string[];
 }
 

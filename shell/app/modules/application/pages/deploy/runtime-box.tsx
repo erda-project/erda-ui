@@ -86,7 +86,7 @@ const RuntimeBox = (props: IProps) => {
             secondTitle={
               <span>
                 {i18n.t('application:confirm to delete Runtime')}:{' '}
-                <b>{isZh() ? `${envMap[env.toUpperCase()]} 环境的 【${branch}】` : `【${branch}】 in ${env}`}</b>
+                <b>{isZh() ? `${envMap[env.toUpperCase()]}环境的 【${branch}】` : `【${branch}】 in ${env}`}</b>
               </span>
             }
           >
