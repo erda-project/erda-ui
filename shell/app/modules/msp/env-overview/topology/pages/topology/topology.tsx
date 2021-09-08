@@ -175,7 +175,7 @@ const Topology = () => {
 
   const nodeExternalParam = {
     terminusKey: params.terminusKey,
-    range,
+    timeSpan: range,
     linkTextHoverAction,
     originData: useData,
     toggleDrawer,
