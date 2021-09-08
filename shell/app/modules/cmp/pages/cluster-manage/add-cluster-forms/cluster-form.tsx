@@ -23,6 +23,7 @@ import clusterStore from '../../../stores/cluster';
 import { insertWhen, regRules } from 'common/utils';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
+import { DOC_CMP_CLUSTER_MANAGE } from 'common/constants';
 
 import './cluster-form.scss';
 
@@ -223,11 +224,7 @@ const ClusterBasicForm = ({
 const k8sAlert = (
   <span>
     {i18n.t('cmp:before importing cluster, please complete the relevant preparations. For details, please refer to')}
-    <a
-      href="https://docs.erda.cloud/1.2/manual/cmp/guide/cluster/management.html"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <a href={DOC_CMP_CLUSTER_MANAGE} target="_blank" rel="noopener noreferrer">
       {i18n.t('document')}
     </a>
   </span>

@@ -32,7 +32,7 @@ export const DOC_PROJECT_RESOURCE_MANAGE = `${DOC_PREFIX}/manual/deploy/resource
 export const DOC_ORG_INTRO = `${DOC_PREFIX}/manual/platform-design.html#租户-组织`;
 export const DOC_PROJECT_INTRO = `${DOC_PREFIX}/manual/platform-design.html#项目和应用`;
 
-// msp guid doc
+// msp guide doc
 export const DOC_MSP_API_GATEWAY = `${DOC_PREFIX}/manual/microservice/api-gateway.html`;
 export const DOC_MSP_REGISTER = `${DOC_PREFIX}/manual/microservice/dubbo.html`;
 export const DOC_MSP_CONFIG_CENTER = `${DOC_PREFIX}/manual/deploy/config-center.html`;
@@ -40,3 +40,7 @@ export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monito
 
 // uc page
 export const UC_USER_SETTINGS = '/uc/settings';
+
+
+// cmp guide doc
+export const DOC_CMP_CLUSTER_MANAGE = `${DOC_PREFIX}/manual/cmp/guide/cluster/management.html`;
