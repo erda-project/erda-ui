@@ -43,6 +43,11 @@ const memberScopeMap = {
   [AlarmRecordScope.MICRO_SERVICE]: 'project',
 };
 
+const urlMap = {
+  [AlarmRecordScope.ORG]: goTo.pages.orgAlarmRecordDetail,
+  [AlarmRecordScope.MICRO_SERVICE]: goTo.pages.micro_serviceAlarmRecordDetail,
+};
+
 export default ({ scope }: { scope: string }) => {
   const alarmRecordStore = storeMap[scope];
   const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [
@@ -132,7 +137,7 @@ export default ({ scope }: { scope: string }) => {
         onRow={(record: ALARM_REPORT.RecordListItem) => {
           return {
             onClick: () => {
-              goTo(goTo.pages[`${scope}AlarmRecordDetail`], { ...params, id: record.groupId });
+              goTo(urlMap[scope], { ...params, id: record.groupId });
             },
           };
         }}

@@ -46,6 +46,11 @@ const dataUrlMap = {
   [CustomDashboardScope.MICRO_SERVICE]: '/api/tmc/metrics-query',
 };
 
+const urlMap = {
+  [CustomDashboardScope.ORG]: goTo.pages.orgCustomDashboard,
+  [CustomDashboardScope.MICRO_SERVICE]: goTo.pages.micro_serviceCustomDashboard,
+};
+
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
   registDiceDataConfigProps({
     dataConfigMetaDataStore: dataConfigMetaDataStoreMap[scope],
@@ -184,7 +189,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
         scope,
         scopeId,
         version: 'v2',
-      }).then(() => goTo(goTo.pages[`${scope}CustomDashboard`], params));
+      }).then(() => goTo(urlMap[scope], params));
     }
   };
 

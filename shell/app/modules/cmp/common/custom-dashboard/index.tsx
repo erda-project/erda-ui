@@ -27,6 +27,17 @@ const storeMap = {
   [CustomDashboardScope.MICRO_SERVICE]: mspCustomDashboardStore,
 };
 
+const urlMap = {
+  [CustomDashboardScope.ORG]: {
+    add: goTo.pages.orgAddCustomDashboard,
+    detail: goTo.pages.orgCustomDashboardDetail,
+  },
+  [CustomDashboardScope.MICRO_SERVICE]: {
+    add: goTo.pages.micro_serviceAddCustomDashboard,
+    detail: goTo.pages.micro_serviceCustomDashboardDetail,
+  },
+};
+
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
   const params = routeInfoStore.useStore((s) => s.params);
   const store = storeMap[scope];
@@ -103,7 +114,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   return (
     <>
       <div className="top-button-group">
-        <Button type="primary" onClick={() => goTo(goTo.pages[`${scope}AddCustomDashboard`], params)}>
+        <Button type="primary" onClick={() => goTo(urlMap[scope].add)}>
           {i18n.t('org:new O & M dashboard')}
         </Button>
       </div>
@@ -115,7 +126,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
         onRow={({ id }: Custom_Dashboard.DashboardItem) => {
           return {
             onClick: () => {
-              goTo(goTo.pages[`${scope}CustomDashboardDetail`], { ...params, customDashboardId: id });
+              goTo(urlMap[scope].detail, { ...params, customDashboardId: id });
             },
           };
         }}
