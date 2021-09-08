@@ -12,14 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'app/nusi';
+import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'core/nusi';
 import { MemberSelector, ErdaCustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
-import { debounce, isEmpty, isArray, map, max, sortBy, isString, has } from 'lodash';
+import { debounce, isEmpty, isArray, map, max, sortBy, isString, has, isNumber } from 'lodash';
 import i18n from 'i18n';
-import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck, Plus as IconPlus } from '@icon-park/react';
+import {
+  DownOne as IconDownOne,
+  Down as IconDown,
+  Search as IconSearch,
+  Check as IconCheck,
+  Plus as IconPlus,
+  Delete as IconDelete,
+} from '@icon-park/react';
 
 interface Option {
   label: string;
@@ -30,20 +37,29 @@ interface Option {
 
 type ConditionType = 'select' | 'input' | 'dateRange';
 
-interface ICondition {
+export interface ICondition {
   key: string;
   label: string;
   type: ConditionType;
   emptyText?: string;
+  split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
   showIndex?: number; // 0： 隐藏、其他显示
   haveFilter?: boolean;
   placeholder?: string;
+  quickAdd?: {
+    operationKey: string;
+    show: boolean;
+  };
+  quickDelete?: {
+    operationKey: string;
+  };
   quickSelect?: {
     label: string;
     operationKey: string;
   };
+  getComp?: (props: Obj) => React.ReactNode;
   options?: Option[];
   customProps: Obj;
 }
@@ -54,7 +70,7 @@ interface IFilterItemProps {
   active: boolean;
   onVisibleChange: (visible: boolean) => void;
   onChange: (data: { key: string; value: any }, extra?: { forceChange?: boolean }) => void;
-  onQuickSelect: (data: { key: string; value: any }) => void;
+  onQuickOperation: (data: { key: string; value: any }) => void;
 }
 
 const filterMatch = (v: string, f: string) => v.toLowerCase().includes(f.toLowerCase());
@@ -85,12 +101,13 @@ interface IOptionItemProps {
   value: Array<string | number>;
   option: Option;
   onClick: (option: Option) => void;
+  onDelete?: (option: Option) => void;
 }
 const OptionItem = (props: IOptionItemProps) => {
-  const { value, option, onClick } = props;
+  const { value, option, onClick, onDelete } = props;
   return (
     <div
-      className={`option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
+      className={`relative option-item ${(value || []).includes(option.value) ? 'checked-item' : ''}`}
       key={option.value}
       onClick={() => onClick(option)}
     >
@@ -98,11 +115,24 @@ const OptionItem = (props: IOptionItemProps) => {
         <span>{option.label}</span>
         <span>{value.includes(option.value) ? <IconCheck className="text-success ml-2" /> : null}</span>
       </div>
+      {onDelete ? (
+        <div
+          className="absolute option-item-delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(option);
+          }}
+        >
+          <div className="option-item-delete-box pl-2">
+            <IconDelete theme="outline" />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
 
-const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickSelect }: IFilterItemProps) => {
+const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuickOperation }: IFilterItemProps) => {
   const {
     key,
     label,
@@ -110,9 +140,12 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     type,
     placeholder,
     quickSelect,
+    quickDelete,
+    quickAdd,
     options,
     customProps,
     emptyText = i18n.t('application:all'),
+    getComp,
   } = itemData;
   const [filterMap, setFilterMap] = React.useState({});
   const memberSelectorRef = React.useRef(null as any);
@@ -149,10 +182,10 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   }
 
   if (type === 'select') {
-    const _value = value ? (isString(value) ? [value] : value) : [];
+    const _value = value ? (isString(value) || isNumber(value) ? [value] : value) : [];
     const _options = options || [];
     const { mode = 'multiple' } = customProps || {};
-    const isSigleMode = mode === 'single';
+    const isSingleMode = mode === 'single';
     const valueText =
       _options
         .reduce((_optArr: Option[], _curOpt: Option) => _optArr.concat(_curOpt.children ?? _curOpt), [])
@@ -184,7 +217,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           </Menu.Item>,
           <Menu.Divider key="divider1" />,
         ]}
-        {!isSigleMode && [
+        {!isSingleMode && [
           // 单选模式下不展示已选择n项
           <Menu.Item key="select-info" className="flex justify-between items-center not-select px6 py-0 options-item">
             <span>
@@ -201,12 +234,23 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Item key="quick-select-menu-item options-item">
                 <span
                   className="fake-link flex justify-between items-center"
-                  onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
+                  onClick={() => onQuickOperation({ key: quickSelect.operationKey, value: itemData })}
                 >
                   {quickSelect.label}
                 </span>
               </Menu.Item>,
               <Menu.Divider key="divider3" />,
+            ]
+          : null}
+        {quickAdd?.operationKey && quickAdd.show !== false
+          ? [
+              <Menu.Item key="quick-select-menu-item options-item">
+                <QuickSave
+                  onSave={(v) => onQuickOperation({ key: quickAdd.operationKey, value: v })}
+                  options={options}
+                />
+              </Menu.Item>,
+              <Menu.Divider key="divider4" />,
             ]
           : null}
         <Menu.Item key="options" className="p-0 options-container options-item">
@@ -216,7 +260,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             }
             const isGroup = op.children?.length;
             const onClickOptItem = (_curOpt: Option) => {
-              if (isSigleMode && !_value.includes(_curOpt.value)) {
+              if (isSingleMode && !_value.includes(_curOpt.value)) {
                 onChange({
                   key,
                   value: _curOpt.value,
@@ -231,24 +275,24 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
                 });
               }
             };
+            const onDelete = quickDelete?.operationKey
+              ? (optItem: Option) => {
+                  onQuickOperation({ key: quickDelete.operationKey, value: optItem.value });
+                }
+              : undefined;
+
             if (isGroup) {
-              return (
-                <div className="option-group" key={op.value || op.label}>
-                  <div className="option-group-label">{op.label}</div>
-                  {op.children?.map((cItem) => {
-                    return (
-                      <OptionItem
-                        key={cItem.value}
-                        value={_value}
-                        option={cItem}
-                        onClick={() => onClickOptItem(cItem)}
-                      />
-                    );
-                  })}
-                </div>
-              );
+              return <GroupOpt value={_value} onDelete={onDelete} onClickOptItem={onClickOptItem} option={op} />;
             } else {
-              return <OptionItem key={op.value} value={_value} option={op} onClick={() => onClickOptItem(op)} />;
+              return (
+                <OptionItem
+                  onDelete={onDelete}
+                  key={op.value}
+                  value={_value}
+                  option={op}
+                  onClick={() => onClickOptItem(op)}
+                />
+              );
             }
           })}
         </Menu.Item>
@@ -273,7 +317,9 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   }
 
   if (type === 'dateRange') {
-    const [startDate, endDate] = value || [];
+    const [_startDate, _endDate] = value || [];
+    const startDate = typeof _startDate === 'string' ? +_startDate : _startDate;
+    const endDate = typeof _endDate === 'string' ? +_endDate : _endDate;
     const { borderTime } = customProps || {};
 
     const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
@@ -373,9 +419,96 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       </span>
     );
   }
+  if (getComp) {
+    const comp = getComp({
+      onChange: (v) => {
+        onChange({ key, value: v });
+      },
+    });
+    return (
+      <span className="contractive-filter-item flex items-center">
+        <span className="text-desc mr-0.5">{label}</span>
+        {comp}
+      </span>
+    );
+  }
   return null;
 };
 
+interface IQuickSaveProps {
+  onSave: (val: string) => void;
+  options?: Option[];
+}
+const QuickSave = (props: IQuickSaveProps) => {
+  const { onSave, options } = props;
+  const [v, setV] = React.useState('');
+  const [tip, setTip] = React.useState(`${i18n.t('can not be empty')}`);
+
+  useUpdateEffect(() => {
+    const labels = map(options, 'label') || [];
+    if (!v) {
+      setTip(i18n.t('can not be empty'));
+    } else if (labels.includes(v)) {
+      setTip(`${i18n.t('{name} already exists', { name: i18n.t('name') })}`);
+    } else {
+      setTip('');
+    }
+  }, [v]);
+
+  const save = () => {
+    !tip && onSave(v);
+    setV('');
+  };
+  return (
+    <div className="flex justify-between items-center">
+      <Input
+        size="small"
+        placeholder={i18n.t('please enter')}
+        value={v}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setV(e.target.value)}
+      />
+      <Tooltip title={tip}>
+        <span className={`ml-2 ${!tip ? 'fake-link' : 'not-allowed'}`} onClick={save}>
+          {i18n.t('save')}
+        </span>
+      </Tooltip>
+    </div>
+  );
+};
+
+interface IGroupOptProps {
+  value: Array<string | number>;
+  option: Option;
+  onClickOptItem: (option: Option) => void;
+  onDelete?: (option: Option) => void;
+}
+
+const GroupOpt = (props: IGroupOptProps) => {
+  const { option, onClickOptItem, value, onDelete } = props;
+  const [expand, setExpand] = React.useState(true);
+
+  return (
+    <div className={'option-group'} key={option.value || option.label}>
+      <div className="option-group-label flex items-center justify-between" onClick={() => setExpand(!expand)}>
+        {option.label}
+        <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
+      </div>
+      <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
+        {option.children?.map((cItem) => {
+          return (
+            <OptionItem
+              onDelete={onDelete}
+              key={cItem.value}
+              value={value}
+              option={cItem}
+              onClick={() => onClickOptItem(cItem)}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 const noop = () => {};
 interface ContractiveFilterProps {
   initValue?: Obj; // 初始化
@@ -386,7 +519,7 @@ interface ContractiveFilterProps {
   fullWidth?: boolean;
   onConditionsChange?: (data: ICondition[]) => void;
   onChange: (valueMap: Obj) => void;
-  onQuickSelect?: (data: { key: string; value: any }) => void;
+  onQuickOperation?: (data: { key: string; value: any }) => void;
 }
 
 const setConditionShowIndex = (conditions: ICondition[], key: string, show: boolean) => {
@@ -423,7 +556,7 @@ export const ContractiveFilter = ({
   delay,
   visible = true,
   onChange,
-  onQuickSelect = noop,
+  onQuickOperation = noop,
   onConditionsChange = noop,
   fullWidth = false,
 }: ContractiveFilterProps) => {
@@ -438,8 +571,10 @@ export const ContractiveFilter = ({
 
   const valueMapRef = React.useRef<Obj>();
 
-  const inputList = conditions.filter((a) => a.type === 'input');
-  const displayConditionsLen = conditions.filter((item) => !item.fixed && item.type !== 'input').length;
+  const inputList = conditions.filter((a) => a.type === 'input' && a.fixed !== false);
+  const displayConditionsLen = conditions.filter(
+    (item) => (!item.fixed && item.type !== 'input') || (item.fixed === false && item.type === 'input'),
+  ).length;
 
   useUpdateEffect(() => {
     setValueMap(values || {});
@@ -472,10 +607,10 @@ export const ContractiveFilter = ({
       const wrappers = Array.from(document.querySelectorAll('.contractive-filter-item-wrap'));
       const dropdowns = Array.from(document.querySelectorAll('.contractive-filter-item-dropdown'));
 
-      const datePcikers = Array.from(document.querySelectorAll('.contractive-filter-date-picker'));
+      const datePickers = Array.from(document.querySelectorAll('.contractive-filter-date-picker'));
       const node = e.target as Node;
       const inner = wrappers.concat(dropdowns).some((wrap) => wrap.contains(node));
-      const isDatePicker = datePcikers.some((wrap) => wrap.contains(node));
+      const isDatePicker = datePickers.some((wrap) => wrap.contains(node));
 
       if (!inner && isDatePicker) {
         setCloseAll(true);
@@ -520,7 +655,7 @@ export const ContractiveFilter = ({
   const handleClearSelected = () => {
     setConditions((prev) =>
       map(prev, (pItem) => {
-        if (pItem.fixed || pItem.type === 'input') {
+        if (pItem.fixed || (pItem.type === 'input' && pItem.fixed !== false)) {
           return { ...pItem };
         } else {
           return { ...pItem, showIndex: 0 };
@@ -530,8 +665,8 @@ export const ContractiveFilter = ({
     const newValueMap = { ...valueMap };
     map(newValueMap, (_v, _k) => {
       const curConditions = conditions[_k] || {};
-      if (!(curConditions.fixed || curConditions.type === 'input')) {
-        newValueMap[_k] = undefined;
+      if (!(curConditions.fixed || (curConditions.type === 'input' && curConditions.fixed !== false))) {
+        newValueMap[_k] = initValue?.[_k] ?? undefined;
       }
     });
     handelItemChange(newValueMap, { batchChange: true });
@@ -544,7 +679,13 @@ export const ContractiveFilter = ({
       if (a.type !== 'input' && (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue)))) {
         return true;
       }
-      return (a.showIndex || a.fixed) && a.type !== 'input';
+      let flag = false;
+      if (a.type !== 'input') {
+        flag = !!a.showIndex || !!a.fixed;
+      } else {
+        flag = !!a.showIndex && a.fixed === false;
+      }
+      return flag;
     }),
     'showIndex',
   );
@@ -578,8 +719,9 @@ export const ContractiveFilter = ({
             active={closeAll ? false : activeMap[item.key]}
             onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
             onChange={handelItemChange}
-            onQuickSelect={onQuickSelect}
+            onQuickOperation={onQuickOperation}
           />
+          {item.split ? <div className="ml-2 contractive-filter-split" /> : null}
         </span>
       ))}
 
@@ -616,7 +758,11 @@ export const ContractiveFilter = ({
                 <Menu.Divider />
                 {conditions.map((item) => {
                   const { key, label, fixed, type } = item;
-                  if (fixed || type === 'input' || !item.label.toLowerCase().includes(hideFilterKey)) {
+                  if (
+                    fixed ||
+                    (type === 'input' && fixed !== false) ||
+                    !item.label.toLowerCase().includes(hideFilterKey)
+                  ) {
                     return null;
                   }
                   const handleClick = () => {
@@ -658,7 +804,7 @@ export const ContractiveFilter = ({
             active={closeAll ? false : activeMap[item.key]}
             onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
             onChange={handelItemChange}
-            onQuickSelect={onQuickSelect}
+            onQuickOperation={onQuickOperation}
           />
         </span>
       ))}

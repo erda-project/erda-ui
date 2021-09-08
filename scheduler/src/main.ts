@@ -76,6 +76,9 @@ async function bootstrap() {
     createProxyMiddleware({
       target: BACKEND_URL,
       changeOrigin: true,
+      onProxyReq: (proxyReq) => {
+        proxyReq.setHeader('referer', BACKEND_URL);
+      },
     }),
   );
   app.use(

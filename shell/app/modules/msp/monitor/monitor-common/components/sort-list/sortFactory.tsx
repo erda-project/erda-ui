@@ -102,7 +102,7 @@ export default {
         const { loadChart } = monitorChartStore.effects;
         const { updateState: setCommonState } = monitorCommonStore.reducers;
         const [timeSpan, chosenSortItem, chosenApp = {}, sortTab, subTab] = monitorCommonStore.useStore((s) => [
-          s.timeSpan,
+          s.globalTimeSelectSpan.range,
           s.chosenSortItem,
           s.chosenApp,
           s.sortTab,

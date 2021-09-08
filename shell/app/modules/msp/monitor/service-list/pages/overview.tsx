@@ -13,7 +13,7 @@
 
 import React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
@@ -27,8 +27,8 @@ export default () => {
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex justify-between items-center mb-3">
-        <TimeSelector className="m-0" />
+      <div className="flex justify-end items-center mb-3">
+        <TimeSelectWithStore className="m-0" />
       </div>
       <div className="overflow-auto flex-1">
         <ServiceListDashboard dashboardId="service_analysis" />

@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import './error-filters.scss';
 
 const ErrorFilters = () => {
   return (
-    <div className="error-filters filter-box">
-      <TimeSelector />
+    <div className="error-filters filter-box flex justify-end">
+      <TimeSelectWithStore />
     </div>
   );
 };
