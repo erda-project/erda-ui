@@ -129,10 +129,15 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'progress':
       {
-        const { value, tip, status, ...rest } = val || {};
+        const { value, tip, status, renderType, ...rest } = val || {};
         Comp = value ? (
           <Tooltip title={tip}>
-            <Progress percent={+value || 0} {...rest} strokeColor={statusColorMap[status]} />
+            <Progress
+              percent={+value || 0}
+              {...rest}
+              format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
+              strokeColor={statusColorMap[status]}
+            />
           </Tooltip>
         ) : (
           value
@@ -343,7 +348,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { renders } = val || {};
         Comp = (
-          <Container>
+          <Container props={{ spaceSize: 'none' }}>
             {map(renders, (rds, idx) => (
               <RowContainer key={`${idx}`}>
                 {map(rds, (rd, rdIdx) => (

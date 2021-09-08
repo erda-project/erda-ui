@@ -282,7 +282,15 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               : undefined;
 
             if (isGroup) {
-              return <GroupOpt value={_value} onDelete={onDelete} onClickOptItem={onClickOptItem} option={op} />;
+              return (
+                <GroupOpt
+                  key={op.value || op.label}
+                  value={_value}
+                  onDelete={onDelete}
+                  onClickOptItem={onClickOptItem}
+                  option={op}
+                />
+              );
             } else {
               return (
                 <OptionItem
@@ -518,7 +526,7 @@ interface ContractiveFilterProps {
   visible?: boolean;
   fullWidth?: boolean;
   onConditionsChange?: (data: ICondition[]) => void;
-  onChange: (valueMap: Obj) => void;
+  onChange: (valueMap: Obj, key?: string) => void;
   onQuickOperation?: (data: { key: string; value: any }) => void;
 }
 
@@ -645,9 +653,9 @@ export const ContractiveFilter = ({
       curValueMap = { ...curValueMap, [key]: value };
     }
     if (delay && !forceChange) {
-      debouncedChange.current(curValueMap);
+      debouncedChange.current(curValueMap, vals?.key);
     } else {
-      onChange(curValueMap);
+      onChange(curValueMap, vals?.key);
     }
   };
 
