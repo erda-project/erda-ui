@@ -241,9 +241,9 @@ export enum pages {
   orgCustomDashboardDetail = '/{orgName}/cmp/customDashboard/{customDashboardId}',
 
   // 微服务监控自定义大盘
-  micro_serviceCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard',
-  micro_serviceAddCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/add',
-  micro_serviceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/{customDashboardId}',
+  microServiceCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard',
+  microServiceAddCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/add',
+  microServiceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
   mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
@@ -255,7 +255,7 @@ export enum pages {
   orgAlarmRecordDetail = '/{orgName}/cmp/alarm/record/{id}',
 
   // 微服务告警记录详情
-  micro_serviceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record/{id}',
+  microServiceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record/{id}',
 
   // 云资源管理
   cloudSource = '/{orgName}/cmp/cloudSource',

@@ -45,7 +45,7 @@ const memberScopeMap = {
 
 const urlMap = {
   [AlarmRecordScope.ORG]: goTo.pages.orgAlarmRecordDetail,
-  [AlarmRecordScope.MICRO_SERVICE]: goTo.pages.micro_serviceAlarmRecordDetail,
+  [AlarmRecordScope.MICRO_SERVICE]: goTo.pages.microServiceAlarmRecordDetail,
 };
 
 export default ({ scope }: { scope: string }) => {

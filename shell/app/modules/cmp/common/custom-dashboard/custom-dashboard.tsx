@@ -48,7 +48,7 @@ const dataUrlMap = {
 
 const urlMap = {
   [CustomDashboardScope.ORG]: goTo.pages.orgCustomDashboard,
-  [CustomDashboardScope.MICRO_SERVICE]: goTo.pages.micro_serviceCustomDashboard,
+  [CustomDashboardScope.MICRO_SERVICE]: goTo.pages.microServiceCustomDashboard,
 };
 
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {

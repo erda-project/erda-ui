@@ -33,8 +33,8 @@ const urlMap = {
     detail: goTo.pages.orgCustomDashboardDetail,
   },
   [CustomDashboardScope.MICRO_SERVICE]: {
-    add: goTo.pages.micro_serviceAddCustomDashboard,
-    detail: goTo.pages.micro_serviceCustomDashboardDetail,
+    add: goTo.pages.microServiceAddCustomDashboard,
+    detail: goTo.pages.microServiceCustomDashboardDetail,
   },
 };
 
