@@ -22,10 +22,10 @@ const apis = {
   getInfo: {
     api: 'get@/api/msp/apm/instrumentation-library/config-docs',
   },
-  getAllkey: {
+  getAllKey: {
     api: 'post@/api/msp/credential/access-keys/records',
   },
-  createAccesskey: {
+  createAccessKey: {
     api: 'post@/api/msp/credential/access-keys',
   },
   getDetailKey: {
@@ -41,7 +41,7 @@ export const getDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) =
   apis.getDetailKey,
 );
 export const deleteDetailKey = apiCreator<(payload: CONFIGURATION.IDelAndFindKey) => void>(apis.deleteDetailKey);
-export const getAllkey = apiCreator<(payload: CONFIGURATION.IAllkey) => CONFIGURATION.IkeyList>(apis.getAllkey);
-export const createAccesskey = apiCreator<(payload: CONFIGURATION.ICreateKey) => CONFIGURATION.IAllkeyData>(
-  apis.createAccesskey,
+export const getAllKey = apiCreator<(payload: CONFIGURATION.IAllkey) => CONFIGURATION.IkeyList>(apis.getAllKey);
+export const createAccessKey = apiCreator<(payload: CONFIGURATION.ICreateKey) => CONFIGURATION.IAllkeyData>(
+  apis.createAccessKey,
 );

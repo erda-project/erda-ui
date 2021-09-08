@@ -27,8 +27,8 @@ import {
   getDetailKey,
   deleteDetailKey,
   getInfo,
-  getAllkey,
-  createAccesskey,
+  getAllKey,
+  createAccessKey,
   downloadCsvUrl,
 } from 'msp/services/configuration';
 import routeInfoStore from 'core/stores/route';
@@ -72,7 +72,7 @@ const ItemRender = ({ title, children }: IProps) => {
 const Configuration = () => {
   const { projectId, tenantGroup, env } = routeInfoStore.useStore((s) => s.params);
 
-  const accressPerm = usePerm((s) => s.project.microService.accessConfiguration);
+  const accessPerm = usePerm((s) => s.project.microService.accessConfiguration);
   const [{ lang, currentPage, strategy, languages, modalShow, keyDetailShow }, updater, update] = useUpdate<IState>({
     lang: '',
     strategy: '',
@@ -82,21 +82,15 @@ const Configuration = () => {
     currentPage: 1,
   });
 
-  const AcquisitionAndLangData = getAcquisitionAndLang.useData();
-  const allKey = getAllkey.useData();
-  const keyDetailInfo = getDetailKey.useData();
-  const InfoData = getInfo.useData();
-  const createKeyInfo = createAccesskey.useData();
-
-  const AcquisitionAndLangDataLoading = getAcquisitionAndLang.useLoading();
-  const allKeyLoading = getAllkey.useLoading();
-  const keyDetailInfoLoading = getDetailKey.useLoading();
-  const InfoDataLoading = getInfo.useLoading();
-  const createKeyInfoLoading = createAccesskey.useLoading();
+  const [allKey, allKeyLoading] = getAllKey.useState();
+  const [acquisitionAndLangData, acquisitionAndLangDataLoading] = getAcquisitionAndLang.useState();
+  const [keyDetailInfo, keyDetailInfoLoading] = getDetailKey.useState();
+  const [infoData, infoDataLoading] = getInfo.useState();
+  const [createKeyInfo, createKeyInfoLoading] = createAccessKey.useState();
 
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
-    getAllkey.fetch({
+    getAllKey.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -107,7 +101,7 @@ const Configuration = () => {
   }, []);
 
   const strategies: Strategy[] = React.useMemo(() => {
-    const newList = AcquisitionAndLangData?.map((item) => {
+    const newList = acquisitionAndLangData?.map((item) => {
       return {
         ...item,
         key: item.strategy,
@@ -122,7 +116,7 @@ const Configuration = () => {
       strategy: newList?.[0].type,
     });
     return newList || [];
-  }, [AcquisitionAndLangData, update]);
+  }, [acquisitionAndLangData, update]);
 
   const handleChangeStrategy = (type: string, item: Strategy) => {
     const newLanguages = item.languages.map(convertLanguages);
@@ -139,11 +133,11 @@ const Configuration = () => {
   const columns: Array<ColumnProps<CONFIGURATION.IAllkeyData>> = [
     { title: 'accessKey', dataIndex: 'accessKey', key: 'accessKey' },
     {
-      title: i18n.t('create time'),
-      dataIndex: 'createAt',
-      key: 'createAt',
+      title: i18n.t('created time'),
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       render: (_: unknown, record?: CONFIGURATION.IAllkeyData) =>
-        moment(record?.createAt).format('YYYY-MM-DD HH:mm:ss'),
+        moment(record?.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('application:operation'),
@@ -155,7 +149,7 @@ const Configuration = () => {
           <a onClick={() => getDetail(record.id)} className="table-operations-btn">
             {i18n.t('dcos:see details')}
           </a>
-          {accressPerm.createAccessKey.pass ? (
+          {accessPerm.createAccessKey.pass ? (
             <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
               <a className="table-operations-btn">{i18n.t('application:delete')}</a>
             </Popconfirm>
@@ -174,15 +168,15 @@ const Configuration = () => {
     });
   };
 
-  const createAccessKey = async () => {
-    await createAccesskey.fetch({
+  const createKey = async () => {
+    await createAccessKey.fetch({
       subject: projectId,
       subjectType: 3,
       scope: `msp_${env}`,
       scopeId: tenantGroup,
     });
 
-    await getAllkey.fetch({
+    await getAllKey.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -193,6 +187,7 @@ const Configuration = () => {
 
     update({
       modalShow: true,
+      currentPage: 1,
     });
   };
 
@@ -200,13 +195,16 @@ const Configuration = () => {
     await deleteDetailKey.fetch({
       id,
     });
-    await getAllkey.fetch({
+    await getAllKey.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
       scope: `msp_${env}`,
       scopeId: tenantGroup,
+    });
+    update({
+      currentPage: 1,
     });
     message.success(i18n.t('application:deleted successfully'));
   };
@@ -228,7 +226,7 @@ const Configuration = () => {
     update({
       currentPage: page,
     });
-    getAllkey.fetch({
+    getAllKey.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: page,
@@ -240,10 +238,10 @@ const Configuration = () => {
   return (
     <Spin
       spinning={
-        AcquisitionAndLangDataLoading ||
+        acquisitionAndLangDataLoading ||
         allKeyLoading ||
         keyDetailInfoLoading ||
-        InfoDataLoading ||
+        infoDataLoading ||
         createKeyInfoLoading
       }
     >
@@ -276,7 +274,7 @@ const Configuration = () => {
             </div>
             <div className="flex items-center">
               <span>accessKey Secret</span>
-              <span className="ml-24">{accressPerm.viewAccessKeySecret.pass ? keyDetailInfo?.secretKey : '***'}</span>
+              <span className="ml-24">{accessPerm.viewAccessKeySecret.pass ? keyDetailInfo?.secretKey : '***'}</span>
             </div>
           </div>
         </Modal>
@@ -330,8 +328,8 @@ const Configuration = () => {
           </div>
         </Modal>
 
-        <WithAuth pass={accressPerm.createAccessKey.pass}>
-          <Button className="top-button-group font-bold m4 add-key" type="primary" onClick={createAccessKey}>
+        <WithAuth pass={accessPerm.createAccessKey.pass}>
+          <Button className="top-button-group font-bold m4 add-key" type="primary" onClick={createKey}>
             {i18n.t('msp:create AccessKey')}
           </Button>
         </WithAuth>
@@ -350,7 +348,7 @@ const Configuration = () => {
         />
 
         <ItemRender title={i18n.t('msp:choose data collection method')}>
-          <div className="mb-3 color-text-desc">{i18n.t('msp:data collection desc')}</div>
+          <div className="mb-3 text-gray">{i18n.t('msp:data collection desc')}</div>
           <TypeSelect<Strategy> list={strategies || []} value={strategy} onChange={handleChangeStrategy} />
         </ItemRender>
 
@@ -363,7 +361,7 @@ const Configuration = () => {
         )}
 
         <div className="h-full bg-grey border-all p-4 mt-2 rounded">
-          <span className="text-sm">{InfoData || ''}</span>
+          <span className="text-sm">{infoData || ''}</span>
         </div>
       </div>
     </Spin>

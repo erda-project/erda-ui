@@ -58,7 +58,7 @@ declare namespace CONFIGURATION {
 
   interface IAllkeyData {
     accessKey: string;
-    createAt: string;
+    createdAt: string;
     description: string;
     id: string;
     secretKey: string;
