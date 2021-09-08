@@ -130,13 +130,13 @@ const Configuration = () => {
     updater.lang(type);
   };
 
-  const columns: Array<ColumnProps<CONFIGURATION.IAllkeyData>> = [
+  const columns: Array<ColumnProps<CONFIGURATION.IAllKeyData>> = [
     { title: 'accessKey', dataIndex: 'accessKey', key: 'accessKey' },
     {
       title: i18n.t('created time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_: unknown, record?: CONFIGURATION.IAllkeyData) =>
+      render: (_: unknown, record?: CONFIGURATION.IAllKeyData) =>
         moment(record?.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
@@ -144,7 +144,7 @@ const Configuration = () => {
       width: 200,
       dataIndex: 'operation',
       key: 'operation',
-      render: (_: unknown, record: CONFIGURATION.IAllkeyData) => (
+      render: (_: unknown, record: CONFIGURATION.IAllKeyData) => (
         <div className="table-operations">
           <a onClick={() => getDetail(record.id)} className="table-operations-btn">
             {i18n.t('dcos:see details')}
