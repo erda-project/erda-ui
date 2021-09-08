@@ -220,6 +220,14 @@ div.ant-modal-body {
   }
 }
 
+.ant-btn-text {
+  &:hover {
+    border-color: transparent;
+    color: #6a549e;
+    background-color: $whitesmoke;
+  }
+}
+
 .ant-badge-status-processing {
   background-color: $blue;
 }
