@@ -36,6 +36,7 @@
     "moment": "^2.29.1",
     "path-to-regexp": "^6.2.0",
     "query-string": "^6.4.2",
+    "rc-resize-observer": "^1.0.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-router-config": "^5.0.0",
@@ -44,6 +45,7 @@
     "sockjs-client": "^1.5.1",
     "superagent": "^5.2.2",
     "superagent-use": "^0.1.0",
+    "tailwind-override": "0.0.10",
     "typescript": "^4.3.2"
   },
   "devDependencies": {

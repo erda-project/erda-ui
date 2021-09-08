@@ -16,7 +16,7 @@ import { useUpdate } from 'common';
 import { produce } from 'immer';
 import { FormBuilder, Title } from 'core/nusi';
 import { keys, set, isEmpty, get } from 'lodash';
-import { FormInstance } from 'core/common/interface';
+import { IFormExtendType } from 'core/common/interface';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { API_FORM_KEY, API_MEDIA, API_RESOURCE_TAB } from 'app/modules/apiManagePlatform/configs.ts';
@@ -53,7 +53,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
   const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
   const { updateFormErrorNum } = apiDesignStore;
 
-  const formRef = React.useRef<FormInstance>(null);
+  const formRef = React.useRef<IFormExtendType>(null);
 
   React.useEffect(() => {
     const responseContent = get(formData, dataPathKey) || {};
@@ -182,7 +182,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
   return (
     <div className="basic-params-config">
       <Title level={1} title="Body" />
-      <FormBuilder isMultiColumn className="param-config-form" wrappedComponentRef={formRef}>
+      <FormBuilder isMultiColumn className="param-config-form" ref={formRef}>
         <PropertyItemForm
           onChange={onFormChange}
           onFormErrorNumChange={updateFormErrorNum}

@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor, useUpdate, Icon as CustomIcon } from 'common';
 import { Input, Menu, Dropdown, FormBuilder } from 'core/nusi';
-import { FormInstance } from 'core/common/interface';
+import { IFormExtendType } from 'core/common/interface';
 import i18n from 'i18n';
 import { set, keys, map, get, filter, every, forEach } from 'lodash';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
@@ -101,7 +101,7 @@ const ResourceSummary = React.memo((props: IProps) => {
   const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
 
   const { formData, onChange, isEditMode = true } = props;
-  const formRef = React.useRef<FormInstance>(null);
+  const formRef = React.useRef<IFormExtendType>(null);
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -133,7 +133,7 @@ const ResourceSummary = React.memo((props: IProps) => {
   }, [openApiDoc, totalOperationIdList, updater]);
 
   const onCreateTag = React.useCallback(() => {
-    const { tags } = formRef.current!.getFieldsValues();
+    const { tags } = formRef.current!.getFieldsValue();
     const newTagName = Array.isArray(tags) ? tags[0] : tags;
     const isNew = tagList?.length ? every(tagList, (item) => item.name !== newTagName) : true;
     if (isNew && newTagName && newTagName !== 'other') {
@@ -158,7 +158,7 @@ const ResourceSummary = React.memo((props: IProps) => {
         });
       });
       updateOpenApiDoc(tempDocDetail);
-      const curTag = formRef.current!.getFieldsValues()?.tags;
+      const curTag = formRef.current!.getFieldsValue()?.tags;
       if (curTag === tagName) {
         formRef.current!.setFieldsValue({ tags: undefined });
       }
@@ -168,7 +168,7 @@ const ResourceSummary = React.memo((props: IProps) => {
 
   const setField = React.useCallback(
     (propertyName: string, val: string | string[]) => {
-      const curFormData = formRef.current!.getFieldsValues();
+      const curFormData = formRef.current!.getFieldsValue();
       if (propertyName !== 'operationId' && !curFormData?.operationId) {
         let _operationId = 'operationId';
         const _operationIdList: string[] = totalOperationIdList;
@@ -251,7 +251,7 @@ const ResourceSummary = React.memo((props: IProps) => {
   );
 
   return (
-    <FormBuilder isMultiColumn wrappedComponentRef={formRef}>
+    <FormBuilder isMultiColumn ref={formRef}>
       <Fields fields={fieldList} fid="summaryFields" />
     </FormBuilder>
   );
