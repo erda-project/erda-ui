@@ -19,6 +19,9 @@ import { getEnv } from '../util';
 
 const { staticDir } = getEnv();
 const indexHtmlPath = path.join(staticDir, 'shell', 'index.html');
+if (!fs.existsSync(indexHtmlPath)) {
+  throw Error('You should build shell first before start scheduler');
+}
 const indexHtmlContent = fs.readFileSync(indexHtmlPath, { encoding: 'utf8' });
 const newIndexHtmlPath = path.join(staticDir, 'shell', 'index-new.html');
 

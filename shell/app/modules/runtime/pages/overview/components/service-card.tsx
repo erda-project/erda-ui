@@ -367,7 +367,7 @@ const ServiceCard = (props: IProps) => {
   };
 
   let errorMsg: React.ReactNode = '';
-  if (errors && status !== 'Healthy') {
+  if (errors && errors[0] && status !== 'Healthy') {
     const { ctx, msg } = errors[0];
     const { instanceId } = ctx;
     const wrapTooltip = (children: any, text: string) => {
