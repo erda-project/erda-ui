@@ -20,10 +20,10 @@ import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
-import { goTo, insertWhen, regRules } from 'common/utils';
+import { insertWhen, regRules } from 'common/utils';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
-import { Link } from 'react-router-dom';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
+import { DOC_CMP_CLUSTER_MANAGE } from 'common/constants';
 
 import './cluster-form.scss';
 
@@ -92,10 +92,6 @@ const ClusterBasicForm = ({
       itemProps: {
         maxLength: 50,
       },
-      suffix:
-        clusterType === 'k8s' ? (
-          <Alert message={`${i18n.t('tip')}:`} description={k8sPrompt} type="warning" className="mt-4" />
-        ) : null,
     },
     {
       label: i18n.t('org:extensive domain'),
@@ -227,26 +223,11 @@ const ClusterBasicForm = ({
 
 const k8sAlert = (
   <span>
-    {i18n.t(
-      'cmp:during the initialization of the import cluster, all nodes in the cluster will be labeled with the organization name to facilitate the calling of services and tasks of the organization. If you need Erda best calling strategy, you need to enter',
-    )}
-    <Link to={goTo.resolve.cmpRoot()} className="mx-1" target="_blank" rel="noopener noreferrer">
-      {`${i18n.t('Cloud management')} -> ${i18n.t('dcos:cluster overview')} -> ${i18n.t('set tags')}`}
-    </Link>
-    {i18n.t('cmp:configure')}
+    {i18n.t('cmp:before importing cluster, please complete the relevant preparations. For details, please refer to')}
+    <a href={DOC_CMP_CLUSTER_MANAGE} target="_blank" rel="noopener noreferrer">
+      {i18n.t('document')}
+    </a>
   </span>
-);
-
-const k8sPrompt = (
-  <div>
-    <div>1. {i18n.t('cmp:please ensure that your Kubernetes cluster and Erda network are smooth')}</div>
-    <div>
-      2.{' '}
-      {i18n.t(
-        'cmp:after importing the cluster, the nodes in the cluster will be labeled with the organization label by default',
-      )}
-    </div>
-  </div>
 );
 
 const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clusterType: string }) => {
@@ -284,7 +265,7 @@ const ClusterAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <If condition={clusterType === 'k8s'}>
-        <Alert message={`${i18n.t('cmp:note')}:`} description={k8sAlert} type="info" className="mb-8" />
+        <Alert message={`${i18n.t('tip')}:`} description={k8sAlert} type="warning" className="mb-8" />
       </If>
       <ClusterBasicForm
         form={form}
