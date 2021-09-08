@@ -89,7 +89,6 @@
       "monitor-alarm": ["app/modules/msp/monitor/monitor-alarm"],
       "monitor-alarm/*": ["app/modules/msp/monitor/monitor-alarm/*"],
       "i18n": ["app/i18n.ts"],
-      "dice-env": ["./app/external/env.js"],
       "agent": ["./app/agent.js"],
       "app/*": ["./app/*"],
       "core/main": ["../core/src/index"],

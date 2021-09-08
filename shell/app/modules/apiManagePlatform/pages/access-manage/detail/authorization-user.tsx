@@ -22,7 +22,7 @@ import DetailModal from './detail-modal';
 import { useLoading } from 'core/stores/loading';
 import UpdateSLA from 'apiManagePlatform/components/update-sla';
 import TrafficAuditDrawer from 'apiManagePlatform/components/traffic-audit-drawer';
-import { isEmpty } from 'app/external/custom-lodash';
+import { isEmpty } from 'lodash';
 
 interface IState {
   visible: boolean;

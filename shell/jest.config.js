@@ -16,7 +16,7 @@ const tsconfig = require('./tsconfig.json');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 
 const moduleMapper = {};
-const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts', 'application'];
+const excludeModules = ['interface', 'common', 'layout', 'user', 'configForm', 'charts', 'application'];
 forEach(moduleNameMapper, (t, k) => {
   if (!excludeModules.includes(k)) {
     moduleMapper[`^${k}`] = t;
@@ -67,7 +67,6 @@ module.exports = {
     'core/cube': '<rootDir>/core/cube.ts',
     'app/global-space': '<rootDir>/app/global-space.ts',
     '^agent$': '<rootDir>/app/agent.js',
-    '^dice-env$': '<rootDir>/app/external/env.ts',
     '^common$': '<rootDir>/app/common/index.ts',
     '^layout(.*)': '<rootDir>/app/layout/$1',
     '^common/utils(.*)': '<rootDir>/app/common/utils/$1',

@@ -99,7 +99,6 @@ module.exports = () => {
         apiManagePlatform: resolve('./app/modules/apiManagePlatform'),
         agent: resolve('./app/agent.js'),
         i18n: resolve('./app/i18n.ts'),
-        'dice-env': resolve('./app/external/env.ts'),
 
         'monitor-overview': resolve('./app/modules/msp/monitor/monitor-overview'),
         'application-insight': resolve('./app/modules/msp/monitor/application-insight'),

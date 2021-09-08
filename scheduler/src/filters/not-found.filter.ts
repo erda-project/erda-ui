@@ -14,9 +14,21 @@
 import { ExceptionFilter, Catch, NotFoundException, HttpException, ArgumentsHost } from '@nestjs/common';
 import { Request, Response } from 'express';
 import path from 'path';
+import fs from 'fs';
 import { getEnv } from '../util';
 
 const { staticDir } = getEnv();
+const indexHtmlPath = path.join(staticDir, 'shell', 'index.html');
+const indexHtmlContent = fs.readFileSync(indexHtmlPath, { encoding: 'utf8' });
+const newIndexHtmlPath = path.join(staticDir, 'shell', 'index-new.html');
+
+const { UC_PUBLIC_URL = '', ENABLE_BIGDATA = '' } = process.env;
+
+const newContent = indexHtmlContent.replace(
+  '<!-- $ -->',
+  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}"}</script>`,
+);
+fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
@@ -27,7 +39,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const extension = path.extname(request.path);
     if (!extension) {
-      response.sendFile(path.join(staticDir, 'shell', 'index.html'));
+      response.sendFile(newIndexHtmlPath);
     } else {
       response.statusCode = 404;
       response.end('Not Found');

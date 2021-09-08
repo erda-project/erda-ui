@@ -75,7 +75,7 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return pathname.match('^/api') && pathname !== '/api/dice-env';
+        return pathname.match('^/api');
       },
       {
         target: API_URL,

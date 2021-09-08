@@ -13,14 +13,13 @@
 
 import React from 'react';
 import { Table as PureTable, Title, Menu, Button, Dropdown, Tooltip, Checkbox } from 'core/nusi';
-import { map, get, find, intersection, has, difference } from 'lodash';
+import { map, get, find, intersection, has, difference, compact } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { getRender, getTitleRender } from './render-types';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import './table.scss';
-import { compact } from 'app/external/custom-lodash';
 
 interface ISorter {
   order: 'ascend' | 'descend' | undefined;
