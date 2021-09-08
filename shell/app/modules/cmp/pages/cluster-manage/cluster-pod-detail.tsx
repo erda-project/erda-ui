@@ -67,7 +67,7 @@ const ClusterPodDetail = () => {
 
   useMount(() => {
     CommonDashboardStore.getCustomDashboard({
-      id: 'pod-detail', //'cmp-dashboard-podDetail',
+      id: 'cmp-dashboard-podDetail',
       isSystem: true,
     }).then((res) => updater.chartLayout(res));
   });
