@@ -3,6 +3,7 @@ import child_process from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { logInfo, logSuccess, logError } from './util/log';
+import { ERDA_BUILD_CONFIG, getModules } from './util/env';
 
 const { exec } = child_process;
 const asyncExec = promisify(exec);
@@ -10,11 +11,11 @@ const asyncExec = promisify(exec);
 const buildWithComparingGitSha = async ({ module }: { module: string }) => {
   const moduleName = module;
   const cwd = process.cwd();
+  const externalModules = await getModules(true);
+  const dataEngineerInfo = externalModules.find(({ role }) => role === 'DataEngineer');
   const staticPath = path.join(
     cwd,
-    ['fdp', 'admin', 'market'].includes(moduleName)
-      ? `../../public/static/${moduleName}`
-      : `../public/static/${moduleName}`,
+    !['shell', 'core'].includes(moduleName) ? `../../public/static/${moduleName}` : `../public/static/${moduleName}`,
   );
   logInfo('Looking for build cache at:', staticPath);
   logInfo(`Start compare diff for ${moduleName}`);
@@ -30,22 +31,22 @@ const buildWithComparingGitSha = async ({ module }: { module: string }) => {
       logInfo('File diff:', diff);
       if (new RegExp(`^${moduleName}/`, 'gm').test(diff)) {
         logInfo(`Changes detected between ${prevGitSha} and ${headSha}. will start build ${moduleName}`);
-        build(moduleName, headSha, staticPath);
+        build(moduleName, headSha, staticPath, dataEngineerInfo);
       } else {
         logInfo(`No change detected between ${prevGitSha} and ${headSha}. will skip build ${moduleName}`);
       }
     } else {
       logInfo('No version file found, starting new build...');
-      build(moduleName, headSha, staticPath);
+      build(moduleName, headSha, staticPath, dataEngineerInfo);
     }
   } catch (error) {
     logError('Compare diff failed', error.toString());
     logInfo('Will start build');
-    build(moduleName, headSha, staticPath);
+    build(moduleName, headSha, staticPath, dataEngineerInfo);
   }
 };
 
-const build = async (moduleName: string, sha: string, staticPath: string) => {
+const build = async (moduleName: string, sha: string, staticPath: string, dataEngineerInfo?: ERDA_BUILD_CONFIG) => {
   await asyncExec(['fdp', 'admin'].includes(moduleName) ? 'npm i' : 'echo skip install', { cwd: process.cwd() });
   const execProcess = exec(
     'npm run build',
@@ -53,7 +54,7 @@ const build = async (moduleName: string, sha: string, staticPath: string) => {
       env: {
         ...process.env,
         isOnline: 'true',
-        dataEngineerInfo: JSON.stringify({ name: 'fdp', indexUrl: '' }),
+        dataEngineerInfo: JSON.stringify(dataEngineerInfo || {}),
       },
       cwd: process.cwd(),
     },
