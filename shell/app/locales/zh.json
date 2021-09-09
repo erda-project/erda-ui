@@ -641,6 +641,7 @@
     "instance-stopped-still-charged": "按量付费实例停止后依然会收取您资源占用费用（如CUP/内存等费用）",
     "jump server configuration": "跳板机配置",
     "keep-money-enough": "自动续费将于服务到期前9天开始扣款，请保持余额充足",
+    "kubectl command": "kubectl 命令行",
     "lack of resources": "资源不足",
     "log type": "日志类型",
     "machine IP": "机器IP",

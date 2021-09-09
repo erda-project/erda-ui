@@ -31,6 +31,7 @@ import ApiResource from './api-resource/resource';
 import Title from './title/title';
 import { SortDragGroupList } from './sort-drag-group/sort-drag-group';
 import Panel from './panel/panel';
+import Tags from './tags/tags';
 import Popover from './popover/popover';
 import EditList from './edit-list/edit-list';
 import Breadcrumb from './breadcrumb/breadcrumb';
@@ -89,6 +90,7 @@ export const containerMap = {
   InputSelect,
   List,
   Text,
+  Tags,
   Icon,
   EmptyHolder,
   Image,

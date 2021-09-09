@@ -641,6 +641,7 @@
     "instance-stopped-still-charged": "after the pay-as-you-go instance is stopped, you will still be charged for resource usage (such as CUP/memory fees)",
     "jump server configuration": "jump server configuration",
     "keep-money-enough": "automatic renewal will be deducted 9 days before the service expires, please keep the balance sufficient",
+    "kubectl command": "kubectl command",
     "lack of resources": "lack of resources",
     "log type": "log type",
     "machine IP": "machine IP",
