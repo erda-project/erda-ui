@@ -28,7 +28,7 @@ interface IProps {
 }
 
 const disabledDate = (current: Moment) => {
-  return current && current > moment().startOf('day');
+  return current && current > moment().endOf('days');
 };
 
 const LogFilter = (props: IProps) => {
@@ -56,6 +56,7 @@ const LogFilter = (props: IProps) => {
     },
     {
       name: 'pattern',
+      required: false,
       label: i18n.t('runtime:pattern'),
     },
   ];

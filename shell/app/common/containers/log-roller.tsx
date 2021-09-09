@@ -32,6 +32,7 @@ interface IProps {
   filter?: Obj;
   fetchLog: (query: object) => Promise<any>;
   clearLog: (logKey?: string) => void;
+  searchContext?: boolean;
 }
 
 interface IState {
@@ -55,6 +56,7 @@ interface IRequery {
 
 export class LogRoller extends React.Component<IProps, IState> {
   private logRoller: PureLogRoller | null;
+  private searchCount: number;
 
   private rollingTimeout: number | undefined;
 
@@ -80,8 +82,10 @@ export class LogRoller extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
+    this.searchCount = 0;
     const { fetchLog, fetchPeriod } = this.props;
     fetchLog(this.getQuery(Direction.backward)).then(() => {
+      this.searchCount = 1;
       if (this.logRoller) {
         this.scrollToBottom();
         this.rollingTimeout = setTimeout(() => this.fetchLog(Direction.forward), fetchPeriod);
@@ -110,12 +114,14 @@ export class LogRoller extends React.Component<IProps, IState> {
 
   fetchLog = (direction: Direction) => {
     const { filter } = this.state;
-    const { fetchLog, fetchPeriod, query = {} } = this.props;
+    const { fetchLog, fetchPeriod, query = {}, searchContext } = this.props;
     if (Direction.forward === direction) {
       // 下翻
       // 传入query.end，不往下继续查询(结束的container log)
-      if (query.end || filter) return this.cancelRolling();
+      console.log(query.end, filter, searchContext && this.searchCount === 2);
+      if (query.end || filter || (searchContext && this.searchCount === 2)) return this.cancelRolling();
       fetchLog(this.getQuery(direction)).then(() => {
+        this.searchCount = this.searchCount + 1;
         if (this.logRoller) {
           this.scrollToBottom();
           if (this.rollingTimeout !== undefined) {
@@ -142,7 +148,7 @@ export class LogRoller extends React.Component<IProps, IState> {
   };
 
   getQuery = (direction: string) => {
-    const { query = {}, content, logKey } = this.props;
+    const { query = {}, content, logKey, searchContext } = this.props;
     const { filter } = this.state;
     const { size = 200, requestId, end, start, ...rest } = query;
 
@@ -151,14 +157,23 @@ export class LogRoller extends React.Component<IProps, IState> {
     }
     const reQuery: IRequery = {};
     if (Direction.forward === direction) {
-      const lastItem = last(content);
-      reQuery.start = lastItem ? lastItem.timestamp : 0;
-      reQuery.end = getCurTimeNs();
+      if (searchContext && this.searchCount === 1) {
+        reQuery.start = start ? start : 0;
+      } else {
+        const lastItem = last(content);
+        reQuery.start = lastItem ? lastItem.timestamp : 0;
+        reQuery.end = getCurTimeNs();
+      }
       reQuery.count = Number(size);
     } else if (Direction.backward === direction) {
-      reQuery.start = start ? start : 0;
-      const firstItem = first(content);
-      reQuery.end = firstItem ? firstItem.timestamp : Number(end) || getCurTimeNs();
+      if (searchContext && this.searchCount === 0) {
+        reQuery.end = start;
+      } else {
+        reQuery.start = 0;
+        const firstItem = first(content);
+        reQuery.end = firstItem ? firstItem.timestamp : Number(end) || getCurTimeNs();
+      }
+
       reQuery.count = -1 * Number(size);
     }
     return { ...reQuery, ...filter, ...rest, logKey };
