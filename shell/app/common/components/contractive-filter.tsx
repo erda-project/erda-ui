@@ -91,8 +91,8 @@ const getSelectOptions = (options: Option[], filterKey: string) => {
       if (curOp.children?.length) useableOptions.push(curOp);
     } else if (filterMatch(`${item.label}`, filterKey)) {
       curOp = item;
+      curOp && useableOptions.push(curOp);
     }
-    curOp && useableOptions.push(curOp);
   });
   return useableOptions;
 };
@@ -260,10 +260,10 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             }
             const isGroup = op.children?.length;
             const onClickOptItem = (_curOpt: Option) => {
-              if (isSingleMode && !_value.includes(_curOpt.value)) {
+              if (isSingleMode) {
                 onChange({
                   key,
-                  value: _curOpt.value,
+                  value: _value.includes(_curOpt.value) ? undefined : _curOpt.value,
                 });
                 onVisibleChange(false);
               } else {
@@ -496,7 +496,7 @@ const GroupOpt = (props: IGroupOptProps) => {
   const [expand, setExpand] = React.useState(true);
 
   return (
-    <div className={'option-group'} key={option.value || option.label}>
+    <div className={'option-group'}>
       <div className="option-group-label flex items-center justify-between" onClick={() => setExpand(!expand)}>
         {option.label}
         <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
@@ -548,7 +548,7 @@ const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
   const reConditions = map(conditions, (item) => {
     const curValue = valueMap[item.key];
     // 有值默认展示
-    if (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue))) {
+    if ((!has(item, 'showIndex') && curValue !== undefined) || (isArray(curValue) && !isEmpty(curValue))) {
       curMax += 1;
       return { ...item, showIndex: curMax };
     }

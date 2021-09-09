@@ -16,6 +16,7 @@ import { ClusterTerminal } from 'cmp/common/cluster-terminal';
 import { Button, Drawer, DatePicker, InputNumber } from 'core/nusi';
 import { getOrgFromPath, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
+import { Terminal as IconTerminal } from '@icon-park/react';
 import { FormModal } from 'common';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
@@ -51,7 +52,8 @@ export const K8sClusterTerminalButton = ({ clusterName }: IClusterTerminalProps)
         </div>
       </Drawer>
       <Button type="primary" onClick={() => setVisible(true)}>
-        {i18n.t('console')}
+        <IconTerminal theme="outline" strokeLinejoin="miter" strokeLinecap="butt" />
+        {i18n.t('cmp:kubectl command')}
       </Button>
     </>
   );

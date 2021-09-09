@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Ellipsis, Badge } from 'core/nusi';
-import { map, isEmpty, get, isArray, sortBy, filter } from 'lodash';
+import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -129,11 +129,13 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'progress':
       {
-        const { value, tip, status, renderType, ...rest } = val || {};
+        const { value: _val, tip, status, renderType, ...rest } = val || {};
+        let value = +(_val ?? 0);
+        value = +(`${value}`.indexOf('.') ? value.toFixed(1) : value);
         Comp = value ? (
           <Tooltip title={tip}>
             <Progress
-              percent={+value || 0}
+              percent={value}
               {...rest}
               format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
               strokeColor={statusColorMap[status]}

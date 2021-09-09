@@ -14,6 +14,7 @@
 import React from 'react';
 import { Tooltip, Popconfirm, Ellipsis } from 'core/nusi';
 import { some, has, groupBy, map } from 'lodash';
+import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
 import './tags-row.scss';
@@ -24,13 +25,14 @@ interface ILabel {
   color?: string;
 }
 export interface IProps extends Omit<IItemProps, 'label'> {
-  labels: ILabel[];
+  labels: ILabel[] | ILabel;
   showCount?: number;
   containerClassName?: string;
   onAdd?: () => void;
 }
 
 interface IItemProps {
+  colorMap?: Obj;
   label: ILabel;
   maxWidth?: number;
   size?: 'small' | 'default';
@@ -39,26 +41,26 @@ interface IItemProps {
 }
 
 export const TagColorMap = {
-  green: 'green',
-  red: 'red',
-  orange: 'orange',
-  purple: 'purple',
-  blue: 'blue',
-  cyan: 'cyan',
-  gray: 'gray',
+  green: '#34b37e',
+  red: '#df3409',
+  orange: '#f47201',
+  purple: '#6a549e',
+  blue: '#0567ff',
+  cyan: '#5bd6d0',
+  gray: '#666666',
 };
 
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size, maxWidth = 200, onDelete, deleteConfirm = true } = props;
-  const { label, color = 'gray' } = _label;
+  const { label: _label, size, maxWidth = 200, onDelete, deleteConfirm = true, colorMap } = props;
+  const { label, color } = _label;
+  const curColor = (colorMap || TagColorMap)[color || 'gray'] || color || TagColorMap.gray;
   const style = {
     maxWidth,
-    ...(TagColorMap[color] ? undefined : { color, backgroundColor: `rgba(${color}, 0.1)` }),
+    color: curColor,
+    backgroundColor: colorToRgb(curColor, 0.1),
   };
-
-  const tagColor = TagColorMap[color] || '';
   return (
-    <span style={style} className={`tag-default twt-tag-item ${size} text-${tagColor} bg-${tagColor} bg-opacity-10`}>
+    <span style={style} className={`tag-default twt-tag-item ${size}`}>
       {onDelete ? (
         deleteConfirm ? (
           <Popconfirm
@@ -96,10 +98,11 @@ export const TagsRow = ({
   showCount = 2,
   containerClassName = '',
   size = 'small',
+  colorMap,
   onDelete,
   onAdd,
 }: IProps) => {
-  const labels = propsLabels || [];
+  const labels = propsLabels ? (Array.isArray(propsLabels) ? propsLabels : [propsLabels]) : [];
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
 
@@ -112,7 +115,7 @@ export const TagsRow = ({
               <span className="tag-group-name">{`${gKey} : `}</span>
               <span className="flex-1">
                 {groupItem.map((item) => (
-                  <TagItem key={item.label} label={item} onDelete={onDelete} size={size} />
+                  <TagItem colorMap={colorMap} key={item.label} label={item} onDelete={onDelete} size={size} />
                 ))}
               </span>
             </div>
@@ -120,13 +123,13 @@ export const TagsRow = ({
         </div>
       );
     }
-    return labels.map((l) => <TagItem key={l.label} label={l} onDelete={onDelete} size={size} />);
+    return labels.map((l) => <TagItem colorMap={colorMap} key={l.label} label={l} onDelete={onDelete} size={size} />);
   };
 
   const oneAndMoreTag = (
     <React.Fragment>
       {labels.slice(0, showCount).map((l) => (
-        <TagItem key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
+        <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
       ))}
       {showMore ? (
         <Tooltip
@@ -139,7 +142,9 @@ export const TagsRow = ({
       ) : (
         labels
           .slice(showCount)
-          .map((l) => <TagItem key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />)
+          .map((l) => (
+            <TagItem colorMap={colorMap} key={l.label} label={l} maxWidth={120} onDelete={onDelete} size={size} />
+          ))
       )}
     </React.Fragment>
   );

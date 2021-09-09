@@ -545,3 +545,27 @@ export const transformLog = (content: string) => {
     .replace(/&quot;/g, '"')
     .replace(/&#x27;/g, "'"); // restore escaped quotes
 };
+
+/**
+ * Hexadecimal color is converted to RGB format
+ * @param color
+ */
+export const colorToRgb = (color: string, opacity?: number) => {
+  let sColor = color.toLowerCase();
+  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  if (sColor && reg.test(sColor)) {
+    if (sColor.length === 4) {
+      let sColorNew = '#';
+      for (let i = 1; i < 4; i += 1) {
+        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+      }
+      sColor = sColorNew;
+    }
+    const sColorChange = [];
+    for (let i = 1; i < 7; i += 2) {
+      sColorChange.push(parseInt(`0x${sColor.slice(i, i + 2)}`, 16));
+    }
+    return opacity ? `rgba(${sColorChange.concat(opacity).join(',')})` : `rgb(${sColorChange.join(',')})`;
+  }
+  return sColor;
+};

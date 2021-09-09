@@ -77,6 +77,7 @@ declare namespace CONFIG_PAGE {
     | CP_BADGE.Spec
     | CP_TILED_FILTER.Spec
     | CP_FILE_EDITOR.Spec
+    | CP_TAGS.Spec
     | CP_TABLE_GROUP.Spec;
 
   // 单个组件基础定义
