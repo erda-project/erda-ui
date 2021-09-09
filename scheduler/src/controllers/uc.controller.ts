@@ -20,7 +20,7 @@ const { publicDir, staticDir } = getEnv();
 
 @Controller('uc')
 export class UCController {
-  @Get('uc/*')
+  @Get('*')
   handleUC(@Req() req: Request, @Res() res: Response) {
     const extension = path.extname(req.path);
     if (!extension) {
