@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Popover, Button, Drawer, Input, Spin } from 'core/nusi';
+import { Modal, Table, Button, Drawer, Input, Spin } from 'core/nusi';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
@@ -23,7 +23,7 @@ import clusterStore from 'app/modules/cmp/stores/cluster';
 import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
-import { ColumnProps } from 'core/common/interface';
+import { ColumnProps, IActions } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import { bgColorClsMap } from 'app/common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
@@ -199,30 +199,35 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onClick: () => {
           updater.modalVisibleRow(record);
         },
+        hidden: true,
       },
       addCloudMachines: {
         title: i18n.t('org:add alibaba cloud machine'),
         onClick: () => toggleAddCloudMachine(record),
+        hidden: true,
       },
       edit: { title: i18n.t('common:change setting'), onClick: () => onEdit({ ...record, isEdgeCluster }) },
-      upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record) },
+      upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record), hidden: true },
       deleteCluster: {
         title: i18n.t('org:cluster offline'),
         onClick: () => {
           toggleDeleteModal(record);
         },
+        hidden: true,
       },
       showRegisterCommand: {
         title: i18n.t('cmp:register command'),
         onClick: () => {
           showCommand(record.name);
         },
+        hidden: true,
       },
       retryInit: {
         title: i18n.t('cmp:initialize retry'),
         onClick: () => {
           clusterInitRetry({ clusterName: record.name });
         },
+        hidden: true,
       },
     };
     const clusterOpsMap = {
@@ -253,37 +258,14 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
     };
 
-    const operateList = (clusterOpsMap[record.cloudVendor || record.type] || []).map(
-      (op: { title: string; onClick: () => void }) => {
-        return (
-          <span className="fake-link mr-1" key={op.title} onClick={op.onClick}>
-            {op.title}
-          </span>
-        );
-      },
-    );
-
-    return (
-      <span className="operate-list">
-        {operateList.length > 3 ? (
-          <>
-            {operateList.slice(0, 3)}
-            <Popover content={operateList.slice(3)} overlayClassName="z-50" placement="topLeft">
-              <CustomIcon className="fake-link ml-1 pr-2.5" type="more" />
-            </Popover>
-          </>
-        ) : (
-          operateList
-        )}
-      </span>
-    );
+    return clusterOpsMap[record.cloudVendor || record.type] || [];
   };
 
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
-      width: 300,
+      width: 320,
       ellipsis: true,
       render: (text, record) => (
         <span
@@ -367,16 +349,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         return get(clusterDetail, 'basic.nodeCount.value', '-');
       },
     },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'operation',
-      fixed: 'right',
-      render: (_text, record: ORG_CLUSTER.ICluster) => {
-        return renderMenu(record);
-      },
-      width: 280,
-    },
   ];
+
+  const actions: IActions<ORG_CLUSTER.ICluster> = {
+    width: 120,
+    render: (record: ORG_CLUSTER.ICluster) => renderMenu(record),
+  };
 
   const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
     log: true,
@@ -462,6 +440,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <div>
         <Table
           columns={columns}
+          actions={actions}
           dataSource={dataSource}
           pagination={false}
           rowKey="id"

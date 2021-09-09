@@ -13,7 +13,7 @@
 
 export { connectCube } from './components/connect';
 export { Icon } from './components/icon';
-export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
+export { ErdaIcon, ErdaCustomIcon } from 'core/nusi';
 export { Panel } from './components/panel';
 export { ImgHolder } from './components/img-holder';
 export { AddMemberModal } from './components/add-member-modal';

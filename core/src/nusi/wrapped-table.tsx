@@ -12,7 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Dropdown, Menu, ErdaCustomIcon } from './index';
 import { Table } from 'antd';
+import i18n from 'i18n';
 import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
 
 const { Column, ColumnGroup, Summary } = Table;
@@ -32,27 +34,101 @@ export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
    *
    * All width should be at least larger than the Title in English
    */
-  width?: 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
+  width?: IWidth;
 }
+
+type IWidth = 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
 
 interface IProps<T extends object = any> extends TableProps<T> {
   columns: Array<ColumnProps<T>>;
+  actions?: IActions<T>;
 }
 
-function WrappedTable<T extends object = any>({ columns, rowClassName, ...props }: IProps<T>) {
+export interface IActions<T> {
+  width: IWidth;
+  /**
+   * (record: T) => IAction[]
+   *
+   * interface IAction {
+   *   title: string;
+   *   hidden?: boolean;
+   *   onClick: () => void;
+   * }
+   */
+  render: (record: T) => IAction[];
+}
+
+interface IAction {
+  title: string;
+  hidden?: boolean;
+  onClick: () => void;
+}
+
+function WrappedTable<T extends object = any>({ columns, rowClassName, actions, ...props }: IProps<T>) {
   const newColumns = columns?.map(({ ...args }: ColumnProps<T>) => ({
     ellipsis: true,
     ...args,
   }));
+
   return (
     <Table
       scroll={{ x: '100%' }}
-      columns={newColumns}
+      columns={[...newColumns, ...renderActions(actions)]}
       rowClassName={props.onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
       size="small"
       {...props}
     />
   );
+}
+
+function renderActions<T extends object = any>(actions?: {
+  width: IWidth;
+  render: (record: T) => IAction[];
+}): Array<ColumnProps<T>> {
+  if (actions) {
+    const { width, render } = actions;
+    return [
+      {
+        title: i18n.t('common:operation'),
+        width,
+        dataIndex: 'operation',
+        ellipsis: true,
+        fixed: 'right',
+        render: (_: any, record: T) => {
+          const list = render(record);
+
+          const menu = (
+            <Menu>
+              {list
+                .filter((item) => item.hidden)
+                .map((item) => (
+                  <Menu.Item key={item.title} onClick={item.onClick}>
+                    <span className="fake-link mr-1">{item.title}</span>
+                  </Menu.Item>
+                ))}
+            </Menu>
+          );
+
+          return (
+            <span className="operate-list">
+              {list
+                .filter((item) => !item.hidden)
+                .map((item) => (
+                  <span className="fake-link mr-1" key={item.title} onClick={item.onClick}>
+                    {item.title}
+                  </span>
+                ))}
+              <Dropdown overlay={menu}>
+                <ErdaCustomIcon className="fake-link ml-1 pr-2.5" type="more" />
+              </Dropdown>
+            </span>
+          );
+        },
+      },
+    ];
+  } else {
+    return [];
+  }
 }
 
 WrappedTable.Column = Column;

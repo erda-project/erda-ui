@@ -66,6 +66,7 @@ import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
+import { ErdaIcon, ErdaCustomIcon } from './erda-icon/erda-icon';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
@@ -130,6 +131,8 @@ export {
   Drawer,
   Ellipsis,
   Empty,
+  ErdaIcon,
+  ErdaCustomIcon,
   Filter,
   Form,
   FormBuilder,
