@@ -205,7 +205,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onClick: () => toggleAddCloudMachine(record),
       },
       edit: { title: i18n.t('common:change setting'), onClick: () => onEdit({ ...record, isEdgeCluster }) },
-      upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record), hidden: true },
+      upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record) },
       deleteCluster: {
         title: i18n.t('org:cluster offline'),
         onClick: () => {
