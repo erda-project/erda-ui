@@ -13,8 +13,11 @@
 
 import React from 'react';
 import { ClusterTerminal } from 'cmp/common/cluster-terminal';
-import { Button, Drawer } from 'core/nusi';
-import { getOrgFromPath } from 'common/utils';
+import { Button, Drawer, DatePicker, InputNumber } from 'core/nusi';
+import { getOrgFromPath, setApiWithOrg } from 'common/utils';
+import moment, { Moment } from 'moment';
+import { FormModal } from 'common';
+import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
 import './cluster-terminal.scss';
 
@@ -59,13 +62,13 @@ interface IPodTerminalProps {
   namespace: string;
   podName: string;
   containerName: string;
+
   visible: boolean;
   onClose: () => void;
 }
 
 export const K8sPodTerminalConsole = (props: IPodTerminalProps) => {
   const { clusterName, namespace, podName, containerName, visible, onClose } = props;
-
   const params = {
     url: `${replaceProtocol(window.location.protocol)}//${
       window.location.host
@@ -82,8 +85,10 @@ export const K8sPodTerminalConsole = (props: IPodTerminalProps) => {
   );
 };
 
-export const K8sPodTerminalLog = (props: IPodTerminalProps) => {
-  const { clusterName, namespace, podName, containerName, visible, onClose } = props;
+export const K8sPodTerminalLog = (props: Merge<IPodTerminalProps, { containerId?: string }>) => {
+  const { clusterName, namespace, containerId, podName, containerName, visible, onClose } = props;
+
+  const [downloadVis, setDownloadVis] = React.useState(false);
 
   const params = {
     url: `${replaceProtocol(window.location.protocol)}//${
@@ -92,11 +97,94 @@ export const K8sPodTerminalLog = (props: IPodTerminalProps) => {
     subProtocol: 'binary',
   };
 
+  const disabledStartDate = (startValue: Moment | undefined) => {
+    if (!startValue) return false;
+    return startValue > moment();
+  };
+
+  const fieldsList = [
+    {
+      label: i18n.t('cmp:log type'),
+      name: 'type',
+      type: 'radioGroup',
+      initialValue: 'stdout',
+      options: [
+        {
+          value: 'stdout',
+          name: i18n.t('standard'),
+        },
+        {
+          value: 'stderr',
+          name: i18n.t('error'),
+        },
+      ],
+    },
+    {
+      name: 'start',
+      label: i18n.t('common:start at'),
+      getComp: ({ form }: { form: FormInstance }) => (
+        <DatePicker
+          className="w-full"
+          disabledDate={disabledStartDate}
+          showTime
+          showToday={false}
+          format="YYYY-MM-DD HH:mm:ss"
+          placeholder={i18n.t('common:select log start time')}
+          onOk={(value: Moment) => {
+            form.setFieldsValue({ startTime: value });
+          }}
+        />
+      ),
+    },
+    {
+      name: 'duration',
+      label: i18n.t('common:duration(minutes)'),
+      initialValue: 60,
+      getComp: ({ form }: { form: FormInstance }) => (
+        <InputNumber
+          min={1}
+          className="w-full"
+          onChange={(duration) => {
+            form.setFieldsValue({ endTime: duration });
+          }}
+          placeholder={i18n.t('please enter {name}', { name: i18n.t('common:duration(minutes)') })}
+        />
+      ),
+    },
+  ];
+
+  const handleDownload = (formData: { start: Moment; duration: number; type: string }) => {
+    const { type, start, duration } = formData;
+    const now = moment().valueOf();
+    let end = start.valueOf() + duration * 60 * 1000;
+    end = Math.min(end, now);
+    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}id=${containerId}&source=container&start=${start}&stream=${type}`;
+    window.open(setApiWithOrg(logFile));
+    setDownloadVis(false);
+  };
+
   return (
-    <Drawer visible={visible} destroyOnClose onClose={onClose} title={`${i18n.t('log')}`} width={'80%'}>
-      <div className="k8s-cluster-terminal-container">
-        <ClusterTerminal params={params} />
-      </div>
-    </Drawer>
+    <>
+      <Drawer visible={visible} destroyOnClose onClose={onClose} title={`${i18n.t('log')}`} width={'80%'}>
+        <div className="k8s-cluster-terminal-container">
+          <ClusterTerminal
+            params={params}
+            extraOptions={[
+              <Button key="download" onClick={() => setDownloadVis(true)} type="ghost">
+                {i18n.t('download')}
+              </Button>,
+            ]}
+          />
+        </div>
+      </Drawer>
+      <FormModal
+        title={i18n.t('common:log download')}
+        visible={downloadVis}
+        fieldsList={fieldsList}
+        onOk={handleDownload}
+        onCancel={() => setDownloadVis(false)}
+        modalProps={{ destroyOnClose: true }}
+      />
+    </>
   );
 };

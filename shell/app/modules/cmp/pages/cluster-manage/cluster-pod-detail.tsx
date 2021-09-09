@@ -14,9 +14,18 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { useUpdate } from 'common';
+import { isEmpty } from 'lodash';
 import { K8sPodTerminalConsole, K8sPodTerminalLog } from './cluster-terminal';
+import { useUpdate, Holder, PureBoardGrid, TimeSelector } from 'common';
+import { Spin } from 'core/nusi';
+import CommonDashboardStore from 'common/stores/dashboard';
+import { useLoading } from 'core/stores/loading';
+import DC from '@erda-ui/dashboard-configurator/dist';
+import monitorCommonStore from 'common/stores/monitorCommon';
+import { useMount } from 'react-use';
+import i18n from 'i18n';
 
+const DashBoard = React.memo(PureBoardGrid);
 interface IPodMeta {
   meta: IMetaData;
 }
@@ -31,16 +40,36 @@ interface IState {
   podData: IMetaData | null;
   logVisible: boolean;
   logData: IMetaData | null;
+  chartLayout: DC.Layout;
 }
 
-const ClusterNodes = () => {
-  const { clusterName, podId } = routeInfoStore.useStore((s) => s.params);
+const ClusterPodDetail = () => {
+  const [{ clusterName, podId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const { podName, namespace } = query || {};
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const globalVariable = {
+    startTime: timeSpan.startTimeMs,
+    endTime: timeSpan.endTimeMs,
+    podName,
+    namespace,
+    clusterName,
+  };
 
-  const [{ consoleVisible, podData, logVisible, logData }, updater, update] = useUpdate<IState>({
+  const [chartLoading] = useLoading(CommonDashboardStore, ['getCustomDashboard']);
+
+  const [{ consoleVisible, podData, logVisible, logData, chartLayout }, updater, update] = useUpdate<IState>({
     consoleVisible: false,
     podData: null,
     logVisible: false,
     logData: null,
+    chartLayout: [],
+  });
+
+  useMount(() => {
+    CommonDashboardStore.getCustomDashboard({
+      id: 'cmp-dashboard-podDetail',
+      isSystem: true,
+    }).then((res) => updater.chartLayout(res));
   });
 
   const closeConsole = () => {
@@ -58,45 +87,55 @@ const ClusterNodes = () => {
   };
 
   const inParams = { clusterName, podId };
+
   return (
-    <>
-      <DiceConfigPage
-        scenarioType={'cmp-dashboard-podDetail'}
-        scenarioKey={'cmp-dashboard-podDetail'}
-        inParams={inParams}
-        customProps={{
-          containerTable: {
-            operations: {
-              checkConsole: (op: IPodMeta) => {
-                update({
-                  consoleVisible: true,
-                  podData: op?.meta,
-                });
-              },
-              checkLog: (op: IPodMeta) => {
-                update({
-                  logVisible: true,
-                  logData: op?.meta,
-                });
+    <div>
+      <div>
+        <DiceConfigPage
+          scenarioType={'cmp-dashboard-podDetail'}
+          scenarioKey={'cmp-dashboard-podDetail'}
+          inParams={inParams}
+          customProps={{
+            containerTable: {
+              operations: {
+                checkConsole: (op: IPodMeta) => {
+                  update({
+                    consoleVisible: true,
+                    podData: op?.meta,
+                  });
+                },
+                checkLog: (op: IPodMeta) => {
+                  update({
+                    logVisible: true,
+                    logData: op?.meta,
+                  });
+                },
               },
             },
-          },
-        }}
-      />
-      <K8sPodTerminalConsole
-        clusterName={clusterName}
-        {...(podData as IMetaData)}
-        visible={consoleVisible}
-        onClose={closeConsole}
-      />
-      <K8sPodTerminalLog
-        clusterName={clusterName}
-        {...(logData as IMetaData)}
-        visible={logVisible}
-        onClose={closeLog}
-      />
-    </>
+          }}
+        />
+        <K8sPodTerminalConsole
+          clusterName={clusterName}
+          {...(podData as IMetaData)}
+          visible={consoleVisible}
+          onClose={closeConsole}
+        />
+        <K8sPodTerminalLog
+          clusterName={clusterName}
+          {...(logData as IMetaData)}
+          visible={logVisible}
+          onClose={closeLog}
+        />
+      </div>
+      <Spin spinning={chartLoading} wrapperClassName="-mt-4">
+        <div className="text-xl font-medium mb-4">{i18n.t('cmp:resource monitor')}</div>
+        <TimeSelector className="mb-4" />
+        <Holder when={isEmpty(chartLayout)}>
+          <DashBoard layout={chartLayout} globalVariable={globalVariable} />
+        </Holder>
+      </Spin>
+    </div>
   );
 };
 
-export default ClusterNodes;
+export default ClusterPodDetail;

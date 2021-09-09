@@ -45,6 +45,7 @@ const TestPlan = () => {
   const [modalProp, setModalProp] = useState({ visible: false, testPlanId: '', mode: 'add' } as IPlanModal);
   const { getPlanList, toggleArchived } = testPlanStore.effects;
   const { clearPlanList } = testPlanStore.reducers;
+  const [filterObj, setFilterObj] = React.useState<Obj>({});
   const [page, planList] = testPlanStore.useStore((s) => [s.planPaging, s.planList]);
   const [isFetching] = useLoading(testPlanStore, ['getPlanList']);
 
@@ -55,18 +56,20 @@ const TestPlan = () => {
     });
   };
   useEffectOnce(() => {
-    getList();
     return () => {
       clearPlanList();
     };
   });
 
-  const getList = (q: any = {}) => {
-    getPlanList(q);
-  };
+  const getList = React.useCallback(
+    (q: any = {}) => {
+      getPlanList(q);
+    },
+    [getPlanList],
+  );
 
   const onPageChange = (pageNoNext: number) => {
-    getList({ pageNo: pageNoNext });
+    getList({ ...filterObj, pageNo: pageNoNext });
   };
 
   const onSearch = ({ status, ...query }: any) => {
@@ -75,8 +78,12 @@ const TestPlan = () => {
     if (!isEmpty(status)) {
       currentQuery.status = status;
     }
-    getList({ ...currentQuery, pageNo: 1 });
+    setFilterObj(currentQuery);
   };
+
+  React.useEffect(() => {
+    getList({ ...filterObj, pageNo: 1 });
+  }, [filterObj, getList]);
 
   const columns: Array<ColumnProps<TEST_PLAN.Plan>> = [
     {
@@ -223,6 +230,7 @@ const TestPlan = () => {
         </Button>
         <PlanModal
           {...modalProp}
+          afterSubmit={() => getList({ ...filterObj, pageNo: 1 })}
           onCancel={() => {
             updateModalProp({ visible: false });
           }}

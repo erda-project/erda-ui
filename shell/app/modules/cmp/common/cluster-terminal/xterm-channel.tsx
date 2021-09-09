@@ -58,9 +58,8 @@ function proxyOutput(term: ITerminal, socket: WebSocket) {
     let { data } = ev;
 
     const type = data.substr(0, 1);
-
-    data.substr(1) && (data = atob(data.substr(1)));
-
+    data = data.substr(1);
+    data && (data = atob(data));
     switch (type) {
       case Output:
       case Error:
