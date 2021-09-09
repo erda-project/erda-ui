@@ -15,7 +15,7 @@ import React, { useMemo, useCallback } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Radio, Ellipsis, Select, Drawer, Tag, Table } from 'app/nusi';
+import { Radio, Ellipsis, Select, Drawer, Tag, Table, Tree } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -291,6 +291,25 @@ const Transaction = () => {
     };
   }, [search, sort, callType, subSearch, topic]);
 
+  function dig(path = '0', level = 3) {
+    const list = [];
+    for (let i = 0; i < 10; i += 1) {
+      const key = `${path}-${i}`;
+      const treeNode = {
+        title: key,
+        key,
+      };
+
+      if (level > 0) {
+        treeNode.children = dig(key, level - 1);
+      }
+
+      list.push(treeNode);
+    }
+    return list;
+  }
+
+  const treeData = dig();
   return (
     <div className="service-analyze flex flex-col h-full">
       <div>

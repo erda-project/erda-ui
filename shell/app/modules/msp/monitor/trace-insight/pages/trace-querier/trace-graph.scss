@@ -1,10 +1,4 @@
 .trace-graph {
-  :global {
-    .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-      background: unset !important;
-    }
-  }
-
   .left {
     width: 200px;
     line-height: 30px;
@@ -14,7 +8,8 @@
   .right {
     height: 30px;
     /* background: plum; */
-    width: 800px;
+    // width: 800px;
+    width: 100%;
     flex: 1;
     display: flex;
     padding: 6px 0;
@@ -22,6 +17,34 @@
   }
 
   .wrapper {
+    width: 100%;
     display: flex;
   }
+}
+
+.trace-header {
+  display: flex;
+  // border-bottom: 1px solid gray;
+
+  .left {
+    width: 230px;
+  }
+
+  .right {
+    text-align: right;
+    flex: 1;
+  }
+}
+
+// TODO:
+.ant-tree .ant-tree-treenode {
+  width: 100% !important;
+}
+
+.ant-tree .ant-tree-node-content-wrapper {
+  width: 100% !important;
+}
+
+.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+  background: unset !important;
 }
