@@ -199,12 +199,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onClick: () => {
           updater.modalVisibleRow(record);
         },
-        hidden: true,
       },
       addCloudMachines: {
         title: i18n.t('org:add alibaba cloud machine'),
         onClick: () => toggleAddCloudMachine(record),
-        hidden: true,
       },
       edit: { title: i18n.t('common:change setting'), onClick: () => onEdit({ ...record, isEdgeCluster }) },
       upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record), hidden: true },
@@ -213,21 +211,18 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onClick: () => {
           toggleDeleteModal(record);
         },
-        hidden: true,
       },
       showRegisterCommand: {
         title: i18n.t('cmp:register command'),
         onClick: () => {
           showCommand(record.name);
         },
-        hidden: true,
       },
       retryInit: {
         title: i18n.t('cmp:initialize retry'),
         onClick: () => {
           clusterInitRetry({ clusterName: record.name });
         },
-        hidden: true,
       },
     };
     const clusterOpsMap = {
@@ -243,9 +238,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         ]),
       ],
       k8s: [
+        edit,
         addMachine,
         addCloudMachines,
-        edit,
         upgrade,
         deleteClusterCall,
         ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
@@ -253,9 +248,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           retryInit,
         ]),
       ],
-      'alicloud-cs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
-      'alicloud-cs-managed': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
-      'alicloud-ecs': [addMachine, addCloudMachines, edit, upgrade, deleteClusterCall],
+      'alicloud-cs': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall],
+      'alicloud-cs-managed': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall],
+      'alicloud-ecs': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall],
     };
 
     return clusterOpsMap[record.cloudVendor || record.type] || [];
@@ -354,6 +349,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const actions: IActions<ORG_CLUSTER.ICluster> = {
     width: 120,
     render: (record: ORG_CLUSTER.ICluster) => renderMenu(record),
+    limitNum: 1,
   };
 
   const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
