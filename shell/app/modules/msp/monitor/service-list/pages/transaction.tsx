@@ -367,7 +367,7 @@ const Transaction = () => {
           onBoardEvent={handleBoardEvent}
         />
       </div>
-      <Drawer title={tracingDrawerTitle} width="55%" visible={visible} onClose={() => updater.visible(false)}>
+      <Drawer title={tracingDrawerTitle} width="80%" visible={visible} onClose={() => updater.visible(false)}>
         <div className="flex items-center flex-wrap justify-end mb-3">
           <span>{i18n.t('msp:maximum number of queries')}：</span>
           <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
@@ -396,7 +396,7 @@ const Transaction = () => {
         <Drawer
           destroyOnClose
           title={i18n.t('runtime:monitor log')}
-          width="50%"
+          width="80%"
           visible={logVisible}
           onClose={() => updater.logVisible(false)}
         >
@@ -406,7 +406,7 @@ const Transaction = () => {
           title={i18n.t('msp:link information')}
           visible={detailVisible}
           onClose={() => updater.detailVisible(false)}
-          width="50%"
+          width="80%"
           destroyOnClose
         >
           <TraceSearchDetail traceId={traceId} />

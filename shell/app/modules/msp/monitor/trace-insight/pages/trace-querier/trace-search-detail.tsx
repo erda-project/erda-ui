@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate } from 'common';
-import PureTraceDetail from './trace-detail';
+import PureTraceDetail from './trace-detail-new';
 import traceStore from '../../../../stores/trace';
 import { useLoading } from 'core/stores/loading';
 

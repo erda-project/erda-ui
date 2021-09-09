@@ -16,7 +16,7 @@ import { Tooltip } from 'app/nusi';
 import { isEmpty } from 'lodash';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { notify } from 'common/utils';
-import PureTraceDetail from './trace-detail';
+import PureTraceDetail from './trace-detail-new';
 import i18n from 'i18n';
 import { Loading as IconLoading, PauseOne as IconPauseOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './trace-status-viewer.scss';
