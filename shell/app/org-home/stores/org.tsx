@@ -36,7 +36,7 @@ const initState: IState = {
   initFinish: false,
 };
 
-const isAdminRoute = () => {
+export const isAdminRoute = () => {
   const locationPath = window.location.pathname;
   return locationPath.split('/')?.[2] === 'sysAdmin'; // in case getOrgByDomain is invoked before App load, so that routeMarks is empty, then can't use isIn function
 };
@@ -203,9 +203,11 @@ const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
     },
     freshMan: {
       isCurPage: curPathname.startsWith(`/${orgName}/freshMan`),
+      authRole: [],
     },
     notFound: {
       isCurPage: curPathname.startsWith(`/${orgName}/notFound`),
+      authRole: [],
     },
   };
 
