@@ -397,7 +397,7 @@ const LoadMoreMenu = (props: ILoadMoreProps) => {
   const getData = (query: any) => {
     const { dimension } = menuInfo.dynamicMenu;
     const loadFun = loadMap[dimension].loadData;
-    const extraQuery = dimension === 'app' ? { projectId: query.projectId || projectId } : {};
+    const extraQuery = dimension === 'app' ? { projectId } : {};
     if (loadFun) {
       updater.loading(true);
       const res = loadFun({ ...query, ...extraQuery });
