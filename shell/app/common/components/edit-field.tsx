@@ -102,7 +102,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   const {
     name,
     type,
-    value,
     placeHolder,
     className = '',
     label,
@@ -134,8 +133,8 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   const { editValue } = state;
 
   React.useEffect(() => {
-    updater.editValue(value || get(data, name));
-  }, [value, data, name, updater]);
+    updater.editValue(originalValue);
+  }, [originalValue, updater]);
 
   let Comp = <div />;
 
@@ -154,13 +153,11 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     }
   };
 
-  const onBlur = (v?: string, fieldType?: string) => {
+  const onBlur = () => {
     if (onChangeCb) {
       if ((type && ['input', 'textArea'].includes(type)) || !type) {
         const currentRef = typeof compRef === 'function' ? refMap?.[name] : compRef?.current;
         data[name] !== currentRef?.state.value && onChangeCb(set({}, name, currentRef?.state.value));
-      } else if (type === 'markdown') {
-        onChangeCb(set({}, name, v), fieldType);
       }
     }
   };
@@ -193,13 +190,13 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'markdown':
       // 创建时不需要提交、取消按钮
       Comp = !itemProps.isEditMode ? (
-        <MarkdownEditor {...itemProps} value={editValue} onChange={onBlur} />
+        <MarkdownEditor {...itemProps} value={editValue} onChange={(v) => onChangeCb?.({ [name]: v })} />
       ) : (
         <EditMd
           {...itemProps}
           value={editValue}
           onChange={updater.editValue}
-          onSave={onBlur}
+          onSave={(v) => onChangeCb?.({ [name]: v })}
           originalValue={originalValue}
           disabled={disabled}
         />
