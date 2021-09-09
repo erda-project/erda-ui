@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { first, last } from 'lodash';
+import { first, isEqual, last } from 'lodash';
 import { LogRoller as PureLogRoller } from '../components/log/log-roller';
 import { DownloadLogModal } from '../components/log/download-log-modal';
 import commonStore from '../stores/common';
@@ -29,6 +29,7 @@ interface IProps {
   query?: {
     [prop: string]: string | number;
   };
+  filter?: Obj;
   fetchLog: (query: object) => Promise<any>;
   clearLog: (logKey?: string) => void;
 }
@@ -37,17 +38,21 @@ interface IState {
   backwardLoading: boolean;
   rolling: boolean;
   downloadLogModalVisible: boolean;
+  filter: Obj | undefined;
+  tempFilter: Obj | undefined;
 }
 
 enum Direction {
   forward = 'forward',
   backward = 'backward',
 }
+
 interface IRequery {
   start?: DOMHighResTimeStamp;
   end?: DOMHighResTimeStamp;
   count?: number;
 }
+
 export class LogRoller extends React.Component<IProps, IState> {
   private logRoller: PureLogRoller | null;
 
@@ -59,7 +64,19 @@ export class LogRoller extends React.Component<IProps, IState> {
       backwardLoading: false,
       rolling: true,
       downloadLogModalVisible: false,
+      filter: undefined,
+      tempFilter: undefined,
     };
+  }
+
+  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
+    if (!isEqual(nextProps.filter, prevState.tempFilter)) {
+      return {
+        filter: nextProps.filter,
+        tempFilter: nextProps.filter,
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -92,11 +109,12 @@ export class LogRoller extends React.Component<IProps, IState> {
   }
 
   fetchLog = (direction: Direction) => {
+    const { filter } = this.state;
     const { fetchLog, fetchPeriod, query = {} } = this.props;
     if (Direction.forward === direction) {
       // 下翻
       // 传入query.end，不往下继续查询(结束的container log)
-      if (query.end) return this.cancelRolling();
+      if (query.end || filter) return this.cancelRolling();
       fetchLog(this.getQuery(direction)).then(() => {
         if (this.logRoller) {
           this.scrollToBottom();
@@ -125,7 +143,8 @@ export class LogRoller extends React.Component<IProps, IState> {
 
   getQuery = (direction: string) => {
     const { query = {}, content, logKey } = this.props;
-    const { size = 200, requestId, end, ...rest } = query;
+    const { filter } = this.state;
+    const { size = 200, requestId, end, start, ...rest } = query;
 
     if (requestId) {
       return { requestId }; // 查询requestId 则忽略其他查询条件
@@ -137,12 +156,12 @@ export class LogRoller extends React.Component<IProps, IState> {
       reQuery.end = getCurTimeNs();
       reQuery.count = Number(size);
     } else if (Direction.backward === direction) {
-      reQuery.start = 0;
+      reQuery.start = start ? start : 0;
       const firstItem = first(content);
       reQuery.end = firstItem ? firstItem.timestamp : Number(end) || getCurTimeNs();
       reQuery.count = -1 * Number(size);
     }
-    return { ...reQuery, ...rest, logKey };
+    return { ...reQuery, ...filter, ...rest, logKey };
   };
 
   scrollTo = (to: number) => {
@@ -165,9 +184,10 @@ export class LogRoller extends React.Component<IProps, IState> {
 
   startRolling = () => {
     this.scrollToBottom();
-    this.setState({ rolling: true });
     this.rollingTimeout = -1;
-    this.forwardLog();
+    this.setState({ rolling: true, filter: undefined }, () => {
+      this.forwardLog();
+    });
   };
 
   cancelRolling = () => {

@@ -205,7 +205,7 @@ const SideBar = () => {
   ].filter((a) => a.show);
 
   const useMenuOperations = [
-    ...insertWhen(!!diceEnv.UC_PUBLIC_URL, [
+    ...insertWhen(!!diceEnv?.UC_PUBLIC_URL, [
       {
         icon: <ErdaCustomIcon type="user-config" />,
         title: i18n.t('layout:personal settings'),
