@@ -15,7 +15,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getResourcePermissions } from 'user/services/user';
 import { getJoinedOrgs } from 'app/org-home/services/org';
-import { setLS, notify, goTo } from 'common/utils';
+import { setLS, notify } from 'common/utils';
 import { registChartControl } from 'charts/utils/regist';
 import userStore from './user/stores';
 import moment from 'moment';
@@ -28,7 +28,7 @@ import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
 import { EmptyListHolder } from 'common';
-import orgStore from 'app/org-home/stores/org';
+import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
 import * as nusi from 'core/nusi';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
@@ -154,6 +154,8 @@ const init = (userData: ILoginUser) => {
           setGlobal('erdaInfo.isSysAdmin', true);
           const { roles } = result.data;
           data = { ...data, isSysAdmin: true, adminRoles: roles };
+        } else if (isAdminRoute()) {
+          history.replace('/');
         }
         return data;
       } else {
