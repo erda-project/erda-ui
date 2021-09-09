@@ -56,6 +56,7 @@ const LogFilter = (props: IProps) => {
     },
     {
       name: 'pattern',
+      required: false,
       label: i18n.t('runtime:pattern'),
     },
   ];

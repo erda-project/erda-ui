@@ -67,7 +67,7 @@ const getLogItem =
         {time && (
           <span
             onClick={() => {
-              onTimeClick && onTimeClick(log);
+              pattern && onTimeClick && onTimeClick(log);
             }}
             className={`log-item-logtime ${onTimeClick && pattern ? 'underline cursor-pointer' : ''}`}
           >
@@ -88,18 +88,20 @@ const SecondLevelLogDrawer = ({ onClose, visible, query, logKey, style, extraBut
   return (
     <Drawer title={i18n.t('runtime:container log')} visible={visible} destroyOnClose width="80%" onClose={onClose}>
       <LogRoller
-        query={query}
+        query={{ ...query, size: 500 }}
         logKey={logKey}
         style={style}
         extraButton={extraButton}
         CustomLogItem={getLogItem()}
         key={logKey}
+        searchOnce
+        searchContext
       />
     </Drawer>
   );
 };
 
-// 容器日志规则：
+// 容器日志规则：上下文
 /** **
  * dcos：必有taskId，containerId可能没有
  * 老edas：必无taskId，必有containerId
@@ -117,7 +119,7 @@ class RuntimeContainerLog extends React.Component {
     const { instance } = props;
     this.state = {
       logNameMap: { [instance.id]: instance.logLevel || defaultLogName },
-      query: {},
+      query: undefined,
       visible: false,
       start: undefined,
     };
