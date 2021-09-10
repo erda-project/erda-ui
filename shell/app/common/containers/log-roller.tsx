@@ -118,7 +118,6 @@ export class LogRoller extends React.Component<IProps, IState> {
     if (Direction.forward === direction) {
       // 下翻
       // 传入query.end，不往下继续查询(结束的container log)
-      console.log(query.end, filter, searchContext && this.searchCount === 2);
       if (query.end || filter || (searchContext && this.searchCount === 2)) return this.cancelRolling();
       fetchLog(this.getQuery(direction)).then(() => {
         this.searchCount = this.searchCount + 1;
