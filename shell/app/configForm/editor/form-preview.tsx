@@ -410,6 +410,9 @@ const PreviewForm = (props: any) => {
   const formConfig = React.useMemo(() => fields, [fields]);
 
   const onFinish = (data: any) => {
+    // used log
+    // eslint-disable-next-line no-console
+    console.log('------', data);
     onClose();
   };
 

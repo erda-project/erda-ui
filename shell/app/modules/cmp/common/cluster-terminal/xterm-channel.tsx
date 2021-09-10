@@ -35,7 +35,7 @@ const Input = '0'; // input code
 const Output = '1'; // output code
 const Error = '2'; // standard error code
 const ServiceError = '3'; // service error code
-const SetSize = '8';
+const SetSize = '4';
 
 function sendData(term: ITerminal, type: string, data?: string) {
   if (term.__socket) {
@@ -81,7 +81,7 @@ function runTerminal(term: ITerminal, socket: WebSocket, initData?: Obj) {
   socket.send(JSON.stringify(initData || 'connecting...'));
   term.fit();
   const { cols, rows } = term;
-  sendData(term, SetSize, JSON.stringify({ cols, rows }));
+  sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
 }
 
 interface IWSParams {
@@ -113,7 +113,7 @@ export function createTerm(container: HTMLDivElement, params: IWSParams) {
 
   term.on('resize', (size) => {
     const { cols, rows } = size;
-    sendData(term, SetSize, JSON.stringify({ cols, rows }));
+    sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
     term.resize(cols, rows);
     term.fit();
   });

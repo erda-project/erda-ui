@@ -15,7 +15,8 @@ import React from 'react';
 import { Input } from 'core/nusi';
 import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
-import { debounce } from 'lodash';
+import { debounce, map, max } from 'lodash';
+import { useMount } from 'react-use';
 import './tiled-filter.scss';
 
 export interface IOption {
@@ -41,10 +42,20 @@ export interface IProps {
   onChange: (fullValue: Object, value?: Object) => void;
 }
 
+const MAX_LABEL_WIDTH = 180;
+
 const TiledFilter = (props: IProps) => {
-  const { fields, delay = 1000, value: propsValue, onChange, expand: propsExpand = true, labelWidth } = props;
+  const { fields, delay = 1000, value: propsValue, onChange, expand: propsExpand = true } = props;
   const [expand, setExpand] = React.useState(propsExpand);
   const [value, setValue] = React.useState(propsValue || {});
+  const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
+
+  useMount(() => {
+    const labelEles = document.querySelectorAll('.tiled-fields-item-label');
+    const maxWidth: number = max(map(labelEles, (ele: HTMLSpanElement) => ele.offsetWidth));
+    setLabelWidth(maxWidth > MAX_LABEL_WIDTH ? MAX_LABEL_WIDTH : maxWidth);
+  });
+
   React.useEffect(() => {
     setExpand(propsExpand);
   }, [propsExpand]);
@@ -120,7 +131,7 @@ const TiledFilter = (props: IProps) => {
         {selectFields.map((item) => {
           return (
             <div className="tiled-fields-item flex" key={item.key}>
-              <div className="tiled-fields-item-label text-right pr-2 " style={{ width: labelWidth || 120 }}>
+              <div className="tiled-fields-item-label text-right mr-2 pt-1" style={{ width: labelWidth }}>
                 {item.label}
               </div>
               <div className="tiled-fields-item-option flex-1">
