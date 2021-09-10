@@ -84,6 +84,7 @@ function getCmpRouter() {
                 {
                   path: 'nodes',
                   tabs: clusterDetailTabs,
+                  ignoreTabQuery: true,
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
@@ -99,6 +100,7 @@ function getCmpRouter() {
                 {
                   path: 'pods',
                   tabs: clusterDetailTabs,
+                  ignoreTabQuery: true,
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
@@ -114,6 +116,7 @@ function getCmpRouter() {
                 {
                   path: 'workload',
                   tabs: clusterDetailTabs,
+                  ignoreTabQuery: true,
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
@@ -129,6 +132,7 @@ function getCmpRouter() {
                 {
                   path: 'event-log',
                   tabs: clusterDetailTabs,
+                  ignoreTabQuery: true,
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
@@ -139,6 +143,7 @@ function getCmpRouter() {
                 {
                   path: 'detail',
                   tabs: clusterDetailTabs,
+                  ignoreTabQuery: true,
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
