@@ -47,16 +47,17 @@ const getApiManagePlatformRouter = () => [
           },
         ],
       },
-      {
-        path: 'api-design',
-        breadcrumbName: i18n.t('project:API design'),
-        routes: [
-          {
-            layout: { fullHeight: true },
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/api-market/design/index')),
-          },
-        ],
-      },
+      // temporarily hide
+      // {
+      //   path: 'api-design',
+      //   breadcrumbName: i18n.t('project:API design'),
+      //   routes: [
+      //     {
+      //       layout: { fullHeight: true },
+      //       getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/api-market/design/index')),
+      //     },
+      //   ],
+      // },
       {
         path: 'access-manage',
         breadcrumbName: i18n.t('access management'),
