@@ -198,7 +198,7 @@ export enum pages {
   mspProjects = '/{orgName}/msp/projects',
   mspRootOverview = '/{orgName}/msp/overview',
   mspOverviewRoot = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}',
-  mspOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{tenantGroup}/topology?appId={appId}&runtimeId={runtimeId}',
+  mspOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
   mspApiStrategy = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',
   mspProjectNotifyGroup = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/notify-group',
   mspTopology = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
