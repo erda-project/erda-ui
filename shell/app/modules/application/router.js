@@ -142,17 +142,18 @@ function getAppRouter() {
         layout: { fullHeight: true, noWrapper: true },
         getComp: (cb) => cb(import('app/modules/application/pages/release/release-list')),
       },
-      {
-        path: 'apiDesign',
-        mark: 'apiDesign',
-        breadcrumbName: i18n.t('project:API design'),
-        routes: [
-          {
-            layout: { fullHeight: true },
-            getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/design')),
-          },
-        ],
-      },
+      // temporarily hide
+      // {
+      //   path: 'apiDesign',
+      //   mark: 'apiDesign',
+      //   breadcrumbName: i18n.t('project:API design'),
+      //   routes: [
+      //     {
+      //       layout: { fullHeight: true },
+      //       getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/design')),
+      //     },
+      //   ],
+      // },
       {
         path: 'pipeline',
         mark: 'pipeline',
