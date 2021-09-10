@@ -286,6 +286,7 @@ export function TraceGraph(props: IProps) {
             <Tree
               showLine={{ showLeafIcon: false }}
               defaultExpandAll
+              height={window.innerHeight * 0.7}
               // switcherIcon={<DownOutlined />}
               // switcherIcon={<CustomIcon type="caret-down" />}
               expandedKeys={expandedKeys}
