@@ -50,9 +50,9 @@
     "@tailwindcss/postcss7-compat": "^2.2.14",
     "@types/react": "^17.0.20",
     "@types/react-router-dom": "^5.1.8",
-    "autoprefixer": "^10.3.4",
+    "autoprefixer": "^9.8.6",
     "axios": "^0.21.4",
-    "postcss": "^7.0.36",
+    "postcss": "^8.3.6",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
   }
 }
