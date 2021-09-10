@@ -24,7 +24,7 @@ const NotFound = () => {
 
 export default function App() {
   return (
-    <Router history={history}>
+    <Router history={history as any}>
       <Switch>
         <Route exact path="/uc/settings" component={Setting} />
         <Route exact path="/uc/login" component={Login} />
