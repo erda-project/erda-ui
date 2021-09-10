@@ -133,7 +133,7 @@ const Configuration = () => {
   const columns: Array<ColumnProps<CONFIGURATION.IAllKeyData>> = [
     { title: 'accessKey', dataIndex: 'accessKey', key: 'accessKey' },
     {
-      title: i18n.t('created time'),
+      title: i18n.t('create time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (_: unknown, record?: CONFIGURATION.IAllKeyData) =>
