@@ -18,7 +18,7 @@ import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy } from 'co
 import i18n from 'i18n';
 import moment from 'moment';
 import { RowContainer, Container } from '../container/container';
-import { statusColorMap } from 'app/config-page/utils';
+import { statusColorMap, colorMap } from 'app/config-page/utils';
 import { Download as IconDownLoad } from '@icon-park/react';
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
@@ -337,7 +337,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { value, operations, ..._rest } = val;
         const onAdd = operations?.add && (() => extra.execOperation(operations?.add));
         const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
-        Comp = <TagsRow {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
+        Comp = <TagsRow colorMap={colorMap} {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
       }
       break;
     case 'text':
