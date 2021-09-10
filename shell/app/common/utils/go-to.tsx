@@ -282,7 +282,7 @@ export enum pages {
   cmpClustersNodes = '/{orgName}/cmp/clusters/{clusterName}/nodes',
   cmpClustersDetail = '/{orgName}/cmp/clusters/{clusterName}/detail',
   cmpClustersNodeDetail = '/{orgName}/cmp/clusters/{clusterName}/nodes/{nodeId}/detail',
-  cmpClustersPods = '/{orgName}/cmp/clusters/{clusterName}/pods?nodeId={nodeId}',
+  cmpClustersPods = '/{orgName}/cmp/clusters/{clusterName}/pods',
   cmpClustersPodDetail = '/{orgName}/cmp/clusters/{clusterName}/pods/{podId}/detail',
   cmpClustersWorkload = '/{orgName}/cmp/clusters/{clusterName}/workload',
   cmpClustersWorkloadDetail = '/{orgName}/cmp/clusters/{clusterName}/workload/{workloadId}/detail',
