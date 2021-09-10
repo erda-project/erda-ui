@@ -18,7 +18,7 @@ import routeInfoStore from 'core/stores/route';
 import AffairsMap from './config/chartMap';
 import TopTabRight from 'external-insight/common/components/tab-right';
 import CommonPanel from 'trace-insight/pages/trace-querier/trace-common-panel';
-import PureTraceDetail from 'trace-insight/pages/trace-querier/trace-detail';
+import PureTraceDetail from 'trace-insight/pages/trace-querier/trace-detail-new';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useLoading } from 'core/stores/loading';

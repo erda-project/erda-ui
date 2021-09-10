@@ -18,7 +18,7 @@ import { useSwitch, SimpleLog } from 'common';
 import WebMap from './config/chartMap';
 import TopTabRight from 'service-insight/common/components/tab-right';
 import CommonPanel from '../../../trace-insight/pages/trace-querier/trace-common-panel';
-import PureTraceDetail from '../../../trace-insight/pages/trace-querier/trace-detail';
+import PureTraceDetail from '../../../trace-insight/pages/trace-querier/trace-detail-new';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import SICommonStore from '../../stores/common';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';

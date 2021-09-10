@@ -201,6 +201,7 @@ export enum pages {
   mspTopology = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
   monitorAPIOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
   microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
+  microTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/trace-detail/{traceId}',
   cmpRoot = '/{orgName}/cmp/overview',
   createProject = '/{orgName}/orgCenter/projects/createProject',
   cmpClusters = '/{orgName}/cmp/clusters',
@@ -242,6 +243,9 @@ export enum pages {
 
   // 微服务-服务分析页
   mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
+
+  // 服务分析页-追踪详情
+  mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
 
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',

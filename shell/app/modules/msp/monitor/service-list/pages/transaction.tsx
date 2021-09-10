@@ -15,12 +15,13 @@ import React, { useMemo, useCallback } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Radio, Ellipsis, Select, Drawer, Tag, Table } from 'app/nusi';
+import { Radio, Ellipsis, Select, Drawer, Tag, Table, Tree } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
+import { goTo } from 'common/utils';
 import TraceSearchDetail from 'msp/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
@@ -123,7 +124,6 @@ interface IState {
   traceSlowTranslation?: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp;
   traceId?: string;
   visible: boolean;
-  detailVisible: boolean;
   logVisible: boolean;
   sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
   callType?: string;
@@ -145,7 +145,6 @@ const Transaction = () => {
       url,
       visible,
       traceSlowTranslation,
-      detailVisible,
       traceId,
       logVisible,
       sortType,
@@ -163,7 +162,6 @@ const Transaction = () => {
     traceSlowTranslation: undefined,
     traceId: undefined,
     visible: false,
-    detailVisible: false,
     logVisible: false,
     sortType: defaultTimeSort,
     callType: undefined,
@@ -254,7 +252,7 @@ const Transaction = () => {
               className="table-operations-btn"
               onClick={() => {
                 updater.traceId(record.requestId);
-                updater.detailVisible(true);
+                goTo(goTo.pages.mspServiceTraceDetail, { traceId: record.requestId, jumpOut: true });
               }}
             >
               {i18n.t('check detail')}
@@ -291,6 +289,25 @@ const Transaction = () => {
     };
   }, [search, sort, callType, subSearch, topic]);
 
+  function dig(path = '0', level = 3) {
+    const list = [];
+    for (let i = 0; i < 10; i += 1) {
+      const key = `${path}-${i}`;
+      const treeNode = {
+        title: key,
+        key,
+      };
+
+      if (level > 0) {
+        treeNode.children = dig(key, level - 1);
+      }
+
+      list.push(treeNode);
+    }
+    return list;
+  }
+
+  const treeData = dig();
   return (
     <div className="service-analyze flex flex-col h-full">
       <div>
@@ -367,7 +384,7 @@ const Transaction = () => {
           onBoardEvent={handleBoardEvent}
         />
       </div>
-      <Drawer title={tracingDrawerTitle} width="55%" visible={visible} onClose={() => updater.visible(false)}>
+      <Drawer title={tracingDrawerTitle} width="80%" visible={visible} onClose={() => updater.visible(false)}>
         <div className="flex items-center flex-wrap justify-end mb-3">
           <span>{i18n.t('msp:maximum number of queries')}：</span>
           <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
@@ -396,20 +413,11 @@ const Transaction = () => {
         <Drawer
           destroyOnClose
           title={i18n.t('runtime:monitor log')}
-          width="50%"
+          width="80%"
           visible={logVisible}
           onClose={() => updater.logVisible(false)}
         >
           <SimpleLog requestId={traceId} applicationId={params?.applicationId} />
-        </Drawer>
-        <Drawer
-          title={i18n.t('msp:link information')}
-          visible={detailVisible}
-          onClose={() => updater.detailVisible(false)}
-          width="50%"
-          destroyOnClose
-        >
-          <TraceSearchDetail traceId={traceId} />
         </Drawer>
       </Drawer>
     </div>

@@ -13,15 +13,18 @@
 
 import React from 'react';
 import { useUpdate } from 'common';
-import PureTraceDetail from './trace-detail';
+import PureTraceDetail from './trace-detail-new';
 import traceStore from '../../../../stores/trace';
+import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
+import i18n from 'i18n';
 
-export default ({ traceId }: { traceId?: string }) => {
+export default () => {
   const spanDetailContent = traceStore.useStore((s) => s.spanDetailContent);
   const { getTraceDetailContent, getSpanDetailContent } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceDetailContent']);
   const [{ traceRecords }, updater] = useUpdate({ traceRecords: {} });
+  const { traceId } = routeInfoStore.useStore((s) => s.params);
 
   React.useEffect(() => {
     if (traceId) {
@@ -32,11 +35,16 @@ export default ({ traceId }: { traceId?: string }) => {
   }, [getTraceDetailContent, traceId, updater]);
 
   return (
-    <PureTraceDetail
-      spanDetailContent={spanDetailContent}
-      traceDetailContent={traceRecords}
-      isTraceDetailContentFetching={loading}
-      getSpanDetailContent={getSpanDetailContent}
-    />
+    <div className="p-4">
+      <div className="text-base font-semibold mb-4">
+        {i18n.t('msp:trace id')}: {traceId}
+      </div>
+      <PureTraceDetail
+        spanDetailContent={spanDetailContent}
+        traceDetailContent={traceRecords}
+        isTraceDetailContentFetching={loading}
+        getSpanDetailContent={getSpanDetailContent}
+      />
+    </div>
   );
 };

@@ -67,6 +67,7 @@ declare namespace MONITOR_TRACE {
     parentSpanId: string;
     timestamp: number;
     duration: number;
+    selfDuration: number;
     tags: ITag;
   }
 
