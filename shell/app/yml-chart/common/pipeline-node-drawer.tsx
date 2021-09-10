@@ -495,7 +495,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         </div>
       );
       return (
-        <Panel key={`${parentKey}.${item.key}-${String(index)}`} header={header}>
+        <Panel key={`${parentKey}.${item.key}-${String(index)}`} header={header} forceRender>
           {renderResource({ data: property.struct }, `${parentKey}.[${index}]`, item)}
         </Panel>
       );
@@ -632,6 +632,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       {type ? taskName : null}
       {actionVersion}
       {executionCondition}
+
       {renderTaskTypeStructure()}
       {editing ? (
         <Button type="primary" ghost onClick={onSubmit}>

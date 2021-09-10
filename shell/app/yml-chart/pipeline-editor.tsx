@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 // @ts-ignore
 import yaml from 'js-yaml';
-import { get, omit, isEmpty } from 'lodash';
+import { get, omit, isEmpty, cloneDeep } from 'lodash';
 import { notify, isPromise } from 'common/utils';
 import { Spin, Button, message, Radio, Modal } from 'app/nusi';
 import { useUpdate, FileEditor, ErdaCustomIcon } from 'common';
@@ -118,12 +118,13 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   const onDeleteData = (nodeData: any) => {
     const { [externalKey]: externalData } = nodeData;
     const { xIndex, yIndex } = externalData || {};
-    const newYmlObj = produce(ymlObj, (draft: PIPELINE.IPipelineYmlStructure) => {
-      draft.stages[xIndex].splice(yIndex, 1);
-      if (draft.stages[xIndex].length === 0) {
-        draft.stages.splice(xIndex, 1);
-      }
-    });
+
+    const newYmlObj = cloneDeep(ymlObj);
+    newYmlObj.stages[xIndex].splice(yIndex, 1);
+    if (newYmlObj.stages[xIndex].length === 0) {
+      newYmlObj.stages.splice(xIndex, 1);
+    }
+
     updater.ymlObj(newYmlObj);
     message.success(i18n.t('application:please click save to submit the configuration'));
   };
@@ -189,20 +190,21 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       }
 
       const { nodeType, xIndex, yIndex, insertPos } = curChosenExternal;
-      const newYmlObj = produce(ymlObj, (draft: PIPELINE.IPipelineYmlStructure) => {
-        if (!draft.stages) {
-          draft.stages = [];
-        }
-        if (nodeType === NodeType.addRow) {
-          draft.stages.splice(insertPos, 0, [newData]);
-        } else if (nodeType === NodeType.addNode) {
-          // 添加节点
-          draft.stages[xIndex] = [...draft.stages[xIndex], newData];
-        } else {
-          // 修改节点
-          draft.stages[xIndex][yIndex] = newData;
-        }
-      });
+      const newYmlObj = cloneDeep(ymlObj);
+      if (!newYmlObj.stages) {
+        newYmlObj.stages = [];
+      }
+
+      if (nodeType === NodeType.addRow) {
+        newYmlObj.stages.splice(insertPos, 0, [newData]);
+      } else if (nodeType === NodeType.addNode) {
+        // 添加节点
+        newYmlObj.stages[xIndex] = [...newYmlObj.stages[xIndex], newData];
+      } else {
+        // 修改节点
+        newYmlObj.stages[xIndex][yIndex] = newData;
+      }
+
       updater.ymlObj(newYmlObj);
       message.success(i18n.t('application:please click save to submit the configuration'));
     }
