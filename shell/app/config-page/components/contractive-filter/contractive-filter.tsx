@@ -41,13 +41,18 @@ export const Filter = (props: CP_FILTER.Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
-  const onChange = (value: Obj) => {
-    execOperation(operations?.filter, { values: value, conditions: conditionsRef.current });
-    customProps?.onFilterChange && customProps.onFilterChange(value);
+  const onChange = (value: Obj, changedKey?: string) => {
+    execOperation(operations?.filter, { values: value, conditions: conditionsRef.current, changedKey });
+    customProps?.onFilterChange && customProps.onFilterChange(value, changedKey);
   };
 
-  const onQuickSelect = ({ key, value }: { key: string; value: any }) => {
-    execOperation(operations && operations[key], { values, conditions: conditionsRef.current });
+  const onQuickOperation = ({ key, value }: { key: string; value: any }) => {
+    const curOperation = operations?.[key];
+    if (curOperation.fillMeta) {
+      execOperation(curOperation, value);
+    } else {
+      execOperation(curOperation, { values, conditions: conditionsRef.current });
+    }
   };
 
   if (!visible) {
@@ -60,7 +65,7 @@ export const Filter = (props: CP_FILTER.Props) => {
       values={values}
       delay={delay || 1000}
       onChange={onChange}
-      onQuickSelect={onQuickSelect}
+      onQuickOperation={onQuickOperation}
       onConditionsChange={onConditionsChange}
       fullWidth={fullWidth}
     />
