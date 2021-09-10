@@ -15,18 +15,49 @@ import React from 'react';
 import { Tree, Tooltip, Table, Modal, Ellipsis, Button } from 'core/nusi';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import './trace-graph.scss';
-import { Icon as CustomIcon } from 'common';
-import { divide, map } from 'lodash';
+import i18n from 'i18n';
+import { map } from 'lodash';
+
+interface ISpanDetailProps {
+  getSpanDetailContent: (
+    visible: boolean,
+    span: MONITOR_TRACE.ITraceSpan[],
+  ) => {
+    visible: boolean;
+    span: MONITOR_TRACE.ITraceSpan[];
+  };
+  spanDetailContent: {
+    visible: boolean;
+    span: MONITOR_TRACE.ITraceSpan[];
+  };
+}
+
+interface IProps {
+  getSpanDetailContent: (
+    visible: boolean,
+    span: MONITOR_TRACE.ITraceSpan[],
+  ) => {
+    visible: boolean;
+    span: MONITOR_TRACE.ITraceSpan[];
+  };
+  isTraceDetailContentFetching: boolean;
+  spanDetailContent: {
+    visible: boolean;
+    span: MONITOR_TRACE.ITraceSpan[];
+  };
+  traceDetailContent: MONITOR_TRACE.ITraceDetail | {};
+}
 
 function list_to_tree(arr: any[] = []) {
   const list = arr.map((x) => ({ ...x, children: [] }));
-  const map = {};
+  const treeMap = {};
   const roots = [];
   const existIds = [];
   let min = Infinity;
   let max = -Infinity;
+
   for (let i = 0; i < list.length; i++) {
-    map[list[i].id] = i;
+    treeMap[list[i].id] = i;
     existIds.push(list[i].id);
     min = Math.min(min, list[i].startTime);
     max = Math.max(max, list[i].endTime);
@@ -35,22 +66,28 @@ function list_to_tree(arr: any[] = []) {
   for (let i = 0; i < list.length; i += 1) {
     const node = list[i];
     if (node.parentSpanId !== '' && existIds.includes(node.parentSpanId)) {
-      list[map[node.parentSpanId]].children.push(node);
+      list[treeMap[node.parentSpanId]].children.push(node);
     } else {
       roots.push(node);
     }
   }
 
+  roots.sort((a, b) => a.startTime - b.startTime);
   return { roots, min, max };
 }
 
-// const originTreeData = list_to_tree(data.spans);
-const sapnTitleInfo = () => (
-  <div>
-    <div>operationName</div>
-    <div>span_kind - component</div>
-  </div>
-);
+const displayTimeString = (time: number) => {
+  return time && time !== -Infinity ? mkDurationStr(time / 1000) : 0;
+};
+
+const spanTitleInfo = (operationName, spanKind, component) => {
+  return (
+    <div>
+      <div>{operationName}</div>
+      <div>{`${spanKind} - ${component}`}</div>
+    </div>
+  );
+};
 const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
   <div className="flex justify-center">
     <div className="border-0 border-r border-solid border-grey flex flex-col items-center px-6 py-1">
@@ -62,18 +99,15 @@ const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
           ms
         </span> */}
       </div>
-      <div className="text-sm text-darkgray">当前 span 时间</div>
+      <div className="text-sm text-darkgray">{i18n.t('msp:current span time')}</div>
     </div>
     <div className="flex flex-col items-center px-6 py-1">
       <div className="flex justify-center font-semibold">
         <span className="text-navy" style={{ fontSize: 16 }}>
           {mkDurationStr(totalSpanTime / 1000)}
         </span>
-        {/* <span className="text-navy" style={{ fontSize: 14 }}>
-          ms
-        </span> */}
       </div>
-      <div className="text-sm text-darkgray">总 span 时间</div>
+      <div className="text-sm text-darkgray">{i18n.t('msp:total span time')}</div>
     </div>
   </div>
 );
@@ -81,9 +115,9 @@ const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
 const TraceDetailInfo = ({ dataSource }) => {
   const { duration, serviceCount, depth, spanCount } = dataSource;
   return (
-    <div className="bg-grey flex justify-between items-center h-20 mb-8">
+    <div className="bg-grey flex justify-between items-center py-2 my-4">
       <div className="flex flex-col flex-1 items-center justify-center">
-        <div className="text-xl text-sub font-semibold">{mkDurationStr(duration / 1000) || 0}</div>
+        <div className="text-xl text-sub font-semibold">{displayTimeString(duration)}</div>
         <div className="text-xs text-darkgray">Duration</div>
       </div>
       <div className="flex flex-col flex-1 items-center justify-center">
@@ -101,18 +135,18 @@ const TraceDetailInfo = ({ dataSource }) => {
     </div>
   );
 };
-const TraceHeader = (props) => {
+const TraceHeader = (props: { duration: number }) => {
   const { duration } = props;
-  const avg = duration / 4 / 1000;
-  const [t1, t2, t3, t4] = [mkDurationStr(avg), mkDurationStr(avg * 2), mkDurationStr(avg * 3), mkDurationStr(avg * 4)];
+  const avg = duration / 4;
+  const [t1, t2, t3, t4] = [avg, avg * 2, avg * 3, avg * 4];
 
   return (
-    <div className="trace-header text-gray font-semibold text-sm pb-3 mb-4">
-      <div className="left">Services</div>
-      <div className="right">{`${t1}`}</div>
-      <div className="right">{`${t2}`}</div>
-      <div className="right">{`${t3}`}</div>
-      <div className="right">{`${t4}`}</div>
+    <div className="trace-header text-gray font-semibold text-sm pb-3 my-2">
+      <div className="left text-sub font-semibold">Services</div>
+      <div className="right">{displayTimeString(t1)}</div>
+      <div className="right">{displayTimeString(t2)}</div>
+      <div className="right">{displayTimeString(t3)}</div>
+      <div className="right">{displayTimeString(t4)}</div>
     </div>
   );
 };
@@ -167,43 +201,59 @@ const SpanDetail = (props: ISpanDetailProps) => {
   );
 };
 
-export function TraceGraph(props) {
+export function TraceGraph(props: IProps) {
   const { dataSource = {}, spanDetailContent = {}, getSpanDetailContent } = props;
-
   const bg = ['#4E6097', '#498E9E', '#6CB38B', 'purple', '#F7A76B'];
+  const errorColor = '#CE4324';
   // const bg = ['#5872C0', '#ADDD8B', '#DE6E6A', '#84BFDB', '#599F76', '#ED895D', '#9165AF','#DC84C8','#F3C96B'];
-  const [expandedKeys, setExpandedKeys] = React.useState([]);
+  const [expandedKeys, setExpandedKeys] = React.useState([] as string[]);
   const { roots, min, max } = list_to_tree(dataSource.spans);
   const duration = max - min;
   const allKeys: string[] = [];
-  function format(item: any, depth = 0) {
+
+  const traverseData = (data) => {
+    for (let i = 0; i < data.length; i++) {
+      data[i] = format(data[i], 0);
+    }
+
+    return data;
+  };
+
+  const treeData = traverseData(roots);
+
+  function format(item: MONITOR_TRACE.ITraceSpan, depth = 0) {
     item.depth = depth;
     item.key = item.id;
     allKeys.push(item.id);
-    const { startTime, endTime, duration: totalDuration, selfDuration } = item;
+    const { startTime, endTime, duration: totalDuration, selfDuration, operationName, tags } = item;
+    const { span_kind: spanKind, component, error } = tags;
     const f1 = (startTime - min) / duration;
     const f2 = (endTime - startTime) / duration;
     const f3 = (max - endTime) / duration;
     const showTextOnLeft = f1 > 0.2;
     const showTextOnRight = !showTextOnLeft && f3 > 0.2;
-    const displaySelfDuration = mkDurationStr(selfDuration / 1000);
+    const displayTotalDuration = mkDurationStr(totalDuration / 1000);
 
     item.title = (
-      <div className="wrapper">
-        <Tooltip title={item?.tags?.service_name}>
-          <div className="left" style={{ width: 200 - 24 * depth }}>
-            {item?.tags?.service_name}
+      <div className="wrapper flex items-center">
+        <Tooltip title={spanTitleInfo(operationName, spanKind, component)}>
+          <div className="left text-xs flex items-center" style={{ width: 200 - 24 * depth }}>
+            <span className="truncate">{operationName}</span>
+            <span className="truncate ml-3">{`${spanKind} - ${component}`}</span>
           </div>
         </Tooltip>
-        <div className="right text-gray" onClick={() => props.getSpanDetailContent({ span: item, visible: true })}>
+        <div className="right text-gray" onClick={() => getSpanDetailContent({ span: item, visible: true })}>
           <div style={{ flex: f1 }} className="text-right text-xs self-center">
-            {showTextOnLeft && displaySelfDuration}
+            {showTextOnLeft && displayTotalDuration}
           </div>
           <Tooltip title={spanTimeInfo(totalDuration, selfDuration)}>
-            <div style={{ flex: f2, background: bg[depth % 5] }} className="rounded-sm mx-1" />
+            <div
+              style={{ flex: f2 < 0.01 ? 0.01 : f2, background: error ? errorColor : bg[depth % 5] }}
+              className="rounded-sm mx-1"
+            />
           </Tooltip>
           <div style={{ flex: f3 }} className="self-center text-left text-xs">
-            {showTextOnRight && displaySelfDuration}
+            {showTextOnRight && displayTotalDuration}
           </div>
         </div>
       </div>
@@ -218,38 +268,28 @@ export function TraceGraph(props) {
     setExpandedKeys(keys);
   };
 
-  function foo(data) {
-    for (let i = 0; i < data.length; i++) {
-      data[i] = format(data[i], 0);
-    }
-
-    return data;
-  }
-
-  const bar = foo(roots);
-
   return (
     <>
       <TraceDetailInfo dataSource={dataSource} />
-      <div>
+      <div className="mb-6">
         <Button className="mr-2 text-primary" onClick={() => setExpandedKeys(allKeys)}>
-          全部展开
+          {i18n.t('msp:expand all')}
         </Button>
         <Button className="text-primary" onClick={() => setExpandedKeys([])}>
-          全部收起
+          {i18n.t('msp:fold all')}
         </Button>
       </div>
       <div>
         <TraceHeader duration={duration} />
         <div className="trace-graph">
-          {bar.length > 0 && (
+          {treeData.length > 0 && (
             <Tree
               showLine={{ showLeafIcon: false }}
               defaultExpandAll
               // switcherIcon={<DownOutlined />}
-              switcherIcon={<CustomIcon type="caret-down" />}
+              // switcherIcon={<CustomIcon type="caret-down" />}
               expandedKeys={expandedKeys}
-              treeData={bar}
+              treeData={treeData}
               onExpand={onExpand}
             />
           )}

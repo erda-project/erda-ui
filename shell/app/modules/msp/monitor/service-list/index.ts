@@ -50,7 +50,17 @@ export default () => ({
                   path: 'transaction',
                   tabs,
                   layout: { fullHeight: true },
-                  getComp: (cb: any) => cb(import('msp/monitor/service-list/pages/transaction')),
+                  routes: [
+                    {
+                      path: 'trace-detail/:traceId',
+                      layout: { fullHeight: true },
+                      getComp: (cb: any) =>
+                        cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
+                    },
+                    {
+                      getComp: (cb: any) => cb(import('msp/monitor/service-list/pages/transaction')),
+                    },
+                  ],
                 },
                 {
                   path: 'anomaly',

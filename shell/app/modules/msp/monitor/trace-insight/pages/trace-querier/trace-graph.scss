@@ -1,24 +1,33 @@
 .trace-graph {
   .left {
     width: 200px;
-    line-height: 30px;
     background: rgb(248, 246, 246);
   }
 
   .right {
-    height: 30px;
-    /* background: plum; */
-    // width: 800px;
+    height: 20px;
     width: 100%;
     flex: 1;
     display: flex;
-    padding: 6px 0;
+    padding: 4px 0;
     box-sizing: border-box;
   }
 
   .wrapper {
     width: 100%;
     display: flex;
+  }
+  .ant-tree .ant-tree-treenode {
+    width: 100% !important;
+    padding: 0;
+  }
+
+  .ant-tree .ant-tree-node-content-wrapper {
+    width: 100% !important;
+  }
+
+  .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+    background: unset !important;
   }
 }
 
@@ -34,17 +43,4 @@
     text-align: right;
     flex: 1;
   }
-}
-
-// TODO:
-.ant-tree .ant-tree-treenode {
-  width: 100% !important;
-}
-
-.ant-tree .ant-tree-node-content-wrapper {
-  width: 100% !important;
-}
-
-.ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-  background: unset !important;
 }

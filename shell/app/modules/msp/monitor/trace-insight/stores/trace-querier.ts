@@ -163,12 +163,11 @@ const traceQuerier = createStore({
     ) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
-      const content = transformTrace(response);
       const { needReturn } = payload;
       if (needReturn) {
-        return content;
+        return response;
       }
-      update({ traceDetailContent: content });
+      update({ traceDetailContent: response });
     },
     async getSpanDetailContent({ call, update }, payload: { span: any; visible: boolean }) {
       const response = await call(getSpanDetailContent, payload);

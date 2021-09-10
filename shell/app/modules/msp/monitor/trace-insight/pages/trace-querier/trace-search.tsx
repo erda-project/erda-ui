@@ -14,6 +14,7 @@
 import React, { useMemo } from 'react';
 import { get, isEmpty, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
+import { goTo } from 'common/utils';
 import { ContractiveFilter, Copy, PureBoardGrid, TagsRow, useSwitch, useUpdate } from 'common';
 import { ColumnProps } from 'core/common/interface';
 import { Drawer, message, Table } from 'core/nusi';
@@ -100,7 +101,7 @@ type IQuery = {
   [k in MONITOR_TRACE.IFixedConditionType]: string;
 } & {
   time: [Moment, Moment];
-  duration: { timer: number; unit: 'ms' | 's' }[];
+  duration: Array<{ timer: number; unit: 'ms' | 's' }>;
 } & {
   [k: string]: string;
 };
@@ -205,6 +206,7 @@ export default () => {
   const handleCheckTraceDetail = (e: any, id: string) => {
     e.stopPropagation();
     updater.traceId(id as any);
+    goTo(goTo.pages.microTraceDetail, { jumpOut: true });
     openDetail();
   };
 
@@ -266,7 +268,10 @@ export default () => {
       fixed: 'right',
       render: (_: any, record: RecordType) => (
         <div className="table-operations">
-          <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
+          <span
+            onClick={() => goTo(goTo.pages.microTraceDetail, { traceId: record.id, jumpOut: true })}
+            className="table-operations-btn"
+          >
             {i18n.t('check detail')}
           </span>
         </div>

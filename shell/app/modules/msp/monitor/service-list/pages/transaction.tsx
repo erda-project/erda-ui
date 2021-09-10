@@ -21,6 +21,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
+import { goTo } from 'common/utils';
 import TraceSearchDetail from 'msp/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
@@ -123,7 +124,6 @@ interface IState {
   traceSlowTranslation?: TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp;
   traceId?: string;
   visible: boolean;
-  detailVisible: boolean;
   logVisible: boolean;
   sortType: TOPOLOGY_SERVICE_ANALYZE.SORT_TYPE;
   callType?: string;
@@ -145,7 +145,6 @@ const Transaction = () => {
       url,
       visible,
       traceSlowTranslation,
-      detailVisible,
       traceId,
       logVisible,
       sortType,
@@ -163,7 +162,6 @@ const Transaction = () => {
     traceSlowTranslation: undefined,
     traceId: undefined,
     visible: false,
-    detailVisible: false,
     logVisible: false,
     sortType: defaultTimeSort,
     callType: undefined,
@@ -254,7 +252,7 @@ const Transaction = () => {
               className="table-operations-btn"
               onClick={() => {
                 updater.traceId(record.requestId);
-                updater.detailVisible(true);
+                goTo(goTo.pages.mspServiceTraceDetail, { traceId: record.requestId, jumpOut: true });
               }}
             >
               {i18n.t('check detail')}
@@ -420,15 +418,6 @@ const Transaction = () => {
           onClose={() => updater.logVisible(false)}
         >
           <SimpleLog requestId={traceId} applicationId={params?.applicationId} />
-        </Drawer>
-        <Drawer
-          title={i18n.t('msp:link information')}
-          visible={detailVisible}
-          onClose={() => updater.detailVisible(false)}
-          width="80%"
-          destroyOnClose
-        >
-          <TraceSearchDetail traceId={traceId} />
         </Drawer>
       </Drawer>
     </div>

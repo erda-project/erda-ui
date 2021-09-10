@@ -12,10 +12,26 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Spin, Tooltip, Ellipsis, Tree } from 'core/nusi';
+import { Spin } from 'core/nusi';
 import { TraceGraph } from './trace-graph';
 
-export default function NewTraceDetail(props) {
+interface IProps {
+  getSpanDetailContent: (
+    visible: boolean,
+    span: MONITOR_TRACE.ITraceSpan[],
+  ) => {
+    visible: boolean;
+    span: MONITOR_TRACE.ITraceSpan[];
+  };
+  isTraceDetailContentFetching: boolean;
+  spanDetailContent: {
+    visible: boolean;
+    span: MONITOR_TRACE.ITraceSpan[];
+  };
+  traceDetailContent: MONITOR_TRACE.ITraceDetail | {};
+}
+
+export default function NewTraceDetail(props: IProps) {
   const { isTraceDetailContentFetching, traceDetailContent, spanDetailContent, getSpanDetailContent } = props;
 
   return (
