@@ -54,7 +54,8 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     text: i18n.t('application:pipeline'),
   };
   const apiDesign = {
-    show: perm.apiDesign.read.pass,
+    // show: perm.apiDesign.read.pass,
+    show: false,
     key: 'apiDesign',
     href: goTo.resolve.appApiDesign(), // `/dop/projects/${projectId}/apps/${appId}/apiDesign`,
     icon: <IconApi />,
