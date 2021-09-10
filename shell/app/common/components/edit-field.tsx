@@ -196,7 +196,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           {...itemProps}
           value={editValue}
           onChange={updater.editValue}
-          onSave={(v) => onChangeCb?.({ [name]: v })}
+          onSave={(v) => onChangeCb?.({ [name]: v }, 'markdown')}
           originalValue={originalValue}
           disabled={disabled}
         />
