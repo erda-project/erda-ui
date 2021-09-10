@@ -134,7 +134,7 @@ const mspStore = createStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(async ({ params, isLeaving, isIn }: IRouteInfo) => {
       const { projectId, tenantGroup, env } = params;
-      const mspReg = /\/msp\/\d+\/[A-Z]+\/[a-z0-9A-Z]+$/;
+      const mspReg = /\/msp\/\d+\/[A-Z]+\/[a-z0-9A-Z]+(\?.*)?$/;
       const isMspDetailIndex = mspReg.test(location.href);
       const [currentEnvInfo, currentProject] = mspStore.getState((s) => [s.currentEnvInfo, s.currentProject]);
       if (isIn('mspDetail')) {
