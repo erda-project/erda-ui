@@ -119,8 +119,8 @@ describe('TreeCategory', () => {
     expect(selectNodeFn).toHaveBeenLastCalledWith({ inode: 'leaf-root', isLeaf: false });
     await act(async () => {
       await wrapper.find('ForwardRef.file-tree-container').prop('onDrop')({
-        dragNode: { props: { dataRef: simpleTreeData[0] } },
-        node: { props: { dataRef: simpleTreeData[1] } },
+        dragNode: simpleTreeData[0],
+        node: simpleTreeData[1],
       });
     });
     expect(moveNode).toHaveBeenLastCalledWith({
