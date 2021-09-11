@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Table, Modal, Ellipsis, Button, Row, Col } from 'core/nusi';
+import { Tree, Tooltip, Table, Modal, Ellipsis, Button, Row, Col, Tabs, Spin } from 'core/nusi';
 import { Holder, PureBoardGrid, TimeSelect } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis } from 'msp/services';
@@ -20,7 +20,7 @@ import './trace-graph.scss';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
 import moment from 'moment';
-import { setTextRange } from 'typescript';
+import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
 
 interface ISpanDetailProps {
   getSpanDetailContent: (
@@ -56,6 +56,7 @@ interface IState {
 }
 
 const DashBoard = React.memo(PureBoardGrid);
+const { TabPane } = Tabs;
 
 function listToTree(arr: any[] = []) {
   const list = arr.map((x) => ({ ...x, children: [] })).sort((a, b) => a.startTime - b.startTime);
@@ -163,56 +164,6 @@ const TraceHeader = (props: { duration: number }) => {
   );
 };
 
-const SpanDetail = (props: ISpanDetailProps) => {
-  const { spanDetailContent, getSpanDetailContent } = props;
-  const { durationStr, tags, operationName: spanName = '' } = spanDetailContent.span || {};
-  const columns2 = [
-    {
-      title: 'Key',
-      dataIndex: 'key',
-      key: 'key',
-    },
-    {
-      title: 'Value',
-      dataIndex: 'value',
-      key: 'value',
-      render: (text: string) => <Ellipsis overlayClassName="trace-value-tooltips" title={text} />,
-    },
-  ];
-  const data = map(tags, (value, key) => ({ key, value }));
-
-  return (
-    <Modal
-      visible={spanDetailContent.visible}
-      onCancel={() => getSpanDetailContent && getSpanDetailContent({ span: spanDetailContent, visible: false })}
-      className="span-detail-modal"
-      width={920}
-      title={[
-        spanName && spanName.length > 95 ? (
-          <Tooltip key="spanName" title={spanName} overlayClassName="full-span-name">
-            <h3 className="title">{spanName}</h3>
-          </Tooltip>
-        ) : (
-          <h3 key="spanName">{spanName}</h3>
-        ),
-        <h4 key="aka" className="sub-title">
-          AKA: {tags?.service_name} {durationStr}
-        </h4>,
-      ]}
-      footer=""
-    >
-      <Table
-        className="no-operation second-table"
-        rowKey="key"
-        columns={columns2}
-        dataSource={data}
-        pagination={false}
-        scroll={{ x: '100%' }}
-      />
-    </Modal>
-  );
-};
-
 export function TraceGraph(props: IProps) {
   const { dataSource = {}, spanDetailContent = {}, getSpanDetailContent } = props;
   const bg = ['#4E6097', '#498E9E', '#6CB38B', 'purple', '#F7A76B'];
@@ -226,16 +177,13 @@ export function TraceGraph(props: IProps) {
   });
   const [timeRange, setTimeRange] = React.useState([moment().subtract(15, 'minutes'), moment()]);
   const [proportion, setProportion] = React.useState([24, 0]);
-  const [layout, setLayout] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [spanDetailData, setSpanDetailData] = React.useState({});
   const { roots, min, max } = listToTree(dataSource.spans);
   const [tags, setTags] = React.useState(null);
   const duration = max - min;
   const allKeys: string[] = [];
-  const globalVariable = {
-    // startTime: timeSpan.startTimeMs,
-    // endTime: timeSpan.endTimeMs,
-  };
+  const { callAnalysis, serviceAnalysis } = spanDetailContent || {};
 
   const getMetaData = React.useCallback(async () => {
     setLoading(true);
@@ -251,7 +199,7 @@ export function TraceGraph(props: IProps) {
         tenantId: terminus_key,
       });
       if (success) {
-        setLayout(data?.viewConfig);
+        setSpanDetailData(data);
       }
     } finally {
       setLoading(false);
@@ -273,6 +221,14 @@ export function TraceGraph(props: IProps) {
   };
 
   const treeData = traverseData(roots);
+
+  const formatDashboardVariable = (conditions: string[]) => {
+    const dashboardVariable = {};
+    for (let i = 0; i < conditions?.length; i++) {
+      dashboardVariable[conditions[i]] = tags[conditions[i]];
+    }
+    return dashboardVariable;
+  };
 
   function format(item: MONITOR_TRACE.ITraceSpan, depth = 0) {
     item.depth = depth;
@@ -373,10 +329,26 @@ export function TraceGraph(props: IProps) {
                 }}
                 value={selectedTimeRange}
               />
-              <Holder when={isEmpty(layout)}>
-                <DashBoard layout={layout} globalVariable={globalVariable} />
-              </Holder>
             </div>
+            <Tabs>
+              <TabPane tab="调用分析" key={1}>
+                <ServiceListDashboard
+                  timeSpan={{ startTime: timeRange[0].valueOf(), endTime: timeRange[1].valueOf() }}
+                  dashboardId={callAnalysis?.dashboardId}
+                  extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
+                />
+              </TabPane>
+              <TabPane tab="关联服务" key={2}>
+                <ServiceListDashboard
+                  timeSpan={{ startTime: timeRange[0].valueOf(), endTime: timeRange[1].valueOf() }}
+                  dashboardId={serviceAnalysis?.dashboardId}
+                  extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
+                />
+              </TabPane>
+              <TabPane tab="属性" key={3}>
+                <Table />
+              </TabPane>
+            </Tabs>
           </Col>
         </Row>
 
