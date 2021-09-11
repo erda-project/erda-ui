@@ -15,7 +15,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getResourcePermissions } from 'user/services/user';
 import { getJoinedOrgs } from 'app/org-home/services/org';
-import { setLS, notify } from 'common/utils';
+import { setLS, notify, insertWhen } from 'common/utils';
+import { erdaEnv } from 'common/constants';
 import { registChartControl } from 'charts/utils/regist';
 import userStore from './user/stores';
 import moment from 'moment';
@@ -76,7 +77,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       import('project/entry'),
       import('apiManagePlatform/entry'),
       import('msp/entry'),
-      import('app/modules/ecp/entry'),
+      ...insertWhen(erdaEnv.ENABLE_EDGE, [import('app/modules/ecp/entry')]),
       import('application/entry'),
       import('cmp/entry'),
       import('user/entry'),
