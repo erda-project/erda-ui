@@ -62,7 +62,7 @@ interface ITimeRangeProps {
   format?: string;
   value?: ITimeRange;
 
-  onChange(data: ITimeRange): void;
+  onChange: (data: ITimeRange) => void;
 }
 
 export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
@@ -215,10 +215,11 @@ export interface IProps {
   defaultRefreshDuration?: string;
   refreshDuration?: string;
   format?: string;
+  hasAutoRefresh?: boolean;
 
-  onRefreshStrategyChange?(strategy: string): void;
+  onRefreshStrategyChange?: (strategy: string) => void;
 
-  onChange?(data: ITimeRange, range: Moment[]): void;
+  onChange?: (data: ITimeRange, range: Moment[]) => void;
 }
 
 const TimeSelect = (props: IProps) => {
@@ -232,7 +233,11 @@ const TimeSelect = (props: IProps) => {
       customize: {},
       quick: undefined,
     },
-    text: props.defaultValue ? transformRange(props.defaultValue, format).dateStr : '',
+    text: props.defaultValue
+      ? transformRange(props.defaultValue, format).dateStr
+      : props.value
+      ? transformRange(props.value, format).dateStr
+      : '',
   });
   const timer = React.useRef();
   const payload = React.useRef<ITimeRange>(props.defaultValue || ({} as ITimeRange));
@@ -243,6 +248,7 @@ const TimeSelect = (props: IProps) => {
   });
 
   const refreshStrategy = props.strategy ?? strategy;
+  const { hasAutoRefresh = true } = props;
   React.useEffect(() => {
     const isAutoRefresh = refreshStrategy !== 'off';
     let duration = -1;
@@ -340,15 +346,19 @@ const TimeSelect = (props: IProps) => {
           {text}
         </div>
       </Dropdown>
-      <AutoRefreshStrategy
-        suffixIcon={<IconDownOne className="ml-1.5 -mt-0.5" theme="filled" size="12" fill="#bbb" />}
-        style={{ width: 70 }}
-        defaultValue={refreshStrategy}
-        onChange={handleChangeRefreshStrategy}
-      />
-      <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary">
-        <IconRefresh className="m-0 cursor-pointer" fill="#070A1A" onClick={handleManualRefresh} />
-      </div>
+      {hasAutoRefresh && (
+        <>
+          <AutoRefreshStrategy
+            suffixIcon={<IconDownOne className="ml-1.5 -mt-0.5" theme="filled" size="12" fill="#bbb" />}
+            style={{ width: 70 }}
+            defaultValue={refreshStrategy}
+            onChange={handleChangeRefreshStrategy}
+          />
+          <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary">
+            <IconRefresh className="m-0 cursor-pointer" fill="#070A1A" onClick={handleManualRefresh} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

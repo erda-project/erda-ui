@@ -12,11 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Table, Modal, Ellipsis, Button } from 'core/nusi';
+import { Tree, Tooltip, Table, Modal, Ellipsis, Button, Row, Col } from 'core/nusi';
+import { Holder, PureBoardGrid, TimeSelect } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
+import { getSpanAnalysis } from 'msp/services';
 import './trace-graph.scss';
 import i18n from 'i18n';
-import { map } from 'lodash';
+import { map, isEmpty } from 'lodash';
+import moment from 'moment';
+import { setTextRange } from 'typescript';
 
 interface ISpanDetailProps {
   getSpanDetailContent: (
@@ -40,16 +44,21 @@ interface IProps {
     visible: boolean;
     span: MONITOR_TRACE.ITraceSpan[];
   };
-  isTraceDetailContentFetching: boolean;
   spanDetailContent: {
     visible: boolean;
     span: MONITOR_TRACE.ITraceSpan[];
   };
-  traceDetailContent: MONITOR_TRACE.ITraceDetail | {};
 }
 
-function list_to_tree(arr: any[] = []) {
-  const list = arr.map((x) => ({ ...x, children: [] }));
+interface IState {
+  layout: DC.Layout;
+  loading: boolean;
+}
+
+const DashBoard = React.memo(PureBoardGrid);
+
+function listToTree(arr: any[] = []) {
+  const list = arr.map((x) => ({ ...x, children: [] })).sort((a, b) => a.startTime - b.startTime);
   const treeMap = {};
   const roots = [];
   const existIds = [];
@@ -57,22 +66,23 @@ function list_to_tree(arr: any[] = []) {
   let max = -Infinity;
 
   for (let i = 0; i < list.length; i++) {
-    treeMap[list[i].id] = i;
-    existIds.push(list[i].id);
-    min = Math.min(min, list[i].startTime);
-    max = Math.max(max, list[i].endTime);
+    const node = list[i];
+    treeMap[node?.id] = i;
+    existIds.push(node?.id);
+    min = Math.min(min, node?.startTime);
+    max = Math.max(max, node?.endTime);
   }
 
   for (let i = 0; i < list.length; i += 1) {
     const node = list[i];
-    if (node.parentSpanId !== '' && existIds.includes(node.parentSpanId)) {
-      list[treeMap[node.parentSpanId]].children.push(node);
+    const parentSpanId = node?.parentSpanId;
+    if (parentSpanId !== '' && existIds.includes(parentSpanId)) {
+      list[treeMap[parentSpanId]].children.push(node);
     } else {
       roots.push(node);
     }
   }
 
-  roots.sort((a, b) => a.startTime - b.startTime);
   return { roots, min, max };
 }
 
@@ -88,6 +98,7 @@ const spanTitleInfo = (operationName, spanKind, component) => {
     </div>
   );
 };
+
 const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
   <div className="flex justify-center">
     <div className="border-0 border-r border-solid border-grey flex flex-col items-center px-6 py-1">
@@ -113,47 +124,48 @@ const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
 );
 
 const TraceDetailInfo = ({ dataSource }) => {
-  const { duration, serviceCount, depth, spanCount } = dataSource;
+  const { duration, serviceCount = 0, depth = 0, spanCount = 0 } = dataSource;
+  const arr = [
+    { text: displayTimeString(duration), subText: 'Duration' },
+    { text: serviceCount, subText: 'Services' },
+    { text: depth, subText: 'Depth' },
+    { text: spanCount, subText: 'Total Spans' },
+  ];
+
   return (
     <div className="bg-grey flex justify-between items-center py-2 my-4">
-      <div className="flex flex-col flex-1 items-center justify-center">
-        <div className="text-xl text-sub font-semibold">{displayTimeString(duration)}</div>
-        <div className="text-xs text-darkgray">Duration</div>
-      </div>
-      <div className="flex flex-col flex-1 items-center justify-center">
-        <div className="text-xl text-sub font-semibold">{serviceCount || 0}</div>
-        <div className="text-xs text-darkgray">Services</div>
-      </div>
-      <div className="flex flex-col flex-1 items-center justify-center">
-        <div className="text-xl text-sub font-semibold">{depth || 0}</div>
-        <div className="text-xs text-darkgray">Depth</div>
-      </div>
-      <div className="flex flex-col flex-1 items-center justify-center">
-        <div className="text-xl text-sub font-semibold">{spanCount || 0}</div>
-        <div className="text-xs text-darkgray">Total Spans</div>
-      </div>
+      {arr.map(({ text, subText }) => (
+        <div className="flex flex-col flex-1 items-center justify-center" key={subText}>
+          <div className="text-xl text-sub font-semibold">{text}</div>
+          <div className="text-xs text-darkgray">{subText}</div>
+        </div>
+      ))}
     </div>
   );
 };
+
 const TraceHeader = (props: { duration: number }) => {
   const { duration } = props;
   const avg = duration / 4;
-  const [t1, t2, t3, t4] = [avg, avg * 2, avg * 3, avg * 4];
+  const pointTimers = [avg, avg * 2, avg * 3, avg * 4];
 
   return (
     <div className="trace-header text-gray font-semibold text-sm pb-3 my-2">
       <div className="left text-sub font-semibold">Services</div>
-      <div className="right">{displayTimeString(t1)}</div>
-      <div className="right">{displayTimeString(t2)}</div>
-      <div className="right">{displayTimeString(t3)}</div>
-      <div className="right">{displayTimeString(t4)}</div>
+      {pointTimers.map((timer, index) => {
+        return (
+          <div className="right" key={`${`${index}${timer}`}`}>
+            {displayTimeString(timer)}
+          </div>
+        );
+      })}
     </div>
   );
 };
 
 const SpanDetail = (props: ISpanDetailProps) => {
   const { spanDetailContent, getSpanDetailContent } = props;
-  const { durationStr, tags, operationName: spanName = '' } = spanDetailContent.span;
+  const { durationStr, tags, operationName: spanName = '' } = spanDetailContent.span || {};
   const columns2 = [
     {
       title: 'Key',
@@ -207,9 +219,50 @@ export function TraceGraph(props: IProps) {
   const errorColor = '#CE4324';
   // const bg = ['#5872C0', '#ADDD8B', '#DE6E6A', '#84BFDB', '#599F76', '#ED895D', '#9165AF','#DC84C8','#F3C96B'];
   const [expandedKeys, setExpandedKeys] = React.useState([] as string[]);
-  const { roots, min, max } = list_to_tree(dataSource.spans);
+  const [selectedTimeRange, setSelectedTimeRange] = React.useState({
+    mode: 'quick',
+    quick: 'minutes:15',
+    customize: {},
+  });
+  const [timeRange, setTimeRange] = React.useState([moment().subtract(15, 'minutes'), moment()]);
+  const [proportion, setProportion] = React.useState([24, 0]);
+  const [layout, setLayout] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const { roots, min, max } = listToTree(dataSource.spans);
+  const [tags, setTags] = React.useState(null);
   const duration = max - min;
   const allKeys: string[] = [];
+  const globalVariable = {
+    // startTime: timeSpan.startTimeMs,
+    // endTime: timeSpan.endTimeMs,
+  };
+
+  const getMetaData = React.useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const { span_layer, span_kind, terminus_key, service_instance_id } = tags;
+      const type = `${span_layer}_${span_kind}`;
+      const { success, data } = await getSpanAnalysis({
+        type,
+        startTime: timeRange[0].valueOf(),
+        endTime: timeRange[1].valueOf(),
+        serviceInstanceId: service_instance_id,
+        tenantId: terminus_key,
+      });
+      if (success) {
+        setLayout(data?.viewConfig);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [tags, timeRange]);
+
+  React.useEffect(() => {
+    if (tags) {
+      getMetaData();
+    }
+  }, [getMetaData, tags, timeRange]);
 
   const traverseData = (data) => {
     for (let i = 0; i < data.length; i++) {
@@ -227,11 +280,11 @@ export function TraceGraph(props: IProps) {
     allKeys.push(item.id);
     const { startTime, endTime, duration: totalDuration, selfDuration, operationName, tags } = item;
     const { span_kind: spanKind, component, error } = tags;
-    const f1 = (startTime - min) / duration;
-    const f2 = (endTime - startTime) / duration;
-    const f3 = (max - endTime) / duration;
-    const showTextOnLeft = f1 > 0.2;
-    const showTextOnRight = !showTextOnLeft && f3 > 0.2;
+    const leftRatio = (startTime - min) / duration;
+    const centerRatio = (endTime - startTime) / duration;
+    const rightRatio = (max - endTime) / duration;
+    const showTextOnLeft = leftRatio > 0.2;
+    const showTextOnRight = !showTextOnLeft && rightRatio > 0.2;
     const displayTotalDuration = mkDurationStr(totalDuration / 1000);
 
     item.title = (
@@ -242,17 +295,24 @@ export function TraceGraph(props: IProps) {
             <span className="truncate ml-3">{`${spanKind} - ${component}`}</span>
           </div>
         </Tooltip>
-        <div className="right text-gray" onClick={() => getSpanDetailContent({ span: item, visible: true })}>
-          <div style={{ flex: f1 }} className="text-right text-xs self-center">
+        <div
+          className="right text-gray"
+          onClick={() => {
+            // getMetaData(tags);
+            setTags(tags);
+            setProportion([16, 8]);
+          }}
+        >
+          <div style={{ flex: leftRatio }} className="text-right text-xs self-center">
             {showTextOnLeft && displayTotalDuration}
           </div>
           <Tooltip title={spanTimeInfo(totalDuration, selfDuration)}>
             <div
-              style={{ flex: f2 < 0.01 ? 0.01 : f2, background: error ? errorColor : bg[depth % 5] }}
+              style={{ flex: centerRatio < 0.01 ? 0.01 : centerRatio, background: error ? errorColor : bg[depth % 5] }}
               className="rounded-sm mx-1"
             />
           </Tooltip>
-          <div style={{ flex: f3 }} className="self-center text-left text-xs">
+          <div style={{ flex: rightRatio }} className="self-center text-left text-xs">
             {showTextOnRight && displayTotalDuration}
           </div>
         </div>
@@ -278,24 +338,49 @@ export function TraceGraph(props: IProps) {
         <Button className="text-primary" onClick={() => setExpandedKeys([])}>
           {i18n.t('msp:fold all')}
         </Button>
+
+        <Button onClick={() => setProportion([24, 0])}>上去</Button>
       </div>
+
       <div>
-        <TraceHeader duration={duration} />
-        <div className="trace-graph">
-          {treeData.length > 0 && (
-            <Tree
-              showLine={{ showLeafIcon: false }}
-              defaultExpandAll
-              height={window.innerHeight * 0.7}
-              // switcherIcon={<DownOutlined />}
-              // switcherIcon={<CustomIcon type="caret-down" />}
-              expandedKeys={expandedKeys}
-              treeData={treeData}
-              onExpand={onExpand}
-            />
-          )}
-        </div>
-        <SpanDetail spanDetailContent={spanDetailContent} getSpanDetailContent={getSpanDetailContent} />
+        <Row gutter={20}>
+          <Col span={proportion[0]}>
+            <TraceHeader duration={duration} />
+            <div className="trace-graph">
+              {treeData.length > 0 && (
+                <Tree
+                  showLine={{ showLeafIcon: false }}
+                  defaultExpandAll
+                  height={window.innerHeight * 0.7}
+                  // switcherIcon={<DownOutlined />}
+                  // switcherIcon={<CustomIcon type="caret-down" />}
+                  expandedKeys={expandedKeys}
+                  treeData={treeData}
+                  onExpand={onExpand}
+                />
+              )}
+            </div>
+          </Col>
+          <Col span={proportion[1]}>
+            <div>
+              <TimeSelect
+                hasAutoRefresh={false}
+                // defaultValue={globalTimeSelectSpan.data}
+                // className={className}
+                onChange={(data, range) => {
+                  setSelectedTimeRange(data);
+                  setTimeRange(range);
+                }}
+                value={selectedTimeRange}
+              />
+              <Holder when={isEmpty(layout)}>
+                <DashBoard layout={layout} globalVariable={globalVariable} />
+              </Holder>
+            </div>
+          </Col>
+        </Row>
+
+        {/* <SpanDetail spanDetailContent={spanDetailContent} getSpanDetailContent={getSpanDetailContent} /> */}
       </div>
     </>
   );
