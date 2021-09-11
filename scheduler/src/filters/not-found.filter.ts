@@ -25,11 +25,11 @@ if (!fs.existsSync(indexHtmlPath)) {
 const indexHtmlContent = fs.readFileSync(indexHtmlPath, { encoding: 'utf8' });
 const newIndexHtmlPath = path.join(staticDir, 'shell', 'index-new.html');
 
-const { UC_PUBLIC_URL = '', ENABLE_BIGDATA = '' } = process.env;
+const { UC_PUBLIC_URL = '', ENABLE_BIGDATA = '', ENABLE_EDGE = '' } = process.env;
 
 const newContent = indexHtmlContent.replace(
   '<!-- $ -->',
-  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}"}</script>`,
+  `<script>window.erdaEnv={UC_PUBLIC_URL:"${UC_PUBLIC_URL}",ENABLE_BIGDATA:"${ENABLE_BIGDATA}",ENABLE_EDGE:"${ENABLE_EDGE}"}</script>`,
 );
 fs.writeFileSync(newIndexHtmlPath, newContent, { encoding: 'utf8' });
 

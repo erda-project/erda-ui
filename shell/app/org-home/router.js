@@ -17,6 +17,8 @@ import getEcpRouter from 'app/modules/ecp/router';
 import getCmpRouter from 'cmp/router';
 import getOrgCenterRouter from 'org/router';
 import getLayoutRouter from 'layout/router';
+import { erdaEnv } from 'common/constants';
+import { insertWhen } from 'app/common/utils';
 
 export default function getOrgRouter() {
   return [
@@ -47,7 +49,7 @@ export default function getOrgRouter() {
         ...getLayoutRouter(),
         ...getDopRouter(),
         ...getMspRouter(),
-        ...getEcpRouter(),
+        ...insertWhen(erdaEnv.ENABLE_EDGE, getEcpRouter()),
         ...getCmpRouter(),
         ...getOrgCenterRouter(),
       ],
