@@ -183,7 +183,7 @@ export function TraceGraph(props: IProps) {
   const [tags, setTags] = React.useState(null);
   const duration = max - min;
   const allKeys: string[] = [];
-  const { callAnalysis, serviceAnalysis } = spanDetailContent || {};
+  const { callAnalysis, serviceAnalysis } = spanDetailData || {};
 
   const getMetaData = React.useCallback(async () => {
     setLoading(true);
@@ -191,6 +191,7 @@ export function TraceGraph(props: IProps) {
     try {
       const { span_layer, span_kind, terminus_key, service_instance_id } = tags;
       const type = `${span_layer}_${span_kind}`;
+      console.log(334);
       const { success, data } = await getSpanAnalysis({
         type,
         startTime: timeRange[0].valueOf(),
@@ -330,25 +331,27 @@ export function TraceGraph(props: IProps) {
                 value={selectedTimeRange}
               />
             </div>
-            <Tabs>
-              <TabPane tab="调用分析" key={1}>
-                <ServiceListDashboard
-                  timeSpan={{ startTime: timeRange[0].valueOf(), endTime: timeRange[1].valueOf() }}
-                  dashboardId={callAnalysis?.dashboardId}
-                  extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
-                />
-              </TabPane>
-              <TabPane tab="关联服务" key={2}>
-                <ServiceListDashboard
-                  timeSpan={{ startTime: timeRange[0].valueOf(), endTime: timeRange[1].valueOf() }}
-                  dashboardId={serviceAnalysis?.dashboardId}
-                  extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
-                />
-              </TabPane>
-              <TabPane tab="属性" key={3}>
-                <Table />
-              </TabPane>
-            </Tabs>
+            {callAnalysis && (
+              <Tabs>
+                <TabPane tab="调用分析" key={1}>
+                  <ServiceListDashboard
+                    timeSpan={{ startTime: timeRange[0].valueOf(), endTime: timeRange[1].valueOf() }}
+                    dashboardId={callAnalysis?.dashboardId}
+                    extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
+                  />
+                </TabPane>
+                <TabPane tab="关联服务" key={2}>
+                  <ServiceListDashboard
+                    timeSpan={{ startTime: timeRange[0].valueOf(), endTime: timeRange[1].valueOf() }}
+                    dashboardId={serviceAnalysis?.dashboardId}
+                    extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
+                  />
+                </TabPane>
+                <TabPane tab="属性" key={3}>
+                  <Table />
+                </TabPane>
+              </Tabs>
+            )}
           </Col>
         </Row>
 

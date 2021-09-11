@@ -73,7 +73,6 @@ export const getSpanAnalysis = (payload: {
   startTime: string;
   endTime: string;
 }) => {
-  console.log(3388);
   return agent
     .get('/api/msp/apm/trace/span-analysis')
     .query(payload)
