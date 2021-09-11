@@ -161,7 +161,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     if (onCancel) {
       btns.push(
         <Button key="md-editor-cancel-btn" className="mx-2 mr-2" onClick={() => onCancel()}>
-          {i18n.t('restore')}
+          {i18n.t('common:discard')}
         </Button>,
       );
     }
