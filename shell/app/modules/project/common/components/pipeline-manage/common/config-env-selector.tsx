@@ -84,7 +84,7 @@ const ConfigEnvSelector = (props: IProps) => {
           component: 'select',
           required: true,
           key: 'clusterName',
-          defaultValue: 'TEST',
+          defaultValue: getLastRunParams().clusterName || 'TEST',
           type: 'select',
           dataSource: {
             type: 'static',
@@ -134,7 +134,7 @@ const ConfigEnvSelector = (props: IProps) => {
 
   const getLastRunParams = () => {
     const runParams = get(caseDetail, 'meta.runParams');
-    const val = {};
+    const val: Obj = {};
     map(runParams, (item) => {
       val[item.name] = item.value;
     });
