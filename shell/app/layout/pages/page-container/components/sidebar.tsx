@@ -55,7 +55,7 @@ const AppCenterEl = () => {
     dop: permMap.dop.read.pass,
     [dataEngineerInfo.name]: permMap.entryFastData.pass && currentOrg.openFdp, // this is backend attribute can't remove
     msp: permMap.entryMsp.pass,
-    ecp: permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
+    ecp: erdaEnv.ENABLE_EDGE && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
     // apiManage: permMap.entryApiManage.pass,
   };
   const dataSource = appList

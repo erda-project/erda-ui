@@ -120,6 +120,7 @@ interface Window {
   };
   erdaEnv: {
     ENABLE_BIGDATA: boolean;
+    ENABLE_EDGE: boolean;
     UC_PUBLIC_URL: string; // 包含protocol
   };
   refreshApiGateway: RefreshApiGateway | null;
