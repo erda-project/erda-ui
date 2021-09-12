@@ -12,51 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Table, Modal, Ellipsis, Button, Row, Col, Tabs, Spin } from 'core/nusi';
-import { Holder, PureBoardGrid, TimeSelect, KeyValueList, Icon as CustomIcon } from 'common';
+import { Tree, Tooltip, Row, Col, Tabs } from 'core/nusi';
+import { TimeSelect, KeyValueList, Icon as CustomIcon } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis } from 'msp/services';
 import './trace-graph.scss';
 import i18n from 'i18n';
-import { map, isEmpty } from 'lodash';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
 import { customMap } from 'common/components/time-select/common';
 
-interface ISpanDetailProps {
-  getSpanDetailContent: (
-    visible: boolean,
-    span: MONITOR_TRACE.ITraceSpan[],
-  ) => {
-    visible: boolean;
-    span: MONITOR_TRACE.ITraceSpan[];
-  };
-  spanDetailContent: {
-    visible: boolean;
-    span: MONITOR_TRACE.ITraceSpan[];
-  };
-}
-
 interface IProps {
-  getSpanDetailContent: (
-    visible: boolean,
-    span: MONITOR_TRACE.ITraceSpan[],
-  ) => {
-    visible: boolean;
-    span: MONITOR_TRACE.ITraceSpan[];
-  };
-  spanDetailContent: {
-    visible: boolean;
-    span: MONITOR_TRACE.ITraceSpan[];
-  };
+  dataSource: any;
 }
 
-interface IState {
-  layout: DC.Layout;
-  loading: boolean;
-}
-
-const DashBoard = React.memo(PureBoardGrid);
 const { TabPane } = Tabs;
 
 function listToTree(arr: any[] = []) {
@@ -108,9 +77,6 @@ const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
         <span className="text-navy" style={{ fontSize: 16 }}>
           {mkDurationStr(selfSpanTime / 1000)}
         </span>
-        {/* <span className="text-navy" style={{ fontSize: 14 }}>
-          ms
-        </span> */}
       </div>
       <div className="text-sm text-darkgray">{i18n.t('msp:current span time')}</div>
     </div>
@@ -269,34 +235,37 @@ export function TraceGraph(props: IProps) {
     const displayTotalDuration = mkDurationStr(totalDuration / 1000);
 
     item.title = (
-      <div className="wrapper flex items-center">
+      <div
+        className="wrapper flex items-center "
+        onClick={() => {
+          const { quick } = selectedTimeRange;
+          let range1 = timeRange[0].valueOf();
+          let range2 = timeRange[1].valueOf();
+          if (customMap[quick]) {
+            range1 = moment(startTime / 1000 / 1000)
+              .subtract(customMap[quick], 'second')
+              .valueOf();
+            range2 = Math.min(
+              moment(startTime / 1000 / 1000)
+                .add(customMap[quick], 'second')
+                .valueOf(),
+              moment().valueOf(),
+            );
+          }
+          _setTimeRange([range1, range2]);
+          // getMetaData(tags);
+          setTags(tags);
+          setSpanStartTime(startTime / 1000 / 1000);
+          setProportion([12, 12]);
+        }}
+      >
         <Tooltip title={spanTitleInfo(operationName, spanKind, component)}>
           <div className="left text-xs flex items-center" style={{ width: 200 - 24 * depth }}>
             <span className="truncate">{operationName}</span>
             <span className="truncate ml-3">{`${spanKind} - ${component}`}</span>
           </div>
         </Tooltip>
-        <div
-          className="right text-gray"
-          onClick={() => {
-            const { quick } = selectedTimeRange;
-            let range1 = timeRange[0].valueOf();
-            let range2 = timeRange[1].valueOf();
-            if (customMap[quick]) {
-              range1 = moment(startTime / 1000 / 1000)
-                .subtract(customMap[quick], 'second')
-                .valueOf();
-              range2 = moment(startTime / 1000 / 1000)
-                .add(customMap[quick], 'second')
-                .valueOf();
-            }
-            _setTimeRange([range1, range2]);
-            // getMetaData(tags);
-            setTags(tags);
-            setSpanStartTime(startTime / 1000 / 1000);
-            setProportion([12, 12]);
-          }}
-        >
+        <div className="right text-gray">
           <div style={{ flex: leftRatio }} className="text-right text-xs self-center">
             {showTextOnLeft && displayTotalDuration}
           </div>
@@ -367,7 +336,10 @@ export function TraceGraph(props: IProps) {
                   let range2 = range[1].valueOf();
                   if (customMap[quick]) {
                     range1 = moment(spanStartTime).subtract(customMap[quick], 'second').valueOf();
-                    range2 = moment(spanStartTime).add(customMap[quick], 'second').valueOf();
+                    range2 = Math.min(
+                      moment(spanStartTime).add(customMap[quick], 'second').valueOf(),
+                      moment().valueOf(),
+                    );
                   }
                   _setTimeRange([range1, range2]);
                 }}
