@@ -215,14 +215,6 @@ export function TraceGraph(props: IProps) {
     try {
       const { span_layer, span_kind, terminus_key, service_instance_id } = tags;
       const type = `${span_layer}_${span_kind}`;
-      const { quick } = selectedTimeRange;
-      let startTime = timeRange[0].valueOf();
-      let endTime = timeRange[1].valueOf();
-
-      if (customMap[quick]) {
-        startTime = moment(spanStartTime).subtract(customMap[quick], 'second').valueOf();
-        endTime = moment(spanStartTime).add(customMap[quick], 'second').valueOf();
-      }
 
       const { success, data } = await getSpanAnalysis({
         type,
@@ -370,6 +362,14 @@ export function TraceGraph(props: IProps) {
                 onChange={(data, range) => {
                   setSelectedTimeRange(data);
                   setTimeRange(range);
+                  const { quick } = data;
+                  let range1 = range[0].valueOf();
+                  let range2 = range[1].valueOf();
+                  if (customMap[quick]) {
+                    range1 = moment(spanStartTime).subtract(customMap[quick], 'second').valueOf();
+                    range2 = moment(spanStartTime).add(customMap[quick], 'second').valueOf();
+                  }
+                  _setTimeRange([range1, range2]);
                 }}
                 value={selectedTimeRange}
               />
