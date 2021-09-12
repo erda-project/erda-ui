@@ -379,14 +379,14 @@ export function TraceGraph(props: IProps) {
                 {/* 后端还未调通，先隐藏 */}
                 {/* <TabPane tab="调用分析" key={1}>
                   <ServiceListDashboard
-                    timeSpan={{ startTime: _timeRange[0], endTime: _timeRange[1] }}
+                    timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
                     dashboardId={callAnalysis?.dashboardId}
                     extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
                   />
                 </TabPane> */}
                 <TabPane tab="关联服务" key={2}>
                   <ServiceListDashboard
-                    timeSpan={{ startTime: _timeRange[0], endTime: _timeRange[1] }}
+                    timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
                     dashboardId={serviceAnalysis?.dashboardId}
                     extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
                   />
