@@ -25,9 +25,13 @@
   .ant-tree .ant-tree-node-content-wrapper {
     width: 100% !important;
   }
+}
 
-  .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
-    background: unset !important;
+.key-value-list {
+  padding: 4px;
+
+  .key {
+    margin-right: 8px;
   }
 }
 

@@ -215,7 +215,6 @@ export interface IProps {
   defaultRefreshDuration?: string;
   refreshDuration?: string;
   format?: string;
-  hasAutoRefresh?: boolean;
 
   onRefreshStrategyChange?: (strategy: string) => void;
 
@@ -248,7 +247,6 @@ const TimeSelect = (props: IProps) => {
   });
 
   const refreshStrategy = props.strategy ?? strategy;
-  const { hasAutoRefresh = true } = props;
   React.useEffect(() => {
     const isAutoRefresh = refreshStrategy !== 'off';
     let duration = -1;
@@ -346,19 +344,15 @@ const TimeSelect = (props: IProps) => {
           {text}
         </div>
       </Dropdown>
-      {hasAutoRefresh && (
-        <>
-          <AutoRefreshStrategy
-            suffixIcon={<IconDownOne className="ml-1.5 -mt-0.5" theme="filled" size="12" fill="#bbb" />}
-            style={{ width: 70 }}
-            defaultValue={refreshStrategy}
-            onChange={handleChangeRefreshStrategy}
-          />
-          <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary">
-            <IconRefresh className="m-0 cursor-pointer" fill="#070A1A" onClick={handleManualRefresh} />
-          </div>
-        </>
-      )}
+      <AutoRefreshStrategy
+        suffixIcon={<IconDownOne className="ml-1.5 -mt-0.5" theme="filled" size="12" fill="#bbb" />}
+        style={{ width: 70 }}
+        defaultValue={refreshStrategy}
+        onChange={handleChangeRefreshStrategy}
+      />
+      <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary">
+        <IconRefresh className="m-0 cursor-pointer" fill="#070A1A" onClick={handleManualRefresh} />
+      </div>
     </div>
   );
 };
