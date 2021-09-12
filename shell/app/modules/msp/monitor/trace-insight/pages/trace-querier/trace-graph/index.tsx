@@ -21,136 +21,17 @@ import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
 import { customMap } from 'common/components/time-select/common';
+import { listToTree } from './utils';
+import { SpanTitleInfo } from './span-title-info';
+import { TraceDetailInfo } from './trace-detail-info';
+import { SpanTimeInfo } from './span-time-info';
+import { TraceHeader } from './trace-header';
 
 interface IProps {
   dataSource: any;
 }
 
 const { TabPane } = Tabs;
-
-function listToTree(arr: any[] = []) {
-  const list = arr.map((x) => ({ ...x, children: [] })).sort((a, b) => a.startTime - b.startTime);
-  const treeMap = {};
-  const roots = [];
-  const existIds = [];
-  let min = Infinity;
-  let max = -Infinity;
-
-  for (let i = 0; i < list.length; i++) {
-    const node = list[i];
-    treeMap[node?.id] = i;
-    existIds.push(node?.id);
-    min = Math.min(min, node?.startTime);
-    max = Math.max(max, node?.endTime);
-  }
-
-  for (let i = 0; i < list.length; i += 1) {
-    const node = list[i];
-    const parentSpanId = node?.parentSpanId;
-    if (parentSpanId !== '' && existIds.includes(parentSpanId)) {
-      list[treeMap[parentSpanId]].children.push(node);
-    } else {
-      roots.push(node);
-    }
-  }
-
-  return { roots, min, max };
-}
-
-const displayTimeString = (time: number) => {
-  return time && time !== -Infinity ? mkDurationStr(time / 1000) : 0;
-};
-
-const spanTitleInfo = (operationName, spanKind, component) => {
-  return (
-    <div>
-      <div>{operationName}</div>
-      <div>{`${spanKind} - ${component}`}</div>
-    </div>
-  );
-};
-
-const spanTimeInfo = (totalSpanTime: number, selfSpanTime: number) => (
-  <div className="flex justify-center">
-    <div className="border-0 border-r border-solid border-grey flex flex-col items-center px-6 py-1">
-      <div className="flex justify-center font-semibold ">
-        <span className="text-navy" style={{ fontSize: 16 }}>
-          {mkDurationStr(selfSpanTime / 1000)}
-        </span>
-      </div>
-      <div className="text-sm text-darkgray">{i18n.t('msp:current span time')}</div>
-    </div>
-    <div className="flex flex-col items-center px-6 py-1">
-      <div className="flex justify-center font-semibold">
-        <span className="text-navy" style={{ fontSize: 16 }}>
-          {mkDurationStr(totalSpanTime / 1000)}
-        </span>
-      </div>
-      <div className="text-sm text-darkgray">{i18n.t('msp:total span time')}</div>
-    </div>
-  </div>
-);
-
-const TraceDetailInfo = ({ dataSource }) => {
-  const { duration, serviceCount = 0, depth = 0, spanCount = 0 } = dataSource;
-  const arr = [
-    { text: displayTimeString(duration), subText: 'Duration' },
-    { text: serviceCount, subText: 'Services' },
-    { text: depth, subText: 'Depth' },
-    { text: spanCount, subText: 'Total Spans' },
-  ];
-
-  return (
-    <div className="bg-grey flex justify-between items-center py-2 my-4">
-      {arr.map(({ text, subText }) => (
-        <div className="flex flex-col flex-1 items-center justify-center" key={subText}>
-          <div className="text-xl text-sub font-semibold">{text}</div>
-          <div className="text-xs text-darkgray">{subText}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const TraceHeader = (props: { duration: number; setExpandedKeys: any; allKeys: string[]; expandedKeys: string[] }) => {
-  const { duration, setExpandedKeys, allKeys, expandedKeys } = props;
-  const avg = duration / 4;
-  const pointTimers = [avg, avg * 2, avg * 3, avg * 4];
-  const isExpanded = expandedKeys?.length > 0;
-  return (
-    <div className="trace-header text-gray font-semibold text-sm pb-3 my-2">
-      <div className="left text-sub font-semibold flex items-center">
-        <span className="left text-sub font-semibold">Services</span>
-        <Tooltip title={i18n.t('msp:expand all')}>
-          <CustomIcon
-            type="chevron-down"
-            onClick={() => setExpandedKeys(allKeys)}
-            className={`text-xs ${
-              isExpanded ? 'text-holder' : 'text-primary cursor-pointer'
-            } border-solid border-2 w-4 h-4 flex justify-center items-center`}
-          />
-        </Tooltip>
-        <Tooltip title={i18n.t('msp:fold all')}>
-          <CustomIcon
-            type="chevron-up"
-            onClick={() => setExpandedKeys([])}
-            className={`text-xs ${
-              isExpanded ? 'text-primary cursor-pointer' : 'text-holder'
-            } border-solid border-2 w-4 h-4 flex justify-center items-center ml-2`}
-          />
-        </Tooltip>
-      </div>
-
-      {pointTimers.map((timer, index) => {
-        return (
-          <div className="right" key={`${`${index}${timer}`}`}>
-            {displayTimeString(timer)}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
 
 export function TraceGraph(props: IProps) {
   const { dataSource = {} } = props;
@@ -170,7 +51,7 @@ export function TraceGraph(props: IProps) {
   const { roots, min, max } = listToTree(dataSource.spans);
   const [tags, setTags] = React.useState(null);
   const [spanStartTime, setSpanStartTime] = React.useState(null);
-  const [_timeRange, _setTimeRange] = React.useState([null, null]);
+  const [_timeRange, _setTimeRange] = React.useState([null!, null!]);
   const duration = max - min;
   const allKeys: string[] = [];
   const { callAnalysis, serviceAnalysis } = spanDetailData || {};
@@ -203,8 +84,10 @@ export function TraceGraph(props: IProps) {
     }
   }, [getMetaData, tags, _timeRange]);
 
-  const traverseData = (data) => {
+  const traverseData = (data: any) => {
     for (let i = 0; i < data.length; i++) {
+      // FIXME: remove eslint comment
+      // eslint-disable-next-line no-param-reassign
       data[i] = format(data[i], 0);
     }
 
@@ -259,7 +142,7 @@ export function TraceGraph(props: IProps) {
           setProportion([12, 12]);
         }}
       >
-        <Tooltip title={spanTitleInfo(operationName, spanKind, component)}>
+        <Tooltip title={<SpanTitleInfo operationName={operationName} spanKind={spanKind} component={component} />}>
           <div className="left text-xs flex items-center" style={{ width: 200 - 24 * depth }}>
             <span className="truncate">{operationName}</span>
             <span className="truncate ml-3">{`${spanKind} - ${component}`}</span>
@@ -269,7 +152,7 @@ export function TraceGraph(props: IProps) {
           <div style={{ flex: leftRatio }} className="text-right text-xs self-center">
             {showTextOnLeft && displayTotalDuration}
           </div>
-          <Tooltip title={spanTimeInfo(totalDuration, selfDuration)}>
+          <Tooltip title={<SpanTimeInfo totalSpanTime={totalDuration} selfSpanTime={selfDuration} />}>
             <div
               style={{ flex: centerRatio < 0.01 ? 0.01 : centerRatio, background: error ? errorColor : bg[depth % 5] }}
               className="rounded-sm mx-1"
