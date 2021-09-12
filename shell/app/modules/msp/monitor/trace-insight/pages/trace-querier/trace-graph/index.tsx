@@ -16,7 +16,7 @@ import { Tree, Tooltip, Row, Col, Tabs } from 'core/nusi';
 import { TimeSelect, KeyValueList, Icon as CustomIcon } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis } from 'msp/services';
-import './trace-graph.scss';
+import './index.scss';
 import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
