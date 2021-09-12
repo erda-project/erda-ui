@@ -376,21 +376,21 @@ export function TraceGraph(props: IProps) {
             </div>
             {callAnalysis && (
               <Tabs>
-                <TabPane tab="调用分析" key={1}>
+                {/* 后端还未调通，先隐藏 */}
+                {/* <TabPane tab="调用分析" key={1}>
                   <ServiceListDashboard
                     timeSpan={{ startTime: _timeRange[0], endTime: _timeRange[1] }}
                     dashboardId={callAnalysis?.dashboardId}
                     extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
                   />
-                </TabPane>
-                {/* 后端还未调通，先隐藏 */}
-                {/* <TabPane tab="关联服务" key={2}>
+                </TabPane> */}
+                <TabPane tab="关联服务" key={2}>
                   <ServiceListDashboard
                     timeSpan={{ startTime: _timeRange[0], endTime: _timeRange[1] }}
                     dashboardId={serviceAnalysis?.dashboardId}
                     extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
                   />
-                </TabPane> */}
+                </TabPane>
                 <TabPane tab="属性" key={3}>
                   <KeyValueList data={tags} />
                 </TabPane>
