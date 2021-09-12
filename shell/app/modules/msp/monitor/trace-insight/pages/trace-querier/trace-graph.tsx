@@ -291,17 +291,17 @@ export function TraceGraph(props: IProps) {
             let range1 = timeRange[0].valueOf();
             let range2 = timeRange[1].valueOf();
             if (customMap[quick]) {
-              range1 = moment(startTime / 1000)
+              range1 = moment(startTime / 1000 / 1000)
                 .subtract(customMap[quick], 'second')
                 .valueOf();
-              range2 = moment(startTime / 1000)
+              range2 = moment(startTime / 1000 / 1000)
                 .add(customMap[quick], 'second')
                 .valueOf();
             }
             _setTimeRange([range1, range2]);
             // getMetaData(tags);
             setTags(tags);
-            setSpanStartTime(startTime / 1000);
+            setSpanStartTime(startTime / 1000 / 1000);
             setProportion([12, 12]);
           }}
         >
