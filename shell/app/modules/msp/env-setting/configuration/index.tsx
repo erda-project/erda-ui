@@ -14,10 +14,10 @@
 import React from 'react';
 import './index.scss';
 import { ColumnProps } from 'core/common/interface';
-import { useUpdate, ErdaCustomIcon, Copy, EmptyHolder } from 'common';
+import { useUpdate, Copy, EmptyHolder } from 'common';
 import { setApiWithOrg } from 'common/utils';
 import i18n from 'i18n';
-import { Button, Table, Modal, Alert, Popconfirm, message, Spin } from 'core/nusi';
+import { Button, Table, Modal, Popconfirm, message, Spin } from 'core/nusi';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
@@ -267,7 +267,7 @@ const Configuration = () => {
             </Button>,
           ]}
         >
-          <div className="rounded-sm p-4 container-key text-gray mb-2">
+          <div className="rounded-sm p-4 container-key text-gray mb-4">
             <div className="flex items-center mb-2">
               <span>accessKey ID</span>
               <span className="ml-32">{keyDetailInfo?.accessKey}</span>
@@ -276,6 +276,17 @@ const Configuration = () => {
               <span>accessKey Secret</span>
               <span className="ml-24">{accessPerm.viewAccessKeySecret.pass ? keyDetailInfo?.secretKey : '***'}</span>
             </div>
+          </div>
+
+          <div className="flex items-center text-primary">
+            <div className="cursor-pointer" onClick={() => keyDetailInfo && downloadCsvFile(keyDetailInfo.id)}>
+              <IconDownload size="14" />
+              <span className="mr-8">{i18n.t('msp:download csv file')}</span>
+            </div>
+            <IconCopy size="14" />
+            <Copy selector=".container-key" copyText={`${keyDetailInfo?.accessKey}\n${keyDetailInfo?.secretKey}`}>
+              {i18n.t('copy')}
+            </Copy>
           </div>
         </Modal>
 
@@ -286,7 +297,7 @@ const Configuration = () => {
             });
           }}
           width={720}
-          title={i18n.t('msp:create AccessKey')}
+          title={i18n.t('established successfully')}
           visible={modalShow}
           footer={[
             <Button
@@ -301,12 +312,7 @@ const Configuration = () => {
             </Button>,
           ]}
         >
-          <Alert message={i18n.t('msp:createAccessKey info')} type="warning" showIcon />
-          <div className="flex items-center ml-4 my-8">
-            <ErdaCustomIcon className="mr-2" size="18" type="yuanxingxuanzhong-fill" />
-            <h3>{i18n.t('msp:created successfully, please save in time')}</h3>
-          </div>
-          <div className="rounded-sm container-key p-4 text-gray mb-2">
+          <div className="rounded-sm container-key p-4 text-gray mb-4">
             <div className="flex items-center mb-2">
               <span>accessKey ID</span>
               <span className="ml-32">{createKeyInfo?.accessKey}</span>
