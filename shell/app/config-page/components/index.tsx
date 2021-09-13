@@ -51,6 +51,7 @@ import DropdownSelect from './dropdown-select/dropdown-select';
 import TableGroup from './table-group/table-group';
 import TextGroup from './text-group/text-group';
 import Chart from './chart/chart';
+import ChartDashboard from './chart-dashboard/chart-dashboard';
 import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
@@ -99,6 +100,7 @@ export const containerMap = {
   TextGroup,
   LinearDistribution,
   Chart,
+  ChartDashboard,
   TiledFilter,
   FileEditor,
 };
