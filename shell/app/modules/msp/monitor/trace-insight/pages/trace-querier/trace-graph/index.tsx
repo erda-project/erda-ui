@@ -40,11 +40,7 @@ export function TraceGraph(props: IProps) {
   const errorColor = '#CE4324';
   // const bg = ['#5872C0', '#ADDD8B', '#DE6E6A', '#84BFDB', '#599F76', '#ED895D', '#9165AF','#DC84C8','#F3C96B'];
   const [expandedKeys, setExpandedKeys] = React.useState([] as string[]);
-  const [selectedTimeRange, setSelectedTimeRange] = React.useState({
-    mode: 'quick',
-    quick: 'minutes:15',
-    customize: {},
-  });
+  const [selectedTimeRange, setSelectedTimeRange] = React.useState(null) as any;
   const [proportion, setProportion] = React.useState([24, 0]);
   const [loading, setLoading] = React.useState(false);
   const [spanDetailData, setSpanDetailData] = React.useState({});
@@ -104,17 +100,21 @@ export function TraceGraph(props: IProps) {
   };
 
   function handleClickTimeSpan(startTime: number, selectedTag: MONITOR_TRACE.ITag) {
-    const defaultQuick = 'minutes:15';
-    const range1 = moment(startTime / 1000 / 1000)
-      .subtract(customMap[defaultQuick], 'second')
-      .valueOf();
-    const range2 = Math.min(
+    setSelectedTimeRange({
+      mode: 'customize',
+      customize: {
+        start: moment(startTime / 1000 / 1000).subtract(15, 'minute'),
+        end: moment(startTime / 1000 / 1000).add(15, 'minute'),
+      },
+    });
+    _setTimeRange([
       moment(startTime / 1000 / 1000)
-        .add(customMap[defaultQuick], 'second')
+        .subtract(15, 'minute')
         .valueOf(),
-      moment().valueOf(),
-    );
-    _setTimeRange([range1, range2]);
+      moment(startTime / 1000 / 1000)
+        .add(15, 'minute')
+        .valueOf(),
+    ]);
     setTags(selectedTag);
     setSpanStartTime(startTime / 1000 / 1000);
     setProportion([14, 10]);
@@ -225,25 +225,24 @@ export function TraceGraph(props: IProps) {
               </Tooltip>
             </div>
             <div className="px-3">
-              <TimeSelect
-                // defaultValue={globalTimeSelectSpan.data}
-                // className={className}
-                onChange={(data, range) => {
-                  setSelectedTimeRange(data);
-                  const { quick = 'minutes:15' } = data;
-                  let range1 = range?.[0]?.valueOf();
-                  let range2 = range?.[1]?.valueOf();
-                  if (customMap[quick]) {
-                    range1 = moment(spanStartTime).subtract(customMap[quick], 'second').valueOf();
-                    range2 = Math.min(
-                      moment(spanStartTime).add(customMap[quick], 'second').valueOf(),
-                      moment().valueOf(),
-                    );
-                  }
-                  _setTimeRange([range1, range2]);
-                }}
-                value={selectedTimeRange}
-              />
+              {selectedTimeRange && (
+                <TimeSelect
+                  // defaultValue={globalTimeSelectSpan.data}
+                  // className={className}
+                  onChange={(data, range) => {
+                    setSelectedTimeRange(data);
+                    const { quick = 'minutes:15' } = data;
+                    let range1 = range?.[0]?.valueOf();
+                    let range2 = range?.[1]?.valueOf();
+                    if (customMap[quick]) {
+                      range1 = moment().subtract(customMap[quick], 'second').valueOf();
+                      range2 = Math.min(moment().add(customMap[quick], 'second').valueOf(), moment().valueOf());
+                    }
+                    _setTimeRange([range1, range2]);
+                  }}
+                  value={selectedTimeRange}
+                />
+              )}
             </div>
             {(serviceAnalysis || proportion[0] === 14) && (
               <div className="px-3 trace-detail-chart">
