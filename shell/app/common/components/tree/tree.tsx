@@ -22,7 +22,7 @@ import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
 
-import './file-tree.scss';
+import './tree.scss';
 
 const { Option, OptGroup } = Select;
 
