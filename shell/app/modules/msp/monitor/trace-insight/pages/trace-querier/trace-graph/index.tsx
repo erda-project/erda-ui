@@ -100,21 +100,23 @@ export function TraceGraph(props: IProps) {
   };
 
   function handleClickTimeSpan(startTime: number, selectedTag: MONITOR_TRACE.ITag) {
-    setSelectedTimeRange({
-      mode: 'customize',
-      customize: {
-        start: moment(startTime / 1000 / 1000).subtract(15, 'minute'),
-        end: moment(startTime / 1000 / 1000).add(15, 'minute'),
-      },
-    });
-    _setTimeRange([
-      moment(startTime / 1000 / 1000)
-        .subtract(15, 'minute')
-        .valueOf(),
+    const r1 = moment(startTime / 1000 / 1000)
+      .subtract(15, 'minute')
+      .valueOf();
+    const r2 = Math.min(
       moment(startTime / 1000 / 1000)
         .add(15, 'minute')
         .valueOf(),
-    ]);
+      moment().valueOf(),
+    );
+    setSelectedTimeRange({
+      mode: 'customize',
+      customize: {
+        start: moment(r1),
+        end: moment(r2),
+      },
+    });
+    _setTimeRange([r1, r2]);
     setTags(selectedTag);
     setSpanStartTime(startTime / 1000 / 1000);
     setProportion([14, 10]);
