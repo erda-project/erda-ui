@@ -22,7 +22,7 @@ import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import { useUserMap } from 'core/stores/userMap';
 import { Link } from 'react-router-dom';
 import { getProjectList } from 'project/services/project';
-
+import { ColumnProps } from 'core/common/interface';
 interface IProps {
   type: APPROVE_TYPE;
   status: string;
@@ -82,7 +82,7 @@ const PureDeployList = (props: IProps) => {
       });
   };
 
-  const columns = [
+  const columns: Array<ColumnProps<DEPLOY.IDeploy>> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -92,7 +92,7 @@ const PureDeployList = (props: IProps) => {
       title: i18n.t('project/application/branch'),
       dataIndex: 'projectName',
       width: 240,
-      render: (projectName: string, record: any) => {
+      render: (projectName: string, record: DEPLOY.IDeploy) => {
         const mainInfo = `${projectName}/${record.applicationName}/${record.branchName}`;
         return <Tooltip title={mainInfo}>{mainInfo}</Tooltip>;
       },
@@ -116,7 +116,7 @@ const PureDeployList = (props: IProps) => {
         );
       },
     },
-    ...insertWhen(type === APPROVE_TYPE.approve, [
+    ...(insertWhen(type === APPROVE_TYPE.approve, [
       {
         title: i18n.t('applicant'),
         dataIndex: 'operator',
@@ -126,8 +126,8 @@ const PureDeployList = (props: IProps) => {
           return curUser ? curUser.nick || curUser.name : '';
         },
       },
-    ]),
-    ...insertWhen(type === APPROVE_TYPE.initiate && status === 'WaitApprove', [
+    ]) as Array<ColumnProps<DEPLOY.IDeploy>>),
+    ...(insertWhen(type === APPROVE_TYPE.initiate && status === 'WaitApprove', [
       {
         title: i18n.t('approver'),
         dataIndex: 'approver',
@@ -140,7 +140,7 @@ const PureDeployList = (props: IProps) => {
           return <Tooltip title={approvalPerson}>{approvalPerson}</Tooltip>;
         },
       },
-    ]),
+    ]) as Array<ColumnProps<DEPLOY.IDeploy>>),
   ];
 
   const getProjectListData = (q: any) => {
@@ -211,6 +211,12 @@ const PureDeployList = (props: IProps) => {
       {
         type: Input,
         name: 'id',
+        validator: [
+          {
+            pattern: /^[0-9]*$/,
+            message: i18n.t('can only contain, numbers'),
+          },
+        ],
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: 'ID' }),
         },
