@@ -22,6 +22,8 @@ import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
 
+import './file-tree.scss';
+
 const { Option, OptGroup } = Select;
 
 interface IAction {
@@ -415,7 +417,7 @@ export const TreeCategory = ({
     if (cuttingNodeKey === nodeKey) {
       updater.cuttingNodeKey(null);
     }
-    onLoadTreeData(targetNode.parentKey!); // 重新刷被剪切的父文件夹
+    await onLoadTreeData(targetNode.parentKey!); // 重新刷被剪切的父文件夹
     await onLoadTreeData(parentKey); // 重新刷被粘贴的父文件夹
     if (!targetNode.isLeaf && !!targetNode.children) {
       // 如果剪切的是文件夹，那么可能这个文件夹已经被展开了，那么刷新父文件夹之后children就丢了。所有手动粘贴一下
@@ -794,7 +796,7 @@ export const TreeCategory = ({
           onExpand={onExpand}
           onSelect={onClickNode}
           titleRender={(nodeData: TreeNodeNormal) => (
-            <span>
+            <span className="w-full inline-block truncate">
               {nodeData.title}
               <Popover
                 content={getActions(nodeData).map((item) => (
