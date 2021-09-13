@@ -68,7 +68,7 @@ export const createProxyService = (app: INestApplication) => {
         target: UC_API_URL,
         changeOrigin: true,
         secure: false,
-        pathRewrite: (api) => api.replace('/api/uc', ''),
+        pathRewrite: (api) => (isProd ? api.replace('/api/uc', '') : api),
       },
     ),
   );
