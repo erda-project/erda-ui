@@ -21,8 +21,7 @@
     "build-app": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "build": "npm run clean && npm run build-app",
-    "clean": "rm -rf dist",
+    "build": "npm run build-app",
     "precommit": "lint-staged"
   },
   "eslintConfig": {
@@ -52,6 +51,7 @@
     "@types/react-router-dom": "^5.1.8",
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.4",
+    "clean-webpack-plugin": "^4.0.0",
     "postcss": "^8.3.6",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
   }
