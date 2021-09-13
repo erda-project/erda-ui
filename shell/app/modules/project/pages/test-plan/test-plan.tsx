@@ -45,7 +45,7 @@ const TestPlan = () => {
   const [modalProp, setModalProp] = useState({ visible: false, testPlanId: '', mode: 'add' } as IPlanModal);
   const { getPlanList, toggleArchived } = testPlanStore.effects;
   const { clearPlanList } = testPlanStore.reducers;
-  const [filterObj, setFilterObj] = React.useState<Obj>({});
+  const [filterObj, setFilterObj] = React.useState<Obj>({ isArchived: 'false' });
   const [page, planList] = testPlanStore.useStore((s) => [s.planPaging, s.planList]);
   const [isFetching] = useLoading(testPlanStore, ['getPlanList']);
 
@@ -168,9 +168,10 @@ const TestPlan = () => {
             </span>
             <span
               className="table-operations-btn"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.stopPropagation();
-                toggleArchived({ id, isArchived: !record.isArchived });
+                await toggleArchived({ id, isArchived: !record.isArchived });
+                getList({ ...filterObj, pageNo: 1 });
               }}
             >
               {record.isArchived ? i18n.t('project:unarchive') : i18n.t('archive')}
@@ -192,6 +193,7 @@ const TestPlan = () => {
               {label}
             </Option>
           )),
+          defaultValue: 'false',
           allowClear: true,
           placeholder: i18n.t('project:archive status'),
         },
