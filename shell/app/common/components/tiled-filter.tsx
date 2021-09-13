@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input } from 'core/nusi';
+import { Input, Select } from 'core/nusi';
 import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
 import { debounce, map, max } from 'lodash';
@@ -25,10 +25,11 @@ export interface IOption {
 }
 
 export interface IField {
-  type: 'input' | 'select';
+  type: 'input' | 'select' | 'dropdown-select';
   multiple?: boolean;
   label: string;
   key: string;
+  showSearch?: boolean;
   placeholder?: string;
   options: IOption[];
 }
@@ -68,12 +69,20 @@ const TiledFilter = (props: IProps) => {
   fields.forEach((field) => {
     if (field.type === 'input') {
       inputFields.push(field);
-    } else if (field.type === 'select') {
+    } else if (field.type.includes('select')) {
       selectFields.push(field);
     }
   });
 
-  const onChangeItem = (val: string, field: IField) => {
+  const onChangeItem = (val: string, field: IField, forceUpdate?: boolean) => {
+    if (forceUpdate) {
+      setValue((prevV) => {
+        const newVal = { ...prevV, [field.key]: val };
+        debouncedChange.current(newVal, { [field.key]: val });
+        return { ...prevV, [field.key]: val };
+      });
+      return;
+    }
     const curValue = value[field.key];
     if (field.multiple) {
       setValue((prevV) => {
@@ -130,24 +139,13 @@ const TiledFilter = (props: IProps) => {
       <div className={`tiled-fields ${expand ? '' : 'no-expand'}`}>
         {selectFields.map((item) => {
           return (
-            <div className="tiled-fields-item flex" key={item.key}>
-              <div className="tiled-fields-item-label text-right mr-2 pt-1" style={{ width: labelWidth }}>
-                {item.label}
-              </div>
-              <div className="tiled-fields-item-option flex-1">
-                {item.options.map((option) => (
-                  <span
-                    key={option.value}
-                    className={`tiled-fields-option-item ${
-                      value[item.key]?.includes(option.value) ? 'chosen-item' : ''
-                    }`}
-                    onClick={() => onChangeItem(option.value, item)}
-                  >
-                    {option.label}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <SelectFieldItem
+              key={item.key}
+              field={item}
+              value={value?.[item.key]}
+              onChangeItem={onChangeItem}
+              labelWidth={labelWidth}
+            />
           );
         })}
       </div>
@@ -185,6 +183,79 @@ const TiledFilter = (props: IProps) => {
       </div>
     </div>
   );
+};
+
+interface IFieldItemProps {
+  field: IField;
+  labelWidth: number | string;
+  value: string[] | string;
+  onChangeItem: (val: string, field: IField, forceUpdate?: boolean) => void;
+}
+
+const SelectFieldItem = (props: IFieldItemProps) => {
+  const { field, labelWidth, value, onChangeItem } = props;
+  const { type, label, options, showSearch, multiple } = field;
+
+  let Comp: React.ReactNode = null;
+  const _value: string[] = multiple ? value : [value];
+  switch (type) {
+    case 'select':
+      Comp = (
+        <div className="tiled-fields-item flex">
+          <div className="tiled-fields-item-label text-right mr-2 pt-1" style={{ width: labelWidth }}>
+            {label}
+          </div>
+          <div className="tiled-fields-item-option flex-1">
+            {options.map((option) => (
+              <span
+                key={option.value}
+                className={`tiled-fields-option-item ${_value?.includes(option.value) ? 'chosen-item' : ''}`}
+                onClick={() => onChangeItem(option.value, field)}
+              >
+                {option.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      );
+      break;
+    case 'dropdown-select':
+      Comp = (
+        <div className="tiled-fields-item flex">
+          <div className="tiled-fields-item-label text-right mr-2 pt-1" style={{ width: labelWidth }}>
+            {label}
+          </div>
+          <div className="tiled-fields-item-option flex-1">
+            <Select
+              showSearch={showSearch}
+              size={'small'}
+              value={value}
+              allowClear
+              optionFilterProp={'children'}
+              mode={multiple ? 'multiple' : undefined}
+              getPopupContainer={() => document.body}
+              style={{ minWidth: 240, maxWidth: '100%' }}
+              onChange={(v) => {
+                onChangeItem(v, field, true);
+              }}
+            >
+              {options.map((option) => {
+                return (
+                  <Select.Option key={option.value} value={option.value}>
+                    {option.label}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </div>
+        </div>
+      );
+      break;
+    default:
+      break;
+  }
+
+  return Comp;
 };
 
 export default TiledFilter;
