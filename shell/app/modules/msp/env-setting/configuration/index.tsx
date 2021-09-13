@@ -55,9 +55,9 @@ interface IState {
   lang: string;
   strategy: string;
   languages: LangItem[];
-  modalShow: boolean;
-  keyDetailShow: boolean;
   currentPage: number;
+  mode: string;
+  visible: boolean;
 }
 
 const ItemRender = ({ title, children }: IProps) => {
@@ -73,13 +73,13 @@ const Configuration = () => {
   const { projectId, tenantGroup, env } = routeInfoStore.useStore((s) => s.params);
 
   const accessPerm = usePerm((s) => s.project.microService.accessConfiguration);
-  const [{ lang, currentPage, strategy, languages, modalShow, keyDetailShow }, updater, update] = useUpdate<IState>({
+  const [{ lang, currentPage, strategy, languages, mode, visible }, updater, update] = useUpdate<IState>({
     lang: '',
     strategy: '',
     languages: [],
-    modalShow: false,
-    keyDetailShow: false,
+    visible: false,
     currentPage: 1,
+    mode: 'create' || 'query',
   });
 
   const [allKey, allKeyLoading] = getAllKey.useState();
@@ -87,6 +87,11 @@ const Configuration = () => {
   const [keyDetailInfo, keyDetailInfoLoading] = getDetailKey.useState();
   const [infoData, infoDataLoading] = getInfo.useState();
   const [createKeyInfo, createKeyInfoLoading] = createAccessKey.useState();
+
+  const detail = React.useMemo(
+    () => (mode === 'create' ? createKeyInfo : keyDetailInfo),
+    [mode, createKeyInfo, keyDetailInfo],
+  );
 
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
@@ -166,7 +171,8 @@ const Configuration = () => {
       id,
     });
     update({
-      keyDetailShow: true,
+      visible: true,
+      mode: 'query',
     });
   };
 
@@ -188,7 +194,8 @@ const Configuration = () => {
     });
 
     update({
-      modalShow: true,
+      mode: 'create',
+      visible: true,
       currentPage: 1,
     });
   };
@@ -249,29 +256,21 @@ const Configuration = () => {
     >
       <div>
         <Modal
-          onCancel={() => {
-            keyDetailShow
-              ? update({
-                  keyDetailShow: false,
-                })
-              : update({
-                  modalShow: false,
-                });
-          }}
+          onCancel={() =>
+            update({
+              visible: false,
+            })
+          }
           width={720}
-          title={keyDetailShow ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
-          visible={keyDetailShow || modalShow}
+          title={visible ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
+          visible={visible}
           footer={[
             <Button
-              onClick={() => {
-                keyDetailShow
-                  ? update({
-                      keyDetailShow: false,
-                    })
-                  : update({
-                      modalShow: false,
-                    });
-              }}
+              onClick={() =>
+                update({
+                  visible: false,
+                })
+              }
             >
               {i18n.t('application:close')}
             </Button>,
@@ -280,11 +279,11 @@ const Configuration = () => {
           <div className="rounded-sm p-4 container-key text-gray mb-4">
             <div className="flex items-center mb-2">
               <span>accessKey ID</span>
-              <span className="ml-32">{keyDetailShow ? keyDetailInfo?.accessKey : createKeyInfo?.accessKey}</span>
+              <span className="ml-32">{detail?.accessKey}</span>
             </div>
             <div className="flex items-center">
               <span>accessKey Secret</span>
-              <span className="ml-24">{keyDetailShow ? keyDetailInfo?.secretKey : createKeyInfo?.secretKey}</span>
+              <span className="ml-24">{detail?.secretKey}</span>
             </div>
           </div>
 
@@ -292,23 +291,14 @@ const Configuration = () => {
             <div
               className="cursor-pointer"
               onClick={() => {
-                keyDetailShow
-                  ? keyDetailInfo && downloadCsvFile(keyDetailInfo.id)
-                  : createKeyInfo && downloadCsvFile(createKeyInfo.id);
+                detail && downloadCsvFile(detail?.id);
               }}
             >
               <IconDownload size="14" />
               <span className="mr-8">{i18n.t('msp:download csv file')}</span>
             </div>
             <IconCopy size="14" />
-            <Copy
-              selector=".container-key"
-              copyText={
-                keyDetailShow
-                  ? `${keyDetailInfo?.accessKey}\n${keyDetailInfo?.secretKey}`
-                  : `${createKeyInfo?.accessKey}\n${createKeyInfo?.secretKey}`
-              }
-            >
+            <Copy selector=".container-key" copyText={`${detail?.accessKey}\n${detail?.secretKey}`}>
               {i18n.t('copy')}
             </Copy>
           </div>
