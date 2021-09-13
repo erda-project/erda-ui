@@ -26,6 +26,13 @@
   }
 }
 
+.trace-detail-chart {
+  .ant-tabs-content-holder {
+    overflow: auto !important;
+    height: 700px !important;
+  }
+}
+
 .key-value-list {
   padding: 4px;
 

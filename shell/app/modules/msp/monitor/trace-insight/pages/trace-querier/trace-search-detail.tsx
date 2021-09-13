@@ -42,7 +42,7 @@ export default ({ traceId }: { traceId?: string }) => {
 
   return (
     <div className="p-4 trace-search-detail">
-      <div className="text-xl font-semibold mb-4 flex items-center">
+      <div className="text-base mb-4 flex items-center">
         <CustomIcon
           type="arrow-left"
           className="text-3xl text-light-gray cursor-pointer"

@@ -215,7 +215,7 @@ export function TraceGraph(props: IProps) {
           </Col>
           <Col span={proportion[1]} className={`${proportion[0] !== 24 ? 'pl-0' : ''}`}>
             <div className="flex justify-between items-center my-2 px-3 py-1">
-              <div className="text-sub text-sm font-semibold w-80">
+              <div className="text-sub text-sm font-semibold w-5/6">
                 <Ellipsis title={tags?.operation_name}>{tags?.operation_name}</Ellipsis>
               </div>
               <Tooltip title={i18n.t('close')}>
@@ -246,7 +246,7 @@ export function TraceGraph(props: IProps) {
               />
             </div>
             {(serviceAnalysis || proportion[0] === 14) && (
-              <div className="px-3">
+              <div className="px-3 trace-detail-chart">
                 <Tabs>
                   {/* 后端还未调通，先隐藏 */}
                   {/* <TabPane tab={i18n.d('调用分析')} key={1}>
