@@ -249,21 +249,29 @@ const Configuration = () => {
     >
       <div>
         <Modal
-          onCancel={() =>
-            update({
-              keyDetailShow: false,
-            })
-          }
-          width={720}
-          title={i18n.t('msp:accessKey details')}
-          visible={keyDetailShow}
-          footer={[
-            <Button
-              onClick={() =>
-                update({
+          onCancel={() => {
+            keyDetailShow
+              ? update({
                   keyDetailShow: false,
                 })
-              }
+              : update({
+                  modalShow: false,
+                });
+          }}
+          width={720}
+          title={keyDetailShow ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
+          visible={keyDetailShow || modalShow}
+          footer={[
+            <Button
+              onClick={() => {
+                keyDetailShow
+                  ? update({
+                      keyDetailShow: false,
+                    })
+                  : update({
+                      modalShow: false,
+                    });
+              }}
             >
               {i18n.t('application:close')}
             </Button>,
@@ -272,65 +280,35 @@ const Configuration = () => {
           <div className="rounded-sm p-4 container-key text-gray mb-4">
             <div className="flex items-center mb-2">
               <span>accessKey ID</span>
-              <span className="ml-32">{keyDetailInfo?.accessKey}</span>
+              <span className="ml-32">{keyDetailShow ? keyDetailInfo?.accessKey : createKeyInfo?.accessKey}</span>
             </div>
             <div className="flex items-center">
               <span>accessKey Secret</span>
-              <span className="ml-24">{keyDetailInfo?.secretKey}</span>
+              <span className="ml-24">{keyDetailShow ? keyDetailInfo?.secretKey : createKeyInfo?.secretKey}</span>
             </div>
           </div>
 
           <div className="flex items-center text-primary">
-            <div className="cursor-pointer" onClick={() => keyDetailInfo && downloadCsvFile(keyDetailInfo.id)}>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                keyDetailShow
+                  ? keyDetailInfo && downloadCsvFile(keyDetailInfo.id)
+                  : createKeyInfo && downloadCsvFile(createKeyInfo.id);
+              }}
+            >
               <IconDownload size="14" />
               <span className="mr-8">{i18n.t('msp:download csv file')}</span>
             </div>
             <IconCopy size="14" />
-            <Copy selector=".container-key" copyText={`${keyDetailInfo?.accessKey}\n${keyDetailInfo?.secretKey}`}>
-              {i18n.t('copy')}
-            </Copy>
-          </div>
-        </Modal>
-
-        <Modal
-          onCancel={() => {
-            update({
-              modalShow: false,
-            });
-          }}
-          width={720}
-          title={i18n.t('established successfully')}
-          visible={modalShow}
-          footer={[
-            <Button
-              key="close"
-              onClick={() =>
-                update({
-                  modalShow: false,
-                })
+            <Copy
+              selector=".container-key"
+              copyText={
+                keyDetailShow
+                  ? `${keyDetailInfo?.accessKey}\n${keyDetailInfo?.secretKey}`
+                  : `${createKeyInfo?.accessKey}\n${createKeyInfo?.secretKey}`
               }
             >
-              {i18n.t('application:close')}
-            </Button>,
-          ]}
-        >
-          <div className="rounded-sm container-key p-4 text-gray mb-4">
-            <div className="flex items-center mb-2">
-              <span>accessKey ID</span>
-              <span className="ml-32">{createKeyInfo?.accessKey}</span>
-            </div>
-            <div className="flex items-center">
-              <span>accessKey Secret</span>
-              <span className="ml-24">{createKeyInfo?.secretKey}</span>
-            </div>
-          </div>
-          <div className="flex items-center text-primary">
-            <div className="cursor-pointer" onClick={() => createKeyInfo && downloadCsvFile(createKeyInfo.id)}>
-              <IconDownload size="14" />
-              <span className="mr-8">{i18n.t('msp:download csv file')}</span>
-            </div>
-            <IconCopy size="14" />
-            <Copy selector=".container-key" copyText={`${createKeyInfo?.accessKey}\n${createKeyInfo?.secretKey}`}>
               {i18n.t('copy')}
             </Copy>
           </div>
