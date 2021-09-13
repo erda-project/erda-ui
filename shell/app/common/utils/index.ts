@@ -569,3 +569,14 @@ export const colorToRgb = (color: string, opacity?: number) => {
   }
   return sColor;
 };
+
+export const pickRandomlyFromArray = (array: any[], num: number) => {
+  if (array.length > num) {
+    return new Array(num).fill(null).map(() => {
+      const index = Math.floor(Math.random() * array.length);
+      return array.splice(index, 1)[0];
+    });
+  } else {
+    return array;
+  }
+};
