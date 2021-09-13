@@ -146,9 +146,11 @@ const Configuration = () => {
       key: 'operation',
       render: (_: unknown, record: CONFIGURATION.IAllKeyData) => (
         <div className="table-operations">
-          <a onClick={() => getDetail(record.id)} className="table-operations-btn">
-            {i18n.t('dcos:see details')}
-          </a>
+          <WithAuth pass={accessPerm.viewAccessKeySecret.pass}>
+            <a onClick={() => getDetail(record.id)} className="table-operations-btn">
+              {i18n.t('dcos:see details')}
+            </a>
+          </WithAuth>
           {accessPerm.createAccessKey.pass ? (
             <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
               <a className="table-operations-btn">{i18n.t('application:delete')}</a>
@@ -274,7 +276,7 @@ const Configuration = () => {
             </div>
             <div className="flex items-center">
               <span>accessKey Secret</span>
-              <span className="ml-24">{accessPerm.viewAccessKeySecret.pass ? keyDetailInfo?.secretKey : '***'}</span>
+              <span className="ml-24">{keyDetailInfo?.secretKey}</span>
             </div>
           </div>
 
