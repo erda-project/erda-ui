@@ -1290,6 +1290,7 @@
     "can not be nodeName": "can not be nodeName",
     "can not start with number": "can not start with number",
     "can only contain letters, numbers, underscores and hyphens": "can only contain letters, numbers, underscores and hyphens",
+    "can only contain numbers": "can only contain numbers",
     "cancel": "cancel",
     "cancel archiving": "cancel archiving",
     "cancelled by user": "cancelled by user",
