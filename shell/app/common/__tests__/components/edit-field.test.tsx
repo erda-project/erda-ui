@@ -37,6 +37,9 @@ describe('EditField', () => {
         }}
         suffix={suffix}
         onChangeCb={changeCbFn}
+        data={{
+          name: 'erda.cloud',
+        }}
         value="erda.cloud"
       />,
     );
@@ -125,7 +128,14 @@ describe('EditField', () => {
     const prev = curr.add(-1, 'days');
     const changeCbFn = jest.fn();
     const wrapper = mount(
-      <EditField name="date" type="datePicker" value={curr} onChangeCb={changeCbFn} itemProps={{}} />,
+      <EditField
+        name="date"
+        type="datePicker"
+        value={curr}
+        data={{ date: curr }}
+        onChangeCb={changeCbFn}
+        itemProps={{}}
+      />,
     );
     expect(wrapper.find('Picker').at(0).prop('value').isSame(curr, 'date')).toBeTruthy();
     act(() => {
@@ -143,10 +153,10 @@ describe('EditField', () => {
   });
   it('should render readonly or last_readonly type', () => {
     const test = (type: 'readonly' | 'last_readonly') => {
-      const wrapper = mount(<EditField name="name" type={type} value="erda.cloud" />);
+      const wrapper = mount(<EditField name="name" type={type} data={{ name: 'erda.cloud' }} />);
       expect(wrapper.find('.nowrap').text()).toBe('erda.cloud');
       wrapper.setProps({
-        value: 'erda',
+        data: { name: 'erda' },
         valueRender: (v: string) => <div className="value-render">{v}</div>,
       });
       expect(wrapper.find('.value-render').text()).toBe('erda');
@@ -156,7 +166,7 @@ describe('EditField', () => {
   });
   it('should render dateReadonly type', () => {
     const date = '2021-05-29';
-    const wrapper = mount(<EditField name="date" type="dateReadonly" value={date} itemProps={{}} />);
+    const wrapper = mount(<EditField name="date" type="dateReadonly" data={{ date }} itemProps={{}} />);
     expect(wrapper.find('.prewrap').text()).toBe(date);
   });
   it('should EditMd work well', () => {
