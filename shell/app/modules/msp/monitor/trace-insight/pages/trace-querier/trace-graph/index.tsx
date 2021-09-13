@@ -44,17 +44,16 @@ export function TraceGraph(props: IProps) {
     quick: 'minutes:15',
     customize: {},
   });
-  const [timeRange, setTimeRange] = React.useState([moment().subtract(15, 'minutes'), moment()]);
   const [proportion, setProportion] = React.useState([24, 0]);
   const [loading, setLoading] = React.useState(false);
   const [spanDetailData, setSpanDetailData] = React.useState({});
   const { roots, min, max } = listToTree(dataSource.spans);
-  const [tags, setTags] = React.useState(null);
-  const [spanStartTime, setSpanStartTime] = React.useState(null);
-  const [_timeRange, _setTimeRange] = React.useState([null!, null!]);
+  const [tags, setTags] = React.useState(null as any);
+  const [spanStartTime, setSpanStartTime] = React.useState(null!) as any;
+  const [_timeRange, _setTimeRange] = React.useState([null!, null!]) as any;
   const duration = max - min;
   const allKeys: string[] = [];
-  const { callAnalysis, serviceAnalysis } = spanDetailData || {};
+  const { callAnalysis, serviceAnalysis } = (spanDetailData || {}) as any;
 
   const getMetaData = React.useCallback(async () => {
     setLoading(true);
@@ -88,7 +87,7 @@ export function TraceGraph(props: IProps) {
     for (let i = 0; i < data.length; i++) {
       // FIXME: remove eslint comment
       // eslint-disable-next-line no-param-reassign
-      data[i] = format(data[i], 0);
+      data[i] = format(data[i], 0, handleClickTimeSpan);
     }
 
     return data;
@@ -104,7 +103,24 @@ export function TraceGraph(props: IProps) {
     return dashboardVariable;
   };
 
-  function format(item: MONITOR_TRACE.ITraceSpan, depth = 0) {
+  function handleClickTimeSpan(startTime: number, selectedTag: MONITOR_TRACE.ITag) {
+    const defaultQuick = 'minutes:15';
+    const range1 = moment(startTime / 1000 / 1000)
+      .subtract(customMap[defaultQuick], 'second')
+      .valueOf();
+    const range2 = Math.min(
+      moment(startTime / 1000 / 1000)
+        .add(customMap[defaultQuick], 'second')
+        .valueOf(),
+      moment().valueOf(),
+    );
+    _setTimeRange([range1, range2]);
+    setTags(selectedTag);
+    setSpanStartTime(startTime / 1000 / 1000);
+    setProportion([12, 12]);
+  }
+
+  function format(item: MONITOR_TRACE.ITraceSpan, depth = 0, _handleClickTimeSpan: any) {
     item.depth = depth;
     item.key = item.id;
     allKeys.push(item.id);
@@ -121,25 +137,7 @@ export function TraceGraph(props: IProps) {
       <div
         className="wrapper flex items-center "
         onClick={() => {
-          const { quick } = selectedTimeRange;
-          let range1 = timeRange[0].valueOf();
-          let range2 = timeRange[1].valueOf();
-          if (customMap[quick]) {
-            range1 = moment(startTime / 1000 / 1000)
-              .subtract(customMap[quick], 'second')
-              .valueOf();
-            range2 = Math.min(
-              moment(startTime / 1000 / 1000)
-                .add(customMap[quick], 'second')
-                .valueOf(),
-              moment().valueOf(),
-            );
-          }
-          _setTimeRange([range1, range2]);
-          // getMetaData(tags);
-          setTags(tags);
-          setSpanStartTime(startTime / 1000 / 1000);
-          setProportion([12, 12]);
+          _handleClickTimeSpan(startTime, tags);
         }}
       >
         <Tooltip title={<SpanTitleInfo operationName={operationName} spanKind={spanKind} component={component} />}>
@@ -165,7 +163,7 @@ export function TraceGraph(props: IProps) {
       </div>
     );
     if (item.children) {
-      item.children = item.children.map((x) => format(x, depth + 1));
+      item.children = item.children.map((x) => format(x, depth + 1, _handleClickTimeSpan));
     }
     return item;
   }
@@ -213,10 +211,9 @@ export function TraceGraph(props: IProps) {
                 // className={className}
                 onChange={(data, range) => {
                   setSelectedTimeRange(data);
-                  setTimeRange(range);
                   const { quick } = data;
-                  let range1 = range[0].valueOf();
-                  let range2 = range[1].valueOf();
+                  let range1 = range?.[0]?.valueOf();
+                  let range2 = range?.[1]?.valueOf();
                   if (customMap[quick]) {
                     range1 = moment(spanStartTime).subtract(customMap[quick], 'second').valueOf();
                     range2 = Math.min(
@@ -232,21 +229,21 @@ export function TraceGraph(props: IProps) {
             {callAnalysis && (
               <Tabs>
                 {/* 后端还未调通，先隐藏 */}
-                {/* <TabPane tab="调用分析" key={1}>
+                <TabPane tab={i18n.d('调用分析')} key={1}>
                   <ServiceListDashboard
                     timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
                     dashboardId={callAnalysis?.dashboardId}
                     extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
                   />
-                </TabPane> */}
-                <TabPane tab="关联服务" key={2}>
+                </TabPane>
+                <TabPane tab={i18n.d('关联服务')} key={2}>
                   <ServiceListDashboard
                     timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
                     dashboardId={serviceAnalysis?.dashboardId}
                     extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
                   />
                 </TabPane>
-                <TabPane tab="属性" key={3}>
+                <TabPane tab={i18n.d('属性')} key={3}>
                   <KeyValueList data={tags} />
                 </TabPane>
               </Tabs>
