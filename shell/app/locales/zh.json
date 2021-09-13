@@ -1290,6 +1290,7 @@
     "can not be nodeName": "值不能为nodeName",
     "can not start with number": "不能以数字开头",
     "can only contain letters, numbers, underscores and hyphens": "只能包含字母数字下划线和中划线",
+    "can only contain numbers": "仅允许由数字组成",
     "cancel": "取消",
     "cancel archiving": "取消归档",
     "cancelled by user": "用户取消",
