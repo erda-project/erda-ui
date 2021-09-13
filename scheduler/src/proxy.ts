@@ -66,7 +66,7 @@ export const createProxyService = (app: INestApplication) => {
       },
       {
         target: UC_API_URL,
-        changeOrigin: !isProd,
+        changeOrigin: true,
         secure: false,
         pathRewrite: (api) => api.replace('/api/uc', ''),
       },
