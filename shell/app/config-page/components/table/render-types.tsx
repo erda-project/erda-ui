@@ -132,7 +132,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { value: _val, tip, status, renderType, ...rest } = val || {};
         let value = +(_val ?? 0);
         value = +(`${value}`.indexOf('.') ? value.toFixed(1) : value);
-        Comp = value ? (
+        Comp = !isNaN(value) ? (
           <Tooltip title={tip}>
             <Progress
               percent={value}
