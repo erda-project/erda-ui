@@ -134,7 +134,6 @@ module.exports = () => {
           include: [resolve('app')],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
-            'thread-loader',
             ...(isProd ? [] : ['style-loader']),
             {
               loader: 'css-loader',
@@ -183,7 +182,6 @@ module.exports = () => {
           test: /\.(tsx?|jsx?)$/,
           include: [resolve('app')],
           use: [
-            'thread-loader',
             {
               loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
