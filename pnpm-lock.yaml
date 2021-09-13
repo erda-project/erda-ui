@@ -248,7 +248,7 @@ importers:
       autoprefixer: ^9.8.6
       axios: ^0.21.4
       cube-state: ^1.5.5
-      history: ^5.0.1
+      history: 4.x
       i18next: ^20.6.1
       postcss: ^8.3.6
       postcss-import: ^14.0.2
@@ -263,7 +263,7 @@ importers:
     dependencies:
       '@craco/craco': 6.2.0_react-scripts@4.0.3
       cube-state: 1.5.5_react@17.0.2
-      history: 5.0.1
+      history: 4.10.1
       i18next: 20.6.1
       postcss-import: 14.0.2_postcss@8.3.6
       query-string: 7.0.1
@@ -12612,18 +12612,18 @@ packages:
       eslint-plugin-testing-library:
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 4.25.0_6fb86b31e39dbd15f93824c03ca6ca0c
-      '@typescript-eslint/parser': 4.25.0_eslint@7.27.0+typescript@4.2.4
+      '@typescript-eslint/eslint-plugin': 4.25.0_15a8c6a214b1547f8382842b92f9dbe9
+      '@typescript-eslint/parser': 4.25.0_eslint@7.27.0+typescript@4.4.2
       babel-eslint: 10.1.0_eslint@7.27.0
       confusing-browser-globals: 1.0.10
       eslint: 7.27.0
       eslint-plugin-flowtype: 5.7.2_eslint@7.27.0
       eslint-plugin-import: 2.23.3_eslint@7.27.0
-      eslint-plugin-jest: 24.3.6_37bf39ebe0f22c2c661de72fa9962677
+      eslint-plugin-jest: 24.3.6_c82f5996322cd9ede56a955914b627f7
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.27.0
       eslint-plugin-react: 7.23.2_eslint@7.27.0
       eslint-plugin-react-hooks: 4.2.0_eslint@7.27.0
-      eslint-plugin-testing-library: 3.10.2_eslint@7.27.0+typescript@4.2.4
+      eslint-plugin-testing-library: 3.10.2_eslint@7.27.0+typescript@4.4.2
     dev: false
 
   /eslint-import-resolver-node/0.3.4:
@@ -14917,12 +14917,6 @@ packages:
     resolution: {integrity: sha512-3NyRMKIiFSJmIPdq7FxkNMJkQ7ZEtVblOQ38VtKaA0zZMW1Eo6Q6W8oDKEflr1kNNTItSnk4JMCO1deeSgbLLg==}
     dependencies:
       '@babel/runtime': 7.14.0
-    dev: false
-
-  /history/5.0.1:
-    resolution: {integrity: sha512-5qC/tFUKfVci5kzgRxZxN5Mf1CV8NmJx9ByaPX0YTLx5Vz3Svh7NYp6eA4CpDq4iA9D0C1t8BNIfvQIrUI3mVw==}
-    dependencies:
-      '@babel/runtime': 7.14.6
     dev: false
 
   /hmac-drbg/1.0.1:
