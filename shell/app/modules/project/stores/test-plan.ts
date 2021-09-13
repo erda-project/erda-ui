@@ -293,7 +293,6 @@ const testPlan = createStore({
     },
     async toggleArchived({ call }, payload: { id: number; isArchived: boolean }) {
       await call(updateTestPlan, payload, { successMsg: i18n.t('operated successfully') });
-      testPlan.effects.getPlanList();
     },
     async executeCaseApi({ call, getParams }, payload: Omit<TEST_PLAN.CaseApi, 'testPlanID'>) {
       const { testPlanId: testPlanID } = getParams();
