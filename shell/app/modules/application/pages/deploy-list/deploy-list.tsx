@@ -23,6 +23,7 @@ import { useUserMap } from 'core/stores/userMap';
 import { Link } from 'react-router-dom';
 import { getProjectList } from 'project/services/project';
 import { ColumnProps } from 'core/common/interface';
+
 interface IProps {
   type: APPROVE_TYPE;
   status: string;
@@ -214,7 +215,7 @@ const PureDeployList = (props: IProps) => {
         validator: [
           {
             pattern: /^[0-9]*$/,
-            message: i18n.t('can only contain, numbers'),
+            message: i18n.t('can only contain numbers'),
           },
         ],
         customProps: {
