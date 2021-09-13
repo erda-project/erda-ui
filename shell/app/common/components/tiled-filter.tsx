@@ -53,7 +53,7 @@ const TiledFilter = (props: IProps) => {
   useMount(() => {
     const labelEles = document.querySelectorAll('.tiled-fields-item-label');
     const maxWidth: number = max(map(labelEles, (ele: HTMLSpanElement) => ele.offsetWidth));
-    setLabelWidth(maxWidth > MAX_LABEL_WIDTH ? MAX_LABEL_WIDTH : maxWidth);
+    setLabelWidth(Math.min(maxWidth, MAX_LABEL_WIDTH));
   });
 
   React.useEffect(() => {
