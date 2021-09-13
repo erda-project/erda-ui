@@ -12,20 +12,22 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate } from 'common';
+import { useUpdate, Icon as CustomIcon } from 'common';
 import PureTraceDetail from './trace-detail-new';
 import traceStore from '../../../../stores/trace';
-import routeInfoStore from 'core/stores/route';
+import monitorCommonStore from 'app/common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
+import './trace-search-detail.scss';
 
-export default () => {
+export default ({ traceId }: { traceId?: string }) => {
   const spanDetailContent = traceStore.useStore((s) => s.spanDetailContent);
   const { getTraceDetailContent, getSpanDetailContent } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceDetailContent']);
   const [{ traceRecords }, updater] = useUpdate({ traceRecords: {} });
-  const { traceId } = routeInfoStore.useStore((s) => s.params);
 
+  const { setIsShowTraceDetail } = monitorCommonStore.reducers;
+  const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
   React.useEffect(() => {
     if (traceId) {
       getTraceDetailContent({ traceId }).then((content) => {
@@ -34,9 +36,18 @@ export default () => {
     }
   }, [getTraceDetailContent, traceId, updater]);
 
+  if (!isShowTraceDetail) {
+    return null;
+  }
+
   return (
-    <div className="p-4">
-      <div className="text-base font-semibold mb-4">
+    <div className="p-4 trace-search-detail">
+      <div className="text-xl font-semibold mb-4 flex items-center">
+        <CustomIcon
+          type="arrow-left"
+          className="text-3xl text-light-gray cursor-pointer"
+          onClick={() => setIsShowTraceDetail(false)}
+        />
         {i18n.t('msp:trace id')}: {traceId}
       </div>
       <PureTraceDetail

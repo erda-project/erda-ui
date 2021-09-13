@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -12,7 +13,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs } from 'core/nusi';
+import { Tree, Tooltip, Row, Col, Tabs, Ellipsis } from 'core/nusi';
 import { TimeSelect, KeyValueList, Icon as CustomIcon } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis } from 'msp/services';
@@ -28,13 +29,13 @@ import { SpanTimeInfo } from './span-time-info';
 import { TraceHeader } from './trace-header';
 
 interface IProps {
-  dataSource: any;
+  dataSource: MONITOR_TRACE.ITrace;
 }
 
 const { TabPane } = Tabs;
 
 export function TraceGraph(props: IProps) {
-  const { dataSource = {} } = props;
+  const { dataSource } = props;
   const bg = ['#4E6097', '#498E9E', '#6CB38B', 'purple', '#F7A76B'];
   const errorColor = '#CE4324';
   // const bg = ['#5872C0', '#ADDD8B', '#DE6E6A', '#84BFDB', '#599F76', '#ED895D', '#9165AF','#DC84C8','#F3C96B'];
@@ -47,21 +48,22 @@ export function TraceGraph(props: IProps) {
   const [proportion, setProportion] = React.useState([24, 0]);
   const [loading, setLoading] = React.useState(false);
   const [spanDetailData, setSpanDetailData] = React.useState({});
-  const { roots, min, max } = listToTree(dataSource.spans);
-  const [tags, setTags] = React.useState(null as any);
-  const [spanStartTime, setSpanStartTime] = React.useState(null!) as any;
-  const [_timeRange, _setTimeRange] = React.useState([null!, null!]) as any;
+  const { roots, min, max } = listToTree(dataSource?.spans);
+  const [tags, setTags] = React.useState(null! as MONITOR_TRACE.ITag);
+  const [spanStartTime, setSpanStartTime] = React.useState(null! as number);
+  const [_timeRange, _setTimeRange] = React.useState([null!, null!] as number[]);
   const duration = max - min;
   const allKeys: string[] = [];
-  const { callAnalysis, serviceAnalysis } = (spanDetailData || {}) as any;
+  const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
 
   const getMetaData = React.useCallback(async () => {
     setLoading(true);
-
     try {
       const { span_layer, span_kind, terminus_key, service_instance_id } = tags;
       const type = `${span_layer}_${span_kind}`;
-
+      if (!service_instance_id) {
+        return null;
+      }
       const { success, data } = await getSpanAnalysis({
         type,
         startTime: _timeRange[0],
@@ -83,10 +85,8 @@ export function TraceGraph(props: IProps) {
     }
   }, [getMetaData, tags, _timeRange]);
 
-  const traverseData = (data: any) => {
+  const traverseData = (data: MONITOR_TRACE.ITraceSpan[]) => {
     for (let i = 0; i < data.length; i++) {
-      // FIXME: remove eslint comment
-      // eslint-disable-next-line no-param-reassign
       data[i] = format(data[i], 0, handleClickTimeSpan);
     }
 
@@ -117,33 +117,47 @@ export function TraceGraph(props: IProps) {
     _setTimeRange([range1, range2]);
     setTags(selectedTag);
     setSpanStartTime(startTime / 1000 / 1000);
-    setProportion([12, 12]);
+    setProportion([14, 10]);
   }
 
-  function format(item: MONITOR_TRACE.ITraceSpan, depth = 0, _handleClickTimeSpan: any) {
+  function format(
+    item: MONITOR_TRACE.ISpanItem,
+    depth = 0,
+    _handleClickTimeSpan: (startTime: number, selectedTag: MONITOR_TRACE.ITag) => void,
+  ) {
     item.depth = depth;
     item.key = item.id;
     allKeys.push(item.id);
-    const { startTime, endTime, duration: totalDuration, selfDuration, operationName, tags } = item;
-    const { span_kind: spanKind, component, error } = tags;
+    const { startTime, endTime, duration: totalDuration, selfDuration, operationName, tags: _tags } = item;
+    const { span_kind: spanKind, component, error, service_name: serviceName } = _tags;
     const leftRatio = (startTime - min) / duration;
     const centerRatio = (endTime - startTime) / duration;
     const rightRatio = (max - endTime) / duration;
     const showTextOnLeft = leftRatio > 0.2;
     const showTextOnRight = !showTextOnLeft && rightRatio > 0.2;
     const displayTotalDuration = mkDurationStr(totalDuration / 1000);
-
     item.title = (
       <div
-        className="wrapper flex items-center "
+        className="wrapper flex items-center"
         onClick={() => {
-          _handleClickTimeSpan(startTime, tags);
+          _handleClickTimeSpan(startTime, _tags);
         }}
       >
-        <Tooltip title={<SpanTitleInfo operationName={operationName} spanKind={spanKind} component={component} />}>
-          <div className="left text-xs flex items-center" style={{ width: 200 - 24 * depth }}>
-            <span className="truncate">{operationName}</span>
-            <span className="truncate ml-3">{`${spanKind} - ${component}`}</span>
+        <Tooltip
+          title={
+            <SpanTitleInfo
+              operationName={operationName}
+              spanKind={spanKind}
+              component={component}
+              serviceName={serviceName}
+            />
+          }
+        >
+          <div className="left flex items-center " style={{ width: 300 - 24 * depth }}>
+            {/* <div className="w-1 h-4 relative mr-1" style={{ background: error ? errorColor : bg[depth % 5]}}/> */}
+            <span className="font-semibold text-ms mr-2 whitespace-nowrap">{serviceName}</span>
+            <span className="truncate text-xs">{operationName}</span>
+            {/* <span className="truncate ml-3">{`${spanKind} - ${component}`}</span> */}
           </div>
         </Tooltip>
         <div className="right text-gray">
@@ -177,7 +191,7 @@ export function TraceGraph(props: IProps) {
       <TraceDetailInfo dataSource={dataSource} />
       <div className="mt-4">
         <Row gutter={20}>
-          <Col span={proportion[0]}>
+          <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
             <TraceHeader
               duration={duration}
               setExpandedKeys={setExpandedKeys}
@@ -199,19 +213,24 @@ export function TraceGraph(props: IProps) {
               )}
             </div>
           </Col>
-          <Col span={proportion[1]}>
-            <div className="flex justify-between items-center">
+          <Col span={proportion[1]} className={`${proportion[0] !== 24 ? 'pl-0' : ''}`}>
+            <div className="flex justify-between items-center my-2 px-3 py-1">
+              <div className="text-sub text-sm font-semibold w-80">
+                <Ellipsis title={tags?.operation_name}>{tags?.operation_name}</Ellipsis>
+              </div>
               <Tooltip title={i18n.t('close')}>
                 <span onClick={() => setProportion([24, 0])} className="cursor-pointer">
                   <CustomIcon type="gb" className="text-holder" />
                 </span>
               </Tooltip>
+            </div>
+            <div className="px-3">
               <TimeSelect
                 // defaultValue={globalTimeSelectSpan.data}
                 // className={className}
                 onChange={(data, range) => {
                   setSelectedTimeRange(data);
-                  const { quick } = data;
+                  const { quick = 'minutes:15' } = data;
                   let range1 = range?.[0]?.valueOf();
                   let range2 = range?.[1]?.valueOf();
                   if (customMap[quick]) {
@@ -226,27 +245,31 @@ export function TraceGraph(props: IProps) {
                 value={selectedTimeRange}
               />
             </div>
-            {callAnalysis && (
-              <Tabs>
-                {/* 后端还未调通，先隐藏 */}
-                <TabPane tab={i18n.d('调用分析')} key={1}>
-                  <ServiceListDashboard
-                    timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
-                    dashboardId={callAnalysis?.dashboardId}
-                    extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
-                  />
-                </TabPane>
-                <TabPane tab={i18n.d('关联服务')} key={2}>
-                  <ServiceListDashboard
-                    timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
-                    dashboardId={serviceAnalysis?.dashboardId}
-                    extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
-                  />
-                </TabPane>
-                <TabPane tab={i18n.d('属性')} key={3}>
-                  <KeyValueList data={tags} />
-                </TabPane>
-              </Tabs>
+            {(serviceAnalysis || proportion[0] === 14) && (
+              <div className="px-3">
+                <Tabs>
+                  {/* 后端还未调通，先隐藏 */}
+                  {/* <TabPane tab={i18n.d('调用分析')} key={1}>
+                    <ServiceListDashboard
+                      timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
+                      dashboardId={callAnalysis?.dashboardId}
+                      extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
+                    />
+                  </TabPane> */}
+                  <TabPane tab={i18n.d('关联服务')} key={2}>
+                    {serviceAnalysis && (
+                      <ServiceListDashboard
+                        timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
+                        dashboardId={serviceAnalysis?.dashboardId}
+                        extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
+                      />
+                    )}
+                  </TabPane>
+                  <TabPane tab={i18n.d('属性')} key={3}>
+                    <KeyValueList data={tags} />
+                  </TabPane>
+                </Tabs>
+              </div>
             )}
           </Col>
         </Row>

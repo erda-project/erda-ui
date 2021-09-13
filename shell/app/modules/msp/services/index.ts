@@ -70,8 +70,8 @@ export const getSpanAnalysis = (payload: {
   type: string;
   tenantId: string;
   serviceInstanceId: string;
-  startTime: string;
-  endTime: string;
+  startTime: number;
+  endTime: number;
 }) => {
   return agent
     .get('/api/msp/apm/trace/span-analysis')

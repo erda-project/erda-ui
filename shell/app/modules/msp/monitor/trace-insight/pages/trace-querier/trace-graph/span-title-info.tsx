@@ -14,10 +14,11 @@
 import React from 'react';
 
 export function SpanTitleInfo(props: any) {
-  const { operationName, spanKind, component } = props;
+  const { operationName, spanKind, component, serviceName } = props;
 
   return (
     <div>
+      <div>{serviceName}</div>
       <div>{operationName}</div>
       <div>{`${spanKind} - ${component}`}</div>
     </div>

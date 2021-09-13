@@ -16,31 +16,16 @@ import { Spin } from 'core/nusi';
 import { TraceGraph } from './trace-graph';
 
 interface IProps {
-  getSpanDetailContent: (
-    visible: boolean,
-    span: MONITOR_TRACE.ITraceSpan[],
-  ) => {
-    visible: boolean;
-    span: MONITOR_TRACE.ITraceSpan[];
-  };
   isTraceDetailContentFetching: boolean;
-  spanDetailContent: {
-    visible: boolean;
-    span: MONITOR_TRACE.ITraceSpan[];
-  };
-  traceDetailContent: MONITOR_TRACE.ITraceDetail | {};
+  traceDetailContent: MONITOR_TRACE.ITrace;
 }
 
 export default function NewTraceDetail(props: IProps) {
-  const { isTraceDetailContentFetching, traceDetailContent, spanDetailContent, getSpanDetailContent } = props;
+  const { isTraceDetailContentFetching, traceDetailContent } = props;
 
   return (
     <Spin spinning={isTraceDetailContentFetching}>
-      <TraceGraph
-        dataSource={traceDetailContent}
-        spanDetailContent={spanDetailContent}
-        getSpanDetailContent={getSpanDetailContent}
-      />
+      <TraceGraph dataSource={traceDetailContent} />
     </Spin>
   );
 }
