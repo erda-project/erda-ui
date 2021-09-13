@@ -126,7 +126,7 @@ const permission = createStore({
         permission.reducers.clearScopePerm(realScope);
         const userMap = getUserMap();
         userStore.reducers.setNoAuth(
-          map(contactsWhenNoPermission || [], (id) => {
+          map(contactsWhenNoPermission?.slice(0, 6) || [], (id) => {
             const match = userMap[id] || {};
             return `${match.nick || match.name} (${match.phone || match.email})`;
           }).join(', '),
