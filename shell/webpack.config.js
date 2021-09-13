@@ -19,6 +19,7 @@ const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { getScssTheme } = require('./config/theme');
 const initJs = require('./app/views/init.js');
 const css = require('./app/views/css.js');
@@ -223,6 +224,7 @@ module.exports = () => {
           { from: './app/static', to: resolve('../public/static') },
         ],
       }),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './app/views/index.ejs',

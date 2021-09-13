@@ -11,12 +11,11 @@
     "*.less"
   ],
   "scripts": {
-    "watch": "cross-env-shell NODE_ENV=development 'npm run clean && webpack --progress -w'",
+    "watch": "cross-env-shell NODE_ENV=development 'webpack --progress -w'",
     "dev-build": "cross-env-shell NODE_ENV=development 'npm run build-core'",
     "build": "cross-env-shell NODE_ENV=production 'npm run build-core'",
-    "build-core": "npm run clean && webpack --progress",
+    "build-core": "webpack --progress",
     "analyze": "webpack --config webpack.analyze.js --progress --color",
-    "clean": "rm -rf ../public/static/core",
     "lint-fix": "eslint --fix src --ext '.js,.jsx,.tsx,.ts,.d.ts'",
     "precommit": "lint-staged"
   },
@@ -64,6 +63,7 @@
     "@types/superagent": "^4.1.7",
     "@types/webpack": "^4.4.20",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
     "cross-env": "^5.2.0",
     "dotenv": "^8.2.0",
     "less-loader": "^7.2.1",

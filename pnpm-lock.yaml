@@ -115,6 +115,7 @@ importers:
       antd: 4.15.6
       axios: ^0.21.1
       babel-loader: ^8.2.2
+      clean-webpack-plugin: ^4.0.0
       cross-env: ^5.2.0
       css-loader: ^5.0.1
       cube-state: ^1.5.5
@@ -186,6 +187,7 @@ importers:
       '@types/superagent': 4.1.11
       '@types/webpack': 4.41.29
       babel-loader: 8.2.2_56c0991c8a79bd1374c11f7f6fc4baef
+      clean-webpack-plugin: 4.0.0_webpack@5.38.1
       cross-env: 5.2.1
       dotenv: 8.6.0
       less-loader: 7.3.0_less@3.13.1+webpack@5.38.1
@@ -205,6 +207,7 @@ importers:
       antd: ^4.15.4
       autoprefixer: ^9.8.6
       babel-plugin-import: ^1.13.3
+      clean-webpack-plugin: ^4.0.0
       craco-antd: ^1.19.0
       file-loader: ^6.2.0
       history: ^5.0.0
@@ -238,6 +241,7 @@ importers:
       '@types/qrcode.react': 1.0.1
       autoprefixer: 9.8.6
       babel-plugin-import: 1.13.3
+      clean-webpack-plugin: 4.0.0
 
   modules/uc:
     specifiers:
@@ -247,6 +251,7 @@ importers:
       '@types/react-router-dom': ^5.1.8
       autoprefixer: ^9.8.6
       axios: ^0.21.4
+      clean-webpack-plugin: ^4.0.0
       cube-state: ^1.5.5
       history: ^5.0.1
       i18next: ^20.6.1
@@ -279,6 +284,7 @@ importers:
       '@types/react-router-dom': 5.1.8
       autoprefixer: 9.8.6
       axios: 0.21.4
+      clean-webpack-plugin: 4.0.0
       postcss: 8.3.6
       tailwindcss: /@tailwindcss/postcss7-compat/2.2.14
 
@@ -359,6 +365,7 @@ importers:
       babel-plugin-jsx-control-statements: ^4.1.0
       chalk: ^4.1.1
       classnames: ^2.2.5
+      clean-webpack-plugin: ^4.0.0
       clipboard: ^2.0.8
       copy-webpack-plugin: ^7.0.0
       cronstrue: ^1.84.0
@@ -550,6 +557,7 @@ importers:
       babel-loader: 8.2.2_56c0991c8a79bd1374c11f7f6fc4baef
       babel-plugin-jsx-control-statements: 4.1.0
       chalk: 4.1.1
+      clean-webpack-plugin: 4.0.0_webpack@5.38.1
       copy-webpack-plugin: 7.0.0_webpack@5.38.1
       cross-env: 5.2.1
       css-loader: 6.2.0_webpack@5.38.1
@@ -6638,7 +6646,7 @@ packages:
     resolution: {integrity: sha512-SEYeGAIQIQX8NN6LDKprLjbrd5dARM5EXsd8GI/A5l0apYI1fGMWgPHSe4ZKL4eozlAyI+doUE9XbYS4xCkQ1w==}
     dependencies:
       '@types/minimatch': 3.0.4
-      '@types/node': 15.6.1
+      '@types/node': 16.3.1
 
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
@@ -8830,7 +8838,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -10149,6 +10157,25 @@ packages:
   /clean-stack/2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
     engines: {node: '>=6'}
+
+  /clean-webpack-plugin/4.0.0:
+    resolution: {integrity: sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      webpack: '>=4.0.0 <6.0.0'
+    dependencies:
+      del: 4.1.1
+    dev: true
+
+  /clean-webpack-plugin/4.0.0_webpack@5.38.1:
+    resolution: {integrity: sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      webpack: '>=4.0.0 <6.0.0'
+    dependencies:
+      del: 4.1.1
+      webpack: 5.38.1_webpack-cli@4.7.0
+    dev: true
 
   /cli-boxes/1.0.0:
     resolution: {integrity: sha1-T6kXw+WclKAEzWH47lCdplFocUM=}
@@ -11730,7 +11757,6 @@ packages:
       p-map: 2.1.0
       pify: 4.0.1
       rimraf: 2.7.1
-    dev: false
 
   /del/6.0.0:
     resolution: {integrity: sha512-1shh9DQ23L16oXSZKB2JxpL7iMy2E0S9d517ptA1P8iw0alkPtQcrKH7ru31rYtKwF499HkTu+DRzq3TCKDFRQ==}
@@ -13988,8 +14014,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.1
-    dev: false
+      debug: 4.3.1_supports-color@6.1.0
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -16050,7 +16075,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       is-path-inside: 2.1.0
-    dev: false
 
   /is-path-inside/1.0.1:
     resolution: {integrity: sha1-jvW33lBDej/cprToZe96pVy0gDY=}
@@ -16063,7 +16087,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       path-is-inside: 1.0.2
-    dev: false
 
   /is-path-inside/3.0.3:
     resolution: {integrity: sha512-Fd4gABb+ycGAmKou8eMftCupSir5lRxqf4aD/vd0cD2qc4HL07OjCeuHMr8Ro4CoMaeCKDB0/ECBOVWjTwUvPQ==}
@@ -28252,7 +28275,7 @@ packages:
       graceful-fs: 4.2.6
       neo-async: 2.6.2
     optionalDependencies:
-      chokidar: 3.5.1
+      chokidar: 3.5.2
       watchpack-chokidar2: 2.0.1
     dev: false
 
@@ -29210,7 +29233,7 @@ packages:
       lodash.isequal: 4.5.0
       validator: 10.11.0
     optionalDependencies:
-      commander: 2.11.0
+      commander: 2.20.3
     dev: true
 
   /z-schema/4.2.3:

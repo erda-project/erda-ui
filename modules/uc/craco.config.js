@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const path = require('path');
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const outputPath = path.resolve(__dirname, '../../public/static/uc');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -31,6 +31,7 @@ module.exports = {
             path: outputPath,
             publicPath: '/static/uc/',
           };
+          webpackConfig.plugins = [...webpackConfig.plugins, new CleanWebpackPlugin()];
           return webpackConfig;
         },
   },
