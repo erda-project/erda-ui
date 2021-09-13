@@ -74,6 +74,7 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
         }
         case 'issueType': {
           const replaceMap = {
+            epic: i18n.t('project:milestone'),
             requirement: i18n.t('project:requirement'),
             task: i18n.t('project:task'),
             bug: i18n.t('project:bug'),
