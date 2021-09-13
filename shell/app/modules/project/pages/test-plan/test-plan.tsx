@@ -232,7 +232,9 @@ const TestPlan = () => {
         </Button>
         <PlanModal
           {...modalProp}
-          afterSubmit={() => getList({ ...filterObj, pageNo: 1 })}
+          afterSubmit={() => {
+            getList({ ...filterObj, pageNo: modalProp.mode === 'edit' ? page.pageNo : 1 });
+          }}
           onCancel={() => {
             updateModalProp({ visible: false });
           }}
