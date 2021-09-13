@@ -17,7 +17,7 @@
     "new password": "新密码",
     "nick name": "昵称",
     "password": "密码",
-    "password-tip": "请输入8~32位包含大写字母、小写字母，可包含数字及符号(@ _ - .)",
+    "password-tip": "不少于8位的包含大写字母、小写字母、符号",
     "Please enter the correct {name}": "请输入正确的{name}",
     "registered successfully": "注册成功",
     "Reset password": "重置密码",

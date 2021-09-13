@@ -24,7 +24,7 @@ export const getValidText = (v?: string, validType?: 'phone' | 'email' | 'passwo
       message: i18n.t('Please enter the correct {name}', { name: i18n.t('email') }),
     },
     password: {
-      pattern: /^[a-zA-Z]{1}(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d_@\.-]{6,32}$/,
+      pattern: /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){0,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/,
       message: i18n.t('password-tip'),
     },
   };
