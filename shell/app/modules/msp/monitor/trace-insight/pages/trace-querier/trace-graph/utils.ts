@@ -13,7 +13,7 @@
 
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 
-export function listToTree(arr: any[] = []) {
+export function listToTree(arr: MONITOR_TRACE.ISpanItem[] = []) {
   const list = arr.map((x) => ({ ...x, children: [] })).sort((a, b) => a.startTime - b.startTime);
   const treeMap = {};
   const roots = [];

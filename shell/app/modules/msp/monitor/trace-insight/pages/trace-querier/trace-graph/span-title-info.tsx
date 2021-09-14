@@ -13,7 +13,14 @@
 
 import React from 'react';
 
-export function SpanTitleInfo(props: any) {
+interface IProps {
+  operationName: string;
+  spanKind: string;
+  component: string;
+  serviceName: string;
+}
+
+export function SpanTitleInfo(props: IProps) {
   const { operationName, spanKind, component, serviceName } = props;
 
   return (

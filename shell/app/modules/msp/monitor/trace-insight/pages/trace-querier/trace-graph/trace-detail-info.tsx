@@ -14,7 +14,11 @@
 import React from 'react';
 import { displayTimeString } from './utils';
 
-export const TraceDetailInfo = ({ dataSource }: any) => {
+interface IProps {
+  dataSource: MONITOR_TRACE.ITrace;
+}
+
+export const TraceDetailInfo = ({ dataSource }: IProps) => {
   const { duration, serviceCount = 0, depth = 0, spanCount = 0 } = dataSource;
   const arr = [
     { text: displayTimeString(duration), subText: 'Duration' },
