@@ -15,7 +15,7 @@ import React from 'react';
 import { map } from 'lodash';
 import { Tooltip } from 'nusi';
 import { Help as IconHelp } from '@icon-park/react';
-import { overrideTailwindClasses } from 'tailwind-override';
+import './title.scss';
 
 interface ITitleProps {
   level?: 1 | 2 | 3;
@@ -41,11 +41,7 @@ export const Title = ({
   return (
     <div
       {...restProps}
-      className={overrideTailwindClasses(
-        `flex items-center justify-between w-full ${containerClassList[level]} ${
-          showDivider ? 'border-bottom mb-4' : ''
-        } ${className}`,
-      )}
+      className={`wrapped-title ${containerClassList[level]} ${showDivider ? 'border-bottom mb-4' : ''} ${className}`}
     >
       <div className="inline-flex items-center font-medium">
         <div className={sizeList[level]}>{title}</div>
