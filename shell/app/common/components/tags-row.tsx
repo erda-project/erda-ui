@@ -13,9 +13,10 @@
 
 import React from 'react';
 import { Tooltip, Popconfirm, Ellipsis } from 'core/nusi';
-import { some, has, groupBy, map } from 'lodash';
+import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
+import { useMount } from 'react-use';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
 import './tags-row.scss';
 
@@ -93,6 +94,8 @@ export const TagItem = (props: IItemProps) => {
   );
 };
 
+const MAX_LABEL_WIDTH = 180;
+
 export const TagsRow = ({
   labels: propsLabels,
   showCount = 2,
@@ -106,13 +109,21 @@ export const TagsRow = ({
   const showMore = labels.length > showCount;
   const showGroup = some(labels, (l) => has(l, 'group'));
 
+  const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
+
+  useMount(() => {
+    const labelEles = document.querySelectorAll('.tag-group-name');
+    const maxWidth: number = max(map(labelEles, (ele: HTMLSpanElement) => ele.offsetWidth));
+    setLabelWidth(Math.min(maxWidth, MAX_LABEL_WIDTH));
+  });
+
   const fullTags = () => {
     if (showGroup) {
       return (
         <div>
           {map(groupBy(labels, 'group'), (groupItem, gKey) => (
             <div key={gKey} className="tag-group-container mb-2">
-              <span className="tag-group-name">{`${gKey} : `}</span>
+              <span className="tag-group-name" style={{ width: labelWidth }}>{`${gKey} : `}</span>
               <span className="flex-1">
                 {groupItem.map((item) => (
                   <TagItem colorMap={colorMap} key={item.label} label={item} onDelete={onDelete} size={size} />

@@ -1,17 +1,16 @@
 .cp-chart {
-  position: relative;
-  flex-direction: column;
-  // width: 240px;
-  min-height: 240px;
-  height: 100%;
-  margin-bottom: 16px;
-  margin-top: 16px;
   background-color: $white;
   border-radius: $radius;
+  padding: 8px;
   @extend %shallow-shadow;
+  .cp-chart-container {
+    position: relative;
+    flex-direction: column;
+    min-height: 240px;
+    height: 100%;
+  }
 
   .chart-dom {
-    padding: 16px;
     height: 100%;
     min-height: 240px;
   }

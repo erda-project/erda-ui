@@ -160,7 +160,7 @@ export const K8sPodTerminalLog = (props: Merge<IPodTerminalProps, { containerId?
     const now = moment().valueOf();
     let end = start.valueOf() + duration * 60 * 1000;
     end = Math.min(end, now);
-    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}id=${containerId}&source=container&start=${start}&stream=${type}`;
+    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}&id=${containerId}&source=container&start=${start.valueOf()}&stream=${type}`;
     window.open(setApiWithOrg(logFile));
     setDownloadVis(false);
   };
