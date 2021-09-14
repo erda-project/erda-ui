@@ -21,7 +21,7 @@ import './index.scss';
 import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
-import { customMap } from 'common/components/time-select/common';
+import { customMap, ITimeRange } from 'common/components/time-select/common';
 import { listToTree } from './utils';
 import { SpanTitleInfo } from './span-title-info';
 import { TraceDetailInfo } from './trace-detail-info';
@@ -40,7 +40,7 @@ export function TraceGraph(props: IProps) {
   const errorColor = '#CE4324';
   // const bg = ['#5872C0', '#ADDD8B', '#DE6E6A', '#84BFDB', '#599F76', '#ED895D', '#9165AF','#DC84C8','#F3C96B'];
   const [expandedKeys, setExpandedKeys] = React.useState([] as string[]);
-  const [selectedTimeRange, setSelectedTimeRange] = React.useState(null) as any;
+  const [selectedTimeRange, setSelectedTimeRange] = React.useState(null! as ITimeRange);
   const [proportion, setProportion] = React.useState([24, 0]);
   const [loading, setLoading] = React.useState(false);
   const [spanDetailData, setSpanDetailData] = React.useState({});
@@ -156,10 +156,11 @@ export function TraceGraph(props: IProps) {
           }
         >
           <div className="left flex items-center " style={{ width: 300 - 24 * depth }}>
-            {/* <div className="w-1 h-4 relative mr-1" style={{ background: error ? errorColor : bg[depth % 5]}}/> */}
-            <span className="font-semibold text-ms mr-2 whitespace-nowrap">{serviceName}</span>
-            <span className="truncate text-xs">{operationName}</span>
-            {/* <span className="truncate ml-3">{`${spanKind} - ${component}`}</span> */}
+            <div className="w-1 h-4 relative mr-1" style={{ background: error ? errorColor : bg[depth % 5] }} />
+            <div className="flex items-center" style={{ width: 300 - 24 * depth - 8 }}>
+              <span className="font-semibold text-ms mr-2 whitespace-nowrap">{serviceName}</span>
+              <span className="truncate text-xs">{operationName}</span>
+            </div>
           </div>
         </Tooltip>
         <div className="right text-gray">
