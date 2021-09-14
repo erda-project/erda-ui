@@ -79,7 +79,7 @@ const Configuration = () => {
     languages: [],
     visible: false,
     currentPage: 1,
-    mode: 'create' || 'query',
+    mode: 'create',
   });
 
   const [allKey, allKeyLoading] = getAllKey.useState();
@@ -262,7 +262,7 @@ const Configuration = () => {
             })
           }
           width={720}
-          title={visible ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
+          title={mode === 'query' ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
           visible={visible}
           footer={[
             <Button
