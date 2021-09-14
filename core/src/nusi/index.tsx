@@ -69,7 +69,6 @@ import Tag from './wrapped-tag';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
-  // Input,
   Container,
   Filter,
   FormBuilder,
@@ -82,22 +81,14 @@ import {
   Panel,
   List,
   Ellipsis,
-  SelectCategory,
-  SelectCombo,
   ConfigProvider as NusiConfigProvider,
-  Tree as NusiTree,
   Popover as NusiPopover,
 } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
 const isZh = locale === 'zh';
 
-// 直接修改使用时会有ts警告
-let temp = Tooltip;
-temp.defaultProps.type = 'shallow';
-
-temp = Pagination;
-temp.defaultProps = {
+Pagination.defaultProps = {
   showSizeChanger: false,
   ...Pagination.defaultProps,
   pageSize: 15,
@@ -173,10 +164,7 @@ export {
   SideNavigation,
   PageHeader,
   GlobalNavigation,
-  SelectCategory,
-  SelectCombo,
   AntdConfigProvider,
   NusiConfigProvider,
-  NusiTree,
   NusiPopover,
 };
