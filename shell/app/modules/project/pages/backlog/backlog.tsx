@@ -46,11 +46,11 @@ const Backlog = () => {
     s.params,
     s.query,
   ]);
-  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
+  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
 
   const stateCollection: Array<{ label: string | React.ReactNode; children: Array<{ label: string; value: string }> }> =
     React.useMemo(() => {
-      const collection = totalWorkflowStateList.reduce((acc, current) => {
+      const collection = workflowStateList.reduce((acc, current) => {
         const { issueType, stateName, stateID } = current;
         if (!['BUG', 'REQUIREMENT', 'TASK'].includes(issueType)) {
           return acc;
@@ -75,7 +75,7 @@ const Backlog = () => {
         };
       });
       return options;
-    }, [totalWorkflowStateList]);
+    }, [workflowStateList]);
 
   const [{ isAdding, curIssueDetail, drawerVisible, filterState }, updater, update] = useUpdate({
     isAdding: false,

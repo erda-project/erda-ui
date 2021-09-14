@@ -27,10 +27,7 @@ import './issue-workflow.scss';
 const IssueWorkflow = () => {
   const { projectId: projectID } = routeInfoStore.getState((s) => s.params);
 
-  const [issueList, totalWorkflowStateList] = issueWorkflowStore.useStore((s) => [
-    s.issueList,
-    s.totalWorkflowStateList,
-  ]);
+  const [issueList, workflowStateList] = issueWorkflowStore.useStore((s) => [s.issueList, s.workflowStateList]);
   const { getStatesByIssue, getIssueList, clearIssueList } = issueWorkflowStore;
 
   useEffectOnce(() => {
@@ -50,7 +47,7 @@ const IssueWorkflow = () => {
 
   const onEditHandle = React.useCallback(
     (type: ISSUE_TYPE) => {
-      getStatesByIssue({ projectID: +projectID, issueType: type }).then(() => {
+      getStatesByIssue({ projectID: +projectID }).then(() => {
         updater.modalVisible(true);
         updater.issueType(type);
       });
@@ -92,7 +89,7 @@ const IssueWorkflow = () => {
                   <div className="default-workflow-title">{i18n.t('project:default workflow')}：</div>
                   <div className="default-workflow-content">
                     {map(item.state, (name: string) => {
-                      const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
+                      const curStateBelong = get(find(workflowStateList, { stateName: name }), 'stateBelong');
                       return (
                         <div className="flex items-center mr-3 mb-2">
                           {ISSUE_STATE_MAP[curStateBelong]?.icon}

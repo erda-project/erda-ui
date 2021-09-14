@@ -45,14 +45,15 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
   const hasAuth = usePerm((s) => s.project.setting.customWorkflow.operation.pass);
 
   const getDataList = React.useCallback(() => {
-    getStatesByIssue({ projectID: +projectID, issueType });
-  }, [getStatesByIssue, issueType, projectID]);
+    getStatesByIssue({ projectID: +projectID });
+  }, [getStatesByIssue, projectID]);
 
   React.useEffect(() => {
-    const tempList = map(workflowStateList, (item) => {
+    const partWorkflowStateList = workflowStateList.filter((item) => item.issueType === issueType);
+    const tempList = map(partWorkflowStateList, (item) => {
       return {
         ...item,
-        relations: map(workflowStateList, ({ stateID, stateName }) => {
+        relations: map(partWorkflowStateList, ({ stateID, stateName }) => {
           return {
             stateID,
             isRelated: item?.stateRelation?.includes(stateID),
@@ -61,7 +62,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
         }),
       };
     });
-    update({ dataList: tempList, issueType });
+    update({ dataList: tempList });
   }, [issueType, update, workflowStateList]);
 
   const onCancel = React.useCallback(() => {
@@ -132,7 +133,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
     <Modal
       title={i18n.t('edit {name}', { name: `${fName}${i18n.t('project:workflow')}` })}
       visible={visible}
-      width="800px"
+      width="1010px"
       onCancel={onCancel}
       destroyOnClose
       maskClosable={false}
@@ -219,7 +220,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
               </div>
             </div>
             <Divider className="my-2" orientation="left">
-              {i18n.t('project:set state')}
+              {i18n.t('project:state setting')}
             </Divider>
             <div className="flex justify-between items-center">
               <div className="form-content-left">

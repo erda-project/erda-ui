@@ -23,7 +23,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    logger.error('unexpected exception:', exception.stack);
+    logger.error('unexpected exception:', exception);
 
     response.status(status).json({
       statusCode: status,
