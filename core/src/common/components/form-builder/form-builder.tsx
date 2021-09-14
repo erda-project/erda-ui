@@ -30,9 +30,9 @@ import { IFieldType } from './fields';
  * */
 export interface IContextType {
   realColumnNum?: number;
-  parColumnNum?: number;
-  parIsMultiColumn?: boolean;
-  parReadonly?: boolean;
+  parentColumnNum?: number;
+  parentIsMultiColumn?: boolean;
+  parentReadonly?: boolean;
   setFieldsInfo: (k: string, v: IFieldType[]) => void;
 }
 export interface IFormExtendType<T = any> extends FormInstance {
@@ -106,9 +106,9 @@ const PureFormBuilder = <T extends Obj>({
           <FormContext.Provider
             value={{
               realColumnNum,
-              parIsMultiColumn: isMultiColumn,
-              parColumnNum: columnNum,
-              parReadonly: readonly,
+              parentIsMultiColumn: isMultiColumn,
+              parentColumnNum: columnNum,
+              parentReadonly: readonly,
               setFieldsInfo,
             }}
           >

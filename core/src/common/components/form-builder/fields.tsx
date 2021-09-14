@@ -79,9 +79,9 @@ export const Fields: React.MemoExoticComponent<
   ({ fields, isMultiColumn, columnNum, readonly, fid }: IProps) => JSX.Element
 > = React.memo(({ fields = [], isMultiColumn, columnNum, readonly, fid }: IProps) => {
   const getColumn = (contextProps: IContextType) => {
-    if (isMultiColumn || (isMultiColumn === undefined && contextProps.parIsMultiColumn)) {
+    if (isMultiColumn || (isMultiColumn === undefined && contextProps.parentIsMultiColumn)) {
       if (columnNum) return columnNum;
-      if (contextProps.parColumnNum) return contextProps.parColumnNum;
+      if (contextProps.parentColumnNum) return contextProps.parentColumnNum;
       return contextProps.realColumnNum;
     }
     return 1;
@@ -119,7 +119,7 @@ export const Fields: React.MemoExoticComponent<
                   ? itemReadonly
                   : readonly !== undefined
                   ? readonly
-                  : contextProps?.parReadonly) || false;
+                  : contextProps?.parentReadonly) || false;
               const realReadData = isBoolean(isRealReadOnly) ? null : isRealReadOnly;
               return (
                 <Col span={colSpan || 24 / fieldRealColumnNum} key={idx} className={wrapperClassName}>
