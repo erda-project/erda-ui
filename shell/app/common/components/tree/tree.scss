@@ -32,6 +32,10 @@
       width: 0;
     }
 
+    .ant-tree-title {
+      width: calc(100% - 48px);
+    }
+
     .ant-tree-iconEle {
       display: inline-flex;
       margin: 0 8px 0 0;
