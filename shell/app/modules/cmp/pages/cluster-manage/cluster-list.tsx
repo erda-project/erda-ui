@@ -349,7 +349,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const actions: IActions<ORG_CLUSTER.ICluster> = {
     width: 120,
     render: (record: ORG_CLUSTER.ICluster) => renderMenu(record),
-    limitNum: 3,
+    limitNum: 1,
   };
 
   const [renderOp, drawer] = useInstanceOperation<ORG_CLUSTER.ICluster>({
