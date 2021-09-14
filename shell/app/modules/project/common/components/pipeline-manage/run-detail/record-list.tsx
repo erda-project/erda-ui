@@ -176,7 +176,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
           dataSource={dataSource}
           scroll={{ y: 240 }}
           rowClassName={setRowClassName}
-          pagination={{ pageSize, total, current: pageNo, onChange: getList }}
+          pagination={{ pageSize, total, current: pageNo, onChange: (_no) => getList({ pageNo: _no }) }}
           onRow={(p) => ({
             onClick: () => {
               onSelectPipeline(p);
