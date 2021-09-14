@@ -11,22 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Response, Request } from 'express';
-import path from 'path';
-import { getEnv } from '../util';
+import React from 'react';
+import { TagsRow } from 'common';
+import { colorMap } from 'config-page/utils';
 
-const { publicDir, staticDir } = getEnv();
+export default (props: CP_TAGS.Props) => {
+  const { props: configProps, data } = props || {};
+  const { visible = true, ...rest } = configProps || {};
 
-@Controller('uc')
-export class UCController {
-  @Get('*')
-  handleUC(@Req() req: Request, @Res() res: Response) {
-    const extension = path.extname(req.path);
-    if (!extension) {
-      res.sendFile(path.join(staticDir, 'uc', 'index.html'));
-    } else {
-      res.sendFile(path.join(publicDir, req.path));
-    }
-  }
-}
+  if (!visible) return null;
+
+  return <TagsRow colorMap={colorMap} {...rest} labels={data?.labels} />;
+};

@@ -62,7 +62,7 @@ export default function Login() {
 
   const updatePassword = (v: string) => {
     setPassword(v);
-    updateValid({ password: getValidText(v), confirmPw: '' });
+    updateValid({ password: getValidText(v, 'password'), confirmPw: '' });
   };
 
   const updateConfirmPw = (v: string) => {

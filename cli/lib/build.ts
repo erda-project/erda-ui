@@ -243,7 +243,6 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
   // start docker container names erda-ui for image provided
   await asyncExec(`docker run -d --name erda-ui-for-build \
     -e OPENAPI_ADDR=127.0.0.1 \
-    -e DATA_APP_NAME=xxx
     -e XXX_UI_ADDR=127.0.0.1 \
     -e GITTAR_ADDR=127.0.0.1 \
     ${registryDir}:${image}`);

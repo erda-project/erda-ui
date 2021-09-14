@@ -38,6 +38,8 @@ import {
   validators,
   getTimeRanges,
   interpolationComp,
+  colorToRgb,
+  pickRandomlyFromArray,
 } from 'common/utils';
 
 class ClassComp extends React.Component {
@@ -204,5 +206,18 @@ describe('utils', () => {
       Two: 'two',
     };
     expect(interpolationComp(str, compMap).join('')).toBe('This is a test data, test one, test two');
+  });
+  it('colorToRgb should work well', () => {
+    expect(colorToRgb('#f1c')).toBe('rgb(255,17,204)');
+    expect(colorToRgb('#f47201')).toBe('rgb(244,114,1)');
+    expect(colorToRgb('#f47201', 0.1)).toBe('rgba(244,114,1,0.1)');
+    expect(colorToRgb('#f47201cc')).toBe('#f47201cc');
+  });
+  it('pickRandomlyFromArray should work well', () => {
+    const arr = [1, 2, 3, 4, 5, 6];
+
+    expect(pickRandomlyFromArray(arr, 0)).toEqual([]);
+    expect(pickRandomlyFromArray(arr, 4)).toHaveLength(4);
+    expect(pickRandomlyFromArray(arr, 7)).toEqual(arr);
   });
 });

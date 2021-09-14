@@ -30,7 +30,7 @@ declare namespace CONFIGURATION {
     strategy: string;
   }
 
-  interface IAllkey {
+  interface IAllKey {
     subjectType: number;
     subject: string;
     accessKey?: string;
@@ -56,9 +56,9 @@ declare namespace CONFIGURATION {
     data: string;
   }
 
-  interface IAllkeyData {
+  interface IAllKeyData {
     accessKey: string;
-    createAt: string;
+    createdAt: string;
     description: string;
     id: string;
     secretKey: string;
@@ -70,8 +70,8 @@ declare namespace CONFIGURATION {
     width?: number;
   }
 
-  interface IkeyList {
-    list: IAllkeyData[];
+  interface IKeyList {
+    list: IAllKeyData[];
     total: number;
   }
 }

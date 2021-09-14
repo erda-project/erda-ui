@@ -11,22 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Response, Request } from 'express';
-import path from 'path';
-import { getEnv } from '../util';
-
-const { publicDir, staticDir } = getEnv();
-
-@Controller('uc')
-export class UCController {
-  @Get('*')
-  handleUC(@Req() req: Request, @Res() res: Response) {
-    const extension = path.extname(req.path);
-    if (!extension) {
-      res.sendFile(path.join(staticDir, 'uc', 'index.html'));
-    } else {
-      res.sendFile(path.join(publicDir, req.path));
-    }
+declare namespace CP_CHART_DASHBOARD {
+  interface Spec {
+    type: 'ChartDashboard';
+    props: IProps;
+    state: IState;
+    cId: string;
   }
+
+  interface IState {
+    globalVariable: Obj;
+  }
+
+  interface IProps {
+    layout: import('@erda-ui/dashboard-configurator/dist').default.Layout;
+  }
+
+  type Props = MakeProps<Spec>;
 }

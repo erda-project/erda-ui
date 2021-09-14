@@ -18,7 +18,7 @@ import { INestApplication } from '@nestjs/common';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-const { envConfig, dataAppName } = getEnv();
+const { envConfig } = getEnv();
 const { BACKEND_URL, GITTAR_ADDR, UC_BACKEND_URL } = envConfig;
 
 const API_URL = BACKEND_URL.startsWith('http') ? BACKEND_URL : `http://${BACKEND_URL}`;
@@ -29,7 +29,7 @@ gittarUrl = gittarUrl.startsWith('http') ? gittarUrl : `http://${gittarUrl}`;
 
 const wsPathRegex = [
   /^\/api\/[^/]*\/websocket/,
-  RegExp(`^/api/[^/]*/${dataAppName}-websocket`), // http-proxy-middleware can't handle multiple ws proxy https://github.com/chimurai/http-proxy-middleware/issues/463
+  /^\/api\/[^/]*\/fdp-websocket/, // http-proxy-middleware can't handle multiple ws proxy https://github.com/chimurai/http-proxy-middleware/issues/463
   /^\/api\/[^/]*\/terminal/,
   /^\/api\/[^/]*\/apim-ws\/api-docs\/filetree/,
 ];
@@ -66,16 +66,16 @@ export const createProxyService = (app: INestApplication) => {
       },
       {
         target: UC_API_URL,
-        changeOrigin: !isProd,
+        changeOrigin: true,
         secure: false,
-        pathRewrite: (api) => api.replace('/api/uc', ''),
+        pathRewrite: (api) => (isProd ? api.replace('/api/uc', '') : api),
       },
     ),
   );
   app.use(
     createProxyMiddleware(
       (pathname: string) => {
-        return pathname.match('^/api');
+        return !!pathname.match('^/api');
       },
       {
         target: API_URL,
@@ -93,17 +93,17 @@ export const createProxyService = (app: INestApplication) => {
       },
     ),
   );
-  let dataServiceUIAddr = isProd ? process.env[`${dataAppName.toUpperCase()}_UI_ADDR`] : API_URL;
+  let dataServiceUIAddr = isProd ? process.env.FDP_UI_ADDR : API_URL;
   dataServiceUIAddr = dataServiceUIAddr.startsWith('http') ? dataServiceUIAddr : `http://${dataServiceUIAddr}`;
   app.use(
-    `/${dataAppName}-app/`,
+    '/fdp-app/',
     createProxyMiddleware({
       target: `${dataServiceUIAddr}/`,
       changeOrigin: !isProd,
       pathRewrite: (p: string, req: Request) => {
-        if (p === `/${dataAppName}-app/static/menu.json`) {
+        if (p === `/fdp-app/static/menu.json`) {
           const lang = req.headers.lang || 'zh-CN';
-          return `/${dataAppName}-app/static/menu-${lang === 'zh-CN' ? 'zh' : 'en'}.json`;
+          return `/fdp-app/static/menu-${lang === 'zh-CN' ? 'zh' : 'en'}.json`;
         }
         return p;
       },

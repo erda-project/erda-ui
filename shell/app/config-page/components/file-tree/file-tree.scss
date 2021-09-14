@@ -35,6 +35,12 @@
       .ant-tree-iconEle {
         height: 40px;
         line-height: 40px;
+
+        svg,
+        i {
+          width: 16px;
+          vertical-align: middle;
+        }
       }
     }
 

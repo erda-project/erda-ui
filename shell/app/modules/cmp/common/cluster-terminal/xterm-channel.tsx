@@ -14,6 +14,7 @@
 import { Terminal } from 'xterm';
 import * as attach from 'xterm/lib/addons/attach/attach';
 import * as fit from 'xterm/lib/addons/fit/fit';
+import { decode, encode } from 'js-base64';
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(attach);
@@ -34,11 +35,11 @@ const Input = '0'; // input code
 const Output = '1'; // output code
 const Error = '2'; // standard error code
 const ServiceError = '3'; // service error code
-const SetSize = '8';
+const SetSize = '4';
 
 function sendData(term: ITerminal, type: string, data?: string) {
   if (term.__socket) {
-    term.__socket.send(type + btoa(data || ''));
+    term.__socket.send(type + encode(data || ''));
   }
 }
 
@@ -46,7 +47,7 @@ function proxyInput(term: ITerminal) {
   const { __sendData } = term;
   term.off('data', __sendData);
   term.__sendData = (data) => {
-    __sendData(`${Input}${btoa(data || '')}`);
+    __sendData(`${Input}${encode(data || '')}`);
   };
   term.on('data', term.__sendData);
 }
@@ -58,9 +59,8 @@ function proxyOutput(term: ITerminal, socket: WebSocket) {
     let { data } = ev;
 
     const type = data.substr(0, 1);
-
-    data.substr(1) && (data = atob(data.substr(1)));
-
+    data = data.substr(1);
+    data && (data = decode(data));
     switch (type) {
       case Output:
       case Error:
@@ -78,10 +78,10 @@ function runTerminal(term: ITerminal, socket: WebSocket, initData?: Obj) {
   term.attach(socket);
   proxyInput(term);
   proxyOutput(term, socket);
-  socket.send(JSON.stringify(initData));
+  socket.send(JSON.stringify(initData || 'connecting...'));
   term.fit();
   const { cols, rows } = term;
-  sendData(term, SetSize, JSON.stringify({ cols, rows }));
+  sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
 }
 
 interface IWSParams {
@@ -101,6 +101,7 @@ export function createTerm(container: HTMLDivElement, params: IWSParams) {
   term.open(container, true);
 
   const socket = new WebSocket(params.url, 'base64.channel.k8s.io'); // sub protocol for k8s
+
   socket.onopen = () => runTerminal(term, socket, params.initData);
 
   socket.onclose = () => {
@@ -112,7 +113,7 @@ export function createTerm(container: HTMLDivElement, params: IWSParams) {
 
   term.on('resize', (size) => {
     const { cols, rows } = size;
-    sendData(term, SetSize, JSON.stringify({ cols, rows }));
+    sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
     term.resize(cols, rows);
     term.fit();
   });

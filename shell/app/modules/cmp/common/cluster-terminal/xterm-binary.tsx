@@ -14,11 +14,14 @@
 import { Terminal } from 'xterm';
 import * as attach from 'xterm/lib/addons/attach/attach';
 import * as fit from 'xterm/lib/addons/fit/fit';
+import { decode, encode } from 'js-base64';
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(attach);
 
 export { Terminal };
+
+const SetSize = '8';
 
 export interface ITerminal extends Terminal {
   __socket: WebSocket;
@@ -30,14 +33,11 @@ export interface ITerminal extends Terminal {
   fit: () => void;
 }
 
-// function proxyInput(term: ITerminal) {
-//   const { __sendData } = term;
-//   term.off('data', __sendData);
-//   term.__sendData = (data) => {
-//     __sendData(`${Input}${btoa(data || '')}`);
-//   };
-//   term.on('data', term.__sendData);
-// }
+function sendData(term: ITerminal, type: string, data?: string) {
+  if (term.__socket) {
+    term.__socket.send(type + encode(data || ''));
+  }
+}
 
 function proxyOutput(term: ITerminal, socket: WebSocket) {
   const { __getMessage } = term;
@@ -45,8 +45,8 @@ function proxyOutput(term: ITerminal, socket: WebSocket) {
   term.__getMessage = (ev) => {
     let { data } = ev;
 
-    data = data && atob(data);
-    __getMessage({ data });
+    data = data && decode(data);
+    __getMessage({ data: `\r${data}\n` });
   };
   socket.addEventListener('message', term.__getMessage);
 }
@@ -55,6 +55,8 @@ function runTerminal(term: ITerminal, socket: WebSocket) {
   term.attach(socket);
   proxyOutput(term, socket);
   term.fit();
+  const { cols, rows } = term;
+  sendData(term, SetSize, JSON.stringify({ cols, rows }));
 }
 
 interface IWSParams {
@@ -83,10 +85,31 @@ export function createTerm(container: HTMLDivElement, params: IWSParams) {
     term.writeln('\x1b[1;35merror......');
   };
 
+  term.on('resize', (size) => {
+    const { cols, rows } = size;
+    sendData(term, SetSize, JSON.stringify({ cols, rows }));
+    term.resize(cols, rows);
+    term.fit();
+  });
+
+  let timer: NodeJS.Timeout | null = null;
+  term._onResize = () => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      term.fit();
+      term.scrollToBottom();
+    }, 500);
+  };
+  window.addEventListener('resize', term._onResize);
+
   return term;
 }
 
 export function destroyTerm(term: ITerminal) {
+  if (term._onResize) {
+    window.removeEventListener('resize', term._onResize);
+  }
+
   if (term.socket) {
     term.socket.close();
   }

@@ -13,7 +13,7 @@
 
 import { i18n } from 'src/common';
 
-export const getValidText = (v?: string, validType?: 'phone' | 'email') => {
+export const getValidText = (v?: string, validType?: 'phone' | 'email' | 'password') => {
   const validMap = {
     phone: {
       pattern: /^(1[3|4|5|7|8|9])\d{9}$/,
@@ -22,6 +22,10 @@ export const getValidText = (v?: string, validType?: 'phone' | 'email') => {
     email: {
       pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/,
       message: i18n.t('Please enter the correct {name}', { name: i18n.t('email') }),
+    },
+    password: {
+      pattern: /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){0,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/,
+      message: i18n.t('password-tip'),
     },
   };
 

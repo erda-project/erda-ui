@@ -1,5 +1,11 @@
 .dice-cp {
   &.dice-cp-table {
+    // cover Progress percent number fix one decimal;
+    .ant-progress-show-info .ant-progress-outer {
+      margin-right: calc(-2em - 20px) !important;
+      padding-right: calc(2em + 20px) !important;
+    }
+
     .table-render-twt {
       .twt-text {
         display: flex;

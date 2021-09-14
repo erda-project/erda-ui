@@ -13,12 +13,12 @@
 
 import React from 'react';
 import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Ellipsis, Badge } from 'core/nusi';
-import { map, isEmpty, get, isArray, sortBy, filter } from 'lodash';
+import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { RowContainer, Container } from '../container/container';
-import { statusColorMap } from 'app/config-page/utils';
+import { statusColorMap, colorMap } from 'app/config-page/utils';
 import { Download as IconDownLoad } from '@icon-park/react';
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
@@ -129,10 +129,17 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       break;
     case 'progress':
       {
-        const { value, tip, status, ...rest } = val || {};
-        Comp = value ? (
+        const { value: _val, tip, status, renderType, ...rest } = val || {};
+        let value = +(_val ?? 0);
+        value = +(`${value}`.indexOf('.') ? value.toFixed(1) : value);
+        Comp = !isNaN(value) ? (
           <Tooltip title={tip}>
-            <Progress percent={+value || 0} {...rest} strokeColor={statusColorMap[status]} />
+            <Progress
+              percent={value}
+              {...rest}
+              format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
+              strokeColor={statusColorMap[status]}
+            />
           </Tooltip>
         ) : (
           value
@@ -330,7 +337,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { value, operations, ..._rest } = val;
         const onAdd = operations?.add && (() => extra.execOperation(operations?.add));
         const onDelete = operations?.delete && ((record) => extra.execOperation(operations?.delete, record));
-        Comp = <TagsRow {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
+        Comp = <TagsRow colorMap={colorMap} {..._rest} labels={value} onAdd={onAdd} onDelete={onDelete} />;
       }
       break;
     case 'text':
@@ -343,7 +350,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { renders } = val || {};
         Comp = (
-          <Container>
+          <Container props={{ spaceSize: 'none' }}>
             {map(renders, (rds, idx) => (
               <RowContainer key={`${idx}`}>
                 {map(rds, (rd, rdIdx) => (

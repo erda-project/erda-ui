@@ -340,6 +340,7 @@ div.ant-transfer-list-body-with-search {
   .ant-tree-title {
     display: inline-block;
     width: calc(100% - 24px);
+    padding-left: 4px;
   }
 
   .ant-tree-node-content-wrapper:hover {
@@ -457,12 +458,6 @@ span.ant-tag {
 div.ant-card-body {
   padding: 12px 16px;
   height: 100%;
-}
-
-// cover Progress percent number fix one decimal;
-.ant-progress-show-info .ant-progress-outer {
-  margin-right: calc(-2em - 16px);
-  padding-right: calc(2em + 12px);
 }
 
 .pk-form-item .ant-select,
