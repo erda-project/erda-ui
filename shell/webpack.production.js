@@ -19,13 +19,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
-const moment = require('moment');
 // const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
 branch: ${gitRevisionPlugin.branch()}
-buildTime: ${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}
+buildTime: ${new Date().toLocaleString('zh-CH', { timeZone: 'Asia/Shanghai' })}
 buildBy: ${os.userInfo().username}`;
 
 module.exports = {
