@@ -12,29 +12,37 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { useUpdate, Icon as CustomIcon, Copy } from 'common';
+import { Copy as IconCopy } from '@icon-park/react';
 import PureTraceDetail from './trace-detail-new';
 import traceStore from '../../../../stores/trace';
+import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'app/common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import './trace-search-detail.scss';
+import { goTo } from 'app/common/utils';
 
 export default ({ traceId }: { traceId?: string }) => {
   const spanDetailContent = traceStore.useStore((s) => s.spanDetailContent);
   const { getTraceDetailContent, getSpanDetailContent } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceDetailContent']);
   const [{ traceRecords }, updater] = useUpdate({ traceRecords: {} });
+  const [{ traceId: _traceId }, currentRoute] = routeInfoStore.useStore((s) => [s.params, s.currentRoute]);
 
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
+  const id = traceId || _traceId;
   React.useEffect(() => {
-    if (traceId) {
-      getTraceDetailContent({ traceId }).then((content) => {
+    if (_traceId) {
+      setIsShowTraceDetail(true);
+    }
+    if (id) {
+      getTraceDetailContent({ traceId: id }).then((content) => {
         updater.traceRecords(content);
       });
     }
-  }, [getTraceDetailContent, traceId, updater]);
+  }, [getTraceDetailContent, id, updater]);
 
   if (!isShowTraceDetail) {
     return null;
@@ -46,9 +54,27 @@ export default ({ traceId }: { traceId?: string }) => {
         <CustomIcon
           type="arrow-left"
           className="text-3xl text-light-gray cursor-pointer"
-          onClick={() => setIsShowTraceDetail(false)}
+          onClick={() => {
+            setIsShowTraceDetail(false);
+            if (_traceId) {
+              if (currentRoute?.path?.includes('transaction')) {
+                goTo(goTo.pages.mspServiceTransaction);
+              } else {
+                goTo(goTo.pages.microTrace);
+              }
+            }
+          }}
         />
-        {i18n.t('msp:trace id')}: {traceId}
+        {i18n.t('msp:trace id')}: {id}
+        <Copy selector=".cursor-copy">
+          <span
+            className="cursor-copy hover-text"
+            data-clipboard-text={_traceId ? window.location.href : `${window.location.href}/trace-detail/${traceId}`}
+            data-clipboard-tip={i18n.t('path')}
+          >
+            <IconCopy className="hover-active ml-5" size="16px" />
+          </span>
+        </Copy>
       </div>
       <PureTraceDetail
         spanDetailContent={spanDetailContent}
