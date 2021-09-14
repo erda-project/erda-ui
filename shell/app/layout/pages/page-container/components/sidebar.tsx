@@ -29,7 +29,6 @@ import { Help as IconHelp, Remind as IconRemind, Logout as IconLogout } from '@i
 import './sidebar.scss';
 
 const { AppCenter } = Shell;
-const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
 
 const AppCenterEl = () => {
   const permMap = usePerm((s) => s.org);
@@ -44,7 +43,7 @@ const AppCenterEl = () => {
     cmp: 'duoyun',
     msp: 'weifuwu1',
     orgCenter: 'guanli',
-    [dataEngineerInfo.name]: 'dataEngineer',
+    fdp: 'dataEngineer',
     ecp: 'bianyuanjisuan',
     apiManage: 'apijishi',
   };
@@ -53,7 +52,7 @@ const AppCenterEl = () => {
     orgCenter: permMap.entryOrgCenter.pass,
     cmp: permMap.cmp.showApp.pass,
     dop: permMap.dop.read.pass,
-    [dataEngineerInfo.name]: permMap.entryFastData.pass && currentOrg.openFdp, // this is backend attribute can't remove
+    fdp: permMap.entryFastData.pass && currentOrg.openFdp,
     msp: permMap.entryMsp.pass,
     ecp: erdaEnv.ENABLE_EDGE && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
     // apiManage: permMap.entryApiManage.pass,
