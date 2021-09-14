@@ -366,7 +366,13 @@ const Transaction = () => {
           onBoardEvent={handleBoardEvent}
         />
       </div>
-      <Drawer title={tracingDrawerTitle} width="80%" visible={visible} onClose={() => updater.visible(false)}>
+      <Drawer
+        title={tracingDrawerTitle}
+        width="80%"
+        className="z-50"
+        visible={visible}
+        onClose={() => updater.visible(false)}
+      >
         <div className="flex items-center flex-wrap justify-end mb-3">
           <span>{i18n.t('msp:maximum number of queries')}：</span>
           <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
