@@ -15,16 +15,6 @@
     background-color: $color-bg;
   }
 
-  .disabled {
-    color: $color-dark-3 !important;
-    cursor: not-allowed !important;
-
-    &:hover {
-      color: $color-dark-3 !important;
-      text-decoration: unset !important;
-    }
-  }
-
   .field-label {
     min-width: 100px;
     margin-right: $p8;

@@ -126,7 +126,7 @@ export const FieldSelector = (props: IFieldProps) => {
 };
 
 const TableView = React.forwardRef((props: IProps, ref: any) => {
-  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
+  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { filterObj: propsFilter, issueType, viewType, onChosenIssue } = props;
   const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { getAllIssues, updateIssue } = issueStore.effects;
@@ -357,7 +357,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
       dataIndex: 'planFinishedAt',
       key: 'planFinishedAt',
       render: (val: string, record: ISSUE.Issue) => {
-        const curStateBelong = get(find(totalWorkflowStateList, { stateID: record.state }), 'stateBelong');
+        const curStateBelong = get(find(workflowStateList, { stateID: record.state }), 'stateBelong');
         // 当前未完成且时间临近或逾期，则提示
         const timeTip = endTimeTip(val, !unFinishState.includes(curStateBelong));
         return val ? timeTip : '-';

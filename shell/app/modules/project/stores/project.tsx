@@ -86,7 +86,7 @@ const project = createStore({
       if (isIn('project')) {
         if (`${curProjectId}` !== projectId) {
           loadingInProject = true;
-          issueWorkflowStore.getStatesByIssue({ issueType: '', projectID: +projectId });
+          issueWorkflowStore.getStatesByIssue({ projectID: +projectId });
           // 项目切换后才重新checkRouteAuth
           project.reducers.updateCurProjectId(projectId);
           breadcrumbStore.reducers.setInfo('projectName', '');
