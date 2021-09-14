@@ -1935,6 +1935,7 @@
     "you have new site message, please pay attention to check": "you have new site message, please pay attention to check",
     "{action} successfully": "{action} successfully",
     "{min} ~ {max} digits": "{min} ~ {max} digits",
+    "{label} can not be empty": "{label} can not be empty",
     "{name} already exists": "{name} already exists",
     "{name} can not empty": "{name} can not empty",
     "{name} format": "{name} format",

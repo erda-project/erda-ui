@@ -112,7 +112,7 @@ export const Fields: React.MemoExoticComponent<
               } = item;
               const afterAddRequiredRules =
                 required && !some(rules, (rule) => has(rule, 'required'))
-                  ? [{ required: true, message: `${label}${i18n.t('can not be empty')}` }, ...rules]
+                  ? [{ required: true, message: i18n.t('{label} can not be empty', { label }) }, ...rules]
                   : rules;
               const isRealReadOnly =
                 (itemReadonly !== undefined
