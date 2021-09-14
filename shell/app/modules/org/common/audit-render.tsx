@@ -27,7 +27,7 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
   const templates = { ...auditTemplates, ...extraTemplates };
   const { templateName, scopeType, appId, projectId, context, result } = record;
   // 后端把pipelineID改为了pipelineId，兼容下
-  const fullContext = { ...context, projectId, appId, env: 'test', pipelineID: context.pipelineId, scopeType } as Obj;
+  const fullContext = { ...context, projectId, appId, env: 'test', pipelineID: context?.pipelineId, scopeType } as Obj;
   // excel中使用如下格式，链接参数需要在context同级或子级存在，前端定一个map，用urlKey对应到url链接，链接参数单独放一列
   // [@动态文字](urlKey) 或 [静态文字](urlKey) 或 [@动态文字]，示例：
   // 执行[流水线](pipeline) -> 执行[流水线](./project/{projectId}/app/{appId}/pipeline/{pipelineID})
