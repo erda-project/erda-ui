@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu } from './index';
+import { Dropdown, Menu, Divider } from './index';
 import { Table } from 'antd';
 import i18n from 'i18n';
 import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
@@ -99,7 +99,7 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<Col
         render: (_: any, record: T) => {
           const list = render(record);
 
-          const menu = (
+          const menu = (limitNum || limitNum === 0) && (
             <Menu>
               {list.slice(limitNum).map((item) => (
                 <Menu.Item key={item.title} onClick={item.onClick}>
@@ -111,14 +111,19 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<Col
 
           return (
             <span className="operate-list">
-              {list.slice(0, limitNum).map((item) => (
-                <span className="fake-link mr-1 align-middle" key={item.title} onClick={item.onClick}>
-                  {item.title}
-                </span>
+              {list.slice(0, limitNum).map((item, index: number) => (
+                <>
+                  {index !== 0 && <Divider type="vertical" />}
+                  <span className="fake-link mr-1 align-middle" key={item.title} onClick={item.onClick}>
+                    {item.title}
+                  </span>
+                </>
               ))}
-              <Dropdown overlay={menu} align={{ offset: [0, 5] }}>
-                <Icon />
-              </Dropdown>
+              {menu && (
+                <Dropdown overlay={menu} align={{ offset: [0, 5] }}>
+                  <Icon />
+                </Dropdown>
+              )}
             </span>
           );
         },
