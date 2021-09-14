@@ -24,7 +24,7 @@ import init from '../lib/init';
 import i18n from '../lib/i18n';
 import generateService from '../lib/service-generator';
 import checkCliVersion from '../lib/check-cli-version';
-import comparisonBuild from '../lib/comparison-build';
+import checkBuildStatus from '../lib/check-build-status';
 
 const program = new Command();
 
@@ -119,15 +119,14 @@ program
   });
 
 program
-  .command('comparison-build')
+  .command('check-build-status')
   .description(
-    'bundle all erda ui modules to public directory, compare git commit sha with previous build, if match it will skip build and reuse last built files. Only used in pipeline build',
+    'compare git commit sha with previous build, if match it will skip build and reuse last built files. Only used in pipeline build',
   )
   .option('-s, --skip', 'skip the cli version check')
-  .option('-m, --module', 'module name to build')
   .action(async (options) => {
     await checkCliVersion(options);
-    comparisonBuild(options);
+    checkBuildStatus();
   });
 
 program.parse(process.argv);
