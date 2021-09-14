@@ -24,22 +24,13 @@ import init from '../lib/init';
 import i18n from '../lib/i18n';
 import generateService from '../lib/service-generator';
 import checkCliVersion from '../lib/check-cli-version';
+import comparisonBuild from '../lib/comparison-build';
 
 const program = new Command();
 
 inquirer.registerPrompt('directory', require('inquirer-select-directory'));
 
 program.version(`erda-ui/cli ${require('../../package').version}`).usage('<command> [options]');
-
-// program
-//   .command('setup [env]')
-//   .description('run setup commands for all envs')
-//   .option('-s, --setup_mode <mode>', 'Which setup mode to use', 'normal')
-//   .action((env, options) => {
-//     env = env || 'all';
-//     console.log('read config from %s', program.opts().config);
-//     console.log('setup for %s env(s) with %s mode', env, options.setup_mode);
-//   });
 
 program
   .command('init')
@@ -125,6 +116,18 @@ program
   .action(async (options) => {
     await checkCliVersion(options);
     launcher();
+  });
+
+program
+  .command('comparison-build')
+  .description(
+    'bundle all erda ui modules to public directory, compare git commit sha with previous build, if match it will skip build and reuse last built files. Only used in pipeline build',
+  )
+  .option('-s, --skip', 'skip the cli version check')
+  .option('-m, --module', 'module name to build')
+  .action(async (options) => {
+    await checkCliVersion(options);
+    comparisonBuild(options);
   });
 
 program.parse(process.argv);

@@ -41,9 +41,9 @@ export const Filter = (props: CP_FILTER.Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
-  const onChange = (value: Obj) => {
-    execOperation(operations?.filter, { values: value, conditions: conditionsRef.current });
-    customProps?.onFilterChange && customProps.onFilterChange(value);
+  const onChange = (value: Obj, changedKey?: string) => {
+    execOperation(operations?.filter, { values: value, conditions: conditionsRef.current, changedKey });
+    customProps?.onFilterChange && customProps.onFilterChange(value, changedKey);
   };
 
   const onQuickOperation = ({ key, value }: { key: string; value: any }) => {

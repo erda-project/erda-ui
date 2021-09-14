@@ -31,6 +31,7 @@ import ApiResource from './api-resource/resource';
 import Title from './title/title';
 import { SortDragGroupList } from './sort-drag-group/sort-drag-group';
 import Panel from './panel/panel';
+import Tags from './tags/tags';
 import Popover from './popover/popover';
 import EditList from './edit-list/edit-list';
 import Breadcrumb from './breadcrumb/breadcrumb';
@@ -50,6 +51,7 @@ import DropdownSelect from './dropdown-select/dropdown-select';
 import TableGroup from './table-group/table-group';
 import TextGroup from './text-group/text-group';
 import Chart from './chart/chart';
+import ChartDashboard from './chart-dashboard/chart-dashboard';
 import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
@@ -89,6 +91,7 @@ export const containerMap = {
   InputSelect,
   List,
   Text,
+  Tags,
   Icon,
   EmptyHolder,
   Image,
@@ -97,6 +100,7 @@ export const containerMap = {
   TextGroup,
   LinearDistribution,
   Chart,
+  ChartDashboard,
   TiledFilter,
   FileEditor,
 };

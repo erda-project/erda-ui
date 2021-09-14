@@ -28,7 +28,7 @@ import './cluster-detail.scss';
 const ClusterDetail = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const { clusterName } = params;
-  const clusterDetail = clusterStore.useState((s) => s.detail);
+  const clusterDetail = clusterStore.useStore((s) => s.detail);
   const { getClusterNewDetail } = clusterStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterNewDetail']);
   const [detail, setDetail] = React.useState({} as any);

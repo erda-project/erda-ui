@@ -22,6 +22,7 @@ import routeInfoStore from 'core/stores/route';
 import { getUserMap } from 'core/stores/userMap';
 import userStore from './index';
 import { permPrefix, permState } from './_perm-state';
+import { pickRandomlyFromArray } from 'common/utils';
 
 const rolesMap = {
   app: appRoleMap,
@@ -126,7 +127,7 @@ const permission = createStore({
         permission.reducers.clearScopePerm(realScope);
         const userMap = getUserMap();
         userStore.reducers.setNoAuth(
-          map(contactsWhenNoPermission || [], (id) => {
+          map((contactsWhenNoPermission && pickRandomlyFromArray(contactsWhenNoPermission, 6)) || [], (id) => {
             const match = userMap[id] || {};
             return `${match.nick || match.name} (${match.phone || match.email})`;
           }).join(', '),

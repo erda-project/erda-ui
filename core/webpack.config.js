@@ -20,6 +20,7 @@ const { getLessTheme, getScssTheme, themeColor } = require('./src/config/theme')
 const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 // const smp = new SpeedMeasurePlugin();
@@ -130,6 +131,7 @@ module.exports = () => {
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       }),
       new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /(zh-cn)\.js/),
+      new CleanWebpackPlugin(),
       new ModuleFederationPlugin({
         name: 'mf_core',
         exposes: {

@@ -11,22 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Controller, Get, Req, Res } from '@nestjs/common';
-import { Response, Request } from 'express';
-import path from 'path';
-import { getEnv } from '../util';
+import React from 'react';
+import { isEmpty } from 'lodash';
+import { PureBoardGrid, Holder } from 'common';
 
-const { publicDir, staticDir } = getEnv();
+const DashBoard = React.memo(PureBoardGrid);
 
-@Controller('uc')
-export class UCController {
-  @Get('*')
-  handleUC(@Req() req: Request, @Res() res: Response) {
-    const extension = path.extname(req.path);
-    if (!extension) {
-      res.sendFile(path.join(staticDir, 'uc', 'index.html'));
-    } else {
-      res.sendFile(path.join(publicDir, req.path));
-    }
-  }
-}
+const ChartDashboard = (props: CP_CHART_DASHBOARD.Props) => {
+  const { props: configProps, state } = props;
+  const { layout } = configProps || {};
+  return (
+    <Holder when={isEmpty(layout)}>
+      <DashBoard layout={layout} globalVariable={state?.globalVariable} />
+    </Holder>
+  );
+};
+
+export default ChartDashboard;

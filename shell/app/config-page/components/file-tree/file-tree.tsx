@@ -17,7 +17,7 @@ import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual 
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { WithAuth } from 'user/common';
-import { TreeNodeNormal, AntTreeNodeDropEvent } from 'core/common/interface';
+import { TreeNodeNormal, AntTreeNodeProps } from 'core/common/interface';
 import i18n from 'i18n';
 import './file-tree.scss';
 
@@ -305,20 +305,36 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     updater.searchKey(e.target.value);
   };
 
-  const onDrop = (info: AntTreeNodeDropEvent) => {
-    const { dragNode, node: dropNode, dropPosition, dropToGap } = info;
-    const _dragNode = dragNode.props.dataRef;
-    const _dropNode = dropNode.props.dataRef;
+  const onDrop = (info: {
+    dragNode: AntTreeNodeProps;
+    dropPosition: number;
+    dropToGap: boolean;
+    node: AntTreeNodeProps;
+  }) => {
+    const { dragNode, dropPosition, dropToGap } = info;
+    let { node: dropNode } = info;
     // 落在自己、或落在叶子节点上无效
-    if (_dragNode.key === _dropNode.key || (_dropNode.isLeaf && !dropToGap)) return;
+    if (dragNode.key === dropNode.key || (dropNode.isLeaf && !dropToGap)) return;
     if (operations?.drag) {
-      const position = _dropNode.__position === dropPosition ? 0 : _dropNode.__position > dropPosition ? -1 : 1;
+      let position = dropNode.__position === dropPosition ? 0 : dropNode.__position > dropPosition ? -1 : 1;
+
+      // 落在展开且有子节点的枝干节点的首个位置时
+      if (!dropToGap && dropNode.children && dropNode.children.length !== 0) {
+        // 当自己就是该枝干节点的首个位置时不做操作
+        if (dropNode.children[0].key === dragNode.key) {
+          return;
+        }
+
+        dropNode = dropNode.children[0];
+        position = -1;
+      }
+
       execOperation(operations?.drag, {
         dragParams: {
-          dragKey: _dragNode.key,
-          dragType: _dragNode.type,
-          dropType: _dropNode.type,
-          dropKey: _dropNode.key,
+          dragKey: dragNode.key,
+          dragType: dragNode.type,
+          dropType: dropNode.type,
+          dropKey: dropNode.key,
           position,
         },
       });

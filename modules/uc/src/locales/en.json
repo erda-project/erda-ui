@@ -17,6 +17,7 @@
     "new password": "new password",
     "nick name": "nick name",
     "password": "password",
+    "password-tip": "No less than 8 digits containing uppercase letters, lowercase letters, and symbols",
     "Please enter the correct {name}": "Please enter the correct {name}",
     "registered successfully": "registered successfully",
     "Reset password": "Reset password",

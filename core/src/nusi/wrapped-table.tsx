@@ -12,8 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Dropdown, Menu } from './index';
 import { Table } from 'antd';
+import i18n from 'i18n';
 import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
+
+import './wrapped-table.scss';
 
 const { Column, ColumnGroup, Summary } = Table;
 export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
@@ -32,28 +36,110 @@ export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
    *
    * All width should be at least larger than the Title in English
    */
-  width?: 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
+  width?: IWidth;
 }
+
+type IWidth = 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
 
 interface IProps<T extends object = any> extends TableProps<T> {
   columns: Array<ColumnProps<T>>;
+  actions?: IActions<T>;
 }
 
-function WrappedTable<T extends object = any>({ columns, rowClassName, ...props }: IProps<T>) {
+export interface IActions<T> {
+  width: IWidth;
+  /**
+   * (record: T) => IAction[]
+   *
+   * interface IAction {
+   *   title: string;
+   *   onClick: () => void;
+   * }
+   */
+  render: (record: T) => IAction[];
+  /**
+   * Limit the number of displays
+   */
+  limitNum?: number;
+}
+
+interface IAction {
+  title: string;
+  onClick: () => void;
+}
+
+function WrappedTable<T extends object = any>({ columns, rowClassName, actions, ...props }: IProps<T>) {
   const newColumns = columns?.map(({ ...args }: ColumnProps<T>) => ({
     ellipsis: true,
     ...args,
   }));
+
   return (
     <Table
+      className="wrapped-table"
       scroll={{ x: '100%' }}
-      columns={newColumns}
+      columns={[...newColumns, ...renderActions(actions)]}
       rowClassName={props.onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
       size="small"
       {...props}
     />
   );
 }
+
+function renderActions<T extends object = any>(actions?: IActions<T>): Array<ColumnProps<T>> {
+  if (actions) {
+    const { width, render, limitNum } = actions;
+    return [
+      {
+        title: i18n.t('common:operation'),
+        width,
+        dataIndex: 'operation',
+        ellipsis: true,
+        fixed: 'right',
+        render: (_: any, record: T) => {
+          const list = render(record);
+
+          const menu = (
+            <Menu>
+              {list.slice(limitNum).map((item) => (
+                <Menu.Item key={item.title} onClick={item.onClick}>
+                  <span className="fake-link mr-1">{item.title}</span>
+                </Menu.Item>
+              ))}
+            </Menu>
+          );
+
+          return (
+            <span className="operate-list">
+              {list.slice(0, limitNum).map((item) => (
+                <span className="fake-link mr-1 align-middle" key={item.title} onClick={item.onClick}>
+                  {item.title}
+                </span>
+              ))}
+              <Dropdown overlay={menu} align={{ offset: [0, 5] }}>
+                <Icon />
+              </Dropdown>
+            </span>
+          );
+        },
+      },
+    ];
+  } else {
+    return [];
+  }
+}
+
+const Icon = ({ className, ...rest }: { className?: string }) => {
+  return (
+    // @ts-ignore iconpark component
+    <iconpark-icon
+      name={'more'}
+      fill={'#106,84,158'}
+      class={`cursor-pointer align-middle table-more-ops ${className || ''}`}
+      {...rest}
+    />
+  );
+};
 
 WrappedTable.Column = Column;
 WrappedTable.ColumnGroup = ColumnGroup;

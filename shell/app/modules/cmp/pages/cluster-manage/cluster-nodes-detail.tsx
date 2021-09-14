@@ -14,41 +14,45 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { TimeSelector, MonitorChart } from 'common';
-import { Row, Col } from 'core/nusi';
+import { PureBoardGrid, Holder, useUpdate, TimeSelector } from 'common';
+import { Spin } from 'core/nusi';
+import { isEmpty } from 'lodash';
+import CommonDashboardStore from 'common/stores/dashboard';
+import { useLoading } from 'core/stores/loading';
+import DC from '@erda-ui/dashboard-configurator/dist';
+import monitorCommonStore from 'common/stores/monitorCommon';
+import { useMount } from 'react-use';
 import i18n from 'i18n';
 
-const nodeDetailChartObj = ({ clusterName, nodeId }: { clusterName: string; nodeId: string }) => ({
-  cpu: {
-    resourceType: 'nodeDetailCpu',
-    resourceId: 'cpu',
-    chartQuery: {
-      customAPIPrefix: '/api/apim/metrics/',
-      fetchMetricKey: 'machine_cpu',
-      filter_hostname: nodeId,
-      filter_cluster_name: clusterName,
-      avg: ['cpu_usage_active'],
-    },
-  },
-  mem: {
-    resourceType: 'nodeDetailMem',
-    resourceId: 'mem',
-    chartQuery: {
-      customAPIPrefix: '/api/apim/metrics/',
-      filter_hostname: nodeId,
-      filter_cluster_name: clusterName,
-      fetchMetricKey: 'machine_mem',
-      avg: ['mem_used_percent'],
-    },
-  },
-});
+const DashBoard = React.memo(PureBoardGrid);
 
-const ClusterNodes = () => {
-  const { clusterName, nodeId } = routeInfoStore.useStore((s) => s.params);
+interface IState {
+  chartLayout: DC.Layout;
+}
 
+const ClusterNodeDetail = () => {
+  const [{ clusterName, nodeId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const { nodeIP } = query || {};
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const globalVariable = {
+    startTime: timeSpan.startTimeMs,
+    endTime: timeSpan.endTimeMs,
+    nodeIP,
+    clusterName,
+  };
+
+  const [chartLoading] = useLoading(CommonDashboardStore, ['getCustomDashboard']);
+
+  const [{ chartLayout }, updater, update] = useUpdate<IState>({
+    chartLayout: [],
+  });
+
+  useMount(() => {
+    CommonDashboardStore.getCustomDashboard({ id: 'cmp-dashboard-nodeDetail', isSystem: true }).then((res) =>
+      updater.chartLayout(res),
+    );
+  });
   const inParams = { clusterName, nodeId };
-
-  const queryObj = nodeDetailChartObj({ clusterName, nodeId });
 
   return (
     <div>
@@ -59,19 +63,15 @@ const ClusterNodes = () => {
           inParams={inParams}
         />
       </div>
-      <div className="-mt-8">
-        <TimeSelector defaultTime={1} className="mb-8" />
-        <Row gutter={20}>
-          <Col span={12}>
-            <MonitorChart title={i18n.t('cmp:cpu usage rate')} {...queryObj.cpu} />
-          </Col>
-          <Col span={12}>
-            <MonitorChart title={i18n.t('cmp:memory usage rate')} {...queryObj.mem} />
-          </Col>
-        </Row>
-      </div>
+      <Spin spinning={chartLoading} wrapperClassName="-mt-8">
+        <div className="text-xl font-medium mb-4">{i18n.t('cmp:resource monitor')}</div>
+        <TimeSelector className="mb-4" />
+        <Holder when={isEmpty(chartLayout)}>
+          <DashBoard layout={chartLayout} globalVariable={globalVariable} />
+        </Holder>
+      </Spin>
     </div>
   );
 };
 
-export default ClusterNodes;
+export default ClusterNodeDetail;

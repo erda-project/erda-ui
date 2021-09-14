@@ -13,6 +13,7 @@
 
 const path = require('path');
 const CracoAntDesignPlugin = require('craco-antd');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 const themeColor = '#6A549E';
@@ -27,6 +28,7 @@ module.exports = {
         path: outputPath,
         publicPath: '/static/market/',
       };
+      webpackConfig.plugins = [...webpackConfig.plugins, new CleanWebpackPlugin()];
       return webpackConfig;
     },
     module: {

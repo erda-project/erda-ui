@@ -13,8 +13,9 @@ services:
     envs:
       TA_ENABLE: "true"
       ENABLE_BIGDATA: "false"
+      ENABLE_EDGE: "false"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
-      KRATOS_ADDR: "kratos:4433"
+      KRATOS_ADDR: "kratos:4434"
       KRATOS_PRIVATE_ADDR: "kratos:4434"
       OPENAPI_ADDR: "openapi:9529"
       GITTAR_ADDR: "gittar:5566"

@@ -5,3 +5,4 @@ packages:
   - scheduler
   - cli
   - modules/market
+  - modules/uc
