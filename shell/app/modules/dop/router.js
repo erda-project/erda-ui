@@ -179,6 +179,7 @@ export default function getDopRouter() {
           path: 'mock',
           pageName: '动态界面测试',
           // layout: { showSubSidebar: false, fullHeight: true },
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('app/config-page/mock')),
         },
         // UI_ENV exist and not PROD, then open the debug page
