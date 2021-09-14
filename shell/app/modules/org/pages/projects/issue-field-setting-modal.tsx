@@ -70,18 +70,20 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
 
   const changePos = React.useCallback(
     async (index: number, direction: number) => {
-      const tempList = produce(fieldList, (draft) => {
-        if (direction < 0) {
-          draft[index - 1].index = index;
-          draft[index].index = index - 1;
-        } else {
-          draft[index].index = index + 1;
-          draft[index + 1].index = index;
-        }
-      });
+      if (fieldList.length > 1) {
+        const tempList = produce(fieldList, (draft) => {
+          if (direction < 0 && index > 0) {
+            draft[index - 1].index = index;
+            draft[index].index = index - 1;
+          } else {
+            draft[index].index = index + 1;
+            draft[index + 1].index = index;
+          }
+        });
 
-      await batchUpdateFieldsOrder(tempList);
-      getFieldsByIssue({ propertyIssueType: issueType, orgID });
+        await batchUpdateFieldsOrder(tempList);
+        getFieldsByIssue({ propertyIssueType: issueType, orgID });
+      }
     },
     [batchUpdateFieldsOrder, fieldList, getFieldsByIssue, issueType, orgID],
   );
@@ -114,6 +116,8 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
   const renderCustomFields = React.useCallback(
     () =>
       map(fieldList, ({ propertyName, propertyID, propertyType, displayName }, index) => {
+        const isFirst = index === 0;
+        const isLast = index === fieldList.length - 1;
         return (
           <div className="panel" key={propertyName}>
             <div className="common-list-item">
@@ -132,16 +136,14 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                       <span className="table-operations-btn">{i18n.t('common:remove')}</span>
                     </Popconfirm>
                     <span
-                      className={index === 0 ? 'disabled table-operations-btn' : 'table-operations-btn'}
-                      onClick={() => changePos(index, -1)}
+                      className={`table-operations-btn ${isFirst ? 'disabled' : ''}`}
+                      onClick={() => !isFirst && changePos(index, -1)}
                     >
                       {i18n.t('move up')}
                     </span>
                     <span
-                      className={
-                        index === fieldList.length - 1 ? 'disabled table-operations-btn' : 'table-operations-btn'
-                      }
-                      onClick={() => changePos(index, 1)}
+                      className={`table-operations-btn ${isLast ? 'disabled' : ''}`}
+                      onClick={() => !isLast && changePos(index, 1)}
                     >
                       {i18n.t('move down')}
                     </span>
@@ -198,11 +200,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                 })}
               </Select>
               <div>
-                <Button
-                  type="primary"
-                  className={`${isEmpty(selectedField) ? 'disabled' : ''} mr-2`}
-                  onClick={onAddField}
-                >
+                <Button type="primary" disabled={isEmpty(selectedField)} className="mr-2" onClick={onAddField}>
                   {i18n.t('project:reference')}
                 </Button>
               </div>
