@@ -68,8 +68,6 @@ const initState: IState = {
   },
 };
 
-const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
-
 const layout = createStore({
   name: 'layout',
   state: initState,
@@ -106,8 +104,8 @@ const layout = createStore({
         switchToApp('ecp');
       } else if (isIn('apiManage')) {
         switchToApp('apiManage');
-      } else if (isIn(`${dataEngineerInfo.name}`)) {
-        switchToApp(`${dataEngineerInfo.name}`);
+      } else if (isIn('fdp')) {
+        switchToApp('fdp');
       }
 
       if (

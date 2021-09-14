@@ -40,7 +40,6 @@ const resolve = (pathname) => path.resolve(__dirname, pathname);
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isOnline = process.env.DICE_WORKSPACE; // 线上才有的环境变量
-  const isPipeline = process.env.isOnline;
   const isProd = nodeEnv === 'production';
   const cpuNum = isProd && isOnline ? 1 : os.cpus().length;
 
@@ -49,27 +48,6 @@ module.exports = () => {
   const scssVariables = getScssTheme(false);
 
   const targetConfig = require(`./webpack.${nodeEnv}.js`);
-  let dataEngineerInfo = {};
-
-  if (isProd && isPipeline) {
-    dataEngineerInfo = JSON.parse(process.env.dataEngineerInfo);
-  } else {
-    const modulePath = path.resolve(__dirname, '../../erda-ui-enterprise');
-    const children = fs.readdirSync(modulePath, { withFileTypes: true });
-    for (let i = 0; i < children.length; i++) {
-      const child = children[i];
-      if (child.isDirectory()) {
-        const configPath = path.resolve(modulePath, child.name, 'erda-build-config.js');
-        if (fs.existsSync(configPath)) {
-          const moduleConfig = require(configPath);
-          if (moduleConfig.role === 'DataEngineer') {
-            dataEngineerInfo = moduleConfig;
-            break;
-          }
-        }
-      }
-    }
-  }
 
   const commonConfig = {
     parallelism: cpuNum,
@@ -254,7 +232,6 @@ module.exports = () => {
         'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),
         'process.env.DICE_VER': JSON.stringify(pkg.version),
         'process.env.mainVersion': JSON.stringify(mainVersion),
-        'process.env.dataEngineerInfo': JSON.stringify(dataEngineerInfo),
       }),
       ...mfConfigs.map((mfConfig) => new ModuleFederationPlugin(mfConfig)),
     ],
