@@ -21,12 +21,6 @@ import { IFieldType } from './fields';
 
 /**
  * FormBuilder is a Form container.
- *
- * isMultiColumn: whether to use multiple column or not
- * columnNum: amount of column, only become effective when isMultiColumn is true
- * readonly: whether all the Form.Item in Form is readonly, default false.
- * else: the same as antd Form
- *
  * */
 export interface IContextType {
   realColumnNum?: number;
@@ -47,6 +41,12 @@ interface IPureProps<T> extends IProps {
 }
 
 interface IProps extends FormProps {
+  /**
+   * isMultiColumn: whether to use multiple column or not
+   * columnNum: amount of column, only become effective when isMultiColumn is true
+   * readonly: whether all the Form.Item in Form is readonly, default false.
+   * else: the same as antd Form
+   */
   children: React.ReactNode;
   isMultiColumn?: boolean;
   columnNum?: number;
