@@ -111,7 +111,7 @@ export default () => {
   const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
   const { getTraceCount, getTraceSummary } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
-
+  const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const [detailVisible, openDetail, closeDetail] = useSwitch(false);
   const [{ traceId, filter, defaultQuery, query }, updater, update] = useUpdate<IState>({
     filter: [],
@@ -206,7 +206,7 @@ export default () => {
   const handleCheckTraceDetail = (e: any, id: string) => {
     e.stopPropagation();
     updater.traceId(id as any);
-    goTo(goTo.pages.microTraceDetail, { jumpOut: true });
+    setIsShowTraceDetail(true);
     openDetail();
   };
 
@@ -268,10 +268,7 @@ export default () => {
       fixed: 'right',
       render: (_: any, record: RecordType) => (
         <div className="table-operations">
-          <span
-            onClick={() => goTo(goTo.pages.microTraceDetail, { traceId: record.id, jumpOut: true })}
-            className="table-operations-btn"
-          >
+          <span onClick={(e) => handleCheckTraceDetail(e, record.id)} className="table-operations-btn">
             {i18n.t('check detail')}
           </span>
         </div>
@@ -293,15 +290,7 @@ export default () => {
         <PureBoardGrid layout={layout} />
       </div>
       <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
-      <Drawer
-        title={i18n.t('msp:link information')}
-        visible={detailVisible}
-        onClose={closeDetail}
-        width="50%"
-        destroyOnClose
-      >
-        <TraceSearchDetail traceId={traceId} />
-      </Drawer>
+      <TraceSearchDetail traceId={traceId} />
     </>
   );
 };

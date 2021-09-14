@@ -62,7 +62,7 @@ interface ITimeRangeProps {
   format?: string;
   value?: ITimeRange;
 
-  onChange(data: ITimeRange): void;
+  onChange: (data: ITimeRange) => void;
 }
 
 export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
@@ -216,9 +216,9 @@ export interface IProps {
   refreshDuration?: string;
   format?: string;
 
-  onRefreshStrategyChange?(strategy: string): void;
+  onRefreshStrategyChange?: (strategy: string) => void;
 
-  onChange?(data: ITimeRange, range: Moment[]): void;
+  onChange?: (data: ITimeRange, range: Moment[]) => void;
 }
 
 const TimeSelect = (props: IProps) => {
@@ -260,6 +260,12 @@ const TimeSelect = (props: IProps) => {
     };
   }, [refreshDuration]);
 
+  React.useEffect(() => {
+    if (props?.value) {
+      updater.text(transformRange(props.value, format).dateStr);
+    }
+  }, [props.value]);
+
   /**
    * @description open auto refresh
    */
@@ -293,7 +299,7 @@ const TimeSelect = (props: IProps) => {
       visible: false,
     };
     payload.current = data;
-    if (!('value' in (props?.value ?? {}))) {
+    if (!('value' in props)) {
       newState.data = data;
     }
     update(newState);

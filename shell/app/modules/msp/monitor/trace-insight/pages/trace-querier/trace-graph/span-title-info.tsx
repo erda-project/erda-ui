@@ -12,20 +12,22 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'core/nusi';
-import { TraceGraph } from './trace-graph';
 
 interface IProps {
-  isTraceDetailContentFetching: boolean;
-  traceDetailContent: MONITOR_TRACE.ITrace;
+  operationName: string;
+  spanKind: string;
+  component: string;
+  serviceName: string;
 }
 
-export default function NewTraceDetail(props: IProps) {
-  const { isTraceDetailContentFetching, traceDetailContent } = props;
+export function SpanTitleInfo(props: IProps) {
+  const { operationName, spanKind, component, serviceName } = props;
 
   return (
-    <Spin spinning={isTraceDetailContentFetching}>
-      <TraceGraph dataSource={traceDetailContent} />
-    </Spin>
+    <div>
+      <div>{serviceName}</div>
+      <div>{operationName}</div>
+      <div>{`${spanKind} - ${component}`}</div>
+    </div>
   );
 }

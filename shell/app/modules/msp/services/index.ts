@@ -65,3 +65,16 @@ export const getDashboard = ({
 }): Promise<{ success: boolean; data: MS_INDEX.IChartMetaData }> => {
   return agent.get(`/api/dashboard/system/blocks/${type}`).then((response: any) => response.body);
 };
+
+export const getSpanAnalysis = (payload: {
+  type: string;
+  tenantId: string;
+  serviceInstanceId: string;
+  startTime: number;
+  endTime: number;
+}) => {
+  return agent
+    .get('/api/msp/apm/trace/span-analysis')
+    .query(payload)
+    .then((response: any) => response.body);
+};

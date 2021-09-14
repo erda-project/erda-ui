@@ -65,6 +65,7 @@ module.exports = {
         'log-font': '#c2c1d0',
         'log-bg': '#3c444f',
         'light-active': '#6a549e0f', // rgba($primary, .06)
+        'light-border': 'rgba(222,222,222,0.5)',
       },
       flex: {
         2: '2 2 0%',
