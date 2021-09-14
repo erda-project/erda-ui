@@ -19,6 +19,7 @@ import traceStore from '../../../../stores/trace';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'app/common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
+import { useUnmount } from 'react-use';
 import i18n from 'i18n';
 import './trace-search-detail.scss';
 import { goTo } from 'app/common/utils';
@@ -33,6 +34,7 @@ export default ({ traceId }: { traceId?: string }) => {
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
   const id = traceId || _traceId;
+
   React.useEffect(() => {
     if (_traceId) {
       setIsShowTraceDetail(true);
@@ -43,6 +45,10 @@ export default ({ traceId }: { traceId?: string }) => {
       });
     }
   }, [getTraceDetailContent, id, updater]);
+
+  useUnmount(() => {
+    setIsShowTraceDetail(false);
+  });
 
   if (!isShowTraceDetail) {
     return null;

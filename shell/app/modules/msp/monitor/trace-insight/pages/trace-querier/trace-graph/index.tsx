@@ -21,7 +21,7 @@ import './index.scss';
 import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
-import { customMap, ITimeRange } from 'common/components/time-select/common';
+import { customMap, ITimeRange, translateRelativeTime } from 'common/components/time-select/common';
 import { listToTree } from './utils';
 import { SpanTitleInfo } from './span-title-info';
 import { TraceDetailInfo } from './trace-detail-info';
@@ -47,7 +47,7 @@ export function TraceGraph(props: IProps) {
   const { roots, min, max } = listToTree(dataSource?.spans);
   const [tags, setTags] = React.useState(null! as MONITOR_TRACE.ITag);
   const [spanStartTime, setSpanStartTime] = React.useState(null! as number);
-  const [_timeRange, _setTimeRange] = React.useState([null!, null!] as number[]);
+  const [timeRange, setTimeRange] = React.useState([null!, null!] as number[]);
   const duration = max - min;
   const allKeys: string[] = [];
   const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
@@ -62,8 +62,8 @@ export function TraceGraph(props: IProps) {
       }
       const { success, data } = await getSpanAnalysis({
         type,
-        startTime: _timeRange[0],
-        endTime: _timeRange[1],
+        startTime: timeRange[0],
+        endTime: timeRange[1],
         serviceInstanceId: service_instance_id,
         tenantId: terminus_key,
       });
@@ -73,13 +73,13 @@ export function TraceGraph(props: IProps) {
     } finally {
       setLoading(false);
     }
-  }, [tags, _timeRange]);
+  }, [tags, timeRange]);
 
   React.useEffect(() => {
     if (tags) {
       getMetaData();
     }
-  }, [getMetaData, tags, _timeRange]);
+  }, [getMetaData, tags]);
 
   const traverseData = (data: MONITOR_TRACE.ITraceSpan[]) => {
     for (let i = 0; i < data.length; i++) {
@@ -116,7 +116,7 @@ export function TraceGraph(props: IProps) {
         end: moment(r2),
       },
     });
-    _setTimeRange([r1, r2]);
+    setTimeRange([r1, r2]);
     setTags(selectedTag);
     setSpanStartTime(startTime / 1000 / 1000);
     setProportion([14, 10]);
@@ -206,7 +206,7 @@ export function TraceGraph(props: IProps) {
                 <Tree
                   showLine={{ showLeafIcon: false }}
                   defaultExpandAll
-                  height={window.innerHeight * 0.7}
+                  height={window.innerHeight - 200}
                   // switcherIcon={<DownOutlined />}
                   // switcherIcon={<CustomIcon type="caret-down" />}
                   expandedKeys={expandedKeys}
@@ -233,15 +233,19 @@ export function TraceGraph(props: IProps) {
                   // defaultValue={globalTimeSelectSpan.data}
                   // className={className}
                   onChange={(data, range) => {
-                    setSelectedTimeRange(data);
-                    const { quick = '' } = data;
-                    let range1 = range?.[0]?.valueOf();
-                    let range2 = range?.[1]?.valueOf();
-                    if (customMap[quick]) {
-                      range1 = moment().subtract(customMap[quick], 'second').valueOf();
-                      range2 = Math.min(moment().add(customMap[quick], 'second').valueOf(), moment().valueOf());
+                    if (Object.keys(data)?.length !== 0) {
+                      setSelectedTimeRange(data);
                     }
-                    _setTimeRange([range1, range2]);
+                    const { quick = '' } = data;
+                    let range1 = range?.[0]?.valueOf() || selectedTimeRange?.customize?.start?.valueOf();
+                    let range2 = range?.[1]?.valueOf() || selectedTimeRange?.customize?.end?.valueOf();
+                    if (customMap[quick]) {
+                      const [unit, count] = quick.split(':');
+                      const [start, end] = translateRelativeTime(unit, Number(count));
+                      range1 = start?.valueOf();
+                      range2 = Math.min(end?.valueOf(), moment().valueOf());
+                    }
+                    setTimeRange([range1, range2]);
                   }}
                   value={selectedTimeRange}
                 />
@@ -253,7 +257,7 @@ export function TraceGraph(props: IProps) {
                   {/* 后端还未调通，先隐藏 */}
                   {/* <TabPane tab={i18n.t('msp:call analysis')} key={1}>
                     <ServiceListDashboard
-                      timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
+                      timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
                       dashboardId={callAnalysis?.dashboardId}
                       extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
                     />
@@ -262,7 +266,7 @@ export function TraceGraph(props: IProps) {
                     {!serviceAnalysis && <EmptyHolder relative />}
                     {serviceAnalysis && (
                       <ServiceListDashboard
-                        timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
+                        timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
                         dashboardId={serviceAnalysis?.dashboardId}
                         extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
                       />

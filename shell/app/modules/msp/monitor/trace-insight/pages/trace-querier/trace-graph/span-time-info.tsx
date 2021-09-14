@@ -24,17 +24,13 @@ export const SpanTimeInfo = ({ totalSpanTime, selfSpanTime }: IProps) => (
   <div className="flex justify-center">
     <div className="border-0 border-r border-solid border-grey flex flex-col items-center px-6 py-1">
       <div className="flex justify-center font-semibold ">
-        <span className="text-navy" style={{ fontSize: 16 }}>
-          {mkDurationStr(selfSpanTime / 1000)}
-        </span>
+        <span className="text-navy text-base">{mkDurationStr(selfSpanTime / 1000)}</span>
       </div>
       <div className="text-sm text-darkgray">{i18n.t('msp:current span time')}</div>
     </div>
     <div className="flex flex-col items-center px-6 py-1">
       <div className="flex justify-center font-semibold">
-        <span className="text-navy" style={{ fontSize: 16 }}>
-          {mkDurationStr(totalSpanTime / 1000)}
-        </span>
+        <span className="text-navy text-base">{mkDurationStr(totalSpanTime / 1000)}</span>
       </div>
       <div className="text-sm text-darkgray">{i18n.t('msp:total span time')}</div>
     </div>
