@@ -46,9 +46,10 @@ export const createPipelineAndRun = (query: AUTO_TEST.ICreateAndRunQuery) => {
 };
 
 export const getPipelineRecordList = (query: AUTO_TEST.IRunRecordQuery): IPagingResp<PIPELINE.IPipeline> => {
+  const { pageNo, ...rest } = query;
   return agent
     .get('/api/pipelines')
-    .query(query)
+    .query({ ...rest, pageNum: pageNo })
     .then((response: any) => response.body);
 };
 
