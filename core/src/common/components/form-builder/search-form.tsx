@@ -93,7 +93,7 @@ const SearchForm = ({ fields, actions, onReset, onSubmit, className }: IProps) =
   }, [fields]);
 
   return (
-    <FormBuilder isMultiColumn ref={searchFormRef} size="small" className={`${className} fdp-search-form`}>
+    <FormBuilder isMultiColumn ref={searchFormRef} size="small" className={`${className} erda-search-form`}>
       <Fields fields={realFields.concat(actionFields)} />
     </FormBuilder>
   );
