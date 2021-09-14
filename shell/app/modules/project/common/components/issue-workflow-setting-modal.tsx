@@ -133,7 +133,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
     <Modal
       title={i18n.t('edit {name}', { name: `${fName}${i18n.t('project:workflow')}` })}
       visible={visible}
-      width="800px"
+      width="1010px"
       onCancel={onCancel}
       destroyOnClose
       maskClosable={false}
@@ -220,7 +220,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
               </div>
             </div>
             <Divider className="my-2" orientation="left">
-              {i18n.t('project:set state')}
+              {i18n.t('project:state setting')}
             </Divider>
             <div className="flex justify-between items-center">
               <div className="form-content-left">

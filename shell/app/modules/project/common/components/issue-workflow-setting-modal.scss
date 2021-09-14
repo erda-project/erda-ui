@@ -2,10 +2,6 @@
   width: 100%;
   overflow: auto;
 
-  .w-120 {
-    width: 120px;
-  }
-
   .form-content {
     &-left {
       flex-basis: 120px;
@@ -21,47 +17,51 @@
 
   .state-option-btn {
     position: relative;
-    width: 92px;
-    margin: 0 $p4;
+    width: 110px;
+    padding: 0 4px;
     color: $primary;
-    line-height: 48px;
+    height: 42px;
+    line-height: 42px;
     text-align: center;
     background-color: $color-active-bg;
     border-radius: $radius;
 
     .state-delete-btn {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: -6px;
+      right: -6px;
+      margin: 0;
       padding: $p4;
       color: $primary;
-      font-size: $p8;
       text-decoration: none;
       opacity: 0;
       transition: opacity 0.15s;
-
       &:hover {
-        opacity: 1;
+        font-weight: bold;
       }
     }
 
     .state-move-btn {
-      padding: $p4;
       color: $primary;
       opacity: 0;
+      margin: 0;
       transition: opacity 0.15s;
-
       &:hover {
+        font-weight: bold;
+      }
+    }
+
+    &:hover {
+      .state-delete-btn,
+      .state-move-btn {
         opacity: 1;
       }
     }
   }
 
   .add-option-btn {
-    @extend .w-120;
-    height: 48px;
-    line-height: 48px;
-
+    height: 42px;
+    line-height: 42px;
     .ant-btn {
       width: 100%;
       height: 100%;
