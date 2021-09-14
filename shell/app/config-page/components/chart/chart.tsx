@@ -20,21 +20,24 @@ import './chart.scss';
 
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps } = props;
-  const { style = {}, option, ...rest } = configProps || {};
+  const { style = {}, title, option, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
   return (
     <div className="cp-chart" style={style}>
-      <EChart
-        key={cId}
-        option={{ color: reColor, ...optionRest }}
-        notMerge
-        theme="monitor"
-        themeObj={{ ...theme }}
-        {...rest}
-      />
+      {title ? <div className="mb-2 font-medium">{title}</div> : null}
+      <div className="cp-chart-container">
+        <EChart
+          key={cId}
+          option={{ color: reColor, ...optionRest }}
+          notMerge
+          theme="monitor"
+          themeObj={{ ...theme }}
+          {...rest}
+        />
+      </div>
     </div>
   );
 };

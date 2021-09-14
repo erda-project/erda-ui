@@ -88,6 +88,7 @@ function getCmpRouter() {
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
+                      layout: { noWrapper: true },
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes')),
                     },
                     {
@@ -104,6 +105,7 @@ function getCmpRouter() {
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
+                      layout: { noWrapper: true },
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pods')),
                     },
                     {
@@ -120,6 +122,7 @@ function getCmpRouter() {
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
+                      layout: { noWrapper: true },
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload')),
                     },
                     {
