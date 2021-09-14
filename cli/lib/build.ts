@@ -17,7 +17,7 @@ import path from 'path';
 import { promisify } from 'util';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
-import { getPublicDir, getModuleList, registryDir, checkIsRoot, getModules, ERDA_BUILD_CONFIG } from './util/env';
+import { getPublicDir, getModuleList, registryDir, checkIsRoot, getModules } from './util/env';
 import { exit } from 'process';
 import generateVersion from './gen-version';
 import localIcon from './local-icon';
