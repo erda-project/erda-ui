@@ -33,11 +33,11 @@ interface IProps {
 }
 
 const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps) => {
-  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
+  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
   const { deleteIssueState, getStatesByIssue, batchUpdateIssueState } = issueWorkflowStore;
   const { projectId: projectID } = routeInfoStore.useStore((s) => s.params);
   const [{ dataList, formVisible, isChanged }, updater, update] = useUpdate({
-    dataList: workflowStateList,
+    dataList: totalWorkflowStateList,
     formVisible: false,
     isChanged: false,
   });
@@ -45,10 +45,11 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
   const hasAuth = usePerm((s) => s.project.setting.customWorkflow.operation.pass);
 
   const getDataList = React.useCallback(() => {
-    getStatesByIssue({ projectID: +projectID, issueType });
-  }, [getStatesByIssue, issueType, projectID]);
+    getStatesByIssue({ projectID: +projectID });
+  }, [getStatesByIssue, projectID]);
 
   React.useEffect(() => {
+    const workflowStateList = totalWorkflowStateList.filter((item) => item.issueType === issueType);
     const tempList = map(workflowStateList, (item) => {
       return {
         ...item,
@@ -61,8 +62,8 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
         }),
       };
     });
-    update({ dataList: tempList, issueType });
-  }, [issueType, update, workflowStateList]);
+    update({ dataList: tempList });
+  }, [issueType, update, totalWorkflowStateList]);
 
   const onCancel = React.useCallback(() => {
     update({ dataList: [], isChanged: false, formVisible: false });

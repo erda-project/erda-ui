@@ -50,7 +50,7 @@ const IssueWorkflow = () => {
 
   const onEditHandle = React.useCallback(
     (type: ISSUE_TYPE) => {
-      getStatesByIssue({ projectID: +projectID, issueType: type }).then(() => {
+      getStatesByIssue({ projectID: +projectID }).then(() => {
         updater.modalVisible(true);
         updater.issueType(type);
       });

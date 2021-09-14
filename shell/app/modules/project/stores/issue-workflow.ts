@@ -24,13 +24,11 @@ import {
 
 interface IState {
   issueList: ISSUE_WORKFLOW.IIssueItem[];
-  workflowStateList: ISSUE_WORKFLOW.IIssueStateItem[];
   totalWorkflowStateList: ISSUE_WORKFLOW.IIssueStateItem[];
 }
 
 const initState: IState = {
   issueList: [],
-  workflowStateList: [],
   totalWorkflowStateList: [],
 };
 
@@ -44,12 +42,7 @@ const issueWorkflowStore = createFlatStore({
     },
     async getStatesByIssue({ call, update }, payload: ISSUE_WORKFLOW.IStateQuery) {
       const workflowStateList = await call(getStatesByIssue, payload);
-      if (!payload.issueType) {
-        update({ totalWorkflowStateList: workflowStateList });
-      } else {
-        update({ workflowStateList });
-      }
-
+      update({ totalWorkflowStateList: workflowStateList });
       return workflowStateList;
     },
     async batchUpdateIssueState({ call }, payload: ISSUE_WORKFLOW.IUpdateQuery) {
