@@ -250,14 +250,14 @@ export function TraceGraph(props: IProps) {
               <div className="px-3 trace-detail-chart">
                 <Tabs>
                   {/* 后端还未调通，先隐藏 */}
-                  {/* <TabPane tab={i18n.d('调用分析')} key={1}>
+                  {/* <TabPane tab={i18n.t('msp:call analysis')} key={1}>
                     <ServiceListDashboard
                       timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
                       dashboardId={callAnalysis?.dashboardId}
                       extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
                     />
                   </TabPane> */}
-                  <TabPane tab={i18n.d('关联服务')} key={2}>
+                  <TabPane tab={i18n.t('msp:associated services')} key={2}>
                     {serviceAnalysis && (
                       <ServiceListDashboard
                         timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}
@@ -266,7 +266,7 @@ export function TraceGraph(props: IProps) {
                       />
                     )}
                   </TabPane>
-                  <TabPane tab={i18n.d('属性')} key={3}>
+                  <TabPane tab={i18n.t('msp:attributes')} key={3}>
                     <KeyValueList data={tags} />
                   </TabPane>
                 </Tabs>
