@@ -14,7 +14,7 @@
 
 import React from 'react';
 import { Tree, Tooltip, Row, Col, Tabs, Ellipsis } from 'core/nusi';
-import { TimeSelect, KeyValueList, Icon as CustomIcon } from 'common';
+import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis } from 'msp/services';
 import './index.scss';
@@ -233,7 +233,7 @@ export function TraceGraph(props: IProps) {
                   // className={className}
                   onChange={(data, range) => {
                     setSelectedTimeRange(data);
-                    const { quick = 'minutes:15' } = data;
+                    const { quick = '' } = data;
                     let range1 = range?.[0]?.valueOf();
                     let range2 = range?.[1]?.valueOf();
                     if (customMap[quick]) {
@@ -258,6 +258,7 @@ export function TraceGraph(props: IProps) {
                     />
                   </TabPane> */}
                   <TabPane tab={i18n.t('msp:associated services')} key={2}>
+                    {!serviceAnalysis && <EmptyHolder relative />}
                     {serviceAnalysis && (
                       <ServiceListDashboard
                         timeSpan={{ startTimeMs: _timeRange[0], endTimeMs: _timeRange[1] }}

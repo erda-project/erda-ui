@@ -232,11 +232,7 @@ const TimeSelect = (props: IProps) => {
       customize: {},
       quick: undefined,
     },
-    text: props.defaultValue
-      ? transformRange(props.defaultValue, format).dateStr
-      : props.value
-      ? transformRange(props.value, format).dateStr
-      : '',
+    text: props.defaultValue ? transformRange(props.defaultValue, format).dateStr : '',
   });
   const timer = React.useRef();
   const payload = React.useRef<ITimeRange>(props.defaultValue || ({} as ITimeRange));
@@ -263,6 +259,12 @@ const TimeSelect = (props: IProps) => {
       closeAutoRefresh();
     };
   }, [refreshDuration]);
+
+  React.useEffect(() => {
+    if (props?.value) {
+      updater.text(transformRange(props.value, format).dateStr);
+    }
+  }, [props.value]);
 
   /**
    * @description open auto refresh
@@ -297,7 +299,7 @@ const TimeSelect = (props: IProps) => {
       visible: false,
     };
     payload.current = data;
-    if (!('value' in (props?.value ?? {}))) {
+    if (!('value' in props)) {
       newState.data = data;
     }
     update(newState);
