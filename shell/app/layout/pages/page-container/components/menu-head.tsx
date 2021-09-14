@@ -37,8 +37,6 @@ const defaultDetail = {
   logoClassName: '',
 };
 
-const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
-
 const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { detail = defaultDetail, getHeadName } = siderInfo || {};
   const { name, displayName, logo, logoClassName = '' } = detail;
@@ -59,7 +57,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
     case 'msp':
       sideIcon = <img className="big-icon" src={mspSvg} />;
       break;
-    case `${dataEngineerInfo.name}`:
+    case 'fdp':
       sideIcon = <img className="big-icon" src={dataSvg} />;
       break;
     case 'apiManage':

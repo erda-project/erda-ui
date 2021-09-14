@@ -16,8 +16,6 @@ import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 
-const { indexUrl, name } = (process.env.dataEngineerInfo || {}) as unknown as { indexUrl?: string; name?: string };
-
 export const appList: () => LAYOUT.IApp[] = () =>
   filterMenu(
     [
@@ -58,10 +56,10 @@ export const appList: () => LAYOUT.IApp[] = () =>
         href: goTo.resolve.apiManageRoot(),
       },
       {
-        key: `${name}`,
+        key: 'fdp',
         name: i18n.t('Fast data'),
         breadcrumbName: i18n.t('Fast data'),
-        href: indexUrl?.replace('{orgName}', get(location.pathname.split('/'), '[1]') || '-'),
+        href: goTo.resolve.dataAppEntry(),
       },
       {
         key: 'cmp',

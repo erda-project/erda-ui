@@ -157,12 +157,7 @@ const checkModuleValid = async (isLocal: boolean) => {
   }
 };
 
-const buildModules = async (
-  enableSourceMap: boolean,
-  rebuildList: string[],
-  isOnline: string,
-  dataEngineerInfo?: ERDA_BUILD_CONFIG,
-) => {
+const buildModules = async (enableSourceMap: boolean, rebuildList: string[], isOnline: string) => {
   const pList: Array<Promise<void>> = [];
   const moduleList = getModuleList();
   const toBuildModules = rebuildList.length ? rebuildList : moduleList;
@@ -176,7 +171,6 @@ const buildModules = async (
             ...process.env,
             isOnline,
             enableSourceMap: enableSourceMap.toString(),
-            dataEngineerInfo: JSON.stringify(dataEngineerInfo || {}),
           },
           cwd: moduleDir,
         },
@@ -357,8 +351,6 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
 
     await clearPublic();
 
-    const dataEngineerInfo = externalModules.find(({ role }) => role === 'DataEngineer');
-
     if (local) {
       await checkBranch();
       await checkCodeUpToDate();
@@ -375,7 +367,7 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
       await checkReInstall();
     }
 
-    await buildModules(enableSourceMap, rebuildList, `${online}`, dataEngineerInfo);
+    await buildModules(enableSourceMap, rebuildList, `${online}`);
 
     generateVersion();
 
