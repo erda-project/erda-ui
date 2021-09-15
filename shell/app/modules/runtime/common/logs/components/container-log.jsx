@@ -60,7 +60,7 @@ const getLogItem =
     let reContent = parseLinkInContent(content, pushSlideComp);
     const isValidElement = React.isValidElement(reContent);
     if (!isValidElement) {
-      reContent = AU.ansi_to_html(content).replaceAll('&quot;', '"');
+      reContent = AU.ansi_to_html(reContent).replaceAll('&quot;', '"');
     }
     return (
       <div className="container-log-item">
