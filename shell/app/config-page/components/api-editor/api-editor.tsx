@@ -304,7 +304,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           message.error(errMsg);
           return;
         }
-        execOperation(curOp.operations.click, { data: value });
+        execOperation(curOp.operations.click, { data: { ...value, ...loop } });
       } else {
         execOperation(curOp.operations.click);
       }

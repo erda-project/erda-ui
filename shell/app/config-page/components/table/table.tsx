@@ -16,6 +16,7 @@ import { Table as PureTable, Title, Menu, Button, Dropdown, Tooltip, Checkbox } 
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { useUserMap } from 'core/stores/userMap';
+import { OperationAction } from 'app/config-page/utils';
 import { getRender, getTitleRender } from './render-types';
 import i18n from 'i18n';
 import classnames from 'classnames';
@@ -257,18 +258,21 @@ const BatchOperation = (props: IBatchProps) => {
 
   const dropdownMenu = (
     <Menu
-      onClick={(e) => {
-        e.domEvent.stopPropagation();
-        const curOp = find(optMenus, { key: e.key });
-        !curOp?.disabled && execOperation(curOp, { selectedRowKeys });
-      }}
+    // onClick={(e) => {
+    //   e.domEvent.stopPropagation();
+    //   const curOp = find(optMenus, { key: e.key });
+    //   !curOp?.disabled && execOperation(curOp, { selectedRowKeys });
+    // }}
     >
       {map(optMenus, (mItem) => {
         return (
           <Menu.Item key={mItem.key} disabled={mItem.disabled}>
-            <Tooltip placement="right" title={mItem.disabled ? mItem.disabledTip : ''}>
+            <OperationAction operation={mItem} onClick={() => execOperation(mItem, { selectedRowKeys })}>
+              <span>{mItem.text}</span>
+            </OperationAction>
+            {/* <Tooltip placement="right" title={mItem.disabled ? mItem.disabledTip : ''}>
               <div className="flex items-center">{mItem.text}</div>
-            </Tooltip>
+            </Tooltip> */}
           </Menu.Item>
         );
       })}
@@ -290,7 +294,7 @@ const BatchOperation = (props: IBatchProps) => {
       <span className="mr-2">{`${i18n.t('selected {xx}', {
         xx: `${selectedRowKeys?.length || 0}${i18n.t('common:items')}`,
       })}`}</span>
-      <Dropdown overlay={dropdownMenu}>
+      <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button>
           {i18n.t('batch operate')}
           <CustomIcon type={'di'} className="ml-1" />
