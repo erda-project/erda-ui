@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TimeSelector } from 'common';
 import './tab-right.scss';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const TabRight = () => {
   return (
-    <div className="si-top-nav-right filter-box">
-      <TimeSelector />
+    <div className="si-top-nav-right filter-box flex justify-end mb-3">
+      <TimeSelectWithStore />
     </div>
   );
 };

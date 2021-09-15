@@ -13,8 +13,8 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import PageMap from './config/chartMap';
 import './page.scss';
 
@@ -46,7 +46,9 @@ const Page = () => {
   };
   return (
     <div>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={8}>
           <div className="monitor-sort-panel">

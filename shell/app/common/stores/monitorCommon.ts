@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, forEach, isFunction } from 'lodash';
-import { getTimeSpan, getDefaultPaging } from 'common/utils';
+import { getTimeSpan, getDefaultPaging, qs } from 'common/utils';
 import { getApps } from 'common/services';
 import { createStore } from 'core/cube';
 import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
 import { ITimeRange, transformRange } from 'common/components/time-select/common';
+import moment from 'moment';
 
 const defaultHandler = (data: any) => {
   const modules =
@@ -72,23 +73,27 @@ interface IState {
   projectApps: any[];
   projectAppsPaging: IPaging;
 }
+const query = qs.parse(location.search);
 
-const defaultRange: ITimeRange = {
+let defaultRange: ITimeRange = {
   mode: 'quick',
   quick: 'hours:1',
   customize: {},
 };
+
+if (query.mode === 'quick' && query.quick) {
+  defaultRange = { mode: 'quick', quick: query.quick, customize: {} };
+} else if (query.mode === 'customize' && query.start && query.end) {
+  defaultRange = { mode: 'customize', quick: '', customize: { start: moment(+query.start), end: moment(+query.end) } };
+}
+
 const { date } = transformRange(defaultRange);
 
 const defaultState: IState = {
   timeSpan: getTimeSpan(),
   globalTimeSelectSpan: {
     refreshStrategy: 'off',
-    data: {
-      mode: 'quick',
-      quick: 'hours:1',
-      customize: {},
-    },
+    data: defaultRange,
     range: {
       triggerTime: 0,
       ...getTimeSpan(date),
