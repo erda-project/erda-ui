@@ -41,7 +41,9 @@ export const Title = ({
   return (
     <div
       {...restProps}
-      className={`wrapped-title ${containerClassList[level]} ${showDivider ? 'border-bottom mb-4' : ''} ${className}`}
+      className={`erda-wrapped-title ${containerClassList[level]} ${
+        showDivider ? 'border-bottom mb-4' : ''
+      } ${className}`}
     >
       <div className="inline-flex items-center font-medium">
         <div className={sizeList[level]}>{title}</div>
