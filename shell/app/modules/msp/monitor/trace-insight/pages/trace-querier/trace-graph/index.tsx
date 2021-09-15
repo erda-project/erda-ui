@@ -50,7 +50,7 @@ export function TraceGraph(props: IProps) {
   const [timeRange, setTimeRange] = React.useState([null!, null!] as number[]);
   const duration = max - min;
   const allKeys: string[] = [];
-  const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
+  const { serviceAnalysis, callAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
 
   const getMetaData = React.useCallback(async () => {
     setLoading(true);
@@ -254,14 +254,16 @@ export function TraceGraph(props: IProps) {
             {(serviceAnalysis || proportion[0] === 14) && (
               <div className="px-3 trace-detail-chart">
                 <Tabs>
-                  {/* 后端还未调通，先隐藏 */}
-                  {/* <TabPane tab={i18n.t('msp:call analysis')} key={1}>
-                    <ServiceListDashboard
-                      timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
-                      dashboardId={callAnalysis?.dashboardId}
-                      extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
-                    />
-                  </TabPane> */}
+                  <TabPane tab={i18n.t('msp:call analysis')} key={1}>
+                    {!callAnalysis && <EmptyHolder relative />}
+                    {callAnalysis && (
+                      <ServiceListDashboard
+                        timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
+                        dashboardId={callAnalysis?.dashboardId}
+                        extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
+                      />
+                    )}
+                  </TabPane>
                   <TabPane tab={i18n.t('msp:associated services')} key={2}>
                     {!serviceAnalysis && <EmptyHolder relative />}
                     {serviceAnalysis && (
