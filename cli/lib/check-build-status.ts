@@ -118,7 +118,7 @@ const checkBuildStatus = async () => {
   const data = { version: Date.parse(new Date().toString()) };
 
   // generate version.json
-  const publicPath = path.resolve(__dirname, 'public');
+  const publicPath = path.resolve(process.cwd(), 'public');
   fs.mkdir(publicPath, '0777', () => {
     fs.writeFile(`${publicPath}/version.json`, JSON.stringify(data), (err) => {
       if (err) {
