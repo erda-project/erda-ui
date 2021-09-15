@@ -795,21 +795,26 @@ export const TreeCategory = ({
           showIcon
           onExpand={onExpand}
           onSelect={onClickNode}
-          titleRender={(nodeData: TreeNodeNormal) => (
-            <span className="w-full inline-block truncate">
-              {nodeData.title}
-              <Popover
-                content={getActions(nodeData).map((item) => (
-                  <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
-                    {item.node}
-                  </div>
-                ))}
-                footer={false}
-              >
-                <CustomIcon type="gd" className="tree-node-action" />
-              </Popover>
-            </span>
-          )}
+          titleRender={(nodeData: TreeNodeNormal) => {
+            const execNode = nodeData as TreeNode;
+            return (
+              <span className={`inline-block truncate ${execNode.disableAction ? 'w-full' : 'has-operates'}`}>
+                {nodeData.title}
+                {!execNode.disableAction && (
+                  <Popover
+                    content={getActions(nodeData).map((item) => (
+                      <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                        {item.node}
+                      </div>
+                    ))}
+                    footer={false}
+                  >
+                    <CustomIcon type="gd" className="tree-node-action" />
+                  </Popover>
+                )}
+              </span>
+            );
+          }}
           draggable={!!moveNode && !cuttingNodeKey && !copyingNodeKey} // 当有剪切复制正在进行中时，不能拖动
           onDrop={onDrop}
           {...treeProps}

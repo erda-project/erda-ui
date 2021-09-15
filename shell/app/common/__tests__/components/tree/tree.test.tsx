@@ -71,7 +71,7 @@ describe('TreeCategory', () => {
     act(() => {
       select.prop('onChange')('menu1');
     });
-    expect(wrapper.find('.file-tree-container').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
+    expect(wrapper.find('.tree-category-container').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
     act(() => {
       select.prop('onChange')();
     });
@@ -105,20 +105,20 @@ describe('TreeCategory', () => {
     wrapper.update();
     expect(getAncestors).toHaveBeenCalledTimes(1);
     expect(getAncestors).toHaveBeenLastCalledWith({ inode: 'root' });
-    expect(wrapper.find('ForwardRef.file-tree-container').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
+    expect(wrapper.find('ForwardRef.tree-category-container').prop('expandedKeys')).toStrictEqual(['menu1', 'menu1-1']);
     act(() => {
-      wrapper.find('ForwardRef.file-tree-container').prop('onExpand')(['leaf-root']);
+      wrapper.find('ForwardRef.tree-category-container').prop('onExpand')(['leaf-root']);
     });
     wrapper.update();
-    expect(wrapper.find('ForwardRef.file-tree-container').prop('expandedKeys')).toStrictEqual(['leaf-root']);
+    expect(wrapper.find('ForwardRef.tree-category-container').prop('expandedKeys')).toStrictEqual(['leaf-root']);
     act(() => {
-      wrapper.find('ForwardRef.file-tree-container').prop('onSelect')(['leaf-root'], {
+      wrapper.find('ForwardRef.tree-category-container').prop('onSelect')(['leaf-root'], {
         node: { props: { isLeaf: false } },
       });
     });
     expect(selectNodeFn).toHaveBeenLastCalledWith({ inode: 'leaf-root', isLeaf: false });
     await act(async () => {
-      await wrapper.find('ForwardRef.file-tree-container').prop('onDrop')({
+      await wrapper.find('ForwardRef.tree-category-container').prop('onDrop')({
         dragNode: simpleTreeData[0],
         node: simpleTreeData[1],
       });
@@ -152,6 +152,8 @@ describe('TreeCategory', () => {
     wrapper.update();
     expect(loadData).toHaveBeenCalledTimes(1);
     expect(loadData).toHaveBeenLastCalledWith({ pinode: initTreeData[0].key });
-    expect(wrapper.find('ForwardRef.file-tree-container').prop('expandedKeys')).toStrictEqual([initTreeData[0].key]);
+    expect(wrapper.find('ForwardRef.tree-category-container').prop('expandedKeys')).toStrictEqual([
+      initTreeData[0].key,
+    ]);
   });
 });
