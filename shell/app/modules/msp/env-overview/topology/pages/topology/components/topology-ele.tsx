@@ -65,6 +65,17 @@ const TopologyEle = (props: IProps) => {
     [],
   );
 
+  const setSvgSize = React.useCallback(() => {
+    const curBox = boxRef.current as any;
+    const width = curBox.offsetWidth ? `${curBox.offsetWidth}px` : '100%';
+    const height = curBox.offsetHeight ? `${curBox.offsetHeight}px` : '100%';
+    const curSvg = svgRef.current as any;
+    if (curSvg?.node) {
+      curSvg.node.setAttribute('width', width);
+      curSvg.node.setAttribute('height', height);
+    }
+  }, []);
+
   React.useEffect(() => {
     svgRef.current = Snap('#topology-svg');
     const curSvg = svgRef.current as any;
@@ -95,6 +106,10 @@ const TopologyEle = (props: IProps) => {
       const curG = svgGroupRef.current as any;
       curG.append(mask);
     }
+    window.addEventListener('resize', setSvgSize);
+    return () => {
+      window.removeEventListener('resize', setSvgSize);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -110,7 +125,7 @@ const TopologyEle = (props: IProps) => {
   }, [zoom]);
 
   React.useEffect(() => {
-    const { containerHeight, containerWidth } = renderTopology(data, svgRef.current, svgGroupRef.current, {
+    renderTopology(data, svgRef.current, svgGroupRef.current, {
       ...nodeExternalParam,
       nodeEle,
       boxEle,
@@ -119,9 +134,7 @@ const TopologyEle = (props: IProps) => {
         if (!onDrag) onClickNode(detial);
       },
     });
-    const curBox = boxRef.current as any;
-    curBox.style.width = `${containerWidth}px`;
-    curBox.style.height = `${containerHeight}px`;
+    setSvgSize();
     // setSize(containerWidth, containerHeight);
   }, [data]);
 
@@ -135,7 +148,12 @@ const TopologyEle = (props: IProps) => {
           handleWheel(e, zoom);
         }}
       >
-        <svg id="topology-svg" width="100%" height="100%" className={`topology-svg ${zoom > 1 ? 'enlarge' : ''}`} />
+        <svg
+          id="topology-svg"
+          width="100%"
+          height="100%"
+          className={`w-full h-full topology-svg ${zoom > 1 ? 'enlarge' : ''}`}
+        />
       </div>
     </div>
   );
