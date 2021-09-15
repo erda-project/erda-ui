@@ -66,6 +66,7 @@ import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
+import { Panel } from '../common/components/panel';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
@@ -78,7 +79,6 @@ import {
   PageHeader,
   GlobalNavigation,
   Title,
-  Panel,
   List,
   Ellipsis,
   ConfigProvider as NusiConfigProvider,
