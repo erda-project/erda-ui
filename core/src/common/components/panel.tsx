@@ -56,7 +56,7 @@ export const Panel = (props: IPanelProps) => {
   const parentRef = React.useRef<HTMLDivElement>(null);
   const [parentWidth, setParentWidth] = React.useState(0);
   const { fields = [], data, isMultiColumn = true } = props;
-  const realValue = (item: IPanelField) =>
+  const getRealValue = (item: IPanelField) =>
     data
       ? item.valueItem
         ? item.valueItem({ value: item.valueKey && data[item.valueKey] })
@@ -106,8 +106,8 @@ export const Panel = (props: IPanelProps) => {
                 <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
                   {item.label}
                 </div>
-                <div title={getInnerText(realValue(item))} className="break-words">
-                  {realValue(item)}
+                <div title={getInnerText(getRealValue(item))} className="break-words">
+                  {getRealValue(item)}
                 </div>
               </Col>
             </Row>
@@ -118,7 +118,7 @@ export const Panel = (props: IPanelProps) => {
   }
   return (
     <ResizeObserver onResize={handleResize}>
-      <div ref={parentRef}>
+      <div ref={parentRef} className="mb-2">
         <Row gutter={12}>
           {parentWidth
             ? map(fields, (item) => {
@@ -128,8 +128,8 @@ export const Panel = (props: IPanelProps) => {
                     <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
                       {item.label}
                     </div>
-                    <div title={getInnerText(realValue(item))} className="break-words mb-1">
-                      {realValue(item)}
+                    <div title={getInnerText(getRealValue(item))} className="break-words mb-1">
+                      {getRealValue(item)}
                     </div>
                   </Col>
                 );
