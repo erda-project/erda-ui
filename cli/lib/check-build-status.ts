@@ -59,12 +59,19 @@ const checkBuildStatus = async () => {
         logInfo('Found previous git sha:', prevGitSha);
         const [prevSha, prevExternalSha] = prevGitSha.split('/');
         const { stdout: diff } = await asyncExec(`git diff --name-only ${prevSha} ${headSha}`, { cwd: gitCwd });
-        logInfo('File diff:', EOL, diff);
 
-        if (
-          new RegExp(`^${subModules.includes(moduleName) ? `modules/${moduleName}` : moduleName}/`, 'gm').test(diff)
-        ) {
+        const fileRegex = new RegExp(
+          `(^${subModules.includes(moduleName) ? `modules/${moduleName}` : moduleName}/.*)`,
+          'gm',
+        );
+        let match = fileRegex.exec(diff);
+        if (match) {
+          logInfo('File diff:');
           skipBuild = false;
+        }
+        while (match) {
+          logInfo(match[1]);
+          match = fileRegex.exec(diff);
         }
 
         if (moduleName === 'shell') {
