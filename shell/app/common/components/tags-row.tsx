@@ -16,7 +16,6 @@ import { Tooltip, Popconfirm, Ellipsis } from 'core/nusi';
 import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
-import { useMount } from 'react-use';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
 import './tags-row.scss';
 

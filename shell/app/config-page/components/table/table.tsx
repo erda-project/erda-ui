@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table as PureTable, Title, Menu, Button, Dropdown, Tooltip, Checkbox } from 'core/nusi';
+import { Table as PureTable, Title, Menu, Button, Dropdown, Checkbox } from 'core/nusi';
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { useUserMap } from 'core/stores/userMap';
@@ -257,22 +257,13 @@ const BatchOperation = (props: IBatchProps) => {
   }, [batchOperations, chosenItems, operations, selectedRowKeys]);
 
   const dropdownMenu = (
-    <Menu
-    // onClick={(e) => {
-    //   e.domEvent.stopPropagation();
-    //   const curOp = find(optMenus, { key: e.key });
-    //   !curOp?.disabled && execOperation(curOp, { selectedRowKeys });
-    // }}
-    >
+    <Menu>
       {map(optMenus, (mItem) => {
         return (
           <Menu.Item key={mItem.key} disabled={mItem.disabled}>
             <OperationAction operation={mItem} onClick={() => execOperation(mItem, { selectedRowKeys })}>
               <span>{mItem.text}</span>
             </OperationAction>
-            {/* <Tooltip placement="right" title={mItem.disabled ? mItem.disabledTip : ''}>
-              <div className="flex items-center">{mItem.text}</div>
-            </Tooltip> */}
           </Menu.Item>
         );
       })}
