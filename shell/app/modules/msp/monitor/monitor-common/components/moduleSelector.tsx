@@ -29,7 +29,11 @@ interface IProps {
 }
 
 const ModuleSelector = ({ type, api, dataHandler, query, onChange, viewProps }: IProps) => {
-  const [modules, timeSpan, chosenApp] = monitorCommonStore.useStore((s) => [s.modules, s.timeSpan, s.chosenApp]);
+  const [modules, timeSpan, chosenApp] = monitorCommonStore.useStore((s) => [
+    s.modules,
+    s.globalTimeSelectSpan.range,
+    s.chosenApp,
+  ]);
   const { getModules } = monitorCommonStore.effects;
   const { clearModules, changeChosenModules } = monitorCommonStore.reducers;
 

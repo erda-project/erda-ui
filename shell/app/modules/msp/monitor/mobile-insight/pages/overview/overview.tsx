@@ -13,15 +13,17 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
 import PositionMap from 'mobile-insight/pages/position/config/chartMap';
 import OverviewMap, { commonAttr } from './config/chartMap';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import i18n from 'i18n';
 
 const Overview = () => {
   return (
     <div>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={16}>
           <OverviewMap.performanceInterval />

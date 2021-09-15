@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { isEmpty, map, get } from 'lodash';
 import React from 'react';
-import { TimeSelector, ContractiveFilter } from 'common';
+import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';
 import LinkText, { linkTextHoverAction } from './link-text';

@@ -17,10 +17,10 @@ import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';
 import { SortTab } from 'monitor-common';
-import { TimeSelector } from 'common';
 import './position.scss';
 import PositionMap from './config/chartMap';
 import i18n from 'i18n';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 interface ITab {
   [pro: string]: any;
@@ -64,7 +64,9 @@ const Position = () => {
 
   return (
     <div>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <div className="position-bars">
         <SortTab tabList={sortTabList} onChange={changeSortTab} />
         {tabKey === 'comparative' ? (
