@@ -15,6 +15,7 @@ import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
+import { goTo } from 'common/utils';
 import { Drawer, Radio, Select, Table, Tag, Ellipsis, Tooltip } from 'core/nusi';
 import { SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -135,6 +136,7 @@ const Transaction = () => {
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
+  const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const [
     {
       type,
@@ -255,7 +257,7 @@ const Transaction = () => {
               className="table-operations-btn"
               onClick={() => {
                 updater.traceId(record.requestId);
-                updater.detailVisible(true);
+                setIsShowTraceDetail(true);
               }}
             >
               {i18n.t('check detail')}
@@ -368,7 +370,13 @@ const Transaction = () => {
           onBoardEvent={handleBoardEvent}
         />
       </div>
-      <Drawer title={tracingDrawerTitle} width="55%" visible={visible} onClose={() => updater.visible(false)}>
+      <Drawer
+        title={tracingDrawerTitle}
+        width="80%"
+        className="z-50"
+        visible={visible}
+        onClose={() => updater.visible(false)}
+      >
         <div className="flex items-center flex-wrap justify-end mb-3">
           <span>{i18n.t('msp:maximum number of queries')}：</span>
           <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
@@ -403,16 +411,8 @@ const Transaction = () => {
         >
           <SimpleLog requestId={traceId} applicationId={params?.applicationId} />
         </Drawer>
-        <Drawer
-          title={i18n.t('msp:link information')}
-          visible={detailVisible}
-          onClose={() => updater.detailVisible(false)}
-          width="50%"
-          destroyOnClose
-        >
-          <TraceSearchDetail traceId={traceId} />
-        </Drawer>
       </Drawer>
+      <TraceSearchDetail traceId={traceId} />
     </div>
   );
 };
