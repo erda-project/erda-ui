@@ -70,8 +70,7 @@ const ItemRender = ({ title, children }: IProps) => {
 };
 
 const Configuration = () => {
-  const { projectId, tenantGroup, env } = routeInfoStore.useStore((s) => s.params);
-
+  const { projectId, tenantGroup } = routeInfoStore.useStore((s) => s.params);
   const accessPerm = usePerm((s) => s.project.microService.accessConfiguration);
   const [{ lang, currentPage, strategy, languages, mode, visible }, updater, update] = useUpdate<IState>({
     lang: '',
@@ -100,7 +99,6 @@ const Configuration = () => {
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
-      scope: `msp_${env}`,
       scopeId: tenantGroup,
     });
   }, []);
@@ -180,7 +178,6 @@ const Configuration = () => {
     await createAccessKey.fetch({
       subject: projectId,
       subjectType: 3,
-      scope: `msp_${env}`,
       scopeId: tenantGroup,
     });
 
@@ -189,7 +186,6 @@ const Configuration = () => {
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
-      scope: `msp_${env}`,
       scopeId: tenantGroup,
     });
 
@@ -209,7 +205,6 @@ const Configuration = () => {
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
-      scope: `msp_${env}`,
       scopeId: tenantGroup,
     });
     update({
@@ -223,6 +218,7 @@ const Configuration = () => {
       getInfo.fetch({
         language: lang,
         strategy,
+        scopeId: tenantGroup,
       });
     }
   }, [strategy, lang]);
@@ -240,7 +236,6 @@ const Configuration = () => {
       subject: projectId,
       pageNo: page,
       pageSize: PAGINATION.pageSize,
-      scope: `msp_${env}`,
       scopeId: tenantGroup,
     });
   };
@@ -266,6 +261,7 @@ const Configuration = () => {
           visible={visible}
           footer={[
             <Button
+              key={mode}
               onClick={() =>
                 update({
                   visible: false,
