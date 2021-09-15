@@ -208,7 +208,7 @@ export default () => {
 
   const handleCheckTraceDetail = (e: any, id: string) => {
     e.stopPropagation();
-    updater.traceId(id as any);
+    updater.traceId(id as string);
     setIsShowTraceDetail(true);
     openDetail();
   };

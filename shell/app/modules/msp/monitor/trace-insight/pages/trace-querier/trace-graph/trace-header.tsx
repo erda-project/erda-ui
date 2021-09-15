@@ -20,7 +20,7 @@ import { displayTimeString } from './utils';
 
 export const TraceHeader = (props: {
   duration: number;
-  setExpandedKeys: any;
+  setExpandedKeys: (params: string[]) => void;
   allKeys: string[];
   expandedKeys: string[];
 }) => {
