@@ -55,7 +55,7 @@ const checkBuildStatus = async () => {
       let skipBuild = true;
       let nextSha = headSha;
       if (fs.existsSync(gitVersionPath)) {
-        prevGitSha = fs.readFileSync(gitVersionPath, { encoding: 'utf8' });
+        prevGitSha = fs.readFileSync(gitVersionPath, { encoding: 'utf8' }).replace('\n', '');
         logInfo('Found previous git sha:', prevGitSha);
         const [prevSha, prevExternalSha] = prevGitSha.split('/');
         const { stdout: diff } = await asyncExec(`git diff --name-only ${prevSha} ${headSha}`, { cwd: gitCwd });
