@@ -12,17 +12,28 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { BoardGrid as DCBoardGrid, PureBoardGrid as DCPureBoardGrid, setLocale } from '@erda-ui/dashboard-configurator';
+import {
+  BoardGrid as DCBoardGrid,
+  PureBoardGrid as DCPureBoardGrid,
+  setLocale,
+  registTheme,
+  setTheme,
+} from '@erda-ui/dashboard-configurator';
 import DC from '@erda-ui/dashboard-configurator/dist';
+import { theme } from 'app/charts/theme';
+
+registTheme('erda', theme);
 
 export const BoardGrid = ({ ...restProps }: DC.BoardGridProps) => {
   const locale = window.localStorage.getItem('locale') || 'zh';
   setLocale(locale);
+  setTheme('erda');
   return <DCBoardGrid {...restProps} />;
 };
 
 export const PureBoardGrid = ({ ...restProps }: DC.PureBoardGridProps) => {
   const locale = window.localStorage.getItem('locale') || 'zh';
   setLocale(locale);
+  setTheme('erda');
   return <DCPureBoardGrid {...restProps} />;
 };
