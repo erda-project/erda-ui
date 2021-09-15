@@ -15,7 +15,7 @@ import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Drawer, Radio, Select, Table, Tag } from 'core/nusi';
+import { Drawer, Radio, Select, Table, Tag, Ellipsis, Tooltip } from 'core/nusi';
 import { SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -268,6 +268,14 @@ const Transaction = () => {
     return [c, traceSlowTranslation?.data];
   }, [traceSlowTranslation, updater]);
 
+  const tracingDrawerTitle = (
+    <div className="w-60">
+      <Ellipsis title={`${i18n.t('msp:tracing details')}(${url})`}>{`${i18n.t(
+        'msp:tracing details',
+      )}(${url})`}</Ellipsis>
+    </div>
+  );
+
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
     // 动态注入正则查询变量需要转义字符
@@ -280,7 +288,7 @@ const Transaction = () => {
       topic,
       search,
       sort,
-      type: callType,
+      type: callType === 'undefined' ? undefined : callType,
       subSearch: _subSearch || undefined,
     };
   }, [search, sort, callType, subSearch, topic]);
@@ -292,7 +300,6 @@ const Transaction = () => {
           <div className="left flex justify-between items-center mb-2">
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
-                className="ml-3"
                 placeholder={i18n.t('msp:call type')}
                 allowClear
                 style={{ width: '150px' }}
@@ -347,23 +354,21 @@ const Transaction = () => {
         </div>
         <If condition={!!subSearch}>
           <Tag className="mb-2" closable onClose={() => updater.subSearch(undefined)}>
-            {subSearch}
+            <Tooltip title={subSearch}>
+              <span>{subSearch && subSearch.length > 60 ? `${subSearch?.slice(0, 60)}...` : subSearch}</span>
+            </Tooltip>
           </Tag>
         </If>
       </div>
       <div className="overflow-auto flex-1">
         <ServiceListDashboard
+          key={`${startTimeMs}-${endTimeMs}`}
           dashboardId={dashboardIdMap[type].id}
           extraGlobalVariable={extraGlobalVariable}
           onBoardEvent={handleBoardEvent}
         />
       </div>
-      <Drawer
-        title={`${i18n.t('msp:tracing details')}(${url})`}
-        width="55%"
-        visible={visible}
-        onClose={() => updater.visible(false)}
-      >
+      <Drawer title={tracingDrawerTitle} width="55%" visible={visible} onClose={() => updater.visible(false)}>
         <div className="flex items-center flex-wrap justify-end mb-3">
           <span>{i18n.t('msp:maximum number of queries')}：</span>
           <Select className="mr-3" value={limit} onChange={handleChangeLimit}>
