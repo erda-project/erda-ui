@@ -47,7 +47,7 @@ const TopologyEle = (props: IProps) => {
   } = props;
   const svgRef = React.useRef(null);
   const svgGroupRef = React.useRef(null);
-  const boxRef = React.useRef(null);
+  const boxRef = React.useRef<HTMLDivElement>(null);
 
   const handleWheel = React.useCallback(
     throttle(
@@ -66,9 +66,9 @@ const TopologyEle = (props: IProps) => {
   );
 
   const setSvgSize = React.useCallback(() => {
-    const curBox = boxRef.current as any;
-    const width = curBox.offsetWidth ? `${curBox.offsetWidth}px` : '100%';
-    const height = curBox.offsetHeight ? `${curBox.offsetHeight}px` : '100%';
+    const curBox = boxRef.current;
+    const width = curBox?.offsetWidth ? `${curBox.offsetWidth}px` : '100%';
+    const height = curBox?.offsetHeight ? `${curBox.offsetHeight}px` : '100%';
     const curSvg = svgRef.current as any;
     if (curSvg?.node) {
       curSvg.node.setAttribute('width', width);
