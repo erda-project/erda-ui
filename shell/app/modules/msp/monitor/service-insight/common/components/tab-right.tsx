@@ -15,10 +15,11 @@ import React from 'react';
 import { get, map } from 'lodash';
 import InstanceSelector from './instanceSelector';
 import i18n from 'i18n';
-import { IF, TimeSelector } from 'common';
+import { IF } from 'common';
 import mspStore from 'msp/stores/micro-service';
 
 import './tab-right.scss';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 // 一层group查询，instance
 const instanceGroupHandler = (dataKey: string) => (originData: object) => {
@@ -56,11 +57,13 @@ const TabRight = ({ type = '' }: { type?: string }) => {
     },
   };
   return (
-    <div className="si-top-nav-right filter-box">
-      <IF check={['jvm', 'node'].includes(type)}>
-        <InstanceSelector {...modulesMap[type]} type={type} />
-      </IF>
-      <TimeSelector />
+    <div className="si-top-nav-right filter-box flex justify-between">
+      <div>
+        <IF check={['jvm', 'node'].includes(type)}>
+          <InstanceSelector {...modulesMap[type]} type={type} />
+        </IF>
+      </div>
+      <TimeSelectWithStore />
     </div>
   );
 };

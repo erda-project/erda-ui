@@ -40,7 +40,7 @@ export const featureList = [
 ];
 
 const MIComparative = () => {
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const data = comparativeStore.useStore((s) => s.comparative);
   const { loadComparative: loadDetail } = comparativeStore.effects;
   const terminusKey = routeInfoStore.useStore((s) => s.params.terminusKey);

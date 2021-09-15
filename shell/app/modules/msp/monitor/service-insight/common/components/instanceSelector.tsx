@@ -31,7 +31,7 @@ interface IProps {
 
 const InstanceSelector = (props: IProps) => {
   const { type, api, query, dataHandler } = props;
-  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const [instanceMap, baseInfo, chosenInstance] = SICommonStore.useStore((s) => [
     s.instanceMap,
     s.baseInfo,

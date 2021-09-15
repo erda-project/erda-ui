@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ModuleSelector } from 'monitor-common';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import './top-nav-right.scss';
 
 interface IProps {
@@ -23,9 +23,9 @@ interface IProps {
 const TopTabRight = (props: IProps) => {
   const { params } = props;
   return (
-    <div className="top-nav-right">
-      {params && <ModuleSelector query={params} />}
-      <TimeSelector />
+    <div className="top-nav-right flex justify-between">
+      <div>{params && <ModuleSelector query={params} />}</div>
+      <TimeSelectWithStore />
     </div>
   );
 };
