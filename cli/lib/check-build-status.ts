@@ -107,6 +107,20 @@ const checkBuildStatus = async () => {
       logSuccess(`emit ${moduleKey} value ${requireBuildMap[moduleKey]} to METAFILE`);
     });
   });
+
+  const data = { version: Date.parse(new Date().toString()) };
+
+  // generate version.json
+  const publicPath = path.resolve(__dirname, 'public');
+  fs.mkdir(publicPath, '0777', () => {
+    fs.writeFile(`${publicPath}/version.json`, JSON.stringify(data), (err) => {
+      if (err) {
+        logError('version.json generated fail', err);
+      } else {
+        logSuccess('version.json generated ok.');
+      }
+    });
+  });
 };
 
 export default checkBuildStatus;
