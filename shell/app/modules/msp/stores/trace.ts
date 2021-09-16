@@ -80,9 +80,8 @@ const trace = createFlatStore({
     async getTraceDetailContent({ call, update, getParams }, payload: Omit<MONITOR_TRACE.IQuerySpan, 'scopeId'>) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, scopeId: terminusKey });
-      const content = transformTrace(response);
-      update({ traceDetailContent: content });
-      return content;
+      update({ traceDetailContent: response });
+      return response;
     },
   },
 });

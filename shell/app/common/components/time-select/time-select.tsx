@@ -260,6 +260,12 @@ const TimeSelect = (props: IProps) => {
     };
   }, [refreshDuration]);
 
+  React.useEffect(() => {
+    if (props?.value) {
+      updater.text(transformRange(props.value, format).dateStr);
+    }
+  }, [props.value]);
+
   /**
    * @description open auto refresh
    */
@@ -293,7 +299,7 @@ const TimeSelect = (props: IProps) => {
       visible: false,
     };
     payload.current = data;
-    if (!('value' in (props?.value ?? {}))) {
+    if (!('value' in props)) {
       newState.data = data;
     }
     update(newState);

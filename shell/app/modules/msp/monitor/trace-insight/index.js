@@ -38,6 +38,11 @@ function monitorTraceRouter() {
         getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-querier')),
       },
       {
+        path: 'trace-detail/:traceId',
+        layout: { fullHeight: true },
+        getComp: (cb) => cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
+      },
+      {
         path: 'search',
         tabs: traceTabs,
         layout: { noWrapper: true },

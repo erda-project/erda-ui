@@ -19,6 +19,7 @@ import { ColumnProps } from 'core/common/interface';
 import { Table, Drawer, message } from 'core/nusi';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
+import { goTo } from 'common/utils';
 import { getFormatter } from 'charts/utils/formatter';
 import { useLoading } from 'core/stores/loading';
 import traceStore from '../../../../stores/trace';
@@ -110,7 +111,7 @@ export default () => {
   const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
   const { getTraceCount, getTraceSummary } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
-
+  const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const [detailVisible, openDetail, closeDetail] = useSwitch(false);
   const [{ traceId, filter, defaultQuery, query }, updater, update] = useUpdate<IState>({
     filter: [],
@@ -207,7 +208,8 @@ export default () => {
 
   const handleCheckTraceDetail = (e: any, id: string) => {
     e.stopPropagation();
-    updater.traceId(id as any);
+    updater.traceId(id as string);
+    setIsShowTraceDetail(true);
     openDetail();
   };
 
