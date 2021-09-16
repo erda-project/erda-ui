@@ -629,7 +629,9 @@ export const MembersTable = ({
             />
             <UrlInviteModal
               visible={state.inviteModalVisible}
-              url={`${FULL_ROOT_DOMAIN}${goTo.resolve.inviteToOrg()}`}
+              url={`${
+                window.location.origin.endsWith('erda.cloud') ? FULL_ROOT_DOMAIN : window.location.origin
+              }${goTo.resolve.inviteToOrg()}`}
               linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
               code={state.verifyCode}
               tip={i18n.t(

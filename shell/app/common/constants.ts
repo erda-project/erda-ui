@@ -13,7 +13,7 @@
 
 export const WORKSPACE_LIST = ['DEV', 'TEST', 'STAGING', 'PROD'];
 export const ROOT_DOMAIN = 'erda.cloud';
-export const FULL_ROOT_DOMAIN = `https://${ROOT_DOMAIN}`;
+export const FULL_ROOT_DOMAIN = 'https://erda.cloud';
 
 // doc domain
 export const DOC_DOMAIN = 'docs.erda.cloud';
@@ -41,7 +41,6 @@ export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monito
 export const { erdaEnv } = window;
 // uc page
 export const UC_USER_SETTINGS = '/uc/settings';
-
 
 // cmp guide doc
 export const DOC_CMP_CLUSTER_MANAGE = `${DOC_PREFIX}/manual/cmp/guide/cluster/management.html`;
