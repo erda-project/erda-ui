@@ -19,7 +19,7 @@ import './title.scss';
 
 interface ITitleProps {
   level?: 1 | 2 | 3;
-  operations?: React.ReactNode[];
+  operations?: Array<IOperate | React.ReactNode>;
   title: string;
   showDivider?: boolean;
   tips?: string;
@@ -27,6 +27,11 @@ interface ITitleProps {
   className?: string;
   style?: React.CSSProperties;
 }
+
+interface IOperate {
+  title: React.ReactNode;
+}
+
 export const Title = ({
   level = 1,
   operations = [],
@@ -54,12 +59,22 @@ export const Title = ({
         ) : null}
       </div>
       <div className="flex-1 flex justify-end">
-        {map(operations, (item, index: number) => {
-          return (
-            <span key={index} className={index > 0 ? 'ml-1' : ''}>
-              {item}
-            </span>
-          );
+        {map(operations, (item: IOperate | React.ReactNode, index: number) => {
+          if (React.isValidElement(item)) {
+            return (
+              <span key={index} className={index > 0 ? 'ml-1' : ''}>
+                {item}
+              </span>
+            );
+          } else {
+            return item?.title ? (
+              <span key={index} className={index > 0 ? 'ml-1' : ''}>
+                {item.title}
+              </span>
+            ) : (
+              ''
+            );
+          }
         })}
       </div>
     </div>
