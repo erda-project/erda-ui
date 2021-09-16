@@ -141,6 +141,7 @@ const SubMachineGroup = ({
   setActiveGroup,
   getMachineColourClass,
   getMachineColourValue,
+  isClusterGroup,
 }: {
   groupName: string | null;
   unitGroups: string[];
@@ -150,6 +151,7 @@ const SubMachineGroup = ({
   setActiveGroup: (subGroupName: string) => void;
   getMachineColourClass: (machineInfo: any) => string;
   getMachineColourValue: (machineInfo: any) => { name: string; value: number };
+  isClusterGroup: boolean;
 }) => {
   const [subMachineContainerWidthHolder, setSubMachineContainerWidth] = useComponentWidth();
   const [subGroupContainerWidthHolder, subGroupContainerWidth] = useComponentWidth();
@@ -183,7 +185,14 @@ const SubMachineGroup = ({
           >
             {subMachineContainerWidthHolder}
             <div className="group-header flex justify-between items-center">
-              <h3 className="group-title">{subGroupName + unitGroups[1]}</h3>
+              <h3
+                className={`group-title ${isClusterGroup ? 'cluster-group' : ''}`}
+                onClick={() => {
+                  isClusterGroup && goTo(goTo.pages.cmpClustersNodes, { clusterName: item.name });
+                }}
+              >
+                {subGroupName + unitGroups[1]}
+              </h3>
               <span className="group-actived-op hover-active">
                 <CustomIcon type="grow" />
               </span>
@@ -464,11 +473,20 @@ const ClusterDashboard = () => {
       diskTotal,
     } = metric || {};
 
+    const isClusterGroup = selectedGroups?.[0] === 'cluster';
+
     return (
       <Holder when={isEmpty(machines) && isEmpty(groups)}>
         <IF check={selectedGroups.length}>
           <div className="group-header flex justify-between items-center">
-            <h3 className="group-title">{activeGroupDisplayName || groupName + unitGroups[0]}</h3>
+            <h3
+              className={`group-title ${isClusterGroup ? 'cluster-group' : ''}`}
+              onClick={() => {
+                isClusterGroup && goTo(goTo.pages.cmpClustersNodes, { clusterName: name });
+              }}
+            >
+              {activeGroupDisplayName || groupName + unitGroups[0]}
+            </h3>
             <IF check={activeGroup}>
               <span className="group-unactived-op hover-active">
                 <CustomIcon type="shink" />
@@ -479,17 +497,6 @@ const ClusterDashboard = () => {
               </span>
             </IF>
           </div>
-        </IF>
-        <IF check={selectedGroups.length}>
-          <span
-            className="my-2 text-link"
-            onClick={() => {
-              goTo(goTo.pages.cmpClustersNodes, { clusterName: name });
-            }}
-          >
-            <ViewGridDetail />
-            <span className="fake-link">{i18n.t('check detail')}</span>
-          </span>
         </IF>
         <p className="group-info">
           <span>
@@ -506,6 +513,7 @@ const ClusterDashboard = () => {
         <IF check={!isEmpty(groups)}>
           <SubMachineGroup
             groups={groups}
+            isClusterGroup={selectedGroups?.[1] === 'cluster'}
             unitGroups={unitGroups}
             groupName={groupName}
             activeMachine={activeMachine}

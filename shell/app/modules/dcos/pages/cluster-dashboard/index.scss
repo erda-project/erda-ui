@@ -72,6 +72,9 @@
 
     &:hover {
       cursor: zoom-in;
+      .cluster-group {
+        text-decoration: underline;
+      }
       // @extend %hover-shadow;
       > .group-header {
         color: $color-primary !important;
@@ -103,6 +106,9 @@
       margin-bottom: 2px;
       font-size: 16px;
       line-height: 24px;
+      &.cluster-group {
+        cursor: pointer;
+      }
     }
 
     .group-info {

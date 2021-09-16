@@ -16,7 +16,6 @@ import { Tooltip, Popconfirm, Ellipsis } from 'core/nusi';
 import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
-import { useMount } from 'react-use';
 import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
 import './tags-row.scss';
 
@@ -52,7 +51,7 @@ export const TagColorMap = {
 };
 
 export const TagItem = (props: IItemProps) => {
-  const { label: _label, size, maxWidth = 200, onDelete, deleteConfirm = true, colorMap } = props;
+  const { label: _label, size, maxWidth, onDelete, deleteConfirm = true, colorMap } = props;
   const { label, color } = _label;
   const curColor = (colorMap || TagColorMap)[color || 'gray'] || color || TagColorMap.gray;
   const style = {
@@ -111,11 +110,11 @@ export const TagsRow = ({
 
   const [labelWidth, setLabelWidth] = React.useState<string | number>('auto');
 
-  useMount(() => {
+  const countLabelWidth = () => {
     const labelEles = document.querySelectorAll('.tag-group-name');
     const maxWidth: number = max(map(labelEles, (ele: HTMLSpanElement) => ele.offsetWidth));
-    setLabelWidth(Math.min(maxWidth, MAX_LABEL_WIDTH));
-  });
+    setLabelWidth(Math.min(maxWidth, MAX_LABEL_WIDTH) + 8);
+  };
 
   const fullTags = () => {
     if (showGroup) {
@@ -124,7 +123,7 @@ export const TagsRow = ({
           {map(groupBy(labels, 'group'), (groupItem, gKey) => (
             <div key={gKey} className="tag-group-container mb-2">
               <span className="tag-group-name" style={{ width: labelWidth }}>{`${gKey} : `}</span>
-              <span className="flex-1">
+              <span className="flex-1 overflow-auto">
                 {groupItem.map((item) => (
                   <TagItem colorMap={colorMap} key={item.label} label={item} onDelete={onDelete} size={size} />
                 ))}
@@ -144,7 +143,16 @@ export const TagsRow = ({
       ))}
       {showMore ? (
         <Tooltip
-          title={<span className="tags-container">{fullTags()}</span>}
+          onVisibleChange={(vis) => {
+            if (vis && labelWidth === 'auto') {
+              countLabelWidth();
+            }
+          }}
+          title={
+            <div onClick={(e) => e.stopPropagation()} className="tags-container ">
+              {fullTags()}
+            </div>
+          }
           placement="right"
           overlayClassName="tags-row-tooltip"
         >
