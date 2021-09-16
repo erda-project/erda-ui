@@ -135,7 +135,7 @@ module.exports = () => {
       new ModuleFederationPlugin({
         name: 'mf_core',
         exposes: {
-          './main': './src/index.tsx',
+          './index': './src/index.tsx',
           './cube': './src/cube.ts',
           './i18n': './src/i18n.ts',
           './agent': './src/agent.ts',
@@ -145,7 +145,7 @@ module.exports = () => {
           './stores/userMap': './src/stores/user-map.ts',
           './utils/ws': './src/utils/ws.ts',
           './nusi': './src/nusi/index.tsx',
-          './service': './src/service/api-creator.ts',
+          './service': './src/service/index.ts',
         },
         shared: {
           ...AutomaticVendorFederation({
