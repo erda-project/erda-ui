@@ -141,18 +141,3 @@ export const transformRange = (v: ITimeRange, format = defaultFormat) => {
     dateStr,
   };
 };
-
-export const customMap = {
-  'minutes:15': 60 * 15,
-  'minutes:30': 60 * 30,
-  'hours:1': 60 * 60,
-  'hours:3': 60 * 60 * 3,
-  'hours:6': 60 * 60 * 6,
-  'hours:12': 60 * 60 * 12,
-  'days:1': 60 * 60 * 24,
-  'days:3': 60 * 60 * 24 * 3,
-  'weeks:1': 60 * 60 * 24 * 7,
-  'months:1': 60 * 60 * 24 * 30,
-  'months:3': 60 * 60 * 24 * 30 * 3,
-  'months:6': 60 * 60 * 24 * 6,
-};
