@@ -67,6 +67,7 @@ declare namespace MONITOR_TRACE {
     parentSpanId: string;
     timestamp: number;
     duration: number;
+    selfDuration: number;
     tags: ITag;
   }
 
@@ -107,6 +108,33 @@ declare namespace MONITOR_TRACE {
     trace_id: string;
     workspace: string;
     error?: string;
+  }
+
+  interface ISpanChartData {
+    dashboardId: string;
+    conditions: string[];
+  }
+
+  interface ISpanRelationChart {
+    callAnalysis: ISpanChartData;
+    serviceAnalysis: ISpanChartData;
+  }
+
+  interface ISpanItem {
+    id: string;
+    traceId: string;
+    operationName: string;
+    startTime: number;
+    endTime: number;
+    parentSpanId: string;
+    timestamp: number;
+    duration: number;
+    selfDuration: number;
+    tags: ITag;
+    children?: ISpanItem[];
+    depth?: number;
+    key?: string;
+    title?: React.ReactNode;
   }
 
   interface ITraceDetail {

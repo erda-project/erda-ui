@@ -72,6 +72,7 @@ interface IState {
   };
   projectApps: any[];
   projectAppsPaging: IPaging;
+  isShowTraceDetail: boolean;
 }
 const query = qs.parse(location.search);
 
@@ -110,6 +111,7 @@ const defaultState: IState = {
   chosenApp: {},
   projectApps: [],
   projectAppsPaging: getDefaultPaging(),
+  isShowTraceDetail: false,
 };
 const monitorCommon = createStore({
   name: 'monitor-common',
@@ -230,6 +232,9 @@ const monitorCommon = createStore({
     },
     clearMonitorCommon() {
       return { ...defaultState };
+    },
+    setIsShowTraceDetail(state, payload) {
+      state.isShowTraceDetail = payload;
     },
   },
 });
