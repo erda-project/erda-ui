@@ -15,7 +15,8 @@ import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Drawer, Radio, Select, Table, Tag } from 'core/nusi';
+import { goTo } from 'common/utils';
+import { Drawer, Radio, Select, Table, Tag, Ellipsis, Tooltip } from 'core/nusi';
 import { SimpleLog, useUpdate, DebounceSearch } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -135,6 +136,7 @@ const Transaction = () => {
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
+  const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const [
     {
       type,
@@ -255,7 +257,7 @@ const Transaction = () => {
               className="table-operations-btn"
               onClick={() => {
                 updater.traceId(record.requestId);
-                updater.detailVisible(true);
+                setIsShowTraceDetail(true);
               }}
             >
               {i18n.t('check detail')}
@@ -267,6 +269,14 @@ const Transaction = () => {
 
     return [c, traceSlowTranslation?.data];
   }, [traceSlowTranslation, updater]);
+
+  const tracingDrawerTitle = (
+    <div className="w-60">
+      <Ellipsis title={`${i18n.t('msp:tracing details')}(${url})`}>{`${i18n.t(
+        'msp:tracing details',
+      )}(${url})`}</Ellipsis>
+    </div>
+  );
 
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
@@ -280,7 +290,7 @@ const Transaction = () => {
       topic,
       search,
       sort,
-      type: callType,
+      type: callType === 'undefined' ? undefined : callType,
       subSearch: _subSearch || undefined,
     };
   }, [search, sort, callType, subSearch, topic]);
@@ -292,7 +302,6 @@ const Transaction = () => {
           <div className="left flex justify-between items-center mb-2">
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
-                className="ml-3"
                 placeholder={i18n.t('msp:call type')}
                 allowClear
                 style={{ width: '150px' }}
@@ -347,20 +356,24 @@ const Transaction = () => {
         </div>
         <If condition={!!subSearch}>
           <Tag className="mb-2" closable onClose={() => updater.subSearch(undefined)}>
-            {subSearch}
+            <Tooltip title={subSearch}>
+              <span>{subSearch && subSearch.length > 60 ? `${subSearch?.slice(0, 60)}...` : subSearch}</span>
+            </Tooltip>
           </Tag>
         </If>
       </div>
       <div className="overflow-auto flex-1">
         <ServiceListDashboard
+          key={`${startTimeMs}-${endTimeMs}`}
           dashboardId={dashboardIdMap[type].id}
           extraGlobalVariable={extraGlobalVariable}
           onBoardEvent={handleBoardEvent}
         />
       </div>
       <Drawer
-        title={`${i18n.t('msp:tracing details')}(${url})`}
-        width="55%"
+        title={tracingDrawerTitle}
+        width="80%"
+        className="z-50"
         visible={visible}
         onClose={() => updater.visible(false)}
       >
@@ -398,16 +411,8 @@ const Transaction = () => {
         >
           <SimpleLog requestId={traceId} applicationId={params?.applicationId} />
         </Drawer>
-        <Drawer
-          title={i18n.t('msp:link information')}
-          visible={detailVisible}
-          onClose={() => updater.detailVisible(false)}
-          width="50%"
-          destroyOnClose
-        >
-          <TraceSearchDetail traceId={traceId} />
-        </Drawer>
       </Drawer>
+      <TraceSearchDetail traceId={traceId} />
     </div>
   );
 };
