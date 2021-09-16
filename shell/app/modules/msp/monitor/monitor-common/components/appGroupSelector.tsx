@@ -30,7 +30,7 @@ interface IProps {
 const AppGroupSelector = ({ api, type, dataHandler, viewProps }: IProps) => {
   const [appGroup, timeSpan, chosenApp, chosenAppGroup, lastChosenAppGroup] = monitorCommonStore.useStore((s) => [
     s.appGroup,
-    s.timeSpan,
+    s.globalTimeSelectSpan.range,
     s.chosenApp,
     s.chosenAppGroup,
     s.lastChosenAppGroup,

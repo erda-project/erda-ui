@@ -105,7 +105,7 @@ const BuildDetail = (props: IProps) => {
     if (pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status)) {
       timer.current = setTimeout(() => {
         state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
-      }, 10000);
+      }, 30000);
     } else {
       timer.current && clearTimeout(timer.current);
     }

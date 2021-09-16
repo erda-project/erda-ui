@@ -14,7 +14,8 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import { Row, Col, Input, Button } from 'core/nusi';
-import { IF, TimeSelector } from 'common';
+import { IF } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import apiMonitorFilterStore from '../../stores/filter';
 import i18n from 'i18n';
 
@@ -84,7 +85,7 @@ const FilterNav = ({ isNeedStatusFilters = true, updateFields, resetFields }: IP
         </div>
       </div>
       <div className="filter-container flex justify-between items-center">
-        <TimeSelector inline />
+        <TimeSelectWithStore />
         <div className="search-actions flex justify-between items-center ml-5">
           <Button className="mr-2" onClick={resetAll}>
             {i18n.t('reset')}

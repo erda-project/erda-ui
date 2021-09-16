@@ -3,7 +3,7 @@
 
   .filter-group-left {
     display: inline-flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 
     > *:not(:last-child) {
@@ -17,7 +17,7 @@
 
   .filter-group-right {
     display: inline-flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
 
     > *:not(:first-child) {

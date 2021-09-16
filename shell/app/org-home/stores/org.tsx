@@ -171,14 +171,12 @@ const org = createStore({
 
 export default org;
 
-const dataEngineerInfo = process.env.dataEngineerInfo as unknown as { indexUrl: string; name: string };
-
 const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
   const curPathname = location.pathname;
   const { roles, orgName } = authObj;
   const checkMap = {
     dataEngineer: {
-      isCurPage: curPathname.startsWith(`/${orgName}/${dataEngineerInfo.name}`),
+      isCurPage: curPathname.startsWith(`/${orgName}/fdp`),
       authRole: intersection(orgPerm.entryFastData.role, roles),
     },
     orgCenter: {
@@ -217,7 +215,7 @@ const setLocationByAuth = (authObj: { roles: string[]; orgName: string }) => {
       let resetPath = goTo.resolve.orgRoot({ orgName });
       if (roles.toString() === 'DataEngineer') {
         // DataEngineer redirect to DataEngineer role page
-        resetPath = dataEngineerInfo?.indexUrl?.replace('{orgName}', get(location.pathname.split('/'), '[1]') || '-');
+        resetPath = `/${orgName}/fdp/__cluster__/__workspace__/data-govern-platform/data-source`;
       } else if (roles.toString() === 'Ops') {
         // 企业运维只有云管的权限
         resetPath = `/${orgName}/cmp/overview`;

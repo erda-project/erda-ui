@@ -28,6 +28,7 @@ declare namespace CONFIGURATION {
   interface IDocs {
     language: string;
     strategy: string;
+    scopeId: string;
   }
 
   interface IAllKey {
@@ -36,7 +37,7 @@ declare namespace CONFIGURATION {
     accessKey?: string;
     pageNo: number;
     pageSize: number;
-    scope: string;
+    scope?: string;
     scopeId: string;
   }
 
@@ -44,7 +45,6 @@ declare namespace CONFIGURATION {
     description?: string;
     subject: string;
     subjectType: number;
-    scope: string;
     scopeId: string;
   }
 

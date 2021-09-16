@@ -21,7 +21,7 @@ import { registChartControl } from 'charts/utils/regist';
 import userStore from './user/stores';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import { startApp, registerModule } from 'core/main';
+import { startApp, registerModule } from 'core/index';
 import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import { setConfig, getConfig } from 'core/config';
 import permStore from 'user/stores/permission';

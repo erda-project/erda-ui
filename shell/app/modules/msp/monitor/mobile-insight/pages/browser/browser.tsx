@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import BrowserMap from './config/chartMap';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const Browser = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
@@ -39,7 +39,9 @@ const Browser = () => {
   };
   return (
     <div>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={8}>
           <div className="monitor-sort-panel">

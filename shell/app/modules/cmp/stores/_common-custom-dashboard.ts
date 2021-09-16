@@ -13,12 +13,13 @@
 
 import i18n from 'i18n';
 import { createFlatStore } from 'core/cube';
-import { getDefaultPaging, getTimeSpan } from 'common/utils';
+import { getDefaultPaging, getTimeSpan, qs } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 import * as orgCustomDashboardService from 'cmp/services/custom-dashboard';
 import * as mspCustomDashboardService from 'msp/query-analysis/custom-dashboard/services/custom-dashboard';
 import { ITimeRange, transformRange } from 'common/components/time-select/common';
+import moment from 'moment';
 
 export enum CustomDashboardScope {
   ORG = 'org',
@@ -37,11 +38,18 @@ export interface IState {
   };
 }
 
-const defaultRange: ITimeRange = {
+const query = qs.parse(location.search);
+let defaultRange: ITimeRange = {
   mode: 'quick',
   quick: 'hours:1',
   customize: {},
 };
+
+if (query.mode === 'quick' && query.quick) {
+  defaultRange = { mode: 'quick', quick: query.quick, customize: {} };
+} else if (query.mode === 'customize' && query.start && query.end) {
+  defaultRange = { mode: 'customize', quick: '', customize: { start: moment(+query.start), end: moment(+query.end) } };
+}
 const { date } = transformRange(defaultRange);
 
 export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
@@ -54,11 +62,7 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
     customDashboardPaging: getDefaultPaging(),
     timeSpan: getTimeSpan(),
     globalTimeSelectSpan: {
-      data: {
-        mode: 'quick',
-        quick: 'hours:1',
-        customize: {},
-      },
+      data: defaultRange,
       range: {
         triggerTime: 0,
         ...getTimeSpan(date),

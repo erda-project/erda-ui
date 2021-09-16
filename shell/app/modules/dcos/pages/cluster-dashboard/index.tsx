@@ -484,7 +484,7 @@ const ClusterDashboard = () => {
           <span
             className="my-2 text-link"
             onClick={() => {
-              goTo(goTo.pages.cmpClustersNodes, { clusterName: activeGroup || `${groupName}${unitGroups[0]}` });
+              goTo(goTo.pages.cmpClustersNodes, { clusterName: name });
             }}
           >
             <ViewGridDetail />

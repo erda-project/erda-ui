@@ -22,6 +22,8 @@ import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
 
+import './tree.scss';
+
 const { Option, OptGroup } = Select;
 
 interface IAction {
@@ -415,7 +417,7 @@ export const TreeCategory = ({
     if (cuttingNodeKey === nodeKey) {
       updater.cuttingNodeKey(null);
     }
-    onLoadTreeData(targetNode.parentKey!); // 重新刷被剪切的父文件夹
+    await onLoadTreeData(targetNode.parentKey!); // 重新刷被剪切的父文件夹
     await onLoadTreeData(parentKey); // 重新刷被粘贴的父文件夹
     if (!targetNode.isLeaf && !!targetNode.children) {
       // 如果剪切的是文件夹，那么可能这个文件夹已经被展开了，那么刷新父文件夹之后children就丢了。所有手动粘贴一下
@@ -788,26 +790,31 @@ export const TreeCategory = ({
           loadData={(node) => onLoadTreeData(node.key)}
           treeData={treeData}
           expandedKeys={expandedKeys}
-          className="file-tree-container"
+          className="tree-category-container"
           blockNode
           showIcon
           onExpand={onExpand}
           onSelect={onClickNode}
-          titleRender={(nodeData: TreeNodeNormal) => (
-            <span>
-              {nodeData.title}
-              <Popover
-                content={getActions(nodeData).map((item) => (
-                  <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
-                    {item.node}
-                  </div>
-                ))}
-                footer={false}
-              >
-                <CustomIcon type="gd" className="tree-node-action" />
-              </Popover>
-            </span>
-          )}
+          titleRender={(nodeData: TreeNodeNormal) => {
+            const execNode = nodeData as TreeNode;
+            return (
+              <span className={`inline-block truncate ${execNode.disableAction ? 'w-full' : 'has-operates'}`}>
+                {nodeData.title}
+                {!execNode.disableAction && (
+                  <Popover
+                    content={getActions(nodeData).map((item) => (
+                      <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                        {item.node}
+                      </div>
+                    ))}
+                    footer={false}
+                  >
+                    <CustomIcon type="gd" className="tree-node-action" />
+                  </Popover>
+                )}
+              </span>
+            );
+          }}
           draggable={!!moveNode && !cuttingNodeKey && !copyingNodeKey} // 当有剪切复制正在进行中时，不能拖动
           onDrop={onDrop}
           {...treeProps}
