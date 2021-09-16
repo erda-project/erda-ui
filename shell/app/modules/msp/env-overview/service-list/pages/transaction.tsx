@@ -290,7 +290,7 @@ const Transaction = () => {
       topic,
       search,
       sort,
-      type: callType === 'undefined' ? undefined : callType,
+      type: callType,
       subSearch: _subSearch || undefined,
     };
   }, [search, sort, callType, subSearch, topic]);
@@ -305,7 +305,11 @@ const Transaction = () => {
                 placeholder={i18n.t('msp:call type')}
                 allowClear
                 style={{ width: '150px' }}
-                onChange={(v) => updater.callType(String(v))}
+                onChange={(v) => {
+                  if (v) {
+                    updater.callType(String(v));
+                  }
+                }}
               >
                 {callTypes.map(({ name, value }) => (
                   <Select.Option key={value} value={value}>
