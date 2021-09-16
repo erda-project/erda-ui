@@ -130,6 +130,7 @@ importers:
       moment: ^2.29.1
       path-to-regexp: ^6.2.0
       query-string: ^6.4.2
+      rc-resize-observer: ^1.0.0
       react: 16.14.0
       react-dom: 16.14.0
       react-router-config: ^5.0.0
@@ -160,6 +161,7 @@ importers:
       moment: 2.29.1
       path-to-regexp: 6.2.0
       query-string: 6.14.1
+      rc-resize-observer: 1.0.0_react-dom@16.14.0+react@16.14.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       react-router-config: 5.1.1_react@16.14.0
@@ -8838,7 +8840,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.1_debug@4.3.1
+      follow-redirects: 1.14.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -12635,18 +12637,18 @@ packages:
       eslint-plugin-testing-library:
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 4.25.0_15a8c6a214b1547f8382842b92f9dbe9
-      '@typescript-eslint/parser': 4.25.0_eslint@7.27.0+typescript@4.4.2
+      '@typescript-eslint/eslint-plugin': 4.25.0_6fb86b31e39dbd15f93824c03ca6ca0c
+      '@typescript-eslint/parser': 4.25.0_eslint@7.27.0+typescript@4.2.4
       babel-eslint: 10.1.0_eslint@7.27.0
       confusing-browser-globals: 1.0.10
       eslint: 7.27.0
       eslint-plugin-flowtype: 5.7.2_eslint@7.27.0
       eslint-plugin-import: 2.23.3_eslint@7.27.0
-      eslint-plugin-jest: 24.3.6_c82f5996322cd9ede56a955914b627f7
+      eslint-plugin-jest: 24.3.6_37bf39ebe0f22c2c661de72fa9962677
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.27.0
       eslint-plugin-react: 7.23.2_eslint@7.27.0
       eslint-plugin-react-hooks: 4.2.0_eslint@7.27.0
-      eslint-plugin-testing-library: 3.10.2_eslint@7.27.0+typescript@4.4.2
+      eslint-plugin-testing-library: 3.10.2_eslint@7.27.0+typescript@4.2.4
     dev: false
 
   /eslint-import-resolver-node/0.3.4:
@@ -14014,7 +14016,8 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.1_supports-color@6.1.0
+      debug: 4.3.1
+    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}

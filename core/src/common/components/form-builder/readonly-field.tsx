@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { isPlainObject, isFunction } from 'lodash';
-import { overrideTailwindClasses } from 'tailwind-override';
 
 interface IProps {
   renderData?: React.ReactNode;
@@ -36,7 +35,7 @@ const ReadonlyField = ({ renderData, style, className, value }: IProps) => {
   }, [renderData, value]);
 
   return (
-    <div style={style} className={overrideTailwindClasses(`overflow-auto ${className}`)}>
+    <div style={{ overflow: 'auto', ...style }} className={className}>
       {realData}
     </div>
   );
