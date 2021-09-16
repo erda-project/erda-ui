@@ -52,7 +52,7 @@ server {
     set $collectorUrl //${COLLECTOR_PUBLIC_ADDR}/collect;
     set $terminusKey ${TERMINUS_KEY};
 
-    location /ta {
+    location = /ta {
         default_type application/javascript;
        return 200 'window._taConfig={enabled:$taEnabled,ak:"$terminusKey",url:"$taUrl",collectorUrl:"$collectorUrl"}';
     }
@@ -64,22 +64,22 @@ server {
     # 301 redirect url with replace workBench to dop
     location ~ ^/[^/]*/workBench/ {
         # add $my_scheme to prevent redirect https to http
-        rewrite ^/([^/]*)/workBench/(.*) $my_scheme://$http_host/$1/dop/$2 redirect; 
+        rewrite ^/([^/]*)/workBench/(.*) $my_scheme://$http_host/$1/dop/$2 redirect;
     }
 
     # 301 redirect url with replace microService to msp
     location ~ ^/[^/]*/microService/ {
-        rewrite ^/([^/]*)/microService/(.*) $my_scheme://$http_host/$1/msp/$2 redirect; 
+        rewrite ^/([^/]*)/microService/(.*) $my_scheme://$http_host/$1/msp/$2 redirect;
     }
 
     # 301 redirect url with replace dataCenter to cmp
     location ~ ^/[^/]*/dataCenter/ {
-        rewrite ^/([^/]*)/dataCenter/(.*) $my_scheme://$http_host/$1/cmp/$2 redirect; 
+        rewrite ^/([^/]*)/dataCenter/(.*) $my_scheme://$http_host/$1/cmp/$2 redirect;
     }
 
     # 301 redirect url with replace edge to ecp
     location ~ ^/[^/]*/edge/ {
-        rewrite ^/([^/]*)/edge/(.*) $my_scheme://$http_host/$1/ecp/$2 redirect; 
+        rewrite ^/([^/]*)/edge/(.*) $my_scheme://$http_host/$1/ecp/$2 redirect;
     }
 
     location /api/dice-env  {
