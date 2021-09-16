@@ -60,7 +60,7 @@ const getLogItem =
     let reContent = parseLinkInContent(content, pushSlideComp);
     const isValidElement = React.isValidElement(reContent);
     if (!isValidElement) {
-      reContent = transformLog(content);
+      reContent = transformLog(reContent);
     }
     return (
       <div className="container-log-item">
