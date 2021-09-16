@@ -212,7 +212,7 @@ const PureDeployList = (props: IProps) => {
       {
         type: Input,
         name: 'id',
-        validator: [
+        rules: [
           {
             pattern: /^[0-9]*$/,
             message: i18n.t('can only contain numbers'),

@@ -320,7 +320,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
             }
           },
         },
-        validator: [
+        rules: [
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (existApiPathNames.includes(value)) {

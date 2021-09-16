@@ -219,7 +219,7 @@ export const stringMinLengthField = (dataTempStorage: Obj) => {
       precision: 0,
       ...DEFAULT_LENGTH_PROPS,
     },
-    validator: [
+    rules: [
       {
         validator: (_rule: any, value: number, callback: (msg?: string) => void) => {
           const maxLength = dataTempStorage?.maxLength;
@@ -246,7 +246,7 @@ export const stringMaxLengthField = (dataTempStorage: Obj) => {
       precision: 0,
       ...DEFAULT_LENGTH_PROPS,
     },
-    validator: [
+    rules: [
       {
         validator: (_rule: any, value: number, callback: (msg?: string) => void) => {
           const minLength = dataTempStorage?.minLength;
@@ -313,7 +313,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
       className: 'w-full',
       ...DEFAULT_NUMBER_PROPS,
     },
-    validator: [
+    rules: [
       {
         validator: (_rule: any, value: number, callback: (msg?: string) => void) => {
           const maximum = dataTempStorage?.maximum;
@@ -340,7 +340,7 @@ export const numberMaximumField = (dataTempStorage: Obj) => {
       className: 'w-full',
       ...DEFAULT_NUMBER_PROPS,
     },
-    validator: [
+    rules: [
       {
         validator: (_rule: any, value: number, callback: (msg?: string) => void) => {
           const minimum = dataTempStorage?.minimum;
@@ -531,7 +531,7 @@ export const getPropertyFormSelector = (props: {
         customProps: {
           maxLength: INPUT_MAX_LENGTH,
         },
-        validator: [
+        rules: [
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               const { pattern, message } = regRules.specialLetter;
@@ -582,7 +582,7 @@ export const getPropertyFormSelector = (props: {
         customProps: {
           maxLength: INPUT_MAX_LENGTH,
         },
-        validator: [
+        rules: [
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               const { pattern, message } = regRules.specialLetter;

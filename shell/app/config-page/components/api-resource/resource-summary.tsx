@@ -203,7 +203,7 @@ const ResourceSummary = React.memo((props: IProps) => {
             }
           },
         },
-        validator: [
+        rules: [
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (operationIdList.includes(value)) {
