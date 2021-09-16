@@ -215,7 +215,7 @@ const SideBar = () => {
         },
       },
     ]),
-    ...insertWhen(!!erdaEnv.UC_PUBLIC_URL, [
+    ...insertWhen(loginUser.isNewUser || !!erdaEnv.UC_PUBLIC_URL, [
       {
         icon: <ErdaCustomIcon type="user-config" />,
         title: i18n.t('layout:personal settings'),
