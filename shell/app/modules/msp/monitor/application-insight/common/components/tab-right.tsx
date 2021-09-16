@@ -14,7 +14,8 @@
 import React from 'react';
 import { get, map } from 'lodash';
 import { ModuleSelector, AppGroupSelector, AppsSelector } from 'monitor-common';
-import { IF, TimeSelector } from 'common';
+import { IF } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import i18n from 'i18n';
 import './tab-right.scss';
 
@@ -144,15 +145,23 @@ const TabRight = ({ type = '' }: { type?: string }) => {
     },
   };
   return (
-    <div className="ai-top-nav-right filter-box">
-      <AppsSelector />
-      <IF check={['web', 'rpc', 'database', 'cache'].includes(type)}>
-        <AppGroupSelector {...modulesMap[type]} key={type} type={type} />
-      </IF>
-      <IF check={['jvm', 'node'].includes(type)}>
-        <ModuleSelector {...modulesMap[type]} key={type} type={type} selectDefault viewProps={{ allowClear: false }} />
-      </IF>
-      <TimeSelector />
+    <div className="ai-top-nav-right filter-box flex justify-between">
+      <div>
+        <AppsSelector />
+        <IF check={['web', 'rpc', 'database', 'cache'].includes(type)}>
+          <AppGroupSelector {...modulesMap[type]} key={type} type={type} />
+        </IF>
+        <IF check={['jvm', 'node'].includes(type)}>
+          <ModuleSelector
+            {...modulesMap[type]}
+            key={type}
+            type={type}
+            selectDefault
+            viewProps={{ allowClear: false }}
+          />
+        </IF>
+      </div>
+      <TimeSelectWithStore />
     </div>
   );
 };

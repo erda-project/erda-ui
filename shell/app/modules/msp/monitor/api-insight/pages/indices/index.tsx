@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TimeSelector } from 'common';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import Indices from './config/chartMap';
 import routeInfoStore from 'core/stores/route';
 import gatewayStore from 'msp/stores/gateway';
@@ -35,7 +35,7 @@ const APIIndices = () => {
 
   return (
     <div>
-      <TimeSelector />
+      <TimeSelectWithStore />
       <Indices.memory shouldLoad={shouldLoad} query={{ ...commonFilter }} />
       <Indices.cpu shouldLoad={shouldLoad} query={{ ...commonFilter }} />
       <Indices.disk shouldLoad={shouldLoad} query={{ ...commonFilter }} />

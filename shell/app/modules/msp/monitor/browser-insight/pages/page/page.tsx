@@ -13,7 +13,6 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import PageMap from './config/chartMap';

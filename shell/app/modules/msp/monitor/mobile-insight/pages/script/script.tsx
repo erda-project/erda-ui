@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { TimeSelector } from 'common';
 import ScriptMap from './config/chartMap';
 import './script.scss';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 
 const Script = () => {
   const getAllChart = () => {
@@ -29,7 +29,9 @@ const Script = () => {
 
   return (
     <div>
-      <TimeSelector />
+      <div className="flex justify-end mb-3">
+        <TimeSelectWithStore />
+      </div>
       <Row gutter={20}>
         <Col span={8}>
           <div className="monitor-sort-panel">

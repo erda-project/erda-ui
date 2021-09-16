@@ -67,6 +67,7 @@ import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
 import { Panel } from '../common/components/panel';
+import { Title } from '../common/components/title';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
@@ -78,7 +79,6 @@ import {
   SideNavigation,
   PageHeader,
   GlobalNavigation,
-  Title,
   List,
   Ellipsis,
   ConfigProvider as NusiConfigProvider,

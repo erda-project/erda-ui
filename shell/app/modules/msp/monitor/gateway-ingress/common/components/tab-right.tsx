@@ -12,18 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TimeSelector, IF } from 'common';
+import { IF } from 'common';
 import DomainSelector from './domain-selector';
+import { TimeSelectWithStore } from 'msp/components/time-select';
 import './tab-right.scss';
 
 const TabRight = ({ type = '', children }: { type?: string; children?: any }) => {
   return (
-    <div className="gi-top-nav-right filter-box">
-      <IF check={['qps', 'traffic', 'latency'].includes(type)}>
-        <DomainSelector />
-      </IF>
-      {children || null}
-      <TimeSelector />
+    <div className="gi-top-nav-right filter-box flex justify-between mb-3">
+      <div>
+        <IF check={['qps', 'traffic', 'latency'].includes(type)}>
+          <DomainSelector />
+        </IF>
+        {children || null}
+      </div>
+      <TimeSelectWithStore />
     </div>
   );
 };
