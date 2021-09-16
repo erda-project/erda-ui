@@ -82,7 +82,6 @@ import {
   List,
   Ellipsis,
   ConfigProvider as NusiConfigProvider,
-  Popover as NusiPopover,
 } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
@@ -166,5 +165,4 @@ export {
   GlobalNavigation,
   AntdConfigProvider,
   NusiConfigProvider,
-  NusiPopover,
 };
