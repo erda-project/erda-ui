@@ -22,7 +22,6 @@ services:
       COLLECTOR_ADDR: "collector:7076"
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
       SCHEDULER_ADDR: "scheduler:9091"
-      UC_PUBLIC_URL: ""
     resources:
       cpu: ${request_cpu:0.2}
       max_cpu: 0.2
