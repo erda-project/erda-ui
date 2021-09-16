@@ -21,7 +21,7 @@ import './index.scss';
 import i18n from 'i18n';
 import moment from 'moment';
 import ServiceListDashboard from 'msp/monitor/service-list/pages/service-list-dashboard';
-import { customMap, ITimeRange, translateRelativeTime } from 'common/components/time-select/common';
+import { ITimeRange, translateRelativeTime } from 'common/components/time-select/common';
 import { listToTree } from './utils';
 import { SpanTitleInfo } from './span-title-info';
 import { TraceDetailInfo } from './trace-detail-info';
@@ -239,7 +239,7 @@ export function TraceGraph(props: IProps) {
                     const { quick = '' } = data;
                     let range1 = range?.[0]?.valueOf() || selectedTimeRange?.customize?.start?.valueOf();
                     let range2 = range?.[1]?.valueOf() || selectedTimeRange?.customize?.end?.valueOf();
-                    if (customMap[quick]) {
+                    if (quick) {
                       const [unit, count] = quick.split(':');
                       const [start, end] = translateRelativeTime(unit, Number(count));
                       range1 = start?.valueOf();
