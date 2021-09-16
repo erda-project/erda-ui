@@ -126,7 +126,9 @@ const TiledFilter = (props: IProps) => {
     let valLength = 0;
     selectFields.forEach((sItem) => {
       const curVal = value[sItem.key];
-      if (!((Array.isArray(curVal) && curVal.length === 0) || curVal === undefined)) {
+      if (Array.isArray(curVal)) {
+        valLength += curVal.length;
+      } else if (curVal !== undefined && curVal !== '') {
         valLength += 1;
       }
     });
