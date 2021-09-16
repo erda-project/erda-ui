@@ -78,9 +78,11 @@ export function Table(props: CP_TABLE.Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
-  const changePage = (pNo: number, pSize?: number) => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
-  };
+  const changePage = operations?.changePageNo
+    ? (pNo: number, pSize?: number) => {
+        execOperation(operations.changePageNo, { pageNo: pNo, pageSize: pSize });
+      }
+    : undefined;
 
   const tableColumns = map([...(columns || [])], (cItem) => ({
     ...cItem,
@@ -90,18 +92,20 @@ export function Table(props: CP_TABLE.Props) {
 
   const isGanttTable = columns.find((item) => item.titleRenderType === 'gantt');
 
-  const pagination = {
-    total: total || list.length,
-    current: pageNo || 1,
-    pageSize: pageSize || 20,
-    onChange: (no: number, size?: number) => changePage(no, size),
-    ...(pageSizeOptions
-      ? {
-          showSizeChanger: true,
-          pageSizeOptions,
-        }
-      : {}),
-  };
+  const pagination = changePage
+    ? {
+        total: total || list.length,
+        current: pageNo || 1,
+        pageSize: pageSize || 20,
+        onChange: (no: number, size?: number) => changePage(no, size),
+        ...(pageSizeOptions
+          ? {
+              showSizeChanger: true,
+              pageSizeOptions,
+            }
+          : {}),
+      }
+    : undefined;
 
   const extra: Obj = {};
   if (operations?.clickRow) {
