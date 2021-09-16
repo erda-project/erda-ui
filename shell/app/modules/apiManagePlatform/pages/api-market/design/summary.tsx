@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor, useUpdate } from 'common';
 import { Input, Title, FormBuilder } from 'core/nusi';
-import { FormInstance } from 'core/common/interface';
+import { IFormExtendType } from 'core/common/interface';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { INPUT_MAX_LENGTH, TEXTAREA_MAX_LENGTH } from 'app/modules/apiManagePlatform/configs.ts';
@@ -35,7 +35,7 @@ const ApiSummary = () => {
     isErrorVersion: false,
   });
 
-  const formRef = React.useRef<FormInstance>(null as any);
+  const formRef = React.useRef<IFormExtendType>(null as any);
   const [openApiDoc, apiLockState] = apiDesignStore.useStore((s) => [s.openApiDoc, s.apiLockState]);
 
   const { updateOpenApiDoc, updateFormErrorNum } = apiDesignStore;
@@ -44,12 +44,12 @@ const ApiSummary = () => {
     const info = openApiDoc.info as IApiInfo;
 
     setTimeout(() => {
-      formRef.current!.setFieldsValue(info);
+      formRef.current?.setFieldsValue(info);
     });
   }, [openApiDoc]);
 
   const setField = (propertyName: string, val: any) => {
-    const info = formRef.current?.getFieldsValues();
+    const info = formRef.current?.getFieldsValue();
     info[propertyName] = val;
     const tempDetail = produce(openApiDoc, (draft) => {
       draft.info = info;
@@ -122,7 +122,7 @@ const ApiSummary = () => {
 
   return (
     <div className="api-summary">
-      <FormBuilder isMultiColumn wrappedComponentRef={formRef}>
+      <FormBuilder isMultiColumn ref={formRef}>
         <Title level={1} title={i18n.t('project:API overview')} />
         <Fields fields={basicFields} fid="basicFields" />
       </FormBuilder>

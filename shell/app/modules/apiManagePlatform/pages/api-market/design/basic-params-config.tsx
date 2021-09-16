@@ -18,7 +18,7 @@ import { Icon as CustomIcon, useUpdate } from 'common';
 import { produce } from 'immer';
 import { map, set, unset, keys, isEmpty, get, filter, omit, some, forEach, reduce, values } from 'lodash';
 import { regRules } from 'common/utils';
-import { FormInstance } from 'core/common/interface';
+import { IFormExtendType } from 'core/common/interface';
 import ApiParamsModal from 'apiManagePlatform/pages/api-market/design/api-params-modal';
 import {
   BASE_DATA_TYPE,
@@ -107,7 +107,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     formErrorMap: {},
   });
 
-  const formRef = React.useRef<FormInstance>({} as any);
+  const formRef = React.useRef<IFormExtendType>({} as any);
   const paramListTempStorageRef = React.useRef<any[]>([]);
   const dataTempStorageRef = React.useRef<Obj>({});
 
@@ -226,7 +226,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     setTimeout(() => {
       formRef.current!.setFieldsValue(tempFormData);
       if (isEmpty(formData)) {
-        const _formData = formRef.current!.getFieldsValues();
+        const _formData = formRef.current!.getFieldsValue();
         updater.dataTempStorage(_formData);
       }
     });
@@ -773,7 +773,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   }, [detailVisible, isBasicDataType, isCurTypeOf]);
 
   return (
-    <FormBuilder isMultiColumn wrappedComponentRef={formRef}>
+    <FormBuilder isMultiColumn ref={formRef}>
       {props?.formType !== 'Parameters' && <Fields fields={formFieldsSelector} />}
       {detailVisible && isBasicDataType && <Fields fields={propertyFields} />}
       {detailType === 'object' && (

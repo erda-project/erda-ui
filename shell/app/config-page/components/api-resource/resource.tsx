@@ -28,7 +28,7 @@ import {
 } from 'app/modules/apiManagePlatform/configs.ts';
 import { produce } from 'immer';
 import ResourceSummary from './resource-summary';
-import { FormInstance } from 'core/common/interface';
+import { IFormExtendType } from 'core/common/interface';
 import ReactDOM from 'react-dom';
 import './resource.scss';
 
@@ -56,7 +56,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   });
 
   const { apiData, execOperation, operations } = props?.data || {};
-  const formRef = React.useRef<FormInstance>({} as any);
+  const formRef = React.useRef<IFormExtendType>({} as any);
 
   const [openApiDoc, apiLockState, formErrorNum] = apiDesignStore.useStore((s) => [
     s.openApiDoc,
@@ -301,6 +301,8 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
         name: 'apiName',
         colSpan: 24,
         required: false,
+        isHoldLabel: false,
+        wrapperClassName: 'pl-0',
         customProps: {
           className: 'name-input',
           maxLength: INPUT_MAX_LENGTH,
@@ -318,7 +320,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
             }
           },
         },
-        validator: [
+        rules: [
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (existApiPathNames.includes(value)) {
@@ -481,7 +483,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     <div className="api-resource" ref={popconfirmRef}>
       <div className="popover">
         {renderSelectMenu()}
-        <FormBuilder isMultiColumn wrappedComponentRef={formRef} className="w-full">
+        <FormBuilder ref={formRef} className="w-full">
           <Fields fields={fieldList} />
         </FormBuilder>
       </div>
