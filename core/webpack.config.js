@@ -135,7 +135,7 @@ module.exports = () => {
       new ModuleFederationPlugin({
         name: 'mf_core',
         exposes: {
-          './main': './src/index.tsx',
+          './index': './src/index.tsx',
           './cube': './src/cube.ts',
           './i18n': './src/i18n.ts',
           './agent': './src/agent.ts',
