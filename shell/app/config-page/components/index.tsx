@@ -55,6 +55,7 @@ import ChartDashboard from './chart-dashboard/chart-dashboard';
 import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
+import Modal from './modal/modal';
 
 export const containerMap = {
   Alert,
@@ -103,4 +104,5 @@ export const containerMap = {
   ChartDashboard,
   TiledFilter,
   FileEditor,
+  Modal,
 };

@@ -19,6 +19,7 @@ import moment from 'moment';
 import { DatePicker, Table, Button, Popover, Drawer } from 'core/nusi';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
+import { has, isPlainObject } from 'lodash';
 import React from 'react';
 import { getTimeRanges, qs, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
@@ -62,6 +63,20 @@ const TestModal = ({ onOk }: { onOk: (d: Obj) => void }) => {
   );
 };
 
+const formatStrWithBr = (s: string) => {
+  const reContent: Array<string | JSX.Element> = [];
+  if (s.includes('\n')) {
+    s.split('\n').forEach((a) => {
+      reContent.push(a);
+      reContent.push(<br key={a} />);
+    });
+    reContent.pop();
+  } else {
+    reContent.push(s);
+  }
+  return reContent;
+};
+
 const AuditList = ({ sys }: { sys: boolean }) => {
   const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const query = routeInfoStore.getState((s) => s.query);
@@ -90,25 +105,37 @@ const AuditList = ({ sys }: { sys: boolean }) => {
       key: 'op',
       render: (val: string, r: AUDIT.Item) => {
         const content = auditTpl(r, extraTpls);
-        const contentWithBr: Array<string | JSX.Element> = [];
+        const contentRender: Array<string | JSX.Element> = [];
+        let contentTipRender: Array<string | JSX.Element> = [];
         if (Array.isArray(content)) {
           content.forEach((c) => {
             if (typeof c === 'string' && c.includes('\n')) {
-              c.split('\n').forEach((a) => {
-                contentWithBr.push(a);
-                contentWithBr.push(<br />);
-              });
-              contentWithBr.pop();
+              contentRender.push(c);
+              contentTipRender = contentTipRender.concat(formatStrWithBr(c));
+            } else if (isPlainObject(c) && has(c, 'value')) {
+              const { value, Comp } = c;
+              contentRender.push(<Comp key={contentRender.length} value={value} />);
+              contentTipRender.push(<Comp key={contentRender.length} value={formatStrWithBr(value)} />);
             } else {
-              contentWithBr.push(c);
+              contentRender.push(c);
+              contentTipRender.push(c);
             }
           });
+        } else {
+          contentRender.push(content);
         }
         return (
-          <Popover overlayStyle={{ maxWidth: '80%' }} content={contentWithBr.length ? contentWithBr : content}>
-            {content}
-            {r.result !== 'success' ? ` (${r.errorMsg})` : null}
-          </Popover>
+          <div className="flex">
+            <Popover
+              overlayStyle={{ maxWidth: '80%' }}
+              content={contentTipRender.length ? contentTipRender : contentRender}
+            >
+              <span className="truncate max-w-full inline-block">
+                {contentRender}
+                {r.result !== 'success' ? ` (${r.errorMsg})` : null}
+              </span>
+            </Popover>
+          </div>
         );
       },
     },
