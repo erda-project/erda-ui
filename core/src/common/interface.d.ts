@@ -30,7 +30,7 @@ export { PaginationConfig, SorterResult } from 'antd/lib/table';
 export { ColumnProps, IActions } from '../nusi/wrapped-table';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
-export { TooltipPlacement } from 'antd/lib/tooltip';
+export { AbstractTooltipProps } from 'antd/lib/tooltip';
 
 export { Action } from '@terminus/nusi/es/table';
 export { FilterItemConfig, IFilterProps } from '@terminus/nusi/es/filter/interface';
