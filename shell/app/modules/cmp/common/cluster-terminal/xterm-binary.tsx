@@ -15,6 +15,7 @@ import { Terminal } from 'xterm';
 import * as attach from 'xterm/lib/addons/attach/attach';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import { decode, encode } from 'js-base64';
+import moment from 'moment';
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(attach);
@@ -22,12 +23,13 @@ Terminal.applyAddon(attach);
 export { Terminal };
 
 const SetSize = '4';
-
+const pingTime = 30;
 export interface ITerminal extends Terminal {
   __socket: WebSocket;
   socket: WebSocket;
   __sendData: (val: string) => void;
   __getMessage: (o: Obj) => void;
+  _pingInterval: NodeJS.Timeout;
   attach: (ws: WebSocket) => void;
   _onResize: () => void;
   fit: () => void;
@@ -42,10 +44,16 @@ function sendData(term: ITerminal, type: string, data?: string) {
 function proxyOutput(term: ITerminal, socket: WebSocket) {
   const { __getMessage } = term;
   socket.removeEventListener('message', __getMessage);
+
+  const timeZoneReg = /^\d[\d-]+T[\d:.]+Z/;
+
   term.__getMessage = (ev) => {
     let { data } = ev;
-
     data = data && decode(data);
+    const timeRegResult = timeZoneReg.exec(data);
+    if (timeRegResult) {
+      data = `${moment(timeRegResult[0]).format('YYYY-MM-DD HH:mm:ss')} ${data.split(timeRegResult[0])?.[1]}`;
+    }
     __getMessage({ data: `\r${data}\n` });
   };
   socket.addEventListener('message', term.__getMessage);
@@ -54,6 +62,9 @@ function proxyOutput(term: ITerminal, socket: WebSocket) {
 function runTerminal(term: ITerminal, socket: WebSocket) {
   term.attach(socket);
   proxyOutput(term, socket);
+  term._pingInterval = setInterval(() => {
+    sendData(term, '');
+  }, pingTime * 1000);
   term.fit();
   const { cols, rows } = term;
   sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
@@ -112,6 +123,9 @@ export function destroyTerm(term: ITerminal) {
 
   if (term.socket) {
     term.socket.close();
+  }
+  if (term._pingInterval) {
+    clearInterval(term._pingInterval);
   }
   term.destroy();
 }
