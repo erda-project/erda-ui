@@ -61,7 +61,6 @@ declare namespace CONFIGURATION {
     createdAt: string;
     description: string;
     id: string;
-    secretKey: string;
     status: string;
     subject: string;
     subjectType: string;

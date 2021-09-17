@@ -13,8 +13,6 @@
 
 import { apiCreator } from 'core/service';
 
-export const downloadCsvUrl = '/api/msp/credential/access-keys/download';
-
 const apis = {
   getAcquisitionAndLang: {
     api: 'get@/api/msp/apm/instrumentation-library',

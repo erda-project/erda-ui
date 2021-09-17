@@ -15,13 +15,13 @@ import React from 'react';
 import './index.scss';
 import { ColumnProps } from 'core/common/interface';
 import { useUpdate, Copy, EmptyHolder } from 'common';
-import { setApiWithOrg } from 'common/utils';
 import i18n from 'i18n';
 import { Button, Table, Modal, Popconfirm, message, Spin } from 'core/nusi';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
+import { Copy as IconCopy } from '@icon-park/react';
 import {
   getAcquisitionAndLang,
   getDetailKey,
@@ -29,10 +29,8 @@ import {
   getInfo,
   getAllKey,
   createAccessKey,
-  downloadCsvUrl,
 } from 'msp/services/configuration';
 import routeInfoStore from 'core/stores/route';
-import { Download as IconDownload, Copy as IconCopy } from '@icon-park/react';
 
 type LangItem = Merge<CONFIGURATION.ILangConf, Item>;
 type Strategy = Merge<CONFIGURATION.IStrategy, Item>;
@@ -134,7 +132,16 @@ const Configuration = () => {
   };
 
   const columns: Array<ColumnProps<CONFIGURATION.IAllKeyData>> = [
-    { title: 'accessKey', dataIndex: 'accessKey', key: 'accessKey' },
+    {
+      title: 'Token',
+      dataIndex: 'accessKey',
+      key: 'accessKey',
+      render: (_: unknown, record?: CONFIGURATION.IAllKeyData) => (
+        <Copy selector=".container-key" copyText={record?.accessKey}>
+          {record?.accessKey}
+        </Copy>
+      ),
+    },
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
@@ -149,11 +156,12 @@ const Configuration = () => {
       key: 'operation',
       render: (_: unknown, record: CONFIGURATION.IAllKeyData) => (
         <div className="table-operations">
-          <WithAuth pass={accessPerm.viewAccessKeySecret.pass}>
+          {/* Code required for the next version */}
+          {/* <WithAuth pass={accessPerm.viewAccessKeySecret.pass}>
             <a onClick={() => getDetail(record.id)} className="table-operations-btn">
               {i18n.t('dcos:see details')}
             </a>
-          </WithAuth>
+          </WithAuth> */}
           {accessPerm.createAccessKey.pass ? (
             <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
               <a className="table-operations-btn">{i18n.t('application:delete')}</a>
@@ -223,10 +231,6 @@ const Configuration = () => {
     }
   }, [strategy, lang]);
 
-  const downloadCsvFile = (id: string) => {
-    window.open(setApiWithOrg(`${downloadCsvUrl}?id=${id}`));
-  };
-
   const pageChange = (page: number) => {
     update({
       currentPage: page,
@@ -257,7 +261,7 @@ const Configuration = () => {
             })
           }
           width={720}
-          title={mode === 'query' ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
+          title={mode === 'query' ? 'next version need' : i18n.t('established successfully')}
           visible={visible}
           footer={[
             <Button
@@ -273,28 +277,15 @@ const Configuration = () => {
           ]}
         >
           <div className="rounded-sm p-4 container-key text-gray mb-4">
-            <div className="flex items-center mb-2">
-              <span>accessKey ID</span>
+            <div className="flex items-center mb-1">
+              <span>token</span>
               <span className="ml-32">{detail?.accessKey}</span>
-            </div>
-            <div className="flex items-center">
-              <span>accessKey Secret</span>
-              <span className="ml-24">{detail?.secretKey}</span>
             </div>
           </div>
 
           <div className="flex items-center text-primary">
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                detail && downloadCsvFile(detail?.id);
-              }}
-            >
-              <IconDownload size="14" />
-              <span className="mr-8">{i18n.t('msp:download csv file')}</span>
-            </div>
             <IconCopy size="14" />
-            <Copy selector=".container-key" copyText={`${detail?.accessKey}\n${detail?.secretKey}`}>
+            <Copy selector=".container-key" copyText={`${detail?.accessKey}`}>
               {i18n.t('copy')}
             </Copy>
           </div>
@@ -302,7 +293,7 @@ const Configuration = () => {
 
         <WithAuth pass={accessPerm.createAccessKey.pass}>
           <Button className="top-button-group font-bold m4 add-key" type="primary" onClick={createKey}>
-            {i18n.t('msp:create AccessKey')}
+            {i18n.t('create {name}', { name: 'Token' })}
           </Button>
         </WithAuth>
         <Table
