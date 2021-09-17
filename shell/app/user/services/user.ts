@@ -39,6 +39,13 @@ export const logout = () => {
   return agent.post('/api/openapi/logout').then((response: any) => response.body);
 };
 
+export const newUCLogout = () => {
+  return agent.get('/api/uc/self-service/logout/browser').then((res: any) => {
+    const token = res?.data?.logout_url?.split('token=')?.[1];
+    return agent.get(`/api/uc/self-service/logout?token=${token}`).then((res1: any) => res1.data);
+  });
+};
+
 export const getJoinedProjects = ({
   pageSize,
   pageNo,
