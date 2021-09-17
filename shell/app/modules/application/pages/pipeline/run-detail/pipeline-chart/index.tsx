@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { YmlChart } from 'yml-chart/chart';
-import { externalKey } from 'yml-chart/config';
+import { externalKey, NodeType, NodeEleMap } from 'yml-chart/config';
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import PipelineNode from './pipeline-node';
@@ -95,6 +95,8 @@ export const AppPipelineChart = (props: IProps) => {
       external={{
         nodeEleMap: {
           pipeline: PipelineNode,
+          startNode: () => <NodeEleMap.startNode disabled />,
+          endNode: () => <NodeEleMap.endNode disabled />,
         },
       }}
     />
@@ -105,11 +107,12 @@ export default AppPipelineChart;
 
 interface IResetObj {
   stagesData?: any[][];
+  inParamsData?: PIPELINE.IPipelineInParams[];
+  outParamsData?: PIPELINE.IPipelineOutParams[];
 }
 export const resetData = (data: IResetObj) => {
-  const { stagesData = [] } = data || {};
-  const reData = [] as any[][];
-
+  const { stagesData = [], inParamsData = [], outParamsData = [] } = data || {};
+  const reData = [[{ data: inParamsData, [externalKey]: { nodeType: NodeType.startNode } }]] as any[][];
   map(stagesData, (item, index) => {
     reData.push(
       map(item, (subItem, subIndex) => ({
@@ -118,5 +121,7 @@ export const resetData = (data: IResetObj) => {
       })),
     );
   });
+  reData.push([{ data: outParamsData, [externalKey]: { nodeType: NodeType.endNode } }]);
+
   return reData;
 };

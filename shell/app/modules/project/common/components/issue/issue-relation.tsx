@@ -61,17 +61,18 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
 
   const getList = React.useCallback(() => {
-    getIssueRelation({ id: issueDetail.id }).then((res) => {
-      setRelatingList(res[0]);
-      setRelatedList(res[1]);
-    });
+    issueDetail?.id &&
+      getIssueRelation({ id: issueDetail.id }).then((res) => {
+        setRelatingList(res[0]);
+        setRelatedList(res[1]);
+      });
   }, [getIssueRelation, issueDetail]);
 
   useImperativeHandle(ref, () => ({ getList }), [getList]);
 
   const curIterationID = React.useMemo(() => {
-    return issueDetail.iterationID || iterationID;
-  }, [issueDetail.iterationID, iterationID]);
+    return issueDetail?.iterationID || iterationID;
+  }, [issueDetail?.iterationID, iterationID]);
 
   useMount(() => {
     getList();
@@ -195,6 +196,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   };
 
   const createAuth: boolean = usePerm((s) => s.project[issueType.toLowerCase()].create.pass);
+  if (!issueDetail) return null;
   return (
     <div className="issue-relation">
       <div>
