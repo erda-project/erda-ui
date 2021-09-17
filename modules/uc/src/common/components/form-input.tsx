@@ -39,7 +39,7 @@ const FormInput = (props: IProps) => {
       <input
         value={value}
         onChange={_onChange}
-        className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+        className="w-full text-lg p-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
         {...rest}
       />
       {errorTip ? <span className="text-red-500 -bottom-6 left-0 text-sm">{errorTip}</span> : null}

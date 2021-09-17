@@ -34,7 +34,7 @@ const RuntimeOverView = () => {
   const services = {};
   const endpoints = {};
   map(runtimeDetail.services, (item, name) => {
-    if (item.expose === null) {
+    if (item.expose === null || item.expose?.length === 0) {
       services[name] = item;
     } else {
       endpoints[name] = item;
