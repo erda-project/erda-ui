@@ -129,32 +129,32 @@ export const orgPerm = {
     viewAnnouncement: {
       pass: false,
       role: ['Manager'],
-      name: i18n.d('查看公告管理'),
+      name: i18n.t('user:view Announcement Management'),
     },
     viewSetting: {
       pass: false,
       role: ['Manager'],
-      name: i18n.d('查看组织设置'),
+      name: i18n.t('user:view Organization Settings'),
     },
     viewApproval: {
       pass: false,
       role: ['Manager'],
-      name: i18n.d('查看审批管理'),
+      name: i18n.t('user:view Approval Management'),
     },
     viewCertificate: {
       pass: false,
       role: ['Manager'],
-      name: i18n.d('查看证书管理'),
+      name: i18n.t('user:view certificate management'),
     },
     viewMarket: {
       pass: false,
       role: ['Manager'],
-      name: i18n.d('查看市场管理'),
+      name: i18n.t('user:view Market Management'),
     },
     viewProjects: {
       pass: false,
       role: ['Manager'],
-      name: i18n.d('查看项目管理'),
+      name: i18n.t('user:view project management'),
     },
   },
 };
