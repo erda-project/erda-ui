@@ -52,7 +52,7 @@ server {
     set $collectorUrl //${COLLECTOR_PUBLIC_ADDR}/collect;
     set $terminusKey ${TERMINUS_KEY};
 
-    location = /ta {
+    location = /static/ta {
         default_type application/javascript;
        return 200 'window._taConfig={enabled:$taEnabled,ak:"$terminusKey",url:"$taUrl",collectorUrl:"$collectorUrl"}';
     }
