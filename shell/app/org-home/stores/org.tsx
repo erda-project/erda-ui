@@ -99,6 +99,12 @@ const org = createStore({
             goTo(`/${currentOrg.name}`, { replace: true });
           }
         }
+        // if pathname is '/orgName/' instead of '/orgName', the route is not matched
+        if (curPathname === `/${orgName}/`) {
+          if (orgs?.find((x) => x.name === currentOrg.name)) {
+            goTo(`/${currentOrg.name}`, { replace: true });
+          }
+        }
         // user doesn't joined the public org, go to dop
         // temporary solution, it will removed until new solution is proposed by PD
         if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
