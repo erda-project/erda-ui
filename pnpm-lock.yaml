@@ -46,7 +46,7 @@ importers:
       eslint-config-ali: ^12.0.2
       eslint-plugin-import: ^2.22.1
       i18next-scanner: ^3.0.0
-      inquirer: ^8.0.0
+      inquirer: 8.0.0
       inquirer-select-directory: ^1.2.0
       js-base64: ^3.6.1
       local-package-publisher: ^1.0.4
@@ -67,7 +67,7 @@ importers:
       dayjs: 1.10.4
       dotenv: 8.6.0
       i18next-scanner: 3.0.0
-      inquirer: 8.1.0
+      inquirer: 8.0.0
       inquirer-select-directory: 1.2.0
       js-base64: 3.6.1
       lodash: 4.17.21
@@ -5619,7 +5619,7 @@ packages:
   /@paiva/translation-google/1.0.9:
     resolution: {integrity: sha512-U/0axyobTCoRxZtJLrecLg3MNSHN2MhPP23lWXMeuZzXoLLY2dWUNW//JvGNb/aZ2Pv07paW3kSWtR+UlBxolQ==}
     dependencies:
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.1
     transitivePeerDependencies:
       - debug
 
@@ -10001,7 +10001,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-    dev: true
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
@@ -14008,6 +14007,7 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
 
   /follow-redirects/1.14.1_debug@4.3.1:
     resolution: {integrity: sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==}
@@ -14019,7 +14019,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.1
-    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -15654,19 +15653,18 @@ packages:
       strip-ansi: 6.0.0
       through: 2.3.8
 
-  /inquirer/8.1.0:
-    resolution: {integrity: sha512-1nKYPoalt1vMBfCMtpomsUc32wmOoWXAoq3kM/5iTfxyQ2f/BxjixQpC+mbZ7BI0JUXHED4/XPXekDVtJNpXYw==}
+  /inquirer/8.0.0:
+    resolution: {integrity: sha512-ON8pEJPPCdyjxj+cxsYRe6XfCJepTxANdNnTebsTuQgXpRyZRRT9t4dJwjRubgmvn20CLSEnozRUayXyM9VTXA==}
     engines: {node: '>=8.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
       figures: 3.2.0
       lodash: 4.17.21
       mute-stream: 0.0.8
-      ora: 5.4.0
       run-async: 2.4.1
       rxjs: 6.6.7
       string-width: 4.2.2
@@ -19840,7 +19838,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       bl: 4.1.0
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.0
       is-interactive: 1.0.0

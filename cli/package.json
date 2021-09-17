@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/cli",
-  "version": "1.0.17",
+  "version": "1.0.23",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
     "erda-ui": "dist/bin/erda.js"
@@ -10,7 +10,7 @@
     "build": "rm -rf ./dist && tsc --version && tsc --project .",
     "local": "npm run build && local-package-publisher -p",
     "remove-local": "local-package-publisher -u",
-    "pub": "npm version patch && npm run build && npm publish",
+    "pub": "npm run build && npm version patch && npm publish",
     "precommit": "lint-staged"
   },
   "repository": {
@@ -34,7 +34,7 @@
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "i18next-scanner": "^3.0.0",
-    "inquirer": "^8.0.0",
+    "inquirer": "8.0.0",
     "inquirer-select-directory": "^1.2.0",
     "js-base64": "^3.6.1",
     "lodash": "^4.17.21",
