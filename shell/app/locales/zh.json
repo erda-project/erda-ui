@@ -3012,6 +3012,7 @@
     "iteration goal": "迭代目标",
     "iteration name": "迭代名称",
     "joint issue type": "协同事项类型",
+    "key-secret-encrypt-tip": "如果 Key 中包含 password、secret 关键字，则会被加密为*",
     "label": "标签",
     "label color": "标签颜色",
     "label created successfully": "创建标签成功",

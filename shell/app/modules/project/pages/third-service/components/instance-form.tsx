@@ -154,6 +154,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
               {i18n.t('project:Modifying service parameters will restart all associated applications.')}
             </div>
             <div className="text-red">{i18n.t('project:op-affect-related-app')}</div>
+            <div className="text-red">{i18n.t('project:key-secret-encrypt-tip')}</div>
           </>
         ),
       },

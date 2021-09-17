@@ -3012,6 +3012,7 @@
     "iteration goal": "iteration goal",
     "iteration name": "iteration name",
     "joint issue type": "joint issue type",
+    "key-secret-encrypt-tip": "If the Key contains the password secret keyword, it will be encrypted to *",
     "label": "label",
     "label color": "label color",
     "label created successfully": "label created successfully",
