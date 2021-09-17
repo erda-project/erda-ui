@@ -109,11 +109,14 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
       }
       if (urlKey && !goTo.resolve[urlKey]) {
         logErr(`audit urlKey: ${urlKey} not exist in goTo`, record);
-        contentList.push(
-          <span key={`${String(mIndex)}-1`} className="font-bold">
-            {contextValue}
-          </span>,
-        );
+        contentList.push({
+          value: contextValue,
+          Comp: (_props: { value: string }) => (
+            <span key={`${String(mIndex)}-1`} className="font-bold">
+              {_props.value}
+            </span>
+          ),
+        });
         return;
       }
       const [before] = after.split(m);
@@ -127,23 +130,29 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
         });
         contentList.push(userList.join(', '));
       } else if (urlKey) {
-        contentList.push(
-          <Link
-            key={`${String(mIndex)}-2`}
-            target="_blank"
-            className="font-bold"
-            to={goTo.resolve[urlKey](fullContext)}
-          >
-            {contextValue}
-          </Link>,
-        );
+        contentList.push({
+          value: contextValue,
+          Comp: (_props: { value: string }) => (
+            <Link
+              key={`${String(mIndex)}-2`}
+              target="_blank"
+              className="font-bold"
+              to={goTo.resolve[urlKey](fullContext)}
+            >
+              {_props.value}
+            </Link>
+          ),
+        });
       } else {
         // 没有()部分，就只替换，不加链接
-        contentList.push(
-          <span key={`${String(mIndex)}-3`} className="font-bold">
-            {contextValue}
-          </span>,
-        );
+        contentList.push({
+          value: contextValue,
+          Comp: (_props: { value: string }) => (
+            <span key={`${String(mIndex)}-3`} className="font-bold">
+              {_props.value}
+            </span>
+          ),
+        });
       }
     });
     return contentList.concat([after]);

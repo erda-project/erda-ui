@@ -265,8 +265,12 @@ const BatchOperation = (props: IBatchProps) => {
       {map(optMenus, (mItem) => {
         return (
           <Menu.Item key={mItem.key} disabled={mItem.disabled}>
-            <OperationAction operation={mItem} onClick={() => execOperation(mItem, { selectedRowKeys })}>
-              <span>{mItem.text}</span>
+            <OperationAction
+              operation={mItem}
+              onClick={() => execOperation(mItem, { selectedRowKeys })}
+              tipProps={{ placement: 'right' }}
+            >
+              <div>{mItem.text}</div>
             </OperationAction>
           </Menu.Item>
         );

@@ -151,7 +151,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         } else {
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
         }
-        if (op?.successMsg) message.success(op.successMsg);
+        if (op?.successMsg) notify('success', op.successMsg);
       })
       .catch(() => {
         if (op?.errorMsg) notify('error', op.errorMsg);
