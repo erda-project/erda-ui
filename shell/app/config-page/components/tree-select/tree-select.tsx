@@ -89,7 +89,7 @@ export default (props: CP_TREE_SELECT.Props) => {
         className={'w-full'}
         treeDataSimpleMode
         value={value}
-        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        listHeight={500}
         placeholder={placeholder}
         allowClear
         onSearch={onSearch}
