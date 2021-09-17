@@ -1790,6 +1790,17 @@
       "en": ""
     }
   },
+  "scaleRuntime": {
+    "desc": "服务扩缩容",
+    "success": {
+      "zh": "应用 [@appName](app) 中, 对 [@serviceName] 进行了扩缩容, [@scaleMessageZH]",
+      "en": "in app [@appName](app), changed the scale of service [@serviceName], [@scaleMessageEN]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
   "archiveTestPlan": {
     "desc": "测试计划归档",
     "success": {
