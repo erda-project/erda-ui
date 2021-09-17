@@ -21,14 +21,15 @@ interface IOperationAction {
   operation: CP_COMMON.Operation;
   children: React.ReactElement;
   onClick: (e?: any) => void;
+  tipProps?: Obj;
 }
 export const OperationAction = (props: IOperationAction) => {
-  const { operation, children, onClick } = props;
+  const { operation, children, onClick, tipProps } = props;
   const { confirm, disabled, disabledTip, key } = operation;
   if (disabled === true) {
     // 无权限操作
     return (
-      <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
+      <WithAuth noAuthTip={disabledTip} key={key} pass={false} tipProps={tipProps}>
         {children}
       </WithAuth>
     );
@@ -81,6 +82,7 @@ export const statusColorMap = {
   warning: colorMap.orange,
   error: colorMap.red,
   danger: colorMap.maroon,
+  info: colorMap.blue,
   normal: colorMap.purple,
   defaut: colorMap.gray,
 };
