@@ -159,8 +159,9 @@ export const K8sPodTerminalLog = (props: Merge<IPodTerminalProps, { containerId?
     const { type, start, duration } = formData;
     const now = moment().valueOf();
     let end = start.valueOf() + duration * 60 * 1000;
-    end = Math.min(end, now);
-    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}&id=${containerId}&source=container&start=${start.valueOf()}&stream=${type}`;
+    end = Math.min(end, now) * 1000000;
+    const _start = start.valueOf() * 1000000; // ns
+    const logFile = `/api/orgCenter/logs/actions/download?clusterName=${clusterName}&end=${end}&id=${containerId}&source=container&start=${_start}&stream=${type}`;
     window.open(setApiWithOrg(logFile));
     setDownloadVis(false);
   };

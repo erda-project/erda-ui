@@ -21,7 +21,7 @@ Terminal.applyAddon(attach);
 
 export { Terminal };
 
-const SetSize = '8';
+const SetSize = '4';
 
 export interface ITerminal extends Terminal {
   __socket: WebSocket;
@@ -56,7 +56,7 @@ function runTerminal(term: ITerminal, socket: WebSocket) {
   proxyOutput(term, socket);
   term.fit();
   const { cols, rows } = term;
-  sendData(term, SetSize, JSON.stringify({ cols, rows }));
+  sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
 }
 
 interface IWSParams {
@@ -87,7 +87,7 @@ export function createTerm(container: HTMLDivElement, params: IWSParams) {
 
   term.on('resize', (size) => {
     const { cols, rows } = size;
-    sendData(term, SetSize, JSON.stringify({ cols, rows }));
+    sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
     term.resize(cols, rows);
     term.fit();
   });
