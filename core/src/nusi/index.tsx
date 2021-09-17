@@ -69,7 +69,7 @@ import Tag from './wrapped-tag';
 import FormBuilder from '../common/components/form-builder';
 import { Panel } from '../common/components/panel';
 import { Title } from '../common/components/title';
-import { Ellipsis } from '../common/components/ellipsis';
+import Ellipsis from '../common/components/ellipsis';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
