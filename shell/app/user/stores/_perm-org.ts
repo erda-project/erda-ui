@@ -126,5 +126,35 @@ export const orgPerm = {
       role: ['Manager', 'Auditor', 'Support'],
       name: i18n.t('user:view audit log'),
     },
+    viewAnnouncement: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.d('查看公告管理'),
+    },
+    viewSetting: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.d('查看组织设置'),
+    },
+    viewApproval: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.d('查看审批管理'),
+    },
+    viewCertificate: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.d('查看证书管理'),
+    },
+    viewMarket: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.d('查看市场管理'),
+    },
+    viewProjects: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.d('查看项目管理'),
+    },
   },
 };

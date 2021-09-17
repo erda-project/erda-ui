@@ -122,8 +122,9 @@ const org = createStore({
             }
             // redirect path by roles.
             // due to once orgAccess is false will redirect to freshMan page forcedly, then no need to hasAuth param
+            const roles = get(orgPermRes, 'data.roles');
             setLocationByAuth({
-              roles: get(orgPermRes, 'data.roles'),
+              roles,
               ...payload,
             });
 
@@ -133,7 +134,7 @@ const org = createStore({
             };
             permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
             const menusMap = getSubSiderInfoMap();
-            const appCenterAppList = getAppCenterAppList();
+            const appCenterAppList = getAppCenterAppList(roles);
             appCenterAppList.forEach((a) => {
               appMap[a.key] = a;
             });

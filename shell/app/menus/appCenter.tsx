@@ -11,12 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { get } from 'lodash';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 
-export const appList: () => LAYOUT.IApp[] = () =>
+export const appList: (roles: string[]) => LAYOUT.IApp[] = (roles: string[]) =>
   filterMenu(
     [
       {
@@ -77,7 +76,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
         key: 'orgCenter',
         name: i18n.t('orgCenter'),
         breadcrumbName: i18n.t('orgCenter'),
-        href: goTo.resolve.orgCenterRoot(),
+        href: roles.includes('Manager') ? goTo.resolve.orgCenterRoot() : goTo.resolve.orgCenterSafety(),
       },
     ],
     MENU_SCOPE.appCenter,
