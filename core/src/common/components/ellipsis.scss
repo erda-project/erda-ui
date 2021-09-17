@@ -1,0 +1,15 @@
+.erda-ellipsis {
+  div.ant-tooltip-arrow {
+    display: block;
+
+    .ant-tooltip-arrow-content {
+      background-color: #fff;
+    }
+  }
+}
+
+.erda-ellipsis-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
