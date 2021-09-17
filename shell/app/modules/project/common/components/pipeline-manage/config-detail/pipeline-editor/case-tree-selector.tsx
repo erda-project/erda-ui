@@ -355,7 +355,7 @@ export const CaseTreeSelector = (props: IProps) => {
         filterTreeNode={false}
         className="w-full mb-4"
         value={value}
-        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        listHeight={500}
         placeholder={i18n.t('please select')}
         disabled={!editing}
         onChange={onChange}
