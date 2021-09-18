@@ -50,7 +50,7 @@ const Ellipsis = (props: EllipsisProps) => {
         setTooltip(false);
       }
     }, TOOLTIP_MOUSE_ENTER_DELAY);
-  }, [setTooltip]);
+  }, [setTooltip, setEnableTooltip]);
 
   const handleMouseLeave = useCallback(() => {
     if (enterDelayTimerRef.current) {
