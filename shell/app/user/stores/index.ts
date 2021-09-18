@@ -13,7 +13,17 @@
 
 import { createStore } from 'core/cube';
 import i18n from 'i18n';
-import { login, logout, validateLicense, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
+import {
+  login,
+  logout,
+  newUCLogout,
+  validateLicense,
+  getJoinedProjects,
+  getJoinedApps,
+  pinApp,
+  unpinApp,
+} from '../services/user';
+import { UC_USER_LOGIN } from 'common/constants';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
@@ -120,10 +130,17 @@ const userStore = createStore({
       }
     },
     async logout({ call, select }) {
-      const data = await call(logout);
-      setLS('diceLoginState', false);
       const loginUser = select((s) => s.loginUser);
-      if (data && data.url) {
+      let logoutUrl = '';
+      if (loginUser.isNewUser) {
+        await call(newUCLogout);
+        logoutUrl = UC_USER_LOGIN;
+      } else {
+        const data = await call(logout);
+        logoutUrl = data?.url;
+      }
+      setLS('diceLoginState', false);
+      if (logoutUrl) {
         const lastPath = `${window.location.pathname}${window.location.search}`;
         window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
 
@@ -133,8 +150,7 @@ const userStore = createStore({
             window.localStorage.removeItem(key);
           }
         }
-
-        window.location.href = data.url;
+        window.location.href = logoutUrl;
       }
     },
     async validateLicense({ call, update }) {
