@@ -63,7 +63,7 @@ const { createStore, createFlatStore, use, storeMap } = cube({
           } else {
             getConfig('onAPIFail')?.('error', err.msg || errorMsg);
           }
-          return fullResult ? result : data ?? {};
+          return fullResult ? result : data === undefined ? {} : data;
         } else {
           if (process.env.NODE_ENV !== 'production') {
             // eslint-disable-next-line no-console
