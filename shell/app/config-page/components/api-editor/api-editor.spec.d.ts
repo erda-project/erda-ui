@@ -154,7 +154,7 @@ declare namespace CP_API_EDITOR {
     params: Row[];
     body: IApiBody;
     out_params: OutParam[];
-    asserts: Assert[][];
+    asserts: Assert[];
   }
 
   interface IApiBody {
