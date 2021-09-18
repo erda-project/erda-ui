@@ -89,7 +89,6 @@ const Configuration = () => {
     () => (mode === 'create' ? createTokenInfo : tokenDetailInfo),
     [mode, createTokenInfo, tokenDetailInfo],
   );
-  console.log(detail);
 
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
@@ -138,7 +137,13 @@ const Configuration = () => {
       dataIndex: 'token',
       key: 'token',
       render: (_: unknown, record?: CONFIGURATION.IAllTokenData) => (
-        <Copy copyText={record?.token}>{record?.token}</Copy>
+        <Copy copyText={record?.token}>
+          {accessPerm.viewAccessKeySecret.pass
+            ? record?.token
+            : record &&
+              `${record?.token.substr(0, 2)} 
+          ${new Array(record?.token.length - 4).join('*')}${record?.token.substr(-2)}`}
+        </Copy>
       ),
     },
     {
