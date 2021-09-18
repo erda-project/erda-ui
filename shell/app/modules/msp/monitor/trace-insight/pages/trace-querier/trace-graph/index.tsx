@@ -256,8 +256,8 @@ export function TraceGraph(props: IProps) {
                 <Tabs>
                   {/* back-end need more time to solve it */}
                   {/* <TabPane tab={i18n.t('msp:call analysis')} key={1}>
-                    {!callAnalysis && <EmptyHolder relative />}
-                    {callAnalysis && (
+                    {!callAnalysis?.dashboardId && <EmptyHolder relative />}
+                    {callAnalysis?.dashboardId && (
                       <ServiceListDashboard
                         timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
                         dashboardId={callAnalysis?.dashboardId}
@@ -266,8 +266,8 @@ export function TraceGraph(props: IProps) {
                     )}
                   </TabPane> */}
                   <TabPane tab={i18n.t('msp:associated services')} key={2}>
-                    {!serviceAnalysis && <EmptyHolder relative />}
-                    {serviceAnalysis && (
+                    {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
+                    {serviceAnalysis?.dashboardId && (
                       <ServiceListDashboard
                         timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
                         dashboardId={serviceAnalysis?.dashboardId}
