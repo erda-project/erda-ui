@@ -202,7 +202,20 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           }
         });
       }
-      const allowEmptys = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
+      const allowEmpty = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
+      if (!isEmpty(asserts) && !errMsg) {
+        const temp = {};
+        asserts.forEach((item) => {
+          if (temp[item.arg]) {
+            errMsg = i18n.t('assert exist the same {key}', { key: item.arg });
+          } else {
+            temp[item.arg] = true;
+          }
+          if (!errMsg && !allowEmpty.includes(item.operator) && !item.value) {
+            errMsg = i18n.t('{name} can not empty', { name: item.arg });
+          }
+        });
+      }
       return {
         errMsg,
         value: {
@@ -211,7 +224,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             ...saveData.apiSpec,
             out_params: (out_params || []).filter((item: any) => item.key && item.expression),
             asserts: (asserts || []).filter((item: any) => {
-              if (allowEmptys.includes(item.operator)) {
+              if (allowEmpty.includes(item.operator)) {
                 return !!item.arg;
               } else {
                 return Object.values(item).every((t) => t);
