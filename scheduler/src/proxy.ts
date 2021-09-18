@@ -139,6 +139,9 @@ const replaceApiOrgPath = (p: string) => {
     const match = /\/api\/([^/]*)\/(.*)/.exec(p); // /api/orgName/path => /api/path
     if (match && !p.startsWith('/api/files')) {
       if (wsPathRegex.some((regex) => regex.test(p))) {
+        if (Object.keys(qs.parseUrl(p).query).length) {
+          return `/api/${match[2]}&wsOrg=${match[1]}`;
+        }
         return `/api/${match[2]}?wsOrg=${match[1]}`;
       }
       return `/api/${match[2]}`;
