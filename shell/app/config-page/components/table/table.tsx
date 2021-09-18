@@ -93,7 +93,7 @@ export function Table(props: CP_TABLE.Props) {
 
   const isGanttTable = columns.find((item) => item.titleRenderType === 'gantt');
 
-  const pagination = changePage
+  let pagination = changePage
     ? {
         total: total || list.length,
         current: pageNo || 1,
@@ -107,6 +107,13 @@ export function Table(props: CP_TABLE.Props) {
           : {}),
       }
     : undefined;
+
+  if (!pagination && pageSizeOptions) {
+    pagination = {
+      showSizeChanger: true,
+      pageSizeOptions,
+    };
+  }
 
   const extra: Obj = {};
   if (operations?.clickRow) {
