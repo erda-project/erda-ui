@@ -128,8 +128,9 @@ const org = createStore({
             }
             // redirect path by roles.
             // due to once orgAccess is false will redirect to freshMan page forcedly, then no need to hasAuth param
+            const roles = get(orgPermRes, 'data.roles');
             setLocationByAuth({
-              roles: get(orgPermRes, 'data.roles'),
+              roles,
               ...payload,
             });
 

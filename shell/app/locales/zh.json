@@ -3679,6 +3679,12 @@
     "to do": "待办事项",
     "view audit log": "查看审计日志",
     "view organization management/user management/global configuration/cluster management pages (pages other than audit logs)": "查看组织管理/用户管理/全局配置/集群管理页面(除审计日志之外的页面)",
-    "workflow management": "工作流管理"
+    "workflow management": "工作流管理",
+    "view Announcement Management": "查看公告管理",
+    "view Approval Management": "查看审批管理",
+    "view Market Management": "查看市场管理",
+    "view Organization Settings": "查看组织设置",
+    "view certificate management": "查看证书管理",
+    "view project management": "查看项目管理"
   }
 }
