@@ -3674,6 +3674,12 @@
     "to do": "to do",
     "view audit log": "view audit log",
     "view organization management/user management/global configuration/cluster management pages (pages other than audit logs)": "view organization management/user management/global configuration/cluster management pages (pages other than audit logs)",
-    "workflow management": "workflow management"
+    "workflow management": "workflow management",
+    "view Announcement Management": "view Announcement Management",
+    "view Approval Management": "view Approval Management",
+    "view Market Management": "view Market Management",
+    "view Organization Settings": "view Organization Settings",
+    "view certificate management": "view certificate management",
+    "view project management": "view project management"
   }
 }

@@ -126,5 +126,35 @@ export const orgPerm = {
       role: ['Manager', 'Auditor', 'Support'],
       name: i18n.t('user:view audit log'),
     },
+    viewAnnouncement: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.t('user:view Announcement Management'),
+    },
+    viewSetting: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.t('user:view Organization Settings'),
+    },
+    viewApproval: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.t('user:view Approval Management'),
+    },
+    viewCertificate: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.t('user:view certificate management'),
+    },
+    viewMarket: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.t('user:view Market Management'),
+    },
+    viewProjects: {
+      pass: false,
+      role: ['Manager'],
+      name: i18n.t('user:view project management'),
+    },
   },
 };
