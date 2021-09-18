@@ -31,6 +31,7 @@ export { ColumnProps, IActions } from '../nusi/wrapped-table';
 export { IFormExtendType } from '../common/components/form-builder';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
+export { AbstractTooltipProps } from 'antd/lib/tooltip';
 
 export { Action } from '@terminus/nusi/es/table';
 export { FilterItemConfig, IFilterProps } from '@terminus/nusi/es/filter/interface';
