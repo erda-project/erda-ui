@@ -50,6 +50,7 @@ export const createProxyService = (app: INestApplication) => {
       onProxyReqWs: (proxyReq, req: Request, socket) => {
         if (isProd) {
           const { query } = qs.parseUrl(req.url);
+          logger.info(`get ws org: ${query?.wsOrg}`);
           proxyReq.setHeader('org', query?.wsOrg);
         }
         socket.on('error', (error) => {
@@ -142,10 +143,14 @@ const replaceApiOrgPath = (p: string) => {
     const match = /\/api\/([^/]*)\/(.*)/.exec(p); // /api/orgName/path => /api/path
     if (match && !p.startsWith('/api/files')) {
       if (wsPathRegex.some((regex) => regex.test(p))) {
+        let url = p;
+        console.log('🚀 ~ file: proxy.ts ~ line 147 ~ replaceApiOrgPath ~ p', p);
         if (Object.keys(qs.parseUrl(p).query).length) {
-          return `/api/${match[2]}&wsOrg=${match[1]}`;
+          url = `/api/${match[2]}&wsOrg=${match[1]}`;
         }
-        return `/api/${match[2]}?wsOrg=${match[1]}`;
+        url = `/api/${match[2]}?wsOrg=${match[1]}`;
+        console.log('🚀 ~ file: proxy.ts ~ line 151 ~ replaceApiOrgPath ~ url', url);
+        return url;
       }
       return `/api/${match[2]}`;
     }
