@@ -19,7 +19,7 @@ import errorHandler from './error-handler';
 
 const isExcludeOrgHeaderApi = (url) => {
   const excludeApis = ['/api/files', '/api/uc'];
-  return some(excludeApis, (api) => api.startsWith(url));
+  return some(excludeApis, (api) => url.startsWith(api));
 };
 
 function handleUrl(req) {

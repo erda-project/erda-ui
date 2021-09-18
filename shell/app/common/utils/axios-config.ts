@@ -20,7 +20,7 @@ import userStore from 'app/user/stores';
 
 const isExcludeOrgHeaderApi = (url: string) => {
   const excludeApis = ['/api/files', '/api/uc'];
-  return some(excludeApis, (api) => api.startsWith(url));
+  return some(excludeApis, (api) => url.startsWith(api));
 };
 
 export const initAxios = () => {
