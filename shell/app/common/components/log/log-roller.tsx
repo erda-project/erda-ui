@@ -131,11 +131,13 @@ export class LogRoller extends React.Component<IProps, IState> {
         {logContent}
         <div className={`log-control log-top-controls ${extraButton ? '' : 'no-switch'}`}>
           {extraButton || null}
-          <Tooltip title={hasLogs ? i18n.t('common:download log') : i18n.t('common:No log at present')}>
-            <Button disabled={!hasLogs} onClick={onShowDownloadModal} type="ghost">
-              {i18n.t('common:download log')}
-            </Button>
-          </Tooltip>
+          {hasLogs && (
+            <Tooltip title={i18n.t('common:download log')}>
+              <Button onClick={onShowDownloadModal} type="ghost">
+                {i18n.t('common:download log')}
+              </Button>
+            </Tooltip>
+          )}
           <Button onClick={this.changeSize} type="ghost">
             {fullScreen ? i18n.t('default:exit full screen') : i18n.t('default:full screen')}
           </Button>
