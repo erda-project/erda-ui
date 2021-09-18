@@ -222,6 +222,7 @@ export class LogRoller extends React.Component<IProps, IState> {
     const { content, query, style = {}, hasLogs = true, ...otherProps } = this.props;
     const { rolling, backwardLoading, downloadLogModalVisible } = this.state;
     const lastItem = last(content);
+    const realHaveLog = hasLogs && !!lastItem;
 
     return (
       <div className="log-viewer" style={style}>
@@ -237,15 +238,17 @@ export class LogRoller extends React.Component<IProps, IState> {
           rolling={rolling}
           backwardLoading={backwardLoading}
           onShowDownloadModal={this.toggleDownloadModal}
-          hasLogs={hasLogs && !!lastItem}
+          hasLogs={realHaveLog}
           {...otherProps}
         />
-        <DownloadLogModal
-          visible={downloadLogModalVisible}
-          start={lastItem ? lastItem.timestamp : 0}
-          query={query}
-          onCancel={this.toggleDownloadModal}
-        />
+        {realHaveLog && (
+          <DownloadLogModal
+            visible={downloadLogModalVisible}
+            start={lastItem ? lastItem.timestamp : 0}
+            query={query}
+            onCancel={this.toggleDownloadModal}
+          />
+        )}
       </div>
     );
   }
