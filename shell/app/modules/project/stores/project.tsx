@@ -238,12 +238,10 @@ const project = createStore({
       state.curSpaceId = spaceId;
     },
     onProjectIndexEnter() {
-      setTimeout(() => {
-        // project首页重定向到第一个菜单链接
-        const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
-        const rePathname = get(subSiderInfoMap, 'project.menu[0].href');
-        rePathname && goTo(rePathname, { replace: true });
-      }, 0);
+      // project首页重定向到第一个菜单链接
+      const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
+      const rePathname = get(subSiderInfoMap, 'project.menu[0].href');
+      rePathname && goTo(rePathname, { replace: true });
     },
   },
 });
