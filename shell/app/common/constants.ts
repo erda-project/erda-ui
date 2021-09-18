@@ -41,6 +41,7 @@ export const DOC_MSP_MONITOR = `${DOC_PREFIX}/manual/microservice/use-apm-monito
 export const { erdaEnv } = window;
 // uc page
 export const UC_USER_SETTINGS = '/uc/settings';
+export const UC_USER_LOGIN = '/uc/login';
 
 // cmp guide doc
 export const DOC_CMP_CLUSTER_MANAGE = `${DOC_PREFIX}/manual/cmp/guide/cluster/management.html`;
