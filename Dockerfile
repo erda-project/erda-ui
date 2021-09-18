@@ -1,5 +1,5 @@
 #!dice
-FROM node:12.19.0-alpine3.9
+FROM registry.erda.cloud/retag/node:12.19.0-alpine3.9
 
 # Set special timezone
 RUN echo "Asia/Shanghai" | tee /etc/timezone
