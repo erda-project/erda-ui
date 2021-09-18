@@ -1257,6 +1257,7 @@
     "are you sure?": "是否确认？",
     "artifact ID": "制品 ID",
     "artifact management": "制品管理",
+    "assert exist the same {key}": "断言存在相同的{key}",
     "associated ability": "关联通用能力",
     "associated microservice": "关联微服务",
     "association": "关联",
