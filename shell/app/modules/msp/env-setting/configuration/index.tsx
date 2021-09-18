@@ -93,7 +93,6 @@ const Configuration = () => {
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
     getAllToken.fetch({
-      subjectType: 3,
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
@@ -167,12 +166,10 @@ const Configuration = () => {
   const createKey = async () => {
     await createToken.fetch({
       subject: projectId,
-      subjectType: 3,
       scopeId: tenantGroup,
     });
 
     await getAllToken.fetch({
-      subjectType: 3,
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
@@ -191,7 +188,6 @@ const Configuration = () => {
       id,
     });
     await getAllToken.fetch({
-      subjectType: 3,
       subject: projectId,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
@@ -218,7 +214,6 @@ const Configuration = () => {
       currentPage: page,
     });
     getAllToken.fetch({
-      subjectType: 3,
       subject: projectId,
       pageNo: page,
       pageSize: PAGINATION.pageSize,

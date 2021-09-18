@@ -32,7 +32,6 @@ declare namespace CONFIGURATION {
   }
 
   interface IAllToken {
-    subjectType: number;
     subject: string;
     accessKey?: string;
     pageNo: number;
@@ -44,7 +43,6 @@ declare namespace CONFIGURATION {
   interface ICreateKey {
     description?: string;
     subject: string;
-    subjectType: number;
     scopeId: string;
   }
 
@@ -64,7 +62,6 @@ declare namespace CONFIGURATION {
     id: string;
     status: string;
     subject: string;
-    subjectType: string;
     scope: string;
     scopeId: string;
   }
