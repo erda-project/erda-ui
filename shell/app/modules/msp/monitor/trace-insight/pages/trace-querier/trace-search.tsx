@@ -101,7 +101,7 @@ type IQuery = {
   [k in MONITOR_TRACE.IFixedConditionType]: string;
 } & {
   time: [Moment, Moment];
-  duration: { timer: number; unit: 'ms' | 's' }[];
+  duration: Array<{ timer: number; unit: 'ms' | 's' }>;
 } & {
   [k: string]: string;
 };
@@ -293,15 +293,7 @@ export default () => {
         <PureBoardGrid layout={layout} />
       </div>
       <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
-      <Drawer
-        title={i18n.t('msp:link information')}
-        visible={detailVisible}
-        onClose={closeDetail}
-        width="50%"
-        destroyOnClose
-      >
-        <TraceSearchDetail traceId={traceId} />
-      </Drawer>
+      <TraceSearchDetail traceId={traceId} />
     </>
   );
 };

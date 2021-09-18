@@ -16,7 +16,7 @@ import i18n from 'i18n';
 const traceTabs = [
   {
     key: 'search',
-    name: i18n.t('msp:transactions'),
+    name: i18n.t('msp:tracing query'),
   },
   {
     key: 'debug',
@@ -29,7 +29,7 @@ function monitorTraceRouter() {
     path: 'trace',
     alwaysShowTabKey: 'search',
     tabs: traceTabs,
-    breadcrumbName: i18n.t('msp:transactions'),
+    breadcrumbName: i18n.t('msp:tracing'),
     routes: [
       {
         path: 'debug',
