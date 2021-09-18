@@ -58,7 +58,7 @@ const ChartsResult = () => {
     return [
       {
         w: 24,
-        h: 7,
+        h: 10,
         x: 0,
         y: 0,
         i: 'view-pie',
@@ -79,6 +79,7 @@ const ChartsResult = () => {
               color,
               series: [
                 {
+                  center: ['50%', '45%'],
                   radius: ['40%', '55%'],
                   label: {
                     formatter: '{b}: {c} ({d}%)',
