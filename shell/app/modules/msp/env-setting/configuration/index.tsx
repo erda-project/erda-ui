@@ -24,11 +24,11 @@ import moment from 'moment';
 import { Copy as IconCopy } from '@icon-park/react';
 import {
   getAcquisitionAndLang,
-  getDetailKey,
-  deleteDetailKey,
+  getDetailToken,
+  deleteDetailToken,
   getInfo,
-  getAllKey,
-  createAccessKey,
+  getAllToken,
+  createToken,
 } from 'msp/services/configuration';
 import routeInfoStore from 'core/stores/route';
 
@@ -79,20 +79,21 @@ const Configuration = () => {
     mode: 'create',
   });
 
-  const [allKey, allKeyLoading] = getAllKey.useState();
+  const [allToken, allTokenLoading] = getAllToken.useState();
   const [acquisitionAndLangData, acquisitionAndLangDataLoading] = getAcquisitionAndLang.useState();
-  const [keyDetailInfo, keyDetailInfoLoading] = getDetailKey.useState();
+  const [tokenDetailInfo, tokenDetailInfoLoading] = getDetailToken.useState();
   const [infoData, infoDataLoading] = getInfo.useState();
-  const [createKeyInfo, createKeyInfoLoading] = createAccessKey.useState();
+  const [createTokenInfo, createTokenInfoLoading] = createToken.useState();
 
   const detail = React.useMemo(
-    () => (mode === 'create' ? createKeyInfo : keyDetailInfo),
-    [mode, createKeyInfo, keyDetailInfo],
+    () => (mode === 'create' ? createTokenInfo : tokenDetailInfo),
+    [mode, createTokenInfo, tokenDetailInfo],
   );
+  console.log(detail);
 
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
-    getAllKey.fetch({
+    getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -131,20 +132,20 @@ const Configuration = () => {
     updater.lang(type);
   };
 
-  const columns: Array<ColumnProps<CONFIGURATION.IAllKeyData>> = [
+  const columns: Array<ColumnProps<CONFIGURATION.IAllTokenData>> = [
     {
       title: 'Token',
-      dataIndex: 'accessKey',
-      key: 'accessKey',
-      render: (_: unknown, record?: CONFIGURATION.IAllKeyData) => (
-        <Copy copyText={record?.accessKey}>{record?.accessKey}</Copy>
+      dataIndex: 'token',
+      key: 'token',
+      render: (_: unknown, record?: CONFIGURATION.IAllTokenData) => (
+        <Copy copyText={record?.token}>{record?.token}</Copy>
       ),
     },
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_: unknown, record?: CONFIGURATION.IAllKeyData) =>
+      render: (_: unknown, record?: CONFIGURATION.IAllTokenData) =>
         moment(record?.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
@@ -152,7 +153,7 @@ const Configuration = () => {
       width: 200,
       dataIndex: 'operation',
       key: 'operation',
-      render: (_: unknown, record: CONFIGURATION.IAllKeyData) => (
+      render: (_: unknown, record: CONFIGURATION.IAllTokenData) => (
         <div className="table-operations">
           {/* Code required for the next version */}
           {/* <WithAuth pass={accessPerm.viewAccessKeySecret.pass}>
@@ -170,24 +171,25 @@ const Configuration = () => {
     },
   ];
 
-  const getDetail = async (id: string) => {
-    await getDetailKey.fetch({
-      id,
-    });
-    update({
-      visible: true,
-      mode: 'query',
-    });
-  };
+  /** next version need */
+  // const getDetail = async (id: string) => {
+  //   await getDetailKey.fetch({
+  //     id,
+  //   });
+  //   update({
+  //     visible: true,
+  //     mode: 'query',
+  //   });
+  // };
 
   const createKey = async () => {
-    await createAccessKey.fetch({
+    await createToken.fetch({
       subject: projectId,
       subjectType: 3,
       scopeId: tenantGroup,
     });
 
-    await getAllKey.fetch({
+    await getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -203,10 +205,10 @@ const Configuration = () => {
   };
 
   const deleteKey = async (id: string) => {
-    await deleteDetailKey.fetch({
+    await deleteDetailToken.fetch({
       id,
     });
-    await getAllKey.fetch({
+    await getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -233,7 +235,7 @@ const Configuration = () => {
     update({
       currentPage: page,
     });
-    getAllKey.fetch({
+    getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: page,
@@ -245,10 +247,10 @@ const Configuration = () => {
     <Spin
       spinning={
         acquisitionAndLangDataLoading ||
-        allKeyLoading ||
-        keyDetailInfoLoading ||
+        allTokenLoading ||
+        tokenDetailInfoLoading ||
         infoDataLoading ||
-        createKeyInfoLoading
+        createTokenInfoLoading
       }
     >
       <div>
@@ -259,7 +261,7 @@ const Configuration = () => {
             })
           }
           width={720}
-          title={mode === 'query' ? 'next version need' : i18n.t('established successfully')}
+          title={i18n.t('established successfully')}
           visible={visible}
           footer={[
             <Button
@@ -277,13 +279,13 @@ const Configuration = () => {
           <div className="rounded-sm p-4 container-key text-gray mb-4">
             <div className="flex items-center mb-1">
               <span>token</span>
-              <span className="ml-32">{detail?.accessKey}</span>
+              <span className="ml-32">{detail}</span>
             </div>
           </div>
 
           <div className="flex items-center text-primary">
             <IconCopy size="14" />
-            <Copy selector=".container-key" copyText={`${detail?.accessKey}`}>
+            <Copy selector=".container-key" copyText={`${detail}`}>
               {i18n.t('copy')}
             </Copy>
           </div>
@@ -297,13 +299,13 @@ const Configuration = () => {
         <Table
           className="mt-2 mb-4"
           columns={columns}
-          dataSource={allKey?.list || []}
+          dataSource={allToken?.list || []}
           scroll={{ x: '100%' }}
-          rowKey={(record) => `${record?.accessKey}` || 'accessKey'}
+          rowKey={(record) => `${record?.token}`}
           pagination={{
             current: currentPage,
             pageSize: PAGINATION.pageSize,
-            total: allKey?.total,
+            total: allToken?.total,
             onChange: pageChange,
           }}
         />

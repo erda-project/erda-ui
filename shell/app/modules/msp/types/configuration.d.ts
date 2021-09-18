@@ -31,7 +31,7 @@ declare namespace CONFIGURATION {
     scopeId: string;
   }
 
-  interface IAllKey {
+  interface IAllToken {
     subjectType: number;
     subject: string;
     accessKey?: string;
@@ -48,7 +48,7 @@ declare namespace CONFIGURATION {
     scopeId: string;
   }
 
-  interface IDelAndFindKey {
+  interface IDelAndFindToken {
     id: string;
   }
 
@@ -56,8 +56,9 @@ declare namespace CONFIGURATION {
     data: string;
   }
 
-  interface IAllKeyData {
-    accessKey: string;
+  interface IAllTokenData {
+    // accessKey: string;
+    token: string;
     createdAt: string;
     description: string;
     id: string;
@@ -66,10 +67,9 @@ declare namespace CONFIGURATION {
     subjectType: string;
     scope: string;
     scopeId: string;
-    width?: number;
   }
 
-  interface IKeyList {
+  interface ITokenList {
     list: IAllKeyData[];
     total: number;
   }
