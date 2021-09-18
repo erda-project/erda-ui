@@ -80,7 +80,7 @@ const ChartsResult = () => {
               series: [
                 {
                   center: ['50%', '45%'],
-                  radius: ['40%', '55%'],
+                  radius: ['0%', '55%'],
                   label: {
                     formatter: '{b}: {c} ({d}%)',
                   },
