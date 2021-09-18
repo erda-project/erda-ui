@@ -140,26 +140,24 @@ const Configuration = () => {
         accessPerm.viewAccessKeySecret.pass ? (
           <Copy>{record?.token}</Copy>
         ) : (
-          record &&
-          `${record?.token.substr(0, 2)}${new Array(record?.token.length - 4).join('*')}${record?.token.substr(-2)}`
+          record && `${record?.token.substr(0, 2)}${'*'.repeat(record?.token.length - 4)}${record?.token.substr(-2)}`
         ),
     },
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_: unknown, record?: CONFIGURATION.IAllTokenData) =>
-        moment(record?.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+      render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('application:operation'),
       width: 96,
-      dataIndex: 'operation',
-      key: 'operation',
+      dataIndex: 'id',
+      key: 'id',
       className: 'table-operations',
-      render: (_: unknown, record: CONFIGURATION.IAllTokenData) =>
+      render: (id: string) =>
         accessPerm.createAccessKey.pass ? (
-          <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
+          <Popconfirm onConfirm={() => deleteKey(id)} title={`${i18n.t('common:confirm to delete')}?`}>
             <a className="table-operations-btn">{i18n.t('application:delete')}</a>
           </Popconfirm>
         ) : null,
