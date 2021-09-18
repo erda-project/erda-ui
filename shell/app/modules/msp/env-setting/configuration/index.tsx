@@ -138,7 +138,7 @@ const Configuration = () => {
       key: 'token',
       render: (_: unknown, record?: CONFIGURATION.IAllTokenData) =>
         accessPerm.viewAccessKeySecret.pass ? (
-          <Copy copyText={record?.token}>{record?.token}</Copy>
+          <Copy>{record?.token}</Copy>
         ) : (
           record &&
           `${record?.token.substr(0, 2)}${new Array(record?.token.length - 4).join('*')}${record?.token.substr(-2)}`
@@ -156,13 +156,12 @@ const Configuration = () => {
       width: 96,
       dataIndex: 'operation',
       key: 'operation',
+      className: 'table-operations',
       render: (_: unknown, record: CONFIGURATION.IAllTokenData) =>
         accessPerm.createAccessKey.pass ? (
-          <div className="table-operations">
-            <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
-              <a className="table-operations-btn">{i18n.t('application:delete')}</a>
-            </Popconfirm>
-          </div>
+          <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
+            <a className="table-operations-btn">{i18n.t('application:delete')}</a>
+          </Popconfirm>
         ) : null,
     },
   ];
