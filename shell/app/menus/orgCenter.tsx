@@ -38,6 +38,7 @@ export const getOrgCenterMenu = () => {
           href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
           icon: <IconApiApp />,
           text: i18n.t('projects'),
+          show: orgPerm.orgCenter.viewProjects.pass,
         },
         {
           key: 'orgMarket',
@@ -51,12 +52,14 @@ export const getOrgCenterMenu = () => {
               href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
             },
           ],
+          show: orgPerm.orgCenter.viewMarket.pass,
         },
         {
           key: 'orgCertificate',
           href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
           icon: <IconCertificate />,
           text: i18n.t('layout:certificate'),
+          show: orgPerm.orgCenter.viewCertificate.pass,
         },
         {
           key: 'orgApproval',
@@ -64,12 +67,14 @@ export const getOrgCenterMenu = () => {
           icon: <CustomIcon type="shenpiguanli" />,
           text: i18n.t('layout:approval'),
           prefix: `${goTo.resolve.orgCenterApproval()}/`,
+          show: orgPerm.orgCenter.viewApproval.pass,
         },
         {
           key: 'orgAnnouncement',
           href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
           icon: <IconBill />,
           text: i18n.t('org:announcement management'),
+          show: orgPerm.orgCenter.viewAnnouncement.pass,
         },
         {
           key: 'orgSafety',
@@ -83,6 +88,7 @@ export const getOrgCenterMenu = () => {
           href: goTo.resolve.cmpSetting(), // '/orgCenter/setting/detail',
           icon: <IconCity />,
           text: i18n.t('org setting'),
+          show: orgPerm.orgCenter.viewSetting.pass,
         },
       ],
       (item) => item.show !== false,
