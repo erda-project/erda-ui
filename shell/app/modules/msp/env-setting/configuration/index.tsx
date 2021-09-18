@@ -136,11 +136,11 @@ const Configuration = () => {
       title: 'Token',
       dataIndex: 'token',
       key: 'token',
-      render: (_: unknown, record?: CONFIGURATION.IAllTokenData) =>
+      render: (token: string) =>
         accessPerm.viewAccessKeySecret.pass ? (
-          <Copy>{record?.token}</Copy>
+          <Copy>{token}</Copy>
         ) : (
-          record && `${record?.token.substr(0, 2)}${'*'.repeat(record?.token.length - 4)}${record?.token.substr(-2)}`
+          token && `${token.substr(0, 2)}${'*'.repeat(token.length - 4)}${token.substr(-2)}`
         ),
     },
     {
