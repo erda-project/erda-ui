@@ -137,9 +137,7 @@ const Configuration = () => {
       dataIndex: 'accessKey',
       key: 'accessKey',
       render: (_: unknown, record?: CONFIGURATION.IAllKeyData) => (
-        <Copy selector=".container-key" copyText={record?.accessKey}>
-          {record?.accessKey}
-        </Copy>
+        <Copy copyText={record?.accessKey}>{record?.accessKey}</Copy>
       ),
     },
     {
