@@ -136,15 +136,13 @@ const Configuration = () => {
       title: 'Token',
       dataIndex: 'token',
       key: 'token',
-      render: (_: unknown, record?: CONFIGURATION.IAllTokenData) => (
-        <Copy copyText={record?.token}>
-          {accessPerm.viewAccessKeySecret.pass
-            ? record?.token
-            : record &&
-              `${record?.token.substr(0, 2)} 
-          ${new Array(record?.token.length - 4).join('*')}${record?.token.substr(-2)}`}
-        </Copy>
-      ),
+      render: (_: unknown, record?: CONFIGURATION.IAllTokenData) =>
+        accessPerm.viewAccessKeySecret.pass ? (
+          <Copy copyText={record?.token}>{record?.token}</Copy>
+        ) : (
+          record &&
+          `${record?.token.substr(0, 2)}${new Array(record?.token.length - 4).join('*')}${record?.token.substr(-2)}`
+        ),
     },
     {
       title: i18n.t('create time'),
@@ -155,37 +153,19 @@ const Configuration = () => {
     },
     {
       title: i18n.t('application:operation'),
-      width: 200,
+      width: 96,
       dataIndex: 'operation',
       key: 'operation',
-      render: (_: unknown, record: CONFIGURATION.IAllTokenData) => (
-        <div className="table-operations">
-          {/* Code required for the next version */}
-          {/* <WithAuth pass={accessPerm.viewAccessKeySecret.pass}>
-            <a onClick={() => getDetail(record.id)} className="table-operations-btn">
-              {i18n.t('dcos:see details')}
-            </a>
-          </WithAuth> */}
-          {accessPerm.createAccessKey.pass ? (
+      render: (_: unknown, record: CONFIGURATION.IAllTokenData) =>
+        accessPerm.createAccessKey.pass ? (
+          <div className="table-operations">
             <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
               <a className="table-operations-btn">{i18n.t('application:delete')}</a>
             </Popconfirm>
-          ) : null}
-        </div>
-      ),
+          </div>
+        ) : null,
     },
   ];
-
-  /** next version need */
-  // const getDetail = async (id: string) => {
-  //   await getDetailKey.fetch({
-  //     id,
-  //   });
-  //   update({
-  //     visible: true,
-  //     mode: 'query',
-  //   });
-  // };
 
   const createKey = async () => {
     await createToken.fetch({
