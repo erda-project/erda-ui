@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'core/nusi';
-import { MemberSelector, ErdaCustomIcon } from 'common';
+import { MemberSelector, ErdaCustomIcon, Icon as CustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
@@ -112,7 +112,10 @@ const OptionItem = (props: IOptionItemProps) => {
       onClick={() => onClick(option)}
     >
       <div className="flex justify-between items-center w-full">
-        <span>{option.label}</span>
+        <span>
+          {option.icon && <CustomIcon type={option.icon} />}
+          {option.label}
+        </span>
         <span>{value.includes(option.value) ? <IconCheck className="text-success ml-2" /> : null}</span>
       </div>
       {onDelete ? (
@@ -498,7 +501,10 @@ const GroupOpt = (props: IGroupOptProps) => {
   return (
     <div className={'option-group'}>
       <div className="option-group-label flex items-center justify-between" onClick={() => setExpand(!expand)}>
-        {option.label}
+        <div className="flex items-center">
+          {option.icon && <CustomIcon type={option.icon} />}
+          {option.label}
+        </div>
         <IconDown className={`expand-icon flex items-center ${expand ? 'expand' : ''}`} theme="outline" size="16" />
       </div>
       <div className={`option-group-content ${expand ? '' : 'no-expand'}`}>
