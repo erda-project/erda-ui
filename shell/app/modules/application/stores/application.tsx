@@ -194,16 +194,14 @@ const appStore = createStore({
       state.curAppId = appId;
     },
     onAppIndexEnter(_state, appMenu?: any[]) {
-      setTimeout(() => {
-        let curAppMenu: any = appMenu;
-        if (!curAppMenu) {
-          const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
-          curAppMenu = get(subSiderInfoMap, 'application.menu');
-        }
-        // app首页重定向到第一个菜单链接
-        const rePathname = get(curAppMenu, '[0].href');
-        rePathname && goTo(rePathname, { replace: true });
-      }, 0);
+      let curAppMenu: any = appMenu;
+      if (!curAppMenu) {
+        const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
+        curAppMenu = get(subSiderInfoMap, 'application.menu');
+      }
+      // app首页重定向到第一个菜单链接
+      const rePathname = get(curAppMenu, '[0].href');
+      rePathname && goTo(rePathname, { replace: true });
     },
   },
 });

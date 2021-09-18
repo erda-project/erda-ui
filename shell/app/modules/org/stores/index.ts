@@ -22,14 +22,12 @@ const orgCenterStore = createStore({
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
     listenRoute(({ isEntering, isMatch }) => {
       if (isEntering('orgCenter')) {
-        setTimeout(() => {
-          const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
-          const orgMenus = subSiderInfoMap.orgCenter.menu;
-          const hasAuth = some(orgMenus, (menu) => isMatch(menu.href));
-          if (!hasAuth && orgMenus.length) {
-            goTo(orgMenus[0].href);
-          }
-        });
+        const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
+        const orgMenus = subSiderInfoMap.orgCenter.menu;
+        const hasAuth = some(orgMenus, (menu) => isMatch(menu.href));
+        if (!hasAuth && orgMenus.length) {
+          goTo(orgMenus[0].href);
+        }
       }
     });
   },
