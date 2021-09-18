@@ -15,24 +15,22 @@ import React from 'react';
 import './index.scss';
 import { ColumnProps } from 'core/common/interface';
 import { useUpdate, Copy, EmptyHolder } from 'common';
-import { setApiWithOrg } from 'common/utils';
 import i18n from 'i18n';
 import { Button, Table, Modal, Popconfirm, message, Spin } from 'core/nusi';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
+import { Copy as IconCopy } from '@icon-park/react';
 import {
   getAcquisitionAndLang,
-  getDetailKey,
-  deleteDetailKey,
+  getDetailToken,
+  deleteDetailToken,
   getInfo,
-  getAllKey,
-  createAccessKey,
-  downloadCsvUrl,
+  getAllToken,
+  createToken,
 } from 'msp/services/configuration';
 import routeInfoStore from 'core/stores/route';
-import { Download as IconDownload, Copy as IconCopy } from '@icon-park/react';
 
 type LangItem = Merge<CONFIGURATION.ILangConf, Item>;
 type Strategy = Merge<CONFIGURATION.IStrategy, Item>;
@@ -81,20 +79,20 @@ const Configuration = () => {
     mode: 'create',
   });
 
-  const [allKey, allKeyLoading] = getAllKey.useState();
+  const [allToken, allTokenLoading] = getAllToken.useState();
   const [acquisitionAndLangData, acquisitionAndLangDataLoading] = getAcquisitionAndLang.useState();
-  const [keyDetailInfo, keyDetailInfoLoading] = getDetailKey.useState();
+  const [tokenDetailInfo, tokenDetailInfoLoading] = getDetailToken.useState();
   const [infoData, infoDataLoading] = getInfo.useState();
-  const [createKeyInfo, createKeyInfoLoading] = createAccessKey.useState();
+  const [createTokenInfo, createTokenInfoLoading] = createToken.useState();
 
   const detail = React.useMemo(
-    () => (mode === 'create' ? createKeyInfo : keyDetailInfo),
-    [mode, createKeyInfo, keyDetailInfo],
+    () => (mode === 'create' ? createTokenInfo : tokenDetailInfo),
+    [mode, createTokenInfo, tokenDetailInfo],
   );
 
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
-    getAllKey.fetch({
+    getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -133,55 +131,47 @@ const Configuration = () => {
     updater.lang(type);
   };
 
-  const columns: Array<ColumnProps<CONFIGURATION.IAllKeyData>> = [
-    { title: 'accessKey', dataIndex: 'accessKey', key: 'accessKey' },
+  const columns: Array<ColumnProps<CONFIGURATION.IAllTokenData>> = [
+    {
+      title: 'Token',
+      dataIndex: 'token',
+      key: 'token',
+      render: (token: string) =>
+        accessPerm.viewAccessKeySecret.pass ? (
+          <Copy>{token}</Copy>
+        ) : (
+          token && `${token.substr(0, 2)}${'*'.repeat(token.length - 4)}${token.substr(-2)}`
+        ),
+    },
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_: unknown, record?: CONFIGURATION.IAllKeyData) =>
-        moment(record?.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+      render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('application:operation'),
-      width: 200,
-      dataIndex: 'operation',
-      key: 'operation',
-      render: (_: unknown, record: CONFIGURATION.IAllKeyData) => (
-        <div className="table-operations">
-          <WithAuth pass={accessPerm.viewAccessKeySecret.pass}>
-            <a onClick={() => getDetail(record.id)} className="table-operations-btn">
-              {i18n.t('dcos:see details')}
-            </a>
-          </WithAuth>
-          {accessPerm.createAccessKey.pass ? (
-            <Popconfirm onConfirm={() => deleteKey(record.id)} title={`${i18n.t('common:confirm to delete')}?`}>
-              <a className="table-operations-btn">{i18n.t('application:delete')}</a>
-            </Popconfirm>
-          ) : null}
-        </div>
-      ),
+      width: 96,
+      dataIndex: 'id',
+      key: 'id',
+      className: 'table-operations',
+      render: (id: string) =>
+        accessPerm.createAccessKey.pass ? (
+          <Popconfirm onConfirm={() => deleteKey(id)} title={`${i18n.t('common:confirm to delete')}?`}>
+            <a className="table-operations-btn">{i18n.t('application:delete')}</a>
+          </Popconfirm>
+        ) : null,
     },
   ];
 
-  const getDetail = async (id: string) => {
-    await getDetailKey.fetch({
-      id,
-    });
-    update({
-      visible: true,
-      mode: 'query',
-    });
-  };
-
   const createKey = async () => {
-    await createAccessKey.fetch({
+    await createToken.fetch({
       subject: projectId,
       subjectType: 3,
       scopeId: tenantGroup,
     });
 
-    await getAllKey.fetch({
+    await getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -197,10 +187,10 @@ const Configuration = () => {
   };
 
   const deleteKey = async (id: string) => {
-    await deleteDetailKey.fetch({
+    await deleteDetailToken.fetch({
       id,
     });
-    await getAllKey.fetch({
+    await getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: 1,
@@ -223,15 +213,11 @@ const Configuration = () => {
     }
   }, [strategy, lang]);
 
-  const downloadCsvFile = (id: string) => {
-    window.open(setApiWithOrg(`${downloadCsvUrl}?id=${id}`));
-  };
-
   const pageChange = (page: number) => {
     update({
       currentPage: page,
     });
-    getAllKey.fetch({
+    getAllToken.fetch({
       subjectType: 3,
       subject: projectId,
       pageNo: page,
@@ -243,10 +229,10 @@ const Configuration = () => {
     <Spin
       spinning={
         acquisitionAndLangDataLoading ||
-        allKeyLoading ||
-        keyDetailInfoLoading ||
+        allTokenLoading ||
+        tokenDetailInfoLoading ||
         infoDataLoading ||
-        createKeyInfoLoading
+        createTokenInfoLoading
       }
     >
       <div>
@@ -257,7 +243,7 @@ const Configuration = () => {
             })
           }
           width={720}
-          title={mode === 'query' ? i18n.t('msp:accessKey details') : i18n.t('established successfully')}
+          title={i18n.t('established successfully')}
           visible={visible}
           footer={[
             <Button
@@ -273,28 +259,15 @@ const Configuration = () => {
           ]}
         >
           <div className="rounded-sm p-4 container-key text-gray mb-4">
-            <div className="flex items-center mb-2">
-              <span>accessKey ID</span>
-              <span className="ml-32">{detail?.accessKey}</span>
-            </div>
-            <div className="flex items-center">
-              <span>accessKey Secret</span>
-              <span className="ml-24">{detail?.secretKey}</span>
+            <div className="flex items-center mb-1">
+              <span>token</span>
+              <span className="ml-32">{detail}</span>
             </div>
           </div>
 
           <div className="flex items-center text-primary">
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                detail && downloadCsvFile(detail?.id);
-              }}
-            >
-              <IconDownload size="14" />
-              <span className="mr-8">{i18n.t('msp:download csv file')}</span>
-            </div>
             <IconCopy size="14" />
-            <Copy selector=".container-key" copyText={`${detail?.accessKey}\n${detail?.secretKey}`}>
+            <Copy selector=".container-key" copyText={`${detail}`}>
               {i18n.t('copy')}
             </Copy>
           </div>
@@ -302,19 +275,19 @@ const Configuration = () => {
 
         <WithAuth pass={accessPerm.createAccessKey.pass}>
           <Button className="top-button-group font-bold m4 add-key" type="primary" onClick={createKey}>
-            {i18n.t('msp:create AccessKey')}
+            {i18n.t('create {name}', { name: 'Token' })}
           </Button>
         </WithAuth>
         <Table
           className="mt-2 mb-4"
           columns={columns}
-          dataSource={allKey?.list || []}
+          dataSource={allToken?.list || []}
           scroll={{ x: '100%' }}
-          rowKey={(record) => `${record?.accessKey}` || 'accessKey'}
+          rowKey={(record) => `${record?.token}`}
           pagination={{
             current: currentPage,
             pageSize: PAGINATION.pageSize,
-            total: allKey?.total,
+            total: allToken?.total,
             onChange: pageChange,
           }}
         />
