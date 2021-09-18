@@ -87,7 +87,10 @@ export const createProxyService = (app: INestApplication) => {
           if (!isProd) {
             proxyReq.setHeader('referer', API_URL);
           } else {
-            proxyReq.setHeader('org', extractOrg(req.originalUrl));
+            const org = extractOrg(req.originalUrl); // api/files not append org to path,org not exist in this condition
+            if (org) {
+              proxyReq.setHeader('org', org);
+            }
           }
         },
       },
