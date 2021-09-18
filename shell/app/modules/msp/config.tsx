@@ -65,7 +65,7 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
     FrontMonitor: `${monitorPrefix}/bi`,
     AppInsight: `${monitorPrefix}/mi`,
     ErrorInsight: `${monitorPrefix}/error`,
-    Transaction: `${monitorPrefix}/trace`,
+    Tracing: `${monitorPrefix}/trace`,
     ActiveMonitor: `${monitorPrefix}/status`,
     AlarmManagement: alarmManagementPrefix,
     AlertStrategy: `${alarmManagementPrefix}/alarm`,
