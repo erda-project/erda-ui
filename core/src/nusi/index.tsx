@@ -66,6 +66,7 @@ import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
+import Ellipsis from '../common/components/ellipsis';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
@@ -81,9 +82,6 @@ import {
   Title,
   Panel,
   List,
-  Ellipsis,
-  SelectCategory,
-  SelectCombo,
   ConfigProvider as NusiConfigProvider,
   Tree as NusiTree,
   Popover as NusiPopover,
@@ -93,10 +91,7 @@ const locale = window.localStorage.getItem('locale');
 const isZh = locale === 'zh';
 
 // 直接修改使用时会有ts警告
-let temp = Tooltip;
-temp.defaultProps.type = 'shallow';
-
-temp = Pagination;
+let temp = Pagination;
 temp.defaultProps = {
   showSizeChanger: false,
   ...Pagination.defaultProps,
@@ -173,8 +168,6 @@ export {
   SideNavigation,
   PageHeader,
   GlobalNavigation,
-  SelectCategory,
-  SelectCombo,
   AntdConfigProvider,
   NusiConfigProvider,
   NusiTree,
