@@ -15,7 +15,7 @@ import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 
-export const appList: (roles: string[]) => LAYOUT.IApp[] = (roles: string[]) =>
+export const appList: () => LAYOUT.IApp[] = () =>
   filterMenu(
     [
       {
@@ -76,7 +76,7 @@ export const appList: (roles: string[]) => LAYOUT.IApp[] = (roles: string[]) =>
         key: 'orgCenter',
         name: i18n.t('orgCenter'),
         breadcrumbName: i18n.t('orgCenter'),
-        href: roles.includes('Manager') ? goTo.resolve.orgCenterRoot() : goTo.resolve.orgCenterSafety(),
+        href: goTo.resolve.orgCenterRoot(),
       },
     ],
     MENU_SCOPE.appCenter,

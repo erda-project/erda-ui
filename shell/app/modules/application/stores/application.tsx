@@ -45,8 +45,8 @@ const initState: IState = {
 
 // 检测是否是app的首页，重定向
 const checkIsAppIndex = (appMenu?: any) => {
-  const appEnterMath = /\/dop\/projects\/\d+\/apps\/\d+$/;
-  if (appEnterMath.test(location.pathname)) {
+  const appEnterRegex = /\/dop\/projects\/\d+\/apps\/\d+$/;
+  if (appEnterRegex.test(location.pathname)) {
     appStore.reducers.onAppIndexEnter(appMenu);
   }
 };
@@ -193,7 +193,7 @@ const appStore = createStore({
     updateCurAppId(state, appId = '') {
       state.curAppId = appId;
     },
-    onAppIndexEnter(state, appMenu?: any[]) {
+    onAppIndexEnter(_state, appMenu?: any[]) {
       setTimeout(() => {
         let curAppMenu: any = appMenu;
         if (!curAppMenu) {

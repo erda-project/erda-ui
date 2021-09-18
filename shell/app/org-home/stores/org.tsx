@@ -134,7 +134,7 @@ const org = createStore({
             };
             permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
             const menusMap = getSubSiderInfoMap();
-            const appCenterAppList = getAppCenterAppList(roles);
+            const appCenterAppList = getAppCenterAppList();
             appCenterAppList.forEach((a) => {
               appMap[a.key] = a;
             });

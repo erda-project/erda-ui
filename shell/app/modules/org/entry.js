@@ -16,10 +16,11 @@ import approvalStore from './stores/approval';
 import auditStore from './stores/audit';
 import certificateStore from './stores/certificate';
 import issueFieldStore from './stores/issue-field';
+import entryStore from './stores/index';
 
 export default (registerModule) => {
   return registerModule({
     key: 'org',
-    stores: [announcementStore, approvalStore, auditStore, certificateStore, issueFieldStore],
+    stores: [announcementStore, approvalStore, auditStore, certificateStore, issueFieldStore, entryStore],
   });
 };
