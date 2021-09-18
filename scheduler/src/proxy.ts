@@ -50,6 +50,7 @@ export const createProxyService = (app: INestApplication) => {
       onProxyReqWs: (proxyReq, req: Request, socket) => {
         if (isProd) {
           const { query } = qs.parseUrl(req.url);
+          logger.info(`get ws org: ${query?.wsOrg}`);
           proxyReq.setHeader('org', query?.wsOrg);
         }
         socket.on('error', (error) => {
