@@ -14,7 +14,6 @@
 import React from 'react';
 import { Spin, message, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
 import downloadBg_2x from '../images/download/download-bg@2x.png';
 import downloadR1_2x from '../images/download/download-r1@2x.png';
@@ -24,7 +23,7 @@ import downloadY1_2x from '../images/download/download-y1@2x.png';
 import downloadY2_2x from '../images/download/download-y2@2x.png';
 
 import agent from 'superagent';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import './download.scss';
 
 interface IObj {
@@ -51,7 +50,11 @@ export const judgeClient = (): ClientType => {
 };
 
 const getOrgFromPath = () => {
-  return get(window.location.pathname.split('/'), '[1]') || '-';
+  return window.location.pathname.split('/')[1] || '-';
+};
+
+const isEmptyObj = (obj: any) => {
+  return obj === null || obj === undefined || Object.keys(obj).length === 0;
 };
 
 const DownloadPage = ({ match }: any) => {
@@ -74,7 +77,7 @@ const DownloadPage = ({ match }: any) => {
         const { success, data, err } = response.body;
         if (success) {
           const { default: defaultVersion } = data as { default: any; versions: { list: any[]; total: number } };
-          const vList = isEmpty(defaultVersion) ? [] : [defaultVersion];
+          const vList = isEmptyObj(defaultVersion) ? [] : [defaultVersion];
           let has_default = false;
           if (defaultVersion) {
             const { id, updatedAt } = defaultVersion;
@@ -97,7 +100,7 @@ const DownloadPage = ({ match }: any) => {
           setVersionList(vList);
           if (client === 'pc') {
             const { resources = [] } = defaultVersion || {};
-            const type = get(resources, '[0].type');
+            const type = resources?.[0]?.type;
             setShowDownload(has_default && type === 'data');
           } else {
             setShowDownload(has_default);
@@ -123,7 +126,7 @@ const DownloadPage = ({ match }: any) => {
     setCurrent({ activeKey, pkg, updatedAt });
   };
   const handleDownload = () => {
-    if (isEmpty(current)) {
+    if (isEmptyObj(current)) {
       message.error('请选择要下载的版本');
       return;
     }
@@ -186,7 +189,7 @@ const DownloadPage = ({ match }: any) => {
     });
   });
 
-  const appStoreURL = get(current, 'pkg.meta.appStoreURL');
+  const appStoreURL = current?.pkg?.meta?.appStoreURL;
   return (
     <Spin spinning={isLoading}>
       <div className="download-page bg-gray">
@@ -215,7 +218,7 @@ const DownloadPage = ({ match }: any) => {
                 <ul className="version-list">{versions}</ul>
                 <p className="tips version-notice">{byteToM(current.pkg)}</p>
                 <p className="tips version-notice">
-                  更新于: {current.updatedAt ? moment(current.updatedAt).format('YYYY/MM/DD HH:mm') : '--'}
+                  更新于: {current.updatedAt ? dayjs(current.updatedAt).format('YYYY/MM/DD HH:mm') : '--'}
                 </p>
                 <div className="button-wrap">
                   {showDownload ? (
