@@ -37,8 +37,8 @@ const wsPathRegex = [
 
 export const createProxyService = (app: INestApplication) => {
   const wsProxy = createProxyMiddleware(
-    (pathname: string) => {
-      return wsPathRegex.some((regex) => regex.test(pathname));
+    (pathname: string, req) => {
+      return wsPathRegex.some((regex) => regex.test(pathname)) && req.headers.upgrade === 'websocket';
     },
     {
       target: API_URL,
@@ -85,6 +85,7 @@ export const createProxyService = (app: INestApplication) => {
         secure: false,
         pathRewrite: replaceApiOrgPath,
         onProxyReq: (proxyReq, req: Request) => {
+          console.log('🚀 ~ file: proxy.ts ~ line 93 ~ createProxyService ~ req.originalUrl', req.originalUrl);
           if (!isProd) {
             proxyReq.setHeader('referer', API_URL);
           } else {
@@ -144,13 +145,11 @@ const replaceApiOrgPath = (p: string) => {
     if (match && !p.startsWith('/api/files')) {
       if (wsPathRegex.some((regex) => regex.test(p))) {
         let url = p;
-        console.log('🚀 ~ file: proxy.ts ~ line 147 ~ replaceApiOrgPath ~ p', p);
         if (Object.keys(qs.parseUrl(p).query).length) {
           url = `/api/${match[2]}&wsOrg=${match[1]}`;
         } else {
           url = `/api/${match[2]}?wsOrg=${match[1]}`;
         }
-        console.log('🚀 ~ file: proxy.ts ~ line 151 ~ replaceApiOrgPath ~ url', url);
         return url;
       }
       return `/api/${match[2]}`;
