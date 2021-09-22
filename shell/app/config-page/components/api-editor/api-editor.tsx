@@ -200,6 +200,9 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           } else {
             temp[item.key] = true;
           }
+          if (!errMsg && item.key && !item.expression) {
+            errMsg = i18n.t('out params {name} setting is abnormal', { name: item.key });
+          }
         });
       }
       const allowEmpty = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
@@ -211,8 +214,8 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           } else {
             temp[item.arg] = true;
           }
-          if (!errMsg && !allowEmpty.includes(item.operator) && !item.value) {
-            errMsg = i18n.t('{name} can not empty', { name: item.arg });
+          if (!errMsg && item.arg && !allowEmpty.includes(item.operator) && !item.value) {
+            errMsg = i18n.t('assert {name} setting is abnormal', { name: item.arg });
           }
         });
       }
