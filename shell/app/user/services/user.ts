@@ -42,7 +42,7 @@ export const logout = () => {
 export const newUCLogout = () => {
   return agent.get('/api/uc/self-service/logout/browser').then((res: any) => {
     const token = res?.body?.logout_url?.split('token=')?.[1];
-    return agent.get(`/api/uc/self-service/logout?token=${token}`).then((res1: any) => res1.data);
+    return agent.get(`/api/uc/self-service/logout?token=${token}`).then((logoutRes: any) => logoutRes.body);
   });
 };
 
