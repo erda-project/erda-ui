@@ -53,7 +53,7 @@ const getOrgFromPath = () => {
   return window.location.pathname.split('/')[1] || '-';
 };
 
-const isEmptyObj = (obj: any) => {
+const isEmptyObj = (obj: IObj) => {
   return obj === null || obj === undefined || Object.keys(obj).length === 0;
 };
 

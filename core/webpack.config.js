@@ -114,7 +114,7 @@ module.exports = () => {
           use: [
             'thread-loader',
             {
-              loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
+              loader: 'babel-loader',
               options: {
                 presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
                 plugins: [
