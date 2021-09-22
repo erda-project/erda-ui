@@ -38,6 +38,7 @@ declare namespace CP_CONTAINER {
     children?: any;
     props: {
       className: string;
+      onClick?: () => void;
     };
   };
 }
