@@ -50,7 +50,6 @@ export default () => {
       goTo(goTo.pages.mspServiceAnalyze, {
         ...params,
         serviceName: cellValue,
-        applicationId: record?.application_id,
         serviceId: window.encodeURIComponent(record?.service_id || ''),
       });
     }

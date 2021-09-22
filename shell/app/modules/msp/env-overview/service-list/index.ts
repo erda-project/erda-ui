@@ -25,60 +25,55 @@ export default () => ({
   breadcrumbName: i18n.t('msp:service list'),
   routes: [
     {
-      path: ':applicationId',
+      path: ':serviceId',
       routes: [
         {
-          path: ':serviceId',
+          path: ':serviceName',
+          breadcrumbName: ({ params }: any) => {
+            const { serviceName } = params || {};
+            return `${i18n.t('msp:service analysis')}(${serviceName})`;
+          },
+          tabs,
+          alwaysShowTabKey: 'overview',
+          layout: { fullHeight: true },
           routes: [
             {
-              path: ':serviceName',
-              breadcrumbName: ({ params }: any) => {
-                const { serviceName } = params || {};
-                return `${i18n.t('msp:service analysis')}(${serviceName})`;
-              },
+              path: 'overview',
               tabs,
-              alwaysShowTabKey: 'overview',
+              layout: { fullHeight: true },
+              getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+            },
+            {
+              path: 'transaction',
+              tabs,
               layout: { fullHeight: true },
               routes: [
                 {
-                  path: 'overview',
-                  tabs,
+                  path: 'trace-detail/:traceId',
                   layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+                  getComp: (cb: RouterGetComp) =>
+                    cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
                 },
                 {
-                  path: 'transaction',
-                  tabs,
-                  layout: { fullHeight: true },
-                  routes: [
-                    {
-                      path: 'trace-detail/:traceId',
-                      layout: { fullHeight: true },
-                      getComp: (cb: RouterGetComp) =>
-                        cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
-                    },
-                    {
-                      getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
-                    },
-                  ],
-                },
-                {
-                  path: 'anomaly',
-                  tabs,
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/anomaly')),
-                },
-                {
-                  path: 'process',
-                  tabs,
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/process')),
-                },
-                {
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
                 },
               ],
+            },
+            {
+              path: 'anomaly',
+              tabs,
+              layout: { fullHeight: true },
+              getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/anomaly')),
+            },
+            {
+              path: 'process',
+              tabs,
+              layout: { fullHeight: true },
+              getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/process')),
+            },
+            {
+              layout: { fullHeight: true },
+              getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
             },
           ],
         },
