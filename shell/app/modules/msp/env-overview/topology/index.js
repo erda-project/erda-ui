@@ -19,8 +19,8 @@ import i18n from 'i18n';
 function monitorTopologyRouter() {
   return {
     path: 'topology',
-    pageName: i18n.t('msp:monitoring overview'),
-    breadcrumbName: i18n.t('msp:monitoring overview'),
+    pageName: i18n.t('msp:global topology'),
+    breadcrumbName: i18n.t('msp:global topology'),
     routes: [
       {
         layout: { fullHeight: true },
