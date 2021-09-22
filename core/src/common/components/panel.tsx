@@ -22,12 +22,14 @@ export interface IPanelField {
   valueKey?: string;
   valueItem?: (item: IPanelField) => React.ReactNode;
   hide?: boolean;
+  spaceNum?: number;
 }
 
 interface IPanelProps {
   fields?: IPanelField[];
   data?: Nullable<Obj>;
   isMultiColumn?: boolean;
+  columnNum?: number;
 }
 
 const handlers = {
@@ -55,7 +57,7 @@ const getInnerText = (reactNode: React.ReactNode): string => {
 export const Panel = (props: IPanelProps) => {
   const parentRef = React.useRef<HTMLDivElement>(null);
   const [parentWidth, setParentWidth] = React.useState(0);
-  const { fields = [], data, isMultiColumn = true } = props;
+  const { fields = [], data, isMultiColumn = true, columnNum } = props;
   const getRealValue = (item: IPanelField) =>
     data
       ? item.valueItem
@@ -75,6 +77,9 @@ export const Panel = (props: IPanelProps) => {
   }, [setParentWidth]);
 
   const colSpan = React.useMemo(() => {
+    if (columnNum) {
+      return Math.floor(24 / columnNum);
+    }
     let _span = 1;
     switch (true) {
       case parentWidth < 400:
@@ -93,7 +98,7 @@ export const Panel = (props: IPanelProps) => {
         _span = 3;
     }
     return _span;
-  }, [parentWidth]);
+  }, [parentWidth, columnNum]);
 
   if (!isMultiColumn) {
     return (
@@ -124,7 +129,11 @@ export const Panel = (props: IPanelProps) => {
             ? map(fields, (item) => {
                 if (item.hide) return null;
                 return (
-                  <Col span={colSpan} key={item.label as React.Key}>
+                  <Col
+                    span={item.spaceNum ? colSpan * item.spaceNum : colSpan}
+                    key={item.label as React.Key}
+                    className="mb-3"
+                  >
                     <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
                       {item.label}
                     </div>
