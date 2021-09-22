@@ -30,6 +30,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
     visible = true,
     startAlign = false,
     scrollAuto = false,
+    onClick,
   } = configProps || {};
 
   if (!visible) return null;
@@ -51,7 +52,11 @@ export const Container = (props: CP_CONTAINER.Props) => {
   if (className) tempClass[className] = true;
   const containerClass = classnames(tempClass);
 
-  return <div className={containerClass}>{children}</div>;
+  return (
+    <div className={containerClass} {...(onClick ? { onClick } : {})}>
+      {children}
+    </div>
+  );
 };
 
 export const RowContainer = (props: CP_CONTAINER.Props) => {
