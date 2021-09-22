@@ -147,8 +147,9 @@ const replaceApiOrgPath = (p: string) => {
         console.log('🚀 ~ file: proxy.ts ~ line 147 ~ replaceApiOrgPath ~ p', p);
         if (Object.keys(qs.parseUrl(p).query).length) {
           url = `/api/${match[2]}&wsOrg=${match[1]}`;
+        } else {
+          url = `/api/${match[2]}?wsOrg=${match[1]}`;
         }
-        url = `/api/${match[2]}?wsOrg=${match[1]}`;
         console.log('🚀 ~ file: proxy.ts ~ line 151 ~ replaceApiOrgPath ~ url', url);
         return url;
       }
