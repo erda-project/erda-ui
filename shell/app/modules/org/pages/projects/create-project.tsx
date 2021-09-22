@@ -228,7 +228,7 @@ const templateArr: ICardProps[] = [
     disabled: true,
   },
   {
-    name: i18n.t('org:microservice governance project'),
+    name: i18n.t('org:microservice Observation Project'),
     val: 'MSP',
     icon: 'zhili',
     description: i18n.t('org:microservice governance desc'),
