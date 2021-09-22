@@ -248,13 +248,13 @@ export enum pages {
   microServiceCustomDashboardDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
-  mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
+  mspServiceAnalyze = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{serviceId}/{serviceName}',
 
   // 微服务-事务分析页
-  mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction',
+  mspServiceTransaction = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{serviceId}/{serviceName}/transaction',
 
   // 服务分析页-追踪详情
-  mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
+  mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
 
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',
