@@ -162,10 +162,29 @@ module.exports = () => {
           include: [resolve('app')],
           use: [
             {
-              loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
+              loader: 'babel-loader',
               options: {
                 presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-                plugins: ['jsx-control-statements'],
+                plugins: [
+                  'jsx-control-statements',
+                  [
+                    'import',
+                    {
+                      libraryName: 'lodash',
+                      libraryDirectory: '',
+                      camel2DashComponentName: false, // default: true
+                    },
+                    'lodash',
+                  ],
+                  // ['import',
+                  //   {
+                  //     libraryName: '@icon-park/react',
+                  //     libraryDirectory: 'es/icons',
+                  //     camel2DashComponentName: false,
+                  //   },
+                  //   'iconpark'
+                  // ]
+                ],
               },
             },
           ],
