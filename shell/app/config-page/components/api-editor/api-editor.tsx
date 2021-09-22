@@ -201,7 +201,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             temp[item.key] = true;
           }
           if (!errMsg && item.key && !item.expression) {
-            errMsg = i18n.t('out params {name} setting exception', { name: item.key });
+            errMsg = i18n.t('out params {name} setting is abnormal', { name: item.key });
           }
         });
       }
@@ -215,7 +215,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             temp[item.arg] = true;
           }
           if (!errMsg && item.arg && !allowEmpty.includes(item.operator) && !item.value) {
-            errMsg = i18n.t('assert {name} setting exception', { name: item.arg });
+            errMsg = i18n.t('assert {name} setting is abnormal', { name: item.arg });
           }
         });
       }
