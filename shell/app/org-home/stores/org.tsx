@@ -105,51 +105,58 @@ const org = createStore({
             goTo(`/${currentOrg.name}`, { replace: true });
           }
         }
-        // user doesn't joined the public org, go to dop
-        // temporary solution, it will removed until new solution is proposed by PD
-        if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
-          if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
-            goTo(goTo.pages.dopRoot, { replace: true });
-          }
-        }
+
         if (currentOrg.name !== orgName) {
           goTo(location.pathname.replace(`/${orgName}`, `/${currentOrg.name}`), { replace: true }); // just replace the first match, which is org name
         }
         if (orgId) {
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
-          getResourcePermissions(orgPermQuery).then((orgPermRes) => {
-            const orgAccess = get(orgPermRes, 'data.access');
-            // 当前无该企业权限
-            if (!orgAccess) {
-              const joinOrgTip = map(orgPermRes.userInfo, (u) => u.nick).join(', ');
-              userStore.reducers.setJoinOrgTip(joinOrgTip);
-              goTo(goTo.pages.freshMan);
-              return;
-            }
-            // redirect path by roles.
-            // due to once orgAccess is false will redirect to freshMan page forcedly, then no need to hasAuth param
-            const roles = get(orgPermRes, 'data.roles');
-            setLocationByAuth({
-              roles,
-              ...payload,
-            });
+          const orgPermRes = await getResourcePermissions(orgPermQuery);
 
-            // 有企业权限，正常用户
-            const appMap = {} as {
-              [k: string]: LAYOUT.IApp;
-            };
-            permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
-            const menusMap = getSubSiderInfoMap();
-            const appCenterAppList = getAppCenterAppList();
-            appCenterAppList.forEach((a) => {
-              appMap[a.key] = a;
-            });
-            layoutStore.reducers.initLayout({
-              appList: appCenterAppList,
-              currentApp: appMap.dop,
-              menusMap,
-              key: 'dop',
-            });
+          // user doesn't joined the public org, go to dop
+          // temporary solution, it will removed until new solution is proposed by PD
+          // except Support role
+          if (
+            !orgPermRes?.data?.roles.includes('Support') &&
+            resOrg?.isPublic &&
+            curPathname?.split('/')[2] !== 'dop'
+          ) {
+            if (!orgs?.find((x) => x.name === currentOrg.name) || orgs?.length === 0) {
+              goTo(goTo.pages.dopRoot, { replace: true });
+            }
+          }
+
+          const orgAccess = get(orgPermRes, 'data.access');
+          // 当前无该企业权限
+          if (!orgAccess) {
+            const joinOrgTip = map(orgPermRes.userInfo, (u) => u.nick).join(', ');
+            userStore.reducers.setJoinOrgTip(joinOrgTip);
+            goTo(goTo.pages.freshMan);
+            return;
+          }
+          // redirect path by roles.
+          // due to once orgAccess is false will redirect to freshMan page forcedly, then no need to hasAuth param
+          const roles = get(orgPermRes, 'data.roles');
+          setLocationByAuth({
+            roles,
+            ...payload,
+          });
+
+          // 有企业权限，正常用户
+          const appMap = {} as {
+            [k: string]: LAYOUT.IApp;
+          };
+          permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
+          const menusMap = getSubSiderInfoMap();
+          const appCenterAppList = getAppCenterAppList();
+          appCenterAppList.forEach((a) => {
+            appMap[a.key] = a;
+          });
+          layoutStore.reducers.initLayout({
+            appList: appCenterAppList,
+            currentApp: appMap.dop,
+            menusMap,
+            key: 'dop',
           });
           breadcrumbStore.reducers.setInfo('curOrgName', currentOrg.displayName);
           update({ currentOrg, curPathOrg: payload.orgName, initFinish: true });
