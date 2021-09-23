@@ -68,7 +68,7 @@ const ItemRender = ({ title, children }: IProps) => {
 };
 
 const Configuration = () => {
-  const { projectId, tenantGroup } = routeInfoStore.useStore((s) => s.params);
+  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
   const accessPerm = usePerm((s) => s.project.microService.accessConfiguration);
   const [{ lang, currentPage, strategy, languages, mode, visible }, updater, update] = useUpdate<IState>({
     lang: '',
@@ -93,7 +93,7 @@ const Configuration = () => {
   React.useEffect(() => {
     getAcquisitionAndLang.fetch();
     getAllToken.fetch({
-      subject: projectId,
+      subjectType: 3,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
       scopeId: tenantGroup,
@@ -165,12 +165,12 @@ const Configuration = () => {
 
   const createKey = async () => {
     await createToken.fetch({
-      subject: projectId,
       scopeId: tenantGroup,
+      subjectType: 3,
     });
 
     await getAllToken.fetch({
-      subject: projectId,
+      subjectType: 3,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
       scopeId: tenantGroup,
@@ -188,7 +188,7 @@ const Configuration = () => {
       id,
     });
     await getAllToken.fetch({
-      subject: projectId,
+      subjectType: 3,
       pageNo: 1,
       pageSize: PAGINATION.pageSize,
       scopeId: tenantGroup,
@@ -214,7 +214,7 @@ const Configuration = () => {
       currentPage: page,
     });
     getAllToken.fetch({
-      subject: projectId,
+      subjectType: 3,
       pageNo: page,
       pageSize: PAGINATION.pageSize,
       scopeId: tenantGroup,
