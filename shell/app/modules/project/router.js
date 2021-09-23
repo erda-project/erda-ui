@@ -180,7 +180,7 @@ function getProjectRouter() {
                 {
                   path: ':spaceId/scenes',
                   mark: 'autoTestSpaceDetail',
-                  breadcrumbName: '场景集合({testSpaceName})',
+                  breadcrumbName: `${i18n.t('project:Scenes')}({testSpaceName})`,
                   routes: [
                     // TODO @zxj: 暂时保留，3.22可能启用
                     // {
