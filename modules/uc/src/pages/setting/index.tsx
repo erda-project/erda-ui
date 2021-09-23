@@ -75,7 +75,7 @@ export default function Setting() {
 
   const updatePassword = (v: string) => {
     setPassword(v);
-    updateValid({ password: getValidText(v), confirmPw: '' });
+    updateValid({ password: getValidText(v, 'password'), confirmPw: '' });
   };
 
   const updateConfirmPw = (v: string) => {
@@ -84,7 +84,7 @@ export default function Setting() {
   };
 
   const submitInfo = () => {
-    if (nickname && email && username) {
+    if (checkValid() && nickname && email && username) {
       ucStore.updateUser({ email, nickname, username }).catch((e) => {
         const errRes: UC.IKratosData = e.response?.data;
         const errTips = getErrorValid<typeof defaultValid>(errRes);
@@ -99,8 +99,13 @@ export default function Setting() {
     }
   };
 
+  const checkValid = () => {
+    const { page, pageInfo, pagePassword, password, ...rest } = validTips;
+    return Object.values(rest).filter((item) => !!item).length === 0;
+  };
+
   const submitPassword = () => {
-    if (password && password === confirmPw) {
+    if (!validTips.password && password && password === confirmPw) {
       ucStore
         .updatePassword(password)
         .then(() => {
@@ -113,7 +118,7 @@ export default function Setting() {
         });
     } else {
       updateValid({
-        password: getValidText(password),
+        password: getValidText(password, 'password'),
         confirmPw: confirmPw !== password ? i18n.t('inconsistent passwords') : '',
       });
     }

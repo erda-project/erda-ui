@@ -34,12 +34,16 @@ const ClusterNodeDetail = () => {
   const [{ clusterName, nodeId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { nodeIP } = query || {};
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
-  const globalVariable = {
-    startTime: timeSpan.startTimeMs,
-    endTime: timeSpan.endTimeMs,
-    nodeIP,
-    clusterName,
-  };
+
+  const globalVariable = React.useMemo(
+    () => ({
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+      nodeIP,
+      clusterName,
+    }),
+    [timeSpan, nodeIP, clusterName],
+  );
 
   const [chartLoading] = useLoading(CommonDashboardStore, ['getCustomDashboard']);
 
