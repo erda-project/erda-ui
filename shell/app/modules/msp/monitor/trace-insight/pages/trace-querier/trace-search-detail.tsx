@@ -74,7 +74,7 @@ export default ({ traceId }: { traceId?: string }) => {
           <span
             className="cursor-copy hover-text"
             data-clipboard-text={_traceId ? window.location.href : `${window.location.href}/trace-detail/${traceId}`}
-            data-clipboard-tip={i18n.t('path')}
+            data-clipboard-tip={i18n.t('link')}
           >
             <IconCopy className="hover-active ml-5" size="16px" />
           </span>
