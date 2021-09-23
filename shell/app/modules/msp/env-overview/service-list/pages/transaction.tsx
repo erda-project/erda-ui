@@ -246,7 +246,7 @@ const Transaction = () => {
         width: 180,
         render: (_: any, record: any) => (
           <div className="table-operations">
-            {currentProject?.type === 'MSP' && (
+            {currentProject?.type !== 'MSP' && (
               <span
                 className="table-operations-btn"
                 onClick={() => {
