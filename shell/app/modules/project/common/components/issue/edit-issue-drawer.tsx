@@ -691,7 +691,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const deleteAuth = isMonitorTicket ? true : getAuth(permObj.delete, checkRole);
   const createAuth = permObj.create.pass;
   const editAuth = isMonitorTicket ? true : !isEditMode || getAuth(permObj.edit, checkRole);
-  const switchTypeAuth = permObj.switchType?.pass;
+  const switchTypeAuth = getAuth(permObj.switchType, checkRole);
 
   const addRelatedMattersProjectId = routeInfoStore.getState((s) => s.params).projectId;
   const { addIssueRelation } = issueStore.effects;
