@@ -143,7 +143,6 @@ const Backlog = () => {
         submitValues.startCreatedAt = createdAtStartEnd[0];
         submitValues.endCreatedAt = createdAtStartEnd[1];
       }
-      console.log('🚀 ~ file: backlog.tsx ~ line 147 ~ Backlog ~ submitValues', submitValues);
       return getBacklogIssues({ ...submitValues, state: (state as number[])?.length ? state : allStateIds.current });
     },
     [filterState, getBacklogIssues],
