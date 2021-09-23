@@ -82,6 +82,7 @@ export default function Login() {
           </div>
         ) : null}
         <FormInput
+          name="identifier"
           label={`${i18n.t('email')}/${i18n.t('username')}`}
           value={identifier}
           onChange={updateIdentifier}
@@ -90,6 +91,7 @@ export default function Login() {
         />
 
         <FormInput
+          name="password"
           label={i18n.t('password')}
           value={password}
           onChange={updatePassword}
