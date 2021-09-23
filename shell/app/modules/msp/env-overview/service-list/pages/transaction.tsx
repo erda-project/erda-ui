@@ -23,6 +23,7 @@ import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-detail';
+import mspStore from 'msp/stores/micro-service';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 
@@ -135,6 +136,7 @@ const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
+  const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const [
@@ -244,15 +246,17 @@ const Transaction = () => {
         width: 180,
         render: (_: any, record: any) => (
           <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                updater.traceId(record.requestId);
-                updater.logVisible(true);
-              }}
-            >
-              {i18n.t('check log')}
-            </span>
+            {currentProject?.type === 'MSP' && (
+              <span
+                className="table-operations-btn"
+                onClick={() => {
+                  updater.traceId(record.requestId);
+                  updater.logVisible(true);
+                }}
+              >
+                {i18n.t('check log')}
+              </span>
+            )}
             <span
               className="table-operations-btn"
               onClick={() => {

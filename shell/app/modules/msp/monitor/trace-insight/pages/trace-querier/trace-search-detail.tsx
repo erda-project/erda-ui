@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon, Copy } from 'common';
-import { Copy as IconCopy } from '@icon-park/react';
+import { ShareOne as IconShareOne } from '@icon-park/react';
 import PureTraceDetail from './trace-detail-new';
 import monitorCommonStore from 'app/common/stores/monitorCommon';
 import { useUnmount } from 'react-use';
@@ -76,7 +76,7 @@ export default ({ traceId }: { traceId?: string }) => {
             data-clipboard-text={_traceId ? window.location.href : `${window.location.href}/trace-detail/${traceId}`}
             data-clipboard-tip={i18n.t('path')}
           >
-            <IconCopy className="hover-active ml-5" size="16px" />
+            <IconShareOne className="hover-active ml-5" size="16px" />
           </span>
         </Copy>
       </div>
