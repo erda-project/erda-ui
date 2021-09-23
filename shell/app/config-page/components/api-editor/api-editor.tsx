@@ -207,13 +207,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       }
       const allowEmpty = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
       if (!isEmpty(asserts) && !errMsg) {
-        const temp = {};
         asserts.forEach((item) => {
-          if (temp[item.arg]) {
-            errMsg = i18n.t('assert exist the same {key}', { key: item.arg });
-          } else {
-            temp[item.arg] = true;
-          }
           if (!errMsg && item.arg && !allowEmpty.includes(item.operator) && !item.value) {
             errMsg = i18n.t('assert {name} setting is abnormal', { name: item.arg });
           }
