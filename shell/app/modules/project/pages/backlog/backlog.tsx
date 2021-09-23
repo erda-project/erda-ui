@@ -48,8 +48,10 @@ const Backlog = () => {
   ]);
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
 
+  const allStateIds = React.useRef<number[]>([]);
   const stateCollection: Array<{ label: string | React.ReactNode; children: Array<{ label: string; value: string }> }> =
     React.useMemo(() => {
+      const stateIds: number[] = [];
       const collection = workflowStateList.reduce((acc, current) => {
         const { issueType, stateName, stateID, stateBelong } = current;
         if (!['BUG', 'REQUIREMENT', 'TASK'].includes(issueType) || ['CLOSED', 'DONE'].includes(stateBelong)) {
@@ -60,8 +62,14 @@ const Backlog = () => {
         } else {
           acc[issueType] = [{ label: stateName, value: `${stateID}` }];
         }
+        if (!allStateIds.current.length) {
+          stateIds.push(stateID);
+        }
         return acc;
       }, {});
+      if (!allStateIds.current.length) {
+        allStateIds.current = stateIds;
+      }
       const options = map(collection, (stateArray, issueType) => {
         const label = ISSUE_ICON_MAP[issueType];
         return {
@@ -95,8 +103,6 @@ const Backlog = () => {
         drawerVisible: true,
       });
     }
-    issueWorkflowStore.getStatesByIssue({ projectID: +projectId });
-
     return () => {
       clearBacklogIssues();
     };
@@ -126,7 +132,7 @@ const Backlog = () => {
     (filters: Obj = {}, goTop = true) => {
       goTop && (listRef.current.scrollTop = 0);
       const submitValues = { ...filterState, ...filters };
-      const { finishedAtStartEnd, createdAtStartEnd } = submitValues;
+      const { finishedAtStartEnd, createdAtStartEnd, state } = submitValues;
       if (finishedAtStartEnd) {
         unset(submitValues, 'finishedAtStartEnd');
         submitValues.startFinishedAt = finishedAtStartEnd[0];
@@ -137,7 +143,8 @@ const Backlog = () => {
         submitValues.startCreatedAt = createdAtStartEnd[0];
         submitValues.endCreatedAt = createdAtStartEnd[1];
       }
-      return getBacklogIssues(submitValues);
+      console.log('🚀 ~ file: backlog.tsx ~ line 147 ~ Backlog ~ submitValues', submitValues);
+      return getBacklogIssues({ ...submitValues, state: (state as number[])?.length ? state : allStateIds.current });
     },
     [filterState, getBacklogIssues],
   );
