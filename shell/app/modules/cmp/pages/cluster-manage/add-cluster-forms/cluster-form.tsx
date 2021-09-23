@@ -335,7 +335,11 @@ export const AddClusterModal = (props: IProps) => {
         type: get(find(flatten(clusterTypeMap), { type: clusterType }), 'name', ''),
       })}
       title={
-        clusterType === 'k8s' ? i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' }) : undefined
+        clusterType === 'k8s'
+          ? initData
+            ? i18n.t('project:edit cluster configuration')
+            : i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' })
+          : undefined
       }
       visible={visible}
       onOk={handleSubmit}

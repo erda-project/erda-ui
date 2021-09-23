@@ -14,8 +14,8 @@
 import React from 'react';
 import { isEmpty, map, unset } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Spin, Popconfirm, Pagination } from 'core/nusi';
-import { Icon as CustomIcon, useUpdate, ContractiveFilter } from 'common';
+import { Button, Spin, Popconfirm, Pagination, Tooltip } from 'core/nusi';
+import { Icon as CustomIcon, useUpdate, ContractiveFilter, ErdaCustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
 import iterationStore from 'project/stores/iteration';
@@ -51,8 +51,8 @@ const Backlog = () => {
   const stateCollection: Array<{ label: string | React.ReactNode; children: Array<{ label: string; value: string }> }> =
     React.useMemo(() => {
       const collection = workflowStateList.reduce((acc, current) => {
-        const { issueType, stateName, stateID } = current;
-        if (!['BUG', 'REQUIREMENT', 'TASK'].includes(issueType)) {
+        const { issueType, stateName, stateID, stateBelong } = current;
+        if (!['BUG', 'REQUIREMENT', 'TASK'].includes(issueType) || ['CLOSED', 'DONE'].includes(stateBelong)) {
           return acc;
         }
         if (acc[issueType]) {
@@ -272,8 +272,14 @@ const Backlog = () => {
   return (
     <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
       <div className="backlog-issues-title flex justify-between items-center mb-2">
-        <div>
+        <div className="flex items-center">
           <span className="font-bold text-base mr-2">{i18n.t('project:backlog')}</span>
+          <Tooltip
+            placement="right"
+            title={i18n.t('project:this is mainly for items that have not been scheduled for a specific iteration')}
+          >
+            <ErdaCustomIcon type="help" className="cursor-pointer mr-2" />
+          </Tooltip>
           <span className="text-desc">{i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}</span>
         </div>
         <div>
