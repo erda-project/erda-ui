@@ -47,13 +47,16 @@ const ClusterPodDetail = () => {
   const [{ clusterName, podId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { podName, namespace } = query || {};
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
-  const globalVariable = {
-    startTime: timeSpan.startTimeMs,
-    endTime: timeSpan.endTimeMs,
-    podName,
-    namespace,
-    clusterName,
-  };
+  const globalVariable = React.useMemo(
+    () => ({
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+      podName,
+      namespace,
+      clusterName,
+    }),
+    [timeSpan, podName, namespace, clusterName],
+  );
 
   const [chartLoading] = useLoading(CommonDashboardStore, ['getCustomDashboard']);
 

@@ -70,8 +70,13 @@ export default function Login() {
     updateValid({ confirmPw: v !== password ? i18n.t('inconsistent passwords') : '' });
   };
 
+  const checkValid = () => {
+    const { page, ...rest } = validTips;
+    return Object.values(rest).filter((item) => !!item).length === 0;
+  };
+
   const handleSubmit = () => {
-    if (email && username && password && confirmPw && confirmPw === password) {
+    if (checkValid() && confirmPw === password) {
       ucStore
         .registration({ email, password, nickname, username })
         .then(() => {
@@ -85,7 +90,7 @@ export default function Login() {
     } else {
       updateValid({
         email: getValidText(email, 'email'),
-        password: getValidText(password),
+        password: getValidText(password, 'password'),
         username: getValidText(username),
         nickname: getValidText(nickname),
         confirmPw: confirmPw !== password ? i18n.t('inconsistent passwords') : '',

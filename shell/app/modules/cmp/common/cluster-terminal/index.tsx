@@ -46,8 +46,8 @@ export const ClusterTerminal = (props: IProps) => {
 
   const terminalRef = React.useRef<HTMLDivElement>(null);
   const term = React.useRef<ITerminal>();
-
   const [max, setMax] = React.useState(false);
+  const [initLoading, setInitLoading] = React.useState(true);
 
   React.useEffect(() => {
     term.current?.fit();
@@ -57,17 +57,21 @@ export const ClusterTerminal = (props: IProps) => {
 
   useEffectOnce(() => {
     if (terminalRef.current) {
-      term.current = terminalMap[params.subProtocol]?.createTerm(terminalRef.current, params);
+      setTimeout(() => {
+        term.current = terminalMap[params.subProtocol]?.createTerm(terminalRef.current, params);
+        // wait for term init finished
+        setTimeout(() => {
+          term.current?.fit();
+          setInitLoading(false);
+        }, 0);
+      }, 0);
     }
-    // wait for term init finished
-    setTimeout(() => {
-      term.current?.fit();
-    }, 0);
     return () => term.current && terminalMap[params.subProtocol]?.destroyTerm(term.current);
   });
 
   return (
     <div ref={terminalRef} className={`cluster-terminal-container ${max ? ' show-max' : ''}`}>
+      {initLoading ? <span className="text-white">{i18n.t('connecting')}...</span> : null}
       <div className="cluster-terminal-control btn-line-rtl">
         <Button className="resize-button" onClick={changeSize} type="ghost">
           {max ? i18n.t('exit full screen') : i18n.t('full screen')}

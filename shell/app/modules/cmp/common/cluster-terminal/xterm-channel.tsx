@@ -15,6 +15,7 @@ import { Terminal } from 'xterm';
 import * as attach from 'xterm/lib/addons/attach/attach';
 import * as fit from 'xterm/lib/addons/fit/fit';
 import { decode, encode } from 'js-base64';
+import { isEmpty } from 'lodash';
 
 Terminal.applyAddon(fit);
 Terminal.applyAddon(attach);
@@ -26,16 +27,20 @@ export interface ITerminal extends Terminal {
   socket: WebSocket;
   __sendData: (val: string) => void;
   __getMessage: (o: Obj) => void;
+  _pingInterval: NodeJS.Timeout;
   attach: (ws: WebSocket) => void;
   _onResize: () => void;
   fit: () => void;
 }
 
+const Ping = '6';
+const Pong = '7';
 const Input = '0'; // input code
 const Output = '1'; // output code
 const Error = '2'; // standard error code
 const ServiceError = '3'; // service error code
 const SetSize = '4';
+const pingTime = 30;
 
 function sendData(term: ITerminal, type: string, data?: string) {
   if (term.__socket) {
@@ -62,6 +67,11 @@ function proxyOutput(term: ITerminal, socket: WebSocket) {
     data = data.substr(1);
     data && (data = decode(data));
     switch (type) {
+      case Ping:
+        sendData(term, Pong);
+        break;
+      case Pong:
+        break;
       case Output:
       case Error:
       case ServiceError:
@@ -78,7 +88,10 @@ function runTerminal(term: ITerminal, socket: WebSocket, initData?: Obj) {
   term.attach(socket);
   proxyInput(term);
   proxyOutput(term, socket);
-  socket.send(JSON.stringify(initData || 'connecting...'));
+  !isEmpty(initData) && socket.send(JSON.stringify(initData));
+  term._pingInterval = setInterval(() => {
+    sendData(term, Ping);
+  }, pingTime * 1000);
   term.fit();
   const { cols, rows } = term;
   sendData(term, SetSize, JSON.stringify({ Width: cols * 9, Height: rows * 17 }));
@@ -134,8 +147,13 @@ export function destroyTerm(term: ITerminal) {
   if (term._onResize) {
     window.removeEventListener('resize', term._onResize);
   }
+
   if (term.socket) {
     term.socket.close();
+  }
+
+  if (term._pingInterval) {
+    clearInterval(term._pingInterval);
   }
   term.destroy();
 }

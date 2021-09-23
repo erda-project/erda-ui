@@ -310,7 +310,14 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     case 'textWithBadge':
-      Comp = val.status ? <Badge status={val.status || 'default'} text={val.value} /> : val.value;
+      Comp = val.status ? (
+        <div className="flex">
+          <Badge status={val.status || 'default'} />
+          <Ellipsis title={val.value} />
+        </div>
+      ) : (
+        val.value
+      );
       break;
     case 'textWithLevel':
       {
