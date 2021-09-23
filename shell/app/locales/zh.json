@@ -2967,7 +2967,6 @@
     "filter condition": "过滤条件",
     "follow": "关注",
     "four parameter references": "1. 本场景的入参引用方法：/ $<< params.lab >>，其中 lab 为场景入参名;2. 前置接口出参引用方法：/ $<< outputs.10.status >>，其中 10 为接口 ID，status 为出参名称;3. mock 参数引用方法：/ $<< random.string >>， 其中 string 为随机生成字符串的函数（还包含 integer、float、boolean、upper、lower等）;4. 全局环境变量的引用方法：/ $<< configs.autotest.cluster-name >>，其中 cluster-name 为环境变量名",
-    "full-width punctuation is not allowed\"": "不允许包含全角标点\"",
     "general settings": "通用设置",
     "greater than or equal to": "大于等于",
     "greater than, greater than or equal to, less than, less than or equal to": "大于、大于等于、小于、小于等于",
