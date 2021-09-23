@@ -33,7 +33,7 @@
 .trace-detail-chart {
   .ant-tabs-content-holder {
     overflow: auto !important;
-    height: 700px !important;
+    height: calc(100vh - 290px);
   }
 }
 
