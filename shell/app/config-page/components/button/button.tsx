@@ -27,6 +27,7 @@ export const Button = (props: CP_BUTTON.Props) => {
     suffixIcon,
     menu,
     tooltip,
+    tipProps = {},
     visible = true,
     disabled: pDisabled,
     disabledTip: pDisabledTip,
@@ -74,7 +75,7 @@ export const Button = (props: CP_BUTTON.Props) => {
 
   if (disabled || pDisabled) {
     return (
-      <Tooltip title={disabledTip || pDisabledTip}>
+      <Tooltip title={disabledTip || pDisabledTip} {...tipProps}>
         <NusiButton {...rest} disabled>
           {content}
         </NusiButton>
@@ -141,5 +142,11 @@ export const Button = (props: CP_BUTTON.Props) => {
     </NusiButton>
   );
 
-  return tooltip ? <Tooltip title={tooltip}>{buttonComp}</Tooltip> : buttonComp;
+  return tooltip ? (
+    <Tooltip title={tooltip} {...tipProps}>
+      {buttonComp}
+    </Tooltip>
+  ) : (
+    buttonComp
+  );
 };

@@ -29,6 +29,7 @@ declare namespace CP_BUTTON {
     style?: Obj;
     suffixIcon?: string;
     tooltip?: string;
+    tipProps?: Obj;
     visible?: boolean;
   }
   interface MenuItem {
