@@ -20,6 +20,7 @@ interface IProps {
   placeholder?: string;
   label: string;
   errorTip?: string;
+  name?: string;
   labelExtra?: React.ReactNode;
 }
 

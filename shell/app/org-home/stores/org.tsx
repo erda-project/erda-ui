@@ -147,6 +147,7 @@ const org = createStore({
             [k: string]: LAYOUT.IApp;
           };
           permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
+          update({ currentOrg, curPathOrg: payload.orgName });
           const menusMap = getSubSiderInfoMap();
           const appCenterAppList = getAppCenterAppList();
           appCenterAppList.forEach((a) => {
@@ -159,7 +160,7 @@ const org = createStore({
             key: 'dop',
           });
           breadcrumbStore.reducers.setInfo('curOrgName', currentOrg.displayName);
-          update({ currentOrg, curPathOrg: payload.orgName, initFinish: true });
+          update({ initFinish: true });
         }
       }
     },
