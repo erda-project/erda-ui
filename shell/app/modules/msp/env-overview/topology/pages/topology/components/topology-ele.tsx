@@ -81,18 +81,20 @@ const TopologyEle = (props: IProps) => {
     const curSvg = svgRef.current as any;
     // 兼容safari:
     if (curSvg) {
-      svgGroupRef.current = curSvg.g().drag(
-        // 此处不能改为箭头函数，api会报错
-        function (dx: number, dy: number) {
+      svgGroupRef.current = curSvg.g();
+      curSvg.drag(
+        (dx: number, dy: number) => {
           // onmove
+          const svgGroup = svgGroupRef.current;
           onDrag = true;
-          this.attr({
-            transform: this.data('origTransform') + (this.data('origTransform') ? 'T' : 't') + [dx, dy],
+          svgGroup.attr({
+            transform: svgGroup.data('origTransform') + (svgGroup.data('origTransform') ? 'T' : 't') + [dx, dy],
           });
         },
-        function () {
+        () => {
           // onstart
-          this.data('origTransform', this.transform().local);
+          const svgGroup = svgGroupRef.current;
+          svgGroup.data('origTransform', svgGroup.transform().local);
         },
         () => {
           // onend
@@ -101,6 +103,7 @@ const TopologyEle = (props: IProps) => {
           }, 0);
         },
       );
+
       // 在g标签下建一个透明的rect占满g标签内部,用于承载drag的载体，否则g.drag只能作用于节点。
       const mask = curSvg.rect(0, 0, '300%', '300%').attr({ fill: 'transparent' });
       const curG = svgGroupRef.current as any;
