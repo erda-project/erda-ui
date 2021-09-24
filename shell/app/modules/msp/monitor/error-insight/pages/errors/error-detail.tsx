@@ -39,7 +39,6 @@ const InfoCompMap = {
 
 const ErrorDetail = () => {
   const [eventIds, eventDetail] = monitorErrorStore.useStore((s) => [s.eventIds, s.eventDetail]);
-  console.log(eventIds);
   const [getEventIdsLoading, getEventDetailLoading] = useLoading(monitorErrorStore, ['getEventIds', 'getEventDetail']);
   const { getEventIds, getEventDetail } = monitorErrorStore.effects;
   const { clearEventDetail } = monitorErrorStore.reducers;
