@@ -44,7 +44,7 @@ export const initApiWs = (payload: IInitApiWs) => {
     // eslint-disable-next-line no-console
     console.log('您的浏览器支持 WebSocket!---', 'API Setting');
 
-    const ws = new WebSocket(`wss://${window.location.hostname}${API_WS_URL}/${inode}`);
+    const ws = new WebSocket(`wss://${window.location.host}${API_WS_URL}/${inode}`);
     updateApiWs(ws);
     const wsQuery = {
       sessionID: '',
