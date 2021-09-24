@@ -73,6 +73,10 @@ const common = createStore({
         newLines = oldLines;
         emptyTimes += 1;
       }
+      const LIMIT = 5000;
+      if (newLines.length > LIMIT) {
+        newLines = count > 0 ? newLines.slice(-LIMIT) : newLines.slice(0, LIMIT);
+      }
       // 空的次数大于2次后，开始延长拉取周期，最长1分钟
       if (emptyTimes > 2 && fetchPeriod < 60 * 1000) {
         fetchPeriod += defaultLogPeriod;
