@@ -59,7 +59,7 @@ const ErrorDetail = () => {
   });
 
   const getDetail = (q?: any) => {
-    const index = get(q, 'index') || eventIndex;
+    const index = get(q, 'index') ?? eventIndex;
     const currentEvtId = index >= 0 && get(eventIds, `[${index}]`);
     currentEvtId && getEventDetail({ id: currentEvtId });
   };
