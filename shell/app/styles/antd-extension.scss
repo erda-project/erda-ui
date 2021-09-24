@@ -472,3 +472,11 @@ div.ant-card-body {
 .pk-form-item .ant-cascader-picker {
   width: 100%;
 }
+
+.ant-list-items {
+  padding: 8px 12px;
+
+  &:hover {
+    background-color: $color-list-bg-active;
+  }
+}
