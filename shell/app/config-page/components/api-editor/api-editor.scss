@@ -226,15 +226,14 @@
 .assert-status {
   margin-right: 8px;
   margin-left: 4px;
-  color: $white;
   border-radius: 100%;
 
   &.success {
-    background-color: $color-success;
+    color: $color-success;
   }
 
   &.error {
-    background-color: $color-danger;
+    color: $color-danger;
   }
 }
 

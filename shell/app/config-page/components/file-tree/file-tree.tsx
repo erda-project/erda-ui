@@ -17,6 +17,8 @@ import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual 
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { WithAuth } from 'user/common';
+import { AddOne as IconAddOne, More as IconMore } from '@icon-park/react';
+
 import { TreeNodeNormal, AntTreeNodeProps } from 'core/common/interface';
 import i18n from 'i18n';
 import './file-tree.scss';
@@ -102,7 +104,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
           ...d,
           className: 'insert-node',
           title: <div className="cursor-pointer insert-node-title" onClick={clickInsert} />,
-          icon: <CustomIcon type="cir-add" className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
+          icon: <IconAddOne className="insert-node-icon cursor-pointer" onClick={clickInsert} />,
         };
       }
       if (staticSearch && !(matchKeys || []).includes(d.key)) {
@@ -382,7 +384,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
               ))}
               footer={false}
             >
-              <CustomIcon type="gd" className="tree-node-action" />
+              <IconMore className="tree-node-action" />
             </Popover>
           </span>
         )}

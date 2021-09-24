@@ -26,7 +26,7 @@ import {
   QUOTE_PREFIX_NO_EXTENDED,
 } from 'app/modules/apiManagePlatform/configs.ts';
 import ApiSummary from 'apiManagePlatform/pages/api-market/design/summary';
-import ApiResource from 'app/config-page/components/api-resource/resource';
+import ApiResource from 'apiManagePlatform/pages/api-market/components/api-resource/resource';
 import DataTypeConfig from 'apiManagePlatform/pages/api-market/design/datatype-config';
 import routeInfoStore from 'core/stores/route';
 import { produce } from 'immer';

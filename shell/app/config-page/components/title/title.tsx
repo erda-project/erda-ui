@@ -19,6 +19,7 @@ import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip, Button } from 'core/nusi';
 import { OperationAction } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
+import { Help as IconHelp } from '@icon-park/react';
 import './title.scss';
 
 const Title = (props: CP_TITLE.Props) => {
@@ -44,7 +45,7 @@ const Title = (props: CP_TITLE.Props) => {
       {prefixImg ? <img src={getImg(prefixImg)} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type="help" className="ml-1 text-sm pre-icon" />
+        <IconHelp className="ml-1 text-sm pre-icon" />
       </Tooltip>
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>
