@@ -438,6 +438,7 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
           ...val,
         }).then((res: number) => {
           onSaveRelation(res); // 添加关联
+          return res;
         });
       }}
     />
