@@ -24,6 +24,7 @@ import sysMemberStore from 'common/stores/sys-member';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import mspProjectMember from 'common/stores/msp-project-member';
+import { usePaging } from 'core/service';
 
 const { Option } = Select;
 
@@ -47,26 +48,15 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
   const { getRoleMap } = appMemberStore.effects; // 应用授权，只查询项目的角色
   const roleMap = appMemberStore.useStore((s) => s.roleMap);
   const { params } = routeInfoStore.getState((s) => s);
-  const memberID = member?.userId;
-  const queryData = React.useRef({ pageNo: 1, pageSize: 12, memberID, projectId: params.projectId, q: '' });
-  if (memberID) {
-    queryData.current.memberID = memberID;
-  }
-  if (params.projectId) {
-    queryData.current.projectId = params.projectId;
-  }
+  const load = usePaging({
+    service: getAppList.fetch,
+    required: {
+      memberID: member?.userId,
+      projectId: params.projectId,
+    },
+  });
 
   const [data, loading] = getAppList.useState();
-
-  const load = React.useCallback(
-    (pagingData: { pageNo?: number; q?: string }) => {
-      const d = { ...queryData.current, pageNo: 1, ...pagingData };
-      if (d.memberID && d.projectId) {
-        getAppList.fetch(d);
-      }
-    },
-    [queryData],
-  );
 
   useEffectOnce(() => {
     getRoleMap({ scopeType: MemberScope.APP });
@@ -142,15 +132,12 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       width={600}
     >
       <Input.Search
-        onSearch={(q) => {
-          queryData.current.q = q;
-          load({ q });
-        }}
+        onSearch={(q) => load({ q })}
         className="mb-3"
         allowClear
         placeholder={i18n.t('project:search by application name')}
       />
-      <Table loading={loading} rowKey={'userId'} pagination={pagination} columns={columns} dataSource={list} />
+      <Table loading={loading} rowKey={'id'} pagination={pagination} columns={columns} dataSource={list} />
     </Modal>
   );
 };
