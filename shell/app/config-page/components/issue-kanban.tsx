@@ -13,11 +13,12 @@
 
 import React from 'react';
 import { map, find, isEmpty, without, get } from 'lodash';
-import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
+import { useUpdate, EmptyHolder } from 'common';
 import { Card } from './card/card';
 import { Input, Button, Popconfirm, Tooltip } from 'core/nusi';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
+import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
 import { useUserMap } from 'core/stores/userMap';
 import projectLabelStore from 'project/stores/label';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, ISSUE_ICON } from 'project/common/components/issue/issue-config';
@@ -139,10 +140,10 @@ const IssueKanban = (props: IProps) => {
             </div>
           ) : operations?.CreateCustom?.disabled ? (
             <Tooltip title={operations?.CreateCustom?.disabledTip}>
-              <CustomIcon type="tj1" className="cursor-pointer add-icon not-allowed" />
+              <IconPlus className="cursor-pointer add-icon not-allowed" />
             </Tooltip>
           ) : (
-            <CustomIcon type="tj1" className="cursor-pointer add-icon" onClick={() => updater.showAdd(true)} />
+            <IconPlus className="cursor-pointer add-icon" onClick={() => updater.showAdd(true)} />
           )}
         </div>
       ) : null}
@@ -315,14 +316,13 @@ const Kanban = (props: IKanbanProps) => {
                   execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })
                 }
               >
-                <CustomIcon type="shanchu" className="delete-item  cursor-pointer ml-3" />
+                <IconDelete className="ml-3 cursor-pointer" />
               </Popconfirm>
             </WithAuth>
           ) : (
             <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
-              <CustomIcon
-                type="shanchu"
-                className="delete-item cursor-pointer ml-3"
+              <IconDelete
+                className="ml-3 cursor-pointer"
                 onClick={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })}
               />
             </WithAuth>

@@ -13,7 +13,7 @@
 
 import { cutStr, qs } from 'common/utils';
 import classnames from 'classnames';
-import { Copy, Icon as CustomIcon, EditList, EmptyListHolder, FileEditor } from 'common';
+import { Copy, EditList, EmptyListHolder, FileEditor } from 'common';
 import { validateValue } from 'common/components/edit-list/edit-list';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
 import {
@@ -36,7 +36,14 @@ import {
 } from 'core/nusi';
 import { Form as ConfigForm } from 'dop/pages/form-editor/index';
 import React from 'react';
-import { Copy as IconCopy } from '@icon-park/react';
+import {
+  Copy as IconCopy,
+  Help as IconHelp,
+  CheckOne as IconCheckOne,
+  CloseOne as IconCloseOne,
+  Delete as IconDelete,
+  DownOne as IconDownOne,
+} from '@icon-park/react';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import './api-editor.scss';
@@ -338,7 +345,8 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     apiExecuteButton = (
       <Dropdown overlay={dropdownMenu}>
         <Button {...rest} className="ml-3">
-          {text} <CustomIcon type={'di'} className="ml-1" />
+          {text}
+          <IconDownOne theme="filled" className="ml-1" />
         </Button>
       </Dropdown>
     );
@@ -680,7 +688,7 @@ const AssertTips = () => {
 
   return (
     <Tooltip placement="topLeft" title={tips} overlayClassName="api-editor-asserts-tips">
-      <CustomIcon type="help" />
+      <IconHelp />
     </Tooltip>
   );
 };
@@ -744,9 +752,9 @@ const ApiTabComps = {
               trigger="hover"
             >
               {res.success === true ? (
-                <CustomIcon className="assert-status success" type="tg" />
+                <IconCloseOne theme="filled" className="assert-status error" />
               ) : res.success === false ? (
-                <CustomIcon className="assert-status error" type="wtg" />
+                <IconCheckOne theme="filled" className="assert-status success" />
               ) : null}
             </Popover>
           );
@@ -1051,8 +1059,8 @@ const APIBody = (props: any) => {
                 </Option>
               ))}
             </Select>
-            <Tooltip title={tip}>
-              <CustomIcon type="help" className="ml-1 mt-2 text-sm" />
+            <Tooltip title={tip} overlayStyle={{ maxWidth: 500 }}>
+              <IconHelp className="ml-1 mt-2 text-sm" />
             </Tooltip>
           </span>
         ) : null}
@@ -1211,11 +1219,10 @@ const KeyValEdit = (props: IKeyValProps) => {
                   )}
                   onConfirm={() => handleDelete(i)}
                 >
-                  <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
+                  <IconDelete className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
                 </Popconfirm>
               ) : (
-                <CustomIcon
-                  type="sc1"
+                <IconDelete
                   onClick={() => {
                     handleDelete(i);
                   }}

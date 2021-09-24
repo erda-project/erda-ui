@@ -16,6 +16,7 @@ import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'core/
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
 import { Icon as CustomIcon } from 'common';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const fakeClick = 'fake-click';
 
@@ -55,7 +56,7 @@ export const Button = (props: CP_BUTTON.Props) => {
       {suffixIcon ? (
         <CustomIcon type={suffixIcon} className="ml-1" />
       ) : isEmpty(menu) ? null : (
-        <CustomIcon type={'di'} className="ml-1" />
+        <IconDownOne theme="filled" className="ml-1" />
       )}
     </>
   );

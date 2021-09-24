@@ -27,7 +27,7 @@ import { APIEditor } from './api-editor/api-editor';
 import Radio from './radio/radio';
 import SplitPage from './split-page/split-page';
 import Tabs from './tabs/tabs';
-import ApiResource from './api-resource/resource';
+
 import Title from './title/title';
 import { SortDragGroupList } from './sort-drag-group/sort-drag-group';
 import Panel from './panel/panel';
@@ -76,7 +76,6 @@ export const containerMap = {
   FileTree,
   Radio,
   Tabs,
-  ApiResource,
   Title,
   Drawer,
   Panel,

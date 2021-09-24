@@ -19,7 +19,8 @@ import i18n from 'i18n';
 import moment from 'moment';
 import { RowContainer, Container } from '../container/container';
 import { statusColorMap, colorMap } from 'app/config-page/utils';
-import { Download as IconDownLoad } from '@icon-park/react';
+import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } from '@icon-park/react';
+
 import { WithAuth } from 'user/common';
 import Text from '../text/text';
 
@@ -31,7 +32,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="text-sm text-sub ml-2" />
+          <IconInfo className="text-sm text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -402,7 +403,7 @@ const memberSelectorValueItem = (user: any) => {
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
       </span>
-      <CustomIcon className="arrow-icon" type="di" />
+      <IconDownOne theme="filled" className="arrow-icon" />
     </div>
   );
 };
@@ -425,7 +426,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="text-desc">{i18n.t('unspecified')}</span>}
       </div>
-      <CustomIcon type="di" className="arrow-icon" />
+      <IconDownOne theme="filled" className="arrow-icon" />
     </div>
   );
 

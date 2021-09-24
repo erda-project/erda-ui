@@ -15,6 +15,7 @@ import React from 'react';
 import { Tooltip, Dropdown, Menu, Radio, Badge } from 'core/nusi';
 import { map, isArray, find, get } from 'lodash';
 import { useUpdate, Icon as CustomIcon } from 'common';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const handleState = (_stateObj?: Obj) => {
   return {
@@ -86,7 +87,7 @@ export default (props: CP_RADIO.Props) => {
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
                       {childName}
                     </span>
-                    <CustomIcon type="di" className="ml-1" />
+                    <IconDownOne theme="filled" className="ml-1" />
                   </div>
                 </RadioItem>
               </Dropdown>

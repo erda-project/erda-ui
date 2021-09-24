@@ -17,6 +17,7 @@ import { Dropdown, Menu, Popconfirm, Tooltip } from 'core/nusi';
 import { isString, isEmpty, map } from 'lodash';
 import { WithAuth } from 'user/common';
 import { useDrag } from 'react-dnd';
+import { More as IconMore } from '@icon-park/react';
 import classnames from 'classnames';
 import './card.scss';
 
@@ -92,24 +93,20 @@ export const Card = (props: CP_CARD.Props) => {
   return (
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
       <div className="info-card-content px-3 pt-2 pb-2" key={id} ref={drag}>
-        <div className={'flex justify-between items-center mb-3'}>
-          {isString(titleIcon) ? (
-            <CustomIcon type={titleIcon} color className="head-icon mr-1 pt-2" />
-          ) : (
-            titleIcon || null
-          )}
-          <div className="flex-1 text-sm text-normal break-word pt-2">{title}</div>
+        <div className={'flex justify-between items-start mb-3 pt-2'}>
+          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
+          <div className="flex-1 text-sm text-normal break-word">{title}</div>
           {isEmpty(menuOperations) ? (
-            <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
+            <IconMore className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} />
           ) : (
             <span
               ref={opRef}
-              className="pt-2 pr-1"
+              className="pr-1"
               onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}
             >
               <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
-                <CustomIcon className="op-icon" onClick={(e) => e.stopPropagation()} type="more" />
+                <IconMore className="op-icon" onClick={(e) => e.stopPropagation()} />
               </Dropdown>
             </span>
           )}
