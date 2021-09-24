@@ -19,7 +19,7 @@ enum iconMap {
   Golang = 'go',
   PHP = 'php',
   Java = 'java',
-  Jageger = 'jaeger',
+  Jaeger = 'jaeger',
   'Node.js' = 'nodejs',
   '.NET Core' = 'net',
   'Java Agent' = 'java',
