@@ -17,7 +17,7 @@ import { AbstractTooltipProps } from '../interface';
 
 import './ellipsis.scss';
 
-const TOOLTIP_MOUSE_ENTER_DELAY = 400;
+const TOOLTIP_MOUSE_ENTER_DELAY = 100;
 
 interface EllipsisProps extends AbstractTooltipProps {
   title?: React.ReactNode | RenderFunction;
@@ -28,11 +28,11 @@ interface EllipsisProps extends AbstractTooltipProps {
 declare type RenderFunction = () => React.ReactNode;
 
 const Ellipsis = (props: EllipsisProps) => {
-  const { title, placement = 'top', className, style, ...restProps } = props;
+  const { title, placement = 'top', className = '', style, ...restProps } = props;
   const itemRef = useRef<HTMLDivElement>(null);
-  const [showTooltip, setTooltip] = useState(false);
   const [enableToolTip, setEnableTooltip] = useState(false);
   const enterDelayTimerRef = useRef<number>();
+  const [width, setWidth] = React.useState(0);
 
   const handleMouseEnter = useCallback(() => {
     if (enterDelayTimerRef.current) {
@@ -40,48 +40,35 @@ const Ellipsis = (props: EllipsisProps) => {
       enterDelayTimerRef.current = undefined;
     }
     enterDelayTimerRef.current = window.setTimeout(() => {
-      const { clientWidth = 0, scrollWidth = 0 } = itemRef.current ?? {};
-      // 某些场景 ... 的宽度会被折叠，+1 来判断
-      if (scrollWidth > clientWidth + 1) {
-        setEnableTooltip(true);
-        setTooltip(true);
-      } else {
-        setEnableTooltip(false);
-        setTooltip(false);
+      const { clientWidth = 0, scrollWidth = 0, offsetWidth = 0 } = itemRef.current ?? {};
+      if (offsetWidth !== width) {
+        setWidth(offsetWidth);
+        // 某些场景 ... 的宽度会被折叠，+1 来判断
+        if (scrollWidth > clientWidth + 1) {
+          setEnableTooltip(true);
+        } else {
+          setEnableTooltip(false);
+        }
       }
     }, TOOLTIP_MOUSE_ENTER_DELAY);
-  }, [setTooltip, setEnableTooltip]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (enterDelayTimerRef.current) {
-      window.clearTimeout(enterDelayTimerRef.current);
-      enterDelayTimerRef.current = undefined;
-    }
-    setTooltip(false);
-  }, [setTooltip]);
+  }, [width]);
 
   const EllipsisInner = (
-    <div
-      className={`erda-ellipsis ${className}`}
-      style={style}
-      ref={itemRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className={`erda-ellipsis ${className}`} style={style} ref={itemRef} onMouseEnter={handleMouseEnter}>
       {title}
     </div>
   );
 
   return (
-    <>
-      {enableToolTip ? (
-        <Tooltip visible={showTooltip} destroyTooltipOnHide title={title} placement={placement} {...restProps}>
-          {EllipsisInner}
-        </Tooltip>
-      ) : (
-        EllipsisInner
-      )}
-    </>
+    <Tooltip
+      destroyTooltipOnHide
+      title={enableToolTip ? title : ''}
+      placement={placement}
+      {...restProps}
+      mouseEnterDelay={0.2}
+    >
+      {EllipsisInner}
+    </Tooltip>
   );
 };
 
