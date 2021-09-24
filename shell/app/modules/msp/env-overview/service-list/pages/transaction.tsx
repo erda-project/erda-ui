@@ -305,7 +305,7 @@ const Transaction = () => {
                 placeholder={i18n.t('msp:call type')}
                 allowClear
                 style={{ width: '150px' }}
-                onChange={(v) => updater.callType(v === undefined ? undefined : String(v))}
+                onChange={updater.callType}
                 value={callType}
               >
                 {callTypes.map(({ name, value }) => (
