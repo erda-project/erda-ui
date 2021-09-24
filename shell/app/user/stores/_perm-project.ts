@@ -116,7 +116,7 @@ export const projectPerm = {
     },
     switchType: {
       pass: false,
-      role: ['Owner', 'Lead', 'PM', 'Creator', 'Assignee'],
+      role: ['Owner', 'Lead', 'PM', 'Creator'],
       name: i18n.t('user:switch type'),
     },
     import: {
