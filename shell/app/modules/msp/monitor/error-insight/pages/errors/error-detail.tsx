@@ -242,7 +242,7 @@ const ErrorDetail = () => {
                   className={`next-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`}
                   onClick={() => changeEvent(1)}
                 >
-                  <span>{i18n.t('msp:next')}</span>
+                  <span>{i18n.t('backup:next')}</span>
                 </Button>
                 <Button
                   disabled={eventIndex === eventIds.length - 1}

@@ -536,6 +536,7 @@
     "yml-addon-not-exist-tip": "the current instance does not exist, please switch to edit mode to add again"
   },
   "backup": {
+    "next": "next",
     "parameter name": "parameter name",
     "service": "service"
   },
@@ -1256,7 +1257,6 @@
     "are you sure?": "are you sure?",
     "artifact ID": "artifact ID",
     "artifact management": "artifact management",
-    "assert exist the same {key}": "assert exist the same {key}",
     "assert {name} setting is abnormal": "assert {name} setting is abnormal",
     "associated ability": "associated ability",
     "associated microservice": "Associated microservice",
@@ -1345,7 +1345,6 @@
     "cluster overview": "cluster overview",
     "clusters": "clusters",
     "colour": "colour",
-    "connecting": "connecting",
     "comment": "comment",
     "commit": "commit",
     "commit date": "commit date",
@@ -1370,6 +1369,7 @@
     "confirm to reset?": "confirm to reset?",
     "confirm to switch Body type?": "confirm to switch Body type?",
     "confirm to {action}": "confirm to {action}?",
+    "connecting": "connecting",
     "connection relation": "connection relation",
     "console": "console",
     "consume count": "consume count",
