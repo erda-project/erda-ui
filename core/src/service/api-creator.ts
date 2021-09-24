@@ -276,6 +276,37 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
   });
 }
 
+/**
+ * get load function which can call directly with partial query
+ * @param service api function
+ * @param required required params, service will not be called if any of these is null or undefined
+ * @param initial initial params
+ * @returns if required params is all valid, return service result, otherwise return void;
+ */
+export function usePaging<T extends FN>({
+  service,
+  required,
+  initial,
+}: {
+  service: T;
+  required: Partial<Parameters<T>[0]>;
+  initial?: Partial<Parameters<T>[0]>;
+}) {
+  const staticQuery = React.useRef({ pageNo: 1, pageSize: DEFAULT_PAGESIZE, ...initial });
+
+  return React.useCallback(
+    (query?: Partial<Parameters<T>[0]>) => {
+      staticQuery.current = { ...staticQuery.current, ...query };
+      const full = { ...required, ...staticQuery.current };
+      const isReady = Object.keys(required).every((k) => full[k] !== null && full[k] !== undefined);
+      if (isReady) {
+        return service(full);
+      }
+    },
+    [required, service],
+  );
+}
+
 export function apiCreator<T extends FN>(apiConfig: APIConfig) {
   const apiFn = genRequest<T>(apiConfig);
   return enhanceAPI<typeof apiFn>(apiFn);
