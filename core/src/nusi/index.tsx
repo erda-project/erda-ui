@@ -36,6 +36,7 @@ import {
   Form,
   Input,
   InputNumber,
+  List,
   message,
   Menu,
   Modal,
@@ -76,11 +77,9 @@ import {
   Container,
   Filter,
   Shell,
-  Search,
   SideNavigation,
   PageHeader,
   GlobalNavigation,
-  List,
   ConfigProvider as NusiConfigProvider,
 } from '@terminus/nusi';
 
@@ -145,7 +144,6 @@ export {
   Spin,
   Steps,
   Switch,
-  Search,
   Table,
   Transfer,
   Tree,

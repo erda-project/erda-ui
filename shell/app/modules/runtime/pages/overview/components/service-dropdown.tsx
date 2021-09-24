@@ -107,8 +107,8 @@ const ServiceDropdown = (props: IProps) => {
         dataSource={map(envs, (value, key) => (
           <span className="env-item">{`${key}: ${value}`}</span>
         ))}
-        renderItem={(item: string) => {
-          return <div>{item}</div>;
+        renderItem={(item: JSX.Element) => {
+          return <Ellipsis>{item}</Ellipsis>;
         }}
       />
     );
