@@ -19,11 +19,9 @@ import build from '../lib/build';
 import release from '../lib/release';
 import addLicense from '../lib/add-license';
 import checkLicense from '../lib/check-license';
-import launcher from '../lib/launcher';
 import init from '../lib/init';
 import i18n from '../lib/i18n';
 import generateService from '../lib/service-generator';
-import checkCliVersion from '../lib/check-cli-version';
 import checkBuildStatus from '../lib/check-build-status';
 
 const program = new Command();
@@ -35,14 +33,12 @@ program.version(`erda-ui/cli ${require('../../package').version}`).usage('<comma
 program
   .command('init')
   .description('install dependency & initialize .env config')
-  .option('-s, --skip', 'skip the cli version check')
   .option('-p, --port <port>', 'set scheduler port')
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
   .option('-ol, --online', 'is online execution')
   .action(async (options) => {
     init(options);
-    await checkCliVersion(options);
   });
 
 program
@@ -52,11 +48,9 @@ program
   )
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
-  .option('-s, --skip', 'skip the cli version check')
   .option('-m, --enableSourceMap', 'generate source map')
   .option('-o, --online', 'whether is online build')
   .action(async (options) => {
-    await checkCliVersion(options);
     build(options);
   });
 
@@ -65,7 +59,6 @@ program
   .description('build & push docker image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
-  .option('-s, --skip', 'skip the cli version check')
   .option('-m, --enableSourceMap', 'generate source map')
   .action((options) => {
     release(options);
@@ -74,9 +67,7 @@ program
 program
   .command('i18n [workDir]')
   .description('translate words in work dir')
-  .option('-s, --skip', 'skip the cli version check')
-  .action(async (_workDir, options) => {
-    await checkCliVersion(options);
+  .action(async (_workDir) => {
     const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
     i18n({ workDir });
   });
@@ -84,9 +75,7 @@ program
 program
   .command('generate-service [workDir]')
   .description('generate service by API swagger')
-  .option('-s, --skip', 'skip the cli version check')
-  .action(async (_workDir, options) => {
-    await checkCliVersion(options);
+  .action(async (_workDir) => {
     const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
     generateService({ workDir });
   });
@@ -110,22 +99,12 @@ program
   });
 
 program
-  .command('launch')
-  .description('launch erda ui in development mode')
-  .option('-s, --skip', 'skip the cli version check')
-  .action(async (options) => {
-    await checkCliVersion(options);
-    launcher();
-  });
-
-program
   .command('check-build-status')
   .description(
     'compare git commit sha with previous build, if match it will skip build and reuse last built files. Only used in pipeline build',
   )
-  .option('-s, --skip', 'skip the cli version check')
-  .action(async (options) => {
-    await checkCliVersion(options);
+  .option('-m, --module', 'module name to build')
+  .action(async () => {
     checkBuildStatus();
   });
 
