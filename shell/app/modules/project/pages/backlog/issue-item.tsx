@@ -28,6 +28,9 @@ import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import { useMount } from 'react-use';
+import issueStore from 'project/stores/issues';
+import issueFieldStore from 'org/stores/issue-field';
+import orgStore from 'app/org-home/stores/org';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -157,6 +160,13 @@ export const IssueForm = (props: IIssueFormProps) => {
   const formRef = React.useRef(null as any);
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const [shouldAutoFocus, setShouldAutoFocus] = React.useState(true);
+  const { addFieldsToIssue } = issueStore.effects;
+  const [bugStageList, taskTypeList, fieldList] = issueFieldStore.useStore((s) => [
+    s.bugStageList,
+    s.taskTypeList,
+    s.fieldList,
+  ]);
+  const orgID = orgStore.useStore((s) => s.currentOrg.id);
 
   useMount(() => {
     setShouldAutoFocus(false);
@@ -167,7 +177,19 @@ export const IssueForm = (props: IIssueFormProps) => {
     if (curForm) {
       curForm.onSubmit((val: ISSUE.BacklogIssueCreateBody) => {
         if (val.title) {
-          onOk(val).then(() => curForm.reset('title'));
+          const data = {
+            ...val,
+            // some special fields for different type
+            taskType: taskTypeList?.length ? taskTypeList[0].value : '',
+            bugStage: bugStageList?.length ? bugStageList[0].value : '',
+            owner: '',
+          };
+          onOk(data).then((res) => {
+            curForm.reset('title');
+            if (fieldList.length) {
+              addFieldsToIssue({ property: fieldList, issueID: res, orgID, projectID: +projectId });
+            }
+          });
         } else {
           message.warn(i18n.t('please enter {name}', { name: i18n.t('title') }));
         }
