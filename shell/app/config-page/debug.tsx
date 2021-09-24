@@ -13,9 +13,9 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { ErrorBoundary, FileEditor, Icon as CustomIcon } from 'common';
+import { ErrorBoundary, FileEditor } from 'common';
 import { Button, message, Popover, Input } from 'core/nusi';
-import { MenuUnfold as IconMenuUnfold } from '@icon-park/react';
+import { MenuUnfold as IconMenuUnfold, Refresh as IconRefresh } from '@icon-park/react';
 import agent from 'agent';
 
 import './debug.scss';
@@ -100,7 +100,7 @@ export default () => {
               return (
                 <div key={i} className="log-item">
                   <span>
-                    {log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
+                    {log.time} {log.reload && <IconRefresh />} {log.type} {log.cId}: {log.opKey}
                     {log.command && <pre className="mb-0">{log.command}</pre>}
                   </span>
                   {log.data && (
