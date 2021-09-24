@@ -13,18 +13,15 @@
 
 import agent from 'agent';
 import { MemberScope } from 'common/stores/member-scope';
+import { apiCreator } from 'core/service';
 
-interface IPlatformUser {
-  avatar: string;
-  email: string;
-  id: string;
-  locked: boolean;
-  name: string;
-  nick: string;
-  phone: string;
-  lastLoginAt: string;
-  pwdExpireAt: string;
-}
+const apis = {
+  getApps: {
+    api: '/api/applications',
+  },
+};
+
+export const getAppList = apiCreator<(p: APPLICATION.GetAppList) => IPagingResp<IApplication>>(apis.getApps);
 
 interface IPlatformUser {
   avatar: string;
