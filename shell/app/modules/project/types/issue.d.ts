@@ -191,6 +191,7 @@ declare namespace ISSUE {
     label?: string[];
     pageNo?: number;
     loadMore?: boolean;
+    state?: number[];
   }
 
   interface ICreateRelationBody {
@@ -248,6 +249,6 @@ interface CreateDrawerData {
   taskType: string;
   title: string;
   content: string;
-  issueManHour: {estimateTime: number, remainingTime: number};
+  issueManHour: { estimateTime: number; remainingTime: number };
   label: string[];
 }
