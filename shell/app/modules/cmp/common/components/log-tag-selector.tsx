@@ -33,7 +33,7 @@ const KeyCode = {
 };
 
 const validValue = (val: string) => {
-  const tagReg = /^[_a-zA-Z][a-zA-Z0-9_]*[=]{1}[\s\S]+$/;
+  const tagReg = /^[_a-zA-Z][a-zA-Z0-9_-]*[=]{1}[\s\S]+$/;
   if (tagReg.test(val)) {
     return true;
   } else {
