@@ -83,7 +83,6 @@ const TopologyEle = (props: IProps) => {
     if (curSvg) {
       svgGroupRef.current = curSvg.g();
       curSvg.drag(
-        // 此处不能改为箭头函数，api会报错
         (dx: number, dy: number) => {
           // onmove
           const svgGroup = svgGroupRef.current;
