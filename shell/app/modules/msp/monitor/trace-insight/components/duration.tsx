@@ -90,7 +90,7 @@ export const transformDuration = (duration?: IValue) => {
   };
   if (duration?.timer) {
     const { timer, unit } = duration;
-    return parseInt(timer, 10) * proportion[unit];
+    return Number(timer) * proportion[unit];
   } else {
     return undefined;
   }
