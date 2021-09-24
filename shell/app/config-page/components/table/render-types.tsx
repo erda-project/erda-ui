@@ -376,7 +376,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             {map(renders, (rds, idx) => (
               <RowContainer key={`${idx}`}>
                 {map(rds, (rd, rdIdx) => (
-                  <div key={`${rdIdx}`}>{getRender(rd, record, extra)}</div>
+                  <div key={`${rdIdx}`} className="w-full">
+                    {getRender(rd, record, extra)}
+                  </div>
                 ))}
               </RowContainer>
             ))}
