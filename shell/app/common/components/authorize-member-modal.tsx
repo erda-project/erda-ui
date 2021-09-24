@@ -13,16 +13,15 @@
 
 import routeInfoStore from 'core/stores/route';
 import { MemberScope } from 'app/common/stores/member-scope';
-import { getApps } from 'common/services';
+import { getAppList } from 'common/services';
 import appMemberStore from 'common/stores/application-member';
 import i18n from 'i18n';
 import { map, compact, isEmpty } from 'lodash';
-import { Modal, Select, Table, Button } from 'core/nusi';
+import { Modal, Select, Table, Button, Input } from 'core/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';
 import React from 'react';
-import { useTempPaging } from './use-hooks';
 import { useEffectOnce } from 'react-use';
 import mspProjectMember from 'common/stores/msp-project-member';
 
@@ -48,19 +47,36 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
   const { getRoleMap } = appMemberStore.effects; // 应用授权，只查询项目的角色
   const roleMap = appMemberStore.useStore((s) => s.roleMap);
   const { params } = routeInfoStore.getState((s) => s);
+  const memberID = member?.userId;
+  const queryData = React.useRef({ pageNo: 1, pageSize: 12, memberID, projectId: params.projectId, q: '' });
+  if (memberID) {
+    queryData.current.memberID = memberID;
+  }
+  if (params.projectId) {
+    queryData.current.projectId = params.projectId;
+  }
 
-  const [list, paging, loading, load, clear] = useTempPaging<IApplication>({
-    service: getApps,
-    basicParams: { projectId: params.projectId, memberID: member && member.userId },
-  });
+  const [data, loading] = getAppList.useState();
+
+  const load = React.useCallback(
+    (pagingData: { pageNo?: number; q?: string }) => {
+      const d = { ...queryData.current, pageNo: 1, ...pagingData };
+      if (d.memberID && d.projectId) {
+        getAppList.fetch(d);
+      }
+    },
+    [queryData],
+  );
 
   useEffectOnce(() => {
     getRoleMap({ scopeType: MemberScope.APP });
-    if (member) {
-      load();
-    }
-    return () => clear();
+    load({ pageNo: 1 });
   });
+
+  if (!data) {
+    return null;
+  }
+  const { list, paging } = data;
 
   const pagination = {
     total: paging.total,
@@ -125,6 +141,15 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       ]}
       width={600}
     >
+      <Input.Search
+        onSearch={(q) => {
+          queryData.current.q = q;
+          load({ q });
+        }}
+        className="mb-3"
+        allowClear
+        placeholder={i18n.t('project:search by application name')}
+      />
       <Table loading={loading} rowKey={'userId'} pagination={pagination} columns={columns} dataSource={list} />
     </Modal>
   );
