@@ -21,6 +21,7 @@ import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
+import Markdown from 'common/utils/marked';
 import { Copy as IconCopy } from '@icon-park/react';
 import {
   getAcquisitionAndLang,
@@ -301,7 +302,7 @@ const Configuration = () => {
         )}
 
         <div className="h-full bg-grey border-all p-4 mt-2 rounded">
-          <span className="text-sm">{infoData || ''}</span>
+          <span className="text-sm" dangerouslySetInnerHTML={{ __html: Markdown(infoData || '') }} />
         </div>
       </div>
     </Spin>

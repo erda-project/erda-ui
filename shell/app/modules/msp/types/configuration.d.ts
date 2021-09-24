@@ -50,10 +50,6 @@ declare namespace CONFIGURATION {
     id: string;
   }
 
-  interface IDocData {
-    data: string;
-  }
-
   interface IAllTokenData {
     token: string;
     createdAt: string;

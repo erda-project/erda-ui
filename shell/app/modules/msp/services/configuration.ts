@@ -34,7 +34,7 @@ const apis = {
   },
 };
 export const getAcquisitionAndLang = apiCreator<() => CONFIGURATION.IStrategy[]>(apis.getAcquisitionAndLang);
-export const getInfo = apiCreator<(payload: CONFIGURATION.IDocs) => CONFIGURATION.IDocData>(apis.getInfo);
+export const getInfo = apiCreator<(payload: CONFIGURATION.IDocs) => string>(apis.getInfo);
 export const getDetailToken = apiCreator<(payload: CONFIGURATION.IDelAndFindToken) => CONFIGURATION.IAllTokenData>(
   apis.getDetailToken,
 );
