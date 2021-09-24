@@ -277,9 +277,9 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
 }
 
 /**
- * generate api request function by config
+ * get load function which can call directly with partial query
  * @param service api function
- * @param required required params, if any one of these is null or undefined, will not call service
+ * @param required required params, service will not be called if any of these is null or undefined
  * @param initial initial params
  * @returns if required params is all valid, return service result, otherwise return void;
  */
