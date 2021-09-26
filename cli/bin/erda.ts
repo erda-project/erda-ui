@@ -17,7 +17,6 @@ import { Command } from 'commander';
 import inquirer from 'inquirer';
 import build from '../lib/build';
 import buildOnline from '../lib/build-online';
-import release from '../lib/release';
 import addLicense from '../lib/add-license';
 import checkLicense from '../lib/check-license';
 import init from '../lib/init';
@@ -54,12 +53,10 @@ program
   .description(
     'bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image',
   )
-  .option(
-    '-i, --image <image>',
-    'full image name, e.g. registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui:1.3-20210918-release',
-  )
   .option('--enableSourceMap', 'generate source map')
-  .option('-o, --online', 'whether is online build')
+  .option('--online', 'whether is online build')
+  .option('--release', 'whether need build docker image & push')
+  .option('--registry', 'docker registry which to push')
   .action(async (options) => {
     const { online, ...restOptions } = options;
     if (online) {
@@ -67,16 +64,6 @@ program
     } else {
       build(restOptions);
     }
-  });
-
-program
-  .command('release')
-  .description('build & push docker image')
-  .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
-  .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
-  .option('-m, --enableSourceMap', 'generate source map')
-  .action((options) => {
-    release(options);
   });
 
 program

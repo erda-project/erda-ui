@@ -13,12 +13,15 @@
 
 import inquirer from 'inquirer';
 import execa, { ExecaChildProcess } from 'execa';
+import notifier from 'node-notifier';
 import rimraf from 'rimraf';
 import { logInfo, logSuccess, logError } from './util/log';
-import { getPublicDir, getModuleList, checkIsRoot } from './util/env';
+import { getPublicDir, getModuleList, checkIsRoot, getShellDir, defaultRegistry } from './util/env';
 import chalk from 'chalk';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
+import dayjs from 'dayjs';
+import { getGitShortSha } from './util/compare-git-diff';
 
 const currentDir = process.cwd();
 
@@ -38,8 +41,8 @@ const clearPublic = async () => {
   await rimraf.sync(`${getPublicDir()}/*`);
 };
 
-const alertMessage = (outputModules: string) => `
-/***************************${chalk.red('Alert Before Build')}*************************************/
+const alertMessage = (outputModules: string, release?: boolean) => `
+/**************************${chalk.red('Warning Before Build')}************************************/
 Here are the MODULES【${chalk.bgBlue(outputModules)}】which detected in .env file.
 If any module missed or should exclude, please manually adjust MODULES config in .env and run again.
 
@@ -47,12 +50,13 @@ ${chalk.yellow('Please make sure:')}
 1. your code is updated ${chalk.red('both')} erda-ui & enterprise repository
 2. switch to target branch ${chalk.red('both')} erda-ui & enterprise repository
 3. all ${chalk.bgRed('node_modules')} dependencies are updated
+${release ? `4. since ${chalk.red('--release')} is passed, Docker should keep running & docker logged in` : ''}
 
 Press Enter to continue build.
 /**********************************************************************************/
 `;
 
-const localBuildAlert = async () => {
+const localBuildAlert = async (requireRelease?: boolean) => {
   const moduleList = getModuleList();
   const outputModules = moduleList.join(',');
 
@@ -60,7 +64,7 @@ const localBuildAlert = async () => {
     {
       type: 'confirm',
       name: 'coveredAllModules',
-      message: alertMessage(outputModules),
+      message: alertMessage(outputModules, requireRelease),
       default: true,
     },
   ]);
@@ -88,14 +92,38 @@ const buildModules = async (enableSourceMap: boolean, rebuildList: string[]) => 
   logSuccess('build successfully 😁!');
 };
 
-export default async (options: { enableSourceMap?: boolean }) => {
+const releaseImage = async (registry?: string) => {
+  const date = dayjs().format('YYYYMMDD');
+  const sha = await getGitShortSha();
+  const pJson = require(`${getShellDir()}/package.json`);
+  const version = pJson.version.slice(0, -2);
+  const tag = `${version}-${date}-${sha}`; // 3.20-2020520-182737976
+
+  const image = `${registry ?? defaultRegistry}:${tag}`;
+  await execa('docker', ['build', '-f', 'Dockerfile', '-t', image, '.'], {
+    stdio: 'inherit',
+    cwd: currentDir,
+  });
+  logSuccess('build image successfully');
+
+  logInfo(`start pushing image to registry:【${registry ?? defaultRegistry}】`);
+  await execa('docker', ['push', image], { stdio: 'inherit' });
+
+  notifier.notify({
+    title: 'Success',
+    message: `🎉 Image 【${tag}】 pushed to registry success 🎉`,
+  });
+  logSuccess(`push success: 【${image}】`);
+};
+
+export default async (options: { enableSourceMap?: boolean; release?: boolean; registry?: string }) => {
   try {
-    const { enableSourceMap = false } = options;
+    const { enableSourceMap = false, release, registry } = options;
 
     // check if cwd erda ui root
     checkIsRoot();
     // prompt alert before build
-    await localBuildAlert();
+    await localBuildAlert(!!release);
 
     let rebuildList = getModuleList();
     const answer = await inquirer.prompt([
@@ -125,6 +153,12 @@ export default async (options: { enableSourceMap?: boolean }) => {
 
     if (rebuildList.includes('shell')) {
       localIcon();
+    }
+
+    logSuccess('build successfully');
+
+    if (release) {
+      await releaseImage(registry);
     }
   } catch (error) {
     logError('build exit with error:', error.message);
