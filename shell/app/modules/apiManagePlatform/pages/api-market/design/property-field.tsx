@@ -505,11 +505,12 @@ type IFormType = 'Response' | 'Query' | 'Parameters' | 'DataType' | 'Body' | 'Ar
 export const getPropertyFormSelector = (props: {
   formType: IFormType;
   dataTypeOptions: any[];
-  propertyNameMap: Obj;
+  propertyNameMap: any[];
   AllDataTypes: string[];
   detailVisible: boolean;
+  index?: number;
 }) => {
-  const { formType, dataTypeOptions, propertyNameMap, AllDataTypes, detailVisible } = props;
+  const { formType, dataTypeOptions, propertyNameMap, AllDataTypes, detailVisible, index } = props;
   if (formType === 'Response' || formType === 'Body') {
     return [
       mediaTypeField,
@@ -535,7 +536,12 @@ export const getPropertyFormSelector = (props: {
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               const { pattern, message } = regRules.specialLetter;
-              if (propertyNameMap.includes(value)) {
+              const nameMap = [...propertyNameMap];
+              if (index || index === 0) {
+                nameMap.splice(index, 1);
+              }
+
+              if (nameMap.includes(value)) {
                 callback(i18n.t('project:the parameter names cannot be the same'));
               } else if (pattern.test(value)) {
                 callback(message);
