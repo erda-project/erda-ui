@@ -27,7 +27,7 @@ import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import topologyStore from '../../stores/topology';
 import i18n from 'i18n';
 import './node-item.scss';
-import moment from 'moment';
+import monitorCommonStore from 'common/stores/monitorCommon';
 
 interface INodeEle {
   [pro: string]: any;
@@ -97,6 +97,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const { width, height } = nodeStyle;
   const style = { width, height };
   const params = routeInfoStore.useStore((s) => s.params);
+  const metaData = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.data);
   const scale = topologyStore.useStore((s) => s.scale);
   const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
 
@@ -216,11 +217,20 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const isMeshNode = node.serviceMesh === 'on';
 
   const handleClickError = (e: any) => {
-    const status = error_rate ? -1 : 1;
+    const status = error_rate ? 'trace_error' : 'trace_success';
     e.stopPropagation();
-    const timeFrom = moment(timeSpan.startTimeMs).format('YYYY-MM-DD HH:mm:ss');
-    const timeTo = moment(timeSpan.endTimeMs).format('YYYY-MM-DD HH:mm:ss');
-    goTo(goTo.pages.microTraceSearch, { ...params, appId: applicationId, timeFrom, timeTo, status, jumpOut: true });
+    const start = timeSpan.startTimeMs;
+    const end = timeSpan.endTimeMs;
+    goTo(goTo.pages.microTraceSearch, {
+      ...params,
+      appId: applicationId,
+      start,
+      end,
+      status,
+      mode: metaData.mode,
+      quick: metaData.mode === 'quick' ? metaData.quick : undefined,
+      jumpOut: true,
+    });
   };
 
   const nodeOperations = (

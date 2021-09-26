@@ -203,7 +203,7 @@ export enum pages {
   mspProjectNotifyGroup = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/notify-group',
   mspTopology = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
   monitorAPIOverview = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
-  microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
+  microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&start={start}&end={end}&status={status}&mode={mode}&quick={quick}',
   microTrace = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace',
   microTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/trace-detail/{traceId}',
   cmpRoot = '/{orgName}/cmp/overview',
