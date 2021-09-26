@@ -29,6 +29,7 @@ import { getQueryConditions } from 'trace-insight/services/trace-querier';
 import Duration, { transformDuration } from 'trace-insight/components/duration';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
+import routeInfoStore from 'core/stores/route';
 
 const name = {
   sort: i18n.t('msp:sort method'),
@@ -119,17 +120,22 @@ export default () => {
     defaultQuery: {},
     query: {},
   });
+  const routeQuery = routeInfoStore.useStore((s) => s.query);
 
   useEffectOnce(() => {
     getQueryConditions().then((res) => {
       if (res.success) {
         const [list, defaultValue] = convertData(res.data);
+        const handleDefaultValue = {
+          ...defaultValue,
+          traceStatus: routeQuery?.status || defaultValue.traceStatus,
+        };
         update({
           defaultQuery: {
-            ...defaultValue,
+            ...handleDefaultValue,
           },
           query: {
-            ...defaultValue,
+            ...handleDefaultValue,
           },
           filter: [...initialFilter, ...list],
         });
@@ -137,7 +143,7 @@ export default () => {
           startTime: range.startTimeMs,
           endTime: range.endTimeMs,
           status: defaultValue.traceStatus,
-          ...defaultValue,
+          ...handleDefaultValue,
         });
       }
     });
