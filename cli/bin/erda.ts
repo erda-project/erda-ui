@@ -54,15 +54,18 @@ program
   .description(
     'bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image',
   )
-  .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
-  .option('-m, --enableSourceMap', 'generate source map')
+  .option(
+    '-i, --image <image>',
+    'full image name, e.g. registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui:1.3-20210918-release',
+  )
+  .option('--enableSourceMap', 'generate source map')
   .option('-o, --online', 'whether is online build')
   .action(async (options) => {
-    const { online } = options;
+    const { online, ...restOptions } = options;
     if (online) {
       buildOnline();
     } else {
-      build(options);
+      build(restOptions);
     }
   });
 

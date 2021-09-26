@@ -14,14 +14,11 @@
  */
 
 /* eslint-disable no-await-in-loop */
-import { promisify } from 'util';
-import child_process from 'child_process';
+import execa from 'execa';
 import fs from 'fs';
 import path from 'path';
 import { EOL } from 'os';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
-
-const asyncExec = promisify(child_process.exec);
 
 const externalModules = ['fdp', 'admin'];
 const subModules = ['market', 'uc'];
@@ -41,9 +38,9 @@ const checkBuildStatus = async () => {
     logInfo('Looking for build cache at:', staticPath);
     logInfo(`Start compare diff for ${moduleName}`);
     const gitCwd = externalModules.includes(moduleName) ? enterprisePath : cwd;
-    let { stdout: headSha } = await asyncExec('git rev-parse --short HEAD', { cwd: gitCwd });
+    let { stdout: headSha } = await execa('git', ['rev-parse', '--short', 'HEAD'], { cwd: gitCwd });
     headSha = headSha.replace(/\n/, '');
-    let { stdout: externalHeadSha } = await asyncExec('git rev-parse --short HEAD', {
+    let { stdout: externalHeadSha } = await execa('git', ['rev-parse', '--short', 'HEAD'], {
       cwd: enterprisePath,
     });
     externalHeadSha = externalHeadSha.replace(/\n/, '');
@@ -58,7 +55,9 @@ const checkBuildStatus = async () => {
         prevGitSha = fs.readFileSync(gitVersionPath, { encoding: 'utf8' }).replace('\n', '');
         logInfo('Found previous git sha:', prevGitSha);
         const [prevSha, prevExternalSha] = prevGitSha.split('/');
-        const { stdout: diff } = await asyncExec(`git diff --name-only ${prevSha} ${headSha}`, { cwd: gitCwd });
+        const { stdout: diff } = await execa('git', ['diff', '--name-only', `${prevSha}`, `${headSha}`], {
+          cwd: gitCwd,
+        });
 
         const fileRegex = new RegExp(
           `(^${subModules.includes(moduleName) ? `modules/${moduleName}` : moduleName}/.*)`,
@@ -77,8 +76,9 @@ const checkBuildStatus = async () => {
         if (moduleName === 'shell') {
           logWarn('In case shell has part of code maintained under enterprise, need to check enterprise code base');
           nextSha = `${headSha}/${externalHeadSha}`;
-          const { stdout: externalDiff } = await asyncExec(
-            `git diff --name-only ${prevExternalSha} ${externalHeadSha}`,
+          const { stdout: externalDiff } = await execa(
+            'git',
+            ['diff', '--name-only', `${prevExternalSha}`, `${externalHeadSha}`],
             { cwd: enterprisePath },
           );
           if (new RegExp('^cmp/', 'gm').test(externalDiff) || new RegExp('^msp/', 'gm').test(externalDiff)) {

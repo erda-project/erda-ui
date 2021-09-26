@@ -109,4 +109,6 @@ export const getSchedulerDir = () => {
 };
 
 export const registryDir = 'registry.erda.cloud/erda/ui';
+export const defaultRegistry = 'registry.cn-hangzhou.aliyuncs.com/terminus';
+
 export const ALL_MODULES = ['core', 'shell', 'market', 'uc', 'admin', 'fdp'];
