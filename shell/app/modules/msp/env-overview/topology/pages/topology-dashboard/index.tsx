@@ -136,10 +136,21 @@ const TopologyDashboard = () => {
       query: {
         start: timeSpan.startTimeMs,
         end: timeSpan.endTimeMs,
+        mode: metaData.mode,
+        quick: metaData.mode === 'quick' ? metaData.quick : undefined,
       },
       jumpOut: true,
     });
-  }, [params, serviceName, serviceId, applicationId, timeSpan.startTimeMs, timeSpan.endTimeMs]);
+  }, [
+    params,
+    serviceName,
+    serviceId,
+    applicationId,
+    timeSpan.startTimeMs,
+    timeSpan.endTimeMs,
+    metaData.mode,
+    metaData.quick,
+  ]);
 
   return (
     <div className="topology-dashboard">
