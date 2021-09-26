@@ -184,8 +184,8 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   const memberSelectProps = isInMsp
     ? {
+        ...commonPayload,
         scopeType: 'msp',
-        scopeId: commonPayload.projectId,
       }
     : commonPayload;
 
