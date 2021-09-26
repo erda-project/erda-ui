@@ -41,6 +41,7 @@
     "lodash": "^4.17.21",
     "node-notifier": "^9.0.1",
     "ora": "^5.4.0",
+    "rimraf": "^3.0.2",
     "slash": "^3.0.0",
     "superagent": "^6.1.0",
     "typescript": "^4.2.4"
@@ -51,6 +52,7 @@
     "@types/lodash": "^4.14.168",
     "@types/node": "^15.0.2",
     "@types/node-notifier": "^8.0.0",
+    "@types/rimraf": "^3.0.2",
     "@types/superagent": "^4.1.11",
     "@types/vinyl-fs": "^2.4.11",
     "@typescript-eslint/eslint-plugin": "^4.22.1",

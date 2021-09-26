@@ -33,6 +33,7 @@ importers:
       '@types/lodash': ^4.14.168
       '@types/node': ^15.0.2
       '@types/node-notifier': ^8.0.0
+      '@types/rimraf': ^3.0.2
       '@types/superagent': ^4.1.11
       '@types/vinyl-fs': ^2.4.11
       '@typescript-eslint/eslint-plugin': ^4.22.1
@@ -54,6 +55,7 @@ importers:
       lodash: ^4.17.21
       node-notifier: ^9.0.1
       ora: ^5.4.0
+      rimraf: ^3.0.2
       slash: ^3.0.0
       superagent: ^6.1.0
       typescript: ^4.2.4
@@ -73,6 +75,7 @@ importers:
       lodash: 4.17.21
       node-notifier: 9.0.1
       ora: 5.4.0
+      rimraf: 3.0.2
       slash: 3.0.0
       superagent: 6.1.0
       typescript: 4.2.4
@@ -82,6 +85,7 @@ importers:
       '@types/lodash': 4.14.170
       '@types/node': 15.6.1
       '@types/node-notifier': 8.0.0
+      '@types/rimraf': 3.0.2
       '@types/superagent': 4.1.11
       '@types/vinyl-fs': 2.4.11
       '@typescript-eslint/eslint-plugin': 4.25.0_6fb86b31e39dbd15f93824c03ca6ca0c
@@ -6880,6 +6884,13 @@ packages:
     dependencies:
       '@types/node': 15.6.1
     dev: false
+
+  /@types/rimraf/3.0.2:
+    resolution: {integrity: sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==}
+    dependencies:
+      '@types/glob': 7.1.3
+      '@types/node': 16.3.1
+    dev: true
 
   /@types/scheduler/0.16.1:
     resolution: {integrity: sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==}

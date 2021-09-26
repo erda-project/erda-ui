@@ -16,6 +16,7 @@ import path from 'path';
 import { Command } from 'commander';
 import inquirer from 'inquirer';
 import build from '../lib/build';
+import buildOnline from '../lib/build-online';
 import release from '../lib/release';
 import addLicense from '../lib/add-license';
 import checkLicense from '../lib/check-license';
@@ -38,7 +39,7 @@ program
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
   .option('--online', 'is online execution')
-  .option('--skipInstall', 'whether skip the installation step')
+  .option('--skipInstall', 'whether to skip the installation step')
   .action(async (options) => {
     const { online, ...restOptions } = options;
     if (online) {
@@ -54,11 +55,15 @@ program
     'bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image',
   )
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
-  .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .option('-m, --enableSourceMap', 'generate source map')
   .option('-o, --online', 'whether is online build')
   .action(async (options) => {
-    build(options);
+    const { online } = options;
+    if (online) {
+      buildOnline();
+    } else {
+      build(options);
+    }
   });
 
 program

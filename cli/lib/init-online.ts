@@ -18,10 +18,8 @@ import { logInfo, logSuccess } from './util/log';
 import dotenv from 'dotenv';
 import execa from 'execa';
 import { EOL } from 'os';
-import { isCwdInRoot } from './util/env';
+import { ALL_MODULES, isCwdInRoot } from './util/env';
 import ora from 'ora';
-
-const ALL_MODULES = ['core', 'shell', 'market', 'uc', 'admin', 'fdp'];
 
 // init step ONLY for pipeline CI
 export default async () => {
