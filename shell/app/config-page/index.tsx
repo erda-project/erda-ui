@@ -218,9 +218,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const clearLoadMoreData = (newConfig: CONFIG_PAGE.RenderConfig) => {
     const formatConfig = produce(newConfig, (draft) => {
       const comps = get(draft, 'protocol.components');
-      forEach(comps, (comp) => {
+      forEach(comps, (comp, compName) => {
         if (comp?.props?.isLoadMore) {
-          comps[comp?.name] = { ...comp, data: undefined };
+          comps[compName] = { ...comp, data: undefined };
         }
       });
     });
