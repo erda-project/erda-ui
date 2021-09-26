@@ -53,7 +53,7 @@ export default () => {
     if (eventName === 'jumpToDetail') {
       goTo(goTo.pages.mspServiceAnalyze, {
         ...params,
-        applicationId: currentProject?.type !== 'DOP' ? '-' : record?.application_id,
+        applicationId: currentProject?.type === 'MSP' ? '-' : record?.application_id,
         serviceName: cellValue,
         serviceId: window.encodeURIComponent(record?.service_id || ''),
       });
