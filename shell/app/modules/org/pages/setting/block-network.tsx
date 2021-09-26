@@ -64,7 +64,7 @@ const BlockNetwork = () => {
       <Alert
         showIcon
         type="error"
-        message={i18n.t('org:There will be great influence if enabled. Please check carefully.')}
+        message={i18n.t('org:after the designated environment is closed, Refer to precautions.')}
       />
       <Row className="mt-4">
         {metaData.map(({ value, label, disabled }) => {
