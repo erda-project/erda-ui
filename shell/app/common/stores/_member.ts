@@ -50,7 +50,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
     effects: {
       async getRoleMap({ call, update, select }, payload: MEMBER.GetRoleTypeQuery) {
         const roleMapMark = select((s) => s.roleMapMark);
-        if (roleMapMark) return;
+        if (roleMapMark && payload.scopeType !== MemberScope.MSP) return;
         update({ roleMapMark: true });
         const result = await call(getRoleMap, payload);
         const roleMap = {};
