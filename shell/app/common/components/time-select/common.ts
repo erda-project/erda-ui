@@ -87,7 +87,7 @@ export const translateRelativeTime = (unit: string, count?: number) => {
       break;
     case 'lastMonth':
       start = start.startOf('month').subtract(1, 'months');
-      end = end.endOf('month').subtract(1, 'months');
+      end = end.subtract(1, 'months').endOf('month');
       break;
     case 'lastWeek':
       start = start.startOf('week').subtract(1, 'weeks');
