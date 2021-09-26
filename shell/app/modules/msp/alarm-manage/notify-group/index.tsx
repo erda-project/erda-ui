@@ -18,13 +18,10 @@ import routeInfoStore from 'core/stores/route';
 import './index.scss';
 
 const NotifyGroups = () => {
-  const { env, terminusKey, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { env, projectId } = routeInfoStore.useStore((s) => s.params);
   return (
     <div className="msp-notify-group">
-      <NotifyGroup
-        memberStore={memberStore}
-        commonPayload={{ scopeType: `msp_${env}`, scopeId: `msp_${terminusKey}`, projectId }}
-      />
+      <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: `msp_${env}`, scopeId: projectId }} />
     </div>
   );
 };
