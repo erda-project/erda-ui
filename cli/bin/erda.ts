@@ -20,6 +20,7 @@ import release from '../lib/release';
 import addLicense from '../lib/add-license';
 import checkLicense from '../lib/check-license';
 import init from '../lib/init';
+import initOnline from '../lib/init-online';
 import i18n from '../lib/i18n';
 import generateService from '../lib/service-generator';
 import checkBuildStatus from '../lib/check-build-status';
@@ -36,9 +37,15 @@ program
   .option('-p, --port <port>', 'set scheduler port')
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
-  .option('-ol, --online', 'is online execution')
+  .option('--online', 'is online execution')
+  .option('--skipInstall', 'whether skip the installation step')
   .action(async (options) => {
-    init(options);
+    const { online, ...restOptions } = options;
+    if (online) {
+      initOnline();
+    } else {
+      init(restOptions);
+    }
   });
 
 program

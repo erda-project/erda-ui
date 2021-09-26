@@ -12,17 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import inquirer from 'inquirer';
-import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
-import { getPublicDir, getModuleList, registryDir, checkIsRoot, getModules } from './util/env';
+import { getPublicDir, getModuleList, registryDir, checkIsRoot } from './util/env';
 import { exit } from 'process';
-import generateVersion from './gen-version';
+import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
-import YAML from 'yaml';
-import { set } from 'lodash';
 
 const asyncExec = promisify(child_process.exec);
 
@@ -329,13 +326,13 @@ const getRequireBuildModules = async (image: string) => {
 export default async (options: { local?: boolean; image?: string; enableSourceMap?: boolean; online?: boolean }) => {
   try {
     const { image, online = false, enableSourceMap = false } = options;
-    const externalModules = await getModules(online);
+    const externalModules = ['fdp', 'admin'];
 
     let { local } = options;
     if (image) {
       local = true;
     }
-    externalModules.forEach(({ name }) => {
+    externalModules.forEach((name) => {
       if (online) {
         dirMap.set(name, path.resolve(currentDir, `modules/${name}`));
       } else {
@@ -374,17 +371,6 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
     if (rebuildList.includes('shell')) {
       localIcon();
     }
-
-    externalModules.forEach(({ env }) => {
-      if (env && online) {
-        const erdaYmlPath = path.resolve(process.cwd(), 'erda.yml');
-        const ymlContent = YAML.parse(fs.readFileSync(erdaYmlPath).toString('utf8'));
-        Object.keys(env).forEach((key) => {
-          set(ymlContent, ['services', 'ui', 'envs', key], env[key]);
-        });
-        fs.writeFileSync(erdaYmlPath, YAML.stringify(ymlContent));
-      }
-    });
   } catch (error) {
     logError('build exit with error:', error.message);
     process.exit(1);

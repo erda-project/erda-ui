@@ -21,25 +21,24 @@ import ora from 'ora';
 
 const ALL_MODULES = ['core', 'shell', 'market', 'uc', 'admin', 'fdp'];
 
-// precondition
-// pnpm installed globally(online)
 export default async ({
   hostName,
   port,
   override,
   backendUrl,
-  online = false,
+  skipInstall,
 }: {
   hostName?: string;
   port?: string;
   override?: boolean;
   backendUrl?: string;
-  online?: boolean;
+  skipInstall?: boolean;
 }) => {
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir, alert: true });
 
-  if (!override && !online) {
+  logInfo('start local env initialization');
+  if (!skipInstall) {
     let spinner = ora('installing pnpm & commitizen...').start();
     const { stdout: msg } = await execa('npm', ['i', '-g', '--force', 'pnpm', 'commitizen']);
     logInfo(msg);

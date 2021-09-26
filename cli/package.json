@@ -43,8 +43,7 @@
     "ora": "^5.4.0",
     "slash": "^3.0.0",
     "superagent": "^6.1.0",
-    "typescript": "^4.2.4",
-    "yaml": "^1.10.2"
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
     "@types/cli-table": "^0.3.0",

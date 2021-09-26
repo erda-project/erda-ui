@@ -17,8 +17,8 @@
  * 2、此方案并不能解决强制打包时或前端项目的非业务代码发生变更导致的Dice打包时，前端版本的变更情况
  */
 import fs from 'fs';
-import { getPublicDir } from './util/env';
-import { logSuccess, logError } from './util/log';
+import { getPublicDir } from './env';
+import { logSuccess, logError } from './log';
 
 export default () => {
   const data = { version: Date.parse(new Date().toString()) };
