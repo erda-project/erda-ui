@@ -24,7 +24,7 @@ import routeInfoStore from 'core/stores/route';
 import { produce } from 'immer';
 import { TreeTitle, BranchTitle } from './title';
 import { updateSearch } from 'common/utils';
-import { useMount } from 'react-use';
+import { useMount, useUpdateEffect } from 'react-use';
 import './index.scss';
 import ReactDOM from 'react-dom';
 import { DownOne as IconDownOne } from '@icon-park/react';
@@ -39,6 +39,7 @@ interface IApiDocTree {
   popVisible: boolean;
   onVisibleChange: (val: boolean) => void;
 }
+
 const ApiDocTree = React.memo((props: IApiDocTree) => {
   const [{ treeList }, updater] = useUpdate({
     treeList: [] as API_SETTING.IFileTree[],
@@ -47,10 +48,9 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const { getQuoteMap, onSelectDoc, newTreeNode, treeNodeData, popVisible, onVisibleChange } = props;
 
   const { appId, projectId, orgName } = routeInfoStore.useStore((s) => s.params);
-  const {
-    inode: inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`),
-    pinode: pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`),
-  } = routeInfoStore.useStore((s) => s.query);
+  const { inode: inodeRouter, pinode: pinodeRouter } = routeInfoStore.useStore((s) => s.query);
+  let inodeQuery = inodeRouter;
+  let pinodeQuery = pinodeRouter;
 
   const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
     s.branchList,
@@ -63,8 +63,20 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const { getTreeList, getApiDetail, deleteTreeNode, renameTreeNode, setSavedState, commitSaveApi } = apiDesignStore;
 
   useMount(() => {
+    if (!inodeRouter && !pinodeRouter) {
+      inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`);
+      pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`);
+    }
     initBranchTree();
   });
+
+  useUpdateEffect(() => {
+    if (!inodeRouter && !pinodeRouter) {
+      inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`);
+      pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`);
+      jumpToNewDoc({ inode: inodeQuery, pinode: pinodeQuery, branches: branchList });
+    }
+  }, [inodeRouter, pinodeRouter]);
 
   const onSelectTreeNode = (_selectedKeys: string[], { node }: AntTreeNodeSelectedEvent) => {
     const { eventKey, isLeaf, pinode, readOnly, name } = node.props;
