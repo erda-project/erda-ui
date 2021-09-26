@@ -1,14 +1,14 @@
-.pk-page-header {
+.erda-header {
   padding-top: 11px;
   padding-bottom: 0;
 
-  .pk-page-header-title-con {
-    .pk-page-header-title {
+  .erda-header-title-con {
+    .erda-header-title {
       font-size: 20px;
     }
   }
 
-  .pk-page-header-content {
+  .erda-header-content {
     margin: 0;
 
     .tab-item-wraps {
@@ -23,7 +23,7 @@
     }
   }
 
-  .pk-breadcrumb {
+  .ant-breadcrumb {
     .breadcrumb-name {
       cursor: pointer;
 

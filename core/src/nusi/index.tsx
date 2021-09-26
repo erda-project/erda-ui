@@ -71,6 +71,7 @@ import FormBuilder from '../common/components/form-builder';
 import { Panel } from '../common/components/panel';
 import { Title } from '../common/components/title';
 import Ellipsis from '../common/components/ellipsis';
+import { PageHeader } from '../common/components/page-header';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import {
@@ -78,7 +79,6 @@ import {
   Filter,
   Shell,
   SideNavigation,
-  PageHeader,
   GlobalNavigation,
   ConfigProvider as NusiConfigProvider,
 } from '@terminus/nusi';

@@ -21,6 +21,7 @@ import breadcrumbStore from 'layout/stores/breadcrumb';
 import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { Right as IconRight } from '@icon-park/react';
+import { Route } from 'core/common/interface';
 import './header.scss';
 
 const BreadcrumbItem = ({
@@ -72,7 +73,7 @@ const Header = () => {
   const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const [query] = routeInfoStore.useStore((s) => [s.query]);
 
-  const [allRoutes, setAllRoutes] = React.useState<IRoute[]>([]);
+  const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
 
   const checkHasTemplate = React.useCallback(
@@ -104,15 +105,15 @@ const Header = () => {
   );
 
   const getBreadcrumbTitle = React.useCallback(
-    (route: IRoute) => {
-      const { breadcrumbName, pageName: _pageName } = route;
+    (route: Route) => {
+      const { breadcrumbName } = route;
       let _title = '';
       if (isFunction(breadcrumbName)) {
         _title = breadcrumbName({ infoMap, route, params, query });
       } else {
         _title = checkHasTemplate(breadcrumbName as string);
       }
-      return _title || _pageName;
+      return _title;
     },
     [checkHasTemplate, infoMap, params, query],
   );
@@ -157,12 +158,12 @@ const Header = () => {
     }
   }, [currentApp, routes]);
 
-  const itemRender = (route: IRoute, _params: Obj<string>, _routes: IRoute[], paths: string[]) => {
+  const itemRender = (route: Route, _params: Obj<string>, _routes: Route[], paths: string[]) => {
     if (!route.breadcrumbName || (allRoutes.length && allRoutes[allRoutes.length - 1] === route)) {
       return null;
     }
-    const _title = getBreadcrumbTitle(route);
-    return _title && <BreadcrumbItem paths={[...paths]} route={route} params={_params} title={_title} />;
+    const _title = getBreadcrumbTitle(route as IRoute);
+    return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
   };
 
   return (

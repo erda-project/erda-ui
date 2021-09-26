@@ -32,6 +32,7 @@ export { IFormExtendType } from '../common/components/form-builder';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 export { AbstractTooltipProps } from 'antd/lib/tooltip';
+export { BreadcrumbProps, Route } from 'antd/lib/breadcrumb/Breadcrumb';
 
 export { Action } from '@terminus/nusi/es/table';
 export { FilterItemConfig, IFilterProps } from '@terminus/nusi/es/filter/interface';
