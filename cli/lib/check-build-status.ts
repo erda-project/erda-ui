@@ -14,11 +14,12 @@
  */
 
 /* eslint-disable no-await-in-loop */
-import execa from 'execa';
 import fs from 'fs';
 import path from 'path';
 import { EOL } from 'os';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
+import generateVersion from './util/gen-version';
+import { getGitDiffFiles, getGitShortSha } from './util/compare-git-diff';
 
 const externalModules = ['fdp', 'admin'];
 const subModules = ['market', 'uc'];
@@ -38,12 +39,8 @@ const checkBuildStatus = async () => {
     logInfo('Looking for build cache at:', staticPath);
     logInfo(`Start compare diff for ${moduleName}`);
     const gitCwd = externalModules.includes(moduleName) ? enterprisePath : cwd;
-    let { stdout: headSha } = await execa('git', ['rev-parse', '--short', 'HEAD'], { cwd: gitCwd });
-    headSha = headSha.replace(/\n/, '');
-    let { stdout: externalHeadSha } = await execa('git', ['rev-parse', '--short', 'HEAD'], {
-      cwd: enterprisePath,
-    });
-    externalHeadSha = externalHeadSha.replace(/\n/, '');
+    const headSha = await getGitShortSha(gitCwd);
+    const externalHeadSha = await getGitShortSha(enterprisePath);
     const skipKey = `skip-${moduleName}-build`;
 
     try {
@@ -55,9 +52,7 @@ const checkBuildStatus = async () => {
         prevGitSha = fs.readFileSync(gitVersionPath, { encoding: 'utf8' }).replace('\n', '');
         logInfo('Found previous git sha:', prevGitSha);
         const [prevSha, prevExternalSha] = prevGitSha.split('/');
-        const { stdout: diff } = await execa('git', ['diff', '--name-only', `${prevSha}`, `${headSha}`], {
-          cwd: gitCwd,
-        });
+        const diff = await getGitDiffFiles(prevSha, headSha, gitCwd);
 
         const fileRegex = new RegExp(
           `(^${subModules.includes(moduleName) ? `modules/${moduleName}` : moduleName}/.*)`,
@@ -76,11 +71,7 @@ const checkBuildStatus = async () => {
         if (moduleName === 'shell') {
           logWarn('In case shell has part of code maintained under enterprise, need to check enterprise code base');
           nextSha = `${headSha}/${externalHeadSha}`;
-          const { stdout: externalDiff } = await execa(
-            'git',
-            ['diff', '--name-only', `${prevExternalSha}`, `${externalHeadSha}`],
-            { cwd: enterprisePath },
-          );
+          const externalDiff = await getGitDiffFiles(prevExternalSha, externalHeadSha, enterprisePath);
           if (new RegExp('^cmp/', 'gm').test(externalDiff) || new RegExp('^msp/', 'gm').test(externalDiff)) {
             logWarn(
               `Diff detected in enterprise for shell between ${prevExternalSha} and ${externalHeadSha}`,
@@ -115,19 +106,8 @@ const checkBuildStatus = async () => {
     });
   });
 
-  const data = { version: Date.parse(new Date().toString()) };
-
   // generate version.json
-  const publicPath = path.resolve(process.cwd(), 'public');
-  fs.mkdir(publicPath, '0777', () => {
-    fs.writeFile(`${publicPath}/version.json`, JSON.stringify(data), (err) => {
-      if (err) {
-        logError('version.json generated fail', err);
-      } else {
-        logSuccess('version.json generated ok.');
-      }
-    });
-  });
+  generateVersion();
 };
 
 export default checkBuildStatus;
