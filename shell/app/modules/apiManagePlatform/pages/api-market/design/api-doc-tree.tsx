@@ -48,7 +48,9 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const { getQuoteMap, onSelectDoc, newTreeNode, treeNodeData, popVisible, onVisibleChange } = props;
 
   const { appId, projectId, orgName } = routeInfoStore.useStore((s) => s.params);
-  let { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore((s) => s.query);
+  const { inode: inodeRouter, pinode: pinodeRouter } = routeInfoStore.useStore((s) => s.query);
+  let inodeQuery = inodeRouter;
+  let pinodeQuery = pinodeRouter;
 
   const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
     s.branchList,
@@ -61,23 +63,20 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const { getTreeList, getApiDetail, deleteTreeNode, renameTreeNode, setSavedState, commitSaveApi } = apiDesignStore;
 
   useMount(() => {
-    if (!pinodeQuery && !inodeQuery) {
-      getNodeFromStorage();
+    if (!inodeRouter && !pinodeRouter) {
+      inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`);
+      pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`);
     }
     initBranchTree();
   });
 
   useUpdateEffect(() => {
-    if (!pinodeQuery && !inodeQuery) {
-      getNodeFromStorage();
+    if (!inodeRouter && !pinodeRouter) {
+      inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`);
+      pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`);
       jumpToNewDoc({ inode: inodeQuery, pinode: pinodeQuery, branches: branchList });
     }
-  }, [pinodeQuery, inodeQuery]);
-
-  const getNodeFromStorage = () => {
-    inodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-inode`);
-    pinodeQuery = localStorage.getItem(`apim-${orgName}-${projectId}-${appId}-pinode`);
-  };
+  }, [inodeRouter, pinodeRouter]);
 
   const onSelectTreeNode = (_selectedKeys: string[], { node }: AntTreeNodeSelectedEvent) => {
     const { eventKey, isLeaf, pinode, readOnly, name } = node.props;
