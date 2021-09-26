@@ -21,10 +21,12 @@ import topologyStore from 'msp/env-overview/topology/stores/topology';
 import routeInfoStore from 'core/stores/route';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
+import mspStore from 'msp/stores/micro-service';
 
 const { Search } = Input;
 
 export default () => {
+  const currentProject = mspStore.useStore((s) => s.currentProject);
   const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const params = routeInfoStore.useStore((s) => s.params);
   const [layout, setLayout] = useState([]);
@@ -51,6 +53,7 @@ export default () => {
     if (eventName === 'jumpToDetail') {
       goTo(goTo.pages.mspServiceAnalyze, {
         ...params,
+        applicationId: currentProject?.type !== 'DOP' ? '-' : record?.application_id,
         serviceName: cellValue,
         serviceId: window.encodeURIComponent(record?.service_id || ''),
       });
