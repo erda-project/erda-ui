@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, map, unset } from 'lodash';
+import { isEmpty, map, unset, sortBy, indexOf } from 'lodash';
 import { useDrop } from 'react-dnd';
 import { Button, Spin, Popconfirm, Pagination, Tooltip } from 'core/nusi';
 import { Icon as CustomIcon, useUpdate, ContractiveFilter, ErdaCustomIcon } from 'common';
@@ -35,7 +35,7 @@ import './backlog.scss';
 
 const Backlog = () => {
   const [backlogIssues, backlogIssuesPaging] = iterationStore.useStore((s) => [s.backlogIssues, s.backlogIssuesPaging]);
-  const { pageSize, total } = backlogIssuesPaging;
+  const { pageSize, total, pageNo } = backlogIssuesPaging;
   const { getBacklogIssues, createIssue } = iterationStore.effects;
   const { clearBacklogIssues } = iterationStore.reducers;
   const { deleteIssue, updateIssue } = issueStore.effects;
@@ -49,13 +49,26 @@ const Backlog = () => {
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
 
   const allStateIds = React.useRef<number[]>([]);
+
+  const [{ isAdding, curIssueDetail, drawerVisible, filterState }, updater, update] = useUpdate({
+    isAdding: false,
+    curIssueDetail: {} as ISSUE.Issue,
+    drawerVisible: false,
+    filterState: { ...restQuery } as Obj,
+  });
+
   const stateCollection: Array<{ label: string | React.ReactNode; children: Array<{ label: string; value: string }> }> =
     React.useMemo(() => {
       const stateIds: number[] = [];
+      const initState: string[] = [];
+      const typeArr = ['REQUIREMENT', 'TASK', 'BUG'];
       const collection = workflowStateList.reduce((acc, current) => {
         const { issueType, stateName, stateID, stateBelong } = current;
-        if (!['BUG', 'REQUIREMENT', 'TASK'].includes(issueType) || ['CLOSED', 'DONE'].includes(stateBelong)) {
+        if (!typeArr.includes(issueType)) {
           return acc;
+        }
+        if (!['CLOSED', 'DONE'].includes(stateBelong)) {
+          initState.push(`${stateID}`);
         }
         if (acc[issueType]) {
           acc[issueType].push({ label: stateName, value: `${stateID}` });
@@ -70,33 +83,35 @@ const Backlog = () => {
       if (!allStateIds.current.length) {
         allStateIds.current = stateIds;
       }
-      const options = map(collection, (stateArray, issueType) => {
-        const label = ISSUE_ICON_MAP[issueType];
-        return {
-          label: (
-            <span>
-              {label.icon}
-              {label.name}
-            </span>
-          ),
-          children: stateArray,
-        };
-      });
+
+      updater.filterState((prev: Obj) => ({ state: initState, ...prev }));
+      const options = sortBy(
+        map(collection, (stateArray, issueType) => {
+          const label = ISSUE_ICON_MAP[issueType];
+          return {
+            label: (
+              <span>
+                {label.icon}
+                {label.name}
+              </span>
+            ),
+            labelValue: label.value,
+            children: stateArray,
+          };
+        }),
+        (item) => indexOf(typeArr, item.labelValue),
+      );
       return options;
     }, [workflowStateList]);
 
-  const [{ isAdding, curIssueDetail, drawerVisible, filterState }, updater, update] = useUpdate({
-    isAdding: false,
-    curIssueDetail: {} as ISSUE.Issue,
-    drawerVisible: false,
-    filterState: { ...restQuery } as Obj,
-  });
+  React.useEffect(() => {
+    getList();
+  }, [stateCollection]);
 
   useEffectOnce(() => {
     if (!labelList.length) {
       getLabels({ type: 'issue' });
     }
-    getList();
     if (queryId && queryType) {
       update({
         curIssueDetail: { id: queryId, type: queryType } as ISSUE.Issue,
@@ -185,22 +200,11 @@ const Backlog = () => {
         options: [ISSUE_TYPE_MAP.REQUIREMENT, ISSUE_TYPE_MAP.TASK, ISSUE_TYPE_MAP.BUG],
       },
       {
-        key: 'label',
-        label: i18n.t('project:label'),
-        emptyText: i18n.t('application:all'),
-        fixed: false,
-        showIndex: 2,
-        haveFilter: true,
-        type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
-        options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
-      },
-      {
         key: 'priority',
         label: i18n.t('project:priority'),
         emptyText: i18n.t('application:all'),
         fixed: false,
-        showIndex: 3,
+        showIndex: 2,
         type: 'select' as const,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
         options: map(ISSUE_PRIORITY_MAP),
@@ -211,6 +215,18 @@ const Backlog = () => {
         type: 'select' as const,
         options: stateCollection,
         allowClear: false,
+        fixed: false,
+        showIndex: 3,
+      },
+      {
+        key: 'label',
+        label: i18n.t('project:label'),
+        emptyText: i18n.t('application:all'),
+        fixed: false,
+        haveFilter: true,
+        type: 'select' as const,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+        options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
       },
       {
         key: 'assignee',
@@ -341,9 +357,9 @@ const Backlog = () => {
             }
             <Pagination
               className="flex items-center flex-wrap justify-end pt-2"
-              defaultCurrent={1}
               showSizeChanger
               total={total}
+              current={pageNo}
               pageSize={pageSize}
               onChange={handleChangePage}
             />
