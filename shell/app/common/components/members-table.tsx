@@ -339,6 +339,9 @@ export const MembersTable = ({
             if (!isSelf) {
               return;
             }
+            if (scope?.type === 'msp') {
+              location.href = goTo.resolve.mspProjects();
+            }
             if (scope?.type === 'org') {
               location.href = goTo.resolve.orgRoot({ orgName: '-' });
             }
