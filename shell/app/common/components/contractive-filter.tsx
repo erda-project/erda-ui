@@ -51,6 +51,7 @@ export interface ICondition {
   quickAdd?: {
     operationKey: string;
     show: boolean;
+    placeholder?: string;
   };
   quickDelete?: {
     operationKey: string;
@@ -250,6 +251,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Item key="quick-select-menu-item options-item">
                 <QuickSave
                   onSave={(v) => onQuickOperation({ key: quickAdd.operationKey, value: v })}
+                  quickAdd={quickAdd}
                   options={options}
                 />
               </Menu.Item>,
@@ -449,9 +451,10 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 interface IQuickSaveProps {
   onSave: (val: string) => void;
   options?: Option[];
+  quickAdd?: { placeholder?: string };
 }
 const QuickSave = (props: IQuickSaveProps) => {
-  const { onSave, options } = props;
+  const { onSave, options, quickAdd } = props;
   const [v, setV] = React.useState('');
   const [tip, setTip] = React.useState(`${i18n.t('can not be empty')}`);
 
@@ -474,7 +477,7 @@ const QuickSave = (props: IQuickSaveProps) => {
     <div className="flex justify-between items-center">
       <Input
         size="small"
-        placeholder={i18n.t('please enter')}
+        placeholder={quickAdd?.placeholder || i18n.t('please enter')}
         value={v}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setV(e.target.value)}
       />
