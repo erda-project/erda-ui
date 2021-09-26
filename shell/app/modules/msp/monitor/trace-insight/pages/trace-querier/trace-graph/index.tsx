@@ -265,6 +265,9 @@ export function TraceGraph(props: IProps) {
                       />
                     )}
                   </TabPane> */}
+                  <TabPane tab={i18n.t('msp:attributes')} key={1}>
+                    <KeyValueList data={tags} />
+                  </TabPane>
                   <TabPane tab={i18n.t('msp:associated services')} key={2}>
                     {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
                     {serviceAnalysis?.dashboardId && (
@@ -274,9 +277,6 @@ export function TraceGraph(props: IProps) {
                         extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
                       />
                     )}
-                  </TabPane>
-                  <TabPane tab={i18n.t('msp:attributes')} key={3}>
-                    <KeyValueList data={tags} />
                   </TabPane>
                 </Tabs>
               </div>
