@@ -108,7 +108,7 @@ export const OrgSetting = () => {
               sectionList={[
                 {
                   title: i18n.t(
-                    'org:Network block refers to the prohibition of application updates and releases within the organization, and related operations can be performed only after review of the organization administrator.',
+                    'org:network closure within the scope of the organization, Precautions for network closure. If urgent release and upgrading operations are required, the organization administrator must review and authorize them.',
                   ),
                   children: <BlockNetwork />,
                 },
