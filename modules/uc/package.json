@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.2.0",
     "cube-state": "^1.5.5",
-    "history": "^5.0.1",
+    "history": "4.x",
     "i18next": "^20.6.1",
     "postcss-import": "^14.0.2",
     "query-string": "^7.0.1",
