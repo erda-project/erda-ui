@@ -27,9 +27,6 @@ const { publicDir } = getEnv();
       serveRoot: '/',
       serveStaticOptions: {
         index: false,
-        setHeaders: (res) => {
-          res.setHeader('Cache-Control', 'no-cache');
-        },
       },
     }),
   ],
