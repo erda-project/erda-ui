@@ -340,7 +340,7 @@ export const MembersTable = ({
               return;
             }
             if (scope?.type === 'msp') {
-              location.href = goTo.resolve.mspProjects();
+              goTo(goTo.resolve.mspProjects());
             }
             if (scope?.type === 'org') {
               location.href = goTo.resolve.orgRoot({ orgName: '-' });
