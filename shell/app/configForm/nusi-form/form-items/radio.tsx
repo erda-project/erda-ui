@@ -55,7 +55,7 @@ export const FormRadio = ({
       (componentProps.onChange || noop)(e);
     };
 
-    const { radioType, options: cOptions, displayDesc } = componentProps;
+    const { radioType, options: cOptions, displayDesc, ...rest } = componentProps;
     const RadioItem = radioType === 'button' ? Radio.Button : Radio;
     const options = cOptions || get(dataSource, 'static') || [];
 
@@ -96,7 +96,7 @@ export const FormRadio = ({
         required={required}
         {...wrapperProps}
       >
-        <Radio.Group id={key} {...componentProps} disabled={disabled} value={curFixIn(value)} onChange={handleChange}>
+        <Radio.Group id={key} {...rest} disabled={disabled} value={curFixIn(value)} onChange={handleChange}>
           {renderOptions()}
         </Radio.Group>
       </FormItem>
