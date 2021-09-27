@@ -1938,6 +1938,7 @@
     "yesterday": "昨天",
     "you have new site message, please pay attention to check": "您有新的站内信，请注意查看",
     "{action} successfully": "{action}成功",
+    "{label} can not be empty": "{label}不能为空",
     "{min} ~ {max} digits": "{min} ~ {max} 位",
     "{name} already exists": "{name}已存在",
     "{name} can not empty": "{name}不可为空",
