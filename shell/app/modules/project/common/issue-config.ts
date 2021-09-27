@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n from 'i18n';
+import i18n, { isZh } from 'i18n';
 
 export enum ISSUE_TYPE {
   ALL = 'ALL',
@@ -130,3 +130,116 @@ export enum ISSUE_OPTION {
   TASK = 'TASK',
   BUG = 'BUG',
 }
+
+export const templateMap = isZh()
+  ? {
+      [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
+> 解决了什么问题，尝试用 As a (who), I want (what), so I can (why/value) 三段式来描述问题
+
+
+### 【意向用户】*
+> 影响了哪些人，需求来源是什么人？
+
+
+### 【用户体验目标】*
+> 可以从多方面描述，意向用户如何在需求/任务完成后解决了他的问题。比如“用户可以通过编辑 pipeline.yml 跑一条流水线”。
+
+
+### 【链接/参考】
+
+`,
+      [ISSUE_TYPE.TASK]: `### 【用户故事/要解决的问题】*
+> 解决了什么问题，尝试用 As a (who), I want (what), so I can (why/value) 三段式来描述问题
+
+
+### 【意向用户】*
+> 影响了哪些人，需求来源是什么人？
+
+
+### 【用户体验目标】*
+> 可以从多方面描述，意向用户如何在需求/任务完成后解决了他的问题。比如“用户可以通过编辑 pipeline.yml 跑一条流水线”。
+
+
+### 【链接/参考】
+
+`,
+      [ISSUE_TYPE.BUG]: `### 【环境信息】
+> 缺陷产生的环境、链接、使用特殊账号的描述账号信息
+
+
+### 【缺陷描述】*
+> 描述出缺陷的具体问题，一般为操作场景加上错误信息或截图
+
+
+### 【重现步骤】
+> 缺陷的操作步骤
+
+
+### 【实际结果】
+> 按照上述操作步骤，实际中出现的结果
+
+
+### 【期望结果】*
+> 按照上述操作步骤，希望出现的结果
+
+
+### 【修复建议】
+> 针对该缺陷应该如何修复，测试人员提出建议
+
+`,
+    }
+  : {
+      [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
+> As a (who), I want (what), so I can (why/value)
+
+
+### [Intended users] *
+> Who is affected and who is the source of demand?
+
+
+### [User experience Goals] *
+> Can describe in many ways how the intended user solved his problem once the requirement/task was completed.For example, "Users can run a pipeline by editing pipeline.yml."
+
+
+### [Link/Reference]
+
+`,
+      [ISSUE_TYPE.TASK]: `### [User story/problem to solve] *
+> As a (who), I want (what), so I can (why/value)
+
+
+### [Intended users] *
+> Who is affected and who is the source of demand?
+
+
+### [User experience Goals] *
+> Can describe in many ways how the intended user solved his problem once the requirement/task was completed.For example, "Users can run a pipeline by editing pipeline.yml."
+
+
+### [Link/Reference]
+
+`,
+      [ISSUE_TYPE.BUG]: `### [Environment Information]
+> Environment where the defect occurs, link, and description of the special account Account information
+
+
+### [Defect Description] *
+> Describe the specific problem of the defect, usually with an error message or screenshots for the operation scenario
+
+
+### [Reoccurrence Procedure]
+> Steps for defects
+
+
+### [Actual Result]
+> The actual result of following the preceding steps
+
+
+### [Expected Result] *
+> Follow the steps above to get the desired result
+
+
+### [Repair suggestion]
+> How does the tester recommend that this defect be fixed
+`,
+    };
