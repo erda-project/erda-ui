@@ -505,7 +505,7 @@ type IFormType = 'Response' | 'Query' | 'Parameters' | 'DataType' | 'Body' | 'Ar
 export const getPropertyFormSelector = (props: {
   formType: IFormType;
   dataTypeOptions: any[];
-  propertyNameMap: any[];
+  propertyNameMap: string[];
   AllDataTypes: string[];
   detailVisible: boolean;
   index?: number;
