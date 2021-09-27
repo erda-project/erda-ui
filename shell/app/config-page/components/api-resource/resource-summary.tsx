@@ -196,12 +196,6 @@ const ResourceSummary = React.memo((props: IProps) => {
         customProps: {
           maxLength: INPUT_MAX_LENGTH,
           disabled: !isEditMode,
-          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-            const newName = e.target.value;
-            if (!operationIdList.includes(newName)) {
-              setField('operationId', newName);
-            }
-          },
         },
         validator: [
           {
@@ -209,6 +203,7 @@ const ResourceSummary = React.memo((props: IProps) => {
               if (operationIdList.includes(value)) {
                 callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
               } else {
+                setField('operationId', value);
                 callback();
               }
             },
