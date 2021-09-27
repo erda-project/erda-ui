@@ -28,6 +28,9 @@ const { publicDir } = getEnv();
       serveStaticOptions: {
         maxAge: 30 * 60 * 60 * 24, // 30d
         index: false,
+        setHeaders: (res) => {
+          res.setHeader('Cache-Control', 'no-cache');
+        },
       },
     }),
   ],
