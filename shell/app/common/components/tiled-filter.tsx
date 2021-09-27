@@ -16,7 +16,7 @@ import { Input, Select } from 'core/nusi';
 import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
 import { debounce, map, max } from 'lodash';
-import { useMount } from 'react-use';
+import { useMount, useUpdateEffect } from 'react-use';
 import './tiled-filter.scss';
 
 export interface IOption {
@@ -56,6 +56,10 @@ const TiledFilter = (props: IProps) => {
     const maxWidth: number = max(map(labelEles, (ele: HTMLSpanElement) => ele.offsetWidth));
     setLabelWidth(Math.min(maxWidth, MAX_LABEL_WIDTH));
   });
+
+  useUpdateEffect(() => {
+    setValue(propsValue || {});
+  }, [propsValue]);
 
   React.useEffect(() => {
     setExpand(propsExpand);
