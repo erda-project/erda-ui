@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n from 'i18n';
+import i18n, { isZh } from 'i18n';
 
 export enum ISSUE_TYPE {
   ALL = 'ALL',
@@ -131,8 +131,9 @@ export enum ISSUE_OPTION {
   BUG = 'BUG',
 }
 
-export const templateMap = {
-  [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
+export const templateMap = isZh()
+  ? {
+      [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
 > 解决了什么问题，尝试用 As a (who), I want (what), so I can (why/value) 三段式来描述问题
 
 
@@ -147,7 +148,7 @@ export const templateMap = {
 ### 【链接/参考】
 
 `,
-  [ISSUE_TYPE.TASK]: `### 【用户故事/要解决的问题】*
+      [ISSUE_TYPE.TASK]: `### 【用户故事/要解决的问题】*
 > 解决了什么问题，尝试用 As a (who), I want (what), so I can (why/value) 三段式来描述问题
 
 
@@ -162,7 +163,7 @@ export const templateMap = {
 ### 【链接/参考】
 
 `,
-  [ISSUE_TYPE.BUG]: `### 【环境信息】
+      [ISSUE_TYPE.BUG]: `### 【环境信息】
 > 缺陷产生的环境、链接、使用特殊账号的描述账号信息
 
 
@@ -186,4 +187,59 @@ export const templateMap = {
 > 针对该缺陷应该如何修复，测试人员提出建议
 
 `,
-};
+    }
+  : {
+      [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
+> As a (who), I want (what), so I can (why/value)
+
+
+### [Intended users] *
+> Who is affected and who is the source of demand?
+
+
+### [User experience Goals] *
+> Can describe in many ways how the intended user solved his problem once the requirement/task was completed.For example, "Users can run a pipeline by editing pipeline.yml."
+
+
+### [Link/Reference]
+
+`,
+      [ISSUE_TYPE.TASK]: `### [User story/problem to solve] *
+> As a (who), I want (what), so I can (why/value)
+
+
+### [Intended users] *
+> Who is affected and who is the source of demand?
+
+
+### [User experience Goals] *
+> Can describe in many ways how the intended user solved his problem once the requirement/task was completed.For example, "Users can run a pipeline by editing pipeline.yml."
+
+
+### [Link/Reference]
+
+`,
+      [ISSUE_TYPE.BUG]: `### [Environment Information]
+> Environment where the defect occurs, link, and description of the special account Account information
+
+
+### [Defect Description] *
+> Describe the specific problem of the defect, usually with an error message or screenshots for the operation scenario
+
+
+### [Reoccurrence Procedure]
+> Steps for defects
+
+
+### [Actual Result]
+> The actual result of following the preceding steps
+
+
+### [Expected Result] *
+> Follow the steps above to get the desired result
+
+
+### [Repair suggestion]
+> How does the tester recommend that this defect be fixed
+`,
+    };
