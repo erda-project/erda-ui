@@ -60,7 +60,7 @@ export const PureFilter = (props: IPureFilterProps) => {
     } else if (filterTirgger === 'onChange') {
       setTimeout(() => {
         // 只能在setTimeout中拿到初始请求的值
-        const formData = filterRef.current?.form.getFieldsValues();
+        const formData = filterRef.current?.form?.getFieldsValues();
         changeFilterData(formData);
       }, 0);
     }
@@ -89,7 +89,7 @@ export const PureFilter = (props: IPureFilterProps) => {
   const setFieldsValue = (obj: Obj) => {
     const filterForm = get(filterRef, 'current.form');
     if (filterForm) {
-      const filterFields = filterForm.getAllFields();
+      const filterFields = filterForm.getFieldsValue();
       const formValue = {};
       map(filterFields, ({ name: _key }) => has(obj, _key) && set(formValue, _key, obj[_key]));
       filterForm.setFieldsValue(formatFormData ? formatFormData(formValue) : formValue);
