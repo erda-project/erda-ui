@@ -82,7 +82,7 @@ interface IState {
   epicList: ISSUE.Epic[];
   epicPaging: IPaging;
   epicDetail: ISSUE.Requirement | null;
-  customFieldDetail: ISSUE.ICreateField;
+  customFieldDetail: ISSUE.IFieldInstanceBody;
 }
 
 const initState: IState = {
@@ -134,7 +134,7 @@ const initState: IState = {
   epicList: [],
   epicPaging: { ...getDefaultPaging(), pageSize: 200 },
   epicDetail: null,
-  customFieldDetail: {} as ISSUE.ICreateField,
+  customFieldDetail: {} as ISSUE.IFieldInstanceBody,
 };
 
 const DETAIL_KEY_MAP = {
@@ -284,8 +284,10 @@ const issueStore = createStore({
       return res;
     },
     async getFieldsByIssue({ call, update }, payload: ISSUE.IFiledQuery) {
-      const customFieldDetail = await call(getFieldsByIssue, payload);
-      update({ customFieldDetail });
+      const customFieldDetail = (await call(getFieldsByIssue, payload)) as unknown as ISSUE.IFieldInstanceBody;
+      if (customFieldDetail) {
+        update({ customFieldDetail });
+      }
       return customFieldDetail;
     },
     async importIssueFile({ call }, payload: { file: any; issueType: string; projectID: number | string }) {
