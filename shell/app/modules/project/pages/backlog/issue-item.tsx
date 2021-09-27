@@ -32,6 +32,7 @@ import issueStore from 'project/stores/issues';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { getFieldsByIssue } from 'project/services/issue';
+import { templateMap } from 'project/common/issue-config';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -176,6 +177,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         if (val.title) {
           const data = {
             ...val,
+            content: templateMap[val.type] || '',
             // some special fields for different type
             taskType: taskTypeList?.length ? taskTypeList[0].value : '',
             bugStage: bugStageList?.length ? bugStageList[0].value : '',
