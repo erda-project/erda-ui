@@ -55,6 +55,7 @@ import { FIELD_WITH_OPTION, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
+import { templateMap } from 'project/common/issue-config';
 
 import './edit-issue-drawer.scss';
 
@@ -62,63 +63,6 @@ export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
     <CustomIcon type={icon} className="mr-2" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
   );
-};
-
-const templateMap = {
-  [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
-> 解决了什么问题，尝试用 As a (who), I want (what), so I can (why/value) 三段式来描述问题
-
-
-### 【意向用户】*
-> 影响了哪些人，需求来源是什么人？
-
-
-### 【用户体验目标】*
-> 可以从多方面描述，意向用户如何在需求/任务完成后解决了他的问题。比如“用户可以通过编辑 pipeline.yml 跑一条流水线”。
-
-
-### 【链接/参考】
-
-`,
-  [ISSUE_TYPE.TASK]: `### 【用户故事/要解决的问题】*
-> 解决了什么问题，尝试用 As a (who), I want (what), so I can (why/value) 三段式来描述问题
-
-
-### 【意向用户】*
-> 影响了哪些人，需求来源是什么人？
-
-
-### 【用户体验目标】*
-> 可以从多方面描述，意向用户如何在需求/任务完成后解决了他的问题。比如“用户可以通过编辑 pipeline.yml 跑一条流水线”。
-
-
-### 【链接/参考】
-
-`,
-  [ISSUE_TYPE.BUG]: `### 【环境信息】
-> 缺陷产生的环境、链接、使用特殊账号的描述账号信息
-
-
-### 【缺陷描述】*
-> 描述出缺陷的具体问题，一般为操作场景加上错误信息或截图
-
-
-### 【重现步骤】
-> 缺陷的操作步骤
-
-
-### 【实际结果】
-> 按照上述操作步骤，实际中出现的结果
-
-
-### 【期望结果】*
-> 按照上述操作步骤，希望出现的结果
-
-
-### 【修复建议】
-> 针对该缺陷应该如何修复，测试人员提出建议
-
-`,
 };
 
 const { Option } = Select;
