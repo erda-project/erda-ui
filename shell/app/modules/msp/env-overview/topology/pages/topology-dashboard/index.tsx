@@ -182,7 +182,7 @@ const TopologyDashboard = () => {
                   {i18n.t('detail')}
                 </Button>
               </When>
-              <When condition={type === 'http'}>
+              <When condition={type === 'externalservice'}>
                 <Button
                   type="link"
                   onClick={() => goTo(`./ei/${encodeURIComponent(name as string)}/affairs`, goToParams)}
