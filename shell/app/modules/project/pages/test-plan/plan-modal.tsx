@@ -25,10 +25,11 @@ interface IProps {
   textInfo?: string;
   mode: 'edit' | 'copy' | 'add' | '';
   onCancel: () => void;
+  afterSubmit: () => void;
 }
 
 const TestPlanModal = (props: IProps) => {
-  const { testPlanId, mode, visible, textInfo, onCancel } = props;
+  const { testPlanId, mode, visible, textInfo, onCancel, afterSubmit } = props;
   const [loading, setLoading] = React.useState(false);
   const params = routeInfoStore.useStore((s) => s.params);
   const planItem = testPlanStore.useStore((s) => s.planItem);
@@ -47,6 +48,7 @@ const TestPlanModal = (props: IProps) => {
     setLoading(true);
     const close = () => {
       setLoading(false);
+      afterSubmit();
       onCancel();
     };
     if (mode === 'edit') {
