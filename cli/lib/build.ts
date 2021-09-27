@@ -40,13 +40,18 @@ const alertMessage = (outputModules: string, release?: boolean) => `
 Here are the MODULES【${chalk.bgBlue(outputModules)}】which detected in .env file.
 If any module missed or should exclude, please manually adjust MODULES config in .env and run again.
 
-${chalk.yellow('Please make sure:')}
-1. your code is updated ${chalk.red('both')} erda-ui & enterprise repository
-2. switch to target branch ${chalk.red('both')} erda-ui & enterprise repository
-3. all ${chalk.bgRed('node_modules')} dependencies are updated
-${release ? `4. since ${chalk.red('--release')} is passed, Docker should keep running & docker logged in` : ''}
+If you ${chalk.yellow("don't")} want to make a full bundle(just need ${chalk.yellow('partial built')}),
+you can run erda-ui ${chalk.green('fetch-image')} command to load previous image content
+and then make partial built based it
 
-Press Enter to continue build.
+${chalk.yellow('Please make sure:')}
+1. erda-ui-enterprise directory should be placed at same level as erda-ui, and ${chalk.yellow("don't")} rename it
+2. your code is updated ${chalk.red('both')} erda-ui & erda-ui-enterprise repository
+3. switch to target branch ${chalk.red('both')} erda-ui & erda-ui-enterprise repository
+4. all ${chalk.bgRed('node_modules')} dependencies are updated
+${release ? `5. since ${chalk.red('--release')} is passed, Docker should keep running & docker logged in` : ''}
+
+Press Enter to continue.
 /**********************************************************************************/
 `;
 
@@ -110,6 +115,47 @@ const releaseImage = async (registry?: string) => {
   logSuccess(`push success: 【${image}】`);
 };
 
+const copyExternalCode = async (moduleList: string[]) => {
+  if (moduleList.includes('shell')) {
+    const answer = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'shouldCopy',
+        message: 'Do you need copy external code for shell?',
+        default: true,
+      },
+    ]);
+    if (answer.shouldCopy) {
+      await execa('npm', ['run', 'extra-logic'], { cwd: getShellDir(), stdio: 'inherit' });
+    }
+  }
+};
+
+const getBuildList = async () => {
+  let rebuildList = getModuleList();
+  const answer = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'buildModules',
+      message: 'please choose modules to build',
+      default: ['all'],
+      choices: [{ value: 'all' }, ...rebuildList],
+    },
+  ]);
+
+  if (!answer.buildModules.length) {
+    logError('no module selected to build, exit program');
+    process.exit(1);
+  }
+  if (!answer.buildModules.includes('all')) {
+    rebuildList = answer.buildModules;
+  } else {
+    // clear public output
+    await clearPublic();
+  }
+  return rebuildList;
+};
+
 export default async (options: { enableSourceMap?: boolean; release?: boolean; registry?: string }) => {
   try {
     const { enableSourceMap = false, release, registry } = options;
@@ -118,28 +164,11 @@ export default async (options: { enableSourceMap?: boolean; release?: boolean; r
     checkIsRoot();
     // prompt alert before build
     await localBuildAlert(!!release);
+    // get required build list
+    const rebuildList = await getBuildList();
 
-    let rebuildList = getModuleList();
-    const answer = await inquirer.prompt([
-      {
-        type: 'checkbox',
-        name: 'buildModules',
-        message: 'please choose modules to build',
-        default: ['all'],
-        choices: [{ value: 'all' }, ...rebuildList],
-      },
-    ]);
-
-    if (!answer.buildModules.length) {
-      logError('no module selected to build, exit program');
-      process.exit(1);
-    }
-    if (!answer.buildModules.includes('all')) {
-      rebuildList = answer.buildModules;
-    } else {
-      // clear public output
-      await clearPublic();
-    }
+    // reminder to copy cmp/msp code from external
+    await copyExternalCode(rebuildList);
 
     await buildModules(enableSourceMap, rebuildList);
 

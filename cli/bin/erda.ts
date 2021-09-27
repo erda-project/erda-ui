@@ -54,9 +54,9 @@ program
   .description(
     'bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image',
   )
-  .option('--enableSourceMap', 'generate source map')
-  .option('--online', 'whether is online build')
-  .option('--release', 'whether need build docker image & push')
+  .option('--enableSourceMap', 'generate source map, default is false')
+  .option('--online', 'whether is online build, default is false')
+  .option('--release', 'whether need build docker image & push, default is false')
   .option('--registry', 'docker registry address which to push')
   .action(async (options) => {
     const { online, ...restOptions } = options;
