@@ -235,6 +235,10 @@ declare namespace ISSUE {
     orgID: number;
     propertyIssueType: string;
   }
+  interface IFieldInstanceBody {
+    issueID: number;
+    property: ISSUE_FIELD.IFiledItem[];
+  }
 }
 
 interface CreateDrawerData {

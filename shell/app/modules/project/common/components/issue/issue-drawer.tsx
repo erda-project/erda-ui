@@ -138,7 +138,7 @@ export const IssueDrawer = (props: IProps) => {
       });
     };
     isIssueDrawerChanged(preData, data);
-  }, [customFieldDetail.property, data, preData]);
+  }, [customFieldDetail?.property, data, preData]);
 
   return (
     <Drawer
@@ -160,7 +160,7 @@ export const IssueDrawer = (props: IProps) => {
               <div className="task-drawer-op">
                 <SubscribersSelector
                   subscribers={data.subscribers}
-                  issueID={customFieldDetail.issueID}
+                  issueID={customFieldDetail?.issueID}
                   issueType={issueType}
                   projectId={projectId}
                   setData={setData}

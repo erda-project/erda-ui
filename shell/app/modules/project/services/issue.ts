@@ -13,6 +13,18 @@
 
 import agent from 'agent';
 
+import { apiCreator } from 'core/service';
+
+const apis = {
+  getFieldsByIssue: {
+    api: '/api/issues/actions/get-property-instance',
+  },
+};
+
+export const getFieldsByIssue = apiCreator<(params: ISSUE.IFiledQuery) => ISSUE.IFieldInstanceBody>(
+  apis.getFieldsByIssue,
+);
+
 export const getIssues = (query: ISSUE.IssueListQuery): Promise<IPagingResp<ISSUE.IssueType>> => {
   return agent
     .get('/api/issues')
@@ -96,13 +108,6 @@ export const addFieldsToIssue = (payload: ISSUE.ICreateField) => {
   return agent
     .post('/api/issues/actions/create-property-instance')
     .send(payload)
-    .then((response: any) => response.body);
-};
-
-export const getFieldsByIssue = (payload: ISSUE.IFiledQuery) => {
-  return agent
-    .get('/api/issues/actions/get-property-instance')
-    .query(payload)
     .then((response: any) => response.body);
 };
 

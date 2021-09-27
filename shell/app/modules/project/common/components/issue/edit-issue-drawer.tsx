@@ -230,7 +230,7 @@ const IssueMetaFields = React.forwardRef(
           },
         };
       });
-    }, [customFieldDetail.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
+    }, [customFieldDetail?.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
 
     let editFieldList = [
       ...insertWhen(isEditMode, [
