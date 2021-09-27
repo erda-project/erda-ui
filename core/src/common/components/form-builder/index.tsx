@@ -15,6 +15,8 @@ import { FormBuilder, PureFormBuilder, IFormExtendType } from './form-builder';
 import { Fields, IFieldType } from './fields';
 import SearchForm from './search-form';
 
+import './index.scss';
+
 type IFormBuilder = typeof FormBuilder;
 
 interface IRealFormInterface extends IFormBuilder {

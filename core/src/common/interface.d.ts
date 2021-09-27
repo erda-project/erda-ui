@@ -29,6 +29,7 @@ export { InputProps } from 'antd/es/input';
 export { PaginationConfig, SorterResult } from 'antd/lib/table';
 export { ColumnProps, IActions } from '../nusi/wrapped-table';
 export { IFormExtendType } from '../common/components/form-builder';
+export { FilterItemConfig } from '../common/components/filter';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 export { AbstractTooltipProps } from 'antd/lib/tooltip';

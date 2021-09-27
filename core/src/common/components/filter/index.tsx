@@ -14,6 +14,7 @@
 import React from 'react';
 import { FormBuilder } from 'nusi';
 import { FormInstance } from '../../interface';
+import { throttle } from 'lodash';
 
 export interface IFilterProps {
   className?: string;
@@ -21,7 +22,6 @@ export interface IFilterProps {
   onSubmit?: (value: Object) => void;
   onReset?: (value: Object) => void;
   onFieldChange?: Function;
-  onFieldsChange?: (props: any, fields: any[], allFields: any, plainFields: any) => void;
   onRef?: any;
   actions?: React.ReactNode[] | null;
   style?: React.CSSProperties;
@@ -42,62 +42,81 @@ export interface FilterItemConfig {
 
 const { Fields } = FormBuilder;
 
-export const Filter = ({ config, onSubmit, onFieldChange, onFieldsChange, className }: IFilterProps) => {
-  const formRef = React.useRef<FormInstance>({} as FormInstance);
+export const Filter = React.forwardRef(
+  (
+    { config, onSubmit, onFieldChange, className }: IFilterProps,
+    ref: React.Ref<{ form: FormInstance; search: () => void }>,
+  ) => {
+    const formRef = React.useRef<FormInstance>({} as FormInstance);
 
-  // 搜索
-  const search = (_?: React.SyntheticEvent) => {
-    const { validateFields, scrollToField } = formRef.current;
+    React.useImperativeHandle(ref, () => ({
+      form: formRef.current,
+      search,
+    }));
 
-    validateFields()
-      .then((values: any) => {
+    // 搜索
+    const search = React.useCallback(
+      (_?: React.SyntheticEvent) => {
+        const { validateFields, scrollToField } = formRef.current;
+
+        validateFields()
+          .then((values: any) => {
+            const formattedValue: any = {};
+            config.forEach(({ name, format, customProps }) => {
+              const curValue = values?.[name];
+              if (format && curValue) {
+                formattedValue[name] = format(customProps, curValue);
+              } else {
+                formattedValue[name] = curValue;
+              }
+            });
+            if (onSubmit) {
+              onSubmit(formattedValue);
+            }
+          })
+          .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+            scrollToField(errorFields[0].name);
+          });
+      },
+      [onSubmit, config],
+    );
+
+    const handleValueChange = throttle(
+      (_changedValue: any, allValues: any) => {
         const formattedValue: any = {};
         config.forEach(({ name, format, customProps }) => {
-          const curValue = values?.name;
+          const curValue = allValues?.[name];
           if (format && curValue) {
             formattedValue[name] = format(customProps, curValue);
           } else {
             formattedValue[name] = curValue;
           }
         });
-        if (onSubmit) {
-          onSubmit(formattedValue);
-        }
-      })
-      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
-        scrollToField(errorFields[0].name);
-      });
-  };
+        onSubmit?.(formattedValue);
+      },
+      500,
+      { leading: false },
+    );
 
-  const handleValueChange = (_: any, _changedValue: any, allValues: any) => {
-    const formattedValue: any = {};
-    config.forEach(({ name, format, customProps }) => {
-      const curValue = allValues?.name;
-      if (format && curValue) {
-        formattedValue[name] = format(customProps, curValue);
-      } else {
-        formattedValue[name] = curValue;
-      }
-    });
-    onSubmit?.(formattedValue);
-  };
+    const itemFromConfig = (itemConfig: FilterItemConfig) => {
+      const { required = false } = itemConfig;
+      return { ...itemConfig, required, onFieldChange, onFieldEnter: search };
+    };
 
-  const itemFromConfig = (itemConfig: FilterItemConfig) => {
-    const { required = false } = itemConfig;
-    return { ...itemConfig, required, onFieldChange, onFieldEnter: search };
-  };
-
-  return (
-    <div>
-      <FormBuilder
-        ref={formRef}
-        className={className}
-        onSubmit={search}
-        onFieldsChange={onFieldsChange}
-        onValuesChange={handleValueChange}
-      >
-        <Fields fields={config.map(itemFromConfig)} />
-      </FormBuilder>
-    </div>
-  );
-};
+    return (
+      <div className="erda-filter">
+        <FormBuilder
+          ref={formRef}
+          className={className}
+          onSubmit={search}
+          onValuesChange={handleValueChange}
+          size="small"
+          layout="horizontal"
+          isMultiColumn
+        >
+          <Fields fields={config.map(itemFromConfig)} />
+        </FormBuilder>
+      </div>
+    );
+  },
+);

@@ -52,6 +52,7 @@ interface IProps extends FormProps {
   columnNum?: number;
   readonly?: boolean;
   layout?: 'horizontal' | 'vertical' | 'inline';
+  onSubmit?: () => void;
 }
 
 const PureFormBuilder = <T extends Obj>({
@@ -78,7 +79,7 @@ const PureFormBuilder = <T extends Obj>({
   form.fieldsInfo = {};
 
   const setFieldsInfo = (key: string, value: IFieldType[]) => {
-    form.fieldsInfo[key] = value;
+    form?.fieldsInfo?.[key] && (form.fieldsInfo[key] = value);
   };
 
   const handleResize = throttle(({ width }: { width: number }) => {
@@ -101,7 +102,7 @@ const PureFormBuilder = <T extends Obj>({
 
   return (
     <ResizeObserver onResize={handleResize}>
-      <div className="w-full">
+      <div className="w-full erda-form-builder">
         <Form {...rest} form={form} layout={layout}>
           <FormContext.Provider
             value={{

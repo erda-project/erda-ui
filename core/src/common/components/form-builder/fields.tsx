@@ -127,7 +127,7 @@ export const Fields: React.MemoExoticComponent<
                     label={label || (isHoldLabel ? <div /> : undefined)}
                     required={required}
                     rules={afterAddRequiredRules}
-                    className={className}
+                    className={`${className || ''} ${(!label && 'erda-form-item-no-label') || ''}`}
                     style={{ marginBottom: 6 }}
                     {...rest}
                   >

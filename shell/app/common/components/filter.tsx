@@ -14,7 +14,7 @@
 import React from 'react';
 import { Filter as NusiFilter } from 'core/nusi';
 import { get, map, has, set, isEmpty, debounce } from 'lodash';
-import { IFilterProps } from 'core/common/interface';
+import { IFilterProps, FilterItemConfig } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';
 import { useMount } from 'react-use';
 import { updateSearch as _updateSearch } from 'common/utils';
@@ -24,21 +24,9 @@ enum FILTER_TIRGGER {
   onSubmit = 'onSubmit',
 }
 
-interface IConfigItem {
-  type: Function;
-  name: string;
-  label?: string;
-  required?: boolean;
-  validator?: any[];
-  customProps?: Obj;
-  collapseRender?: (props: any, value: any) => string | string[];
-  format?: (props: any, value: any) => any;
-  [prop: string]: any;
-}
-
 const noop = () => {};
 export interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
-  config: IConfigItem[];
+  config: FilterItemConfig[];
   filterTirgger?: FILTER_TIRGGER;
   connectUrlSearch?: boolean;
   urlExtra?: Obj;
@@ -63,15 +51,16 @@ export const PureFilter = (props: IPureFilterProps) => {
   // const query = routeInfoStore.getState(s => s.query);
   const filterRef: any = React.useRef(null as any);
   useMount(() => {
+    const { pageNo: _, ...fieldsValue } = query;
     // 关联url, 将query初始化到表单
-    if (connectUrlSearch && !isEmpty(query)) {
+    if (connectUrlSearch && !isEmpty(fieldsValue)) {
       setTimeout(() => {
-        setFieldsValue(query);
+        setFieldsValue(fieldsValue);
       }, 0);
     } else if (filterTirgger === 'onChange') {
       setTimeout(() => {
         // 只能在setTimeout中拿到初始请求的值
-        const formData = filterRef.current.form.getFieldsValues();
+        const formData = filterRef.current?.form.getFieldsValues();
         changeFilterData(formData);
       }, 0);
     }
@@ -128,9 +117,7 @@ export const PureFilter = (props: IPureFilterProps) => {
       className={`dice-filter my-3 ${className}`}
       {...rest}
       {...(filterProps[filterTirgger] || {})}
-      onRef={(ref: any) => {
-        filterRef.current = ref;
-      }}
+      ref={filterRef}
     />
   );
 };
