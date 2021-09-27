@@ -13,8 +13,9 @@
 
 import { join } from 'path';
 import fs from 'fs';
+import rimraf from 'rimraf';
 import { exit } from 'process';
-import { logError } from './log';
+import { logError, logInfo } from './log';
 import dotenv from 'dotenv';
 
 export const checkIsRoot = () => {
@@ -80,13 +81,10 @@ export const getModuleList = () => {
   return envConfig.MODULES.split(',').map((m) => m.trim());
 };
 
-export interface ERDA_BUILD_CONFIG {
-  name: string;
-  env?: { [k: string]: string | number | boolean };
-  nginx?: string;
-  indexUrl?: string;
-  role?: string;
-}
+export const clearPublic = async () => {
+  logInfo('clear public folder');
+  await rimraf.sync(`${getPublicDir()}/*`);
+};
 
 export const getCliDir = () => {
   return join(process.cwd(), 'cli');

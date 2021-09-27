@@ -11,10 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import rimraf from 'rimraf';
 import execa, { ExecaChildProcess } from 'execa';
-import { logInfo, logSuccess, logError } from './util/log';
-import { getPublicDir, checkIsRoot, ALL_MODULES } from './util/env';
+import { logSuccess, logError } from './util/log';
+import { checkIsRoot, ALL_MODULES, clearPublic } from './util/env';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
 
@@ -30,11 +29,6 @@ const dirCollection: { [k: string]: string } = {
 };
 
 const dirMap = new Map(Object.entries(dirCollection));
-
-const clearPublic = async () => {
-  logInfo('clear public folder');
-  await rimraf.sync(`${getPublicDir()}/*`);
-};
 
 const buildModules = async (rebuildList: string[]) => {
   const pList: ExecaChildProcess[] = [];

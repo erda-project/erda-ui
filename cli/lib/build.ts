@@ -14,14 +14,13 @@
 import inquirer from 'inquirer';
 import execa, { ExecaChildProcess } from 'execa';
 import notifier from 'node-notifier';
-import rimraf from 'rimraf';
 import { logInfo, logSuccess, logError } from './util/log';
-import { getPublicDir, getModuleList, checkIsRoot, getShellDir, defaultRegistry } from './util/env';
+import { getModuleList, checkIsRoot, getShellDir, defaultRegistry, clearPublic } from './util/env';
 import chalk from 'chalk';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
 import dayjs from 'dayjs';
-import { getGitShortSha } from './util/compare-git-diff';
+import { getGitShortSha } from './util/git-diff';
 
 const currentDir = process.cwd();
 
@@ -35,11 +34,6 @@ const dirCollection: { [k: string]: string } = {
 };
 
 const dirMap = new Map(Object.entries(dirCollection));
-
-const clearPublic = async () => {
-  logInfo('clear public folder');
-  await rimraf.sync(`${getPublicDir()}/*`);
-};
 
 const alertMessage = (outputModules: string, release?: boolean) => `
 /**************************${chalk.red('Warning Before Build')}************************************/

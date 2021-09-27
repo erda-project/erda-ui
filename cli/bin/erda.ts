@@ -24,6 +24,7 @@ import initOnline from '../lib/init-online';
 import i18n from '../lib/i18n';
 import generateService from '../lib/service-generator';
 import checkBuildStatus from '../lib/check-build-status';
+import fetchImageContent from '../lib/fetch-image-content';
 
 const program = new Command();
 
@@ -56,7 +57,7 @@ program
   .option('--enableSourceMap', 'generate source map')
   .option('--online', 'whether is online build')
   .option('--release', 'whether need build docker image & push')
-  .option('--registry', 'docker registry which to push')
+  .option('--registry', 'docker registry address which to push')
   .action(async (options) => {
     const { online, ...restOptions } = options;
     if (online) {
@@ -64,6 +65,17 @@ program
     } else {
       build(restOptions);
     }
+  });
+
+program
+  .command('fetch-image')
+  .description('pull image by image tag version, run this image locally and copy the content to local folder')
+  .requiredOption(
+    '-i, --image <image>',
+    'image full tag name. e.g. registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui:1.3-20210918-release',
+  )
+  .action(async (options) => {
+    fetchImageContent(options);
   });
 
 program
@@ -105,7 +117,6 @@ program
   .description(
     'compare git commit sha with previous build, if match it will skip build and reuse last built files. Only used in pipeline build',
   )
-  .option('-m, --module', 'module name to build')
   .action(async () => {
     checkBuildStatus();
   });
