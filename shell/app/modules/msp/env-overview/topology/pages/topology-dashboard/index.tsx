@@ -50,6 +50,7 @@ const TopologyDashboard = () => {
   ]);
   const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
   const mspMenu = mspStore.useStore((s) => s.mspMenu);
+  const currentProject = mspStore.useStore((s) => s.currentProject);
   const { serviceName, name, type: sourceType, serviceId, applicationId } = activedNode || {};
   const type = sourceType?.toLowerCase();
   const { getCustomDashboard } = dashboardStore;
@@ -132,7 +133,7 @@ const TopologyDashboard = () => {
       ...params,
       serviceName,
       serviceId: window.encodeURIComponent(serviceId || ''),
-      applicationId,
+      applicationId: currentProject?.type === 'MSP' ? '-' : applicationId,
       query: {
         start: timeSpan.startTimeMs,
         end: timeSpan.endTimeMs,
