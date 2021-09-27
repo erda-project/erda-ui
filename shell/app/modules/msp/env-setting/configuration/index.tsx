@@ -301,9 +301,11 @@ const Configuration = () => {
           </ItemRender>
         )}
 
-        <div className="h-full bg-grey border-all p-4 mt-2 rounded">
-          <span className="text-sm" dangerouslySetInnerHTML={{ __html: Markdown(infoData || '') }} />
-        </div>
+        <article
+          className="h-full bg-grey border-all p-4 mt-2 rounded text-sm md-content"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: Markdown(infoData || '') }}
+        />
       </div>
     </Spin>
   );
