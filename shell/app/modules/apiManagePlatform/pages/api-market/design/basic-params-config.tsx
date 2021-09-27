@@ -59,6 +59,7 @@ interface IPropertyItemForm {
   onSetMediaType?: ({ propertyKey, propertyData }: { propertyKey: string; propertyData: string }) => void;
   updateErrorNum?: (n: number, name: string) => void;
   onFormErrorNumChange?: (n: number, name: string) => void;
+  index?: number;
 }
 
 interface ISetFieldProps {
@@ -72,7 +73,7 @@ interface IFormErrorMap {
 }
 
 export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
-  const { formData, onChange, formType = 'Query', isEditMode = true } = props;
+  const { formData, onChange, formType = 'Query', isEditMode = true, index } = props;
 
   const [
     {
@@ -712,8 +713,11 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   // 更新设置example示例
   React.useEffect(() => {
     const tempData = isCurTypeOf(BASE_DATA_TYPE.array) && arrayItemDataStorage ? arrayItemDataStorage : dataTempStorage;
-    const newExample = getExampleData(tempData);
-    setTimeout(() => formRef.current.setFieldsValue({ example: newExample }));
+    if (tempData.example && typeof tempData.example === 'object') {
+      const newExample = getExampleData(tempData);
+      formRef.current.resetFields(['example']);
+      setTimeout(() => formRef.current.setFieldsValue({ example: newExample }));
+    }
   }, [arrayItemDataStorage, curPropertyType, dataTempStorage, getExampleData, isCurTypeOf]);
 
   const onCloseParamsModal = () => updater.paramsModalVisible(false);
@@ -730,6 +734,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       propertyNameMap,
       AllDataTypes,
       detailVisible,
+      index,
     });
     return map(tempFields, (fieldItem: any) => {
       const tempFieldItem = produce(fieldItem, (draft: { name: string }) => {
@@ -757,6 +762,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     onChangePropertyName,
     onToggleDetail,
     setFields,
+    index,
   ]);
 
   const detailType = React.useMemo(() => {
@@ -805,6 +811,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                         paramListTempStorage,
                         (item) => item[API_FORM_KEY] !== record[API_FORM_KEY],
                       )}
+                      index={index}
                     />
                   </FormBuilder>
                 </div>
