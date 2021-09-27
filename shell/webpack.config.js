@@ -120,6 +120,14 @@ module.exports = () => {
               },
             },
             {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [require.resolve('tailwindcss'), require.resolve('autoprefixer')],
+                },
+              },
+            },
+            {
               loader: 'sass-loader',
               options: {
                 sourceMap: false,

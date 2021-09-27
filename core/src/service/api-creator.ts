@@ -309,7 +309,7 @@ export function usePaging<T extends FN>({
 
 export function apiCreator<T extends FN>(apiConfig: APIConfig) {
   const apiFn = genRequest<T>(apiConfig);
-  return enhanceAPI<typeof apiFn>(apiFn);
+  return enhanceAPI<typeof apiFn>(apiFn, apiConfig);
 }
 
 export { axios };

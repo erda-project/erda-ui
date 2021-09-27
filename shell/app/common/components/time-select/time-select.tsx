@@ -18,32 +18,36 @@ import { useMount } from 'react-use';
 import { Moment } from 'moment';
 import { SelectProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { Refresh as IconRefresh, Time as IconTime, DownOne as IconDownOne } from '@icon-park/react';
+import { DownOne as IconDownOne, Refresh as IconRefresh, Time as IconTime } from '@icon-park/react';
 import './time-select.scss';
 import { useUpdate } from 'common';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, map } from 'lodash';
 import {
-  transformRange,
-  defaultFormat,
-  relativeTimeRange,
-  translateAutoRefreshDuration,
   autoRefreshDuration,
+  defaultFormat,
+  IRefreshDuration,
+  IRelativeTime,
   ITimeRange,
+  relativeTimeRange,
+  transformRange,
+  translateAutoRefreshDuration,
 } from './common';
+
+type IRefreshStrategy = 'off' | IRefreshDuration;
 
 const { Option } = Select;
 
-export const AutoRefreshStrategy = (props: SelectProps<string>) => {
+export const AutoRefreshStrategy = (props: SelectProps<IRefreshStrategy>) => {
   return (
     <div className="auto-refresh relative border-all hover:border-primary">
       <Select defaultValue="off" bordered={false} dropdownMatchSelectWidth={false} {...props}>
         <Option key="off" value="off">
           OFF
         </Option>
-        {autoRefreshDuration.map((item) => {
+        {map(autoRefreshDuration, (label, value) => {
           return (
-            <Option key={item.value} value={item.value}>
-              {item.label}
+            <Option key={value} value={value}>
+              {label}
             </Option>
           );
         })}
@@ -62,7 +66,7 @@ interface ITimeRangeProps {
   format?: string;
   value?: ITimeRange;
 
-  onChange(data: ITimeRange): void;
+  onChange: (data: ITimeRange) => void;
 }
 
 export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
@@ -76,7 +80,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
     onChange?.({ ...data, ...value, ...changedValue });
   };
 
-  const handleSelectQuickTimeRange = (str: string) => {
+  const handleSelectQuickTimeRange = (str: IRelativeTime) => {
     const v = value ?? data;
     const newData = produce(v, (draft) => {
       draft.mode = 'quick';
@@ -176,18 +180,18 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
       <div className="w-44 h-full border-left flex flex-col">
         <p className="px-3 pt-3 font-medium">{i18n.t('relative time range')}</p>
         <ul className="time-quick-select overflow-y-auto flex-1 mt-3">
-          {relativeTimeRange.map((item) => {
+          {map(relativeTimeRange, (label, range: IRelativeTime) => {
             return (
               <li
                 className={`time-quick-select-item h-9 px-3 flex items-center hover:bg-grey cursor-pointer ${
-                  mode === 'quick' && activeQuick === item.value ? 'text-primary font-medium' : ''
+                  mode === 'quick' && activeQuick === range ? 'text-primary font-medium' : ''
                 }`}
-                key={item.value}
+                key={range}
                 onClick={() => {
-                  handleSelectQuickTimeRange(item.value);
+                  handleSelectQuickTimeRange(range);
                 }}
               >
-                {item.label}
+                {label}
               </li>
             );
           })}
@@ -199,7 +203,7 @@ export const TimeRange = ({ onChange, value, format }: ITimeRangeProps) => {
 
 interface IState {
   data: ITimeRange;
-  strategy: string;
+  strategy: IRefreshStrategy;
   refreshDuration: number;
   visible: boolean;
   text?: string;
@@ -209,16 +213,16 @@ export interface IProps {
   className?: string;
   triggerChangeOnMounted?: boolean;
   defaultValue?: ITimeRange;
-  strategy?: string;
-  defaultStrategy?: string;
+  strategy?: IRefreshStrategy;
+  defaultStrategy?: IRefreshStrategy;
   value?: ITimeRange;
   defaultRefreshDuration?: string;
   refreshDuration?: string;
   format?: string;
 
-  onRefreshStrategyChange?(strategy: string): void;
+  onRefreshStrategyChange?: (strategy: string) => void;
 
-  onChange?(data: ITimeRange, range: Moment[]): void;
+  onChange?: (data: ITimeRange, range: Moment[]) => void;
 }
 
 const TimeSelect = (props: IProps) => {
@@ -228,14 +232,14 @@ const TimeSelect = (props: IProps) => {
     strategy: props.defaultStrategy || 'off',
     visible: false,
     data: props.defaultValue ?? {
-      mode: '',
+      mode: 'quick',
       customize: {},
       quick: undefined,
     },
     text: props.defaultValue ? transformRange(props.defaultValue, format).dateStr : '',
   });
-  const timer = React.useRef();
-  const payload = React.useRef<ITimeRange>(props.defaultValue || ({} as ITimeRange));
+  const timer = React.useRef<number>();
+  const payload = React.useRef<ITimeRange>(props.value || props.defaultValue || ({} as ITimeRange));
   useMount(() => {
     if (props.triggerChangeOnMounted) {
       handleManualRefresh();
@@ -258,10 +262,11 @@ const TimeSelect = (props: IProps) => {
     return () => {
       closeAutoRefresh();
     };
-  }, [refreshDuration]);
+  }, [refreshDuration, props.onChange]);
 
   React.useEffect(() => {
     if (props?.value) {
+      payload.current = props.value;
       updater.text(transformRange(props.value, format).dateStr);
     }
   }, [props.value]);
@@ -290,31 +295,31 @@ const TimeSelect = (props: IProps) => {
 
   /**
    * @description select date
-   * @param data
+   * @param range
    */
-  const handleSelectDate = (data: ITimeRange) => {
-    const { date, dateStr } = transformRange(data, format);
+  const handleSelectDate = (range: ITimeRange) => {
+    const { date, dateStr } = transformRange(range, format);
     const newState: Partial<IState> = {
       text: dateStr,
       visible: false,
     };
-    payload.current = data;
+    payload.current = range;
     if (!('value' in props)) {
-      newState.data = data;
+      newState.data = range;
     }
     update(newState);
-    props.onChange?.(data, date);
+    props.onChange?.(range, date);
   };
 
   /**
    * @description switch refresh strategy
-   * @param strategy
+   * @param key
    */
-  const handleChangeRefreshStrategy = (strategy: string) => {
+  const handleChangeRefreshStrategy = (key: IRefreshStrategy) => {
     if (!('strategy' in props)) {
-      updater.strategy(strategy);
+      updater.strategy(key);
     }
-    props?.onRefreshStrategyChange?.(strategy);
+    props?.onRefreshStrategyChange?.(key);
   };
 
   /**

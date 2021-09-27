@@ -48,10 +48,15 @@ module.exports = {
         purple: '#6a549e',
         cyan: '#5bd6d0ff',
         gray: '#666666',
+        brightgray: '#eaeaea',
         darkgray: '#999999',
         grey: '#f5f5f5',
         layout: '#f0eef5',
         white: '#ffffff',
+        lotion: '#fcfcfc',
+        cultured: '#f6f4f9',
+        magnolia: '#f2f1fc',
+        mask: 'rgba(0,0,0,0.45)',
         'light-primary': '#6a549e19', // rgba($primary, .1)
         'shallow-primary': '#6a549e99', // rgba($primary, .6)
         'light-gray': '#bbbbbb',
@@ -102,6 +107,10 @@ module.exports = {
         '3/10': '30%',
         '7/10': '70%',
         '9/10': '90%',
+      },
+      transitionProperty: {
+        height: 'height',
+        width: 'width',
       },
     },
   },

@@ -12,23 +12,63 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace LOG_ANALYTICS {
-  interface SearchQuery {
-    [k: string]: any;
-    clusterName: string;
+  interface QueryAggregation {
+    addon: string;
     start: number;
     end: number;
+    clusterName: string;
+    query: string;
+    aggFields?: string[];
+  }
+
+  interface IAggregationBuckets {
+    count: number;
+    key: string;
+  }
+
+  interface IAggregation {
+    aggFields: {
+      [k: string]: {
+        buckets: IAggregationBuckets[];
+      };
+    };
+    total: number;
+  }
+
+  type IField = {
+    display: boolean;
+    fieldName: string;
+    supportAggregation: boolean;
+    group: number;
+  };
+
+  interface QuerySearch {
+    addon: string;
+    start: number;
+    end: number;
+    clusterName: string;
     query?: string;
-    size: number;
-    version: string;
-    'tags.dice_application_name'?: string;
-    'tags.dice_service_name'?: string;
+    sort: any[];
+    pageNo: number;
+    pageSize: number;
+    highlight: boolean;
   }
 
   interface LogItem {
-    timestamp: number;
-    offset: number;
-    content: string;
-    tags: Obj;
+    highlight: {
+      [key: string]: string[];
+    };
+    source: {
+      _id: string;
+      id: string;
+      offset: number;
+      content: string;
+      stream: string;
+      tags: {
+        [key: string]: string;
+      };
+      timestamp: number;
+    };
   }
 
   interface SearchResult {
@@ -36,9 +76,11 @@ declare namespace LOG_ANALYTICS {
     data: LogItem[];
   }
 
-  interface StatisticResult extends IChartResult {
-    title: string;
-    total: number;
-    interval: number;
+  interface QueryStatistic {
+    addon: string;
+    start: number;
+    end: number;
+    clusterName: string;
+    query?: string;
   }
 }

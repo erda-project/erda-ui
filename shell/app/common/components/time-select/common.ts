@@ -14,9 +14,13 @@
 import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 
+export type IRelativeTime = keyof typeof relativeTimeRange;
+
+export type IRefreshDuration = keyof typeof autoRefreshDuration;
+
 export interface ITimeRange {
   mode: 'quick' | 'customize';
-  quick?: string;
+  quick?: IRelativeTime;
   customize: {
     start?: Moment;
     end?: Moment;
@@ -25,38 +29,38 @@ export interface ITimeRange {
 
 export const defaultFormat = 'YYYY-MM-DD HH:mm:ss';
 
-export const relativeTimeRange = [
-  { label: i18n.t('last {amount} {unit}', { amount: 15, unit: i18n.t('common:minutes') }), value: 'minutes:15' },
-  { label: i18n.t('last {amount} {unit}', { amount: 30, unit: i18n.t('common:minutes') }), value: 'minutes:30' },
-  { label: i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('hours') }), value: 'hours:1' },
-  { label: i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('hours') }), value: 'hours:3' },
-  { label: i18n.t('last {amount} {unit}', { amount: 6, unit: i18n.t('hours') }), value: 'hours:6' },
-  { label: i18n.t('last {amount} {unit}', { amount: 12, unit: i18n.t('hours') }), value: 'hours:12' },
-  { label: i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('days') }), value: 'days:1' },
-  { label: i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('days') }), value: 'days:3' },
-  { label: i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('weeks') }), value: 'weeks:1' },
-  { label: i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('months') }), value: 'months:1' },
-  { label: i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('months') }), value: 'months:3' },
-  { label: i18n.t('last {amount} {unit}', { amount: 6, unit: i18n.t('months') }), value: 'months:6' },
-  { label: i18n.t('today'), value: 'today' },
-  { label: i18n.t('yesterday'), value: 'yesterday' },
-  { label: i18n.t('current week'), value: 'currentWeek' },
-  { label: i18n.t('last week'), value: 'lastWeek' },
-  { label: i18n.t('current month'), value: 'currentMonth' },
-  { label: i18n.t('last month'), value: 'lastMonth' },
-];
+export const relativeTimeRange = {
+  'minutes:15': i18n.t('last {amount} {unit}', { amount: 15, unit: i18n.t('common:minutes') }),
+  'minutes:30': i18n.t('last {amount} {unit}', { amount: 30, unit: i18n.t('common:minutes') }),
+  'hours:1': i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('hours') }),
+  'hours:3': i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('hours') }),
+  'hours:6': i18n.t('last {amount} {unit}', { amount: 6, unit: i18n.t('hours') }),
+  'hours:12': i18n.t('last {amount} {unit}', { amount: 12, unit: i18n.t('hours') }),
+  'days:1': i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('days') }),
+  'days:3': i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('days') }),
+  'weeks:1': i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('weeks') }),
+  'months:1': i18n.t('last {amount} {unit}', { amount: 1, unit: i18n.t('weeks') }),
+  'months:3': i18n.t('last {amount} {unit}', { amount: 3, unit: i18n.t('weeks') }),
+  'months:6': i18n.t('last {amount} {unit}', { amount: 6, unit: i18n.t('weeks') }),
+  today: i18n.t('today'),
+  yesterday: i18n.t('yesterday'),
+  currentWeek: i18n.t('current week'),
+  lastWeek: i18n.t('last week'),
+  currentMonth: i18n.t('current month'),
+  lastMonth: i18n.t('last month'),
+};
 
-export const autoRefreshDuration = [
-  { label: '5s', value: 'seconds:5' },
-  { label: '10s', value: 'seconds:10' },
-  { label: '30s', value: 'seconds:30' },
-  { label: '1m', value: 'minutes:1' },
-  { label: '5m', value: 'minutes:5' },
-  { label: '30m', value: 'minutes:30' },
-  { label: '1h', value: 'hours:1' },
-  { label: '2h', value: 'hours:2' },
-  { label: '1d', value: 'days:1' },
-];
+export const autoRefreshDuration = {
+  'seconds:5': '5s',
+  'seconds:10': '10s',
+  'seconds:30': '30s',
+  'minutes:1': '1m',
+  'minutes:5': '5m',
+  'minutes:30': '30m',
+  'hours:1': '1h',
+  'hours:2': '2h',
+  'days:1': '1d',
+};
 
 /**
  * @description convert relative time range to absolute time range
@@ -122,10 +126,9 @@ export const translateAutoRefreshDuration = (count: number, unit: string) => {
 export const transformRange = (v: ITimeRange, format = defaultFormat) => {
   let dateStr;
   let dateArr: Moment[] = [];
-  if (v.mode === 'quick') {
-    const { label, value } = relativeTimeRange.find((t) => t.value === v.quick) ?? {};
-    dateStr = label;
-    const [unit, count] = value?.split(':') || [];
+  if (v.mode === 'quick' && v.quick) {
+    dateStr = relativeTimeRange[v.quick];
+    const [unit, count] = v.quick?.split(':') || [];
     if (unit) {
       dateArr = translateRelativeTime(unit, parseInt(count, 10));
     }

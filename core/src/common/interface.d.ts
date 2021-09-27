@@ -26,6 +26,7 @@ export {
 export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
+export { MenuProps } from 'antd/es/menu';
 export { PaginationConfig, SorterResult } from 'antd/lib/table';
 export { ColumnProps, IActions } from '../nusi/wrapped-table';
 export { ModalProps } from 'antd/es/modal';
