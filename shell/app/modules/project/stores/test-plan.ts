@@ -141,12 +141,10 @@ const testPlan = createStore({
     async addTestPlan({ call, getParams }, payload: TEST_PLAN.PlanSubmitBody) {
       const { projectId } = getParams();
       await call(addTestPlan, { ...payload, projectID: +projectId });
-      testPlan.effects.getPlanList();
     },
     async updateTestPlan({ call, getParams }, payload: TEST_PLAN.PlanSubmitBody) {
       const { testPlanId } = getParams();
       await call(updateTestPlan, { ...payload });
-      testPlan.effects.getPlanList();
       // 在计划详情页时，重新拉取详情
       if (testPlanId) {
         testPlan.effects.getTestPlanItemDetail(testPlanId);
