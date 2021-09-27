@@ -33,8 +33,8 @@ export const PageHeader = (props: IProps) => {
         </div>
       )}
 
-      <div className={`erda-header-header`} style={{ height: '50px' }}>
-        <div className={`erda-header-header-left`}>
+      <div className={`erda-header-top`}>
+        <div className={`erda-header-top-left`}>
           <div className="erda-header-title-con">
             {title && (
               <div className={`erda-header-title`}>
