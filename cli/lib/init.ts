@@ -56,7 +56,7 @@ export default async ({
   if (!fullConfig || override) {
     const newConfig: dotenv.DotenvParseOutput = {};
     newConfig.BACKEND_URL = backendUrl || 'https://erda.dev.terminus.io';
-    newConfig.UC_BACKEND_URL = hostName || 'https://local.erda.dev.terminus.io';
+    newConfig.UC_BACKEND_URL = hostName || 'https://erda.dev.terminus.io';
     newConfig.MODULES = ALL_MODULES.join(',');
     newConfig.SCHEDULER_PORT = port || '3000';
     newConfig.SCHEDULER_URL = hostName || 'https://local.erda.dev.terminus.io';

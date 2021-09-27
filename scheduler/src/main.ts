@@ -60,7 +60,7 @@ async function bootstrap() {
   if (isProd) {
     logger.info('erda ui server started at port 80');
   } else {
-    logger.info(`server started at ${SCHEDULER_URL}:${SCHEDULER_PORT}`);
+    logger.info(`server started at ${SCHEDULER_URL}:${SCHEDULER_PORT || 3000}`);
   }
 }
 
