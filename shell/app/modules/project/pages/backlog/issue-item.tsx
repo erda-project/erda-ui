@@ -27,6 +27,7 @@ import './issue-item.scss';
 import routeInfoStore from 'core/stores/route';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
+import { templateMap } from 'project/common/issue-config';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -159,7 +160,10 @@ export const IssueForm = (props: IIssueFormProps) => {
     if (curForm) {
       curForm.onSubmit((val: ISSUE.BacklogIssueCreateBody) => {
         if (val.title) {
-          onOk(val).then(() => curForm.reset('title'));
+          onOk({
+            ...val,
+            content: templateMap[val.type] || '',
+          }).then(() => curForm.reset('title'));
         } else {
           message.warn(i18n.t('please enter {name}', { name: i18n.t('title') }));
         }
