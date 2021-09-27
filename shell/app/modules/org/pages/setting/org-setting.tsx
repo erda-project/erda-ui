@@ -107,9 +107,7 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t(
-                    'org:network closure within the scope of the organization, Precautions for network closure. If urgent release and upgrading operations are required, the organization administrator must review and authorize them.',
-                  ),
+                  title: i18n.t('org:definition of network closure.'),
                   children: <BlockNetwork />,
                 },
               ]}
