@@ -1938,7 +1938,7 @@
     "yesterday": "yesterday",
     "you have new site message, please pay attention to check": "you have new site message, please pay attention to check",
     "{action} successfully": "{action} successfully",
-    "{label} can not be empty": "{label}不能为空",
+    "{label} can not be empty": "{label} can not be empty",
     "{min} ~ {max} digits": "{min} ~ {max} digits",
     "{name} already exists": "{name} already exists",
     "{name} can not empty": "{name} can not empty",
