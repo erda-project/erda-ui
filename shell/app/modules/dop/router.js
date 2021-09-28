@@ -187,7 +187,7 @@ export default function getDopRouter() {
               {
                 path: 'debug',
                 pageName: '组件化协议调试',
-                layout: { noWrapper: true },
+                layout: { noWrapper: true, showSubSidebar: false },
                 getComp: (cb) => cb(import('config-page/debug')),
               },
             ]

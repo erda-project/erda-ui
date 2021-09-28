@@ -14,42 +14,66 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor } from 'common';
-import { Button, message, Popover, Input } from 'core/nusi';
-import { MenuUnfold as IconMenuUnfold, Refresh as IconRefresh } from '@icon-park/react';
+import { Button, message, Input, Checkbox, Tooltip } from 'core/nusi';
+import routeInfoStore from 'core/stores/route';
+import { Refresh as IconRefresh } from '@icon-park/react';
+import { useUpdateEffect } from 'react-use';
+import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
 
 import './debug.scss';
 import moment from 'moment';
 
+const PureConfigPage = ({ scenario, ...rest }: { scenario: string }) => {
+  return <DiceConfigPage scenarioType={scenario} scenarioKey={scenario} inParams={rest} />;
+};
+
 export default () => {
   const pageRef = React.useRef(null);
   const [text, setText] = React.useState(defaultJson);
   const [config, setConfig] = React.useState(defaultData);
-  const [logs, setLogs] = React.useState([] as any);
+  const [logs, setLogs] = React.useState<ILog[]>([]);
   const [proxyApi, setProxyApi] = React.useState('');
-  const [expand, setExpand] = React.useState(true);
+  const [showCode, setShowCode] = React.useState(true);
+  const [showLog, setShowLog] = React.useState(true);
+  const [importValue, setImportValue] = React.useState('');
+  const [activeLog, setActiveLog] = React.useState(0);
+  const { scenario, ...queryRest } = routeInfoStore.useStore((s) => s.query);
 
-  const updateMock = () => {
+  if (scenario) {
+    return <PureConfigPage scenario={scenario} {...queryRest} />;
+  }
+
+  const updateMock = (_text?: string) => {
     try {
-      const obj = new Function(`return ${text}`)();
+      const obj = new Function(`return ${_text || text}`)();
       setConfig(obj);
     } catch (error) {
       message.error('内容有错误');
     }
   };
 
-  const onExecOp = ({ cId, op, reload, updateInfo }: any) => {
-    setLogs((prev) =>
-      prev.concat({
+  useUpdateEffect(() => {
+    if (activeLog) {
+      setConfig(logs?.[activeLog - 1]?.pageData);
+    }
+  }, [activeLog]);
+
+  const onExecOp = ({ cId, op, reload, updateInfo, pageData }: any) => {
+    setLogs((prev) => {
+      const reLogs = prev.concat({
         time: moment().format('HH:mm:ss'),
         type: '操作',
         cId,
         opKey: op.text || op.key,
-        command: JSON.stringify(op.command),
+        command: JSON.stringify(op.command, null, 2),
         reload,
         data: JSON.stringify(updateInfo, null, 2),
-      }),
-    );
+        pageData,
+      });
+      setActiveLog(reLogs.length);
+      return reLogs;
+    });
   };
 
   const getMock = React.useCallback(
@@ -64,63 +88,123 @@ export default () => {
     [proxyApi],
   );
 
+  const exportLog = () => {
+    const reLogs = logs.map((item) => {
+      const { assertList, ...rest } = item;
+      const _asserts = assertList?.filter((aItem) => {
+        return aItem.key && aItem.operator && aItem.value;
+      });
+      return { ...rest, assertList: _asserts };
+    });
+    const blob = new Blob([JSON.stringify(reLogs, null, 2)], { type: 'application/vnd.ms-excel;charset=utf-8' });
+    const fileName = `assert-log.txt`;
+    const objectUrl = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = objectUrl;
+    downloadLink.setAttribute('download', fileName);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    window.URL.revokeObjectURL(downloadLink.href);
+  };
+
+  const importLog = () => {
+    try {
+      const obj = new Function(`return ${importValue}`)();
+      setLogs(obj || []);
+      setActiveLog((obj || []).length);
+    } catch (error) {
+      message.error('内容有错误');
+    }
+  };
+
   return (
-    <div className="h-full debug-page-container">
+    <div className="h-full debug-page-container flex flex-col">
       <div className="flex justify-between mb-1 item-center">
-        <IconMenuUnfold
-          theme="outline"
-          size="24"
-          fill={'#6a549e'}
-          strokeLinejoin="miter"
-          strokeLinecap="butt"
-          className={`cursor-pointer ${expand ? '' : 'no-expand'}`}
-          onClick={() => setExpand(!expand)}
-        />
+        <div className="w-52">
+          <Checkbox checked={showCode} onChange={(e) => setShowCode(e.target.checked)}>
+            代码
+          </Checkbox>
+          <Checkbox className="ml-2" checked={showLog} onChange={(e) => setShowLog(e.target.checked)}>
+            日志
+          </Checkbox>
+        </div>
         <Input value={proxyApi} size="small" onChange={(e) => setProxyApi(e.target.value)} />
       </div>
-      <div className="debug-page h-full flex justify-between items-center">
-        <div className={`flex flex-col	 left h-full ${expand ? '' : 'hide-left'}`}>
-          <div className="flex-1">
-            <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
-            <Button type="primary" className="update-button" onClick={() => updateMock()}>
-              更新
-            </Button>
-            <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>
-              请求
-            </Button>
-          </div>
-          <div className={`log-panel ${expand ? '' : 'hidden'}`}>
-            <h3>
-              操作日志
-              <span className="ml-2 fake-link" onClick={() => setLogs([])}>
-                清空
-              </span>
-            </h3>
-            {logs.map((log, i) => {
-              return (
-                <div key={i} className="log-item">
-                  <span>
-                    {log.time} {log.reload && <IconRefresh />} {log.type} {log.cId}: {log.opKey}
-                    {log.command && <pre className="mb-0">{log.command}</pre>}
+      <div className="debug-page flex-1 h-0 flex justify-between items-center">
+        <div className={`flex flex-col left h-full  ${showCode || showLog ? '' : 'hide-left'}`}>
+          {showCode ? (
+            <div className="flex-1">
+              <FileEditor
+                autoHeight
+                fileExtension="json"
+                value={text}
+                onChange={(_text) => {
+                  setText(_text);
+                  updateMock(_text);
+                }}
+              />
+              <Button type="primary" className="update-button" onClick={() => updateMock()}>
+                更新
+              </Button>
+              <Button
+                type="primary"
+                className="request-button"
+                onClick={() => {
+                  pageRef.current.reload(config);
+                }}
+              >
+                请求
+              </Button>
+            </div>
+          ) : null}
+          {showLog ? (
+            <div className={`log-panel mt-2`}>
+              <h3>
+                操作日志
+                <span
+                  className="ml-2 fake-link"
+                  onClick={() => {
+                    setLogs([]);
+                    setActiveLog(0);
+                  }}
+                >
+                  清空
+                </span>
+                <span className="ml-2 fake-link" onClick={exportLog}>
+                  导出
+                </span>
+                <Tooltip
+                  overlayStyle={{ width: 400, maxWidth: 400 }}
+                  title={
+                    <div>
+                      <Input.TextArea value={importValue} onChange={(e) => setImportValue(e.target.value)} />
+                      <Button size="small" type="primary" onClick={importLog}>
+                        导入
+                      </Button>
+                    </div>
+                  }
+                >
+                  <span className="ml-2 fake-link" onClick={importLog}>
+                    导入
                   </span>
-                  {log.data && (
-                    <Popover
-                      placement="top"
-                      content={
-                        <div className="code-block overflow-auto" style={{ height: '600px', maxWidth: '600px' }}>
-                          <pre className="prewrap">{log.data}</pre>
-                        </div>
-                      }
-                    >
-                      <span className="fake-link">查看数据</span>
-                    </Popover>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                </Tooltip>
+              </h3>
+              {logs.map((log, i) => {
+                return (
+                  <LogItem
+                    key={i}
+                    index={i + 1}
+                    activeLog={activeLog}
+                    setActiveLog={(l) => setActiveLog(l)}
+                    log={log}
+                    setLog={(_log) => setLogs((prev) => prev.map((item, idx) => (idx === i ? _log : item)))}
+                  />
+                );
+              })}
+            </div>
+          ) : null}
         </div>
-        <div className={`right h-full ${expand ? '' : 'full-right'}`}>
+        <div className={`right overflow-auto h-full ${showCode || showLog ? '' : 'full-right'}`}>
           <ErrorBoundary>
             <DiceConfigPage
               ref={pageRef}
@@ -144,17 +228,145 @@ export default () => {
   );
 };
 
+interface ILogItemProps {
+  index: number;
+  log: ILog;
+  activeLog: number;
+  setLog: (log: ILog) => void;
+  setActiveLog: (n: number) => void;
+}
+
+interface ILog {
+  time: string;
+  reload: boolean;
+  type: string;
+  cId: string;
+  opKey: string;
+  data: Obj;
+  command: Obj;
+  assertList: IAssert[];
+  pageData: Obj;
+}
+
+interface IAssert {
+  key: string;
+  operator: string;
+  value: string;
+}
+
+const LogItem = (props: ILogItemProps) => {
+  const { log, index, setLog, activeLog, setActiveLog } = props;
+
+  const AssertForm = (
+    <PureForm
+      onChange={(d) => {
+        setLog({ ...log, assertList: d.assertList });
+      }}
+      value={log}
+      fields={[
+        {
+          key: 'assertList',
+          label: '断言',
+          labelTip: '请依次填写断言key、比较、value',
+          component: 'arrayObj',
+          required: true,
+          componentProps: {
+            direction: 'row',
+            objItems: [
+              {
+                component: 'input',
+                componentProps: {
+                  placeholder: '断言key值',
+                  size: 'small',
+                },
+                key: 'key',
+                labelTip: '例如：memberTable.state.value',
+                options: 'k1:TCP',
+                required: true,
+              },
+              {
+                component: 'select',
+                options: 'equal:等于;include:包含;uninclude:不包含',
+                key: 'operator',
+                required: true,
+                componentProps: {
+                  size: 'small',
+                },
+              },
+              {
+                component: 'input',
+                componentProps: {
+                  placeholder: '断言值',
+                  size: 'small',
+                },
+                key: 'value',
+                required: true,
+              },
+              {
+                getComp: (d) => {
+                  console.log('------', d);
+
+                  return;
+                },
+              },
+            ],
+          },
+        },
+      ]}
+    />
+  );
+
+  const setActive = () => {
+    activeLog !== index && setActiveLog(index);
+  };
+
+  return (
+    <div className={`log-item py-2 cursor-pointer ${activeLog === index ? 'active-item' : ''}`} onClick={setActive}>
+      <span>
+        {index}: {log.reload && <IconRefresh />} {log.type} {log.cId}.{log.opKey}
+      </span>
+      {(log.data || log.command) && (
+        <Tooltip
+          placement="top"
+          overlayStyle={{ maxWidth: 600 }}
+          title={
+            <div>
+              {log.command ? (
+                <>
+                  <span>command: </span>
+                  <pre className="code-block overflow-auto" style={{ maxHeight: 200 }}>
+                    {log.command}
+                  </pre>
+                </>
+              ) : null}
+              {log.data ? (
+                <>
+                  <span>data: </span>
+                  <pre className="code-block overflow-auto mt-2" style={{ maxHeight: 200 }}>
+                    {log.data}
+                  </pre>
+                </>
+              ) : null}
+            </div>
+          }
+        >
+          <span className="fake-link px-1">查看数据</span>
+        </Tooltip>
+      )}
+      <Tooltip title={AssertForm} placement="right" overlayStyle={{ width: 600, maxWidth: 600 }}>
+        <span className="px-1 fake-link">断言</span>
+      </Tooltip>
+    </div>
+  );
+};
+
 const defaultData = {
   scenario: {
-    scenarioKey: 'issue-manage',
-    scenarioType: 'issue-manage',
+    scenarioType: 'cmp-dashboard-nodes',
+    scenarioKey: 'cmp-dashboard-nodes',
   },
   inParams: {
-    fixedIssueType: 'ALL',
-    issueFilter__urlQuery: 'eyJzdGF0ZUJlbG9uZ3MiOlsiT1BFTiIsIldPUktJTkciLCJXT05URklYIiwiUkVPUEVOIiwiUkVTT0xWRUQiXX0=',
-    issueTable__urlQuery: 'eyJwYWdlTm8iOjF9',
-    issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6InRhYmxlIiwiY2hpbGRyZW5WYWx1ZSI6eyJrYW5iYW4iOiJkZWFkbGluZSJ9fQ==',
-    projectId: '70',
+    clusterName: 'erda-hongkong',
   },
 };
 const defaultJson = JSON.stringify(defaultData, null, 2);
