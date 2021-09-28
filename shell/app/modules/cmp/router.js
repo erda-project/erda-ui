@@ -41,17 +41,17 @@ const clusterDetailTabs = (params) => {
   const clusterType = params.breadcrumbInfoMap.cmpCluster?.type;
   return TYPE_K8S_AND_EDAS.includes(clusterType)
     ? [
-        { key: 'nodes', name: i18n.t('cmp:node list') },
-        { key: 'pods', name: i18n.t('cmp:pods list') },
-        { key: 'workload', name: i18n.t('cmp:workload') },
-        { key: 'event-log', name: i18n.t('cmp:event log') },
-        { key: 'detail', name: i18n.t('basic information') },
+        { key: 'nodes', name: i18n.t('cmp:Node List') },
+        { key: 'pods', name: i18n.t('cmp:Pods List') },
+        { key: 'workload', name: i18n.t('cmp:Workload') },
+        { key: 'event-log', name: i18n.t('cmp:Event Log') },
+        { key: 'detail', name: i18n.t('cmp:Basic Information') },
       ]
-    : [{ key: 'detail', name: i18n.t('basic information') }];
+    : [{ key: 'detail', name: i18n.t('cmp:Basic Information') }];
 };
 
 const kubernetesTabs = [
-  { key: 'base', name: i18n.t('cmp:basic information') },
+  { key: 'base', name: i18n.t('cmp:Basic Information') },
   { key: 'pod', name: i18n.t('cmp:related pod information') },
   { key: 'detail', name: i18n.t('detail') },
 ];
