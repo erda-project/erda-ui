@@ -107,7 +107,7 @@ const ArrayObjComp = (props: any) => {
             >
               {itemRender
                 ? itemRender(data, updateItem)
-                : map(keys, (item) => {
+                : map(keys, (item, i) => {
                     const {
                       key,
                       label,
@@ -125,7 +125,7 @@ const ArrayObjComp = (props: any) => {
                         : ['success'];
 
                     if (typeof getComp === 'function') {
-                      return <FormItem>{getComp(data)}</FormItem>;
+                      return <FormItem key={key || i}>{getComp(data)}</FormItem>;
                     }
                     let CompItem = null;
                     switch (component) {

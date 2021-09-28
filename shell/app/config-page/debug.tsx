@@ -16,8 +16,10 @@ import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor } from 'common';
 import { Button, message, Input, Checkbox, Tooltip } from 'core/nusi';
 import routeInfoStore from 'core/stores/route';
-import { Refresh as IconRefresh } from '@icon-park/react';
+import { CheckOne as IconCheckOne, CloseOne as IconCloseOne, Refresh as IconRefresh } from '@icon-park/react';
+import { statusColorMap } from 'app/config-page/utils';
 import { useUpdateEffect } from 'react-use';
+import { get } from 'lodash';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
 
@@ -26,6 +28,11 @@ import moment from 'moment';
 
 const PureConfigPage = ({ scenario, ...rest }: { scenario: string }) => {
   return <DiceConfigPage scenarioType={scenario} scenarioKey={scenario} inParams={rest} />;
+};
+
+const stateIconMap = {
+  success: <IconCheckOne theme="filled" fill={statusColorMap.success} />,
+  error: <IconCloseOne theme="filled" fill={statusColorMap.error} />,
 };
 
 export default () => {
@@ -286,7 +293,7 @@ const LogItem = (props: ILogItemProps) => {
               },
               {
                 component: 'select',
-                options: 'equal:等于;include:包含;uninclude:不包含',
+                options: getOperatorOptions(),
                 key: 'operator',
                 required: true,
                 componentProps: {
@@ -303,10 +310,14 @@ const LogItem = (props: ILogItemProps) => {
                 required: true,
               },
               {
-                getComp: (d) => {
-                  console.log('------', d);
-
-                  return;
+                key: 'state',
+                getComp: (assert: IAssert) => {
+                  const { key, operator, value } = assert;
+                  if (key && operator && value) {
+                    const curState = getAssertState(assert, log.pageData);
+                    return <div className="ml-1">{curState ? stateIconMap.success : stateIconMap.error}</div>;
+                  }
+                  return null;
                 },
               },
             ],
@@ -353,11 +364,62 @@ const LogItem = (props: ILogItemProps) => {
           <span className="fake-link px-1">查看数据</span>
         </Tooltip>
       )}
-      <Tooltip title={AssertForm} placement="right" overlayStyle={{ width: 600, maxWidth: 600 }}>
+      <Tooltip title={AssertForm} trigger="click" placement="right" overlayStyle={{ width: 600, maxWidth: 600 }}>
         <span className="px-1 fake-link">断言</span>
       </Tooltip>
     </div>
   );
+};
+
+const operatorMap = [
+  { key: '=', name: '等于' },
+  { key: '!=', name: '不等于' },
+  { key: '>', name: '大于' },
+  { key: '>=', name: '大等于' },
+  { key: '<', name: '小于' },
+  { key: '<=', name: '小等于' },
+  { key: 'includesBy', name: '包含于' },
+  { key: 'includes', name: '包含' },
+];
+
+const getOperatorOptions = () => {
+  return operatorMap.map(({ key, name }) => `${key}:${name}`).join(';');
+};
+
+const getAssertState = (assert: IAssert, pageData: Obj) => {
+  const { key, value, operator } = assert;
+
+  let state = false;
+  const curValue = JSON.stringify(get(pageData, key));
+  switch (operator) {
+    case '=':
+      state = curValue === value;
+      break;
+    case '!=':
+      state = curValue !== value;
+      break;
+    case '>':
+      state = curValue > value;
+      break;
+    case '>=':
+      state = curValue >= value;
+      break;
+    case '<':
+      state = curValue < value;
+      break;
+    case '<=':
+      state = curValue <= value;
+      break;
+    case 'includesBy':
+      state = value.includes(curValue);
+      break;
+    case 'includes':
+      state = curValue?.includes(value);
+      break;
+    default:
+      break;
+  }
+  return state;
 };
 
 const defaultData = {
