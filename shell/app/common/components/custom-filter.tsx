@@ -193,7 +193,7 @@ export const CustomFilter = (props: IFilterProps) => {
   }, [config, transformConfig]);
 
   const filterClassName = classNames({
-    'dice-custom-filter': true,
+    'erda-custom-filter': true,
     'actions-no-padding': !actionsHasPadding,
     'my-3': true,
     className,

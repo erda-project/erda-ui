@@ -117,7 +117,7 @@ describe('custom-filter', () => {
     };
     const wrapper = mount(<Comp />);
     act(() => {
-      wrapper.find('.erda-filter>.dice-custom-filter').prop('onSubmit')();
+      wrapper.find('.erda-filter>.erda-custom-filter').prop('onSubmit')();
     });
     expect(getData).toHaveBeenLastCalledWith({
       keyword: 'erda',

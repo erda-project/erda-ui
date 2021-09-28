@@ -125,9 +125,10 @@ export const Fields: React.MemoExoticComponent<
                 <Col span={colSpan || 24 / fieldRealColumnNum} key={idx} className={wrapperClassName}>
                   <Item
                     label={label || (isHoldLabel ? <div /> : undefined)}
+                    colon={!!label}
                     required={required}
                     rules={afterAddRequiredRules}
-                    className={`${className || ''} ${(!label && 'erda-form-item-no-label') || ''}`}
+                    className={className || ''}
                     style={{ marginBottom: 6 }}
                     {...rest}
                   >
