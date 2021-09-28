@@ -61,7 +61,13 @@ const BlockNetwork = () => {
 
   return (
     <Spin spinning={isFetch || isUpdate}>
-      <Alert showIcon type="error" message={i18n.t('org:precautions after network closure')} />
+      <Alert
+        showIcon
+        type="error"
+        message={i18n.t(
+          'org:after the specified environment is closed, all applications need to be reviewed and approved by the organization administrator for deployment and release in this environment',
+        )}
+      />
       <Row className="mt-4">
         {metaData.map(({ value, label, disabled }) => {
           return (
