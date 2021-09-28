@@ -55,31 +55,28 @@ export const Filter = React.forwardRef(
     }));
 
     // 搜索
-    const search = React.useCallback(
-      (_?: React.SyntheticEvent) => {
-        const { validateFields, scrollToField } = formRef.current;
+    const search = React.useCallback(() => {
+      const { validateFields, scrollToField } = formRef.current;
 
-        validateFields()
-          .then((values: any) => {
-            const formattedValue: any = {};
-            config.forEach(({ name, format, customProps }) => {
-              const curValue = values?.[name];
-              if (format && curValue) {
-                formattedValue[name] = format(customProps, curValue);
-              } else {
-                formattedValue[name] = curValue;
-              }
-            });
-            if (onSubmit) {
-              onSubmit(formattedValue);
+      validateFields()
+        .then((values: any) => {
+          const formattedValue: any = {};
+          config.forEach(({ name, format, customProps }) => {
+            const curValue = values?.[name];
+            if (format && curValue) {
+              formattedValue[name] = format(customProps, curValue);
+            } else {
+              formattedValue[name] = curValue;
             }
-          })
-          .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
-            scrollToField(errorFields[0].name);
           });
-      },
-      [onSubmit, config],
-    );
+          if (onSubmit) {
+            onSubmit(formattedValue);
+          }
+        })
+        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+          scrollToField(errorFields[0].name);
+        });
+    }, [onSubmit, config]);
 
     const handleValueChange = throttle(
       (_changedValue: any, allValues: any) => {
