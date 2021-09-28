@@ -145,19 +145,25 @@ export const templateMap = isZh()
 ### 【链接/参考】
 
 `,
-      [ISSUE_TYPE.TASK]: `### 【用户故事/要解决的问题】*
+      [ISSUE_TYPE.TASK]: ``,
+      [ISSUE_TYPE.BUG]: `### 【环境信息】
 
 
-### 【意向用户】*
+### 【缺陷描述】*
 
 
-### 【用户体验目标】*
+### 【重现步骤】
 
 
-### 【链接/参考】
+### 【实际结果】
+
+
+### 【期望结果】*
+
+
+### 【修复建议】
 
 `,
-      [ISSUE_TYPE.BUG]: ``,
     }
   : {
       [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
