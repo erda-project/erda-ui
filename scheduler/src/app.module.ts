@@ -26,6 +26,7 @@ const { publicDir } = getEnv();
       rootPath: publicDir,
       serveRoot: '/',
       serveStaticOptions: {
+        maxAge: 60 * 60 * 1000, // unit is milliseconds so it means 1 hour max-age
         index: false,
       },
     }),
