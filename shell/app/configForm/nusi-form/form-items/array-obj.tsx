@@ -107,7 +107,7 @@ const ArrayObjComp = (props: any) => {
             >
               {itemRender
                 ? itemRender(data, updateItem)
-                : map(keys, (item) => {
+                : map(keys, (item, i) => {
                     const {
                       key,
                       label,
@@ -115,6 +115,7 @@ const ArrayObjComp = (props: any) => {
                       labelTip = '',
                       component = 'input',
                       options = [],
+                      getComp,
                       componentProps: itemComponentProps = {},
                     } = isString(item) ? { key: item, label: item } : (item as Obj);
 
@@ -123,6 +124,9 @@ const ArrayObjComp = (props: any) => {
                         ? ['error', i18n.t('{name} can not empty')]
                         : ['success'];
 
+                    if (typeof getComp === 'function') {
+                      return <FormItem key={key || i}>{getComp(data)}</FormItem>;
+                    }
                     let CompItem = null;
                     switch (component) {
                       case 'input':

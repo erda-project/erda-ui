@@ -40,14 +40,18 @@
 
   .log-panel {
     overflow: auto;
-    height: 240px;
+    height: 300px;
     width: 100%;
     padding: 6px;
     background-color: #ffffff;
-    border: 1px solid #666666;
+    border: 1px solid $border-color;
+    border-radius: $radius;
 
     .log-item {
-      border-bottom: 1px solid #666666;
+      border-bottom: 1px solid $border-color;
+      &.active-item {
+        background-color: $color-active-bg;
+      }
     }
   }
 }
