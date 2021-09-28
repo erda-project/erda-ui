@@ -18,6 +18,7 @@ import { LegacyRouteController } from './controllers/legacy-route.controller';
 import { getEnv } from './util';
 import { MarketController } from './controllers/market.controller';
 import { UCController } from './controllers/uc.controller';
+import { Response } from 'express';
 
 const { publicDir } = getEnv();
 @Module({
@@ -28,6 +29,12 @@ const { publicDir } = getEnv();
       serveStaticOptions: {
         maxAge: 60 * 60 * 1000, // unit is milliseconds so it means 1 hour max-age
         index: false,
+        setHeaders: (res: Response, path: string) => {
+          // mf file is the root of each sub module, should revalidate all the time
+          if (path.includes('mf_')) {
+            res.setHeader('Cache-Control', 'no-cache');
+          }
+        },
       },
     }),
   ],
