@@ -676,7 +676,7 @@
     "please fill in the correct CIDR according to the prompt": "please fill in the correct CIDR according to the prompt",
     "please use the following command to get the Secret information corresponding to the Service Account": "please use the following command to get the Secret information corresponding to the Service Account",
     "pod detail": "Pod detail",
-    "pod list": "pod list",
+    "pods list": "pods list",
     "private": "private",
     "public read": "public read",
     "public read and write": "public read and write",

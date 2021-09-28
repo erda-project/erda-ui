@@ -42,7 +42,7 @@ const clusterDetailTabs = (params) => {
   return TYPE_K8S_AND_EDAS.includes(clusterType)
     ? [
         { key: 'nodes', name: i18n.t('cmp:node list') },
-        { key: 'pods', name: i18n.t('cmp:pod list') },
+        { key: 'pods', name: i18n.t('cmp:pods list') },
         { key: 'workload', name: i18n.t('cmp:workload') },
         { key: 'event-log', name: i18n.t('cmp:event log') },
         { key: 'detail', name: i18n.t('basic information') },
