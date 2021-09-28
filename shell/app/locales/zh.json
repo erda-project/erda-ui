@@ -536,7 +536,6 @@
     "yml-addon-not-exist-tip": "当前实例不存在，请切换到编辑模式重新添加"
   },
   "backup": {
-    "next": "下一个",
     "parameter name": "参数名称",
     "service": "服务概览"
   },

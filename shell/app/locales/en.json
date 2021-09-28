@@ -536,7 +536,6 @@
     "yml-addon-not-exist-tip": "the current instance does not exist, please switch to edit mode to add again"
   },
   "backup": {
-    "next": "next",
     "parameter name": "parameter name",
     "service": "service"
   },
