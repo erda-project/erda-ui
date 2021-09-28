@@ -176,14 +176,15 @@ module.exports = () => {
                     },
                     'lodash',
                   ],
-                  // ['import',
-                  //   {
-                  //     libraryName: '@icon-park/react',
-                  //     libraryDirectory: 'es/icons',
-                  //     camel2DashComponentName: false,
-                  //   },
-                  //   'iconpark'
-                  // ]
+                  [
+                    'import',
+                    {
+                      libraryName: '@icon-park/react',
+                      libraryDirectory: 'es/icons',
+                      camel2DashComponentName: false,
+                    },
+                    'iconpark',
+                  ],
                 ],
               },
             },
