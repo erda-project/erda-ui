@@ -293,8 +293,10 @@ const Transaction = () => {
       });
     // Backend requires accurate value, need to pass the value like this
     let _condition = '';
-    if (callType) {
-      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='${callType}')`;
+    if (callType === 'consumer') {
+      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer')`;
+    } else if (callType === 'producer') {
+      _condition = `(source::tag='${_serviceId}' and span_kind::tag='producer')`;
     } else {
       _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
     }
