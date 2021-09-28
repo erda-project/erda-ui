@@ -90,6 +90,7 @@
     "erdc",
     "esbuild",
     "esnext",
+    "execa",
     "fangfa",
     "filemanager",
     "filetree",

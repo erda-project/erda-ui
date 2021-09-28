@@ -37,8 +37,8 @@ const wsPathRegex = [
 
 export const createProxyService = (app: INestApplication) => {
   const wsProxy = createProxyMiddleware(
-    (pathname: string) => {
-      return wsPathRegex.some((regex) => regex.test(pathname));
+    (pathname: string, req: Request) => {
+      return req.headers.upgrade === 'websocket' && wsPathRegex.some((regex) => regex.test(pathname));
     },
     {
       target: API_URL,

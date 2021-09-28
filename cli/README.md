@@ -12,25 +12,14 @@ Command line interface for rapid Erda UI development.
 
 > erda-ui init
 
-#### launch modules
-
-> erda-ui launch
-
 #### build erda-ui
 
 > erda-ui build
 >
 > Options:
-> -i, —image release based on docker image
-> -l, —local enable local build mode, default be false, if image is given, it would forcibly be true
-
-
-#### build and make docker image
-
-> erda-ui release
->
-> Options:
-> -i, —image release based on docker image
+> --online whether is online build, default is false
+> --release whether need build docker image & push, default is false
+> --registry docker registry address which to push
 
 #### do translate job
 
