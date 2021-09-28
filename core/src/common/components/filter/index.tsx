@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FormBuilder } from 'nusi';
+import FormBuilder from '../form-builder';
 import { FormInstance } from '../../interface';
 import { throttle } from 'lodash';
 

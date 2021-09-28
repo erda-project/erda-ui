@@ -60,7 +60,7 @@ export const PureFilter = (props: IPureFilterProps) => {
     } else if (filterTirgger === 'onChange') {
       setTimeout(() => {
         // 只能在setTimeout中拿到初始请求的值
-        const formData = filterRef.current?.form?.getFieldsValues();
+        const formData = filterRef.current?.form.getFieldsValue();
         changeFilterData(formData);
       }, 0);
     }
@@ -69,7 +69,7 @@ export const PureFilter = (props: IPureFilterProps) => {
   React.useEffect(() => {
     if (!isEmpty(urlExtra)) {
       const filterForm = get(filterRef, 'current.form');
-      const filterData = filterForm ? filterForm.getFieldsValues() : {};
+      const filterData = filterForm ? filterForm.getFieldsValue() : {};
       updateSearch({ ...urlExtra, ...filterData });
     }
   }, [updateSearch, urlExtra]);
