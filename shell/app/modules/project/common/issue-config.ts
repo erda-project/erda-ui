@@ -157,24 +157,7 @@ export const templateMap = isZh()
 ### 【链接/参考】
 
 `,
-      [ISSUE_TYPE.BUG]: `### 【环境信息】
-
-
-### 【缺陷描述】*
-
-
-### 【重现步骤】
-
-
-### 【实际结果】
-
-
-### 【期望结果】*
-
-
-### 【修复建议】
-
-`,
+      [ISSUE_TYPE.BUG]: ``,
     }
   : {
       [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
@@ -189,18 +172,7 @@ export const templateMap = isZh()
 ### [Link/Reference]
 
 `,
-      [ISSUE_TYPE.TASK]: `### [User story/problem to solve] *
-
-
-### [Intended users] *
-
-
-### [User experience Goals] *
-
-
-### [Link/Reference]
-
-`,
+      [ISSUE_TYPE.TASK]: ``,
       [ISSUE_TYPE.BUG]: `### [Environment Information]
 
 
