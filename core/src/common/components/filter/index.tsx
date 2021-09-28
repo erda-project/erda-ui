@@ -13,7 +13,7 @@
 
 import React from 'react';
 import FormBuilder from '../form-builder';
-import { FormInstance } from '../../interface';
+import { FormInstance, IFieldType } from '../../interface';
 import { throttle } from 'lodash';
 
 export interface IFilterProps {
@@ -22,22 +22,13 @@ export interface IFilterProps {
   onSubmit?: (value: Object) => void;
   onReset?: (value: Object) => void;
   onFieldChange?: Function;
-  onRef?: any;
   actions?: React.ReactNode[] | null;
   style?: React.CSSProperties;
 }
 
-export interface FilterItemConfig {
-  required?: boolean;
-  validator?: any[];
-  type: React.ComponentType<any>;
-  collapseRender?: (props: any, value: any) => string | string[];
-  format?: (props: any, value: any) => any;
-  customProps?: Object;
-  label?: string;
+export interface FilterItemConfig extends IFieldType {
+  format?: (props: React.ComponentProps<any>, value: { [name: string]: any }) => { [name: string]: any };
   name: string;
-  keepInitialValue?: boolean;
-  [prop: string]: any;
 }
 
 const { Fields } = FormBuilder;
@@ -54,15 +45,14 @@ export const Filter = React.forwardRef(
       search,
     }));
 
-    // 搜索
     const search = React.useCallback(() => {
       const { validateFields, scrollToField } = formRef.current;
 
       validateFields()
-        .then((values: any) => {
-          const formattedValue: any = {};
+        .then((values: { [name: string]: any }) => {
+          const formattedValue: { [name: string]: any } = {};
           config.forEach(({ name, format, customProps }) => {
-            const curValue = values?.[name];
+            const curValue = values[name];
             if (format && curValue) {
               formattedValue[name] = format(customProps, curValue);
             } else {
@@ -73,14 +63,14 @@ export const Filter = React.forwardRef(
             onSubmit(formattedValue);
           }
         })
-        .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
+        .catch(({ errorFields }: { errorFields: Array<{ name: string[]; errors: string[] }> }) => {
           scrollToField(errorFields[0].name);
         });
     }, [onSubmit, config]);
 
     const handleValueChange = throttle(
-      (_changedValue: any, allValues: any) => {
-        const formattedValue: any = {};
+      (_changedValue: { [name: string]: any }, allValues: { [name: string]: any }) => {
+        const formattedValue: { [name: string]: any } = {};
         config.forEach(({ name, format, customProps }) => {
           const curValue = allValues?.[name];
           if (format && curValue) {
@@ -95,7 +85,7 @@ export const Filter = React.forwardRef(
       { leading: false },
     );
 
-    const itemFromConfig = (itemConfig: FilterItemConfig) => {
+    const itemFromConfig = (itemConfig: IFieldType) => {
       const { required = false } = itemConfig;
       return { ...itemConfig, required, onFieldChange, onFieldEnter: search };
     };
