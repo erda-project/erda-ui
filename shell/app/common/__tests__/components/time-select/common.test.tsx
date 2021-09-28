@@ -60,7 +60,7 @@ describe('time-select-common', () => {
     expect(currentWeek[0].isSame(start.clone().startOf('week'))).toBeTruthy();
     const lastMonth = translateRelativeTime('lastMonth');
     expect(lastMonth[0].isSame(start.clone().startOf('month').subtract(1, 'months'))).toBeTruthy();
-    expect(lastMonth[1].isSame(end.clone().endOf('month').subtract(1, 'months'))).toBeTruthy();
+    expect(lastMonth[1].isSame(end.clone().subtract(1, 'months').endOf('month'))).toBeTruthy();
     const lastWeek = translateRelativeTime('lastWeek');
     expect(lastWeek[0].isSame(start.clone().startOf('week').subtract(1, 'weeks'))).toBeTruthy();
     expect(lastWeek[1].isSame(end.clone().endOf('week').subtract(1, 'weeks'))).toBeTruthy();

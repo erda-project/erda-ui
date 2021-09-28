@@ -93,18 +93,12 @@ describe('TagsRow', () => {
     expect(deleteFn).toHaveBeenLastCalledWith(data[0]);
     const tagItem = wrapper.find('.twt-tag-item');
     expect(tagItem.at(0)).toHaveClassName('small');
-    expect(tagItem.at(0).prop('style')).toStrictEqual({
-      maxWidth: 200,
-      color: '#34b37e',
-      backgroundColor: 'rgba(52,179,126,0.1)',
-    });
+    expect(tagItem.at(0).prop('style').color).toBe('#34b37e');
+    expect(tagItem.at(0).prop('style').backgroundColor).toBe('rgba(52,179,126,0.1)');
     expect(tagItem.at(1).children('Ellipsis').text()).toBe(data[1].label);
     expect(tagItem.at(1)).toHaveClassName('default');
-    expect(tagItem.at(1).prop('style')).toStrictEqual({
-      backgroundColor: 'yellow',
-      color: 'yellow',
-      maxWidth: 200,
-    });
+    expect(tagItem.at(1).prop('style').color).toBe('yellow');
+    expect(tagItem.at(1).prop('style').backgroundColor).toBe('yellow');
     expect(tagItem.at(2)).toHaveClassName('undefined');
   });
 });
