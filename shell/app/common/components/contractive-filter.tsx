@@ -159,7 +159,13 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const debouncedChange = React.useRef(debounce(onChange, 500));
 
   useUpdateEffect(() => {
-    debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
+    setInputVal(value);
+  }, [value]);
+
+  useUpdateEffect(() => {
+    if (inputVal !== value) {
+      debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
+    }
   }, [inputVal]);
 
   React.useEffect(() => {
@@ -167,7 +173,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       memberSelectorRef.current.show(active);
     }
   }, [active]);
-
   if (type === 'input') {
     return (
       <Input
