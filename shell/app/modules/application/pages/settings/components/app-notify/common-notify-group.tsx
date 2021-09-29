@@ -494,14 +494,14 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('application:new Group')}>
+      <Tooltip title={i18n.t('application:new notification group')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             openModal();
           }}
         >
-          <Button type="primary">{i18n.t('application:new Group')}</Button>
+          <Button type="primary">{i18n.t('application:new notification group')}</Button>
         </div>
       </Tooltip>
       <FormModal
