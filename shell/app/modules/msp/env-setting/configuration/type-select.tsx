@@ -14,6 +14,7 @@
 import React from 'react';
 import { ErdaCustomIcon } from 'common';
 import './type-select.scss';
+import { Badge } from 'core/nusi';
 
 enum iconMap {
   Golang = 'go',
@@ -35,6 +36,7 @@ export interface Item {
   type: string;
   displayName: string;
   iconProps?: {};
+  beta: boolean;
 }
 
 export interface IProps<T = Item> {
@@ -65,11 +67,11 @@ const TypeSelect = <T extends Item>({ list, onChange, value, className }: IProps
   return (
     <div className={`msp-conf-type-select flex flex-wrap justify-items-start ${className && className}`}>
       {list.map((item) => {
-        const { key, type: itemType, displayName, iconProps = {} } = item;
+        const { key, type: itemType, displayName, iconProps = {}, beta } = item;
         const isSelect = type === itemType;
         return (
           <div
-            className={`conf-item group mr-4 mb-4 flex justify-items-start items-center pl-3 hover:border-primary ${
+            className={`relative conf-item group mr-4 mb-4 flex justify-items-start items-center pl-3 hover:border-primary ${
               isSelect ? 'border-primary bg-light-primary' : ''
             }`}
             key={key || itemType}
@@ -77,6 +79,7 @@ const TypeSelect = <T extends Item>({ list, onChange, value, className }: IProps
               handleClick(item);
             }}
           >
+            {isSelect && beta ? <Badge className="absolute top-2 right-2" count="beta" /> : null}
             <ErdaCustomIcon size="60px" type={iconMap[key] ?? defaultIcon} {...iconProps} />
             <div className={`ml-0.5 mr-3 name font-medium group-hover:text-primary ${isSelect ? 'text-primary' : ''}`}>
               {displayName}

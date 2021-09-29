@@ -42,6 +42,7 @@ const convertLanguages = (item: CONFIGURATION.ILangConf): LangItem => {
     key: item.language,
     type: item.language,
     displayName: item.language,
+    // beta: true
   };
 };
 
@@ -108,6 +109,7 @@ const Configuration = () => {
         key: item.strategy,
         type: item.strategy,
         displayName: item.strategy,
+        beta: true,
       };
     });
     const newLanguages = newList?.[0].languages.map(convertLanguages);

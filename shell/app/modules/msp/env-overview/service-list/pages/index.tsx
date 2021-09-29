@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Input } from 'core/nusi';
+import { Input, Button } from 'core/nusi';
 import { PureBoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -62,6 +62,9 @@ export default () => {
 
   return (
     <div>
+      <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
+        {i18n.t('msp:access service')}
+      </Button>
       <div className="mb-2 flex flex-wrap items-center justify-between">
         <Search
           allowClear
