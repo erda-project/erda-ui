@@ -60,9 +60,11 @@ export default () => {
 
   return (
     <div>
-      <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
-        {i18n.t('msp:access service')}
-      </Button>
+      {currentProject?.type === 'MSP' ? (
+        <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
+          {i18n.t('msp:access service')}
+        </Button>
+      ) : null}
       <div className="mb-2 flex flex-wrap items-center justify-between">
         <Search
           allowClear
