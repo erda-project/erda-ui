@@ -61,7 +61,6 @@ const BlockNetwork = () => {
 
   return (
     <Spin spinning={isFetch || isUpdate}>
-      <Alert showIcon type="error" message={i18n.t('org:precautions after network closure')} />
       <Row className="mt-4">
         {metaData.map(({ value, label, disabled }) => {
           return (
