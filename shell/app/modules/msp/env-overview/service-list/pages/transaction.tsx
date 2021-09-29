@@ -26,6 +26,7 @@ import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-de
 import mspStore from 'msp/stores/micro-service';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
+import { ServiceNameSelect } from './service-name-select';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
@@ -316,6 +317,7 @@ const Transaction = () => {
       <div>
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
+            <ServiceNameSelect />
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
                 placeholder={i18n.t('msp:call type')}

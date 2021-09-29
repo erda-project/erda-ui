@@ -32,10 +32,7 @@ export default (): RouteConfigItem => ({
           routes: [
             {
               path: ':serviceName',
-              breadcrumbName: ({ params }) => {
-                const { serviceName } = params || {};
-                return `${i18n.t('msp:service analysis')}(${serviceName})`;
-              },
+              breadcrumbName: i18n.t('msp:service analysis'),
               tabs,
               alwaysShowTabKey: 'overview',
               layout: { fullHeight: true },

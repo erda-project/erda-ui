@@ -34,7 +34,7 @@ import './topology.scss';
 const emptyObj = { nodes: [] };
 
 // 拓扑节点中的id，存在非法字符（不能作为id使用），重置id；
-const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
+export const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
   const { nodes = [] } = data || {};
   let nodeId = 0;
   const allIds = {};

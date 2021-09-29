@@ -25,10 +25,17 @@ type IProps = Merge<
     dashboardId: string;
     extraGlobalVariable?: Record<string, any>;
     timeSpan?: ITimeSpan;
+    serviceId?: string;
   }
 >;
 
-const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, extraGlobalVariable, ...rest }) => {
+const ServiceListDashboard: React.FC<IProps> = ({
+  timeSpan: times,
+  dashboardId,
+  extraGlobalVariable,
+  serviceId: _serviceId,
+  ...rest
+}) => {
   const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   // when the parent component depends on timeSpan, use the timeSpan of the parent component to prevent duplicate requests
   const timeSpan = times || range;
@@ -42,12 +49,12 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
     return {
       terminusKey,
       serviceName,
-      serviceId: window.decodeURIComponent(serviceId),
+      serviceId: window.decodeURIComponent(_serviceId || serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
       ...extraGlobalVariable,
     };
-  }, [extraGlobalVariable, params, timeSpan]);
+  }, [extraGlobalVariable, params, timeSpan, _serviceId]);
 
   useEffect(() => {
     getCustomDashboard({ id: dashboardId, isSystem: true }).then((res) => {
@@ -62,6 +69,7 @@ export default React.memo(ServiceListDashboard, (prev, next) => {
   return (
     isEqual(prev.extraGlobalVariable, next.extraGlobalVariable) &&
     prev.dashboardId === next.dashboardId &&
-    isEqual(prev.timeSpan, next.timeSpan)
+    isEqual(prev.timeSpan, next.timeSpan) &&
+    isEqual(prev.serviceId, next.serviceId)
   );
 });

@@ -71,7 +71,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
     .map((menu) => {
       const { key, cnName, enName, children } = menu;
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
-
+      console.log({ href });
       const IconComp = MSIconMap[key];
       const sideMenu = {
         key,
@@ -86,6 +86,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
           .filter((m) => m.exists)
           .map((child) => {
             const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
+            console.log({ childHref }, 222);
             return {
               key: child.key,
               text: currentLocale.key === 'zh' ? child.cnName : child.enName,

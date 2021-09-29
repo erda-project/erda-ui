@@ -14,24 +14,99 @@
 import React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
 import routeInfoStore from 'core/stores/route';
+import NodeEle from 'msp/env-overview/topology/pages/topology/node-item';
+import { setNodeUniqId } from 'msp/env-overview/topology/pages/topology/topology';
+import LinkText, { linkTextHoverAction } from 'msp/env-overview/topology/pages/topology/link-text';
+import TopologyChart from 'msp/env-overview/topology/pages/topology/components';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { TimeSelectWithStore } from 'msp/components/time-select';
+import topologyStore from 'msp/env-overview/topology/stores/topology';
+import { useLoading } from 'core/stores/loading';
+import { isEmpty } from 'lodash';
+import { useUnmount, useMount } from 'react-use';
+import { ServiceNameSelect } from './service-name-select';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 
 export default () => {
-  const query = routeInfoStore.useStore((s) => s.query);
-  const { changeTimeSpan } = monitorCommonStore.reducers;
+  const params = routeInfoStore.useStore((s) => s.params);
+  const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
+  const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
+  const { range } = globalTimeSelectSpan;
+  const [isFetching] = useLoading(topologyStore, ['getMonitorTopology']);
+  const [useData, setUseData] = React.useState({});
+  const [sourceData, scale] = topologyStore.useStore((s) => [
+    s.topologyData,
+    s.scale,
+    s.topologyTags,
+    s.tagOptionsCollection,
+  ]);
+  const [topologyData, setTopologyData] = React.useState({} as TOPOLOGY.ITopologyResp);
+  const { clearMonitorTopology, setScale } = topologyStore.reducers;
+  const { getMonitorTopology } = topologyStore.effects;
 
-  if (query && query.start && query.end) {
-    changeTimeSpan([+query.start, +query.end]);
-  }
+  const getData = React.useCallback(() => {
+    const { startTimeMs, endTimeMs } = range || {};
+    const query = {
+      startTime: startTimeMs,
+      endTime: endTimeMs,
+      terminusKey: params.terminusKey,
+      tags: [`service:${serviceId}`],
+    };
+    getMonitorTopology(query);
+  }, [getMonitorTopology, params.terminusKey, range, serviceId]);
+
+  useUnmount(() => {
+    setScale(0.8);
+    clearMonitorTopology();
+  });
+
+  React.useEffect(() => {
+    if (params.terminusKey) {
+      getData();
+    }
+  }, [params.terminusKey, getData]);
+
+  React.useEffect(() => {
+    if (JSON.stringify(topologyData) !== '{}') {
+      setUseData(topologyData);
+    } else {
+      setUseData({ nodes: [] });
+    }
+  }, [topologyData]);
+
+  React.useEffect(() => {
+    setTopologyData(setNodeUniqId(sourceData));
+  }, [sourceData]);
+
+  const nodeExternalParam = {
+    terminusKey: params.terminusKey,
+    range,
+    linkTextHoverAction,
+    originData: useData,
+  };
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex justify-end items-center mb-3">
+      <div className="flex justify-between items-center mb-3">
+        <ServiceNameSelect />
         <TimeSelectWithStore className="m-0" />
       </div>
       <div className="overflow-auto flex-1">
-        <ServiceListDashboard dashboardId="service_analysis" />
+        <div className="topology-content flex flex-1">
+          <TopologyChart
+            nodeExternalParam={nodeExternalParam}
+            isFetching={isFetching}
+            data={useData}
+            setScale={setScale}
+            scale={scale}
+            nodeEle={NodeEle}
+            linkTextEle={LinkText}
+          />
+          <div className="flex-2">
+            <ServiceListDashboard dashboardId="service_analysis-instants" serviceId={serviceId} />
+          </div>
+        </div>
+        <ServiceListDashboard dashboardId="service_analysis-translation" serviceId={serviceId} />
       </div>
     </div>
   );
