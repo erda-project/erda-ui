@@ -283,7 +283,6 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       loading={loading}
       className={className}
       indentSize={0}
-      size="middle"
       expandedRowKeys={expandedRowKeys}
       dataSource={dataSource}
       columns={newColumns}
