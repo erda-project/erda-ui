@@ -2486,7 +2486,6 @@
     "database name": "database name",
     "default threshold": "default threshold",
     "defect resolution rate": "defect resolution rate",
-    "definition of network closure": "network closure is within the scope of the organization. It is forbidden to deploy, restart, upgrade and other related operations for all applications in the specified environment. If urgent release and upgrade operations are required, the organization administrator must review and authorize",
     "deployment configurations": "deployment configurations",
     "deployment details": "deployment details",
     "disk size": "disk size",
