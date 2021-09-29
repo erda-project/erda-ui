@@ -67,7 +67,7 @@ const ClusterNodeDetail = () => {
           inParams={inParams}
         />
       </div>
-      <Spin spinning={chartLoading} wrapperClassName="-mt-8">
+      <Spin spinning={chartLoading} wrapperClassName="mt-8">
         <div className="text-xl font-medium mb-4">{i18n.t('cmp:resource monitor')}</div>
         <TimeSelector className="mb-4" />
         <Holder when={isEmpty(chartLayout)}>
