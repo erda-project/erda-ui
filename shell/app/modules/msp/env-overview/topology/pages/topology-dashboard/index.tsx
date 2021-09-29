@@ -155,9 +155,11 @@ const TopologyDashboard = () => {
 
   return (
     <div className="topology-dashboard">
-      <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
-        {i18n.t('msp:access service')}
-      </Button>
+      {currentProject?.type === 'MSP' ? (
+        <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
+          {i18n.t('msp:access service')}
+        </Button>
+      ) : null}
       {/* 全局概览 */}
       <div className="topology-global-dashboard">
         {!isEmpty(globalVariable) && <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />}
