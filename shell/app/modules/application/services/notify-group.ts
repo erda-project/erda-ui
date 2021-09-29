@@ -13,29 +13,32 @@
 
 import agent from 'agent';
 
+const getUrl = (scopeType?: COMMON_NOTIFY.ScopeType) =>
+  scopeType === 'msp_env' ? '/api/msp/notify-groups' : '/api/notify-groups';
+
 export const getNotifyGroups = (
   query?: COMMON_NOTIFY.IGetNotifyGroupQuery,
 ): IPagingResp<COMMON_NOTIFY.INotifyGroup> => {
   return agent
-    .get('/api/notify-groups')
+    .get(getUrl(query?.scopeType))
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const deleteNotifyGroups = (id: string) => {
-  return agent.delete(`/api/notify-groups/${id}`).then((response: any) => response.body);
+export const deleteNotifyGroups = ({ id, scopeType }: { id: string; scopeType: COMMON_NOTIFY.ScopeType }) => {
+  return agent.delete(`${getUrl(scopeType)}/${id}`).then((response: any) => response.body);
 };
 
 export const createNotifyGroups = (payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) => {
   return agent
-    .post('/api/notify-groups')
+    .post(getUrl(payload.scopeType))
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const updateNotifyGroups = ({ id, ...rest }: COMMON_NOTIFY.ICreateNotifyGroupQuery) => {
   return agent
-    .put(`/api/notify-groups/${id}`)
+    .put(`${getUrl(rest.scopeType)}/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
