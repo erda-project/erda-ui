@@ -192,7 +192,6 @@ class TestDetail extends React.Component<IProps, IState> {
             <ChartContainer title={i18n.t('application:test environment')}>
               <Table
                 loading={false}
-                size="middle"
                 dataSource={dataSource}
                 columns={cols}
                 rowKey="env"
