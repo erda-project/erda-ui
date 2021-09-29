@@ -89,8 +89,9 @@ const org = createStore({
         return;
       }
       const curPathname = location.pathname;
-      if (!resOrg) {
+      if (!Object.keys(resOrg).length) {
         goTo(goTo.pages.notFound);
+        update({ initFinish: true });
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
@@ -132,6 +133,7 @@ const org = createStore({
             const joinOrgTip = map(orgPermRes.userInfo, (u) => u.nick).join(', ');
             userStore.reducers.setJoinOrgTip(joinOrgTip);
             goTo(goTo.pages.freshMan);
+            update({ initFinish: true });
             return;
           }
           // redirect path by roles.
