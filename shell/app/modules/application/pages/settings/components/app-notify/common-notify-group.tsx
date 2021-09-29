@@ -240,7 +240,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       title: i18n.t('application:are you sure you want to delete this item?'),
       content: i18n.t('application:the notification group will be permanently deleted'),
       onOk() {
-        deleteNotifyGroups(id).then(() => {
+        deleteNotifyGroups({ id, scopeType: commonPayload.scopeType }).then(() => {
           handleGetNotifyGroups();
         });
       },

@@ -17,14 +17,14 @@ import mspStore from 'msp/stores/micro-service';
 import AlarmStrategy from 'cmp/common/alarm-strategy';
 
 export default () => {
-  const { env, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
   const { type } = mspStore.useStore((s) => s.currentProject);
 
   return (
     <AlarmStrategy
       scopeType="msp"
       scopeId={projectId}
-      commonPayload={{ scopeType: `msp_${env}`, scopeId: projectId, projectType: type }}
+      commonPayload={{ scopeType: `msp_env`, scopeId: terminusKey, projectType: type }}
     />
   );
 };
