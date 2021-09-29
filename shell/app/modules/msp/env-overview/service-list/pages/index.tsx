@@ -67,9 +67,7 @@ export default () => {
         <Search
           allowClear
           placeholder={i18n.t('msp:search by service name')}
-          style={{ width: 200 }}
-          size="small"
-          onSearch={(v) => setServiceName(v)}
+          onHandleSearch={(v) => setServiceName(v)}
         />
         <TimeSelectWithStore />
       </div>
