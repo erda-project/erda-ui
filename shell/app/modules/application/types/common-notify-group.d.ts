@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace COMMON_NOTIFY {
-  type ScopeType = 'org' | 'app' | 'project' | 'msp';
+  type ScopeType = 'org' | 'app' | 'project' | 'msp_env';
 
   interface INotifyGroupTarget {
     type: string;
