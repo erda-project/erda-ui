@@ -120,7 +120,7 @@ export const createProxyService = (app: INestApplication) => {
       (pathname: string, req: Request) => {
         const userAgent = req.headers['user-agent'];
         if (userAgent.includes('git')) {
-          return /[^/]*\/dop/.test(pathname);
+          return /[^/]*\/dop/.test(pathname) || pathname.startsWith('/wb/');
         }
         return false;
       },
