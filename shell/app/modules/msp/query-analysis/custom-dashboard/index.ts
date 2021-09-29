@@ -15,11 +15,11 @@ import i18n from 'i18n';
 
 export default () => ({
   path: 'custom-dashboard',
-  breadcrumbName: i18n.t('org:O & M dashboard'),
+  breadcrumbName: i18n.t('project:dashboard'),
   routes: [
     {
       path: 'add',
-      breadcrumbName: i18n.t('org:new O & M dashboard'),
+      breadcrumbName: i18n.t('project:dashboard'),
       layout: { fullHeight: true },
       getComp: (cb: RouterGetComp) => cb(import('msp/query-analysis/custom-dashboard/pages/custom-dashboard')),
     },
