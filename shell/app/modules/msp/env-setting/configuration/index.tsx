@@ -42,7 +42,6 @@ const convertLanguages = (item: CONFIGURATION.ILangConf): LangItem => {
     key: item.language,
     type: item.language,
     displayName: item.language,
-    // beta: true
   };
 };
 
