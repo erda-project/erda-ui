@@ -256,6 +256,9 @@ export enum pages {
   // 服务分析页-追踪详情
   mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
 
+  // 微服务-接入配置页
+  mspConfiguationPage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/environment/{terminusKey}/configuration',
+
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',
 

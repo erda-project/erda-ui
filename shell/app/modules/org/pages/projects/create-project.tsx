@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Select, Alert, Input, Spin, Checkbox } from 'core/nusi';
+import { Button, Select, Alert, Input, Spin, Checkbox, Badge } from 'core/nusi';
 import i18n from 'i18n';
 import React from 'react';
 import { ImageUpload, RenderForm, CompactSelect, ErdaCustomIcon } from 'common';
@@ -178,6 +178,7 @@ const ProjectType = (props: IProjectType) => {
           'flex-col',
           'items-center',
           'justify-start',
+          'relative',
           item.disabled ? 'not-allowed' : '',
           isChecked ? 'checked' : '',
         ]);
@@ -189,7 +190,8 @@ const ProjectType = (props: IProjectType) => {
               handleSelect(item);
             }}
           >
-            <div className="template-icon center-flex-box">
+            {item.val === 'MSP' ? <Badge className="absolute top-2 right-2" count="beta" /> : null}
+            <div className="relative template-icon center-flex-box">
               <ErdaCustomIcon type={item.icon} color={isChecked ? 'primary' : 'lightgray'} size="40px" />
             </div>
             <div className="template-name text-sm color-text pt-2 pb-1 text-center">{item.name}</div>
@@ -212,6 +214,13 @@ const templateArr: ICardProps[] = [
     disabled: false,
   },
   {
+    name: i18n.t('org:microservice Observation Project'),
+    val: 'MSP',
+    icon: 'zhili',
+    description: i18n.t('org:microservice governance desc'),
+    disabled: false,
+  },
+  {
     name: i18n.t('org:code hosting project'),
     val: 'codeHostingProject',
     icon: 'code',
@@ -226,13 +235,6 @@ const templateArr: ICardProps[] = [
     icon: 'scrum',
     description: i18n.t('org:support-agile-management'),
     disabled: true,
-  },
-  {
-    name: i18n.t('org:microservice Observation Project'),
-    val: 'MSP',
-    icon: 'zhili',
-    description: i18n.t('org:microservice governance desc'),
-    disabled: false,
   },
 ];
 

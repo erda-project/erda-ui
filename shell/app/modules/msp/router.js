@@ -34,7 +34,7 @@ function getMspRouter() {
       routes: [
         {
           path: 'overview',
-          breadcrumbName: i18n.t('msp:microService governance overview'),
+          breadcrumbName: i18n.t('application:overview'),
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
         },
         {

@@ -20,7 +20,7 @@ const alarmManageRouters = [
   alarmRecordRouter(),
   {
     path: 'custom-alarm',
-    breadcrumbName: i18n.t('custom alarm'),
+    breadcrumbName: i18n.t('msp:rule management'),
     routes: [
       {
         path: ':dashboardId',
