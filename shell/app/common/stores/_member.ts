@@ -14,6 +14,7 @@
 import { createStore } from 'core/cube';
 import { getMembers, updateMembers, removeMember, getRoleMap, genOrgInviteCode } from '../services';
 import userStore from 'app/user/stores';
+import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';
 import { map } from 'lodash';
 import { countPagination, getDefaultPaging } from '../utils';
@@ -99,9 +100,10 @@ export const createMemberStore = (scopeKey: MemberScope) => {
           scope: payload.scope,
         });
         if (isSelf) {
+          const projectId = routeInfoStore.getState((s) => s.params.projectId);
           permStore.effects.getScopePermMap({
             scope: payload.scope.type,
-            scopeID: payload.scope.id,
+            scopeID: payload.scope.type === 'msp' ? projectId : payload.scope.id,
           });
         }
       },

@@ -129,7 +129,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     getAlarmScopes();
     getAlertTypes();
     getNotifyGroups(payload);
-    getRoleMap({ scopeType, scopeId });
+    getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
   });
 
   useUnmount(() => {

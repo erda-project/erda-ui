@@ -49,7 +49,7 @@ const notifyGroup = createStore({
       );
       update({ notifyGroups: list });
     },
-    async deleteNotifyGroups({ call }, payload: string) {
+    async deleteNotifyGroups({ call }, payload: { id: string; scopeType: COMMON_NOTIFY.ScopeType }) {
       await call(deleteNotifyGroups, payload, { successMsg: i18n.t('deleted successfully') });
     },
     async createNotifyGroups({ call }, payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) {

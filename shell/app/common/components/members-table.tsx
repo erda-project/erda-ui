@@ -125,7 +125,7 @@ export const MembersTable = ({
     [MemberScope.ORG]: String(orgId),
     [MemberScope.PROJECT]: `${params.projectId || ''}`,
     [MemberScope.APP]: `${params.appId || ''}`,
-    [MemberScope.MSP]: `${params.projectId || ''}`,
+    [MemberScope.MSP]: `${params.terminusKey || ''}`,
   };
 
   const scopeId = scopeIdMap[scopeKey];
@@ -173,7 +173,7 @@ export const MembersTable = ({
   ];
 
   useEffectOnce(() => {
-    getRoleMap({ scopeType: scopeKey, scopeId: scopeKey === MemberScope.SYS ? 0 : +scopeId });
+    getRoleMap({ scopeType: scopeKey, scopeId: scopeKey === MemberScope.SYS ? 0 : scopeId });
     if (scope.type === MemberScope.ORG) {
       getMemberLabels();
     }
