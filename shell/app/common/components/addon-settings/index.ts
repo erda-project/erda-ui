@@ -11,22 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import classnames from 'classnames';
-import { Tooltip } from 'core/nusi';
-import i18n from 'i18n';
+import AddonSettings from './addon-settings';
 
-const NoAuthTip = ({ children, tip = i18n.t('common:no permission') }: any): any => {
-  if (!children) return null;
-  const childrenWithProps = React.Children.map(children, (child) => {
-    const ele = React.cloneElement(child, {
-      className: classnames(child.props.className, 'not-allowed'),
-      onClick: undefined,
-      disabled: true,
-    });
-    return <Tooltip title={tip}>{ele}</Tooltip>;
-  });
-  return childrenWithProps;
-};
-
-export { NoAuthTip };
+export default AddonSettings;

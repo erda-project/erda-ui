@@ -16,7 +16,7 @@ export { Icon } from './components/icon';
 export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
 export { Panel } from './components/panel';
 export { ImgHolder } from './components/img-holder';
-export { AddMemberModal } from './components/add-member-modal';
+export { default as AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
 export { ImageUpload } from './components/image-upload';
 export { Terminal } from './components/terminal';
@@ -54,7 +54,7 @@ export { ConfirmDelete } from './components/confirm-delete';
 export { Avatar, AvatarList } from './components/avatar';
 
 export { IF } from './components/statement';
-export { NoAuthTip } from './components/auth';
+export { default as NoAuthTip } from './components/no-auth-tip';
 export { ConfigLayout } from './components/config-layout';
 export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';
