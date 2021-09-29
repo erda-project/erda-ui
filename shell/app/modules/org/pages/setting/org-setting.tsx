@@ -107,7 +107,8 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('org:definition of network closure'),
+                  title: i18n.t('org:block network'),
+                  desc: i18n.t('org:precautions after network closure'),
                   children: <BlockNetwork />,
                 },
               ]}
