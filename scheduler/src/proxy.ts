@@ -118,9 +118,12 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string, req: Request) => {
+        if (pathname.startsWith('/wb/')) {
+          return true;
+        }
         const userAgent = req.headers['user-agent'];
         if (userAgent.includes('git')) {
-          return /[^/]*\/dop/.test(pathname) || pathname.startsWith('/wb/');
+          return /[^/]*\/dop/.test(pathname);
         }
         return false;
       },
