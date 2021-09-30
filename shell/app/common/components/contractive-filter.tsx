@@ -179,6 +179,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         // autoFocus // 默认全部展示，不需要自动获取焦点
         value={inputVal}
         size="small"
+        style={{ width: 180 }}
         allowClear
         // ref={inputRef}
         prefix={<IconSearch size="16" />}
