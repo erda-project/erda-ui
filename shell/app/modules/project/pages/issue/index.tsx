@@ -17,7 +17,6 @@ import Requirement from './requirement';
 import Task from './task';
 import Bug from './bug';
 import AllIssue from './all';
-import IssueDashboard from './issue-dashboard';
 
 const issueTypeMap = {
   all: {
@@ -31,9 +30,6 @@ const issueTypeMap = {
   },
   bug: {
     Comp: Bug,
-  },
-  dashboard: {
-    Comp: IssueDashboard,
   },
 };
 
