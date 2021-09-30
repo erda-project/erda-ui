@@ -17,6 +17,7 @@ import rimraf from 'rimraf';
 import { exit } from 'process';
 import { logError, logInfo } from './log';
 import dotenv from 'dotenv';
+import pidtree from 'pidtree';
 
 export const checkIsRoot = () => {
   if (!fs.existsSync(`${process.cwd()}/.env`)) {
@@ -104,6 +105,28 @@ export const getPublicDir = () => {
 
 export const getSchedulerDir = () => {
   return join(process.cwd(), 'scheduler');
+};
+
+/**
+ * kill all sub process of current process
+ * @returns success boolean
+ */
+export const killPidTree = async (): Promise<boolean> => {
+  let pids;
+  try {
+    pids = await pidtree(process.pid, { root: true });
+  } catch (err) {
+    if (err.message === 'No matching pid found') return true;
+    throw err;
+  }
+  pids.forEach((el) => {
+    try {
+      process.kill(el);
+    } catch (err) {
+      if (err.code !== 'ESRCH') throw err;
+    }
+  });
+  return true;
 };
 
 export const registryDir = 'registry.erda.cloud/erda/ui';

@@ -13,7 +13,7 @@
 
 import execa, { ExecaChildProcess } from 'execa';
 import { logSuccess, logError } from './util/log';
-import { checkIsRoot, ALL_MODULES, clearPublic } from './util/env';
+import { checkIsRoot, ALL_MODULES, clearPublic, killPidTree } from './util/env';
 import generateVersion from './util/gen-version';
 import localIcon from './local-icon';
 
@@ -46,6 +46,13 @@ const buildModules = async (rebuildList: string[]) => {
   });
 
   await Promise.all(pList);
+  try {
+    await Promise.all(pList);
+  } catch (_error) {
+    logError('build failed, will cancel all building processes');
+    await killPidTree();
+    process.exit(1);
+  }
   logSuccess('build successfully 😁!');
 };
 

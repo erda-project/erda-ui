@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/cli",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
     "erda-ui": "dist/bin/erda.js"
@@ -42,6 +42,7 @@
     "lodash": "^4.17.21",
     "node-notifier": "^9.0.1",
     "ora": "^5.4.0",
+    "pidtree": "^0.5.0",
     "rimraf": "^3.0.2",
     "slash": "^3.0.0",
     "superagent": "^6.1.0",
