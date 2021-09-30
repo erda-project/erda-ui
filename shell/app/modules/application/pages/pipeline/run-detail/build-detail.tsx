@@ -103,6 +103,7 @@ const BuildDetail = (props: IProps) => {
   const timer = React.useRef<NodeJS.Timeout>();
   React.useEffect(() => {
     if (pipelineDetail && ciBuildStatusSet.executeStatus.includes(pipelineDetail.status)) {
+      timer.current && clearTimeout(timer.current);
       timer.current = setTimeout(() => {
         state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
       }, 30000);
