@@ -179,6 +179,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         // autoFocus // 默认全部展示，不需要自动获取焦点
         value={inputVal}
         size="small"
+        style={{ width: 180 }}
         allowClear
         // ref={inputRef}
         prefix={<IconSearch size="16" />}
@@ -743,7 +744,7 @@ export const ContractiveFilter = ({
             onChange={handelItemChange}
             onQuickOperation={onQuickOperation}
           />
-          {item.split ? <div className="ml-2 contractive-filter-split" /> : null}
+          {item.split ? <div className="ml-1 contractive-filter-split" /> : null}
         </span>
       ))}
 
