@@ -21,47 +21,70 @@ const testData = {
   manager: '组织管理员',
   image: 'app/images/Erda.png',
   memberBoss: 'erda-ui-team',
+  networkClose: '确认开启封网',
 };
 
 Role('Manager', () => {
   test.only('organization-settings', async ({ wait, page, expectExist, goTo }) => {
     await goTo('organization');
-    // Click button:has-text("add member")
-    await page.click('button:has-text("add member")');
-    await page.click('.ant-select.w-full .ant-select-selector .ant-select-selection-overflow');
-    await page.fill('text=member Please enter a member name to search >> input[role="combobox"]', testData.memberName);
-    await page.click('.ant-select-item-option-content');
-    await page.click(
-      '.ant-form div:nth-child(3) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
-    );
-    await page.click(':nth-match(:text("outsource"), 2)');
-    await page.click(
-      '.ant-form div:nth-child(2) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
-    );
-    await page.click(`div[role="document"] >> text=${testData.manager}`);
-    await page.click('div:nth-child(2) .ant-modal .ant-modal-content .ant-modal-body');
-    await page.click('button:has-text("ok")');
-    await expectExist(`text=${testData.memberName}`, 2);
-    // Click button:has-text("invite")
-    await page.click('button:has-text("invite")');
-    await page.click('text=url address');
-    await page.click('text=verification code');
-    await page.click('button:has-text("copy")');
-    await page.click('[aria-label="Close"]');
+    // 封网
+    // await page.click('li:has-text("block network")');
+    // expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=block-network/);
+    // await page.click('text=prod environmentoff >> button[role="switch"]');
+    // await page.click('button:has-text("OK")');
+    // await expectExist('text=on');
+    // await page.click('button[role="switch"]:has-text("on")');
+    // await page.click('button:has-text("OK")');
+    // await expectExist('text=off')
 
-    await page.click('[placeholder="search by nickname, username, email or mobile number"]');
-    await page.fill('[placeholder="search by nickname, username, email or mobile number"]', testData.memberBoss);
-    await page.click('input[role="combobox"]');
-    await page.click(`text=${testData.manager}`);
-    await expectExist(`text=${testData.memberBoss}`, 1);
-    await expectExist('text=edit', 2);
-    await expectExist('text=exit', 1);
-    await page.fill('[placeholder="search by nickname, username, email or mobile number"]', testData.memberName);
-    await expectExist('text=edit', 2);
-    await expectExist('text=remove', 0);
-    await page.click('text=remove');
-    await page.click('text=OK');
-    await expectExist('text=no data', 0);
+    // 审计日志
+    // await page.click('span:has-text("audit log")');
+    // expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=operation%20log/);
+    // await page.click('[aria-label="Increase Value"]');
+    // await page.click('button:has-text("update")');
+    // expectExist('text=updated successfully',0);
+
+    // 通知组
+    // Click li:has-text("notification group")
+    await page.click('li:has-text("notification group")');
+    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=notifyGroup/);
+
+    // Click button:has-text("add member")
+    // await page.click('button:has-text("add member")');
+    // await page.click('.ant-select.w-full .ant-select-selector .ant-select-selection-overflow');
+    // await page.fill('text=member Please enter a member name to search >> input[role="combobox"]', testData.memberName);
+    // await page.click('.ant-select-item-option-content');
+    // await page.click(
+    //   '.ant-form div:nth-child(3) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
+    // );
+    // await page.click(':nth-match(:text("outsource"), 2)');
+    // await page.click(
+    //   '.ant-form div:nth-child(2) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
+    // );
+    // await page.click(`div[role="document"] >> text=${testData.manager}`);
+    // await page.click('div:nth-child(2) .ant-modal .ant-modal-content .ant-modal-body');
+    // await page.click('button:has-text("ok")');
+    // await expectExist(`text=${testData.memberName}`, 2);
+    // // Click button:has-text("invite")
+    // await page.click('button:has-text("invite")');
+    // await page.click('text=url address');
+    // await page.click('text=verification code');
+    // await page.click('button:has-text("copy")');
+    // await page.click('[aria-label="Close"]');
+
+    // await page.click('[placeholder="search by nickname, username, email or mobile number"]');
+    // await page.fill('[placeholder="search by nickname, username, email or mobile number"]', testData.memberBoss);
+    // await page.click('input[role="combobox"]');
+    // await page.click(`text=${testData.manager}`);
+    // await expectExist(`text=${testData.memberBoss}`, 1);
+    // await expectExist('text=edit', 2);
+    // await expectExist('text=exit', 1);
+    // await page.fill('[placeholder="search by nickname, username, email or mobile number"]', testData.memberName);
+    // await expectExist('text=edit', 2);
+    // await expectExist('text=remove', 0);
+    // await page.click('text=remove');
+    // await page.click('text=OK');
+    // await expectExist('text=no data', 0);
 
     // const base = new Base(page);
     // await goTo('organization');
