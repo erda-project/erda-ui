@@ -120,7 +120,8 @@ export const createProxyService = (app: INestApplication) => {
           return true;
         }
         const userAgent = req.headers['user-agent'];
-        if (userAgent.includes('git')) {
+        if (userAgent.toLowerCase().includes('git')) {
+          // compatible with JGit
           return /[^/]*\/dop/.test(pathname);
         }
         return false;
