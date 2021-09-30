@@ -171,7 +171,7 @@ const TestPlan = () => {
               onClick={async (e) => {
                 e.stopPropagation();
                 await toggleArchived({ id, isArchived: !record.isArchived });
-                getList({ ...filterObj, pageNo: 1 });
+                getList({ ...filterObj, pageNo: page.pageNo });
               }}
             >
               {record.isArchived ? i18n.t('project:unarchive') : i18n.t('archive')}
