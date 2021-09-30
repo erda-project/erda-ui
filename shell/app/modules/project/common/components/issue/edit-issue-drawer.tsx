@@ -476,7 +476,7 @@ const IssueMetaFields = React.forwardRef(
               setOptionList(labels);
               return;
             }
-            const match = labels.filter((item: any) => item.name.includes(value.toLowerCase()));
+            const match = labels.filter((item: any) => item.name.toLowerCase().includes(value.toLowerCase()));
             if (!match.length) {
               setOptionList([]);
               return;
