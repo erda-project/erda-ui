@@ -32,20 +32,26 @@ export function ServiceNameSelect() {
     getServiceList({ start: startTimeMs, end: endTimeMs }).then((res) => {
       setServiceList(res?.data || []);
     });
-  }, [getServiceList, updateState, startTimeMs, endTimeMs]);
+  }, [getServiceList, startTimeMs, endTimeMs]);
 
   React.useEffect(() => {
-    if (!serviceId) {
-      updateState({ serviceId: params?.serviceId?.replace('%2F', '/') || serviceList?.[0]?.service_id });
+    if (params?.serviceId) {
+      updateState({
+        serviceId: window.decodeURIComponent(params?.serviceId),
+      });
+    } else if (!serviceId && serviceList?.length > 0) {
+      const serviceName = serviceList?.[0]?.service_name;
+      updateState({ serviceId: serviceList?.[0]?.service_id, serviceName });
     }
   }, [params.serviceId, serviceId, serviceList, updateState]);
 
   return (
     <Select
       // Avoid the problem of displaying the id first and then the label
-      value={serviceList.length > 0 ? serviceId : undefined}
+      value={serviceList?.length > 0 ? serviceId : undefined}
       onChange={(value) => {
-        updateState({ serviceId: value });
+        const serviceName = serviceList.filter((v) => v.service_id === value)?.[0]?.service_name;
+        updateState({ serviceId: value, serviceName });
       }}
       className="mr-3 w-60"
     >

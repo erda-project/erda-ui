@@ -27,6 +27,7 @@ import mspStore from 'msp/stores/micro-service';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { ServiceNameSelect } from './service-name-select';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
@@ -140,6 +141,8 @@ const Transaction = () => {
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
+  const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
+  console.log({ serviceId });
   const [
     {
       type,
@@ -192,7 +195,7 @@ const Transaction = () => {
     queryLimit: number,
     cellValue: string,
   ) => {
-    const { serviceName, terminusKey, serviceId } = params;
+    const { serviceName, terminusKey } = params;
     updater.sortType(sort_type);
     updater.limit(queryLimit);
     getTraceSlowTranslation({
@@ -202,7 +205,7 @@ const Transaction = () => {
       terminusKey,
       serviceName,
       limit: queryLimit,
-      serviceId: window.decodeURIComponent(serviceId),
+      serviceId,
       operation: cellValue,
     }).then((res) => updater.traceSlowTranslation(res));
   };
@@ -285,8 +288,7 @@ const Transaction = () => {
 
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
-    const { serviceId } = params;
-    const _serviceId = window.decodeURIComponent(serviceId);
+    // const _serviceId = window.decodeURIComponent(serviceId);
     // 动态注入正则查询变量需要转义字符
     _subSearch &&
       REG_CHARS.forEach((char) => {
@@ -295,11 +297,11 @@ const Transaction = () => {
     // Backend requires accurate value, need to pass the value like this
     let _condition = '';
     if (callType === 'consumer') {
-      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer')`;
+      _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer')`;
     } else if (callType === 'producer') {
       _condition = `(source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
     } else {
-      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
+      _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${serviceId}' and span_kind::tag='producer')`;
     }
     return {
       topic,
@@ -308,9 +310,9 @@ const Transaction = () => {
       type: callType,
       condition: type === DASHBOARD_TYPE.mq ? _condition : undefined,
       subSearch: _subSearch || undefined,
-      serviceId: window.decodeURIComponent(serviceId),
+      serviceId,
     };
-  }, [subSearch, search, topic, params, callType, sort, type]);
+  }, [subSearch, search, topic, callType, sort, type, serviceId]);
 
   return (
     <div className="service-analyze flex flex-col h-full">

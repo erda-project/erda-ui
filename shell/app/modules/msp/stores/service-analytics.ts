@@ -16,10 +16,12 @@ import { getServiceList } from '../services/service-analytics';
 
 interface IState {
   serviceId: string;
+  serviceName: string;
 }
 
 const initState: IState = {
   serviceId: '',
+  serviceName: '',
 };
 
 const serviceAnalytics = createFlatStore({

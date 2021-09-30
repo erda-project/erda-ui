@@ -24,13 +24,15 @@ import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { get } from 'lodash';
 import { ServiceNameSelect } from './service-name-select';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './index.scss';
 
 export default () => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore((s) => s.params);
-  const { terminusKey, serviceName, serviceId } = params;
+  const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
+  const { terminusKey, serviceName } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
   const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
     id: undefined as string | undefined,
@@ -43,7 +45,7 @@ export default () => {
   useEffect(() => {
     getInstanceIds({
       serviceName,
-      serviceId: window.decodeURIComponent(serviceId),
+      serviceId,
       terminusKey,
       start: startTimeMs,
       end: endTimeMs,
@@ -55,12 +57,12 @@ export default () => {
         instanceIds: res?.data,
       });
     });
-  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan]);
+  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan, update]);
 
   useEffect(() => {
     getProcessDashboardId({
       serviceName,
-      serviceId: window.decodeURIComponent(serviceId),
+      serviceId,
       terminusKey,
     }).then((_id) => updater.id(_id));
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
@@ -107,7 +109,12 @@ export default () => {
       <div className="overflow-auto flex-1">
         <Spin spinning={isFetching}>
           {id ? (
-            <ServiceListDashboard timeSpan={timeSpan} dashboardId={id} extraGlobalVariable={{ instanceId }} />
+            <ServiceListDashboard
+              timeSpan={timeSpan}
+              dashboardId={id}
+              extraGlobalVariable={{ instanceId }}
+              serviceId={serviceId}
+            />
           ) : (
             <EmptyHolder relative />
           )}

@@ -285,7 +285,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               )}
             </div>
             <div className="node-info">
-              <div className="info-item" onClick={isServiceList ? () => {} : handleClickError}>
+              <div className="info-item" onClick={isServiceList ? undefined : handleClickError}>
                 <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
                     <span className="text-danger">{error_rate}%</span>/<span>{count}</span>
@@ -304,7 +304,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <Tooltip title={TipText}>
         <div
           className={'topology-node simple-node'}
-          onClick={isServiceList ? () => {} : onClick}
+          onClick={isServiceList ? undefined : onClick}
           style={style}
           onMouseEnter={() => setHoverFlag(true)}
           onMouseLeave={() => setHoverFlag(false)}
@@ -324,7 +324,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <Tooltip title={TipText}>
         <div
           className={'topology-node simple-node'}
-          onClick={isServiceList ? () => {} : onClick}
+          onClick={isServiceList ? undefined : onClick}
           style={style}
           onMouseEnter={() => setHoverFlag(true)}
           onMouseLeave={() => setHoverFlag(false)}
@@ -356,7 +356,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           'topology-node': true,
           actived: id === activedNode?.id || node.serviceId === serviceId,
         })}
-        onClick={isServiceList ? () => {} : onClick}
+        onClick={isServiceList ? undefined : onClick}
         style={style}
         onMouseEnter={() => setHoverFlag(true)}
         onMouseLeave={() => setHoverFlag(false)}
@@ -401,7 +401,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           ) : null}
         </div>
         <div className="node-info">
-          <div className="info-item" onClick={isServiceList ? () => {} : handleClickError}>
+          <div className="info-item" onClick={isServiceList ? undefined : handleClickError}>
             <span className="info-value font-bold">
               <IF check={error_rate}>
                 <span className="text-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
