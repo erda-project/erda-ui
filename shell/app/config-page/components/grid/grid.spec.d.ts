@@ -11,21 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART {
+declare namespace CP_GRID {
   interface Spec {
-    type: 'Chart';
+    type: 'Grid';
     props: IProps;
-    cId: string;
   }
 
   interface IProps {
-    chartType: 'line' | 'pie' | 'bar';
-    option: Obj;
-    style: Obj;
-    title: string;
+    gutter?: number;
+    align?: 'top' | 'middle' | 'bottom';
+    justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
+    wrap?: boolean;
+    span: number[];
   }
 
   type Props = MakeProps<Spec> & {
-    filter?: React.ReactElement;
+    children: React.ReactElement[];
   };
 }

@@ -56,6 +56,7 @@ import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
 import Modal from './modal/modal';
+import Grid from './grid/grid';
 
 export const containerMap = {
   Alert,
@@ -104,4 +105,5 @@ export const containerMap = {
   TiledFilter,
   FileEditor,
   Modal,
+  Grid,
 };
