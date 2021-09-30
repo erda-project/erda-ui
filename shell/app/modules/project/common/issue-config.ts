@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n from 'i18n';
+import i18n, { isZh } from 'i18n';
 
 export enum ISSUE_TYPE {
   ALL = 'ALL',
@@ -130,3 +130,64 @@ export enum ISSUE_OPTION {
   TASK = 'TASK',
   BUG = 'BUG',
 }
+
+export const templateMap = isZh()
+  ? {
+      [ISSUE_TYPE.REQUIREMENT]: `### 【用户故事/要解决的问题】*
+
+
+### 【意向用户】*
+
+
+### 【用户体验目标】*
+
+
+### 【链接/参考】
+
+`,
+      [ISSUE_TYPE.TASK]: `### 【用户故事/要解决的问题】*
+
+
+### 【意向用户】*
+
+
+### 【用户体验目标】*
+
+
+### 【链接/参考】
+
+`,
+      [ISSUE_TYPE.BUG]: ``,
+    }
+  : {
+      [ISSUE_TYPE.REQUIREMENT]: `### [User story/problem to solve] *
+
+
+### [Intended users] *
+
+
+### [User experience Goals] *
+
+
+### [Link/Reference]
+
+`,
+      [ISSUE_TYPE.TASK]: ``,
+      [ISSUE_TYPE.BUG]: `### [Environment Information]
+
+
+### [Defect Description] *
+
+
+### [Reoccurrence Procedure]
+
+
+### [Actual Result]
+
+
+### [Expected Result] *
+
+
+### [Repair suggestion]
+`,
+    };

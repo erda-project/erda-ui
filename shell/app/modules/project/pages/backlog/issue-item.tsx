@@ -18,7 +18,7 @@ import { Icon as CustomIcon, MemberSelector, Avatar } from 'common';
 import { useDrag } from 'react-dnd';
 import { WithAuth, usePerm, isAssignee, isCreator, getAuth } from 'user/common';
 import { isPromise } from 'common/utils';
-import { get } from 'lodash';
+import { get, map } from 'lodash';
 import i18n from 'i18n';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
 import { Ellipsis, Menu, Dropdown, Modal, message } from 'core/nusi';
@@ -31,6 +31,8 @@ import { useMount } from 'react-use';
 import issueStore from 'project/stores/issues';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
+import { getFieldsByIssue } from 'project/services/issue';
+import { templateMap } from 'project/common/issue-config';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
@@ -161,11 +163,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const [shouldAutoFocus, setShouldAutoFocus] = React.useState(true);
   const { addFieldsToIssue } = issueStore.effects;
-  const [bugStageList, taskTypeList, fieldList] = issueFieldStore.useStore((s) => [
-    s.bugStageList,
-    s.taskTypeList,
-    s.fieldList,
-  ]);
+  const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
   const orgID = orgStore.useStore((s) => s.currentOrg.id);
 
   useMount(() => {
@@ -179,16 +177,35 @@ export const IssueForm = (props: IIssueFormProps) => {
         if (val.title) {
           const data = {
             ...val,
+            content: templateMap[val.type] || '',
             // some special fields for different type
             taskType: taskTypeList?.length ? taskTypeList[0].value : '',
             bugStage: bugStageList?.length ? bugStageList[0].value : '',
             owner: '',
           };
-          onOk(data).then((res) => {
+          onOk(data).then((newIssueID) => {
             curForm.reset('title');
-            if (fieldList.length) {
-              addFieldsToIssue({ property: fieldList, issueID: res, orgID, projectID: +projectId });
-            }
+            getFieldsByIssue({
+              issueID: newIssueID,
+              orgID,
+              propertyIssueType: data.type as ISSUE_FIELD.IIssueType,
+            }).then((res) => {
+              const fieldList = res.data?.property;
+              if (fieldList) {
+                const property = map(fieldList, (item) => {
+                  if (item && item.required) {
+                    if (['Select', 'MultiSelect'].includes(item.propertyType)) {
+                      return {
+                        ...item,
+                        values: [item.enumeratedValues?.[0].id as number],
+                      };
+                    }
+                  }
+                  return { ...item };
+                });
+                addFieldsToIssue({ property, issueID: newIssueID, orgID, projectID: +projectId });
+              }
+            });
           });
         } else {
           message.warn(i18n.t('please enter {name}', { name: i18n.t('title') }));

@@ -132,7 +132,12 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     }
   }, [inParamsStr]);
 
-  const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, op?: CP_COMMON.Operation) => {
+  const queryPageConfig = (
+    p?: CONFIG_PAGE.RenderConfig,
+    partial?: boolean,
+    op?: CP_COMMON.Operation,
+    callBack?: Function,
+  ) => {
     if (fetchingRef.current) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
     if (op?.showLoading !== false) updater.fetching(true);
@@ -147,8 +152,10 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
               draft.protocol.components = { ...draft.protocol.components, ...comps };
             }
           });
+          callBack?.(newConfig);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
         } else {
+          callBack?.(res);
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
         }
         if (op?.successMsg) notify('success', op.successMsg);
@@ -162,7 +169,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
   };
 
-  const updateState = (dataKey: string, dataVal: Obj) => {
+  const updateState = (dataKey: string, dataVal: Obj, callBack?: Function) => {
     const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
     const newConfig = produce(_curConfig, (draft) => {
       if (dataKey) {
@@ -170,6 +177,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
         set(draft, dataKey, { ...curData, ...dataVal });
       }
     });
+    callBack?.(newConfig);
     updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
   };
 
@@ -180,7 +188,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     extraUpdateInfo?: Obj,
   ) => {
     const { key, reload = false, partial, ..._rest } = op;
-    onExecOp && onExecOp({ cId, op, reload, updateInfo });
+    const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
+      onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
+    };
     if (reload) {
       // 需要请求后端接口
       const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
@@ -209,9 +219,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       });
 
       const formatConfig = clearLoadMoreData(newConfig);
-      queryPageConfig(formatConfig, partial, op);
+      queryPageConfig(formatConfig, partial, op, loadCallBack);
     } else if (updateInfo) {
-      updateState(updateInfo.dataKey, updateInfo.dataVal);
+      updateState(updateInfo.dataKey, updateInfo.dataVal, loadCallBack);
     }
   };
 

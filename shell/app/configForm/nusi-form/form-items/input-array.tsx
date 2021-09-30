@@ -86,7 +86,7 @@ export const FormInputArray = ({
         required={required}
         {...wrapperProps}
       >
-        <InputArray value={fixIn(value)} onChange={handleChange} {...componentProps} />
+        <InputArray value={fixIn(value) || []} onChange={handleChange} {...componentProps} />
       </FormItem>
     );
   });

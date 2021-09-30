@@ -50,7 +50,7 @@ export const getSubSiderInfoMap = () => {
     msp: {
       menu: getMspMenu(),
       detail: {
-        displayName: i18n.t('msp'),
+        displayName: i18n.t('microservice platform'),
       },
     },
     ecp: {

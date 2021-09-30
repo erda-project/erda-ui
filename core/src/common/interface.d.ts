@@ -33,14 +33,13 @@ export { FilterItemConfig } from '../common/components/filter';
 export { ModalProps } from 'antd/es/modal';
 export { FormComponentProps } from 'antd/es/form';
 export { AbstractTooltipProps } from 'antd/lib/tooltip';
+export { BreadcrumbProps, Route } from 'antd/lib/breadcrumb/Breadcrumb';
+export { MenuProps } from 'antd/es/menu';
 
 export { Action } from '@terminus/nusi/es/table';
 export { FilterItemConfig, IFilterProps } from '@terminus/nusi/es/filter/interface';
 export { PaginationProps } from '@terminus/nusi/es/pagination';
-export { GlobalNavigationProps, AppCenterProps } from '@terminus/nusi/es/global-navigation/interface';
-export { SideNavigationProps } from '@terminus/nusi/es/side-navigation/interface';
 export { PageHeaderProps } from '@terminus/nusi/es/page-header/interface';
-export { MenuConfigItemProps } from '@terminus/nusi/es/side-navigation/interface';
 export { RadioChangeEvent } from '@terminus/nusi/es/radio/interface';
 export { ClickParam } from '@terminus/nusi/es/menu';
 export { OperationProps, TitleProps } from '@terminus/nusi/es/title/interface';

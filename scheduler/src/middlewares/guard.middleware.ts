@@ -17,12 +17,6 @@ import { logger } from '../util';
 const METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'];
 
 export function guardMiddleware(req: Request, res: Response, next: NextFunction) {
-  // force to be https
-  const forwardedProtocol = req.get('x-forwarded-proto');
-  if (forwardedProtocol && forwardedProtocol !== 'https') {
-    logger.warn('http request redirect to https: ', req.path);
-    res.redirect(`https://${req.headers.host}${req.url}`);
-  }
   // guard unexpected http method
   if (!METHODS.includes(req.method.toUpperCase())) {
     res.type('application/json');

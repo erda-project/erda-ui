@@ -284,20 +284,32 @@ const Transaction = () => {
 
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
+    const { serviceId } = params;
+    const _serviceId = window.decodeURIComponent(serviceId);
     // 动态注入正则查询变量需要转义字符
     _subSearch &&
       REG_CHARS.forEach((char) => {
         _subSearch = _subSearch?.replaceAll(char, `\\${char}`);
       });
-
+    // Backend requires accurate value, need to pass the value like this
+    let _condition = '';
+    if (callType === 'consumer') {
+      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer')`;
+    } else if (callType === 'producer') {
+      _condition = `(source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
+    } else {
+      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
+    }
     return {
       topic,
       search,
       sort,
       type: callType,
+      condition: type === DASHBOARD_TYPE.mq ? _condition : undefined,
       subSearch: _subSearch || undefined,
+      serviceId: window.decodeURIComponent(serviceId),
     };
-  }, [search, sort, callType, subSearch, topic]);
+  }, [subSearch, search, topic, params, callType, sort, type]);
 
   return (
     <div className="service-analyze flex flex-col h-full">

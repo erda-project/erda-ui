@@ -17,6 +17,7 @@ declare namespace CONFIGURATION {
   type ILangConf = {
     language: string;
     displayName: string;
+    beta: boolean;
   };
 
   interface IStrategy {

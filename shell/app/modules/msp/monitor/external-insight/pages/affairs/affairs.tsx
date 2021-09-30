@@ -32,7 +32,7 @@ const Affairs = () => {
 
   const [terminusKey, hostName] = routeInfoStore.useStore((s) => [s.params.terminusKey, s.params.hostName]);
   const filterQuery = {
-    filter_host: decodeURIComponent(hostName),
+    filter_http_url: decodeURIComponent(hostName),
     filter_source_terminus_key: terminusKey,
   };
   const [logVisible, openLog, closeLog] = useSwitch(false);

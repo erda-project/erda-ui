@@ -84,6 +84,7 @@ const ArrayObjComp = (props: any) => {
 
   const { objItems, direction = 'column' } = componentProps || {};
 
+  const objItemsLength = objItems?.length;
   const Comp: any = React.useMemo(() => {
     const _objItems = isEmpty(objItems) ? defaultItem : objItems;
     return createCombiner({
@@ -101,12 +102,12 @@ const ArrayObjComp = (props: any) => {
           <div className={`dice-form-array-obj ${className}`}>
             <div
               className={`dice-form-array-obj-item flex-1 ${
-                direction === 'row' ? 'flex justify-between items-center' : ''
+                direction === 'row' ? 'flex justify-between items-center direction-row' : ''
               }`}
             >
               {itemRender
                 ? itemRender(data, updateItem)
-                : map(keys, (item) => {
+                : map(keys, (item, i) => {
                     const {
                       key,
                       label,
@@ -114,6 +115,7 @@ const ArrayObjComp = (props: any) => {
                       labelTip = '',
                       component = 'input',
                       options = [],
+                      getComp,
                       componentProps: itemComponentProps = {},
                     } = isString(item) ? { key: item, label: item } : (item as Obj);
 
@@ -122,6 +124,9 @@ const ArrayObjComp = (props: any) => {
                         ? ['error', i18n.t('{name} can not empty')]
                         : ['success'];
 
+                    if (typeof getComp === 'function') {
+                      return <FormItem key={key || i}>{getComp(data)}</FormItem>;
+                    }
                     let CompItem = null;
                     switch (component) {
                       case 'input':
@@ -274,7 +279,7 @@ const ArrayObjComp = (props: any) => {
         return dItem;
       },
     });
-  }, [direction, objItems]);
+  }, [direction, objItemsLength]);
 
   return <Comp value={value} onChange={onChange} disabled={disabled} {...componentProps} />;
 };
@@ -358,6 +363,19 @@ export const formConfig = {
         key: 'componentProps',
         name: '组件配置',
         fields: [
+          {
+            label: '排列方向',
+            key: 'componentProps.direction',
+            type: 'radio',
+            component: 'radio',
+            defaultValue: 'column',
+            dataSource: {
+              static: [
+                { name: '纵向', value: 'column' },
+                { name: '横向', value: 'row' },
+              ],
+            },
+          },
           {
             label: '属性',
             key: 'componentProps.objItems',

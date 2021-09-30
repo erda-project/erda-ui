@@ -1,0 +1,74 @@
+.erda-header {
+  padding: 11px 24px 0 24px;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &-breadcrumb {
+    padding: 6px 0;
+  }
+
+  &-top {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+
+    &-left {
+      display: flex;
+      align-items: center;
+      max-width: calc(100% - 100px);
+      min-width: 200px;
+    }
+
+    .erda-header-title-con {
+      font-family: PingFangSC-Medium;
+      padding-right: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+
+      .erda-header-title {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        font-size: 20px;
+
+        &-text {
+          color: rgba(9, 24, 33, 0.84);
+          font-size: 18px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  &-content {
+    margin: 0;
+
+    .tab-item-wraps {
+      .active {
+        background: transparent;
+      }
+    }
+
+    .tab-menu .tab-menu-item {
+      height: 32px;
+      line-height: 32px;
+    }
+  }
+
+  .ant-breadcrumb {
+    .breadcrumb-name {
+      cursor: pointer;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+}

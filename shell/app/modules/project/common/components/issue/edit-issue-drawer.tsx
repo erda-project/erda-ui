@@ -55,6 +55,7 @@ import { FIELD_WITH_OPTION, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
+import { templateMap } from 'project/common/issue-config';
 
 import './edit-issue-drawer.scss';
 
@@ -230,7 +231,7 @@ const IssueMetaFields = React.forwardRef(
           },
         };
       });
-    }, [customFieldDetail.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
+    }, [customFieldDetail?.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
 
     let editFieldList = [
       ...insertWhen(isEditMode, [
@@ -475,7 +476,7 @@ const IssueMetaFields = React.forwardRef(
               setOptionList(labels);
               return;
             }
-            const match = labels.filter((item: any) => item.name.includes(value.toLowerCase()));
+            const match = labels.filter((item: any) => item.name.toLowerCase().includes(value.toLowerCase()));
             if (!match.length) {
               setOptionList([]);
               return;
@@ -624,6 +625,8 @@ export const EditIssueDrawer = (props: IProps) => {
     s.taskTypeList,
     s.fieldList,
   ]);
+  const id = propId;
+  const isEditMode = !!id;
   const defaultCustomFormData = React.useMemo(() => {
     const customFieldDefaultValues = {};
     map(fieldList, (item) => {
@@ -649,9 +652,10 @@ export const EditIssueDrawer = (props: IProps) => {
       assignee: userStore.getState((s) => s.loginUser.id),
       planFinishedAt: issueType === ISSUE_TYPE.EPIC ? new Date() : undefined,
       iterationID,
+      content: isEditMode ? '' : templateMap[issueType] || '',
       ...defaultCustomFormData,
     };
-  }, [bugStageList, defaultCustomFormData, issueType, iterationID, taskTypeList]);
+  }, [bugStageList, defaultCustomFormData, isEditMode, issueType, iterationID, taskTypeList]);
   const [formData, setFormData] = React.useState(defaultFormData as any);
   const issueDetail: ISSUE.IssueType = issueStore.useStore((s) => s[`${type}Detail`]);
 
@@ -661,8 +665,6 @@ export const EditIssueDrawer = (props: IProps) => {
   const labels = labelStore.useStore((s) => s.list);
   const [updateIssueLoading] = useLoading(issueStore, ['updateIssue']);
   const labelNames = map(labels, ({ name }) => name);
-  const id = propId;
-  const isEditMode = !!id;
   const [isLoading, setIsLoading] = React.useState(false);
   const [hasEdited, setHasEdited] = React.useState(false);
   const [tempDescContent, setTempDescContent] = React.useState('');

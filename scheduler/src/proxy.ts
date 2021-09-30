@@ -37,8 +37,8 @@ const wsPathRegex = [
 
 export const createProxyService = (app: INestApplication) => {
   const wsProxy = createProxyMiddleware(
-    (pathname: string) => {
-      return wsPathRegex.some((regex) => regex.test(pathname));
+    (pathname: string, req: Request) => {
+      return req.headers.upgrade === 'websocket' && wsPathRegex.some((regex) => regex.test(pathname));
     },
     {
       target: API_URL,
@@ -116,8 +116,12 @@ export const createProxyService = (app: INestApplication) => {
   app.use(
     createProxyMiddleware(
       (pathname: string, req: Request) => {
+        if (pathname.startsWith('/wb/')) {
+          return true;
+        }
         const userAgent = req.headers['user-agent'];
-        if (userAgent.includes('git')) {
+        if (userAgent.toLowerCase().includes('git')) {
+          // compatible with JGit
           return /[^/]*\/dop/.test(pathname);
         }
         return false;

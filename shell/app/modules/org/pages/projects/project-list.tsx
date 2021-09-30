@@ -67,6 +67,13 @@ export const ProjectList = () => {
         render: (text) => <Tooltip title={text}>{text}</Tooltip>,
       },
       {
+        title: i18n.t('msp:project type'),
+        dataIndex: 'type',
+        key: 'type',
+        width: 160,
+        render: (text: string) => (text === 'DevOps' ? 'DevOps' : i18n.t('org:microservice Observation Project')),
+      },
+      {
         title: i18n.t('org:application/Member Statistics'),
         dataIndex: 'stats',
         key: 'countApplications',

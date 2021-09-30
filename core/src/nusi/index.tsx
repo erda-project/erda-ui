@@ -72,16 +72,10 @@ import { Panel } from '../common/components/panel';
 import { Title } from '../common/components/title';
 import { Filter } from '../common/components/filter';
 import Ellipsis from '../common/components/ellipsis';
+import { PageHeader } from '../common/components/page-header';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
-import {
-  Container,
-  Shell,
-  SideNavigation,
-  PageHeader,
-  GlobalNavigation,
-  ConfigProvider as NusiConfigProvider,
-} from '@terminus/nusi';
+import { Shell, GlobalNavigation, ConfigProvider as NusiConfigProvider } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
 const isZh = locale === 'zh';
@@ -106,7 +100,6 @@ export {
   Button,
   // Calendar,
   Card,
-  Container,
   Collapse,
   Carousel,
   Cascader,
@@ -158,7 +151,6 @@ export {
   Upload,
   version,
   Shell,
-  SideNavigation,
   PageHeader,
   GlobalNavigation,
   AntdConfigProvider,

@@ -50,6 +50,7 @@ const TopologyDashboard = () => {
   ]);
   const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
   const mspMenu = mspStore.useStore((s) => s.mspMenu);
+  const currentProject = mspStore.useStore((s) => s.currentProject);
   const { serviceName, name, type: sourceType, serviceId, applicationId } = activedNode || {};
   const type = sourceType?.toLowerCase();
   const { getCustomDashboard } = dashboardStore;
@@ -132,7 +133,7 @@ const TopologyDashboard = () => {
       ...params,
       serviceName,
       serviceId: window.encodeURIComponent(serviceId || ''),
-      applicationId,
+      applicationId: currentProject?.type === 'MSP' ? '-' : applicationId,
       query: {
         start: timeSpan.startTimeMs,
         end: timeSpan.endTimeMs,
@@ -154,6 +155,11 @@ const TopologyDashboard = () => {
 
   return (
     <div className="topology-dashboard">
+      {currentProject?.type === 'MSP' ? (
+        <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
+          {i18n.t('msp:access service')}
+        </Button>
+      ) : null}
       {/* 全局概览 */}
       <div className="topology-global-dashboard">
         {!isEmpty(globalVariable) && <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />}
@@ -182,7 +188,7 @@ const TopologyDashboard = () => {
                   {i18n.t('detail')}
                 </Button>
               </When>
-              <When condition={type === 'http'}>
+              <When condition={type === 'externalservice'}>
                 <Button
                   type="link"
                   onClick={() => goTo(`./ei/${encodeURIComponent(name as string)}/affairs`, goToParams)}

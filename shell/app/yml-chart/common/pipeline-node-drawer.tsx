@@ -755,6 +755,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
     updater.chosenActionName(val || '');
   };
 
+  const curNodeData = chosenActionName === propsNodeData?.type ? propsNodeData : undefined;
   return (
     <Spin spinning={loading}>
       <ActionSelect
@@ -768,13 +769,19 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
       <IF check={!isEmpty(chosenAction)}>
         <IF check={!!useProtocol}>
           {/* 使用组件化协议表单 */}
-          <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
+          <ActionConfigForm
+            chosenAction={chosenAction}
+            chosenActionName={chosenActionName}
+            {...(props as any)}
+            nodeData={curNodeData}
+          />
           <IF.ELSE />
           <PipelineNodeFormV1
             chosenAction={chosenAction}
             chosenActionName={chosenActionName}
             {...(props as any)}
             actionSpec={chosenActionSpec}
+            nodeData={curNodeData}
           />
         </IF>
       </IF>

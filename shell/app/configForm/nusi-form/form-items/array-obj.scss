@@ -4,6 +4,12 @@
     border: 1px dashed $color-border;
     border-radius: 5px;
 
+    &.direction-row {
+      .ant-form-item {
+        margin-bottom: 0;
+      }
+    }
+
     &:last-child {
       margin-bottom: 0;
     }

@@ -61,11 +61,6 @@ const BlockNetwork = () => {
 
   return (
     <Spin spinning={isFetch || isUpdate}>
-      <Alert
-        showIcon
-        type="error"
-        message={i18n.t('org:There will be great influence if enabled. Please check carefully.')}
-      />
       <Row className="mt-4">
         {metaData.map(({ value, label, disabled }) => {
           return (

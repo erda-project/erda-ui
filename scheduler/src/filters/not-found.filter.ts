@@ -41,7 +41,8 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const extension = path.extname(request.path);
-    if (!extension) {
+    if (!extension || request.path.match(/^\/\w+\/dop\/projects\/\d+\/apps\/\d+\/repo/)) {
+      response.setHeader('cache-control', 'no-store');
       response.sendFile(newIndexHtmlPath);
     } else {
       response.statusCode = 404;
