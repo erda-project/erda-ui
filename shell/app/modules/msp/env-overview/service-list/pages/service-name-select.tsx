@@ -41,7 +41,8 @@ export function ServiceNameSelect() {
       });
     } else if (!serviceId && serviceList?.length > 0) {
       const serviceName = serviceList?.[0]?.service_name;
-      updateState({ serviceId: serviceList?.[0]?.service_id, serviceName });
+      const applicationId = serviceList?.[0]?.application_id;
+      updateState({ serviceId: serviceList?.[0]?.service_id, serviceName, applicationId });
     }
   }, [params.serviceId, serviceId, serviceList, updateState]);
 
@@ -50,8 +51,10 @@ export function ServiceNameSelect() {
       // Avoid the problem of displaying the id first and then the label
       value={serviceList?.length > 0 ? serviceId : undefined}
       onChange={(value) => {
-        const serviceName = serviceList.filter((v) => v.service_id === value)?.[0]?.service_name;
-        updateState({ serviceId: value, serviceName });
+        const service = serviceList.filter((v) => v.service_id === value);
+        const serviceName = service?.service_name;
+        const applicationId = service?.application_id;
+        updateState({ serviceId: value, serviceName, applicationId });
       }}
       className="mr-3 w-60"
     >

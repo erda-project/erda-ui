@@ -102,7 +102,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const scale = topologyStore.useStore((s) => s.scale);
   const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
   const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
-  const isServiceList = curentRoute.path.includes('service-list');
+  const isServicePage = curentRoute.path.includes('service');
 
   React.useEffect(() => {
     if (hoverFlag === null) return;
@@ -285,7 +285,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               )}
             </div>
             <div className="node-info">
-              <div className="info-item" onClick={isServiceList ? undefined : handleClickError}>
+              <div className="info-item" onClick={isServicePage ? undefined : handleClickError}>
                 <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
                     <span className="text-danger">{error_rate}%</span>/<span>{count}</span>
@@ -304,7 +304,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <Tooltip title={TipText}>
         <div
           className={'topology-node simple-node'}
-          onClick={isServiceList ? undefined : onClick}
+          onClick={isServicePage ? undefined : onClick}
           style={style}
           onMouseEnter={() => setHoverFlag(true)}
           onMouseLeave={() => setHoverFlag(false)}
@@ -324,7 +324,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <Tooltip title={TipText}>
         <div
           className={'topology-node simple-node'}
-          onClick={isServiceList ? undefined : onClick}
+          onClick={isServicePage ? undefined : onClick}
           style={style}
           onMouseEnter={() => setHoverFlag(true)}
           onMouseLeave={() => setHoverFlag(false)}
@@ -354,9 +354,9 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
       <div
         className={classnames({
           'topology-node': true,
-          actived: id === activedNode?.id || node.serviceId === serviceId,
+          actived: id === activedNode?.id || (isServicePage ? node.serviceId === serviceId : undefined),
         })}
-        onClick={isServiceList ? undefined : onClick}
+        onClick={isServicePage ? undefined : onClick}
         style={style}
         onMouseEnter={() => setHoverFlag(true)}
         onMouseLeave={() => setHoverFlag(false)}
@@ -401,7 +401,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           ) : null}
         </div>
         <div className="node-info">
-          <div className="info-item" onClick={isServiceList ? undefined : handleClickError}>
+          <div className="info-item" onClick={isServicePage ? undefined : handleClickError}>
             <span className="info-value font-bold">
               <IF check={error_rate}>
                 <span className="text-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>

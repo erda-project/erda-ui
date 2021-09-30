@@ -141,8 +141,11 @@ const Transaction = () => {
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
-  console.log({ serviceId });
+  const [serviceId, _serviceName, _applicationId] = serviceAnalyticsStore.useStore((s) => [
+    s.serviceId,
+    s.serviceName,
+    s.applicationId,
+  ]);
   const [
     {
       type,
@@ -203,7 +206,7 @@ const Transaction = () => {
       start: startTimeMs,
       end: endTimeMs,
       terminusKey,
-      serviceName,
+      serviceName: serviceName || _serviceName,
       limit: queryLimit,
       serviceId,
       operation: cellValue,
@@ -235,7 +238,7 @@ const Transaction = () => {
         queryTraceSlowTranslation(defaultTimeSort, limits[0], cellValue);
       }
     },
-    [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
+    [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs, serviceId],
   );
 
   const [columns, dataSource] = useMemo(() => {
@@ -430,7 +433,7 @@ const Transaction = () => {
           visible={logVisible}
           onClose={() => updater.logVisible(false)}
         >
-          <SimpleLog requestId={traceId} applicationId={params?.applicationId} />
+          <SimpleLog requestId={traceId} applicationId={params?.applicationId || _applicationId} />
         </Drawer>
       </Drawer>
       <TraceSearchDetail traceId={traceId} />

@@ -31,7 +31,7 @@ export default () => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore((s) => s.params);
-  const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
+  const [serviceId, _serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { terminusKey, serviceName } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
   const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
@@ -44,7 +44,7 @@ export default () => {
 
   useEffect(() => {
     getInstanceIds({
-      serviceName,
+      serviceName: serviceName || _serviceName,
       serviceId,
       terminusKey,
       start: startTimeMs,
@@ -61,7 +61,7 @@ export default () => {
 
   useEffect(() => {
     getProcessDashboardId({
-      serviceName,
+      serviceName: serviceName || _serviceName,
       serviceId,
       terminusKey,
     }).then((_id) => updater.id(_id));
