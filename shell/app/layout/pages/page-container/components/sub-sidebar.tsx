@@ -12,24 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SideNavigation } from 'core/nusi';
+import SideNavigation from './side-navigation';
+import type { IMenu } from './side-navigation';
 import { Link } from 'react-router-dom';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
-import { MenuConfigItemProps, Theme } from 'core/common/interface';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
 import { qs } from 'common/utils';
-import { Icon as CustomIcon, useUpdate } from 'common';
+import { useUpdate } from 'common';
 import './sub-sidebar.scss';
 
 const { stringify, parseUrl } = qs;
 
-const linkRender = (
-  _linkTo: string,
-  children: React.ReactNode,
-  { href, jumpOut, children: childMenu = [] }: MenuConfigItemProps,
-) => {
+const linkRender = (children: React.ReactNode, { href, jumpOut, children: childMenu = [] }: IMenu) => {
   if (childMenu.length !== 0) {
     return children;
   }
@@ -44,18 +40,6 @@ const linkRender = (
   );
 };
 
-interface IMenu {
-  key?: string;
-  href: string;
-  title?: string;
-  text: string;
-  icon: string | React.ReactNode;
-  customIcon: Element;
-  subMenu?: IMenu[];
-  children?: IMenu[];
-  prefix?: string; // if page under this menu has different prefix of url, use this property get find active key
-  isActive?: (s: string) => boolean;
-}
 const removeQuery = (menu: IMenu[]) => {
   return menu.map((item) => {
     return {
@@ -157,7 +141,7 @@ const SubSideBar = () => {
         selectedKey = subActiveKey as string;
         activeKeyList = parentActiveKeyList as string[];
       }
-      const IconComp = () => item.icon;
+      const IconComp = () => item.icon as React.ReactElement;
       return {
         ...item,
         title: firstLetterUpper(item.text),
@@ -191,21 +175,23 @@ const SubSideBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menu, subList, window.location.pathname]);
 
-  const handleTitleClick = ({ openKeys, selectedKey }: { openKeys: string[]; selectedKey: string }) => {
+  const handleSelect = ({ key }: { key: React.Key }) => {
     update({
-      openKeys,
-      selectedKey,
+      selectedKey: key as string,
+    });
+  };
+  const handleOpen = (openKeys: React.Key[]) => {
+    update({
+      openKeys: openKeys as string[],
     });
   };
 
   return (
     <SideNavigation
-      theme={'light' as Theme.LIGHT} // 从core中导入的type只能作为定义使用
-      menuKey="href"
-      searchBar={false}
       openKeys={state.openKeys}
       selectedKey={state.selectedKey}
-      onTitleClick={handleTitleClick}
+      onSelect={handleSelect}
+      onOpenChange={handleOpen}
       extraNode={<MenuHeader siderInfo={siderInfo} routeMarks={routeMarks} />}
       dataSource={state.menus}
       linkRender={linkRender}

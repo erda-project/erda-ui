@@ -26,7 +26,7 @@ import orgCenterSvg from 'app/images/glzx.svg';
 
 interface IProps {
   siderInfo: Record<string, any>;
-  routeMarks: string[];
+  routeMarks: readonly string[];
 }
 
 const defaultDetail = {
