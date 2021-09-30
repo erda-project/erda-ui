@@ -743,7 +743,7 @@ export const ContractiveFilter = ({
             onChange={handelItemChange}
             onQuickOperation={onQuickOperation}
           />
-          {item.split ? <div className="ml-2 contractive-filter-split" /> : null}
+          {item.split ? <div className="ml-1 contractive-filter-split" /> : null}
         </span>
       ))}
 
