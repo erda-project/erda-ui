@@ -19,7 +19,7 @@ import path from 'path';
 import { EOL } from 'os';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
 import generateVersion from './util/gen-version';
-import { getGitDiffFiles, getGitShortSha } from './util/git-diff';
+import { getGitDiffFiles, getGitShortSha } from './util/git-commands';
 
 const externalModules = ['fdp', 'admin'];
 const subModules = ['market', 'uc'];

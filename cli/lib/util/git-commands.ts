@@ -26,3 +26,10 @@ export const getGitDiffFiles = async (prevSha: string, headSha: string, cwd?: st
   });
   return stdout;
 };
+
+export const getBranch = async (cwd?: string) => {
+  const { stdout } = await execa('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+    cwd: cwd ?? process.cwd(),
+  });
+  return stdout;
+};
