@@ -92,4 +92,7 @@ const AddonSettings = () => {
 
   return <PureAddonSettings insId={insId} addonConfig={addonConfig as ADDON.Instance} isFetching={isFetching} />;
 };
-export { PureAddonSettings, AddonSettings };
+
+AddonSettings.PureAddonSettings = PureAddonSettings;
+
+export default AddonSettings;

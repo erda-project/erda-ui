@@ -20,7 +20,7 @@ import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
 import sysMemberStore from 'common/stores/sys-member';
-import { insertWhen } from '../utils';
+import { insertWhen } from '../../utils';
 import { getApps } from 'common/services';
 import { useMount } from 'react-use';
 import { Alert, message } from 'core/nusi';

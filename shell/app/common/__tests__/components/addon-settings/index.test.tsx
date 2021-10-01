@@ -12,11 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { AddonSettings, PureAddonSettings } from 'common/components/addon-settings';
+import AddonSettings from 'common/components/addon-settings';
 import routeInfoStore from 'core/stores/route';
 import { mount } from 'enzyme';
 import agent from 'agent';
 import { act } from 'react-dom/test-utils';
+
+const { PureAddonSettings } = AddonSettings;
 
 const insId = 123;
 const routerData = {
