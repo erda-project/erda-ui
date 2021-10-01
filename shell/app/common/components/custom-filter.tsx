@@ -20,7 +20,7 @@ import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import './custom-filter.scss';
-import { PaginationConfig, SorterResult } from 'core/common/interface';
+import { PaginationConfig, SorterResult, FilterItemConfig } from 'core/common/interface';
 import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';
@@ -132,7 +132,7 @@ export const CustomFilter = (props: IFilterProps) => {
     [filterRef, search, showButton],
   );
 
-  const fields = filterRef && filterRef.current && filterRef.current.form.getFields();
+  const fields = filterRef && filterRef.current && filterRef.current.form.getFieldsValue();
 
   // 受控Filter，受控于query
   React.useEffect(() => {
@@ -185,7 +185,7 @@ export const CustomFilter = (props: IFilterProps) => {
     });
   }, [query, config, fields, isConnectQuery, setPrevQuery, prevQuery]);
 
-  const realConfig = React.useMemo(() => {
+  const realConfig = React.useMemo<FilterItemConfig[]>(() => {
     // const initFilterConfig = !skipInit ? initConfig(config) : config;
     return map(config, (item) => {
       return transformConfig(item);
@@ -193,7 +193,7 @@ export const CustomFilter = (props: IFilterProps) => {
   }, [config, transformConfig]);
 
   const filterClassName = classNames({
-    'dice-custom-filter': true,
+    'erda-custom-filter': true,
     'actions-no-padding': !actionsHasPadding,
     'my-3': true,
     className,
@@ -205,9 +205,7 @@ export const CustomFilter = (props: IFilterProps) => {
       config={realConfig}
       onReset={onReset}
       onSubmit={onSubmit}
-      onRef={(ref: any) => {
-        filterRef.current = ref;
-      }}
+      ref={filterRef}
       actions={showButton ? actions || undefined : []}
       {...restProps}
     />

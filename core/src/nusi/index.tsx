@@ -70,11 +70,12 @@ import Tag from './wrapped-tag';
 import FormBuilder from '../common/components/form-builder';
 import { Panel } from '../common/components/panel';
 import { Title } from '../common/components/title';
+import { Filter } from '../common/components/filter';
 import Ellipsis from '../common/components/ellipsis';
 import { PageHeader } from '../common/components/page-header';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
-import { Filter, Shell, GlobalNavigation, ConfigProvider as NusiConfigProvider } from '@terminus/nusi';
+import { Shell, GlobalNavigation, ConfigProvider as NusiConfigProvider } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
 const isZh = locale === 'zh';
