@@ -114,7 +114,7 @@ const pathFormat = (url: string) => (params: object) => {
   });
   // 移除空的query参数
   newQuery = qs.stringify(pickBy(qs.parse(newQuery), (v: any) => v !== ''));
-  return [newPath, newQuery].join('?');
+  return newQuery ? [newPath, newQuery].join('?') : newPath;
 };
 goTo.pagePrefix = '__dice__'; // 防止goTo传入同名参数
 
@@ -147,6 +147,7 @@ export enum pages {
   testPlanDetail = '/{orgName}/dop/projects/{projectId}/testPlan/manual/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
   projectApps = '/{orgName}/dop/projects/{projectId}/apps',
   projectAllIssue = '/{orgName}/dop/projects/{projectId}/issues/all',
+  projectIssue = '/{orgName}/dop/projects/{projectId}/issues/{type}',
   projectIssueDetail = '/{orgName}/dop/projects/{projectId}/issues/{type}?id={id}&type={type}',
   projectIssueRoot = '/{orgName}/dop/projects/{projectId}/issues',
   projectTestCaseRoot = '/{orgName}/dop/projects/{projectId}/testCase',

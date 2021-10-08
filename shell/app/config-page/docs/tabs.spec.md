@@ -4,30 +4,44 @@
 
 ### ITabMenu
 
-| 名称      | 类型   | 必填  |
-| --------- | ------ | ----- | --- |
-| key       | string | false |
-| name      | string | false |
-| undefined | any    | false | ,   |
+| 名称       | 类型                     | 必填  |
+| ---------- | ------------------------ | ----- | --- |
+| undefined  | any                      | false |
+| key        | string                   | false |
+| name       | string                   | false |
+| operations | Obj<CP_COMMON.Operation> | true  | ,   |
 
 ### Spec
 
-| 名称  | 类型 | 必填 |
-| ----- | ---- | ---- |
-| state | {    |
+| 名称       | 类型                     | 必填  |
+| ---------- | ------------------------ | ----- | --- |
+| type       | 'Tabs'                   | false |
+| state      | IState                   | true  |
+| props      | IProps                   | false |
+| operations | Obj<CP_COMMON.Operation> | true  | ,   |
 
-      activeKey: string;
-    } | true |
+### IProps
 
-| props | {
-tabMenu: ITabMenu[];
-} | false |
-| children | Obj<React.ReactElement> | false |
+| 名称    | 类型       | 必填  |
+| ------- | ---------- | ----- | --- |
+| tabMenu | ITabMenu[] | false |
+| visible | boolean    | true  | ,   |
+
+### IState
+
+| 名称      | 类型   | 必填  |
+| --------- | ------ | ----- |
+| activeKey | string | false |
 
 ## 枚举
 
 ## 类型
 
-| 名称  | 值              |
-| ----- | --------------- |
-| Props | MakeProps<Spec> |
+| 名称  | 值                  |
+| ----- | ------------------- |
+| Props | MakeProps<Spec> & { |
+
+    tabBarExtraContent?: React.ReactElement;
+    children?: React.ReactElement[];
+
+} |
