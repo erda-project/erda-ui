@@ -15,6 +15,7 @@ import React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
 import routeInfoStore from 'core/stores/route';
 import NodeEle from 'msp/env-overview/topology/pages/topology/node-item';
+import { Row, Col } from 'core/nusi';
 import { setNodeUniqId } from 'msp/env-overview/topology/pages/topology/topology';
 import LinkText, { linkTextHoverAction } from 'msp/env-overview/topology/pages/topology/link-text';
 import TopologyChart from 'msp/env-overview/topology/pages/topology/components';
@@ -22,7 +23,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
 import { useLoading } from 'core/stores/loading';
-import { isEmpty } from 'lodash';
+
 import { useUnmount, useMount } from 'react-use';
 import { ServiceNameSelect } from './service-name-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
@@ -32,14 +33,10 @@ export default () => {
   const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
   const { range } = globalTimeSelectSpan;
+  const [proportion, setProportion] = React.useState([24, 0]);
   const [isFetching] = useLoading(topologyStore, ['getMonitorTopology']);
   const [useData, setUseData] = React.useState({});
-  const [sourceData, scale] = topologyStore.useStore((s) => [
-    s.topologyData,
-    s.scale,
-    s.topologyTags,
-    s.tagOptionsCollection,
-  ]);
+  const [sourceData, scale, topologySize] = topologyStore.useStore((s) => [s.topologyData, s.scale, s.topologySize]);
   const [topologyData, setTopologyData] = React.useState({} as TOPOLOGY.ITopologyResp);
   const { clearMonitorTopology, setScale } = topologyStore.reducers;
   const { getMonitorTopology } = topologyStore.effects;
@@ -92,7 +89,7 @@ export default () => {
         <TimeSelectWithStore className="m-0" />
       </div>
       <div className="overflow-auto flex-1">
-        <div className="topology-content flex flex-1">
+        <div className="topology-content flex flex-1" style={{ height: topologySize.containerHeight, maxHeight: 500 }}>
           <TopologyChart
             nodeExternalParam={nodeExternalParam}
             isFetching={isFetching}

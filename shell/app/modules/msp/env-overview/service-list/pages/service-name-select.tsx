@@ -12,16 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select } from 'core/nusi';
+import { Select, Dropdown, Menu } from 'core/nusi';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import { ErdaCustomIcon } from 'common';
 
 const { Option } = Select;
 
 export function ServiceNameSelect() {
   const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
-  const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
+  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { startTimeMs, endTimeMs } = globalTimeSelectSpan?.range || {};
   const params = routeInfoStore.useStore((s) => s.params);
   const { updateState } = serviceAnalyticsStore;
@@ -40,29 +41,45 @@ export function ServiceNameSelect() {
         serviceId: window.decodeURIComponent(params?.serviceId),
       });
     } else if (!serviceId && serviceList?.length > 0) {
-      const serviceName = serviceList?.[0]?.service_name;
+      const _serviceName = serviceList?.[0]?.service_name;
       const applicationId = serviceList?.[0]?.application_id;
-      updateState({ serviceId: serviceList?.[0]?.service_id, serviceName, applicationId });
+      updateState({ serviceId: serviceList?.[0]?.service_id, serviceName: _serviceName, applicationId });
     }
   }, [params.serviceId, serviceId, serviceList, updateState]);
 
+  const menu = React.useMemo(() => {
+    const handleChangeService = ({ key }: { key: string }) => {
+      const service = serviceList.filter((v) => v.service_id === key);
+      const _serviceName = service[0]?.service_name;
+      const applicationId = service[0]?.application_id;
+      updateState({
+        serviceId: key,
+        serviceName: _serviceName,
+        applicationId,
+      });
+    };
+    return (
+      <Menu onClick={handleChangeService}>
+        {serviceList.map((x: SERVICE_ANALYTICS.ServiceItem) => (
+          <Menu.Item
+            key={x.service_id}
+            className={`${serviceId === x.service_id ? 'bg-light-primary text-primary' : ''}`}
+          >
+            {x.service_name}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  }, [serviceId]);
+
   return (
-    <Select
-      // Avoid the problem of displaying the id first and then the label
-      value={serviceList?.length > 0 ? serviceId : undefined}
-      onChange={(value) => {
-        const service = serviceList.filter((v) => v.service_id === value);
-        const serviceName = service?.service_name;
-        const applicationId = service?.application_id;
-        updateState({ serviceId: value, serviceName, applicationId });
-      }}
-      className="mr-3 w-60"
-    >
-      {serviceList.map((x: SERVICE_ANALYTICS.ServiceItem) => (
-        <Option key={x.service_id} value={x.service_id}>
-          {x.service_name}
-        </Option>
-      ))}
-    </Select>
+    <div className="mt-2">
+      <Dropdown overlay={menu} trigger={['click']}>
+        <div className="font-bold text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
+          <span className="self-center">{serviceName}</span>
+          <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
+        </div>
+      </Dropdown>
+    </div>
   );
 }

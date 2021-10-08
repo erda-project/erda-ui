@@ -22,6 +22,7 @@ import { matchPath } from 'react-router-dom';
 import { Right as IconRight } from '@icon-park/react';
 import { Route } from 'core/common/interface';
 import { Breadcrumb, Tooltip } from 'core/nusi';
+import { ServiceNameSelect } from 'app/modules/msp/env-overview/service-list/pages/service-name-select';
 import './header.scss';
 
 const BreadcrumbItem = ({
@@ -75,7 +76,7 @@ const Header = () => {
 
   const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
-
+  const [pageNameInfo, setPageNameInfo] = React.useState('');
   const checkHasTemplate = React.useCallback(
     (breadcrumbName: string) => {
       const replacePattern = /\{([\w.])+\}/g;
@@ -122,6 +123,7 @@ const Header = () => {
     if (allRoutes.length) {
       const lastRoute = allRoutes[allRoutes.length - 1];
       const _title = getBreadcrumbTitle(lastRoute);
+      setPageNameInfo(lastRoute?.pageNameInfo);
       setPageName(_title);
     }
   }, [allRoutes, getBreadcrumbTitle]);
@@ -164,6 +166,15 @@ const Header = () => {
     }
     const _title = getBreadcrumbTitle(route);
     return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
+  };
+
+  const Title = (type: string) => {
+    switch (type) {
+      case 'service-analysis':
+        return <ServiceNameSelect />;
+      default:
+        return pageName;
+    }
   };
 
   return (

@@ -21,6 +21,10 @@ interface IState {
   scale: number;
   topologyTags: TOPOLOGY.ISingleTopologyTags[] | [];
   tagOptionsCollection: object;
+  topologySize: {
+    containerWidth: number;
+    containerHeight: number;
+  };
 }
 
 const initState = {
@@ -29,6 +33,10 @@ const initState = {
   scale: 0.8,
   topologyTags: [],
   tagOptionsCollection: {},
+  topologySize: {
+    containerWidth: 0,
+    containerHeight: 0,
+  },
 } as IState;
 
 const topology = createStore({
@@ -64,6 +72,12 @@ const topology = createStore({
     },
     setScale(state, scale) {
       state.scale = scale;
+    },
+    setTopologySize(state, containerWidth, containerHeight) {
+      state.topologySize = {
+        containerHeight,
+        containerWidth,
+      };
     },
   },
 });

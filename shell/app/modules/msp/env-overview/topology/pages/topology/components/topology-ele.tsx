@@ -18,6 +18,7 @@ import { renderTopology } from './topology-utils-v2';
 // @ts-ignore
 import Snap from 'snapsvg-cjs';
 import { throttle } from 'lodash';
+import topologyStore from 'msp/env-overview/topology/stores/topology';
 import './topology-ele.scss';
 
 interface IProps {
@@ -48,7 +49,7 @@ const TopologyEle = (props: IProps) => {
   const svgRef = React.useRef(null);
   const svgGroupRef = React.useRef(null);
   const boxRef = React.useRef<HTMLDivElement>(null);
-
+  const { setTopologySize } = topologyStore.reducers;
   const handleWheel = React.useCallback(
     throttle(
       (e: any, scale: number) => {
@@ -128,7 +129,7 @@ const TopologyEle = (props: IProps) => {
   }, [zoom]);
 
   React.useEffect(() => {
-    renderTopology(data, svgRef.current, svgGroupRef.current, {
+    const { containerWidth, containerHeight } = renderTopology(data, svgRef.current, svgGroupRef.current, {
       ...nodeExternalParam,
       nodeEle,
       boxEle,
@@ -138,6 +139,7 @@ const TopologyEle = (props: IProps) => {
       },
     });
     setSvgSize();
+    setTopologySize(containerWidth, containerHeight);
     // setSize(containerWidth, containerHeight);
   }, [data]);
 
