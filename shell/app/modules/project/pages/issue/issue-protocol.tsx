@@ -69,6 +69,8 @@ export default ({ issueType }: IProps) => {
   const reloadRef = React.useRef(null as any);
   const filterObjRef = React.useRef(null as any);
 
+  const queryRef = React.useRef(restQuery);
+
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
 
   const inParams = {
@@ -99,7 +101,8 @@ export default ({ issueType }: IProps) => {
   }, [filterObj]);
 
   useUpdateEffect(() => {
-    if (!compareObject(urlQuery, restQuery)) {
+    if (!compareObject(urlQuery, queryRef.current)) {
+      queryRef.current = urlQuery;
       updateSearch({ ...(urlQuery || {}) });
     }
   }, [urlQuery]);
@@ -107,9 +110,10 @@ export default ({ issueType }: IProps) => {
   useUpdateEffect(() => {
     // Change the urlQuery when url change such as page go back
     if (!compareObject(urlQuery, restQuery)) {
+      queryRef.current = restQuery;
       update({ urlQuery: restQuery });
     }
-  }, [query]);
+  }, [restQuery]);
 
   const onChosenIssue = (val: ISSUE.Issue) => {
     update({
