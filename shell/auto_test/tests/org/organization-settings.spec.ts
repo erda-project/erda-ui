@@ -27,6 +27,7 @@ const testData = {
 Role('Manager', () => {
   test.only('organization-settings', async ({ wait, page, expectExist, goTo }) => {
     await goTo('organization');
+
     // 封网
     // await page.click('li:has-text("block network")');
     // expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=block-network/);
@@ -45,9 +46,22 @@ Role('Manager', () => {
     // expectExist('text=updated successfully',0);
 
     // 通知组
-    // Click li:has-text("notification group")
-    await page.click('li:has-text("notification group")');
-    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=notifyGroup/);
+    // await page.click('li:has-text("notification group")');
+    // expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=notifyGroup/);
+    // await page.click('button:has-text("new notification group")');
+    // await page.click('input[type="text"]');
+    // await page.fill('input[type="text"]', testData.title);
+    // await page.click('text=group namenotified to >> :nth-match(span, 2)');
+    // await page.click('div[role="document"] >> text=member');
+    // await page.click('.ant-dropdown-trigger');
+    // await page.click('[placeholder="search by keywords"]');
+    // await page.fill('[placeholder="search by keywords"]', testData.memberName);
+    // await expectExist(`text=${testData.memberName}`,1);
+    // await page.click(`text=${testData.memberName}(${testData.manager})`);
+    // await page.click(`text=member${testData.memberName} >> div`);
+    // await page.click('button:has-text("ok")');
+    // await expectExist(`text=${testData.memberName}`);
+    // await expectExist(`text=${testData.title}`);
 
     // Click button:has-text("add member")
     // await page.click('button:has-text("add member")');
