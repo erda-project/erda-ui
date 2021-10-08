@@ -113,7 +113,7 @@ export default ({ issueType }: IProps) => {
       queryRef.current = restQuery;
       update({ urlQuery: restQuery });
     }
-  }, [query]);
+  }, [restQuery]);
 
   const onChosenIssue = (val: ISSUE.Issue) => {
     update({
