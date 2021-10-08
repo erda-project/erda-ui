@@ -42,6 +42,7 @@ export interface ICondition {
   label: string;
   type: ConditionType;
   emptyText?: string;
+  required?: boolean;
   split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
@@ -147,6 +148,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     quickDelete,
     quickAdd,
     options,
+    required,
     customProps,
     emptyText = i18n.t('application:all'),
     getComp,
@@ -271,6 +273,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             const isGroup = op.children?.length;
             const onClickOptItem = (_curOpt: Option) => {
               if (isSingleMode) {
+                if (required && _value.includes(_curOpt.value)) return;
                 onChange({
                   key,
                   value: _value.includes(_curOpt.value) ? undefined : _curOpt.value,

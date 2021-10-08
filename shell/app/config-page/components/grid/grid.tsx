@@ -19,7 +19,7 @@ export default (props: CP_GRID.Props) => {
   const { gutter = 12, span } = configProps || {};
   let itemSpan = span;
   if (!itemSpan) {
-    itemSpan = new Array(children.length).fill(24 / children.length);
+    itemSpan = new Array(children.length).fill(Math.ceil(24 / children.length));
   }
   return (
     <Row gutter={gutter}>

@@ -21,119 +21,258 @@ export const mockData = {
     hierarchy: {
       root: 'page',
       structure: {
-        page: [
-          'issueTypeContainer',
-          'filter',
-          'overview',
-          'chart1',
-          'chart2',
-          'chartGroup1',
-          'chartGroup2',
-          'chart4',
-          'chart5',
+        page: ['header', 'issueTip', 'overview', 'chart1', 'chart2', 'chartGroup1', 'chartGroup2', 'chart4', 'chart5'],
+        overview: [
+          'overview1',
+          'overview2',
+          'overview3',
+          'overview4',
+          'overview5',
+          'overview6',
+          'overview7',
+          'overview8',
         ],
-        overview: ['overview1', 'overview2', 'overview3', 'overview4'],
-        chart1: { filter: 'chart1Filter' },
-        issueTypeContainer: ['issueType', 'issueTip'],
+        chart1: { extraContent: 'chart1ExtraContent' },
+        chart1ExtraContent: ['chart1Filter', 'chart1History'],
+        chart1History: { children: 'chart1HistoryButton', content: 'chart1HistoryContent' },
+        chart1HistoryContent: ['chart1HistoryFilter', 'chart1HistoryTable'],
+        header: ['issueType', 'filter'],
         chartGroup1: ['chart1_1', 'chart1_2', 'chart1_3'],
         chartGroup2: ['chart2_1', 'chart2_2'],
       },
     },
     components: {
-      page: { type: 'Container' },
+      page: { type: 'Container', props: { spaceSize: 'middle' } },
       overview: {
         type: 'RowContainer',
-        props: { border: true, whiteBg: true, spaceSize: 'huge' },
+        props: { border: true, whiteBg: true, contentSetting: 'between' },
       },
       overview1: {
         type: 'Text',
         operations: {
-          filter123: {
-            key: 'filter123',
-            reload: true,
+          gotoBug: {
+            key: 'gotoBug',
+            reload: false,
+            command: {
+              jumpOut: true,
+              key: 'goto',
+              target: 'projectIssue',
+              state: {
+                params: { type: 'all', projectId: '1' },
+                query: {
+                  issueFilter__urlQuery: 'eyJzdGF0ZXMiOlszMDddfQ==',
+                },
+              },
+            },
           },
         },
         props: {
           renderType: 'linkText',
           value: {
+            direction: 'col',
             text: [
-              '缺陷总数:',
               {
-                text: 123,
-                operationKey: 'filter123',
-                styleConfig: { fontSize: 18, bold: true },
+                text: '123',
+                operationKey: 'gotoBug',
+                styleConfig: { fontSize: 20, bold: true, color: 'text-main' },
               },
+              { text: '缺陷总数', styleConfig: { color: 'text-desc' } },
             ],
           },
         },
       },
-      overview2: {
-        type: 'Text',
+      chart1ExtraContent: {
+        type: 'RowContainer',
+      },
+      chart1History: {
+        type: 'Popover',
+        props: {
+          placement: 'right',
+          size: 'l',
+          trigger: 'click',
+        },
+      },
+      chart1HistoryButton: {
+        type: 'Button',
+        props: { text: '查看全部', type: 'link' },
+      },
+      chart1HistoryContent: {
+        type: 'Container',
+      },
+      chart1HistoryTable: {
+        data: {
+          list: [{ id: 1, name: '张三', a: 'a', b: 'b' }],
+        },
+        name: 'table',
         operations: {
-          filter123: {
-            key: 'filter123',
+          changePageNo: {
+            key: 'changePageNo',
             reload: true,
           },
         },
         props: {
+          pageSizeOptions: ['10', '20', '50', '100'],
+          columns: [
+            {
+              dataIndex: 'name',
+              title: '名称',
+            },
+            {
+              dataIndex: 'a',
+              title: 'a',
+            },
+            {
+              dataIndex: 'b',
+              title: 'b',
+            },
+          ],
+          rowKey: 'id',
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 15,
+          total: 0,
+        },
+        type: 'Table',
+      },
+      chart1HistoryFilter: {
+        name: 'filterxxxx',
+        operations: {
+          filter: {
+            key: 'filter',
+            reload: true,
+          },
+        },
+        props: {
+          delay: 1000,
+        },
+        state: {
+          conditions: [
+            {
+              type: 'input',
+              fixed: true,
+              placeholder: '请输入名称搜索',
+              key: 'title',
+              label: '标题',
+            },
+          ],
+          values: {},
+        },
+        type: 'ContractiveFilter',
+      },
+      overview2: {
+        type: 'Text',
+        props: {
           renderType: 'linkText',
           value: {
+            direction: 'col',
             text: [
-              '缺陷总数:',
               {
                 text: 123,
-                operationKey: 'filter123',
-                styleConfig: { fontSize: 18, bold: true },
+                styleConfig: { fontSize: 20, bold: true, color: 'text-main' },
               },
+              { text: '未关闭', styleConfig: { color: 'text-desc' } },
             ],
           },
         },
       },
       overview3: {
         type: 'Text',
-        operations: {
-          filter123: {
-            key: 'filter123',
-            reload: true,
-          },
-        },
         props: {
           renderType: 'linkText',
           value: {
+            direction: 'col',
             text: [
-              '已延期:',
               {
                 text: 123,
-                operationKey: 'filter123',
-                styleConfig: { fontSize: 18, bold: true },
+                styleConfig: { fontSize: 20, bold: true, color: 'text-main' },
               },
+              { text: '已延期', styleConfig: { color: 'text-desc' } },
             ],
           },
         },
       },
       overview4: {
         type: 'Text',
-        operations: {
-          filter123: {
-            key: 'filter123',
-            reload: true,
-          },
-        },
         props: {
           renderType: 'linkText',
           value: {
+            direction: 'col',
             text: [
-              '未指定日期:',
               {
                 text: 123,
-                operationKey: 'filter123',
-                styleConfig: { fontSize: 18, bold: true },
+                styleConfig: { fontSize: 20, bold: true, color: 'red' },
               },
+              { text: '本日截止', styleConfig: { color: 'text-desc' } },
             ],
           },
         },
       },
-      issueTypeContainer: { type: 'RowContainer' },
+      overview5: {
+        type: 'Text',
+        props: {
+          renderType: 'linkText',
+          value: {
+            direction: 'col',
+            text: [
+              {
+                text: 123,
+                styleConfig: { fontSize: 20, bold: true, color: 'orange' },
+              },
+              { text: '本周截止', styleConfig: { color: 'text-desc' } },
+            ],
+          },
+        },
+      },
+      overview6: {
+        type: 'Text',
+        props: {
+          renderType: 'linkText',
+          value: {
+            direction: 'col',
+            text: [
+              {
+                text: 123,
+                styleConfig: { fontSize: 20, bold: true, color: 'blue' },
+              },
+              { text: '本月截止', styleConfig: { color: 'text-desc' } },
+            ],
+          },
+        },
+      },
+      overview7: {
+        type: 'Text',
+        props: {
+          renderType: 'linkText',
+          value: {
+            direction: 'col',
+            text: [
+              {
+                text: 1230,
+                styleConfig: { fontSize: 20, bold: true, color: 'text-main' },
+              },
+              { text: '未指定截止日期', styleConfig: { color: 'text-desc' } },
+            ],
+          },
+        },
+      },
+      overview8: {
+        type: 'Text',
+        props: {
+          renderType: 'linkText',
+          value: {
+            direction: 'col',
+            text: [
+              {
+                text: 1230,
+                styleConfig: { fontSize: 20, bold: true, color: 'text-main' },
+              },
+              { text: '重新打开', styleConfig: { color: 'text-desc' } },
+            ],
+          },
+        },
+      },
+      header: { type: 'RowContainer' },
       issueTip: { type: 'Text', props: { value: '提示：以下数据统计于2021-9-23' } },
       filter: {
         name: 'filter',
@@ -188,15 +327,15 @@ export const mockData = {
         props: {
           buttonStyle: 'solid',
           options: [
-            { key: 'total', text: '概览' },
-            { key: 'requirement', text: '需求' },
-            { key: 'task', text: '任务' },
+            { key: 'total', text: '概览', disabled: true },
+            { key: 'requirement', text: '需求', disabled: true },
+            { key: 'task', text: '任务', disabled: true },
             { key: 'bug', text: '缺陷' },
           ],
           radioType: 'button',
         },
         state: {
-          value: 'total',
+          value: 'bug',
         },
       },
       chartGroup1: {
@@ -223,9 +362,14 @@ export const mockData = {
               fixed: true,
               key: 'type',
               label: '类型',
+              required: true, // 不能为空
+              customProps: {
+                mode: 'single', // 单选
+              },
               options: [
-                { label: '优先级', value: '1' },
-                { label: '严重程度', value: '2' },
+                { label: '复杂度', value: '1' },
+                { label: '优先级', value: '2' },
+                { label: '严重程度', value: '3' },
               ],
               type: 'select',
             },
@@ -242,15 +386,15 @@ export const mockData = {
               type: 'select',
             },
           ],
-          values: {},
+          values: { type: '1', value: '2' },
         },
         type: 'ContractiveFilter',
       },
       chart1: {
         type: 'Chart',
         props: {
+          visible: false,
           title: '缺陷新增、关闭、未关闭数走势',
-          withFilter: true,
           chartType: 'line',
           option: {
             xAxis: {
@@ -259,11 +403,17 @@ export const mockData = {
             series: [
               {
                 name: '张三',
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                data: [820, 932, 901, 934, 0, 1330, 1320],
+                areaStyle: {
+                  opacity: 0.1,
+                },
               },
               {
                 name: '李四',
                 data: [320, 432, 201, 534, 1090, 330, 320],
+                areaStyle: {
+                  opacity: 0.1,
+                },
               },
             ],
           },

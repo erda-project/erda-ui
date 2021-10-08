@@ -35,11 +35,28 @@ const getOption = (chartType: string, option: Obj) => {
         tooltip: { trigger: 'axis' },
         yAxis: { type: 'value' },
         ...reOption,
-        series: reOption.series.map((item: Obj) => ({
-          type: 'line',
-          smooth: true,
-          ...item,
-        })),
+        series: reOption.series.map((item: Obj, idx: number) => {
+          const reItem = { ...item };
+          if (reItem?.areaStyle?.color?.type === 'linear') {
+            const curColor = option.color[((idx + 1) % option.color.length) - 1];
+            reItem.areaStyle.color = {
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: curColor },
+                { offset: 1, color: '#fff' },
+              ],
+              ...reItem.areaStyle.color,
+            };
+          }
+          return {
+            type: 'line',
+            smooth: true,
+            ...item,
+          };
+        }),
       };
       break;
     case 'bar':
@@ -90,18 +107,19 @@ const getOption = (chartType: string, option: Obj) => {
 };
 
 const Chart = (props: CP_CHART.Props) => {
-  const { cId, props: configProps, filter } = props;
-  const { style = {}, title, option, chartType, ...rest } = configProps || {};
+  const { cId, props: configProps, extraContent } = props;
+  const { style = {}, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
+  if (!visible) return null;
 
   return (
     <div className="cp-chart" style={style}>
-      {title || filter ? (
+      {title || extraContent ? (
         <div className="flex items-center justify-between">
           {title ? <div className="mb-2 font-medium">{title}</div> : null}
-          {filter}
+          <div>{extraContent}</div>
         </div>
       ) : null}
       <div className="cp-chart-container">

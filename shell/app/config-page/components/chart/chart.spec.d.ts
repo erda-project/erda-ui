@@ -22,10 +22,11 @@ declare namespace CP_CHART {
     chartType: 'line' | 'pie' | 'bar';
     option: Obj;
     style: Obj;
+    visible?: boolean;
     title: string;
   }
 
   type Props = MakeProps<Spec> & {
-    filter?: React.ReactElement;
+    extraContent?: React.ReactElement;
   };
 }
