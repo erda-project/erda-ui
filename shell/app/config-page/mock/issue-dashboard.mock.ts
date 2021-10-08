@@ -393,7 +393,7 @@ export const mockData = {
       chart1: {
         type: 'Chart',
         props: {
-          visible: false,
+          // visible: false,
           title: '缺陷新增、关闭、未关闭数走势',
           chartType: 'line',
           option: {

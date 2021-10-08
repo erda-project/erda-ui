@@ -18,14 +18,14 @@ import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 
 const IssueDashboard = () => {
-  const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
 
-  const inParams = { clusterName, ...urlQuery };
+  const inParams = { projectId, ...urlQuery };
 
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
