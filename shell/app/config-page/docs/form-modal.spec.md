@@ -4,16 +4,32 @@
 
 ### Spec
 
-| 名称       | 类型                           | 必填  |
-| ---------- | ------------------------------ | ----- |
-| type       | 'FormModal'                    | false |
-| operations | CP_FORM.Spec['operations']     | false |
-| props      | CP_FORM.Spec['props']          | false |
-| state      | Merge<CP_FORM.Spec['state'], { |
+| 名称       | 类型                     | 必填  |
+| ---------- | ------------------------ | ----- | --- |
+| type       | 'FormModal'              | false |
+| operations | Obj<CP_COMMON.Operation> | false |
+| props      | IProps                   | false |
+| state      | IState                   | false | ,   |
 
-      visible: boolean
-      title?: string
-    }> | false |
+### IState
+
+| 名称     | 类型    | 必填      |
+| -------- | ------- | --------- | ----- |
+| formData | Obj     | undefined | false |
+| visible  | boolean | false     |
+| title    | string  | true      | ,     |
+
+### IProps
+
+| 名称        | 类型                  | 必填    |
+| ----------- | --------------------- | ------- | ---- |
+| width       | number                | true    |
+| name        | string                | true    |
+| title       | string                | true    |
+| visible     | boolean               | true    |
+| marginStyle | 'normal'              | 'tense' | true |
+| fields      | CP_COMMON.FormField[] | false   |
+| formData    | Obj                   | true    |
 
 ## 枚举
 
