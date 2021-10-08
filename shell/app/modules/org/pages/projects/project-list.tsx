@@ -71,8 +71,7 @@ export const ProjectList = () => {
         dataIndex: 'type',
         key: 'type',
         width: 160,
-        render: (text: string) =>
-          text === 'DevOps' || text === '' ? 'DevOps' : i18n.t('org:microservice Observation Project'),
+        render: (text: string) => (text === 'MSP' ? i18n.t('org:microservice Observation Project') : 'DevOps'),
       },
       {
         title: i18n.t('org:application/Member Statistics'),
