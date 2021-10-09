@@ -39,9 +39,8 @@ const resolve = (pathname) => path.resolve(__dirname, pathname);
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
-  const isOnline = process.env.DICE_WORKSPACE; // 线上才有的环境变量
   const isProd = nodeEnv === 'production';
-  const cpuNum = isProd && isOnline ? 1 : os.cpus().length;
+  const cpuNum = os.cpus().length;
 
   console.log('isProd:', isProd, process.version);
 
