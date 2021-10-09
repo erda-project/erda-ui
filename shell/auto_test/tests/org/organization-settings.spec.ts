@@ -14,9 +14,10 @@
 import { Role, test, expect } from '../../fixtures';
 import Base from '../pages/base';
 const title = 'terminus' + Date.now();
-
+const modifyTitle = 'modified' + Date.now();
 const testData = {
   title,
+  modifyTitle,
   memberName: '吴辉洛',
   manager: '组织管理员',
   image: 'app/images/Erda.png',
@@ -27,6 +28,44 @@ const testData = {
 Role('Manager', () => {
   test.only('organization-settings', async ({ wait, page, expectExist, goTo }) => {
     await goTo('organization');
+
+    // 字段
+
+    await page.click('text=issue custom fields');
+    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=issueField/);
+    await page.click('button:has-text("add")');
+    await page.click('[placeholder="please enter field name"]');
+    await page.fill('[placeholder="please enter field name"]', testData.title);
+    await page.click('span:has-text("yes")');
+    await page.click('input[role="combobox"]');
+    await page.click(':nth-match(:text("Text"), 2)');
+    await page.click('button:has-text("ok")');
+    await expectExist(`text=${testData.title}`, 0);
+    await page.click(`text=${testData.title}yesTexteditdelete >> :nth-match(span, 2)`);
+    await page.click('[placeholder="please enter field name"]');
+    await page.fill('[placeholder="please enter field name"]', testData.modifyTitle);
+    await page.click('button:has-text("ok")');
+    await expectExist(`text=${testData.modifyTitle}`, 0);
+
+    // await page.click('[placeholder="filter by field name"]');
+    // await Promise.all([
+    //   page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/orgCenter/setting/detail?propertyName=modified&tabKey=issueField' }*/),
+    //   page.fill('[placeholder="filter by field name"]', testData.modifyTitle),
+    // ]);
+    // await expectExist(`text=${testData.modifyTitle}`);
+
+    await page.click('text=joint issue type');
+    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=issueType/);
+
+    await page.click('text=requirement');
+    await page.click('input[role="combobox"]');
+    // Click text=terminus1633696292482
+    await page.click(`text=${testData.modifyTitle}`);
+    await wait(5);
+    await page.click('button:has-text("reference")');
+
+    // await page.click(`text=${testData.modifyTitle}yesTexteditdelete >> :nth-match(span, 3)`);
+    // await page.click('button:has-text("OK")');
 
     // 封网
     // await page.click('li:has-text("block network")');
