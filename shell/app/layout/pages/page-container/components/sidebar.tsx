@@ -211,6 +211,7 @@ const SideBar = () => {
         icon: <ErdaCustomIcon type="user-config" />,
         title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
         onClick: () => {
+          window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
           goTo(goTo.pages.sysAdmin, { orgName: '-' });
         },
       },
@@ -254,9 +255,13 @@ const SideBar = () => {
           }}
           onClick={() => {
             const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
-            if (isIncludeOrg) {
+            if (isAdminRoute) {
+              const lastOrg = window.localStorage.getItem('lastOrg');
+              const isInLastOrg = !!orgs.find((x: Obj) => x.name === lastOrg);
+              goTo(goTo.pages.orgRoot, { orgName: isInLastOrg ? lastOrg : '-' });
+            } else if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
-            } else if (!orgs?.length || isAdminRoute) {
+            } else if (!orgs?.length) {
               // skipping warning when the user doesn't join any organization.
               goTo(goTo.pages.orgRoot, { orgName: '-' });
             } else {
