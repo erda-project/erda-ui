@@ -94,6 +94,7 @@ export const AddonUsageChart = () => {
             },
             tooltip: {
               formatter: '{a} <br/>{b}: {c} Core ({d}%)',
+              confine: true,
             },
           },
         },
@@ -119,6 +120,7 @@ export const AddonUsageChart = () => {
             },
             tooltip: {
               formatter: '{a} <br/>{b}: {c} GiB ({d}%)',
+              confine: true,
             },
           },
         },
