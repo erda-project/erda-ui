@@ -45,7 +45,6 @@ const buildModules = async (rebuildList: string[]) => {
     pList.push(promise);
   });
 
-  await Promise.all(pList);
   try {
     await Promise.all(pList);
   } catch (_error) {
