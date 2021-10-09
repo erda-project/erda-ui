@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { GlobalNavigation, Shell, Badge, Tooltip, message } from 'core/nusi';
+import { Shell, Badge, Tooltip, message } from 'core/nusi';
+import GlobalNavigation from './globalNavigation';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
 import { Icon as CustomIcon, ImgHolder, ErdaCustomIcon } from 'common';
@@ -237,7 +238,6 @@ const SideBar = () => {
     avatar: {
       src: loginUser.avatar ? ossImg(loginUser.avatar, { w: 48 }) : undefined,
       chars: getAvatarChars(loginUser.nick || loginUser.name),
-      limitChars: 0,
     },
     operations: useMenuOperations,
   };
