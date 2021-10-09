@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Dropdown, Menu } from 'core/nusi';
+import { Dropdown, Menu } from 'core/nusi';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
-import { ErdaCustomIcon } from 'common';
-
-const { Option } = Select;
+import { ErdaCustomIcon, EmptyListHolder } from 'common';
+import i18n from 'i18n';
+import { useUnmount } from 'react-use';
 
 export function ServiceNameSelect() {
   const globalTimeSelectSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
@@ -29,6 +29,18 @@ export function ServiceNameSelect() {
   const { getServiceList } = serviceAnalyticsStore;
   const [serviceList, setServiceList] = React.useState([] as any);
 
+  const configServiceData = (key: string) => {
+    const service = serviceList.filter((v: TOPOLOGY_SERVICE_ANALYZE.ServiceData) => v.service_id === key);
+    const _serviceId = service[0]?.service_id || serviceList[0]?.service_id;
+    const _serviceName = service[0]?.service_name || serviceList[0]?.service_name;
+    const applicationId = service[0]?.application_id || serviceList[0]?.application_id;
+    updateState({
+      serviceId: window.decodeURIComponent(_serviceId),
+      serviceName: _serviceName,
+      applicationId,
+    });
+  };
+
   React.useEffect(() => {
     getServiceList({ start: startTimeMs, end: endTimeMs }).then((res) => {
       setServiceList(res?.data || []);
@@ -36,28 +48,28 @@ export function ServiceNameSelect() {
   }, [getServiceList, startTimeMs, endTimeMs]);
 
   React.useEffect(() => {
-    if (params?.serviceId) {
-      updateState({
-        serviceId: window.decodeURIComponent(params?.serviceId),
-      });
+    if (serviceId) {
+      configServiceData(serviceId);
+    } else if (params?.serviceId) {
+      configServiceData(params?.serviceId);
     } else if (!serviceId && serviceList?.length > 0) {
-      const _serviceName = serviceList?.[0]?.service_name;
-      const applicationId = serviceList?.[0]?.application_id;
-      updateState({ serviceId: serviceList?.[0]?.service_id, serviceName: _serviceName, applicationId });
+      configServiceData(serviceId);
     }
   }, [params.serviceId, serviceId, serviceList, updateState]);
 
+  useUnmount(() => {
+    updateState({
+      serviceId: '',
+      serviceName: '',
+      applicationId: '',
+    });
+  });
+
   const menu = React.useMemo(() => {
     const handleChangeService = ({ key }: { key: string }) => {
-      const service = serviceList.filter((v) => v.service_id === key);
-      const _serviceName = service[0]?.service_name;
-      const applicationId = service[0]?.application_id;
-      updateState({
-        serviceId: key,
-        serviceName: _serviceName,
-        applicationId,
-      });
+      configServiceData(key);
     };
+
     return (
       <Menu onClick={handleChangeService}>
         {serviceList.map((x: SERVICE_ANALYTICS.ServiceItem) => (
@@ -68,15 +80,16 @@ export function ServiceNameSelect() {
             {x.service_name}
           </Menu.Item>
         ))}
+        {!serviceList?.length && <EmptyListHolder />}
       </Menu>
     );
-  }, [serviceId]);
+  }, [serviceId, serviceList]);
 
   return (
-    <div className="mt-2">
+    <div>
       <Dropdown overlay={menu} trigger={['click']}>
-        <div className="font-bold text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
-          <span className="self-center">{serviceName}</span>
+        <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
+          <span className="self-center">{serviceName || i18n.t('msp:no service')}</span>
           <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
         </div>
       </Dropdown>

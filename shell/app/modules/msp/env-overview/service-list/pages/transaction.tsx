@@ -15,9 +15,8 @@ import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { goTo } from 'common/utils';
 import { Drawer, Radio, Select, Table, Tag, Tooltip } from 'core/nusi';
-import { SimpleLog, useUpdate, DebounceSearch, Ellipsis } from 'common';
+import { SimpleLog, useUpdate, DebounceSearch, Ellipsis, EmptyHolder } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
@@ -26,7 +25,6 @@ import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-de
 import mspStore from 'msp/stores/micro-service';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-import { ServiceNameSelect } from './service-name-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
@@ -201,16 +199,18 @@ const Transaction = () => {
     const { serviceName, terminusKey } = params;
     updater.sortType(sort_type);
     updater.limit(queryLimit);
-    getTraceSlowTranslation({
-      sort: sort_type,
-      start: startTimeMs,
-      end: endTimeMs,
-      terminusKey,
-      serviceName: serviceName || _serviceName,
-      limit: queryLimit,
-      serviceId,
-      operation: cellValue,
-    }).then((res) => updater.traceSlowTranslation(res));
+    if (serviceId) {
+      getTraceSlowTranslation({
+        sort: sort_type,
+        start: startTimeMs,
+        end: endTimeMs,
+        terminusKey,
+        serviceName: serviceName || _serviceName,
+        limit: queryLimit,
+        serviceId,
+        operation: cellValue,
+      }).then((res) => updater.traceSlowTranslation(res));
+    }
   };
 
   const handleChangeLimit = React.useCallback(
@@ -291,7 +291,6 @@ const Transaction = () => {
 
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
-    // const _serviceId = window.decodeURIComponent(serviceId);
     // 动态注入正则查询变量需要转义字符
     _subSearch &&
       REG_CHARS.forEach((char) => {
@@ -322,7 +321,6 @@ const Transaction = () => {
       <div>
         <div className="flex justify-between items-center flex-wrap mb-1">
           <div className="left flex justify-between items-center mb-2">
-            <ServiceNameSelect />
             <If condition={type === DASHBOARD_TYPE.mq}>
               <Select
                 placeholder={i18n.t('msp:call type')}
@@ -386,14 +384,18 @@ const Transaction = () => {
           </Tag>
         </If>
       </div>
-      <div className="overflow-auto flex-1">
-        <ServiceListDashboard
-          key={`${startTimeMs}-${endTimeMs}`}
-          dashboardId={dashboardIdMap[type].id}
-          extraGlobalVariable={extraGlobalVariable}
-          onBoardEvent={handleBoardEvent}
-        />
-      </div>
+      {serviceId ? (
+        <div className="overflow-auto flex-1">
+          <ServiceListDashboard
+            key={`${startTimeMs}-${endTimeMs}`}
+            dashboardId={dashboardIdMap[type].id}
+            extraGlobalVariable={extraGlobalVariable}
+            onBoardEvent={handleBoardEvent}
+          />
+        </div>
+      ) : (
+        <EmptyHolder />
+      )}
       <Drawer
         title={tracingDrawerTitle}
         width="80%"

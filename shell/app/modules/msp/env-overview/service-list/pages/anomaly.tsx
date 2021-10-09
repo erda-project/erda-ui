@@ -14,12 +14,11 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { Select } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate, EmptyHolder } from 'common';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
-import { ServiceNameSelect } from './service-name-select';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 
@@ -49,13 +48,15 @@ export default () => {
   });
 
   useEffect(() => {
-    getExceptionTypes({
-      serviceName: serviceName || _serviceName,
-      serviceId,
-      terminusKey,
-      start: timeSpan.startTimeMs,
-      end: timeSpan.endTimeMs,
-    }).then((res) => updater.exceptionTypes(res?.data));
+    if (serviceId) {
+      getExceptionTypes({
+        serviceName: serviceName || _serviceName,
+        serviceId,
+        terminusKey,
+        start: timeSpan.startTimeMs,
+        end: timeSpan.endTimeMs,
+      }).then((res) => updater.exceptionTypes(res?.data));
+    }
   }, [
     serviceId,
     getExceptionTypes,
@@ -71,7 +72,6 @@ export default () => {
     <div className="service-analyze flex flex-col h-full">
       <div className="flex justify-between items-center flex-wrap mb-1">
         <div className="left flex justify-between items-center mb-2">
-          <ServiceNameSelect />
           <Select
             className="mr-3"
             placeholder={i18n.t('msp:select sorting method')}
@@ -116,13 +116,17 @@ export default () => {
           <TimeSelectWithStore className="ml-3" />
         </div>
       </div>
-      <div className="overflow-auto flex-1">
-        <ServiceListDashboard
-          dashboardId="exception_analysis"
-          extraGlobalVariable={{ sort, limit, exceptionType }}
-          serviceId={serviceId}
-        />
-      </div>
+      {serviceId ? (
+        <div className="overflow-auto flex-1">
+          <ServiceListDashboard
+            dashboardId="exception_analysis"
+            extraGlobalVariable={{ sort, limit, exceptionType }}
+            serviceId={serviceId}
+          />
+        </div>
+      ) : (
+        <EmptyHolder />
+      )}
     </div>
   );
 };

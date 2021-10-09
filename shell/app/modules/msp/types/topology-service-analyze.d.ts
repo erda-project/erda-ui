@@ -39,4 +39,10 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
     status: boolean;
     ip: string;
   }
+
+  interface ServiceData {
+    service_id: string;
+    service_name: string;
+    application_id: string;
+  }
 }

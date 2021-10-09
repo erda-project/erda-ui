@@ -23,7 +23,6 @@ import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { get } from 'lodash';
-import { ServiceNameSelect } from './service-name-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './index.scss';
 
@@ -43,35 +42,38 @@ export default () => {
   const [isFetching] = useLoading(topologyServiceStore, ['getProcessDashboardId']);
 
   useEffect(() => {
-    getInstanceIds({
-      serviceName: serviceName || _serviceName,
-      serviceId,
-      terminusKey,
-      start: startTimeMs,
-      end: endTimeMs,
-    }).then((res) => {
-      const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
-      update({
-        timeSpan: _timeSpan,
-        instanceId: defaultInstanceId,
-        instanceIds: res?.data,
+    if (serviceId) {
+      getInstanceIds({
+        serviceName: serviceName || _serviceName,
+        serviceId,
+        terminusKey,
+        start: startTimeMs,
+        end: endTimeMs,
+      }).then((res) => {
+        const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
+        update({
+          timeSpan: _timeSpan,
+          instanceId: defaultInstanceId,
+          instanceIds: res?.data,
+        });
       });
-    });
+    }
   }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan, update]);
 
   useEffect(() => {
-    getProcessDashboardId({
-      serviceName: serviceName || _serviceName,
-      serviceId,
-      terminusKey,
-    }).then((_id) => updater.id(_id));
+    if (serviceId) {
+      getProcessDashboardId({
+        serviceName: serviceName || _serviceName,
+        serviceId,
+        terminusKey,
+      }).then((_id) => updater.id(_id));
+    }
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
   return (
     <div className="service-analyze flex flex-col h-full">
       <div className="flex justify-between items-center flex-wrap mb-1">
         <div className="left flex justify-between items-center mb-2">
-          <ServiceNameSelect />
           <Select
             className="mr-3"
             placeholder={i18n.t('addonPlatform:select instance')}
@@ -106,20 +108,20 @@ export default () => {
           <TimeSelectWithStore className="m-0 ml-3" />
         </div>
       </div>
-      <div className="overflow-auto flex-1">
-        <Spin spinning={isFetching}>
-          {id ? (
+      {id && serviceId ? (
+        <div className="overflow-auto flex-1">
+          <Spin spinning={isFetching}>
             <ServiceListDashboard
               timeSpan={timeSpan}
               dashboardId={id}
               extraGlobalVariable={{ instanceId }}
               serviceId={serviceId}
             />
-          ) : (
-            <EmptyHolder relative />
-          )}
-        </Spin>
-      </div>
+          </Spin>
+        </div>
+      ) : (
+        <EmptyHolder />
+      )}
     </div>
   );
 };

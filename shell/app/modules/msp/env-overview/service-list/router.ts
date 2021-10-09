@@ -35,6 +35,7 @@ export default (): RouteConfigItem => ({
               breadcrumbName: i18n.t('msp:service analysis'),
               tabs,
               alwaysShowTabKey: 'overview',
+              pageNameInfo: 'service-analysis',
               layout: { fullHeight: true },
               routes: [
                 {
@@ -55,6 +56,7 @@ export default (): RouteConfigItem => ({
                         cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
                     },
                     {
+                      layout: { fullHeight: true },
                       getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
                     },
                   ],

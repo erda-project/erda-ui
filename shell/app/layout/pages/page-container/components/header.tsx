@@ -76,7 +76,7 @@ const Header = () => {
 
   const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
-  const [pageNameInfo, setPageNameInfo] = React.useState('');
+  const [pageNameInfo, setPageNameInfo] = React.useState<string>();
   const checkHasTemplate = React.useCallback(
     (breadcrumbName: string) => {
       const replacePattern = /\{([\w.])+\}/g;
@@ -168,7 +168,7 @@ const Header = () => {
     return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
   };
 
-  const Title = (type: string) => {
+  const Title = (type: string | undefined) => {
     switch (type) {
       case 'service-analysis':
         return <ServiceNameSelect />;
