@@ -17,6 +17,7 @@ const getEcpRouter = () => [
   {
     path: 'ecp',
     mark: 'ecp',
+    toMark: 'orgIndex',
     routes: [
       {
         path: 'application',

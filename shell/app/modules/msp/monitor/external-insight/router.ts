@@ -13,21 +13,19 @@
 
 import i18n from 'i18n';
 
-function monitorErrorRouter() {
-  return {
-    path: 'error',
-    breadcrumbName: i18n.t('msp:error analysis'),
-    routes: [
-      {
-        getComp: (cb) => cb(import('error-insight/pages/errors/error-overview')),
-      },
-      {
-        path: ':errorType/:errorId',
-        breadcrumbName: i18n.t('msp:error details'),
-        getComp: (cb) => cb(import('error-insight/pages/errors/error-detail')),
-      },
-    ],
-  };
-}
+const tabs = [{ key: 'affairs', name: i18n.t('msp:external transaction') }];
 
-export default monitorErrorRouter;
+const getEIRouter = (): RouteConfigItem => ({
+  path: 'ei/:hostName',
+  mark: 'externalInsight',
+  breadcrumbName: ({ params }) => decodeURIComponent(params.hostName || ''),
+  routes: [
+    {
+      path: 'affairs',
+      tabs,
+      getComp: (cb) => cb(import('msp/monitor/external-insight/pages/affairs/affairs')),
+    },
+  ],
+});
+
+export default getEIRouter;

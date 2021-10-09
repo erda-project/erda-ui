@@ -21,7 +21,7 @@ const tabs = [
 ];
 
 // API 分析页
-const getApiInsightRouter = () => ({
+const getApiInsightRouter = (): RouteConfigItem => ({
   path: 'api-monitor',
   mark: 'api-monitor',
   pageName: i18n.t('msp:API analysis'),

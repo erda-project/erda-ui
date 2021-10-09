@@ -30,7 +30,7 @@ if (isZh()) {
   tabs.push({ key: 'bi/geography', name: i18n.t('msp:geography') });
 }
 
-const getBIRouter = () => ({
+const getBIRouter = (): RouteConfigItem => ({
   path: 'bi',
   pageName: i18n.t('msp:front-end monitor'),
   tabs,
@@ -105,7 +105,7 @@ const getBIRouter = () => ({
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/summary/summary')),
     },
-    ...(isZh
+    ...(isZh()
       ? [
           {
             path: 'geography',
@@ -113,7 +113,7 @@ const getBIRouter = () => ({
             alwaysShowTabKey: 'bi/geography',
             tabs,
             getComp: (cb) => cb(import('browser-insight/pages/geography-china/geography-china')),
-          },
+          } as RouteConfigItem,
         ]
       : []),
   ],

@@ -13,10 +13,11 @@
 
 import i18n from 'core/i18n';
 
-function getLayoutRouter() {
+function getLayoutRouter(): RouteConfigItem[] {
   return [
     {
       path: 'noAuth',
+      toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:error page'),
       getComp: (cb) => cb(import('layout/common/error-page'), 'NoAuth'),
       layout: {
@@ -26,6 +27,7 @@ function getLayoutRouter() {
     },
     {
       path: 'freshMan',
+      toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:error page'),
       getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
       layout: {
@@ -35,6 +37,7 @@ function getLayoutRouter() {
     },
     {
       path: 'notFound',
+      toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:error page'),
       getComp: (cb) => cb(import('layout/common/error-page'), 'NotFound'),
       layout: {
@@ -44,6 +47,7 @@ function getLayoutRouter() {
     },
     {
       path: 'inviteToOrg',
+      toMark: 'orgIndex',
       breadcrumbName: i18n.t('layout:join organization'),
       getComp: (cb) => cb(import('layout/common/invite-to-org')),
       layout: {

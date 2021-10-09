@@ -23,7 +23,7 @@ const tabs = [
   { key: 'ai/nodes', name: 'NodeJs' },
 ];
 
-const getAIRouter = () => ({
+const getAIRouter = (): RouteConfigItem => ({
   path: 'ai',
   // breadcrumbName: '应用性能',
   tabs,

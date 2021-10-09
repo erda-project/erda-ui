@@ -24,7 +24,7 @@ const reportTabs = [
   },
 ];
 
-function projectReportRouter() {
+function projectReportRouter(): RouteConfigItem {
   return {
     path: 'reports',
     alwaysShowTabKey: 'weekly',
