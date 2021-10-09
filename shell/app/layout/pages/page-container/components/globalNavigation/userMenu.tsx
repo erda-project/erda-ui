@@ -16,37 +16,37 @@ import { Popover, Menu, Avatar } from 'core/nusi';
 import { UserMenuProps } from './interface';
 
 const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
-  const userMenuContent = () => {
-    return (
-      <div className="container">
-        <div className="user-info">
-          <div className="avatar">
-            <Avatar src={avatar?.src} size={48}>
-              {avatar?.chars || ''}
-            </Avatar>
-          </div>
-          <div className="desc-container">
-            <div className="name">{name}</div>
-          </div>
-        </div>
-        <div className="operation-group">
-          <Menu>
-            {operations?.map(({ onClick, icon, title }) => {
-              return (
-                <Menu.Item key={title} onClick={onClick}>
-                  {icon}
-                  {title}
-                </Menu.Item>
-              );
-            })}
-          </Menu>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <Popover placement={'rightBottom'} content={userMenuContent()} overlayClassName="erda-global-nav-user-menu">
+    <Popover
+      placement={'rightBottom'}
+      overlayClassName="erda-global-nav-user-menu"
+      content={
+        <div className="container">
+          <div className="user-info">
+            <div className="avatar">
+              <Avatar src={avatar?.src} size={48}>
+                {avatar?.chars || ''}
+              </Avatar>
+            </div>
+            <div className="desc-container">
+              <div className="name">{name}</div>
+            </div>
+          </div>
+          <div className="operation-group">
+            <Menu>
+              {operations?.map(({ onClick, icon, title }) => {
+                return (
+                  <Menu.Item key={title} onClick={onClick}>
+                    {icon}
+                    {title}
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          </div>
+        </div>
+      }
+    >
       <Avatar src={avatar?.src}>{avatar?.chars || ''}</Avatar>
     </Popover>
   );
