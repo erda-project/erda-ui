@@ -154,6 +154,21 @@ export const TEST_TABS = [
   },
 ];
 
+export const TEST_PLAN_TABS = [
+  {
+    key: 'manual',
+    name: i18n.t('project:manual test'),
+  },
+  {
+    key: 'auto',
+    name: i18n.t('project:automatic test'),
+  },
+  {
+    key: 'code-coverage',
+    name: i18n.t('project:code coverage'),
+  },
+];
+
 export const DATABANK_TABS = [
   {
     key: 'data-source',
