@@ -1713,6 +1713,17 @@
       "en": ""
     }
   },
+  "drainNode": {
+    "desc": "驱散节点",
+    "success": {
+      "zh": "在集群 [@clusterName] 中，驱散节点 [@name]",
+      "en": "Drain the node [@name] in cluster [@clusterName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
   "updateK8SResource": {
     "desc": "更新K8S资源",
     "success": {
