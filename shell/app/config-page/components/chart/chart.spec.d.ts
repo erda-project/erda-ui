@@ -16,14 +16,26 @@ declare namespace CP_CHART {
     type: 'Chart';
     props: IProps;
     cId: string;
+    data: IData;
   }
 
+  interface IData {
+    treemapList?: ITreeMapList[];
+  }
+
+  interface ITreeMapList {
+    name: string;
+    value: number | number;
+    children?: ITreeMapList[];
+    parent?: string;
+  }
   interface IProps {
     chartType: 'line' | 'pie' | 'bar';
     option: Obj;
     style: Obj;
     visible?: boolean;
     title: string;
+    isLoadMore?: boolean;
   }
 
   type Props = MakeProps<Spec> & {

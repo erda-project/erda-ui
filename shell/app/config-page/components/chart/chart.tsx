@@ -15,10 +15,11 @@ import React from 'react';
 import EChart from 'charts/components/echarts';
 import { colorMap } from 'config-page/utils';
 import { map, uniq, merge } from 'lodash';
+import { useUpdateEffect } from 'react-use';
 import { theme } from 'charts/theme';
 import './chart.scss';
 
-const getOption = (chartType: string, option: Obj) => {
+const getOption = (chartType: string, option: Obj, data: CP_DATE_PICKER.IData) => {
   const commonOp = {
     grid: {
       bottom: 10,
@@ -99,33 +100,61 @@ const getOption = (chartType: string, option: Obj) => {
         );
       }
       break;
+    case 'treemap':
+      reOption = {
+        ...reOption,
+        series: reOption.series.map((item: Obj) => ({
+          type: 'treemap',
+          data: data.treemapList,
+          ...item,
+        })),
+      };
+      break;
     default:
       break;
   }
-
   return merge(commonOp, reOption);
 };
 
 const Chart = (props: CP_CHART.Props) => {
-  const { cId, props: configProps, extraContent } = props;
+  const { cId, props: configProps, data: propsData, extraContent, operations, execOperation } = props;
   const { style = {}, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
+
+  const [data, setData] = React.useState(propsData);
+  useUpdateEffect(() => {
+    if (propsData) {
+      setData(propsData);
+    }
+  }, [propsData]);
+
   if (!visible) return null;
 
+  const onEvents: Obj = {};
+  if (operations?.click) {
+    onEvents.click = (params: any) => {
+      execOperation(operations.click, {
+        data: params.data,
+        seriesIndex: params.seriesIndex,
+        dataIndex: params.dataIndex,
+      });
+    };
+  }
   return (
-    <div className="cp-chart" style={style}>
+    <div className="cp-chart flex flex-col" style={style}>
       {title || extraContent ? (
         <div className="flex items-center justify-between">
           {title ? <div className="mb-2 font-medium">{title}</div> : null}
           <div>{extraContent}</div>
         </div>
       ) : null}
-      <div className="cp-chart-container">
+      <div className="cp-chart-container ">
         <EChart
           key={cId}
-          option={getOption(chartType, { color: reColor, ...optionRest })}
+          onEvents={onEvents}
+          option={getOption(chartType, { color: reColor, ...optionRest }, data)}
           notMerge
           theme="monitor"
           themeObj={{ ...theme }}

@@ -19,7 +19,7 @@ export default (props: CP_POPOVER.Props) => {
     s: 200,
     m: 400,
     l: 600,
-    xl: 800,
+    xl: 900,
   };
   const { props: configProps, children, content } = props;
   const { visible = true, size, ...rest } = configProps || {};

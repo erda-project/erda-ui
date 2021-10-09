@@ -81,6 +81,7 @@ declare namespace CONFIG_PAGE {
     | CP_TAGS.Spec
     | CP_MODAL.Spec
     | CP_GRID.Spec
+    | CP_DATE_PICKER.Spec
     | CP_TABLE_GROUP.Spec;
 
   // 单个组件基础定义
