@@ -15,11 +15,10 @@ import React from 'react';
 import EChart from 'charts/components/echarts';
 import { colorMap } from 'config-page/utils';
 import { map, uniq, merge } from 'lodash';
-import { useUpdateEffect } from 'react-use';
 import { theme } from 'charts/theme';
 import './chart.scss';
 
-const getOption = (chartType: string, option: Obj, data: CP_DATE_PICKER.IData) => {
+const getOption = (chartType: string, option: Obj, data: CP_CHART.IData) => {
   const commonOp = {
     grid: {
       bottom: 10,
@@ -117,18 +116,11 @@ const getOption = (chartType: string, option: Obj, data: CP_DATE_PICKER.IData) =
 };
 
 const Chart = (props: CP_CHART.Props) => {
-  const { cId, props: configProps, data: propsData, extraContent, operations, execOperation } = props;
+  const { cId, props: configProps, data, extraContent, operations, execOperation } = props;
   const { style = {}, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
-
-  const [data, setData] = React.useState(propsData);
-  useUpdateEffect(() => {
-    if (propsData) {
-      setData(propsData);
-    }
-  }, [propsData]);
 
   if (!visible) return null;
 

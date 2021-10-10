@@ -35,8 +35,8 @@ const CodeCoverage = () => {
       scenarioKey={'code-coverage'}
       inParams={inParams}
       customProps={{
-        filter: {
-          // onFilterChange: urlQueryChange,
+        timeSelector: {
+          onChange: urlQueryChange,
         },
       }}
     />
