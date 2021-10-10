@@ -19,7 +19,7 @@ import { theme } from 'charts/theme';
 import './chart.scss';
 
 const getOption = (chartType: string, option: Obj) => {
-  const commonOp = {
+  let commonOp: Obj = {
     grid: {
       bottom: 10,
       containLabel: true,
@@ -31,6 +31,10 @@ const getOption = (chartType: string, option: Obj) => {
   let reOption = { ...option };
   switch (chartType) {
     case 'line':
+      commonOp = {
+        ...commonOp,
+        xAxis: { splitLine: { show: false } },
+      };
       reOption = {
         tooltip: { trigger: 'axis' },
         yAxis: { type: 'value' },
@@ -60,6 +64,10 @@ const getOption = (chartType: string, option: Obj) => {
       };
       break;
     case 'bar':
+      commonOp = {
+        ...commonOp,
+        xAxis: { splitLine: { show: false } },
+      };
       reOption = {
         tooltip: { trigger: 'axis' },
         yAxis: { type: 'value' },
@@ -105,6 +113,11 @@ const getOption = (chartType: string, option: Obj) => {
         series: reOption.series.map((item: Obj) => ({
           type: 'treemap',
           ...item,
+          ...(item.color
+            ? {
+                color: item.color.map((cItem: string) => colorMap[cItem] || cItem),
+              }
+            : {}),
         })),
       };
       break;
