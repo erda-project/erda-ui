@@ -418,35 +418,6 @@ export const mockData = {
             ],
           },
         },
-        state: {
-          conditions: [
-            {
-              emptyText: '全部',
-              fixed: true,
-              key: 'iteration',
-              label: '迭代',
-              options: [
-                { label: '1.3', value: '1.3' },
-                { label: '1.2', value: '1.2' },
-              ],
-              type: 'select',
-            },
-            {
-              emptyText: '全部',
-              fixed: true,
-              key: 'member',
-              label: '成员',
-              options: [
-                { label: '张龙', value: '1' },
-                { label: '赵虎', value: '2' },
-                { label: '王朝', value: '1' },
-                { label: '马汉', value: '2' },
-              ],
-              type: 'select',
-            },
-          ],
-          values: {},
-        },
       },
       chart2: {
         type: 'Chart',

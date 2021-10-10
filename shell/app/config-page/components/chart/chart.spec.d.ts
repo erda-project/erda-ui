@@ -24,6 +24,7 @@ declare namespace CP_CHART {
     style: Obj;
     visible?: boolean;
     title: string;
+    isLoadMore?: boolean;
   }
 
   type Props = MakeProps<Spec> & {
