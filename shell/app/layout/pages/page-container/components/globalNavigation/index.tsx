@@ -40,7 +40,11 @@ export default ({ verticalBrandIcon, operations, userMenu, slot }: IProps) => {
     return operations!.map((item, index) => {
       const { onClick, icon } = item;
       return (
-        <a key={index} className={`erda-global-nav-operation-item`} onClick={onClick}>
+        <a
+          key={index}
+          className={`erda-global-nav-operation-item flex items-center justify-center cursor-pointer`}
+          onClick={onClick}
+        >
           {icon}
         </a>
       );
@@ -48,13 +52,19 @@ export default ({ verticalBrandIcon, operations, userMenu, slot }: IProps) => {
   };
 
   return (
-    <div className={`erda-global-nav`}>
-      {slot?.element && <div className={`erda-global-nav-slot-container`}>{slot.element}</div>}
-      <div className={`erda-global-nav-logo-container`}>{verticalBrandIcon}</div>
-      <div className={`erda-global-nav-right-container`}>
-        <div className={`erda-global-nav-operation-container`}>{renderRightOperation()}</div>
+    <div className={`erda-global-nav flex flex-col items-center relative`}>
+      {slot?.element && (
+        <div
+          className={`erda-global-nav-slot-container flex items-center justify-center text-center cursor-pointer align-top`}
+        >
+          {slot.element}
+        </div>
+      )}
+      <div className={`erda-global-nav-logo-container flex items-center justify-center`}>{verticalBrandIcon}</div>
+      <div className={`erda-global-nav-right-container flex flex-col items-center justify-center`}>
+        <div className={`erda-global-nav-operation-container flex flex-col`}>{renderRightOperation()}</div>
         {userMenu && (
-          <div className={`erda-global-nav-avatar-item`}>
+          <div className={`erda-global-nav-avatar-item flex items-center justify-center cursor-pointer`}>
             <UserMenu {...userMenu} />
           </div>
         )}

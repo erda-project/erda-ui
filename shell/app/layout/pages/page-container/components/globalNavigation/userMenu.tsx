@@ -21,14 +21,14 @@ const UserMenu = ({ avatar, name, operations }: UserMenuProps) => {
       placement={'rightBottom'}
       overlayClassName="erda-global-nav-user-menu"
       content={
-        <div className="container">
-          <div className="user-info">
+        <div className="container flex flex-col">
+          <div className="user-info flex">
             <div className="avatar">
               <Avatar src={avatar?.src} size={48}>
                 {avatar?.chars || ''}
               </Avatar>
             </div>
-            <div className="desc-container">
+            <div className="desc-container flex items-baseline justify-center flex-col truncate">
               <div className="name">{name}</div>
             </div>
           </div>
