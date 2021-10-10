@@ -56,6 +56,7 @@ import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
 import Modal from './modal/modal';
 import Grid from './grid/grid';
+import DatePicker from './date-picker/date-picker';
 
 export const containerMap = {
   Alert,
@@ -105,4 +106,5 @@ export const containerMap = {
   FileEditor,
   Modal,
   Grid,
+  DatePicker,
 };

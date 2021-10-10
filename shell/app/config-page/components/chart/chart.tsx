@@ -99,32 +99,52 @@ const getOption = (chartType: string, option: Obj) => {
         );
       }
       break;
+    case 'treemap':
+      reOption = {
+        ...reOption,
+        series: reOption.series.map((item: Obj) => ({
+          type: 'treemap',
+          ...item,
+        })),
+      };
+      break;
     default:
       break;
   }
-
   return merge(commonOp, reOption);
 };
 
 const Chart = (props: CP_CHART.Props) => {
-  const { cId, props: configProps, extraContent } = props;
+  const { cId, props: configProps, extraContent, operations, execOperation } = props;
   const { style = {}, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
+
   if (!visible) return null;
 
+  const onEvents: Obj = {};
+  if (operations?.click) {
+    onEvents.click = (params: any) => {
+      execOperation(operations.click, {
+        data: params.data,
+        seriesIndex: params.seriesIndex,
+        dataIndex: params.dataIndex,
+      });
+    };
+  }
   return (
-    <div className="cp-chart" style={style}>
+    <div className="cp-chart flex flex-col" style={style}>
       {title || extraContent ? (
         <div className="flex items-center justify-between">
           {title ? <div className="mb-2 font-medium">{title}</div> : null}
           <div>{extraContent}</div>
         </div>
       ) : null}
-      <div className="cp-chart-container">
+      <div className="cp-chart-container ">
         <EChart
           key={cId}
+          onEvents={onEvents}
           option={getOption(chartType, { color: reColor, ...optionRest })}
           notMerge
           theme="monitor"
