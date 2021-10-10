@@ -67,7 +67,6 @@ module.exports = () => {
           include: [resolve('./src'), nusiRealPath],
           use: [
             MiniCssExtractPlugin.loader,
-            'thread-loader',
             {
               loader: 'css-loader',
               options: {
@@ -89,7 +88,6 @@ module.exports = () => {
           test: /\.(less)$/,
           use: [
             MiniCssExtractPlugin.loader,
-            'thread-loader',
             'css-loader',
             {
               loader: 'less-loader',
@@ -111,7 +109,6 @@ module.exports = () => {
         {
           test: /\.(tsx?|jsx?)$/,
           use: [
-            'thread-loader',
             {
               loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {

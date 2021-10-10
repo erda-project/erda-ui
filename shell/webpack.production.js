@@ -110,7 +110,7 @@ module.exports = {
     minimizer: [
       new webpack.BannerPlugin(banner),
       new TerserPlugin({
-        parallel: process.env.DICE_WORKSPACE ? 1 : os.cpus().length - 1, // 线上只能为1
+        parallel: os.cpus().length,
         extractComments: false,
       }),
       new CssMinimizerPlugin({
