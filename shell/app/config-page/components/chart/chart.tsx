@@ -18,7 +18,7 @@ import { map, uniq, merge } from 'lodash';
 import { theme } from 'charts/theme';
 import './chart.scss';
 
-const getOption = (chartType: string, option: Obj, data: CP_CHART.IData) => {
+const getOption = (chartType: string, option: Obj) => {
   const commonOp = {
     grid: {
       bottom: 10,
@@ -104,7 +104,6 @@ const getOption = (chartType: string, option: Obj, data: CP_CHART.IData) => {
         ...reOption,
         series: reOption.series.map((item: Obj) => ({
           type: 'treemap',
-          data: data.treemapList,
           ...item,
         })),
       };
@@ -116,7 +115,7 @@ const getOption = (chartType: string, option: Obj, data: CP_CHART.IData) => {
 };
 
 const Chart = (props: CP_CHART.Props) => {
-  const { cId, props: configProps, data, extraContent, operations, execOperation } = props;
+  const { cId, props: configProps, extraContent, operations, execOperation } = props;
   const { style = {}, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
@@ -146,7 +145,7 @@ const Chart = (props: CP_CHART.Props) => {
         <EChart
           key={cId}
           onEvents={onEvents}
-          option={getOption(chartType, { color: reColor, ...optionRest }, data)}
+          option={getOption(chartType, { color: reColor, ...optionRest })}
           notMerge
           theme="monitor"
           themeObj={{ ...theme }}

@@ -12,89 +12,68 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: will delete after api service is ready
-import { set, get, cloneDeep } from 'lodash';
 
 const mock = [
   {
     value: [50, 22],
     name: 'project1',
-    color: ['#800000', '#B8860B', '#F7C36B', '#8DB36C', '#6CB38B'],
-    id: 'project1',
-    path: '',
-    tooltip: {
-      formatter: 'a: 23<br />b:22<br />c:23',
-    },
+    parent: 'xaslksa',
     children: [
       {
-        value: [15, 21],
-        color: ['#800000', '#B8860B', '#F7C36B', '#8DB36C', '#6CB38B'],
-        parent: 'project1',
+        value: [15, 21, 222],
         name: 'app-1',
-        id: 'app-1',
-        path: 'app-1',
+        parent: 'xaslksa',
       },
       {
         value: [25, 232],
         name: 'app-2',
-
-        parent: 'project1',
-        id: 'app-2',
-        // children: [
-        //   {
-        //     value: 30,
-        //     name: 'app-2-1',
-        //     id: 'app-2-1',
-        //   },
-        // ],
+        parent: 'xaslksa',
+        children: [
+          {
+            value: [30, 23],
+            name: 'app-2-1',
+            parent: 'xaslksa',
+          },
+        ],
       },
       {
         value: [65, 2322],
         name: 'app-3',
-
-        parent: 'project1',
-        id: 'app-3',
-        // children: [
-        //   {
-        //     value: 40,
-        //     name: 'app-3-1',
-
-        //     id: 'app-3-1',
-        //   },
-        //   {
-        //     value: 40,
-        //     name: 'app-3-2',
-        //     id: 'app-3-2',
-        //   },
-        // ],
+        parent: 'xaslksa',
+        children: [
+          {
+            value: [40, 23],
+            name: 'app-3-1',
+            parent: 'xaslksa',
+          },
+          {
+            value: [89, 21],
+            name: 'app-3-2',
+            parent: 'xaslksa',
+          },
+        ],
       },
       {
         value: [35, 211],
         name: 'app-4',
-
-        parent: 'project1',
-        id: 'app-4',
+        parent: 'xaslksa',
       },
       {
         value: [85, 2121],
         name: 'app-5',
-
-        parent: 'project1',
-        id: 'app-5',
+        parent: 'xaslksa',
       },
     ],
   },
   {
     value: [40, 234],
     name: 'project2',
-    id: 'project2',
-    path: '',
-    color: ['#800000', '#B8860B', '#F7C36B', '#8DB36C', '#6CB38B'],
+    parent: 'xaslksa',
     children: [
       {
         value: [15, 9],
         name: 'app-22',
-        parent: 'project2',
-        id: 'app-22',
+        parent: 'xaslksa',
       },
     ],
   },
@@ -124,6 +103,7 @@ export const mockData = {
       timeSelector: {
         type: 'DatePicker',
         props: {
+          allowClear: false,
           type: 'dateRange',
           size: 'small',
           borderTime: true,
@@ -448,22 +428,24 @@ export const mockData = {
       },
       treeMapChart: {
         type: 'Chart',
-        data: {
-          treemapList: mock,
-        },
         props: {
-          isLoadMore: true,
           title: '2021-10-10 报告详情1',
           style: { height: 600 },
           chartType: 'treemap',
           option: {
+            tooltip: {
+              show: true,
+              formatter: '{@parent}: {@[1]} <br /> {@abc}: {@[2]}',
+            },
             series: [
               {
                 name: 'sss',
                 type: 'treemap',
                 roam: 'move',
-                leafDepth: 1,
+                leafDepth: 2,
                 colorMappingBy: 'value',
+                data: mock,
+                color: ['#800000', '#F7A76B', '#F7C36B', '#6CB38B', '#8FBC8F'],
                 levels: [
                   {
                     colorSaturation: [0.3, 0.6],
@@ -503,10 +485,10 @@ export const mockData = {
 
 export const enhanceMock = (data, payload) => {
   if (payload.event?.operation === 'selectItem') {
-    const reData = cloneDeep(data);
-    if (payload.event.operationData.meta.data.data.name === '222') {
-      return reData;
-    }
+    // const reData = cloneDeep(data);
+    // if (payload.event.operationData.meta.data.data.name === '222') {
+    //   return reData;
+    // }
   }
 
   console.log('------', payload);
