@@ -82,7 +82,7 @@ const Text = (props: CP_TEXT.Props) => {
       break;
     case 'linkText':
       {
-        const { text, direction = 'row' } = (value || {}) as CP_TEXT.ILinkTextData;
+        const { text, direction = '' } = (value || {}) as CP_TEXT.ILinkTextData;
         if (isString(text)) {
           TextComp = (
             <span style={styleObj} className={textClassNames}>
@@ -91,7 +91,7 @@ const Text = (props: CP_TEXT.Props) => {
           );
         } else if (isArray(text)) {
           TextComp = (
-            <span className={`flex items-center flex-${direction}`}>
+            <span className={`${direction ? `flex items-center flex-${direction}` : ''}`}>
               {text.map((t, idx) => {
                 if (isString(t)) {
                   return (
