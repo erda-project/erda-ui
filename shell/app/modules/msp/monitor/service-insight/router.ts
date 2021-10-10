@@ -13,7 +13,7 @@
 
 import { SITabs } from './pages/index';
 
-const getSIRouter = () => ({
+const getSIRouter = (): RouteConfigItem => ({
   path: 'si',
   mark: 'serviceInsight',
   breadcrumbName: ({ infoMap }) => {

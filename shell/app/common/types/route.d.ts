@@ -55,7 +55,7 @@ interface IRouteInfo {
 
 type IListenRouteCb = (routeInfo: IRouteInfo) => any;
 
-type RouterGetComp = (loadingMod: Promise<{ readonly default: () => any }>, key?: string) => any;
+type RouterGetComp = (loadingMod: Promise<{ readonly default?: any; [k: string]: any }>, key?: string) => any;
 
 interface IStoreSubs {
   store: any;

@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-function monitorStatusRouter() {
+function monitorStatusRouter(): RouteConfigItem {
   return {
     path: 'status',
     breadcrumbName: i18n.t('msp:active monitoring'),

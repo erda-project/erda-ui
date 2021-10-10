@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import routers from './router';
 import announcementStore from './stores/announcement';
 import approvalStore from './stores/approval';
 import auditStore from './stores/audit';
@@ -22,5 +23,6 @@ export default (registerModule) => {
   return registerModule({
     key: 'org',
     stores: [announcementStore, approvalStore, auditStore, certificateStore, issueFieldStore, entryStore],
+    routers,
   });
 };

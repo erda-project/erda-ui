@@ -15,7 +15,7 @@ import getAppRouter from 'application/router';
 import i18n from 'i18n';
 import { PROJECT_TABS, TEST_TABS, TEST_PLAN_TABS, DATABANK_TABS, ITERATION_DETAIL_TABS } from './tabs';
 
-function getProjectRouter() {
+function getProjectRouter(): RouteConfigItem[] {
   return [
     {
       path: 'projects/:projectId',

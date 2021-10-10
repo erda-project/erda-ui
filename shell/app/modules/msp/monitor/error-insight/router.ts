@@ -11,14 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getTopologyRouter from 'msp/env-overview/topology';
-import serviceListRouter from 'msp/env-overview/service-list';
+import i18n from 'i18n';
 
-const getEnvOverViewRouter = () => {
+function monitorErrorRouter(): RouteConfigItem {
   return {
-    path: ':terminusKey',
-    routes: [getTopologyRouter(), serviceListRouter()],
+    path: 'error',
+    breadcrumbName: i18n.t('msp:error analysis'),
+    routes: [
+      {
+        getComp: (cb) => cb(import('error-insight/pages/errors/error-overview')),
+      },
+      {
+        path: ':errorType/:errorId',
+        breadcrumbName: i18n.t('msp:error details'),
+        getComp: (cb) => cb(import('error-insight/pages/errors/error-detail')),
+      },
+    ],
   };
-};
+}
 
-export default getEnvOverViewRouter;
+export default monitorErrorRouter;

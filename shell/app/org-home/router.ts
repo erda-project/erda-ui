@@ -11,16 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getDopRouter from 'dop/router';
-import getMspRouter from 'msp/router';
-import getEcpRouter from 'app/modules/ecp/router';
-import getCmpRouter from 'cmp/router';
-import getOrgCenterRouter from 'org/router';
-import getLayoutRouter from 'layout/router';
-import { erdaEnv } from 'common/constants';
-import { insertWhen } from 'app/common/utils';
-
-export default function getOrgRouter() {
+export default function getOrgRouter(): RouteConfigItem[] {
   return [
     {
       path: ':orgName',
@@ -46,12 +37,6 @@ export default function getOrgRouter() {
             noWrapper: true,
           },
         },
-        ...getLayoutRouter(),
-        ...getDopRouter(),
-        ...getMspRouter(),
-        ...insertWhen(erdaEnv.ENABLE_EDGE, getEcpRouter()),
-        ...getCmpRouter(),
-        ...getOrgCenterRouter(),
       ],
     },
   ];

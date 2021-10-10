@@ -20,7 +20,7 @@ const tabs = [
   { key: 'process', name: i18n.t('msp:process') },
 ];
 
-export default () => ({
+export default (): RouteConfigItem => ({
   path: 'service-list',
   breadcrumbName: i18n.t('msp:service list'),
   routes: [
@@ -32,7 +32,7 @@ export default () => ({
           routes: [
             {
               path: ':serviceName',
-              breadcrumbName: ({ params }: any) => {
+              breadcrumbName: ({ params }) => {
                 const { serviceName } = params || {};
                 return `${i18n.t('msp:service analysis')}(${serviceName})`;
               },

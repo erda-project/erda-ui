@@ -27,7 +27,7 @@ if (isZh()) {
   tabs.push({ key: 'mi/geography', name: i18n.t('msp:geography') });
 }
 
-const getMIRouter = () => ({
+const getMIRouter = (): RouteConfigItem => ({
   path: 'mi',
   tabs,
   pageName: i18n.t('msp:app performance'),
@@ -79,7 +79,7 @@ const getMIRouter = () => ({
       // breadcrumbName: 'Mobile Insight (应用版本)',
       getComp: (cb) => cb(import('mobile-insight/pages/app/app')),
     },
-    ...(isZh
+    ...(isZh()
       ? [
           {
             path: 'geography',
@@ -87,7 +87,7 @@ const getMIRouter = () => ({
             tabs,
             // breadcrumbName: 'Mobile Insight (地理)',
             getComp: (cb) => cb(import('mobile-insight/pages/geography/geography-china')),
-          },
+          } as RouteConfigItem,
         ]
       : []),
     {

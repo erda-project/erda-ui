@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getMonitorRouter from './monitor/monitor-overview';
+import getMonitorRouter from './monitor/monitor-overview/router';
 import getAlarmManageRouter from 'msp/alarm-manage';
-import getEnvOverViewRouter from 'msp/env-overview';
+import getEnvOverViewRouter from 'msp/env-overview/router';
 import i18n from 'i18n';
 import wrapper from './pages/wait-wrapper';
 import getQueryAnalysisRouter from 'msp/query-analysis';
 
-const injectWrapper = (route) => {
+const injectWrapper = (route: RouteConfigItem): RouteConfigItem => {
   route.wrapper = wrapper;
   if (route.routes) {
     route.routes.forEach(injectWrapper);
@@ -26,11 +26,12 @@ const injectWrapper = (route) => {
   return route;
 };
 
-function getMspRouter() {
+function getMspRouter(): RouteConfigItem[] {
   return [
     {
       path: 'msp',
       mark: 'msp',
+      toMark: 'orgIndex',
       routes: [
         {
           path: 'overview',
@@ -109,13 +110,6 @@ function getMspRouter() {
       ],
     },
   ];
-}
-
-if (window._master) {
-  window._master.registModule('msp', {
-    models: [],
-    routes: getMspRouter(),
-  });
 }
 
 export default getMspRouter;

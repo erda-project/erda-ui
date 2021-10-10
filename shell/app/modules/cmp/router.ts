@@ -37,7 +37,7 @@ const middlewareTabs = [
   { key: 'detail', name: i18n.t('basic information') },
 ];
 
-const clusterDetailTabs = (params) => {
+const clusterDetailTabs = (params: Obj) => {
   const clusterType = params.breadcrumbInfoMap.cmpCluster?.type;
   return TYPE_K8S_AND_EDAS.includes(clusterType)
     ? [
@@ -56,11 +56,12 @@ const kubernetesTabs = [
   { key: 'detail', name: i18n.t('detail') },
 ];
 
-function getCmpRouter() {
+function getCmpRouter(): RouteConfigItem[] {
   return [
     {
       path: 'cmp',
       mark: 'cmp',
+      toMark: 'orgIndex',
       routes: [
         ...getDcosRouter(),
         {
