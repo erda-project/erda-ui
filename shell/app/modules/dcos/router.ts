@@ -13,13 +13,13 @@
 
 import i18n from 'i18n';
 
-const hostTerminal = {
+const hostTerminal: RouteConfigItem = {
   path: 'terminal/:host',
   breadcrumbName: i18n.t('dcos:console'),
   getComp: (cb) => cb(import('dcos/common/containers/terminal')),
 };
 
-function getDcosRouter() {
+function getDcosRouter(): RouteConfigItem[] {
   return [
     {
       path: 'overview',

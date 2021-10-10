@@ -21,7 +21,7 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
   const iterationName = breadcrumbInfoMap?.iterationName;
   const projectPerm = permStore.useStore((s) => s.project);
-  const tabs = [
+  return [
     {
       key: '../',
       hrefType: 'back',
@@ -65,13 +65,12 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
       show: projectPerm.bug.read.pass,
     },
   ];
-  return tabs;
 };
 
 export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
   const autoTestSpaceName = breadcrumbInfoMap?.autoTestSpaceName;
-  const tabs = [
+  return [
     {
       key: '../',
       hrefType: 'back',
@@ -92,13 +91,12 @@ export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
       name: i18n.t('project:Scenes'),
     },
   ];
-  return tabs;
 };
 
 export const PROJECT_TABS = () => {
   const projectPerm = permStore.useStore((s) => s.project);
 
-  const tabs = [
+  return [
     {
       key: 'milestone',
       name: i18n.t('project:milestone'),
@@ -140,7 +138,6 @@ export const PROJECT_TABS = () => {
       show: projectPerm.dashboard.viewDashboard.pass,
     },
   ];
-  return tabs;
 };
 
 export const TEST_TABS = [

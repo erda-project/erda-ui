@@ -13,7 +13,7 @@
 
 import getProjectRouter from 'project/router';
 import getPublisherRouter from 'publisher/router';
-import { publisherTabs } from 'dop/pages/publisher/index.tsx';
+import { publisherTabs } from 'dop/pages/publisher/index';
 import getApiManagePlatformRouter from 'apiManagePlatform/router';
 import i18n from 'i18n';
 
@@ -43,11 +43,12 @@ const initiateTabs = [
   },
 ];
 
-export default function getDopRouter() {
+export default function getDopRouter(): RouteConfigItem[] {
   return [
     {
       path: 'dop',
       mark: 'dop',
+      toMark: 'orgIndex',
       routes: [
         {
           path: 'approval',
@@ -189,13 +190,14 @@ export default function getDopRouter() {
                 pageName: '组件化协议调试',
                 layout: { noWrapper: true, showSubSidebar: false },
                 getComp: (cb) => cb(import('config-page/debug')),
-              },
+              } as RouteConfigItem,
             ]
           : []),
       ],
     },
     {
       path: 'perm',
+      toMark: 'orgIndex',
       pageName: i18n.t('role permissions description'),
       layout: { showSubSidebar: false, fullHeight: true },
       getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),

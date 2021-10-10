@@ -24,7 +24,7 @@ const traceTabs = [
   },
 ];
 
-function monitorTraceRouter() {
+function monitorTraceRouter(): RouteConfigItem {
   return {
     path: 'trace',
     alwaysShowTabKey: 'search',

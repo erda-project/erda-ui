@@ -17,7 +17,7 @@ import { mrTabs } from './pages/repo/repo-mr';
 import { problemTabs } from './pages/problem';
 import { BRANCH_TABS } from './pages/repo/repo-branch';
 
-function getAppRouter() {
+function getAppRouter(): RouteConfigItem {
   return {
     path: 'apps/:appId',
     mark: 'application',

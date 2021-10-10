@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-function getPublisherRouter() {
+function getPublisherRouter(): RouteConfigItem[] {
   return [
     {
       path: ':publisherItemId',

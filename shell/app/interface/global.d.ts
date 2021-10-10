@@ -307,3 +307,88 @@ interface RAW_RESPONSE<T = any> {
   }>;
   userIDs: string[];
 }
+
+type ROUTE_MARK =
+  | 'orgIndex'
+  | 'dop'
+  | 'addonsManage'
+  | 'publisher'
+  | 'project'
+  | 'issues'
+  | 'iterationDetail'
+  | 'apiManage'
+  | 'approval'
+  | 'autoTestSpaceDetail'
+  | 'testPlanDetail'
+  | 'application'
+  | 'deploy'
+  | 'repo'
+  | 'repoTree'
+  | 'repoCompare'
+  | 'apiDesign'
+  | 'pipeline'
+  | 'dataTask'
+  | 'runtime'
+  | 'cmp'
+  | 'cluster'
+  | 'orgCenter'
+  | 'orgProject'
+  | 'orgMarket'
+  | 'orgSetting'
+  | 'clusterDetail'
+  | 'biCharts'
+  | 'clusterAlarmReport'
+  | 'msp'
+  | 'mspDetail'
+  | 'externalInsight'
+  | 'serviceInsight'
+  | 'monitor'
+  | 'sysAdmin'
+  | 'fdp'
+  | 'api-monitor';
+
+type ROUTE_TO_MARK = 'orgIndex';
+interface ROUTE_TABS {
+  key: string;
+  name: string | JSX.Element;
+  show?: boolean;
+  hrefType?: string;
+}
+
+interface RouteConfigItem {
+  path?: string;
+  pageName?: string;
+  breadcrumbName?:
+    | string
+    | (({
+        infoMap,
+        route,
+        params,
+        query,
+      }: {
+        infoMap: Obj;
+        route: any;
+        params: Obj<string>;
+        query: Obj<string>;
+      }) => string);
+  tabs?: ROUTE_TABS[] | ((params: Obj) => ROUTE_TABS[]);
+  ignoreTabQuery?: boolean;
+  alwaysShowTabKey?: string;
+  mark?: ROUTE_MARK;
+  toMark?: ROUTE_TO_MARK;
+  routes?: RouteConfigItem[];
+  wrapper?: any;
+  TabRightComp?: React.ElementType;
+  layout?: {
+    className?: string;
+    use?: string;
+    noWrapper?: boolean;
+    showSubSidebar?: boolean;
+    fullHeight?: boolean;
+    hideHeader?: boolean;
+  };
+  keepQuery?: boolean;
+  getComp?: (cb: RouterGetComp) => Promise<any>;
+}
+
+declare function GET_ROUTES(): RouteConfigItem[];

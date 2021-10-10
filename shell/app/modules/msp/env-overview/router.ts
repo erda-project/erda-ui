@@ -11,25 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import i18n from 'i18n';
+import getTopologyRouter from 'msp/env-overview/topology/router';
+import serviceListRouter from 'msp/env-overview/service-list/router';
 
-function getRuntimeRouter() {
-  return [
-    {
-      path: 'runtimes/:runtimeId',
-      mark: 'runtime',
-      routes: [
-        {
-          path: 'overview',
-          breadcrumbName: `{runtimeName}(${i18n.t('runtime:overview')})`,
-          getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
-          layout: {
-            noWrapper: true,
-          },
-        },
-      ],
-    },
-  ];
-}
+const getEnvOverViewRouter = (): RouteConfigItem => {
+  return {
+    path: ':terminusKey',
+    routes: [getTopologyRouter(), serviceListRouter()],
+  };
+};
 
-export default getRuntimeRouter;
+export default getEnvOverViewRouter;

@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import { assetTabs } from 'apiManagePlatform/pages/api-market/list';
 
-const getApiManagePlatformRouter = () => [
+const getApiManagePlatformRouter = (): RouteConfigItem[] => [
   {
     path: 'apiManage',
     mark: 'apiManage',
@@ -25,14 +25,14 @@ const getApiManagePlatformRouter = () => [
         tabs: assetTabs,
         routes: [
           {
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/api-market/list')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/list')),
           },
           {
             path: ':assetID',
             routes: [
               {
                 breadcrumbName: '{assetName}',
-                getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/api-market/version')),
+                getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/version')),
                 layout: {
                   noWrapper: true,
                 },
@@ -40,7 +40,7 @@ const getApiManagePlatformRouter = () => [
               {
                 path: ':versionID',
                 breadcrumbName: '{assetName}',
-                getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/api-market/detail')),
+                getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/detail')),
                 layout: { noWrapper: true, fullHeight: true },
               },
             ],
@@ -53,7 +53,7 @@ const getApiManagePlatformRouter = () => [
         routes: [
           {
             layout: { fullHeight: true },
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/api-market/design/index')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/design/index')),
           },
         ],
       },
@@ -62,23 +62,23 @@ const getApiManagePlatformRouter = () => [
         breadcrumbName: i18n.t('access management'),
         routes: [
           {
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/access-manage/list')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/access-manage/list')),
           },
           {
             path: 'access/:type',
             routes: [
               {
-                getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/access-manage/edit')),
+                getComp: (cb) => cb(import('apiManagePlatform/pages/access-manage/edit')),
               },
               {
                 path: ':accessID',
-                getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/access-manage/edit')),
+                getComp: (cb) => cb(import('apiManagePlatform/pages/access-manage/edit')),
               },
             ],
           },
           {
             path: 'detail/:accessID',
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/access-manage/detail')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/access-manage/detail')),
             layout: {
               noWrapper: true,
             },
@@ -90,12 +90,12 @@ const getApiManagePlatformRouter = () => [
         breadcrumbName: i18n.t('my visit'),
         routes: [
           {
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/client/list')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/client/list')),
           },
           {
             path: ':id',
             breadcrumbName: '{clientName}',
-            getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/client/detail')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/client/detail')),
           },
         ],
       },

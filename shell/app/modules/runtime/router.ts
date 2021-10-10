@@ -13,19 +13,23 @@
 
 import i18n from 'i18n';
 
-const tabs = [{ key: 'affairs', name: i18n.t('msp:external transaction') }];
-
-const getEIRouter = () => ({
-  path: 'ei/:hostName',
-  mark: 'externalInsight',
-  breadcrumbName: ({ params }) => decodeURIComponent(params.hostName || ''),
-  routes: [
+function getRuntimeRouter(): RouteConfigItem[] {
+  return [
     {
-      path: 'affairs',
-      tabs,
-      getComp: (cb) => cb(import('msp/monitor/external-insight/pages/affairs/affairs')),
+      path: 'runtimes/:runtimeId',
+      mark: 'runtime',
+      routes: [
+        {
+          path: 'overview',
+          breadcrumbName: `{runtimeName}(${i18n.t('runtime:overview')})`,
+          getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
+          layout: {
+            noWrapper: true,
+          },
+        },
+      ],
     },
-  ],
-});
+  ];
+}
 
-export default getEIRouter;
+export default getRuntimeRouter;

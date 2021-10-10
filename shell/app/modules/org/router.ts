@@ -24,11 +24,12 @@ const approvalTabs = [
   },
 ];
 
-function getOrgCenterRouter() {
+function getOrgCenterRouter(): RouteConfigItem[] {
   return [
     {
       path: 'orgCenter',
       mark: 'orgCenter',
+      toMark: 'orgIndex',
       routes: [
         {
           path: 'projects',

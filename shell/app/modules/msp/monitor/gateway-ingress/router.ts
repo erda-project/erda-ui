@@ -20,7 +20,7 @@ const tabs = [
   { key: 'gateway-ingress/latency', name: i18n.t('msp:latency') },
 ];
 
-const getGatewayIngressMonitorRouter = () => ({
+const getGatewayIngressMonitorRouter = (): RouteConfigItem => ({
   path: 'gateway-ingress',
   tabs,
   pageName: i18n.t('msp:ingress traffic monitoring'),
