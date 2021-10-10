@@ -109,7 +109,7 @@ module.exports = {
     minimizer: [
       new webpack.BannerPlugin(banner),
       new TerserPlugin({
-        parallel: os.cpus().length - 1,
+        parallel: os.cpus().length,
         extractComments: false,
       }),
       new CssMinimizerPlugin({
