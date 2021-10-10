@@ -112,11 +112,4 @@ function getMspRouter(): RouteConfigItem[] {
   ];
 }
 
-if (window._master) {
-  window._master.registModule('msp', {
-    models: [],
-    routes: getMspRouter(),
-  });
-}
-
 export default getMspRouter;

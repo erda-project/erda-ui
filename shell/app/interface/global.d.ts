@@ -343,6 +343,8 @@ type ROUTE_MARK =
   | 'externalInsight'
   | 'serviceInsight'
   | 'monitor'
+  | 'sysAdmin'
+  | 'fdp'
   | 'api-monitor';
 
 type ROUTE_TO_MARK = 'orgIndex';
