@@ -14,6 +14,7 @@
 import React from 'react';
 import EChart from 'charts/components/echarts';
 import { colorMap } from 'config-page/utils';
+import { EmptyHolder } from 'common';
 import { map, uniq, merge } from 'lodash';
 import { theme } from 'charts/theme';
 import './chart.scss';
@@ -29,6 +30,7 @@ const getOption = (chartType: string, option: Obj) => {
     },
   };
   let reOption = { ...option };
+
   switch (chartType) {
     case 'line':
       commonOp = {
@@ -124,7 +126,12 @@ const getOption = (chartType: string, option: Obj) => {
     default:
       break;
   }
-  return merge(commonOp, reOption);
+  const isEmpty = !reOption.series?.filter((item: Obj) => item?.data)?.length;
+
+  return {
+    option: merge(commonOp, reOption),
+    isEmpty,
+  };
 };
 
 const Chart = (props: CP_CHART.Props) => {
@@ -146,6 +153,7 @@ const Chart = (props: CP_CHART.Props) => {
       });
     };
   }
+  const { option: reOption, isEmpty } = getOption(chartType, { color: reColor, ...optionRest });
   return (
     <div className="cp-chart flex flex-col" style={style}>
       {title || extraContent ? (
@@ -155,15 +163,19 @@ const Chart = (props: CP_CHART.Props) => {
         </div>
       ) : null}
       <div className="cp-chart-container ">
-        <EChart
-          key={cId}
-          onEvents={onEvents}
-          option={getOption(chartType, { color: reColor, ...optionRest })}
-          notMerge
-          theme="monitor"
-          themeObj={{ ...theme }}
-          {...rest}
-        />
+        {isEmpty ? (
+          <EmptyHolder />
+        ) : (
+          <EChart
+            key={cId}
+            onEvents={onEvents}
+            option={reOption}
+            notMerge
+            theme="monitor"
+            themeObj={{ ...theme }}
+            {...rest}
+          />
+        )}
       </div>
     </div>
   );
