@@ -60,7 +60,7 @@ export default ({ issueType }: IProps) => {
     pageNo: 1,
     viewType: '',
     viewGroup: '',
-    urlQueryChangeByQuery: restQuery,
+    urlQueryChangeByQuery: restQuery, // Only used to listen for changes to update the page after url change
   });
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
   useMount(() => {
@@ -117,17 +117,17 @@ export default ({ issueType }: IProps) => {
   }, [urlQuery]);
 
   useUpdateEffect(() => {
-    // Change the urlQuery when url change such as page go back
     if (!compareObject(urlQuery, queryRef.current)) {
+      // Execute only after url change such as page go back
       update({
         urlQuery: queryRef.current,
-        urlQueryChangeByQuery: queryRef.current,
+        urlQueryChangeByQuery: queryRef.current, // Only used to listen for changes to update the page
       });
     }
   }, [queryRef.current]);
 
   useUpdateEffect(() => {
-    reloadRef.current.reload();
+    reloadData();
   }, [urlQueryChangeByQuery]);
 
   const onChosenIssue = (val: ISSUE.Issue) => {
