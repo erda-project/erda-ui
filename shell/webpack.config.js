@@ -38,9 +38,8 @@ const resolve = (pathname) => path.resolve(__dirname, pathname);
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
-  const isOnline = process.env.DICE_WORKSPACE; // 线上才有的环境变量
   const isProd = nodeEnv === 'production';
-  const cpuNum = isProd && isOnline ? 1 : os.cpus().length;
+  const cpuNum = os.cpus().length;
 
   console.log('isProd:', isProd, process.version);
 
@@ -112,7 +111,6 @@ module.exports = () => {
           include: [resolve('app')],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
-            'thread-loader',
             ...(isProd ? [] : ['style-loader']),
             {
               loader: 'css-loader',
@@ -161,7 +159,6 @@ module.exports = () => {
           test: /\.(tsx?|jsx?)$/,
           include: [resolve('app')],
           use: [
-            'thread-loader',
             {
               loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
