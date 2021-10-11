@@ -35,7 +35,7 @@ $white: #ffffff;
   list-style: none;
   background-color: $white;
   font-feature-settings: 'tnum';
-  @apply .border;
+  @apply border;
 }
 
 .shallow-shadow {
