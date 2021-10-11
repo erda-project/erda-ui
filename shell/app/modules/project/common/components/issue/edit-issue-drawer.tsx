@@ -692,6 +692,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const { updateCustomFieldDetail } = issueStore.reducers;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
   const metaFieldsRef: React.RefObject<unknown> = React.useRef(null);
+  const [tempStateData, setTempStateData] = React.useState('');
 
   React.useEffect(() => {
     setFormData((prev: any) => ({ ...prev, iterationID }));
@@ -841,6 +842,10 @@ export const EditIssueDrawer = (props: IProps) => {
     // 处理 issueManHour
     if (has(value, 'issueManHour')) {
       formattedValue.issueManHour = merge({}, formData.issueManHour, value.issueManHour);
+      if (tempStateData) {
+        formattedValue.state = tempStateData;
+        setTempStateData('');
+      }
     }
 
     const params: ISSUE.IssueType = merge({}, formData, formattedValue);
@@ -854,6 +859,7 @@ export const EditIssueDrawer = (props: IProps) => {
     if ([ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType)) {
       const warnMessage = [];
       if (value.state && isEditMode) {
+        setTempStateData(value.state);
         // 编辑模式下修改状态时，必填时间追踪和预估工时, 任务类型
         if (!params.taskType && issueType === ISSUE_TYPE.TASK) {
           warnMessage.push({ msg: i18n.t('project:missing task type'), key: 'taskType' });
