@@ -91,7 +91,7 @@ const getCustomOptions = (enumeratedValues: any[]) => {
   ));
 };
 
-const { createLabel, getLabels } = labelStore.effects;
+const { getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(
   ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
     const userMap = getUserMap();
@@ -102,7 +102,6 @@ const IssueMetaFields = React.forwardRef(
     const iterationList = iterationStore.useStore((s) => s.iterationList);
     const isMonitorTicket = ticketType === 'monitor';
     const customFieldDetail = issueStore.getState((s) => s.customFieldDetail);
-    const [expandCustomFields, setExpandCustomFields] = React.useState(false);
 
     const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
     const [optionList, setOptionList] = React.useState(labels);
@@ -121,8 +120,6 @@ const IssueMetaFields = React.forwardRef(
       ));
     }, [taskTypeList]);
 
-    const hideFieldClass = expandCustomFields ? '' : 'hidden';
-
     React.useEffect(() => {
       if (ref && !ref.current) {
         const customFieldKeys = map(customFieldDetail?.property, 'propertyName').concat([
@@ -137,11 +134,7 @@ const IssueMetaFields = React.forwardRef(
               // click to open time trace
               curRef.click();
             } else if (customFieldKeys.includes(fKey)) {
-              // need to expand custom fields and then focus the target field;
-              setExpandCustomFields(true);
-              setTimeout(() => {
-                curRef?.focus?.();
-              });
+              curRef?.focus?.();
             } else {
               curRef?.focus?.();
             }
@@ -172,7 +165,7 @@ const IssueMetaFields = React.forwardRef(
         const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
 
         return {
-          className: `mb-5 ${hideFieldClass}`,
+          className: `mb-5`,
           name: propertyName,
           label: displayName,
           required,
@@ -231,7 +224,7 @@ const IssueMetaFields = React.forwardRef(
           },
         };
       });
-    }, [customFieldDetail?.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
+    }, [customFieldDetail?.property, editAuth, urlParams.projectId, projectId, ref]);
 
     let editFieldList = [
       ...insertWhen(isEditMode, [
@@ -485,24 +478,9 @@ const IssueMetaFields = React.forwardRef(
           },
         },
       },
-      ...insertWhen(issueType !== ISSUE_TYPE.TICKET, [
-        {
-          name: 'expandCustom',
-          type: 'custom',
-          getComp: () => (
-            <div
-              className="flex justify-between items-center p-2 mb-5 hover-active-bg"
-              onClick={() => setExpandCustomFields((prev) => !prev)}
-            >
-              <span>{i18n.t('project:custom fields')}</span>
-              <CustomIcon type={expandCustomFields ? 'chevron-up' : 'chevron-down'} />
-            </div>
-          ),
-        },
-      ]),
       ...insertWhen(issueType === ISSUE_TYPE.TASK, [
         {
-          className: `mb-5 w-full ${hideFieldClass}`,
+          className: `mb-5 w-full`,
           name: 'taskType',
           label: i18n.t('task type'),
           type: 'select',
@@ -512,7 +490,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.BUG, [
         {
-          className: `mb-5 w-full ${hideFieldClass}`,
+          className: `mb-5 w-full`,
           type: 'select',
           name: 'bugStage',
           label: i18n.t('project:import source'),
@@ -520,12 +498,26 @@ const IssueMetaFields = React.forwardRef(
           itemProps: { options: stageOptions, allowClear: false },
         },
       ]),
+      ...insertWhen(!!customFieldList.length, [
+        {
+          type: 'readonly',
+          name: '',
+          label: '',
+          valueRender: () => {
+            return (
+              <Divider className="mb-6 mt-0.5 text-xs text-desc" plain>
+                {i18n.t('common:custom')}
+              </Divider>
+            );
+          },
+        },
+      ]),
       ...customFieldList,
       ...insertWhen(isEditMode, [
         {
           name: 'creator',
           label: '',
-          type: 'last_readonly',
+          type: 'readonly',
           valueRender: (value: string) => {
             let user = projectMembers.find((item: IMember) => String(item.userId) === String(value)) as IMember;
             if (!user) {
@@ -700,6 +692,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const { updateCustomFieldDetail } = issueStore.reducers;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
   const metaFieldsRef: React.RefObject<unknown> = React.useRef(null);
+  const [tempStateData, setTempStateData] = React.useState('');
 
   React.useEffect(() => {
     setFormData((prev: any) => ({ ...prev, iterationID }));
@@ -849,6 +842,10 @@ export const EditIssueDrawer = (props: IProps) => {
     // 处理 issueManHour
     if (has(value, 'issueManHour')) {
       formattedValue.issueManHour = merge({}, formData.issueManHour, value.issueManHour);
+      if (tempStateData) {
+        formattedValue.state = tempStateData;
+        setTempStateData('');
+      }
     }
 
     const params: ISSUE.IssueType = merge({}, formData, formattedValue);
@@ -862,6 +859,7 @@ export const EditIssueDrawer = (props: IProps) => {
     if ([ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType)) {
       const warnMessage = [];
       if (value.state && isEditMode) {
+        setTempStateData(value.state);
         // 编辑模式下修改状态时，必填时间追踪和预估工时, 任务类型
         if (!params.taskType && issueType === ISSUE_TYPE.TASK) {
           warnMessage.push({ msg: i18n.t('project:missing task type'), key: 'taskType' });

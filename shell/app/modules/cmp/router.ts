@@ -26,11 +26,6 @@ export const getOrgProjectTabs = () => [
   },
 ];
 
-const configMapTabs = [
-  { key: 'base', name: i18n.t('cmp:basic information') },
-  { key: 'detail', name: i18n.t('detail') },
-];
-
 const middlewareTabs = [
   { key: 'monitor', name: i18n.t('monitor detail') },
   { key: 'resource', name: i18n.t('resource detail') },
