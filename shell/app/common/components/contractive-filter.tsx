@@ -384,6 +384,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
+          bordered={false}
           value={startDate ? moment(startDate) : undefined}
           disabledDate={disabledDate(true)}
           format={'YYYY/MM/DD'}
@@ -394,6 +395,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
           size="small"
+          bordered={false}
           allowClear={!required}
           value={endDate ? moment(endDate) : undefined}
           disabledDate={disabledDate(false)}
@@ -441,6 +443,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           value={valueConvert(value)}
           ranges={rangeConvert(ranges)}
           size="small"
+          bordered={false}
           disabledDate={selectableTime ? disabledDate : undefined}
           onChange={(v) => {
             const val =
