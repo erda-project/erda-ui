@@ -32,9 +32,8 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 5 major versions and since 2015 and > 1%",
+      "not samsung > 0 and not op_mini all and not and_chr > 0 and not and_uc > 0 and not ios_saf > 0"
     ],
     "development": [
       "last 1 chrome version",

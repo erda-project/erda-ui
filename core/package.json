@@ -87,8 +87,7 @@
     }
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
+    "last 5 major versions and since 2015 and > 1%",
+    "not samsung > 0 and not op_mini all and not and_chr > 0 and not and_uc > 0 and not ios_saf > 0"
   ]
 }
