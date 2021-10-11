@@ -61,7 +61,7 @@ export default ({ verticalBrandIcon, operations, userMenu, slot }: IProps) => {
         </div>
       )}
       <div className={`erda-global-nav-logo-container flex items-center justify-center`}>{verticalBrandIcon}</div>
-      <div className={`erda-global-nav-right-container flex flex-col items-center justify-center`}>
+      <div className={`erda-global-nav-right-container flex flex-col items-center justify-end`}>
         <div className={`erda-global-nav-operation-container flex flex-col`}>{renderRightOperation()}</div>
         {userMenu && (
           <div className={`erda-global-nav-avatar-item flex items-center justify-center cursor-pointer`}>
