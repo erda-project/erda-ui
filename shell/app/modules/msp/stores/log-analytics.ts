@@ -10,47 +10,92 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import { createStore } from 'core/cube';
+import { getAggregation, getFields, getLogAnalytics } from 'msp/services/log-analytics';
+import { produce } from 'immer';
 
-import { getJoinedApps } from 'user/services/user';
-import { createFlatStore } from 'core/cube';
-import { getStatistic, searchLogAnalytics } from '../services/log-analytics';
+export type IMenu = LOG_ANALYTICS.IField & {
+  subMenu?: LOG_ANALYTICS.IAggregationBuckets[];
+  total?: LOG_ANALYTICS.IAggregation['total'];
+};
 
 interface IState {
-  appList: IApplication[];
-  searchResult: LOG_ANALYTICS.SearchResult;
+  fields: LOG_ANALYTICS.IField[];
+  menu: IMenu[];
+  showTags: string[];
+  logList: LOG_ANALYTICS.LogItem[];
+  logTotal: number;
 }
 
 const initState: IState = {
-  appList: [],
-  searchResult: {
-    total: 0,
-    data: [],
-  },
+  fields: [],
+  menu: [],
+  showTags: [],
+  logList: [],
+  logTotal: 0,
 };
 
-const logAnalytics = createFlatStore({
-  name: 'log-analytics',
+export const localFieldsKey = 'map-local-fields';
+
+const mspLogAnalyticsStore = createStore({
+  name: 'mapLogAnalytics',
   state: initState,
   effects: {
-    async getAppList({ call, update, getParams }, payload: { pageNo: number; pageSize: number; q?: string }) {
-      const { projectId } = getParams();
-      const { list: appList } = await call(getJoinedApps, { ...payload, projectID: projectId });
-      update({ appList });
+    async getFields({ call, update, getParams }) {
+      const { addonId } = getParams();
+      let fields = await call(getFields, { addon: addonId });
+      const localFieldsStr = window.localStorage.getItem(localFieldsKey);
+      let localFields = fields;
+      if (localFieldsStr) {
+        localFields = JSON.parse(localFieldsStr);
+        if (Array.isArray(localFields) && localFields.length === fields.length) {
+          fields = localFields;
+        }
+      }
+      window.localStorage.setItem(localFieldsKey, JSON.stringify(fields));
+      update({
+        fields,
+        menu: fields.filter((t) => t.supportAggregation),
+        showTags: fields.filter((item) => item.display).map((item) => item.fieldName),
+      });
     },
-    async searchLogAnalytics({ call, update }, payload: LOG_ANALYTICS.SearchQuery) {
-      // info.config.TERMINUS_LOG_KEY
-      const searchResult = await call(searchLogAnalytics, payload);
-      searchResult.data && update({ searchResult });
+    async getLogAnalytics({ call, update, getParams }, payload: Omit<LOG_ANALYTICS.QuerySearch, 'addon'>) {
+      const { addonId } = getParams();
+      const { data, total } = await call(
+        getLogAnalytics,
+        { addon: addonId, ...payload },
+        { paging: { key: 'mspLogAnalyticsList' } },
+      );
+      update({
+        logList: data ?? [],
+        logTotal: total > 10000 ? 10000 : total,
+      });
     },
-    async getStatistic({ call }, payload: LOG_ANALYTICS.SearchQuery) {
-      return call(getStatistic, payload);
+    async getAggregation(
+      { call, update, getParams, select },
+      { targetKey, ...payload }: Omit<LOG_ANALYTICS.QueryAggregation, 'addon'> & { targetKey: string },
+    ) {
+      const { addonId } = getParams();
+      const menu = select((s) => s.menu);
+      const { aggFields, total } = await call(getAggregation, { addon: addonId, ...payload });
+      const newMenu = produce(menu, (draft) => {
+        const currentMenu = draft.find((t) => t.fieldName === targetKey)!;
+        currentMenu.subMenu = aggFields[targetKey].buckets;
+        currentMenu.total = total;
+      });
+      update({ menu: newMenu });
     },
   },
   reducers: {
-    clearResult() {
-      return initState;
+    updateFields(state, fields) {
+      state.fields = fields;
+    },
+    updateShowTags(state, fields: LOG_ANALYTICS.IField[]) {
+      window.localStorage.setItem(localFieldsKey, JSON.stringify(fields));
+      state.fields = fields;
+      state.showTags = fields.filter((item) => item.display).map((item) => item.fieldName);
     },
   },
 });
 
-export default logAnalytics;
+export default mspLogAnalyticsStore;

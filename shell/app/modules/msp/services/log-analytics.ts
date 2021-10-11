@@ -13,16 +13,30 @@
 
 import agent from 'agent';
 
-export const searchLogAnalytics = ({ addonID, ...query }: LOG_ANALYTICS.SearchQuery): LOG_ANALYTICS.SearchResult => {
+export const getAggregation = ({ addon, ...rest }: LOG_ANALYTICS.QueryAggregation): LOG_ANALYTICS.IAggregation => {
   return agent
-    .get(`/api/log-analytics/${addonID}/search`)
-    .query(query)
+    .get(`/api/log-analytics/${addon}/aggregation`)
+    .query(rest)
+    .then((response: any) => response.body);
+};
+export const getFields = ({ addon }: { addon: string }): LOG_ANALYTICS.IField[] => {
+  return agent.get(`/api/log-analytics/${addon}/fields`).then((response: any) => response.body);
+};
+export const getLogAnalytics = ({ addon, ...rest }: LOG_ANALYTICS.QuerySearch): LOG_ANALYTICS.SearchResult => {
+  return agent
+    .get(`/api/log-analytics/${addon}/search`)
+    .query(rest)
     .then((response: any) => response.body);
 };
 
-export const getStatistic = ({ addonID, ...query }: LOG_ANALYTICS.SearchQuery): LOG_ANALYTICS.StatisticResult => {
+export const getStatistic = ({
+  addon,
+  ...rest
+}: LOG_ANALYTICS.QueryStatistic): Promise<{ data: LOG_ANALYZE.LogStatistics }> => {
   return agent
-    .get(`/api/log-analytics/${addonID}/statistic`)
-    .query(query)
+    .get(`/api/log-analytics/${addon}/statistic`)
+    .query(rest)
     .then((response: any) => response.body);
 };
+
+export const downLoadLogApi = (addon: string) => `/api/log-analytics/${addon}/download`;
