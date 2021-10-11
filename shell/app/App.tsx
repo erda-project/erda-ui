@@ -44,7 +44,7 @@ setConfig('onAPIFail', notify);
 
 const history = getConfig('history');
 
-const { NusiConfigProvider, AntdConfigProvider } = nusi;
+const { AntdConfigProvider } = nusi;
 const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
@@ -90,11 +90,9 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       const currentLocale = getCurrentLocale();
       return (
         <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
-          <NusiConfigProvider locale={currentLocale.nusi}>
-            <IconProvider value={IconConfig}>
-              <App />
-            </IconProvider>
-          </NusiConfigProvider>
+          <IconProvider value={IconConfig}>
+            <App />
+          </IconProvider>
         </AntdConfigProvider>
       );
     };
