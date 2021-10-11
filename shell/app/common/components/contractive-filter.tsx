@@ -36,6 +36,7 @@ interface Option {
 }
 
 type ConditionType = 'select' | 'input' | 'dateRange';
+const { RangePicker } = DatePicker;
 
 export interface ICondition {
   key: string;
@@ -383,6 +384,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
+          bordered={false}
           value={startDate ? moment(startDate) : undefined}
           disabledDate={disabledDate(true)}
           format={'YYYY/MM/DD'}
@@ -393,12 +395,71 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
           size="small"
+          bordered={false}
           allowClear={!required}
           value={endDate ? moment(endDate) : undefined}
           disabledDate={disabledDate(false)}
           format={'YYYY/MM/DD'}
           placeholder={i18n.t('common:endDate')}
           onChange={(v) => onChange({ key, value: getTimeValue([startDate, v?.valueOf()]) })}
+        />
+      </span>
+    );
+  }
+
+  if (type === 'rangePicker') {
+    const { ranges, borderTime, selectableTime, ...customRest } = customProps;
+    const valueConvert = (val: number[] | Moment[]) => {
+      const convertItem = (v: number | Moment) => {
+        if (moment.isMoment(v)) {
+          return moment(v).valueOf();
+        } else {
+          return v && moment(v);
+        }
+      };
+      return Array.isArray(val) ? val.map((vItem) => convertItem(vItem)) : convertItem(val);
+    };
+
+    const rangeConvert = (_ranges?: Obj<number[]>) => {
+      const reRanges = {};
+      map(_ranges, (v, k) => {
+        reRanges[k] = valueConvert(v);
+      });
+      return reRanges;
+    };
+    const disabledDate = (_current: Moment) => {
+      return (
+        _current &&
+        !(
+          (selectableTime[0] ? _current > moment(selectableTime[0]) : true) &&
+          (selectableTime[1] ? _current < moment(selectableTime[1]) : true)
+        )
+      );
+    };
+    return (
+      <span className="contractive-filter-item contractive-filter-date-picker">
+        <span className="text-desc mr-0.5">{label}</span>
+        <RangePicker
+          value={valueConvert(value)}
+          ranges={rangeConvert(ranges)}
+          size="small"
+          bordered={false}
+          disabledDate={selectableTime ? disabledDate : undefined}
+          onChange={(v) => {
+            const val =
+              borderTime && Array.isArray(v)
+                ? v.map((vItem, idx) => {
+                    if (idx === 0 && vItem) {
+                      return vItem.startOf('dates');
+                    } else if (idx === 1 && vItem) {
+                      return vItem.endOf('dates');
+                    }
+                    return vItem;
+                  })
+                : v;
+            onChange({ key, value: valueConvert(val) });
+          }}
+          {...customRest}
         />
       </span>
     );
