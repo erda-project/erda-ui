@@ -1,0 +1,9 @@
+.erda-shell {
+  height: 100%;
+  width: 100%;
+
+  .erda-main-content {
+    flex: auto;
+    background: $color-bg;
+  }
+}

@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Shell, Badge, Tooltip, message } from 'core/nusi';
+import { Badge, Tooltip, message } from 'core/nusi';
+import AppCenter from './app-center';
 import GlobalNavigation from './globalNavigation';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
@@ -28,8 +29,6 @@ import orgStore from 'app/org-home/stores/org';
 import routeStore from 'core/stores/route';
 import { Help as IconHelp, Remind as IconRemind, Logout as IconLogout } from '@icon-park/react';
 import './sidebar.scss';
-
-const { AppCenter } = Shell;
 
 const AppCenterEl = () => {
   const permMap = usePerm((s) => s.org);
@@ -109,7 +108,7 @@ const AppCenterEl = () => {
           <ErdaCustomIcon type="appstore" color="white" size="20px" />
         </Tooltip>
       }
-      linkRender={(_linkTo: any, _children: any, { app }: { app: LAYOUT.IApp }) => {
+      linkRender={({ app }: { app: LAYOUT.IApp }) => {
         return (
           <a
             className="app-list-item"
@@ -118,9 +117,10 @@ const AppCenterEl = () => {
               goTo(app.href);
               setVisible(false);
             }}
+            key={app.key}
           >
             <CustomIcon type={iconMap[app.key]} />
-            <span>{app.name}</span>
+            <span className="pl-2 font-medium">{app.name}</span>
           </a>
         );
       }}
