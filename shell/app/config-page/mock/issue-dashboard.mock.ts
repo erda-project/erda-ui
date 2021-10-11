@@ -403,7 +403,34 @@ export const mockData = {
             series: [
               {
                 name: '张三',
-                data: [820, 932, 901, 934, 0, 1330, 1320],
+                data: [
+                  {
+                    value: 820,
+                    operations: {
+                      click: {
+                        key: 'gotoBugList',
+                        reload: false,
+                        command: {
+                          jumpOut: true,
+                          key: 'goto',
+                          target: 'projectIssue',
+                          state: {
+                            params: { type: 'bug', projectId: '1' },
+                            query: {
+                              issueFilter__urlQuery: 'eyJzdGF0ZXMiOlszMDddfQ==',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  { value: 932 },
+                  { value: 901 },
+                  { value: 934 },
+                  { value: 0 },
+                  { value: 1330 },
+                  { value: 1320 },
+                ],
                 areaStyle: {
                   opacity: 0.1,
                 },
