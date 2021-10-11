@@ -1724,6 +1724,28 @@
       "en": ""
     }
   },
+  "offlineNode": {
+    "desc": "下线节点",
+    "success": {
+      "zh": "在集群 [@clusterName] 中，下线节点 [@name]",
+      "en": "Offline the node [@name] in cluster [@clusterName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
+  "onlineNode": {
+    "desc": "上线节点",
+    "success": {
+      "zh": "在集群 [@clusterName] 中，上线节点 [@name]",
+      "en": "Online the node [@name] in cluster [@clusterName]"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
   "updateK8SResource": {
     "desc": "更新K8S资源",
     "success": {
