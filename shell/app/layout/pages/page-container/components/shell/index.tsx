@@ -25,23 +25,15 @@ interface IProps {
 const Shell = ({ children, className, pageHeader, globalNavigation, sideNavigation }: IProps) => {
   return (
     <div className={`erda-shell h-full ${className || ''}`}>
-      <div className="flex flex-auto flex-col h-full">
-        <div className="flex flex-row h-full flex-auto">
-          <div className="h-full relative">
-            <div className="h-full">
-              <div className="h-full flex flex-row flex-auto">
-                <div className="h-full">
-                  <div className="h-full relative">{globalNavigation}</div>
-                </div>
+      <div className="flex flex-row h-full flex-auto">
+        <div className="h-full flex flex-row">
+          <div className="h-full relative">{globalNavigation}</div>
 
-                <div className="flex flex-auto flex-col overflow-x-hidden h-full relative">{sideNavigation}</div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-auto flex-col h-full overflow-x-hidden">
-            {pageHeader}
-            <div className="erda-main-content relative">{children}</div>
-          </div>
+          <div className="flex flex-auto flex-col overflow-x-hidden h-full relative">{sideNavigation}</div>
+        </div>
+        <div className="flex flex-auto flex-col h-full overflow-x-hidden">
+          {pageHeader}
+          <div className="erda-main-content relative">{children}</div>
         </div>
       </div>
     </div>
