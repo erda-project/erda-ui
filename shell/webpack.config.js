@@ -163,6 +163,7 @@ module.exports = () => {
             {
               loader: 'babel-loader',
               options: {
+                sourceType: 'unambiguous', // https://github.com/babel/babel/issues/12731
                 presets: [
                   [
                     '@babel/preset-env',
