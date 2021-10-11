@@ -22,7 +22,6 @@
   "author": "Erda-FE",
   "license": "AGPL",
   "dependencies": {
-    "@terminus/nusi": "3.10.79",
     "antd": "4.15.6",
     "axios": "^0.21.1",
     "css-loader": "^5.0.1",

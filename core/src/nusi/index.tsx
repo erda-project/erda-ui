@@ -73,9 +73,7 @@ import { Title } from '../common/components/title';
 import { Filter } from '../common/components/filter';
 import Ellipsis from '../common/components/ellipsis';
 import { PageHeader } from '../common/components/page-header';
-import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
-import { Shell, GlobalNavigation, ConfigProvider as NusiConfigProvider } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
 const isZh = locale === 'zh';
@@ -150,9 +148,6 @@ export {
   // Mention,
   Upload,
   version,
-  Shell,
   PageHeader,
-  GlobalNavigation,
   AntdConfigProvider,
-  NusiConfigProvider,
 };

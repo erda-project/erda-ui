@@ -105,7 +105,6 @@ importers:
       '@babel/preset-typescript': ^7.13.0
       '@icon-park/react': ^1.3.3
       '@module-federation/automatic-vendor-federation': ^1.2.1
-      '@terminus/nusi': 3.10.79
       '@types/lodash': ^4.14.118
       '@types/node': ^10.12.18
       '@types/react': ^16.7.13
@@ -153,7 +152,6 @@ importers:
       webpack-cli: ^4.4.0
       webpack-merge: ^5.7.3
     dependencies:
-      '@terminus/nusi': 3.10.79_89f7d333518b25ce6638797795704a0d
       antd: 4.15.6_react-dom@16.14.0+react@16.14.0
       axios: 0.21.1
       css-loader: 5.2.6_webpack@5.38.1
@@ -6012,24 +6010,6 @@ packages:
       - ts-node
     dev: true
 
-  /@terminus/dalaran-common/4.0.3_417e3a698f1fb39dfd9e0d163fb00f83:
-    resolution: {integrity: sha1-zTIcj8e2ae2zGTLbg1ELjXEva8U=, tarball: https://registry.npm.terminus.io/@terminus/dalaran-common/download/@terminus/dalaran-common-4.0.3.tgz}
-    peerDependencies:
-      '@terminus/nusi': ^3.8.85
-      lodash: ^4.17.20
-    dependencies:
-      '@terminus/nusi': 3.10.79_89f7d333518b25ce6638797795704a0d
-      lodash: 4.17.21
-      prismjs: 1.23.0
-      react-json-view: 1.21.3_89f7d333518b25ce6638797795704a0d
-      react-simple-code-editor: 0.11.0_react-dom@16.14.0+react@16.14.0
-      unstated-next: 1.1.0
-    transitivePeerDependencies:
-      - '@types/react'
-      - react
-      - react-dom
-    dev: false
-
   /@terminus/dalaran-common/4.0.3_5f50a0d4c9207b9ad8211ac5656c1973:
     resolution: {integrity: sha1-zTIcj8e2ae2zGTLbg1ELjXEva8U=, tarball: https://registry.npm.terminus.io/@terminus/dalaran-common/download/@terminus/dalaran-common-4.0.3.tgz}
     peerDependencies:
@@ -6153,118 +6133,6 @@ packages:
       - supports-color
     dev: false
 
-  /@terminus/nusi/3.10.79_89f7d333518b25ce6638797795704a0d:
-    resolution: {integrity: sha1-lyoL4G8IvbduYvHx9cSwr9LpYgg=, tarball: https://registry.npm.terminus.io/@terminus/nusi/download/@terminus/nusi-3.10.79.tgz}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@emotion/core': 10.1.1_react@16.14.0
-      '@terminus/nusi-icons': 1.1.7
-      '@terminus/nusi-icons-react': 1.1.7_ad92d32389bad398280df683e8a4fa82
-      '@terminus/processor-engine': 1.0.14_417e3a698f1fb39dfd9e0d163fb00f83
-      '@terminus/rc-calendar': 1.1.9
-      '@terminus/rc-cascader': 1.1.13_react-dom@16.14.0+react@16.14.0
-      '@terminus/rc-dialog': 7.3.1
-      '@terminus/rc-drawer': 1.0.2_react@16.14.0
-      '@terminus/rc-form': 2.5.16_prop-types@15.6.1
-      '@terminus/rc-input-number': 4.7.2
-      '@terminus/rc-menu': 1.0.17
-      '@terminus/rc-pagination': 1.1.4
-      '@terminus/rc-select': 2.0.11_react-dom@16.14.0+react@16.14.0
-      '@terminus/rc-table': 1.0.28
-      '@terminus/react-color': 2.20.9_react@16.14.0
-      array-tree-filter: 2.1.0
-      async-validator: 3.5.2
-      braft-editor: 2.3.9_react-dom@16.14.0+react@16.14.0
-      braft-extensions: 0.1.1_e32486632413ab16c9f736a23853eba1
-      braft-utils: 3.0.12_immutable@4.0.0-rc.12
-      color: 3.1.3
-      css-animation: 1.6.1
-      css-element-queries: 1.2.3
-      dom-closest: 0.2.0
-      echarts: 4.9.0
-      echarts-for-react: 2.0.16_1e265b3074702054f3744bd834e7f909
-      enquire.js: 2.1.6
-      immutability-helper: 2.8.0
-      immutable: 4.0.0-rc.12
-      intersperse: 1.0.0
-      lodash: 4.17.21
-      moment: 2.29.1
-      prop-types: 15.6.1
-      qrcode.react: 1.0.0_react@16.14.0
-      raf: 3.4.1
-      rc-animate: 2.11.1
-      rc-cascader: 0.17.5
-      rc-checkbox: 2.3.2_react-dom@16.14.0+react@16.14.0
-      rc-collapse: 1.11.8
-      rc-color-picker: 1.2.6_react-dom@16.14.0+react@16.14.0
-      rc-drawer: 4.3.1_react-dom@16.14.0+react@16.14.0
-      rc-dropdown: 2.4.1
-      rc-editor-mention: 1.1.13_react-dom@16.14.0+react@16.14.0
-      rc-notification: 3.3.1
-      rc-picker: 1.15.4_react-dom@16.14.0+react@16.14.0
-      rc-progress: 2.6.1
-      rc-rate: 2.9.1_react-dom@16.14.0+react@16.14.0
-      rc-resize-observer: 1.0.0_react-dom@16.14.0+react@16.14.0
-      rc-slider: 8.6.13
-      rc-tabs: 9.7.0_react@16.14.0
-      rc-time-picker: 3.7.3
-      rc-tree: 2.1.4_react-dom@16.14.0+react@16.14.0
-      rc-tree-select: 2.9.4_react-dom@16.14.0+react@16.14.0
-      rc-upload: 2.8.1
-      rc-util: 4.21.1
-      react: 16.14.0
-      react-color: 2.19.3_react@16.14.0
-      react-copy-to-clipboard: 5.0.3_react@16.14.0
-      react-dnd: 11.1.3_react-dom@16.14.0+react@16.14.0
-      react-dnd-html5-backend: 11.1.3
-      react-dom: 16.14.0_react@16.14.0
-      react-grid-layout: 0.18.3_react-dom@16.14.0+react@16.14.0
-      react-lazy-load: 3.1.13_react-dom@16.14.0+react@16.14.0
-      react-lifecycles-compat: 3.0.4
-      react-responsive: 8.2.0_react@16.14.0
-      react-slick: 0.23.2_react-dom@16.14.0+react@16.14.0
-      shallowequal: 1.1.0
-      shortid: 2.2.16
-      store: 2.0.12
-      tinycolor2: 1.4.2
-      warning: 4.0.3
-    transitivePeerDependencies:
-      - '@types/react'
-      - braft-convert
-      - draft-js
-      - draft-js-prism
-      - draftjs-utils
-      - eve
-      - html-table-to-json
-      - prismjs
-      - supports-color
-    dev: false
-
-  /@terminus/processor-engine/1.0.14_417e3a698f1fb39dfd9e0d163fb00f83:
-    resolution: {integrity: sha1-JFjNoI+qDqfRIgfT43ImPuKpJqc=, tarball: https://registry.npm.terminus.io/@terminus/processor-engine/download/@terminus/processor-engine-1.0.14.tgz}
-    peerDependencies:
-      lodash: ^4.17.20
-      react: ^16.14.0
-      react-dom: ^16.14.0
-    dependencies:
-      '@babel/core': 7.14.3
-      '@terminus/dalaran-common': 4.0.3_417e3a698f1fb39dfd9e0d163fb00f83
-      classnames: 2.3.1
-      immer: 7.0.15
-      lodash: 4.17.21
-      react: 16.14.0
-      react-dom: 16.14.0_react@16.14.0
-      snapsvg-cjs: 0.0.6
-      unstated-next: 1.1.0
-    transitivePeerDependencies:
-      - '@terminus/nusi'
-      - '@types/react'
-      - eve
-      - supports-color
-    dev: false
-
   /@terminus/processor-engine/1.0.14_5f50a0d4c9207b9ad8211ac5656c1973:
     resolution: {integrity: sha1-JFjNoI+qDqfRIgfT43ImPuKpJqc=, tarball: https://registry.npm.terminus.io/@terminus/processor-engine/download/@terminus/processor-engine-1.0.14.tgz}
     peerDependencies:
@@ -6334,23 +6202,6 @@ packages:
       rc-util: 4.21.1
       react: 16.14.0
       react-lifecycles-compat: 3.0.4
-    dev: false
-
-  /@terminus/rc-form/2.5.16_prop-types@15.6.1:
-    resolution: {integrity: sha1-86UaS9vYg7MSzw0vkaAts7U5UF0=, tarball: https://registry.npm.terminus.io/@terminus/rc-form/download/@terminus/rc-form-2.5.16.tgz}
-    peerDependencies:
-      prop-types: ^15.0
-    dependencies:
-      async-validator: 3.5.2
-      babel-runtime: 6.26.0
-      create-react-class: 15.7.0
-      dom-scroll-into-view: 1.2.1
-      hoist-non-react-statics: 3.3.2
-      lodash: 4.17.21
-      prop-types: 15.6.1
-      rc-util: 4.21.1
-      react-is: 16.13.1
-      warning: 4.0.3
     dev: false
 
   /@terminus/rc-form/2.5.18_prop-types@15.6.1:

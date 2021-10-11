@@ -26,7 +26,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const smp = new SpeedMeasurePlugin();
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
-const nusiRealPath = fs.realpathSync(resolve('./node_modules/@terminus/nusi'));
 const antdRealPath = fs.realpathSync(resolve('./node_modules/antd'));
 
 module.exports = () => {
@@ -65,7 +64,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.(scss)$/,
-          include: [resolve('./src'), nusiRealPath],
+          include: [resolve('./src'), antdRealPath],
           use: [
             MiniCssExtractPlugin.loader,
             {
@@ -101,7 +100,7 @@ module.exports = () => {
               },
             },
           ],
-          include: [resolve('./src'), antdRealPath, nusiRealPath],
+          include: [resolve('./src'), antdRealPath],
         },
         {
           test: /\.(css)$/,
