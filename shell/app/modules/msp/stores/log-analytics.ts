@@ -35,6 +35,8 @@ const initState: IState = {
   logTotal: 0,
 };
 
+export const localFieldsKey = 'map-local-fields';
+
 const mspLogAnalyticsStore = createStore({
   name: 'mapLogAnalytics',
   state: initState,
@@ -42,7 +44,7 @@ const mspLogAnalyticsStore = createStore({
     async getFields({ call, update, getParams }) {
       const { addonId } = getParams();
       let fields = await call(getFields, { addon: addonId });
-      const localFieldsStr = window.localStorage.getItem(addonId);
+      const localFieldsStr = window.localStorage.getItem(localFieldsKey);
       let localFields = fields;
       if (localFieldsStr) {
         localFields = JSON.parse(localFieldsStr);
@@ -50,7 +52,7 @@ const mspLogAnalyticsStore = createStore({
           fields = localFields;
         }
       }
-      window.localStorage.setItem(addonId, JSON.stringify(fields));
+      window.localStorage.setItem(localFieldsKey, JSON.stringify(fields));
       update({
         fields,
         menu: fields.filter((t) => t.supportAggregation),
@@ -89,6 +91,7 @@ const mspLogAnalyticsStore = createStore({
       state.fields = fields;
     },
     updateShowTags(state, fields: LOG_ANALYTICS.IField[]) {
+      window.localStorage.setItem(localFieldsKey, JSON.stringify(fields));
       state.fields = fields;
       state.showTags = fields.filter((item) => item.display).map((item) => item.fieldName);
     },
