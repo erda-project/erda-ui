@@ -36,12 +36,14 @@ interface Option {
 }
 
 type ConditionType = 'select' | 'input' | 'dateRange';
+const { RangePicker } = DatePicker;
 
 export interface ICondition {
   key: string;
   label: string;
   type: ConditionType;
   emptyText?: string;
+  required?: boolean;
   split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
@@ -147,6 +149,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     quickDelete,
     quickAdd,
     options,
+    required,
     customProps,
     emptyText = i18n.t('application:all'),
     getComp,
@@ -233,9 +236,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
-            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
-              {i18n.t('common:clear selected')}
-            </span>
+            {!required ? (
+              <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
+                {i18n.t('common:clear selected')}
+              </span>
+            ) : null}
           </Menu.Item>,
           <Menu.Divider key="divider2" />,
         ]}
@@ -272,17 +277,20 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             const isGroup = op.children?.length;
             const onClickOptItem = (_curOpt: Option) => {
               if (isSingleMode) {
+                if (required && _value.includes(_curOpt.value)) return;
                 onChange({
                   key,
                   value: _value.includes(_curOpt.value) ? undefined : _curOpt.value,
                 });
                 onVisibleChange(false);
               } else {
+                const newVal = _value.includes(_curOpt.value)
+                  ? _value.filter((v: string | number) => v !== _curOpt.value)
+                  : _value.concat(_curOpt.value);
+                if (required && !newVal.length) return;
                 onChange({
                   key,
-                  value: _value.includes(_curOpt.value)
-                    ? _value.filter((v: string | number) => v !== _curOpt.value)
-                    : _value.concat(_curOpt.value),
+                  value: newVal,
                 });
               }
             };
@@ -376,20 +384,82 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <span className="text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
+          bordered={false}
           value={startDate ? moment(startDate) : undefined}
           disabledDate={disabledDate(true)}
           format={'YYYY/MM/DD'}
+          allowClear={!required}
           onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
           placeholder={i18n.t('common:startDate')}
         />
         <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
           size="small"
+          bordered={false}
+          allowClear={!required}
           value={endDate ? moment(endDate) : undefined}
           disabledDate={disabledDate(false)}
           format={'YYYY/MM/DD'}
           placeholder={i18n.t('common:endDate')}
           onChange={(v) => onChange({ key, value: getTimeValue([startDate, v?.valueOf()]) })}
+        />
+      </span>
+    );
+  }
+
+  if (type === 'rangePicker') {
+    const { ranges, borderTime, selectableTime, ...customRest } = customProps;
+    const valueConvert = (val: number[] | Moment[]) => {
+      const convertItem = (v: number | Moment) => {
+        if (moment.isMoment(v)) {
+          return moment(v).valueOf();
+        } else {
+          return v && moment(v);
+        }
+      };
+      return Array.isArray(val) ? val.map((vItem) => convertItem(vItem)) : convertItem(val);
+    };
+
+    const rangeConvert = (_ranges?: Obj<number[]>) => {
+      const reRanges = {};
+      map(_ranges, (v, k) => {
+        reRanges[k] = valueConvert(v);
+      });
+      return reRanges;
+    };
+    const disabledDate = (_current: Moment) => {
+      return (
+        _current &&
+        !(
+          (selectableTime[0] ? _current > moment(selectableTime[0]) : true) &&
+          (selectableTime[1] ? _current < moment(selectableTime[1]) : true)
+        )
+      );
+    };
+    return (
+      <span className="contractive-filter-item contractive-filter-date-picker">
+        <span className="text-desc mr-0.5">{label}</span>
+        <RangePicker
+          value={valueConvert(value)}
+          ranges={rangeConvert(ranges)}
+          size="small"
+          bordered={false}
+          disabledDate={selectableTime ? disabledDate : undefined}
+          onChange={(v) => {
+            const val =
+              borderTime && Array.isArray(v)
+                ? v.map((vItem, idx) => {
+                    if (idx === 0 && vItem) {
+                      return vItem.startOf('dates');
+                    } else if (idx === 1 && vItem) {
+                      return vItem.endOf('dates');
+                    }
+                    return vItem;
+                  })
+                : v;
+            onChange({ key, value: valueConvert(val) });
+          }}
+          {...customRest}
         />
       </span>
     );
@@ -423,6 +493,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onChange={(v) => {
             onChange({ key, value: v });
           }}
+          allowClear={!required}
           value={value}
           dropdownMatchSelectWidth={false}
           onDropdownVisible={(vis: boolean) => onVisibleChange(vis)}
@@ -430,7 +501,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           resultsRender={memberResultsRender}
           placeholder={' '}
           className="contractive-member-selector"
-          allowClear={false}
           showSearch={haveFilter}
         />
         {value?.length ? null : <span>{emptyText}</span>}

@@ -136,7 +136,7 @@ export const PROJECT_TABS = () => {
     },
     {
       key: 'dashboard',
-      name: i18n.t('project:dashboard'),
+      name: i18n.t('project:statistics'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
   ];
@@ -151,6 +151,21 @@ export const TEST_TABS = [
   {
     key: 'auto',
     name: i18n.t('project:automatic test'),
+  },
+];
+
+export const TEST_PLAN_TABS = [
+  {
+    key: 'manual',
+    name: i18n.t('project:manual test'),
+  },
+  {
+    key: 'auto',
+    name: i18n.t('project:automatic test'),
+  },
+  {
+    key: 'code-coverage',
+    name: i18n.t('project:code coverage'),
   },
 ];
 

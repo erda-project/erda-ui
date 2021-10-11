@@ -19,10 +19,15 @@ declare namespace CP_CHART {
   }
 
   interface IProps {
+    chartType: 'line' | 'pie' | 'bar';
     option: Obj;
     style: Obj;
+    visible?: boolean;
     title: string;
+    isLoadMore?: boolean;
   }
 
-  type Props = MakeProps<Spec>;
+  type Props = MakeProps<Spec> & {
+    extraContent?: React.ReactElement;
+  };
 }

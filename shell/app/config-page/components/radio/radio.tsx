@@ -47,7 +47,7 @@ export default (props: CP_RADIO.Props) => {
   return (
     <Radio.Group {...rest} value={state.value} onChange={(e: any) => onChange({ value: e.target.value })}>
       {map(options, (mItem) => {
-        const { children, key, prefixIcon, text, tooltip, width, status, operations: itemOp } = mItem;
+        const { children, key, prefixIcon, disabled, text, tooltip, width, status, operations: itemOp } = mItem;
 
         if (isArray(children)) {
           const curChildrenVal = get(state, `childrenValue.${key}`) || (get(children, '[0].key') as string);
@@ -80,7 +80,7 @@ export default (props: CP_RADIO.Props) => {
           return (
             <Tooltip key={key} title={tooltip}>
               <Dropdown overlay={getMenu()}>
-                <RadioItem value={key} key={key}>
+                <RadioItem value={key} key={key} disabled={disabled}>
                   <div className="flex justify-between items-center">
                     {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
@@ -101,7 +101,7 @@ export default (props: CP_RADIO.Props) => {
           }
           return (
             <Tooltip key={key} title={tooltip}>
-              <RadioItem value={key} key={key} {...extraProps}>
+              <RadioItem value={key} key={key} disabled={disabled} {...extraProps}>
                 <div className="flex justify-between items-center">
                   {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
                   {status ? <Badge status={status || 'default'} className="mr-1" /> : null}

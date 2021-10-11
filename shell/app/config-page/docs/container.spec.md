@@ -4,27 +4,43 @@
 
 ### Spec
 
-| 名称                           | 类型                          | 必填          |
-| ------------------------------ | ----------------------------- | ------------- | ---------------------------------- | ----- |
-| type                           | 'Container'                   | 'LRContainer' | 'RowContainer'                     | false |
-| left                           | any                           | true          |
-| right                          | any                           | true          |
-| children                       | any                           | true          |
-| props                          | {                             |
-| direction?: 'column'           | 'row'; // 对应 flex-direction |
-| contentSetting?: 'row-between' | 'row-center'                  | 'row-start'   | 'row-end'; // 对应 justify-content |
+| 名称           | 类型        | 必填          |
+| -------------- | ----------- | ------------- | -------------- | ----- |
+| type           | 'Container' | 'LRContainer' | 'RowContainer' | false |
+| left           | Obj         | true          |
+| right          | Obj         | true          |
+| props          | IProps      | true          |
+| contentSetting | string      | true          | ,              |
 
-      className?: string;
-      isTopHead?: boolean;
-      whiteBg?: boolean;
-      fullHeight?: boolean;
-      flexHeight?: boolean;
-    } | true |
+### IProps
+
+| 名称           | 类型      | 必填     |
+| -------------- | --------- | -------- | -------- | ----- | ------- | ------ | ---- |
+| visible        | boolean   | true     |
+| direction      | 'column'  | 'row'    | true     |
+| contentSetting | 'between' | 'center' | 'start'  | 'end' | true    |
+| isTopHead      | boolean   | true     |
+| spaceSize      | 'none'    | 'small'  | 'middle' | 'big' | 'large' | 'huge' | true |
+| whiteBg        | boolean   | true     |
+| border         | boolean   | true     |
+| fullHeight     | boolean   | true     |
+| flexHeight     | boolean   | true     |
+| startAlign     | boolean   | true     |
+| scrollAuto     | boolean   | true     |
+| className      | string    | true     |
 
 ## 枚举
 
 ## 类型
 
-| 名称  | 值              |
-| ----- | --------------- |
-| Props | MakeProps<Spec> |
+| 名称  | 值                  |
+| ----- | ------------------- |
+| Props | MakeProps<Spec> & { |
+
+    children?: any;
+    props: {
+      className: string;
+      onClick?: () => void;
+    };
+
+} |

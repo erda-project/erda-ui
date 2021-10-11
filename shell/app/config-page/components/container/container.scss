@@ -1,5 +1,10 @@
 .dice-cp {
   &.container {
+    &.with-border {
+      border-radius: $radius;
+      border: 1px solid $border-color;
+    }
+
     &.column {
       display: flex;
       flex-direction: column;
@@ -35,10 +40,17 @@
         }
       }
 
+      &.space-huge {
+        > * {
+          margin-top: 50px;
+        }
+      }
+
       &.space-small,
       &.space-middle,
       &.space-big,
-      &.space-large {
+      &.space-large,
+      &.space-huge {
         > * {
           &:first-child {
             margin-top: 0;
@@ -82,10 +94,17 @@
         }
       }
 
+      &.space-huge {
+        > * {
+          margin-left: 50px;
+        }
+      }
+
       &.space-small,
       &.space-middle,
       &.space-big,
-      &.space-large {
+      &.space-large,
+      &.space-huge {
         > * {
           &:first-child {
             margin-left: 0;
@@ -122,7 +141,7 @@
     }
 
     &.bg-white {
-      padding: 8px;
+      padding: 12px;
       background-color: $white;
       border-radius: $radius;
     }

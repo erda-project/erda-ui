@@ -66,7 +66,7 @@ export default (props: CP_TABS.Props) => {
       {tabMenu.map((item, idx) => {
         const TabComp = (children && children[idx]) || <EmptyHolder relative />;
         return (
-          <Tabs.TabPane key={item.key} tab={item.name}>
+          <Tabs.TabPane key={item.key} tab={item.name} disabled={item.disable}>
             {TabComp}
           </Tabs.TabPane>
         );
