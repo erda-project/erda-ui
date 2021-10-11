@@ -230,9 +230,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
     }
     case 'readonly':
-      Comp = <div className="nowrap pl-3">{valueRender ? valueRender(editValue) : editValue}</div>;
-      break;
-    case 'last_readonly':
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
