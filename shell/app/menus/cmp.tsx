@@ -113,22 +113,22 @@ export const getCmpMenu = () => {
           },
         ],
       },
-      {
-        key: 'cmpLog',
-        href: goTo.resolve.cmpLog(), // '/cmp/log',
-        icon: <IconLog />,
-        text: i18n.t('log analysis'),
-        subMenu: [
-          {
-            text: i18n.t('log query'),
-            href: goTo.resolve.cmpLogQuery(), // '/cmp/log/query',
-          },
-          {
-            text: i18n.t('analysis rule'),
-            href: goTo.resolve.cmpLogRule(), // '/cmp/log/rule',
-          },
-        ],
-      },
+      // {
+      //   key: 'cmpLog',
+      //   href: goTo.resolve.cmpLog(), // '/cmp/log',
+      //   icon: <IconLog />,
+      //   text: i18n.t('log analysis'),
+      //   subMenu: [
+      //     {
+      //       text: i18n.t('log query'),
+      //       href: goTo.resolve.cmpLogQuery(), // '/cmp/log/query',
+      //     },
+      //     {
+      //       text: i18n.t('analysis rule'),
+      //       href: goTo.resolve.cmpLogRule(), // '/cmp/log/rule',
+      //     },
+      //   ],
+      // },
     ],
     MENU_SCOPE.cmp,
   );

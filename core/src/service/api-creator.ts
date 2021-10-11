@@ -87,7 +87,7 @@ type Merge<A, B> = { [K in keyof A]: K extends keyof B ? B[K] : A[K] } & B exten
  * @param apiConfig
  * @returns callable api function
  */
-export const genRequest = function<T extends FN>(apiConfig: APIConfig) {
+export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
   const { api, headers } = apiConfig;
   let [method, path] = api.split('@');
   if (!path) {
@@ -111,7 +111,7 @@ export const genRequest = function<T extends FN>(apiConfig: APIConfig) {
     } else if (method === 'delete') {
       bodyData = $body;
     }
-    return (axios({
+    return axios({
       method: method as any,
       url: generatePath(path, pathParams),
       headers: headers ?? $headers,
@@ -119,7 +119,7 @@ export const genRequest = function<T extends FN>(apiConfig: APIConfig) {
       paramsSerializer: (p: Obj<string>) => qs.stringify(p),
       responseType: isDownload ? 'blob' : 'json',
       data: bodyData,
-    }).then((res) => res.data) as unknown) as Promise<RES_BODY<ReturnType<T>>>;
+    }).then((res) => res.data) as unknown as Promise<RES_BODY<ReturnType<T>>>;
   };
 };
 
@@ -309,7 +309,7 @@ export function usePaging<T extends FN>({
 
 export function apiCreator<T extends FN>(apiConfig: APIConfig) {
   const apiFn = genRequest<T>(apiConfig);
-  return enhanceAPI<typeof apiFn>(apiFn, apiConfig);
+  return enhanceAPI<typeof apiFn>(apiFn);
 }
 
 export { axios };

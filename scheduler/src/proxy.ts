@@ -96,12 +96,6 @@ export const createProxyService = (app: INestApplication) => {
             }
           }
         },
-        // onProxyRes:(proxyRes, req, res: Response)=>{
-        //   if (!isProd && proxyRes.statusCode) {
-        //     console.log(match)
-        //     res.json({})
-        //   }
-        // }
       },
     ),
   );

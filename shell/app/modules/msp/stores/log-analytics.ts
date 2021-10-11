@@ -46,7 +46,7 @@ const mspLogAnalyticsStore = createStore({
       let localFields = fields;
       if (localFieldsStr) {
         localFields = JSON.parse(localFieldsStr);
-        if (Array.isArray(localFields) && localFields.length !== fields.length) {
+        if (Array.isArray(localFields) && localFields.length === fields.length) {
           fields = localFields;
         }
       }
@@ -66,7 +66,7 @@ const mspLogAnalyticsStore = createStore({
       );
       update({
         logList: data ?? [],
-        logTotal: total,
+        logTotal: total > 10000 ? 10000 : total,
       });
     },
     async getAggregation(
