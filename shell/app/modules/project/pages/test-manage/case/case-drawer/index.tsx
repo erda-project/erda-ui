@@ -245,7 +245,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     const payload = editMode ? { ...saveData, id: caseDetail.testCaseID } : saveData;
     const request = editMode ? editPartial : addTestCase;
     const res = await request(payload);
-    getCaseDetail({ id: newData.id, scope });
+    newData.id && getCaseDetail({ id: newData.id, scope });
     drawer.current.saved = true;
     if (afterSave) {
       await afterSave(saveData, editMode, res);
