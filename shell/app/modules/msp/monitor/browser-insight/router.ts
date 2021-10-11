@@ -32,6 +32,7 @@ if (isZh()) {
 
 const getBIRouter = (): RouteConfigItem => ({
   path: 'bi',
+  breadcrumbName: i18n.t('msp:front-end monitor'),
   pageName: i18n.t('msp:front-end monitor'),
   tabs,
   routes: [

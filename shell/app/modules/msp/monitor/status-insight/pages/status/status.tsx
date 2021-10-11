@@ -271,7 +271,7 @@ const Status = () => {
         columns={columns}
         dataSource={filterData}
         pagination={false}
-        scroll={{ x: '100%' }}
+        scroll={{ x: '100%', y: 550 }}
       />
     </div>
   );

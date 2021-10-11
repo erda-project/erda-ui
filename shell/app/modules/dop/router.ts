@@ -135,7 +135,7 @@ export default function getDopRouter(): RouteConfigItem[] {
                 {
                   path: 'settings',
                   breadcrumbName: i18n.t('dop:addon setting'),
-                  getComp: (cb) => cb(import('common/components/addon-settings'), 'AddonSettings'),
+                  getComp: (cb) => cb(import('common/components/addon-settings')),
                 },
                 // {
                 //   path: 'log-analytics',

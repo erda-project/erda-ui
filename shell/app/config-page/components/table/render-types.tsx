@@ -145,7 +145,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { value: _val, tip, status, renderType, ...rest } = val || {};
         let value = +(_val ?? 0);
-        value = +(`${value}`.indexOf('.') ? value.toFixed(1) : value);
+        value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
         Comp = !isNaN(+_val) ? (
           <Tooltip title={tip}>
             <Progress

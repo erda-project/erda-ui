@@ -159,6 +159,7 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:test case'),
               pageName: i18n.t('project:test case'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },

@@ -54,6 +54,7 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'repo',
         mark: 'repo',
+        breadcrumbName: i18n.t('application:code'),
         pageName: i18n.t('application:files'),
         routes: [
           {
@@ -156,6 +157,7 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'pipeline',
         mark: 'pipeline',
+        breadcrumbName: i18n.t('application:pipeline'),
         pageName: i18n.t('application:pipeline'),
         getComp: (cb) => cb(import('application/pages/pipeline')),
         layout: { fullHeight: true },

@@ -16,6 +16,7 @@ import i18n from 'i18n';
 function AlarmRouter() {
   return {
     path: 'alarm',
+    breadcrumbName: i18n.t('alarm strategy'),
     pageName: i18n.t('alarm strategy'),
     getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
   };
