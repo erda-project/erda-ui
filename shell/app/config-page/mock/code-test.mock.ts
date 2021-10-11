@@ -429,13 +429,13 @@ export const mockData = {
       treeMapChart: {
         type: 'Chart',
         props: {
+          requestIgnore: ['props', 'data'],
           title: '2021-10-10 报告详情1',
           style: { height: 600 },
           chartType: 'treemap',
           option: {
             tooltip: {
               show: true,
-              formatter: '{@parent}: {@[1]} <br /> {@abc}: {@[2]}',
             },
             series: [
               {
@@ -445,7 +445,7 @@ export const mockData = {
                 leafDepth: 2,
                 colorMappingBy: 'value',
                 data: mock,
-                color: ['#800000', '#F7A76B', '#F7C36B', '#6CB38B', '#8FBC8F'],
+                color: ['maroon', 'orange', 'yellow', 'green', 'darkseagreen'],
                 levels: [
                   {
                     colorSaturation: [0.3, 0.6],
