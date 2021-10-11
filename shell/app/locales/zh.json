@@ -2857,6 +2857,7 @@
     "closed": "已关闭",
     "cluster setting": "集群设置",
     "cluster used by the environment": "环境所用的集群",
+    "code coverage": "代码覆盖率",
     "code development": "代码研发",
     "code quality access control": "代码质量门禁",
     "code-trigger-CI": "该分支代码发生变化时触发持续集成",
