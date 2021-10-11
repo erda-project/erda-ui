@@ -276,7 +276,6 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   };
 
   const handleAnyMouseDown = React.useCallback((e: MouseEvent) => {
-    console.log(e);
     activeElementRef.current.target = e.target as Element;
   }, []);
 
