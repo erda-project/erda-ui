@@ -275,21 +275,22 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     }
   };
 
+  const handleAnyMouseDown = React.useCallback((e: MouseEvent) => {
+    console.log(e);
+    activeElementRef.current.target = e.target as Element;
+  }, []);
+
   React.useEffect(() => {
     if (visible) {
-      window.onmousedown = handleAnyMouseDown;
+      window.addEventListener('mousedown', handleAnyMouseDown);
     } else {
-      window.onmousedown = null;
+      window.removeEventListener('mousedown', handleAnyMouseDown);
     }
 
     return () => {
-      window.onmousedown = null;
+      window.removeEventListener('mousedown', handleAnyMouseDown);
     };
-  }, [visible]);
-
-  const handleAnyMouseDown = (e: MouseEvent) => {
-    activeElementRef.current.target = e.target as Element;
-  };
+  }, [visible, handleAnyMouseDown]);
 
   const handleVisibleChange = (v: boolean) => {
     if (!v) {
