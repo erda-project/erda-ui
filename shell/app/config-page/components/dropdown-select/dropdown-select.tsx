@@ -21,9 +21,9 @@ import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck } from
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const { execOperation, props: configProps, state: propsState } = props;
-  const { options, quickSelect = [], overlay, trigger, visible, ...restProps } = configProps;
+  const { options, showLimit = 12, quickSelect = [], overlay, trigger, visible, ...restProps } = configProps;
   let _overlay = overlay;
-  const [value, setValue] = React.useState(propsState.value);
+  const { value } = propsState;
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false);
 
@@ -74,7 +74,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
         </Menu.Item>
 
         <Menu.Divider key="divider1" />
-        {map(options, (item: CP_DROPDOWN_SELECT.IOptionItem, index: number) => {
+        {map(options.slice(0, showLimit), (item: CP_DROPDOWN_SELECT.IOptionItem) => {
           // 前端搜索
           if (!item.label.toLowerCase().includes(filterValue)) {
             return null;
