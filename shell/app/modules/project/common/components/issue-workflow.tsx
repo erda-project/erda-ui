@@ -74,7 +74,7 @@ const IssueWorkflow = () => {
                   </div>
                 </div>
                 <div className="sub">
-                  <span>{i18n.t('common:state')}：</span>
+                  <span>{i18n.t('project:state type')}：</span>
                   <div>
                     {map(Object.entries(issueStateMap[item.issueType]), (data: string[]) => {
                       return (
@@ -86,7 +86,7 @@ const IssueWorkflow = () => {
                   </div>
                 </div>
                 <div className="sub default-workflow">
-                  <div className="default-workflow-title">{i18n.t('project:default workflow')}：</div>
+                  <div className="default-workflow-title">{i18n.t('common:state')}：</div>
                   <div className="default-workflow-content">
                     {map(item.state, (name: string) => {
                       const curStateBelong = get(find(workflowStateList, { stateName: name }), 'stateBelong');

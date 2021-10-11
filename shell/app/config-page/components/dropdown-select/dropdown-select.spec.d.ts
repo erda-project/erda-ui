@@ -19,9 +19,9 @@ declare namespace CP_DROPDOWN_SELECT {
   }
 
   interface IProps {
-    [propName: string]: any;
     quickSelect?: IQuickSelect[];
     visible?: boolean;
+    showLimit: number;
     overlay?: any;
     options?: IOptionItem[];
     trigger?: Array<'click' | 'hover' | 'contextMenu'>;
