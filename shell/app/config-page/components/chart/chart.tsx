@@ -145,15 +145,9 @@ const Chart = (props: CP_CHART.Props) => {
 
   const onEvents = {
     click: (params: any) => {
-      const dataOp = get(params, 'data.operations.click');
+      const dataOp = get(params, 'data.operations.click') || operations?.click;
       if (dataOp) {
         execOperation(dataOp, {
-          data: params.data,
-          seriesIndex: params.seriesIndex,
-          dataIndex: params.dataIndex,
-        });
-      } else if (operations?.click) {
-        execOperation(operations.click, {
           data: params.data,
           seriesIndex: params.seriesIndex,
           dataIndex: params.dataIndex,
