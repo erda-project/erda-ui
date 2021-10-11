@@ -15,7 +15,7 @@ import React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon } from 'common';
 import { Badge, Title } from 'core/nusi';
-import { colorMap } from 'app/config-page/utils';
+import { textColorMap } from 'app/config-page/utils';
 import i18n from 'i18n';
 import { getImg } from 'app/config-page/img-map';
 import classnames from 'classnames';
@@ -28,7 +28,7 @@ const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
     styleObj.fontWeight = 'bold';
   }
   if (color) {
-    styleObj.color = colorMap[color] || color;
+    styleObj.color = textColorMap[color] || color;
   }
   map(rest || {}, (v, k) => {
     styleObj[k] = isNumber(v) ? `${v}px` : v;
@@ -82,7 +82,7 @@ const Text = (props: CP_TEXT.Props) => {
       break;
     case 'linkText':
       {
-        const { text, isPureText = true } = (value || {}) as CP_TEXT.ILinkTextData;
+        const { text, direction = 'row' } = (value || {}) as CP_TEXT.ILinkTextData;
         if (isString(text)) {
           TextComp = (
             <span style={styleObj} className={textClassNames}>
@@ -91,7 +91,7 @@ const Text = (props: CP_TEXT.Props) => {
           );
         } else if (isArray(text)) {
           TextComp = (
-            <span className={`${isPureText ? '' : 'flex items-center'}`}>
+            <span className={`flex items-center flex-${direction}`}>
               {text.map((t, idx) => {
                 if (isString(t)) {
                   return (

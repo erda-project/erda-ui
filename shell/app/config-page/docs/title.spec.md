@@ -5,15 +5,27 @@
 ### Spec
 
 | 名称  | 类型    | 必填  |
-| ----- | ------- | ----- |
+| ----- | ------- | ----- | --- |
 | type  | 'Title' | false |
-| props | {       |
+| props | IProps  | false | ,   |
 
-      title: string;
-      level?: number;
-      tips?: string;
-      showDivider?: boolean
-    } | false |
+### IProps
+
+| 名称           | 类型    | 必填     |
+| -------------- | ------- | -------- | ----- | ------- | ---- |
+| title          | string  | false    |
+| level          | number  | true     |
+| tips           | string  | true     |
+| prefixIcon     | string  | true     |
+| prefixImg      | string  | true     |
+| size           | 'small' | 'normal' | 'big' | 'large' | true |
+| showDivider    | boolean | true     |
+| showSubtitle   | boolean | true     |
+| subtitle       | string  | true     |
+| isCircle       | boolean | true     |
+| visible        | boolean | true     |
+| noMarginBottom | boolean | true     |
+| operations     | Obj[]   | true     |
 
 ## 枚举
 

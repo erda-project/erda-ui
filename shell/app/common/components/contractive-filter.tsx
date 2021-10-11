@@ -42,6 +42,7 @@ export interface ICondition {
   label: string;
   type: ConditionType;
   emptyText?: string;
+  required?: boolean;
   split?: boolean;
   value?: string | number | string[] | number[] | Obj;
   fixed?: boolean;
@@ -147,6 +148,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     quickDelete,
     quickAdd,
     options,
+    required,
     customProps,
     emptyText = i18n.t('application:all'),
     getComp,
@@ -233,9 +235,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
-            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
-              {i18n.t('common:clear selected')}
-            </span>
+            {!required ? (
+              <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
+                {i18n.t('common:clear selected')}
+              </span>
+            ) : null}
           </Menu.Item>,
           <Menu.Divider key="divider2" />,
         ]}
@@ -272,17 +276,20 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
             const isGroup = op.children?.length;
             const onClickOptItem = (_curOpt: Option) => {
               if (isSingleMode) {
+                if (required && _value.includes(_curOpt.value)) return;
                 onChange({
                   key,
                   value: _value.includes(_curOpt.value) ? undefined : _curOpt.value,
                 });
                 onVisibleChange(false);
               } else {
+                const newVal = _value.includes(_curOpt.value)
+                  ? _value.filter((v: string | number) => v !== _curOpt.value)
+                  : _value.concat(_curOpt.value);
+                if (required && !newVal.length) return;
                 onChange({
                   key,
-                  value: _value.includes(_curOpt.value)
-                    ? _value.filter((v: string | number) => v !== _curOpt.value)
-                    : _value.concat(_curOpt.value),
+                  value: newVal,
                 });
               }
             };
@@ -379,12 +386,14 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           value={startDate ? moment(startDate) : undefined}
           disabledDate={disabledDate(true)}
           format={'YYYY/MM/DD'}
+          allowClear={!required}
           onChange={(v) => onChange({ key, value: getTimeValue([v?.valueOf(), endDate]) })}
           placeholder={i18n.t('common:startDate')}
         />
         <span className="text-desc">{i18n.t('common:to')}</span>
         <DatePicker
           size="small"
+          allowClear={!required}
           value={endDate ? moment(endDate) : undefined}
           disabledDate={disabledDate(false)}
           format={'YYYY/MM/DD'}
@@ -423,6 +432,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           onChange={(v) => {
             onChange({ key, value: v });
           }}
+          allowClear={!required}
           value={value}
           dropdownMatchSelectWidth={false}
           onDropdownVisible={(vis: boolean) => onVisibleChange(vis)}
@@ -430,7 +440,6 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           resultsRender={memberResultsRender}
           placeholder={' '}
           className="contractive-member-selector"
-          allowClear={false}
           showSearch={haveFilter}
         />
         {value?.length ? null : <span>{emptyText}</span>}

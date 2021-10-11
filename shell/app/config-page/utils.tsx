@@ -86,3 +86,10 @@ export const statusColorMap = {
   normal: colorMap.purple,
   defaut: colorMap.gray,
 };
+
+export const textColorMap = {
+  ...colorMap,
+  'text-main': 'rgba(0, 0, 0, 0.8)',
+  'text-sub': 'rgba(0, 0, 0, 0.6)',
+  'text-desc': 'rgba(0, 0, 0, 0.4)',
+};

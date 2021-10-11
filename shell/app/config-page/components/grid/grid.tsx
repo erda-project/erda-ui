@@ -11,22 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART {
-  interface Spec {
-    type: 'Chart';
-    props: IProps;
-    cId: string;
-  }
+import React from 'react';
+import { Col, Row } from 'core/nusi';
 
-  interface IProps {
-    chartType: 'line' | 'pie' | 'bar';
-    option: Obj;
-    style: Obj;
-    visible?: boolean;
-    title: string;
+export default (props: CP_GRID.Props) => {
+  const { props: configProps, children } = props;
+  const { gutter = 12, span } = configProps || {};
+  let itemSpan = span;
+  if (!itemSpan) {
+    itemSpan = new Array(children.length).fill(Math.ceil(24 / children.length));
   }
-
-  type Props = MakeProps<Spec> & {
-    extraContent?: React.ReactElement;
-  };
-}
+  return (
+    <Row gutter={gutter}>
+      {children.map((child, i) => (
+        <Col span={itemSpan[i]} key={i}>
+          {child}
+        </Col>
+      ))}
+    </Row>
+  );
+};
