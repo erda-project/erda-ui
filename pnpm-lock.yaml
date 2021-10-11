@@ -329,7 +329,7 @@ importers:
       '@babel/preset-react': ^7.13.13
       '@babel/preset-typescript': ^7.13.0
       '@babel/traverse': ^7.14.7
-      '@erda-ui/dashboard-configurator': 1.0.38
+      '@erda-ui/dashboard-configurator': 1.0.40
       '@erda-ui/react-markdown-editor-lite': ^1.4.6
       '@icon-park/react': ^1.3.3
       '@module-federation/automatic-vendor-federation': ^1.2.1
@@ -463,7 +463,7 @@ importers:
       webpack-merge: ^5.7.3
       xterm: 3.12.0
     dependencies:
-      '@erda-ui/dashboard-configurator': 1.0.38_89f7d333518b25ce6638797795704a0d
+      '@erda-ui/dashboard-configurator': 1.0.40_89f7d333518b25ce6638797795704a0d
       '@erda-ui/react-markdown-editor-lite': 1.4.6_react@16.14.0
       '@icon-park/react': 1.3.3_react-dom@16.14.0+react@16.14.0
       ace-builds: 1.4.12
@@ -4630,8 +4630,8 @@ packages:
     resolution: {integrity: sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==}
     dev: false
 
-  /@erda-ui/dashboard-configurator/1.0.38_89f7d333518b25ce6638797795704a0d:
-    resolution: {integrity: sha512-1vWgYepNDJv54X0ICa0Oh0qXh4NR+66fKe2xcDPo54HqNFyvNKv67cHzbU4mDC2NspUQKPNOlsIuq85k5k30TA==}
+  /@erda-ui/dashboard-configurator/1.0.40_89f7d333518b25ce6638797795704a0d:
+    resolution: {integrity: sha512-hzwu8Zmiwu56kEsKRA1uXgZbiONHktdBzOaRrvro9XKVriRRxESAO1zyrT5FLYE5yPFwhUdcLYuV2zp2iJ1CqA==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
@@ -4640,12 +4640,10 @@ packages:
       '@terminus/nusi': 3.10.113_89f7d333518b25ce6638797795704a0d
       antd: 4.16.0_react-dom@16.14.0+react@16.14.0
       classnames: 2.3.1
-      cube-state: 1.5.3_react@16.14.0
+      cube-state: 1.5.6_react@16.14.0
       dom-to-image: 2.6.0
       echarts: 4.9.0
       echarts-for-react: 2.0.16_echarts@4.9.0+react@16.14.0
-      eslint-plugin-react-hooks: 4.2.0
-      git-revision-webpack-plugin: 3.0.6
       immer: 8.0.4
       lodash: 4.17.21
       moment: 2.29.1
@@ -4664,7 +4662,6 @@ packages:
       - draft-js
       - draft-js-prism
       - draftjs-utils
-      - eslint
       - eve
       - html-table-to-json
       - prismjs
@@ -11935,17 +11932,6 @@ packages:
   /csstype/3.0.8:
     resolution: {integrity: sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==}
 
-  /cube-state/1.5.3_react@16.14.0:
-    resolution: {integrity: sha512-GGoNyOXN4Pv5CVtqO0eP7+2b6fPsrQj2rAaie/mg9tGiefIpR1l6s+nltdm7h8hYyYa+gB+1rP0zbKYrWP0y+Q==}
-    peerDependencies:
-      react: '>=17.0'
-    dependencies:
-      fast-deep-equal: 3.1.3
-      immer: 9.0.3
-      react: 16.14.0
-      tslib: 2.3.0
-    dev: false
-
   /cube-state/1.5.6_react@16.14.0:
     resolution: {integrity: sha512-VqTDBdAXaxRfp9jYryXdNjQGuvPn55Dei089e1lAHc712D6PItJXMpqfGVb9euLwz11FtMfLvuBGvObT/RRh6A==}
     peerDependencies:
@@ -13323,13 +13309,6 @@ packages:
       prettier: 2.3.1
       prettier-linter-helpers: 1.0.0
     dev: true
-
-  /eslint-plugin-react-hooks/4.2.0:
-    resolution: {integrity: sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
-    dev: false
 
   /eslint-plugin-react-hooks/4.2.0_eslint@7.28.0:
     resolution: {integrity: sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==}
@@ -14856,6 +14835,7 @@ packages:
   /git-revision-webpack-plugin/3.0.6:
     resolution: {integrity: sha512-vW/9dBahGbpKPcccy3xKkHgdWoH/cAPPc3lQw+3edl7b4j29JfNGVrja0a1d8ZoRe4nTN8GCPrF9aBErDnzx5Q==}
     engines: {node: '>=6.11.5'}
+    dev: true
 
   /git-semver-tags/4.1.1:
     resolution: {integrity: sha512-OWyMt5zBe7xFs8vglMmhM9lRQzCWL3WjHtxNNfJTMngGym7pC1kh8sP6jevfydJ6LP3ZvGxfb6ABYgPUM0mtsA==}
@@ -15868,10 +15848,6 @@ packages:
 
   /immer/8.0.4:
     resolution: {integrity: sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==}
-    dev: false
-
-  /immer/9.0.3:
-    resolution: {integrity: sha512-mONgeNSMuyjIe0lkQPa9YhdmTv8P19IeHV0biYhcXhbd5dhdB9HSK93zBpyKjp6wersSUgT5QyU0skmejUVP2A==}
     dev: false
 
   /immer/9.0.6:
@@ -27883,6 +27859,7 @@ packages:
 
   /watchpack-chokidar2/2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
+    requiresBuild: true
     dependencies:
       chokidar: 2.1.8
     dev: false

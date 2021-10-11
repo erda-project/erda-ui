@@ -80,11 +80,11 @@ describe('time-select', () => {
     it('TimeRange should work well', () => {
       const changeFn = jest.fn();
       const wrapper = mount(<TimeRange onChange={changeFn} />);
-      expect(wrapper.find('.time-quick-select-item')).toHaveLength(relativeTimeRange.length);
+      expect(wrapper.find('.time-quick-select-item')).toHaveLength(Object.keys(relativeTimeRange).length);
       wrapper.find('.time-quick-select-item').at(0).simulate('click');
       expect(changeFn).toHaveBeenLastCalledWith({
         mode: 'quick',
-        quick: relativeTimeRange[0].value,
+        quick: Object.keys(relativeTimeRange)[0],
         customize: {
           start: undefined,
           end: undefined,
