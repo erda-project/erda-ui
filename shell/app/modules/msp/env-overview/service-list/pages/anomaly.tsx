@@ -125,7 +125,7 @@ export default () => {
           />
         </div>
       ) : (
-        <EmptyHolder />
+        <EmptyHolder relative />
       )}
     </div>
   );

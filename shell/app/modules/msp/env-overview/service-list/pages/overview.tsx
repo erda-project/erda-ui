@@ -86,7 +86,7 @@ export default () => {
       </div>
       {serviceId ? (
         <div className="overflow-auto flex-1">
-          <div style={{ height: topologySize.containerHeight, maxHeight: 540, minHeight: 400 }} className="flex">
+          <div style={{ height: topologySize.containerHeight, maxHeight: '80%', minHeight: '40%' }} className="flex">
             <TopologyChart
               nodeExternalParam={nodeExternalParam}
               isFetching={isFetching}
@@ -100,7 +100,7 @@ export default () => {
           <ServiceListDashboard dashboardId="service_analysis-translation" serviceId={serviceId} />
         </div>
       ) : (
-        <EmptyHolder />
+        <EmptyHolder relative />
       )}
     </div>
   );

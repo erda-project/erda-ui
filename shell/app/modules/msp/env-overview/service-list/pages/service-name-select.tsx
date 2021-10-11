@@ -35,7 +35,7 @@ export function ServiceNameSelect() {
     const _serviceName = service[0]?.service_name || serviceList[0]?.service_name;
     const applicationId = service[0]?.application_id || serviceList[0]?.application_id;
     updateState({
-      serviceId: window.decodeURIComponent(_serviceId),
+      serviceId: _serviceId ? window.decodeURIComponent(_serviceId) : '',
       serviceName: _serviceName,
       applicationId,
     });
@@ -87,12 +87,16 @@ export function ServiceNameSelect() {
 
   return (
     <div>
-      <Dropdown overlay={menu} trigger={['click']}>
-        <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
-          <span className="self-center">{serviceName || i18n.t('msp:no service')}</span>
-          <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
-        </div>
-      </Dropdown>
+      {serviceName ? (
+        <Dropdown overlay={menu} trigger={['click']}>
+          <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
+            <span className="self-center">{serviceName} </span>
+            <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
+          </div>
+        </Dropdown>
+      ) : (
+        <div>{i18n.t('msp:no service')}</div>
+      )}
     </div>
   );
 }

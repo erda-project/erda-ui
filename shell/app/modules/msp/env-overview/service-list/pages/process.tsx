@@ -120,7 +120,7 @@ export default () => {
           </Spin>
         </div>
       ) : (
-        <EmptyHolder />
+        <EmptyHolder relative />
       )}
     </div>
   );

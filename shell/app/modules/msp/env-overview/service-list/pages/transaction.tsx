@@ -394,7 +394,7 @@ const Transaction = () => {
           />
         </div>
       ) : (
-        <EmptyHolder />
+        <EmptyHolder relative />
       )}
       <Drawer
         title={tracingDrawerTitle}
