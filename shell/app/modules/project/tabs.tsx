@@ -134,7 +134,7 @@ export const PROJECT_TABS = () => {
     },
     {
       key: 'dashboard',
-      name: i18n.t('project:dashboard'),
+      name: i18n.t('project:statistics'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
   ];
