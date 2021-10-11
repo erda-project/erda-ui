@@ -15,7 +15,7 @@ import React from 'react';
 import EChart from 'charts/components/echarts';
 import { colorMap } from 'config-page/utils';
 import { EmptyHolder } from 'common';
-import { map, uniq, merge } from 'lodash';
+import { map, uniq, merge, get } from 'lodash';
 import { theme } from 'charts/theme';
 import './chart.scss';
 
@@ -143,16 +143,19 @@ const Chart = (props: CP_CHART.Props) => {
 
   if (!visible) return null;
 
-  const onEvents: Obj = {};
-  if (operations?.click) {
-    onEvents.click = (params: any) => {
-      execOperation(operations.click, {
-        data: params.data,
-        seriesIndex: params.seriesIndex,
-        dataIndex: params.dataIndex,
-      });
-    };
-  }
+  const onEvents = {
+    click: (params: any) => {
+      const dataOp = get(params, 'data.operations.click') || operations?.click;
+      if (dataOp) {
+        execOperation(dataOp, {
+          data: params.data,
+          seriesIndex: params.seriesIndex,
+          dataIndex: params.dataIndex,
+        });
+      }
+    },
+  };
+
   const { option: reOption, isEmpty } = getOption(chartType, { color: reColor, ...optionRest });
   return (
     <div className="cp-chart flex flex-col" style={style}>
