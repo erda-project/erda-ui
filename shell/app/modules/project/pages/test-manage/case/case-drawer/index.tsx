@@ -125,6 +125,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
   const [{ fullData, titleIsEmpty }, updater] = useUpdate<IState>(initState);
   const drawer = React.useRef<{ saved: boolean }>({ saved: false });
+  const activeElementRef = React.useRef<{ target: Element | null }>({ target: null });
   const editMode = !!caseDetail.id;
   React.useEffect(() => {
     if (caseDetail.id) {
@@ -259,6 +260,10 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   };
 
   const handleAnyBlur = (e: React.FocusEvent) => {
+    if (activeElementRef.current.target?.className.includes('ant-input')) {
+      return;
+    }
+
     if (!editMode) {
       return;
     }
@@ -268,6 +273,22 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     if (['INPUT', 'TEXTAREA'].includes(nodeName) && !isMarkdownArea) {
       handleSave(false);
     }
+  };
+
+  React.useEffect(() => {
+    if (visible) {
+      window.onmousedown = handleAnyMouseDown;
+    } else {
+      window.onmousedown = null;
+    }
+
+    return () => {
+      window.onmousedown = null;
+    };
+  }, [visible]);
+
+  const handleAnyMouseDown = (e: MouseEvent) => {
+    activeElementRef.current.target = e.target as Element;
   };
 
   const handleVisibleChange = (v: boolean) => {
