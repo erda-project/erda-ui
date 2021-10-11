@@ -113,7 +113,17 @@ module.exports = () => {
             {
               loader: 'babel-loader',
               options: {
-                presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      useBuiltIns: 'usage', // enable polyfill on demand
+                      corejs: 3,
+                    },
+                  ],
+                  '@babel/preset-react',
+                  '@babel/preset-typescript',
+                ],
                 plugins: [
                   [
                     'import',
@@ -124,6 +134,7 @@ module.exports = () => {
                     },
                     'lodash',
                   ],
+                  '@babel/transform-runtime',
                 ],
               },
             },
