@@ -194,7 +194,7 @@ module.exports = () => {
                     },
                     'iconpark',
                   ],
-                  '@babel/transform-runtime',
+                  '@babel/transform-runtime', // inject runtime helpers on demand
                 ],
               },
             },

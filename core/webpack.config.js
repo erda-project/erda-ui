@@ -134,7 +134,7 @@ module.exports = () => {
                     },
                     'lodash',
                   ],
-                  '@babel/transform-runtime',
+                  '@babel/transform-runtime', // inject runtime helpers on demand
                 ],
               },
             },
