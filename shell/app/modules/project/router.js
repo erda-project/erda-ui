@@ -114,10 +114,15 @@ function getProjectRouter() {
               path: 'dashboard',
               tabs: PROJECT_TABS,
               ignoreTabQuery: true,
-              getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
-              layout: {
-                noWrapper: true,
-              },
+              routes: [
+                {
+                  breadcrumbName: i18n.t('project:dashboard'),
+                  getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
+                  layout: {
+                    fullHeight: true,
+                  },
+                },
+              ],
             },
           ],
         },
