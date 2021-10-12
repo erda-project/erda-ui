@@ -429,7 +429,7 @@ export const mockData = {
       treeMapChart: {
         type: 'Chart',
         props: {
-          requestIgnore: ['props', 'data'],
+          requestIgnore: ['props'],
           title: '2021-10-10 报告详情1',
           style: { height: 600 },
           chartType: 'treemap',
@@ -484,14 +484,25 @@ export const mockData = {
 };
 
 export const enhanceMock = (data, payload) => {
-  if (payload.event?.operation === 'selectItem') {
-    // const reData = cloneDeep(data);
-    // if (payload.event.operationData.meta.data.data.name === '222') {
-    //   return reData;
-    // }
+  console.log('req------', payload);
+  if (payload.event?.operation === 'selectChartItem') {
+    const newData = {
+      ...mockData,
+      protocol: {
+        ...mockData.protocol,
+        components: {
+          ...mockData.protocol.components,
+          treeMapChart: {
+            ...mockData.protocol.components.treeMapChart,
+            props: undefined,
+          },
+        },
+      },
+    };
+
+    console.log('res------', newData);
+    return newData;
   }
-
-  console.log('------', payload);
-
+  console.log('res------', data);
   return data;
 };

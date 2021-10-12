@@ -119,10 +119,18 @@ const ConfigPageRender = (props: IProps) => {
 
       if (isArray(structureItem)) {
         // 数组: 包含以children方式嵌入组件
-        return <Comp {...propsObj}>{map(structureItem, (item) => renderComp(item))}</Comp>;
+        return (
+          <EnhanceCompProps {...propsObj}>
+            <Comp>{map(structureItem, (item) => renderComp(item))}</Comp>
+          </EnhanceCompProps>
+        );
       } else if (!structureItem) {
         // 叶子节点，直接渲染
-        return <Comp {...propsObj} />;
+        return (
+          <EnhanceCompProps {...propsObj}>
+            <Comp />
+          </EnhanceCompProps>
+        );
       } else if (isPlainObject(structureItem)) {
         // 对象包含：以props方式嵌入组件
         const p = {};
@@ -136,7 +144,11 @@ const ConfigPageRender = (props: IProps) => {
             p[pKey] = renderComp(vKey);
           }
         });
-        return <Comp {...p} {...propsObj} />;
+        return (
+          <EnhanceCompProps {...p} {...propsObj}>
+            <Comp />
+          </EnhanceCompProps>
+        );
       }
       return null;
     };
@@ -158,4 +170,16 @@ const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
     conMap[cId] = Comp || fullContainerMap.NotFound;
   });
   return conMap;
+};
+
+const EnhanceCompProps = (props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement }>) => {
+  const { children, props: configProps, ...rest } = props;
+  const [comProps, setCompProps] = React.useState(configProps);
+  React.useEffect(() => {
+    if (configProps !== null && configProps !== undefined) {
+      setCompProps(configProps);
+    }
+  }, [configProps]);
+
+  return React.cloneElement(children, { props: comProps, ...rest });
 };
