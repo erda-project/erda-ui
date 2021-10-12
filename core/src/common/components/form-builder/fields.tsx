@@ -130,6 +130,7 @@ export const Fields: React.MemoExoticComponent<
                     rules={afterAddRequiredRules}
                     className={className || ''}
                     style={{ marginBottom: 6 }}
+                    initialValue={customProps.defaultValue}
                     {...rest}
                   >
                     {isRealReadOnly ? (
