@@ -230,7 +230,6 @@ const AddModal = (props: IProps) => {
       },
     },
     {
-      name: 'condition',
       getComp: () => {
         return (
           <div>
