@@ -145,8 +145,8 @@ const ConfigPageRender = (props: IProps) => {
           }
         });
         return (
-          <EnhanceCompProps {...p} {...propsObj}>
-            <Comp />
+          <EnhanceCompProps {...propsObj}>
+            <Comp {...p} />
           </EnhanceCompProps>
         );
       }
