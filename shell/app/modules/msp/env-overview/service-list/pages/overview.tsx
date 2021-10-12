@@ -25,6 +25,7 @@ import { useLoading } from 'core/stores/loading';
 import { useUnmount, useMount } from 'react-use';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import { EmptyHolder } from 'common';
+import './index.scss';
 
 export default () => {
   const params = routeInfoStore.useStore((s) => s.params);
@@ -85,7 +86,7 @@ export default () => {
         <TimeSelectWithStore className="m-0" />
       </div>
       {serviceId ? (
-        <div className="overflow-auto flex-1">
+        <div className="overflow-auto flex-1 service-overview">
           <div style={{ height: topologySize.containerHeight, maxHeight: '80%', minHeight: '40%' }} className="flex">
             <TopologyChart
               nodeExternalParam={nodeExternalParam}
