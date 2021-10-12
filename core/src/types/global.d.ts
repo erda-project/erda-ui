@@ -14,3 +14,4 @@
 interface Obj<T = any> {
   [k: string]: T;
 }
+type Nullable<T> = T | null;

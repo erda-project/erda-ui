@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Breadcrumb, Tooltip } from 'nusi';
+import { Breadcrumb, Tooltip } from '../../../nusi';
 import { BreadcrumbProps } from '../../interface';
 
 import './index.scss';
