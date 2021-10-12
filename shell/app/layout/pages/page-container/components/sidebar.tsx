@@ -111,7 +111,7 @@ const AppCenterEl = () => {
       linkRender={({ app }: { app: LAYOUT.IApp }) => {
         return (
           <a
-            className="app-list-item"
+            className="app-list-item inline-block w-full px-4"
             onClick={() => {
               switchToApp(app.key);
               goTo(app.href);
