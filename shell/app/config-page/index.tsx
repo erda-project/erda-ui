@@ -219,9 +219,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     const formatConfig = produce(newConfig, (draft) => {
       const comps = get(draft, 'protocol.components');
       forEach(comps, (comp, compName) => {
-        if (comp?.props?.isLoadMore) {
-          comps[compName] = { ...comp, data: undefined };
-        }
+        const ignoreData = {};
+        const ignoreKeys: string[] = comp?.props?.requestIgnore || [];
+        if (comp?.props?.isLoadMore) ignoreKeys.push('data');
+        ignoreKeys.forEach((_key) => {
+          ignoreData[_key] = undefined;
+        });
+        comps[compName] = { ...comp, ...ignoreData };
       });
     });
 
