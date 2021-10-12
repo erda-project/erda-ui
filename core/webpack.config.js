@@ -51,6 +51,9 @@ module.exports = () => {
     cache: {
       type: 'filesystem',
     },
+    resolve: {
+      extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
+    },
     module: {
       rules: [
         {
