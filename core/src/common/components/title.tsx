@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { Tooltip } from 'nusi';
+import { Tooltip } from '../../nusi';
 import { Help as IconHelp } from '@icon-park/react';
 import './title.scss';
 
@@ -67,9 +67,9 @@ export const Title = ({
               </span>
             );
           } else {
-            return item?.title ? (
+            return (item as IOperate)?.title ? (
               <span key={index} className={index > 0 ? 'ml-1' : ''}>
-                {item.title}
+                {(item as IOperate).title}
               </span>
             ) : (
               ''

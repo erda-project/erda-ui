@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Tooltip } from 'nusi';
+import { Tooltip } from '../../nusi';
 import { AbstractTooltipProps } from '../interface';
 
 import './ellipsis.scss';

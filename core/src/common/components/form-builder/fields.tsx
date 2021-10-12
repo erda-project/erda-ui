@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Row, Col } from 'nusi';
+import { Form, Row, Col } from '../../../nusi';
 import { map, some, isBoolean, has } from 'lodash';
 import { FormItemProps } from 'antd/lib/form';
 import i18n from 'i18n';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, throttle } from 'lodash';
-import { Row, Col } from 'nusi';
+import { Row, Col } from '../../nusi';
 import ResizeObserver from 'rc-resize-observer';
 
 export interface IPanelField {
