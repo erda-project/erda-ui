@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Title, Panel } from 'core/nusi';
+import { Panel } from 'core/nusi';
+import { Title } from 'common';
 import { map, get } from 'lodash';
 
 interface IProps {
@@ -27,7 +28,7 @@ const InfoBox = (props: IProps) => {
       {map(details, (detail) => {
         return (
           <div key={detail.label} className="mb-3">
-            <Title level={2} title={detail.label} className="mb-2" />
+            <Title level={2} title={detail.label} />
             <Panel
               fields={map(get(detail, 'items'), (item) => {
                 return {

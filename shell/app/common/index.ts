@@ -55,6 +55,8 @@ export { Avatar, AvatarList } from './components/avatar';
 
 export { IF } from './components/statement';
 export { default as NoAuthTip } from './components/no-auth-tip';
+export { default as Title } from './components/title';
+export type { TitleProps } from './components/title';
 export { ConfigLayout } from './components/config-layout';
 export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';

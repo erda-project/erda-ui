@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table as PureTable, Title, Menu, Button, Dropdown, Checkbox } from 'core/nusi';
+import { Table as PureTable, Menu, Button, Dropdown, Checkbox } from 'core/nusi';
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { useUpdate, Icon as CustomIcon, Title } from 'common';
 import { useUserMap } from 'core/stores/userMap';
 import { OperationAction } from 'app/config-page/utils';
 import { getRender, getTitleRender } from './render-types';

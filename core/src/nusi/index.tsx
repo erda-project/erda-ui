@@ -69,7 +69,6 @@ import Table from './wrapped-table';
 import Tag from './wrapped-tag';
 import FormBuilder from '../common/components/form-builder';
 import { Panel } from '../common/components/panel';
-import { Title } from '../common/components/title';
 import { Filter } from '../common/components/filter';
 import Ellipsis from '../common/components/ellipsis';
 import { PageHeader } from '../common/components/page-header';
@@ -144,7 +143,6 @@ export {
   TimePicker,
   Timeline,
   Tooltip,
-  Title,
   // Mention,
   Upload,
   version,
