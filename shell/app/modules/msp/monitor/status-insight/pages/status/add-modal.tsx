@@ -12,15 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { filter, omitBy, get, map } from 'lodash';
+import { omitBy, map } from 'lodash';
 import { FormModal, KeyValueEditor } from 'common';
-import { regRules } from 'common/utils';
+import { regRules, qs } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import constants from './constants';
 import './add-modal.scss';
 import { Input, Select, Radio, Tabs, Form, Tooltip } from 'core/nusi';
+import { FormInstance } from 'core/common/interface';
 import {
   Down as IconDown,
   Up as IconUp,
@@ -55,23 +56,36 @@ const AddModal = (props: IProps) => {
   const [showMore, setShowMore] = React.useState(false);
   const [retry, setRetry] = React.useState(RETRYLIMITS[0]);
   const [frequency, setFrequency] = React.useState(TIMELIMITS[0]);
-  const [apiMethod, setApiMethod] = React.useState(HTTP_METHOD_LIST[1]);
+  const [apiMethod, setApiMethod] = React.useState(HTTP_METHOD_LIST[0]);
   const [body, setBody] = React.useState('');
   const [headers, setHeaders] = React.useState('');
-  // const [statusCode, setStatusCode] = React.useState('');
+  const [url, setUrl] = React.useState('');
+  const formRef = React.useRef<FormInstance>(null);
+  const [query, setQuery] = React.useState({});
   const [condition, setCondition] = React.useState<ITrigger[]>([
     {
       key: 'http_code',
-      operate: '=',
+      operate: '>=',
       value: 400,
     },
   ]);
-  console.log(222, condition);
   const { env, projectId } = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
   const [form] = Form.useForm();
+
+  React.useEffect(() => {
+    if (!modalVisible) {
+      setCondition([
+        {
+          key: 'http_code',
+          operate: '>=',
+          value: 400,
+        },
+      ]);
+      setShowMore(false);
+    }
+  }, [modalVisible]);
   const deleteItem = (index: number) => {
-    console.log(index);
     condition.splice(index, 1);
     const newData = [...condition];
     setCondition(newData);
@@ -107,6 +121,11 @@ const AddModal = (props: IProps) => {
     setCondition([...condition]);
   };
 
+  const setUrlParm = (queryConfig: { [key: string]: string }) => {
+    formRef?.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
+    setUrl(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
+  };
+
   const handleSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
     const { ...rest } = _data;
     const others = omitBy(rest, (v, k) => k.startsWith('reg_')) as any;
@@ -130,8 +149,8 @@ const AddModal = (props: IProps) => {
         config: {
           retry,
           interval: frequency,
-          url: 'http://www.taobao.com',
           headers,
+          url,
           body,
           method: apiMethod,
           triggering: condition,
@@ -144,7 +163,6 @@ const AddModal = (props: IProps) => {
   };
 
   let data = formData;
-  console.log(111, data);
   if (formData) {
     // number 的 accountId 会被直接展示在 select 上，而不是去匹配相应的 name
     const { accountId } = formData;
@@ -186,11 +204,16 @@ const AddModal = (props: IProps) => {
     },
     {
       label: 'URL',
-      // name: 'url',
+      name: 'url',
       rules: [{ ...regRules.http }],
       getComp: () => {
         return (
           <Input
+            onChange={(e) => setUrl(e.target.value)}
+            onBlur={(e) => {
+              // console.log(qs.(e.target.value))
+              setQuery(qs.parseUrl(e.target.value).query);
+            }}
             addonBefore={
               <Select value={apiMethod} onChange={(value: string) => setApiMethod(value)} style={{ width: 110 }}>
                 {map(HTTP_METHOD_LIST, (method) => (
@@ -207,70 +230,54 @@ const AddModal = (props: IProps) => {
       },
     },
     {
+      name: 'condition',
       getComp: () => {
         return (
-          <Form layout="vertical" form={form}>
-            <div>
-              <Tabs className="px-5" defaultActiveKey="1">
-                <TabPane tab="Params" key="1">
-                  <div>
-                    <KeyValueEditor
-                      isNeedTextArea={false}
-                      tableProps={{
-                        size: 'default',
-                      }}
-                      form={form}
-                      onChange={(params) => {
-                        console.log(params);
-                      }}
-                      // dataSource={query}
-                      // ref={(ref) => {
-                      //   paramsEditor = ref;
-                      // }}
-                      // onChange={(data: any) => {
-                      //   setRequestTraceParams({
-                      //     ...requestTraceParams,
-                      //     query: data,
-                      //     url: `${qs.parseUrl(url).url}`,
-                      //   });
-                      // }}
-                    />
-                  </div>
-                </TabPane>
-                <TabPane tab="Headers" key="2">
-                  <div>
-                    <KeyValueEditor
-                      isNeedTextArea={false}
-                      tableProps={{
-                        size: 'default',
-                      }}
-                      onChange={(header: any) => setHeaders(header)}
-                      form={form}
-                      // dataSource={header}
-                      // ref={(ref) => {
-                      //   headersEditor = ref;
-                      // }}
-                    />
-                  </div>
-                </TabPane>
-                <TabPane tab="Body" key="3">
-                  <FormItem name="body" rules={[banFullWidthPunctuation]}>
-                    <TextArea
-                      autoSize={{ minRows: 3, maxRows: 5 }}
-                      // maxLength={MAX_BODY_LENGTH}
-                      placeholder={
-                        i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) +
-                        MAX_BODY_LENGTH.toString()
-                      }
-                      onChange={(e) => {
-                        setBody(e.target.value);
-                      }}
-                    />
-                  </FormItem>
-                </TabPane>
-              </Tabs>
-            </div>
-          </Form>
+          <div>
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="Params" key="1">
+                <div>
+                  <KeyValueEditor
+                    isNeedTextArea={false}
+                    tableProps={{
+                      size: 'default',
+                    }}
+                    dataSource={query}
+                    form={form}
+                    onChange={(params) => {
+                      setUrlParm(params);
+                    }}
+                  />
+                </div>
+              </TabPane>
+              <TabPane tab="Headers" key="2">
+                <div>
+                  <KeyValueEditor
+                    isNeedTextArea={false}
+                    tableProps={{
+                      size: 'default',
+                    }}
+                    onChange={(header: any) => setHeaders(header)}
+                    form={form}
+                  />
+                </div>
+              </TabPane>
+              <TabPane tab="Body" key="3">
+                <FormItem name="body" rules={[banFullWidthPunctuation]}>
+                  <TextArea
+                    autoSize={{ minRows: 3, maxRows: 5 }}
+                    maxLength={MAX_BODY_LENGTH}
+                    placeholder={
+                      i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH.toString()
+                    }
+                    onChange={(e) => {
+                      setBody(e.target.value);
+                    }}
+                  />
+                </FormItem>
+              </TabPane>
+            </Tabs>
+          </div>
         );
       },
     },
@@ -304,7 +311,7 @@ const AddModal = (props: IProps) => {
                         </Select>
                         <Select
                           onChange={(v) => setOperate(index, v)}
-                          style={{ width: 110 }}
+                          style={{ width: 150 }}
                           value={item?.operate}
                           className="api-test-select mr-2"
                           placeholder={i18n.t('project:compare')}
@@ -359,6 +366,8 @@ const AddModal = (props: IProps) => {
 
   return (
     <FormModal
+      ref={formRef}
+      className="h-4/5"
       width={620}
       title={i18n.t('msp:add monitoring')}
       fieldsList={fieldsList}
