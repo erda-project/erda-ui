@@ -13,8 +13,6 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { Tooltip } from '../../nusi';
-import { Help as IconHelp } from '@icon-park/react';
 import './title.scss';
 
 interface ITitleProps {
@@ -22,7 +20,6 @@ interface ITitleProps {
   operations?: Array<IOperate | React.ReactNode>;
   title: string;
   showDivider?: boolean;
-  tips?: string;
   id?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -36,7 +33,6 @@ export const Title = ({
   level = 1,
   operations = [],
   title = '',
-  tips,
   showDivider = level === 1,
   className = '',
   ...restProps
@@ -52,11 +48,6 @@ export const Title = ({
     >
       <div className="inline-flex items-center font-medium">
         <div className={sizeList[level]}>{title}</div>
-        {tips ? (
-          <Tooltip title={tips}>
-            <IconHelp className="ml-1" />
-          </Tooltip>
-        ) : null}
       </div>
       <div className="flex-1 flex justify-end">
         {map(operations, (item: IOperate | React.ReactNode, index: number) => {
