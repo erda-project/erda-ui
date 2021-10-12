@@ -618,7 +618,6 @@
     "based on Alibaba Cloud Container Service (Dedicated), create an Erda managed cluster": "基于阿里云容器服务专有版，创建一个Erda托管集群",
     "based on Alibaba Cloud Container Service (managed), create an Erda managed cluster": "基于阿里云容器服务托管版，创建一个Erda托管集群",
     "based on existing resources, build an Erda managed cluster": "基于已有资源，自建一个Erda托管集群",
-    "basic information": "__NOT_TRANSLATED__",
     "before importing cluster, please complete the relevant preparations. For details, please refer to": "导入集群前，请先完成相关准备工作，具体请参见",
     "cloud account": "云账号",
     "cloud account cannot be restored after deletion, confirm execution?": "云账户删除后无法恢复，确认执行?",
