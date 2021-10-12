@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { Popover } from 'core/nusi';
+import './popover.scss';
 
 export default (props: CP_POPOVER.Props) => {
   const sizeMap = {
@@ -27,7 +28,7 @@ export default (props: CP_POPOVER.Props) => {
   if (!visible) return null;
   const contentComp = <div style={{ width: (size && sizeMap[size]) || sizeMap.m }}>{content}</div>;
   return (
-    <Popover {...rest} content={contentComp}>
+    <Popover overlayClassName={'cp-popover'} {...rest} content={contentComp}>
       <span>{children}</span>
     </Popover>
   );

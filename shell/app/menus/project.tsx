@@ -60,6 +60,10 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
         {
+          href: goTo.resolve.projectTestCodeCoverage(),
+          text: i18n.t('project:code coverage statistics'),
+        },
+        {
           href: goTo.resolve.projectManualTestCase(), // `/dop/projects/${projectId}/testCase/manual`,
           text: i18n.t('project:test case'),
           prefix: `${goTo.resolve.projectTestCaseRoot()}/`,

@@ -13,7 +13,7 @@
 
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
-import { PROJECT_TABS, TEST_TABS, TEST_PLAN_TABS, DATABANK_TABS, ITERATION_DETAIL_TABS } from './tabs';
+import { PROJECT_TABS, TEST_TABS, DATABANK_TABS, ITERATION_DETAIL_TABS } from './tabs';
 
 function getProjectRouter() {
   return [
@@ -199,13 +199,22 @@ function getProjectRouter() {
           ],
         },
         {
+          path: 'code-coverage',
+          breadcrumbName: i18n.t('project:code coverage statistics'),
+          routes: [
+            {
+              getComp: (cb) => cb(import('project/pages/test-plan/code-coverage')),
+            },
+          ],
+        },
+        {
           path: 'testPlan',
           pageName: i18n.t('project:test plan'),
           // ignoreTabQuery: true,
           routes: [
             {
               path: 'auto',
-              tabs: TEST_PLAN_TABS,
+              tabs: TEST_TABS,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('project:test plan'),
               routes: [
@@ -224,20 +233,10 @@ function getProjectRouter() {
                 },
               ],
             },
-            {
-              path: 'code-coverage',
-              tabs: TEST_PLAN_TABS,
-              ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test plan'),
-              routes: [
-                {
-                  getComp: (cb) => cb(import('project/pages/test-plan/code-coverage')),
-                },
-              ],
-            },
+
             {
               path: 'manual',
-              tabs: TEST_PLAN_TABS,
+              tabs: TEST_TABS,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('project:test plan'),
               routes: [
