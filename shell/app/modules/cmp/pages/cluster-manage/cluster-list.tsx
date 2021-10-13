@@ -99,6 +99,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         visible={state.tokenManageVisible}
         footer={[<Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>]}
       >
+        <Button type="primary">{i18n.t('cmp:create Token')}</Button>
         <div className="rounded-sm p-4 bg-wathet text-gray mb-4">
           <div className="flex items-center mb-1">
             <span>token</span>

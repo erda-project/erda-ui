@@ -628,6 +628,7 @@
     "confirm deletion of cloud account?": "confirm deletion of cloud account?",
     "copy command": "copy command",
     "copy to clipboard": "copy to clipboard",
+    "create Token": "create Token",
     "create cluster": "create cluster",
     "custom CIDR Block": "custom CIDR Block",
     "default CIDR Block": "default CIDR Block",

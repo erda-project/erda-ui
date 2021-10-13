@@ -628,6 +628,7 @@
     "confirm deletion of cloud account?": "确认删除云账户?",
     "copy command": "复制命令",
     "copy to clipboard": "复制到剪切板",
+    "create Token": "创建Token",
     "create cluster": "创建集群",
     "custom CIDR Block": "高级配置网段",
     "default CIDR Block": "推荐网段",
