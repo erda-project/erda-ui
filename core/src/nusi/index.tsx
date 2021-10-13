@@ -67,8 +67,6 @@ import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
-import FormBuilder from '../common/components/form-builder';
-import { Filter } from '../common/components/filter';
 import 'antd/dist/antd.less';
 
 const locale = window.localStorage.getItem('locale');

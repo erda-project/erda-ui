@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate } from 'common';
+import { useUpdate, FormBuilder } from 'common';
 import { produce } from 'immer';
-import { FormBuilder } from 'core/nusi';
 import { keys, set, get, unset, filter, omit, values, forEach } from 'lodash';
 import { IFormExtendType } from 'core/common/interface';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';

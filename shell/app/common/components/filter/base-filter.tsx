@@ -13,7 +13,7 @@
 
 import React from 'react';
 import FormBuilder from '../form-builder';
-import { FormInstance, IFieldType } from '../../interface';
+import { FormInstance, IFieldType } from 'core/common/interface';
 import { throttle } from 'lodash';
 
 export interface IFilterProps {

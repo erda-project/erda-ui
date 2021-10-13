@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { MarkdownEditor, useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Menu, Dropdown, FormBuilder } from 'core/nusi';
+import { MarkdownEditor, useUpdate, Icon as CustomIcon, FormBuilder } from 'common';
+import { Input, Menu, Dropdown } from 'core/nusi';
 import { IFormExtendType } from 'core/common/interface';
 import i18n from 'i18n';
 import { set, keys, map, get, filter, every, forEach } from 'lodash';

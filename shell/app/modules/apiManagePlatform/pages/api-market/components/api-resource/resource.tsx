@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Tabs, Button, message, Popconfirm, Select, Modal, FormBuilder } from 'core/nusi';
+import { useUpdate, Icon as CustomIcon, FormBuilder } from 'common';
+import { Input, Tabs, Button, message, Popconfirm, Select, Modal } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { ResponseConfig } from './response-config';
