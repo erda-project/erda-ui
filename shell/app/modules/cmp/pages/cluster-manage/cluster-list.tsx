@@ -83,7 +83,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     clusterDetailList: [],
     registerCommandVisible: false,
   });
-
   React.useEffect(() => {
     getClusterNewDetail({ clusterName: map(dataSource, 'name').join(',') }).then((res: any) => {
       updater.clusterDetailList(res);
@@ -93,13 +92,16 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const TokenManageModal = () => {
     return (
       <Modal
+        className="relative"
         onCancel={() => updater.tokenManageVisible(false)}
         width={720}
         title={i18n.t('cmp:cluster Token Management')}
         visible={state.tokenManageVisible}
         footer={[<Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>]}
       >
-        <Button type="primary">{i18n.t('cmp:create Token')}</Button>
+        <Button className="absolute top-3 right-8" type="primary">
+          {i18n.t('cmp:create Token')}
+        </Button>
         <div className="rounded-sm p-4 bg-wathet text-gray mb-4">
           <div className="flex items-center mb-1">
             <span>token</span>
@@ -229,6 +231,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         title: i18n.t('msp:token management'),
         onClick: () => {
           updater.tokenManageVisible(true);
+          console.log(record);
         },
       },
       addMachine: {
