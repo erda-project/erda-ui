@@ -13,20 +13,20 @@
 
 import React from 'react';
 import { map, throttle } from 'lodash';
-import { Row, Col } from '../../nusi';
+import { Row, Col } from 'core/nusi';
 import ResizeObserver from 'rc-resize-observer';
 
-export interface IPanelField {
+export interface PanelField {
   label?: React.ReactNode;
   value?: any;
   valueKey?: string;
-  valueItem?: (item: IPanelField) => React.ReactNode;
+  valueItem?: (item: PanelField) => React.ReactNode;
   hide?: boolean;
   spaceNum?: number;
 }
 
-interface IPanelProps {
-  fields?: IPanelField[];
+export interface PanelProps {
+  fields?: PanelField[];
   data?: Nullable<Obj>;
   isMultiColumn?: boolean;
   columnNum?: number;
@@ -54,11 +54,11 @@ const getInnerText = (reactNode: React.ReactNode): string => {
   }
 };
 
-export const Panel = (props: IPanelProps) => {
+const Panel = (props: PanelProps) => {
   const parentRef = React.useRef<HTMLDivElement>(null);
   const [parentWidth, setParentWidth] = React.useState(0);
   const { fields = [], data, isMultiColumn = true, columnNum } = props;
-  const getRealValue = (item: IPanelField) =>
+  const getRealValue = (item: PanelField) =>
     data
       ? item.valueItem
         ? item.valueItem({ value: item.valueKey && data[item.valueKey] })
@@ -149,3 +149,5 @@ export const Panel = (props: IPanelProps) => {
     </ResizeObserver>
   );
 };
+
+export default Panel;

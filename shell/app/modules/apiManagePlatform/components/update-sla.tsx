@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Panel } from 'core/nusi';
+import { Modal } from 'core/nusi';
+import { Panel } from 'common';
 import i18n from 'i18n';
 import SLASelect from 'apiManagePlatform/components/sla-select';
 import { insertWhen } from 'common/utils';

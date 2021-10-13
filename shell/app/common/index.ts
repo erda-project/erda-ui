@@ -14,7 +14,7 @@
 export { connectCube } from './components/connect';
 export { Icon } from './components/icon';
 export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
-export { Panel } from './components/panel';
+export { default as SimplePanel } from './components/simple-panel';
 export { ImgHolder } from './components/img-holder';
 export { default as AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
@@ -57,6 +57,8 @@ export { IF } from './components/statement';
 export { default as NoAuthTip } from './components/no-auth-tip';
 export { default as Title } from './components/title';
 export type { TitleProps } from './components/title';
+export { default as Panel } from './components/panel';
+export type { PanelProps, PanelField } from './components/panel';
 export { ConfigLayout } from './components/config-layout';
 export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';

@@ -68,7 +68,6 @@ import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
 import FormBuilder from '../common/components/form-builder';
-import { Panel } from '../common/components/panel';
 import { Filter } from '../common/components/filter';
 import Ellipsis from '../common/components/ellipsis';
 import { PageHeader } from '../common/components/page-header';
@@ -123,7 +122,6 @@ export {
   Popconfirm,
   Popover,
   Progress,
-  Panel,
   FixRangePicker as RangePicker,
   Radio,
   Rate,

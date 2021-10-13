@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import './panel.scss';
+import './index.scss';
 
 interface IPanel {
   title: string;
@@ -20,11 +20,13 @@ interface IPanel {
   style?: React.CSSProperties;
   className?: string;
 }
-export const Panel = ({ title, children, style, className = '' }: IPanel) => {
+const SimplePanel = ({ title, children, style, className = '' }: IPanel) => {
   return (
-    <div className={`panel ${className}`} style={style}>
-      <div className="panel-title">{title}</div>
-      <div className="panel-body">{children}</div>
+    <div className={`ec-simple-panel ${className}`} style={style}>
+      <div className="ec-simple-panel-title">{title}</div>
+      <div className="ec-simple-panel-body">{children}</div>
     </div>
   );
 };
+
+export default SimplePanel;

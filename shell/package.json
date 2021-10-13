@@ -78,6 +78,7 @@
     "path-to-regexp": "^6.2.0",
     "qiankun": "^2.3.5",
     "query-string": "^6.4.2",
+    "rc-resize-observer": "^1.0.1",
     "react": "16.14.0",
     "react-ace": "^8.0.0",
     "react-dnd": "^11.1.3",
