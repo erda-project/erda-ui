@@ -174,8 +174,8 @@ const Header = () => {
         return <ServiceNameSelect />;
       default:
         return (
-          <div className={`erda-header-title`}>
-            <div className={`erda-header-title-text`}>
+          <div className="erda-header-title">
+            <div className="erda-header-title-text">
               <Tooltip title={pageName}>{pageName}</Tooltip>
             </div>
           </div>

@@ -16,6 +16,7 @@ import { Dropdown, Menu } from 'core/nusi';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import { getServiceList } from 'msp/services/service-analytics';
 import { ErdaCustomIcon, EmptyListHolder } from 'common';
 import i18n from 'i18n';
 import { useUnmount } from 'react-use';
@@ -25,9 +26,9 @@ export function ServiceNameSelect() {
   const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { startTimeMs, endTimeMs } = globalTimeSelectSpan?.range || {};
   const params = routeInfoStore.useStore((s) => s.params);
+  const serverListData = getServiceList.useData();
   const { updateState } = serviceAnalyticsStore;
-  const { getServiceList } = serviceAnalyticsStore;
-  const [serviceList, setServiceList] = React.useState([] as any);
+  const serviceList = serverListData?.data || [];
 
   const configServiceData = (key: string) => {
     const service = serviceList.filter((v: TOPOLOGY_SERVICE_ANALYZE.ServiceData) => v.service_id === key);
@@ -42,9 +43,7 @@ export function ServiceNameSelect() {
   };
 
   React.useEffect(() => {
-    getServiceList({ start: startTimeMs, end: endTimeMs }).then((res) => {
-      setServiceList(res?.data || []);
-    });
+    getServiceList.fetch({ start: startTimeMs, end: endTimeMs, terminusKey: params?.terminusKey });
   }, [getServiceList, startTimeMs, endTimeMs]);
 
   React.useEffect(() => {
@@ -72,7 +71,7 @@ export function ServiceNameSelect() {
 
     return (
       <Menu onClick={handleChangeService}>
-        {serviceList.map((x: SERVICE_ANALYTICS.ServiceItem) => (
+        {serviceList.map((x) => (
           <Menu.Item
             key={x.service_id}
             className={`${serviceId === x.service_id ? 'bg-light-primary text-primary' : ''}`}

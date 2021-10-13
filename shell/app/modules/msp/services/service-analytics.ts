@@ -11,11 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import { apiCreator } from 'core/service';
 
-export const getServiceList = (query: SERVICE_ANALYTICS.IServiceListQuery) => {
-  return agent
-    .get('/api/apm/topology/services')
-    .query(query)
-    .then((response: any) => response.body);
+const apis = {
+  getService: {
+    api: '/api/apm/topology/services',
+  },
 };
+
+export const getServiceList = apiCreator<(p: SERVICE_ANALYTICS.IServiceListQuery) => SERVICE_ANALYTICS.ServiceList>(
+  apis.getService,
+);

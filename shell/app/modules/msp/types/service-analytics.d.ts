@@ -21,5 +21,10 @@ declare namespace SERVICE_ANALYTICS {
   interface ServiceItem {
     service_id: string;
     service_name: string;
+    application_id: string;
+  }
+
+  interface ServiceList {
+    data: ServiceItem[];
   }
 }
