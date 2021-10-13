@@ -35,15 +35,11 @@ const TestPlanModal = (props: IProps) => {
   const planItem = testPlanStore.useStore((s) => s.planItem);
   const { getTestPlanItem, addTestPlan, updateTestPlan } = testPlanStore.effects;
   const { cleanTestPlan } = testPlanStore.reducers;
-  const { testType = 'manual' } = params;
 
   const handleOk = (values: any) => {
     const copy = { ...values };
     if (copy.ownerID !== undefined) {
       copy.ownerID = `${+copy.ownerID}`;
-    }
-    if (testType === 'auto') {
-      copy.isAutoTest = true;
     }
     setLoading(true);
     const close = () => {
