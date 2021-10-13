@@ -70,7 +70,6 @@ import Tag from './wrapped-tag';
 import FormBuilder from '../common/components/form-builder';
 import { Filter } from '../common/components/filter';
 import Ellipsis from '../common/components/ellipsis';
-import { PageHeader } from '../common/components/page-header';
 import 'antd/dist/antd.less';
 
 const locale = window.localStorage.getItem('locale');
