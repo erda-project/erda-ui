@@ -36,7 +36,7 @@ export const colorMap = {
   red: '#DE5757',
   yellow: '#F7C36B',
   lightgreen: '#8DB36C',
-  maroon: '#800000',
+  maroon: '#BF0000',
   darkgoldenrod: '#B8860B',
   teal: '#008080',
   brown: '#A98C72',

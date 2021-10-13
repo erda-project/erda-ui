@@ -152,6 +152,7 @@ export enum pages {
   projectIssueRoot = '/{orgName}/dop/projects/{projectId}/issues',
   projectTestCaseRoot = '/{orgName}/dop/projects/{projectId}/testCase',
   projectManualTestCase = '/{orgName}/dop/projects/{projectId}/testCase/manual',
+  projectTestCodeCoverage = '/{orgName}/dop/projects/{projectId}/code-coverage',
   projectDataBankRoot = '/{orgName}/dop/projects/{projectId}/data-bank',
   projectDataSource = '/{orgName}/dop/projects/{projectId}/data-bank/data-source',
   projectTestPlaneRoot = '/{orgName}/dop/projects/{projectId}/testPlan',

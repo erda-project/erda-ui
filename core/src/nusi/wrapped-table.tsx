@@ -14,7 +14,7 @@
 import React from 'react';
 import { Dropdown, Menu, Divider } from './index';
 import { Table } from 'antd';
-import i18n from 'i18n';
+import i18n from '../i18n';
 import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
 
 import './wrapped-table.scss';

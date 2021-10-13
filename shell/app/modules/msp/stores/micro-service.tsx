@@ -27,6 +27,7 @@ import {
   DOC_MSP_REGISTER,
   DOC_MSP_MONITOR,
   DOC_MSP_CONFIG_CENTER,
+  DOC_MSP_LOG_ANALYSIS,
 } from 'common/constants';
 import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
@@ -38,6 +39,7 @@ const docUrlMap = {
   registerCenterIntro: DOC_MSP_REGISTER,
   configCenterIntro: DOC_MSP_CONFIG_CENTER,
   monitorIntro: DOC_MSP_MONITOR,
+  logAnalyzeIntro: DOC_MSP_LOG_ANALYSIS,
 };
 
 interface IState {
