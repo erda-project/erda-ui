@@ -1885,6 +1885,8 @@
     "today": "今天",
     "total CPU allocation": "CPU分配总量",
     "total Memory allocation": "内存分配总量",
+    "total {total} items": "共计 {total} 条",
+    "total {total} items, current display top 10000": "共计 {total} 条，当前展示前 10000 条",
     "traffic audit": "流量审计",
     "traffic overview": "流量概览",
     "trigger time": "触发时间",
