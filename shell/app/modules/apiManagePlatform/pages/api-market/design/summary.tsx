@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { MarkdownEditor, Title, useUpdate, FormBuilder } from 'common';
+import { MarkdownEditor, Title, useUpdate, FormBuilder, IFormExtendType } from 'common';
 import { Input } from 'core/nusi';
-import { IFormExtendType } from 'core/common/interface';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { INPUT_MAX_LENGTH, TEXTAREA_MAX_LENGTH } from 'app/modules/apiManagePlatform/configs.ts';

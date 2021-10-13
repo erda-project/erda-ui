@@ -14,11 +14,10 @@
 import React from 'react';
 import { Select, Button, Popconfirm } from 'core/nusi';
 import i18n from 'i18n';
-import { Icon as CustomIcon, useUpdate, FormBuilder } from 'common';
+import { Icon as CustomIcon, useUpdate, FormBuilder, IFormExtendType } from 'common';
 import { produce } from 'immer';
 import { map, set, unset, keys, isEmpty, get, filter, omit, some, forEach, reduce, values } from 'lodash';
 import { regRules } from 'common/utils';
-import { IFormExtendType } from 'core/common/interface';
 import ApiParamsModal from 'apiManagePlatform/pages/api-market/design/api-params-modal';
 import {
   BASE_DATA_TYPE,
