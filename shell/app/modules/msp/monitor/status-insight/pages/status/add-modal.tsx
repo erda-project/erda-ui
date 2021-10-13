@@ -123,7 +123,7 @@ const AddModal = (props: IProps) => {
     condition.push({
       key: 'http_code',
       operate: '=',
-      value: 'abc',
+      value: '',
     });
     const newData = [...condition];
     update({
