@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Ellipsis } from 'core/nusi';
-import { TagsRow, Panel } from 'common';
+import { TagsRow, Panel, Ellipsis } from 'common';
 import Text from '../text/text';
 import { map } from 'lodash';
 

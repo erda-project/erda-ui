@@ -59,6 +59,8 @@ export { default as Title } from './components/title';
 export type { TitleProps } from './components/title';
 export { default as Panel } from './components/panel';
 export type { PanelProps, PanelField } from './components/panel';
+export { default as Ellipsis } from './components/ellipsis';
+export type { EllipsisProps } from './components/ellipsis';
 export { ConfigLayout } from './components/config-layout';
 export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';

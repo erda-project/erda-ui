@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Button, Modal, Menu, Dropdown, Ellipsis } from 'core/nusi';
+import { Spin, Button, Modal, Menu, Dropdown } from 'core/nusi';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { ossImg, goTo } from 'common/utils';
-import { UserInfo, useUpdate, Icon as CustomIcon, DetailsPanel } from 'common';
+import { UserInfo, useUpdate, Icon as CustomIcon, DetailsPanel, Ellipsis } from 'common';
 import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import AssetModal, { IScope, IMode } from 'apiManagePlatform/pages/api-market/components/asset-modal';
 import RelationModal, { RelationMode } from 'apiManagePlatform/pages/api-market/components/relation';
