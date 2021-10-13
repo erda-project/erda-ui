@@ -68,7 +68,7 @@ const mspLogAnalyticsStore = createStore({
       );
       update({
         logList: data ?? [],
-        logTotal: total > 10000 ? 10000 : total,
+        logTotal: total,
       });
     },
     async getAggregation(
