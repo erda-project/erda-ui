@@ -44,7 +44,6 @@ const Status = createStore({
   effects: {
     async getProjectDashboard({ call, update, getParams }) {
       const { projectId, env } = getParams();
-      console.log(env);
       const dashboard = await call(getProjectDashboard, { projectId, env });
       if (dashboard) {
         update({ dashboard });

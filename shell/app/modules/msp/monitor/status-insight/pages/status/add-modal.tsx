@@ -13,14 +13,14 @@
 
 import React from 'react';
 import { omitBy, map } from 'lodash';
-import { FormModal, KeyValueEditor } from 'common';
+import { FormModal, KeyValueEditor, useUpdate } from 'common';
 import { regRules, qs } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import constants from './constants';
 import './add-modal.scss';
-import { Input, Select, Radio, Tabs, Form, Tooltip } from 'core/nusi';
+import { Input, Select, Radio, Tabs, Form, Tooltip, Button } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import {
   Down as IconDown,
@@ -30,12 +30,21 @@ import {
   Help as IconHelp,
 } from '@icon-park/react';
 
+const ruleOfJson = {
+  validator: async (_, value: string) => {
+    try {
+      JSON.parse(value);
+    } catch {
+      throw new Error(i18n.t('msp:please enter the correct JSON format'));
+    }
+  },
+};
+
 const { Option } = Select;
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 const { HTTP_METHOD_LIST, TIMELIMITS, RETRYLIMITS, MAX_BODY_LENGTH } = constants;
-const { banFullWidthPunctuation } = regRules;
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
 interface IProps {
@@ -44,52 +53,72 @@ interface IProps {
   afterSubmit: (args?: any) => Promise<any>;
   toggleModal: (args?: any) => void;
 }
-
 interface ITrigger {
   key: string;
   operate: string;
   value: number | string;
 }
+interface IState {
+  showMore: boolean;
+  retry: number;
+  frequency: number;
+  apiMethod: string;
+  body: string;
+  headers: string;
+  url: string;
+  query: object;
+  condition: ITrigger[];
+}
 
 const AddModal = (props: IProps) => {
   const { formData, modalVisible, afterSubmit, toggleModal } = props;
-  const [showMore, setShowMore] = React.useState(false);
-  const [retry, setRetry] = React.useState(RETRYLIMITS[0]);
-  const [frequency, setFrequency] = React.useState(TIMELIMITS[0]);
-  const [apiMethod, setApiMethod] = React.useState(HTTP_METHOD_LIST[0]);
-  const [body, setBody] = React.useState('');
-  const [headers, setHeaders] = React.useState('');
-  const [url, setUrl] = React.useState('');
-  const formRef = React.useRef<FormInstance>(null);
-  const [query, setQuery] = React.useState({});
-  const [condition, setCondition] = React.useState<ITrigger[]>([
-    {
-      key: 'http_code',
-      operate: '>=',
-      value: 400,
-    },
-  ]);
   const { env, projectId } = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
   const [form] = Form.useForm();
-
-  React.useEffect(() => {
-    if (!modalVisible) {
-      setCondition([
+  const formRef = React.useRef<FormInstance>(null);
+  const [{ showMore, retry, frequency, apiMethod, body, headers, url, query, condition }, updater, update] =
+    useUpdate<IState>({
+      showMore: false,
+      retry: RETRYLIMITS[0],
+      frequency: TIMELIMITS[0],
+      apiMethod: HTTP_METHOD_LIST[0],
+      body: '',
+      headers: '',
+      url: '',
+      query: {},
+      condition: [
         {
           key: 'http_code',
           operate: '>=',
           value: 400,
         },
-      ]);
-      setShowMore(false);
+      ],
+    });
+
+  React.useEffect(() => {
+    if (!modalVisible) {
+      update({
+        condition: [
+          {
+            key: 'http_code',
+            operate: '>=',
+            value: 400,
+          },
+        ],
+        showMore: false,
+        query: {},
+      });
     }
   }, [modalVisible]);
+
   const deleteItem = (index: number) => {
     condition.splice(index, 1);
     const newData = [...condition];
-    setCondition(newData);
+    update({
+      condition: newData,
+    });
   };
+
   const addItem = () => {
     condition.push({
       key: 'http_code',
@@ -97,33 +126,53 @@ const AddModal = (props: IProps) => {
       value: 'abc',
     });
     const newData = [...condition];
-    setCondition(newData);
+    update({
+      condition: newData,
+    });
   };
 
   const setInputValue = (index: number, value: number | string) => {
     if (condition[index]) {
       condition[index].value = value;
     }
-    setCondition([...condition]);
+    update({
+      condition: [...condition],
+    });
   };
 
   const setOperate = (index: number, operate: string) => {
     if (condition[index]) {
       condition[index].operate = operate;
     }
-    setCondition([...condition]);
+    update({
+      condition: [...condition],
+    });
   };
 
   const setKey = (index: number, key: string) => {
     if (condition[index]) {
       condition[index].key = key;
     }
-    setCondition([...condition]);
+    update({
+      condition: [...condition],
+    });
   };
 
   const setUrlParm = (queryConfig: { [key: string]: string }) => {
     formRef?.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
-    setUrl(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
+    update({
+      url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}`,
+    });
+  };
+
+  const formatBody = () => {
+    if (body) {
+      const jsonObj = JSON.parse(body);
+      update({
+        body: JSON.stringify(jsonObj, null, 4),
+      });
+      formRef.current?.setFieldsValue({ body: JSON.stringify(jsonObj, null, 4) });
+    }
   };
 
   const handleSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
@@ -209,13 +258,26 @@ const AddModal = (props: IProps) => {
       getComp: () => {
         return (
           <Input
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => {
+              update({
+                url: e.target.value,
+              });
+            }}
             onBlur={(e) => {
-              // console.log(qs.(e.target.value))
-              setQuery(qs.parseUrl(e.target.value).query);
+              update({
+                query: qs.parseUrl(e.target.value).query,
+              });
             }}
             addonBefore={
-              <Select value={apiMethod} onChange={(value: string) => setApiMethod(value)} style={{ width: 110 }}>
+              <Select
+                value={apiMethod}
+                onChange={(value: string) => {
+                  update({
+                    apiMethod: value,
+                  });
+                }}
+                style={{ width: 110 }}
+              >
                 {map(HTTP_METHOD_LIST, (method) => (
                   <Option value={method} key={method}>
                     {method}
@@ -256,21 +318,30 @@ const AddModal = (props: IProps) => {
                     tableProps={{
                       size: 'default',
                     }}
-                    onChange={(header: any) => setHeaders(header)}
+                    onChange={(headers: any) => {
+                      update({
+                        headers,
+                      });
+                    }}
                     form={form}
                   />
                 </div>
               </TabPane>
               <TabPane tab="Body" key="3">
-                <FormItem name="body" rules={[banFullWidthPunctuation]}>
+                <Button className="mb-4" size="small" type="primary" onClick={formatBody}>
+                  Beautify
+                </Button>
+                <FormItem name="body" rules={[ruleOfJson]}>
                   <TextArea
-                    autoSize={{ minRows: 3, maxRows: 5 }}
+                    autoSize={{ minRows: 3, maxRows: 8 }}
                     maxLength={MAX_BODY_LENGTH}
                     placeholder={
                       i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH.toString()
                     }
                     onChange={(e) => {
-                      setBody(e.target.value);
+                      update({
+                        body: e.target.value,
+                      });
                     }}
                   />
                 </FormItem>
@@ -284,14 +355,18 @@ const AddModal = (props: IProps) => {
       getComp: () => {
         return (
           <div>
-            <a onClick={() => setShowMore(!showMore)}>
+            <a
+              onClick={() => {
+                update({ showMore: !showMore });
+              }}
+            >
               {i18n.t('advanced settings')}
               {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
             </a>
-            <div className={`p-4 mt-2 h-full hidden-box ${showMore ? '' : 'hidden'}`}>
+            <div className={`p-4 mt-2 h-full bg-grey ${showMore ? '' : 'hidden'}`}>
               <div className="flex">
-                <h4 className="mb-2">{i18n.t('msp:triggering conditions')}</h4>
-                <Tooltip title={i18n.t('msp:oR relationship between multiple conditions')}>
+                <h4 className="mb-2">{i18n.t('msp:anomaly check')}</h4>
+                <Tooltip title={i18n.t('msp:exception check prompt')}>
                   <IconHelp className="ml-1" />
                 </Tooltip>
               </div>
@@ -332,7 +407,11 @@ const AddModal = (props: IProps) => {
               <IconAddOne className="mt-4" size="16" onClick={addItem} />
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
               <Radio.Group
-                onChange={(e) => setRetry(e.target.value)}
+                onChange={(e) => {
+                  update({
+                    retry: e.target.value,
+                  });
+                }}
                 value={retry}
                 name="retryRadioGroup"
                 defaultValue={RETRYLIMITS[0]}
@@ -345,7 +424,11 @@ const AddModal = (props: IProps) => {
               </Radio.Group>
               <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
               <Radio.Group
-                onChange={(e) => setFrequency(e.target.value)}
+                onChange={(e) => {
+                  update({
+                    frequency: e.target.value,
+                  });
+                }}
                 value={frequency}
                 name="timeRadioGroup"
                 defaultValue={TIMELIMITS[0]}
