@@ -141,14 +141,13 @@ function getProjectRouter() {
               tabs: MANUAL_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              pageName: i18n.t('project:test case'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
               path: 'testPlan',
               tabs: MANUAL_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test plan'),
+              breadcrumbName: i18n.t('project:manual test'),
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan')),
@@ -165,7 +164,6 @@ function getProjectRouter() {
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:parameter configuration'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
               tabs: MANUAL_TEST_TABS,
             },
@@ -183,7 +181,7 @@ function getProjectRouter() {
               path: 'testCase',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test case'),
+              breadcrumbName: i18n.t('project:auto test'),
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/auto-test/index')),
@@ -205,7 +203,6 @@ function getProjectRouter() {
               path: 'config-sheet',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('config sheet'),
               layout: { fullHeight: true },
               getComp: (cb) => cb(import('project/pages/config-sheet')),
             },
@@ -213,7 +210,7 @@ function getProjectRouter() {
               path: 'testPlan',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test plan'),
+              breadcrumbName: i18n.t('project:auto test'),
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan-protocol')),
@@ -232,13 +229,11 @@ function getProjectRouter() {
               tabs: AUTO_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:data sources'),
               getComp: (cb) => cb(import('project/pages/data-source')),
             },
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:parameter configuration'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'AutoTestEnv'),
               tabs: AUTO_TEST_TABS,
             },
