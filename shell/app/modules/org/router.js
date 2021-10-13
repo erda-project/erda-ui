@@ -52,15 +52,11 @@ function getOrgCenterRouter() {
                 // },
                 {
                   path: 'dashboard',
-                  routes: [
-                    {
-                      breadcrumbName: i18n.t('project:dashboard'),
-                      getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
-                      layout: {
-                        fullHeight: true,
-                      },
-                    },
-                  ],
+                  breadcrumbName: i18n.t('project:statistics'),
+                  getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
+                  layout: {
+                    noWrapper: true,
+                  },
                 },
                 {
                   path: 'setting',
