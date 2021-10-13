@@ -361,7 +361,7 @@ const AddModal = (props: IProps) => {
               }}
             >
               {i18n.t('advanced settings')}
-              {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
+              {showMore ? <IconUp size="16px" /> : <IconDown size="16px" />}
             </a>
             <div className={`p-4 mt-2 h-full bg-grey ${showMore ? '' : 'hidden'}`}>
               <div className="flex">
