@@ -33,7 +33,7 @@ export interface FilterItemConfig extends IFieldType {
 
 const { Fields } = FormBuilder;
 
-export const Filter = React.forwardRef(
+const Filter = React.forwardRef(
   (
     { config, onSubmit, onFieldChange, className }: IFilterProps,
     ref: React.Ref<{ form: FormInstance; search: () => void }>,
@@ -107,3 +107,5 @@ export const Filter = React.forwardRef(
     );
   },
 );
+
+export default Filter;

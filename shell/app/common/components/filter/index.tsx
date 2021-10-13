@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { BaseFilter } from './base-filter';
+import BaseFilter, { IFilterProps, FilterItemConfig } from './base-filter';
 import { get, map, has, set, isEmpty, debounce } from 'lodash';
-import { IFilterProps, FilterItemConfig } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';
 import { useMount } from 'react-use';
 import { updateSearch as _updateSearch } from 'common/utils';
