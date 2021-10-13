@@ -90,12 +90,12 @@ export function ServiceNameSelect() {
       {serviceName ? (
         <Dropdown overlay={menu} trigger={['click']}>
           <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
-            <span className="self-center">{serviceName} </span>
+            <span className="self-center text-lg">{serviceName} </span>
             <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
           </div>
         </Dropdown>
       ) : (
-        <div>{i18n.t('msp:no service')}</div>
+        <div className="font-bold text-lg">{i18n.t('msp:no service')}</div>
       )}
     </div>
   );

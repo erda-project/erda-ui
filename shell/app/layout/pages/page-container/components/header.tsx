@@ -168,12 +168,18 @@ const Header = () => {
     return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
   };
 
-  const Title = (type: string | undefined) => {
+  const displayPageName = (type: string | undefined) => {
     switch (type) {
       case 'service-analysis':
         return <ServiceNameSelect />;
       default:
-        return pageName;
+        return (
+          <div className={`erda-header-title`}>
+            <div className={`erda-header-title-text`}>
+              <Tooltip title={pageName}>{pageName}</Tooltip>
+            </div>
+          </div>
+        );
     }
   };
 
@@ -185,15 +191,7 @@ const Header = () => {
 
       <div className={`erda-header-top`}>
         <div className={`erda-header-top-left`}>
-          <div className="erda-header-title-con">
-            {pageName && (
-              <div className={`erda-header-title`}>
-                <div className={`erda-header-title-text`}>
-                  <Tooltip title={pageName}>{pageName}</Tooltip>
-                </div>
-              </div>
-            )}
-          </div>
+          <div className="erda-header-title-con">{pageName && displayPageName(pageNameInfo)}</div>
         </div>
       </div>
       <div className={`erda-header-content`}>
