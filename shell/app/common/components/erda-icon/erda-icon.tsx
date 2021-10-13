@@ -27,6 +27,7 @@ import {
   ApiApp as IconApiApp,
   DoubleRight as IconDoubleRight,
   ApplicationMenu as IconApplicationMenu,
+  Help as IconHelp,
 } from '@icon-park/react';
 
 export const iconMap = {
@@ -42,6 +43,7 @@ export const iconMap = {
   'api-app': IconApiApp,
   'double-right': IconDoubleRight,
   'application-menu': IconApplicationMenu,
+  help: IconHelp,
 };
 
 type IIconType = keyof typeof iconMap;
