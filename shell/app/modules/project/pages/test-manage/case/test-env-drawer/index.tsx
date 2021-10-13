@@ -14,10 +14,14 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Drawer } from 'core/nusi';
-import TestEnv from '../../../test-env/test-env';
+import { AutoTestEnv, ManualTestEnv } from '../../../test-env/test-env';
 import testEnvStore from 'project/stores/test-env';
 
-const TestEnvDrawer = () => {
+interface IProps {
+  testType: 'manual' | 'auto';
+}
+const TestEnvDrawer = (props: IProps) => {
+  const { testType = 'manual' } = props;
   const { envID, envType } = testEnvStore.useStore((s) => s.envInfo);
   return (
     <Drawer
@@ -27,7 +31,11 @@ const TestEnvDrawer = () => {
       visible={!!envID}
       onClose={testEnvStore.closeEnvVariable}
     >
-      <TestEnv envID={+envID} envType={envType} isSingle />
+      {testType === 'manual' ? (
+        <ManualTestEnv envID={+envID} envType={envType} isSingle />
+      ) : (
+        <AutoTestEnv envID={+envID} envType={envType} isSingle />
+      )}
     </Drawer>
   );
 };
