@@ -13,7 +13,7 @@
 
 import React from 'react';
 import FormBuilder from '../form-builder';
-import { FormInstance, IFieldType } from '../../interface';
+import { FormInstance, IFieldType } from 'core/common/interface';
 import { throttle } from 'lodash';
 
 export interface IFilterProps {
@@ -33,7 +33,7 @@ export interface FilterItemConfig extends IFieldType {
 
 const { Fields } = FormBuilder;
 
-export const Filter = React.forwardRef(
+const Filter = React.forwardRef(
   (
     { config, onSubmit, onFieldChange, className }: IFilterProps,
     ref: React.Ref<{ form: FormInstance; search: () => void }>,
@@ -107,3 +107,5 @@ export const Filter = React.forwardRef(
     );
   },
 );
+
+export default Filter;

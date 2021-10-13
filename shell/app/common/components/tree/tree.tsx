@@ -14,9 +14,9 @@
 import React from 'react';
 import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
-import { Spin, Title, Tree, Popover, Select } from 'core/nusi';
+import { Spin, Tree, Popover, Select } from 'core/nusi';
 import i18n from 'i18n';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { useUpdate, Icon as CustomIcon, Title } from 'common';
 import { TreeProps, AntTreeNodeProps, TreeNodeNormal } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';

@@ -15,8 +15,8 @@ import React from 'react';
 import { FormBuilder, IFormExtendType } from './form-builder';
 import { Fields, IFieldType } from './fields';
 import { map } from 'lodash';
-import { Button } from '../../../nusi';
-import i18n from '../../../i18n';
+import { Button } from 'core/nusi';
+import i18n from 'i18n';
 import './search-form.scss';
 
 /* *

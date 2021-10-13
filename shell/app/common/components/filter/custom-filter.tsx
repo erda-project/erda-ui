@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Filter, Pagination, Input, Select } from 'core/nusi';
+import BaseFilter, { FilterItemConfig } from './base-filter';
+import { Pagination, Input, Select } from 'core/nusi';
 import { useUpdate, FilterBarHandle } from 'common';
 import { setSearch } from 'common/utils';
 import { forIn, set, get, every, omit, isEqual, isEmpty, map, mapValues, some, debounce, sortBy } from 'lodash';
@@ -20,7 +21,6 @@ import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import './custom-filter.scss';
-import { PaginationConfig, SorterResult, FilterItemConfig } from 'core/common/interface';
 import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';
@@ -200,7 +200,7 @@ export const CustomFilter = (props: IFilterProps) => {
   });
 
   return (
-    <Filter
+    <BaseFilter
       className={filterClassName}
       config={realConfig}
       onReset={onReset}

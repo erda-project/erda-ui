@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Popover, Ellipsis, Input, Tooltip } from 'core/nusi';
+import { Tree, Popover, Input, Tooltip } from 'core/nusi';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
-import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
+import { Icon as CustomIcon, useUpdate, EmptyHolder, Ellipsis } from 'common';
 import { WithAuth } from 'user/common';
 import { AddOne as IconAddOne, More as IconMore } from '@icon-park/react';
 

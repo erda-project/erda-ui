@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Ellipsis, Spin, Table, Tabs, Tooltip } from 'core/nusi';
+import { Spin, Table, Tabs, Tooltip } from 'core/nusi';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import routeInfoStore from 'core/stores/route';
-import { Copy, DetailsPanel, Icon as CustomIcon, TableActions, useUpdate } from 'common';
+import { Copy, DetailsPanel, Icon as CustomIcon, TableActions, useUpdate, Ellipsis } from 'common';
 import i18n from 'i18n';
 import { get, map } from 'lodash';
 import { contractStatueMap } from 'apiManagePlatform/pages/client/components/config';

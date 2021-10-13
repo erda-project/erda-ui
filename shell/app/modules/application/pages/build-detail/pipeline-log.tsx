@@ -13,12 +13,12 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Timeline, Drawer, Title, Tooltip } from 'core/nusi';
+import { Timeline, Drawer, Tooltip } from 'core/nusi';
 import buildStore from 'application/stores/build';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import { useUpdate, EmptyHolder, ErdaCustomIcon } from 'common';
+import { useUpdate, EmptyHolder, Title, ErdaCustomIcon } from 'common';
 import './pipeline-log.scss';
 import { Loading as IconLoading } from '@icon-park/react';
 

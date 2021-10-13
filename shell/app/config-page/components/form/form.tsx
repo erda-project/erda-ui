@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Title } from 'core/nusi';
+import { Button } from 'core/nusi';
 import { isEmpty, map, get } from 'lodash';
 import i18n from 'i18n';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
-import { useUpdate } from 'common';
+import { useUpdate, Title } from 'common';
 
 export const Form = (props: CP_FORM.Props) => {
   const { state, props: configProps, operations, execOperation, updateState } = props;

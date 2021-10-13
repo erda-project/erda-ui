@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, Icon as CustomIcon, EmptyHolder, LazyRender } from 'common';
-import { Input, Button, Collapse, Tooltip, Popconfirm, message, Ellipsis, Spin, Modal, Popover } from 'core/nusi';
+import { useUpdate, Icon as CustomIcon, EmptyHolder, LazyRender, Ellipsis } from 'common';
+import { Input, Button, Collapse, Tooltip, Popconfirm, message, Spin, Modal, Popover } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, keys, get, filter, isEmpty, set, unset, forEach } from 'lodash';

@@ -15,8 +15,8 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:35.
  */
 import React from 'react';
-import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip, Button } from 'core/nusi';
+import { Icon as CustomIcon, Title as CommonTitle } from 'common';
+import { Tooltip, Button } from 'core/nusi';
 import { OperationAction } from 'config-page/utils';
 import { getImg } from 'app/config-page/img-map';
 import { Help as IconHelp } from '@icon-park/react';
@@ -103,7 +103,7 @@ const Title = (props: CP_TITLE.Props) => {
 
   return visible ? (
     <div className="dice-cp-title">
-      <NusiTitle
+      <CommonTitle
         title={titleComp}
         level={level}
         showDivider={showDivider}

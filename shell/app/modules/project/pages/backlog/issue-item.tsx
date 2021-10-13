@@ -14,14 +14,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { ISSUE_PRIORITY_MAP, ISSUE_OPTION } from 'project/common/components/issue/issue-config';
-import { Icon as CustomIcon, MemberSelector, Avatar } from 'common';
+import { Ellipsis, Icon as CustomIcon, MemberSelector, Avatar } from 'common';
 import { useDrag } from 'react-dnd';
 import { WithAuth, usePerm, isAssignee, isCreator, getAuth } from 'user/common';
 import { isPromise } from 'common/utils';
 import { get, map } from 'lodash';
 import i18n from 'i18n';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
-import { Ellipsis, Menu, Dropdown, Modal, message } from 'core/nusi';
+import { Menu, Dropdown, Modal, message } from 'core/nusi';
 import { Form } from 'dop/pages/form-editor/index';
 import './issue-item.scss';
 import routeInfoStore from 'core/stores/route';

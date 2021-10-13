@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Panel } from 'common';
+import { SimplePanel } from 'common';
 import { mount } from 'enzyme';
 
-describe('Panel', () => {
+describe('SimplePanel', () => {
   it('should render', () => {
     const wrapper = mount(
-      <Panel style={{ height: 100 }} className="erda_panel" title="panel title">
+      <SimplePanel style={{ height: 100 }} className="erda_panel" title="panel title">
         <div className="panel-child">panel-child</div>
-      </Panel>,
+      </SimplePanel>,
     );
     expect(wrapper).toHaveClassName('erda_panel');
     expect(wrapper).toHaveStyle('height', 100);

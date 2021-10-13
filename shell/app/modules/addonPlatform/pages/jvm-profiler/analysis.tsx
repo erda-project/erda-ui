@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo, formatTime, fromNow } from 'app/common/utils';
-import { FilterGroup, Panel, useUpdate } from 'common';
+import { FilterGroup, SimplePanel, useUpdate } from 'common';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
 import { Button, Cascader, message, Spin, Table, Tooltip } from 'core/nusi';
@@ -211,7 +211,7 @@ export default () => {
           </FilterGroup>
         </div>
       </Spin>
-      <Panel title={i18n.t('addonPlatform:analyzing')} className="block">
+      <SimplePanel title={i18n.t('addonPlatform:analyzing')} className="block">
         <Table
           dataSource={runningList}
           columns={getCols(false)}
@@ -219,8 +219,8 @@ export default () => {
           pagination={false}
           scroll={{ x: 900 }}
         />
-      </Panel>
-      <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt-5">
+      </SimplePanel>
+      <SimplePanel title={i18n.t('addonPlatform:historical analysis')} className="block mt-5">
         <Table
           dataSource={historyList}
           columns={getCols(true)}
@@ -234,7 +234,7 @@ export default () => {
           }}
           scroll={{ x: 900 }}
         />
-      </Panel>
+      </SimplePanel>
     </div>
   );
 };
