@@ -171,8 +171,9 @@ const TestPlan = () => {
               onClick={async (e) => {
                 e.stopPropagation();
                 await toggleArchived({ id, isArchived: !record.isArchived });
-                // When has isArchived filter, this operation will delete the row from table, so go to the page 1
-                getList({ ...filterObj, pageNo: typeof filterObj.isArchived === 'undefined' ? page.pageNo : 1 });
+                // When has isArchived filter, this operation will delete the row from table
+                const needGoToPage1 = planList.length === 1 && typeof filterObj.isArchived !== 'undefined';
+                getList({ ...filterObj, pageNo: needGoToPage1 ? 1 : page.pageNo });
               }}
             >
               {record.isArchived ? i18n.t('project:unarchive') : i18n.t('archive')}
