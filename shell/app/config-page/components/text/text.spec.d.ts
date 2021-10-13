@@ -59,6 +59,7 @@ declare namespace CP_TEXT {
 
   interface ILinkTarget {
     icon?: string;
+    iconTip?: string;
     image?: string;
     iconStyleName?: string;
     text: string;
