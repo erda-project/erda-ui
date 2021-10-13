@@ -1885,6 +1885,8 @@
     "today": "today",
     "total CPU allocation": "total CPU allocation",
     "total Memory allocation": "total Memory allocation",
+    "total {total} items": "total {total} items",
+    "total {total} items, current display top 10000": "total {total} items, current display top 10000",
     "traffic audit": "traffic audit",
     "traffic overview": "traffic overview",
     "trigger time": "trigger time",
