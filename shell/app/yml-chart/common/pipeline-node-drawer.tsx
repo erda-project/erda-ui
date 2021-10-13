@@ -483,8 +483,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       const nameKey = get(property.struct, '[0].name');
       const headName = curItem[nameKey] || (typeof curItem[keys[0]] === 'string' ? curItem[keys[0]] : 'module');
       const header = (
-        <div>
-          <span>{headName}</span>
+        <div className="flex items-center justify-between">
+          <span className="truncate" title={headName}>
+            {headName}
+          </span>
           {editing ? (
             <CustomIcon
               onClick={() => deleteItemFromStructArray(property, index, parentKey)}
@@ -507,7 +509,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
           {property.name}:{addBtn}
         </span>
         {data.length ? (
-          <Collapse className="collapse-field" accordion>
+          <Collapse className="collapse-field my-2" accordion>
             {content}
           </Collapse>
         ) : null}
