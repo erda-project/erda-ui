@@ -282,7 +282,7 @@ const TestPlanDetail = () => {
                   }
                 }}
               />
-              <TestEnvDrawer />
+              <TestEnvDrawer testType="manual" />
               <CaseDrawer
                 visible={drawerVisible}
                 scope="testPlan"

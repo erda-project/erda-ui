@@ -143,24 +143,41 @@ export const PROJECT_TABS = () => {
   return tabs;
 };
 
-export const TEST_TABS = [
+export const MANUAL_TEST_TABS = [
   {
-    key: 'manual',
-    name: i18n.t('project:manual test'),
+    key: 'testCase',
+    name: i18n.t('project:test case'),
   },
   {
-    key: 'auto',
-    name: i18n.t('project:automatic test'),
+    key: 'testPlan',
+    name: i18n.t('project:test plan'),
+  },
+  {
+    key: 'testEnv',
+    name: i18n.t('project:parameter configuration'),
   },
 ];
 
-export const DATABANK_TABS = [
+export const AUTO_TEST_TABS = [
   {
-    key: 'data-source',
-    name: i18n.t('project:data sources'),
+    key: 'testCase',
+    name: i18n.t('project:test case'),
   },
   {
     key: 'config-sheet',
     name: i18n.t('project:config data'),
+  },
+  {
+    key: 'testPlan',
+    name: i18n.t('project:test plan'),
+  },
+  {
+    key: 'data-source',
+    name: i18n.t('project:data sources'),
+  },
+
+  {
+    key: 'testEnv',
+    name: i18n.t('project:parameter configuration'),
   },
 ];
