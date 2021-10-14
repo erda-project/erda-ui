@@ -135,7 +135,6 @@ importers:
       moment: ^2.29.1
       path-to-regexp: ^6.2.0
       query-string: ^6.4.2
-      rc-resize-observer: ^1.0.0
       react: 16.14.0
       react-dom: 16.14.0
       react-router-config: ^5.0.0
@@ -163,7 +162,6 @@ importers:
       moment: 2.29.1
       path-to-regexp: 6.2.0
       query-string: 6.14.1
-      rc-resize-observer: 1.0.0_react-dom@16.14.0+react@16.14.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       react-router-config: 5.1.1_react@16.14.0

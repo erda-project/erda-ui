@@ -26,10 +26,6 @@
     margin-bottom: 0;
     overflow: auto;
     overflow-x: hidden;
-
-    .pk-list-item {
-      padding: 0;
-    }
   }
 
   .build-item {
@@ -120,12 +116,6 @@
       padding-right: 32px;
       border-right: 2px solid $color-primary;
     }
-  }
-}
-
-.commit-tip {
-  .pk-tooltip-inner {
-    max-width: 500px;
   }
 }
 

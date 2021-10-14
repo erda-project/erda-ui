@@ -67,7 +67,7 @@ Role('Manager', () => {
     await wait(3);
     await page.click('.commit-content .as-link'); // content-date
     await wait(3);
-    await expectExist('.pk-page-header-title-text span >> text="commit details"');
+    await expectExist('.erda-header-title-text span >> text="commit details"');
 
     // get branch detail
     await goTo('repo');

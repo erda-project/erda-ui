@@ -37,7 +37,7 @@ const memberLabels = [
 ];
 
 const currentOrg = {
-  id: 27,
+  id: '27',
   creator: '12345t',
   desc: '',
   logo: '',

@@ -38,17 +38,6 @@
     display: flex;
     flex-wrap: nowrap;
 
-    .pk-form {
-      .pk-col-24 {
-        padding-left: 0 !important;
-      }
-    }
-
-    .pk-form-item-label {
-      height: 0;
-      padding-bottom: 0 !important;
-    }
-
     .mask {
       position: absolute;
       top: 0;
@@ -201,17 +190,6 @@
         }
       }
     }
-  }
-
-  .pk-form-builder.normal .pk-radio-group,
-  .pk-form-builder.normal .pk-checkbox-group,
-  .pk-form-builder.normal .pk-rate {
-    padding: 0;
-  }
-
-  .pk-radio-group-small .pk-radio-button-wrapper {
-    height: 32px;
-    line-height: 28px;
   }
 
   .api-tag-select {
