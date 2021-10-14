@@ -15,14 +15,7 @@ import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
-import {
-  ApiApp as IconApiApp,
-  CeMarking as IconCeMarking,
-  Certificate as IconCertificate,
-  Bill as IconBill,
-  Log as IconLog,
-  City as IconCity,
-} from '@icon-park/react';
+import { ApiApp as IconApiApp, CeMarking as IconCeMarking, Log as IconLog, City as IconCity } from '@icon-park/react';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { filter } from 'lodash';
@@ -42,24 +35,11 @@ export const getOrgCenterMenu = () => {
         },
         {
           key: 'orgMarket',
-          href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
+          href: goTo.resolve.orgCenterPublisherSetting(),
           icon: <IconCeMarking />,
-          text: i18n.t('layout:market'),
-          subMenu: [
-            {
-              key: 'orgMarketPublisher',
-              text: i18n.t('org:publisher info'),
-              href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
-            },
-          ],
+          text: i18n.t('layout:mobile development management'),
+          prefix: goTo.resolve.orgCenterMarket(),
           show: orgPerm.orgCenter.viewMarket.pass,
-        },
-        {
-          key: 'orgCertificate',
-          href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
-          icon: <IconCertificate />,
-          text: i18n.t('layout:certificate'),
-          show: orgPerm.orgCenter.viewCertificate.pass,
         },
         {
           key: 'orgApproval',
@@ -68,13 +48,6 @@ export const getOrgCenterMenu = () => {
           text: i18n.t('layout:approval'),
           prefix: `${goTo.resolve.orgCenterApproval()}/`,
           show: orgPerm.orgCenter.viewApproval.pass,
-        },
-        {
-          key: 'orgAnnouncement',
-          href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
-          icon: <IconBill />,
-          text: i18n.t('org:announcement management'),
-          show: orgPerm.orgCenter.viewAnnouncement.pass,
         },
         {
           key: 'orgSafety',
