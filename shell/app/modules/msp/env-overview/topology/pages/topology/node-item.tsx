@@ -156,7 +156,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   // };
 
   // 暂时使用和原svgIcon中的一致图标
-  const iconObj = SVGICONS[type.toLowerCase()] || SVGICONS.addon;
+  const iconObj = SVGICONS[type?.toLowerCase()] || SVGICONS?.addon;
   const iconImg = iconObj.img.replace('image:///', '/');
   const TipText = () => {
     return (
