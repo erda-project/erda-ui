@@ -23,14 +23,15 @@ import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { get } from 'lodash';
-
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './index.scss';
 
 export default () => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore((s) => s.params);
-  const { terminusKey, serviceName, serviceId } = params;
+  const [serviceId, _serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const { terminusKey, serviceName } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
   const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
     id: undefined as string | undefined,
@@ -41,28 +42,32 @@ export default () => {
   const [isFetching] = useLoading(topologyServiceStore, ['getProcessDashboardId']);
 
   useEffect(() => {
-    getInstanceIds({
-      serviceName,
-      serviceId: window.decodeURIComponent(serviceId),
-      terminusKey,
-      start: startTimeMs,
-      end: endTimeMs,
-    }).then((res) => {
-      const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
-      update({
-        timeSpan: _timeSpan,
-        instanceId: defaultInstanceId,
-        instanceIds: res?.data,
+    if (serviceId) {
+      getInstanceIds({
+        serviceName: serviceName || _serviceName,
+        serviceId,
+        terminusKey,
+        start: startTimeMs,
+        end: endTimeMs,
+      }).then((res) => {
+        const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
+        update({
+          timeSpan: _timeSpan,
+          instanceId: defaultInstanceId,
+          instanceIds: res?.data,
+        });
       });
-    });
-  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan]);
+    }
+  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan, update]);
 
   useEffect(() => {
-    getProcessDashboardId({
-      serviceName,
-      serviceId: window.decodeURIComponent(serviceId),
-      terminusKey,
-    }).then((_id) => updater.id(_id));
+    if (serviceId) {
+      getProcessDashboardId({
+        serviceName: serviceName || _serviceName,
+        serviceId,
+        terminusKey,
+      }).then((_id) => updater.id(_id));
+    }
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
   return (
@@ -103,15 +108,20 @@ export default () => {
           <TimeSelectWithStore className="m-0 ml-3" />
         </div>
       </div>
-      <div className="overflow-auto flex-1">
-        <Spin spinning={isFetching}>
-          {id ? (
-            <ServiceListDashboard timeSpan={timeSpan} dashboardId={id} extraGlobalVariable={{ instanceId }} />
-          ) : (
-            <EmptyHolder relative />
-          )}
-        </Spin>
-      </div>
+      {id && serviceId ? (
+        <div className="overflow-auto flex-1">
+          <Spin spinning={isFetching}>
+            <ServiceListDashboard
+              timeSpan={timeSpan}
+              dashboardId={id}
+              extraGlobalVariable={{ instanceId }}
+              serviceId={serviceId}
+            />
+          </Spin>
+        </div>
+      ) : (
+        <EmptyHolder relative />
+      )}
     </div>
   );
 };

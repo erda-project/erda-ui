@@ -14,12 +14,13 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { Select } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate, EmptyHolder } from 'common';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 
 const sortList = [
   {
@@ -36,7 +37,8 @@ const limits = [10, 30, 50];
 export default () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
-  const { serviceName, terminusKey, serviceId } = params;
+  const { serviceName, terminusKey } = params;
+  const [serviceId, _serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { getExceptionTypes } = topologyServiceStore;
   const [{ sort, limit, exceptionType, exceptionTypes }, updater] = useUpdate({
     exceptionTypes: [] as any[] | undefined,
@@ -46,14 +48,25 @@ export default () => {
   });
 
   useEffect(() => {
-    getExceptionTypes({
-      serviceName,
-      serviceId: window.decodeURIComponent(serviceId),
-      terminusKey,
-      start: timeSpan.startTimeMs,
-      end: timeSpan.endTimeMs,
-    }).then((res) => updater.exceptionTypes(res?.data));
-  }, [serviceId, getExceptionTypes, serviceName, terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs, updater]);
+    if (serviceId) {
+      getExceptionTypes({
+        serviceName: serviceName || _serviceName,
+        serviceId,
+        terminusKey,
+        start: timeSpan.startTimeMs,
+        end: timeSpan.endTimeMs,
+      }).then((res) => updater.exceptionTypes(res?.data));
+    }
+  }, [
+    serviceId,
+    getExceptionTypes,
+    serviceName,
+    terminusKey,
+    timeSpan.endTimeMs,
+    timeSpan.startTimeMs,
+    updater,
+    _serviceName,
+  ]);
 
   return (
     <div className="service-analyze flex flex-col h-full">
@@ -103,9 +116,17 @@ export default () => {
           <TimeSelectWithStore className="ml-3" />
         </div>
       </div>
-      <div className="overflow-auto flex-1">
-        <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
-      </div>
+      {serviceId ? (
+        <div className="overflow-auto flex-1">
+          <ServiceListDashboard
+            dashboardId="exception_analysis"
+            extraGlobalVariable={{ sort, limit, exceptionType }}
+            serviceId={serviceId}
+          />
+        </div>
+      ) : (
+        <EmptyHolder relative />
+      )}
     </div>
   );
 };

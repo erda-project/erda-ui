@@ -71,7 +71,6 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
     .map((menu) => {
       const { key, cnName, enName, children } = menu;
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
-
       const IconComp = MSIconMap[key];
       const sideMenu = {
         key,
