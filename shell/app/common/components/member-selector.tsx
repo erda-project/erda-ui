@@ -374,7 +374,7 @@ export const UserSelector = (props: any) => {
       filterOption={false}
       defaultActiveFirstOption={false}
       placeholder={i18n.t('Please enter nickname, name, email or mobile phone number to search.')}
-      onSearch={debounce(handleSearch, 200, { maxWait: 500 })}
+      onSearch={debounce(handleSearch, 800)}
       {...props}
     >
       {(searchResult || []).map(userOptionRender)}
