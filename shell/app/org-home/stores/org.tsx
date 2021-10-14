@@ -99,6 +99,7 @@ const org = createStore({
           if (orgs?.find((x) => x.name === currentOrg.name)) {
             goTo(`/${currentOrg.name}`, { replace: true });
           }
+          return;
         }
         // if pathname is '/orgName/' instead of '/orgName', the route is not matched
         if (curPathname === `/${orgName}/`) {
