@@ -31,6 +31,7 @@ import { useLoading } from 'core/stores/loading';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
+import { getToken } from 'cmp/services/token-manage';
 import { Copy as IconCopy } from '@icon-park/react';
 
 import './cluster-list.scss';
@@ -68,7 +69,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [registerCommand, setRegisterCommand] = React.useState('');
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
   const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
-
+  const token = getToken.useData();
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
     tokenManageVisible: false,
@@ -99,7 +100,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         visible={state.tokenManageVisible}
         footer={[<Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>]}
       >
-        <Button className="absolute top-3 right-8" type="primary">
+        <Button className="absolute top-3 right-16" type="primary">
           {i18n.t('cmp:create Token')}
         </Button>
         <div className="rounded-sm p-4 bg-wathet text-gray mb-4">
@@ -231,7 +232,13 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         title: i18n.t('msp:token management'),
         onClick: () => {
           updater.tokenManageVisible(true);
-          console.log(record);
+          // console.log(record.name);
+          // getToken.fetch({
+          //   clusterName: 'abc'
+          // })
+          getToken.fetch({
+            clusterName: '123',
+          });
         },
       },
       addMachine: {
