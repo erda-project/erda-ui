@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Badge, Tooltip, message } from 'core/nusi';
+import { Badge, Tooltip, message, Avatar } from 'core/nusi';
 import AppCenter from './app-center';
 import GlobalNavigation from './globalNavigation';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
-import { Icon as CustomIcon, ImgHolder, ErdaCustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaCustomIcon } from 'common';
 import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
@@ -66,14 +66,7 @@ const AppCenterEl = () => {
         name: app.name,
         title: (
           <>
-            <ImgHolder
-              src={''}
-              bg={theme.primaryColor}
-              fg="FFFFFF"
-              text={app.name.slice(0, 1)}
-              rect="24x24"
-              alt="app-logo"
-            />
+            <Avatar>{app.name.slice(0, 1)}</Avatar>
             <span>{app.name}</span>
           </>
         ),

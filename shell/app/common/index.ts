@@ -15,7 +15,6 @@ export { connectCube } from './components/connect';
 export { Icon } from './components/icon';
 export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
 export { default as SimplePanel } from './components/simple-panel';
-export { ImgHolder } from './components/img-holder';
 export { default as AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
 export { ImageUpload } from './components/image-upload';

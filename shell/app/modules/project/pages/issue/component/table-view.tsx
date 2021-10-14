@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Tooltip, Dropdown, Menu, Progress } from 'core/nusi';
+import { Table, Tooltip, Dropdown, Menu, Progress, Avatar } from 'core/nusi';
 import issueStore from 'project/stores/issues';
 import moment from 'moment';
 import { map, omit, get, find } from 'lodash';
 import issueWorkflowStore from 'project/stores/issue-workflow';
-import { MemberSelector, Icon as CustomIcon, useUpdate, FilterBarHandle, ImgHolder } from 'common';
+import { MemberSelector, Icon as CustomIcon, useUpdate, FilterBarHandle } from 'common';
 import { ColumnProps } from 'core/common/interface';
 import { updateSearch, insertWhen } from 'common/utils';
 import IssueTitleLabel from './title-label';
@@ -72,7 +72,9 @@ export const memberSelectorValueItem = (user: any) => {
   const displayName = nick || label || value || i18n.t('common:none');
   return (
     <div className="flex items-center hover-active issue-field-selector">
-      <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" />
+      <Avatar src={avatar} size="small">
+        {nick ? nick.slice(0, 2) : i18n.t('none')}
+      </Avatar>
       <span className={'ml-2 text-sm'} title={name}>
         {displayName}
       </span>
