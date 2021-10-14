@@ -22,7 +22,6 @@ import { matchPath } from 'react-router-dom';
 import { Right as IconRight } from '@icon-park/react';
 import { Route } from 'core/common/interface';
 import { Breadcrumb, Tooltip } from 'core/nusi';
-import { ServiceNameSelect } from 'app/modules/msp/env-overview/service-list/pages/service-name-select';
 import './header.scss';
 
 const BreadcrumbItem = ({
@@ -76,7 +75,7 @@ const Header = () => {
 
   const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
-  const [pageNameInfo, setPageNameInfo] = React.useState<string>();
+  const [pageNameInfo, setPageNameInfo] = React.useState<Function>(() => {});
   const checkHasTemplate = React.useCallback(
     (breadcrumbName: string) => {
       const replacePattern = /\{([\w.])+\}/g;
@@ -123,7 +122,7 @@ const Header = () => {
     if (allRoutes.length) {
       const lastRoute = allRoutes[allRoutes.length - 1];
       const _title = getBreadcrumbTitle(lastRoute);
-      setPageNameInfo(lastRoute?.pageNameInfo);
+      setPageNameInfo(() => lastRoute?.pageNameInfo);
       setPageName(_title);
     }
   }, [allRoutes, getBreadcrumbTitle]);
@@ -168,19 +167,17 @@ const Header = () => {
     return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
   };
 
-  const displayPageName = (type: string | undefined) => {
-    switch (type) {
-      case 'service-analysis':
-        return <ServiceNameSelect />;
-      default:
-        return (
-          <div className="erda-header-title">
-            <div className="erda-header-title-text">
-              <Tooltip title={pageName}>{pageName}</Tooltip>
-            </div>
-          </div>
-        );
-    }
+  const displayPageName = () => {
+    const Comp = pageNameInfo;
+    return pageNameInfo ? (
+      <Comp />
+    ) : (
+      <div className="erda-header-title">
+        <div className="erda-header-title-text">
+          <Tooltip title={pageName}>{pageName}</Tooltip>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -189,12 +186,12 @@ const Header = () => {
         <Breadcrumb routes={allRoutes} itemRender={itemRender} params={params} separator={<IconRight size="14px" />} />
       </div>
 
-      <div className={`erda-header-top`}>
-        <div className={`erda-header-top-left`}>
-          <div className="erda-header-title-con">{pageName && displayPageName(pageNameInfo)}</div>
+      <div className={'erda-header-top'}>
+        <div className={'erda-header-top-left'}>
+          <div className="erda-header-title-con">{pageName && displayPageName()}</div>
         </div>
       </div>
-      <div className={`erda-header-content`}>
+      <div className={'erda-header-content'}>
         {headerInfo && <div className="header-info">{React.cloneElement(headerInfo)}</div>}
         <Tab />
       </div>

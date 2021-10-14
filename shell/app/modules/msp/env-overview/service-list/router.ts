@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { ServiceNameSelect } from './pages/service-name-select';
 
 const tabs = [
   { key: 'overview', name: i18n.t('backup:service') },
@@ -76,7 +77,7 @@ export default () => ({
               breadcrumbName: i18n.t('msp:service analysis'),
               tabs,
               alwaysShowTabKey: 'overview',
-              pageNameInfo: 'service-analysis',
+              pageNameInfo: ServiceNameSelect,
               layout: { fullHeight: true },
               routes: serviceAnalysisRoutes,
             },
@@ -96,7 +97,7 @@ export function serviceAnalysisRouter() {
     breadcrumbName: i18n.t('msp:service analysis'),
     tabs,
     alwaysShowTabKey: 'overview',
-    pageNameInfo: 'service-analysis',
+    pageNameInfo: ServiceNameSelect,
     layout: { fullHeight: true },
     routes: serviceAnalysisRoutes,
   };
