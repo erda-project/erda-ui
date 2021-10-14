@@ -842,10 +842,6 @@ export const EditIssueDrawer = (props: IProps) => {
     // 处理 issueManHour
     if (has(value, 'issueManHour')) {
       formattedValue.issueManHour = merge({}, formData.issueManHour, value.issueManHour);
-      if (tempStateData) {
-        formattedValue.state = tempStateData;
-        setTempStateData('');
-      }
     }
 
     const params: ISSUE.IssueType = merge({}, formData, formattedValue);
@@ -886,6 +882,11 @@ export const EditIssueDrawer = (props: IProps) => {
         focusOnFields(warnMessage[0].key);
         return false;
       }
+    }
+    // after validation, then set temp state in data. prevent enter line 857. see erda bug #235076
+    if (has(value, 'issueManHour') && tempStateData) {
+      formattedValue.state = tempStateData;
+      setTempStateData('');
     }
 
     let promise;
