@@ -75,7 +75,7 @@ const Header = () => {
 
   const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
-  const [pageNameInfo, setPageNameInfo] = React.useState<Function>(() => {});
+  const [pageNameInfo, setPageNameInfo] = React.useState<Function>();
   const checkHasTemplate = React.useCallback(
     (breadcrumbName: string) => {
       const replacePattern = /\{([\w.])+\}/g;
@@ -168,10 +168,11 @@ const Header = () => {
   };
 
   const displayPageName = () => {
-    const Comp = pageNameInfo;
-    return pageNameInfo ? (
-      <Comp />
-    ) : (
+    if (typeof pageNameInfo === 'function') {
+      const Comp = pageNameInfo;
+      return <Comp />;
+    }
+    return (
       <div className="erda-header-title">
         <div className="erda-header-title-text">
           <Tooltip title={pageName}>{pageName}</Tooltip>
