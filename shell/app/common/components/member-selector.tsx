@@ -19,8 +19,8 @@ import appMemberStore from 'common/stores/application-member';
 import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
 import { getUsers, getMembers, getUsersNew, getPlatformUserList, searchPlatformUserList } from 'common/services';
 import { MemberScope } from 'app/common/stores/member-scope';
-import { LoadMoreSelector, ImgHolder } from 'common';
-import { Tag, Select } from 'core/nusi';
+import { LoadMoreSelector } from 'common';
+import { Tag, Select, Avatar } from 'core/nusi';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from './load-more-selector';
@@ -64,7 +64,9 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
   const { avatar, nick, name, roles } = user;
   return (
     <>
-      <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
+      <Avatar src={avatar} size="small">
+        {nick ? nick.slice(0, 2) : i18n.t('none')}
+      </Avatar>
       {
         <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
@@ -97,7 +99,9 @@ const valueItemRender =
     const curCls = cls[size] || {};
     const item = (
       <>
-        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={curCls.img} type="avatar" />
+        <Avatar src={avatar} size="small">
+          {nick ? nick.slice(0, 2) : i18n.t('none')}
+        </Avatar>
         <span className={curCls.name} title={name}>
           {displayName}
         </span>
@@ -352,7 +356,9 @@ export const UserSelector = (props: any) => {
     const id = member.id || member.userId;
     return (
       <Option key={id} value={id}>
-        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
+        <Avatar src={avatar} size="small">
+          {nick ? nick.slice(0, 2) : i18n.t('none')}
+        </Avatar>
         <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
         </span>

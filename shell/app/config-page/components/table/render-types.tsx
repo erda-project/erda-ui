@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Badge } from 'core/nusi';
+import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Badge, Avatar } from 'core/nusi';
 import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
-import { Icon as CustomIcon, MemberSelector, ImgHolder, TagsRow, Copy, Ellipsis } from 'common';
+import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { RowContainer, Container } from '../container/container';
@@ -204,12 +204,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                 return (
                   <span key={idx}>
                     {val.showIcon === false ? null : (
-                      <ImgHolder
-                        src={cU.avatar}
-                        text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('none')}
-                        rect="20x20"
-                        type="avatar"
-                      />
+                      <Avatar src={cU.avatar} size="small">
+                        {nick ? nick.slice(0, 2) : i18n.t('none')}
+                      </Avatar>
                     )}
                     <span className="ml-0.5 mr-1" title={cU.name}>
                       {cU.nick || cU.name || val.value || i18n.t('common:none')}
@@ -399,7 +396,9 @@ const memberSelectorValueItem = (user: any) => {
   const displayName = nick || label || value || i18n.t('common:none');
   return (
     <div className="flex items-center dice-config-table-member-field-selector">
-      {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
+      <Avatar src={avatar} size="small">
+        {nick ? nick.slice(0, 2) : i18n.t('none')}
+      </Avatar>
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
       </span>
