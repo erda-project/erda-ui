@@ -71,7 +71,7 @@ declare namespace MONITOR_STATUS {
     id: string;
     mode: string;
     name: string;
-    config: object;
+    config: Obj;
   }
 
   interface IPastIncidents {

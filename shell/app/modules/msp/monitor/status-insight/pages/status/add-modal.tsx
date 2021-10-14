@@ -44,7 +44,7 @@ const { Option } = Select;
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
-const { HTTP_METHOD_LIST, TIMELIMITS, RETRYLIMITS, MAX_BODY_LENGTH } = constants;
+const { HTTP_METHOD_LIST, TIME_LIMITS, RETRY_LIMITS, MAX_BODY_LENGTH } = constants;
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
 interface IProps {
@@ -79,8 +79,8 @@ const AddModal = (props: IProps) => {
   const [{ showMore, retry, frequency, apiMethod, body, headers, url, query, condition }, updater, update] =
     useUpdate<IState>({
       showMore: false,
-      retry: RETRYLIMITS[0],
-      frequency: TIMELIMITS[0],
+      retry: RETRY_LIMITS[0],
+      frequency: TIME_LIMITS[0],
       apiMethod: HTTP_METHOD_LIST[0],
       body: '',
       headers: '',
@@ -414,9 +414,9 @@ const AddModal = (props: IProps) => {
                 }}
                 value={retry}
                 name="retryRadioGroup"
-                defaultValue={RETRYLIMITS[0]}
+                defaultValue={RETRY_LIMITS[0]}
               >
-                {map(RETRYLIMITS, (retryItem: number) => (
+                {map(RETRY_LIMITS, (retryItem: number) => (
                   <Radio className="pr-10" value={retryItem} key={retryItem}>
                     {retryItem}
                   </Radio>
@@ -431,9 +431,9 @@ const AddModal = (props: IProps) => {
                 }}
                 value={frequency}
                 name="timeRadioGroup"
-                defaultValue={TIMELIMITS[0]}
+                defaultValue={TIME_LIMITS[0]}
               >
-                {map(TIMELIMITS, (time: number) => (
+                {map(TIME_LIMITS, (time: number) => (
                   <Radio className="pr-10" value={time} key={time}>
                     {time}
                   </Radio>

@@ -13,7 +13,7 @@
 
 export default {
   HTTP_METHOD_LIST: ['GET', 'POST', 'PUT', 'HEAD'],
-  TIMELIMITS: [15, 30, 60, 300],
-  RETRYLIMITS: [1, 2, 4, 8],
+  TIME_LIMITS: [15, 30, 60, 300],
+  RETRY_LIMITS: [1, 2, 4, 8],
   MAX_BODY_LENGTH: 10000,
 };

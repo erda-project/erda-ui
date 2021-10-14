@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getProjectDashboard = ({ ...query }: MONITOR_STATUS.IDashboardQuery): MONITOR_STATUS.IDashboardResp => {
+export const getProjectDashboard = (query: MONITOR_STATUS.IDashboardQuery): MONITOR_STATUS.IDashboardResp => {
   return agent
     .get('/api/spot/msp/apm/checkers/dashboard')
     .query(query)
