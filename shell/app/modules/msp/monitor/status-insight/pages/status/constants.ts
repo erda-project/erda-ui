@@ -14,6 +14,17 @@
 export default {
   HTTP_METHOD_LIST: ['GET', 'POST', 'PUT', 'HEAD'],
   TIME_LIMITS: [15, 30, 60, 300],
-  RETRY_LIMITS: [1, 2, 4, 8],
+  RETRY_TIMES: [1, 2, 4, 8],
+  OPERATOR_LIST: [
+    { key: '=', name: '等于' },
+    { key: '>', name: '大于' },
+    { key: '>=', name: '大于等于' },
+    { key: '<', name: '小于' },
+    { key: '<=', name: '小于等于' },
+  ],
+  CONTAIN_LIST: [
+    { key: 'contains', name: '包含' },
+    { key: 'not_contains', name: '不包含' },
+  ],
   MAX_BODY_LENGTH: 10000,
 };

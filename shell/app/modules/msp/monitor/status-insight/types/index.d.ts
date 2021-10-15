@@ -68,9 +68,10 @@ declare namespace MONITOR_STATUS {
 
   interface IMetricsBody {
     env: string;
-    id: string;
     mode: string;
     name: string;
+    projectId: string;
+    id: string;
     config: Obj;
   }
 

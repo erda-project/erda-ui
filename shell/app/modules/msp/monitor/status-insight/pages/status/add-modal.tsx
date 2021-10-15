@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { omitBy, map } from 'lodash';
-import { FormModal, KeyValueEditor, useUpdate } from 'common';
+import { map } from 'lodash';
+import { FormModal, useUpdate, KeyValueTable } from 'common';
 import { regRules, qs } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import constants from './constants';
 import './add-modal.scss';
-import { Input, Select, Radio, Tabs, Form, Tooltip, Button } from 'core/nusi';
+import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import {
   Down as IconDown,
@@ -30,21 +30,11 @@ import {
   Help as IconHelp,
 } from '@icon-park/react';
 
-const ruleOfJson = {
-  validator: async (_, value: string) => {
-    try {
-      JSON.parse(value);
-    } catch {
-      throw new Error(i18n.t('msp:please enter the correct JSON format'));
-    }
-  },
-};
-
 const { Option } = Select;
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
-const { HTTP_METHOD_LIST, TIME_LIMITS, RETRY_LIMITS, MAX_BODY_LENGTH } = constants;
+const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATOR_LIST, RETRY_TIMES, MAX_BODY_LENGTH, CONTAIN_LIST } = constants;
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
 interface IProps {
@@ -64,11 +54,60 @@ interface IState {
   frequency: number;
   apiMethod: string;
   body: string;
-  headers: string;
+  headers: Obj;
   url: string;
-  query: object;
+  query: Obj;
   condition: ITrigger[];
 }
+
+const convertFormData = (_formData: Obj) => {
+  if (_formData) {
+    return {
+      retry: _formData?.config?.retry || RETRY_TIMES[0],
+      frequency: _formData?.config?.interval || TIME_LIMITS[0],
+      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
+      body: _formData?.config?.body || '',
+      headers: _formData?.config?.headers || {},
+      url: _formData?.config?.url || '',
+      query: qs.parseUrl(_formData?.config?.url || '')?.query || {},
+      condition: _formData?.config?.triggering || [
+        {
+          key: 'http_code',
+          operate: '>=',
+          value: 400,
+        },
+      ],
+    };
+  } else {
+    return {
+      condition: [
+        {
+          key: 'http_code',
+          operate: '>=',
+          value: 400,
+        },
+      ],
+      showMore: false,
+      query: {},
+      retry: RETRY_TIMES[0],
+      frequency: TIME_LIMITS[0],
+      apiMethod: HTTP_METHOD_LIST[0],
+      body: '',
+      headers: {},
+      url: '',
+    };
+  }
+};
+
+const ruleOfJson = {
+  validator: async (_, value: string) => {
+    try {
+      JSON.parse(value);
+    } catch {
+      throw new Error(i18n.t('msp:please enter the correct JSON format'));
+    }
+  },
+};
 
 const AddModal = (props: IProps) => {
   const { formData, modalVisible, afterSubmit, toggleModal } = props;
@@ -79,90 +118,53 @@ const AddModal = (props: IProps) => {
   const [{ showMore, retry, frequency, apiMethod, body, headers, url, query, condition }, updater, update] =
     useUpdate<IState>({
       showMore: false,
-      retry: RETRY_LIMITS[0],
-      frequency: TIME_LIMITS[0],
-      apiMethod: HTTP_METHOD_LIST[0],
-      body: '',
-      headers: '',
-      url: '',
-      query: {},
-      condition: [
-        {
-          key: 'http_code',
-          operate: '>=',
-          value: 400,
-        },
-      ],
+      ...convertFormData(formData),
     });
 
   React.useEffect(() => {
     if (!modalVisible) {
-      update({
-        condition: [
-          {
-            key: 'http_code',
-            operate: '>=',
-            value: 400,
-          },
-        ],
-        showMore: false,
-        query: {},
-      });
+      update(convertFormData(formData));
+    } else {
+      update(convertFormData(formData));
     }
   }, [modalVisible]);
 
   const deleteItem = (index: number) => {
     condition.splice(index, 1);
-    const newData = [...condition];
-    update({
-      condition: newData,
-    });
+    updater.condition([...condition]);
   };
 
   const addItem = () => {
     condition.push({
       key: 'http_code',
-      operate: '=',
+      operate: '>=',
       value: '',
     });
-    const newData = [...condition];
-    update({
-      condition: newData,
-    });
+    updater.condition([...condition]);
   };
 
   const setInputValue = (index: number, value: number | string) => {
-    if (condition[index]) {
-      condition[index].value = value;
-    }
-    update({
-      condition: [...condition],
-    });
+    condition[index].value = value;
+    updater.condition([...condition]);
   };
 
-  const setOperate = (index: number, operate: string) => {
+  const setOperator = (index: number, operate: string) => {
     if (condition[index]) {
       condition[index].operate = operate;
     }
-    update({
-      condition: [...condition],
-    });
+    updater.condition([...condition]);
   };
 
   const setKey = (index: number, key: string) => {
     if (condition[index]) {
       condition[index].key = key;
     }
-    update({
-      condition: [...condition],
-    });
+    updater.condition([...condition]);
   };
 
-  const setUrlParm = (queryConfig: { [key: string]: string }) => {
-    formRef?.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
-    update({
-      url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}`,
-    });
+  const setUrlParms = (queryConfig: Obj) => {
+    formRef.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
+    updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
   };
 
   const formatBody = () => {
@@ -176,31 +178,37 @@ const AddModal = (props: IProps) => {
   };
 
   const handleSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
-    const { ...rest } = _data;
-    const others = omitBy(rest, (v, k) => k.startsWith('reg_')) as any;
-    if (rest.id) {
+    const { mode, name, id } = _data;
+    if (id) {
       updateMetric({
-        ...others,
+        id,
+        env,
+        mode,
+        name,
         projectId,
         config: {
+          url,
           retry,
           interval: frequency,
           headers,
-          body,
+          body: JSON.parse(body),
           method: apiMethod,
           triggering: condition,
         },
       }).then(afterSubmit);
     } else {
       saveService({
-        ...others,
+        id,
+        env,
+        mode,
+        name,
         projectId,
         config: {
           retry,
           interval: frequency,
           headers,
           url,
-          body,
+          body: JSON.parse(body),
           method: apiMethod,
           triggering: condition,
         },
@@ -210,16 +218,6 @@ const AddModal = (props: IProps) => {
     }
     toggleModal();
   };
-
-  let data = formData;
-  if (formData) {
-    // number 的 accountId 会被直接展示在 select 上，而不是去匹配相应的 name
-    const { accountId } = formData;
-    data = {
-      ...formData,
-      accountId: accountId ? accountId.toString() : null,
-    };
-  }
 
   const fieldsList = [
     {
@@ -255,93 +253,64 @@ const AddModal = (props: IProps) => {
       label: 'URL',
       name: 'url',
       rules: [{ ...regRules.http }],
-      getComp: () => {
-        return (
-          <Input
-            onChange={(e) => {
-              update({
-                url: e.target.value,
-              });
+      itemProps: {
+        addonBefore: (
+          <Select
+            value={apiMethod}
+            onChange={(value) => {
+              updater.apiMethod(value);
             }}
-            onBlur={(e) => {
-              update({
-                query: qs.parseUrl(e.target.value).query,
-              });
-            }}
-            addonBefore={
-              <Select
-                value={apiMethod}
-                onChange={(value: string) => {
-                  update({
-                    apiMethod: value,
-                  });
-                }}
-                style={{ width: 110 }}
-              >
-                {map(HTTP_METHOD_LIST, (method) => (
-                  <Option value={method} key={method}>
-                    {method}
-                  </Option>
-                ))}
-              </Select>
-            }
-            className="url"
-            placeholder={i18n.t('project:please enter')}
-          />
-        );
+            style={{ width: 110 }}
+          >
+            {map(HTTP_METHOD_LIST, (method) => (
+              <Option value={method} key={method}>
+                {method}
+              </Option>
+            ))}
+          </Select>
+        ),
+        onChange: (e) => {
+          updater.url(e.target.value);
+        },
+        onBlur: () => {
+          updater.query(qs.parseUrl(url).query);
+        },
       },
     },
     {
+      name: 'settings',
       getComp: () => {
         return (
-          <div>
+          <div className="h-full">
             <Tabs defaultActiveKey="1">
               <TabPane tab="Params" key="1">
-                <div>
-                  <KeyValueEditor
-                    isNeedTextArea={false}
-                    tableProps={{
-                      size: 'default',
-                    }}
-                    dataSource={query}
-                    form={form}
-                    onChange={(params) => {
-                      setUrlParm(params);
-                    }}
-                  />
-                </div>
+                <KeyValueTable isTextArea={false} data={query} form={form} onChange={setUrlParms} onDel={setUrlParms} />
               </TabPane>
               <TabPane tab="Headers" key="2">
-                <div>
-                  <KeyValueEditor
-                    isNeedTextArea={false}
-                    tableProps={{
-                      size: 'default',
-                    }}
-                    onChange={(headers: any) => {
-                      update({
-                        headers,
-                      });
-                    }}
-                    form={form}
-                  />
-                </div>
+                <KeyValueTable
+                  isTextArea={false}
+                  onChange={(header: any) => {
+                    updater.headers(header);
+                  }}
+                  data={headers}
+                  form={form}
+                />
               </TabPane>
               <TabPane tab="Body" key="3">
                 <Button className="mb-4" size="small" type="primary" onClick={formatBody}>
-                  Beautify
+                  {i18n.t('format')}
                 </Button>
                 <FormItem name="body" rules={[ruleOfJson]}>
                   <TextArea
-                    autoSize={{ minRows: 3, maxRows: 8 }}
+                    autoSize={{ minRows: 5, maxRows: 12 }}
                     maxLength={MAX_BODY_LENGTH}
                     placeholder={
                       i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH.toString()
                     }
-                    onChange={(e) => {
-                      update({
-                        body: e.target.value,
-                      });
+                    value={body}
+                    onChange={(e: any) => {
+                      updater.body(e.target.value);
+                      formRef.current?.setFieldsValue({ body: e.target.value });
                     }}
                   />
                 </FormItem>
@@ -352,17 +321,18 @@ const AddModal = (props: IProps) => {
       },
     },
     {
+      name: 'more',
       getComp: () => {
         return (
           <div>
-            <a
+            <span
               onClick={() => {
-                update({ showMore: !showMore });
+                updater.showMore(!showMore);
               }}
             >
               {i18n.t('advanced settings')}
               {showMore ? <IconUp size="16px" /> : <IconDown size="16px" />}
-            </a>
+            </span>
             <div className={`p-4 mt-2 h-full bg-grey ${showMore ? '' : 'hidden'}`}>
               <div className="flex">
                 <h4 className="mb-2">{i18n.t('msp:anomaly check')}</h4>
@@ -376,28 +346,55 @@ const AddModal = (props: IProps) => {
                       <div className="flex items-center mb-2">
                         <Select
                           value={item?.key}
-                          onChange={(v) => setKey(index, v)}
+                          onChange={(v) => {
+                            if (v === 'http_code') {
+                              condition[index].operate = '>=';
+                            } else {
+                              condition[index].operate = 'contains';
+                            }
+                            setKey(index, v);
+                          }}
                           style={{ width: 110 }}
                           className="mr-2"
                         >
                           <Option value="http_code">{i18n.t('org:state code')}</Option>
                           <Option value="body">{i18n.t('request body')}</Option>
                         </Select>
-                        <Select
-                          onChange={(v) => setOperate(index, v)}
-                          style={{ width: 150 }}
-                          value={item?.operate}
-                          className="api-test-select mr-2"
-                          placeholder={i18n.t('project:compare')}
-                        >
-                          <Option value=">">{i18n.t('project:more than the')}</Option>
-                          <Option value=">=">{i18n.t('project:greater than or equal to')}</Option>
-                          <Option value="=">{i18n.t('project:equal to')}</Option>
-                          <Option value="<=">{i18n.t('project:less than or equal to')}</Option>
-                          <Option value="<">{i18n.t('project:less than')}</Option>
-                          <Option value="contains">{i18n.t('project:contains')}</Option>
-                        </Select>
-                        <Input value={item?.value} onChange={(e) => setInputValue(index, e.target.value)} />
+                        {item.key === 'http_code' ? (
+                          <>
+                            <Select
+                              onChange={(v) => setOperator(index, v)}
+                              style={{ width: 150 }}
+                              value={item?.operate}
+                              className="mr-2"
+                              placeholder={i18n.t('project:compare')}
+                            >
+                              {map(OPERATOR_LIST, (compare) => (
+                                <Option value={compare.key}>{compare.name}</Option>
+                              ))}
+                            </Select>
+                            <InputNumber
+                              value={item?.value}
+                              className="flex-1"
+                              onChange={(v) => setInputValue(index, v)}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <Select
+                              onChange={(v) => setOperator(index, v)}
+                              style={{ width: 150 }}
+                              value={item?.operate}
+                              className="mr-2"
+                              placeholder={i18n.t('project:compare')}
+                            >
+                              {map(CONTAIN_LIST, (contain) => (
+                                <Option value={contain.key}>{contain.name}</Option>
+                              ))}
+                            </Select>
+                            <Input value={item?.value} onChange={(e) => setInputValue(index, e.target.value)} />
+                          </>
+                        )}
                         <IconReduceOne className="ml-2" size="16" onClick={() => deleteItem(index)} />
                       </div>
                     ))
@@ -408,34 +405,30 @@ const AddModal = (props: IProps) => {
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
               <Radio.Group
                 onChange={(e) => {
-                  update({
-                    retry: e.target.value,
-                  });
+                  updater.retry(e.target.value);
                 }}
                 value={retry}
                 name="retryRadioGroup"
-                defaultValue={RETRY_LIMITS[0]}
+                defaultValue={RETRY_TIMES[0]}
               >
-                {map(RETRY_LIMITS, (retryItem: number) => (
-                  <Radio className="pr-10" value={retryItem} key={retryItem}>
-                    {retryItem}
+                {map(RETRY_TIMES, (retryTime: number) => (
+                  <Radio className="pr-10" value={retryTime} key={retryTime}>
+                    {retryTime}
                   </Radio>
                 ))}
               </Radio.Group>
               <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
               <Radio.Group
                 onChange={(e) => {
-                  update({
-                    frequency: e.target.value,
-                  });
+                  updater.frequency(e.target.value);
                 }}
                 value={frequency}
                 name="timeRadioGroup"
                 defaultValue={TIME_LIMITS[0]}
               >
-                {map(TIME_LIMITS, (time: number) => (
+                {map(TIME_LIMITS, (time) => (
                   <Radio className="pr-10" value={time} key={time}>
-                    {time}
+                    {time < 60 ? `${time}秒` : `${time / 60}分钟`}
                   </Radio>
                 ))}
               </Radio.Group>
@@ -445,7 +438,6 @@ const AddModal = (props: IProps) => {
       },
     },
   ];
-
   return (
     <FormModal
       ref={formRef}
@@ -454,7 +446,7 @@ const AddModal = (props: IProps) => {
       title={i18n.t('msp:add monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
-      formData={data}
+      formData={formData}
       onOk={handleSubmit}
       onCancel={toggleModal}
       modalProps={{
