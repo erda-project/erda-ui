@@ -54,7 +54,7 @@ declare namespace CP_TEXT {
 
   interface ILinkTextData {
     text: Array<ILinkTarget | string> | ILinkTarget | string;
-    isPureText: boolean;
+    direction?: 'row' | 'column';
   }
 
   interface ILinkTarget {
