@@ -5,9 +5,7 @@
 </div>
 
 [![codecov](https://codecov.io/gh/erda-project/erda-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/erda-project/erda-ui)
-
 ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
-
 [![release](https://img.shields.io/github/release/erda-project/erda/all.svg)](https://github.com/erda-project/erda/releases)
 
 ## 📣 Introduction
