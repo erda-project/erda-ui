@@ -101,7 +101,7 @@ const TestPlan = () => {
       },
     },
     {
-      title: i18n.t('project:iteration name'),
+      title: i18n.t('project:owned iteration'),
       dataIndex: 'iterationName',
       width: 160,
     },
