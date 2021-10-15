@@ -14,8 +14,9 @@
 import React from 'react';
 import { map, isEmpty } from 'lodash';
 import { Row, Col, Tooltip, Button } from 'core/nusi';
-import { Responsive, ErrorBoundary, IF, useMediaLt } from 'common';
+import { Responsive, ErrorBoundary, IF,  } from 'common';
 import { goTo, getLS, setLS, qs } from 'common/utils';
+import { useMediaLt } from 'common/use-hooks';
 import { getMSFrontPathByKey } from 'msp/config';
 import ServiceCard from './service-card';
 import AddonCard from './addon-card';

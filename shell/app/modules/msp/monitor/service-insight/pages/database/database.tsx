@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Row, Col, Drawer } from 'core/nusi';
-import { useSwitch, SimpleLog } from 'common';
+import { SimpleLog } from 'common';
+import { useSwitch } from "common/use-hooks";
 import { getFilterParams } from 'service-insight/common/utils';
 import DataBaseMap from './config/chartMap';
 import TopTabRight from 'service-insight/common/components/tab-right';

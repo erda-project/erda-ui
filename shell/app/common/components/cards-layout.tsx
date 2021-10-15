@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { useComponentWidth } from './use-hooks';
+import { useComponentWidth } from '../use-hooks';
 import { IF } from 'common';
 import './cards-layout.scss';
 
