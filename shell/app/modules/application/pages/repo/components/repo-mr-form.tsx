@@ -13,7 +13,8 @@
 
 import { Button, Menu, Dropdown, message, Tooltip } from 'core/nusi';
 import React from 'react';
-import { RenderForm, FormModal, connectCube, MemberSelector } from 'common';
+import { RenderForm, FormModal, MemberSelector } from 'common';
+import { connectCube } from 'common/utils';
 import Markdown from 'common/utils/marked';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import SourceTargetSelect from './source-target-select';
