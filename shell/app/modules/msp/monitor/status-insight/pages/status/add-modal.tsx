@@ -314,7 +314,6 @@ const AddModal = (props: IProps) => {
                     value={body}
                     onChange={(e: any) => {
                       updater.body(e.target.value);
-                      // formRef.current?.setFieldsValue({ body: e.target.value });
                     }}
                   />
                 </FormItem>
