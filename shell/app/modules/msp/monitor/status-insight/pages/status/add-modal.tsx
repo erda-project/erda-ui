@@ -34,7 +34,7 @@ const { Option } = Select;
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
-const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATOR_LIST, RETRY_TIMES, MAX_BODY_LENGTH, CONTAIN_LIST } = constants;
+const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, RETRY_TIMES, MAX_BODY_LENGTH, CONTAINS } = constants;
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
 interface IProps {
@@ -66,7 +66,7 @@ const convertFormData = (_formData: Obj) => {
       retry: _formData?.config?.retry || RETRY_TIMES[0],
       frequency: _formData?.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData?.config?.body || '',
+      body: _formData?.config?.body || {},
       headers: _formData?.config?.headers || {},
       url: _formData?.config?.url || '',
       query: qs.parseUrl(_formData?.config?.url || '')?.query || {},
@@ -101,10 +101,12 @@ const convertFormData = (_formData: Obj) => {
 
 const ruleOfJson = {
   validator: async (_, value: string) => {
-    try {
-      JSON.parse(value);
-    } catch {
-      throw new Error(i18n.t('msp:please enter the correct JSON format'));
+    if (value) {
+      try {
+        JSON.parse(value);
+      } catch {
+        throw new Error(i18n.t('msp:please enter the correct JSON format'));
+      }
     }
   },
 };
@@ -163,17 +165,19 @@ const AddModal = (props: IProps) => {
   };
 
   const setUrlParms = (queryConfig: Obj) => {
-    formRef.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
-    updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
+    if (url) {
+      formRef.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
+      updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
+    }
   };
 
   const formatBody = () => {
     if (body) {
       const jsonObj = JSON.parse(body);
       update({
-        body: JSON.stringify(jsonObj, null, 4),
+        body: JSON.stringify(jsonObj, null, 2),
       });
-      formRef.current?.setFieldsValue({ body: JSON.stringify(jsonObj, null, 4) });
+      formRef.current?.setFieldsValue({ body: JSON.stringify(jsonObj, null, 2) });
     }
   };
 
@@ -191,7 +195,7 @@ const AddModal = (props: IProps) => {
           retry,
           interval: frequency,
           headers,
-          body: JSON.parse(body),
+          body,
           method: apiMethod,
           triggering: condition,
         },
@@ -208,7 +212,7 @@ const AddModal = (props: IProps) => {
           interval: frequency,
           headers,
           url,
-          body: JSON.parse(body),
+          body,
           method: apiMethod,
           triggering: condition,
         },
@@ -310,7 +314,7 @@ const AddModal = (props: IProps) => {
                     value={body}
                     onChange={(e: any) => {
                       updater.body(e.target.value);
-                      formRef.current?.setFieldsValue({ body: e.target.value });
+                      // formRef.current?.setFieldsValue({ body: e.target.value });
                     }}
                   />
                 </FormItem>
@@ -369,8 +373,8 @@ const AddModal = (props: IProps) => {
                               className="mr-2"
                               placeholder={i18n.t('project:compare')}
                             >
-                              {map(OPERATOR_LIST, (compare) => (
-                                <Option value={compare.key}>{compare.name}</Option>
+                              {map(OPERATORS, (value, key) => (
+                                <Option value={key}>{value}</Option>
                               ))}
                             </Select>
                             <InputNumber
@@ -388,8 +392,8 @@ const AddModal = (props: IProps) => {
                               className="mr-2"
                               placeholder={i18n.t('project:compare')}
                             >
-                              {map(CONTAIN_LIST, (contain) => (
-                                <Option value={contain.key}>{contain.name}</Option>
+                              {map(CONTAINS, (val, key) => (
+                                <Option value={key}>{val}</Option>
                               ))}
                             </Select>
                             <Input value={item?.value} onChange={(e) => setInputValue(index, e.target.value)} />
@@ -428,7 +432,7 @@ const AddModal = (props: IProps) => {
               >
                 {map(TIME_LIMITS, (time) => (
                   <Radio className="pr-10" value={time} key={time}>
-                    {time < 60 ? `${time}秒` : `${time / 60}分钟`}
+                    {time < 60 ? `${time}${i18n.t('common:second(s)')}` : `${time / 60}${i18n.t('common:minutes')}`}
                   </Radio>
                 ))}
               </Radio.Group>
