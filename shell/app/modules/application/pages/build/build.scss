@@ -124,6 +124,12 @@
   text-align: center;
 }
 
+.commit-tip {
+  .ant-tooltip-inner {
+    max-width: 500px;
+  }
+}
+
 .flow-darkgray {
   background: $darkgray;
 }
