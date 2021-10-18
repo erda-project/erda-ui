@@ -24,7 +24,6 @@ const Mock = () => {
       scenarioType="addon-account-manage"
       scenarioKey={'addon-account-manage'}
       inParams={inParams}
-      forceMock
     />
   );
 };
