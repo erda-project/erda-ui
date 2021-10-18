@@ -15,9 +15,9 @@ import React, { useCallback, useMemo } from 'react';
 import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { goTo } from 'common/utils';
 import { Drawer, Radio, Select, Table, Tag, Tooltip } from 'core/nusi';
-import { SimpleLog, useUpdate, DebounceSearch, Ellipsis } from 'common';
+import { SimpleLog, DebounceSearch, Ellipsis, EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
@@ -26,6 +26,7 @@ import TraceSearchDetail from 'trace-insight/pages/trace-querier/trace-search-de
 import mspStore from 'msp/stores/micro-service';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
+import serviceAnalyticsStore from 'msp/stores/service-analytics';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
@@ -139,6 +140,11 @@ const Transaction = () => {
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
+  const [serviceId, _serviceName, _applicationId] = serviceAnalyticsStore.useStore((s) => [
+    s.serviceId,
+    s.serviceName,
+    s.applicationId,
+  ]);
   const [
     {
       type,
@@ -191,19 +197,21 @@ const Transaction = () => {
     queryLimit: number,
     cellValue: string,
   ) => {
-    const { serviceName, terminusKey, serviceId } = params;
+    const { serviceName, terminusKey } = params;
     updater.sortType(sort_type);
     updater.limit(queryLimit);
-    getTraceSlowTranslation({
-      sort: sort_type,
-      start: startTimeMs,
-      end: endTimeMs,
-      terminusKey,
-      serviceName,
-      limit: queryLimit,
-      serviceId: window.decodeURIComponent(serviceId),
-      operation: cellValue,
-    }).then((res) => updater.traceSlowTranslation(res));
+    if (serviceId) {
+      getTraceSlowTranslation({
+        sort: sort_type,
+        start: startTimeMs,
+        end: endTimeMs,
+        terminusKey,
+        serviceName: serviceName || _serviceName,
+        limit: queryLimit,
+        serviceId,
+        operation: cellValue,
+      }).then((res) => updater.traceSlowTranslation(res));
+    }
   };
 
   const handleChangeLimit = React.useCallback(
@@ -231,7 +239,7 @@ const Transaction = () => {
         queryTraceSlowTranslation(defaultTimeSort, limits[0], cellValue);
       }
     },
-    [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs],
+    [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs, serviceId],
   );
 
   const [columns, dataSource] = useMemo(() => {
@@ -284,8 +292,6 @@ const Transaction = () => {
 
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search || topic;
-    const { serviceId } = params;
-    const _serviceId = window.decodeURIComponent(serviceId);
     // 动态注入正则查询变量需要转义字符
     _subSearch &&
       REG_CHARS.forEach((char) => {
@@ -294,11 +300,11 @@ const Transaction = () => {
     // Backend requires accurate value, need to pass the value like this
     let _condition = '';
     if (callType === 'consumer') {
-      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer')`;
+      _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer')`;
     } else if (callType === 'producer') {
       _condition = `(source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
     } else {
-      _condition = `(target_service_id::tag='${_serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
+      _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${serviceId}' and span_kind::tag='producer')`;
     }
     return {
       topic,
@@ -307,9 +313,9 @@ const Transaction = () => {
       type: callType,
       condition: type === DASHBOARD_TYPE.mq ? _condition : undefined,
       subSearch: _subSearch || undefined,
-      serviceId: window.decodeURIComponent(serviceId),
+      serviceId,
     };
-  }, [subSearch, search, topic, params, callType, sort, type]);
+  }, [subSearch, search, topic, callType, sort, type, serviceId]);
 
   return (
     <div className="service-analyze flex flex-col h-full">
@@ -379,14 +385,18 @@ const Transaction = () => {
           </Tag>
         </If>
       </div>
-      <div className="overflow-auto flex-1">
-        <ServiceListDashboard
-          key={`${startTimeMs}-${endTimeMs}`}
-          dashboardId={dashboardIdMap[type].id}
-          extraGlobalVariable={extraGlobalVariable}
-          onBoardEvent={handleBoardEvent}
-        />
-      </div>
+      {serviceId ? (
+        <div className="overflow-auto flex-1">
+          <ServiceListDashboard
+            key={`${startTimeMs}-${endTimeMs}`}
+            dashboardId={dashboardIdMap[type].id}
+            extraGlobalVariable={extraGlobalVariable}
+            onBoardEvent={handleBoardEvent}
+          />
+        </div>
+      ) : (
+        <EmptyHolder relative />
+      )}
       <Drawer
         title={tracingDrawerTitle}
         width="80%"
@@ -426,7 +436,7 @@ const Transaction = () => {
           visible={logVisible}
           onClose={() => updater.logVisible(false)}
         >
-          <SimpleLog requestId={traceId} applicationId={params?.applicationId} />
+          <SimpleLog requestId={traceId} applicationId={params?.applicationId || _applicationId} />
         </Drawer>
       </Drawer>
       <TraceSearchDetail traceId={traceId} />

@@ -14,7 +14,8 @@
 import React from 'react';
 import { Table as PureTable, Menu, Button, Dropdown, Checkbox } from 'core/nusi';
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
-import { useUpdate, Icon as CustomIcon, Title } from 'common';
+import { Icon as CustomIcon, Title } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useUserMap } from 'core/stores/userMap';
 import { OperationAction } from 'app/config-page/utils';
 import { getRender, getTitleRender } from './render-types';

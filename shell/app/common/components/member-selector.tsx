@@ -19,8 +19,8 @@ import appMemberStore from 'common/stores/application-member';
 import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
 import { getUsers, getMembers, getUsersNew, getPlatformUserList, searchPlatformUserList } from 'common/services';
 import { MemberScope } from 'app/common/stores/member-scope';
-import { LoadMoreSelector, ImgHolder } from 'common';
-import { Tag, Select } from 'core/nusi';
+import { LoadMoreSelector } from 'common';
+import { Tag, Select, Avatar } from 'core/nusi';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from './load-more-selector';
@@ -64,7 +64,9 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
   const { avatar, nick, name, roles } = user;
   return (
     <>
-      <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
+      <Avatar src={avatar || undefined} size="small">
+        {nick ? nick.slice(0, 2) : i18n.t('none')}
+      </Avatar>
       {
         <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
@@ -84,12 +86,12 @@ const valueItemRender =
     const displayName = value === USER_NONE ? i18n.t('unspecified') : nick || label || value || i18n.t('common:none');
     const cls = {
       normal: {
-        img: '20x20',
+        size: 20,
         name: 'ml-2 text-sm',
         tag: 'py-1 px-2',
       },
       small: {
-        img: '14x14',
+        size: 14,
         name: 'ml-2',
         tag: 'py-0.5 px-1 member-value-small',
       },
@@ -97,7 +99,9 @@ const valueItemRender =
     const curCls = cls[size] || {};
     const item = (
       <>
-        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={curCls.img} type="avatar" />
+        <Avatar size={curCls.size} src={avatar || undefined}>
+          {nick ? nick.slice(0, 2) : i18n.t('none')}
+        </Avatar>
         <span className={curCls.name} title={name}>
           {displayName}
         </span>
@@ -352,7 +356,9 @@ export const UserSelector = (props: any) => {
     const id = member.id || member.userId;
     return (
       <Option key={id} value={id}>
-        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
+        <Avatar src={avatar} size="small">
+          {nick ? nick.slice(0, 2) : i18n.t('none')}
+        </Avatar>
         <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
         </span>
@@ -368,7 +374,7 @@ export const UserSelector = (props: any) => {
       filterOption={false}
       defaultActiveFirstOption={false}
       placeholder={i18n.t('Please enter nickname, name, email or mobile phone number to search.')}
-      onSearch={debounce(handleSearch, 200, { maxWait: 500 })}
+      onSearch={debounce(handleSearch, 800)}
       {...props}
     >
       {(searchResult || []).map(userOptionRender)}

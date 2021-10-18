@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, IF, useUpdate } from 'common';
+import { Icon as CustomIcon, IF } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Dropdown, Input } from 'core/nusi';
 import React from 'react';
 import { isEqual, isEmpty, debounce } from 'lodash';

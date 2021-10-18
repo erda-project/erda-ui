@@ -19,7 +19,7 @@ import { map, keys } from 'lodash';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import { ISSUE_LIST_MAP } from 'org/common/config';
 import { IssueFieldSettingModal } from 'org/pages/projects/issue-field-setting-modal';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import orgStore from 'app/org-home/stores/org';
 

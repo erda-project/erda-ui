@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, get, omit, difference, isEmpty, flatten } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { NodeType, CHART_NODE_SIZE, NodeEleMap } from '../config';
 import { YmlChart, externalKey, CHART_CONFIG } from '../chart';
 import i18n from 'i18n';

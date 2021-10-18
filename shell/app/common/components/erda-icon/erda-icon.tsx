@@ -46,20 +46,7 @@ export const iconMap = {
   help: IconHelp,
 };
 
-type IIconType =
-  | 'lock'
-  | 'unlock'
-  | 'time'
-  | 'application-one'
-  | 'user'
-  | 'link-cloud-sucess'
-  | 'link-cloud-faild'
-  | 'category-management'
-  | 'list-numbers'
-  | 'api-app'
-  | 'double-right'
-  | 'help'
-  | 'application-menu';
+type IIconType = keyof typeof iconMap;
 
 type StrokeLinejoin = 'miter' | 'round' | 'bevel';
 type StrokeLinecap = 'butt' | 'round' | 'square';

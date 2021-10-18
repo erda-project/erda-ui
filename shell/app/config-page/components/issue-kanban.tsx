@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, find, isEmpty, without, get } from 'lodash';
-import { useUpdate, EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Card } from './card/card';
 import { Input, Button, Popconfirm, Tooltip } from 'core/nusi';
 import { notify } from 'common/utils';

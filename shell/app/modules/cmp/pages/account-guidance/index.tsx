@@ -14,7 +14,8 @@
 import React from 'react';
 import cloudAccountStore from 'app/modules/cmp/stores/cloud-account';
 import { guidanceImgMap } from './config';
-import { FormModal, useUpdate } from 'common';
+import { FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get, map, reduce } from 'lodash';
 import { getAccountsFieldsList } from 'cmp/common/cloud-common';
 import i18n from 'i18n';

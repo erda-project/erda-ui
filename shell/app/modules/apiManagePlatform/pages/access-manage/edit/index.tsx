@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Spin, Alert, Button } from 'core/nusi';
-import { RenderForm, useUpdate, MultiInput } from 'common';
+import { RenderForm, MultiInput } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
 import { FormInstance } from 'core/common/interface';

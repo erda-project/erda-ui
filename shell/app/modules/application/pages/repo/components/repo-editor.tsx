@@ -13,7 +13,8 @@
 
 import { Button, message, Input } from 'core/nusi';
 import React from 'react';
-import { RenderForm, FileEditor, useUpdate } from 'common';
+import { RenderForm, FileEditor } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { notify } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { getInfoFromRefName } from '../util';

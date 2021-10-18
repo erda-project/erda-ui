@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, Table } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { formatTime, goTo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';

@@ -15,7 +15,7 @@ import React from 'react';
 import { Table, Button, Modal, Tooltip, Select } from 'core/nusi';
 import { goTo, cutStr, resolvePath } from 'common/utils';
 import { reverse, map, filter, floor } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import StatusChart from './status-chart';
 import AddModal from './add-modal';
 import monitorStatusStore from 'status-insight/stores/status';

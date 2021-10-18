@@ -16,7 +16,8 @@ import { Button } from 'core/nusi';
 import { isEmpty, map, get } from 'lodash';
 import i18n from 'i18n';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
-import { useUpdate, Title } from 'common';
+import { Title } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 export const Form = (props: CP_FORM.Props) => {
   const { state, props: configProps, operations, execOperation, updateState } = props;

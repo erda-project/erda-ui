@@ -71,9 +71,8 @@ const Status = createStore({
         update({ metricStatus });
       }
     },
-    async saveService({ call, getParams }, payload: MONITOR_STATUS.IMetricsBody) {
-      const { projectId } = getParams();
-      const result = await call(saveService, { data: payload, projectId });
+    async saveService({ call }, payload: MONITOR_STATUS.IMetricsBody) {
+      const result = await call(saveService, { data: payload });
       return result;
     },
     async updateMetric({ call }, payload: MONITOR_STATUS.IMetricsBody) {

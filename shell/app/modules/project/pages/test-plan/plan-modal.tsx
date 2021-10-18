@@ -17,6 +17,7 @@ import React from 'react';
 import { FormModal, MemberSelector } from 'common';
 import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';
+import iterationStore from 'project/stores/iteration';
 import { FormModalList } from 'app/interface/common';
 
 interface IProps {
@@ -33,13 +34,14 @@ const TestPlanModal = (props: IProps) => {
   const [loading, setLoading] = React.useState(false);
   const params = routeInfoStore.useStore((s) => s.params);
   const planItem = testPlanStore.useStore((s) => s.planItem);
+  const iterationList = iterationStore.useStore((s) => s.iterationList);
   const { getTestPlanItem, addTestPlan, updateTestPlan } = testPlanStore.effects;
   const { cleanTestPlan } = testPlanStore.reducers;
 
   const handleOk = (values: any) => {
     const copy = { ...values };
-    if (copy.ownerID !== undefined) {
-      copy.ownerID = `${+copy.ownerID}`;
+    if (copy.iterationID !== undefined) {
+      copy.iterationID = +copy.iterationID;
     }
     setLoading(true);
     const close = () => {
@@ -53,6 +55,17 @@ const TestPlanModal = (props: IProps) => {
       addTestPlan(copy).then(close);
     }
   };
+
+  React.useEffect(() => {
+    if (!iterationList.length) {
+      iterationStore.effects.getIterations({
+        pageNo: 1,
+        pageSize: 100,
+        projectID: +params.projectId,
+        withoutIssueSummary: true,
+      });
+    }
+  }, [iterationList.length, params.projectId]);
 
   React.useEffect(() => {
     visible && testPlanId && getTestPlanItem(testPlanId);
@@ -100,20 +113,17 @@ const TestPlanModal = (props: IProps) => {
       },
       getComp: () => <MemberSelector mode="multiple" scopeId={params.projectId} scopeType="project" />,
     },
-    // {
-    //   label: '关联迭代',
-    //   name: 'relatedIterativeId',
-    //   required: false,
-    //   type: 'select',
-    //   options: developingIterations.map(
-    //     (iteration: any) => ({ name: iteration.name, value: iteration.id })
-    //   ),
-    //   initialValue: planItem.relatedIterativeId,
-    //   itemProps: {
-    //     placeholder: '选择迭代',
-    //     disabled,
-    //   },
-    // },
+    {
+      label: i18n.t('project:owned iteration'),
+      name: 'iterationID',
+      required: false,
+      type: 'select',
+      options: iterationList.map((iteration) => ({ name: iteration.title, value: iteration.id })),
+      itemProps: {
+        placeholder: i18n.t('project:select iteration'),
+        allowClear: true,
+      },
+    },
   ];
   return (
     <FormModal
@@ -132,7 +142,7 @@ const TestPlanModal = (props: IProps) => {
       }}
       onCancel={onCancel}
       fieldsList={fieldsList}
-      formData={planItem}
+      formData={{ ...planItem, iterationID: String(planItem.iterationID || '') }}
     >
       {textInfo ? <div className="info">{textInfo}</div> : null}
     </FormModal>

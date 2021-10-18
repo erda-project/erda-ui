@@ -16,7 +16,7 @@ import { useMedia, useSize, useSetState, useUnmount } from 'react-use';
 import { getLS, setLS, notify } from 'common/utils';
 import { isFunction } from 'lodash';
 import { DropTargetMonitor, useDrag, useDrop, XYCoord, DragSourceMonitor } from 'react-dnd';
-import { FormModal } from './form-modal';
+import { FormModal } from './components/form-modal';
 
 export enum ScreenSize {
   xs = 768,
@@ -92,17 +92,6 @@ export const useSwitch = (initValue: boolean): [boolean, on, off, toggle] => {
       setBool(!bool);
     },
   ];
-};
-
-export const useLocalStorage = (compName: string) => {
-  const [storedState, setStoredState] = React.useState(getLS(compName));
-
-  const setStateToLs = (stateObj: any) => {
-    setLS(compName, stateObj);
-    setStoredState(stateObj);
-  };
-
-  return { storedState, setStateToLs };
 };
 
 interface DragItem {

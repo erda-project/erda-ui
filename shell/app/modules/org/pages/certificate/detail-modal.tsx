@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Modal, Button, Tooltip } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { isEmpty, get, map, isString } from 'lodash';
 import i18n from 'i18n';
 import { typeMap, keyPrefix } from './index';

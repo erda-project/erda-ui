@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { connectCube } from 'common';
+import { goTo, connectCube } from 'common/utils';
 import { DataList } from '../../common/components/data-list';
-import { goTo } from 'app/common/utils';
 import i18n from 'i18n';
 import dataTaskStore from 'application/stores/dataTask';
 import { useLoading } from 'core/stores/loading';

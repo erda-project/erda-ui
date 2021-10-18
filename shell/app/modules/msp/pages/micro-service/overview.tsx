@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Spin } from 'core/nusi';
-import { Holder, PureBoardGrid, useUpdate } from 'common';
+import { Holder, PureBoardGrid } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { getDashboard } from 'msp/services';
 import { isEmpty } from 'lodash';

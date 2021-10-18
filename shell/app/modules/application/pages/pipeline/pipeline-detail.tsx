@@ -19,7 +19,7 @@ import routeInfoStore from 'core/stores/route';
 import buildStore from 'application/stores/build';
 import fileTreeStore from 'common/stores/file-tree';
 import yaml from 'js-yaml';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { updateSearch } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import { useMount } from 'react-use';

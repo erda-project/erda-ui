@@ -13,7 +13,8 @@
 
 import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
-import { Icon as CustomIcon, useUpdate, LogRoller, FilterGroup } from 'common';
+import { Icon as CustomIcon, LogRoller, FilterGroup } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Table, Drawer, Badge, Tooltip, Switch } from 'core/nusi';

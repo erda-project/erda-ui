@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Copy, CRUDStoreTable, LoadMoreSelector, useUpdate, Icon as CustomIcon } from 'common';
+import { Copy, CRUDStoreTable, LoadMoreSelector, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
 import publisherStore from 'publisher/stores/publisher';

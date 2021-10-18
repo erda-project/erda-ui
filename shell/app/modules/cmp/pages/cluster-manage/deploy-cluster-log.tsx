@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { throttle } from 'lodash';
-import { connectCube } from 'common';
+import { connectCube } from 'common/utils';
 import './deploy-cluster-log.scss';
 import clusterStore from 'cmp/stores/cluster';
 import { useLoading } from 'core/stores/loading';

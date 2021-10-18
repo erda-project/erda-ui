@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Button, Table, Spin } from 'core/nusi';
-import { FormModal, useUpdate, CustomFilter, useFilter, IF } from 'common';
+import { FormModal, CustomFilter, useFilter, IF } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
 import i18n from 'i18n';

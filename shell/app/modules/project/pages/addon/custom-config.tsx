@@ -15,7 +15,8 @@ import i18n from 'i18n';
 import { Alert, message, Modal } from 'core/nusi';
 import React from 'react';
 import addonStore from 'common/stores/addon';
-import { FileEditor, useUpdate } from 'common';
+import { FileEditor } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 interface IProps {
   visible: boolean;

@@ -61,7 +61,7 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
     EnvironmentalOverview: envOverViewPrefix,
     ServiceList: `${envOverViewPrefix}/service-list`,
     ServiceObservation: monitorPrefix,
-    ServiceAnalysis: `${monitorPrefix}/service-analysis/overview`,
+    ServiceAnalysis: `${monitorPrefix}/service-analysis`,
     FrontMonitor: `${monitorPrefix}/bi`,
     AppInsight: `${monitorPrefix}/mi`,
     ErrorInsight: `${monitorPrefix}/error`,

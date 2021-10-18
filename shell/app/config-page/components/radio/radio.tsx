@@ -14,7 +14,8 @@
 import React from 'react';
 import { Tooltip, Dropdown, Menu, Radio, Badge } from 'core/nusi';
 import { map, isArray, find, get } from 'lodash';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const handleState = (_stateObj?: Obj) => {

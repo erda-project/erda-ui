@@ -15,7 +15,7 @@ import React from 'react';
 import { YmlChart } from 'yml-chart/chart';
 import { NodeEleMap, NodeType, externalKey } from 'yml-chart/config';
 import { map } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { RunCaseNode, runNodeSize } from './run-case-node';
 
 interface IProps {

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage, { useMock } from 'config-page/index';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
 import routeInfoStore from 'core/stores/route';

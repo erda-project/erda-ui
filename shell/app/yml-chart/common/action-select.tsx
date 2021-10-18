@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Input, Collapse } from 'core/nusi';
-import { Icon as CustomIcon, EmptyListHolder, useUpdate } from 'common';
+import { Icon as CustomIcon, EmptyListHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import classnames from 'classnames';
 import React from 'react';
 import './action-select.scss';

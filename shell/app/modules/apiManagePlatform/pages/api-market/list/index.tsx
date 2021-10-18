@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { useDebounce, useUnmount } from 'react-use';
-import { CustomFilter, TableActions, UserInfo, useUpdate } from 'common';
+import { CustomFilter, TableActions, UserInfo } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
 import { Input, Button, Table, Tooltip } from 'core/nusi';

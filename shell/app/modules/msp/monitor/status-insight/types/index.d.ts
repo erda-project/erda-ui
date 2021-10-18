@@ -63,18 +63,16 @@ declare namespace MONITOR_STATUS {
   }
 
   interface ICreateMetricsBody {
-    projectId: string;
     data: IMetricsBody;
   }
 
   interface IMetricsBody {
-    accountId: number;
     env: string;
-    expects: string[];
-    id: string;
     mode: string;
     name: string;
-    url: string;
+    projectId: string;
+    id: string;
+    config: Obj;
   }
 
   interface IPastIncidents {

@@ -17,7 +17,8 @@ import { isEmpty, map, find, get } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
-import { FormModal, useSwitch, useUpdate } from 'common';
+import { FormModal } from 'common';
+import { useSwitch, useUpdate } from "common/use-hooks";
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import {

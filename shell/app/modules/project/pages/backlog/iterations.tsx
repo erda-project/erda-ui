@@ -14,7 +14,8 @@
 import React from 'react';
 import { isEmpty, map } from 'lodash';
 import { Button, Spin } from 'core/nusi';
-import { Icon as CustomIcon, useUpdate } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { WithAuth, usePerm } from 'user/common';
 import iterationStore from 'project/stores/iteration';

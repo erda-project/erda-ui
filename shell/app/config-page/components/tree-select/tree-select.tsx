@@ -14,7 +14,7 @@
 import React from 'react';
 import { TreeSelect } from 'core/nusi';
 import { debounce, get } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useUpdateEffect } from 'react-use';
 
 export default (props: CP_TREE_SELECT.Props) => {

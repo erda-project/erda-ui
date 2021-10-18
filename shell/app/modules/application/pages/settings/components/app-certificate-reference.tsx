@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDStoreTable, useUpdate, FormModal, LoadMoreSelector } from 'common';
+import { CRUDStoreTable, FormModal, LoadMoreSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certRefStore from 'application/stores/certificate-reference';
 import { approvalStatus } from 'application/common/config';

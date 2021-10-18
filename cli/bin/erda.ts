@@ -58,6 +58,7 @@ program
   .option('--online', 'whether is online build, default is false')
   .option('--release', 'whether need build docker image & push, default is false')
   .option('--registry', 'docker registry address which to push')
+  .option('--skipBuild', 'skip build and only run docker build & push command. Only take effect when --release is set')
   .action(async (options) => {
     const { online, ...restOptions } = options;
     if (online) {

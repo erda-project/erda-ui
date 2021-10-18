@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { SettingsTabs, ConfigLayout, MembersTable } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
 import memberStore from 'common/stores/org-member';
@@ -26,11 +26,14 @@ import { MemberLabels } from './member-label';
 import { Link } from 'react-router-dom';
 import IssueFieldManage from '../projects/issue-field-manage';
 import IssueTypeManage from '../projects/issue-type-manage';
+import Announcement from 'org/pages/announcement';
+import permStore from 'user/stores/permission';
 
 import './org-setting.scss';
 
 export const OrgSetting = () => {
   const orgId = orgStore.getState((s) => s.currentOrg.id);
+  const orgPerm = permStore.getState((s) => s.org);
 
   const dataSource = [
     {
@@ -78,6 +81,13 @@ export const OrgSetting = () => {
             />
           ),
         },
+        ...insertWhen(orgPerm.orgCenter.viewAnnouncement.pass, [
+          {
+            tabTitle: i18n.t('org:announcement management'),
+            tabKey: 'announcement',
+            content: <Announcement />,
+          },
+        ]),
       ],
     },
     {

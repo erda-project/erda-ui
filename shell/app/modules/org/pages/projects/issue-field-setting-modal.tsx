@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import React from 'react';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 import { FIELD_TYPE_ICON_MAP, DEFAULT_ISSUE_FIELDS_MAP } from 'org/common/config';

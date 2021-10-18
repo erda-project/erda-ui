@@ -304,10 +304,10 @@ export enum pages {
   orgCenterRoot = '/{orgName}/orgCenter/projects',
   orgCenterMarket = '/{orgName}/orgCenter/market',
   orgCenterPublisherSetting = '/{orgName}/orgCenter/market/publisher/setting',
-  orgCenterCertificate = '/{orgName}/orgCenter/certificate',
+  orgCenterCertificate = '/{orgName}/orgCenter/market/publisher/certificate',
   orgCenterApproval = '/{orgName}/orgCenter/approval',
   orgCenterApprovalUndone = '/{orgName}/orgCenter/approval/undone',
-  orgCenterAnnouncement = '/{orgName}/orgCenter/announcement',
+  orgCenterAnnouncement = '/{orgName}/orgCenter/setting/detail?tabKey=announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
 
   cmpNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',

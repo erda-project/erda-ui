@@ -13,8 +13,8 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Menu, Dropdown } from 'core/nusi';
-import { Icon as CustomIcon, MemberSelector, ImgHolder } from 'common';
+import { Menu, Dropdown, Avatar } from 'core/nusi';
+import { Icon as CustomIcon, MemberSelector } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';
 import issueStore from 'project/stores/issues';
@@ -156,12 +156,9 @@ export const SubscribersSelector = (props: IProps) => {
               const user = usersMap[item] || {};
               return (
                 <div key={user.id}>
-                  <ImgHolder
-                    src={user.avatar}
-                    text={user.nick ? user.nick.substring(0, 1) : i18n.t('none')}
-                    rect="20x20"
-                    type="avatar"
-                  />
+                  <Avatar src={user.avatar} size="small">
+                    {user.nick ? user.nick.slice(0, 2) : i18n.t('none')}
+                  </Avatar>
                   <span className="ml-1">{user.nick ?? ''}</span>
                 </div>
               );

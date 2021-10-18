@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Input, InputNumber, Select } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 

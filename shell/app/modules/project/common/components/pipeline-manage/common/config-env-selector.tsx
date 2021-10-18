@@ -15,7 +15,7 @@ import React from 'react';
 import { Button, Tooltip } from 'core/nusi';
 import { map, isEmpty, get, find } from 'lodash';
 import autoTestStore from 'project/stores/auto-test-case';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { insertWhen, notify } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'core/stores/route';

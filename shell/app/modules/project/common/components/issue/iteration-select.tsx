@@ -15,7 +15,7 @@ import { map, isEmpty } from 'lodash';
 import { Select } from 'core/nusi';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
-import { useTempPaging } from 'app/common';
+import { useTempPaging } from 'common/use-hooks';
 import { getProjectIterations } from 'app/modules/project/services/project-iteration';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';

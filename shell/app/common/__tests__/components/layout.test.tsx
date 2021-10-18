@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Responsive } from 'common';
-import * as hooks from 'common/components/use-hooks';
+import * as hooks from 'common/use-hooks';
 import { shallow } from 'enzyme';
 
 interface Item {

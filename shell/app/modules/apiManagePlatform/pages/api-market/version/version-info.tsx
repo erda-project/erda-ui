@@ -14,7 +14,8 @@
 import i18n from 'i18n';
 import { Button, Modal, Table, Tree } from 'core/nusi';
 import React, { useImperativeHandle } from 'react';
-import { Avatar, TableActions, UserInfo, useUpdate } from 'common';
+import { Avatar, TableActions, UserInfo } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { get } from 'lodash';
 import { AntTreeNodeSelectedEvent, ColumnProps } from 'core/common/interface';
