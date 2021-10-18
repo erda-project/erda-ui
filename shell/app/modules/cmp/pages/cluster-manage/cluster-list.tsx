@@ -124,7 +124,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
             type="primary"
             onClick={() => {
               createToken.fetch({
-                clusterName: record.name,
+                clusterName: state.clusterName,
               });
               getToken.fetch({
                 clusterName: state.clusterName,
