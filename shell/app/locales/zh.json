@@ -1953,6 +1953,7 @@
   "dice-dp": {},
   "dop": {
     "JVM analysis": "JVM 分析",
+    "accounts": "账号管理",
     "addon info": "服务信息",
     "addon setting": "服务设置",
     "approval request": "审批请求",

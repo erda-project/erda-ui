@@ -134,7 +134,7 @@ export default function getDopRouter(): RouteConfigItem[] {
                 },
                 {
                   path: 'account',
-                  breadcrumbName: i18n.t('dop:account manage'),
+                  breadcrumbName: i18n.t('dop:accounts'),
                   getComp: (cb) => cb(import('dop/pages/account')),
                 },
                 {

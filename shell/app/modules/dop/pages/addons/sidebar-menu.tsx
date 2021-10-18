@@ -25,7 +25,7 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
     {
       href: `${rootPath}/account`,
       icon: <IconPermissions />,
-      text: i18n.t('dop:account manage'),
+      text: i18n.t('dop:accounts'),
     },
     {
       href: `${rootPath}/settings`,
