@@ -60,23 +60,17 @@ interface IState {
   condition: ITrigger[];
 }
 
-const convertFormData = (_formData: Obj) => {
+const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
-      retry: _formData?.config?.retry || RETRY_TIMES[0],
-      frequency: _formData?.config?.interval || TIME_LIMITS[0],
-      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData?.config?.body || '',
-      headers: _formData?.config?.headers || {},
-      url: _formData?.config?.url || '',
-      query: qs.parseUrl(_formData?.config?.url || '')?.query || {},
-      condition: _formData?.config?.triggering || [
-        {
-          key: 'http_code',
-          operate: '>=',
-          value: 400,
-        },
-      ],
+      retry: _formData?.config?.retry,
+      frequency: _formData?.config?.interval,
+      apiMethod: _formData?.config?.method,
+      body: _formData?.config?.body,
+      headers: _formData?.config?.headers,
+      url: _formData?.config?.url,
+      query: qs.parseUrl(_formData?.config?.url || '')?.query,
+      condition: _formData?.config?.triggering,
     };
   } else {
     return {
@@ -125,7 +119,7 @@ const AddModal = (props: IProps) => {
 
   React.useEffect(() => {
     if (!modalVisible) {
-      update(convertFormData(formData));
+      update(convertFormData());
     } else {
       update(convertFormData(formData));
     }
@@ -164,7 +158,7 @@ const AddModal = (props: IProps) => {
     updater.condition([...condition]);
   };
 
-  const setUrlParms = (queryConfig: Obj) => {
+  const setUrlParams = (queryConfig: Obj) => {
     if (url) {
       formRef.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
       updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
@@ -288,7 +282,13 @@ const AddModal = (props: IProps) => {
           <div className="h-full">
             <Tabs defaultActiveKey="1">
               <TabPane tab="Params" key="1">
-                <KeyValueTable isTextArea={false} data={query} form={form} onChange={setUrlParms} onDel={setUrlParms} />
+                <KeyValueTable
+                  isTextArea={false}
+                  data={query}
+                  form={form}
+                  onChange={setUrlParams}
+                  onDel={setUrlParams}
+                />
               </TabPane>
               <TabPane tab="Headers" key="2">
                 <KeyValueTable
@@ -304,7 +304,7 @@ const AddModal = (props: IProps) => {
                 <Button className="mb-4" size="small" type="primary" onClick={formatBody}>
                   {i18n.t('format')}
                 </Button>
-                <FormItem name="body" rules={[ruleOfJson]}>
+                <FormItem initialValue={body} name="body" rules={[ruleOfJson]}>
                   <TextArea
                     autoSize={{ minRows: 5, maxRows: 12 }}
                     maxLength={MAX_BODY_LENGTH}
