@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TimeSelector, Copy, useUpdate } from 'common';
+import { TimeSelector, Copy } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import authenticateStroe from '../../stores/authenticate';
 import moment from 'moment';
 import i18n from 'i18n';

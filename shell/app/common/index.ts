@@ -11,11 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export { connectCube } from './components/connect';
 export { Icon } from './components/icon';
 export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
-export { Panel } from './components/panel';
-export { ImgHolder } from './components/img-holder';
+export { default as SimplePanel } from './components/simple-panel';
 export { default as AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
 export { ImageUpload } from './components/image-upload';
@@ -55,6 +53,14 @@ export { Avatar, AvatarList } from './components/avatar';
 
 export { IF } from './components/statement';
 export { default as NoAuthTip } from './components/no-auth-tip';
+export { default as Title } from './components/title';
+export type { TitleProps } from './components/title';
+export { default as Panel } from './components/panel';
+export type { PanelProps, PanelField } from './components/panel';
+export { default as Ellipsis } from './components/ellipsis';
+export type { EllipsisProps } from './components/ellipsis';
+export { default as FormBuilder } from './components/form-builder';
+export type { IFormExtendType, IFieldType } from './components/form-builder';
 export { ConfigLayout } from './components/config-layout';
 export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';
@@ -82,11 +88,10 @@ export { Filter, PureFilter } from './components/filter';
 // export type { IDiceFilterProps, IPureFilterProps } from './components/filter';
 export { ContractiveFilter } from './components/contractive-filter';
 export { default as TiledFilter } from './components/tiled-filter';
-export * from './components/use-hooks';
 export { default as LogRoller } from './containers/log-roller';
 export { default as MonitorChart } from './containers/monitor-chart';
 export { default as MetricsMonitor } from './containers/monitor-chart-panel';
-export { useFilter, useMultiFilter, CustomFilter } from './components/custom-filter';
+export { useFilter, useMultiFilter, CustomFilter } from './components/filter/custom-filter';
 export { TagsRow } from './components/tags-row';
 export { BoardGrid, PureBoardGrid } from './components/board-grid';
 export { LoadingSkeleton, LoadingContent } from './components/loading-skeleton';

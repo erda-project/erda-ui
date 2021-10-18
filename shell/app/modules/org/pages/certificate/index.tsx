@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon, useUpdate } from 'common';
+import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
 import { Upload, message, Button, Select, Input } from 'core/nusi';

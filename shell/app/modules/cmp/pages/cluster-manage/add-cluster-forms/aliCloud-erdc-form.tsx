@@ -20,7 +20,7 @@ import { clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';
 import { insertWhen, regRules } from 'common/utils';
 import i18n from 'i18n';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
 
 interface IProps {

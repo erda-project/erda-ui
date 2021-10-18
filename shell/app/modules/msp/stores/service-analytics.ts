@@ -11,21 +11,28 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import TestPlanComp from './test-plan';
-import AutoTestPlanList from './test-plan-protocol';
+import { createFlatStore } from 'core/cube';
 
-import routeInfoStore from 'core/stores/route';
-import { TEST_TYPE } from '../test-manage/case';
+interface IState {
+  serviceId: string;
+  serviceName: string;
+  applicationId: string;
+}
 
-const TestPlan = () => {
-  const testType = routeInfoStore.useStore((s) => s.params.testType) || TEST_TYPE.manual;
-
-  if (testType === 'auto') {
-    return <AutoTestPlanList />;
-  }
-
-  return <TestPlanComp key={testType} />;
+const initState: IState = {
+  serviceId: '',
+  serviceName: '',
+  applicationId: '',
 };
 
-export default TestPlan;
+const serviceAnalytics = createFlatStore({
+  name: 'service-analytics',
+  state: initState,
+  reducers: {
+    updateState(state, payload) {
+      return { ...state, ...payload };
+    },
+  },
+});
+
+export default serviceAnalytics;

@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Tooltip, Popover, Tabs } from 'core/nusi';
-import { Icon as CustomIcon, IF, NoAuthTip, useUpdate } from 'common';
+import { Icon as CustomIcon, IF, NoAuthTip } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import HealthPoint from 'project/common/components/health-point';
 import { map, isEmpty } from 'lodash';
 import classNames from 'classnames';

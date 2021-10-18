@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Form, Row, Col } from 'core/nusi';
+import { Form, Row, Col, Avatar } from 'core/nusi';
 import classNames from 'classnames';
 import { RenderFormItem } from './render-formItem';
 import { FormInstance } from 'core/common/interface';
-import { ImgHolder } from 'common';
 import { forEach, map, isPlainObject, get } from 'lodash';
 import './render-form.scss';
 
@@ -119,7 +118,7 @@ const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
         if (viewType === 'image') {
           readonlyView.push(
             <FormItem label={label} key={index}>
-              <ImgHolder src={value} rect="100x100" text="image" />
+              <Avatar shape="square" src={value} size={100} />
             </FormItem>,
           );
         } else {

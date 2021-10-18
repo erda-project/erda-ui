@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Select, Spin } from 'core/nusi';
-import { Holder, IF, connectCube } from 'common';
+import { Holder, IF } from 'common';
+import { connectCube } from 'common/utils';
 import { map, isEmpty, forEach } from 'lodash';
 import React from 'react';
 import TestDetail from './test-detail';

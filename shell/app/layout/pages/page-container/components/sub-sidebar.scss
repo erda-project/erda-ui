@@ -80,7 +80,7 @@
       margin: 0;
       &.ant-menu-item-selected {
         background-color: $color-tree-bg-active;
-        font-weight: 700;
+        font-weight: 500;
         &::after {
           opacity: 0;
         }
@@ -100,7 +100,7 @@
       }
       &:hover {
         color: $primary;
-        font-weight: 700;
+        font-weight: 500;
         background-color: $color-click-bg;
       }
     }
@@ -110,12 +110,12 @@
           color: rgba(9, 24, 33, 0.64);
         }
         margin: 0;
-        font-weight: 700;
       }
       &.ant-menu-submenu-open {
         > .ant-menu-submenu-title {
           > span:not(.ant-menu-item-icon) {
             color: $color-dark-8;
+            font-weight: 500;
           }
         }
       }
@@ -124,7 +124,6 @@
           background-color: $color-click-bg;
           > span:not(.ant-menu-item-icon) {
             color: $color-dark-8;
-            font-weight: 700;
           }
         }
       }

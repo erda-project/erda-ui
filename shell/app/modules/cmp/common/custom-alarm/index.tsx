@@ -46,7 +46,8 @@ import {
   Modal,
   Tooltip,
 } from 'core/nusi';
-import { PagingTable, FormModal, useUpdate, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
+import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
 import { FormInstance } from 'core/common/interface';

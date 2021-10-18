@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DatePicker } from 'nusi';
+import { DatePicker } from './index';
 import { omit, isEmpty } from 'lodash';
 import { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 

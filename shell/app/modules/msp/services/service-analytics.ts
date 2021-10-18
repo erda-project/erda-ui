@@ -11,20 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import './panel.scss';
+import { apiCreator } from 'core/service';
 
-interface IPanel {
-  title: string;
-  children: any;
-  style?: React.CSSProperties;
-  className?: string;
-}
-export const Panel = ({ title, children, style, className = '' }: IPanel) => {
-  return (
-    <div className={`panel ${className}`} style={style}>
-      <div className="panel-title">{title}</div>
-      <div className="panel-body">{children}</div>
-    </div>
-  );
+const apis = {
+  getService: {
+    api: '/api/apm/topology/services',
+  },
 };
+
+export const getServiceList = apiCreator<(p: SERVICE_ANALYTICS.IServiceListQuery) => SERVICE_ANALYTICS.ServiceList>(
+  apis.getService,
+);

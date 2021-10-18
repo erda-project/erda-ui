@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Tabs } from 'core/nusi';
-import { EmptyHolder, useUpdate } from 'common';
+import { EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get, find } from 'lodash';
 import './tabs.scss';
 

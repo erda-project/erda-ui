@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useRef, MutableRefObject } from 'react';
-import { FormModal, useUpdate, LoadMoreSelector } from 'common';
+import { FormModal, LoadMoreSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { insertWhen, regRules } from 'common/utils';

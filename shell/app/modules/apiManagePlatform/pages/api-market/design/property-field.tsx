@@ -14,7 +14,8 @@
 import React from 'react';
 import { Checkbox, Radio, Tooltip, Input, Select, InputNumber } from 'core/nusi';
 import i18n from 'i18n';
-import { useUpdate, FileEditor, Icon as CustomIcon } from 'common';
+import { FileEditor, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { map, isEmpty } from 'lodash';
 import { CustomLabel } from 'dcos/common/custom-label';
 

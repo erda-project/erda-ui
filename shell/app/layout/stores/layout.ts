@@ -21,7 +21,7 @@ import orgStore from 'app/org-home/stores/org';
 import { getGlobal } from 'app/global-space';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
-  while (targetWs.readyState !== 1) {
+  while (targetWs.readyState !== 1 || targetWs.isReady !== true) {
     // eslint-disable-next-line no-await-in-loop
     await new Promise((resolve) => setTimeout(resolve, 300));
   }

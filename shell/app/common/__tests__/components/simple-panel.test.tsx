@@ -12,14 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import routeInfoStore from 'core/stores/route';
-import TestPlanDetail from 'project/pages/plan-detail';
-import AutoTestPlanDetail from './auto-test-plan-detail';
-import { TEST_TYPE } from '../test-manage/case';
+import { SimplePanel } from 'common';
+import { mount } from 'enzyme';
 
-const TestPlan = () => {
-  const testType = routeInfoStore.getState((s) => s.params.testType) || TEST_TYPE.manual;
-  return testType === 'auto' ? <AutoTestPlanDetail /> : <TestPlanDetail />;
-};
-
-export default TestPlan;
+describe('SimplePanel', () => {
+  it('should render', () => {
+    const wrapper = mount(
+      <SimplePanel style={{ height: 100 }} className="erda_panel" title="panel title">
+        <div className="panel-child">panel-child</div>
+      </SimplePanel>,
+    );
+    expect(wrapper).toHaveClassName('erda_panel');
+    expect(wrapper).toHaveStyle('height', 100);
+    expect(wrapper.find('.panel-title').text()).toBe('panel title');
+    expect(wrapper.find('.panel-body').children()).toHaveHTML('<div class="panel-child">panel-child</div>');
+  });
+});

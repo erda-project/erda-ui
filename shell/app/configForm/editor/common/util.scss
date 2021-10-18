@@ -35,7 +35,8 @@ $white: #ffffff;
   list-style: none;
   background-color: $white;
   font-feature-settings: 'tnum';
-  @apply border;
+  border: 1px solid $color-border;
+  border-radius: 4px;
 }
 
 .dice-form-editor-button {

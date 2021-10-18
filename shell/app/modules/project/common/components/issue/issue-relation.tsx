@@ -11,8 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { useUpdate, MemberSelector, IF } from 'common';
-import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'core/nusi';
+import { MemberSelector, Title, IF } from 'common';
+import { useUpdate } from 'common/use-hooks';
+import { Button, Select, Table, Popconfirm, Tooltip } from 'core/nusi';
 import React, { useImperativeHandle } from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
@@ -246,7 +247,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
           </>
         )}
       </div>
-      <Title level={2} className="my-2" title={i18n.t('project:related to these issues')} />
+      <Title level={2} mt={8} title={i18n.t('project:related to these issues')} />
       <Table
         columns={columns}
         dataSource={relatingList}
@@ -254,7 +255,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
         scroll={{ x: 900 }}
       />
-      <Title level={2} className="mt-4 mb-2" title={i18n.t('project:related by these issues')} />
+      <Title level={2} mt={16} title={i18n.t('project:related by these issues')} />
       <Table
         columns={columns}
         dataSource={relatedList}

@@ -12,54 +12,50 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map } from 'lodash';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'core/nusi';
 import { Help as IconHelp } from '@icon-park/react';
-import './title.scss';
 
-interface ITitleProps {
+export interface TitleProps {
+  title: string | React.ElementType;
+  tip?: string;
+  operations?: Array<TitleOperate | React.ReactNode>;
   level?: 1 | 2 | 3;
-  operations?: Array<IOperate | React.ReactNode>;
-  title: string;
+  mt?: 0 | 8 | 16;
+  mb?: 0 | 8 | 16;
   showDivider?: boolean;
-  tips?: string;
-  id?: string;
-  className?: string;
   style?: React.CSSProperties;
 }
 
-interface IOperate {
+interface TitleOperate {
   title: React.ReactNode;
 }
 
-export const Title = ({
-  level = 1,
-  operations = [],
-  title = '',
-  tips,
-  showDivider = level === 1,
-  className = '',
-  ...restProps
-}: ITitleProps) => {
+const Title = ({ title, tip, operations, level = 1, mt, mb, showDivider = level === 1, ...restProps }: TitleProps) => {
   const sizeList = ['', 'text-lg', 'text-base', 'text-sm'];
-  const containerClassList = ['', 'mb-4 h-12', 'h-7 mb-1', 'h-5'];
+  const _mt = mt ? `mt-${mt / 4}` : '';
+  const _mb = mb ? `mb-${mb / 4}` : '';
+  const levelToClass = {
+    1: `h-12 mb-${_mb || 4} ${_mt}`, // h:48px mb:16px
+    2: `h-7 mb-${_mb || 2} ${_mt}`, // h:28px mb:8px
+    3: 'h-5', // h:20px
+  };
   return (
     <div
       {...restProps}
-      className={`erda-wrapped-title ${containerClassList[level]} ${
-        showDivider ? 'border-bottom mb-4' : ''
-      } ${className}`}
+      className={`ec-title w-full flex items-center justify-between ${levelToClass[level]} ${
+        showDivider ? 'border-bottom' : ''
+      }`}
     >
-      <div className="inline-flex items-center font-medium">
+      <div className="inline-flex items-center font-medium mr-2">
         <div className={sizeList[level]}>{title}</div>
-        {tips ? (
-          <Tooltip title={tips}>
-            <IconHelp className="ml-1" />
+        {tip ? (
+          <Tooltip title={tip}>
+            <IconHelp className="text-base ml-1" />
           </Tooltip>
         ) : null}
       </div>
-      <div className="flex-1 flex justify-end">
-        {map(operations, (item: IOperate | React.ReactNode, index: number) => {
+      <div className="flex-1 inline-flex items-center justify-end">
+        {(operations || []).map((item: TitleOperate | React.ReactNode, index: number) => {
           if (React.isValidElement(item)) {
             return (
               <span key={index} className={index > 0 ? 'ml-1' : ''}>
@@ -67,9 +63,9 @@ export const Title = ({
               </span>
             );
           } else {
-            return item?.title ? (
+            return (item as TitleOperate)?.title ? (
               <span key={index} className={index > 0 ? 'ml-1' : ''}>
-                {item.title}
+                {(item as TitleOperate).title}
               </span>
             ) : (
               ''
@@ -80,3 +76,5 @@ export const Title = ({
     </div>
   );
 };
+
+export default Title;

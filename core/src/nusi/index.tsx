@@ -67,12 +67,6 @@ import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import Table from './wrapped-table';
 import Tag from './wrapped-tag';
-import FormBuilder from '../common/components/form-builder';
-import { Panel } from '../common/components/panel';
-import { Title } from '../common/components/title';
-import { Filter } from '../common/components/filter';
-import Ellipsis from '../common/components/ellipsis';
-import { PageHeader } from '../common/components/page-header';
 import 'antd/dist/antd.less';
 
 const locale = window.localStorage.getItem('locale');
@@ -108,11 +102,8 @@ export {
   Divider,
   Dropdown,
   Drawer,
-  Ellipsis,
   Empty,
-  Filter,
   Form,
-  FormBuilder,
   Input,
   InputNumber,
   List,
@@ -124,7 +115,6 @@ export {
   Popconfirm,
   Popover,
   Progress,
-  Panel,
   FixRangePicker as RangePicker,
   Radio,
   Rate,
@@ -144,10 +134,8 @@ export {
   TimePicker,
   Timeline,
   Tooltip,
-  Title,
   // Mention,
   Upload,
   version,
-  PageHeader,
   AntdConfigProvider,
 };

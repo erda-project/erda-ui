@@ -13,15 +13,12 @@
 
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import { Form } from 'nusi';
-import { FormInstance, FormProps } from 'antd/lib/form/Form';
+import { Form } from 'core/nusi';
+import { FormInstance, FormProps } from 'core/common/interface';
 import ResizeObserver from 'rc-resize-observer';
 import { throttle } from 'lodash';
 import { IFieldType } from './fields';
 
-/**
- * FormBuilder is a Form container.
- * */
 export interface IContextType {
   realColumnNum?: number;
   parentColumnNum?: number;

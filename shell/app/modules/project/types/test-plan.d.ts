@@ -101,6 +101,7 @@ declare namespace TEST_PLAN {
       fail: number;
       block: number;
     };
+    iterationID: number;
   }
 
   interface PlanBodyResponse extends PlanBodySimpleResponse {

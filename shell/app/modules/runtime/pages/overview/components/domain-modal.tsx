@@ -14,7 +14,7 @@
 import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
 import React from 'react';
 import { FormInstance } from 'core/common/interface';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 import { setLS, goTo } from 'common/utils';
 import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'core/nusi';

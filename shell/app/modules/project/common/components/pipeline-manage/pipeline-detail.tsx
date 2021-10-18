@@ -17,7 +17,7 @@ import PipelineConfigDetail from './config-detail';
 import PipelineRunDetail from './run-detail';
 import ConfigEnvSelector from './common/config-env-selector';
 import routeInfoStore from 'core/stores/route';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 
 interface IProps {

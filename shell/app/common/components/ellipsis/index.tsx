@@ -12,14 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Tooltip } from 'nusi';
-import { AbstractTooltipProps } from '../interface';
-
-import './ellipsis.scss';
+import { Tooltip } from 'core/nusi';
+import { AbstractTooltipProps } from 'core/common/interface';
 
 const TOOLTIP_MOUSE_ENTER_DELAY = 100;
 
-interface EllipsisProps extends AbstractTooltipProps {
+export interface EllipsisProps extends AbstractTooltipProps {
   title?: React.ReactNode | RenderFunction;
   overlay?: React.ReactNode | RenderFunction;
   className?: string;
@@ -54,7 +52,7 @@ const Ellipsis = (props: EllipsisProps) => {
   }, [width]);
 
   const EllipsisInner = (
-    <div className={`erda-ellipsis ${className}`} style={style} ref={itemRef} onMouseEnter={handleMouseEnter}>
+    <div className={`truncate ${className}`} style={style} ref={itemRef} onMouseEnter={handleMouseEnter}>
       {title}
     </div>
   );

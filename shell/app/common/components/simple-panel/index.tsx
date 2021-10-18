@@ -12,19 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Panel } from 'common';
-import { mount } from 'enzyme';
+import './index.scss';
 
-describe('Panel', () => {
-  it('should render', () => {
-    const wrapper = mount(
-      <Panel style={{ height: 100 }} className="erda_panel" title="panel title">
-        <div className="panel-child">panel-child</div>
-      </Panel>,
-    );
-    expect(wrapper).toHaveClassName('erda_panel');
-    expect(wrapper).toHaveStyle('height', 100);
-    expect(wrapper.find('.panel-title').text()).toBe('panel title');
-    expect(wrapper.find('.panel-body').children()).toHaveHTML('<div class="panel-child">panel-child</div>');
-  });
-});
+interface IPanel {
+  title: string;
+  children: any;
+  style?: React.CSSProperties;
+  className?: string;
+}
+const SimplePanel = ({ title, children, style, className = '' }: IPanel) => {
+  return (
+    <div className={`ec-simple-panel ${className}`} style={style}>
+      <div className="ec-simple-panel-title">{title}</div>
+      <div className="ec-simple-panel-body">{children}</div>
+    </div>
+  );
+};
+
+export default SimplePanel;

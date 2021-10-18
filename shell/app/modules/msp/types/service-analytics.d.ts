@@ -11,27 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import routeInfoStore from 'core/stores/route';
-import ManualTestCase from './manual-test';
-// import AutoTest from './auto-test';
-import AutoTest from 'project/pages/auto-test';
+declare namespace SERVICE_ANALYTICS {
+  interface IServiceListQuery {
+    terminusKey: string;
+    start: number;
+    end: number;
+  }
 
-export enum TEST_TYPE {
-  manual = 'manual',
-  auto = 'auto',
+  interface ServiceItem {
+    service_id: string;
+    service_name: string;
+    application_id: string;
+  }
+
+  interface ServiceList {
+    data: ServiceItem[];
+  }
 }
-
-const TestCompMap = {
-  manual: ManualTestCase,
-  auto: AutoTest,
-};
-
-const TestCase = () => {
-  const testType = routeInfoStore.getState((s) => s.params.testType) || TEST_TYPE.manual;
-  const Comp = TestCompMap[testType];
-
-  return <Comp />;
-};
-
-export default TestCase;

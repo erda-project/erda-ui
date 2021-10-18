@@ -14,7 +14,8 @@
 import React from 'react';
 import { Transfer, Spin, Button, Tooltip } from 'core/nusi';
 import { isEqual } from 'lodash';
-import { connectCube, Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { connectCube } from 'common/utils';
 import i18n from 'i18n';
 import dataTaskStore from 'application/stores/dataTask';
 import { useEffectOnce } from 'react-use';

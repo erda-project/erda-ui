@@ -27,7 +27,7 @@ import 'echarts/lib/chart/pie';
 import 'echarts/lib/chart/scatter';
 import 'echarts/lib/chart/map';
 import React from 'react';
-import elementResizeEvent from 'element-resize-event';
+import ResizeObserver from 'rc-resize-observer';
 import { theme as uiTheme } from 'app/themes';
 import i18n from 'i18n';
 
@@ -53,11 +53,6 @@ class Echarts extends React.Component {
     });
     // on chart ready
     if (typeof this.props.onChartReady === 'function') this.props.onChartReady(echartObj);
-
-    // on resize
-    elementResizeEvent(this.echartsDom, () => {
-      echartObj.resize();
-    });
   }
 
   // update
@@ -106,13 +101,15 @@ class Echarts extends React.Component {
 
   render() {
     return (
-      <div
-        ref={(ref) => {
-          this.echartsDom = ref;
-        }}
-        className="chart-dom"
-        style={this.props.style}
-      />
+      <ResizeObserver onResize={() => this.getEchartsInstance().resize()}>
+        <div
+          ref={(ref) => {
+            this.echartsDom = ref;
+          }}
+          className="chart-dom"
+          style={this.props.style}
+        />
+      </ResizeObserver>
     );
   }
 }

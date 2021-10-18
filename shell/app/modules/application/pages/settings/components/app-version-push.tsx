@@ -17,7 +17,8 @@ import applicationStore from 'application/stores/application';
 import { useEffectOnce } from 'react-use';
 import { FormInstance } from 'core/common/interface';
 import { getPublisherList, getArtifactsList } from 'publisher/services/publisher';
-import { useUpdate, LoadMoreSelector } from 'common';
+import { LoadMoreSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
 import i18n from 'i18n';
 

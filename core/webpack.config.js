@@ -52,12 +52,6 @@ module.exports = () => {
       type: 'filesystem',
     },
     resolve: {
-      alias: {
-        nusi: resolve('./src/nusi'),
-        cube: resolve('./src/cube'),
-        common: resolve('./src/common'),
-        i18n: resolve('./src/i18n'),
-      },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
     },
     module: {

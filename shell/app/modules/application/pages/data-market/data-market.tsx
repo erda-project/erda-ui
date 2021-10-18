@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { connectCube } from 'common';
+import { connectCube } from 'common/utils';
 import { DataList } from '../../common/components/data-list';
 import { TableDrawer } from '../../common/components/table-drawer';
 import i18n from 'i18n';

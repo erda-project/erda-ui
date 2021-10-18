@@ -27,6 +27,7 @@ import {
   ApiApp as IconApiApp,
   DoubleRight as IconDoubleRight,
   ApplicationMenu as IconApplicationMenu,
+  Help as IconHelp,
 } from '@icon-park/react';
 
 export const iconMap = {
@@ -42,21 +43,10 @@ export const iconMap = {
   'api-app': IconApiApp,
   'double-right': IconDoubleRight,
   'application-menu': IconApplicationMenu,
+  help: IconHelp,
 };
 
-type IIconType =
-  | 'lock'
-  | 'unlock'
-  | 'time'
-  | 'application-one'
-  | 'user'
-  | 'link-cloud-sucess'
-  | 'link-cloud-faild'
-  | 'category-management'
-  | 'list-numbers'
-  | 'api-app'
-  | 'double-right'
-  | 'application-menu';
+type IIconType = keyof typeof iconMap;
 
 type StrokeLinejoin = 'miter' | 'round' | 'bevel';
 type StrokeLinecap = 'butt' | 'round' | 'square';

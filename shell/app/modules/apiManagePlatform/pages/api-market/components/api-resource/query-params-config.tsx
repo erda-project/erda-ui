@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, EmptyHolder } from 'common';
+import { EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { produce } from 'immer';
 import { map, filter, set, values, isEmpty, findIndex, forEach } from 'lodash';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';

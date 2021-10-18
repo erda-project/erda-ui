@@ -14,7 +14,8 @@
 import React from 'react';
 import { Select, Input, Button, Spin } from 'core/nusi';
 import { isEmpty, get } from 'lodash';
-import { LoadMore, Holder, Icon as CustomIcon, connectCube } from 'common';
+import { LoadMore, Holder, Icon as CustomIcon } from 'common';
+import { connectCube } from 'common/utils';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import dataTaskStore from 'application/stores/dataTask';

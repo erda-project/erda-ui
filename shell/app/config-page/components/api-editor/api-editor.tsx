@@ -13,7 +13,7 @@
 
 import { cutStr, qs } from 'common/utils';
 import classnames from 'classnames';
-import { Copy, EditList, EmptyListHolder, FileEditor } from 'common';
+import { Copy, EditList, EmptyListHolder, FileEditor, Title } from 'common';
 import { validateValue } from 'common/components/edit-list/edit-list';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
 import {
@@ -27,7 +27,6 @@ import {
   Table,
   Tabs,
   Spin,
-  Title,
   Modal,
   message,
   Dropdown,

@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import { ServiceNameSelect } from './pages/service-name-select';
 
 const tabs = [
   { key: 'overview', name: i18n.t('backup:service') },
@@ -20,7 +21,48 @@ const tabs = [
   { key: 'process', name: i18n.t('msp:process') },
 ];
 
-export default (): RouteConfigItem => ({
+const serviceAnalysisRoutes = [
+  {
+    path: 'overview',
+    tabs,
+    layout: { fullHeight: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+  },
+  {
+    path: 'transaction',
+    tabs,
+    layout: { fullHeight: true },
+    routes: [
+      {
+        path: 'trace-detail/:traceId',
+        layout: { fullHeight: true },
+        getComp: (cb: RouterGetComp) => cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
+      },
+      {
+        layout: { fullHeight: true },
+        getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
+      },
+    ],
+  },
+  {
+    path: 'anomaly',
+    tabs,
+    layout: { fullHeight: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/anomaly')),
+  },
+  {
+    path: 'process',
+    tabs,
+    layout: { fullHeight: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/process')),
+  },
+  {
+    layout: { fullHeight: true },
+    getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
+  },
+];
+
+export default () => ({
   path: 'service-list',
   breadcrumbName: i18n.t('msp:service list'),
   routes: [
@@ -32,53 +74,12 @@ export default (): RouteConfigItem => ({
           routes: [
             {
               path: ':serviceName',
-              breadcrumbName: ({ params }) => {
-                const { serviceName } = params || {};
-                return `${i18n.t('msp:service analysis')}(${serviceName})`;
-              },
+              breadcrumbName: i18n.t('msp:service analysis'),
               tabs,
               alwaysShowTabKey: 'overview',
+              pageNameInfo: ServiceNameSelect,
               layout: { fullHeight: true },
-              routes: [
-                {
-                  path: 'overview',
-                  tabs,
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
-                },
-                {
-                  path: 'transaction',
-                  tabs,
-                  layout: { fullHeight: true },
-                  routes: [
-                    {
-                      path: 'trace-detail/:traceId',
-                      layout: { fullHeight: true },
-                      getComp: (cb: RouterGetComp) =>
-                        cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
-                    },
-                    {
-                      getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/transaction')),
-                    },
-                  ],
-                },
-                {
-                  path: 'anomaly',
-                  tabs,
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/anomaly')),
-                },
-                {
-                  path: 'process',
-                  tabs,
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/process')),
-                },
-                {
-                  layout: { fullHeight: true },
-                  getComp: (cb: RouterGetComp) => cb(import('msp/env-overview/service-list/pages/overview')),
-                },
-              ],
+              routes: serviceAnalysisRoutes,
             },
           ],
         },
@@ -89,3 +90,15 @@ export default (): RouteConfigItem => ({
     },
   ],
 });
+
+export function serviceAnalysisRouter() {
+  return {
+    path: 'service-analysis',
+    breadcrumbName: i18n.t('msp:service analysis'),
+    tabs,
+    alwaysShowTabKey: 'overview',
+    pageNameInfo: ServiceNameSelect,
+    layout: { fullHeight: true },
+    routes: serviceAnalysisRoutes,
+  };
+}

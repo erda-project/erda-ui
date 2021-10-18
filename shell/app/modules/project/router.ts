@@ -13,7 +13,7 @@
 
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
-import { PROJECT_TABS, TEST_TABS, DATABANK_TABS, ITERATION_DETAIL_TABS } from './tabs';
+import { PROJECT_TABS, AUTO_TEST_TABS, MANUAL_TEST_TABS, ITERATION_DETAIL_TABS } from './tabs';
 
 function getProjectRouter(): RouteConfigItem[] {
   return [
@@ -127,50 +127,63 @@ function getProjectRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('project/pages/ticket')),
         },
         {
-          path: 'data-bank',
-          breadcrumbName: i18n.t('project:data bank'),
-          routes: [
-            {
-              path: 'data-source',
-              tabs: DATABANK_TABS,
-              layout: { fullHeight: true },
-              getComp: (cb) => cb(import('project/pages/data-source')),
-            },
-            {
-              path: 'config-sheet',
-              tabs: DATABANK_TABS,
-              layout: { fullHeight: true },
-              getComp: (cb) => cb(import('project/pages/config-sheet')),
-            },
-          ],
-        },
-        {
           path: 'pipelines',
           breadcrumbName: i18n.t('pipeline'),
           layout: { fullHeight: true },
           getComp: (cb) => cb(import('project/pages/pipelines')),
         },
         {
-          path: 'testCase',
-          pageName: i18n.t('project:test case'),
+          path: 'manual',
+          pageName: i18n.t('project:manual test'),
           routes: [
             {
-              path: 'manual',
-              tabs: TEST_TABS,
+              path: 'testCase',
+              tabs: MANUAL_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test case'),
-              pageName: i18n.t('project:test case'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
-              path: 'auto',
-              tabs: TEST_TABS,
+              path: 'testPlan',
+              tabs: MANUAL_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test case'),
+              breadcrumbName: i18n.t('project:manual test'),
               routes: [
                 {
-                  tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
+                  getComp: (cb) => cb(import('project/pages/test-plan/test-plan')),
+                },
+                {
+                  path: ':testPlanId',
+                  mark: 'testPlanDetail',
+                  layout: { fullHeight: true },
+                  breadcrumbName: i18n.t('project:plan details'),
+                  getComp: (cb) => cb(import('project/pages/plan-detail')),
+                },
+              ],
+            },
+            {
+              path: 'testEnv',
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
+              tabs: MANUAL_TEST_TABS,
+            },
+          ],
+        },
+        {
+          path: 'auto',
+          pageName: i18n.t('project:auto test'),
+          routes: [
+            {
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/auto-test/index')),
+            },
+            {
+              path: 'testCase',
+              tabs: AUTO_TEST_TABS,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:auto test'),
+              routes: [
+                {
                   getComp: (cb) => cb(import('project/pages/auto-test/index')),
                 },
                 {
@@ -178,24 +191,51 @@ function getProjectRouter(): RouteConfigItem[] {
                   mark: 'autoTestSpaceDetail',
                   breadcrumbName: `${i18n.t('project:Scenes')}({testSpaceName})`,
                   routes: [
-                    // TODO @zxj: 暂时保留，3.22可能启用
-                    // {
-                    //   path: 'apis',
-                    //   layout: { fullHeight: true },
-                    //   ignoreTabQuery: true,
-                    //   tabs: AUTO_TEST_SPACE_TABS,
-                    //   getComp: cb => cb(import('project/pages/auto-test/apis')),
-                    // },
                     {
-                      // path: 'scenes',
-                      // ignoreTabQuery: true,
-                      // tabs: AUTO_TEST_SPACE_TABS,
                       layout: { fullHeight: true },
                       getComp: (cb) => cb(import('project/pages/auto-test/scenes')),
                     },
                   ],
                 },
               ],
+            },
+            {
+              path: 'config-sheet',
+              tabs: AUTO_TEST_TABS,
+              ignoreTabQuery: true,
+              layout: { fullHeight: true },
+              getComp: (cb) => cb(import('project/pages/config-sheet')),
+            },
+            {
+              path: 'testPlan',
+              tabs: AUTO_TEST_TABS,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:auto test'),
+              routes: [
+                {
+                  getComp: (cb) => cb(import('project/pages/test-plan/test-plan-protocol')),
+                },
+                {
+                  path: ':testPlanId',
+                  mark: 'testPlanDetail',
+                  layout: { fullHeight: true },
+                  breadcrumbName: i18n.t('project:plan details'),
+                  getComp: (cb) => cb(import('project/pages/test-plan/auto-test-plan-detail')),
+                },
+              ],
+            },
+            {
+              path: 'data-source',
+              tabs: AUTO_TEST_TABS,
+              layout: { fullHeight: true },
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/data-source')),
+            },
+            {
+              path: 'testEnv',
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'AutoTestEnv'),
+              tabs: AUTO_TEST_TABS,
             },
           ],
         },
@@ -207,75 +247,6 @@ function getProjectRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('project/pages/test-plan/code-coverage')),
             },
           ],
-        },
-        {
-          path: 'testPlan',
-          pageName: i18n.t('project:test plan'),
-          // ignoreTabQuery: true,
-          routes: [
-            {
-              path: 'auto',
-              tabs: TEST_TABS,
-              ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test plan'),
-              routes: [
-                {
-                  tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
-                  // breadcrumbName: i18n.t('project:auto test'),
-                  getComp: (cb) => cb(import('project/pages/test-plan/test-plan-protocol')),
-                },
-                {
-                  path: ':testPlanId',
-                  tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
-                  mark: 'testPlanDetail',
-                  layout: { fullHeight: true },
-                  breadcrumbName: i18n.t('project:plan details'),
-                  getComp: (cb) => cb(import('project/pages/test-plan/auto-test-plan-detail')),
-                },
-              ],
-            },
-
-            {
-              path: 'manual',
-              tabs: TEST_TABS,
-              ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:test plan'),
-              routes: [
-                {
-                  tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
-                  // breadcrumbName: i18n.t('project:manual test'),
-                  getComp: (cb) => cb(import('project/pages/test-plan')),
-                },
-                {
-                  path: ':testPlanId',
-                  tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
-                  mark: 'testPlanDetail',
-                  layout: { fullHeight: true },
-                  breadcrumbName: i18n.t('project:plan details'),
-                  getComp: (cb) => cb(import('project/pages/test-plan/test-plan-detail')),
-                },
-              ],
-            },
-          ],
-        },
-        {
-          path: 'testEnv/:testType',
-          tabs: TEST_TABS,
-          getComp: (cb) => cb(import('project/pages/test-env/test-env')),
-          // routes: [
-          //   {
-          //     path: '',
-          //     alwaysShowTabKey: 'testEnv',
-          //     getComp: cb => cb(import('project/pages/test-env/test-env')),
-          //     tabs: TEST_TABS,
-          //   },
-          //   {
-          //     path: ':tabKey',
-          //     alwaysShowTabKey: 'testEnv/:auto',
-          //     getComp: cb => cb(import('project/pages/test-env/test-env')),
-          //     tabs: TEST_TABS,
-          //   },
-          // ],
         },
         {
           path: 'service',
@@ -301,12 +272,6 @@ function getProjectRouter(): RouteConfigItem[] {
           layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
-        // {
-        //   path: 'auto-test',
-        //   pageName: '自动化测试组件化协议',
-        //   layout: { fullHeight: true },
-        //   getComp: cb => cb(import('project/pages/auto-test')),
-        // },
       ],
     },
   ];

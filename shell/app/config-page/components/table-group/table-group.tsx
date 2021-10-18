@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import Title from '../title/title';
 import Text from '../text/text';
 import { Table } from '../table/table';

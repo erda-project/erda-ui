@@ -111,6 +111,10 @@ const TraceInsightQuerier = () => {
       });
   }, [getTraceDetailContent, requestId]);
 
+  React.useEffect(() => {
+    form.setFieldsValue({ method });
+  }, [method, form]);
+
   const resetRequestTrace = () => {
     form.resetFields();
     clearRequestTraceParams();
@@ -269,7 +273,7 @@ const TraceInsightQuerier = () => {
           </div>
         </TabPane>
         <TabPane tab="Body" key="3">
-          <FormItem name="body" initialValue={body} rules={[banFullWidthPunctuation]}>
+          <FormItem name="body" initialValue={body}>
             <TextArea
               className="request-edit-body-form"
               autoSize={{ minRows: 8, maxRows: 12 }}

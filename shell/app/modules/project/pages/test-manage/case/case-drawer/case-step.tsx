@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, useListDnD } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useListDnD } from "common/use-hooks";
 import { reorder } from 'common/utils';
 import { map, cloneDeep } from 'lodash';
 import { Input } from 'core/nusi';

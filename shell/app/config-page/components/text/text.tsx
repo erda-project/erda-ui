@@ -13,8 +13,8 @@
 
 import React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
-import { Copy, ErdaIcon } from 'common';
-import { Badge, Title } from 'core/nusi';
+import { Copy, ErdaIcon, Title } from 'common';
+import { Badge, Tooltip } from 'core/nusi';
 import { textColorMap } from 'app/config-page/utils';
 import i18n from 'i18n';
 import { getImg } from 'app/config-page/img-map';
@@ -105,6 +105,7 @@ const Text = (props: CP_TEXT.Props) => {
                     operationKey,
                     styleConfig: tConfig,
                     icon,
+                    iconTip,
                     iconStyleName = '',
                     image = '',
                     withTag,
@@ -122,13 +123,21 @@ const Text = (props: CP_TEXT.Props) => {
                       className={`${textClassNames} hover-active`}
                     >
                       {tText}
-                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+                      {icon && (
+                        <Tooltip title={iconTip}>
+                          <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                        </Tooltip>
+                      )}
                       {image && <img src={getImg(image)} className="text-image" />}
                     </a>
                   ) : (
                     <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
                       {withTag ? <span style={tagStyle}>{tText}</span> : tText}
-                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+                      {icon && (
+                        <Tooltip title={iconTip}>
+                          <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                        </Tooltip>
+                      )}
                       {image && <img src={getImg(image)} className="text-image" />}
                     </span>
                   );
@@ -138,7 +147,7 @@ const Text = (props: CP_TEXT.Props) => {
             </span>
           );
         } else if (isPlainObject(text)) {
-          const { operationKey, text: tText, styleConfig: tConfig, icon, image = '', iconStyleName } = text;
+          const { operationKey, text: tText, styleConfig: tConfig, icon, iconTip, image = '', iconStyleName } = text;
           const tStyle = getStyle(tConfig);
           TextComp = operationKey ? (
             <a
@@ -149,13 +158,21 @@ const Text = (props: CP_TEXT.Props) => {
               }}
             >
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+              {icon && (
+                <Tooltip title={iconTip}>
+                  <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                </Tooltip>
+              )}
               {image && <img src={getImg(image)} className="text-image" />}
             </a>
           ) : (
             <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
+              {icon && (
+                <Tooltip title={iconTip}>
+                  <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                </Tooltip>
+              )}
               {image && <img src={getImg(image)} className="text-image" />}
             </span>
           );

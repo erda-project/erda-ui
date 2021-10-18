@@ -16,7 +16,8 @@ import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
 import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'core/nusi';
-import { FormModal, useSwitch, useUpdate } from 'common';
+import { FormModal } from 'common';
+import { useSwitch, useUpdate } from "common/use-hooks";
 import { goTo, insertWhen } from 'common/utils';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';

@@ -17,7 +17,7 @@ import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin, message } from 'core/nusi';
 import { notify } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
@@ -260,7 +260,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return (
-    <div className="h-full">
+    <div className="h-full overflow-auto">
       <div className={`page-config-spin ${showLoading && fetching ? 'spinning' : ''} `}>
         <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height" />
       </div>

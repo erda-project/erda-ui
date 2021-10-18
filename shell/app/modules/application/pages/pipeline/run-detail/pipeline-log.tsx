@@ -13,12 +13,13 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Timeline, Drawer, Title, Tooltip } from 'core/nusi';
+import { Timeline, Drawer, Tooltip } from 'core/nusi';
 import buildStore from 'application/stores/build';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import { useUpdate, EmptyHolder, ErdaCustomIcon } from 'common';
+import { EmptyHolder, Title, ErdaCustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import './pipeline-log.scss';
 import { Loading as IconLoading } from '@icon-park/react';
 
@@ -110,13 +111,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
 
   return (
     <div className={`pipeline-log ${className}`}>
-      <Title
-        title={i18n.t('deployment log')}
-        className="my-3"
-        level={2}
-        showDivider={false}
-        operations={logOperation}
-      />
+      <Title title={i18n.t('deployment log')} level={2} mt={8} showDivider={false} operations={logOperation} />
       {isEmpty(pipelineLog) ? (
         <EmptyHolder relative />
       ) : (

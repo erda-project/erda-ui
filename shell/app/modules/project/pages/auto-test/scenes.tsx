@@ -14,7 +14,7 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import DiceConfigPage from 'app/config-page';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { Drawer } from 'core/nusi';
 import { getUrlQuery } from 'config-page/utils';

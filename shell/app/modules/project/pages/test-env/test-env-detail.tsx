@@ -16,10 +16,10 @@ import React from 'react';
 import i18n from 'i18n';
 import { isValidJsonStr } from 'common/utils';
 import { Input, Select, Table, Radio } from 'core/nusi';
-import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor, useUpdate } from 'common';
+import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import testEnvStore from 'project/stores/test-env';
-import routeInfoStore from 'core/stores/route';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
 
 const { Option } = Select;
@@ -202,6 +202,7 @@ interface IProps {
   visible: boolean;
   data: TEST_ENV.Item | Obj;
   disabled: boolean;
+  testType: string;
   envID: number;
   envType: TEST_ENV.EnvType;
   onCancel: () => any;
@@ -209,8 +210,7 @@ interface IProps {
 
 const headerListOption = headerList.map((o) => ({ label: o, value: o }));
 export const TestEnvDetail = (props: IProps) => {
-  const { data, disabled, visible, onCancel, envID, envType } = props;
-  const { testType = 'manual' } = routeInfoStore.useStore((s) => s.params);
+  const { data, disabled, visible, onCancel, envID, envType, testType } = props;
   const [{ headerMode, globalMode, headerJsonValid, globalJsonValid }, updater, update] = useUpdate({
     headerMode: 'form',
     globalMode: 'form',
