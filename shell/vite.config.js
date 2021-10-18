@@ -9,6 +9,10 @@ import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import { getLessTheme, getScssTheme, themeColor } from './config/theme';
 
+const dotenv = require('dotenv');
+
+const { parsed: envConfig } = dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
 // @see https://cn.vitejs.dev/config/
 export default ({ command, mode }) => {
   let rollupOptions = {};
@@ -87,7 +91,7 @@ export default ({ command, mode }) => {
     // '/foo': 'http://localhost:4567',
     // with options
     '/api/': {
-      target: 'https://dice.dev.terminus.io',
+      target: envConfig.BACKEND_URL,
       changeOrigin: true,
       secure: false,
     },
