@@ -133,6 +133,11 @@ export default function getDopRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('common/containers/addon-resource')),
                 },
                 {
+                  path: 'account',
+                  breadcrumbName: i18n.t('dop:account manage'),
+                  getComp: (cb) => cb(import('dop/pages/account')),
+                },
+                {
                   path: 'settings',
                   breadcrumbName: i18n.t('dop:addon setting'),
                   getComp: (cb) => cb(import('common/components/addon-settings')),

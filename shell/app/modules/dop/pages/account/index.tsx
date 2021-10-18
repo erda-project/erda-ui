@@ -11,27 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Config as IconConfig, Permissions as IconPermissions, ListView as IconListView } from '@icon-park/react';
-import i18n from 'i18n';
 import React from 'react';
+import DiceConfigPage from 'app/config-page';
+import routeInfoStore from 'core/stores/route';
 
-export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
-  const sideMenu = [
-    {
-      href: `${rootPath}/overview`,
-      icon: <IconListView />,
-      text: i18n.t('dop:addon info'),
-    },
-    {
-      href: `${rootPath}/account`,
-      icon: <IconPermissions />,
-      text: i18n.t('dop:account manage'),
-    },
-    {
-      href: `${rootPath}/settings`,
-      icon: <IconConfig />,
-      text: i18n.t('dop:addon setting'),
-    },
-  ];
-  return sideMenu;
+const Mock = () => {
+  const { projectId, insId } = routeInfoStore.useStore((s) => s.params);
+  const inParams = { projectId, instanceId: insId };
+  return (
+    <DiceConfigPage
+      showLoading
+      scenarioType="addon-account-manage"
+      scenarioKey={'addon-account-manage'}
+      inParams={inParams}
+      forceMock
+    />
+  );
 };
+export default Mock;
