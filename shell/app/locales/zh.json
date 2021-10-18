@@ -609,6 +609,8 @@
     "agent registration": "Agent注册",
     "alibaba Cloud Container Service Cluster (Hosted Version)": "阿里云容器服务集群（托管版）",
     "alibaba Cloud Container Service Cluster (proprietary version)": "阿里云容器服务集群（专有版）",
+    "application used": "应用已使用",
+    "are you sure you want to reset?": "确定要重置吗?",
     "artificial-renewal-change-time": "如您在扣款日期前人工续费，则系统按最新到期时间自动进行续费",
     "associate vpc network": "关联vpc网络",
     "at least {limit} or more": "至少{limit}以上",

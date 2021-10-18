@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Button, Drawer, Input, Spin } from 'core/nusi';
+import { Modal, Table, Button, Drawer, Input, Spin, Popconfirm } from 'core/nusi';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
@@ -70,8 +70,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
   const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
   const token = getToken.useData();
-  const resetToken1 = resetToken.useData();
-  const createToken1 = createToken.useData();
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
     tokenManageVisible: false,
@@ -104,11 +102,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         footer={[<Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>]}
       >
         {token ? (
-          <Button
-            className="absolute top-3 right-16"
-            type="primary"
-            onClick={() => {
-              createToken.fetch({
+          <Popconfirm
+            title={i18n.t('cmp:are you sure you want to reset?')}
+            onConfirm={() => {
+              resetToken.fetch({
                 clusterName: state.clusterName,
               });
               getToken.fetch({
@@ -116,8 +113,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
               });
             }}
           >
-            {i18n.t('cmp:reset token')}
-          </Button>
+            <Button className="absolute top-3 right-16" type="primary">
+              {i18n.t('cmp:reset token')}
+            </Button>
+          </Popconfirm>
         ) : (
           <Button
             className="absolute top-3 right-16"

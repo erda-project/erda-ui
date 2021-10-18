@@ -609,6 +609,8 @@
     "agent registration": "agent registration",
     "alibaba Cloud Container Service Cluster (Hosted Version)": "alibaba Cloud Container Service Cluster (Hosted Version)",
     "alibaba Cloud Container Service Cluster (proprietary version)": "alibaba Cloud Container Service Cluster (proprietary version)",
+    "application used": "application used",
+    "are you sure you want to reset?": "are you sure you want to reset?",
     "artificial-renewal-change-time": "if you manually renew before the deduction date, the system will automatically renew according to the latest expiration time",
     "associate vpc network": "associate vpc network",
     "at least {limit} or more": "at least {limit} or more",
