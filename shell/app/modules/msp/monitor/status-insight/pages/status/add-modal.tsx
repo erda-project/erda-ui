@@ -66,7 +66,7 @@ const convertFormData = (_formData?: Obj) => {
       retry: _formData?.config?.retry,
       frequency: _formData?.config?.interval,
       apiMethod: _formData?.config?.method,
-      body: _formData?.config?.body,
+      body: JSON.stringify(_formData?.config?.body || {}),
       headers: _formData?.config?.headers,
       url: _formData?.config?.url,
       query: qs.parseUrl(_formData?.config?.url || '')?.query,
@@ -86,7 +86,7 @@ const convertFormData = (_formData?: Obj) => {
       retry: RETRY_TIMES[0],
       frequency: TIME_LIMITS[0],
       apiMethod: HTTP_METHOD_LIST[0],
-      body: '',
+      body: JSON.stringify({}),
       headers: {},
       url: '',
     };
@@ -101,6 +101,8 @@ const ruleOfJson = {
       } catch {
         throw new Error(i18n.t('msp:please enter the correct JSON format'));
       }
+    } else {
+      return true;
     }
   },
 };
@@ -189,7 +191,7 @@ const AddModal = (props: IProps) => {
           retry,
           interval: frequency,
           headers,
-          body,
+          body: JSON.parse(body),
           method: apiMethod,
           triggering: condition,
         },
@@ -206,7 +208,7 @@ const AddModal = (props: IProps) => {
           interval: frequency,
           headers,
           url,
-          body,
+          body: JSON.parse(body),
           method: apiMethod,
           triggering: condition,
         },
@@ -294,6 +296,9 @@ const AddModal = (props: IProps) => {
                 <KeyValueTable
                   isTextArea={false}
                   onChange={(header: any) => {
+                    updater.headers(header);
+                  }}
+                  onDel={(header: any) => {
                     updater.headers(header);
                   }}
                   data={headers}

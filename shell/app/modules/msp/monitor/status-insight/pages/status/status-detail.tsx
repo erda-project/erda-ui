@@ -101,11 +101,9 @@ const StatusDetail = () => {
         <div className="url-bar">
           <span className="mr-4 whitespace-nowrap overflow-ellipsis overflow-hidden ...">
             {data.name}&nbsp;&nbsp;
-            {/* <a href={data.url} style={{ cursor: 'alias' }} target="_blank" rel="noopener noreferrer"> */}
             <Tooltip arrowPointAtCenter title={data.url}>
               ({data.url})
             </Tooltip>
-            {/* </a> */}
           </span>
           <div>
             {
