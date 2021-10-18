@@ -27,7 +27,7 @@ import { setConfig, getConfig } from 'core/config';
 import permStore from 'user/stores/permission';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
-import { getCurrentLocale } from 'core/i18n';
+import i18n, { getCurrentLocale } from 'core/i18n';
 import { EmptyListHolder } from 'common';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
 import * as nusi from 'core/nusi';
@@ -43,6 +43,8 @@ setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
 
 const history = getConfig('history');
+
+console.log(123123, i18n.d('I love you'));
 
 const { AntdConfigProvider } = nusi;
 const momentLangMap = {
