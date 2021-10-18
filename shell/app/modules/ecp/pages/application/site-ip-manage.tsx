@@ -14,7 +14,7 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { MonitorDrawer } from '../components/monitor-drawer';
 
 const appSiteIpManage = () => {

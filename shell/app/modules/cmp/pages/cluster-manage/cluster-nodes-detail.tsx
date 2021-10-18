@@ -14,7 +14,8 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { PureBoardGrid, Holder, useUpdate, TimeSelector } from 'common';
+import { PureBoardGrid, Holder, TimeSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Spin } from 'core/nusi';
 import { isEmpty } from 'lodash';
 import CommonDashboardStore from 'common/stores/dashboard';

@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Select, Tooltip } from 'core/nusi';
-import { useUpdate, CRUDTable } from 'common';
+import { CRUDTable } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { map, get, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
 import routeInfoStore from 'core/stores/route';

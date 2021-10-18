@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, useUpdate, Copy } from 'common';
+import { CRUDTable, Copy } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Link } from 'react-router-dom';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';

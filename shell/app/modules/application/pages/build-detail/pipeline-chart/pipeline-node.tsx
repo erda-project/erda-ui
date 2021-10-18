@@ -14,7 +14,8 @@
 import React from 'react';
 import { isEmpty, get, isNumber, debounce } from 'lodash';
 import { Popover, Tooltip } from 'core/nusi';
-import { Icon as CustomIcon, useUpdate } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { secondsToTime } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import { ciNodeStatusSet, ciStatusMap } from '../config';

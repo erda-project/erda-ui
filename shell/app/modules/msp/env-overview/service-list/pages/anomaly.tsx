@@ -14,7 +14,8 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { Select } from 'core/nusi';
-import { useUpdate, EmptyHolder } from 'common';
+import { EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';

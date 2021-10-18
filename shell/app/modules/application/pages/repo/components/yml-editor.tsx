@@ -32,7 +32,8 @@ import {
 } from 'application/common/yml-flow-util';
 import { getInfoFromRefName } from 'application/pages/repo/util';
 import classnames from 'classnames';
-import { FormModal, RenderForm, useUpdate } from 'common';
+import { FormModal, RenderForm } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo, notify } from 'common/utils';
 
 import { cloneDeep, filter, find, findIndex, forEach, get, omit, isEmpty } from 'lodash';

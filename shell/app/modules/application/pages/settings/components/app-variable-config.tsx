@@ -14,7 +14,8 @@
 import { useLoading } from 'core/stores/loading';
 import configStore from 'app/modules/application/stores/pipeline-config';
 import appStore from 'application/stores/application';
-import { Copy, IF, useUpdate, CustomFilter, FileEditor } from 'common';
+import { Copy, IF, CustomFilter, FileEditor } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 import { WORKSPACE_LIST } from 'common/constants';
 import routeInfoStore from 'core/stores/route';

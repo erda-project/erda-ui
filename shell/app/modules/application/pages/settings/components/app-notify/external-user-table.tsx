@@ -14,7 +14,7 @@
 import React from 'react';
 import { cloneDeep, find, findIndex, fill, uniqueId, filter, map, omit, every, some, isEmpty } from 'lodash';
 import { Button, Table, Input, message } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 
 export default ({ value: targets, onChange }: { value?: any[]; onChange: (value: string[]) => void }) => {

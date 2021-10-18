@@ -17,7 +17,7 @@ import ReleaseInfo from './release-detail-info';
 import ReleaseEdit from './release-detail-edit';
 import DetailYml from './release-detail-yml';
 import i18n from 'i18n';
-import { useUpdate } from 'app/common';
+import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { isEmpty } from 'lodash';
 import releaseStore from 'application/stores/release';

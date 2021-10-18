@@ -13,7 +13,8 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
+import { Icon as CustomIcon, EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Spin, Tooltip, Pagination } from 'core/nusi';
 import { useDrop } from 'react-dnd';
 import moment from 'moment';

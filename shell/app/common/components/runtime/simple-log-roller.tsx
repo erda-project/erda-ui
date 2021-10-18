@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { PureLogRoller, useUpdate } from 'common';
+import { PureLogRoller } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { regLog } from 'common/components/log/log-util';
 import { transformLog } from 'app/common/utils';
 import commonStore from 'app/common/stores/common';

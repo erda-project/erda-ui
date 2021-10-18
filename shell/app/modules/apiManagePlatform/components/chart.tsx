@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Spin } from 'core/nusi';
-import { useUpdate, CommonRangePicker, PureBoardGrid } from 'common';
+import { CommonRangePicker, PureBoardGrid } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { getDashboard } from 'apiManagePlatform/services/api-access';
 import { get, isString, merge, reduce, values, isEmpty } from 'lodash';
 import { getTimeSpan } from 'common/utils';

@@ -20,7 +20,7 @@ import routeInfoStore from 'core/stores/route';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
 import { qs } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import './sub-sidebar.scss';
 
 const { stringify, parseUrl } = qs;

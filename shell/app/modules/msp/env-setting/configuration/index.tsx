@@ -14,7 +14,8 @@
 import React from 'react';
 import './index.scss';
 import { ColumnProps } from 'core/common/interface';
-import { useUpdate, Copy, EmptyHolder } from 'common';
+import { Copy, EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { Button, Table, Modal, Popconfirm, message, Spin } from 'core/nusi';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';

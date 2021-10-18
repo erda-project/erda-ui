@@ -14,7 +14,8 @@
 import React, { useEffect } from 'react';
 import { map, forEach, reduce, isEmpty } from 'lodash';
 import i18n from 'i18n';
-import { Icon as CustomIcon, useUpdate, Holder } from 'common';
+import { Icon as CustomIcon, Holder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
 import { Card, InputNumber, Button, Modal, Spin, message } from 'core/nusi';
 import { useLoading } from 'core/stores/loading';

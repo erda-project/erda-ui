@@ -13,7 +13,8 @@
 
 import { goTo } from 'app/common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
-import { DeleteConfirm, useUpdate, Ellipsis } from 'common';
+import { DeleteConfirm, Ellipsis } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';

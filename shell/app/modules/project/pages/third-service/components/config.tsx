@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import { produce } from 'immer';
 import { getOptions, groupOptions } from 'app/modules/cmp/pages/cluster-manage/config';
 import React from 'react';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 const { Option } = Select;
 

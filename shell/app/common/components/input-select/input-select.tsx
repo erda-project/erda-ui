@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Input, Dropdown, Menu, Tooltip } from 'core/nusi';
-import { useUpdate, EmptyHolder, Icon as CustomIcon, Ellipsis } from 'common';
+import { EmptyHolder, Icon as CustomIcon, Ellipsis } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { map, get, find, filter, isEmpty, has, some, isEqual, last, compact } from 'lodash';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
 import i18n from 'i18n';

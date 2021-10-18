@@ -22,7 +22,7 @@ import { regRulesMap } from '../form-utils';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { insertWhen, regRules } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import orgStore from 'app/org-home/stores/org';
 import { AliCloudFormPreview } from './index';
 

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Button, Input, Switch } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { map, cloneDeep, uniq, compact } from 'lodash';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import i18n from 'i18n';

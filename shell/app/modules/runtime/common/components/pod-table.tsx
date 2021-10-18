@@ -16,7 +16,7 @@ import { Table, Modal, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import runtimeServiceStore from 'runtime/stores/service';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 
 interface IProps {

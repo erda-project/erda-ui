@@ -16,7 +16,7 @@ import { Drawer } from 'core/nusi';
 import ResourceUsageCharts from 'monitor-common/components/resource-usage/resource-usage-charts';
 import Terminal from 'dcos/common/containers/terminal';
 import ContainerLog from 'runtime/common/logs/containers/container-log';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 
 export enum OPERATION {

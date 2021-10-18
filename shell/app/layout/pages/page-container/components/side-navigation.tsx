@@ -15,7 +15,7 @@ import React from 'react';
 import { Menu, Button } from 'core/nusi';
 import { map } from 'lodash';
 import { MenuProps } from 'core/common/interface';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { MenuFold as IconMenuFold, MenuUnfold as IconMenuUnfold } from '@icon-park/react';
 
 export interface IMenu {
