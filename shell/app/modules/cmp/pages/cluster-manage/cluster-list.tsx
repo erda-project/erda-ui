@@ -70,6 +70,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
   const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
   const token = getToken.useData();
+  const resetNewToken = resetToken.useData();
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
     tokenManageVisible: false,
@@ -108,9 +109,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
               resetToken.fetch({
                 clusterName: state.clusterName,
               });
-              getToken.fetch({
-                clusterName: state.clusterName,
-              });
             }}
           >
             <Button className="absolute top-3 right-16" type="primary">
@@ -137,7 +135,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           {token ? (
             <div className="flex items-center mb-1">
               <span>token</span>
-              <span className="ml-32">{token?.accessKey}</span>
+              <span className="ml-32">{resetNewToken || token?.accessKey}</span>
             </div>
           ) : (
             <span>{i18n.t('cmp:no token available')}</span>
@@ -146,7 +144,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
         <div className="flex items-center text-primary">
           <IconCopy size="14" />
-          <Copy selector=".container-key" copyText={token?.accessKey}>
+          <Copy selector=".container-key" copyText={resetNewToken || token?.accessKey}>
             {i18n.t('copy')}
           </Copy>
         </div>
