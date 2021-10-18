@@ -32,7 +32,7 @@ import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
 import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
-import { Copy as IconCopy, Record } from '@icon-park/react';
+import { Copy as IconCopy } from '@icon-park/react';
 
 import './cluster-list.scss';
 
