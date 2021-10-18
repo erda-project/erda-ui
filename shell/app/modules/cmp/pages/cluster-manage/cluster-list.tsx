@@ -31,8 +31,8 @@ import { useLoading } from 'core/stores/loading';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
-import { getToken } from 'cmp/services/token-manage';
-import { Copy as IconCopy } from '@icon-park/react';
+import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
+import { Copy as IconCopy, Record } from '@icon-park/react';
 
 import './cluster-list.scss';
 
@@ -70,9 +70,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
   const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
   const token = getToken.useData();
+  const resetToken1 = resetToken.useData();
+  const createToken1 = createToken.useData();
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
     tokenManageVisible: false,
+    clusterName: '',
     modalVisibleRow: null,
     popoverVisible: false,
     popoverVisibleRow: null,
@@ -100,19 +103,51 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         visible={state.tokenManageVisible}
         footer={[<Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>]}
       >
-        <Button className="absolute top-3 right-16" type="primary">
-          {i18n.t('cmp:create Token')}
-        </Button>
+        {token ? (
+          <Button
+            className="absolute top-3 right-16"
+            type="primary"
+            onClick={() => {
+              createToken.fetch({
+                clusterName: state.clusterName,
+              });
+              getToken.fetch({
+                clusterName: state.clusterName,
+              });
+            }}
+          >
+            {i18n.t('cmp:reset token')}
+          </Button>
+        ) : (
+          <Button
+            className="absolute top-3 right-16"
+            type="primary"
+            onClick={() => {
+              createToken.fetch({
+                clusterName: record.name,
+              });
+              getToken.fetch({
+                clusterName: state.clusterName,
+              });
+            }}
+          >
+            {i18n.t('cmp:create Token')}
+          </Button>
+        )}
         <div className="rounded-sm p-4 bg-wathet text-gray mb-4">
-          <div className="flex items-center mb-1">
-            <span>token</span>
-            <span className="ml-32">u8u897890890890-</span>
-          </div>
+          {token ? (
+            <div className="flex items-center mb-1">
+              <span>token</span>
+              <span className="ml-32">{token?.accessKey}</span>
+            </div>
+          ) : (
+            <span>{i18n.t('cmp:no token available')}</span>
+          )}
         </div>
 
         <div className="flex items-center text-primary">
           <IconCopy size="14" />
-          <Copy selector=".container-key" copyText={'asdasdasdasd'}>
+          <Copy selector=".container-key" copyText={token?.accessKey}>
             {i18n.t('copy')}
           </Copy>
         </div>
@@ -232,12 +267,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         title: i18n.t('msp:token management'),
         onClick: () => {
           updater.tokenManageVisible(true);
-          // console.log(record.name);
-          // getToken.fetch({
-          //   clusterName: 'abc'
-          // })
+          updater.clusterName(record.name);
           getToken.fetch({
-            clusterName: '123',
+            clusterName: record.name,
           });
         },
       },

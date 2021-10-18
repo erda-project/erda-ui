@@ -12,35 +12,30 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { apiCreator } from 'core/service';
-
-// interface IDomainRequest {
-//   domain?: string;
-//   clusterName?: string;
-//   type?: string;
-//   projectID?: string;
-//   workspace?: string;
-// }
-
-interface returnData {
-  success: boolean;
-  data: string;
+interface tokenInfo {
+  id: string;
+  accessKey: string;
 }
 
-interface param {
+interface tokenParams {
   clusterName: string;
+}
+interface createAndResetTokenData {
+  data: string;
 }
 
 const apis = {
   getToken: {
     api: `get@/api/cluster/credential/access-keys`,
   },
-
-  //   getClusterList: {
-  //     api: '/api/clusters',
-  //   },
-  //   getDomainList: {
-  //     api: '/api/domains',
-  //   },
+  createToken: {
+    api: 'post@/api/cluster/credential/access-keys',
+  },
+  resetToken: {
+    api: 'post@/api/cluster/credential/access-keys/actions/reset',
+  },
 };
 
-export const getToken = apiCreator<(payload: param) => returnData>(apis.getToken);
+export const getToken = apiCreator<(payload: tokenParams) => tokenInfo>(apis.getToken);
+export const createToken = apiCreator<(payload: tokenParams) => createAndResetTokenData>(apis.createToken);
+export const resetToken = apiCreator<(payload: tokenParams) => createAndResetTokenData>(apis.resetToken);
