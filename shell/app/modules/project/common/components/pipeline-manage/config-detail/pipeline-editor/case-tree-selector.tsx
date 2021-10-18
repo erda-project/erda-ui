@@ -17,7 +17,7 @@ import { get, map, isEmpty, debounce, filter } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import { getTreeNodeDetailNew, getCategoryByIdNew, fuzzySearchNew } from 'common/services/file-tree';
 import { notify } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import { Form } from 'dop/pages/form-editor/index';
 import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';

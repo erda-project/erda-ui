@@ -18,7 +18,8 @@ import buildStore from 'application/stores/build';
 import { useLoading } from 'core/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import { useUpdate, EmptyHolder, Title, ErdaCustomIcon } from 'common';
+import { EmptyHolder, Title, ErdaCustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import './pipeline-log.scss';
 import { Loading as IconLoading } from '@icon-park/react';
 

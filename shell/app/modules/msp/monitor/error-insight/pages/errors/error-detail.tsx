@@ -15,7 +15,8 @@
 import React from 'react';
 import { Button, Row, Col, Tooltip, Drawer, Spin } from 'core/nusi';
 import TraceDetail from 'trace-insight/pages/trace-detail';
-import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog, useUpdate } from 'common';
+import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get, map, isEmpty } from 'lodash';
 import moment from 'moment';
 import monitorErrorStore from 'error-insight/stores/error';

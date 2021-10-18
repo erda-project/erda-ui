@@ -21,7 +21,7 @@ import { Drawer } from 'core/nusi';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 import { getPreviewData } from 'project/pages/auto-test/scenes';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 const AutoTestPlanDetail = () => {
   const { projectId, testPlanId } = routeInfoStore.useStore((s) => s.params);

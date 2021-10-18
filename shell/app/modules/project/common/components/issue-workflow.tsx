@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { map, find, get } from 'lodash';
 import { IssueIcon } from 'project/common/components/issue/issue-icon';
 import issueWorkflowStore from 'project/stores/issue-workflow';

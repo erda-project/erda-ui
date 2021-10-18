@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Row, Col } from 'core/nusi';
-import { useMediaGt } from './use-hooks';
+import { useMediaGt } from '../use-hooks';
 
 const suitableMap = {
   1: 24,

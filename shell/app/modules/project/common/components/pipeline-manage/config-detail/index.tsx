@@ -16,7 +16,7 @@ import CaseInfo from './case-info';
 import autoTestStore from 'project/stores/auto-test-case';
 import CasePipelineEditor from './pipeline-editor';
 import RecordList from './record-list';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import i18n from 'i18n';
 

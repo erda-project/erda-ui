@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Button } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import React from 'react';
 import { getSplitPathBy } from '../util';

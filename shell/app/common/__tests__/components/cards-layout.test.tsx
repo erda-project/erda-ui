@@ -14,7 +14,7 @@
 import React from 'react';
 import { CardsLayout } from 'common';
 import { mount } from 'enzyme';
-import * as hooks from 'common/components/use-hooks';
+import * as hooks from 'common/use-hooks';
 
 const widths = [
   { width: 2000, className: 'card-list-container-g6' },

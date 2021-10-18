@@ -25,7 +25,8 @@ import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/iss
 import { map, isEmpty } from 'lodash';
 import { useMount } from 'react-use';
 import { CustomIssueState } from 'project/common/components/issue/issue-state';
-import { useUpdate, Filter, MemberSelector } from 'common';
+import { Filter, MemberSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import { Input, Table, Button, Select, RangePicker, Tooltip } from 'core/nusi';

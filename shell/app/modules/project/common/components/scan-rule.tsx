@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import scanRuleStore from 'project/stores/scan-rule';
 import { useEffectOnce } from 'react-use';
 import { WithAuth } from 'user/common';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 
 interface IProps {

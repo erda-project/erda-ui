@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Input, Menu, Dropdown, Tooltip, Modal } from 'core/nusi';
 import i18n from 'i18n';
 import './index.scss';

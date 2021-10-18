@@ -14,7 +14,8 @@
 import React from 'react';
 import { Row, Col, Radio, Input, Select } from 'core/nusi';
 import { map, get, isEmpty } from 'lodash';
-import { Icon as CustomIcon, PureBoardGrid, TimeSelector, useUpdate } from 'common';
+import { Icon as CustomIcon, PureBoardGrid, TimeSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import moment from 'moment';
 import statisticsStore from 'app/modules/publisher/stores/statistics';

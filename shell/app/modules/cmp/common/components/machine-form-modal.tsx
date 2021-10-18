@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, Icon as CustomIcon, useUpdate } from 'common';
+import { FormModal, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { regRules } from 'common/utils';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';

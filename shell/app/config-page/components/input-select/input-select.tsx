@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { useUpdateEffect } from 'react-use';
-import { useUpdate, InputSelect } from 'common';
+import { InputSelect } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 export default (props: CP_INPUT_SELECT.Props) => {
   const { props: configProps, state: propsState, operations, execOperation } = props;

@@ -14,7 +14,7 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { isEmpty } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { MonitorDrawer } from '../components/monitor-drawer';
 
 const applicationList = () => {

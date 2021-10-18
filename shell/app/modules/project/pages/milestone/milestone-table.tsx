@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { useUpdate } from 'app/common';
+import { useUpdate } from 'common/use-hooks';
 import { EmptyListHolder } from 'common';
 import { isEmpty, groupBy, sortBy, filter } from 'lodash';
 import moment from 'moment';

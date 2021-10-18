@@ -18,7 +18,7 @@ import { IYmlEditorProps } from './index';
 // import yaml from 'js-yaml';
 // import { map, get, omit, isEmpty, cloneDeep, difference, flatten } from 'lodash';
 // import { Spin, Button, message } from 'core/nusi';
-// import { useUpdate, RenderForm } from 'common';
+// import { RenderForm } from 'common';
 // import repoStore from 'application/stores/repo';
 // import { getInfoFromRefName } from 'application/pages/repo/util';
 // import FileContainer from 'application/common/components/file-container';

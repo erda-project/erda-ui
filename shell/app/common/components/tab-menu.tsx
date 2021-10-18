@@ -15,7 +15,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { pick, isEmpty } from 'lodash';
 import { isPromise, goTo as goToPath, qs } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 interface IMenuItem {

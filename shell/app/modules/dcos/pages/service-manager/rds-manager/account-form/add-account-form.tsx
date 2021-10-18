@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FormModal, Icon as CustomIcon, useUpdate } from 'common';
+import { FormModal, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { checkPassword } from 'dcos/common/config';
 import { FormInstance } from 'core/common/interface';

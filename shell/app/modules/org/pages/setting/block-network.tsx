@@ -17,7 +17,8 @@ import { Switch, Alert, Row, Col, Spin, Modal } from 'core/nusi';
 import { useLoading } from 'core/stores/loading';
 import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 enum Environment {
   DEV = 'blockDev',

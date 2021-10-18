@@ -20,7 +20,7 @@ import { SelectProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { DownOne as IconDownOne, Refresh as IconRefresh, Time as IconTime } from '@icon-park/react';
 import './time-select.scss';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { cloneDeep, map } from 'lodash';
 import {
   autoRefreshDuration,
