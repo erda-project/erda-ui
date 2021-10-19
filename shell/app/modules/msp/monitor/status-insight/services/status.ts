@@ -13,12 +13,9 @@
 
 import agent from 'agent';
 
-export const getProjectDashboard = ({
-  projectId,
-  ...query
-}: MONITOR_STATUS.IDashboardQuery): MONITOR_STATUS.IDashboardResp => {
+export const getProjectDashboard = (query: MONITOR_STATUS.IDashboardQuery): MONITOR_STATUS.IDashboardResp => {
   return agent
-    .get(`/api/spot/projects/${projectId}/dashboard`)
+    .get('/api/spot/msp/apm/checkers/dashboard')
     .query(query)
     .then((response: any) => response.body);
 };
@@ -28,35 +25,35 @@ export const getStatusDetail = ({
   period,
 }: MONITOR_STATUS.IDashboardDetailQuery): MONITOR_STATUS.IDashboardResp => {
   return agent
-    .get(`/api/spot/metrics/${id}/dashboard`)
+    .get(`/api/spot/msp/apm/checker/${id}/dashboard`)
     .query({ period })
     .then((response: any) => response.body);
 };
 
 export const getPastIncidents = ({ id }: { id: string }): MONITOR_STATUS.IPastIncidents[] => {
-  return agent.get(`/api/spot/metrics/${id}/issues`).then((response: any) => response.body);
+  return agent.get(`/api/spot/msp/apm/checker/${id}/issues`).then((response: any) => response.body);
 };
 
 export const getMetricStatus = ({ metricId }: { metricId: string }): MONITOR_STATUS.IMetrics => {
-  return agent.get(`/api/spot/metrics/${metricId}/status`).then((response: any) => response.body);
+  return agent.get(`/api/spot/msp/apm/checker/${metricId}/status`).then((response: any) => response.body);
 };
 
-export const saveService = ({ projectId, data }: MONITOR_STATUS.ICreateMetricsBody) => {
+export const saveService = ({ data }: MONITOR_STATUS.ICreateMetricsBody) => {
   return agent
-    .post(`/api/spot/projects/${projectId}/metrics`)
+    .post('/api/spot/msp/apm/checker')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const updateMetric = (data: MONITOR_STATUS.IMetricsBody) => {
   return agent
-    .post(`/api/spot/metrics/${data.id}`)
+    .post(`/api/spot/msp/apm/checker/${data.id}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const deleteMetric = (id: string) => {
-  return agent.delete(`/api/spot/metrics/${id}`).then((response: any) => response.body);
+  return agent.delete(`/api/spot/msp/apm/checker/${id}`).then((response: any) => response.body);
 };
 
 export const setDatumPoint = (data: { id: string; url: string }) => {
