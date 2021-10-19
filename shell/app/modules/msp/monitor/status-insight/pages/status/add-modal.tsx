@@ -147,7 +147,7 @@ const AddModal = (props: IProps) => {
     });
     updater.condition([...condition]);
   };
-  console.log(formData);
+
   const setInputValue = (index: number, value: number | string) => {
     condition[index].value = value;
     updater.condition([...condition]);
@@ -173,8 +173,6 @@ const AddModal = (props: IProps) => {
       updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
     }
   };
-  console.log(typeof body);
-  console.log(body);
 
   const formatBody = () => {
     if (body) {
@@ -182,7 +180,6 @@ const AddModal = (props: IProps) => {
       update({
         body: JSON.stringify(jsonObj, null, 2),
       });
-      console.log(body);
       formRef.current?.setFieldsValue({ body: JSON.stringify(jsonObj, null, 2) });
     }
   };
