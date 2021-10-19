@@ -55,7 +55,16 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
   const [canGetClusterListAndResources, setCanGetClusterListAndResources] = React.useState(false);
   const updatePrj = (values: Obj) => {
-    const { isPublic } = values;
+    const { isPublic, resourceConfig } = values;
+    if (resourceConfig) {
+      Object.keys(values.resourceConfig)
+        .filter((key) => resourceConfig[key])
+        .forEach((key) => {
+          resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
+          resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
+        });
+    }
+
     updateProject({ ...values, isPublic: isPublic === 'true' }).then(() => {
       updateTenantProject({
         id: `${info.id}`,
