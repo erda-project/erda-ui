@@ -100,37 +100,36 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         width={720}
         title={i18n.t('cmp:cluster Token Management')}
         visible={state.tokenManageVisible}
-        footer={[<Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>]}
-      >
-        {token ? (
-          <Popconfirm
-            title={i18n.t('cmp:are you sure you want to reset?')}
-            onConfirm={() => {
-              resetToken.fetch({
-                clusterName: state.clusterName,
-              });
-            }}
-          >
-            <Button className="absolute top-3 right-16" type="primary">
-              {i18n.t('cmp:reset token')}
+        footer={[
+          token ? (
+            <Popconfirm
+              title={i18n.t('cmp:are you sure you want to reset?')}
+              onConfirm={() => {
+                resetToken.fetch({
+                  clusterName: state.clusterName,
+                });
+              }}
+            >
+              <Button type="primary">{i18n.t('cmp:reset token')}</Button>
+            </Popconfirm>
+          ) : (
+            <Button
+              type="primary"
+              onClick={() => {
+                createToken.fetch({
+                  clusterName: state.clusterName,
+                });
+                getToken.fetch({
+                  clusterName: state.clusterName,
+                });
+              }}
+            >
+              {i18n.t('cmp:create Token')}
             </Button>
-          </Popconfirm>
-        ) : (
-          <Button
-            className="absolute top-3 right-16"
-            type="primary"
-            onClick={() => {
-              createToken.fetch({
-                clusterName: state.clusterName,
-              });
-              getToken.fetch({
-                clusterName: state.clusterName,
-              });
-            }}
-          >
-            {i18n.t('cmp:create Token')}
-          </Button>
-        )}
+          ),
+          <Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>,
+        ]}
+      >
         <div className="rounded-sm p-4 bg-wathet text-gray mb-4">
           {token ? (
             <div className="flex items-center mb-1">
@@ -265,9 +264,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onClick: () => {
           updater.tokenManageVisible(true);
           updater.clusterName(record.name);
-          getToken.fetch({
-            clusterName: record.name,
-          });
+          // getToken.fetch({
+          //   clusterName: record.name,
+          // });
         },
       },
       addMachine: {
