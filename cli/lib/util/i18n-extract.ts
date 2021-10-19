@@ -139,12 +139,7 @@ function customFlush(done: () => void) {
   done();
 }
 
-export default (
-  resolve: (value: void | PromiseLike<void>) => void,
-  _ns: string,
-  srcDir: string,
-  _localePath: string,
-) => {
+export default (resolve: (value: void | PromiseLike<void>) => void, srcDir: string, _localePath: string) => {
   const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!**/node_modules/**'];
   if (srcDir.endsWith('shell')) {
     paths.push(`!${srcDir}/snippets/*.{js,jsx,ts,tsx}`);
@@ -158,11 +153,7 @@ export default (
   content = fs.readFileSync(enJsonPath, 'utf8');
   originalEnJson = JSON.parse(content);
 
-  const namespaces = Object.keys(originalZhJson);
-  if (!namespaces.includes(_ns)) {
-    namespaces.push(_ns);
-  }
-  ns = namespaces;
+  ns = Object.keys(originalZhJson);
 
   vfs
     .src(paths)
