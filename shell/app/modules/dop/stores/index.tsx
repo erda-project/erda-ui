@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'core/cube';
+import React from 'react';
 import { getAddons, approves } from '../services/index';
 import layoutStore from 'layout/stores/layout';
 import addonStore from 'common/stores/addon';
@@ -21,6 +22,7 @@ import { getTranslateAddonList } from 'app/locales/utils';
 import { reduce } from 'lodash';
 import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { getSideMenu } from '../pages/addons/sidebar-menu';
+import { Permissions as IconPermissions } from '@icon-park/react';
 
 interface IState {
   addonCategory: {
@@ -68,6 +70,13 @@ const dopStore = createFlatStore({
               href: `${rootPath}/${addonName}`,
               icon: 'rqrz',
               text: i18n.t('JVM analysis'),
+            });
+          } else if (addonName === 'mysql') {
+            menu.splice(1, 0, {
+              key: 'account',
+              href: `${rootPath}/account`,
+              icon: <IconPermissions />,
+              text: i18n.t('dop:accounts'),
             });
           }
           layoutStore.reducers.setSubSiderInfoMap({

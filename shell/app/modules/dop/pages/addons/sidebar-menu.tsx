@@ -23,11 +23,6 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
       text: i18n.t('dop:addon info'),
     },
     {
-      href: `${rootPath}/account`,
-      icon: <IconPermissions />,
-      text: i18n.t('dop:accounts'),
-    },
-    {
       href: `${rootPath}/settings`,
       icon: <IconConfig />,
       text: i18n.t('dop:addon setting'),
