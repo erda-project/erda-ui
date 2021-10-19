@@ -108,7 +108,7 @@ export const filterTranslationGroup = (
   untranslatedWords: Set<string>,
   translatedWords: { [k: string]: string },
 ) => {
-  const _notTranslatedWords = [...toTranslateEnWords]; // The English collection of the current document that needs to be translated
+  const notTranslatedWords = [...toTranslateEnWords]; // The English collection of the current document that needs to be translated
   // Traverse namespaces of zh.json to see if there is any English that has been translated
   Object.keys(zhResource).forEach((namespaceKey) => {
     // All translations in the current namespace
@@ -119,11 +119,11 @@ export const filterTranslationGroup = (
         // eslint-disable-next-line no-param-reassign
         translatedWords[enWord] =
           namespaceKey === 'default' ? namespaceWords[enWord] : `${namespaceKey}:${namespaceWords[enWord]}`;
-        remove(_notTranslatedWords, (w) => w === enWord);
+        remove(notTranslatedWords, (w) => w === enWord);
       }
     });
   });
-  _notTranslatedWords.forEach(untranslatedWords.add, untranslatedWords);
+  notTranslatedWords.forEach(untranslatedWords.add, untranslatedWords);
 };
 
 const i18nDRegex = /i18n\.d\(["'](.+?)["']\)/g;
@@ -138,7 +138,7 @@ const i18nDRegex = /i18n\.d\(["'](.+?)["']\)/g;
  * @param untranslatedWords untranslated collection
  * @param resolve promise resolver
  */
-export const extractUntranslatedWordsFromFile = (
+export const extractUntranslatedWords = (
   content: string,
   filePath: string,
   isEnd: boolean,
@@ -236,6 +236,53 @@ export const restoreSourceFile = (
   if (changed) {
     fs.writeFileSync(filePath, newContent, 'utf8');
   }
+  if (isEnd) {
+    resolve();
+  }
+};
+
+const i18nRRegex = /i18n\.r\(["'](.+?)["']\)/g;
+
+/**
+ * extract i18n.r content
+ * @param content raw file content
+ * @param filePath file path
+ * @param isEnd is traverse done
+ * @param resolve promise resolver
+ */
+export const extractPendingSwitchContent = (
+  content: string,
+  filePath: string,
+  isEnd: boolean,
+  ns: string,
+  toSwitchWords: Set<string>,
+  resolve: (value: void | PromiseLike<void>) => void,
+) => {
+  // Only process code files
+  if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
+    return;
+  }
+  let match = i18nRRegex.exec(content);
+  let replacedText = content;
+  let changed = false;
+  while (match) {
+    if (match) {
+      const matchedText = match[1];
+      toSwitchWords.add(matchedText);
+      const wordArr = matchedText.split(':');
+      const enWord = wordArr.length === 2 ? wordArr[1] : matchedText;
+      replacedText = replacedText.replace(match[0], `i18n.t('${ns}:${enWord}')`);
+      changed = true;
+    }
+    match = i18nRRegex.exec(content);
+  }
+  if (changed) {
+    fs.writeFileSync(filePath, replacedText, 'utf8');
+  }
+  if (!isEnd && toSwitchWords.size === 0) {
+    return;
+  }
+
   if (isEnd) {
     resolve();
   }

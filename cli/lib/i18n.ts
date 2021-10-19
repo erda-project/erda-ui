@@ -17,10 +17,11 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { walker } from './util/file-walker';
 import { doTranslate } from './util/google-translate';
-import { logInfo, logSuccess } from './util/log';
+import { logInfo, logSuccess, logWarn } from './util/log';
 import { getCwdModuleName } from './util/env';
 import {
-  extractUntranslatedWordsFromFile,
+  extractPendingSwitchContent,
+  extractUntranslatedWords,
   findMatchFolder,
   prepareEnv,
   restoreSourceFile,
@@ -29,19 +30,44 @@ import {
   writeLocaleFiles,
 } from './util/i18n-utils';
 
-// const i18nRRegex = /i18n\.r\(["'](.+?)["']\)/g;
-
-let workDir = '.';
-
 export default async ({ workDir: _workDir, switchNs }: { workDir: string; switchNs?: boolean }) => {
   try {
-    workDir = _workDir || process.cwd();
+    const workDir = _workDir || process.cwd();
     let ns = getCwdModuleName({ currentPath: workDir });
     const localePath = findMatchFolder('locales', workDir)!;
 
     const originalZhResource = prepareEnv(localePath);
     // switch namespace
     if (switchNs) {
+      const toSwitchWords = new Set<string>();
+      const { inputNs } = await inquirer.prompt({
+        name: 'inputNs',
+        type: 'input',
+        message: 'Please input the new namespace name',
+      });
+      if (!inputNs) {
+        logWarn('no input namespace found. program exit');
+        return;
+      }
+      // extract all i18n.r
+      const extractPromise = new Promise<void>((resolve) => {
+        walker({
+          root: workDir,
+          dealFile: (...args) => {
+            extractPendingSwitchContent.apply(null, [...args, inputNs, toSwitchWords, resolve]);
+          },
+        });
+      });
+      await extractPromise;
+      // if (toSwitchWords.size) {
+      //   toSwitchWords.forEach((wordWithNs) => {
+      //     const wordArr = wordWithNs.split(':');
+      //     const [ns, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
+
+      //   });
+      // } else {
+      //   logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
+      // }
       return;
     }
 
@@ -54,11 +80,11 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
       walker({
         root: workDir,
         dealFile: (...args) => {
-          extractUntranslatedWordsFromFile.apply(null, [
+          extractUntranslatedWords.apply(null, [
             ...args,
             originalZhResource,
-            untranslatedWords,
             translatedWords,
+            untranslatedWords,
             resolve,
           ]);
         },
