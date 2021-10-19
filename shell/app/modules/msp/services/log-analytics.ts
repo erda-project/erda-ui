@@ -29,6 +29,13 @@ export const getLogAnalytics = ({ addon, ...rest }: LOG_ANALYTICS.QuerySearch): 
     .then((response: any) => response.body);
 };
 
+export const getLogAnalyticContext = ({ addon, ...rest }: LOG_ANALYTICS.QuerySearch) => {
+  return agent
+    .get(`/api/log-analytics/${addon}/sequentialSearch`)
+    .query(rest)
+    .then((response: any) => response.body);
+};
+
 export const getStatistic = ({
   addon,
   ...rest
