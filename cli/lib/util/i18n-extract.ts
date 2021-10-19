@@ -44,7 +44,6 @@ const options = () => ({
   defaultNs: ns.includes('default') ? 'default' : ns[0] || 'default',
   defaultValue: '__NOT_TRANSLATED__',
   resource: {
-    // loadPath: 'i18n/{{lng}}.json', // 合并模式下不要设置，否则文件内容会嵌套
     savePath: `${localePath}/{{lng}}.json`,
     jsonIndent: 2,
     lineEnding: '\n',
@@ -109,13 +108,13 @@ function customFlush(done: () => void) {
       oldContent = omitEmptyObject(oldContent);
     }
 
-    // 合并旧的内容
+    // combine old content
     let output = merge(namespaces, oldContent);
     if (sort) {
       output = sortObject(output);
     }
 
-    // 已有翻译就替换
+    // substitution zh locale
     if (lng === 'zh') {
       Object.keys(output).forEach((_ns) => {
         const obj = output[_ns];

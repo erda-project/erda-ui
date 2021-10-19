@@ -28,14 +28,18 @@ const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
 
 let workDir = '.';
-let ns: null | string = null;
+let ns = 'default';
 let translatedMap: null | { [k: string]: string } = null;
 let tempZhMap: null | { [k: string]: string } = null;
 
 const translatedWords: { [k: string]: string } = {};
-let notTranslatedWords: string[] = []; // Untranslated collection
+let untranslatedWords: string[] = []; // Untranslated collection
 let zhResource: { [k: string]: { [k: string]: string } } = {};
 
+/**
+ * filter the pending translation list to translated list & un-translated list
+ * @param toTranslateEnWords string array that need to translate which extract from raw source code
+ */
 const findExistWords = (toTranslateEnWords: string[]) => {
   const _notTranslatedWords = [...toTranslateEnWords]; // The English collection of the current document that needs to be translated
   // Traverse namespaces of zh.json to see if there is any English that has been translated
@@ -43,7 +47,7 @@ const findExistWords = (toTranslateEnWords: string[]) => {
     // All translations in the current namespace
     const namespaceWords = zhResource[namespaceKey];
     toTranslateEnWords.forEach((enWord) => {
-      // When there is an existing translation and translatedWords does not contain it, add it to the translated list and remove it from the untranslated list
+      // When there is an existing translation and translatedWords does not contains it, add it to the translated list and remove it from the untranslated list
       if (namespaceWords[enWord] && !translatedWords[enWord]) {
         translatedWords[enWord] =
           namespaceKey === 'default' ? namespaceWords[enWord] : `${namespaceKey}:${namespaceWords[enWord]}`;
@@ -51,7 +55,7 @@ const findExistWords = (toTranslateEnWords: string[]) => {
       }
     });
   });
-  notTranslatedWords = notTranslatedWords.concat(_notTranslatedWords);
+  untranslatedWords = untranslatedWords.concat(_notTranslatedWords);
 };
 
 const extractI18nFromFile = (
@@ -78,13 +82,13 @@ const extractI18nFromFile = (
 
   // English list that needs to be translated, mark sure it does not appear in notTranslatedWords and translatedWords
   findExistWords(
-    toTransEnglishWords.filter((enWord) => !notTranslatedWords.includes(enWord) && !translatedWords[enWord]),
+    toTransEnglishWords.filter((enWord) => !untranslatedWords.includes(enWord) && !translatedWords[enWord]),
   );
   if (isEnd) {
     // After all files are traversed, notTranslatedWords is written to temp-zh-words in its original format
-    if (notTranslatedWords.length > 0) {
+    if (untranslatedWords.length > 0) {
       const enMap: { [k: string]: string } = {};
-      notTranslatedWords.forEach((word) => {
+      untranslatedWords.forEach((word) => {
         enMap[word] = '';
       });
       fs.writeFileSync(tempFilePath, JSON.stringify(enMap, null, 2), 'utf8');
@@ -99,6 +103,13 @@ const extractI18nFromFile = (
   }
 };
 
+/**
+ * restore raw file i18n.d => i18n.t with namespace
+ * @param content raw file content
+ * @param filePath file path with extension
+ * @param isEnd is traverse done
+ * @param resolve resolver of promise
+ */
 const restoreSourceFile = (
   content: string,
   filePath: string,
@@ -121,7 +132,8 @@ const restoreSourceFile = (
         replaceText = i18nContent;
       } else if (translatedMap?.[enWord]) {
         // Replace if find the translation in [temp-translated-words.json]
-        replaceText = `i18n.t('${enWord}')`;
+        const nsArray = translatedMap?.[enWord].split(':');
+        replaceText = nsArray.length === 2 ? `i18n.t('${nsArray[0]}:${enWord}')` : `i18n.t('${enWord}')`;
       } else {
         logWarn(enWord, 'not yet translated');
       }
@@ -168,34 +180,41 @@ const findMatchFolder = (folderName: string): string | null => {
   return targetPath;
 };
 
-// export default async ({ workDir: _workDir }: { workDir: string }) => {
-const ss = async ({ workDir: _workDir }: { workDir?: string }) => {
+/**
+ * create temp files and check whether exists locale files
+ */
+const prepareEnv = (localePath?: string) => {
+  if (!localePath) {
+    logError('Please make sure that the [locales] folder exists in the running directory (can be nested)');
+    exit(1);
+  }
+  if (!fs.existsSync(tempFilePath)) {
+    fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
+  }
+  if (!fs.existsSync(tempTranslatedWordPath)) {
+    fs.writeFileSync(tempTranslatedWordPath, JSON.stringify({}, null, 2), 'utf8');
+  }
+  const zhJsonPath = `${localePath}/zh.json`;
+  const enJsonPath = `${localePath}/en.json`;
+  if (fs.existsSync(zhJsonPath)) {
+    const content = fs.readFileSync(zhJsonPath, 'utf8');
+    zhResource = JSON.parse(content);
+  } else {
+    fs.writeFileSync(zhJsonPath, JSON.stringify({}, null, 2), 'utf8');
+  }
+  if (!fs.existsSync(enJsonPath)) {
+    fs.writeFileSync(enJsonPath, JSON.stringify({}, null, 2), 'utf8');
+  }
+};
+
+export default async ({ workDir: _workDir }: { workDir: string }) => {
   try {
-    workDir = path.resolve(__dirname, '../../shell'); //_workDir || process.cwd();
+    workDir = _workDir || process.cwd();
     ns = getCwdModuleName({ currentPath: workDir });
     const localePath = findMatchFolder('locales');
-    if (!localePath) {
-      logError('Please make sure that the [locales] folder exists in the running directory (can be nested)');
-      exit(1);
-    }
-    if (!fs.existsSync(tempFilePath)) {
-      fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
-    }
-    if (!fs.existsSync(tempTranslatedWordPath)) {
-      fs.writeFileSync(tempTranslatedWordPath, JSON.stringify({}, null, 2), 'utf8');
-    }
-    const zhJsonPath = `${localePath}/zh.json`;
-    const enJsonPath = `${localePath}/en.json`;
-    if (fs.existsSync(zhJsonPath)) {
-      const content = fs.readFileSync(zhJsonPath, 'utf8');
-      zhResource = JSON.parse(content);
-    } else {
-      fs.writeFileSync(zhJsonPath, JSON.stringify({}, null, 2), 'utf8');
-    }
-    if (!fs.existsSync(enJsonPath)) {
-      fs.writeFileSync(enJsonPath, JSON.stringify({}, null, 2), 'utf8');
-    }
 
+    prepareEnv();
+    // extract all i18n.d
     const extractPromise = new Promise<void>((resolve) => {
       // first step is to find out the content that needs to be translated, and assign the content to two parts: untranslated and translated
       walker({
@@ -206,10 +225,12 @@ const ss = async ({ workDir: _workDir }: { workDir?: string }) => {
       });
     });
     await extractPromise;
-    if (notTranslatedWords.length === 0 && Object.keys(translatedWords).length === 0) {
-      logInfo('No content that needs to be translated is found, program exits'); // TODO sort
+
+    if (untranslatedWords.length === 0 && Object.keys(translatedWords).length === 0) {
+      logInfo('No content needs to be translated is found, program exits'); // TODO sort
       process.exit(0);
     }
+
     if (Object.keys(translatedWords).length > 0) {
       await inquirer.prompt({
         name: 'confirm',
@@ -218,39 +239,40 @@ const ss = async ({ workDir: _workDir }: { workDir?: string }) => {
           'Please carefully check whether the existing translation of [temp-translated-words.json] is suitable, if you are not satisfied, please move the content into [temp-zh-words.json], no problem or after manual modification press enter to continue',
       });
     }
+
     const tempWords = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
-    /* eslint-disable */
-    notTranslatedWords = Object.keys(tempWords);
+    const _untranslatedWords = Object.keys(tempWords);
     // The second step is to call Google Translate to automatically translate
-    if (notTranslatedWords.length > 0) {
+    if (_untranslatedWords.length > 0) {
       const spinner = ora('Google automatic translating...').start();
       await doTranslate();
       spinner.stop();
       logSuccess('Google automatic translation completed');
       // The third step, manually checks whether there is a problem with the translation
-      // await inquirer.prompt({
-      //   name: 'confirm',
-      //   type: 'confirm',
-      //   message:
-      //     'Please double check whether the automatic translation of [temp-zh-words.json} is suitable, no problem or after manual modification then press enter to continue',
-      // });
+      await inquirer.prompt({
+        name: 'confirm',
+        type: 'confirm',
+        message:
+          'Please double check whether the automatic translation of [temp-zh-words.json} is suitable, no problem or after manual modification then press enter to continue',
+      });
     }
+
     tempZhMap = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
     if (Object.keys(translatedWords).length > 0) {
       translatedMap = JSON.parse(fs.readFileSync(tempTranslatedWordPath, { encoding: 'utf-8' }));
     }
+    let _ns = ns;
     // The fourth step is to specify the namespace
     if (tempZhMap && Object.keys(tempZhMap).length > 0) {
-      // const { inputNs } = await inquirer.prompt({
-      //   name: 'inputNs',
-      //   type: 'input',
-      //   message: `The default namespace of the current module is ${ns}, If you need special designation, please type in and press enter, otherwise press enter directly`,
-      // });
-      const inputNs = 'xx';
+      const { inputNs } = await inquirer.prompt({
+        name: 'inputNs',
+        type: 'input',
+        message: `The default namespace of the current module is ${ns}, If you need special designation, please type in and press enter, otherwise press enter directly`,
+      });
       if (inputNs) {
-        ns = inputNs;
+        _ns = inputNs;
       }
-      logInfo('Specify the namespace as', ns);
+      logInfo('Specify the namespace as', _ns);
     }
     // The fifth step, i18n.t writes back the source file
     const generatePromise = new Promise((resolve) => {
@@ -269,9 +291,9 @@ const ss = async ({ workDir: _workDir }: { workDir?: string }) => {
     if (tempZhMap && Object.keys(tempZhMap).length > 0) {
       const localePromise = new Promise<void>((resolve) => {
         if (fs.existsSync(path.resolve(`${workDir}/src`))) {
-          writeLocale(resolve, ns!, path.resolve(`${workDir}/src`), localePath);
+          writeLocale(resolve, _ns, path.resolve(`${workDir}/src`), localePath!);
         } else {
-          writeLocale(resolve, ns!, workDir, localePath);
+          writeLocale(resolve, _ns, workDir, localePath!);
         }
       });
       const loading = ora('Writing locale file...').start();
@@ -286,5 +308,3 @@ const ss = async ({ workDir: _workDir }: { workDir?: string }) => {
   }
   logInfo('i18n process is completed, see you👋');
 };
-
-ss({});
