@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import { createStore } from 'core/cube';
-import { getAggregation, getFields, getLogAnalytics } from 'msp/services/log-analytics';
+import { getAggregation, getFields, getLogAnalytics, getLogAnalyticContext } from 'msp/services/log-analytics';
 import { produce } from 'immer';
 
 export type IMenu = LOG_ANALYTICS.IField & {
@@ -70,6 +70,12 @@ const mspLogAnalyticsStore = createStore({
         logList: data ?? [],
         logTotal: total,
       });
+    },
+    async getLogAnalyticContext({ call, getParams }, payload: Omit<LOG_ANALYTICS.QuerySearch, 'addon'>) {
+      const { addonId } = getParams();
+      const props = await call(getLogAnalyticContext, { addon: addonId, ...payload });
+      const { data } = props;
+      return data;
     },
     async getAggregation(
       { call, update, getParams, select },
