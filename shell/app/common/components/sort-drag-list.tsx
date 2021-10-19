@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, ErdaCustomIcon, Ellipsis } from 'common';
+import { Icon as CustomIcon, ErdaCustomIcon, Ellipsis, Copy } from 'common';
 import { map, groupBy, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import React from 'react';
-import { Tooltip, Popconfirm } from 'core/nusi';
+import { Tooltip, Popconfirm, Switch, Menu, Dropdown } from 'core/nusi';
 import './sort-drag-list.scss';
 
 interface IBeginDragData<T> {
@@ -121,7 +121,7 @@ interface SortDragItemProps<T> {
   index: number;
   draggable?: boolean;
   disableDropIn?: boolean;
-  operations?: Array<IDragItemOp<T>>;
+  operations?: Obj<IDragItemOp<T>>;
   onBeginDrag?: (data: IBeginDragData<T>) => void;
   onEndDrag?: (data: IEndDragData<T>) => void;
   onMove?: (data: any) => void;
@@ -177,8 +177,54 @@ const SortDragItem = ({
       <div className="flex-1 ml-1 nowrap cursor-pointer flex items-center sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
       </div>
-      <div>
-        {(data.operations || []).map((op) => {
+      <div className="flex items-center">
+        {map(data.operations || [], (op: Obj, key) => {
+          if (key === 'switch') {
+            return (
+              <Switch
+                size="small"
+                className="mx-2"
+                checked={!data.disabled}
+                disabled={op.disabled}
+                onChange={(v) => op.onClick(item)}
+              />
+            );
+          }
+          if (op.menus) {
+            const menus = (
+              <Menu>
+                {op.menus.map((menuItem: Obj, idx: number) => {
+                  return (
+                    <Menu.Item
+                      key={`${idx}`}
+                      onClick={(e) => {
+                        e?.domEvent?.stopPropagation();
+                        if (menuItem.reload) {
+                          menuItem.onClick(item);
+                        }
+                      }}
+                    >
+                      {menuItem.copyText ? (
+                        <Copy copyText={menuItem.copyText}>{menuItem.text}</Copy>
+                      ) : (
+                        <span>{menuItem.text}</span>
+                      )}
+                    </Menu.Item>
+                  );
+                })}
+              </Menu>
+            );
+            return (
+              <Dropdown overlay={menus} getPopupContainer={(e) => e?.parentNode as HTMLElement}>
+                <span
+                  className={`icon-block hover-active px-2 ${op.hoverShow ? 'hover-show' : ''}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <CustomIcon type={op.icon} />
+                </span>
+              </Dropdown>
+            );
+          }
           if (op.confirm) {
             return op.disabled ? (
               <span
@@ -342,7 +388,7 @@ interface SortItemData {
     id: number;
     groupId: number;
     title: string;
-    operations?: Array<{
+    operations?: Obj<{
       icon: string;
       hoverShow?: boolean;
       hoverTip?: string;

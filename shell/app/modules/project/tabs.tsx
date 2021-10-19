@@ -155,6 +155,17 @@ export const MANUAL_TEST_TABS = [
   },
 ];
 
+export const TEST_STATISTICS_TABS = [
+  {
+    key: 'test-dashboard',
+    name: i18n.t('project:test statistics'),
+  },
+  {
+    key: 'code-coverage',
+    name: i18n.t('project:code coverage statistics'),
+  },
+];
+
 export const AUTO_TEST_TABS = [
   {
     key: 'testCase',

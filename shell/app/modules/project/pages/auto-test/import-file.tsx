@@ -20,13 +20,22 @@ import testCaseStore from 'project/stores/test-case';
 
 interface IProps {
   visible: boolean;
+  type?: 'testCase' | 'testCaseSet';
   onClose: () => void;
 }
 
-const ImportFile = ({ visible, onClose }: IProps) => {
+const ImportFile = ({ visible, onClose, type = 'testCase' }: IProps) => {
   const [uploadVisible, setUploadVisible] = useState(visible);
-  const { importAutoTestCase } = testCaseStore.effects;
-  const [confirmLoading] = useLoading(testCaseStore, ['importAutoTestCase']);
+  const { importAutoTestCase, importAutoTestCaseSet } = testCaseStore.effects;
+  const [testCaseLoading, testCaseSetLoading] = useLoading(testCaseStore, [
+    'importAutoTestCase',
+    'importAutoTestCaseSet',
+  ]);
+
+  const importMap = {
+    testCase: { loading: testCaseLoading, fetch: importAutoTestCase },
+    testCaseSet: { loading: testCaseSetLoading, fetch: importAutoTestCaseSet },
+  };
 
   React.useEffect(() => {
     setUploadVisible(visible);
@@ -38,7 +47,7 @@ const ImportFile = ({ visible, onClose }: IProps) => {
   };
 
   const handleOk = (values: { file: File }) => {
-    importAutoTestCase(values).then(() => {
+    importMap[type]?.fetch?.(values).then(() => {
       onSuccess();
     });
   };
@@ -50,15 +59,16 @@ const ImportFile = ({ visible, onClose }: IProps) => {
       getComp: () => <FileSelect accept=".xlsx, .xls, .XLSX, .XLS" visible={uploadVisible} />,
     },
   ];
-
+  const loading = importMap[type]?.loading;
   return (
     <FormModal
-      loading={confirmLoading}
-      okButtonState={confirmLoading}
+      loading={loading}
+      okButtonState={loading}
       title={i18n.t('project:upload files')}
       fieldsList={fieldList}
       visible={uploadVisible}
       onOk={handleOk}
+      modalProps={{ getContainer: false }}
       onCancel={onClose}
     >
       <div>{i18n.t('project:currently supports importing Excel files')}</div>

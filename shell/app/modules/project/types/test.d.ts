@@ -168,6 +168,7 @@ declare namespace TEST_CASE {
     payload: FormData;
     query: {
       projectID: number;
+      spaceID?: string;
       fileType: CaseFileType;
     };
   }

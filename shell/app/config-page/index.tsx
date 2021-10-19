@@ -21,7 +21,6 @@ import { useUpdate } from 'common';
 import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
-import './index.scss';
 
 interface IProps {
   inParams?: Obj;
@@ -260,15 +259,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return (
-    <div className="h-full overflow-auto">
-      <div className={`page-config-spin ${showLoading && fetching ? 'spinning' : ''} `}>
-        <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height" />
-      </div>
+    <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height overflow-auto">
       {Content}
-    </div>
+    </Spin>
   );
-  // return <Spin spinning={showLoading && fetching} wrapperClassName='full-spin-height'>{Content}</Spin>;
 });
 
 export { useMock };
-export default ConfigPage;
+export default React.memo(ConfigPage);

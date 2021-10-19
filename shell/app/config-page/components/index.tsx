@@ -58,6 +58,8 @@ import FileEditor from './file-editor/file-editor';
 import Modal from './modal/modal';
 import Grid from './grid/grid';
 import DatePicker from './date-picker/date-picker';
+import Dropdown from './dropdown/dropdown';
+import MarkdownEditor from './markdown-editor/markdown-editor';
 
 export const containerMap = {
   Alert,
@@ -98,6 +100,7 @@ export const containerMap = {
   EmptyHolder,
   Image,
   DropdownSelect,
+  Dropdown,
   TableGroup,
   TextGroup,
   LinearDistribution,
@@ -108,4 +111,5 @@ export const containerMap = {
   Modal,
   Grid,
   DatePicker,
+  MarkdownEditor,
 };
