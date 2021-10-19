@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
-const Mock = () => {
+const MysqlAccount = () => {
   const { projectId, insId } = routeInfoStore.useStore((s) => s.params);
   const inParams = { projectId, instanceId: insId };
   return (
@@ -27,4 +27,4 @@ const Mock = () => {
     />
   );
 };
-export default Mock;
+export default MysqlAccount;
