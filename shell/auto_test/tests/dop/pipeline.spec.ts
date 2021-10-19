@@ -46,7 +46,7 @@ Role('Manager', () => {
     await page.hover(`.ant-tree-title:has-text("${addPipelineName}")`);
     await page.hover(`.ant-tree-title:has-text("${addPipelineName}") .tree-node-action`);
     await page.click('.action-btn >> text=delete');
-    await page.click('.pk-popover-inner-footer >> text=OK');
+    await page.click('.ant-popover-inner-footer >> text=OK');
     await wait(3);
     await expectExist(`.file-tree-title >> text=${addPipelineName}`, 0);
 

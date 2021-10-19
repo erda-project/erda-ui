@@ -21,7 +21,6 @@ import { forIn, set, get, every, omit, isEqual, isEmpty, map, mapValues, some, d
 import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
-import './custom-filter.scss';
 import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';

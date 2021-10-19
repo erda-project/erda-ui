@@ -70,13 +70,6 @@
   }
 }
 
-.pk-filter {
-  .load-more-selector .results {
-    min-height: 28px;
-    padding: 2px 12px;
-  }
-}
-
 .load-more-selector-dropdown {
   @extend %shallow-shadow;
 
