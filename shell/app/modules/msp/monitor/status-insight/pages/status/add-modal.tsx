@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { filter, omitBy, get } from 'lodash';
-import { FormModal } from 'common';
-import { regRules } from 'common/utils';
+import { map } from 'lodash';
+import { FormModal, KeyValueTable } from 'common';
+import { useUpdate } from 'common/use-hooks';
+import { regRules, qs } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
