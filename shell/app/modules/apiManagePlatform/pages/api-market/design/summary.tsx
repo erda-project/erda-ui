@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { MarkdownEditor, Title, useUpdate, FormBuilder, IFormExtendType } from 'common';
+import { MarkdownEditor, Title, FormBuilder, IFormExtendType } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Input } from 'core/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';

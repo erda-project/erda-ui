@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
 import { Button, Table, Popconfirm } from 'core/nusi';

@@ -14,7 +14,8 @@
 import React from 'react';
 import { Input, Tag, Dropdown, Menu, Tooltip, message } from 'core/nusi';
 import { isEmpty, map, filter, uniq, set } from 'lodash';
-import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
+import { Icon as CustomIcon, EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import ReactDOM from 'react-dom';
 import { useEffectOnce } from 'react-use';
 import { isPromise } from 'common/utils';

@@ -14,7 +14,7 @@
 import React from 'react';
 import { Input, Select, Radio, Form, Tooltip } from 'core/nusi';
 import { map } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { getSubnetNum, getIPItemOption, getIPTooltipText } from '../util';
 import { formConfig } from '../config';
 import i18n from 'i18n';

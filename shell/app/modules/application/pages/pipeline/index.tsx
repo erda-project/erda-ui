@@ -24,8 +24,6 @@ import DiceConfigPage from 'app/config-page';
 import { ActionType } from 'yml-chart/common/pipeline-node-drawer';
 import appStore from 'application/stores/application';
 
-import './index.scss';
-
 interface IProps {
   scope: string;
 }

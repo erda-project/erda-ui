@@ -13,7 +13,8 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { Icon as CustomIcon, useUpdate, LogRoller } from 'common';
+import { Icon as CustomIcon, LogRoller } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { get, map, find, isEmpty } from 'lodash';
 import { useEffectOnce } from 'react-use';

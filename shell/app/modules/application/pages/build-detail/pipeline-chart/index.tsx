@@ -14,7 +14,7 @@
 import React from 'react';
 import { YmlChart, externalKey } from 'app/yml-chart/chart';
 import { map } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import PipelineNode from './pipeline-node';
 
 interface IProps {

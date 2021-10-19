@@ -16,7 +16,7 @@ import { isEmpty } from 'lodash';
 import DiceFlowChart from 'application/common/components/dice-yaml-editor';
 import { DiceFlowType } from 'application/common/components/dice-yaml-editor-type';
 import { IDiceYamlEditorItem } from 'application/common/components/dice-yaml-editor-item';
-import { connectCube } from 'common';
+import { connectCube } from 'common/utils';
 import { TableDrawer } from '../../common/components/table-drawer';
 
 import './index.scss';

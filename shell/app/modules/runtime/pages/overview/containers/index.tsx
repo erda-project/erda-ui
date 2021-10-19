@@ -14,7 +14,7 @@
 import React from 'react';
 import { Spin, Modal, message } from 'core/nusi';
 import { goTo, getLS } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { isEmpty } from 'lodash';
 import PureRuntimeOverView from '../components';
 import i18n from 'i18n';

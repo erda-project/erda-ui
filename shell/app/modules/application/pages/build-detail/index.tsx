@@ -24,8 +24,8 @@ import {
   IF,
   NoAuthTip,
   SwitchAutoScroll,
-  useUpdate,
 } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { ColumnProps } from 'core/common/interface';

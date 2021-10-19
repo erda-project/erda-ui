@@ -15,8 +15,8 @@
 import React from 'react';
 import pathLib from 'path';
 import FileContainer from 'application/common/components/file-container';
-import { FileEditor, connectCube } from 'common';
-import { goTo, qs, getOrgFromPath } from 'common/utils';
+import { FileEditor } from 'common';
+import { goTo, qs, getOrgFromPath, connectCube } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';

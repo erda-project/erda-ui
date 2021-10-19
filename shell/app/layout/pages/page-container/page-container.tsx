@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { renderRoutes } from 'react-router-config';
-import { ErrorBoundary, useUpdate } from 'common';
+import { ErrorBoundary } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import classnames from 'classnames';
 import SideBar from 'layout/pages/page-container/components/sidebar';
 import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';

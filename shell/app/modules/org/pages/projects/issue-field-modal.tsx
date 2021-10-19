@@ -14,7 +14,8 @@
 import i18n from 'i18n';
 import React from 'react';
 import { RadioChangeEvent } from 'core/common/interface';
-import { FormModal, useUpdate } from 'common';
+import { FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { insertWhen } from 'common/utils';
 import { getFieldTypeOption } from 'org/common/issue-field-icon';
 import issueFieldStore from 'org/stores/issue-field';

@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, useUpdate, Copy, TagsRow } from 'common';
+import { CRUDTable, Copy, TagsRow } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';

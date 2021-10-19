@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { useUpdate, MarkdownEditor } from 'common';
+import { MarkdownEditor } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { isEmpty } from 'lodash';
 import { Button, message } from 'core/nusi';
 import React from 'react';

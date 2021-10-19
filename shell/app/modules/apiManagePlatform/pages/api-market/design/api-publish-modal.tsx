@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { MutableRefObject } from 'react';
-import { useUpdate, FormModal, Icon as CustomIcon } from 'common';
+import { FormModal, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';

@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { goTo, formatTime, fromNow } from 'app/common/utils';
-import { FilterGroup, SimplePanel, useUpdate } from 'common';
+import { FilterGroup, SimplePanel } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
 import { Button, Cascader, message, Spin, Table, Tooltip } from 'core/nusi';

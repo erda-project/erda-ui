@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Copy, ConfirmDelete, IF, useUpdate } from 'common';
+import { Copy, ConfirmDelete, IF } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import addonStore from 'common/stores/addon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';

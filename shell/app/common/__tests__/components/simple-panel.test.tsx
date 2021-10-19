@@ -24,7 +24,7 @@ describe('SimplePanel', () => {
     );
     expect(wrapper).toHaveClassName('erda_panel');
     expect(wrapper).toHaveStyle('height', 100);
-    expect(wrapper.find('.panel-title').text()).toBe('panel title');
-    expect(wrapper.find('.panel-body').children()).toHaveHTML('<div class="panel-child">panel-child</div>');
+    expect(wrapper.find('.ec-simple-panel-title').text()).toBe('panel title');
+    expect(wrapper.find('.ec-simple-panel-body').children()).toHaveHTML('<div class="panel-child">panel-child</div>');
   });
 });

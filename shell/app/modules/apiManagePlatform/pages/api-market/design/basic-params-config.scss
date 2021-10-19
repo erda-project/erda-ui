@@ -1,8 +1,4 @@
 .basic-params-config {
-  .pk-form-builder {
-    padding-top: 0 !important;
-  }
-
   .param-form {
     display: flex;
     justify-content: space-between;
@@ -59,18 +55,5 @@
     margin-left: $p16;
     padding: $p16 $p16 0;
     background-color: rgba($primary, 0.06);
-  }
-
-  .pk-form > .pk-row-flex > div {
-    padding-bottom: 0 !important;
-  }
-
-  .pk-form-item-label,
-  .pk-form-item-control-wrapper {
-    padding: 0 !important;
-
-    pre {
-      border: 0.1px solid $border-color;
-    }
   }
 }

@@ -32,10 +32,6 @@
     color: $color-primary;
   }
 
-  .pk-radio-button-wrapper {
-    color: $color-dark-4;
-  }
-
   .commit-file-form-container {
     margin: 16px;
     text-align: left;
@@ -82,21 +78,6 @@
 .viewer-ops {
   margin-right: 20px;
   margin-left: 20px;
-
-  .pk-radio-button-wrapper {
-    z-index: 1;
-    padding: 0 17px;
-    line-height: 28px;
-  }
-
-  .pk-radio-button-wrapper-checked {
-    z-index: 2;
-    color: $color-primary;
-
-    i {
-      color: $color-primary;
-    }
-  }
 }
 
 .yml-editor-body {
@@ -127,14 +108,6 @@
   span {
     display: inline-block;
     vertical-align: middle;
-  }
-}
-
-.file-container .file-title {
-  .pk-radio-button-wrapper-checked {
-    .yml-editor-code-btn {
-      color: $color-primary;
-    }
   }
 }
 

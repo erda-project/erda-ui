@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { message, Tooltip, Radio, Button } from 'core/nusi';
-import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate, ErdaCustomIcon } from 'common';
+import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, ErdaCustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo, updateSearch } from 'common/utils';
 import RepoFile from './repo-file';
 import RepoEditor from './repo-editor';

@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, TableActions, Ellipsis } from 'common';
+import { TableActions, Ellipsis } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Table, Popconfirm } from 'core/nusi';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';

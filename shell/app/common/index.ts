@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export { connectCube } from './components/connect';
 export { Icon } from './components/icon';
 export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
 export { default as SimplePanel } from './components/simple-panel';
@@ -89,7 +88,6 @@ export { Filter, PureFilter } from './components/filter';
 // export type { IDiceFilterProps, IPureFilterProps } from './components/filter';
 export { ContractiveFilter } from './components/contractive-filter';
 export { default as TiledFilter } from './components/tiled-filter';
-export * from './components/use-hooks';
 export { default as LogRoller } from './containers/log-roller';
 export { default as MonitorChart } from './containers/monitor-chart';
 export { default as MetricsMonitor } from './containers/monitor-chart-panel';

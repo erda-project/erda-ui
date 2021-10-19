@@ -15,7 +15,7 @@ import i18n from 'i18n';
 import { Button, Modal } from 'core/nusi';
 import React from 'react';
 import clusterStore from 'cmp/stores/cluster';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import './addon-cards.scss';
 
 interface IProps {

@@ -16,7 +16,7 @@ import { Menu } from 'core/nusi';
 import { ArtifactsInfo } from './artifacts-info';
 import VersionList from './version-list';
 import i18n from 'i18n';
-import { useUpdate } from 'app/common';
+import { useUpdate } from 'common/use-hooks';
 import Authenticate from '../authenticate';
 import SafetyManage from '../safety-manage';
 import Statistics from '../statistics';

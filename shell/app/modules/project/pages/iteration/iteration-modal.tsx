@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import iterationStore from 'app/modules/project/stores/iteration';
-import { FormModal, useUpdate } from 'common';
+import { FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import moment, { Moment } from 'moment';

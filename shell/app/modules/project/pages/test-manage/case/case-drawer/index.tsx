@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Drawer, Spin, Input, Tooltip, message } from 'core/nusi';
-import { Avatar, Copy, ErdaCustomIcon, MarkdownEditor, UserInfo, useUpdate } from 'common';
+import { Avatar, Copy, ErdaCustomIcon, MarkdownEditor, UserInfo } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import testCaseStore from 'project/stores/test-case';
 import i18n from 'i18n';
 import { fromNow, mergeSearch, qs, updateSearch } from 'common/utils';

@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, Title, FormBuilder, IFormExtendType } from 'common';
+import { Title, FormBuilder, IFormExtendType } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { produce } from 'immer';
 import { keys, set, isEmpty, get } from 'lodash';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';

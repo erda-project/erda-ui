@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Modal, Button } from 'core/nusi';
-import { useUpdate, RenderForm } from 'common';
+import { RenderForm } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get, map } from 'lodash';
 import networksStore from 'cmp/stores/networks';
 import { useEffectOnce } from 'react-use';

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Row, Col, Button, Tooltip } from 'core/nusi';
-import { useUpdate } from 'common';
+import { Spin, Row, Col, Button, Tooltip, Ellipsis } from 'core/nusi';
+import { useUpdate } from 'common/use-hooks';
 import StatusChart from './status-detail-chart';
 import MonthUptime from './3-month-uptime';
 import AddModal from './add-modal';
@@ -99,10 +99,11 @@ const StatusDetail = () => {
     <div className="status-detail-page">
       <Spin spinning={isFetching}>
         <div className="url-bar">
-          <span>
+          <span className="mr-4 whitespace-nowrap overflow-ellipsis overflow-hidden ...">
             {data.name}&nbsp;&nbsp;
-            {/* <a href={data.url} style={{ cursor: 'alias' }} target="_blank" rel="noopener noreferrer"> */}({data.url}
-            ){/* </a> */}
+            <Tooltip arrowPointAtCenter title={data.url}>
+              ({data.url})
+            </Tooltip>
           </span>
           <div>
             {

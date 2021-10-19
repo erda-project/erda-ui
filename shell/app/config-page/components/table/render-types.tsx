@@ -205,7 +205,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                   <span key={idx}>
                     {val.showIcon === false ? null : (
                       <Avatar src={cU.avatar} size="small">
-                        {nick ? nick.slice(0, 2) : i18n.t('none')}
+                        {cU.nick ? cU.nick.slice(0, 2) : i18n.t('none')}
                       </Avatar>
                     )}
                     <span className="ml-0.5 mr-1" title={cU.name}>

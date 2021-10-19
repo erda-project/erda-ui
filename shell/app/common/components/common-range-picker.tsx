@@ -14,7 +14,7 @@
 import React from 'react';
 import { DatePicker } from 'core/nusi';
 import moment, { Moment } from 'moment';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges, getTimeSpan } from 'common/utils';
 import i18n from 'i18n';
 import { RangePickerProps } from 'core/common/interface';

@@ -14,13 +14,13 @@
 import React from 'react';
 import BaseFilter, { FilterItemConfig } from './base-filter';
 import { Pagination, Input, Select } from 'core/nusi';
-import { useUpdate, FilterBarHandle } from 'common';
+import { FilterBarHandle } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { setSearch } from 'common/utils';
 import { forIn, set, get, every, omit, isEqual, isEmpty, map, mapValues, some, debounce, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';
 import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'core/stores/route';
-import './custom-filter.scss';
 import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';

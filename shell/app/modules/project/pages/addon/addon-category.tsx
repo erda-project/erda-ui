@@ -14,7 +14,7 @@
 import React from 'react';
 import { Button, message } from 'core/nusi';
 import AddonModal from '../third-service/components/addon-modal';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';
 import i18n from 'i18n';
 import { usePerm, WithAuth } from 'app/user/common';

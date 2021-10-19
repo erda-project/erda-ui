@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Popconfirm, Button, Dropdown, Menu } from 'core/nusi';
-import { IF, NoAuthTip, useUpdate } from 'common';
+import { IF, NoAuthTip } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';
 import DeployStatus from './deploy-status';

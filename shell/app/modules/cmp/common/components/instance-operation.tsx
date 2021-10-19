@@ -14,7 +14,8 @@
 import React from 'react';
 import { Drawer } from 'core/nusi';
 import i18n from 'i18n';
-import { useUpdate, IF } from 'common';
+import { IF } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import Terminal from 'dcos/common/containers/terminal';
 import ContainerLog from 'runtime/common/logs/containers/container-log';
 import ResourceUsageCharts from 'monitor-common/components/resource-usage/resource-usage-charts';

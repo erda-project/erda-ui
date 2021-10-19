@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { FormModal as PureFormModal } from 'app/configForm/nusi-form/form-modal';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 
 export const FormModal = (props: CP_FORM_MODAL.Props) => {
   const { state, execOperation, updateState, operations, props: configProps } = props;

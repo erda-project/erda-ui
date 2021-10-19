@@ -36,7 +36,8 @@ import {
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
-import { useUpdate, Icon as CustomIcon, IF } from 'common';
+import { Icon as CustomIcon, IF } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import appDeployStore from 'application/stores/deploy';
 import { useLoading } from 'core/stores/loading';
 import ActionSelect from './action-select';

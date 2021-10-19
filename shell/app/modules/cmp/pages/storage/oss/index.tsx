@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, CRUDStoreTable } from 'common';
+import { CRUDStoreTable } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { Input, Select, Menu, Dropdown, Button } from 'core/nusi';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
