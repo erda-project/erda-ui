@@ -112,7 +112,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             {...extraProps}
           >
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-            <div className="twt-text">
+            <div className="twt-text flex items-center">
               <div className="nowrap">{value}</div>
               <TagsRow
                 labels={tags.map((l) => ({ label: l.tag, color: l.color }))}

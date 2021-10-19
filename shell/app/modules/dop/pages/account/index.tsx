@@ -11,18 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_ALERT {
-  interface Spec {
-    type: 'Alert';
-    props?: IProps;
-  }
+import React from 'react';
+import DiceConfigPage from 'app/config-page';
+import routeInfoStore from 'core/stores/route';
 
-  interface IProps {
-    visible?: boolean;
-    showIcon?: boolean;
-    type: 'success' | 'info' | 'warning' | 'error';
-    message: string[] | string;
-  }
-
-  type Props = MakeProps<Spec>;
-}
+const MysqlAccount = () => {
+  const { projectId, insId } = routeInfoStore.useStore((s) => s.params);
+  const inParams = { projectId, instanceId: insId };
+  return (
+    <DiceConfigPage
+      showLoading
+      scenarioType="addon-account-manage"
+      scenarioKey={'addon-account-manage'}
+      inParams={inParams}
+    />
+  );
+};
+export default MysqlAccount;

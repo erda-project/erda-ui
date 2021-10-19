@@ -11,8 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon } from 'common';
-import { Config } from '@icon-park/react';
+import { Config as IconConfig, Permissions as IconPermissions, ListView as IconListView } from '@icon-park/react';
 import i18n from 'i18n';
 import React from 'react';
 
@@ -20,12 +19,12 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
   const sideMenu = [
     {
       href: `${rootPath}/overview`,
-      icon: <CustomIcon type="overview" />,
+      icon: <IconListView />,
       text: i18n.t('dop:addon info'),
     },
     {
       href: `${rootPath}/settings`,
-      icon: <Config />,
+      icon: <IconConfig />,
       text: i18n.t('dop:addon setting'),
     },
   ];

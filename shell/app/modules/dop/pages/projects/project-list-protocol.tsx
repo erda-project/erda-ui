@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage, { useMock } from 'config-page/index';
+import DiceConfigPage from 'config-page/index';
 import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'dop/pages/projects/apply-unblock-modal';
@@ -66,7 +66,6 @@ const ProjectList = () => {
         scenarioType={scenarioType}
         ref={reloadRef}
         scenarioKey={scenarioKey}
-        useMock={useMock('project-list-protocol')}
         customProps={{
           list: {
             applyDeploy: (op: CP_COMMON.Operation, data: any) => {
