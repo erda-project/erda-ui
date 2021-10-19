@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { KeyValueEditor, RenderPureForm, useUpdate } from 'common';
+import { KeyValueEditor, RenderPureForm } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import { isEmpty } from 'lodash';

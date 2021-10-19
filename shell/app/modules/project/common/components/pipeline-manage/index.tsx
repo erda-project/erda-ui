@@ -17,7 +17,6 @@ import { EmptyHolder } from 'common';
 import PipelineDetail from './pipeline-detail';
 import routeInfoStore from 'core/stores/route';
 import FileTree from './file-tree';
-import './index.scss';
 
 interface IProps {
   scope: string;

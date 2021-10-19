@@ -14,7 +14,8 @@
 import { Table, Popover, Button, Badge, Modal } from 'core/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
-import { KeyValueList, useUpdate } from 'common';
+import { KeyValueList } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import React from 'react';
 import { goTo } from 'common/utils';
 

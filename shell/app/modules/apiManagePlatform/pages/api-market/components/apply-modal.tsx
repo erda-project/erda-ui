@@ -13,7 +13,8 @@
 
 import React, { MutableRefObject } from 'react';
 import { Modal, Button } from 'core/nusi';
-import { Copy, FormModal, useUpdate } from 'common';
+import { Copy, FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';

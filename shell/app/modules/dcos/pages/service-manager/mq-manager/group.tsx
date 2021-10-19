@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Tabs, Button, Table, Alert, Tooltip } from 'core/nusi';
-import { useUpdate, FormModal } from 'common';
+import { FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
 import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from 'cmp/common/components/table-col';

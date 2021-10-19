@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Button, Input, Select, Tooltip } from 'core/nusi';
-import { useUpdate, InputSelect, Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
+import { InputSelect, Icon as CustomIcon } from 'common';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';

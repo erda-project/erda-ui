@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Spin, Tooltip } from 'core/nusi';
-import { LoadMore, EmptyListHolder, Avatar, Icon as CustomIcon, CustomFilter, MemberSelector, useUpdate } from 'common';
+import { LoadMore, EmptyListHolder, Avatar, Icon as CustomIcon, CustomFilter, MemberSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { goTo, fromNow } from 'common/utils';

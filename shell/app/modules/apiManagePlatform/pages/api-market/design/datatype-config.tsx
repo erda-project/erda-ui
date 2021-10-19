@@ -12,11 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate } from 'common';
+import { FormBuilder, IFormExtendType } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { produce } from 'immer';
-import { FormBuilder } from 'core/nusi';
 import { keys, set, get, unset, filter, omit, values, forEach } from 'lodash';
-import { IFormExtendType } from 'core/common/interface';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { API_FORM_KEY, QUOTE_PREFIX, QUOTE_PREFIX_NO_EXTENDED } from 'app/modules/apiManagePlatform/configs.ts';

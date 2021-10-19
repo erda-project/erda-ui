@@ -29,10 +29,11 @@ interface IProps {
   envID: number;
   envType: TEST_ENV.EnvType;
   isSingle: boolean;
+  testType: string;
 }
 
-const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.Element => {
-  const { projectId, testType = 'manual' } = routeInfoStore.useStore((s) => s.params);
+const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSingle }: IProps): JSX.Element => {
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
   const routeEnvID = +projectId;
 
   const envID = _envID || routeEnvID;
@@ -167,9 +168,9 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
         className="text-desc mb-2"
         message={
           testType === 'manual'
-            ? i18n.t('project:This parameter is provided to the use case interface of Manual Test in Test Case.')
+            ? i18n.t('project:This parameter is provided to the use case interface of test case in manual test')
             : i18n.t(
-                'project:This parameter is provided to the use case interface of Automated Interface Test in Test Case.',
+                'project:This parameter is provided to the use case interface of test case in automated interface test',
               )
         }
         type="info"
@@ -187,6 +188,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
         envID={envID}
         envType={envType}
         data={active}
+        testType={testType}
         visible={modalVisible}
         disabled={!editable}
         onCancel={() => setModalVisible(false)}
@@ -195,4 +197,7 @@ const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.El
   );
 };
 
-export default TestEnv;
+export const ManualTestEnv = () => <TestEnv testType="manual" />;
+export const AutoTestEnv = () => <TestEnv testType="auto" />;
+
+// export default TestEnv;

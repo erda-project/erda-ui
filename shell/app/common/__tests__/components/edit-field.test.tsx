@@ -151,8 +151,8 @@ describe('EditField', () => {
     const wrapper = shallow(<EditField name="tips" type="custom" getComp={getComp} itemProps={{}} />);
     expect(wrapper.find('.custom-render')).toExist();
   });
-  it('should render readonly or last_readonly type', () => {
-    const test = (type: 'readonly' | 'last_readonly') => {
+  it('should render readonly type', () => {
+    const test = (type: 'readonly') => {
       const wrapper = mount(<EditField name="name" type={type} data={{ name: 'erda.cloud' }} />);
       expect(wrapper.find('.nowrap').text()).toBe('erda.cloud');
       wrapper.setProps({
@@ -162,7 +162,6 @@ describe('EditField', () => {
       expect(wrapper.find('.value-render').text()).toBe('erda');
     };
     test('readonly');
-    test('last_readonly');
   });
   it('should render dateReadonly type', () => {
     const date = '2021-05-29';

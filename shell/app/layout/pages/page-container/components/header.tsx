@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { PageHeader } from 'core/nusi';
 import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
 import { goTo } from 'common/utils';
@@ -22,6 +21,8 @@ import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { Right as IconRight } from '@icon-park/react';
 import { Route } from 'core/common/interface';
+import { Breadcrumb, Tooltip } from 'core/nusi';
+import './header.scss';
 
 const BreadcrumbItem = ({
   route,
@@ -74,7 +75,7 @@ const Header = () => {
 
   const [allRoutes, setAllRoutes] = React.useState<Route[]>([]);
   const [params, setParams] = React.useState<Obj<string>>({});
-
+  const [pageNameInfo, setPageNameInfo] = React.useState<Function>();
   const checkHasTemplate = React.useCallback(
     (breadcrumbName: string) => {
       const replacePattern = /\{([\w.])+\}/g;
@@ -121,6 +122,7 @@ const Header = () => {
     if (allRoutes.length) {
       const lastRoute = allRoutes[allRoutes.length - 1];
       const _title = getBreadcrumbTitle(lastRoute);
+      setPageNameInfo(() => lastRoute?.pageNameInfo);
       setPageName(_title);
     }
   }, [allRoutes, getBreadcrumbTitle]);
@@ -161,23 +163,40 @@ const Header = () => {
     if (!route.breadcrumbName || (allRoutes.length && allRoutes[allRoutes.length - 1] === route)) {
       return null;
     }
-    const _title = getBreadcrumbTitle(route as IRoute);
+    const _title = getBreadcrumbTitle(route);
     return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
   };
 
+  const displayPageName = () => {
+    if (typeof pageNameInfo === 'function') {
+      const Comp = pageNameInfo;
+      return <Comp />;
+    }
+    return (
+      <div className="erda-header-title">
+        <div className="erda-header-title-text">
+          <Tooltip title={pageName}>{pageName}</Tooltip>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <PageHeader
-      breadcrumb={{
-        routes: allRoutes,
-        itemRender,
-        params,
-        separator: <IconRight size="14px" />,
-      }}
-      title={pageName}
-    >
-      {headerInfo && <div className="header-info">{React.cloneElement(headerInfo)}</div>}
-      <Tab />
-    </PageHeader>
+    <div className="erda-header">
+      <div className="erda-header-breadcrumb">
+        <Breadcrumb routes={allRoutes} itemRender={itemRender} params={params} separator={<IconRight size="14px" />} />
+      </div>
+
+      <div className={'erda-header-top'}>
+        <div className={'erda-header-top-left'}>
+          <div className="erda-header-title-con">{pageName && displayPageName()}</div>
+        </div>
+      </div>
+      <div className={'erda-header-content'}>
+        {headerInfo && <div className="header-info">{React.cloneElement(headerInfo)}</div>}
+        <Tab />
+      </div>
+    </div>
   );
 };
 

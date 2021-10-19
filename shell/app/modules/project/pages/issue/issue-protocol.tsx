@@ -15,7 +15,7 @@ import React from 'react';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import DiceConfigPage from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
-import { useUpdate, useSwitch } from 'common';
+import { useSwitch, useUpdate } from "common/use-hooks";
 import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';

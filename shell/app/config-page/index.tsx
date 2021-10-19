@@ -17,7 +17,7 @@ import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin, message } from 'core/nusi';
 import { notify } from 'common/utils';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
@@ -229,9 +229,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     const formatConfig = produce(newConfig, (draft) => {
       const comps = get(draft, 'protocol.components');
       forEach(comps, (comp, compName) => {
-        if (comp?.props?.isLoadMore) {
-          comps[compName] = { ...comp, data: undefined };
-        }
+        const ignoreData = {};
+        const ignoreKeys: string[] = comp?.props?.requestIgnore || [];
+        if (comp?.props?.isLoadMore) ignoreKeys.push('data');
+        ignoreKeys.forEach((_key) => {
+          ignoreData[_key] = undefined;
+        });
+        comps[compName] = { ...comp, ...ignoreData };
       });
     });
 
@@ -256,7 +260,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return (
-    <div className="h-full">
+    <div className="h-full overflow-auto">
       <div className={`page-config-spin ${showLoading && fetching ? 'spinning' : ''} `}>
         <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height" />
       </div>

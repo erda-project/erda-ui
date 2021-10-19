@@ -14,9 +14,9 @@
 import { Spin, Button, Tooltip, Rate, Alert } from 'core/nusi';
 import { isEmpty, find, get } from 'lodash';
 import React from 'react';
-import { IF, FormModal, Avatar, Icon as CustomIcon, connectCube, BackToTop } from 'common';
+import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop } from 'common';
 
-import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen } from 'common/utils';
+import { goTo, fromNow, replaceEmoji, getLS, removeLS, insertWhen, connectCube } from 'common/utils';
 import Markdown from 'common/utils/marked';
 import RepoMRForm from './components/repo-mr-form';
 import RepoCompareDetail from './components/compare-detail';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Table, Button, Tooltip } from 'core/nusi';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { map } from 'lodash';
 import i18n from 'i18n';
 import { getCloudResourceStatusCol, getRemarkCol } from 'cmp/common/components/table-col';

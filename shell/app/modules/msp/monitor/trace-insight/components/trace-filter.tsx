@@ -14,7 +14,7 @@
 import React from 'react';
 import { Form, Input, Select, DatePicker, Dropdown, Menu, Checkbox } from 'core/nusi';
 import { isEqual, pickBy } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import Duration from './duration';
 import { produce } from 'immer';
 import { DownOne as IconDownOne, Plus as IconPlus, Search as IconSearch } from '@icon-park/react/lib/map';

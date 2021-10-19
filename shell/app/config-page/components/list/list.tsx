@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Button, Ellipsis, Pagination } from 'core/nusi';
-import { Icon as CustomIcon, useUpdate, EmptyHolder, ErdaIcon } from 'common';
+import { Tooltip, Button, Pagination } from 'core/nusi';
+import { Icon as CustomIcon, EmptyHolder, ErdaIcon, Ellipsis } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';

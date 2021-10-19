@@ -16,7 +16,7 @@ import CaseInfo from './case-info';
 import fileTreeStore from 'common/stores/file-tree';
 import CasePipelineEditor from './pipeline-editor';
 // import RecordList from './record-list';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import repoStore from 'application/stores/repo';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import { get } from 'lodash';

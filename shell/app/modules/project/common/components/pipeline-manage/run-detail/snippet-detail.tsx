@@ -14,7 +14,8 @@
 import React from 'react';
 import { Drawer, Tabs, Tooltip } from 'core/nusi';
 import { map, isEmpty, get, find } from 'lodash';
-import { useUpdate, EmptyHolder } from 'common';
+import { EmptyHolder } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import i18n from 'i18n';
 import { ResultView } from './result-view';

@@ -13,7 +13,7 @@
 
 import React, { useEffect } from 'react';
 import { map, find, isEmpty } from 'lodash';
-import { useUpdate } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import MachineTable from '../machine-manager/machine-table';
 import { useLoading } from 'core/stores/loading';
 import clusterDashboardStore from 'dcos/stores/dashboard';

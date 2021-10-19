@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Drawer, Spin, Input, Tooltip, message } from 'core/nusi';
-import { Avatar, Copy, ErdaCustomIcon, MarkdownEditor, UserInfo, useUpdate } from 'common';
+import { Avatar, Copy, ErdaCustomIcon, MarkdownEditor, UserInfo } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import testCaseStore from 'project/stores/test-case';
 import i18n from 'i18n';
 import { fromNow, mergeSearch, qs, updateSearch } from 'common/utils';
@@ -125,6 +126,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
   const [{ fullData, titleIsEmpty }, updater] = useUpdate<IState>(initState);
   const drawer = React.useRef<{ saved: boolean }>({ saved: false });
+  const activeElementRef = React.useRef<{ target: Element | null }>({ target: null });
   const editMode = !!caseDetail.id;
   React.useEffect(() => {
     if (caseDetail.id) {
@@ -259,6 +261,10 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   };
 
   const handleAnyBlur = (e: React.FocusEvent) => {
+    if (activeElementRef.current.target?.className.includes('ant-input')) {
+      return;
+    }
+
     if (!editMode) {
       return;
     }
@@ -269,6 +275,22 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       handleSave(false);
     }
   };
+
+  const handleAnyMouseDown = React.useCallback((e: MouseEvent) => {
+    activeElementRef.current.target = e.target as Element;
+  }, []);
+
+  React.useEffect(() => {
+    if (visible) {
+      window.addEventListener('mousedown', handleAnyMouseDown);
+    } else {
+      window.removeEventListener('mousedown', handleAnyMouseDown);
+    }
+
+    return () => {
+      window.removeEventListener('mousedown', handleAnyMouseDown);
+    };
+  }, [visible, handleAnyMouseDown]);
 
   const handleVisibleChange = (v: boolean) => {
     if (!v) {

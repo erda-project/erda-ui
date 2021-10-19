@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, Copy, useUpdate } from 'common';
+import { CRUDTable, Copy } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { regRules } from 'common/utils/index';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';

@@ -14,7 +14,8 @@
 import React from 'react';
 import { Row, Col, Drawer } from 'core/nusi';
 import { getFilterParams } from 'service-insight/common/utils';
-import { useSwitch, SimpleLog } from 'common';
+import { SimpleLog } from 'common';
+import { useSwitch } from "common/use-hooks";
 import WebMap from './config/chartMap';
 import TopTabRight from 'service-insight/common/components/tab-right';
 import CommonPanel from '../../../trace-insight/pages/trace-querier/trace-common-panel';

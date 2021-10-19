@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { forEach, filter } from 'lodash';
-import { Panel } from 'common';
+import { SimplePanel } from 'common';
 import { AddonCards } from 'addonPlatform/pages/common/components/addon-cards';
 import dopStore from 'dop/stores';
 
@@ -60,15 +60,15 @@ const AssociatedAddons = ({ projectId, environment }: IProps) => {
 
   return (
     <>
-      <Panel title={i18n.t('org:associated plugin')}>
+      <SimplePanel title={i18n.t('org:associated plugin')}>
         <AddonCards dataSource={filterList(associatedAddons)} />
-      </Panel>
-      <Panel title={i18n.t('associated microservice')}>
+      </SimplePanel>
+      <SimplePanel title={i18n.t('associated microservice')}>
         <AddonCards dataSource={filterList(associateMicroServices)} />
-      </Panel>
-      <Panel title={i18n.t('associated ability')}>
+      </SimplePanel>
+      <SimplePanel title={i18n.t('associated ability')}>
         <AddonCards dataSource={filterList(associatedAbilities)} />
-      </Panel>
+      </SimplePanel>
     </>
   );
 };

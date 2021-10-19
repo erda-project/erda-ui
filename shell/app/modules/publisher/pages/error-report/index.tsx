@@ -14,7 +14,8 @@
 import React from 'react';
 import { Row, Col, Radio, Select, Table, Tooltip } from 'core/nusi';
 import { map, get } from 'lodash';
-import { Icon as CustomIcon, PureBoardGrid, TimeSelector, useUpdate } from 'common';
+import { Icon as CustomIcon, PureBoardGrid, TimeSelector } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import moment from 'moment';
 import { SelectValue, ColumnProps } from 'core/common/interface';
 import errorReportStore from 'app/modules/publisher/stores/error-report';

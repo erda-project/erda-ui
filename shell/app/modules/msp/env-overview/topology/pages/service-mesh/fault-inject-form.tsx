@@ -16,7 +16,8 @@ import { Tabs, Button, Collapse, Pagination, Input, Popconfirm, Switch } from 'c
 import { isEmpty, map, filter, find, compact, get } from 'lodash';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';
-import { RenderForm, EmptyHolder, Icon as CustomIcon, FormModal, useUpdate } from 'common';
+import { RenderForm, EmptyHolder, Icon as CustomIcon, FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import serviceMeshStore from '../../stores/service-mesh';
 import { validators } from 'common/utils';
 import './service-mesh.scss';

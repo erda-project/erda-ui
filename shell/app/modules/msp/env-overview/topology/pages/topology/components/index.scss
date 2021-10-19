@@ -4,6 +4,7 @@
   flex-direction: column;
   border: 1px solid $color-border;
   border-radius: $radius;
+  height: 100%;
 
   .spin-full-height {
     .ant-spin-nested-loading,

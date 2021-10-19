@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Popconfirm, Ellipsis, Tooltip } from 'core/nusi';
+import { Table, Popconfirm, Tooltip } from 'core/nusi';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { contractStatueMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
-import { TableActions, useUpdate, Icon as CustomIcon } from 'common';
+import { TableActions, Icon as CustomIcon, Ellipsis } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import DetailModal from './detail-modal';
 import { useLoading } from 'core/stores/loading';
 import UpdateSLA from 'apiManagePlatform/components/update-sla';

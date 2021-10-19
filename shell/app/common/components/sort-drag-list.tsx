@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, ErdaCustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaCustomIcon, Ellipsis } from 'common';
 import { map, groupBy, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import React from 'react';
-import { Tooltip, Ellipsis, Popconfirm } from 'core/nusi';
+import { Tooltip, Popconfirm } from 'core/nusi';
 import './sort-drag-list.scss';
 
 interface IBeginDragData<T> {

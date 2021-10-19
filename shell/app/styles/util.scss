@@ -90,12 +90,6 @@
   width: 12px;
 }
 
-.tooltip-word-break {
-  .pk-tooltip-inner {
-    word-break: break-all;
-  }
-}
-
 .btn-line-rtl {
   overflow: hidden;
 
@@ -307,7 +301,9 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
-    @apply nowrap;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .sub {

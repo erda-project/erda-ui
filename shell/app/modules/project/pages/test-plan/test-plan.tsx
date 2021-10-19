@@ -101,6 +101,11 @@ const TestPlan = () => {
       },
     },
     {
+      title: i18n.t('project:owned iteration'),
+      dataIndex: 'iterationName',
+      width: 160,
+    },
+    {
       title: i18n.t('project:principal'),
       dataIndex: 'ownerID',
       width: 120,
@@ -171,7 +176,9 @@ const TestPlan = () => {
               onClick={async (e) => {
                 e.stopPropagation();
                 await toggleArchived({ id, isArchived: !record.isArchived });
-                getList({ ...filterObj, pageNo: page.pageNo });
+                // When has isArchived filter, this operation will delete the row from table
+                const needGoToFirstPage = planList.length === 1 && typeof filterObj.isArchived !== 'undefined';
+                getList({ ...filterObj, pageNo: needGoToFirstPage ? 1 : page.pageNo });
               }}
             >
               {record.isArchived ? i18n.t('project:unarchive') : i18n.t('archive')}

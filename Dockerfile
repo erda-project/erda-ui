@@ -13,7 +13,7 @@ WORKDIR /usr/src/app/scheduler
 ENV NODE_ENV=production
 
 RUN npm i pnpm -g
-RUN pnpm i
+RUN pnpm i --unsafe-perm --reporter append-only
 RUN npm run build
 
 CMD npm run start:prod

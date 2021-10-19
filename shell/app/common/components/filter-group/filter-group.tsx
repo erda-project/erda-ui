@@ -14,7 +14,8 @@
 import React from 'react';
 import { Button, Select, InputNumber, Input, Row, Col, Drawer, Tooltip, Tag } from 'core/nusi';
 import { map, forEach, isArray, isPlainObject, isEmpty, compact, get, find } from 'lodash';
-import { Icon as CustomIcon, useUpdate } from 'common';
+import { Icon as CustomIcon } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { updateSearch, qs } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';

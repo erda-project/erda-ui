@@ -33,7 +33,7 @@ const Shell = ({ children, className, pageHeader, globalNavigation, sideNavigati
         </div>
         <div className="flex flex-auto flex-col h-full overflow-x-hidden">
           {pageHeader}
-          <div className="erda-main-content relative">{children}</div>
+          <div className="erda-main-content relative overflow-auto">{children}</div>
         </div>
       </div>
     </div>

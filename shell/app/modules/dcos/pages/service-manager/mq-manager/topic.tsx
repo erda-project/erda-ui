@@ -14,7 +14,8 @@
 import React from 'react';
 import { Alert, Tooltip, Button, Table } from 'core/nusi';
 import i18n from 'i18n';
-import { useUpdate, FormModal } from 'common';
+import { FormModal } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
 import { getCloudResourceTimeCol, getRemarkCol, getCloudResourceTagsCol } from 'cmp/common/components/table-col';

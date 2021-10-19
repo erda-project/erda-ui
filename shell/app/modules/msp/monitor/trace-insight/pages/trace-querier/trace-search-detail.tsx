@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useUpdate, Icon as CustomIcon, Copy } from 'common';
+import { Icon as CustomIcon, Copy } from 'common';
+import { useUpdate } from 'common/use-hooks';
 import { ShareOne as IconShareOne } from '@icon-park/react';
 import PureTraceDetail from './trace-detail-new';
 import monitorCommonStore from 'app/common/stores/monitorCommon';
@@ -32,6 +33,8 @@ export default ({ traceId }: { traceId?: string }) => {
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
   const id = traceId || _traceId;
+  const [pathname, query] = window.location.href.split('?');
+  const copyPath = _traceId ? pathname : `${pathname}/trace-detail/${traceId}${query ? `?${query}` : ''}`;
 
   React.useEffect(() => {
     if (_traceId) {
@@ -71,11 +74,7 @@ export default ({ traceId }: { traceId?: string }) => {
         />
         {i18n.t('msp:trace id')}: {id}
         <Copy selector=".cursor-copy">
-          <span
-            className="cursor-copy hover-text"
-            data-clipboard-text={_traceId ? window.location.href : `${window.location.href}/trace-detail/${traceId}`}
-            data-clipboard-tip={i18n.t('link')}
-          >
+          <span className="cursor-copy hover-text" data-clipboard-text={copyPath} data-clipboard-tip={i18n.t('link')}>
             <IconShareOne className="hover-active ml-5" size="16px" />
           </span>
         </Copy>

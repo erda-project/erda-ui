@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FormModal, ImgHolder, ConfigLayout } from 'common';
-import { Form, Button } from 'core/nusi';
+import { FormModal, ConfigLayout } from 'common';
+import { Form, Button, Avatar } from 'core/nusi';
 import { isEmpty, concat, get, forEach, isFunction } from 'lodash';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
@@ -90,7 +90,7 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
           if (viewType === 'image') {
             readonlyView.push(
               <FormItem label={label} key={index}>
-                <ImgHolder src={value} rect="100x100" text="image" />
+                <Avatar shape="square" src={value} size={100} />
               </FormItem>,
             );
           } else if (viewType === 'markdown') {

@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ConfigLayout, ImgHolder } from 'common';
+import { ConfigLayout } from 'common';
 import { ArtifactsTypeMap } from './config';
 import { get, map } from 'lodash';
-import { Row, Col, Tooltip } from 'core/nusi';
+import { Row, Col, Tooltip, Avatar } from 'core/nusi';
 import i18n from 'i18n';
 import { insertWhen } from 'common/utils';
 // import routeInfoStore from 'core/stores/route';
@@ -44,11 +44,15 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
               <div className="text-desc mb-2">{item.label}</div>
               <div className="nowrap">
                 {item.viewType === 'image' ? (
-                  <ImgHolder src={val} rect="100x100" text="image" />
+                  <Avatar shape="square" src={val} size={100}>
+                    {i18n.t('none')}
+                  </Avatar>
                 ) : item.viewType === 'images' ? (
                   map(val, (url) => (
                     <span key={url} className="mr-2">
-                      <ImgHolder src={url} rect="100x100" text="image" />
+                      <Avatar shape="square" src={url} size={100}>
+                        {i18n.t('none')}
+                      </Avatar>
                     </span>
                   ))
                 ) : (

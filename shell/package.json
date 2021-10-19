@@ -39,7 +39,10 @@
     "check-unit-test": "node -e 'require(\"./tools/testcase-checker.js\").checkTestCase()'",
     "extra-logic": "node ../../erda-ui-enterprise/extra-job.js",
     "online-extra-logic": "node ../modules/extra-job.js online",
-    "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts"
+    "unused-file-detect": "ts-node --project tools/tsconfig.json tools/detect-unused-files.ts",
+    "dev": "vite",
+    "preview": "vite preview",
+    "vite-build": "vite build"
   },
   "author": "Erda-FE",
   "license": "AGPL",
@@ -61,7 +64,6 @@
     "events": "^3.3.0",
     "file-loader": "^6.0.0",
     "highlight.js": "^10.5.0",
-    "holderjs": "^2.9.4",
     "https-browserify": "^1.0.0",
     "immer": "^8.0.0",
     "intersection-observer": "^0.5.1",
@@ -78,6 +80,7 @@
     "path-to-regexp": "^6.2.0",
     "qiankun": "^2.3.5",
     "query-string": "^6.4.2",
+    "rc-resize-observer": "^1.0.1",
     "react": "16.14.0",
     "react-ace": "^8.0.0",
     "react-dnd": "^11.1.3",
@@ -139,7 +142,6 @@
     "@phenomnomnominal/tsquery": "^4.1.1",
     "@types/diff-match-patch": "^1.0.32",
     "@types/echarts": "^4.1.3",
-    "@types/holderjs": "^2.9.0",
     "@types/lodash": "^4.14.118",
     "@types/node": "^10.12.18",
     "@types/react": "^16.14.6",
@@ -189,7 +191,11 @@
     "webpack-build-notifier": "^2.1.1",
     "webpack-bundle-analyzer": "^4.3.0",
     "webpack-cli": "^4.4.0",
-    "webpack-merge": "^5.7.3"
+    "webpack-merge": "^5.7.3",
+    "vite": "2",
+    "@vitejs/plugin-legacy": "^1.4.4",
+    "vite-plugin-importer": "^0.2.5",
+    "@vitejs/plugin-react-refresh": "^1.3.5"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write",

@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Panel, Title, Anchor } from 'core/nusi';
-import { OperationProps, TitleProps, PanelProps, IAnchorContainer } from 'core/common/interface';
-import { IF } from 'common';
+import { Anchor } from 'core/nusi';
+import { OperationProps, PanelProps, IAnchorContainer } from 'core/common/interface';
+import { IF, Title, TitleProps, Panel } from 'common';
 import { map, isEmpty } from 'lodash';
 import './details-panel.scss';
 import classnames from 'classnames';
@@ -118,9 +118,9 @@ const DetailsPanel = (props: IProps) => {
               <Link
                 href={href}
                 title={
-                  <div className="anchor-link-title_icon">
+                  <div className="anchor-link-title-icon">
                     {icon}
-                    <span className="pk-anchor-link-title_text">{title}</span>
+                    <span className="flex items-center">{title}</span>
                   </div>
                 }
                 key={href}

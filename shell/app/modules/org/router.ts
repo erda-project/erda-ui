@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
+import permStore from 'user/stores/permission';
 
 const approvalTabs = [
   {
@@ -23,6 +24,22 @@ const approvalTabs = [
     name: i18n.t('org:approved'),
   },
 ];
+
+const marketTabs = () => {
+  const orgPerm = permStore.useStore((s) => s.org);
+  return [
+    {
+      key: 'setting',
+      name: i18n.t('org:publisher info'),
+      show: orgPerm.orgCenter.viewMarket.pass,
+    },
+    {
+      key: 'certificate',
+      name: i18n.t('layout:certificate'),
+      show: orgPerm.orgCenter.viewCertificate.pass,
+    },
+  ];
+};
 
 function getOrgCenterRouter(): RouteConfigItem[] {
   return [
@@ -53,15 +70,11 @@ function getOrgCenterRouter(): RouteConfigItem[] {
                 // },
                 {
                   path: 'dashboard',
-                  routes: [
-                    {
-                      breadcrumbName: i18n.t('project:dashboard'),
-                      getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
-                      layout: {
-                        fullHeight: true,
-                      },
-                    },
-                  ],
+                  breadcrumbName: i18n.t('project:statistics'),
+                  getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
+                  layout: {
+                    noWrapper: true,
+                  },
                 },
                 {
                   path: 'setting',
@@ -73,24 +86,29 @@ function getOrgCenterRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'market',
+          path: 'market/publisher',
           mark: 'orgMarket',
+          pageName: i18n.t('layout:mobile development management'),
           routes: [
             {
-              path: 'publisher/setting',
-              breadcrumbName: i18n.t('org:publisher info'),
+              path: 'setting',
+              tabs: marketTabs,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('layout:mobile development management'),
               routes: [
                 {
                   getComp: (cb) => cb(import('app/modules/publisher/pages/publisher-manage/publisher-setting')),
                 },
               ],
             },
+            {
+              path: 'certificate',
+              tabs: marketTabs,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('layout:mobile development management'),
+              getComp: (cb) => cb(import('app/modules/org/pages/certificate')),
+            },
           ],
-        },
-        {
-          path: 'certificate',
-          breadcrumbName: i18n.t('org:certificate'),
-          getComp: (cb) => cb(import('app/modules/org/pages/certificate')),
         },
         {
           path: 'safety',
@@ -103,12 +121,6 @@ function getOrgCenterRouter(): RouteConfigItem[] {
           tabs: approvalTabs,
           ignoreTabQuery: true,
           getComp: (cb) => cb(import('app/modules/org/pages/approval')),
-        },
-        {
-          path: 'announcement',
-          pageName: i18n.t('org:announcement management'),
-          breadcrumbName: i18n.t('org:announcement management'),
-          getComp: (cb) => cb(import('org/pages/announcement')),
         },
         {
           path: 'setting',

@@ -30,7 +30,7 @@ import { useEffectOnce } from 'react-use';
 import { UrlInviteModal } from './url-invite-modal';
 import { BatchAuthorizeMemberModal } from './batch-authorize-member-modal';
 import { insertWhen, goTo } from '../utils';
-import { useUpdate } from './use-hooks';
+import { useUpdate } from '../use-hooks';
 import routeInfoStore from 'core/stores/route';
 import memberLabelStore from 'common/stores/member-label';
 import orgStore from 'app/org-home/stores/org';

@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export { FormInstance } from 'antd/lib/form/Form';
-export { SelectValue, SelectProps } from 'antd/lib/select';
-export { DrawerProps } from 'antd/lib/drawer';
+export { FormInstance } from 'antd/es/form/Form';
+export { SelectValue, SelectProps } from 'antd/es/select';
+export { DrawerProps } from 'antd/es/drawer';
 export { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
 export {
   AntTreeNodeSelectedEvent,
@@ -23,28 +23,16 @@ export {
   AntTreeNodeProps,
   AntTreeNodeDropEvent,
 } from 'antd/lib/tree/Tree';
-export { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
 export { UploadProps } from 'antd/es/upload';
 export { InputProps } from 'antd/es/input';
 export { MenuProps } from 'antd/es/menu';
-export { PaginationConfig, SorterResult } from 'antd/lib/table';
+// export { PaginationConfig, SorterResult } from 'antd/lib/table';
 export { ColumnProps, IActions } from '../nusi/wrapped-table';
-export { IFormExtendType, IFieldType } from '../common/components/form-builder';
-export { FilterItemConfig } from '../common/components/filter';
 export { ModalProps } from 'antd/es/modal';
-export { FormComponentProps } from 'antd/es/form';
-export { AbstractTooltipProps } from 'antd/lib/tooltip';
-export { BreadcrumbProps, Route } from 'antd/lib/breadcrumb/Breadcrumb';
-export { MenuProps } from 'antd/es/menu';
+export { FormProps, FormItemProps } from 'antd/es/form';
+export { AbstractTooltipProps } from 'antd/es/tooltip';
+export { BreadcrumbProps, Route } from 'antd/es/breadcrumb/Breadcrumb';
 
-export { Action } from '@terminus/nusi/es/table';
-export { FilterItemConfig, IFilterProps } from '@terminus/nusi/es/filter/interface';
-export { PaginationProps } from '@terminus/nusi/es/pagination';
-export { PageHeaderProps } from '@terminus/nusi/es/page-header/interface';
-export { RadioChangeEvent } from '@terminus/nusi/es/radio/interface';
-export { ClickParam } from '@terminus/nusi/es/menu';
-export { OperationProps, TitleProps } from '@terminus/nusi/es/title/interface';
-export { PanelProps } from '@terminus/nusi/es/panel/index';
-export { IAnchorContainer } from '@terminus/nusi/es/anchor/interface';
-export { TransferItem } from '@terminus/nusi/es/transfer/index';
-export { Theme } from '@terminus/nusi/es/global-navigation/interface';
+export { PaginationProps } from 'antd/es/pagination';
+export { RadioChangeEvent } from 'antd/es/radio/interface';
+export { TransferItem } from 'antd/es/transfer/index';

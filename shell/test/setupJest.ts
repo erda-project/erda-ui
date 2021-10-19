@@ -38,14 +38,6 @@ jest.mock('i18n', () => {
   };
 });
 
-jest.mock('holderjs', () => {
-  return {
-    run: () => {},
-    addTheme: () => {},
-    setResizeUpdate: () => {},
-  };
-});
-
 const mock = (data) => {
   const temp = {};
   Object.keys(data).forEach((key) => {
