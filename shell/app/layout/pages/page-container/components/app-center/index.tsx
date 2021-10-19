@@ -20,7 +20,7 @@ import './index.scss';
 
 interface IProps {
   node: React.ReactNode;
-  dataSource: Array<{ app: LAYOUT.IApp }>;
+  dataSource: Array<{ app: LAYOUT.IApp; key: string }>;
   linkRender: (item: { app: LAYOUT.IApp }) => any;
   title: React.ReactNode;
   visible: boolean;
@@ -69,7 +69,7 @@ const AppCenter = ({ node, dataSource, linkRender, title, visible, onVisible }: 
         />
         <ul className="mt-4">
           {list.map((item) => (
-            <li className="app-center-list-item mb-2 cursor-pointer">{linkRender(item)}</li>
+            <li key={item.key} className="app-center-list-item mb-2 cursor-pointer">{linkRender(item)}</li>
           ))}
         </ul>
       </Drawer>
