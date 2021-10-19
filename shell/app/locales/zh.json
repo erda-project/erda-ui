@@ -36,7 +36,6 @@
     "terminate": "终止",
     "traffic load": "流量负载"
   },
-  "apiManagePlatform": {},
   "application": {
     " coverage": "覆盖率",
     "An Action with the same name exists.": "存在同名 Action!",
@@ -1965,7 +1964,6 @@
     "{total} item added successfully": "成功添加{total}条",
     "{unreadCount} messages unread": "共有 {unreadCount} 封未读站内信"
   },
-  "dice-dp": {},
   "dop": {
     "JVM analysis": "JVM 分析",
     "accounts": "账号管理",

@@ -36,7 +36,6 @@
     "terminate": "terminate",
     "traffic load": "traffic load"
   },
-  "apiManagePlatform": {},
   "application": {
     " coverage": " coverage",
     "An Action with the same name exists.": "An Action with the same name exists.",
@@ -1966,7 +1965,6 @@
     "{total} item added successfully": "{total} item added successfully",
     "{unreadCount} messages unread": "{unreadCount} messages unread"
   },
-  "dice-dp": {},
   "dop": {
     "JVM analysis": "JVM analysis",
     "accounts": "accounts",
