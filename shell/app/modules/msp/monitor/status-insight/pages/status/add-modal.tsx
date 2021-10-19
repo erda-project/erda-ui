@@ -29,6 +29,76 @@ interface IProps {
   afterSubmit: (args?: any) => Promise<any>;
   toggleModal: (args?: any) => void;
 }
+interface ITrigger {
+  key: string;
+  operate: string;
+  value: number | string;
+}
+interface IState {
+  showMore: boolean;
+  retry: number;
+  frequency: number;
+  apiMethod: string;
+  body: string;
+  headers: Obj;
+  url: string;
+  query: Obj;
+  condition: ITrigger[];
+}
+
+const convertFormData = (_formData?: Obj) => {
+  if (_formData) {
+    return {
+      retry: _formData?.config?.retry || RETRY_TIMES[0],
+      frequency: _formData?.config?.interval || TIME_LIMITS[0],
+      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
+      body: JSON.stringify(_formData?.config?.body, null, 2) || JSON.stringify({}),
+      headers: _formData?.config?.headers || {},
+      url: _formData?.config?.url || '',
+      query: qs.parseUrl(_formData?.config?.url || '')?.query,
+      condition: _formData?.config?.triggering || [
+        {
+          key: 'http_code',
+          operate: '>=',
+          value: 400,
+        },
+      ],
+    };
+  } else {
+    return {
+      condition: [
+        {
+          key: 'http_code',
+          operate: '>=',
+          value: 400,
+        },
+      ],
+      showMore: false,
+      query: {},
+      retry: RETRY_TIMES[0],
+      frequency: TIME_LIMITS[0],
+      apiMethod: HTTP_METHOD_LIST[0],
+      body: JSON.stringify({}),
+      headers: {},
+      url: '',
+    };
+  }
+};
+
+const ruleOfJson = {
+  validator: async (_, value: string) => {
+    if (value) {
+      try {
+        JSON.parse(value);
+      } catch {
+        throw new Error(i18n.t('msp:please enter the correct JSON format'));
+      }
+    } else {
+      return true;
+    }
+  },
+};
+
 const AddModal = (props: IProps) => {
   const { formData, modalVisible, afterSubmit, toggleModal } = props;
 
