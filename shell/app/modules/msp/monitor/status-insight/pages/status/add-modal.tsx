@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { FormModal, KeyValueTable } from 'common';
-import { useUpdate } from 'common/use-hooks';
+import { FormModal, KeyValueTable, useUpdate } from 'common';
 import { regRules, qs } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';

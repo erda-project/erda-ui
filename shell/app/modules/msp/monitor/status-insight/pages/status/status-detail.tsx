@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Spin, Row, Col, Button, Tooltip, Ellipsis } from 'core/nusi';
-import { useUpdate } from 'common/use-hooks';
+import { useUpdate } from 'common';
 import StatusChart from './status-detail-chart';
 import MonthUptime from './3-month-uptime';
 import AddModal from './add-modal';
