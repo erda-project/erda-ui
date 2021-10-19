@@ -10,22 +10,22 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import i18n from 'i18n';
 
-import React from 'react';
-
-import './compact-select.scss';
-
-interface IProps {
-  title: string;
-  children: JSX.Element;
-  onChange?: (value: any) => void;
-}
-
-export const CompactSelect = ({ title, children, ...rest }: IProps) => {
-  return (
-    <div className="compact-select whitespace-nowrap">
-      <span className="select-addon-before">{title}</span>
-      {React.cloneElement(children, rest)}
-    </div>
-  );
+export default {
+  HTTP_METHOD_LIST: ['GET', 'POST', 'PUT', 'HEAD'],
+  TIME_LIMITS: [15, 30, 60, 300],
+  RETRY_TIMES: [1, 2, 4, 8],
+  OPERATORS: {
+    '=': i18n.t('project:equal to'),
+    '>': i18n.t('greater than'),
+    '>=': i18n.t('project:greater than or equal to'),
+    '<=': i18n.t('project:less than or equal to'),
+    '<': i18n.t('less than'),
+  },
+  CONTAINS: {
+    contains: i18n.t('project:contains'),
+    not_contains: i18n.t('project:does not contain'),
+  },
+  MAX_BODY_LENGTH: 10000,
 };

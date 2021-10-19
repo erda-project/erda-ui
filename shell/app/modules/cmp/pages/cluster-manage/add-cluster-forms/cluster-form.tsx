@@ -278,7 +278,7 @@ const ClusterAddForm = (props: any) => {
         <div className="more">
           <a className="more-btn" onClick={() => setShowMore(!showMore)}>
             {i18n.t('advanced settings')}
-            {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
+            {showMore ? <IconUp size="16px" /> : <IconDown size="16px" />}
           </a>
           <div className={`more-form ${showMore ? '' : 'hidden'}`}>
             <ClusterSchedulerForm

@@ -235,13 +235,6 @@
   }
 }
 
-.trace-value-tooltips {
-  .pk-tooltip-inner {
-    max-height: 400px;
-    overflow: auto;
-  }
-}
-
 #trace-controls {
   form {
     margin-bottom: 10px;
@@ -337,17 +330,5 @@
         word-break: break-all;
       }
     }
-  }
-}
-
-.full-span-name {
-  .pk-tooltip-inner {
-    max-width: 100%;
-  }
-}
-
-.span-tooltip {
-  .pk-tooltip-inner {
-    max-width: 100%;
   }
 }

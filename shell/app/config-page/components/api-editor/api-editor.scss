@@ -88,11 +88,6 @@
         margin-bottom: 0;
       }
 
-      .pk-table-tbody > tr {
-        font-size: 12px !important;
-        border: none;
-      }
-
       .ant-tabs-tabpane {
         position: relative;
       }
@@ -133,24 +128,6 @@
     position: absolute;
     right: 12px;
     z-index: 1;
-  }
-}
-
-.api-editor-asserts-tips {
-  .pk-tooltip-content {
-    width: 600px;
-
-    .contents {
-      list-style: disc;
-
-      li {
-        font-size: 12px;
-
-        ul {
-          list-style: circle;
-        }
-      }
-    }
   }
 }
 

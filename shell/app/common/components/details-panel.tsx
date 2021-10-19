@@ -118,9 +118,9 @@ const DetailsPanel = (props: IProps) => {
               <Link
                 href={href}
                 title={
-                  <div className="anchor-link-title_icon">
+                  <div className="anchor-link-title-icon">
                     {icon}
-                    <span className="pk-anchor-link-title_text">{title}</span>
+                    <span className="flex items-center">{title}</span>
                   </div>
                 }
                 key={href}

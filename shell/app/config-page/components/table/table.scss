@@ -215,10 +215,6 @@
   .task-gantt-table {
     overflow: hidden;
 
-    .pk-ellipsis-item {
-      overflow: visible;
-    }
-
     .ant-table {
       .ant-table-thead {
         > tr > th {
@@ -226,10 +222,6 @@
             padding: 0;
             overflow: visible;
           }
-        }
-
-        .pk-table-column-header-title {
-          overflow: visible;
         }
       }
 
@@ -264,14 +256,6 @@
     .load-more-selector:hover > .results,
     .ant-input-affix-wrapper .ant-input:not(:last-child):hover {
       border-color: $color-primary;
-    }
-
-    .pk-table-fixed-left {
-      z-index: 3;
-    }
-
-    .pk-ellipsis {
-      overflow: visible;
     }
   }
 }

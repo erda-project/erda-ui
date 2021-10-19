@@ -65,7 +65,7 @@ describe('AuthorizeMemberModal', () => {
       success: true,
       data,
     });
-    Object.defineProperty(Services, 'getApps', {
+    Object.defineProperty(Services, 'getAppList', {
       value: getApps,
     });
     appMemberStore.useStore = (fn) => {

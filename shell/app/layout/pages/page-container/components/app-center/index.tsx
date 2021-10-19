@@ -20,7 +20,7 @@ import './index.scss';
 
 interface IProps {
   node: React.ReactNode;
-  dataSource: Array<{ app: LAYOUT.IApp }>;
+  dataSource: Array<{ app: LAYOUT.IApp; key: string }>;
   linkRender: (item: { app: LAYOUT.IApp }) => any;
   title: React.ReactNode;
   visible: boolean;
