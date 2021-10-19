@@ -22,7 +22,6 @@ export default (props: CP_DROPDOWN.Props) => {
 
   const onClick = (op?: CP_COMMON.Operation) => {
     if (op) {
-      console.log('------', op);
       execOperation(op);
       customProps?.[op.key] && customProps[op.key](op);
     }

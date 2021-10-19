@@ -11,11 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/20 14:43.
- */
 import React from 'react';
-import DiceConfigPage, { useMock } from 'app/config-page';
+import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
 export default () => {
@@ -25,17 +22,11 @@ export default () => {
     spaceId,
   };
 
-  React.useEffect(() => {
-    console.log('------mount');
-  }, []);
-
   return (
     <DiceConfigPage
       showLoading
       scenarioKey="scenes-import-record"
       scenarioType="scenes-import-record"
-      useMock={useMock('import-record')}
-      forceMock
       inParams={inParams}
     />
   );
