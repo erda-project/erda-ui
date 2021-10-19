@@ -72,7 +72,9 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
         allowClear: true,
       },
       required: false,
-      getComp: () => <ClusterQuota showTip={showTip} canEdit={canEdit} workSpace="DEV" />,
+      getComp: ({ form }: { form: FormInstance }) => (
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="DEV" />
+      ),
       customRender: (value: IData) => (
         <>
           {clusterConfigTitle}
@@ -87,7 +89,9 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
         allowClear: true,
       },
       required: false,
-      getComp: () => <ClusterQuota showTip={showTip} canEdit={canEdit} workSpace="TEST" />,
+      getComp: ({ form }: { form: FormInstance }) => (
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="TEST" />
+      ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
     {
@@ -97,7 +101,9 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
         allowClear: true,
       },
       required: false,
-      getComp: () => <ClusterQuota showTip={showTip} canEdit={canEdit} workSpace="STAGING" />,
+      getComp: ({ form }: { form: FormInstance }) => (
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="STAGING" />
+      ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
     {
@@ -107,7 +113,9 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
         allowClear: true,
       },
       required: false,
-      getComp: () => <ClusterQuota showTip={showTip} canEdit={canEdit} workSpace="PROD" />,
+      getComp: ({ form }: { form: FormInstance }) => (
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="PROD" />
+      ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
   ] as any[];
