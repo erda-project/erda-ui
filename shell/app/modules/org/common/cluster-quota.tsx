@@ -14,7 +14,9 @@
 import React from 'react';
 import { Select, Alert, Input, Form, Row, Col, Progress } from 'core/nusi';
 import i18n from 'i18n';
-import { useUpdate, CompactSelect } from 'common';
+import { CompactSelect } from 'common';
+import { FormInstance } from 'core/common/interface';
+import { useUpdate } from 'common/use-hooks';
 import clusterStore from 'cmp/stores/cluster';
 import projectStore from 'app/modules/project/stores/project';
 
@@ -26,6 +28,7 @@ interface IProps {
   showTip?: boolean;
   readOnly?: boolean;
   data?: IData;
+  form?: FormInstance;
 }
 
 export interface IData {
@@ -34,30 +37,38 @@ export interface IData {
   memQuota: string;
 }
 
-const ClusterQuota = ({ workSpace, canEdit = true, showTip = true, readOnly = false, data = {} as IData }: IProps) => {
+const ClusterQuota = ({
+  workSpace,
+  canEdit = true,
+  showTip = true,
+  readOnly = false,
+  data = {} as IData,
+  form,
+}: IProps) => {
   const clusterList = clusterStore.useStore((s) => s.list);
   const leftResource = projectStore.useStore((s) => s.leftResources) as PROJECT.LeftResources;
 
-  const [{ leftCpu, leftMem, cpuRate, memRate, cluster }, updater, update] = useUpdate({
+  const [{ leftCpu, leftMem, cpuRate, memRate }, updater, update] = useUpdate({
     leftCpu: 0,
     leftMem: 0,
     cpuRate: 100,
     memRate: 100,
-    cluster: '',
   });
+
+  const cluster = form?.getFieldValue?.(['resourceConfig', workSpace, 'clusterName']) || '';
 
   React.useEffect(() => {
     if (cluster && leftResource && leftResource.ClusterList && leftResource.ClusterList.length !== 0) {
       const quota = leftResource.ClusterList.find(
-        (item: PROJECT.ICluster) => item.clusterName === cluster && item.workspace === workSpace.toLocaleLowerCase(),
+        (item: PROJECT.ICluster) => item.ClusterName === cluster && item.Workspace === workSpace.toLocaleLowerCase(),
       );
 
       quota &&
         update({
-          leftCpu: quota.cpuAvailable,
-          leftMem: quota.memAvailable,
-          cpuRate: quota.cpuQuotaRate,
-          memRate: quota.memQuotaRate,
+          leftCpu: quota.CPUAvailable,
+          leftMem: quota.MemAvailable,
+          cpuRate: quota.CPUQuotaRate,
+          memRate: quota.MemQuotaRate,
         });
     }
   }, [cluster, leftResource, workSpace, update]);
@@ -99,7 +110,7 @@ const ClusterQuota = ({ workSpace, canEdit = true, showTip = true, readOnly = fa
         rules={[{ required: true, message: i18n.t('please choose {name}', { name: i18n.t('cluster') }) }]}
         className="mb-0"
       >
-        <CompactSelect title={i18n.t('cluster')} onChange={(val: string) => updater.cluster(val)}>
+        <CompactSelect title={i18n.t('cluster')}>
           <Select disabled={!canEdit}>
             {(clusterList || []).map((clusterItem: { id: string; name: string }) => (
               <Option key={clusterItem.id} value={clusterItem.name}>

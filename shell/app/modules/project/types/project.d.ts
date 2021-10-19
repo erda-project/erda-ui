@@ -115,24 +115,24 @@ declare namespace PROJECT {
   }
 
   interface ICluster {
-    clusterName: string;
-    cpuAvailable: number;
+    ClusterName: string;
+    CPUAvailable: number;
     cpuQuota: number;
-    cpuQuotaRate: number;
+    CPUQuotaRate: number;
     cpuRequestRate: number;
     cpuRequestByService: number;
     cpuRequestByServiceRate: number;
     cpuRequestByAddon: number;
     cpuRequestByAddonRate: number;
-    memAvailable: number;
+    MemAvailable: number;
     memQuota: number;
-    memQuotaRate: number;
+    MemQuotaRate: number;
     memRequestRate: number;
     memRequestByService: number;
     memRequestByServiceRate: number;
     memRequestByAddon: number;
     memRequestByAddonRate: number;
-    workspace: string;
+    Workspace: string;
     tips: string;
   }
 
