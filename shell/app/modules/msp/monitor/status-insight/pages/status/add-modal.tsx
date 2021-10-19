@@ -67,7 +67,7 @@ const convertFormData = (_formData?: Obj) => {
       retry: _formData?.config?.retry || RETRY_TIMES[0],
       frequency: _formData?.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
-      body: JSON.stringify(_formData?.config?.body, null, 2 || {}),
+      body: JSON.stringify(_formData?.config?.body, null, 2) || JSON.stringify({}),
       headers: _formData?.config?.headers || {},
       url: _formData?.config?.url || '',
       query: qs.parseUrl(_formData?.config?.url || '')?.query,
