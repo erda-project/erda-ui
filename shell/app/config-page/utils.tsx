@@ -18,13 +18,14 @@ import { WithAuth } from 'user/common';
 import { colorMap } from 'app/charts/theme';
 
 interface IOperationAction {
-  operation: CP_COMMON.Operation;
+  operation?: CP_COMMON.Operation;
   children: React.ReactElement;
   onClick: (e?: any) => void;
   tipProps?: Obj;
 }
 export const OperationAction = (props: IOperationAction) => {
   const { operation, children, onClick, tipProps } = props;
+  if (!operation) return children;
   const { confirm, disabled, disabledTip, key } = operation;
   if (disabled === true) {
     // 无权限操作

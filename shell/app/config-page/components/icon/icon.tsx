@@ -13,16 +13,31 @@
 
 import React from 'react';
 import { ErdaIcon } from 'common';
+import { OperationAction } from 'config-page/utils';
 
 const Icon = (props: CP_ICON.Props) => {
-  const { props: configProps } = props;
-  const { iconType, visible, ...extraProps } = configProps || {};
+  const { props: configProps, operations, execOperation, customProps } = props;
+  const { iconType, visible, hoverActive, ...extraProps } = configProps || {};
 
-  if (!visible) {
-    return null;
-  }
+  if (visible === false) return null;
 
-  return <ErdaIcon iconType={iconType} {...extraProps} />;
+  const onClick = () => {
+    const curOp = operations?.click;
+    if (curOp) {
+      execOperation(curOp);
+      if (customProps && customProps[curOp.key]) {
+        customProps[curOp.key](curOp);
+      }
+    }
+  };
+
+  const cls = `${operations?.click || hoverActive ? 'hover-active' : ''}`;
+
+  return (
+    <OperationAction operation={operations?.click} onClick={onClick}>
+      <ErdaIcon iconType={iconType} {...extraProps} className={`${cls} ${extraProps?.className}`} />
+    </OperationAction>
+  );
 };
 
 export default Icon;

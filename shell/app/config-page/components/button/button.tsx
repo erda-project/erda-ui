@@ -16,9 +16,19 @@ import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'core/
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
 import { Icon as CustomIcon } from 'common';
+import { iconMap } from 'common/components/erda-icon/erda-icon';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const fakeClick = 'fake-click';
+
+const IconComp = (props: { type: string; [pro: string]: any }) => {
+  const { type, ...rest } = props;
+  const Comp = iconMap[type];
+  if (Comp) {
+    return <Comp {...rest} />;
+  }
+  return <CustomIcon type={type} {...rest} />;
+};
 
 export const Button = (props: CP_BUTTON.Props) => {
   const { updateState, customProps, execOperation, operations, props: configProps } = props;
@@ -51,10 +61,10 @@ export const Button = (props: CP_BUTTON.Props) => {
 
   const content = (
     <>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
+      {prefixIcon ? <IconComp type={prefixIcon} className="mr-1" /> : null}
       {text}
       {suffixIcon ? (
-        <CustomIcon type={suffixIcon} className="ml-1" />
+        <IconComp type={suffixIcon} className="ml-1" />
       ) : isEmpty(menu) ? null : (
         <IconDownOne theme="filled" className="ml-1" />
       )}
@@ -117,7 +127,7 @@ export const Button = (props: CP_BUTTON.Props) => {
             <Menu.Item key={mItem.key} disabled={mItem.disabled || curOp.disabled}>
               <Tooltip title={mItem.disabledTip || curOp.disabledTip}>
                 <div className="flex items-center">
-                  {mItem.prefixIcon ? <CustomIcon type={mItem.prefixIcon} /> : null}
+                  {mItem.prefixIcon ? <IconComp type={mItem.prefixIcon} /> : null}
                   {mItem.text}
                 </div>
               </Tooltip>

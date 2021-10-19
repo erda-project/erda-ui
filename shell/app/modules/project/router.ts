@@ -13,7 +13,7 @@
 
 import getAppRouter from 'application/router';
 import i18n from 'i18n';
-import { PROJECT_TABS, AUTO_TEST_TABS, MANUAL_TEST_TABS, ITERATION_DETAIL_TABS } from './tabs';
+import { PROJECT_TABS, AUTO_TEST_TABS, MANUAL_TEST_TABS, ITERATION_DETAIL_TABS, TEST_STATISTICS_TABS } from './tabs';
 
 function getProjectRouter(): RouteConfigItem[] {
   return [
@@ -240,11 +240,25 @@ function getProjectRouter(): RouteConfigItem[] {
           ],
         },
         {
-          path: 'code-coverage',
-          breadcrumbName: i18n.t('project:code coverage statistics'),
+          path: 'statistics',
+          pageName: i18n.t('project:statistics'),
           routes: [
             {
-              getComp: (cb) => cb(import('project/pages/test-plan/code-coverage')),
+              path: 'code-coverage',
+              tabs: TEST_STATISTICS_TABS,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:statistics'),
+              getComp: (cb) => cb(import('project/pages/statistics/code-coverage')),
+            },
+            {
+              path: 'test-dashboard',
+              layout: {
+                noWrapper: true,
+              },
+              tabs: TEST_STATISTICS_TABS,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:statistics'),
+              getComp: (cb) => cb(import('project/pages/statistics/test-dashboard')),
             },
           ],
         },

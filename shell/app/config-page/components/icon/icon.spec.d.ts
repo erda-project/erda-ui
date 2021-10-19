@@ -34,6 +34,8 @@ declare namespace CP_ICON {
   }
 
   interface IProps {
+    hoverActive?: boolean;
+
     iconType: IIconType;
     visible?: boolean;
     size?: number | string;

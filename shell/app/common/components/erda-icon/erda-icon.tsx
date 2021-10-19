@@ -28,6 +28,8 @@ import {
   DoubleRight as IconDoubleRight,
   ApplicationMenu as IconApplicationMenu,
   Help as IconHelp,
+  Plus as IconPlus,
+  MoreOne as IconMoreOne,
 } from '@icon-park/react';
 
 export const iconMap = {
@@ -44,6 +46,8 @@ export const iconMap = {
   'double-right': IconDoubleRight,
   'application-menu': IconApplicationMenu,
   help: IconHelp,
+  plus: IconPlus,
+  moreOne: IconMoreOne,
 };
 
 type IIconType = keyof typeof iconMap;

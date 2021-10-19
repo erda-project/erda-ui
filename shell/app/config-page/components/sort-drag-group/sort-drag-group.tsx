@@ -21,15 +21,35 @@ export const SortDragGroupList = (props: CP_SORT_GROUP.Props) => {
   const { delay, ...rest } = configProps || {};
   const _list = data.value || empty;
 
-  const dealData = (list: any[], type: string) => {
+  const dealData = (list: Obj[], type: string) => {
     return list.map((_data) => {
-      const _operations = map(_data.operations || [], (op) => {
-        return {
-          ...op,
-          onClick: (obj: any) => {
-            execOperation(op, obj.data);
-          },
-        };
+      const _operations = {};
+      map(_data.operations || [], (op, k) => {
+        if (op.group) {
+          if (_operations[op.group]) {
+            _operations[op.group].menus.push({
+              ...op,
+              onClick: (obj: Obj) => {
+                execOperation(op, obj.data);
+              },
+            });
+          } else {
+            _operations[op.group] = {
+              ...op,
+              menus: [op],
+              onClick: (obj: Obj) => {
+                execOperation(op, obj.data);
+              },
+            };
+          }
+        } else {
+          _operations[k] = {
+            ...op,
+            onClick: (obj: Obj) => {
+              execOperation(op, obj.data);
+            },
+          };
+        }
       });
       return {
         type,

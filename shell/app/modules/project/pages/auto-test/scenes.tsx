@@ -22,18 +22,24 @@ import { updateSearch } from 'common/utils';
 import { get, set, find, map, indexOf, isEmpty, sortBy } from 'lodash';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
+import ImportFile from './import-file';
+import ImportRecord from './scenes-import-record';
 
 const AutoTestScenes = () => {
   const [{ projectId, spaceId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { pipelineId, nodeId, ...restQuery } = query || {};
-  const [{ logVisible, logProps, urlQuery, resultVis, previewData }, updater, update] = useUpdate({
-    logVisible: false,
-    logProps: {},
-    urlQuery: restQuery,
-    resultVis: false,
-    previewData: {} as CP_INFO_PREVIEW.Props,
-  });
+  const [{ logVisible, logProps, urlQuery, resultVis, previewData, importVis, recordVis }, updater, update] = useUpdate(
+    {
+      logVisible: false,
+      logProps: {},
+      urlQuery: restQuery,
+      resultVis: false,
+      previewData: {} as CP_INFO_PREVIEW.Props,
+      importVis: false,
+      recordVis: false,
+    },
+  );
   const inParams = {
     projectId: +projectId,
     spaceId: +spaceId,
@@ -56,6 +62,10 @@ const AutoTestScenes = () => {
       resultVis: false,
       previewData: {} as CP_INFO_PREVIEW.Props,
     });
+  };
+
+  const onCloseImport = () => {
+    updater.importVis(false);
   };
 
   return (
@@ -93,6 +103,14 @@ const AutoTestScenes = () => {
               },
             },
           },
+          moreOperation: {
+            import: () => {
+              updater.importVis(true);
+            },
+            record: () => {
+              updater.recordVis(true);
+            },
+          },
           fileTree: {
             // 改变url
             onStateChange: (val: Obj) => {
@@ -102,8 +120,19 @@ const AutoTestScenes = () => {
         }}
       />
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
-      <Drawer width={1000} visible={resultVis} onClose={closeResult}>
+      <Drawer width={1000} visible={resultVis} onClose={closeResult} getContainer={false}>
         <InfoPreview {...previewData} />
+      </Drawer>
+      <ImportFile visible={importVis} onClose={onCloseImport} />
+      <Drawer
+        title={i18n.t('recent import and export records')}
+        width={1000}
+        destroyOnClose
+        visible={recordVis}
+        getContainer={false}
+        onClose={() => updater.recordVis(false)}
+      >
+        <ImportRecord />
       </Drawer>
     </>
   );
