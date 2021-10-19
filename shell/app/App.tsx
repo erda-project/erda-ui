@@ -45,6 +45,8 @@ setConfig('onAPIFail', notify);
 const history = getConfig('history');
 
 console.log(123123, i18n.d('I love you'));
+console.log(123123, i18n.d('password'));
+console.log(123123, i18n.d('network'));
 
 const { AntdConfigProvider } = nusi;
 const momentLangMap = {

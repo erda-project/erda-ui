@@ -15,6 +15,7 @@ import fs from 'fs';
 import path from 'path';
 import { remove } from 'lodash';
 import inquirer from 'inquirer';
+import chalk from 'chalk';
 import ora from 'ora';
 import { walker } from './util/file-walker';
 import { doTranslate } from './util/google-translate';
@@ -28,7 +29,6 @@ const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
 
 let workDir = '.';
-let ns = 'default';
 let translatedMap: null | { [k: string]: string } = null;
 let tempZhMap: null | { [k: string]: string } = null;
 
@@ -114,6 +114,7 @@ const restoreSourceFile = (
   content: string,
   filePath: string,
   isEnd: boolean,
+  ns: string,
   resolve: (value: void | PromiseLike<void>) => void,
 ) => {
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
@@ -183,7 +184,7 @@ const findMatchFolder = (folderName: string): string | null => {
 /**
  * create temp files and check whether exists locale files
  */
-const prepareEnv = (localePath?: string) => {
+const prepareEnv = (localePath?: string | null) => {
   if (!localePath) {
     logError('Please make sure that the [locales] folder exists in the running directory (can be nested)');
     exit(1);
@@ -210,10 +211,10 @@ const prepareEnv = (localePath?: string) => {
 export default async ({ workDir: _workDir }: { workDir: string }) => {
   try {
     workDir = _workDir || process.cwd();
-    ns = getCwdModuleName({ currentPath: workDir });
+    let ns = getCwdModuleName({ currentPath: workDir });
     const localePath = findMatchFolder('locales');
 
-    prepareEnv();
+    prepareEnv(localePath);
     // extract all i18n.d
     const extractPromise = new Promise<void>((resolve) => {
       // first step is to find out the content that needs to be translated, and assign the content to two parts: untranslated and translated
@@ -261,25 +262,27 @@ export default async ({ workDir: _workDir }: { workDir: string }) => {
     if (Object.keys(translatedWords).length > 0) {
       translatedMap = JSON.parse(fs.readFileSync(tempTranslatedWordPath, { encoding: 'utf-8' }));
     }
-    let _ns = ns;
     // The fourth step is to specify the namespace
     if (tempZhMap && Object.keys(tempZhMap).length > 0) {
       const { inputNs } = await inquirer.prompt({
         name: 'inputNs',
         type: 'input',
-        message: `The default namespace of the current module is ${ns}, If you need special designation, please type in and press enter, otherwise press enter directly`,
+        message: `The default namespace of the current module is ${chalk.red(
+          ns,
+        )}, If you need special designation, please type in and press enter, otherwise press enter directly`,
       });
       if (inputNs) {
-        _ns = inputNs;
+        // eslint-disable-next-line require-atomic-updates
+        ns = inputNs;
       }
-      logInfo('Specify the namespace as', _ns);
+      logInfo('Specify the namespace as', ns);
     }
     // The fifth step, i18n.t writes back the source file
     const generatePromise = new Promise((resolve) => {
       walker({
         root: workDir,
         dealFile: (...args) => {
-          restoreSourceFile.apply(null, [...args, resolve]);
+          restoreSourceFile.apply(null, [...args, ns, resolve]);
         },
       });
     });
@@ -291,9 +294,9 @@ export default async ({ workDir: _workDir }: { workDir: string }) => {
     if (tempZhMap && Object.keys(tempZhMap).length > 0) {
       const localePromise = new Promise<void>((resolve) => {
         if (fs.existsSync(path.resolve(`${workDir}/src`))) {
-          writeLocale(resolve, _ns, path.resolve(`${workDir}/src`), localePath!);
+          writeLocale(resolve, ns, path.resolve(`${workDir}/src`), localePath!);
         } else {
-          writeLocale(resolve, _ns, workDir, localePath!);
+          writeLocale(resolve, ns, workDir, localePath!);
         }
       });
       const loading = ora('Writing locale file...').start();
