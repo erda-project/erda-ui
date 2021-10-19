@@ -64,14 +64,20 @@ interface IState {
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
-      retry: _formData?.config?.retry,
-      frequency: _formData?.config?.interval,
-      apiMethod: _formData?.config?.method,
-      body: JSON.stringify(_formData?.config?.body || {}),
-      headers: _formData?.config?.headers,
-      url: _formData?.config?.url,
+      retry: _formData?.config?.retry || RETRY_TIMES[0],
+      frequency: _formData?.config?.interval || TIME_LIMITS[0],
+      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
+      body: JSON.stringify(_formData?.config?.body, null, 2 || {}),
+      headers: _formData?.config?.headers || {},
+      url: _formData?.config?.url || '',
       query: qs.parseUrl(_formData?.config?.url || '')?.query,
-      condition: _formData?.config?.triggering,
+      condition: _formData?.config?.triggering || [
+        {
+          key: 'http_code',
+          operate: '>=',
+          value: 400,
+        },
+      ],
     };
   } else {
     return {
@@ -141,7 +147,7 @@ const AddModal = (props: IProps) => {
     });
     updater.condition([...condition]);
   };
-
+  console.log(formData);
   const setInputValue = (index: number, value: number | string) => {
     condition[index].value = value;
     updater.condition([...condition]);
@@ -167,6 +173,8 @@ const AddModal = (props: IProps) => {
       updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
     }
   };
+  console.log(typeof body);
+  console.log(body);
 
   const formatBody = () => {
     if (body) {
@@ -174,6 +182,7 @@ const AddModal = (props: IProps) => {
       update({
         body: JSON.stringify(jsonObj, null, 2),
       });
+      console.log(body);
       formRef.current?.setFieldsValue({ body: JSON.stringify(jsonObj, null, 2) });
     }
   };
