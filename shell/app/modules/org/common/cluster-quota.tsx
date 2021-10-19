@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Alert, Input, Form, Row, Col, Progress } from 'core/nusi';
+import { Select, Alert, Input, Form, Row, Col, Progress, Tooltip } from 'core/nusi';
 import i18n from 'i18n';
-import { CompactSelect } from 'common';
+import { CompactSelect, ErdaCustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
 import clusterStore from 'cmp/stores/cluster';
@@ -48,11 +48,12 @@ const ClusterQuota = ({
   const clusterList = clusterStore.useStore((s) => s.list);
   const leftResource = projectStore.useStore((s) => s.leftResources) as PROJECT.LeftResources;
 
-  const [{ leftCpu, leftMem, cpuRate, memRate }, updater, update] = useUpdate({
+  const [{ leftCpu, leftMem, cpuRate, memRate, tips }, updater, update] = useUpdate({
     leftCpu: 0,
     leftMem: 0,
     cpuRate: 100,
     memRate: 100,
+    tips: '',
   });
 
   const cluster = form?.getFieldValue?.(['resourceConfig', workSpace, 'clusterName']) || '';
@@ -65,10 +66,11 @@ const ClusterQuota = ({
 
       quota &&
         update({
-          leftCpu: quota.CPUAvailable,
-          leftMem: quota.MemAvailable,
-          cpuRate: quota.CPUQuotaRate,
-          memRate: quota.MemQuotaRate,
+          leftCpu: +quota.CPUAvailable.toFixed(2),
+          leftMem: +quota.MemAvailable.toFixed(2),
+          cpuRate: +(quota.CPUQuotaRate * 100).toFixed(2),
+          memRate: +(quota.MemQuotaRate * 100).toFixed(2),
+          tips: quota.Tips,
         });
     }
   }, [cluster, leftResource, workSpace, update]);
@@ -81,6 +83,11 @@ const ClusterQuota = ({
       <span>
         {i18n.t('memory')}:{leftMem} GB
       </span>
+      {tips && (
+        <Tooltip title={tips}>
+          <ErdaCustomIcon fill="danger-red" type="help" size="16" className="ml-1" />
+        </Tooltip>
+      )}
     </div>
   );
 
@@ -131,7 +138,7 @@ const ClusterQuota = ({
                   { required: true, message: i18n.t('please enter {name}', { name: 'CPU' }) },
                   {
                     validator: async (_rule: any, value: any) => {
-                      if (value && (isNaN(+value) || +value < 0 || value.split('.')[1]?.length > 3)) {
+                      if (value && (isNaN(+value) || +value < 0 || `${value}`.split('.')[1]?.length > 3)) {
                         throw new Error(i18n.t('Please enter the number of {min}-{max} decimal', { min: 1, max: 3 }));
                       }
                     },
@@ -149,7 +156,7 @@ const ClusterQuota = ({
                   { required: true, message: i18n.t('please enter {name}', { name: i18n.t('memory') }) },
                   {
                     validator: async (_rule: any, value: any) => {
-                      if (value && (isNaN(+value) || +value < 0 || value.split('.')[1]?.length > 3)) {
+                      if (value && (isNaN(+value) || +value < 0 || `${value}`.split('.')[1]?.length > 3)) {
                         throw new Error(i18n.t('Please enter the number of {min}-{max} decimal', { min: 1, max: 3 }));
                       }
                     },
@@ -167,7 +174,7 @@ const ClusterQuota = ({
               <span className="whitespace-nowrap">{i18n.t('Current distribution rate')}:</span>
               <Progress percent={cpuRate} status={'normal'} className="pl-2" />
             </Col>
-            <Col span={12} className="pl-2">
+            <Col span={12} className="pl-2 pr-4">
               <Progress percent={memRate} status={'normal'} />
             </Col>
           </Row>

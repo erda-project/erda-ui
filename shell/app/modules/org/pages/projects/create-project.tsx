@@ -50,20 +50,6 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
     };
   }, [canGetClusterListAndResources, clearLeftResources, getLeftResources]);
 
-  const clusterConfigTitle = (
-    <div>
-      <span className="font-medium text-lg mr-2">{i18n.t('project:cluster setting')}</span>
-      <span className="text-black text-opacity-40">
-        {i18n.t(
-          'For cluster resource information corresponding to each environment, the concept and settings of specific clusters, please see',
-        )}
-        <a href={DOC_PROJECT_RESOURCE_MANAGE} target="_blank" rel="noopener noreferrer" className="px-2">
-          {i18n.t('documentation')}
-        </a>
-      </span>
-    </div>
-  );
-
   const fields = [
     {
       label: workSpaceMap.DEV,
@@ -75,12 +61,7 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
       getComp: ({ form }: { form: FormInstance }) => (
         <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="DEV" />
       ),
-      customRender: (value: IData) => (
-        <>
-          {clusterConfigTitle}
-          <ClusterQuota readOnly data={value} workSpace="DEV" />
-        </>
-      ),
+      customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
     {
       label: workSpaceMap.TEST,
@@ -240,10 +221,12 @@ const CreationForm = () => {
       .then((values: any) => {
         const { resourceConfig } = values;
         if (resourceConfig) {
-          Object.keys(values.resourceConfig).forEach((key) => {
-            resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
-            resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
-          });
+          Object.keys(values.resourceConfig)
+            .filter((key) => resourceConfig[key])
+            .forEach((key) => {
+              resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
+              resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
+            });
         }
 
         createProject({ ...values, orgId }).then((res: any) => {

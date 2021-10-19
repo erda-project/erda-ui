@@ -88,9 +88,9 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
             addon
           </div>
         </Tooltip>
-        <Tooltip title={`${i18n.t('available')} ${quota}${unit} (${100 - requestRate})%`}>
+        <Tooltip title={`${i18n.t('msp:available')} ${quota}${unit} (${100 - requestRate})%`}>
           <div className="nowrap" style={{ width: `${100 - requestRate}%` }}>
-            {i18n.t('project:available')}
+            {i18n.t('msp:available')}
           </div>
         </Tooltip>
       </div>
