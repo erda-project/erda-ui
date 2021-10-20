@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { map, throttle } from 'lodash';
-import { Row, Col } from 'core/nusi';
+import { Row, Col, Tooltip } from 'core/nusi';
+import { ErdaCustomIcon } from 'common';
 import ResizeObserver from 'rc-resize-observer';
 
 export interface PanelField {
@@ -23,6 +24,7 @@ export interface PanelField {
   valueItem?: (item: PanelField) => React.ReactNode;
   hide?: boolean;
   spaceNum?: number;
+  tips?: string;
 }
 
 export interface PanelProps {
@@ -110,6 +112,13 @@ const Panel = (props: PanelProps) => {
               <Col span={24}>
                 <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
                   {item.label}
+                  {item.tips && (
+                    <span className={`erda-label-tips align-middle`}>
+                      <Tooltip title={item.tips}>
+                        <ErdaCustomIcon fill="lightgray" type="attention" size="14" className="ml-1 opacity-40" />
+                      </Tooltip>
+                    </span>
+                  )}
                 </div>
                 <div title={getInnerText(getRealValue(item))} className="break-words">
                   {getRealValue(item)}
@@ -136,6 +145,13 @@ const Panel = (props: PanelProps) => {
                   >
                     <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
                       {item.label}
+                      {item.tips && (
+                        <span className={`erda-label-tips align-middle`}>
+                          <Tooltip title={item.tips}>
+                            <ErdaCustomIcon fill="lightgray" type="attention" size="14" className="ml-1 opacity-40" />
+                          </Tooltip>
+                        </span>
+                      )}
                     </div>
                     <div title={getInnerText(getRealValue(item))} className="break-words mb-1">
                       {getRealValue(item)}
