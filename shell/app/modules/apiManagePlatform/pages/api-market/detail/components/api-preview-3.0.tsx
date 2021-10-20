@@ -185,7 +185,7 @@ const transformBody = (data: IRequestBodyContent['schema']): any[] => {
   const wmap = new WeakMap();
   const parse = (schema: IRequestBodyContent['schema'], parent: string) => {
     const { properties, required = [], allOf = [] } = schema;
-    const allProperties = merge(get(allOf, [0, 'properties']), properties);
+    const allProperties = merge(properties, get(allOf, [0, 'properties']));
     return map(allProperties, (property, key) => {
       const { type, items: childItems, enum: paramsEnum, description } = property;
       const childProperties = merge(get(property, ['allOf', 0, 'properties']), get(property, 'properties'));
