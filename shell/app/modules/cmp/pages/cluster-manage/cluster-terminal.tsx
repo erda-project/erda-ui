@@ -43,7 +43,6 @@ export const K8sClusterTerminalButton = ({ clusterName }: IClusterTerminalProps)
       <Drawer
         visible={visible}
         destroyOnClose
-        getContainer={false}
         onClose={() => setVisible(false)}
         title={`${i18n.t('cmp:cluster {name} console', { name: clusterName })}`}
         width={'80%'}
@@ -99,7 +98,7 @@ export const K8sPodTerminalLog = (
     url: `${replaceProtocol(window.location.protocol)}//${
       window.location.host
     }/api/${getOrgFromPath()}/websocket/k8s/clusters/${clusterName}/api/v1/namespaces/${namespace}/pods/${podName}/log?previous=${
-      hasRestarted ? 'false' : 'true'
+      hasRestarted ? 'true' : 'false'
     }&follow=true&timestamps=true&pretty=true&container=${containerName}&tailLines=1000`,
     subProtocol: 'binary',
   };

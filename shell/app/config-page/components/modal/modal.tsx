@@ -54,7 +54,7 @@ export default (props: CP_MODAL.Props) => {
 
   const onOk = () => {
     setVisible(false);
-    operations?.onOk && execOperation(operations.onOk, state);
+    operations?.onOk && execOperation(operations.onOk);
   };
 
   const _title = (status || title) && (
