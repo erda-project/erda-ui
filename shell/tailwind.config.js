@@ -56,7 +56,6 @@ module.exports = {
         lotion: '#fcfcfc',
         cultured: '#f6f4f9',
         magnolia: '#f2f1fc',
-        wathet: '#dbeafe',
         mask: 'rgba(0,0,0,0.45)',
         'light-primary': '#6a549e19', // rgba($primary, .1)
         'shallow-primary': '#6a549e99', // rgba($primary, .6)

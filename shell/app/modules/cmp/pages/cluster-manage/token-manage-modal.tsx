@@ -3,7 +3,6 @@ import { Modal, Popconfirm, Button } from 'core/nusi';
 import i18n from 'i18n';
 import { Copy as IconCopy } from '@icon-park/react';
 import { Copy } from 'common';
-import './token-manage-modal.scss';
 import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
 
 interface IProps {
@@ -55,23 +54,25 @@ const TokenManageModal = (props: IProps) => {
         <Button onClick={onCancel}>{i18n.t('application:close')}</Button>,
       ]}
     >
-      <div className="rounded-sm p-4 token-bg text-gray mb-4">
+      <div className="rounded-sm p-2 text-gray mb-6">
         {token ? (
           <div className="flex items-center mb-1">
             <span>token</span>
             <span className="ml-32">{token}</span>
           </div>
         ) : (
-          <span>{i18n.t('cmp:no token available')}</span>
+          <span className="text-center">{i18n.t('cmp:no token available')}</span>
         )}
       </div>
 
-      <div className="flex items-center text-primary">
-        <IconCopy size="14" />
-        <Copy selector=".container-key" copyText={token}>
-          {i18n.t('copy')}
-        </Copy>
-      </div>
+      {token ? (
+        <div className="flex items-center text-primary">
+          <IconCopy size="14" />
+          <Copy selector=".container-key" copyText={token}>
+            {i18n.t('copy')}
+          </Copy>
+        </div>
+      ) : null}
     </Modal>
   );
 };
