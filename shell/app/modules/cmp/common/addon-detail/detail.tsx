@@ -92,7 +92,7 @@ export const PureBaseAddonInfo = ({
       render: (workspace: string) => ENV_NAME[workspace],
     },
     {
-      title: i18n.t('dcos:specifications'),
+      title: i18n.t('cmp:specifications'),
       value: 'plan',
       render: (plan: string) => PLAN_NAME[plan],
     },

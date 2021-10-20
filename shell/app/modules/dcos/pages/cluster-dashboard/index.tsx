@@ -439,7 +439,7 @@ const ClusterDashboard = () => {
 
   const handleChangeGroups = (groups: string[]) => {
     if (groups.length > 2) {
-      message.warning(i18n.t('dcos:up to 2 optional groups'));
+      message.warning(i18n.t('cmp:up to 2 optional groups'));
       return;
     }
     setActiveGroup('');

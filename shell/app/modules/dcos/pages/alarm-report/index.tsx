@@ -65,7 +65,7 @@ const AlarmReport = () => {
         <MonitorChartNew data={alarmReport} onEvents={onEvents} />
       </ChartContainer>
       <IF check={!['disk', 'cpu', 'load'].includes(alarmType || '')}>
-        <h3 className="mb-4 mt-8">{`${i18n.t('dcos:process')} TOP（${moment(Number(selectedTime)).format(
+        <h3 className="mb-4 mt-8">{`${i18n.t('cmp:process')} TOP（${moment(Number(selectedTime)).format(
           'YYYY-MM-DD HH:mm:ss',
         )}）`}</h3>
         <Row gutter={20}>

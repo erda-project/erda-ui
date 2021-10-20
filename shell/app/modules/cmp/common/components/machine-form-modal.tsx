@@ -71,23 +71,23 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
             });
             return pass
               ? callback()
-              : callback(i18n.t('dcos:please fill in the correct ip, separated by the enter key'));
+              : callback(i18n.t('cmp:please fill in the correct ip, separated by the enter key'));
           },
         },
       ],
       itemProps: {
         rows: 4,
-        placeholder: i18n.t('dcos:fill-ip-split-enter'),
+        placeholder: i18n.t('cmp:fill-ip-split-enter'),
       },
     },
     {
-      label: i18n.t('dcos:label'),
+      label: i18n.t('label'),
       name: 'labels',
       required: false,
       getComp: () => <LabelSelector />,
     },
     {
-      label: i18n.t('dcos:custom labels'),
+      label: i18n.t('custom labels'),
       name: 'customLabels',
       required: false,
       initialValue: defaultOrgTag,
@@ -95,27 +95,27 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
       rules: [{ validator: checkCustomLabels }],
     },
     {
-      label: i18n.t('dcos:port'),
+      label: i18n.t('cmp:port'),
       name: 'port',
       type: 'inputNumber',
       itemProps: {
-        placeholder: i18n.t('dcos:ssh port'),
+        placeholder: i18n.t('cmp:ssh port'),
         max: 999999,
       },
     },
     {
-      label: i18n.t('dcos:username'),
+      label: i18n.t('username'),
       name: 'user',
       itemProps: {
-        placeholder: i18n.t('dcos:ssh user'),
+        placeholder: i18n.t('cmp:ssh user'),
         maxLength: 32,
       },
     },
     {
-      label: i18n.t('dcos:password'),
+      label: i18n.t('password'),
       name: 'password',
       itemProps: {
-        placeholder: i18n.t('dcos:ssh password'),
+        placeholder: i18n.t('cmp:ssh password'),
         maxLength: 32,
         type: state.passwordVisible ? 'text' : 'password',
         addonAfter: (
@@ -128,7 +128,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
       },
     },
     {
-      label: i18n.t('dcos:data disk device'),
+      label: i18n.t('cmp:data disk device'),
       name: 'dataDiskDevice',
       required: false,
       itemProps: {
@@ -139,7 +139,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
   return (
     <FormModal
       width={620}
-      title={cluster ? `${i18n.t('dcos:add machine to cluster')}：${cluster.name}` : i18n.t('dcos:add machine')}
+      title={cluster ? `${i18n.t('cmp:add machine to cluster')}：${cluster.name}` : i18n.t('cmp:add machine')}
       fieldsList={fieldsList}
       visible={visible}
       formData={formData}

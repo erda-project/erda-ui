@@ -78,7 +78,7 @@ export const SetTagForm = ({
   const tagFields = [
     ...insertWhen(showClustertLabel, [
       {
-        label: i18n.t('dcos:label'),
+        label: i18n.t('label'),
         name: 'tags',
         required: false,
         type: 'select',
@@ -93,7 +93,7 @@ export const SetTagForm = ({
     ]),
     ...insertWhen(showProjectLabel, [
       {
-        label: i18n.t('dcos:project label'),
+        label: i18n.t('cmp:project label'),
         name: 'projects',
         required: false,
         type: 'select',

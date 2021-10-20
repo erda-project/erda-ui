@@ -59,7 +59,7 @@ const ResetPasswordForm = (props: IProps) => {
       label: i18n.t('new password'),
       name: 'password',
       itemProps: {
-        placeholder: i18n.t('dcos:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
+        placeholder: i18n.t('cmp:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
         type: passwordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon

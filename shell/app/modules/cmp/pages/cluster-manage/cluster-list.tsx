@@ -46,7 +46,7 @@ export const statusMap = {
   initializing: ['yellow', i18n.t('runtime:initializing')],
   'initialize error': ['red', i18n.t('cmp:initialization failed')],
   pending: ['gray', i18n.t('application:pending')],
-  unknown: ['red', i18n.t('dcos:unknown')],
+  unknown: ['red', i18n.t('unknown')],
 };
 
 export const manageTypeMap = {

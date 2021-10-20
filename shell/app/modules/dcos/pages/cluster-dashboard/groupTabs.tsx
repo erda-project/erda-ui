@@ -50,7 +50,7 @@ const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
 
   return (
     <Tabs activeKey={activeKey} onChange={setActiveKey}>
-      <TabPane tab={`${i18n.t('dcos:machines')}`} key="machine">
+      <TabPane tab={`${i18n.t('cmp:machines')}`} key="machine">
         <MachineList
           machineList={machineList}
           onClickMachine={onActiveMachine}
@@ -59,19 +59,19 @@ const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
           }}
         />
       </TabPane>
-      <TabPane tab={`${i18n.t('dcos:machine alarm')}`} key="alarm">
+      <TabPane tab={`${i18n.t('cmp:machine alarm')}`} key="alarm">
         <AlarmRecord clusters={clusters} />
       </TabPane>
-      <TabPane tab={`${i18n.t('dcos:resource statistics')}`} key="resource">
+      <TabPane tab={`${i18n.t('cmp:resource statistics')}`} key="resource">
         <ResourcesChartList machineList={machineList} clusters={clusters} setActiveKey={setActiveKey} />
       </TabPane>
       {/* <TabPane tab="实例列表" key="instance">
         <InstanceList instanceType="all" clusters={clusters} onClickMachine={onActiveMachine} />
       </TabPane> */}
-      <TabPane tab={`${i18n.t('dcos:services')}`} key="service">
+      <TabPane tab={`${i18n.t('cmp:services')}`} key="service">
         <InstanceList instanceType="service" clusters={clusters} />
       </TabPane>
-      <TabPane tab={`${i18n.t('dcos:task list')}`} key="job">
+      <TabPane tab={`${i18n.t('cmp:task list')}`} key="job">
         <InstanceList instanceType="job" clusters={clusters} />
       </TabPane>
     </Tabs>

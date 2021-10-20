@@ -35,12 +35,12 @@ export const EditableTable = (props: IEditableTableProps) => {
   const fullColumns = [
     ...columns,
     {
-      title: i18n.t('dcos:operation'),
+      title: i18n.t('operation'),
       className: 'edit-operation',
       dataIndex: 'operation',
       width: 120,
       render: (text: any, rec: any) => (
-        <Popconfirm title={`${i18n.t('dcos:confirm deletion')}?`} onConfirm={() => handleDelete(rec)}>
+        <Popconfirm title={`${i18n.t('confirm deletion')}?`} onConfirm={() => handleDelete(rec)}>
           <CustomIcon type="shanchu" />
         </Popconfirm>
       ),
@@ -161,7 +161,7 @@ const EditableCell = (props: ICellProps) => {
         rules={[
           {
             required: dataIndex !== 'tag',
-            message: `${i18n.t('dcos:please enter')}${title}`,
+            message: `${i18n.t('please enter')}${title}`,
           },
           ...rules,
         ]}

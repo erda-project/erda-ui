@@ -154,7 +154,7 @@ export const getCloudResourceChargeTypeCol = (
       if (val === chargeTypeMap.PostPaid.value.toLowerCase()) {
         val = chooseShowTime('PostPaid', record[startTime], `${i18n.t('create time')}: `);
       } else if (val === chargeTypeMap.PrePaid.value.toLowerCase()) {
-        val = chooseShowTime('PrePaid', record[expireTime], `${i18n.t('dcos:expire time')}: `);
+        val = chooseShowTime('PrePaid', record[expireTime], `${i18n.t('cmp:expire time')}: `);
       }
 
       return <Tooltip title={val}>{val}</Tooltip>;

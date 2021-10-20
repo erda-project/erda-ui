@@ -65,7 +65,7 @@ export const MonitorDrawer = (props: IMonitorDrawer) => {
       }
       case OPERATION.LOG: {
         update({
-          slideTitle: i18n.t('dcos:container log'),
+          slideTitle: i18n.t('cmp:container log'),
           content: <ContainerLog {...record} instance={{ ...instance }} />,
         });
         break;

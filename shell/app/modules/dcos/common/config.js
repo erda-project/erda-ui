@@ -23,20 +23,20 @@ export const rdsAccountType = [
 ];
 
 export const supportLBRegion = [
-  `${i18n.t('dcos:east china')} 1`,
-  `${i18n.t('dcos:north china')} 3`,
-  `${i18n.t('dcos:north china')} 5`,
-  `${i18n.t('dcos:north china')} 1`,
-  `${i18n.t('dcos:north china')} 2`,
-  `${i18n.t('dcos:east china')} 2`,
-  `${i18n.t('dcos:Southern China')} 1`,
-  `${i18n.t('dcos:Southeast Asia Pacific')} 1 (${i18n.t('dcos:singapore')})`,
-  `${i18n.t('dcos:Southeast Asia Pacific')} 3 (${i18n.t('dcos:kuala lumpur')})`,
-  `${i18n.t('dcos:Southeast Asia Pacific')} 5 (${i18n.t('dcos:jakarta')})`,
-  `${i18n.t('dcos:south asia pacific')} 1 (${i18n.t('dcos:mumbai')})`,
-  `${i18n.t('dcos:Western United States')} 1 (${i18n.t('dcos:silicon valley')})`,
-  `${i18n.t('dcos:eastern united states')} 1 (${i18n.t('dcos:virginia')})`,
-  `${i18n.t('dcos:hong kong')}`,
+  `${i18n.t('cmp:east china')} 1`,
+  `${i18n.t('cmp:north china')} 3`,
+  `${i18n.t('cmp:north china')} 5`,
+  `${i18n.t('cmp:north china')} 1`,
+  `${i18n.t('cmp:north china')} 2`,
+  `${i18n.t('cmp:east china')} 2`,
+  `${i18n.t('cmp:Southern China')} 1`,
+  `${i18n.t('cmp:Southeast Asia Pacific')} 1 (${i18n.t('cmp:singapore')})`,
+  `${i18n.t('cmp:Southeast Asia Pacific')} 3 (${i18n.t('cmp:kuala lumpur')})`,
+  `${i18n.t('cmp:Southeast Asia Pacific')} 5 (${i18n.t('cmp:jakarta')})`,
+  `${i18n.t('cmp:south asia pacific')} 1 (${i18n.t('cmp:mumbai')})`,
+  `${i18n.t('cmp:Western United States')} 1 (${i18n.t('cmp:silicon valley')})`,
+  `${i18n.t('cmp:eastern united states')} 1 (${i18n.t('cmp:virginia')})`,
+  `${i18n.t('cmp:hong kong')}`,
 ];
 
 export const CHARGE_TYPE_i18n = {
@@ -83,9 +83,9 @@ export const lbConfig = [
   },
 ];
 
-const zhucong = i18n.t('dcos:master-slave');
-const gaopei = i18n.t('dcos:high-configured');
-const danji = i18n.t('dcos:single machine');
+const zhucong = i18n.t('cmp:master-slave');
+const gaopei = i18n.t('cmp:high-configured');
+const danji = i18n.t('cmp:single machine');
 
 export const redisConfig = {
   double: [
@@ -485,7 +485,7 @@ export const rdsForbiddenWords = [
   'galaxy',
 ];
 
-const core = i18n.t('dcos:cores');
+const core = i18n.t('cmp:cores');
 export const rdsConfig = [
   {
     key: 'rds.mysql.t1.small',
@@ -546,61 +546,61 @@ export const rdsConfig = [
 ];
 
 export const fieldsTranslationMap = {
-  resourceType: i18n.t('dcos:resource type'),
-  clusterName: i18n.t('dcos:cluster name'),
+  resourceType: i18n.t('cmp:resource type'),
+  clusterName: i18n.t('cmp:cluster name'),
   // vpcCidr: '专有网络cidr',
   accessKeyId: 'AccessKeyId',
   accessKeySecret: 'AccessKeySecret',
   PrePaid: i18n.t('org:Subscription'),
   PostPaid: i18n.t('org:Pay-As-You-Go'),
-  regionId: i18n.t('dcos:region'),
-  zoneId: i18n.t('dcos:availability zone'),
-  periodUnit: i18n.t('dcos:time unit'),
-  period: i18n.t('dcos:duration'),
-  Week: i18n.t('dcos:week'),
-  Month: i18n.t('dcos:month'),
-  password: i18n.t('dcos:password'),
-  port: i18n.t('dcos:port'),
+  regionId: i18n.t('cmp:region'),
+  zoneId: i18n.t('cmp:availability zone'),
+  periodUnit: i18n.t('time unit'),
+  period: i18n.t('cmp:duration'),
+  Week: i18n.t('week'),
+  Month: i18n.t('month'),
+  password: i18n.t('password'),
+  port: i18n.t('cmp:port'),
   type: i18n.t('type'),
-  username: i18n.t('dcos:username'),
-  tag: i18n.t('dcos:label'),
-  connectionstring: i18n.t('dcos:connection address'),
+  username: i18n.t('username'),
+  tag: i18n.t('label'),
+  connectionstring: i18n.t('cmp:connection address'),
 
-  ecsSettings: i18n.t('dcos:ecs configuration'),
-  nodeType: i18n.t('dcos:node type'),
-  amount: i18n.t('dcos:purchased instances'),
-  instanceType: i18n.t('dcos:instance specification'),
-  instanceChargeType: i18n.t('dcos:billing method'),
-  systemDiskSize: `${i18n.t('dcos:system disk')}(${i18n.t('dcos:cloud')}SSD)${i18n.t('dcos:capacity')}(GiB)`,
+  ecsSettings: i18n.t('cmp:ecs configuration'),
+  nodeType: i18n.t('cmp:node type'),
+  amount: i18n.t('cmp:purchased instances'),
+  instanceType: i18n.t('cmp:instance specification'),
+  instanceChargeType: i18n.t('cmp:billing method'),
+  systemDiskSize: `${i18n.t('cmp:system disk')}(${i18n.t('cmp:cloud')}SSD)${i18n.t('cmp:capacity')}(GiB)`,
 
-  nasSetting: i18n.t('dcos:file storage configuration'),
-  nasStorageType: i18n.t('dcos:storage type'),
-  Capacity: i18n.t('dcos:performance type'),
-  Performance: i18n.t('dcos:capacity type'),
+  nasSetting: i18n.t('cmp:file storage configuration'),
+  nasStorageType: i18n.t('cmp:storage type'),
+  Capacity: i18n.t('cmp:performance type'),
+  Performance: i18n.t('cmp:capacity type'),
 
-  rdsSettings: i18n.t('dcos:cloud database configuration'),
-  dbInstanceClass: i18n.t('dcos:specifications'),
-  payType: i18n.t('dcos:billing method'),
+  rdsSettings: i18n.t('cmp:cloud database configuration'),
+  dbInstanceClass: i18n.t('cmp:specifications'),
+  payType: i18n.t('cmp:billing method'),
   Postpaid: i18n.t('org:Pay-As-You-Go'),
   Prepaid: i18n.t('org:Subscription'),
   engineVersion: i18n.t('version'),
-  dbInstanceStorage: i18n.t('dcos:storage disk capacity'),
-  accountName: i18n.t('dcos:account name'),
-  dbName: i18n.t('dcos:database name'),
-  Password: i18n.t('dcos:password'),
-  character_set_server: i18n.t('dcos:database encoding'),
+  dbInstanceStorage: i18n.t('cmp:storage disk capacity'),
+  accountName: i18n.t('cmp:account name'),
+  dbName: i18n.t('cmp:database name'),
+  Password: i18n.t('password'),
+  character_set_server: i18n.t('cmp:database encoding'),
 
-  redisSettings: `${i18n.t('dcos:cloud')}redis${i18n.t('dcos:configuration')}`,
-  instanceClass: i18n.t('dcos:specifications'),
-  chargeType: i18n.t('dcos:billing method'),
+  redisSettings: `${i18n.t('cmp:cloud')}redis${i18n.t('cmp:configuration')}`,
+  instanceClass: i18n.t('cmp:specifications'),
+  chargeType: i18n.t('cmp:billing method'),
 
-  loadBalancerSetting: i18n.t('dcos:load balancing configuration'),
-  loadBalancerSpec: i18n.t('dcos:specifications'),
-  loadBalancePayType: i18n.t('dcos:billing method'),
-  PayOnDemand: i18n.t('dcos:pay as you go'),
-  loadBalancerInternetChargeType: i18n.t('dcos:by flow'),
-  paybybandwidth: i18n.t('dcos:network billing method'),
-  paybytraffic: i18n.t('dcos:by fixed bandwidth'),
+  loadBalancerSetting: i18n.t('cmp:load balancing configuration'),
+  loadBalancerSpec: i18n.t('cmp:specifications'),
+  loadBalancePayType: i18n.t('cmp:billing method'),
+  PayOnDemand: i18n.t('cmp:pay as you go'),
+  loadBalancerInternetChargeType: i18n.t('cmp:by flow'),
+  paybybandwidth: i18n.t('cmp:network billing method'),
+  paybytraffic: i18n.t('cmp:by fixed bandwidth'),
 };
 
 const lowerCase = {};
@@ -643,19 +643,19 @@ export const preOrPostPaid = {
 
 export const checkForbiddenWord = (rule, value, callback) => {
   if (rdsForbiddenWords.includes(value)) {
-    callback(`${i18n.t('dcos:cannot contain restricted keywords')}： ${value}`);
+    callback(`${i18n.t('cmp:cannot contain restricted keywords')}： ${value}`);
   }
   callback();
 };
 
 export const checkRdsAccountName = (rule, value, callback) => {
   if (rdsForbiddenWords.includes(value)) {
-    callback(`${i18n.t('dcos:cannot contain restricted keywords')}： ${value}`);
+    callback(`${i18n.t('cmp:cannot contain restricted keywords')}： ${value}`);
   }
   if (!/^[a-z][a-z0-9_]*$/.test(value)) {
     callback(
       i18n.t(
-        'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+        'cmp:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
       ),
     );
   }
@@ -670,16 +670,16 @@ export const checkPassword = (_rule, value, callback) => {
     return callback(i18n.t('{min} ~ {max} digits', { min: 8, max: 32 }));
   }
   if (/[!<>()[\]{},`~.\-_@#$%^&*]/.test(value)) {
-    return callback(i18n.t('dcos:cannot contain special characters'));
+    return callback(i18n.t('cannot contain special characters'));
   }
   if (!/[a-z]/.test(value)) {
-    return callback(i18n.t('dcos:lowercase letter'));
+    return callback(i18n.t('lowercase letter'));
   }
   if (!/[A-Z]/.test(value)) {
-    return callback(i18n.t('dcos:uppercase letter'));
+    return callback(i18n.t('uppercase letter'));
   }
   if (!/\d+/.test(value)) {
-    return callback(i18n.t('dcos:number'));
+    return callback(i18n.t('number'));
   }
   callback();
 };
@@ -687,16 +687,16 @@ export const checkPassword = (_rule, value, callback) => {
 export const CLUSTER_INFOS = [
   {
     key: 'cluster',
-    name: i18n.t('dcos:number of clusters'),
+    name: i18n.t('cmp:number of clusters'),
   },
 ];
 
 export const CLUSTER_RESOURCES_PROPORTION_MAP = {
   host: {
-    yAxisName: i18n.t('dcos:assignment'),
+    yAxisName: i18n.t('cmp:assignment'),
     totalValue: 'totalHosts',
-    totalName: i18n.t('dcos:total number of hosts'),
-    valueName: i18n.t('dcos:number of assigned hosts'),
+    totalName: i18n.t('cmp:total number of hosts'),
+    valueName: i18n.t('cmp:number of assigned hosts'),
     value: 'hostsNum',
     // schedulableName: '可调度',
     // schedulableKey: 'schedulerHost',
@@ -704,23 +704,23 @@ export const CLUSTER_RESOURCES_PROPORTION_MAP = {
     unit: '台',
   },
   cpu: {
-    yAxisName: i18n.t('dcos:assignment'),
+    yAxisName: i18n.t('cmp:assignment'),
     totalValue: 'totalCpu',
-    totalName: `${i18n.t('dcos:total')} CPU`,
-    valueName: `${i18n.t('dcos:assignment')} CPU`,
+    totalName: `${i18n.t('total')} CPU`,
+    valueName: `${i18n.t('cmp:assignment')} CPU`,
     value: 'usedCpu',
-    schedulableName: i18n.t('dcos:schedulable'),
+    schedulableName: i18n.t('cmp:schedulable'),
     schedulableKey: 'schedulerCPU',
     schedulableUnit: '%',
     unit: i18n.t('core'),
   },
   mem: {
-    yAxisName: i18n.t('dcos:assignment'),
+    yAxisName: i18n.t('cmp:assignment'),
     totalValue: 'totalMemory',
-    totalName: i18n.t('dcos:total memory'),
-    valueName: i18n.t('dcos:allocate memory'),
+    totalName: i18n.t('cmp:total memory'),
+    valueName: i18n.t('cmp:allocate memory'),
     value: 'usedMemory',
-    schedulableName: i18n.t('dcos:schedulable'),
+    schedulableName: i18n.t('cmp:schedulable'),
     schedulableKey: 'schedulerMemory',
     schedulableUnit: '%',
     unit: 'G',

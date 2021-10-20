@@ -498,7 +498,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 <HealthPoint
                   type="machine"
                   status={status === 'normal' ? 'normal' : 'warning'}
-                  msg={abnormalMsg || i18n.t('dcos:unknown state')}
+                  msg={abnormalMsg || i18n.t('cmp:unknown state')}
                 />
               )}
             </span>

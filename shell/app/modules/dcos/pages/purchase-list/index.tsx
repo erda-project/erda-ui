@@ -90,16 +90,16 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
         dataIndex: 'status',
         render: (status: string, record: any) => {
           let { info, config, translation } = record;
-          let detail = <Badge status="processing" text={i18n.t('dcos:processing')} />;
+          let detail = <Badge status="processing" text={i18n.t('cmp:processing')} />;
           if (status === 'Failed') {
             detail = (
               <Popover
-                title={i18n.t('dcos:error details')}
+                title={i18n.t('cmp:error details')}
                 placement="bottom"
                 overlayClassName="purchase-cluster-popover"
                 content={<pre className="code-block">{record.error}</pre>}
               >
-                <Badge status="error" text={i18n.t('dcos:failed')} />
+                <Badge status="error" text={i18n.t('failed')} />
               </Popover>
             );
           } else if (status === 'Success') {
@@ -110,19 +110,19 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
             }
             detail = (
               <Popover
-                title={i18n.t('dcos:configuration details')}
+                title={i18n.t('cmp:configuration details')}
                 placement="bottom"
                 overlayClassName="purchase-cluster-popover"
                 content={<KeyValueList shrink data={translation} />}
               >
-                <Badge status="success" text={i18n.t('dcos:time out')} />
+                <Badge status="success" text={i18n.t('time out')} />
               </Popover>
             );
           } else if (status === 'Skipped') {
-            detail = <Badge status="default" text={i18n.t('dcos:succeed')} />;
+            detail = <Badge status="default" text={i18n.t('succeed')} />;
           } else if (Date.now() - record.createdAt > 0.5 * 3600 * 1000) {
             // 超过半小时仍waiting则为超时
-            detail = <Badge status="error" text={i18n.t('dcos:jump over')} />;
+            detail = <Badge status="error" text={i18n.t('cmp:jump over')} />;
           }
           return detail;
         },
@@ -134,7 +134,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
         render: (text: string) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
       },
       {
-        title: i18n.t('dcos:operation'),
+        title: i18n.t('operation'),
         width: '60',
         render: (_createdAt: string, record: any) => {
           let { info, config } = record;
@@ -148,7 +148,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
           }
           return (
             <Button disabled={!isSuccess} onClick={() => this.toggleModal(record.info)}>
-              {i18n.t('dcos:add to cluster')}
+              {i18n.t('cmp:add to cluster')}
             </Button>
           );
         },

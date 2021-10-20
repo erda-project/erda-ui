@@ -117,13 +117,13 @@ const ChangePermissionForm = (props: IProps) => {
       getComp: () => {
         return (
           <span>
-            {i18n.t('dcos:database account')}: {get(data, 'AccountName')}
+            {i18n.t('cmp:database account')}: {get(data, 'AccountName')}
           </span>
         );
       },
     },
     {
-      label: i18n.t('dcos:authorization database'),
+      label: i18n.t('cmp:authorization database'),
       getComp: () => {
         return (
           <Transfer
@@ -135,7 +135,7 @@ const ChangePermissionForm = (props: IProps) => {
             targetKeys={targetKeys}
             onChange={handleChange}
             render={renderTransferItem}
-            titles={[i18n.t('dcos:unauthorized database'), i18n.t('dcos:authorized database')]}
+            titles={[i18n.t('cmp:unauthorized database'), i18n.t('cmp:authorized database')]}
           />
         );
       },

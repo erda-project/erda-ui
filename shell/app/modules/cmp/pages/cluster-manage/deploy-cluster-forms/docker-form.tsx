@@ -46,7 +46,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
       name: `${formPrefix}.execRoot`,
       initialValue: '/var/run/docker',
       itemProps: {
-        placeholder: i18n.t("dcos:can't be the same as the data path"),
+        placeholder: i18n.t("cmp:can't be the same as the data path"),
       },
       rules: [
         { ...regRulesMap.absolutePath },
@@ -57,7 +57,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               const dataRoot = form.getFieldValue(['config', 'docker', 'dataRoot']);
               if (value === dataRoot) pass = false;
             }
-            return pass ? callback() : callback(i18n.t("dcos:can't be the same as the data path"));
+            return pass ? callback() : callback(i18n.t("cmp:can't be the same as the data path"));
           },
         },
       ],
