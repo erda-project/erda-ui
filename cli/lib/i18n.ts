@@ -30,6 +30,7 @@ import {
   tempTranslatedWordPath,
   writeLocaleFiles,
 } from './util/i18n-utils';
+import { unset } from 'lodash';
 
 export default async ({ workDir: _workDir, switchNs }: { workDir: string; switchNs?: boolean }) => {
   try {
@@ -37,7 +38,7 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
     let ns = getCwdModuleName({ currentPath: workDir });
     const localePath = findMatchFolder('locales', workDir)!;
 
-    const originalZhResource = prepareEnv(localePath);
+    const [originalZhResource, originalEnResource] = prepareEnv(localePath, !!switchNs);
     // switch namespace
     if (switchNs) {
       const toSwitchWords = new Set<string>();
@@ -48,6 +49,10 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
       });
       if (!inputNs) {
         logWarn('no input namespace found. program exit');
+        return;
+      }
+      if (!originalZhResource?.[inputNs]) {
+        logWarn(`currently there is no namespace names ${inputNs}. program exit`);
         return;
       }
       // extract all i18n.r
@@ -70,11 +75,32 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
           });
         });
         await restorePromise;
-        // toSwitchWords.forEach((wordWithNs) => {
-        //   const wordArr = wordWithNs.split(':');
-        //   const [ns, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
+        toSwitchWords.forEach((wordWithNs) => {
+          const wordArr = wordWithNs.split(':');
+          const [currentNs, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
+          // replace zh.json content
+          const targetNsContent = originalZhResource[inputNs];
+          const currentNsContent = originalZhResource[currentNs];
+          if (!targetNsContent[enWord]) {
+            targetNsContent[enWord] = currentNsContent[enWord];
+          }
+          unset(currentNsContent, enWord);
 
-        // });
+          // replace zh.json content
+          const targetNsEnContent = originalEnResource[inputNs];
+          const currentNsEnContent = originalEnResource[currentNs];
+          if (!targetNsEnContent[enWord]) {
+            targetNsEnContent[enWord] = currentNsEnContent[enWord];
+          }
+          unset(currentNsEnContent, enWord);
+        });
+        fs.writeFileSync(`${localePath}/zh.json`, JSON.stringify(originalZhResource, null, 2), 'utf8');
+        fs.writeFileSync(`${localePath}/en.json`, JSON.stringify(originalEnResource, null, 2), 'utf8');
+        logInfo('Sort current locale files');
+        // setTimeout(() => {
+        //   writeLocaleFiles(localePath, workDir, switchNs);
+        // }, 5000)
+        logSuccess('switch namespace done.');
       } else {
         logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
       }
@@ -178,9 +204,11 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
       await writeLocaleFiles(localePath, workDir);
     }
   } finally {
-    fs.unlinkSync(tempFilePath);
-    fs.unlinkSync(tempTranslatedWordPath);
-    logSuccess('Clearing of temporary files completed');
+    if (!switchNs) {
+      fs.unlinkSync(tempFilePath);
+      fs.unlinkSync(tempTranslatedWordPath);
+      logSuccess('Clearing of temporary files completed');
+    }
   }
   logInfo('i18n process is completed, see you👋');
 };

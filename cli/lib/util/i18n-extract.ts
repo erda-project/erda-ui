@@ -139,13 +139,20 @@ function customFlush(done: () => void) {
   done();
 }
 
-export default (resolve: (value: void | PromiseLike<void>) => void, srcDir: string, _localePath: string) => {
+export default (
+  resolve: (value: void | PromiseLike<void>) => void,
+  srcDir: string,
+  _localePath: string,
+  switchNs?: boolean,
+) => {
   const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!**/node_modules/**'];
   if (srcDir.endsWith('shell')) {
     paths.push(`!${srcDir}/snippets/*.{js,jsx,ts,tsx}`);
   }
   localePath = _localePath;
-  zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
+  if (!switchNs) {
+    zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
+  }
   const zhJsonPath = `${localePath}/zh.json`;
   const enJsonPath = `${localePath}/en.json`;
   let content = fs.readFileSync(zhJsonPath, 'utf8');

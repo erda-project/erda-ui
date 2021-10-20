@@ -53,16 +53,17 @@ export const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-transl
 /**
  * create temp files and check whether exists locale files
  */
-export const prepareEnv = (localePath?: string | null) => {
+export const prepareEnv = (localePath: string | null, switchNs: boolean) => {
   let zhResource: { [k: string]: { [k: string]: string } } = {};
+  let enResource: { [k: string]: { [k: string]: string } } = {};
   if (!localePath) {
     logError('Please make sure that the [locales] folder exists in the running directory (can be nested)');
-    return;
+    throw Error('no locales folder');
   }
-  if (!fs.existsSync(tempFilePath)) {
+  if (!switchNs && !fs.existsSync(tempFilePath)) {
     fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
   }
-  if (!fs.existsSync(tempTranslatedWordPath)) {
+  if (!switchNs && !fs.existsSync(tempTranslatedWordPath)) {
     fs.writeFileSync(tempTranslatedWordPath, JSON.stringify({}, null, 2), 'utf8');
   }
   const zhJsonPath = `${localePath}/zh.json`;
@@ -73,10 +74,13 @@ export const prepareEnv = (localePath?: string | null) => {
   } else {
     fs.writeFileSync(zhJsonPath, JSON.stringify({}, null, 2), 'utf8');
   }
-  if (!fs.existsSync(enJsonPath)) {
+  if (fs.existsSync(enJsonPath)) {
+    const content = fs.readFileSync(enJsonPath, 'utf8');
+    enResource = JSON.parse(content);
+  } else {
     fs.writeFileSync(enJsonPath, JSON.stringify({}, null, 2), 'utf8');
   }
-  return zhResource;
+  return [zhResource, enResource];
 };
 
 /**
@@ -84,12 +88,12 @@ export const prepareEnv = (localePath?: string | null) => {
  * @param localePath locale path to translate
  * @param workDir work directory
  */
-export const writeLocaleFiles = async (localePath: string, workDir: string) => {
+export const writeLocaleFiles = async (localePath: string, workDir: string, switchNs?: boolean) => {
   const localePromise = new Promise<void>((resolve) => {
     if (fs.existsSync(path.resolve(`${workDir}/src`))) {
-      writeLocale(resolve, path.resolve(`${workDir}/src`), localePath);
+      writeLocale(resolve, path.resolve(`${workDir}/src`), localePath, switchNs);
     } else {
-      writeLocale(resolve, workDir, localePath);
+      writeLocale(resolve, workDir, localePath, switchNs);
     }
   });
   const loading = ora('Writing locale file...').start();
