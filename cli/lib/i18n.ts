@@ -25,6 +25,7 @@ import {
   findMatchFolder,
   prepareEnv,
   restoreSourceFile,
+  switchSourceFileNs,
   tempFilePath,
   tempTranslatedWordPath,
   writeLocaleFiles,
@@ -59,15 +60,24 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
         });
       });
       await extractPromise;
-      // if (toSwitchWords.size) {
-      //   toSwitchWords.forEach((wordWithNs) => {
-      //     const wordArr = wordWithNs.split(':');
-      //     const [ns, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
+      if (toSwitchWords.size) {
+        const restorePromise = new Promise<void>((resolve) => {
+          walker({
+            root: workDir,
+            dealFile: (...args) => {
+              switchSourceFileNs.apply(null, [...args, inputNs, toSwitchWords, resolve]);
+            },
+          });
+        });
+        await restorePromise;
+        // toSwitchWords.forEach((wordWithNs) => {
+        //   const wordArr = wordWithNs.split(':');
+        //   const [ns, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
 
-      //   });
-      // } else {
-      //   logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
-      // }
+        // });
+      } else {
+        logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
+      }
       return;
     }
 

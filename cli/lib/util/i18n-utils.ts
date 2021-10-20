@@ -287,3 +287,42 @@ export const extractPendingSwitchContent = (
     resolve();
   }
 };
+
+/**
+ * restore raw file i18n.d => i18n.t with namespace
+ * @param content raw file content
+ * @param filePath file path with extension
+ * @param isEnd is traverse done
+ * @param resolve resolver of promise
+ */
+export const switchSourceFileNs = (
+  content: string,
+  filePath: string,
+  isEnd: boolean,
+  ns: string,
+  toSwitchWords: Set<string>,
+  resolve: (value: void | PromiseLike<void>) => void,
+) => {
+  if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
+    return;
+  }
+  let newContent = content;
+  let changed = false;
+  toSwitchWords.forEach((wordWithNs) => {
+    const matchText = `i18n.t('${wordWithNs}')`;
+    const matchTextRegex = new RegExp(`i18n\\.t\\('${wordWithNs}'\\)`, 'g');
+    if (newContent.includes(matchText)) {
+      changed = true;
+      const wordArr = wordWithNs.split(':');
+      const enWord = wordArr.length === 2 ? wordArr[1] : wordWithNs;
+      const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
+      newContent = newContent.replace(matchTextRegex, `i18n.t('${newWordText}')`);
+    }
+  });
+  if (changed) {
+    fs.writeFileSync(filePath, newContent, 'utf8');
+  }
+  if (isEnd) {
+    resolve();
+  }
+};
