@@ -13,12 +13,12 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Table, Spin, Button, Tooltip } from 'core/nusi';
+import { Table, Spin, Button } from 'core/nusi';
 import { ColumnProps } from 'core/common/interface';
 import { goTo, fromNow } from 'common/utils';
 import { useUnmount } from 'react-use';
 import { ChartHistogramTwo as IconChartHistogramTwo } from '@icon-park/react';
-import { SearchTable } from 'common';
+import { SearchTable, Ellipsis } from 'common';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
 import { useLoading } from 'core/stores/loading';
@@ -72,7 +72,7 @@ export const ProjectList = () => {
         ellipsis: {
           showTitle: false,
         },
-        render: (text) => <Tooltip title={text}>{text}</Tooltip>,
+        render: (text) => <Ellipsis title={text}>{text}</Ellipsis>,
       },
       {
         title: i18n.t('org:application/Member Statistics'),
@@ -81,25 +81,6 @@ export const ProjectList = () => {
         width: 120,
         render: (stats: PROJECT.ProjectStats) => `${stats.countApplications} / ${stats.countMembers}`,
       },
-      {
-        title: i18n.t('total CPU allocation'),
-        dataIndex: 'cpuQuota',
-        key: 'cpuQuota',
-        width: 120,
-        sorter: true,
-        sortOrder: getColumnOrder('cpuQuota'),
-        render: (text: string) => `${text} Core`,
-      },
-      {
-        title: i18n.t('total Memory allocation'),
-        dataIndex: 'memQuota',
-        key: 'memQuota',
-        width: 120,
-        sorter: true,
-        sortOrder: getColumnOrder('memQuota'),
-        render: (text: string) => `${text} GiB`,
-      },
-
       {
         title: i18n.t('msp:project type'),
         dataIndex: 'type',

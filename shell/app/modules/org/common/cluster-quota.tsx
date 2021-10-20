@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Alert, Input, Form, Row, Col, Progress, Tooltip } from 'core/nusi';
+import { Select, Alert, Input, Form, Row, Col } from 'core/nusi';
 import i18n from 'i18n';
-import { CompactSelect, ErdaCustomIcon } from 'common';
+import { CompactSelect, Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
 import clusterStore from 'cmp/stores/cluster';
@@ -48,7 +48,7 @@ const ClusterQuota = ({
   const clusterList = clusterStore.useStore((s) => s.list);
   const leftResource = projectStore.useStore((s) => s.leftResources) as PROJECT.LeftResources;
 
-  const [{ leftCpu, leftMem, cpuRate, memRate, tips }, updater, update] = useUpdate({
+  const [{ leftCpu, leftMem, tips }, updater, update] = useUpdate({
     leftCpu: 0,
     leftMem: 0,
     cpuRate: 100,
@@ -76,18 +76,23 @@ const ClusterQuota = ({
   }, [cluster, leftResource, workSpace, update]);
 
   const tip = (
-    <div>
-      <span className="mr-4">
-        {i18n.t('cmp:available resources')}：CPU：{leftCpu} {i18n.t('core')}
-      </span>
-      <span>
-        {i18n.t('memory')}:{leftMem} GB
-      </span>
-      {tips && (
-        <Tooltip title={tips}>
-          <ErdaCustomIcon fill="danger-red" type="help" size="16" className="ml-1" />
-        </Tooltip>
-      )}
+    <div className="quota-tips">
+      <div>
+        <span className="mr-4">
+          {i18n.t('cmp:available resources')}：CPU：{leftCpu} {i18n.t('core')}
+        </span>
+        <span>
+          {i18n.t('memory')}:{leftMem} GB
+        </span>
+      </div>
+      <div className="text-black text-opacity-40 ">
+        {tips && (
+          <>
+            <CustomIcon type="warning" className="align-middle font-bold text-warning" />
+            {tips}
+          </>
+        )}
+      </div>
     </div>
   );
 
@@ -169,15 +174,6 @@ const ClusterQuota = ({
           </Row>
 
           {showTip && <Alert message={tip} type="info" className="mb-4" />}
-          <Row className="mb-4">
-            <Col span={12} className="flex pr-2">
-              <span className="whitespace-nowrap">{i18n.t('Current distribution rate')}:</span>
-              <Progress percent={cpuRate} status={'normal'} className="pl-2" />
-            </Col>
-            <Col span={12} className="pl-2 pr-4">
-              <Progress percent={memRate} status={'normal'} />
-            </Col>
-          </Row>
         </>
       )}
     </>
