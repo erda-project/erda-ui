@@ -30,6 +30,6 @@ const value = [
 describe('SortDragGroupList', () => {
   it('should support showName ', () => {
     const wrapper = shallow(<SortDragGroupList value={value} />);
-    expect(wrapper.find('.sort-drag-group')).toExist();
+    expect(wrapper.find('Fragment')).toExist();
   });
 });
