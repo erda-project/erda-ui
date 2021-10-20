@@ -15,7 +15,7 @@ import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import { Dropdown, Menu } from 'core/nusi';
 import mspStore from 'msp/stores/micro-service';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 
 const SwitchEnv = () => {
@@ -54,7 +54,7 @@ const SwitchEnv = () => {
       <Dropdown overlay={menu} trigger={['click']}>
         <div className="font-bold text-base h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer hover:border-primary">
           <span className="self-center">{envName}</span>
-          <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
+          <ErdaIcon className="self-center" type="caret-down" size="16" />
         </div>
       </Dropdown>
     </div>

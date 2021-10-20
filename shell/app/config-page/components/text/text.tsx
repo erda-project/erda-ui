@@ -125,7 +125,7 @@ const Text = (props: CP_TEXT.Props) => {
                       {tText}
                       {icon && (
                         <Tooltip title={iconTip}>
-                          <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                          <ErdaIcon type={icon} isConfigPageIcon className={`mr-1 ml-1 ${iconStyleName}`} />
                         </Tooltip>
                       )}
                       {image && <img src={getImg(image)} className="text-image" />}
@@ -135,7 +135,7 @@ const Text = (props: CP_TEXT.Props) => {
                       {withTag ? <span style={tagStyle}>{tText}</span> : tText}
                       {icon && (
                         <Tooltip title={iconTip}>
-                          <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                          <ErdaIcon type={icon} isConfigPageIcon className={`mr-1 ml-1 ${iconStyleName}`} />
                         </Tooltip>
                       )}
                       {image && <img src={getImg(image)} className="text-image" />}
@@ -160,7 +160,7 @@ const Text = (props: CP_TEXT.Props) => {
               {tText}
               {icon && (
                 <Tooltip title={iconTip}>
-                  <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                  <ErdaIcon type={icon} isConfigPageIcon className={`mr-1 ml-1 ${iconStyleName}`} />
                 </Tooltip>
               )}
               {image && <img src={getImg(image)} className="text-image" />}
@@ -170,7 +170,7 @@ const Text = (props: CP_TEXT.Props) => {
               {tText}
               {icon && (
                 <Tooltip title={iconTip}>
-                  <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />
+                  <ErdaIcon type={icon} isConfigPageIcon className={`mr-1 ml-1 ${iconStyleName}`} />
                 </Tooltip>
               )}
               {image && <img src={getImg(image)} className="text-image" />}

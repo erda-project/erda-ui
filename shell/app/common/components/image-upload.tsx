@@ -15,7 +15,7 @@ import React, { Component } from 'react';
 import i18n from 'i18n';
 import classnames from 'classnames';
 import { Input, Upload } from 'core/nusi';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
 import { FormInstance } from 'core/common/interface';
@@ -106,7 +106,7 @@ export class ImageUpload extends Component<IProps, IState> {
         <Input type="hidden" />
         <Upload className="pure-upload" accept=".jpg, .jpeg, .png, .gif" {...this.getUploadProps(queryData)}>
           <div className="mt-5">
-            <ErdaCustomIcon opacity={0.85} fill="black" size="30" key="icon" type="cir-add" />
+            <ErdaIcon fill="black-800" size="30" key="icon" type="cir-add" />
             <div key="text">{uploadText}</div>
           </div>
         </Upload>
@@ -145,7 +145,7 @@ export class ImageUpload extends Component<IProps, IState> {
           }}
         >
           <div className="mt-5">
-            <ErdaCustomIcon opacity={0.8} fill="black" size="30" key="icon" type="shanchu" />
+            <ErdaIcon fill="black-800" size="30" key="icon" type="shanchu" />
             <div key="text">{i18n.t('common:remove')}</div>
           </div>
         </div>

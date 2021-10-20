@@ -17,7 +17,7 @@ import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import { getServiceList } from 'msp/services/service-analytics';
-import { ErdaCustomIcon, EmptyListHolder } from 'common';
+import { ErdaIcon, EmptyListHolder } from 'common';
 import i18n from 'i18n';
 import { useUnmount } from 'react-use';
 
@@ -90,7 +90,7 @@ export function ServiceNameSelect() {
         <Dropdown overlay={menu} trigger={['click']}>
           <div className="font-bold text-lg h-8 rounded border border-solid border-transparent flex justify-center cursor-pointer">
             <span className="self-center text-lg">{serviceName} </span>
-            <ErdaCustomIcon className="self-center" type="caret-down" size="16" />
+            <ErdaIcon className="self-center" type="caret-down" size="16" />
           </div>
         </Dropdown>
       ) : (

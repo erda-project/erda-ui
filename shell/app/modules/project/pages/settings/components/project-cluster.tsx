@@ -16,7 +16,7 @@ import { Table, Tooltip } from 'core/nusi';
 import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import projectStore from 'project/stores/project';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 
@@ -96,7 +96,7 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
       </div>
       {tips && (
         <Tooltip title={tips}>
-          <ErdaCustomIcon fill="danger-red" type="help" size="16" className="ml-1" />
+          <ErdaIcon fill="danger-red" type="help" size="16" className="ml-1" />
         </Tooltip>
       )}
     </div>

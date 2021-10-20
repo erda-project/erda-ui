@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, throttle } from 'lodash';
 import { Row, Col, Tooltip } from 'core/nusi';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import ResizeObserver from 'rc-resize-observer';
 
 export interface PanelField {
@@ -115,7 +115,7 @@ const Panel = (props: PanelProps) => {
                   {item.tips && (
                     <span className={`erda-label-tips align-middle`}>
                       <Tooltip title={item.tips}>
-                        <ErdaCustomIcon fill="lightgray" type="attention" size="14" className="ml-1 opacity-40" />
+                        <ErdaIcon fill="lightgray" type="attention" size="14" className="ml-1 opacity-40" />
                       </Tooltip>
                     </span>
                   )}
@@ -148,7 +148,7 @@ const Panel = (props: PanelProps) => {
                       {item.tips && (
                         <span className={`erda-label-tips align-middle`}>
                           <Tooltip title={item.tips}>
-                            <ErdaCustomIcon fill="lightgray" type="attention" size="14" className="ml-1 opacity-40" />
+                            <ErdaIcon fill="lightgray" type="attention" size="14" className="ml-1 opacity-40" />
                           </Tooltip>
                         </span>
                       )}

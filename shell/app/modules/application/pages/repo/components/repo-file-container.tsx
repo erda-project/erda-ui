@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { message, Tooltip, Radio, Button } from 'core/nusi';
-import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, ErdaCustomIcon } from 'common';
+import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, updateSearch } from 'common/utils';
 import RepoFile from './repo-file';
@@ -166,12 +166,11 @@ const RepoFileContainerComp = (props: IProps) => {
     if (editFile) {
       return (
         <Tooltip title={i18n.t('application:cancel')}>
-          <ErdaCustomIcon
+          <ErdaIcon
             className="cursor-pointer"
             width="20"
             height="21"
-            fill="black"
-            opacity={0.4}
+            fill="black-400"
             type="qxbj"
             onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })}
           />
@@ -212,9 +211,8 @@ const RepoFileContainerComp = (props: IProps) => {
           <IF check={!binary}>
             <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:edit')}>
               <div className="mt-1 mr-3">
-                <ErdaCustomIcon
-                  fill="black"
-                  opacity={0.4}
+                <ErdaIcon
+                  fill="black-400"
                   size="20"
                   className={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}
                   type="bj"
@@ -224,9 +222,8 @@ const RepoFileContainerComp = (props: IProps) => {
             </Tooltip>
           </IF>
           <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:delete')}>
-            <ErdaCustomIcon
-              fill="black"
-              opacity={0.4}
+            <ErdaIcon
+              fill="black-400"
               width="20"
               height="21"
               className={`${info.isLocked ? 'disabled' : ''} cursor-pointer`}

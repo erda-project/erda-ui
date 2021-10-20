@@ -13,7 +13,7 @@
 
 import { groupBy, map, get, find } from 'lodash';
 import React from 'react';
-import { FormModal, LoadMoreSelector, ErdaCustomIcon } from 'common';
+import { FormModal, LoadMoreSelector, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Spin, Tooltip, Alert, Select } from 'core/nusi';
 import { EnvCard } from './env-card';
@@ -63,7 +63,7 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   return (
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
-        <ErdaCustomIcon opacity={0.3} fill="black" type="tj1" className="text-2xl mb-5 mr-1 hover" />
+        <ErdaIcon fill="black-300" type="tj1" className="text-2xl mb-5 mr-1 hover" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>

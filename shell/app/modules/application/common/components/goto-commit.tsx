@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import { goTo } from 'common/utils';
 
 import './goto-commit.scss';
@@ -37,7 +37,7 @@ const GotoCommit = ({ projectId, appId, commitId = '', length = 6, className = '
         });
       }}
     >
-      <ErdaCustomIcon opacity={0.8} className="mr-1" fill="primary" size="16" type="commit" />
+      <ErdaIcon className="mr-1" fill="primary-800" size="16" type="commit" />
       <span>{commitId.slice(0, length)}</span>
     </span>
   );

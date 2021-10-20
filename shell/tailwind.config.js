@@ -29,6 +29,7 @@ module.exports = {
       borderColor: (theme) => ({ ...theme('colors'), normal: '#00000019' }),
       colors: {
         primary: '#6a549e',
+        'primary-800': 'rgba(106, 84, 158, 0.8)',
         normal: '#000000cc', // color-dark-8: rgba(0, 0, 0, .8)
         sub: '#00000099', // color-dark-6: rgba(0, 0, 0, .6)
         // desc: '#0000007f', // color-dark-5: rgba(0, 0, 0, .5)
@@ -57,6 +58,11 @@ module.exports = {
         cultured: '#f6f4f9',
         magnolia: '#f2f1fc',
         mask: 'rgba(0,0,0,0.45)',
+        black: 'rgba(0,0,0,1)',
+        'black-200': 'rgba(0,0,0,0.2)',
+        'black-300': 'rgba(0,0,0,0.3)',
+        'black-400': 'rgba(0,0,0,0.4)',
+        'black-800': 'rgba(0,0,0,0.8)',
         'light-primary': '#6a549e19', // rgba($primary, .1)
         'shallow-primary': '#6a549e99', // rgba($primary, .6)
         'light-gray': '#bbbbbb',

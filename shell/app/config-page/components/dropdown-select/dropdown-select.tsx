@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Dropdown, Menu, Input } from 'core/nusi';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import React from 'react';
 import { map, get } from 'lodash';
 import i18n from 'i18n';
@@ -94,7 +94,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
             >
               <div className="flex justify-between items-center w-full">
                 <span>
-                  {item.prefixIcon ? <ErdaCustomIcon type={item.prefixIcon} /> : null}
+                  {item.prefixIcon ? <ErdaIcon type={item.prefixIcon} /> : null}
                   {item.prefixImgSrc ? (
                     <img src={item.prefixImgSrc} className="cp-dice-dropdown-select-image mr-2" />
                   ) : null}

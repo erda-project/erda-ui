@@ -17,7 +17,7 @@ import AppCenter from './app-center';
 import GlobalNavigation from './globalNavigation';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
-import { Icon as CustomIcon, ErdaCustomIcon } from 'common';
+import { Icon as CustomIcon, ErdaIcon } from 'common';
 import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
@@ -98,7 +98,7 @@ const AppCenterEl = () => {
           }
           placement="right"
         >
-          <ErdaCustomIcon type="appstore" color="white" size="20px" />
+          <ErdaIcon type="appstore" color="white" size="20px" />
         </Tooltip>
       }
       linkRender={({ app }: { app: LAYOUT.IApp }) => {
@@ -173,7 +173,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('default:switch language')} placement="right">
-          <ErdaCustomIcon type={current === 'zh' ? 'chinese' : 'english'} style={customIconStyle} />
+          <ErdaIcon type={current === 'zh' ? 'chinese' : 'english'} style={customIconStyle} />
         </Tooltip>
       ),
       onClick: () => {
@@ -202,7 +202,7 @@ const SideBar = () => {
   const useMenuOperations = [
     ...insertWhen(!!loginUser.isSysAdmin, [
       {
-        icon: <ErdaCustomIcon type="user-config" />,
+        icon: <ErdaIcon type="user-config" />,
         title: <span className="ml-1">{i18n.t('operation manage platform')}</span>,
         onClick: () => {
           window.localStorage.setItem('lastOrg', window.location.pathname.split('/')[1]);
@@ -212,7 +212,7 @@ const SideBar = () => {
     ]),
     ...insertWhen(loginUser.isNewUser || !!erdaEnv.UC_PUBLIC_URL, [
       {
-        icon: <ErdaCustomIcon type="user-config" />,
+        icon: <ErdaIcon type="user-config" />,
         title: i18n.t('layout:personal settings'),
         onClick: () => {
           window.open(loginUser.isNewUser ? UC_USER_SETTINGS : erdaEnv.UC_PUBLIC_URL);

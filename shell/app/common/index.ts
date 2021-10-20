@@ -10,9 +10,10 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+import config from '../../tailwind.config';
 
 export { Icon } from './components/icon';
-export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
+export { ErdaIcon } from './components/erda-icon/erda-icon';
 export { default as SimplePanel } from './components/simple-panel';
 export { default as AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
@@ -105,3 +106,15 @@ export { TreeCategory } from './components/tree/tree';
 export { default as EditList } from './components/edit-list/edit-list';
 export { default as InputSelect } from './components/input-select/input-select';
 export { SortDragGroupList } from './components/sort-drag-list';
+
+export const themeColor: Obj<string> = {};
+const { colors } = config.theme.extend;
+Object.keys(colors).forEach((topColor) => {
+  if (typeof colors[topColor] === 'string') {
+    themeColor[topColor] = colors[topColor];
+  } else {
+    Object.keys(colors[topColor]).forEach((subColor) => {
+      themeColor[subColor === 'DEFAULT' ? topColor : `${topColor}-${subColor}`] = colors[topColor][subColor];
+    });
+  }
+});
