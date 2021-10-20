@@ -17,7 +17,6 @@ import i18n from 'i18n';
 import { CompactSelect, Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';
-import clusterStore from 'cmp/stores/cluster';
 import projectStore from 'app/modules/project/stores/project';
 
 const { Option } = Select;
@@ -45,7 +44,6 @@ const ClusterQuota = ({
   data = {} as IData,
   form,
 }: IProps) => {
-  const clusterList = clusterStore.useStore((s) => s.list);
   const leftResource = projectStore.useStore((s) => s.leftResources) as PROJECT.LeftResources;
 
   const [{ leftCpu, leftMem, tips }, updater, update] = useUpdate({
@@ -56,13 +54,19 @@ const ClusterQuota = ({
     tips: '',
   });
 
+  const clusterList = React.useMemo(() => {
+    if (leftResource?.ClusterList?.length) {
+      return leftResource.ClusterList.filter((item) => item.Workspace === workSpace.toLocaleLowerCase());
+    } else {
+      return [];
+    }
+  }, [leftResource, workSpace]);
+
   const cluster = form?.getFieldValue?.(['resourceConfig', workSpace, 'clusterName']) || '';
 
   React.useEffect(() => {
-    if (cluster && leftResource && leftResource.ClusterList && leftResource.ClusterList.length !== 0) {
-      const quota = leftResource.ClusterList.find(
-        (item: PROJECT.ICluster) => item.ClusterName === cluster && item.Workspace === workSpace.toLocaleLowerCase(),
-      );
+    if (cluster && clusterList && clusterList.length !== 0) {
+      const quota = clusterList.find((item: PROJECT.ICluster) => item.ClusterName === cluster);
 
       quota &&
         update({
@@ -73,7 +77,7 @@ const ClusterQuota = ({
           tips: quota.Tips,
         });
     }
-  }, [cluster, leftResource, workSpace, update]);
+  }, [cluster, clusterList, workSpace, update]);
 
   const tip = (
     <div className="quota-tips">
@@ -124,9 +128,9 @@ const ClusterQuota = ({
       >
         <CompactSelect title={i18n.t('cluster')}>
           <Select disabled={!canEdit}>
-            {(clusterList || []).map((clusterItem: { id: string; name: string }) => (
-              <Option key={clusterItem.id} value={clusterItem.name}>
-                {clusterItem.name}
+            {(clusterList || []).map((clusterItem: { ClusterName: string }) => (
+              <Option key={clusterItem.ClusterName} value={clusterItem.ClusterName}>
+                {clusterItem.ClusterName}
               </Option>
             ))}
           </Select>
