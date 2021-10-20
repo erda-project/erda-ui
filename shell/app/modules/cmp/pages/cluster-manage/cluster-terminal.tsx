@@ -87,15 +87,19 @@ export const K8sPodTerminalConsole = (props: IPodTerminalProps) => {
   );
 };
 
-export const K8sPodTerminalLog = (props: Merge<IPodTerminalProps, { containerId?: string }>) => {
-  const { clusterName, namespace, containerId, podName, containerName, visible, onClose } = props;
+export const K8sPodTerminalLog = (
+  props: Merge<IPodTerminalProps, { containerId?: string; hasRestarted?: boolean }>,
+) => {
+  const { clusterName, namespace, containerId, podName, hasRestarted, containerName, visible, onClose } = props;
 
   const [downloadVis, setDownloadVis] = React.useState(false);
 
   const params = {
     url: `${replaceProtocol(window.location.protocol)}//${
       window.location.host
-    }/api/${getOrgFromPath()}/websocket/k8s/clusters/${clusterName}/api/v1/namespaces/${namespace}/pods/${podName}/log?previous=false&follow=true&timestamps=true&pretty=true&container=${containerName}&sinceSeconds=1800`,
+    }/api/${getOrgFromPath()}/websocket/k8s/clusters/${clusterName}/api/v1/namespaces/${namespace}/pods/${podName}/log?previous=${
+      hasRestarted ? 'true' : 'false'
+    }&follow=true&timestamps=true&pretty=true&container=${containerName}&tailLines=1000`,
     subProtocol: 'binary',
   };
 
@@ -105,22 +109,6 @@ export const K8sPodTerminalLog = (props: Merge<IPodTerminalProps, { containerId?
   };
 
   const fieldsList = [
-    {
-      label: i18n.t('cmp:log type'),
-      name: 'type',
-      type: 'radioGroup',
-      initialValue: 'stdout',
-      options: [
-        {
-          value: 'stdout',
-          name: i18n.t('standard'),
-        },
-        {
-          value: 'stderr',
-          name: i18n.t('error'),
-        },
-      ],
-    },
     {
       name: 'start',
       label: i18n.t('common:start at'),

@@ -30,10 +30,14 @@ const DashBoard = React.memo(PureBoardGrid);
 interface IState {
   chartLayout: DC.Layout;
 }
+interface IProps {
+  nodeIP: string;
+  nodeId: string;
+  clusterName: string;
+}
 
-const ClusterNodeDetail = () => {
-  const [{ clusterName, nodeId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { nodeIP } = query || {};
+export const PureClusterNodeDetail = (props: IProps) => {
+  const { nodeIP, nodeId, clusterName } = props;
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
 
   const globalVariable = React.useMemo(
@@ -79,4 +83,8 @@ const ClusterNodeDetail = () => {
   );
 };
 
-export default ClusterNodeDetail;
+export default () => {
+  const [{ clusterName, nodeId }, { nodeIP }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const props = { clusterName, nodeId, nodeIP };
+  return <PureClusterNodeDetail {...props} />;
+};

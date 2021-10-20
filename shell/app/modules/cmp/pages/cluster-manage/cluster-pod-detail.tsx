@@ -34,6 +34,7 @@ interface IMetaData {
   containerName: string;
   podName: string;
   namespace: string;
+  hasRestarted?: boolean;
 }
 
 interface IState {
@@ -44,9 +45,15 @@ interface IState {
   chartLayout: DC.Layout;
 }
 
-const ClusterPodDetail = () => {
-  const [{ clusterName, podId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { podName, namespace } = query || {};
+interface IProps {
+  clusterName: string;
+  podId: string;
+  podName: string;
+  namespace: string;
+}
+
+export const PureClusterPodDetail = (props: IProps) => {
+  const { clusterName, podId, podName, namespace } = props;
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   const globalVariable = React.useMemo(
     () => ({
@@ -102,6 +109,12 @@ const ClusterPodDetail = () => {
           customProps={{
             containerTable: {
               operations: {
+                checkPrevLog: (op: IPodMeta) => {
+                  update({
+                    logVisible: true,
+                    logData: op?.meta,
+                  });
+                },
                 checkConsole: (op: IPodMeta) => {
                   update({
                     consoleVisible: true,
@@ -142,4 +155,8 @@ const ClusterPodDetail = () => {
   );
 };
 
-export default ClusterPodDetail;
+export default () => {
+  const [{ clusterName, podId }, { podName, namespace }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const props = { clusterName, podId, podName, namespace };
+  return <PureClusterPodDetail {...props} />;
+};

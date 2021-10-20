@@ -36,5 +36,6 @@
 | Props | MakeProps<Spec> & { |
 
     content: Obj;
+    footer?: React.ReactNode;
 
 } |

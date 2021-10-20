@@ -13,7 +13,6 @@
 
 import React from 'react';
 import i18n from 'i18n';
-// @ts-ignore
 import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';

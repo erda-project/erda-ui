@@ -33,5 +33,6 @@ declare namespace CP_DRAWER {
 
   type Props = MakeProps<Spec> & {
     content: Obj;
+    footer?: React.ReactNode;
   };
 }

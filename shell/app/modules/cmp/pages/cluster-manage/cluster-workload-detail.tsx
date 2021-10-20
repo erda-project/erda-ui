@@ -15,10 +15,15 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
-const ClusterNodes = () => {
-  const { clusterName, workloadId } = routeInfoStore.useStore((s) => s.params);
+interface IProps {
+  clusterName: string;
+  workloadId: string;
+  podId?: string;
+}
+export const PureClusterWorkloadDetail = (props: IProps) => {
+  const { clusterName, workloadId, podId } = props;
 
-  const inParams = { clusterName, workloadId };
+  const inParams = { clusterName, workloadId, podId };
   return (
     <DiceConfigPage
       scenarioType={'cmp-dashboard-workload-detail'}
@@ -28,4 +33,8 @@ const ClusterNodes = () => {
   );
 };
 
-export default ClusterNodes;
+export default () => {
+  const [{ clusterName, workloadId }, { podId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const props = { clusterName, workloadId, podId };
+  return <PureClusterWorkloadDetail {...props} />;
+};

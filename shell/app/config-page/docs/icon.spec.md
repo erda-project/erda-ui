@@ -13,6 +13,7 @@
 
 | 名称           | 类型           | 必填     |
 | -------------- | -------------- | -------- | ---- |
+| hoverActive    | boolean        | true     |
 | iconType       | IIconType      | false    |
 | visible        | boolean        | true     |
 | size           | number         | string   | true |

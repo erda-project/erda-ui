@@ -30,6 +30,7 @@ import {
   Help as IconHelp,
   Plus as IconPlus,
   MoreOne as IconMoreOne,
+  Setting as IconSetting,
 } from '@icon-park/react';
 
 export const iconMap = {
@@ -48,6 +49,7 @@ export const iconMap = {
   help: IconHelp,
   plus: IconPlus,
   moreOne: IconMoreOne,
+  setting: IconSetting,
 };
 
 type IIconType = keyof typeof iconMap;

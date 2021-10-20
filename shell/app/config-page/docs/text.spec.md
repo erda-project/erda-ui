@@ -54,16 +54,17 @@
 
 ### ILinkTextData
 
-| 名称       | 类型              | 必填    |
-| ---------- | ----------------- | ------- | ----------- | ------ | ----- |
-| text       | Array<ILinkTarget | string> | ILinkTarget | string | false |
-| isPureText | boolean           | false   | ,           |
+| 名称      | 类型              | 必填     |
+| --------- | ----------------- | -------- | ----------- | ------ | ----- |
+| text      | Array<ILinkTarget | string>  | ILinkTarget | string | false |
+| direction | 'row'             | 'column' | true        | ,      |
 
 ### ILinkTarget
 
 | 名称          | 类型                          | 必填  |
 | ------------- | ----------------------------- | ----- |
 | icon          | string                        | true  |
+| iconTip       | string                        | true  |
 | image         | string                        | true  |
 | iconStyleName | string                        | true  |
 | text          | string                        | false |
