@@ -41,7 +41,10 @@ export default () => {
     form.validateFields().then((res) => {
       saveTestReport({
         ...res,
-        reportData: [testDashboard, issueDashboard],
+        reportData: {
+          'issue-dashboard': issueDashboard,
+          'test-dashboard': testDashboard,
+        },
       }).then(() => {
         goTo('../');
       });

@@ -86,7 +86,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
         scenarioKey={'test-dashboard'}
         forbiddenRequest
         fullHeight={false}
-        debugConfig={data.reportData?.[0]}
+        debugConfig={data.reportData?.['test-dashboard']}
       />
       <Title title={i18n.t('project:test statistics')} />
       <DiceConfigPage
@@ -94,7 +94,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
         scenarioKey={'issue-dashboard'}
         fullHeight={false}
         forbiddenRequest
-        debugConfig={data.reportData?.[1]}
+        debugConfig={data.reportData?.['issue-dashboard']}
       />
     </>
   );

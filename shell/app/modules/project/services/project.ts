@@ -59,7 +59,7 @@ export const getAutoTestSpaceDetail = ({ spaceId }: { spaceId: string }) => {
 export const saveTestReport = (params: Merge<PROJECT.ITestReportBody, { projectId: string }>) => {
   const { projectId, ...rest } = params;
   return agent
-    .post(`/api/project/${projectId}/test-report`)
+    .post(`/api/projects/${projectId}/test-reports`)
     .send(rest)
     .then((response: any) => response.body);
 };
@@ -71,5 +71,5 @@ export const getTestReportDetail = ({
   reportId: string;
   projectId: string;
 }): PROJECT.ITestReportBody => {
-  return agent.get(`/api/project/${projectId}/test-report/${reportId}`).then((response: any) => response.body);
+  return agent.get(`/api/projects/${projectId}/test-reports/${reportId}`).then((response: any) => response.body);
 };

@@ -166,6 +166,9 @@ declare namespace PROJECT {
   interface ITestReportBody {
     name: string;
     summary: string;
-    reportData: Obj[];
+    reportData: {
+      'test-dashboard': Obj;
+      'issue-dashboard': Obj;
+    };
   }
 }
