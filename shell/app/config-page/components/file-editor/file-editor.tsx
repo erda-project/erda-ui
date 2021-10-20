@@ -16,7 +16,6 @@ import { Button } from 'core/nusi';
 import { FileEditor as PureFileEditor } from 'common';
 import { notify } from 'common/utils';
 import { OperationAction } from 'config-page/utils';
-// @ts-ignore
 import yaml from 'js-yaml';
 import i18n from 'i18n';
 

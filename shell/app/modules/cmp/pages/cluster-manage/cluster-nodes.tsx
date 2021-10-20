@@ -90,9 +90,7 @@ const ClusterNodes = () => {
         }}
       />
       <Drawer visible={visible} onClose={closeDetail} width={'80%'} maskClosable getContainer={false}>
-        {visible && detailData ? (
-          <PureClusterNodeDetail clusterName={clusterName} nodeIP={detailData.nodeIP} nodeId={detailData.nodeId} />
-        ) : null}
+        {visible && detailData ? <PureClusterNodeDetail clusterName={clusterName} {...detailData} /> : null}
       </Drawer>
     </>
   );
