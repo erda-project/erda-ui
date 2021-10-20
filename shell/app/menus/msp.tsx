@@ -27,11 +27,13 @@ export const getMspMenu = () => {
       href: goTo.resolve.mspRootOverview(),
       icon: <IconDataDisplay />,
       text: i18n.t('overview'),
+      subtitle: i18n.t('Overview'),
     },
     {
       href: goTo.resolve.mspProjects(),
       icon: <IconList />,
       text: i18n.t('msp:project list'),
+      subtitle: i18n.t('Project'),
     },
   ];
 };
