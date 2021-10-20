@@ -72,7 +72,7 @@ export default () => {
         }}
       />
       {downloadId ? (
-        <div className="absolute overflow-hidden	" style={{ top: '100vw', height: 0 }}>
+        <div className="absolute overflow-hidden" style={{ top: '100vw', height: 0 }}>
           <Download downloadId={downloadId} projectId={projectId} onFinish={onFinish} />
         </div>
       ) : null}
