@@ -123,7 +123,7 @@ const AutoTestScenes = () => {
       <Drawer width={1000} visible={resultVis} onClose={closeResult} getContainer={false}>
         <InfoPreview {...previewData} />
       </Drawer>
-      <ImportFile visible={importVis} onClose={onCloseImport} />
+      <ImportFile visible={importVis} onClose={onCloseImport} type="testCaseSet" />
       <Drawer
         title={i18n.t('recent import and export records')}
         width={1000}

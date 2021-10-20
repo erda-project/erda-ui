@@ -55,3 +55,21 @@ export const getDashboard = (type: string) => {
 export const getAutoTestSpaceDetail = ({ spaceId }: { spaceId: string }) => {
   return agent.get(`/api/autotests/spaces/${spaceId}`).then((response: any) => response.body);
 };
+
+export const saveTestReport = (params: Merge<PROJECT.ITestReportBody, { projectId: string }>) => {
+  const { projectId, ...rest } = params;
+  return agent
+    .post(`/api/project/${projectId}/test-report`)
+    .send(rest)
+    .then((response: any) => response.body);
+};
+
+export const getTestReportDetail = ({
+  reportId,
+  projectId,
+}: {
+  reportId: string;
+  projectId: string;
+}): PROJECT.ITestReportBody => {
+  return agent.get(`/api/project/${projectId}/test-report/${reportId}`).then((response: any) => response.body);
+};

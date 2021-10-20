@@ -38,6 +38,7 @@ interface IProps {
   readOnly?: boolean;
   autoFocus?: boolean;
   canView?: ICanView;
+  showMenu?: boolean;
   notClearAfterSubmit?: boolean;
   style?: object;
   onSubmit?: (value: string, rate: number) => void;
@@ -65,7 +66,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.mdEditor = React.createRef();
-    const defaultMode = props.defaultMode || 'md';
+    const { showMenu = true, defaultMode = 'md' } = props;
     this.state = {
       content: props.value || '',
       tempContent: props.value || '',
@@ -73,7 +74,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
       view: {
         md: defaultMode === 'md',
         html: defaultMode === 'html',
-        menu: true,
+        menu: showMenu,
       },
     };
   }
@@ -190,8 +191,8 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     const curShowButton = !!onSubmit;
 
-    let height = style.height ? parseInt(style.height, 10) : 400;
-    height = view.md && curShowButton ? height + 50 : height;
+    let height: string | number = style.height ? parseInt(style.height, 10) : 400;
+    height = view.menu ? (view.md && curShowButton ? height + 50 : height) : 'auto';
     return (
       <div className="markdown-editor relative">
         <div

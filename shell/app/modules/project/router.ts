@@ -141,6 +141,7 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: MANUAL_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:manual test'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
@@ -164,6 +165,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'testEnv',
               ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:manual test'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
               tabs: MANUAL_TEST_TABS,
             },
@@ -203,6 +205,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'config-sheet',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:auto test'),
               layout: { fullHeight: true },
               getComp: (cb) => cb(import('project/pages/config-sheet')),
             },
@@ -229,11 +232,13 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: AUTO_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:auto test'),
               getComp: (cb) => cb(import('project/pages/data-source')),
             },
             {
               path: 'testEnv',
               ignoreTabQuery: true,
+              breadcrumbName: i18n.t('project:auto test'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'AutoTestEnv'),
               tabs: AUTO_TEST_TABS,
             },
@@ -259,6 +264,21 @@ function getProjectRouter(): RouteConfigItem[] {
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('project:statistics'),
               getComp: (cb) => cb(import('project/pages/statistics/test-dashboard')),
+            },
+          ],
+        },
+        {
+          path: 'test-report',
+          breadcrumbName: i18n.t('project:test report'),
+          routes: [
+            {
+              getComp: (cb) => cb(import('project/pages/test-report')),
+            },
+            {
+              path: 'create',
+              breadcrumbName: i18n.t('project:create test report'),
+              layout: { noWrapper: true },
+              getComp: (cb) => cb(import('project/pages/test-report/create')),
             },
           ],
         },
