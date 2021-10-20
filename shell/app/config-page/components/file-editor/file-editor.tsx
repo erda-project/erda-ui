@@ -12,11 +12,66 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { Button } from 'core/nusi';
 import { FileEditor as PureFileEditor } from 'common';
+import { notify } from 'common/utils';
+import { OperationAction } from 'config-page/utils';
+// @ts-ignore
+import yaml from 'js-yaml';
+import i18n from 'i18n';
+
+const fileTypeReg = {
+  yaml: {
+    reg: (val: string) => {
+      try {
+        yaml.load(val);
+        return true;
+      } catch (e) {
+        const msg = `${i18n.t('application:input format error')}：${e.message}`;
+        notify('error', <pre className="prewrap">{msg}</pre>);
+        return false;
+      }
+    },
+  },
+  json: {
+    reg: (val: string) => {
+      try {
+        JSON.parse(val);
+        return true;
+      } catch (_) {
+        notify('error', i18n.t('project:JSON format error'));
+        return false;
+      }
+    },
+  },
+  'not-empty': {
+    reg: (val: string) => {
+      if (val) return true;
+      notify('error', i18n.t('can not be empty'));
+      return false;
+    },
+  },
+};
+
+const validator = (val: string, fileValidate?: CP_FILE_EDITOR.FileValidate | CP_FILE_EDITOR.FileValidate[]) => {
+  if (!fileValidate) return true;
+  if (Array.isArray(fileValidate)) {
+    fileValidate.forEach((item) => {
+      const curReg = fileTypeReg[item];
+      if (curReg && !curReg.reg(val)) {
+        return false;
+      }
+    });
+    return true;
+  }
+  const curReg = fileTypeReg[fileValidate as string];
+  return curReg && curReg.reg(val);
+};
 
 const FileEditor = (props: CP_FILE_EDITOR.Props) => {
-  const { props: pProps, state } = props;
+  const { props: pProps, state, execOperation, customProps, operations } = props;
   const [value, setValue] = React.useState(state.value);
+  const { bordered, fileValidate, style, ...rest } = pProps || {};
 
   React.useEffect(() => {
     setValue(state.value);
@@ -26,7 +81,35 @@ const FileEditor = (props: CP_FILE_EDITOR.Props) => {
     setValue(val);
   };
 
-  return <PureFileEditor fileExtension="json" value={value} onChange={onChange} {...pProps} />;
+  const getFooter = () => {
+    if (operations?.submit) {
+      const onSubmit = (op?: CP_COMMON.Operation) => {
+        if (op) {
+          if (validator(value, fileValidate)) {
+            execOperation(op, { value });
+            customProps?.[op.key] && customProps[op.key](op);
+          }
+        }
+      };
+      return (
+        <div className="mt-2">
+          <OperationAction onClick={() => onSubmit(operations.submit)} operation={operations.submit}>
+            <Button type="primary">{operations.submit?.text || i18n.t('ok')}</Button>
+          </OperationAction>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="overflow-auto flex flex-col">
+      <div style={style} className={`flex-1 overflow-auto h-full ${bordered ? 'border-all rounded' : ''}`}>
+        <PureFileEditor fileExtension="json" value={value} onChange={onChange} {...rest} />
+      </div>
+      {getFooter()}
+    </div>
+  );
 };
 
 export default FileEditor;

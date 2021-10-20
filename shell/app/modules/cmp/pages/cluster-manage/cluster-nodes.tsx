@@ -15,13 +15,29 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
+import { Drawer } from 'core/nusi';
+import { useUpdate } from 'common/use-hooks';
+import { PureClusterNodeDetail } from './cluster-nodes-detail';
 import { updateSearch } from 'common/utils';
-
 import { K8sClusterTerminalButton } from './cluster-terminal';
+
+interface IDetailData {
+  nodeIP: string;
+  nodeId: string;
+}
+interface IState {
+  visible: boolean;
+  detailData: null | IDetailData;
+  urlQuery: Obj;
+}
 
 const ClusterNodes = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [urlQuery, setUrlQuery] = React.useState(query);
+  const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
+    visible: false,
+    detailData: null,
+    urlQuery: query,
+  });
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -29,7 +45,19 @@ const ClusterNodes = () => {
 
   const inParams = { clusterName, ...urlQuery };
 
-  const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+  const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+
+  const openDetail = (record: Obj) => {
+    const { IP, nodeId } = record;
+    update({
+      visible: true,
+      detailData: { nodeId, nodeIP: IP },
+    });
+  };
+
+  const closeDetail = () => {
+    update({ visible: false, detailData: null });
+  };
 
   return (
     <>
@@ -46,18 +74,26 @@ const ClusterNodes = () => {
           },
           cpuTable: {
             onStateChange: urlQueryChange,
+            clickTableItem: openDetail,
           },
           memTable: {
             onStateChange: urlQueryChange,
+            clickTableItem: openDetail,
           },
           podTable: {
             onStateChange: urlQueryChange,
+            clickTableItem: openDetail,
           },
           tableTabs: {
             onStateChange: urlQueryChange,
           },
         }}
       />
+      <Drawer visible={visible} onClose={closeDetail} width={'80%'} maskClosable getContainer={false}>
+        {visible && detailData ? (
+          <PureClusterNodeDetail clusterName={clusterName} nodeIP={detailData.nodeIP} nodeId={detailData.nodeId} />
+        ) : null}
+      </Drawer>
     </>
   );
 };

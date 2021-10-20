@@ -21,7 +21,12 @@ declare namespace CP_FILE_EDITOR {
     operations?: CP_COMMON.Operation;
   }
 
+  type FileValidate = 'yaml' | 'json' | 'not-empty';
+
   interface IProps {
+    style?: Obj;
+    bordered?: boolean;
+    fileValidate?: FileValidate | FileValidate[];
     fileExtension?: string;
     minLines?: number;
     maxLines?: number;

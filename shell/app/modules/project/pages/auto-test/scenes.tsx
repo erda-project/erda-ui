@@ -132,7 +132,7 @@ const AutoTestScenes = () => {
         getContainer={false}
         onClose={() => updater.recordVis(false)}
       >
-        <ImportRecord />
+        {recordVis ? <ImportRecord /> : null}
       </Drawer>
     </>
   );

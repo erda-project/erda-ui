@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer as NusiDrawer, Button as NusiButton } from 'core/nusi';
+import { Drawer as PureDrawer, Button as NusiButton } from 'core/nusi';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import './drawer.scss';
@@ -25,7 +25,7 @@ const widthMap = {
 };
 
 export const Drawer = (props: CP_DRAWER.Props) => {
-  const { updateState, execOperation, operations, content, props: configProps, state: propsState } = props;
+  const { updateState, execOperation, operations, content, footer, props: configProps, state: propsState } = props;
   const { visible: pVisible = false } = propsState || {};
   const { size = 'm', ...rest } = configProps || {};
   const [state, updater, update] = useUpdate({
@@ -47,7 +47,14 @@ export const Drawer = (props: CP_DRAWER.Props) => {
   };
 
   return (
-    <NusiDrawer destroyOnClose {...rest} visible={state.visible} width={widthMap[size]} onClose={onClose}>
+    <PureDrawer
+      destroyOnClose
+      {...rest}
+      visible={state.visible}
+      width={widthMap[size]}
+      onClose={onClose}
+      footer={footer}
+    >
       <div className="dice-cp-drawer-content">{content}</div>
       {operations?.submit && (
         <div className="dice-cp-drawer-operation border-top">
@@ -56,6 +63,6 @@ export const Drawer = (props: CP_DRAWER.Props) => {
           </NusiButton>
         </div>
       )}
-    </NusiDrawer>
+    </PureDrawer>
   );
 };
