@@ -12,7 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import './erda-icon.scss';
-import { themeColor } from 'common';
+import themeColor from '../../../../theme-color';
+
+type IconColor = typeof themeColor;
 
 export const iconMap = {
   lock: 'lock',
@@ -40,7 +42,7 @@ interface IErdaIcon {
   size?: string | number; // size of svg with default value of 1rem. Use width and height if width-to-height ratio is not 1
   fill?: string; // color of svg fill area, and it's more priority than color
   stroke?: string; // color of svg stroke, and it's more priority than color
-  color?: string; // color of svg
+  color?: IconColor; // color of svg
   rtl?: boolean; // acoustic image, the default value is from left to right
   onClick?: React.MouseEventHandler;
   opacity?: number;

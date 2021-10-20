@@ -106,15 +106,3 @@ export { TreeCategory } from './components/tree/tree';
 export { default as EditList } from './components/edit-list/edit-list';
 export { default as InputSelect } from './components/input-select/input-select';
 export { SortDragGroupList } from './components/sort-drag-list';
-
-export const themeColor: Obj<string> = {};
-const { colors } = config.theme.extend;
-Object.keys(colors).forEach((topColor) => {
-  if (typeof colors[topColor] === 'string') {
-    themeColor[topColor] = colors[topColor];
-  } else {
-    Object.keys(colors[topColor]).forEach((subColor) => {
-      themeColor[subColor === 'DEFAULT' ? topColor : `${topColor}-${subColor}`] = colors[topColor][subColor];
-    });
-  }
-});
