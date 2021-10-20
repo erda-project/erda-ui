@@ -171,16 +171,17 @@ export interface RES_BODY<D> {
   };
   userInfo?: Obj<IUserInfo>;
 }
-export interface APIConfig {
+export interface APIConfig<T extends FN> {
   api: string;
   successMsg?: string;
   errorMsg?: string;
   globalKey?: string;
   headers?: Obj<string>;
+  mock?: T;
 }
 
-export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
-  const { globalKey } = config || {};
+export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
+  const { globalKey, mock } = config || {};
 
   let _toggleLoading: undefined | ((p: boolean) => void);
   let _setData: undefined | Function;
@@ -211,6 +212,15 @@ export function enhanceAPI<T extends FN>(apiFn: T, config?: APIConfig) {
       }
     }
   };
+
+  let apiFn = _apiFn;
+  if (mock) {
+    apiFn = ((params?: Parameters<T>[0]) => {
+      return new Promise((resolve) =>
+        setTimeout(() => resolve({ success: true, data: mock(params), err: null }), Math.floor(Math.random() * 300)),
+      );
+    }) as any;
+  }
 
   const service = (params?: Parameters<T>[0]): ReturnType<T> =>
     apiFn(params).then((body: PICK_BODY<T>) => {
@@ -307,9 +317,34 @@ export function usePaging<T extends FN>({
   );
 }
 
-export function apiCreator<T extends FN>(apiConfig: APIConfig) {
+/**
+ * Create a service function which have some hooks as the function property, these hooks can use in component directly
+ * @example
+  const apis = {
+    addOrg: {
+      api: 'post@/api/org/:orgId',
+      errorMsg: 'call api failed',
+      mock(params) { return { orgName: 'erda' } },
+      successMsg: 'call api success',
+      globalKey: 'globalOrg',
+    },
+  };
+
+  export const getAppList = apiCreator<(p: ORG.CreateOrgBody) => ORG.Detail>(apis.addOrg);
+
+  // in component
+  React.useEffect(() => {
+    getAppList.fetch();
+  }, [])
+  const [data, loading] = getAppList.useState(); // useState = useData + useLoading
+
+  @tip
+ * After set globalKey, use `getData` to get global state out of component.
+ * use `clearData` to clear global state.
+ */
+export function apiCreator<T extends FN>(apiConfig: APIConfig<T>) {
   const apiFn = genRequest<T>(apiConfig);
-  return enhanceAPI<typeof apiFn>(apiFn);
+  return enhanceAPI<typeof apiFn>(apiFn, apiConfig);
 }
 
 export { axios };
