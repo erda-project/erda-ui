@@ -23,19 +23,13 @@ import constants from './constants';
 import './add-modal.scss';
 import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
-import {
-  Down as IconDown,
-  Up as IconUp,
-  AddOne as IconAddOne,
-  ReduceOne as IconReduceOne,
-  Help as IconHelp,
-} from '@icon-park/react';
+import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 
 const { Option } = Select;
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
-const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, RETRY_TIMES, MAX_BODY_LENGTH, CONTAINS } = constants;
+const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, MAX_BODY_LENGTH, CONTAINS } = constants;
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
 interface IProps {
@@ -64,7 +58,7 @@ interface IState {
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
-      retry: _formData?.config?.retry || RETRY_TIMES[0],
+      retry: _formData?.config?.retry || 2,
       frequency: _formData?.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
       body: JSON.stringify(_formData?.config?.body, null, 2) || JSON.stringify({}),
@@ -90,7 +84,7 @@ const convertFormData = (_formData?: Obj) => {
       ],
       showMore: false,
       query: {},
-      retry: RETRY_TIMES[0],
+      retry: 2,
       frequency: TIME_LIMITS[0],
       apiMethod: HTTP_METHOD_LIST[0],
       body: JSON.stringify({}),
@@ -348,7 +342,7 @@ const AddModal = (props: IProps) => {
               {i18n.t('advanced settings')}
               {showMore ? <IconUp size="16px" /> : <IconDown size="16px" />}
             </span>
-            <div className={`p-4 mt-2 h-full bg-grey ${showMore ? '' : 'hidden'}`}>
+            <div className={`p-2.5 mt-2 h-full ${showMore ? '' : 'hidden'}`}>
               <div className="flex">
                 <h4 className="mb-2">{i18n.t('msp:anomaly check')}</h4>
                 <Tooltip title={i18n.t('msp:exception check prompt')}>
@@ -398,7 +392,7 @@ const AddModal = (props: IProps) => {
                           <>
                             <Select
                               onChange={(v) => setOperator(index, v)}
-                              style={{ width: 150 }}
+                              style={{ width: 180 }}
                               value={item?.operate}
                               className="mr-2"
                               placeholder={i18n.t('project:compare')}
@@ -407,38 +401,33 @@ const AddModal = (props: IProps) => {
                                 <Option value={key}>{val}</Option>
                               ))}
                             </Select>
-                            <Input value={item?.value} onChange={(e) => setInputValue(index, e.target.value)} />
+                            <Input
+                              className="flex-1"
+                              value={item?.value}
+                              onChange={(e) => setInputValue(index, e.target.value)}
+                            />
                           </>
                         )}
-                        <IconReduceOne className="ml-2" size="16" onClick={() => deleteItem(index)} />
+                        <div className="delete-row-btn table-operations">
+                          <span className="ml-4 table-operations-btn">{i18n.t('common:delete')}</span>
+                        </div>
                       </div>
                     ))
                   : null}
               </div>
 
-              <IconAddOne className="mt-4" size="16" onClick={addItem} />
+              <Button className="mt-4" size="small" type="primary" ghost onClick={addItem}>
+                {i18n.t('common:add')}
+              </Button>
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
-              <Radio.Group
-                onChange={(e) => {
-                  updater.retry(e.target.value);
-                }}
-                value={retry}
-                name="retryRadioGroup"
-                defaultValue={RETRY_TIMES[0]}
-              >
-                {map(RETRY_TIMES, (retryTime: number) => (
-                  <Radio className="pr-10" value={retryTime} key={retryTime}>
-                    {retryTime}
-                  </Radio>
-                ))}
-              </Radio.Group>
+              <InputNumber value={retry} min={1} max={10} defaultValue={2} onChange={(v) => updater.retry(v)} />
               <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
-              <Radio.Group
-                onChange={(e) => {
-                  updater.frequency(e.target.value);
+              <Select
+                style={{ width: 100 }}
+                onChange={(v) => {
+                  updater.frequency(v);
                 }}
                 value={frequency}
-                name="timeRadioGroup"
                 defaultValue={TIME_LIMITS[0]}
               >
                 {map(TIME_LIMITS, (time) => (
@@ -446,7 +435,7 @@ const AddModal = (props: IProps) => {
                     {time < 60 ? `${time}${i18n.t('common:second(s)')}` : `${time / 60}${i18n.t('common:minutes')}`}
                   </Radio>
                 ))}
-              </Radio.Group>
+              </Select>
             </div>
           </div>
         );
