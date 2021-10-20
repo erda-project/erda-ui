@@ -14,7 +14,8 @@ import i18n from 'i18n';
 
 export default {
   HTTP_METHOD_LIST: ['GET', 'POST', 'PUT', 'HEAD'],
-  TIME_LIMITS: [15, 30, 60, 120, 180, 300, 600, 1800],
+  TIME_LIMITS: [15, 30, 60, 300],
+  RETRY_TIMES: [1, 2, 4, 8],
   OPERATORS: {
     '=': i18n.t('project:equal to'),
     '>': i18n.t('greater than'),
@@ -25,8 +26,6 @@ export default {
   CONTAINS: {
     contains: i18n.t('project:contains'),
     not_contains: i18n.t('project:does not contain'),
-    regex: i18n.d('正则匹配'),
-    not_regex: i18n.d('正则不匹配'),
   },
   MAX_BODY_LENGTH: 10000,
 };
