@@ -17,6 +17,7 @@ import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
+import TokenManageModal from './token-manage-modal';
 import { Icon as CustomIcon, Copy, ConfirmDelete } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import machineStore from 'app/modules/cmp/stores/machine';
@@ -31,7 +32,7 @@ import { useLoading } from 'core/stores/loading';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
-
+import { getToken } from 'cmp/services/token-manage';
 import './cluster-list.scss';
 
 interface IProps {
@@ -67,9 +68,11 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [registerCommand, setRegisterCommand] = React.useState('');
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
   const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
-
+  const token = getToken.useData();
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
+    tokenManageVisible: false,
+    clusterName: '',
     modalVisibleRow: null,
     popoverVisible: false,
     popoverVisibleRow: null,
@@ -81,7 +84,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     clusterDetailList: [],
     registerCommandVisible: false,
   });
-
   React.useEffect(() => {
     getClusterNewDetail({ clusterName: map(dataSource, 'name').join(',') }).then((res: any) => {
       updater.clusterDetailList(res);
@@ -194,7 +196,18 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       deleteCluster: deleteClusterCall,
       showRegisterCommand,
       retryInit,
+      tokenManagement,
     } = {
+      tokenManagement: {
+        title: i18n.t('msp:token management'),
+        onClick: async () => {
+          await getToken.fetch({
+            clusterName: record.name,
+          });
+          updater.tokenManageVisible(true);
+          updater.clusterName(record.name);
+        },
+      },
       addMachine: {
         title: i18n.t('org:add machine'),
         onClick: () => {
@@ -244,14 +257,15 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         addCloudMachines,
         upgrade,
         deleteClusterCall,
+        tokenManagement,
         ...insertWhen(get(clusterDetail, 'basic.manageType.value') === 'agent', [showRegisterCommand]),
         ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
           retryInit,
         ]),
       ],
-      'alicloud-cs': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall],
-      'alicloud-cs-managed': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall],
-      'alicloud-ecs': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall],
+      'alicloud-cs': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall, tokenManagement],
+      'alicloud-cs-managed': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall, tokenManagement],
+      'alicloud-ecs': [edit, addMachine, addCloudMachines, upgrade, deleteClusterCall, tokenManagement],
     };
 
     return clusterOpsMap[record.cloudVendor || record.type] || [];
@@ -378,6 +392,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
   return (
     <>
+      <TokenManageModal
+        clusterName={state.clusterName}
+        token={token?.accessKey}
+        onCancel={() => updater.tokenManageVisible(false)}
+        visible={state.tokenManageVisible}
+      />
       <AddMachineModal
         visible={!!state.modalVisibleRow}
         cluster={state.modalVisibleRow as ORG_CLUSTER.ICluster}
