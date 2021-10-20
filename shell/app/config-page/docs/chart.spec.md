@@ -12,13 +12,14 @@
 
 ### IProps
 
-| 名称      | 类型    | 必填  |
-| --------- | ------- | ----- | ----- | ----- |
-| chartType | 'line'  | 'pie' | 'bar' | false |
-| option    | Obj     | false |
-| style     | Obj     | false |
-| visible   | boolean | true  |
-| title     | string  | false |
+| 名称       | 类型    | 必填  |
+| ---------- | ------- | ----- | ----- | ----- |
+| chartType  | 'line'  | 'pie' | 'bar' | false |
+| option     | Obj     | false |
+| style      | Obj     | false |
+| visible    | boolean | true  |
+| title      | string  | false |
+| isLoadMore | boolean | true  |
 
 ## 枚举
 

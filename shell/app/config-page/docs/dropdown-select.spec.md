@@ -14,9 +14,9 @@
 
 | 名称        | 类型           | 必填    |
 | ----------- | -------------- | ------- | -------------- | ---- | --- |
-| undefined   | any            | false   |
 | quickSelect | IQuickSelect[] | true    |
 | visible     | boolean        | true    |
+| showLimit   | number         | false   |
 | overlay     | any            | true    |
 | options     | IOptionItem[]  | true    |
 | trigger     | Array<'click'  | 'hover' | 'contextMenu'> | true | ,   |
