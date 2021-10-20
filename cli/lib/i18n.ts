@@ -65,7 +65,7 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
     await extractPromise;
 
     if (untranslatedWords.size === 0 && Object.keys(translatedWords).length === 0) {
-      logInfo('Sort current locale files');
+      logInfo('sort current locale files & remove unused translation');
       await writeLocaleFiles(localePath, workDir);
       logInfo('No content needs to be translated is found, program exits');
       return;
