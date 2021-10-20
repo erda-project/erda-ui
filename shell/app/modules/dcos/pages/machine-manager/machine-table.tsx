@@ -97,8 +97,8 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
       placement="top"
       title={
         unitType
-          ? `${i18n.t('uasge')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
-          : `${i18n.t('uasge')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
+          ? `${i18n.t('usage')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
+          : `${i18n.t('usage')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
       <div
