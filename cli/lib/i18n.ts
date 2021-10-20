@@ -17,20 +17,18 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { walker } from './util/file-walker';
 import { doTranslate } from './util/google-translate';
-import { logInfo, logSuccess, logWarn } from './util/log';
+import { logInfo, logSuccess } from './util/log';
 import { getCwdModuleName } from './util/env';
 import {
-  extractPendingSwitchContent,
+  batchSwitchNamespace,
   extractUntranslatedWords,
   findMatchFolder,
   prepareEnv,
   restoreSourceFile,
-  switchSourceFileNs,
   tempFilePath,
   tempTranslatedWordPath,
   writeLocaleFiles,
 } from './util/i18n-utils';
-import { unset } from 'lodash';
 
 export default async ({ workDir: _workDir, switchNs }: { workDir: string; switchNs?: boolean }) => {
   try {
@@ -41,69 +39,7 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
     const [originalZhResource, originalEnResource] = prepareEnv(localePath, !!switchNs);
     // switch namespace
     if (switchNs) {
-      const toSwitchWords = new Set<string>();
-      const { inputNs } = await inquirer.prompt({
-        name: 'inputNs',
-        type: 'input',
-        message: 'Please input the new namespace name',
-      });
-      if (!inputNs) {
-        logWarn('no input namespace found. program exit');
-        return;
-      }
-      if (!originalZhResource?.[inputNs]) {
-        logWarn(`currently there is no namespace names ${inputNs}. program exit`);
-        return;
-      }
-      // extract all i18n.r
-      const extractPromise = new Promise<void>((resolve) => {
-        walker({
-          root: workDir,
-          dealFile: (...args) => {
-            extractPendingSwitchContent.apply(null, [...args, inputNs, toSwitchWords, resolve]);
-          },
-        });
-      });
-      await extractPromise;
-      if (toSwitchWords.size) {
-        const restorePromise = new Promise<void>((resolve) => {
-          walker({
-            root: workDir,
-            dealFile: (...args) => {
-              switchSourceFileNs.apply(null, [...args, inputNs, toSwitchWords, resolve]);
-            },
-          });
-        });
-        await restorePromise;
-        toSwitchWords.forEach((wordWithNs) => {
-          const wordArr = wordWithNs.split(':');
-          const [currentNs, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
-          // replace zh.json content
-          const targetNsContent = originalZhResource[inputNs];
-          const currentNsContent = originalZhResource[currentNs];
-          if (!targetNsContent[enWord]) {
-            targetNsContent[enWord] = currentNsContent[enWord];
-          }
-          unset(currentNsContent, enWord);
-
-          // replace zh.json content
-          const targetNsEnContent = originalEnResource[inputNs];
-          const currentNsEnContent = originalEnResource[currentNs];
-          if (!targetNsEnContent[enWord]) {
-            targetNsEnContent[enWord] = currentNsEnContent[enWord];
-          }
-          unset(currentNsEnContent, enWord);
-        });
-        fs.writeFileSync(`${localePath}/zh.json`, JSON.stringify(originalZhResource, null, 2), 'utf8');
-        fs.writeFileSync(`${localePath}/en.json`, JSON.stringify(originalEnResource, null, 2), 'utf8');
-        logInfo('Sort current locale files');
-        // setTimeout(() => {
-        //   writeLocaleFiles(localePath, workDir, switchNs);
-        // }, 5000)
-        logSuccess('switch namespace done.');
-      } else {
-        logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
-      }
+      await batchSwitchNamespace(workDir, localePath, originalZhResource, originalEnResource);
       return;
     }
 
