@@ -12,15 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { apiCreator } from 'core/service';
-interface tokenInfo {
+interface TokenInfo {
   id: string;
   accessKey: string;
 }
 
-interface tokenParams {
+interface TokenParams {
   clusterName: string;
 }
-interface createAndResetTokenData {
+interface CreateAndResetTokenData {
   data: string;
 }
 
@@ -36,6 +36,6 @@ const apis = {
   },
 };
 
-export const getToken = apiCreator<(payload: tokenParams) => tokenInfo>(apis.getToken);
-export const createToken = apiCreator<(payload: tokenParams) => createAndResetTokenData>(apis.createToken);
-export const resetToken = apiCreator<(payload: tokenParams) => createAndResetTokenData>(apis.resetToken);
+export const getToken = apiCreator<(payload: TokenParams) => TokenInfo>(apis.getToken);
+export const createToken = apiCreator<(payload: TokenParams) => CreateAndResetTokenData>(apis.createToken);
+export const resetToken = apiCreator<(payload: TokenParams) => CreateAndResetTokenData>(apis.resetToken);

@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Button, Drawer, Input, Spin, Popconfirm } from 'core/nusi';
+import { Modal, Table, Button, Drawer, Input, Spin } from 'core/nusi';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';
 import AddCloudMachineModal from './cloud-machine-form-modal';
+import TokenManageModal from './token-manage-modal';
 import { Icon as CustomIcon, Copy, ConfirmDelete } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import machineStore from 'app/modules/cmp/stores/machine';
@@ -32,8 +33,6 @@ import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
 import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
-import { Copy as IconCopy } from '@icon-park/react';
-
 import './cluster-list.scss';
 
 interface IProps {
@@ -70,7 +69,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const [loading] = useLoading(clusterStore, ['getRegisterCommand']);
   const [loadingDetail, loadingList] = useLoading(clusterStore, ['getClusterNewDetail', 'getClusterList']);
   const token = getToken.useData();
-  const resetNewToken = resetToken.useData();
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [state, updater] = useUpdate({
     tokenManageVisible: false,
@@ -91,65 +89,6 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       updater.clusterDetailList(res);
     });
   }, [dataSource, getClusterNewDetail, updater]);
-
-  const TokenManageModal = () => {
-    return (
-      <Modal
-        className="relative"
-        onCancel={() => updater.tokenManageVisible(false)}
-        width={720}
-        title={i18n.t('cmp:cluster Token Management')}
-        visible={state.tokenManageVisible}
-        footer={[
-          token ? (
-            <Popconfirm
-              title={i18n.t('cmp:are you sure you want to reset?')}
-              onConfirm={() => {
-                resetToken.fetch({
-                  clusterName: state.clusterName,
-                });
-              }}
-            >
-              <Button type="primary">{i18n.t('cmp:reset token')}</Button>
-            </Popconfirm>
-          ) : (
-            <Button
-              type="primary"
-              onClick={() => {
-                createToken.fetch({
-                  clusterName: state.clusterName,
-                });
-                getToken.fetch({
-                  clusterName: state.clusterName,
-                });
-              }}
-            >
-              {i18n.t('cmp:create Token')}
-            </Button>
-          ),
-          <Button onClick={() => updater.tokenManageVisible(false)}>{i18n.t('application:close')}</Button>,
-        ]}
-      >
-        <div className="rounded-sm p-4 bg-wathet text-gray mb-4">
-          {token ? (
-            <div className="flex items-center mb-1">
-              <span>token</span>
-              <span className="ml-32">{resetNewToken || token?.accessKey}</span>
-            </div>
-          ) : (
-            <span>{i18n.t('cmp:no token available')}</span>
-          )}
-        </div>
-
-        <div className="flex items-center text-primary">
-          <IconCopy size="14" />
-          <Copy selector=".container-key" copyText={resetNewToken || token?.accessKey}>
-            {i18n.t('copy')}
-          </Copy>
-        </div>
-      </Modal>
-    );
-  };
 
   const toggleAddCloudMachine = (cluster?: ORG_CLUSTER.ICluster) => {
     if (cluster) {
@@ -261,12 +200,12 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     } = {
       tokenManagement: {
         title: i18n.t('msp:token management'),
-        onClick: () => {
+        onClick: async () => {
+          await getToken.fetch({
+            clusterName: record.name,
+          });
           updater.tokenManageVisible(true);
           updater.clusterName(record.name);
-          // getToken.fetch({
-          //   clusterName: record.name,
-          // });
         },
       },
       addMachine: {
@@ -451,9 +390,33 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     }
   }, [query, showCommand]);
 
+  const resetTokenOperate = async () => {
+    await resetToken.fetch({
+      clusterName: state.clusterName,
+    });
+    await getToken.fetch({
+      clusterName: state.clusterName,
+    });
+  };
+
+  const createTokenOperate = async () => {
+    await createToken.fetch({
+      clusterName: state.clusterName,
+    });
+    await getToken.fetch({
+      clusterName: state.clusterName,
+    });
+  };
+
   return (
     <>
-      <TokenManageModal />
+      <TokenManageModal
+        resetToken={resetTokenOperate}
+        createToken={createTokenOperate}
+        token={token?.accessKey}
+        onCancel={() => updater.tokenManageVisible(false)}
+        visible={state.tokenManageVisible}
+      />
       <AddMachineModal
         visible={!!state.modalVisibleRow}
         cluster={state.modalVisibleRow as ORG_CLUSTER.ICluster}
