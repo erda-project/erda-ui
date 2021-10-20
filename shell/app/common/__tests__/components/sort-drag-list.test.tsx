@@ -15,11 +15,21 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { SortDragGroupList } from 'common/components/sort-drag-list';
 
-const props: any = {};
+const value = [
+  {
+    type: 'type',
+    draggable: true,
+    data: {
+      id: 1,
+      groupId: 1,
+      title: 'title',
+    },
+  },
+];
 
 describe('SortDragGroupList', () => {
   it('should support showName ', () => {
-    const wrapper = shallow(<SortDragGroupList {...props} />);
+    const wrapper = shallow(<SortDragGroupList value={value} />);
     expect(wrapper.find('.sort-drag-group')).toExist();
   });
 });
