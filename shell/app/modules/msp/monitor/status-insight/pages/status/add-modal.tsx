@@ -64,20 +64,14 @@ interface IState {
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
-      retry: _formData?.config?.retry || RETRY_TIMES[0],
-      frequency: _formData?.config?.interval || TIME_LIMITS[0],
-      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
-      body: JSON.stringify(_formData?.config?.body, null, 2) || JSON.stringify({}),
-      headers: _formData?.config?.headers || {},
-      url: _formData?.config?.url || '',
+      retry: _formData?.config?.retry,
+      frequency: _formData?.config?.interval,
+      apiMethod: _formData?.config?.method,
+      body: JSON.stringify(_formData?.config?.body || {}),
+      headers: _formData?.config?.headers,
+      url: _formData?.config?.url,
       query: qs.parseUrl(_formData?.config?.url || '')?.query,
-      condition: _formData?.config?.triggering || [
-        {
-          key: 'http_code',
-          operate: '>=',
-          value: 400,
-        },
-      ],
+      condition: _formData?.config?.triggering,
     };
   } else {
     return {
