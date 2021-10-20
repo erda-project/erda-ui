@@ -4,17 +4,17 @@ import i18n from 'i18n';
 import { Copy as IconCopy } from '@icon-park/react';
 import { Copy } from 'common';
 import './token-manage-modal.scss';
+import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
 
 interface IProps {
   visible: boolean;
   onCancel: () => void;
   token?: string;
-  resetToken: () => void;
-  createToken: () => void;
+  clusterName: string;
 }
 
 const TokenManageModal = (props: IProps) => {
-  const { visible, onCancel, token, resetToken, createToken } = props;
+  const { visible, onCancel, token, clusterName } = props;
   return (
     <Modal
       className="relative"
@@ -24,11 +24,31 @@ const TokenManageModal = (props: IProps) => {
       visible={visible}
       footer={[
         token ? (
-          <Popconfirm title={i18n.t('cmp:are you sure you want to reset?')} onConfirm={resetToken}>
+          <Popconfirm
+            title={i18n.t('cmp:are you sure you want to reset?')}
+            onConfirm={async () => {
+              await resetToken.fetch({
+                clusterName,
+              });
+              await getToken.fetch({
+                clusterName,
+              });
+            }}
+          >
             <Button type="primary">{i18n.t('cmp:reset Token')}</Button>
           </Popconfirm>
         ) : (
-          <Button type="primary" onClick={createToken}>
+          <Button
+            type="primary"
+            onClick={async () => {
+              await createToken.fetch({
+                clusterName,
+              });
+              await getToken.fetch({
+                clusterName,
+              });
+            }}
+          >
             {i18n.t('cmp:create Token')}
           </Button>
         ),

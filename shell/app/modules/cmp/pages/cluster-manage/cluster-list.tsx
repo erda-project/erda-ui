@@ -32,7 +32,7 @@ import { useLoading } from 'core/stores/loading';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';
 import routeStore from 'core/stores/route';
-import { getToken, createToken, resetToken } from 'cmp/services/token-manage';
+import { getToken } from 'cmp/services/token-manage';
 import './cluster-list.scss';
 
 interface IProps {
@@ -390,29 +390,10 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
     }
   }, [query, showCommand]);
 
-  const resetTokenOperate = async () => {
-    await resetToken.fetch({
-      clusterName: state.clusterName,
-    });
-    await getToken.fetch({
-      clusterName: state.clusterName,
-    });
-  };
-
-  const createTokenOperate = async () => {
-    await createToken.fetch({
-      clusterName: state.clusterName,
-    });
-    await getToken.fetch({
-      clusterName: state.clusterName,
-    });
-  };
-
   return (
     <>
       <TokenManageModal
-        resetToken={resetTokenOperate}
-        createToken={createTokenOperate}
+        clusterName={state.clusterName}
         token={token?.accessKey}
         onCancel={() => updater.tokenManageVisible(false)}
         visible={state.tokenManageVisible}
