@@ -3143,6 +3143,7 @@
     "pipeline-run-tip": "当前为历史配置，请切换最新配置后再操作",
     "plan": "版本",
     "plan details": "计划详情",
+    "plan ID": "计划 ID",
     "plan name": "计划名称",
     "plan-remove-case-confirm": "是否确认在当前计划中移除掉当前选中用例?",
     "please add a test leader": "请添加测试负责人",

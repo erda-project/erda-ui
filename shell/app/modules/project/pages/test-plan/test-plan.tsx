@@ -87,15 +87,18 @@ const TestPlan = () => {
 
   const columns: Array<ColumnProps<TEST_PLAN.Plan>> = [
     {
+      title: i18n.t('project:plan ID'),
+      dataIndex: 'id',
+      width: 120,
+    },
+    {
       title: i18n.t('project:plan name'),
       dataIndex: 'name',
       render: (text, record) => {
         return (
-          <div className="title flex items-center" title={`${record.id}-${text}`}>
+          <div className="title flex items-center" title={text}>
             {iconMap[record.status]}
-            <span className="truncate">
-              {record.id}-{text}
-            </span>
+            <span className="truncate">{text}</span>
           </div>
         );
       },
