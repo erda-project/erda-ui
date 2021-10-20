@@ -3144,6 +3144,7 @@
     "pipeline-run-tip": "The current configuration is historical, please switch to the latest configuration before operating",
     "plan": "plan",
     "plan details": "plan details",
+    "plan ID": "plan ID",
     "plan name": "plan name",
     "plan-remove-case-confirm": "are you sure to remove the currently selected use case in the current plan?",
     "please add a test leader": "please add a test leader",
