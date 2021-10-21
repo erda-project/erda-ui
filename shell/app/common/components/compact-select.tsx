@@ -22,7 +22,7 @@ interface IProps {
 
 export const CompactSelect = ({ title, children, ...rest }: IProps) => {
   return (
-    <div className="compact-select">
+    <div className="compact-select whitespace-nowrap">
       <span className="select-addon-before">{title}</span>
       {React.cloneElement(children, rest)}
     </div>

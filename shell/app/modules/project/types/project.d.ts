@@ -53,6 +53,7 @@ declare namespace PROJECT {
     cpuAddonUsed: number;
     memAddonUsed: number;
     clusterConfig: EnvConfig<string>;
+    resourceConfig: EnvConfig<ICluster>;
     rollbackConfig: EnvConfig<number>;
     createdAt: string;
     updatedAt: string;
@@ -110,6 +111,29 @@ declare namespace PROJECT {
     totalMem: number;
     availableCpu: number;
     availableMem: number;
+    ClusterList: ICluster[];
+  }
+
+  interface ICluster {
+    ClusterName: string;
+    CPUAvailable: number;
+    cpuQuota: number;
+    CPUQuotaRate: number;
+    cpuRequestRate: number;
+    cpuRequestByService: number;
+    cpuRequestByServiceRate: number;
+    cpuRequestByAddon: number;
+    cpuRequestByAddonRate: number;
+    MemAvailable: number;
+    memQuota: number;
+    MemQuotaRate: number;
+    memRequestRate: number;
+    memRequestByService: number;
+    memRequestByServiceRate: number;
+    memRequestByAddon: number;
+    memRequestByAddonRate: number;
+    Workspace: string;
+    Tips: string;
   }
 
   interface IBranchRule extends IBranchRuleCreateBody {
