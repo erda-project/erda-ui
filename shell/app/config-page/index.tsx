@@ -28,9 +28,11 @@ interface IProps {
   scenarioType: string;
   scenarioKey: string;
   showLoading?: boolean;
+  forbiddenRequest?: boolean;
   forceUpdateKey?: string[];
   debugConfig?: CONFIG_PAGE.RenderConfig;
   onExecOp?: any;
+  fullHeight?: boolean;
   forceMock?: boolean; // 使用mock
   useMock?: (params: Obj) => Promise<any>;
   updateConfig?: (params: Obj) => any;
@@ -40,11 +42,13 @@ const unProduct = process.env.NODE_ENV !== 'production';
 
 const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const {
+    fullHeight = true,
     inParams = {},
     customProps = {},
     scenarioType,
     scenarioKey,
     showLoading = true,
+    forbiddenRequest,
     forceUpdateKey,
     useMock: _useMock,
     forceMock,
@@ -137,7 +141,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     op?: CP_COMMON.Operation,
     callBack?: Function,
   ) => {
-    if (fetchingRef.current) return; // forbidden request when fetching
+    if (fetchingRef.current || forbiddenRequest) return; // forbidden request when fetching
     // 此处用state，为了兼容useMock的情况
     if (op?.showLoading !== false) updater.fetching(true);
     fetchingRef.current = true;
@@ -182,12 +186,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   const execOperation = (
     cId: string,
-    op: { key: string; reload?: boolean; partial?: boolean },
+    op: { key: string; reload?: boolean; partial?: boolean; callBack?: Function },
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
     const { key, reload = false, partial, ..._rest } = op;
     const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
+      op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
     };
     if (reload) {
@@ -259,7 +264,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return (
-    <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height overflow-auto">
+    <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''} overflow-auto`}>
       {Content}
     </Spin>
   );

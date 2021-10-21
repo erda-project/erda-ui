@@ -163,6 +163,8 @@ export enum pages {
   projectDashboard = '/{orgName}/dop/projects/{projectId}/dashboard',
   projectResource = '/{orgName}/dop/projects/{projectId}/resource',
   projectTicket = '/{orgName}/dop/projects/{projectId}/ticket',
+  projectTestReport = '/{orgName}/dop/projects/{projectId}/test-report',
+  projectTestReportCreate = '/{orgName}/dop/projects/{projectId}/test-report/create',
 
   // app
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',
