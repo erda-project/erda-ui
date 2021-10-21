@@ -392,7 +392,7 @@ const AddModal = (props: IProps) => {
                           <>
                             <Select
                               onChange={(v) => setOperator(index, v)}
-                              style={{ width: 180 }}
+                              style={{ width: 150 }}
                               value={item?.operate}
                               className="mr-2"
                               placeholder={i18n.t('project:compare')}
