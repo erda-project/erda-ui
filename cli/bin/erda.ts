@@ -80,11 +80,14 @@ program
   });
 
 program
-  .command('i18n [workDir]')
+  .command('i18n')
   .description('translate words in work dir')
-  .action(async (_workDir) => {
+  .option('--work-dir <workDir>', 'work directory')
+  .option('--switch', 'batch switch namespace')
+  .action(async (options) => {
+    const { workDir: _workDir, switch: switchNs } = options;
     const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
-    i18n({ workDir });
+    i18n({ workDir, switchNs });
   });
 
 program

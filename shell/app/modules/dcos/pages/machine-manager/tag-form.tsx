@@ -67,7 +67,7 @@ const TagForm = ({ visible, machine, onCancel }: IProps) => {
 
   const fieldsList = [
     {
-      label: i18n.t('dcos:label'),
+      label: i18n.t('label'),
       name: 'labels',
       required: false,
       getComp: () => (
@@ -77,7 +77,7 @@ const TagForm = ({ visible, machine, onCancel }: IProps) => {
       ),
     },
     {
-      label: i18n.t('dcos:custom labels'),
+      label: i18n.t('custom labels'),
       name: 'customLabels',
       required: false,
       getComp: () => <CustomLabel />,
@@ -90,7 +90,7 @@ const TagForm = ({ visible, machine, onCancel }: IProps) => {
     <>
       <FormModal
         width={620}
-        title={i18n.t('dcos:set tags of {ip}', { ip: machineIp })}
+        title={i18n.r('dcos:set tags of {ip}', { ip: machineIp })}
         fieldsList={fieldsList}
         visible={visible}
         formData={{ labels: normalLabels, customLabels }}

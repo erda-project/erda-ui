@@ -63,7 +63,7 @@ export const appPerm = {
       addTag: {
         pass: false,
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-        name: i18n.t('dcos:add label'),
+        name: i18n.t('application:add label'),
       },
       deleteTag: {
         pass: false,

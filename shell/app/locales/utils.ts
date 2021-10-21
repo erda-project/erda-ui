@@ -41,11 +41,6 @@ export const monthMap = {
   '12月': i18n.t('December'),
 };
 
-export const alarmTypeMap = {
-  机器告警: i18n.t('dcos:machine alarm'),
-  系统组件告警: i18n.t('dcos:system component alarm'),
-};
-
 export const getTranslateAddonList = (addonList: ADDON.Instance[], key: string) =>
   map(addonList, (item) => {
     const currentItem = { ...item };

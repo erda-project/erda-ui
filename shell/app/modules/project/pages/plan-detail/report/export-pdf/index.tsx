@@ -76,7 +76,7 @@ const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
   };
 
   if (typeof children !== 'function') {
-    return i18n.t('project:please pass in the method as the children of the exportpdf component');
+    return i18n.t('project:please pass in the method as the children of the exportPdf component');
   }
 
   return children({ exportPdf });

@@ -15,25 +15,26 @@ const fs = require('fs');
 const path = require('path');
 const ts = require('typescript');
 const { walker } = require('./file-walker');
-const { tsquery } = require("@phenomnomnominal/tsquery")
-
+const { tsquery } = require('@phenomnomnominal/tsquery');
 
 const targetDirPath = path.resolve(__dirname, '../app/config-page/docs');
 
 function fileNameToScriptKind(fileName) {
-  if (fileName.endsWith('.ts'))
-    return ts.ScriptKind.TS;
-  if (fileName.endsWith('.js'))
-    return ts.ScriptKind.JS;
-  if (fileName.endsWith('.tsx'))
-    return ts.ScriptKind.TSX;
-  if (fileName.endsWith('.jsx'))
-    return ts.ScriptKind.JSX;
+  if (fileName.endsWith('.ts')) return ts.ScriptKind.TS;
+  if (fileName.endsWith('.js')) return ts.ScriptKind.JS;
+  if (fileName.endsWith('.tsx')) return ts.ScriptKind.TSX;
+  if (fileName.endsWith('.jsx')) return ts.ScriptKind.JSX;
   return ts.ScriptKind.Unknown;
 }
 
 function getSourceFile(fileName) {
-  return ts.createSourceFile(fileName, fs.readFileSync(fileName, 'utf-8'), ts.ScriptTarget.ESNext, true, fileNameToScriptKind(fileName));
+  return ts.createSourceFile(
+    fileName,
+    fs.readFileSync(fileName, 'utf-8'),
+    ts.ScriptTarget.ESNext,
+    true,
+    fileNameToScriptKind(fileName),
+  );
 }
 
 if (!fs.existsSync(targetDirPath)) {
@@ -63,37 +64,37 @@ const dealFile = (content, filePath, isEnd) => {
     const ast = tsquery.ast(content);
     const modules = tsquery(ast, 'ModuleDeclaration');
     const data = {};
-    modules.map(module => {
+    modules.map((module) => {
       const infData = [];
       const interfaces = tsquery(module, 'InterfaceDeclaration');
-      interfaces.map(interface => {
+      interfaces.map((iFace) => {
         infData.push({
-          name: interface.name.text,
-          props: interface.members.map(m => {
-            return [m.name && m.name.text, m.type.getText(), !!m.questionToken]
-          })
-        })
-      })
+          name: iFace.name.text,
+          props: iFace.members.map((m) => {
+            return [m.name && m.name.text, m.type.getText(), !!m.questionToken];
+          }),
+        });
+      });
 
       const enumData = [];
       const enums = tsquery(module, 'EnumDeclaration');
-      enums.map(_enum => {
+      enums.map((_enum) => {
         enumData.push({
           name: _enum.name.text,
-          props: _enum.members.map(m => {
-            return [m.name && m.name.text, m.initializer.text]
-          })
-        })
-      })
+          props: _enum.members.map((m) => {
+            return [m.name && m.name.text, m.initializer.text];
+          }),
+        });
+      });
 
       const typeData = [];
       const types = tsquery(module, 'TypeAliasDeclaration');
-      types.map(type => {
+      types.map((type) => {
         typeData.push({
           name: type.name.text,
           value: type.type.getText(),
-        })
-      })
+        });
+      });
 
       data[module.name.text] = {
         infs: infData,
@@ -101,46 +102,33 @@ const dealFile = (content, filePath, isEnd) => {
         types: typeData,
       };
 
-      content =
-`# ${module.name.text}
+      content = `# ${module.name.text}
 
 ## 接口
-${infData.map(inf => {
-  const text = [
-    '',
-    `### ${inf.name}`,
-    `| 名称 | 类型 | 必填 |`,
-    `| --- | --- | --- |`,
-  ];
-  inf.props.map(([name, type, required]) => text.push(`| ${name} | ${type} | ${required} |`))
-  return text.join('\n')
+${infData.map((inf) => {
+  const text = ['', `### ${inf.name}`, `| 名称 | 类型 | 必填 |`, `| --- | --- | --- |`];
+  inf.props.map(([name, type, required]) => text.push(`| ${name} | ${type} | ${required} |`));
+  return text.join('\n');
 })}
 
 ## 枚举
 
-${enumData.map(_enum => {
-  const text = [
-    '',
-    `### ${_enum.name}`,
-    `| 名称 | 值 |`,
-    `| --- | --- |`,
-  ];
-  _enum.props.map(([name, value]) => text.push(`| ${name} | ${value} |`))
-  return text.join('\n')
+${enumData.map((_enum) => {
+  const text = ['', `### ${_enum.name}`, `| 名称 | 值 |`, `| --- | --- |`];
+  _enum.props.map(([name, value]) => text.push(`| ${name} | ${value} |`));
+  return text.join('\n');
 })}
 
 ## 类型
 
 | 名称 | 值 |
 | --- | --- |
-${typeData.map(type => {
-  const text = [
-    `| ${type.name} | ${type.value} |`
-  ];
-  return text.join('\n')
+${typeData.map((type) => {
+  const text = [`| ${type.name} | ${type.value} |`];
+  return text.join('\n');
 })}
-`
-    })
+`;
+    });
 
     const savePath = path.resolve(targetDirPath, `${base.slice(0, -5)}.md`);
 
@@ -152,9 +140,9 @@ ${typeData.map(type => {
   if (isEnd) {
     console.log('文档生成完毕');
   }
-}
+};
 
 walker({
   root: path.resolve(__dirname, '../app/config-page/components/'),
   dealFile,
-})
+});

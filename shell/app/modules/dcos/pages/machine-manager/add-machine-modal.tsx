@@ -59,20 +59,20 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
     const defaultOrgTag = orgName ? `org-${orgName}` : ''; // 取企业名打默认的tag:org-{orgName}
     const fieldsList = [
       {
-        label: i18n.t('dcos:username'),
+        label: i18n.t('username'),
         name: 'user',
         itemProps: {
-          placeholder: i18n.t('dcos:Use must have root permissions to initialize the machine.'),
+          placeholder: i18n.t('cmp:Use must have root permissions to initialize the machine.'),
           maxLength: 32,
         },
         initialValue: 'root',
       },
       {
-        label: i18n.t('dcos:password'),
+        label: i18n.t('password'),
         name: 'password',
         required: false,
         itemProps: {
-          placeholder: i18n.t('dcos:password of the user used to initialize the machine'),
+          placeholder: i18n.t('cmp:password of the user used to initialize the machine'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -100,30 +100,30 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
               });
               return pass
                 ? callback()
-                : callback(i18n.t('dcos:please fill in the correct ip, separated by the enter key'));
+                : callback(i18n.t('cmp:please fill in the correct ip, separated by the enter key'));
             },
           },
         ],
         itemProps: {
           rows: 4,
-          placeholder: i18n.t('dcos:fill-ip-split-enter'),
+          placeholder: i18n.t('cmp:fill-ip-split-enter'),
         },
         initialValue: '',
       },
       {
-        label: i18n.t('dcos:label'),
+        label: i18n.t('label'),
         name: 'tag',
         required: false,
         initialValue: '',
         getComp: () => <TagSelector />,
       },
       {
-        label: i18n.t('dcos:custom labels'),
+        label: i18n.t('custom labels'),
         name: 'customTag',
         required: false,
         initialValue: defaultOrgTag,
         itemProps: {
-          placeholder: i18n.t('dcos:separate multiple tags with a comma'),
+          placeholder: i18n.t('cmp:separate multiple tags with a comma'),
         },
         rules: [
           {
@@ -137,14 +137,14 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
                   })
                 : false;
               return haveInCorrect
-                ? callback(i18n.t('dcos:each label can only contain letters, numbers and hyphens'))
+                ? callback(i18n.t('cmp:each label can only contain letters, numbers and hyphens'))
                 : callback();
             },
           },
         ],
       },
       {
-        label: i18n.t('dcos:do you want to overwrite'),
+        label: i18n.t('cmp:do you want to overwrite'),
         name: 'force',
         type: 'switch',
         required: false,
@@ -154,7 +154,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
     return (
       <FormModal
         width={620}
-        title={clusterName ? `${i18n.t('dcos:add machine to cluster')}：${clusterName}` : i18n.t('dcos:add machine')}
+        title={clusterName ? `${i18n.t('cmp:add machine to cluster')}：${clusterName}` : i18n.t('cmp:add machine')}
         fieldsList={fieldsList}
         visible={modalVisible}
         formData={formData}

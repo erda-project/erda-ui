@@ -48,10 +48,10 @@ const commonQuery = {
 const CHART_CONFIG_MAP = {
   processTopCPU: {
     ...commonAttr,
-    titleText: `CPU ${i18n.t('dcos:usage rate')} TOP10`,
+    titleText: `CPU ${i18n.t('cmp:usage rate')} TOP10`,
     chartName: 'processTopCPU',
     viewRender: topTable,
-    viewProps: { valueTitle: i18n.t('dcos:usage rate'), unitType: 'PERCENT' },
+    viewProps: { valueTitle: i18n.t('cmp:usage rate'), unitType: 'PERCENT' },
     query: {
       ...commonQuery,
       sort: 'max_cpu_usage',
@@ -61,10 +61,10 @@ const CHART_CONFIG_MAP = {
   },
   processTopRead: {
     ...commonAttr,
-    titleText: `${i18n.t('dcos:read speed')} TOP10`,
+    titleText: `${i18n.t('cmp:read speed')} TOP10`,
     chartName: 'processTopRead',
     viewRender: topTable,
-    viewProps: { valueTitle: i18n.t('dcos:speed'), unitType: 'TRAFFIC', unit: 'B/S' },
+    viewProps: { valueTitle: i18n.t('cmp:speed'), unitType: 'TRAFFIC', unit: 'B/S' },
     query: {
       ...commonQuery,
       sort: 'max_read_rate',
@@ -74,10 +74,10 @@ const CHART_CONFIG_MAP = {
   },
   processTopWrite: {
     ...commonAttr,
-    titleText: `${i18n.t('dcos:write speed')} TOP10`,
+    titleText: `${i18n.t('cmp:write speed')} TOP10`,
     chartName: 'processTopWrite',
     viewRender: topTable,
-    viewProps: { valueTitle: i18n.t('dcos:speed'), unitType: 'TRAFFIC', unit: 'B/S' },
+    viewProps: { valueTitle: i18n.t('cmp:speed'), unitType: 'TRAFFIC', unit: 'B/S' },
     query: {
       ...commonQuery,
       sort: 'max_write_rate',

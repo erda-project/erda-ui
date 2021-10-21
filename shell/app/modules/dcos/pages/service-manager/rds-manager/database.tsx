@@ -60,14 +60,14 @@ const DataBase = () => {
 
   const columns = [
     {
-      title: i18n.t('dcos:database name'),
+      title: i18n.t('cmp:database name'),
       dataIndex: 'dBName',
       ellipsis: {
         showTitle: false,
       },
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
-    getCloudResourceStatusCol('rds', i18n.t('dcos:database status'), 'dBStatus'),
+    getCloudResourceStatusCol('rds', i18n.t('cmp:database status'), 'dBStatus'),
     {
       title: i18n.t('character set'),
       dataIndex: 'characterSetName',
@@ -86,28 +86,28 @@ const DataBase = () => {
   const allDBName = map(RDSDatabaseList, 'dBName');
   const fieldsList = [
     {
-      label: i18n.t('dcos:database (DB) name'),
+      label: i18n.t('cmp:database (DB) name'),
       name: 'dbName',
       rules: [
         {
           validator: (_: any, value: string, callback: Function) => {
             if (!value) return callback();
             if (allDBName.includes(value)) {
-              return callback(i18n.t('{name} already exists', { name: i18n.t('dcos:database name') }));
+              return callback(i18n.t('{name} already exists', { name: i18n.t('cmp:database name') }));
             }
             if (value.length < 2 || value.length > 64 || !/^[a-z][a-z0-9_-]*[a-z0-9]$/.test(value)) {
-              return callback(i18n.t('dcos:rds-db-name-format'));
+              return callback(i18n.t('cmp:rds-db-name-format'));
             }
             callback();
           },
         },
       ],
       itemProps: {
-        placeholder: i18n.t('dcos:rds-db-name-format'),
+        placeholder: i18n.t('cmp:rds-db-name-format'),
       },
     },
     {
-      label: i18n.t('dcos:support character set'),
+      label: i18n.t('cmp:support character set'),
       name: 'characterSetName',
       type: 'select',
       options: characterSetLists.map((a) => ({ name: a, value: a })),
@@ -119,7 +119,7 @@ const DataBase = () => {
       },
     },
     {
-      label: i18n.t('dcos:authorized account'),
+      label: i18n.t('cmp:authorized account'),
       name: 'account',
       required: false,
       getComp: () => {
@@ -128,7 +128,7 @@ const DataBase = () => {
             <Select
               className="mr-5"
               allowClear
-              placeholder={i18n.t('dcos:unauthorized account (default)')}
+              placeholder={i18n.t('cmp:unauthorized account (default)')}
               style={{ width: '50%' }}
               value={accountVal}
               onChange={(value: any) => {
@@ -203,7 +203,7 @@ const DataBase = () => {
     <div>
       <div className="text-right mb-3">
         <Button type="primary" onClick={() => updater.formVisible(true)}>
-          {i18n.t('dcos:create database')}
+          {i18n.t('cmp:create database')}
         </Button>
       </div>
       <Table
@@ -214,7 +214,7 @@ const DataBase = () => {
         scroll={{ x: '100%' }}
       />
       <FormModal
-        title={i18n.t('dcos:create database')}
+        title={i18n.t('cmp:create database')}
         visible={formVisible}
         fieldsList={fieldsList}
         onCancel={onCancel}

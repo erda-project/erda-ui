@@ -188,7 +188,7 @@ IProps) => {
           <Tooltip
             title={
               <div className="table-tooltip">
-                {i18n.t('uasge')}
+                {i18n.t('usage')}
                 <span>
                   {ceil(cpuUsage, 2)} {i18n.t('core')}
                 </span>{' '}
@@ -211,7 +211,7 @@ IProps) => {
           <Tooltip
             title={
               <div className="table-tooltip">
-                {i18n.t('uasge')}
+                {i18n.t('usage')}
                 <span>{getFormatter('STORAGE').format(memUsage, 2)}</span> <br />
                 {`${i18n.t('allocated')}${getFormatter('STORAGE').format(memRequest, 2)}`}
               </div>

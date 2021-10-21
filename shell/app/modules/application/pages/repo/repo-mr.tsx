@@ -32,7 +32,7 @@ export const mrTabs = () => {
       key: 'open',
       name: (
         <span>
-          {i18n.t('application:commited')}
+          {i18n.t('application:committed')}
           <span className="dice-badge">{info ? info.mergeRequestCount : 0}</span>
         </span>
       ),

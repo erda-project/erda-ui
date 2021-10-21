@@ -586,7 +586,7 @@ class OrderPage extends React.Component<IProps> {
       },
       ...extra,
       {
-        label: showLabel ? this.getTipLabel(i18n.t('dcos:system disk'), i18n.t('cloud ssd')) : null,
+        label: showLabel ? this.getTipLabel(i18n.t('cmp:system disk'), i18n.t('cloud ssd')) : null,
         name: `ecsSettings.${type}.systemDiskSize`,
         type: 'inputNumber',
         itemProps: { step: 1, min: 20, max: 500, placeholder: '20-500 GB' },
@@ -831,7 +831,7 @@ class OrderPage extends React.Component<IProps> {
         ],
       },
       {
-        label: i18n.t('dcos:password'),
+        label: i18n.t('password'),
         name: ['rdsSettings', 'Password'],
         required: false,
         itemProps: {

@@ -48,11 +48,11 @@ const ProcessDetailInfo = ({ processName, id, cmdline, ip, clusterName }: IProce
           <span>{`${cutStr(cmdline, 50)}`}</span>
         </div>
         <div>
-          <span>{i18n.t('dcos:machine')} IP :</span>
+          <span>{i18n.t('cmp:machine')} IP :</span>
           <span>{ip}</span>
         </div>
         <div>
-          <span>{i18n.t('dcos:owned cluster')} :</span>
+          <span>{i18n.t('cmp:owned cluster')} :</span>
           <span>{clusterName}</span>
         </div>
       </div>

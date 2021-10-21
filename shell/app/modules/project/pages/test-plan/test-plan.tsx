@@ -131,7 +131,7 @@ const TestPlan = () => {
       },
     },
     {
-      title: i18n.t('project:exacutive rate'),
+      title: i18n.t('project:executive rate'),
       dataIndex: 'executionRate',
       className: 'passing-rate',
       width: 160,

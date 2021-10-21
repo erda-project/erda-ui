@@ -41,7 +41,7 @@ export const MergeDes = () => {
 
   ### ${i18n.t('application:integration testing')}
 
-  ### ${i18n.t('application:modification of diceyml')}
+  ### ${i18n.t('application:modification of dice.yml')}
   > ${i18n.t('application:update-dice-yml-env')}`;
 
   return (

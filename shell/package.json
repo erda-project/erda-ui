@@ -65,6 +65,7 @@
     "file-loader": "^6.0.0",
     "highlight.js": "^10.5.0",
     "https-browserify": "^1.0.0",
+    "i18next-scanner": "^3.1.0",
     "immer": "^8.0.0",
     "intersection-observer": "^0.5.1",
     "js-base64": "^3.6.1",

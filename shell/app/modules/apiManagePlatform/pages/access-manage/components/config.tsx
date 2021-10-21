@@ -138,7 +138,7 @@ export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name:
   },
   ATTACHFAILED: {
     status: 'ATTACHFAILED',
-    name: i18n.t('dcos:startup failed'),
+    name: i18n.t('startup failed'),
   },
   DETACHING: {
     status: 'DETACHING',

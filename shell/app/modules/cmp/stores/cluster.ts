@@ -92,12 +92,12 @@ const cluster = createStore({
     },
     async addCluster({ call }, payload: ORG_CLUSTER.IAddClusterQuery) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      await call(addCluster, { ...payload, orgId }, { successMsg: i18n.t('dcos:cluster added successfully') });
+      await call(addCluster, { ...payload, orgId }, { successMsg: i18n.t('cmp:cluster added successfully') });
       await cluster.effects.getClusterList({});
     },
     async updateCluster({ call, update, select }, payload: ORG_CLUSTER.IAddClusterQuery) {
       const prevDetail = select((s) => s.detail);
-      await call(updateCluster, payload, { successMsg: i18n.t('dcos:cluster modified successfully') });
+      await call(updateCluster, payload, { successMsg: i18n.t('cmp:cluster modified successfully') });
       if (payload.id === prevDetail.id) {
         // 修改了当前detail中的集群
         update({ detail: { ...prevDetail, ...payload } });
@@ -128,7 +128,7 @@ const cluster = createStore({
       const deployingCluster = await call(
         deployCluster,
         { ...payload },
-        { successMsg: i18n.t('dcos:start deployment, you can view the log') },
+        { successMsg: i18n.t('cmp:start deployment, you can view the log') },
       );
       update({ deployingCluster });
       return true;
@@ -142,7 +142,7 @@ const cluster = createStore({
     },
     async killDeployCluster({ call, update }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      await call(killDeployCluster, { orgID: orgId }, { successMsg: i18n.t('dcos:deployment has stopped') });
+      await call(killDeployCluster, { orgID: orgId }, { successMsg: i18n.t('cmp:deployment has stopped') });
       update({ deployingCluster: {} });
     },
     async getCloudPreview({ call }, payload: ORG_CLUSTER.IAliyunCluster) {

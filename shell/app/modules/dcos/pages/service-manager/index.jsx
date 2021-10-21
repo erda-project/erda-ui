@@ -28,10 +28,10 @@ import { useLoading } from 'core/stores/loading';
 const { Option } = Select;
 
 const ENV_MAP = {
-  dev: { enName: 'DEV', cnName: i18n.t('dcos:development environment') },
-  test: { enName: 'TEST', cnName: i18n.t('dcos:test environment') },
-  staging: { enName: 'STAGING', cnName: i18n.t('dcos:staging environment') },
-  prod: { enName: 'PROD', cnName: i18n.t('dcos:production environment') },
+  dev: { enName: 'DEV', cnName: i18n.t('cmp:development environment') },
+  test: { enName: 'TEST', cnName: i18n.t('cmp:test environment') },
+  staging: { enName: 'STAGING', cnName: i18n.t('cmp:staging environment') },
+  prod: { enName: 'PROD', cnName: i18n.t('cmp:production environment') },
 };
 
 class ServiceManager extends React.Component {

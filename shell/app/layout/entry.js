@@ -14,8 +14,6 @@
 import layoutStore from './stores/layout';
 import breadcrumbStore from './stores/breadcrumb';
 import messageStore from './stores/message';
-import zh from './locales/zh.json';
-import en from './locales/en.json';
 import routers from './router';
 import '../styles/util.scss';
 
@@ -27,10 +25,6 @@ export default (registerModule) => {
     key: 'layout',
     stores: [layoutStore, breadcrumbStore, messageStore],
     routers,
-    // locales: {
-    //   zh,
-    //   en,
-    // },
     Root: PageContainer,
     NotFound,
   });

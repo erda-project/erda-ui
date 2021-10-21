@@ -115,18 +115,7 @@ const Topic = () => {
   const allName = map(MQTopicList, 'topicName');
   const fieldsList = [
     {
-      getComp: () => (
-        <Alert
-          message={
-            i18n.t('dcos:regions-provide-intranet-default')
-            /* <li>2. {i18n.t('dcos:For occupation fee of Topic resource, please see')}
-                <span className="text-link">{i18n.t('billing details')}</span>
-                {i18n.t('dcos:delete-topics-costs')}
-              </li> */
-          }
-          type="info"
-        />
-      ),
+      getComp: () => <Alert message={i18n.t('cmp:regions-provide-intranet-default')} type="info" />,
     },
     {
       label: 'Topic',
@@ -143,7 +132,7 @@ const Topic = () => {
               callback(i18n.t('{name} already exists', { name: 'Topic' }));
             } else if (value && (value.startsWith('CID') || value.startsWith('GID'))) {
               callback(
-                `${i18n.t('dcos:CID and GID are reserved fields of Group ID. Topic cannot start with CID and GID.')}`,
+                `${i18n.t('cmp:CID and GID are reserved fields of Group ID. Topic cannot start with CID and GID.')}`,
               );
             } else {
               callback();
@@ -156,7 +145,7 @@ const Topic = () => {
       label: (
         <span>
           {i18n.t('resource:message type')}&nbsp;
-          <Tooltip title={i18n.t('dcos:common-messages-suitable-for')}>
+          <Tooltip title={i18n.t('cmp:common-messages-suitable-for')}>
             <IconHelp />
           </Tooltip>
         </span>
@@ -166,7 +155,7 @@ const Topic = () => {
       initialValue: 0,
       options: [
         {
-          name: i18n.t('dcos:general message'),
+          name: i18n.t('cmp:general message'),
           value: 0,
         },
         {
@@ -246,7 +235,7 @@ const Topic = () => {
     <div>
       <div className="text-right mb-3">
         <Button type="primary" onClick={() => updater.formVisible(true)} className="mr-2">
-          {i18n.t('dcos:create Topic')}
+          {i18n.t('cmp:create Topic')}
         </Button>
         <Button type="primary" disabled={setTagDisabled} onClick={() => updater.tagFormVis(true)}>
           {i18n.t('batch labeling')}
@@ -275,7 +264,7 @@ const Topic = () => {
         afterSubmit={afterTagFormSubmit}
       />
       <FormModal
-        title={i18n.t('dcos:create Topic')}
+        title={i18n.t('cmp:create Topic')}
         visible={formVisible}
         fieldsList={fieldsList}
         onCancel={() => updater.formVisible(false)}

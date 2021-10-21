@@ -38,7 +38,7 @@ const validValue = (val: string) => {
   if (tagReg.test(val)) {
     return true;
   } else {
-    message.warning(`${val} ${i18n.t('dcos:is invalid tag')}`);
+    message.warning(`${val} ${i18n.t('cmp:is invalid tag')}`);
     return false;
   }
 };

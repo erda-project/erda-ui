@@ -56,7 +56,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
       getComp: () => <LabelSelector />,
     },
     {
-      label: i18n.t('dcos:custom labels'),
+      label: i18n.t('custom labels'),
       name: 'customLabels',
       required: false,
       initialValue: defaultOrgTag,
