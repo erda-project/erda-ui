@@ -78,3 +78,10 @@ export const getSpanAnalysis = (payload: {
     .query(payload)
     .then((response: any) => response.body);
 };
+
+export const getSpanEvents = (payload: { spanId: string; startTime: number }) => {
+  return agent
+    .get('/api/msp/apm/trace/span-events')
+    .query(payload)
+    .then((response: any) => response.body);
+};
