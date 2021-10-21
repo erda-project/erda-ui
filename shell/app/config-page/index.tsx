@@ -186,12 +186,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   const execOperation = (
     cId: string,
-    op: { key: string; reload?: boolean; partial?: boolean },
+    op: { key: string; reload?: boolean; partial?: boolean; callBack?: Function },
     updateInfo?: { dataKey: string; dataVal: Obj },
     extraUpdateInfo?: Obj,
   ) => {
     const { key, reload = false, partial, ..._rest } = op;
     const loadCallBack = (_pageData: CONFIG_PAGE.RenderConfig) => {
+      op?.callBack?.();
       onExecOp && onExecOp({ cId, op, reload, updateInfo, pageData: _pageData });
     };
     if (reload) {
