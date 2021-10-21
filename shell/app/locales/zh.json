@@ -2252,6 +2252,8 @@
     "response time": "响应时间",
     "response time TOP 5": "响应时间TOP5",
     "response traffic": "应答流量",
+    "regular matching": "正则匹配",
+    "regular mismatch": "正则不匹配",
     "root cause analysis": "根因分析",
     "rule management": "规则管理",
     "running instance": "运行中的实例",
