@@ -254,8 +254,10 @@ export function TraceGraph(props: IProps) {
             {(serviceAnalysis || proportion[0] === 14) && (
               <div className="px-3 trace-detail-chart" style={{ height: window.innerHeight - 200 }}>
                 <Tabs>
-                  {/* back-end need more time to solve it */}
-                  {/* <TabPane tab={i18n.t('msp:call analysis')} key={1}>
+                  <TabPane tab={i18n.t('msp:attributes')} key={1}>
+                    <KeyValueList data={tags} />
+                  </TabPane>
+                  <TabPane tab={i18n.t('msp:events')} key={2}>
                     {!callAnalysis?.dashboardId && <EmptyHolder relative />}
                     {callAnalysis?.dashboardId && (
                       <ServiceListDashboard
@@ -264,11 +266,8 @@ export function TraceGraph(props: IProps) {
                         extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
                       />
                     )}
-                  </TabPane> */}
-                  <TabPane tab={i18n.t('msp:attributes')} key={1}>
-                    <KeyValueList data={tags} />
                   </TabPane>
-                  <TabPane tab={i18n.t('msp:associated services')} key={2}>
+                  <TabPane tab={i18n.t('msp:associated services')} key={3}>
                     {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
                     {serviceAnalysis?.dashboardId && (
                       <ServiceListDashboard
