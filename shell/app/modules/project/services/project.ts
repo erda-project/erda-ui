@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
 
 export const getProjectList = ({ query, ...rest }: PROJECT.ListQuery): IPagingResp<PROJECT.Detail> => {
   return agent
@@ -56,20 +57,18 @@ export const getAutoTestSpaceDetail = ({ spaceId }: { spaceId: string }) => {
   return agent.get(`/api/autotests/spaces/${spaceId}`).then((response: any) => response.body);
 };
 
-export const saveTestReport = (params: Merge<PROJECT.ITestReportBody, { projectId: string }>) => {
-  const { projectId, ...rest } = params;
-  return agent
-    .post(`/api/projects/${projectId}/test-reports`)
-    .send(rest)
-    .then((response: any) => response.body);
+const apis = {
+  saveTestReport: {
+    api: 'post@/api/projects/:projectId/test-reports',
+  },
+  getTestReportDetail: {
+    api: 'get@/api/projects/:projectId/test-reports/:reportId',
+  },
 };
+export const saveTestReport = apiCreator<(params: Merge<PROJECT.ITestReportBody, { projectId: string }>) => void>(
+  apis.saveTestReport,
+);
 
-export const getTestReportDetail = ({
-  reportId,
-  projectId,
-}: {
-  reportId: string;
-  projectId: string;
-}): PROJECT.ITestReportBody => {
-  return agent.get(`/api/projects/${projectId}/test-reports/${reportId}`).then((response: any) => response.body);
-};
+export const getTestReportDetail = apiCreator<
+  (params: { reportId: string; projectId: string }) => PROJECT.ITestReportBody
+>(apis.getTestReportDetail);

@@ -18,9 +18,8 @@ import DiceConfigPage from 'config-page';
 import { useUpdate } from 'app/common/use-hooks';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import projectStore from 'project/stores/project';
-import { useLoading } from 'core/stores/loading';
 import { MarkdownEditor, Title } from 'common';
+import { saveTestReport } from 'project/services/project';
 
 interface IState {
   testDashboard: Obj | null;
@@ -29,9 +28,8 @@ interface IState {
 
 export default () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { saveTestReport } = projectStore.effects;
-  const [saving] = useLoading(projectStore, ['saveTestReport']);
   const [form] = Form.useForm();
+  const saving = saveTestReport.useLoading();
   const [{ testDashboard, issueDashboard }, updater] = useUpdate<IState>({
     testDashboard: null,
     issueDashboard: null,
@@ -39,15 +37,18 @@ export default () => {
 
   const onClick = () => {
     form.validateFields().then((res) => {
-      saveTestReport({
-        ...res,
-        reportData: {
-          'issue-dashboard': issueDashboard,
-          'test-dashboard': testDashboard,
-        },
-      }).then(() => {
-        goTo('../');
-      });
+      saveTestReport
+        .fetch({
+          projectId,
+          ...res,
+          reportData: {
+            'issue-dashboard': issueDashboard,
+            'test-dashboard': testDashboard,
+          },
+        })
+        .then(() => {
+          goTo('../');
+        });
     });
   };
   const inParams = { projectId };

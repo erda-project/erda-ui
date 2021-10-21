@@ -13,21 +13,20 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import projectStore from 'project/stores/project';
 import { Input, Form } from 'core/nusi';
 import ExportPdf from 'project/pages/plan-detail/report/export-pdf';
 import { Upload as IconUpload } from '@icon-park/react';
 import Markdown from 'common/utils/marked';
 import { Title } from 'common';
 import { useMount } from 'react-use';
+import { getTestReportDetail } from 'project/services/project';
 import i18n from 'i18n';
 
 export default ({ downloadId, projectId, onFinish }: { downloadId: string; projectId: string; onFinish: Function }) => {
-  const { getTestReportDetail } = projectStore.effects;
   const exportRef = React.useRef();
   const [data, setData] = React.useState<PROJECT.ITestReportBody | null>(null);
   useMount(() => {
-    getTestReportDetail({ reportId: downloadId, projectId }).then((res) => {
+    getTestReportDetail.fetch({ reportId: downloadId, projectId }).then((res) => {
       setData(res);
     });
   });

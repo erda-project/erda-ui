@@ -24,8 +24,6 @@ import {
   getLeftResources,
   getProjectList,
   getAutoTestSpaceDetail,
-  saveTestReport,
-  getTestReportDetail,
 } from '../services/project';
 import { getApps } from 'common/services';
 import i18n from 'i18n';
@@ -38,7 +36,6 @@ import permStore from 'user/stores/permission';
 import { PAGINATION } from 'app/constants';
 import { getProjectMenu } from 'app/menus';
 import issueWorkflowStore from 'project/stores/issue-workflow';
-import resource from 'project/pages/resource';
 
 interface IState {
   list: PROJECT.Detail[];
@@ -218,16 +215,6 @@ const project = createStore({
       const leftResources = await call(getLeftResources);
       update({ leftResources });
       return leftResources;
-    },
-    async saveTestReport({ call, getParams }, payload: PROJECT.ITestReportBody) {
-      const { projectId } = getParams();
-      const res = await call(saveTestReport, { projectId, ...payload });
-      return res;
-    },
-    async getTestReportDetail({ call, getParams }, payload: { reportId: string; projectId?: string }) {
-      const { projectId } = getParams();
-      const res = await call(getTestReportDetail, { projectId, ...payload });
-      return res;
     },
   },
   reducers: {
