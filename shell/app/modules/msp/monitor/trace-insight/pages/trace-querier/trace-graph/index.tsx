@@ -58,7 +58,7 @@ export function TraceGraph(props: IProps) {
     {
       title: i18n.t('time'),
       dataIndex: 'timestamp',
-      width: 180,
+      width: 160,
       render: (time: number) => moment(time / 1000 / 1000).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
