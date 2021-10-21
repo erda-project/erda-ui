@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { message, Input, Popover, Button } from 'core/nusi';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
 import { Check as IconCheck } from '@icon-park/react';
@@ -88,9 +88,8 @@ export const EditCategory = (props: IProps) => {
         onChange={(e) => setValue(e.target.value)}
       />
       <IconCheck className="ml-3 cursor-pointer" onClick={handleSave} size="16" />
-      <ErdaCustomIcon
-        opacity={0.85}
-        fill="black"
+      <ErdaIcon
+        fill="black-800"
         type="close"
         className="ml-3 cursor-pointer"
         onClick={props.onHide || handleHide}
@@ -116,7 +115,7 @@ export const EditCategory = (props: IProps) => {
     >
       {createButton || (
         <Button type="primary" onClick={() => value && onSubmit({ name: value })}>
-          <ErdaCustomIcon type="cir-add" className="mr-4" size="16" fill="white" />
+          <ErdaIcon type="cir-add" className="mr-4" size="16" fill="white" />
           {i18n.t('add')}
         </Button>
       )}

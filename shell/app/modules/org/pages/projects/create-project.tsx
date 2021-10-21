@@ -14,7 +14,7 @@
 import { Button, Input, Checkbox, Badge } from 'core/nusi';
 import i18n from 'i18n';
 import React from 'react';
-import { ImageUpload, RenderForm, ErdaCustomIcon } from 'common';
+import { ImageUpload, RenderForm, ErdaIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
@@ -155,7 +155,7 @@ const ProjectType = (props: IProjectType) => {
           >
             {item.val === 'MSP' ? <Badge className="absolute top-2 right-2" count="beta" /> : null}
             <div className="relative template-icon center-flex-box">
-              <ErdaCustomIcon type={item.icon} color={isChecked ? 'primary' : 'lightgray'} size="40px" />
+              <ErdaIcon type={item.icon} color={isChecked ? 'primary' : 'light-gray'} size="40px" />
             </div>
             <div className="template-name text-sm color-text pt-2 pb-1 text-center">{item.name}</div>
             <div className="template-description text-xs color-text-sub text-left">{item.description}</div>

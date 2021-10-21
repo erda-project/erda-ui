@@ -17,7 +17,7 @@ import moment from 'moment';
 import i18n from 'i18n';
 import { map, isEmpty, get, find } from 'lodash';
 import publisherStore from '../../stores/publisher';
-import { Holder, LoadMore, IF, ErdaCustomIcon } from 'common';
+import { Holder, LoadMore, IF, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import VersionFormModal from './version-form-modal';
 import './vsrsion-list.scss';
@@ -288,26 +288,22 @@ const VersionList = (props: IProps) => {
                     return (
                       <div key={id} className="version-item">
                         <div className={`version-number mb-3 ${isPublic ? 'on' : 'off'}`}>
-                          <ErdaCustomIcon
-                            className="mt-1"
-                            size="16"
-                            type={isPublic ? 'yuanxingxuanzhong-fill' : 'tishi'}
-                          />
+                          <ErdaIcon className="mt-1" size="16" type={isPublic ? 'yuanxingxuanzhong-fill' : 'tishi'} />
                           <span className="number">
                             V{version} ({buildId})
                           </span>
                           {versionStateRender(record)}
                         </div>
                         <div className="version-tips">
-                          <ErdaCustomIcon type="xm-2" size="16" />
+                          <ErdaIcon type="xm-2" size="16" />
                           <span className="text">{appName}</span>
-                          <ErdaCustomIcon type="yy-4" size="16" />
+                          <ErdaIcon type="yy-4" size="16" />
                           <span className="text">{projectName}</span>
-                          <ErdaCustomIcon type="shijian" size="16" />
+                          <ErdaIcon type="shijian" size="16" />
                           <span className="text">{createdAt ? moment(createdAt).format('HH:mm:ss') : '-'}</span>
                           {curMobileType === 'ios' && appStoreURL ? (
                             <>
-                              <ErdaCustomIcon size="16" type="app" />
+                              <ErdaIcon size="16" type="app" />
                               <a
                                 className="nowrap app-store-url"
                                 target="_blank"

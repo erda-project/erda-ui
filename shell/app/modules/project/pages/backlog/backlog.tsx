@@ -15,7 +15,7 @@ import React from 'react';
 import { isEmpty, map, unset, sortBy, indexOf } from 'lodash';
 import { useDrop } from 'react-dnd';
 import { Button, Spin, Popconfirm, Pagination, Tooltip } from 'core/nusi';
-import { Icon as CustomIcon, ContractiveFilter, ErdaCustomIcon } from 'common';
+import { Icon as CustomIcon, ContractiveFilter, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import { WithAuth, usePerm } from 'user/common';
@@ -301,7 +301,7 @@ const Backlog = () => {
             placement="right"
             title={i18n.t('project:this is mainly for items that have not been scheduled for a specific iteration')}
           >
-            <ErdaCustomIcon type="help" className="cursor-pointer mr-2" />
+            <ErdaIcon type="help" className="cursor-pointer mr-2" />
           </Tooltip>
           <span className="text-desc">{i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}</span>
         </div>

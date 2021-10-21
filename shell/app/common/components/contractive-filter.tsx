@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'core/nusi';
-import { MemberSelector, ErdaCustomIcon, Icon as CustomIcon } from 'common';
+import { MemberSelector, ErdaIcon, Icon as CustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import './contractive-filter.scss';
@@ -794,9 +794,9 @@ export const ContractiveFilter = ({
           }}
         >
           {!item.fixed && (
-            <ErdaCustomIcon
-              fill="shallow-gray"
-              color="shallow-gray"
+            <ErdaIcon
+              fill="brightgray"
+              color="brightgray"
               className="contractive-filter-item-close"
               type="guanbi-fill"
               size="16"

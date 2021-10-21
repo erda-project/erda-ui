@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaCustomIcon } from 'common';
+import { DeleteConfirm, Avatar, IF, MenuPopover, ErdaIcon } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
 import { Spin, Tooltip, Alert } from 'core/nusi';
 import HealthPoint from 'project/common/components/health-point';
@@ -148,7 +148,7 @@ const RuntimeBox = (props: IProps) => {
       <div className="flex justify-between items-center runtime-box">
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
-            <ErdaCustomIcon opacity={0.8} fill="black" width="20" height="21" type="slbb" />
+            <ErdaIcon fill="black-800" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -167,15 +167,7 @@ const RuntimeBox = (props: IProps) => {
       >
         <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
-            <ErdaCustomIcon
-              className="mr-1 mt-0.5"
-              opacity={0.85}
-              color="black"
-              fill="black"
-              width="20"
-              height="21"
-              type="slbb"
-            />
+            <ErdaIcon className="mr-1 mt-0.5" color="black-800" fill="black-800" width="20" height="21" type="slbb" />
             <Tooltip title={name}>
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
@@ -195,14 +187,7 @@ const RuntimeBox = (props: IProps) => {
           <div className="transform-box">
             <Tooltip title={i18n.t('application:view version information')}>
               <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
-                <ErdaCustomIcon
-                  opacity={0.8}
-                  className="mr-1 transform-icon"
-                  fill="primary"
-                  width="20"
-                  height="21"
-                  type="bb"
-                />
+                <ErdaIcon className="mr-1 transform-icon" fill="primary-800" width="20" height="21" type="bb" />
                 <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
               </span>
             </Tooltip>

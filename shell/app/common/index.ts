@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 export { Icon } from './components/icon';
-export { ErdaIcon, ErdaCustomIcon } from './components/erda-icon/erda-icon';
+export { ErdaIcon } from './components/erda-icon/erda-icon';
 export { default as SimplePanel } from './components/simple-panel';
 export { default as AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
