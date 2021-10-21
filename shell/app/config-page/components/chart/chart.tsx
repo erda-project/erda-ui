@@ -14,10 +14,8 @@
 import React from 'react';
 import EChart from 'charts/components/echarts';
 import { colorMap } from 'config-page/utils';
-import { EmptyHolder } from 'common';
+import { CardContainer } from 'common';
 import { map, uniq, merge, get } from 'lodash';
-import { theme } from 'charts/theme';
-import './chart.scss';
 
 const getOption = (chartType: string, option: Obj) => {
   let commonOp: Obj = {
@@ -158,29 +156,9 @@ const Chart = (props: CP_CHART.Props) => {
 
   const { option: reOption, isEmpty } = getOption(chartType, { color: reColor, ...optionRest });
   return (
-    <div className="cp-chart flex flex-col" style={style}>
-      {title || extraContent ? (
-        <div className="flex items-center justify-between">
-          {title ? <div className="mb-2 font-medium">{title}</div> : null}
-          <div>{extraContent}</div>
-        </div>
-      ) : null}
-      <div className="cp-chart-container ">
-        {isEmpty ? (
-          <EmptyHolder />
-        ) : (
-          <EChart
-            key={cId}
-            onEvents={onEvents}
-            option={reOption}
-            notMerge
-            theme="monitor"
-            themeObj={{ ...theme }}
-            {...rest}
-          />
-        )}
-      </div>
-    </div>
+    <CardContainer.ChartContainer title={title} operation={extraContent} style={style} holderWhen={isEmpty}>
+      <EChart key={cId} onEvents={onEvents} option={reOption} notMerge {...rest} />
+    </CardContainer.ChartContainer>
   );
 };
 
