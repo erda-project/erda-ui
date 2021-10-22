@@ -38,22 +38,22 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
 
   if (type === 'cpu') {
     data = {
-      requestRate: +(record.cpuRequestRate * 100).toFixed(2),
-      requestByService: record.cpuRequestByService.toFixed(2),
-      requestByServiceRate: +(record.cpuRequestByServiceRate * 100).toFixed(2),
-      requestByAddon: record.cpuRequestByAddon.toFixed(2),
-      requestByAddonRate: +(record.cpuRequestByAddonRate * 100).toFixed(2),
-      quota: record.cpuQuota.toFixed(2),
+      requestRate: +(record?.cpuRequestRate * 100 || 0).toFixed(2),
+      requestByService: (record?.cpuRequestByService || 0).toFixed(2),
+      requestByServiceRate: +(record?.cpuRequestByServiceRate * 100 || 0).toFixed(2),
+      requestByAddon: (record?.cpuRequestByAddon || 0).toFixed(2),
+      requestByAddonRate: +(record?.cpuRequestByAddonRate * 100 || 0).toFixed(2),
+      quota: (record?.cpuQuota || 0).toFixed(2),
       tips: record.tips,
     };
   } else {
     data = {
-      requestRate: +(record.memRequestRate * 100).toFixed(2),
-      requestByService: record.memRequestByService.toFixed(2),
-      requestByServiceRate: +(record.memRequestByServiceRate * 100).toFixed(2),
-      requestByAddon: record.memRequestByAddon.toFixed(2),
-      requestByAddonRate: +(record.memRequestByAddonRate * 100).toFixed(2),
-      quota: record.memQuota.toFixed(2),
+      requestRate: +(record?.memRequestRate * 100 || 0).toFixed(2),
+      requestByService: (record?.memRequestByService || 0).toFixed(2),
+      requestByServiceRate: +(record?.memRequestByServiceRate * 100 || 0).toFixed(2),
+      requestByAddon: (record?.memRequestByAddon || 0).toFixed(2),
+      requestByAddonRate: +(record?.memRequestByAddonRate * 100 || 0).toFixed(2),
+      quota: (record?.memQuota || 0).toFixed(2),
       tips: record.tips,
     };
   }
@@ -142,59 +142,42 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
         {
           key: 'workspace',
           title: i18n.t('project:environments'),
-          width: 200,
+          width: 120,
           dataIndex: 'workspace',
           render: (val: string) => workSpaceMap[val] || val,
         },
         {
           title: i18n.t('project:using clusters'),
-          width: 400,
           dataIndex: 'clusterName',
           align: 'left',
         },
         {
-          title: 'CPU',
+          title: `CPU ${i18n.t('allocated and utilization rate')}`,
+          width: 400,
+          dataIndex: 'cpuQuota',
           align: 'center',
-          children: [
-            {
-              title: i18n.t('allocation'),
-              width: 400,
-              dataIndex: 'cpuQuota',
-              align: 'center',
-              render: (text: string) => (text ? `${text}${i18n.t('core')}` : ''),
-            },
-            {
-              title: i18n.t('allocated utilization rate'),
-              width: 400,
-              dataIndex: 'cpuRequestRate',
-              align: 'center',
-              render: (_, record: PROJECT.ICluster) => renderBar('cpu', record, i18n.t('core')),
-            },
-          ],
+          render: (text: string, record: PROJECT.ICluster) => (
+            <div className="flex items-center">
+              <span>{text ? `${text}${i18n.t('core')}` : ''}</span>
+              <span className="flex-grow ml-2">{renderBar('cpu', record, i18n.t('core'))}</span>
+            </div>
+          ),
         },
         {
-          title: 'MEM',
+          title: `MEM ${i18n.t('allocated and utilization rate')}`,
+          width: 400,
+          dataIndex: 'memQuota',
           align: 'center',
-          children: [
-            {
-              title: i18n.t('allocation'),
-              width: 400,
-              dataIndex: 'memQuota',
-              align: 'center',
-              render: (text: number) => (text ? `${text}GB` : ''),
-            },
-            {
-              title: i18n.t('allocated utilization rate'),
-              width: 400,
-              dataIndex: 'memRequestRate',
-              align: 'center',
-              render: (_, record: PROJECT.ICluster) => renderBar('mem', record, 'GB'),
-            },
-          ],
+          render: (text: string, record: PROJECT.ICluster) => (
+            <div className="flex items-center">
+              <span>{text ? `${text}GB` : ''}</span>
+              <span className="flex-grow ml-2">{renderBar('mem', record, 'GB')}</span>
+            </div>
+          ),
         },
       ]}
       pagination={false}
-      scroll={{ x: '100%' }}
+      scroll={{ x: 1100 }}
     />
   );
   return (
@@ -204,7 +187,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}
-      name={i18n.t('project:cluster setting')}
+      name={i18n.t('project:project resource')}
       desc={
         <span>
           {i18n.t(
