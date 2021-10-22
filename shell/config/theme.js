@@ -10,9 +10,10 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-module.exports.themeColor = '#6A549E';
+const themeColor = '#6A549E';
+module.exports.themeColor = themeColor;
 
-module.exports.getLessTheme = (themeColor) => {
+module.exports.getLessTheme = () => {
   return {
     '@primary-color': themeColor,
     '@success-color': 'rgba(0, 183, 121, 1)',

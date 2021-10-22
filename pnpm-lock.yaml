@@ -194,7 +194,7 @@ importers:
     specifiers:
       '@craco/craco': ^6.1.2
       '@types/qrcode.react': ^1.0.1
-      antd: ^4.15.4
+      antd: ^4.16.13
       autoprefixer: ^9.8.6
       babel-plugin-import: ^1.13.3
       clean-webpack-plugin: ^4.0.0
@@ -212,8 +212,8 @@ importers:
       typescript: ^4.2.4
     dependencies:
       '@craco/craco': 6.1.2_react-scripts@4.0.3
-      antd: 4.16.0_68a1b20f2637bb88600ecb1e738b2e92
-      craco-antd: 1.19.0_6b535a6cd6054d32c9cb3a257ba8ca6c
+      antd: 4.16.13_react-dom@16.14.0+react@16.14.0
+      craco-antd: 1.19.0_fe4221278775071d901793b5fea8eefc
       dayjs: 1.10.7
       file-loader: 6.2.0
       history: 5.0.0
@@ -8307,60 +8307,6 @@ packages:
       tinycolor2: 1.4.2
     dev: false
 
-  /antd/4.16.0_68a1b20f2637bb88600ecb1e738b2e92:
-    resolution: {integrity: sha512-wJU0CQdbpBTD8SGI8ksBifIdjORkNk5pHYVyuiQ20KquDdpzsfBOvsd3ZeluBxgt5XPobVxv+YYUAuDchfiHnQ==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@ant-design/colors': 6.0.0
-      '@ant-design/icons': 4.6.2_react-dom@16.14.0+react@16.14.0
-      '@ant-design/react-slick': 0.28.3
-      '@babel/runtime': 7.14.0
-      array-tree-filter: 2.1.0
-      classnames: 2.3.1
-      copy-to-clipboard: 3.3.1
-      lodash: 4.17.21
-      moment: 2.29.1
-      rc-cascader: 1.4.3_react-dom@16.14.0+react@16.14.0
-      rc-checkbox: 2.3.2_react-dom@16.14.0+react@16.14.0
-      rc-collapse: 3.1.0_react-dom@16.14.0+react@16.14.0
-      rc-dialog: 8.5.2_react-dom@16.14.0+react@16.14.0
-      rc-drawer: 4.3.1_react-dom@16.14.0+react@16.14.0
-      rc-dropdown: 3.2.0_react-dom@16.14.0+react@16.14.0
-      rc-field-form: 1.20.1_react-dom@16.14.0+react@16.14.0
-      rc-image: 5.2.4_react-dom@16.14.0+react@16.14.0
-      rc-input-number: 7.1.3_react-dom@16.14.0+react@16.14.0
-      rc-mentions: 1.6.1_react-dom@16.14.0+react@16.14.0
-      rc-menu: 9.0.3_react-dom@16.14.0+react@16.14.0
-      rc-motion: 2.4.3_react-dom@16.14.0+react@16.14.0
-      rc-notification: 4.5.5_react-dom@16.14.0+react@16.14.0
-      rc-pagination: 3.1.6_react-dom@16.14.0+react@16.14.0
-      rc-picker: 2.5.10_68a1b20f2637bb88600ecb1e738b2e92
-      rc-progress: 3.1.4_react-dom@16.14.0+react@16.14.0
-      rc-rate: 2.9.1_react-dom@16.14.0+react@16.14.0
-      rc-resize-observer: 1.0.0_react-dom@16.14.0+react@16.14.0
-      rc-select: 12.1.10_react-dom@16.14.0+react@16.14.0
-      rc-slider: 9.7.2_react-dom@16.14.0+react@16.14.0
-      rc-steps: 4.1.3_react-dom@16.14.0+react@16.14.0
-      rc-switch: 3.2.2_react-dom@16.14.0+react@16.14.0
-      rc-table: 7.15.1_react-dom@16.14.0+react@16.14.0
-      rc-tabs: 11.9.1_react-dom@16.14.0+react@16.14.0
-      rc-textarea: 0.3.4_react-dom@16.14.0+react@16.14.0
-      rc-tooltip: 5.1.1_react-dom@16.14.0+react@16.14.0
-      rc-tree: 4.1.5_react-dom@16.14.0+react@16.14.0
-      rc-tree-select: 4.3.2_react-dom@16.14.0+react@16.14.0
-      rc-trigger: 5.2.8_react-dom@16.14.0+react@16.14.0
-      rc-upload: 4.3.0_react-dom@16.14.0+react@16.14.0
-      rc-util: 5.13.1_react-dom@16.14.0+react@16.14.0
-      react: 16.14.0
-      react-dom: 16.14.0_react@16.14.0
-      scroll-into-view-if-needed: 2.2.28
-      warning: 4.0.3
-    transitivePeerDependencies:
-      - dayjs
-    dev: false
-
   /antd/4.16.0_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-wJU0CQdbpBTD8SGI8ksBifIdjORkNk5pHYVyuiQ20KquDdpzsfBOvsd3ZeluBxgt5XPobVxv+YYUAuDchfiHnQ==}
     peerDependencies:
@@ -11044,7 +10990,7 @@ packages:
       p-map: 3.0.0
     dev: true
 
-  /craco-antd/1.19.0_6b535a6cd6054d32c9cb3a257ba8ca6c:
+  /craco-antd/1.19.0_fe4221278775071d901793b5fea8eefc:
     resolution: {integrity: sha512-MpbF2LQxb/POiR003oOkuAhHwpyRx1w5opyg7SA4/2og/FMRR/2oca/eqKYQ7vre2dOpt64gkQ5xWETktHWCQQ==}
     peerDependencies:
       '@craco/craco': ^5.5.0
@@ -11052,7 +10998,7 @@ packages:
       react-scripts: ^3.4.3
     dependencies:
       '@craco/craco': 6.1.2_react-scripts@4.0.3
-      antd: 4.16.0_68a1b20f2637bb88600ecb1e738b2e92
+      antd: 4.16.13_react-dom@16.14.0+react@16.14.0
       babel-plugin-import: 1.13.3
       craco-less: 1.17.0_107f524bec8867bd588dc98e65090632
       less-vars-to-js: 1.3.0
@@ -22693,26 +22639,6 @@ packages:
     transitivePeerDependencies:
       - react
       - react-dom
-    dev: false
-
-  /rc-picker/2.5.10_68a1b20f2637bb88600ecb1e738b2e92:
-    resolution: {integrity: sha512-d2or2jql9SSY8CaRPybpbKkXBq3bZ6g88UKyWQZBLTCrc92Xm87RfRC/P3UEQo/CLmia3jVF7IXVi1HmNe2DZA==}
-    engines: {node: '>=8.x'}
-    peerDependencies:
-      dayjs: ^1.8.30
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.14.0
-      classnames: 2.3.1
-      date-fns: 2.22.1
-      dayjs: 1.10.7
-      moment: 2.29.1
-      rc-trigger: 5.2.9_react-dom@16.14.0+react@16.14.0
-      rc-util: 5.13.1_react-dom@16.14.0+react@16.14.0
-      react: 16.14.0
-      react-dom: 16.14.0_react@16.14.0
-      shallowequal: 1.1.0
     dev: false
 
   /rc-picker/2.5.10_react-dom@16.14.0+react@16.14.0:

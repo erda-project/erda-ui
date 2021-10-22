@@ -12,18 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select } from 'antd';
+import AntdSelect from 'antd/lib/select';
 
-const { Option, OptGroup } = Select;
-const FixedSelect = React.forwardRef((props: any, ref) => {
+const Select = React.forwardRef((props: any, ref) => {
   return (
-    <Select ref={ref} getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement} {...props}>
+    <AntdSelect ref={ref} getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement} {...props}>
       {props.children}
-    </Select>
+    </AntdSelect>
   );
-}) as unknown as typeof Select;
+}) as unknown as typeof AntdSelect;
 
-FixedSelect.Option = Option;
-FixedSelect.OptGroup = OptGroup;
+Select.Option = AntdSelect.Option;
+Select.OptGroup = AntdSelect.OptGroup;
 
-export default FixedSelect;
+export default Select;

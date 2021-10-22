@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Dropdown, Menu, Divider } from 'antd';
+import { Dropdown, Menu, Divider } from 'antd';
+import Table, { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
 import i18n from 'i18n';
-import { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
 
 import './index.scss';
 
