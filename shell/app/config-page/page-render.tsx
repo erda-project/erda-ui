@@ -188,7 +188,7 @@ const EnhanceCompProps = (props: Merge<CONFIG_PAGE.BaseSpec, { children: React.R
   const [comProps, setCompProps] = React.useState(configProps);
   const [data, setData] = React.useState(pData);
 
-  const isLoadMoreData = comProps?.isLoadMore || comProps?.requestIgnore?.includes('data');
+  const ignoreData = comProps?.requestIgnore?.includes('data');
   React.useEffect(() => {
     if (configProps !== null && configProps !== undefined) {
       setCompProps(configProps);
@@ -196,14 +196,14 @@ const EnhanceCompProps = (props: Merge<CONFIG_PAGE.BaseSpec, { children: React.R
   }, [configProps]);
 
   React.useEffect(() => {
-    if (isLoadMoreData) {
+    if (ignoreData) {
       if (!isEmpty(pData)) {
         setData(pData);
       }
     } else {
       setData(pData);
     }
-  }, [pData, isLoadMoreData]);
+  }, [pData, ignoreData]);
 
   return React.cloneElement(children, { props: comProps, data, ...rest });
 };
