@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import MonitorPanel from 'monitor-overview/common/components/monitor-panel';
 import BIOverviewChartMap from 'browser-insight/pages/overview/config/chartMap';
 import BIAjaxChartMap from 'browser-insight/pages/ajax/config/chartMap';

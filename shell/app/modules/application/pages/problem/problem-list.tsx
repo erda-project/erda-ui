@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Spin, Select, Table } from 'core/nusi';
+import { Input, Spin, Select, Table } from 'antd';
 import { SwitchAutoScroll, CustomFilter } from 'common';
 import { goTo, fromNow, insertWhen } from 'common/utils';
 import { getProblemType, ProblemPriority } from 'application/pages/problem/problem-form';

@@ -15,7 +15,7 @@ import React from 'react';
 import 'ace-builds';
 import AceEditor, { IAceEditorProps } from 'react-ace';
 import { Icon as CustomIcon, Copy } from 'common';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { compact } from 'lodash';
 import { isValidJsonStr } from 'common/utils';
 import i18n from 'i18n';

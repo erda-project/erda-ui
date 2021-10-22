@@ -13,7 +13,7 @@
 
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { API_WS_MSG_TYPE } from 'app/modules/apiManagePlatform/configs';
-import { message, notification } from 'core/nusi';
+import { message, notification } from 'antd';
 import { get } from 'lodash';
 import i18n from 'i18n';
 import { setApiWithOrg } from 'common/utils';

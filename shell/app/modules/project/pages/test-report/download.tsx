@@ -13,7 +13,7 @@
 
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
-import { Input, Form } from 'core/nusi';
+import { Input, Form } from 'antd';
 import ExportPdf from 'project/pages/plan-detail/report/export-pdf';
 import { Upload as IconUpload } from '@icon-park/react';
 import Markdown from 'common/utils/marked';

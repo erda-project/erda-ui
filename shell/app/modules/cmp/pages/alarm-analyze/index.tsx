@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useEffect } from 'react';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import { isEmpty, map } from 'lodash';
 import { daysRange } from 'common/utils';
 import AlarmChart from './alarm-chart';

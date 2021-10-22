@@ -21,7 +21,7 @@ import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import constants from './constants';
 import './add-modal.scss';
-import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'core/nusi';
+import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'antd';
 import { FormInstance } from 'core/common/interface';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 

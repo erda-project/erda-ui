@@ -13,7 +13,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'core/nusi';
+import { Card } from 'antd';
 import { isString } from 'lodash';
 import './trace-common-panel.scss';
 

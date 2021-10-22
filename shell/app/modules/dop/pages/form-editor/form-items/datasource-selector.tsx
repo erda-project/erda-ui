@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form } from 'core/nusi';
+import { Form } from 'antd';
 import { DataSourceSelector } from 'project/common/components/datasource-selector';
 import React from 'react';
 import { isEmpty } from 'lodash';

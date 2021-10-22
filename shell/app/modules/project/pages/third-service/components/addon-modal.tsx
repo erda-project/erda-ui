@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { find, isEmpty, cloneDeep, map } from 'lodash';
-import { Button, message, Modal } from 'core/nusi';
+import { Button, message, Modal } from 'antd';
 import React from 'react';
 import InstanceForm from './instance-form';
 import ThirdAddonForm from './third-addon-form';

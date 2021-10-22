@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import { Link } from 'react-router-dom';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';
-import { Select, Button, Tooltip, Dropdown, Menu } from 'core/nusi';
+import { Select, Button, Tooltip, Dropdown, Menu } from 'antd';
 import { cloudVendor } from '../common/config';
 import VpcFormModal from './vpc-form-modal';
 import { map } from 'lodash';

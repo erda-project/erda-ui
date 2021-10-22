@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Modal } from 'core/nusi';
+import { Modal } from 'antd';
 import { TableActions } from 'common';
 import testPlanStore from 'project/stores/test-plan';
 import testEnvStore from 'project/stores/test-env';

@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Badge, message } from 'core/nusi';
+import { Table, Badge, message } from 'antd';
 import { goTo } from 'common/utils';
 import { TASKS_STATUS_MAP, WORKSPACE_MAP } from './config';
 import { ClusterSelector } from 'app/modules/cmp/common/components/cluster-selector';

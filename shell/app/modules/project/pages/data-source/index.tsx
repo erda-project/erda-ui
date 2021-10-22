@@ -15,7 +15,7 @@ import React from 'react';
 import dopStore from 'dop/stores';
 import addonStore from 'common/stores/addon';
 import customAddonStore from 'project/stores/custom-addon';
-import { Button, Tooltip } from 'core/nusi';
+import { Button, Tooltip } from 'antd';
 import AddonModal from '../third-service/components/addon-modal';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';

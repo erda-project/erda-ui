@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Button, message, Rate } from 'core/nusi';
+import { Button, message, Rate } from 'antd';
 import React, { PureComponent, ReactElement } from 'react';
 import { Editor } from './editor';
 import { IF } from 'common';

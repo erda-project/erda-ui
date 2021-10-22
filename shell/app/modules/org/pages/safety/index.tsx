@@ -16,7 +16,7 @@ import { CustomFilter, useFilter, MemberSelector, FileEditor } from 'common';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';
-import { DatePicker, Table, Button, Popover, Drawer } from 'core/nusi';
+import { DatePicker, Table, Button, Popover, Drawer } from 'antd';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import { has, isPlainObject } from 'lodash';

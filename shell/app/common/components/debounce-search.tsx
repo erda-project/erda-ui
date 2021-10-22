@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import { useDebounce } from 'react-use';
 import i18n from 'i18n';
 

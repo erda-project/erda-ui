@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Popover, Tabs } from 'core/nusi';
+import { Tooltip, Popover, Tabs } from 'antd';
 import { Icon as CustomIcon, IF, NoAuthTip } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import HealthPoint from 'project/common/components/health-point';

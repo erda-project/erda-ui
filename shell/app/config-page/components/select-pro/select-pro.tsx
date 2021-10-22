@@ -15,7 +15,7 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/2/4 14:52.
  */
 import React from 'react';
-import { Select, Modal } from 'core/nusi';
+import { Select, Modal } from 'antd';
 import { omit, map, debounce } from 'lodash';
 import { SelectProps } from 'core/common/interface';
 

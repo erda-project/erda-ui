@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useCallback, useEffect } from 'react';
-import { Button, Input, Popconfirm, Table, Spin } from 'core/nusi';
+import { Button, Input, Popconfirm, Table, Spin } from 'antd';
 import { PaginationConfig } from 'core/common/interface';
 import moment from 'moment';
 import { get, throttle } from 'lodash';

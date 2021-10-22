@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Drawer } from 'core/nusi';
+import { Drawer } from 'antd';
 import { AutoTestEnv, ManualTestEnv } from '../../../test-env/test-env';
 import testEnvStore from 'project/stores/test-env';
 

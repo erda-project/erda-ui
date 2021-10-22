@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Popconfirm } from 'core/nusi';
+import { Tooltip, Popconfirm } from 'antd';
 import { Ellipsis } from 'common';
 import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';

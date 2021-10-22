@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { KeyValueTextArea, KeyValueTable } from 'common';
-import { Radio } from 'core/nusi';
+import { Radio } from 'antd';
 import { isEqual } from 'lodash';
 import { FormInstance } from 'core/common/interface';
 import i18n from 'i18n';

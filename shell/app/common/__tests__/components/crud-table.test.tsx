@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { CRUDTable, CRUDStoreTable } from 'common';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { createStore } from 'core/cube';

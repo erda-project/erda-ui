@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Table, Spin, Button, Tooltip } from 'core/nusi';
+import { Table, Spin, Button, Tooltip } from 'antd';
 import { ColumnProps } from 'core/common/interface';
 import { goTo, fromNow } from 'common/utils';
 import { useUnmount } from 'react-use';

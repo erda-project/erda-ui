@@ -16,7 +16,7 @@ import { qs } from 'common/utils';
 import i18n from 'i18n';
 import produce from 'immer';
 import { cloneDeep, find, isArray, isEmpty, isString, map, reduce, reject, set } from 'lodash';
-import { Button, Input, Popconfirm, Radio, Select, Tabs } from 'core/nusi';
+import { Button, Input, Popconfirm, Radio, Select, Tabs } from 'antd';
 import React from 'react';
 import './api-test.scss';
 

@@ -13,7 +13,7 @@
 
 import React, { useState, useEffect, Fragment, memo } from 'react';
 import { isEmpty, find, cloneDeep } from 'lodash';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import './index.scss';
 import i18n from 'i18n';

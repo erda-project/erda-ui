@@ -15,7 +15,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { INode } from './components/topology-utils-v1';
-import { Tooltip, Dropdown, Menu } from 'core/nusi';
+import { Tooltip, Dropdown, Menu } from 'antd';
 import { floor, map } from 'lodash';
 import { Icon as CustomIcon, IF } from 'common';
 import { goTo } from 'common/utils';

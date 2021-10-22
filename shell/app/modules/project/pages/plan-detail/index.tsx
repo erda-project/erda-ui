@@ -14,7 +14,7 @@
 import { debounce, get } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Tabs, Input, Spin } from 'core/nusi';
+import { Button, Tabs, Input, Spin } from 'antd';
 import { DropdownSelect, Icon as CustomIcon } from 'common';
 import { SplitPage } from 'app/layout/common';
 import TestEnvDrawer from 'project/pages/test-manage/case/test-env-drawer';

@@ -14,7 +14,7 @@
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Row, Col, Select, Input, Spin, Table } from 'core/nusi';
+import { Row, Col, Select, Input, Spin, Table } from 'antd';
 import { IF } from 'common';
 import { goTo } from 'common/utils';
 import { getFormatter } from 'app/charts/utils/formatter';

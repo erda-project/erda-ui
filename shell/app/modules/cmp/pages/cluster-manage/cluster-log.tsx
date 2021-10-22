@@ -21,7 +21,7 @@ import { useEffectOnce } from 'react-use';
 import { ciStatusMap } from 'application/pages/build-detail/config';
 import clusterStore from '../../stores/cluster';
 import './cluster-log.scss';
-import { Drawer, Switch } from 'core/nusi';
+import { Drawer, Switch } from 'antd';
 
 let intervalObj = null as any;
 const StepListComp = ({

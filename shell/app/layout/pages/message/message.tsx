@@ -15,7 +15,7 @@ import React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
 import { Remind as IconRemind } from '@icon-park/react';
-import { Badge, Timeline, Drawer, notification, Button, Modal, message } from 'core/nusi';
+import { Badge, Timeline, Drawer, notification, Button, Modal, message } from 'antd';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
 import moment from 'moment';

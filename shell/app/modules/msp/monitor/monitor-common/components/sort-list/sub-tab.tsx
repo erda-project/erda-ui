@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Radio } from 'core/nusi';
+import { Radio } from 'antd';
 import { useMount } from 'react-use';
 import './sub-tab.scss';
 

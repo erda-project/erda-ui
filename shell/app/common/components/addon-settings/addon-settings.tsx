@@ -19,7 +19,7 @@ import routeInfoStore from 'core/stores/route';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import React from 'react';
 import './addon-settings.scss';
 import { useMount } from 'react-use';

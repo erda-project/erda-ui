@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { message } from 'core/nusi';
+import { message } from 'antd';
 import { MarkdownEditor } from 'common';
 import routeInfoStore from 'core/stores/route';
 import testPlanStore from 'project/stores/test-plan';

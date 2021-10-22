@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { isEmpty, map, get } from 'lodash';
 import React from 'react';
-import { Row, Col, Tooltip, Button } from 'core/nusi';
+import { Row, Col, Tooltip, Button } from 'antd';
 import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';

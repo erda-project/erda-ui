@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Table, Tabs, Tooltip } from 'core/nusi';
+import { Spin, Table, Tabs, Tooltip } from 'antd';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import routeInfoStore from 'core/stores/route';
 import { Copy, DetailsPanel, Icon as CustomIcon, TableActions, Ellipsis } from 'common';

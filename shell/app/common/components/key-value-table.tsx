@@ -13,7 +13,7 @@
 
 import { map, find, reject, uniqueId, isEqual } from 'lodash';
 import React from 'react';
-import { Form, Table, Input, Popconfirm, Button } from 'core/nusi';
+import { Form, Table, Input, Popconfirm, Button } from 'antd';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';
 import { FormInstance, ColumnProps } from 'core/common/interface';

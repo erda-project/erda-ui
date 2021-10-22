@@ -18,7 +18,7 @@ import { getUrlQuery } from 'config-page/utils';
 import { K8sClusterTerminalButton } from './cluster-terminal';
 import { updateSearch } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
-import { Drawer } from 'core/nusi';
+import { Drawer } from 'antd';
 import { PureClusterWorkloadDetail } from './cluster-workload-detail';
 
 interface IDetailData {

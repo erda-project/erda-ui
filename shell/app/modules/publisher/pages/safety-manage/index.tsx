@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Collapse, message } from 'core/nusi';
+import { Collapse, message } from 'antd';
 import blackListStore from '../../stores/blacklist';
 import eraseListStore from '../../stores/erase';
 import { WithAuth, usePerm } from 'user/common';

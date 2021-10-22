@@ -23,7 +23,7 @@ import appMemberStore from 'common/stores/application-member';
 import { getDefaultPaging } from 'common/utils';
 import { act } from 'react-dom/test-utils';
 import _ from 'lodash';
-import { message } from 'core/nusi';
+import { message } from 'antd';
 
 const memberLabels = [
   {

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Table, Tooltip } from 'core/nusi';
+import { Select, Table, Tooltip } from 'antd';
 import moment from 'moment';
 import HealthPoint, { statusMap } from 'project/common/components/health-point';
 import { ColumnProps } from 'core/common/interface';

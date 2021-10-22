@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Button, Pagination, Badge, Dropdown, Menu } from 'core/nusi';
+import { Tooltip, Button, Pagination, Badge, Dropdown, Menu } from 'antd';
 import { Icon as CustomIcon, EmptyHolder, ErdaIcon, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';

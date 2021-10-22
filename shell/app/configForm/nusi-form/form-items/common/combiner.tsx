@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, filter, cloneDeep, isPlainObject, set } from 'lodash';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';

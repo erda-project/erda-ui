@@ -96,7 +96,6 @@
       "core/i18n": ["../core/src/i18n"],
       "core/agent": ["../core/src/agent"],
       "core/config": ["../core/src/config.ts"],
-      "core/nusi": ["../core/src/nusi"],
       "core/service": ["../core/src/service/index"],
       "core/utils/ws": ["../core/src/utils/ws.ts"],
       "core/stores/route": ["../core/src/stores/route.ts"],

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Progress } from 'core/nusi';
+import { Progress } from 'antd';
 import { commonColumns } from '../../test-manage/case/columns';
 import Operation from './operation';
 import { ColumnProps } from 'core/common/interface';

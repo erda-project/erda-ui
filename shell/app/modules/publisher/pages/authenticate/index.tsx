@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import authenticateStroe from '../../stores/authenticate';
 import moment from 'moment';
 import i18n from 'i18n';
-import { Tooltip, Spin, Table, Select } from 'core/nusi';
+import { Tooltip, Spin, Table, Select } from 'antd';
 import { WithAuth, usePerm } from 'user/common';
 import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';

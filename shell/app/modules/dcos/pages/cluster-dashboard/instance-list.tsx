@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { ceil, set } from 'lodash';
-import { Table, Tooltip } from 'core/nusi';
+import { Table, Tooltip } from 'antd';
 import { Copy } from 'common';
 import { getBrowserInfo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';

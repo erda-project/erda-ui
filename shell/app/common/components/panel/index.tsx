@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, throttle } from 'lodash';
-import { Row, Col, Tooltip } from 'core/nusi';
+import { Row, Col, Tooltip } from 'antd';
 import { ErdaIcon } from 'common';
 import ResizeObserver from 'rc-resize-observer';
 

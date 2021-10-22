@@ -15,7 +15,7 @@ import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
-import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'core/nusi';
+import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'antd';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';

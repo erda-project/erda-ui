@@ -17,7 +17,7 @@ import moment, { Moment } from 'moment';
 import { ContractiveFilter, Copy, PureBoardGrid, TagsRow } from 'common';
 import { useSwitch, useUpdate } from "common/use-hooks";
 import { ColumnProps } from 'core/common/interface';
-import { Table, Drawer, message } from 'core/nusi';
+import { Table, Drawer, message } from 'antd';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';

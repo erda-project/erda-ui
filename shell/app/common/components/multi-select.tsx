@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState } from 'react';
-import { Select, Cascader } from 'core/nusi';
+import { Select, Cascader } from 'antd';
 import { useUpdateEffect } from 'react-use';
 import { get } from 'lodash';
 import './multi-select.scss';

@@ -13,7 +13,7 @@
 
 import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
-import { Form, Button } from 'core/nusi';
+import { Form, Button } from 'antd';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';

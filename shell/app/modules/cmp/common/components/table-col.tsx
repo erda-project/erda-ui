@@ -14,7 +14,7 @@
 import { cutStr } from 'common/utils';
 import i18n from 'i18n';
 import regionData from 'cmp/common/regionData';
-import { Tooltip, Badge } from 'core/nusi';
+import { Tooltip, Badge } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import { get } from 'lodash';

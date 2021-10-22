@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Tooltip } from 'core/nusi';
+import { Table, Tooltip } from 'antd';
 import { Copy, Icon as CustomIcon } from 'common';
 import { isEmpty } from 'lodash';
 import { getBrowserInfo } from 'common/utils';

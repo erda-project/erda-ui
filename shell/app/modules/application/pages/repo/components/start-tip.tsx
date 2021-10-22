@@ -18,7 +18,7 @@ import './start-tip.scss';
 import FileContainer from 'application/common/components/file-container';
 import i18n from 'i18n';
 import appStore from 'application/stores/application';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import repoStore from 'application/stores/repo';
 
 interface IProps {

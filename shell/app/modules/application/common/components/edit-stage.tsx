@@ -18,7 +18,7 @@ import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'core/nusi';
+import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'antd';
 import './edit-service.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';

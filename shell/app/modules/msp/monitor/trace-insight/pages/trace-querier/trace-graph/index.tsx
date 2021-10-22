@@ -13,7 +13,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Table } from 'core/nusi';
+import { Tree, Tooltip, Row, Col, Tabs, Table } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';

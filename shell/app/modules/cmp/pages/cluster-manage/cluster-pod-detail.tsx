@@ -18,7 +18,7 @@ import { isEmpty } from 'lodash';
 import { K8sPodTerminalConsole, K8sPodTerminalLog } from './cluster-terminal';
 import { Holder, PureBoardGrid, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import CommonDashboardStore from 'common/stores/dashboard';
 import { useLoading } from 'core/stores/loading';
 import DC from '@erda-ui/dashboard-configurator/dist';

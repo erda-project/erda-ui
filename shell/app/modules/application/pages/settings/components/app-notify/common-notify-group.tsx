@@ -15,7 +15,7 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { head, isEmpty, map, take } from 'lodash';
-import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'core/nusi';
+import { Button, message, Modal, Select, Spin, Table, Tooltip } from 'antd';
 import { Avatar, ErdaIcon, FormModal, MemberSelector } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { ColumnProps, FormInstance } from 'core/common/interface';

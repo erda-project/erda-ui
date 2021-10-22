@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, isInteger, get } from 'lodash';
-import { Table, Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'core/nusi';
+import { Table, Button, Popconfirm, Input, Modal, message, Select, Tooltip } from 'antd';
 import i18n from 'i18n';
 import scanRuleStore from 'project/stores/scan-rule';
 import { useEffectOnce } from 'react-use';

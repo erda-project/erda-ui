@@ -17,7 +17,7 @@ import { CustomFilter, TableActions, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { Input, Button, Table, Tooltip } from 'core/nusi';
+import { Input, Button, Table, Tooltip } from 'antd';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import AssetModal, { IMode, IScope } from 'app/modules/apiManagePlatform/pages/api-market/components/asset-modal';

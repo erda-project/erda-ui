@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 import { Lock as IconLock, Delete as IconDelete } from '@icon-park/react';

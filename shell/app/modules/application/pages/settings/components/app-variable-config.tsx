@@ -21,7 +21,7 @@ import { WORKSPACE_LIST } from 'common/constants';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
-import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'core/nusi';
+import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'antd';
 import React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Row, Col, Input, Button } from 'core/nusi';
+import { Row, Col, Input, Button } from 'antd';
 import { IF } from 'common';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import apiMonitorFilterStore from '../../stores/filter';

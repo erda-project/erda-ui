@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tabs } from 'core/nusi';
+import { Tabs } from 'antd';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { get, find } from 'lodash';

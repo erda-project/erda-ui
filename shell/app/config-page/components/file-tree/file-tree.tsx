@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Popover, Input, Tooltip } from 'core/nusi';
+import { Tree, Popover, Input, Tooltip } from 'antd';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';

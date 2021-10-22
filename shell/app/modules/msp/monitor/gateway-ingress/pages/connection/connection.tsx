@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import ConnectionMap from './config/chartMap';
 import TopTabRight from '../../common/components/tab-right';
 import routeInfoStore from 'core/stores/route';

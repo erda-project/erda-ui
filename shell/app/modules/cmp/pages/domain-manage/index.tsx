@@ -14,7 +14,7 @@
 import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Table, Input, Select, Tooltip } from 'core/nusi';
+import { Spin, Table, Input, Select, Tooltip } from 'antd';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, Filter } from 'common';
 import { useUpdate } from 'common/use-hooks';

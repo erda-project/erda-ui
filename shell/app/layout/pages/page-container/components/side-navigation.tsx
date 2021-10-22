@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Button } from 'core/nusi';
+import { Menu, Button } from 'antd';
 import { map } from 'lodash';
 import { MenuProps } from 'core/common/interface';
 import { useUpdate } from 'common/use-hooks';

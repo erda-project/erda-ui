@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { find, get, map } from 'lodash';
-import { Modal, Button, Table, Checkbox } from 'core/nusi';
+import { Modal, Button, Table, Checkbox } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { chargeTypeMap, chargePeriodMap } from '../config';

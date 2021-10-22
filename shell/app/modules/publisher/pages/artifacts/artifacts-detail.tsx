@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu } from 'core/nusi';
+import { Menu } from 'antd';
 import { ArtifactsInfo } from './artifacts-info';
 import VersionList from './version-list';
 import i18n from 'i18n';

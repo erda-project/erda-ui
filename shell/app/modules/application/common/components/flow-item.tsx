@@ -15,7 +15,7 @@ import { IPosition } from 'application/common/components/dice-yaml-editor-type';
 import React from 'react';
 import { Icon as CustomIcon, IF } from 'common';
 import classnames from 'classnames';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import './flow-item.scss';
 import PointComponentAbstract from 'application/common/components/point-component-abstract';
 

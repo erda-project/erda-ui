@@ -16,7 +16,7 @@ import { LoadMoreSelector } from 'common';
 import { DownOne as IconDownOne } from '@icon-park/react';
 import { goTo } from 'common/utils';
 import { map, isArray, filter, isEmpty, find, get } from 'lodash';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import i18n from 'i18n';
 import { getApps } from 'common/services';
 import routeInfoStore from 'core/stores/route';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Menu, Dropdown, message, Tooltip } from 'core/nusi';
+import { Button, Menu, Dropdown, message, Tooltip } from 'antd';
 import React from 'react';
 import { RenderForm, FormModal, MemberSelector } from 'common';
 import { connectCube } from 'common/utils';

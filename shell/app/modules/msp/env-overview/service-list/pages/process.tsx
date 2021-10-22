@@ -14,7 +14,7 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import classNames from 'classnames';
-import { Spin, Select } from 'core/nusi';
+import { Spin, Select } from 'antd';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';

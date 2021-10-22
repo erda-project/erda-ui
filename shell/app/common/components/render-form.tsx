@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Form, Row, Col, Avatar } from 'core/nusi';
+import { Form, Row, Col, Avatar } from 'antd';
 import classNames from 'classnames';
 import { RenderFormItem } from './render-formItem';
 import { FormInstance } from 'core/common/interface';

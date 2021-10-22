@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Input } from 'core/nusi';
+import { Drawer, Input } from 'antd';
 import { Icon } from 'common';
 import i18n from 'i18n';
 

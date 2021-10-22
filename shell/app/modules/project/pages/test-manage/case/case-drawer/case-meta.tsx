@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import { priorityList } from 'project/pages/test-manage/constants';
 import { Avatar, UserInfo } from 'common';
 import moment from 'moment';

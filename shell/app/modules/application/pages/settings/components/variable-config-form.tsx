@@ -16,7 +16,7 @@ import { useUpdate } from 'common/use-hooks';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
-import { Button, message, Spin, Upload } from 'core/nusi';
+import { Button, message, Spin, Upload } from 'antd';
 import React from 'react';
 import { Upload as IconUpload } from '@icon-park/react';
 

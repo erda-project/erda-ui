@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { Popconfirm } from 'core/nusi';
+import { Popconfirm } from 'antd';
 import { WithAuth } from 'user/common';
 import { colorMap } from 'app/charts/theme';
 

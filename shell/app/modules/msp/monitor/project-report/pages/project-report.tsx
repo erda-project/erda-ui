@@ -15,7 +15,7 @@ import React, { useEffect } from 'react';
 import { map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import i18n from 'i18n';
-import { DatePicker, Spin, Pagination, Button } from 'core/nusi';
+import { DatePicker, Spin, Pagination, Button } from 'antd';
 import { Holder, Icon as CustomIcon } from 'common';
 import { useUpdate, useFormModal } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';

@@ -14,7 +14,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon } from 'common';
-import { Button, Spin } from 'core/nusi';
+import { Button, Spin } from 'antd';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Dropdown, Menu, Popconfirm, Tooltip } from 'core/nusi';
+import { Dropdown, Menu, Popconfirm, Tooltip } from 'antd';
 import { isString, isEmpty, map } from 'lodash';
 import { WithAuth } from 'user/common';
 import { useDrag } from 'react-dnd';

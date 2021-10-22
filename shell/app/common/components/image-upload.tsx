@@ -14,7 +14,7 @@
 import React, { Component } from 'react';
 import i18n from 'i18n';
 import classnames from 'classnames';
-import { Input, Upload } from 'core/nusi';
+import { Input, Upload } from 'antd';
 import { ErdaIcon } from 'common';
 import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';

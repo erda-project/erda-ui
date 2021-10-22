@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Alert, Button, Form, Input, Spin } from 'core/nusi';
+import { Alert, Button, Form, Input, Spin } from 'antd';
 import React from 'react';
 import { ImageUpload, RenderForm } from 'common';
 import { goTo, insertWhen } from 'common/utils';

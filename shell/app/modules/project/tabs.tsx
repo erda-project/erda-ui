@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
 import permStore from 'user/stores/permission';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 
 export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;

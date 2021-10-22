@@ -15,7 +15,7 @@ import { Icon as CustomIcon } from 'common';
 import { useListDnD } from "common/use-hooks";
 import { reorder } from 'common/utils';
 import { map, cloneDeep } from 'lodash';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
 import './case-step.scss';

@@ -45,7 +45,7 @@ import {
   message,
   Modal,
   Tooltip,
-} from 'core/nusi';
+} from 'antd';
 import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';

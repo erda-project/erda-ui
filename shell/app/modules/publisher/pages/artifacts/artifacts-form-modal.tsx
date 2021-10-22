@@ -17,7 +17,7 @@
 import { ImageUpload, RenderPureForm } from 'common';
 import i18n from 'i18n';
 import React from 'react';
-import { Form, Modal } from 'core/nusi';
+import { Form, Modal } from 'antd';
 import { isEmpty, get, map, pick } from 'lodash';
 import { ArtifactsTypeMap } from './config';
 import { FormInstance } from 'core/common/interface';

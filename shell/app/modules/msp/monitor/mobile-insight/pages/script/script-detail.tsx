@@ -13,7 +13,7 @@
 
 import { map } from 'lodash';
 import React from 'react';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import moment from 'moment';
 import { Attention as IconAttention } from '@icon-park/react';
 import i18n from 'i18n';

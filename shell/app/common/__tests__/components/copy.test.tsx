@@ -14,7 +14,7 @@
 import React from 'react';
 import { Copy } from 'common';
 import { mount } from 'enzyme';
-import { message } from 'core/nusi';
+import { message } from 'antd';
 
 const copyText = 'hello world';
 describe('Copy', () => {

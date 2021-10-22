@@ -14,7 +14,7 @@
 import { size } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { message, Modal } from 'core/nusi';
+import { message, Modal } from 'antd';
 
 import { DropdownSelect } from 'common';
 import testCaseStore from 'project/stores/test-case';

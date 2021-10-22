@@ -14,7 +14,7 @@
 import { MarkdownEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isEmpty } from 'lodash';
-import { Button, message } from 'core/nusi';
+import { Button, message } from 'antd';
 import React from 'react';
 import { WithAuth } from 'user/common';
 import i18n from 'i18n';

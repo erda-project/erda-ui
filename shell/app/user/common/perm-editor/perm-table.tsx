@@ -15,7 +15,7 @@ import React from 'react';
 import { map, sortBy, get, set, findIndex, isEqual, filter, reduce, reverse } from 'lodash';
 import classnames from 'classnames';
 import { Icon as CustomIcon, DeleteConfirm, RenderForm } from 'common';
-import { Popover, Tooltip, Button } from 'core/nusi';
+import { Popover, Tooltip, Button } from 'antd';
 import { regRules } from 'common/utils';
 import { getTableList } from './utils';
 import i18n from 'i18n';

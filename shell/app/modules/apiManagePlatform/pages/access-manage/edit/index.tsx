@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Alert, Button } from 'core/nusi';
+import { Spin, Alert, Button } from 'antd';
 import { RenderForm, MultiInput } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';

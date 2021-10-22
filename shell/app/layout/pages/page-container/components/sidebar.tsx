@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Badge, Tooltip, message, Avatar } from 'core/nusi';
+import { Badge, Tooltip, message, Avatar } from 'antd';
 import AppCenter from './app-center';
 import GlobalNavigation from './globalNavigation';
 import { usePerm } from 'user/common';

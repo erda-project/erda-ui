@@ -16,7 +16,7 @@ import routeInfoStore from 'core/stores/route';
 import DiceConfigPage, { useMock } from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import Download from './download';
 import i18n from 'i18n';
 

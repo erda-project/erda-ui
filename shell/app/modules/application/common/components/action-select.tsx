@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import { Icon as CustomIcon, EmptyListHolder } from 'common';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';

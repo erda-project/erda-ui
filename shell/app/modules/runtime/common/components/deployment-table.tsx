@@ -15,7 +15,7 @@ import React from 'react';
 import moment from 'moment';
 import { ColumnProps } from 'core/common/interface';
 import { Avatar, Copy } from 'common';
-import { Table, Tooltip } from 'core/nusi';
+import { Table, Tooltip } from 'antd';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';
 

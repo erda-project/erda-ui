@@ -19,7 +19,7 @@
  * Just copy from old trace-detail
  */
 import React from 'react';
-import { Form, Row, Col, Radio } from 'core/nusi';
+import { Form, Row, Col, Radio } from 'antd';
 import { JsonChecker } from 'common';
 import i18n from 'i18n';
 

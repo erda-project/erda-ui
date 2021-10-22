@@ -15,7 +15,7 @@ import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react'
 import produce from 'immer';
 import { map, get, find, isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
-import { Button } from 'core/nusi';
+import { Button } from 'antd';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';

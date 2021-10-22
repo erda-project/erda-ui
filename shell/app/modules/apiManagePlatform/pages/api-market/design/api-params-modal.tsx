@@ -14,7 +14,7 @@
 import React from 'react';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Table, Modal, Collapse, Button, Spin, Tooltip } from 'core/nusi';
+import { Table, Modal, Collapse, Button, Spin, Tooltip } from 'antd';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { every, isEmpty, map, values, forEach } from 'lodash';

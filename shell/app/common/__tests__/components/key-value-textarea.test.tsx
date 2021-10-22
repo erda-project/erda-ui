@@ -14,7 +14,7 @@
 import React from 'react';
 import { KeyValueTextArea } from 'common';
 import { mount } from 'enzyme';
-import { Form } from 'core/nusi';
+import { Form } from 'antd';
 
 const Comp = (props) => {
   const [form] = Form.useForm();

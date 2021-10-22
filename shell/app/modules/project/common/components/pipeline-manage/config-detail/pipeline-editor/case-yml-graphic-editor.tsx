@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs } from 'core/nusi';
+import { Drawer, Tabs } from 'antd';
 import i18n from 'i18n';
 import { get } from 'lodash';
 import { PipelineGraphicEditor } from 'app/yml-chart/common/pipeline-graphic-editor';

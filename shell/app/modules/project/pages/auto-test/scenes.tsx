@@ -16,7 +16,7 @@ import routeInfoStore from 'core/stores/route';
 import DiceConfigPage from 'app/config-page';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
-import { Drawer } from 'core/nusi';
+import { Drawer } from 'antd';
 import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import { get, set, find, map, indexOf, isEmpty, sortBy } from 'lodash';

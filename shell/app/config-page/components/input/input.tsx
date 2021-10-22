@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 
 export default (props: CP_INPUT.Props) => {
   const { props: configProps, state: propsState, operations } = props;

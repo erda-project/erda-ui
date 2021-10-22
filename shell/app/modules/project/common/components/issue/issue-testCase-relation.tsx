@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'core/nusi';
+import { Table } from 'antd';
 import { Link } from 'react-router-dom';
 import routeInfoStore from 'core/stores/route';
 import moment from 'moment';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Modal, message } from 'core/nusi';
+import { Spin, Modal, message } from 'antd';
 import { goTo, getLS } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { isEmpty } from 'lodash';

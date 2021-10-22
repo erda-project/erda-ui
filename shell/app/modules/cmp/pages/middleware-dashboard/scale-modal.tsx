@@ -14,7 +14,7 @@
 import React from 'react';
 import { RenderPureForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Alert, Modal, Form } from 'core/nusi';
+import { Alert, Modal, Form } from 'antd';
 import i18n from 'i18n';
 import { IFormItem } from 'common/components/render-formItem';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';

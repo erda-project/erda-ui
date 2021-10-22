@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Rate, Alert } from 'core/nusi';
+import { Spin, Button, Tooltip, Rate, Alert } from 'antd';
 import { isEmpty, find, get } from 'lodash';
 import React from 'react';
 import { IF, FormModal, Avatar, Icon as CustomIcon, BackToTop } from 'common';

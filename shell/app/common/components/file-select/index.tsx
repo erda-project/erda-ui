@@ -13,7 +13,7 @@
 
 import './index.scss';
 
-import { Button, Upload } from 'core/nusi';
+import { Button, Upload } from 'antd';
 import React, { useEffect, useState } from 'react';
 import i18n from 'i18n';
 

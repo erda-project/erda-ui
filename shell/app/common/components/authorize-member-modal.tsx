@@ -17,7 +17,7 @@ import { getAppList } from 'common/services';
 import appMemberStore from 'common/stores/application-member';
 import i18n from 'i18n';
 import { map, compact, isEmpty } from 'lodash';
-import { Modal, Select, Table, Button, Input } from 'core/nusi';
+import { Modal, Select, Table, Button, Input } from 'antd';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'core/nusi';
+import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'antd';
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';

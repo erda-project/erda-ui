@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Select, Input, message, Alert } from 'core/nusi';
+import { Spin, Button, Select, Input, message, Alert } from 'antd';
 import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm } from 'common';
 import React from 'react';
 import { fromNow, setApiWithOrg } from 'common/utils';

@@ -17,7 +17,7 @@ import { ColumnProps } from 'core/common/interface';
 import { Copy, EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
-import { Button, Table, Modal, Popconfirm, message, Spin } from 'core/nusi';
+import { Button, Table, Modal, Popconfirm, message, Spin } from 'antd';
 import TypeSelect, { Item } from 'msp/env-setting/configuration/type-select';
 import { PAGINATION } from 'app/constants';
 import { usePerm, WithAuth } from 'user/common';

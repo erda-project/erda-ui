@@ -15,7 +15,7 @@ import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'core/nusi';
+import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'antd';
 import { FormModal } from 'common';
 import { useSwitch, useUpdate } from "common/use-hooks";
 import { goTo, insertWhen } from 'common/utils';

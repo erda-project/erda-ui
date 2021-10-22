@@ -16,7 +16,7 @@ import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { PureBoardGrid, Holder, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import { isEmpty } from 'lodash';
 import CommonDashboardStore from 'common/stores/dashboard';
 import { useLoading } from 'core/stores/loading';

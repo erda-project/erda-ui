@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Collapse, Radio, Row, Col, Table, Empty, Input } from 'core/nusi';
+import { Collapse, Radio, Row, Col, Table, Empty, Input } from 'antd';
 import i18n from 'i18n';
 import './sla-select.scss';
 import { slaAuthorizationMap, slaUnitMap } from 'apiManagePlatform/pages/access-manage/components/config';

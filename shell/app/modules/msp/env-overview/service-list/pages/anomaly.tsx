@@ -13,7 +13,7 @@
 
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';

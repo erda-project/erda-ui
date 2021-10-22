@@ -19,7 +19,7 @@ import networksStore from 'cmp/stores/networks';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 import { map, get, find } from 'lodash';
-import { Tooltip, Dropdown, Button, Menu, notification } from 'core/nusi';
+import { Tooltip, Dropdown, Button, Menu, notification } from 'antd';
 import { RedisFieldConfig } from 'project/pages/third-service/components/config';
 import cloudServiceStore from '../../stores/cloud-service';
 import { FormInstance } from 'core/common/interface';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { cloneDeep, find, findIndex, fill, uniqueId, filter, map, omit, every, some, isEmpty } from 'lodash';
-import { Button, Table, Input, message } from 'core/nusi';
+import { Button, Table, Input, message } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 

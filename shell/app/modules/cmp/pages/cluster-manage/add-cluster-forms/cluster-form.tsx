@@ -15,7 +15,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { RenderPureForm, FormModal, Copy } from 'common';
-import { Alert, Popover, Button } from 'core/nusi';
+import { Alert, Popover, Button } from 'antd';
 import { find, get, debounce, flatten, isEmpty, every, set } from 'lodash';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';

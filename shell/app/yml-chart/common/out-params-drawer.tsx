@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Input, Select, Button } from 'core/nusi';
+import { Drawer, Input, Select, Button } from 'antd';
 import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';

@@ -13,7 +13,7 @@
 
 import { MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Select } from 'core/nusi';
+import { Button, Select } from 'antd';
 import React from 'react';
 import i18n from 'i18n';
 import { getJoinedApps } from 'app/user/services/user';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { KeyValueEditor } from 'common';
-import { Form } from 'core/nusi';
+import { Form } from 'antd';
 import { mount } from 'enzyme';
 
 const data = {

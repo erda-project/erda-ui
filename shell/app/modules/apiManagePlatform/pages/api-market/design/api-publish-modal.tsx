@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import routeInfoStore from 'core/stores/route';
-import { message, Tooltip } from 'core/nusi';
+import { message, Tooltip } from 'antd';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';
 import orgStore from 'app/org-home/stores/org';

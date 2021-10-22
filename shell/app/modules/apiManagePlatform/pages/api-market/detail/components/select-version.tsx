@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { TreeSelect } from 'core/nusi';
+import { TreeSelect } from 'antd';
 import { getVersionTree } from 'apiManagePlatform/services/api-market';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Table, Popconfirm } from 'core/nusi';
+import { Button, Table, Popconfirm } from 'antd';
 import { goTo, fromNow, formatTime } from 'common/utils';
 import { useMount } from 'react-use';
 import i18n from 'i18n';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Select, Spin } from 'core/nusi';
+import { Select, Spin } from 'antd';
 import { Holder, IF } from 'common';
 import { connectCube } from 'common/utils';
 import { map, isEmpty, forEach } from 'lodash';

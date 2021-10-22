@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Tooltip, Card, Alert } from 'core/nusi';
+import { Tooltip, Card, Alert } from 'antd';
 import React from 'react';
 import { Avatar, UserInfo, TagsRow } from 'common';
 import { ISSUE_ICON } from '../../common/components/issue/issue-config';

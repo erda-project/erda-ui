@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input, InputNumber } from 'core/nusi';
+import { Input, InputNumber } from 'antd';
 import { cloneDeep, map } from 'lodash';
 import './variable-input-group.scss';
 import { uuid } from 'common/utils';

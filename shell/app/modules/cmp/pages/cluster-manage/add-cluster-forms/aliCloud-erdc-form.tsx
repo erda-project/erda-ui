@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Radio } from 'core/nusi';
+import { Modal, Radio } from 'antd';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
 import { Form } from 'dop/pages/form-editor/index';
 import clusterStore from 'cmp/stores/cluster';

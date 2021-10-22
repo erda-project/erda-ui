@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { IFormProps, regRulesMap, FormUnitContainer } from '../form-utils';
 import { EditableTable } from './edit-table';
 import { RenderPureForm, ReadonlyForm } from 'common';
-import { Switch, Select, Radio, Button } from 'core/nusi';
+import { Switch, Select, Radio, Button } from 'antd';
 import { map, uniqBy, get } from 'lodash';
 import clusterDashboardStore from 'app/modules/dcos/stores/dashboard';
 

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Button, Modal, Tooltip, Select } from 'core/nusi';
+import { Table, Button, Modal, Tooltip, Select } from 'antd';
 import { goTo, cutStr, resolvePath } from 'common/utils';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common/use-hooks';

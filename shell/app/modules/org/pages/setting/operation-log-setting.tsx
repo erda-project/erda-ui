@@ -13,7 +13,7 @@
 
 import { Form } from 'dop/pages/form-editor/index';
 import i18n from 'i18n';
-import { Button } from 'core/nusi';
+import { Button } from 'antd';
 import auditStore from 'org/stores/audit';
 import React from 'react';
 import { useEffectOnce } from 'react-use';

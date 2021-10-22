@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Badge, Avatar } from 'core/nusi';
+import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Badge, Avatar } from 'antd';
 import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis } from 'common';
 import i18n from 'i18n';

@@ -207,15 +207,15 @@ module.exports = () => {
                           Tag: true,
                         };
                         if (overwriteMap[name]) {
-                          return `common/antd-overwrite/${name.toLowerCase()}`;
+                          return `app/antd-overwrite/${name.toLowerCase()}`;
                         }
                         if (name === 'RangePicker') {
-                          return `common/antd-overwrite/range-picker`;
+                          return `app/antd-overwrite/range-picker`;
                         }
                         return `antd/es/${name}`;
                       },
                     },
-                    'nusi',
+                    'antd',
                   ],
                   '@babel/transform-runtime', // inject runtime helpers on demand
                 ],

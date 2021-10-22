@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Button, Menu, Modal } from 'core/nusi';
+import { Spin, Button, Menu, Modal } from 'antd';
 import BaseInfo from './base-info';
 import RecordList from './record-list';
 import { BuildLog } from 'application/pages/build-detail/build-log';

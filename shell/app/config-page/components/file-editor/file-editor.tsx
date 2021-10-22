@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button } from 'core/nusi';
+import { Button } from 'antd';
 import { FileEditor as PureFileEditor } from 'common';
 import { notify } from 'common/utils';
 import { OperationAction } from 'config-page/utils';

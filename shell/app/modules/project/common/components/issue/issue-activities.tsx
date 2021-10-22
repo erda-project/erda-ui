@@ -16,7 +16,7 @@ import { fromNow } from 'common/utils';
 import { useLoading } from 'core/stores/loading';
 import { map } from 'lodash';
 import moment from 'moment';
-import { Spin, Timeline } from 'core/nusi';
+import { Spin, Timeline } from 'antd';
 import issueStore from 'project/stores/issues';
 import { useUserMap } from 'core/stores/userMap';
 import React from 'react';

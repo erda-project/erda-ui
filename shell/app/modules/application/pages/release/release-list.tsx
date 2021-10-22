@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Pagination, Spin, Select } from 'core/nusi';
+import { Pagination, Spin, Select } from 'antd';
 import { map, get } from 'lodash';
 import { EmptyListHolder, EmptyHolder, IF, DebounceSearch } from 'common';
 import { useUpdate } from 'common/use-hooks';

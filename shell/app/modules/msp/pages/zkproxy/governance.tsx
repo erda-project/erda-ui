@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { Icon as CustomIcon, Holder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useMount } from 'react-use';
-import { Card, InputNumber, Button, Modal, Spin, message } from 'core/nusi';
+import { Card, InputNumber, Button, Modal, Spin, message } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import zkproxyStore from '../../stores/zkproxy';

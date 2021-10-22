@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer } from 'core/nusi';
+import { Drawer } from 'antd';
 import ResourceUsageCharts from 'monitor-common/components/resource-usage/resource-usage-charts';
 import Terminal from 'dcos/common/containers/terminal';
 import ContainerLog from 'runtime/common/logs/containers/container-log';

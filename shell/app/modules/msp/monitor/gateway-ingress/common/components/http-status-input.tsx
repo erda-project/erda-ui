@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { InputNumber } from 'core/nusi';
+import { InputNumber } from 'antd';
 import { isNumber } from 'lodash';
 import i18n from 'i18n';
 import './http-status-input.scss';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Transfer, Spin, Button, Tooltip } from 'core/nusi';
+import { Transfer, Spin, Button, Tooltip } from 'antd';
 import { isEqual } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { connectCube } from 'common/utils';

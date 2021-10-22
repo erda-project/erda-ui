@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Spin, Input, Tooltip, message } from 'core/nusi';
+import { Drawer, Spin, Input, Tooltip, message } from 'antd';
 import { Avatar, Copy, ErdaIcon, MarkdownEditor, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import testCaseStore from 'project/stores/test-case';

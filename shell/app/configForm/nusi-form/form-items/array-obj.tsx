@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty, map, get, isString } from 'lodash';
-import { Input, Form, Select, InputNumber, Switch } from 'core/nusi';
+import { Input, Form, Select, InputNumber, Switch } from 'antd';
 import { getLabel, noop, createCombiner } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';

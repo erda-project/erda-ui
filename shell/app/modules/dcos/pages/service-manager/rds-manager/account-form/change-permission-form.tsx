@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Transfer, Radio } from 'core/nusi';
+import { Transfer, Radio } from 'antd';
 import { TransferItem } from 'core/common/interface';
 import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';

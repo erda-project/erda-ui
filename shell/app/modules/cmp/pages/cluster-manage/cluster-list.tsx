@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table, Button, Drawer, Input, Spin } from 'core/nusi';
+import { Modal, Table, Button, Drawer, Input, Spin } from 'antd';
 import { goTo, insertWhen, notify, setSearch } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/cmp/common/components/machine-form-modal';

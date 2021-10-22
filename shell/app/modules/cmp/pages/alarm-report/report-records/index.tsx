@@ -16,7 +16,7 @@ import moment, { Moment } from 'moment';
 import { isEmpty, map, get, set, values } from 'lodash';
 import classnames from 'classnames';
 import { useMount, useUnmount } from 'react-use';
-import { Spin, Pagination, RangePicker } from 'core/nusi';
+import { Spin, Pagination, RangePicker } from 'antd';
 import { Holder, Icon as CustomIcon, PureBoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Input, Select, Tooltip } from 'core/nusi';
+import { Button, Input, Select, Tooltip } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { InputSelect, Icon as CustomIcon } from 'common';
 import { produce } from 'immer';

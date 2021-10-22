@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { map, get, groupBy, sortBy } from 'lodash';
 import clusterDashboardStore from 'dcos/stores/dashboard';
 import './label-selector.scss';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, isEmpty } from 'lodash';
-import { Drawer, Tabs } from 'core/nusi';
+import { Drawer, Tabs } from 'antd';
 import { CompSwitcher } from 'common';
 import commonStore from 'common/stores/common';
 

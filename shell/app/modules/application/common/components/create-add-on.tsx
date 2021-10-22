@@ -17,7 +17,7 @@ import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import { convertAddonPlan } from '../yml-flow-util';
-import { Input, Form, Select, Radio, Button, Alert } from 'core/nusi';
+import { Input, Form, Select, Radio, Button, Alert } from 'antd';
 import addon_png from 'app/images/resources/addon.png';
 import i18n from 'i18n';
 import { Down as IconDown, Up as IconUp } from '@icon-park/react';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'core/nusi';
+import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'antd';
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
 import { Icon as CustomIcon } from 'common';

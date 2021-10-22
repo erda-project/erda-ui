@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { isEmpty } from 'lodash';
 import { useMount } from 'react-use';
-import { Input, Button, message } from 'core/nusi';
+import { Input, Button, message } from 'antd';
 import { Avatar } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import userStore from 'app/user/stores';

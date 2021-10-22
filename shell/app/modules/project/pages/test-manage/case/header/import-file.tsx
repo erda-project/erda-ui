@@ -13,7 +13,7 @@
 
 import React, { useState } from 'react';
 import i18n, { isZh } from 'i18n';
-import { Button, message } from 'core/nusi';
+import { Button, message } from 'antd';
 
 import { FileSelect, FormModal } from 'common';
 import { useLoading } from 'core/stores/loading';

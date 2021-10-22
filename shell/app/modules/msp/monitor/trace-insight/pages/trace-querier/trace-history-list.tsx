@@ -14,7 +14,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { map as _map } from 'lodash';
-import { Spin, Tooltip } from 'core/nusi';
+import { Spin, Tooltip } from 'antd';
 import { EmptyHolder } from 'common';
 import './trace-history-list.scss';
 

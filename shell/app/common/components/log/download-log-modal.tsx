@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DatePicker, InputNumber, message } from 'core/nusi';
+import { DatePicker, InputNumber, message } from 'antd';
 import { FormModal } from 'common';
 import { qs, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { ReactNode } from 'react';
-import { Badge, Tooltip } from 'core/nusi';
+import { Badge, Tooltip } from 'antd';
 import { ossImg } from 'common/utils';
 import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import addon_png from 'app/images/resources/addon.png';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import i18n from 'i18n';
 import './content-panel.scss';
 import { Edit as IconEdit, Plus as IconPlus, Upload as IconUpload } from '@icon-park/react';

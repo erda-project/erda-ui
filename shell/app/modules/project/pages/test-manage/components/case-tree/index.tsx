@@ -16,7 +16,7 @@ import { isEmpty, map, includes, max, filter, remove, reduce, uniqBy, set, get }
 import i18n from 'i18n';
 import classnames from 'classnames';
 import { useMount } from 'react-use';
-import { Tree } from 'core/nusi';
+import { Tree } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';

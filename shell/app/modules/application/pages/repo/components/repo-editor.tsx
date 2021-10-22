@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, message, Input } from 'core/nusi';
+import { Button, message, Input } from 'antd';
 import React from 'react';
 import { RenderForm, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';

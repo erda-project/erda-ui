@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, Button, Badge, Table, Drawer } from 'core/nusi';
+import { Popover, Button, Badge, Table, Drawer } from 'antd';
 import { isEmpty, map, get } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'core/stores/loading';

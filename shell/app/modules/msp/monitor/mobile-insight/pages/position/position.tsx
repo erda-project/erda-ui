@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col, Button } from 'core/nusi';
+import { Row, Col, Button } from 'antd';
 import { find } from 'lodash';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';

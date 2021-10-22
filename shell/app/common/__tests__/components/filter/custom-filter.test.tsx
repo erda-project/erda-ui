@@ -14,7 +14,7 @@
 import React from 'react';
 import { useFilter, CustomFilter } from 'common';
 import { mount } from 'enzyme';
-import { DatePicker, Input, Select } from 'core/nusi';
+import { DatePicker, Input, Select } from 'antd';
 import _ from 'lodash';
 import { act } from 'react-dom/test-utils';
 import routeInfoStore from 'core/stores/route';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Tooltip } from 'core/nusi';
+import { Spin, Tooltip } from 'antd';
 import { LoadMore, EmptyListHolder, Avatar, Icon as CustomIcon, CustomFilter, MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { get } from 'lodash';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Tooltip } from 'core/nusi';
+import { Table, Tooltip } from 'antd';
 import { get } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';

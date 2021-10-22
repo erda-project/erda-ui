@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import moment, { Moment } from 'moment';
-import { RangePicker } from 'core/nusi';
+import { RangePicker } from 'antd';
 import React from 'react';
 
 interface IProps {

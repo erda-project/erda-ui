@@ -19,7 +19,7 @@ import { regRules } from 'common/utils/index';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
 import i18n from 'i18n';
 import { map, keys, get } from 'lodash';
-import { Menu, Dropdown, Button, notification } from 'core/nusi';
+import { Menu, Dropdown, Button, notification } from 'antd';
 import cloudServiceStore from '../../stores/cloud-service';
 import { useEffectOnce } from 'react-use';
 import {

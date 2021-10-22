@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Button, Spin } from 'core/nusi';
+import { Select, Input, Button, Spin } from 'antd';
 import { isEmpty, get } from 'lodash';
 import { LoadMore, Holder, Icon as CustomIcon } from 'common';
 import { connectCube } from 'common/utils';
