@@ -30,7 +30,7 @@ const CardContainer = ({ title, tip, operation, holderWhen, style, children }: C
   return (
     <div className="ec-card-container flex flex-col" style={style}>
       {title || operation ? (
-        <div className="h-8 flex items-center justify-between">
+        <div className="h-8 flex items-center justify-between leading-8">
           {title ? (
             <div className="font-medium inline-flex items-center">
               {title}

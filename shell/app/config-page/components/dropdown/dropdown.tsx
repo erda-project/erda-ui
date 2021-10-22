@@ -33,7 +33,7 @@ export default (props: CP_DROPDOWN.Props) => {
         return (
           <Menu.Item {...menu} key={menu.key}>
             <OperationAction operation={operations?.[menu.key]} onClick={() => onClick(operations?.[menu.key])}>
-              <span>{menu.label}</span>
+              <div>{menu.label}</div>
             </OperationAction>
           </Menu.Item>
         );
