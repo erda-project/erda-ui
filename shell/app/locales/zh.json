@@ -2128,6 +2128,7 @@
     "error stack": "错误堆栈",
     "error statistics": "错误统计",
     "error transaction tracking": "异常事务追踪",
+    "events": "事件",
     "exception": "异常分析",
     "exception check prompt": "满足条件即为异常，多个条件之间为或关系",
     "exception type": "异常类型",
