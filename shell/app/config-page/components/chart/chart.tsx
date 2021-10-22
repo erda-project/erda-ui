@@ -24,7 +24,7 @@ const getOption = (chartType: string, option: Obj) => {
       containLabel: true,
       right: 20,
       left: 20,
-      top: 10,
+      top: 20,
     },
   };
   let reOption = { ...option };
@@ -62,6 +62,15 @@ const getOption = (chartType: string, option: Obj) => {
           };
         }),
       };
+      if (reOption.legend) {
+        reOption = merge(
+          {
+            legend: { bottom: 0 },
+            grid: { bottom: 30 },
+          },
+          reOption,
+        );
+      }
       break;
     case 'bar':
       commonOp = {
@@ -134,7 +143,7 @@ const getOption = (chartType: string, option: Obj) => {
 
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation } = props;
-  const { style = {}, title, option, chartType, visible = true, ...rest } = configProps || {};
+  const { style = {}, pureChart, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
@@ -155,9 +164,12 @@ const Chart = (props: CP_CHART.Props) => {
   };
 
   const { option: reOption, isEmpty } = getOption(chartType, { color: reColor, ...optionRest });
-  return (
+  const ChartComp = <EChart key={cId} onEvents={onEvents} option={reOption} notMerge {...rest} />;
+  return pureChart ? (
+    ChartComp
+  ) : (
     <CardContainer.ChartContainer title={title} operation={extraContent} style={style} holderWhen={isEmpty}>
-      <EChart key={cId} onEvents={onEvents} option={reOption} notMerge {...rest} />
+      {ChartComp}
     </CardContainer.ChartContainer>
   );
 };

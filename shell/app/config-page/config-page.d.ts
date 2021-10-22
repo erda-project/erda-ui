@@ -84,6 +84,7 @@ declare namespace CONFIG_PAGE {
     | CP_DATE_PICKER.Spec
     | CP_DROPDOWN.Spec
     | CP_MARKDOWN_EDITOR.Spec
+    | CP_CARD_CONTAINER.Spec
     | CP_TABLE_GROUP.Spec;
 
   // 单个组件基础定义

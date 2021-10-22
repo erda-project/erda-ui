@@ -53,8 +53,6 @@ export default () => {
   return (
     <Spin spinning={downloading} tip={i18n.t('downloading')}>
       <DiceConfigPage
-        useMock={useMock('test-report')}
-        forceMock
         scenarioType="test-report"
         scenarioKey="test-report"
         inParams={inParams}

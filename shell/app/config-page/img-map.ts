@@ -16,6 +16,7 @@ import defaultOrgIcon from 'app/images/default-org-icon.svg';
 import defaultErdaIcon from 'app/static/favicon.ico';
 import defaultOrgImg from 'app/images/resources/org.png';
 import defaultAppIcon from 'app/images/default-app-icon.png';
+import defaultTestCase from 'app/images/default-test-case.svg';
 import emptyProjectImg from 'app/images/empty-project.png';
 
 const ImgMap = {
@@ -25,6 +26,7 @@ const ImgMap = {
   frontImg_default_org_img: defaultOrgImg,
   frontImg_default_app_icon: defaultAppIcon,
   frontImg_empty_project: emptyProjectImg,
+  default_test_case: defaultTestCase,
 };
 
 export default ImgMap;

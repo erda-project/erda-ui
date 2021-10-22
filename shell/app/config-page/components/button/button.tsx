@@ -118,7 +118,7 @@ export const Button = (props: CP_BUTTON.Props) => {
                     customProps?.click && customProps.click(mItem.operations.click);
                   }}
                 >
-                  <span>{mItem.text}</span>
+                  <div>{mItem.text}</div>
                 </Popconfirm>
               </Menu.Item>
             );

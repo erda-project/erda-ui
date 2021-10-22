@@ -11,24 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART {
+declare namespace CP_CARD_CONTAINER {
   interface Spec {
-    type: 'Chart';
-    props: IProps;
-    cId: string;
+    type: 'ChartContainer' | 'CardContainer';
+    props?: IProps;
   }
 
   interface IProps {
-    chartType: 'line' | 'pie' | 'bar';
-    option: Obj;
-    style: Obj;
-    pureChart?: boolean;
     visible?: boolean;
     title: string;
-    isLoadMore?: boolean;
+    tip?: string;
+    holderWhen?: boolean;
+    style?: React.CSSProperties;
   }
 
   type Props = MakeProps<Spec> & {
-    extraContent?: React.ReactElement;
+    title: string | React.ElementType;
+    extraContent: React.ReactChild | React.ReactChild[];
+    children: React.ReactChild | React.ReactChild[];
   };
 }
