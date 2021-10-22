@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#! /usr/bin/env/ node
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
@@ -39,7 +38,8 @@ const requestParams = {
   ctoken: '_vrr27wzht3OR4NYzvQ8RU8A',
 };
 
-const cookie = 'ctoken=_vrr27wzht3OR4NYzvQ8RU8A; EGG_SESS_ICONFONT=U8AXvqwdm-42-umGXGwgKq_Emj2wuVCkA87TjZ3dn6xm2T4whio3sIKoy4kjkuBSusLMQ-0MhcjWBE1FwhfGmMbpO9xPCEANAHIhoET_7kJ_pbscGV6FmfCh8QTWcmCiTv5lhhXEW-AxLfe1otCy-eI-zPgODc0D5EZxlVSk4mqOdEz-94IZi5OAcsu3pRkTAQs9KRTgwyfMtp67P9YXwDeVNoXPHTR1XHpaQgBHgWZxIoXczyxCXVtKz5kL3XUgvwp6JLe2wev9xkYzghiHai8qD-IW7Y1geGJ1t7DZpRojCu45sjyYzfUi8Z4C92GiKnM_HBWtGZSNh9fPZKzi9PPy1119sjt4-z9m3nAw8FTZ8oh_b93eiXLSeGwju8N4OynopeUV81az5imoZmTUfooAFW9T2bxrX8GUMxq5IiWUiv2FgC-7e_ShRA6jNBjYvcgTZPG_EDpHuhv7HpLsEpnwrjUZESIX_aXFhZ72jg_h-SR5bhK38ur8Vs0naHOB2heHAcQpLut_xmyHKOORn1le-9ByNEL98Oxllv5K0oD3-0a9Y-BjgYryPoMTL66fxEWWU_ub4ptIb3N9Fcty4Th3X2Bn7TnbozNlEqXeqAqJGg6ZfLChCr94DvayKNNRtHB2sL-tgTfvlPl2kj1pB9R9fZ4PGOxB0RUA_TvD0wVhrikVVgE0kNkAWqwTPu2zOqmHXx-U2SY-6AlTnc0wIK-e3UosG5YpKB5Hivw1oAes7s6_1vQUN2lFRaCTyoTBZo9e5ZYyiYRIr2oM5ZXQFOjUHXlD4wqAq0x-RSpz2EVnaRY7fPcnEbo30LifQSJ1agJ7wqKhEWeG_4D9kWRusQ9xNSV6kyjG395-bcTPeirkUxMWB6Afql569eRjon8ZjFltFfFi3-UexFctdRn5lPAEAuu1gKSby7GymKEpU3Ta3NSVO-PPzD9mH2R4Qkwg2KOplTe2i8SeForTMAh7tTOEqy8XHzrat7q69D9x8RE=';
+const cookie =
+  'ctoken=_vrr27wzht3OR4NYzvQ8RU8A; EGG_SESS_ICONFONT=U8AXvqwdm-42-umGXGwgKq_Emj2wuVCkA87TjZ3dn6xm2T4whio3sIKoy4kjkuBSusLMQ-0MhcjWBE1FwhfGmMbpO9xPCEANAHIhoET_7kJ_pbscGV6FmfCh8QTWcmCiTv5lhhXEW-AxLfe1otCy-eI-zPgODc0D5EZxlVSk4mqOdEz-94IZi5OAcsu3pRkTAQs9KRTgwyfMtp67P9YXwDeVNoXPHTR1XHpaQgBHgWZxIoXczyxCXVtKz5kL3XUgvwp6JLe2wev9xkYzghiHai8qD-IW7Y1geGJ1t7DZpRojCu45sjyYzfUi8Z4C92GiKnM_HBWtGZSNh9fPZKzi9PPy1119sjt4-z9m3nAw8FTZ8oh_b93eiXLSeGwju8N4OynopeUV81az5imoZmTUfooAFW9T2bxrX8GUMxq5IiWUiv2FgC-7e_ShRA6jNBjYvcgTZPG_EDpHuhv7HpLsEpnwrjUZESIX_aXFhZ72jg_h-SR5bhK38ur8Vs0naHOB2heHAcQpLut_xmyHKOORn1le-9ByNEL98Oxllv5K0oD3-0a9Y-BjgYryPoMTL66fxEWWU_ub4ptIb3N9Fcty4Th3X2Bn7TnbozNlEqXeqAqJGg6ZfLChCr94DvayKNNRtHB2sL-tgTfvlPl2kj1pB9R9fZ4PGOxB0RUA_TvD0wVhrikVVgE0kNkAWqwTPu2zOqmHXx-U2SY-6AlTnc0wIK-e3UosG5YpKB5Hivw1oAes7s6_1vQUN2lFRaCTyoTBZo9e5ZYyiYRIr2oM5ZXQFOjUHXlD4wqAq0x-RSpz2EVnaRY7fPcnEbo30LifQSJ1agJ7wqKhEWeG_4D9kWRusQ9xNSV6kyjG395-bcTPeirkUxMWB6Afql569eRjon8ZjFltFfFi3-UexFctdRn5lPAEAuu1gKSby7GymKEpU3Ta3NSVO-PPzD9mH2R4Qkwg2KOplTe2i8SeForTMAh7tTOEqy8XHzrat7q69D9x8RE=';
 
 let iconNameList = [];
 const iconMap = {};
@@ -95,22 +95,24 @@ const extractIconFromFile = (content, filePath, isEnd, resolve) => {
 
 // 获取iconfont项目数据
 const getProjectsData = () => {
-  return http.get(projectsFetchUrl)
+  return http
+    .get(projectsFetchUrl)
     .query(requestParams)
     .set('cookie', cookie)
     .then((response) => response.body.data.corpProjects)
-    .catch(err => {
+    .catch((err) => {
       console.log('获取iconfont项目数据失败：', err);
       return false;
     });
 };
 // 获取deleted iconfont项目数据
 const getDeletedIconData = (pid) => {
-  return http.get(deletedIconUrl)
+  return http
+    .get(deletedIconUrl)
     .query({ requestParams, limit: 1000, page: 1, pid })
     .set('cookie', cookie)
     .then((res) => res.body.data.icons)
-    .catch(err => {
+    .catch((err) => {
       console.log('获取回收站中iconfont数据失败：', err);
       return false;
     });
@@ -118,11 +120,12 @@ const getDeletedIconData = (pid) => {
 
 // 根据项目id获取iconfont数据
 const getIconData = (pid) => {
-  return http.get(iconsFetchUrl)
+  return http
+    .get(iconsFetchUrl)
     .query({ ...requestParams, pid })
     .set('cookie', cookie)
     .then((response) => response.body.data.icons)
-    .catch(err => {
+    .catch((err) => {
       console.log('获取iconfont数据失败：', err);
       return false;
     });
@@ -134,14 +137,15 @@ const deleteIconByProject = async (pid, pName) => {
   const ids = idList.join(',');
 
   return new Promise((resolve, reject) => {
-    return http.post(iconsDeleteUrl)
+    return http
+      .post(iconsDeleteUrl)
       .send({ ...requestParams, type: 'project', ids, pid })
       .set('cookie', cookie)
       .then(() => {
         console.log(`清除了${pName}项目中${idList.length}个无用的iconfont`);
         resolve(idList.length);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('删除iconfont失败:', err);
         reject();
       });
@@ -154,13 +158,14 @@ const findUselessIcon = (pid, projectName) => {
     uselessIconMap[pid] = { projectName, icons: {} };
 
     const iconData = await getIconData(pid);
-    iconData && iconData.forEach(({ id, font_class }) => {
-      if (!iconNameList.includes(font_class)) {
-        uselessIconMap[pid].icons[id] = font_class;
-      }
-    });
+    iconData &&
+      iconData.forEach(({ id, font_class }) => {
+        if (!iconNameList.includes(font_class)) {
+          uselessIconMap[pid].icons[id] = font_class;
+        }
+      });
     resolve();
-  }).catch(err => {
+  }).catch((err) => {
     return err;
   });
 };
@@ -213,7 +218,9 @@ const manageIconFont = async () => {
     }
   });
 
-  const getIdsSuccess = await Promise.all(promiseArr).then(() => true).catch(() => false);
+  const getIdsSuccess = await Promise.all(promiseArr)
+    .then(() => true)
+    .catch(() => false);
 
   if (!getIdsSuccess) {
     console.log('查找无用iconfont失败');
@@ -222,18 +229,22 @@ const manageIconFont = async () => {
 
   // 第三步，获取需要删除的iconfont的ids
   const delPromiseArr = [];
-  Object.keys(uselessIconMap).forEach(pid => {
+  Object.keys(uselessIconMap).forEach((pid) => {
     const deletePromise = deleteIconByProject(pid, uselessIconMap[pid].projectName);
     delPromiseArr.push(deletePromise);
   });
 
-  await Promise.all(delPromiseArr).then((res) => {
-    const uselessLen = res.reduce((t, item) => { return t + item; }, 0);
-    console.log(`共清除了${uselessLen}个无用的iconfont，再见👋`);
-    return true;
-  }).catch(() => {
-    return false;
-  });
+  await Promise.all(delPromiseArr)
+    .then((res) => {
+      const uselessLen = res.reduce((t, item) => {
+        return t + item;
+      }, 0);
+      console.log(`共清除了${uselessLen}个无用的iconfont，再见👋`);
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
 };
 
 const restoreDeletedIcon = async (pid) => {
@@ -242,19 +253,20 @@ const restoreDeletedIcon = async (pid) => {
   const justDeletedIcons = deletedIcons.filter(({ deleted_at }) => {
     const time = new Date(deleted_at).valueOf();
     // 撤销十分钟内被删除的iconfont
-    return (nowTime - time) < (1000 * 60 * 10);
+    return nowTime - time < 1000 * 60 * 10;
   });
 
   const ids = justDeletedIcons.map(({ id }) => id).join(',');
 
   return new Promise((resolve, reject) => {
-    return http.post(restoreDeletedIconUrl)
+    return http
+      .post(restoreDeletedIconUrl)
       .send({ ...requestParams, ids, pid })
       .set('cookie', cookie)
       .then(() => {
         resolve();
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('撤销删除失败:', err);
         reject();
       });
@@ -276,12 +288,14 @@ const restoreIconFont = async () => {
     restorePromiseArr.push(restorePromise);
   });
 
-  await Promise.all(restorePromiseArr).then(() => {
-    console.log('完成撤销删除工作');
-    return true;
-  }).catch(() => {
-    return false;
-  });
+  await Promise.all(restorePromiseArr)
+    .then(() => {
+      console.log('完成撤销删除工作');
+      return true;
+    })
+    .catch(() => {
+      return false;
+    });
 
   console.log('iconfont已撤销删除，再见👋');
 };

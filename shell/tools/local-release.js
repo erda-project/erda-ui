@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#!/usr/bin/env node
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-require-imports */
@@ -25,7 +24,7 @@ const notifier = require('node-notifier');
 const { execSync } = child_process;
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
-const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
+const UPDATE_SUB_MODULES = 'git pull --recurse-submodules';
 const START_DOCKER_CMD = 'open --background -a Docker';
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
 const CLEAR_CMD = 'rm -rf ./.happypack && rm -rf ./.terser-cache && rm -rf ./public/* && rm -rf ./sourcemap';
@@ -66,8 +65,8 @@ const whetherGenerateSourceMap = async () => {
       choices: ['是', '否'],
     },
   ]);
-  return answer.requireSourceMap === '是'
-}
+  return answer.requireSourceMap === '是';
+};
 
 const bundlePackage = async () => {
   try {
@@ -107,7 +106,9 @@ const bundlePackage = async () => {
     console.log('开始打包版本：', version);
 
     console.log('开始打包dice镜像');
-    const buildCmd = `cross-env-shell NODE_ENV=production ${requireSourceMap ? 'enableSourceMap=true' : ''} 'npm run build-app'`;
+    const buildCmd = `cross-env-shell NODE_ENV=production ${
+      requireSourceMap ? 'enableSourceMap=true' : ''
+    } 'npm run build-app'`;
     execSync(buildCmd, { stdio: 'inherit' });
     console.log('打包完成!');
     console.log('构建并推送镜像...');
@@ -140,7 +141,6 @@ const bundlePackage = async () => {
         console.log('文件 shell/login-ssh.sh 不存在');
       }
     }
-
   } catch (error) {
     console.log('打包中断退出, 由于:', error.message);
   }

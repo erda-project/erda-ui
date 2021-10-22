@@ -77,6 +77,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
           text: i18n.t('project:auto test'),
           prefix: `${goTo.resolve.projectAutoTestRoot()}/`,
         },
+        {
+          href: goTo.resolve.projectTestReport(),
+          text: i18n.t('project:test report'),
+          prefix: `${goTo.resolve.projectTestReport()}`,
+        },
       ],
     },
     {

@@ -23,29 +23,29 @@ import { useInstanceOperation } from 'app/modules/cmp/common/components/instance
 import './service-list.scss';
 
 const statusConfig = {
-  Unknown: { text: i18n.t('dcos:unknown'), state: 'warning' },
+  Unknown: { text: i18n.t('unknown'), state: 'warning' },
   CONTAINER: {
-    Stopped: { text: i18n.t('dcos:ready'), state: 'error' },
+    Stopped: { text: i18n.t('ready'), state: 'error' },
     Killed: { text: 'Killed', state: 'error' },
-    Failed: { text: i18n.t('dcos:startup failed'), state: 'error' },
-    Starting: { text: i18n.t('dcos:executing'), state: 'processing' },
-    Unknown: { text: i18n.t('dcos:failed'), state: 'warning' },
-    UnHealthy: { text: i18n.t('dcos:error'), state: 'warning' },
-    Healthy: { text: i18n.t('dcos:health'), state: 'success' },
-    Finished: { text: i18n.t('dcos:unknown'), state: 'default' },
-    Running: { text: i18n.t('dcos:running'), state: 'processing' },
+    Failed: { text: i18n.t('startup failed'), state: 'error' },
+    Starting: { text: i18n.t('executing'), state: 'processing' },
+    Unknown: { text: i18n.t('failed'), state: 'warning' },
+    UnHealthy: { text: i18n.t('error'), state: 'warning' },
+    Healthy: { text: i18n.t('cmp:health'), state: 'success' },
+    Finished: { text: i18n.t('unknown'), state: 'default' },
+    Running: { text: i18n.t('running'), state: 'processing' },
     OOM: { text: 'OOM', state: 'warning' },
   },
   RUNTIME: {
-    Init: { text: i18n.t('dcos:initializing'), state: 'processing' },
-    Progressing: { text: i18n.t('dcos:deploying'), state: 'processing' },
-    UnHealthy: { text: i18n.t('dcos:unhealthy'), state: 'warning' },
-    Healthy: { text: i18n.t('dcos:health'), state: 'success' },
+    Init: { text: i18n.t('initializing'), state: 'processing' },
+    Progressing: { text: i18n.t('cmp:deploying'), state: 'processing' },
+    UnHealthy: { text: i18n.t('cmp:unhealthy'), state: 'warning' },
+    Healthy: { text: i18n.t('cmp:health'), state: 'success' },
   },
   SERVICE: {
-    Progressing: { text: i18n.t('dcos:deploying'), state: 'processing' },
-    UnHealthy: { text: i18n.t('dcos:unhealthy'), state: 'warning' },
-    Healthy: { text: i18n.t('dcos:health'), state: 'success' },
+    Progressing: { text: i18n.t('cmp:deploying'), state: 'processing' },
+    UnHealthy: { text: i18n.t('cmp:unhealthy'), state: 'warning' },
+    Healthy: { text: i18n.t('cmp:health'), state: 'success' },
   },
 };
 
@@ -88,9 +88,9 @@ const ProgressItem = (percent: number, used: number, total: number, unit: string
       const _total = unit ? `${total} ${unit}` : getFormatter('STORAGE').format(total, 2);
       return (
         <div className="table-tooltip">
-          {`${i18n.t('dcos:usage amount')}：`}
+          {`${i18n.t('cmp:usage amount')}：`}
           <span className={color}>{_used}</span> <br />
-          {`${i18n.t('dcos:assignment')}：${_total}`}
+          {`${i18n.t('cmp:assignment')}：${_total}`}
         </div>
       );
     }}
@@ -273,14 +273,14 @@ function ServiceList({
         sorter: (a: any, b: any) =>
           Number((a.ip_addr || a.ipAddress || '').replace(/\./g, '')) -
           Number((b.ip_addr || b.ipAddress || '').replace(/\./g, '')),
-        render: (record: any) => record.ip_addr || record.ipAddress || i18n.t('dcos:no ip address'),
+        render: (record: any) => record.ip_addr || record.ipAddress || i18n.t('cmp:no ip address'),
       },
       haveHost
         ? {
-            title: i18n.t('dcos:host address'),
+            title: i18n.t('cmp:host address'),
             key: 'host_private_addr',
             width: 120,
-            render: (record: any) => record.host_private_addr || record.host || i18n.t('dcos:no host address'),
+            render: (record: any) => record.host_private_addr || record.host || i18n.t('cmp:no host address'),
           }
         : null,
       {

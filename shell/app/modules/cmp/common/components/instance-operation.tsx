@@ -102,7 +102,7 @@ export function useInstanceOperation<T extends Instance>({
       case OPERATION.LOG: {
         update({
           visible: true,
-          slideTitle: i18n.t('dcos:container log'),
+          slideTitle: i18n.t('cmp:container log'),
           content: <ContainerLog instance={{ ...record }} {...props} />,
         });
         break;

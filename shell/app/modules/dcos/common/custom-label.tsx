@@ -27,7 +27,7 @@ interface IProps {
 const emptyFun = () => {};
 const emptyArr = [] as string[];
 export const CustomLabel = React.forwardRef(
-  ({ value = emptyArr, onChange = emptyFun, labelName = i18n.t('dcos:add label') }: IProps, ref) => {
+  ({ value = emptyArr, onChange = emptyFun, labelName = i18n.t('application:add label') }: IProps, ref) => {
     const [labels, setLabels] = React.useState([] as string[]);
     const [showInput, setShowInput] = React.useState(false);
     const [inputVal, setInputVal] = React.useState(undefined);
@@ -122,7 +122,7 @@ export const checkCustomLabels = (_rule: any, value: string[], callback: Functio
         return val.trim() ? !reg.test(val.trim()) : true;
       })
     : false;
-  return notPass ? callback(i18n.t('dcos:each label can only contain letters, numbers and hyphens')) : callback();
+  return notPass ? callback(i18n.t('cmp:each label can only contain letters, numbers and hyphens')) : callback();
 };
 
 export const checkTagLabels = (_rule: any, value: string[], callback: Function) => {
@@ -137,7 +137,7 @@ export const checkTagLabels = (_rule: any, value: string[], callback: Function) 
   return notPass
     ? callback(
         i18n.t(
-          'dcos:each label can only contain letters, numbers, hyphens, underscores and dots, and should start and end with letters',
+          'cmp:each label can only contain letters, numbers, hyphens, underscores and dots, and should start and end with letters',
         ),
       )
     : callback();

@@ -60,19 +60,19 @@ const AddAccountForm = (props: IProps) => {
 
   const fieldsList = [
     {
-      label: `${i18n.t('dcos:database account')}(${i18n.t('ordinary account')})`,
+      label: `${i18n.t('cmp:database account')}(${i18n.t('ordinary account')})`,
       name: 'account',
       rules: [
         {
           validator: (_: any, value: string, callback: Function) => {
             if (!value) return callback();
             if (allAccountName.includes(value)) {
-              return callback(i18n.t('{name} already exists', { name: i18n.t('dcos:database account') }));
+              return callback(i18n.t('{name} already exists', { name: i18n.t('cmp:database account') }));
             }
             if (value.length < 5 || value.length > 32 || !/^[a-z][a-z0-9_]*[a-z0-9]$/.test(value)) {
               return callback(
                 i18n.t(
-                  'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+                  'cmp:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
                 ),
               );
             }
@@ -82,7 +82,7 @@ const AddAccountForm = (props: IProps) => {
       ],
       itemProps: {
         placeholder: i18n.t(
-          'dcos:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
+          'cmp:Composed of lowercase letters, numbers, underscores and hyphens, started with letter and ended with letter or number, 2~64 characters',
         ),
       },
     },
@@ -106,10 +106,10 @@ const AddAccountForm = (props: IProps) => {
     //   }],
     // },
     {
-      label: i18n.t('dcos:password'),
+      label: i18n.t('password'),
       name: 'password',
       itemProps: {
-        placeholder: i18n.t('dcos:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
+        placeholder: i18n.t('cmp:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
         type: passwordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon

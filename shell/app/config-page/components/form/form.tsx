@@ -17,6 +17,7 @@ import { isEmpty, map, get } from 'lodash';
 import i18n from 'i18n';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import { Title } from 'common';
+import { OperationAction } from 'config-page/utils';
 import { useUpdate } from 'common/use-hooks';
 
 export const Form = (props: CP_FORM.Props) => {
@@ -69,12 +70,13 @@ export const Form = (props: CP_FORM.Props) => {
           },
         };
       }
+      if (readOnly) curItem.disabled = true;
       return curItem;
     });
 
     formRef.current && formRef.current.setFields(useableFields);
     return useableFields;
-  }, [_fields, execOperation]);
+  }, [_fields, execOperation, readOnly]);
 
   if (!visible) return null;
   return (
@@ -85,7 +87,9 @@ export const Form = (props: CP_FORM.Props) => {
           {!readOnly ? (
             <div>
               {operations?.submit && (
-                <PureForm.Submit Button={Button} type="primary" text={i18n.t('application:commit')} />
+                <OperationAction onClick={() => formRef.current.onSubmit()} operation={operations.submit}>
+                  <Button type="primary">{i18n.t('application:commit')}</Button>
+                </OperationAction>
               )}
               {operations?.cancel && (
                 <Button className="ml-2" onClick={onCancel}>
@@ -98,14 +102,14 @@ export const Form = (props: CP_FORM.Props) => {
       ) : (
         <div>
           {operations?.submit && (
-            <Button type="primary" onClick={onOk}>
-              {i18n.t('application:commit')}
-            </Button>
+            <OperationAction onClick={onOk} operation={operations.submit}>
+              <Button type="primary">{i18n.t('application:commit')}</Button>
+            </OperationAction>
           )}
           {operations?.cancel && (
-            <Button className="ml-2" onClick={onCancel}>
-              {i18n.t('common:cancel')}
-            </Button>
+            <OperationAction onClick={onCancel} operation={operations.cancel}>
+              <Button className="ml-2">{i18n.t('common:cancel')}</Button>
+            </OperationAction>
           )}
         </div>
       )}

@@ -27,7 +27,7 @@ export const rdsTabs = {
   },
   database: {
     key: 'database',
-    name: i18n.t('dcos:database management'),
+    name: i18n.t('cmp:database management'),
     content: <Database />,
   },
   account: {

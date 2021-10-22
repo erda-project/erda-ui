@@ -162,4 +162,13 @@ declare namespace PROJECT {
     type: string;
     desc: string;
   }
+
+  interface ITestReportBody {
+    name: string;
+    summary: string;
+    reportData: {
+      'test-dashboard': Obj;
+      'issue-dashboard': Obj;
+    };
+  }
 }

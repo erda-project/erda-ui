@@ -57,7 +57,7 @@ export const formConfig = {
   label: {
     Zone: (
       <div>
-        {i18n.t('dcos:availability zone')}
+        {i18n.t('cmp:availability zone')}
         &nbsp;&nbsp;
         <Tooltip
           title={i18n.t(

@@ -23,7 +23,7 @@ import {
   Log as IconLog,
   Components as IconComponents,
 } from '@icon-park/react';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 
 export const envMap = {
   DEV: i18n.t('common:DEV'),
@@ -133,7 +133,7 @@ export const getMSPSubtitleByName = (name: string) => {
 };
 
 const renderIcon = (type: string) => () => {
-  return <ErdaCustomIcon className="erda-icon" type={type} fill="primary" />;
+  return <ErdaIcon className="erda-icon" type={type} fill="primary" />;
 };
 
 export const MSIconMap = {

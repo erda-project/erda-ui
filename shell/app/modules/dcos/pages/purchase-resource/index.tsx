@@ -146,10 +146,10 @@ class OrderPage extends React.Component<IProps, any> {
         getComp: () => (
           <React.Fragment>
             <Button type="primary" onClick={() => this.changeStep(1)}>
-              {i18n.t('dcos:ok')}
+              {i18n.t('ok')}
             </Button>
             <Button className="ml-3" onClick={() => window.history.back()}>
-              {i18n.t('dcos:cancel')}
+              {i18n.t('cancel')}
             </Button>
           </React.Fragment>
         ),
@@ -164,23 +164,23 @@ class OrderPage extends React.Component<IProps, any> {
       const periodList = ecs.periodUnit === 'Week' ? [1, 2, 3, 4] : [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, 60];
       extraFields = [
         {
-          label: i18n.t('dcos:time unit'),
+          label: i18n.t('time unit'),
           name: ['ecs', 'periodUnit'],
           type: 'radioGroup',
           options: [
             {
               value: 'Week',
-              name: i18n.t('dcos:week'),
+              name: i18n.t('week'),
             },
             {
               value: 'Month',
-              name: i18n.t('dcos:month'),
+              name: i18n.t('month'),
             },
           ],
           initialValue: 'Week',
         },
         {
-          label: i18n.t('dcos:duration'),
+          label: i18n.t('cmp:duration'),
           name: ['ecs', 'period'],
           type: 'select',
           options: periodList.map((a) => ({ value: a, name: a })),
@@ -192,8 +192,8 @@ class OrderPage extends React.Component<IProps, any> {
       {
         label: (
           <span>
-            <Tooltip title={i18n.t('dcos:currently only supports private')}>
-              {i18n.t('dcos:node type')}&nbsp;
+            <Tooltip title={i18n.t('cmp:currently only supports private')}>
+              {i18n.t('cmp:node type')}&nbsp;
               <IconHelp />
             </Tooltip>
           </span>
@@ -207,33 +207,33 @@ class OrderPage extends React.Component<IProps, any> {
         },
       },
       {
-        label: i18n.t('dcos:instance specification'),
+        label: i18n.t('cmp:instance specification'),
         name: ['ecs', 'instanceType'],
         initialValue: 'ecs.g5.2xlarge',
       },
       {
-        label: i18n.t('dcos:billing method'),
+        label: i18n.t('cmp:billing method'),
         name: ['ecs', 'instanceChargeType'],
         ...preOrPostPaid,
       },
       ...extraFields,
       {
-        label: this.getTipLabel(i18n.t('dcos:system disk'), `${i18n.t('dcos:cloud')} SSD`),
+        label: this.getTipLabel(i18n.t('cmp:system disk'), `${i18n.t('cmp:cloud')} SSD`),
         name: ['ecs', 'systemDiskSize'],
         type: 'inputNumber',
-        itemProps: { step: 1, min: 20, max: 500, placeholder: i18n.t('dcos:20 to 500') },
+        itemProps: { step: 1, min: 20, max: 500, placeholder: i18n.t('cmp:20 to 500') },
         rules: [
           {
             required: true,
-            message: i18n.t('dcos:please fill in the system disk capacity'),
+            message: i18n.t('cmp:please fill in the system disk capacity'),
           },
         ],
       },
       {
-        label: i18n.t('dcos:purchased instances'),
+        label: i18n.t('cmp:purchased instances'),
         name: ['ecs', 'amount'],
         type: 'inputNumber',
-        itemProps: { step: 1, min: 1, max: 100, placeholder: i18n.t('dcos:1 to 100') },
+        itemProps: { step: 1, min: 1, max: 100, placeholder: i18n.t('cmp:1 to 100') },
       },
     ];
   };
@@ -248,7 +248,7 @@ class OrderPage extends React.Component<IProps, any> {
       const periodList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, 60];
       extraFields = [
         {
-          label: `${i18n.t('dcos:duration')}(${i18n.t('dcos:month')}）`,
+          label: `${i18n.t('cmp:duration')}(${i18n.t('month')}）`,
           name: ['redis', 'period'],
           type: 'radioGroup',
           options: periodList.map((a) => ({ value: a, name: a })),
@@ -258,27 +258,27 @@ class OrderPage extends React.Component<IProps, any> {
     return [
       {
         label: this.getLinkLabel(
-          i18n.t('dcos:specifications'),
-          i18n.t('dcos:see details'),
+          i18n.t('cmp:specifications'),
+          i18n.t('cmp:see details'),
           'https://help.aliyun.com/document_detail/61135.html',
         ),
         name: ['redis', 'instanceClass'],
         type: 'select',
         options: fullList.map((item) => ({
-          name: `${item.text} (${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
-            'dcos:maximum throughput',
+          name: `${item.text} (${i18n.t('cmp:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
+            'cmp:maximum throughput',
           )}: ${item.maxThrp})`,
           value: item.key,
         })),
         rules: [
           {
             required: true,
-            message: i18n.t('dcos:please select the specification'),
+            message: i18n.t('cmp:please select the specification'),
           },
         ],
       },
       {
-        label: i18n.t('dcos:payment type'),
+        label: i18n.t('cmp:payment type'),
         name: ['redis', 'chargeType'],
         ...preOrPostPaid,
       },
@@ -300,11 +300,11 @@ class OrderPage extends React.Component<IProps, any> {
         initialValue: '2.8',
       },
       {
-        label: i18n.t('dcos:password'),
+        label: i18n.t('password'),
         name: ['redis', 'Password'],
         required: false,
         itemProps: {
-          placeholder: i18n.t('dcos:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
+          placeholder: i18n.t('cmp:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -333,23 +333,23 @@ class OrderPage extends React.Component<IProps, any> {
       const usedTimeList = rds.period === 'Year' ? [1, 2, 3, 4, 5, 6, 7, 8, 9] : [1, 2, 3];
       extra = [
         {
-          label: i18n.t('dcos:time unit'),
+          label: i18n.t('time unit'),
           name: ['rds', 'period'],
           type: 'radioGroup',
           options: [
             {
               value: 'Month',
-              name: i18n.t('dcos:month'),
+              name: i18n.t('month'),
             },
             {
               value: 'Year',
-              name: i18n.t('dcos:year'),
+              name: i18n.t('cmp:year'),
             },
           ],
           initialValue: 'Month',
         },
         {
-          label: i18n.t('dcos:duration'),
+          label: i18n.t('cmp:duration'),
           name: ['rds', 'usedTime'],
           type: 'radioGroup',
           options: usedTimeList.map((a) => ({ value: a, name: a })),
@@ -359,27 +359,27 @@ class OrderPage extends React.Component<IProps, any> {
     return [
       {
         label: this.getLinkLabel(
-          i18n.t('dcos:payment type'),
-          i18n.t('dcos:please select the specification'),
+          i18n.t('cmp:payment type'),
+          i18n.t('cmp:please select the specification'),
           'https://help.aliyun.com/document_detail/26312.html',
         ),
         name: ['rds', 'dbInstanceClass'],
         type: 'select',
         options: rdsConfig.map((item) => ({
-          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('dcos:maximum number of connections')}: ${
+          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('cmp:maximum number of connections')}: ${
             item.maxConn
-          }, ${i18n.t('dcos:maximum iops')}: ${item.maxIOPS})`,
+          }, ${i18n.t('cmp:maximum iops')}: ${item.maxIOPS})`,
           value: item.key,
         })),
         rules: [
           {
             required: true,
-            message: i18n.t('dcos:specifications'),
+            message: i18n.t('cmp:specifications'),
           },
         ],
       },
       {
-        label: i18n.t('dcos:see details'),
+        label: i18n.t('cmp:see details'),
         name: ['rds', 'payType'],
         type: 'radioGroup',
         options: [
@@ -402,19 +402,19 @@ class OrderPage extends React.Component<IProps, any> {
         options: ['5.5', '5.6', '5.7'].map((a) => ({ name: a, value: a })),
       },
       {
-        label: this.getTipLabel(i18n.t('dcos:storage disk capacity'), i18n.t('dcos:local ssd')),
+        label: this.getTipLabel(i18n.t('cmp:storage disk capacity'), i18n.t('cmp:local ssd')),
         name: ['rds', 'dbInstanceStorage'],
         type: 'inputNumber',
-        itemProps: { step: 5, min: 50, max: 2000, placeholder: i18n.t('dcos:50 to 2000 gb') },
+        itemProps: { step: 5, min: 50, max: 2000, placeholder: i18n.t('cmp:50 to 2000 gb') },
         rules: [
           {
             required: true,
-            message: i18n.t('dcos:please fill in the storage capacity'),
+            message: i18n.t('cmp:please fill in the storage capacity'),
           },
         ],
       },
       {
-        label: i18n.t('dcos:account name'),
+        label: i18n.t('cmp:account name'),
         name: ['rds', 'accountName'],
         rules: [
           {
@@ -423,7 +423,7 @@ class OrderPage extends React.Component<IProps, any> {
         ],
       },
       {
-        label: i18n.t('dcos:database name'),
+        label: i18n.t('cmp:database name'),
         name: ['rds', 'dbName'],
         itemProps: { maxLength: 16 },
         rules: [
@@ -433,11 +433,11 @@ class OrderPage extends React.Component<IProps, any> {
         ],
       },
       {
-        label: i18n.t('dcos:password'),
+        label: i18n.t('password'),
         name: ['rds', 'Password'],
         required: false,
         itemProps: {
-          placeholder: i18n.t('dcos:6 to 32 digits, consisting of letters, numbers and underscores'),
+          placeholder: i18n.t('cmp:6 to 32 digits, consisting of letters, numbers and underscores'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -451,13 +451,13 @@ class OrderPage extends React.Component<IProps, any> {
         rules: [
           {
             pattern: /^[a-zA-Z0-9_]{6,32}$/,
-            message: i18n.t('dcos:6 to 32 digits, consisting of letters, numbers and underscores'),
+            message: i18n.t('cmp:6 to 32 digits, consisting of letters, numbers and underscores'),
           },
         ],
         initialValue: '',
       },
       {
-        label: i18n.t('dcos:database encoding'),
+        label: i18n.t('cmp:database encoding'),
         name: ['rds.parameters', 'character_set_server'],
         type: 'radioGroup',
         options: characterSetLists.map((a) => ({ name: a, value: a })),
@@ -480,7 +480,7 @@ class OrderPage extends React.Component<IProps, any> {
       },
     };
 
-    const steps = [{ title: i18n.t('dcos:select configuration') }, { title: i18n.t('dcos:confirm configuration') }];
+    const steps = [{ title: i18n.t('cmp:select configuration') }, { title: i18n.t('cmp:confirm configuration') }];
 
     return (
       <Form ref={this.formRef} className="purchase-resource">
@@ -498,10 +498,10 @@ class OrderPage extends React.Component<IProps, any> {
               <KeyValueList data={this.confirmData} />
               <div className="op-row">
                 <Button type="primary" onClick={() => this.handleSubmit()}>
-                  {i18n.t('dcos:submit')}
+                  {i18n.t('submit')}
                 </Button>
                 <Button className="ml-3" onClick={() => this.changeStep(0)}>
-                  {i18n.t('dcos:return to modify')}
+                  {i18n.t('cmp:return to modify')}
                 </Button>
               </div>
             </div>

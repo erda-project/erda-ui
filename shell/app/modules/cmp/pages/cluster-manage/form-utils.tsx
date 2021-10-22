@@ -28,18 +28,18 @@ export const regRulesMap = {
   subnet: {
     pattern:
       /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}\/[0-9]+$/,
-    message: i18n.t('dcos:please fill in the correct network segment'),
+    message: i18n.t('cmp:please fill in the correct network segment'),
   },
   wildcardDomain: {
     pattern: /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/,
-    message: i18n.t('dcos:please fill in the correct extensive domain'),
+    message: i18n.t('cmp:please fill in the correct extensive domain'),
   },
-  port: { pattern: /^([0-9])+$/, message: i18n.t('dcos:please enter the correct port') },
+  port: { pattern: /^([0-9])+$/, message: i18n.t('cmp:please enter the correct port') },
   clusterName: {
     pattern: /^[a-z0-9]{1,20}-[a-z0-9]{1,20}$/,
-    message: i18n.t('dcos:letters and numbers, separated by hyphen'),
+    message: i18n.t('cmp:letters and numbers, separated by hyphen'),
   },
-  absolutePath: { pattern: /^\//, message: i18n.t('dcos:absolute path starts with /') },
+  absolutePath: { pattern: /^\//, message: i18n.t('cmp:absolute path starts with /') },
   ipWithComma: {
     pattern:
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(,(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))*$/,

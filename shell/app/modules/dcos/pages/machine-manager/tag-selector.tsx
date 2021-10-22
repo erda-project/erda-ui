@@ -32,7 +32,7 @@ const TagSelector = React.forwardRef(({ value, onChange }: IProps) => {
     <Select
       mode="multiple"
       className="w-full"
-      placeholder={i18n.t('dcos:please select the label')}
+      placeholder={i18n.t('cmp:please select the label')}
       value={value || []}
       getPopupContainer={(triggerNode) => triggerNode.parentNode}
       onChange={onChange}

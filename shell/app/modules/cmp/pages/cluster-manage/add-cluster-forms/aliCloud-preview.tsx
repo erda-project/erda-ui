@@ -81,7 +81,7 @@ const AliCloudPreview = ({
       maskClosable={false}
       width={1000}
       destroyOnClose
-      title={i18n.t('dcos:confirm configuration')}
+      title={i18n.t('cmp:confirm configuration')}
       visible={visible}
       footer={[
         <Button key="cancel" onClick={cancelConfirm}>

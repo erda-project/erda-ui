@@ -35,7 +35,7 @@ const Icon = (props: CP_ICON.Props) => {
 
   return (
     <OperationAction operation={operations?.click} onClick={onClick}>
-      <ErdaIcon iconType={iconType} {...extraProps} className={`${cls} ${extraProps?.className}`} />
+      <ErdaIcon type={iconType} {...extraProps} className={`${cls} ${extraProps?.className}`} />
     </OperationAction>
   );
 };

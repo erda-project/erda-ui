@@ -97,8 +97,8 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
       placement="top"
       title={
         unitType
-          ? `${i18n.t('uasge')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
-          : `${i18n.t('uasge')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
+          ? `${i18n.t('usage')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
+          : `${i18n.t('usage')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
       <div
@@ -498,7 +498,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 <HealthPoint
                   type="machine"
                   status={status === 'normal' ? 'normal' : 'warning'}
-                  msg={abnormalMsg || i18n.t('dcos:unknown state')}
+                  msg={abnormalMsg || i18n.t('cmp:unknown state')}
                 />
               )}
             </span>

@@ -265,7 +265,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('dcos:data disk device'),
+      label: i18n.t('cmp:data disk device'),
       component: 'input',
       key: 'device',
       componentProps: {

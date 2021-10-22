@@ -209,7 +209,7 @@ const Item = (props: ItemProps) => {
               return (
                 <Tooltip key={idx} title={info.tooltip}>
                   <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                    {info.icon ? <ErdaIcon iconType={info.icon} size={16} /> : null}
+                    {info.icon ? <ErdaIcon type={info.icon} isConfigPageIcon size="16" /> : null}
                     <span className="info-text nowrap">{info.text}</span>
                   </span>
                 </Tooltip>

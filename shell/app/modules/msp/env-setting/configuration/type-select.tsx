@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import './type-select.scss';
 import { Badge } from 'core/nusi';
 
-enum iconMap {
+enum ERDA_ICON {
   Golang = 'go',
   PHP = 'php',
   Java = 'java',
@@ -80,7 +80,7 @@ const TypeSelect = <T extends Item>({ list, onChange, value, className }: IProps
             }}
           >
             {isSelect && beta ? <Badge className="absolute top-2 right-2" count="beta" /> : null}
-            <ErdaCustomIcon size="60px" type={iconMap[key] ?? defaultIcon} {...iconProps} />
+            <ErdaIcon size="60px" type={ERDA_ICON[key] ?? defaultIcon} {...iconProps} />
             <div className={`ml-0.5 mr-3 name font-medium group-hover:text-primary ${isSelect ? 'text-primary' : ''}`}>
               {displayName}
             </div>

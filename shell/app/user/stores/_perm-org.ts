@@ -103,7 +103,7 @@ export const orgPerm = {
     operation: {
       pass: false,
       role: ['PublisherManager', 'Manager'],
-      name: i18n.t('user:operation (adding/publishing/delisting, etc.)'),
+      name: i18n.t('user:operation (adding/publishing/unShelve, etc.)'),
     },
   },
   ecp: {

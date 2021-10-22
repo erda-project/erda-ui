@@ -102,7 +102,7 @@ const DomainManage = () => {
               {name}
             </Option>
           )),
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('dcos:cluster name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('cmp:cluster name') }),
           allowClear: true,
         },
       },
@@ -163,7 +163,7 @@ const DomainManage = () => {
 
   const columns: any[] = [
     {
-      title: i18n.t('dcos:cluster name'),
+      title: i18n.t('cmp:cluster name'),
       dataIndex: 'clusterName',
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },

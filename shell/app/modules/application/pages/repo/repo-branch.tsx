@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'core/nusi';
-import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaCustomIcon } from 'common';
+import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon } from 'common';
 import React from 'react';
 import { fromNow, replaceEmoji } from 'common/utils';
 import { mergeRepoPathWith } from './util';
@@ -88,10 +88,10 @@ const RepoBranch = () => {
                   <div className="font-medium flex items-center text-base mb-3">
                     {isProtect ? (
                       <Tooltip title={i18n.t('protected branch')}>
-                        <ErdaCustomIcon size="22" type="baohu" />
+                        <ErdaIcon size="22" type="baohu" />
                       </Tooltip>
                     ) : (
-                      <ErdaCustomIcon opacity={0.8} fill="black" size="22" type="fz" />
+                      <ErdaIcon fill="black-800" size="22" type="fz" />
                     )}
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                       <span className="text-normal hover-active">{name}</span>
@@ -151,7 +151,7 @@ const RepoBranch = () => {
                     }
                   >
                     <Button>
-                      <ErdaCustomIcon opacity={0.85} className="hover mt-1" fill="black" size="16" type="more" />
+                      <ErdaIcon className="hover mt-1" fill="black-800" size="16" type="more" />
                     </Button>
                   </Dropdown>
                 </div>

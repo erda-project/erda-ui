@@ -13,8 +13,8 @@
 
 import { cutStr, qs, reorder } from 'common/utils';
 import classnames from 'classnames';
-import { Copy, ErdaCustomIcon, EmptyListHolder, FileEditor } from 'common';
-import { useListDnD } from "common/use-hooks";
+import { Copy, ErdaIcon, EmptyListHolder, FileEditor } from 'common';
+import { useListDnD } from 'common/use-hooks';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
 import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'core/nusi';
 import { Copy as IconCopy } from '@icon-park/react';
@@ -490,10 +490,10 @@ const ApiItem = ({
         <div className="api-title case-index-hover">
           <span ref={dragRef} className="case-index-block">
             <span className={numCls}>{index + 1}</span>
-            <ErdaCustomIcon size="16" className="drag-icon" type="px" />
+            <ErdaIcon size="16" className="drag-icon" type="px" />
           </span>
           <span>
-            <ErdaCustomIcon size="16" className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
+            <ErdaIcon size="16" className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
           </span>
           <Input
             className="flex-1"
@@ -502,18 +502,16 @@ const ApiItem = ({
             onChange={(e) => updateApi(index, 'name', e.target.value)}
             maxLength={50}
           />
-          <ErdaCustomIcon
-            opacity={0.4}
-            fill="black"
+          <ErdaIcon
+            fill="black-400"
             className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`}
             type="chevron-down"
             onClick={() => setCurShow(index)}
           />
           {inPlan ? null : (
             <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
-              <ErdaCustomIcon
-                opacity={0.4}
-                fill="black"
+              <ErdaIcon
+                fill="black-400"
                 className="ml-3 mt-1 api-op hover-active"
                 type="play"
                 onClick={() => handleExecute(api, index)}
@@ -521,13 +519,7 @@ const ApiItem = ({
             </SelectEnv>
           )}
           <Popconfirm title={`${i18n.t('common:confirm deletion')}？`} onConfirm={() => handleDelete(index)}>
-            <ErdaCustomIcon
-              opacity={0.4}
-              fill="black"
-              size="18"
-              className="ml-3 delete-icon api-op hover-active"
-              type="sc1"
-            />
+            <ErdaIcon fill="black-400" size="18" className="ml-3 delete-icon api-op hover-active" type="sc1" />
           </Popconfirm>
         </div>
         <div className={`api-content ${isShow ? 'block' : 'hidden'}`}>
@@ -688,9 +680,9 @@ const ApiTabComps = {
               trigger="hover"
             >
               {res.success === true ? (
-                <ErdaCustomIcon size="16" className="assert-status success" type="tg" />
+                <ErdaIcon size="16" className="assert-status success" type="tg" />
               ) : res.success === false ? (
-                <ErdaCustomIcon size="16" className="assert-status error" type="wtg" />
+                <ErdaIcon size="16" className="assert-status error" type="wtg" />
               ) : null}
             </Popover>
           );
@@ -1149,20 +1141,18 @@ const KeyValEdit = (props: IKeyValProps) => {
                   )}
                   onConfirm={() => handleDelete(i)}
                 >
-                  <ErdaCustomIcon
-                    opacity={0.85}
-                    fill="black"
+                  <ErdaIcon
+                    fill="black-800"
                     size="16"
                     type="sc1"
                     className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
                   />
                 </Popconfirm>
               ) : (
-                <ErdaCustomIcon
+                <ErdaIcon
                   type="sc1"
                   size="16"
-                  fill="black"
-                  opacity={0.85}
+                  fill="black-800"
                   onClick={() => {
                     handleDelete(i);
                   }}

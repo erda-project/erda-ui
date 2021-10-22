@@ -63,6 +63,23 @@ const ConfigPageRender = (props: IProps) => {
     return updateState(`${compPrefixKey}.${_cId}.state`, val);
   };
 
+  const execCommand = (command: Obj, val: Obj) => {
+    if (command) {
+      const { key, state, target, jumpOut } = command;
+      if (key === 'goto' && target) {
+        const { params, query } = state || {};
+        const str_num_params = pickBy({ ...(val || {}), ...params }, (v) => ['string', 'number'].includes(typeof v));
+        const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
+        goTo(goTo.pages[target] || target, { ...routeParams, ...str_num_params, jumpOut, query: str_num_query });
+        return true;
+      } else if (key === 'changeScenario') {
+        changeScenario(command);
+        return true;
+      }
+    }
+    return false;
+  };
+
   const reExecOperation = (_cId: string) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
     const op = cloneDeep({ ..._op });
@@ -80,20 +97,14 @@ const ConfigPageRender = (props: IProps) => {
     }
     if (op.reload === false) {
       if (op.command) {
-        const { key, state, target, jumpOut } = op.command;
-        if (key === 'goto' && target) {
-          const { params, query } = state || {};
-          const str_num_params = pickBy({ ...(val || {}), ...params }, (v) => ['string', 'number'].includes(typeof v));
-          const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
-          goTo(goTo.pages[target] || target, { ...routeParams, ...str_num_params, jumpOut, query: str_num_query });
-          return;
-        } else if (key === 'changeScenario') {
-          changeScenario(op.command);
-          return;
-        }
+        const { state, target } = op.command;
+        if (execCommand(op.command, updateVal)) return;
         return execOperation(_cId, op, { dataKey: `${compPrefixKey}.${target}.state`, dataVal: state });
       }
       return;
+    }
+    if (op.command?.key) {
+      op.callBack = () => execCommand(op.command, updateVal);
     }
     return execOperation(
       _cId,

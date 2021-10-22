@@ -27,12 +27,12 @@ export const mqTabs = {
   },
   topic: {
     key: 'topic',
-    name: i18n.t('dcos:topic management'),
+    name: i18n.t('cmp:topic management'),
     content: <Topic />,
   },
   group: {
     key: 'group',
-    name: i18n.t('dcos:group management'),
+    name: i18n.t('cmp:group management'),
     content: <Group />,
   },
 };

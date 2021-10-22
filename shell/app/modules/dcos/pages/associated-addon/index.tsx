@@ -29,7 +29,7 @@ const AssociatedAddons = ({ projectId, environment }: IProps) => {
     dopStore.getProjectAddons(projectId);
   }, [projectId]);
 
-  const uselessCategories = [i18n.t('dcos:customize')];
+  const uselessCategories = [i18n.t('cmp:customize')];
   let associateMicroServices: any[] = [];
   let associatedAddons: any[] = [];
   let associatedAbilities: any[] = [];

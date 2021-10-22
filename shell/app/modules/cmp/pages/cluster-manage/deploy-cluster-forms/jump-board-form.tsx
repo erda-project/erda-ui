@@ -35,7 +35,6 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
   const formPrefix = 'jump';
   const fieldsList = [
     {
-      label: `${i18n.t('dcos:no')} SaaS`,
       name: 'saas',
       initialValue: true,
       type: 'switch',

@@ -115,7 +115,7 @@ const ResourcesChartList = ({ clusters, machineList, setActiveKey }: IProps) => 
     },
     {
       type: 'machine',
-      name: `${i18n.t('dcos:abnormal machine')}`,
+      name: `${i18n.t('cmp:abnormal machine')}`,
       value: state.abnormalHostNum,
       isWithErrorClass: true,
     },

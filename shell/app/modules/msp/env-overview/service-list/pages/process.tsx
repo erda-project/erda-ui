@@ -84,11 +84,7 @@ export default () => {
             onChange={(v: any) => updater.instanceId(v)}
           >
             {(instanceIds || []).map(({ instanceId: v, status, ip }) => (
-              <Select.Option
-                key={v}
-                value={v}
-                title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}
-              >
+              <Select.Option key={v} value={v} title={status ? i18n.t('running') : i18n.t('project:stopped')}>
                 <div className="instance-item flex justify-between items-center">
                   <span className="instance-name nowrap">{ip || v}</span>
                   <div className="status ml-2">

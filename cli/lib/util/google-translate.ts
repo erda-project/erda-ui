@@ -17,14 +17,16 @@ import path from 'path';
 import { logInfo } from './log';
 
 const { translate } = require('@paiva/translation-google');
-// 过滤替换会造成i118next翻译出错的单词，比如点和冒号
+// Filter and replace words that will cause i118next translation errors, such as dots and colons
 const filterInvalidWord = (enWord: string) => {
   return enWord.replace(/:/g, '&#58;');
 };
 
 const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 
-// 注意：翻译完的英文首字母会强制小写，如果需要大写开头的需要手动调整
+/**
+ * translate En words to Zh words
+ * */
 export const doTranslate = async () => {
   const rawFile = fs.readFileSync(tempFilePath);
   const wordList = JSON.parse(rawFile.toString());
@@ -36,21 +38,20 @@ export const doTranslate = async () => {
 
   const promises = toTransList.map(async (word) => {
     const result = await translate(word, {
-      tld: 'zh-cn',
-      to: 'en',
+      tld: 'en',
+      to: 'zh-cn',
     });
-    return { zh: word, en: result.text };
+    return { zh: result.text, en: word };
   });
   const translatedList = await Promise.allSettled(promises);
 
   translatedList
     .filter((item) => item.status === 'fulfilled')
     .forEach((result) => {
-      const { zh, en } = (result as PromiseFulfilledResult<{ zh: string; en: any }>).value;
-      const [first, ...rest] = en;
-      const enWord = filterInvalidWord(`${first.toLowerCase()}${rest.join('')}`);
-      wordList[zh] = enWord;
-      logInfo(`${zh}: ${enWord}`);
+      const { zh, en } = (result as PromiseFulfilledResult<{ zh: string; en: string }>).value;
+      const zhWord = filterInvalidWord(zh);
+      wordList[en] = zhWord;
+      logInfo(`${en}: ${zhWord}`);
     });
   fs.writeFileSync(tempFilePath, JSON.stringify(wordList, null, '  '));
 };

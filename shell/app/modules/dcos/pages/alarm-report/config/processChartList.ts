@@ -30,7 +30,7 @@ const commonQuery = {
 const CHART_CONFIG_MAP = {
   processCPU: {
     ...commonAttr,
-    titleText: `${i18n.t('dcos:process')} CPU ${i18n.t('dcos:usage rate')}`,
+    titleText: `${i18n.t('cmp:process')} CPU ${i18n.t('cmp:usage rate')}`,
     chartName: 'processCPU',
     query: {
       ...commonQuery,
@@ -41,7 +41,7 @@ const CHART_CONFIG_MAP = {
   },
   processSpeed: {
     ...commonAttr,
-    titleText: i18n.t('dcos:process read and write speed'),
+    titleText: i18n.t('cmp:process read and write speed'),
     chartName: 'processSpeed',
     query: {
       ...commonQuery,
@@ -52,7 +52,7 @@ const CHART_CONFIG_MAP = {
   },
   processTime: {
     ...commonAttr,
-    titleText: i18n.t('dcos:process read and write times'),
+    titleText: i18n.t('cmp:process read and write times'),
     chartName: 'processTime',
     query: {
       ...commonQuery,
@@ -63,7 +63,7 @@ const CHART_CONFIG_MAP = {
   },
   processMem: {
     ...commonAttr,
-    titleText: i18n.t('dcos:process memory'),
+    titleText: i18n.t('cmp:process memory'),
     chartName: 'processMem',
     query: {
       ...commonQuery,
@@ -81,7 +81,7 @@ const CHART_CONFIG_MAP = {
   },
   processDuration: {
     ...commonAttr,
-    titleText: i18n.t('dcos:process duration'),
+    titleText: i18n.t('cmp:process duration'),
     chartName: 'processDuration',
     query: {
       ...commonQuery,

@@ -29,11 +29,11 @@ interface IProps {
 export const topTable = ({ data, valueTitle, unitType, unit, query: { filter_host_ip, timestamp } }: IProps) => {
   const columns = [
     {
-      title: `${i18n.t('dcos:process')} ID`,
+      title: `${i18n.t('cmp:process')} ID`,
       dataIndex: 'id',
     },
     {
-      title: i18n.t('dcos:process name'),
+      title: i18n.t('cmp:process name'),
       dataIndex: 'name',
     },
     {

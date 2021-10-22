@@ -308,7 +308,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         {state === 'merged'
           ? i18n.t('application:have merged')
           : state === 'open'
-          ? i18n.t('application:commited')
+          ? i18n.t('application:committed')
           : i18n.t('closed')}
       </span>
     );

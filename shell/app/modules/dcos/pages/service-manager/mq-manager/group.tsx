@@ -118,8 +118,8 @@ const Group = () => {
         <Alert
           message={
             <ul>
-              <li>1. {i18n.t('dcos:group-ID-used-for')}</li>
-              <li>2. {i18n.t('dcos:Group-ID-TCP-HTTP')}</li>
+              <li>1. {i18n.t('cmp:group-ID-used-for')}</li>
+              <li>2. {i18n.t('cmp:Group-ID-TCP-HTTP')}</li>
             </ul>
           }
           type="info"
@@ -130,7 +130,7 @@ const Group = () => {
       label: (
         <span>
           Group ID&nbsp;
-          <Tooltip title={i18n.t('dcos:GroupID-cannot-modified')}>
+          <Tooltip title={i18n.t('cmp:GroupID-cannot-modified')}>
             <IconHelp />
           </Tooltip>
         </span>
@@ -150,7 +150,7 @@ const Group = () => {
             } else if (value.startsWith('GID_') || value.startsWith('GID-')) {
               callback();
             } else {
-              callback(`${i18n.t('dcos:start with GID_ or GID-')}`);
+              callback(`${i18n.t('cmp:start with GID_ or GID-')}`);
             }
           },
         },
@@ -225,7 +225,7 @@ const Group = () => {
     <div>
       <div className="text-right mb-3">
         <Button type="primary" onClick={() => updater.formVisible(true)} className="mr-2">
-          {i18n.t('dcos:create Group ID')}
+          {i18n.t('cmp:create Group ID')}
         </Button>
         <Button type="primary" disabled={setTagDisabled} onClick={() => updater.tagFormVis(true)}>
           {i18n.t('batch labeling')}
@@ -258,7 +258,7 @@ const Group = () => {
         afterSubmit={afterTagFormSubmit}
       />
       <FormModal
-        title={i18n.t('dcos:create Group ID')}
+        title={i18n.t('cmp:create Group ID')}
         visible={formVisible}
         fieldsList={fieldsList}
         onCancel={() => updater.formVisible(false)}

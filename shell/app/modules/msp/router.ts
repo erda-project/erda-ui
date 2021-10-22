@@ -67,7 +67,7 @@ function getMspRouter(): RouteConfigItem[] {
             // 注册中心
             {
               path: 'release', // 灰度发布
-              breadcrumbName: i18n.t('msp:grayscale release'),
+              breadcrumbName: i18n.t('msp:gray release'),
               getComp: (cb) => cb(import('msp/pages/zkproxy/governance')),
             },
             {

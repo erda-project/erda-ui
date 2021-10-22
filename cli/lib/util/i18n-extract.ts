@@ -14,7 +14,7 @@
 import vfs from 'vinyl-fs';
 import path from 'path';
 import fs from 'fs';
-import _ from 'lodash';
+import { merge, differenceWith, isEqual, unset } from 'lodash';
 import { logError } from './log';
 
 interface Resource {
@@ -44,7 +44,6 @@ const options = () => ({
   defaultNs: ns.includes('default') ? 'default' : ns[0] || 'default',
   defaultValue: '__NOT_TRANSLATED__',
   resource: {
-    // loadPath: 'i18n/{{lng}}.json', // 合并模式下不要设置，否则文件内容会嵌套
     savePath: `${localePath}/{{lng}}.json`,
     jsonIndent: 2,
     lineEnding: '\n',
@@ -57,18 +56,6 @@ const options = () => ({
     suffix: '}}',
   },
 });
-
-function revertObjectKV(obj: { [k: string]: string }) {
-  const result: { [k: string]: string } = {};
-  if (typeof obj === 'object') {
-    Object.keys(obj).forEach((k) => {
-      if (typeof obj[k] === 'string') {
-        result[obj[k]] = k;
-      }
-    });
-  }
-  return result;
-}
 
 function sortObject(unordered: Resource | { [k: string]: string }) {
   const ordered: Resource | { [k: string]: string } = {};
@@ -85,7 +72,7 @@ function sortObject(unordered: Resource | { [k: string]: string }) {
 }
 
 function customFlush(done: () => void) {
-  const enToZhWords = revertObjectKV(zhWordMap);
+  const enToZhWords: { [k: string]: string } = zhWordMap;
   // @ts-ignore api
   const { resStore } = this.parser;
   // @ts-ignore api
@@ -93,7 +80,7 @@ function customFlush(done: () => void) {
 
   Object.keys(resStore).forEach((lng) => {
     const namespaces = resStore[lng];
-    // 未翻译的英文的value和key保持一致
+    // The untranslated English value and key are consistent
     if (lng === 'en') {
       Object.keys(namespaces).forEach((_ns) => {
         const obj = namespaces[_ns];
@@ -108,26 +95,26 @@ function customFlush(done: () => void) {
     const filePath = resource.savePath.replace('{{lng}}', lng);
     let oldContent = lng === 'zh' ? originalZhJson : originalEnJson;
 
-    // 移除废弃的key
+    // Remove obsolete keys
     if (removeUnusedKeys) {
       const namespaceKeys = flattenObjectKeys(namespaces);
       const oldContentKeys = flattenObjectKeys(oldContent);
-      const unusedKeys = _.differenceWith(oldContentKeys, namespaceKeys, _.isEqual);
+      const unusedKeys = differenceWith(oldContentKeys, namespaceKeys, isEqual);
 
       for (let i = 0; i < unusedKeys.length; ++i) {
-        _.unset(oldContent, unusedKeys[i]);
+        unset(oldContent, unusedKeys[i]);
       }
 
       oldContent = omitEmptyObject(oldContent);
     }
 
-    // 合并旧的内容
-    let output = _.merge(namespaces, oldContent);
+    // combine old content
+    let output = merge(namespaces, oldContent);
     if (sort) {
       output = sortObject(output);
     }
 
-    // 已有翻译就替换
+    // substitution zh locale
     if (lng === 'zh') {
       Object.keys(output).forEach((_ns) => {
         const obj = output[_ns];
@@ -154,13 +141,18 @@ function customFlush(done: () => void) {
 
 export default (
   resolve: (value: void | PromiseLike<void>) => void,
-  _ns: string,
   srcDir: string,
   _localePath: string,
+  switchNs?: boolean,
 ) => {
-  const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules/**/*', '!**/node_modules/**', '!**/node_modules'];
+  const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!**/node_modules/**'];
+  if (srcDir.endsWith('shell')) {
+    paths.push(`!${srcDir}/snippets/*.{js,jsx,ts,tsx}`);
+  }
   localePath = _localePath;
-  zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
+  if (!switchNs) {
+    zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
+  }
   const zhJsonPath = `${localePath}/zh.json`;
   const enJsonPath = `${localePath}/en.json`;
   let content = fs.readFileSync(zhJsonPath, 'utf8');
@@ -168,11 +160,7 @@ export default (
   content = fs.readFileSync(enJsonPath, 'utf8');
   originalEnJson = JSON.parse(content);
 
-  const namespaces = Object.keys(originalZhJson);
-  if (!namespaces.includes(_ns)) {
-    namespaces.push(_ns);
-  }
-  ns = namespaces;
+  ns = Object.keys(originalZhJson);
 
   vfs
     .src(paths)

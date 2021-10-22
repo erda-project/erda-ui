@@ -154,7 +154,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               </Radio.Group>
               <Select
                 mode="multiple"
-                placeholder={i18n.t('dcos:please select the label')}
+                placeholder={i18n.t('cmp:please select the label')}
                 value={tagList}
                 onChange={onTagChange}
               >
@@ -163,9 +163,9 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
                 ))}
               </Select>
               <div className="set-buttons">
-                <Button onClick={clearSet}>{i18n.t('dcos:reset')}</Button>
+                <Button onClick={clearSet}>{i18n.t('cmp:reset')}</Button>
                 <Button onClick={onSet} type="primary">
-                  {i18n.t('dcos:setting')}
+                  {i18n.t('setting')}
                 </Button>
               </div>
             </div>

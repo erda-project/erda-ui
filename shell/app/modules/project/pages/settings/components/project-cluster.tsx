@@ -16,7 +16,7 @@ import { Table, Tooltip } from 'core/nusi';
 import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
-import { ErdaCustomIcon } from 'common';
+import { ErdaIcon } from 'common';
 import projectStore from 'project/stores/project';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 
@@ -38,22 +38,22 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
 
   if (type === 'cpu') {
     data = {
-      requestRate: record.cpuRequestRate,
-      requestByService: record.cpuRequestByService,
-      requestByServiceRate: record.cpuRequestByServiceRate,
-      requestByAddon: record.cpuRequestByAddon,
-      requestByAddonRate: record.cpuRequestByAddonRate,
-      quota: record.cpuQuota,
+      requestRate: +(record.cpuRequestRate * 100).toFixed(2),
+      requestByService: record.cpuRequestByService.toFixed(2),
+      requestByServiceRate: +(record.cpuRequestByServiceRate * 100).toFixed(2),
+      requestByAddon: record.cpuRequestByAddon.toFixed(2),
+      requestByAddonRate: +(record.cpuRequestByAddonRate * 100).toFixed(2),
+      quota: record.cpuQuota.toFixed(2),
       tips: record.tips,
     };
   } else {
     data = {
-      requestRate: record.memRequestRate,
-      requestByService: record.memRequestByService,
-      requestByServiceRate: record.memRequestByServiceRate,
-      requestByAddon: record.memRequestByAddon,
-      requestByAddonRate: record.memRequestByAddonRate,
-      quota: record.memQuota,
+      requestRate: +(record.memRequestRate * 100).toFixed(2),
+      requestByService: record.memRequestByService.toFixed(2),
+      requestByServiceRate: +(record.memRequestByServiceRate * 100).toFixed(2),
+      requestByAddon: record.memRequestByAddon.toFixed(2),
+      requestByAddonRate: +(record.memRequestByAddonRate * 100).toFixed(2),
+      quota: record.memQuota.toFixed(2),
       tips: record.tips,
     };
   }
@@ -96,7 +96,7 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
       </div>
       {tips && (
         <Tooltip title={tips}>
-          <ErdaCustomIcon fill="danger-red" type="help" size="16" className="ml-1" />
+          <ErdaIcon fill="danger-red" type="help" size="16" className="ml-1" />
         </Tooltip>
       )}
     </div>

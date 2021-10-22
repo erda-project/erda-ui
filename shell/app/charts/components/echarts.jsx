@@ -29,9 +29,12 @@ import 'echarts/lib/chart/map';
 import React from 'react';
 import ResizeObserver from 'rc-resize-observer';
 import { theme as uiTheme } from 'app/themes';
+import { theme } from '../theme';
 import i18n from 'i18n';
 
 import './echarts.scss';
+
+echarts.registerTheme('erda', theme);
 
 class Echarts extends React.Component {
   // first add
@@ -67,15 +70,12 @@ class Echarts extends React.Component {
 
   getEchartsInstance() {
     // return the echart object
-    const { mapData, theme, themeObj } = this.props;
+    const { mapData } = this.props;
     if (mapData) {
       echarts.registerMap('china', mapData);
-      return echarts.init(this.echartsDom, this.props.theme);
+      return echarts.init(this.echartsDom, this.props.theme || 'erda');
     }
-    if (theme) {
-      echarts.registerTheme(theme, themeObj);
-    }
-    return echarts.getInstanceByDom(this.echartsDom) || echarts.init(this.echartsDom, this.props.theme);
+    return echarts.getInstanceByDom(this.echartsDom) || echarts.init(this.echartsDom, this.props.theme || 'erda');
   }
 
   // render the dom

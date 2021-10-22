@@ -22,6 +22,7 @@ interface IProps {
   domId: string;
   children: Function;
   tip?: string;
+  onFinish?: Function;
 }
 /**
  * @usage
@@ -29,7 +30,7 @@ interface IProps {
  *   <Icon type="upload" />导出报告</span>
  * </ExportPdf>
  */
-const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
+const ExportPdf = ({ domId, children, tip = 'pdf', onFinish }: IProps) => {
   const exportPdf = async () => {
     const page: Element | null = document.getElementById(domId);
     if (!page) {
@@ -37,17 +38,19 @@ const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
       return;
     }
     // XXX 2020/8/30 修复导出测试报告包含图片报错（临时方案）
-    const mdContent = page.getElementsByClassName('md-content')[0];
-    const str = mdContent.innerHTML;
-    const matchImgTag = /<img.*?src=['"](.*?)['"].*?>/gi;
-    const matchATag = /<a.*?href=['"](.*?)['"].*?>(.*?)<\/a>/gi;
-    let content = str.replace(matchImgTag, (_item, src) => {
-      return `<p>![image](${src})</p>`;
-    });
-    content = content.replace(matchATag, (_item, url, text) => {
-      return `<p>![${text || 'link'}](${url})</p>`;
-    });
-    mdContent.innerHTML = content;
+    const mdContent = page.getElementsByClassName('md-content')?.[0];
+    if (mdContent) {
+      const str = mdContent.innerHTML;
+      const matchImgTag = /<img.*?src=['"](.*?)['"].*?>/gi;
+      const matchATag = /<a.*?href=['"](.*?)['"].*?>(.*?)<\/a>/gi;
+      let content = str.replace(matchImgTag, (_item, src) => {
+        return `<p>![image](${src})</p>`;
+      });
+      content = content.replace(matchATag, (_item, url, text) => {
+        return `<p>![${text || 'link'}](${url})</p>`;
+      });
+      mdContent.innerHTML = content;
+    }
     const exportLoading = message.loading(`${i18n.t('project:exporting')}: ${tip}...`, 0);
     await loadJsFile(domToImageSrc);
     await loadJsFile(jsPdfSrc);
@@ -67,6 +70,9 @@ const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
         pdf.addImage(imageData, 'PNG', 20, 20, pageWidth, pageHeight);
         pdf.save(`${tip}.pdf`);
       })
+      .then(() => {
+        onFinish?.();
+      })
       .catch(() => {
         message.error(i18n.t('project:sorry, export failed!'));
       })
@@ -76,7 +82,7 @@ const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
   };
 
   if (typeof children !== 'function') {
-    return i18n.t('project:please pass in the method as the children of the exportpdf component');
+    return i18n.t('project:please pass in the method as the children of the exportPdf component');
   }
 
   return children({ exportPdf });
