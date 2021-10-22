@@ -150,7 +150,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     }
   }, [caseDetail, params.projectId, updater]);
   const shareLink = `${location.href.split('?')[0]}?${mergeSearch({ caseId: fullData.id }, true)}`;
-  const updateDate = fromNow(caseDetail.updatedAt);
+  const updateDate = fromNow(caseDetail.updatedAt, { edgeNow: true });
   const handleClose = () => {
     onClose();
     clearCaseDetail();
