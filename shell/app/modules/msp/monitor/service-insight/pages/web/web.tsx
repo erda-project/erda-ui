@@ -15,7 +15,7 @@ import React from 'react';
 import { Row, Col, Drawer } from 'antd';
 import { getFilterParams } from 'service-insight/common/utils';
 import { SimpleLog } from 'common';
-import { useSwitch } from "common/use-hooks";
+import { useSwitch } from 'common/use-hooks';
 import WebMap from './config/chartMap';
 import TopTabRight from 'service-insight/common/components/tab-right';
 import CommonPanel from '../../../trace-insight/pages/trace-querier/trace-common-panel';

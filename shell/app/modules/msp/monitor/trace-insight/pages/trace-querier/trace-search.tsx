@@ -15,7 +15,7 @@ import React, { useMemo } from 'react';
 import { debounce, get, isEmpty, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
 import { ContractiveFilter, Copy, PureBoardGrid, TagsRow } from 'common';
-import { useSwitch, useUpdate } from "common/use-hooks";
+import { useSwitch, useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 import { Table, Drawer, message } from 'antd';
 import { useEffectOnce, useUpdateEffect } from 'react-use';

@@ -14,7 +14,7 @@
 import React from 'react';
 import { Row, Col, Drawer } from 'antd';
 import { SimpleLog } from 'common';
-import { useSwitch } from "common/use-hooks";
+import { useSwitch } from 'common/use-hooks';
 import { getFilterParams } from 'service-insight/common/utils';
 import DataBaseMap from './config/chartMap';
 import TopTabRight from 'service-insight/common/components/tab-right';

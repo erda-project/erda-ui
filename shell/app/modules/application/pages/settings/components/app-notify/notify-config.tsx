@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { isEmpty, map, find, pick } from 'lodash';
 import { Spin, Modal, Tooltip, Switch, Select, Table, Button } from 'antd';
 import { FormModal } from 'common';
-import { useSwitch } from "common/use-hooks";
+import { useSwitch } from 'common/use-hooks';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { useMount, useUnmount } from 'react-use';
 import { useUserMap } from 'core/stores/userMap';

@@ -16,15 +16,7 @@ import moment from 'moment';
 import React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'antd';
-import {
-  EmptyHolder,
-  Icon as CustomIcon,
-  DeleteConfirm,
-  Avatar,
-  IF,
-  NoAuthTip,
-  SwitchAutoScroll,
-} from 'common';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, NoAuthTip, SwitchAutoScroll } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, secondsToTime, replaceEmoji } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
