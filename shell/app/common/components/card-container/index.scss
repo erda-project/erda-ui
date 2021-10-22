@@ -1,0 +1,17 @@
+.ec-card-container {
+  padding: 0 8px 8px;
+  border-radius: $radius;
+  background-color: $white;
+  @extend %shallow-shadow;
+}
+
+.ec-chart-container {
+  position: relative;
+  flex-direction: column;
+  min-height: 240px;
+  height: 100%;
+
+  .chart-dom {
+    height: 100%;
+  }
+}

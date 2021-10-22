@@ -61,6 +61,7 @@ export { default as Ellipsis } from './components/ellipsis';
 export type { EllipsisProps } from './components/ellipsis';
 export { default as FormBuilder } from './components/form-builder';
 export type { IFormExtendType, IFieldType } from './components/form-builder';
+export { default as CardContainer } from './components/card-container';
 export { ConfigLayout } from './components/config-layout';
 export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';
