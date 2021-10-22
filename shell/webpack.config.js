@@ -195,6 +195,28 @@ module.exports = () => {
                     },
                     'iconpark',
                   ],
+                  [
+                    'import',
+                    {
+                      libraryName: 'antd',
+                      camel2DashComponentName: false,
+                      customName: (name, file) => {
+                        const overwriteMap = {
+                          Table: true,
+                          Select: true,
+                          Tag: true,
+                        };
+                        if (overwriteMap[name]) {
+                          return `common/antd-overwrite/${name.toLowerCase()}`;
+                        }
+                        if (name === 'RangePicker') {
+                          return `common/antd-overwrite/range-picker`;
+                        }
+                        return `antd/es/${name}`;
+                      },
+                    },
+                    'nusi',
+                  ],
                   '@babel/transform-runtime', // inject runtime helpers on demand
                 ],
               },
