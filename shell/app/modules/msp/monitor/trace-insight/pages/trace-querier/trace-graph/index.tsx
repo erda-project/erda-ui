@@ -49,7 +49,8 @@ export function TraceGraph(props: IProps) {
   const [spanStartTime, setSpanStartTime] = React.useState(null! as number);
   const [timeRange, setTimeRange] = React.useState([null!, null!] as number[]);
   const [selectedSpanId, setSelectedSpanId] = React.useState(null! as string);
-  const [spanDataSource, setSpanDataSource] = React.useState([]);
+  const spanData = getSpanEvents.useData();
+  const spanDataSource = spanData?.spanEvents || [];
   const duration = max - min;
   const allKeys: string[] = [];
   const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
@@ -107,11 +108,9 @@ export function TraceGraph(props: IProps) {
 
   React.useEffect(() => {
     if (selectedSpanId && timeRange[0]) {
-      getSpanEvents({
+      getSpanEvents.fetch({
         startTime: timeRange[0],
         spanId: selectedSpanId,
-      }).then((res: any) => {
-        setSpanDataSource(res?.data?.spanEvents || []);
       });
     }
   }, [selectedSpanId, timeRange]);

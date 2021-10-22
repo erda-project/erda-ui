@@ -306,7 +306,7 @@ const TraceInsightQuerier = () => {
               {traceStatusDetail?.status === 1 && (
                 <Tooltip title={i18n.t('full screen')}>
                   <IconFullScreenOne
-                    size="16"
+                    size="14"
                     theme="filled"
                     className="cursor-pointer hover:text-primary"
                     onClick={() => setIsShowTraceDetail(true)}
