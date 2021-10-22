@@ -33,12 +33,14 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
       icon: <IconApplicationOne />,
       text: i18n.t('project:applications'),
+      subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
     },
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('project:issues'),
+      subtitle: i18n.t('Issues'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
@@ -57,6 +59,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}`,
       icon: <CustomIcon type="ceshiguanli" />,
       text: i18n.t('project:test'),
+      subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
         {
@@ -85,16 +88,19 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.projectService(),
       icon: <CustomIcon type="kuozhanfuwu" />,
       text: i18n.t('project:addon'),
+      subtitle: 'Addon',
       show: projectPerm.service.viewService.pass,
     },
     {
       text: i18n.t('project:resource summary'),
+      subtitle: i18n.t('Resource'),
       icon: <IconDataAll />,
       href: goTo.resolve.projectResource(),
       show: projectPerm.resource.viewResource.pass,
     },
     {
       text: i18n.t('project:tickets'),
+      subtitle: i18n.t('Tickets'),
       icon: <IconList />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
@@ -108,6 +114,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
       icon: <IconConfig />,
       text: `${i18n.t('project setting')}`,
+      subtitle: i18n.t('Setting'),
       show: projectPerm.setting.viewSetting.pass,
     },
   ];

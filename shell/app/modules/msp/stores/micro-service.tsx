@@ -13,7 +13,7 @@
 
 import { createStore } from 'core/cube';
 import * as mspService from 'msp/services';
-import { envMap, getMSFrontPathByKey, MSIconMap } from 'msp/config';
+import { envMap, getMSFrontPathByKey, MSIconMap, getMSPSubtitleByName } from 'msp/config';
 import { isEmpty, filter, get } from 'lodash';
 import layoutStore from 'layout/stores/layout';
 import { goTo, qs } from 'common/utils';
@@ -72,10 +72,12 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
       const { key, cnName, enName, children } = menu;
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
       const IconComp = MSIconMap[key];
+      const text = currentLocale.key === 'zh' ? cnName : enName;
       const sideMenu = {
         key,
         icon: IconComp ? <IconComp /> : 'zujian',
-        text: currentLocale.key === 'zh' ? cnName : enName,
+        text,
+        subtitle: getMSPSubtitleByName(text),
         href: `${href}${queryStr}`,
         prefix: `${href}`,
         subMenu: [] as any,

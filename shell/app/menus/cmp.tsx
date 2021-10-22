@@ -33,12 +33,14 @@ export const getCmpMenu = () => {
         href: goTo.resolve.cmpRoot(),
         icon: <IconDataDisplay />,
         text: i18n.t('cluster overview'),
+        subtitle: i18n.t('Overview'),
       },
       {
         key: 'cmpResources',
         href: goTo.resolve.cmpClusters(), // '/cmp/clusters',
         icon: <IconDataAll />,
         text: i18n.t('resource management'),
+        subtitle: i18n.t('Resource'),
         subMenu: [
           {
             key: 'cmpCluster',
@@ -62,6 +64,7 @@ export const getCmpMenu = () => {
         href: goTo.resolve.cmpServices(), // '/cmp/services',
         icon: <IconListTwo />,
         text: i18n.t('services&tasks'),
+        subtitle: i18n.t('Service'),
         subMenu: [
           {
             href: goTo.resolve.cmpServices(), // '/cmp/services',
@@ -82,18 +85,21 @@ export const getCmpMenu = () => {
         href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
         icon: <IconDashboardCar />,
         text: i18n.t('org:O & M dashboard'),
+        subtitle: i18n.t('Dashboard'),
       },
       {
         key: 'cmpReport',
         href: goTo.resolve.cmpReport(), // '/cmp/report',
         icon: <IconDataFile />,
         text: i18n.t('O & M report'),
+        subtitle: i18n.t('Report'),
       },
       {
         key: 'cmpAlarm',
         href: goTo.resolve.cmpAlarm(), // '/cmp/alarm',
         icon: <IconDatabaseAlert />,
         text: i18n.t('O & M alarm'),
+        subtitle: i18n.t('Alarm'),
         subMenu: [
           {
             text: i18n.t('alarm statistics'),

@@ -23,6 +23,7 @@ export interface IMenu {
   href: string;
   title?: string;
   text: string;
+  subtitle?: string;
   icon: string | React.ReactNode;
   customIcon: Element;
   subMenu?: IMenu[];
@@ -52,23 +53,30 @@ const SideNavigation = ({
   ...restProps
 }: IProps) => {
   const [{ isFold, cachedOpenKeys }, updater] = useUpdate({
-    isFold: false,
+    isFold: localStorage.getItem('isSubSidebarFold') === 'true',
     cachedOpenKeys: [] as string[],
   });
 
   const renderChildrenMenu = (childList: IMenu[]) => {
     return map(childList, (child) => {
-      const { icon, children, title, href } = child;
-      const renderIcon = <span className="ant-menu-item-icon m-0 p-0">{icon}</span>;
+      const { icon, children, title, href, subtitle } = child;
+      const foldIcon = (
+        <span className="fold-icon relative">
+          {icon}
+          <span className="text-xs my-1 overflow-hidden w-full inline-block">{subtitle}</span>
+          <div className="layer" />
+        </span>
+      );
+      const renderIcon = icon && <span className="ant-menu-item-icon m-0 p-0">{isFold ? foldIcon : icon}</span>;
       if (children && children.length) {
         return (
-          <Menu.SubMenu key={href} icon={renderIcon} title={title}>
+          <Menu.SubMenu key={href} icon={renderIcon} title={title} className={isFold ? 'fold' : ''}>
             {renderChildrenMenu(children)}
           </Menu.SubMenu>
         );
       }
       return (
-        <Menu.Item title={title} key={href} icon={icon}>
+        <Menu.Item title={title} key={href} icon={icon && isFold ? foldIcon : icon} className={isFold ? 'fold' : ''}>
           {linkRender(title, child)}
         </Menu.Item>
       );
@@ -83,6 +91,7 @@ const SideNavigation = ({
     }
     updater.isFold(!isFold);
     onFold(!isFold);
+    localStorage.setItem('isSubSidebarFold', `${!isFold}`);
   };
 
   return (

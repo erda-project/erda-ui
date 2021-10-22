@@ -35,16 +35,19 @@ export const getDopMenu = () => {
           href: goTo.resolve.dopRoot(), // '/dop/projects',
           icon: <IconApiApp />,
           text: i18n.t('joined projects'),
+          subtitle: i18n.t('Project'),
         },
         {
           href: goTo.resolve.dopApps(), // '/dop/apps',
           icon: <IconApplicationOne />,
           text: i18n.t('joined apps'),
+          subtitle: i18n.t('App'),
         },
         {
           icon: <CustomIcon type="apijishi" />,
           key: 'apiManage',
           text: i18n.t('API'),
+          subtitle: 'API',
           href: goTo.resolve.apiManageRoot(),
           show: orgPerm.dop.apiManage.read.pass,
           subMenu: [
@@ -70,6 +73,7 @@ export const getDopMenu = () => {
           href: goTo.resolve.dopService(), // '/dop/service',
           icon: <CustomIcon type="kuozhanfuwu" />,
           text: i18n.t('addon service'),
+          subtitle: 'Addon',
           show: orgPerm.dop.addonService.read.pass,
         },
         {
@@ -77,6 +81,7 @@ export const getDopMenu = () => {
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
           icon: <IconSeal />,
           text: i18n.t('dop:approval request'),
+          subtitle: i18n.t('Approve'),
           subMenu: [
             {
               text: i18n.t('dop:approved'),
@@ -95,12 +100,14 @@ export const getDopMenu = () => {
           href: goTo.resolve.dopPublisher(), // '/dop/publisher',
           icon: <IconSend />,
           text: i18n.t('publisher:my release'),
+          subtitle: i18n.t('Release'),
           show: orgPerm.dop.publisher.read.pass,
         },
         {
           href: goTo.resolve.dopPublicProjects(),
           icon: <IconBookOne />,
           text: i18n.t('public project'),
+          subtitle: i18n.t('Public'),
         },
       ],
       (item) => item.show !== false,
