@@ -13,7 +13,6 @@
 
 import * as history from 'history';
 import 'jest-enzyme';
-import { PaginationConfig, SorterResult, FormInstance } from 'core/common/interface';
 import { IFormItem } from 'common/components/render-formItem';
 
 export interface Location extends history.Location {
@@ -47,3 +46,28 @@ export interface IUseMultiFilterProps extends Omit<IUseFilterProps, 'onTableChan
 }
 
 export type FormModalList = IFormItem[] | ((form: any, isEdit: boolean) => IFormItem[]);
+
+// TODO: remove these type, import from antd directly
+export type { FormInstance } from 'antd/es/form/Form';
+export type { SelectValue, SelectProps } from 'antd/es/select';
+export type { DrawerProps } from 'antd/es/drawer';
+export type { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
+export type {
+  AntTreeNodeSelectedEvent,
+  TreeProps,
+  TreeNodeNormal,
+  AntTreeNode,
+  AntTreeNodeProps,
+  AntTreeNodeDropEvent,
+} from 'antd/lib/tree/Tree';
+export type { UploadProps } from 'antd/es/upload';
+export type { InputProps } from 'antd/es/input';
+export type { MenuProps } from 'antd/es/menu';
+// export type { ColumnProps, IActions } from '../nusi/wrapped-table'; // TODO: replace with antd-overwrite table
+export type { ModalProps } from 'antd/es/modal';
+export type { FormProps, FormItemProps } from 'antd/es/form';
+export type { AbstractTooltipProps } from 'antd/es/tooltip';
+export type { BreadcrumbProps, Route } from 'antd/es/breadcrumb/Breadcrumb';
+export type { PaginationProps } from 'antd/es/pagination';
+export type { RadioChangeEvent } from 'antd/es/radio/interface';
+export type { TransferItem } from 'antd/es/transfer/index';

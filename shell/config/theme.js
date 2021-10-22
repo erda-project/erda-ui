@@ -39,9 +39,5 @@ module.exports.getScssTheme = () => {
   $color-primary: #6A549E;
   $color-primary-light: #6D5AE2;
   $color-primary-dark: #5340C8;
-  // for nusi
-  $primary: $color-primary;
-  $light-primary-color: $color-primary-light;
-  $dark-primary-color: $color-primary-dark;
   `;
 };

@@ -13,7 +13,6 @@
 
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const os = require('os');
 const webpack = require('webpack');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
@@ -42,10 +41,4 @@ module.exports = {
       }),
     ],
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'style/[name].[contenthash].css',
-      ignoreOrder: true,
-    }),
-  ],
 };

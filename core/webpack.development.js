@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -27,10 +26,4 @@ module.exports = {
     chunkFilename: 'scripts/[id].[contenthash].js',
     publicPath: '/static/core/',
   },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'style/[name].css',
-      ignoreOrder: true,
-    }),
-  ],
 };

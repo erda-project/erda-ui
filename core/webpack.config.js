@@ -12,11 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const path = require('path');
-const fs = require('fs');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { getLessTheme, getScssTheme, themeColor } = require('./src/config/theme');
 const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
@@ -26,15 +23,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // const smp = new SpeedMeasurePlugin();
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
-const antdRealPath = fs.realpathSync(resolve('./node_modules/antd'));
-
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isProd = nodeEnv === 'production';
   console.log('isProd:', isProd);
-
-  const lessVariables = getLessTheme(themeColor);
-  const scssVariables = getScssTheme(false);
 
   const targetConfig = require(`./webpack.${nodeEnv}.js`);
 
@@ -56,50 +48,6 @@ module.exports = () => {
     },
     module: {
       rules: [
-        {
-          test: /\.(scss)$/,
-          include: [resolve('./src'), antdRealPath],
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                url: false,
-                sourceMap: false,
-              },
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: false,
-                webpackImporter: false,
-                additionalData: scssVariables,
-              },
-            },
-          ],
-        },
-        {
-          test: /\.(less)$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            {
-              loader: 'less-loader',
-              options: {
-                sourceMap: true,
-                lessOptions: {
-                  modifyVars: lessVariables,
-                  javascriptEnabled: true,
-                },
-              },
-            },
-          ],
-          include: [resolve('./src'), antdRealPath],
-        },
-        {
-          test: /\.(css)$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        },
         {
           test: /\.(tsx?|jsx?)$/,
           use: [
@@ -157,7 +105,6 @@ module.exports = () => {
           './stores/loading': './src/stores/loading.ts',
           './stores/userMap': './src/stores/user-map.ts',
           './utils/ws': './src/utils/ws.ts',
-          './nusi': './src/nusi/index.tsx',
           './service': './src/service/index.ts',
         },
         shared: {
