@@ -2113,6 +2113,7 @@
     "error stack": "error stack",
     "error statistics": "error statistics",
     "error transaction tracking": "error transaction tracking",
+    "events": "events",
     "exception": "exception",
     "exception check prompt": "satisfying the condition is an exception, and there is an OR relationship between multiple conditions",
     "exception type": "exception type",

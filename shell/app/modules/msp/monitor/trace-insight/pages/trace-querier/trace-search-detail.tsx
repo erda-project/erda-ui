@@ -66,6 +66,8 @@ export default ({ traceId }: { traceId?: string }) => {
             if (_traceId) {
               if (currentRoute?.path?.includes('transaction')) {
                 goTo(goTo.pages.mspServiceTransaction);
+              } else if (currentRoute?.path?.includes('trace/debug')) {
+                goTo(goTo.pages.mspTraceDebug);
               } else {
                 goTo(goTo.pages.microTrace);
               }
