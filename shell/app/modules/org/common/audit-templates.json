@@ -1790,6 +1790,17 @@
       "en": ""
     }
   },
+  "restartWorkload": {
+    "desc": "重新调度工作负载",
+    "success": {
+      "zh": "在集群 [@clusterName] 中，重新调度 [@resourceType] : [@name]（命名空间：[@namespace]）",
+      "en": "Restart [@resourceType] : [@name] in cluster [@clusterName] (namespace: [@namespace])"
+    },
+    "fail": {
+      "zh": "",
+      "en": ""
+    }
+  },
   "redeployRuntime": {
     "desc": "服务重启",
     "success": {
