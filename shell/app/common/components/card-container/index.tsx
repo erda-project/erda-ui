@@ -44,7 +44,7 @@ const CardContainer = ({ title, tip, operation, holderWhen, style, children }: C
           {operation ? <div>{operation}</div> : null}
         </div>
       ) : null}
-      {holderWhen ? <EmptyHolder /> : children}
+      {holderWhen ? <EmptyHolder relative /> : children}
     </div>
   );
 };
