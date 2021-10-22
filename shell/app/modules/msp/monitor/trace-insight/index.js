@@ -34,8 +34,17 @@ function monitorTraceRouter() {
       {
         path: 'debug',
         tabs: traceTabs,
-        layout: { noWrapper: true },
-        getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-querier')),
+        routes: [
+          {
+            layout: { noWrapper: true },
+            getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-querier')),
+          },
+          {
+            path: 'trace-detail/:traceId',
+            layout: { noWrapper: true },
+            getComp: (cb) => cb(import('msp/monitor/trace-insight/pages/trace-querier/trace-search-detail')),
+          },
+        ],
       },
       {
         path: 'trace-detail/:traceId',

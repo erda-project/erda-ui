@@ -13,10 +13,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Ellipsis } from 'core/nusi';
+import { Tree, Tooltip, Row, Col, Tabs, Ellipsis, Table } from 'core/nusi';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder } from 'common';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
-import { getSpanAnalysis } from 'msp/services';
+import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
 import i18n from 'i18n';
 import moment from 'moment';
@@ -44,13 +44,37 @@ export function TraceGraph(props: IProps) {
   const [proportion, setProportion] = React.useState([24, 0]);
   const [loading, setLoading] = React.useState(false);
   const [spanDetailData, setSpanDetailData] = React.useState({});
+  const [selectedSpanId, setSelectedSpanId] = React.useState(null! as string);
+  const spanData = getSpanEvents.useData();
+  const spanDataSource = spanData?.spanEvents || [];
   const { roots, min, max } = listToTree(dataSource?.spans);
   const [tags, setTags] = React.useState(null! as MONITOR_TRACE.ITag);
   const [spanStartTime, setSpanStartTime] = React.useState(null! as number);
   const [timeRange, setTimeRange] = React.useState([null!, null!] as number[]);
   const duration = max - min;
   const allKeys: string[] = [];
-  const { serviceAnalysis, callAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
+  const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
+
+  const columns = [
+    {
+      title: i18n.t('time'),
+      dataIndex: 'timestamp',
+      width: 160,
+      render: (time: number) => moment(time / 1000 / 1000).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
+      title: i18n.t('msp:events'),
+      dataIndex: 'events',
+      ellipsis: true,
+      render: (events: object) => (
+        <div>
+          {Object.keys(events).map((k) => (
+            <Ellipsis title={`${k}: ${events[k]}`} key={k} />
+          ))}
+        </div>
+      ),
+    },
+  ];
 
   const getMetaData = React.useCallback(async () => {
     setLoading(true);
@@ -89,6 +113,15 @@ export function TraceGraph(props: IProps) {
     return data;
   };
 
+  React.useEffect(() => {
+    if (selectedSpanId && timeRange[0]) {
+      getSpanEvents.fetch({
+        startTime: timeRange[0],
+        spanId: selectedSpanId,
+      });
+    }
+  }, [selectedSpanId, timeRange]);
+
   const treeData = traverseData(roots);
 
   const formatDashboardVariable = (conditions: string[]) => {
@@ -99,7 +132,7 @@ export function TraceGraph(props: IProps) {
     return dashboardVariable;
   };
 
-  function handleClickTimeSpan(startTime: number, selectedTag: MONITOR_TRACE.ITag) {
+  function handleClickTimeSpan(startTime: number, selectedTag: MONITOR_TRACE.ITag, id: string) {
     const r1 = moment(startTime / 1000 / 1000)
       .subtract(15, 'minute')
       .valueOf();
@@ -120,17 +153,18 @@ export function TraceGraph(props: IProps) {
     setTags(selectedTag);
     setSpanStartTime(startTime / 1000 / 1000);
     setProportion([14, 10]);
+    setSelectedSpanId(id);
   }
 
   function format(
     item: MONITOR_TRACE.ISpanItem,
     depth = 0,
-    _handleClickTimeSpan: (startTime: number, selectedTag: MONITOR_TRACE.ITag) => void,
+    _handleClickTimeSpan: (startTime: number, selectedTag: MONITOR_TRACE.ITag, id: string) => void,
   ) {
     item.depth = depth;
     item.key = item.id;
     allKeys.push(item.id);
-    const { startTime, endTime, duration: totalDuration, selfDuration, operationName, tags: _tags } = item;
+    const { startTime, endTime, duration: totalDuration, selfDuration, operationName, tags: _tags, id } = item;
     const { span_kind: spanKind, component, error, service_name: serviceName } = _tags;
     const leftRatio = (startTime - min) / duration;
     const centerRatio = (endTime - startTime) / duration;
@@ -142,7 +176,7 @@ export function TraceGraph(props: IProps) {
       <div
         className="wrapper flex items-center"
         onClick={() => {
-          _handleClickTimeSpan(startTime, _tags);
+          _handleClickTimeSpan(startTime, _tags, id);
         }}
       >
         <Tooltip
@@ -254,21 +288,13 @@ export function TraceGraph(props: IProps) {
             {(serviceAnalysis || proportion[0] === 14) && (
               <div className="px-3 trace-detail-chart style={{ height: window.innerHeight - 200 }}">
                 <Tabs>
-                  {/* back-end need more time to solve it */}
-                  {/* <TabPane tab={i18n.t('msp:call analysis')} key={1}>
-                    {!callAnalysis?.dashboardId && <EmptyHolder relative />}
-                    {callAnalysis?.dashboardId && (
-                      <ServiceListDashboard
-                        timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
-                        dashboardId={callAnalysis?.dashboardId}
-                        extraGlobalVariable={formatDashboardVariable(callAnalysis?.conditions)}
-                      />
-                    )}
-                  </TabPane> */}
                   <TabPane tab={i18n.t('msp:attributes')} key={1}>
                     <KeyValueList data={tags} />
                   </TabPane>
-                  <TabPane tab={i18n.t('msp:associated services')} key={2}>
+                  <TabPane tab={i18n.t('msp:events')} key={2}>
+                    <Table columns={columns} dataSource={spanDataSource} />
+                  </TabPane>
+                  <TabPane tab={i18n.t('msp:associated services')} key={3}>
                     {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
                     {serviceAnalysis?.dashboardId && (
                       <ServiceListDashboard

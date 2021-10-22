@@ -12,6 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
+
+const apis = {
+  getSpanEvents: {
+    api: '/api/msp/apm/trace/span-events',
+  },
+};
+
+export const getSpanEvents = apiCreator<(p: { spanId: string; startTime: number }) => MONITOR_TRACE.SpanEvent>(
+  apis.getSpanEvents,
+);
 
 export const getMspProjectList = (): Promise<{ success: boolean; data: MS_INDEX.IMspProject[] }> => {
   return agent.get('/api/msp/tenant/projects').then((response: any) => response.body);
