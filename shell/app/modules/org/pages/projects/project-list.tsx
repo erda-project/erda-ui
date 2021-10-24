@@ -94,6 +94,7 @@ export const ProjectList = () => {
         key: 'cpuQuota',
         width: 200,
         sorter: true,
+        sortOrder: getColumnOrder('cpuQuota'),
         render: (text: string) => `${text} Core`,
       },
       {
@@ -102,6 +103,7 @@ export const ProjectList = () => {
         key: 'memQuota',
         width: 200,
         sorter: true,
+        sortOrder: getColumnOrder('memQuota'),
         render: (text: string) => `${text} GiB`,
       },
       {
