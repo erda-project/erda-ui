@@ -842,10 +842,6 @@ export const EditIssueDrawer = (props: IProps) => {
     // 处理 issueManHour
     if (has(value, 'issueManHour')) {
       formattedValue.issueManHour = merge({}, formData.issueManHour, value.issueManHour);
-      if (tempStateData) {
-        formattedValue.state = tempStateData;
-        setTempStateData('');
-      }
     }
 
     const params: ISSUE.IssueType = merge({}, formData, formattedValue);
