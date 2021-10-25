@@ -132,7 +132,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
       width={600}
     >
       <Input.Search
-        onSearch={(q) => load({ q })}
+        onSearch={(q) => load({ q, pageNo: 1 })}
         className="mb-3"
         allowClear
         placeholder={i18n.t('project:search by application name')}
