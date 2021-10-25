@@ -16,7 +16,7 @@ import { qs } from 'common/utils';
 import i18n from 'i18n';
 import produce from 'immer';
 import { cloneDeep, find, isArray, isEmpty, isString, map, reduce, reject, set } from 'lodash';
-import { Button, Input, Popconfirm, Radio, Select, Tabs } from 'antd';
+import { Button, Input, Popconfirm, Radio, Select, Tabs, message } from 'antd';
 import React from 'react';
 import './api-test.scss';
 
@@ -30,7 +30,7 @@ const formatJSON = (str: string) => {
   try {
     res = JSON.stringify(JSON.parse(str), null, 2);
   } catch (e) {
-    // do nothing
+    message.error(i18n.t('application:the current input content is invalid JSON'));
   }
   return typeof res === 'string' ? res : '';
 };
