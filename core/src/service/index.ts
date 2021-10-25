@@ -330,13 +330,13 @@ export function usePaging<T extends FN>({
     },
   };
 
-  export const getAppList = apiCreator<(p: ORG.CreateOrgBody) => ORG.Detail>(apis.addOrg);
+  export const addOrg = apiCreator<(p: ORG.CreateOrgBody) => ORG.Detail>(apis.addOrg);
 
   // in component
   React.useEffect(() => {
-    getAppList.fetch();
+    addOrg.fetch();
   }, [])
-  const [data, loading] = getAppList.useState(); // useState = useData + useLoading
+  const [data, loading] = addOrg.useState(); // useState = useData + useLoading
 
   @tip
  * After set globalKey, use `getData` to get global state out of component.
