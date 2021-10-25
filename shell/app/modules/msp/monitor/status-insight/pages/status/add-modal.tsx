@@ -67,10 +67,8 @@ const convertType = (type: string) => {
     return newType;
   } else if (type === 'application/json') {
     return jsonType;
-  } else if (type === 'text/plain') {
-    return textType;
   } else {
-    return newType;
+    return textType;
   }
 };
 
@@ -180,6 +178,8 @@ const AddModal = (props: IProps) => {
       const jsonObj = JSON.parse(body.content);
       body.content = JSON.stringify(jsonObj, null, 2);
       updater.body({ ...body });
+    } else {
+      return;
     }
   };
 
@@ -235,20 +235,16 @@ const AddModal = (props: IProps) => {
   React.useEffect(() => {
     switch (textOrJson) {
       case 'text':
-        if (body.type !== 'text/plain') {
-          headers['Content-Type'] = 'text/plain';
-          body.type = 'text/plain';
-          updater.body({ ...body });
-          updater.headers({ ...headers });
-        }
+        updater.body({ ...body, type: 'text/plain' });
+        updater.headers({
+          'Content-Type': 'text/plain',
+        });
         break;
       case 'json':
-        if (body.type !== 'application/json') {
-          headers['Content-Type'] = 'application/json';
-          body.type = 'application/json';
-          updater.body({ ...body });
-          updater.headers({ ...headers });
-        }
+        updater.body({ ...body, type: 'application/json' });
+        updater.headers({
+          'Content-Type': 'application/json',
+        });
         break;
       default:
         break;
@@ -256,21 +252,16 @@ const AddModal = (props: IProps) => {
 
     switch (bodyType) {
       case 'none':
-        if (body.type !== 'none') {
-          body.content = '';
-          body.type = 'none';
-          delete headers['Content-Type'];
-          updater.headers({ ...headers });
-          updater.body({ ...body });
-        }
+        updater.textOrJson('');
+        updater.headers({});
+        updater.body({ content: '', type: 'none' });
         break;
       case 'x-www-form-urlencoded':
-        if (body.type !== 'x-www-form-urlencoded') {
-          headers['Content-Type'] = 'x-www-form-urlencoded';
-          body.type = bodyType;
-          updater.body({ ...body });
-          updater.headers({ ...headers });
-        }
+        updater.textOrJson('');
+        updater.body({ ...body, type: 'x-www-form-urlencoded' });
+        updater.headers({
+          'Content-Type': 'x-www-form-urlencoded',
+        });
         break;
       default:
         break;
@@ -347,8 +338,7 @@ const AddModal = (props: IProps) => {
                   updater.headers({ ...headers });
                 }
                 if (key === '2' && bodyType === 'none') {
-                  delete headers['Content-Type'];
-                  updater.headers({ ...headers });
+                  updater.headers({});
                 }
               }}
               defaultActiveKey="1"
@@ -371,31 +361,29 @@ const AddModal = (props: IProps) => {
                   onDel={(header: any) => {
                     updater.headers(header);
                   }}
-                  data={{ ...headers }}
+                  data={headers}
                   form={form}
                 />
               </TabPane>
               <TabPane tab="Body" key="3">
-                <Radio.Group onChange={(e) => updater.bodyType(e.target.value)} value={bodyType}>
+                <Radio.Group
+                  onChange={(e) => {
+                    updater.bodyType(e.target.value);
+                    if (e.target.value === 'x-www-form-urlencoded') {
+                      body.content = '';
+                      updater.body({ ...body });
+                    }
+                    if (e.target.value === 'raw') {
+                      body.content = '';
+                      updater.body({ ...body });
+                      updater.textOrJson('text');
+                    }
+                  }}
+                  value={bodyType}
+                >
                   <Radio value={'none'}>none</Radio>
-                  <Radio
-                    onClick={() => {
-                      body.content = '';
-                      updater.body({ ...body });
-                    }}
-                    value={'x-www-form-urlencoded'}
-                  >
-                    x-www-form-urlencoded
-                  </Radio>
-                  <Radio
-                    onClick={() => {
-                      body.content = '';
-                      updater.body({ ...body });
-                    }}
-                    value={'raw'}
-                  >
-                    raw
-                  </Radio>
+                  <Radio value={'x-www-form-urlencoded'}>x-www-form-urlencoded</Radio>
+                  <Radio value={'raw'}>raw</Radio>
                 </Radio.Group>
                 {bodyType === 'none' ? (
                   <div className="p-6 text-center">{i18n.t('project:the current request has no body')}</div>
