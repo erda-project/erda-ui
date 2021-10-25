@@ -11,22 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Input, Checkbox, Badge } from 'core/nusi';
+import { Button, Select, Alert, Input, Spin, Checkbox, Badge } from 'core/nusi';
 import i18n from 'i18n';
 import React from 'react';
-import { ImageUpload, RenderForm, ErdaCustomIcon } from 'common';
+import { ImageUpload, RenderForm, CompactSelect, ErdaCustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import clusterStore from 'cmp/stores/cluster';
 import { createTenantProject } from 'msp/services';
 import { goTo, insertWhen } from 'app/common/utils';
 import orgStore from 'app/org-home/stores/org';
+import { get } from 'lodash';
+import { useLoading } from 'core/stores/loading';
 import classnames from 'classnames';
 import pinyin from 'tiny-pinyin';
-import ClusterQuota, { IData } from 'org/common/cluster-quota';
-import { DOC_PROJECT_RESOURCE_MANAGE } from 'common/constants';
-
 import './create-project.scss';
+
+const { Option } = Select;
 
 interface ICardProps {
   name: string;
@@ -36,9 +37,16 @@ interface ICardProps {
   disabled?: boolean;
 }
 
-export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetClusterListAndResources = true) => {
+export const useQuotaFields = (
+  canEdit: boolean,
+  showTip: boolean,
+  usedResource: { cpuQuota: number; memQuota: number },
+  canGetClusterListAndResources = true,
+) => {
+  const leftResource = projectStore.useStore((s) => s.leftResources);
   const { getLeftResources } = projectStore.effects;
   const { clearLeftResources } = projectStore.reducers;
+  const [isLoading] = useLoading(projectStore, ['getLeftResources']);
 
   React.useEffect(() => {
     if (canGetClusterListAndResources) {
@@ -50,57 +58,86 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
     };
   }, [canGetClusterListAndResources, clearLeftResources, getLeftResources]);
 
+  const leftCpu = Math.round((get(leftResource, 'availableCpu') || 0) + usedResource.cpuQuota); // 编辑时，可用值需要加上当前项目已经占用的
+  const leftMem = Math.round((get(leftResource, 'availableMem') || 0) + usedResource.memQuota);
+  const totalMem = Math.round(get(leftResource, 'totalMem') || 0);
+  const totalCpu = Math.round(get(leftResource, 'totalCpu') || 0);
+
   const fields = [
     {
-      label: workSpaceMap.DEV,
-      name: ['resourceConfig', 'DEV'],
+      label: i18n.t('CPU allocation'),
+      labelTip: !canEdit ? i18n.t('org:Adjust in OrgCenter-Project Management') : undefined,
+      name: 'cpuQuota',
+      rules: [
+        {
+          validator: (_rule: any, value: any, callback: (message?: string) => void) => {
+            if (value && (isNaN(+value) || +value < 0 || (+value > usedResource.cpuQuota && +value > leftCpu))) {
+              return callback(i18n.t('please enter a number between {min} ~ {max}', { min: 0, max: leftCpu }));
+            }
+            callback();
+          },
+        },
+      ],
+      customRender: (v: number) => `${v} Core`,
       itemProps: {
-        allowClear: true,
+        addonBefore: 'CPU',
+        addonAfter: 'Core',
+        disabled: !canEdit || isLoading,
       },
-      required: false,
-      getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="DEV" />
-      ),
-      customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
     {
-      label: workSpaceMap.TEST,
-      name: ['resourceConfig', 'TEST'],
+      label: i18n.t('Memory allocation'),
+      labelTip: !canEdit ? i18n.t('org:Adjust in OrgCenter-Project Management') : undefined,
+      name: 'memQuota',
+      rules: [
+        {
+          validator: (_rule: any, value: any, callback: (message?: string) => void) => {
+            if (value && (isNaN(+value) || +value < 0 || (+value > usedResource.memQuota && +value > leftMem))) {
+              return callback(i18n.t('please enter a number between {min} ~ {max}', { min: 0, max: leftMem }));
+            }
+            callback();
+          },
+        },
+      ],
+      customRender: (v: number) => `${v} GiB`,
       itemProps: {
-        allowClear: true,
+        addonBefore: 'MEM',
+        addonAfter: 'GiB',
+        disabled: !canEdit || isLoading,
       },
-      required: false,
-      getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="TEST" />
-      ),
-      customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
-    },
-    {
-      label: workSpaceMap.STAGING,
-      name: ['resourceConfig', 'STAGING'],
-      itemProps: {
-        allowClear: true,
-      },
-      required: false,
-      getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="STAGING" />
-      ),
-      customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
-    },
-    {
-      label: workSpaceMap.PROD,
-      name: ['resourceConfig', 'PROD'],
-      itemProps: {
-        allowClear: true,
-      },
-      required: false,
-      getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="PROD" />
-      ),
-      customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
   ] as any[];
 
+  if (showTip) {
+    const tip = (
+      <>
+        <div>
+          <span className="mr-4">
+            {i18n.t('project:total cluster resources')}：CPU：{totalCpu}
+            {i18n.t('default:core')}
+          </span>
+          <span>MEM：{totalMem}GiB</span>
+        </div>
+        <div>
+          <span className="mr-4">
+            {i18n.t('cmp:available resources')}：CPU：{leftCpu}
+            {i18n.t('default:core')}
+          </span>
+          <span>MEM：{leftMem}GiB</span>
+        </div>
+      </>
+    );
+    fields.push({
+      required: false,
+      showInfo: true,
+      hideWhenReadonly: true,
+      getComp: () => (
+        <Spin spinning={isLoading}>
+          <Alert message={tip} type="info" />
+        </Spin>
+      ),
+    });
+  }
   return fields;
 };
 
@@ -201,63 +238,62 @@ const templateArr: ICardProps[] = [
   },
 ];
 
-const workSpaceMap = {
-  DEV: i18n.t('dev environment'),
-  TEST: i18n.t('test environment'),
-  STAGING: i18n.t('staging environment'),
-  PROD: i18n.t('prod environment'),
-};
-
 const CreationForm = () => {
   const { createProject } = projectStore.effects;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
-  const quotaFields = useQuotaFields(true, true);
+  const clusterList = clusterStore.useStore((s) => s.list);
+  const quotaFields = useQuotaFields(true, true, { cpuQuota: 0, memQuota: 0 });
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);
   const [template, setTemplate] = React.useState(templateArr[0].val);
+  quotaFields[0].label = (
+    <>
+      {i18n.t('resources quota')}
+      <span className="text-xs ml-1"> {i18n.t('project:Maximum resource quota for this project')}</span>
+    </>
+  );
+  quotaFields[1].label = undefined;
+
+  const firstClusterName = get(clusterList, '[0].name') || '';
 
   const handleSubmit = (form: FormInstance) => {
-    form
-      .validateFields()
-      .then((values: any) => {
-        const { resourceConfig } = values;
-        if (resourceConfig) {
-          Object.keys(values.resourceConfig)
-            .filter((key) => resourceConfig[key])
-            .forEach((key) => {
-              resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
-              resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
-            });
+    form.validateFields().then((values: any) => {
+      createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota }).then((res: any) => {
+        if (res.success) {
+          createTenantProject({
+            id: `${res.data}`,
+            name: values.name,
+            displayName: values.displayName,
+            type: values.template === 'MSP' ? 'MSP' : 'DOP',
+          }).then(() => {
+            goTo('../');
+          });
         }
-
-        createProject({ ...values, orgId }).then((res: any) => {
-          if (res.success) {
-            createTenantProject({
-              id: `${res.data}`,
-              name: values.name,
-              displayName: values.displayName,
-              type: values.template === 'MSP' ? 'MSP' : 'DOP',
-            }).then(() => {
-              goTo('../');
-            });
-          }
-        });
-      })
-      .catch(({ errorFields }) => {
-        form.scrollToField(errorFields[0].name);
       });
+    });
   };
+
+  const getCompactSelect = (title: string) => (
+    <CompactSelect title={title}>
+      <Select>
+        {(clusterList || []).map((cluster) => (
+          <Option key={cluster.id} value={cluster.name}>
+            {cluster.name}
+          </Option>
+        ))}
+      </Select>
+    </CompactSelect>
+  );
 
   const fieldsList = [
     {
       label: i18n.t('select template'),
       name: 'template',
       initialValue: templateArr[0].val,
-      getComp: ({ form }: { form: FormInstance }) => (
+      getComp: () => (
         <ProjectType
           list={templateArr}
           onChange={(type) => {
             setTemplate(type);
-            form.resetFields(['resourceConfig']);
           }}
         />
       ),
@@ -316,7 +352,47 @@ const CreationForm = () => {
         ),
       },
     ]),
-    ...insertWhen(template !== 'MSP' && ifConfigCluster, quotaFields),
+    ...insertWhen(template !== 'MSP' && ifConfigCluster, [
+      {
+        label: (
+          <span className="mr-1">
+            {i18n.t('project:Cluster used by the environment')}
+            <span className="text-xs ml-1"> {i18n.t('project:Configure-cluster-environment')}</span>
+          </span>
+        ),
+        name: ['clusterConfig', 'DEV'],
+        initialValue: firstClusterName,
+        itemProps: {
+          allowClear: true,
+        },
+        getComp: () => getCompactSelect('DEV'),
+      },
+      {
+        name: ['clusterConfig', 'TEST'],
+        initialValue: firstClusterName,
+        itemProps: {
+          allowClear: true,
+        },
+        getComp: () => getCompactSelect('TEST'),
+      },
+      {
+        name: ['clusterConfig', 'STAGING'],
+        initialValue: firstClusterName,
+        itemProps: {
+          allowClear: true,
+        },
+        getComp: () => getCompactSelect('STAGING'),
+      },
+      {
+        name: ['clusterConfig', 'PROD'],
+        initialValue: firstClusterName,
+        itemProps: {
+          allowClear: true,
+        },
+        getComp: () => getCompactSelect('PROD'),
+      },
+      ...quotaFields,
+    ]),
     {
       label: i18n.t('project icon'),
       name: 'logo',

@@ -55,17 +55,8 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
   const [canGetClusterListAndResources, setCanGetClusterListAndResources] = React.useState(false);
   const updatePrj = (values: Obj) => {
-    const { isPublic, resourceConfig } = values;
-    if (resourceConfig) {
-      Object.keys(values.resourceConfig)
-        .filter((key) => resourceConfig[key])
-        .forEach((key) => {
-          resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
-          resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
-        });
-    }
-
-    updateProject({ ...values, isPublic: isPublic === 'true' }).then(() => {
+    const { cpuQuota, memQuota, isPublic } = values;
+    updateProject({ ...values, cpuQuota: +cpuQuota, memQuota: +memQuota, isPublic: isPublic === 'true' }).then(() => {
       updateTenantProject({
         id: `${info.id}`,
         name: values.name,
@@ -120,7 +111,15 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       required: false,
       itemProps: { rows: 4, maxLength: 200 },
     },
-    ...insertWhen(notMSP, useQuotaFields(canEditQuota, showQuotaTip, canGetClusterListAndResources)),
+    ...insertWhen(
+      notMSP,
+      useQuotaFields(
+        canEditQuota,
+        showQuotaTip,
+        { cpuQuota: info.cpuQuota, memQuota: info.memQuota },
+        canGetClusterListAndResources,
+      ),
+    ),
     // {
     //   label: i18n.t('project:DingTalk notification address'),
     //   name: 'ddHook',
