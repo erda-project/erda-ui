@@ -25,23 +25,19 @@ const Overview = () => {
       <div className="flex justify-end mb-3">
         <TimeSelectWithStore />
       </div>
-      <Row gutter={20}>
+      <Row gutter={[20, 20]}>
         <Col span={16}>
           <OverviewMap.performanceInterval />
         </Col>
         <Col span={8}>
           <PositionMap.apdex titleText={i18n.t('msp:user experience')} groupId={commonAttr.groupId} />
         </Col>
-      </Row>
-      <Row gutter={20}>
         <Col span={12}>
           <OverviewMap.scriptError />
         </Col>
         <Col span={12}>
           <OverviewMap.pagePerformanceTrends />
         </Col>
-      </Row>
-      <Row gutter={20}>
         {isZh() && (
           <Col span={12}>
             <GeographyMap.regionalLoadingTime />

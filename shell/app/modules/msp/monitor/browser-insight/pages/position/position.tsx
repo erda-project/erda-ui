@@ -109,7 +109,7 @@ class Position extends React.Component<IProps, IState> {
             <PositionMap.timing fetchApi={curSortObj.fetchApi} query={curSortObj.query} />
           )}
         </div>
-        <Row gutter={20}>
+        <Row gutter={[20, 20]}>
           <Col span={12}>
             {
               <PositionMap.dimension
@@ -130,8 +130,6 @@ class Position extends React.Component<IProps, IState> {
               />
             }
           </Col>
-        </Row>
-        <Row gutter={20}>
           <Col span={12}>
             {
               <PositionMap.dimension
@@ -152,8 +150,6 @@ class Position extends React.Component<IProps, IState> {
               />
             }
           </Col>
-        </Row>
-        <Row gutter={20}>
           <Col span={12}>
             {
               <PositionMap.dimension

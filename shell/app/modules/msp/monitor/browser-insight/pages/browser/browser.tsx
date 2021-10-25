@@ -20,23 +20,18 @@ import BrowserMap from './config/chartMap';
 const Browser = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
-    return (
-      <React.Fragment>
-        <BrowserMap.timeTopN />
-        <BrowserMap.cpmTopN />
-      </React.Fragment>
-    );
+    return [<BrowserMap.timeTopN />, <BrowserMap.cpmTopN />];
   };
+
   const getDetailChart = () => {
     const query = chosenSortItem ? { filter_browser: chosenSortItem } : {};
-    return (
-      <React.Fragment>
-        <BrowserMap.browserPerformanceInterval query={query} />
-        <BrowserMap.singleTimeTopN query={query} />
-        <BrowserMap.singleCpmTopN query={query} />
-      </React.Fragment>
-    );
+    return [
+      <BrowserMap.browserPerformanceInterval query={query} />,
+      <BrowserMap.singleTimeTopN query={query} />,
+      <BrowserMap.singleCpmTopN query={query} />,
+    ];
   };
+
   return (
     <div>
       <div className="flex justify-end mb-3">
@@ -49,7 +44,13 @@ const Browser = () => {
             <BrowserMap.sortList />
           </div>
         </Col>
-        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
+        <Col span={16}>
+          <Row gutter={[20, 20]}>
+            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
+              <Col span={24}>{item}</Col>
+            ))}
+          </Row>
+        </Col>
       </Row>
     </div>
   );

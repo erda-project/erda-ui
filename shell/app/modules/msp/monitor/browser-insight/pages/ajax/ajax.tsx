@@ -21,24 +21,14 @@ const Ajax = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
 
   const getAllChart = () => {
-    return (
-      <React.Fragment>
-        <AjaxMap.rspTopN />
-        <AjaxMap.cpmTopN />
-        <AjaxMap.postTopN />
-        <AjaxMap.receiveTopN />
-      </React.Fragment>
-    );
+    return [<AjaxMap.rspTopN />, <AjaxMap.cpmTopN />, <AjaxMap.postTopN />, <AjaxMap.receiveTopN />];
   };
+
   const getDetailChart = () => {
     const query = chosenSortItem ? { filter_req_path: chosenSortItem } : {};
-    return (
-      <React.Fragment>
-        <AjaxMap.ajaxPerformanceTrends query={query} />
-        <AjaxMap.statusTopN query={query} />
-      </React.Fragment>
-    );
+    return [<AjaxMap.ajaxPerformanceTrends query={query} />, <AjaxMap.statusTopN query={query} />];
   };
+
   return (
     <div>
       <div className="flex justify-end mb-3">
@@ -51,7 +41,13 @@ const Ajax = () => {
             <AjaxMap.sortList />
           </div>
         </Col>
-        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
+        <Col span={16}>
+          <Row gutter={[20, 20]}>
+            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
+              <Col span={24}>{item}</Col>
+            ))}
+          </Row>
+        </Col>
       </Row>
     </div>
   );

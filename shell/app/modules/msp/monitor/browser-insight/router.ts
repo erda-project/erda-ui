@@ -39,6 +39,9 @@ const getBIRouter = (): RouteConfigItem => ({
     {
       // breadcrumbName: i18n.t('msp:browse performance'),
       getComp: (cb) => cb(import('browser-insight/pages/overview/overview')),
+      layout: {
+        noWrapper: true,
+      },
     },
     {
       path: 'page',
@@ -46,6 +49,9 @@ const getBIRouter = (): RouteConfigItem => ({
       alwaysShowTabKey: 'bi/page',
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/page/page')),
+      layout: {
+        noWrapper: true,
+      },
     },
     {
       path: 'domain',
@@ -53,6 +59,9 @@ const getBIRouter = (): RouteConfigItem => ({
       alwaysShowTabKey: 'bi/domain',
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/domain/domain')),
+      layout: {
+        noWrapper: true,
+      },
     },
     {
       path: 'ajax',
@@ -60,6 +69,9 @@ const getBIRouter = (): RouteConfigItem => ({
       alwaysShowTabKey: 'bi/ajax',
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/ajax/ajax')),
+      layout: {
+        noWrapper: true,
+      },
     },
     {
       path: 'script',
@@ -67,6 +79,9 @@ const getBIRouter = (): RouteConfigItem => ({
       alwaysShowTabKey: 'bi/script',
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/script/script')),
+      layout: {
+        noWrapper: true,
+      },
     },
     {
       path: 'browser',
@@ -74,6 +89,9 @@ const getBIRouter = (): RouteConfigItem => ({
       alwaysShowTabKey: 'bi/browser',
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/browser/browser')),
+      layout: {
+        noWrapper: true,
+      },
     },
     {
       path: 'exception',
@@ -91,11 +109,17 @@ const getBIRouter = (): RouteConfigItem => ({
       routes: [
         {
           getComp: (cb) => cb(import('browser-insight/pages/position/position')),
+          layout: {
+            noWrapper: true,
+          },
         },
         {
           path: 'comparative',
           breadcrumbName: i18n.t('msp:comparative analysis'),
           getComp: (cb) => cb(import('browser-insight/pages/comparative/comparative')),
+          layout: {
+            noWrapper: true,
+          },
         },
       ],
     },
@@ -105,6 +129,9 @@ const getBIRouter = (): RouteConfigItem => ({
       alwaysShowTabKey: 'bi/summary',
       tabs,
       getComp: (cb) => cb(import('browser-insight/pages/summary/summary')),
+      layout: {
+        noWrapper: true,
+      },
     },
     ...(isZh()
       ? [
@@ -114,6 +141,9 @@ const getBIRouter = (): RouteConfigItem => ({
             alwaysShowTabKey: 'bi/geography',
             tabs,
             getComp: (cb) => cb(import('browser-insight/pages/geography-china/geography-china')),
+            layout: {
+              noWrapper: true,
+            },
           } as RouteConfigItem,
         ]
       : []),

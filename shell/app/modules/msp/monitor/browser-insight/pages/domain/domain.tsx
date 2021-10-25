@@ -21,26 +21,20 @@ import './domain.scss';
 const Domain = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
-    return (
-      <React.Fragment>
-        <DomainMap.performanceInterval />
-        <DomainMap.timeTopN />
-        <DomainMap.cpmTopN />
-      </React.Fragment>
-    );
+    return [<DomainMap.performanceInterval />, <DomainMap.timeTopN />, <DomainMap.cpmTopN />];
   };
+
   const getDetailChart = () => {
     const filter_host = chosenSortItem;
     const query = filter_host ? { filter_host } : {};
-    return (
-      <React.Fragment>
-        <DomainMap.performanceInterval query={query} />
-        <DomainMap.domainPerformanceTrends query={query} />
-        <DomainMap.pageTopN query={query} />
-        <DomainMap.slowTrack query={query} />
-      </React.Fragment>
-    );
+    return [
+      <DomainMap.performanceInterval query={query} />,
+      <DomainMap.domainPerformanceTrends query={query} />,
+      <DomainMap.pageTopN query={query} />,
+      <DomainMap.slowTrack query={query} />,
+    ];
   };
+
   return (
     <div>
       <div className="flex justify-between">
@@ -55,7 +49,11 @@ const Domain = () => {
           </div>
         </Col>
         <Col className="bi-domain-charts" span={16}>
-          {chosenSortItem ? getDetailChart() : getAllChart()}
+          <Row gutter={[0, 20]}>
+            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
+              <Col span={24}>{item}</Col>
+            ))}
+          </Row>
         </Col>
       </Row>
     </div>
