@@ -12,13 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table } from 'core/nusi';
+import { Table, Tooltip } from 'core/nusi';
 import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
+import { ErdaCustomIcon } from 'common';
 import projectStore from 'project/stores/project';
-
 import clusterStore from 'app/modules/cmp/stores/cluster';
+
+import './project-cluster.scss';
 
 interface IProps {
   hasEditAuth: boolean;
@@ -30,6 +32,77 @@ const workSpaceMap = {
   STAGING: i18n.t('staging environment'),
   PROD: i18n.t('prod environment'),
 };
+
+const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
+  let data;
+
+  if (type === 'cpu') {
+    data = {
+      requestRate: +(record?.cpuRequestRate * 100 || 0).toFixed(2),
+      requestByService: (record?.cpuRequestByService || 0).toFixed(2),
+      requestByServiceRate: +(record?.cpuRequestByServiceRate * 100 || 0).toFixed(2),
+      requestByAddon: (record?.cpuRequestByAddon || 0).toFixed(2),
+      requestByAddonRate: +(record?.cpuRequestByAddonRate * 100 || 0).toFixed(2),
+      quota: (record?.cpuQuota || 0).toFixed(2),
+      tips: record.tips,
+    };
+  } else {
+    data = {
+      requestRate: +(record?.memRequestRate * 100 || 0).toFixed(2),
+      requestByService: (record?.memRequestByService || 0).toFixed(2),
+      requestByServiceRate: +(record?.memRequestByServiceRate * 100 || 0).toFixed(2),
+      requestByAddon: (record?.memRequestByAddon || 0).toFixed(2),
+      requestByAddonRate: +(record?.memRequestByAddonRate * 100 || 0).toFixed(2),
+      quota: (record?.memQuota || 0).toFixed(2),
+      tips: record.tips,
+    };
+  }
+
+  const {
+    requestRate = 0,
+    requestByService = 0,
+    requestByServiceRate = 0,
+    requestByAddon = 0,
+    requestByAddonRate = 0,
+    quota = 0,
+    tips = '',
+  } = data;
+
+  const isOveruse = requestRate < 100;
+  return (
+    <div className={`quota-container ${isOveruse ? 'overuse' : ''}`}>
+      <div className={'quota-bar'}>
+        <Tooltip title={`${i18n.t('cmp:application used')} ${requestByService}${unit} (${requestByServiceRate}%)`}>
+          <div
+            className={`nowrap ${requestByServiceRate !== 0 ? 'border-right-color' : ''}`}
+            style={{ width: `${requestByServiceRate}%` }}
+          >
+            {i18n.t('project:application')}
+          </div>
+        </Tooltip>
+        <Tooltip title={`${i18n.t('cmp:addon used')} ${requestByAddon}${unit} (${requestByAddonRate}%)`}>
+          <div
+            className={`nowrap ${requestByAddonRate !== 0 ? 'border-right-color' : ''}`}
+            style={{ width: `${requestByAddonRate}%` }}
+          >
+            addon
+          </div>
+        </Tooltip>
+        <Tooltip title={`${i18n.t('msp:available')} ${quota}${unit} (${100 - requestRate})%`}>
+          <div className="nowrap" style={{ width: `${100 - requestRate}%` }}>
+            {i18n.t('msp:available')}
+          </div>
+        </Tooltip>
+      </div>
+      {tips && (
+        <Tooltip title={tips}>
+          <ErdaCustomIcon fill="danger-red" type="help" size="16" className="ml-1" />
+        </Tooltip>
+      )}
+    </div>
+  );
+};
+
 const ProjectCluster = ({ hasEditAuth }: IProps) => {
   const clusterList = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
@@ -39,7 +112,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
   React.useEffect(() => {
     hasEditAuth && getClusterList();
   }, [getClusterList, hasEditAuth]);
-  const { clusterConfig } = info;
+  const { resourceConfig } = info;
 
   const options: object[] = [];
   clusterList.forEach((item) => {
@@ -53,19 +126,14 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
   const tableData: object[] = [];
   const fieldsList: object[] = [];
   const sortBy = WORKSPACE_LIST;
-  sortBy.forEach((workspace) => {
-    const name = workspace.toUpperCase();
-    const clusterName = clusterConfig?.[workspace];
+  resourceConfig &&
+    sortBy.forEach((workspace) => {
+      const name = workspace.toUpperCase();
+      const cluster = resourceConfig?.[workspace];
 
-    tableData.push({ workspace, clusterName });
-    configData[`${name}`] = clusterName;
-    fieldsList.push({
-      label: workSpaceMap[name] || name,
-      name: ['clusterConfig', name],
-      type: 'select',
-      options,
+      tableData.push({ workspace, ...cluster });
+      configData[`${name}`] = cluster;
     });
-  });
 
   const readonlyForm = (
     <Table
@@ -75,19 +143,42 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
         {
           key: 'workspace',
           title: i18n.t('project:environments'),
-          width: '200',
+          width: 120,
           dataIndex: 'workspace',
           render: (val: string) => workSpaceMap[val] || val,
         },
         {
           title: i18n.t('project:using clusters'),
-          width: '400',
           dataIndex: 'clusterName',
           align: 'left',
         },
+        {
+          title: `CPU ${i18n.t('allocated and utilization rate')}`,
+          width: 400,
+          dataIndex: 'cpuQuota',
+          align: 'center',
+          render: (text: string, record: PROJECT.ICluster) => (
+            <div className="flex items-center">
+              <span>{text ? `${text}${i18n.t('core')}` : ''}</span>
+              <span className="flex-grow ml-2">{renderBar('cpu', record, i18n.t('core'))}</span>
+            </div>
+          ),
+        },
+        {
+          title: `MEM ${i18n.t('allocated and utilization rate')}`,
+          width: 400,
+          dataIndex: 'memQuota',
+          align: 'center',
+          render: (text: string, record: PROJECT.ICluster) => (
+            <div className="flex items-center">
+              <span>{text ? `${text}GB` : ''}</span>
+              <span className="flex-grow ml-2">{renderBar('mem', record, 'GB')}</span>
+            </div>
+          ),
+        },
       ]}
       pagination={false}
-      scroll={{ x: '100%' }}
+      scroll={{ x: 1100 }}
     />
   );
   return (
@@ -97,7 +188,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}
-      name={i18n.t('project:cluster setting')}
+      name={i18n.t('project:project resource')}
       desc={
         <span>
           {i18n.t(

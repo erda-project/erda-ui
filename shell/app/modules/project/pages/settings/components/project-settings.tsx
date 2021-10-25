@@ -51,8 +51,8 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('project:cluster setting'),
-          tabKey: 'clusterSetting',
+          tabTitle: i18n.t('project:project resource'),
+          tabKey: 'projectResource',
           content: <ProjectCluster hasEditAuth={false} />,
         },
         {
