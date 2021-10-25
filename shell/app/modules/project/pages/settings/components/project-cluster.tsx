@@ -126,13 +126,14 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
   const tableData: object[] = [];
   const fieldsList: object[] = [];
   const sortBy = WORKSPACE_LIST;
-  sortBy.forEach((workspace) => {
-    const name = workspace.toUpperCase();
-    const cluster = resourceConfig?.[workspace];
+  resourceConfig &&
+    sortBy.forEach((workspace) => {
+      const name = workspace.toUpperCase();
+      const cluster = resourceConfig?.[workspace];
 
-    tableData.push({ workspace, ...cluster });
-    configData[`${name}`] = cluster;
-  });
+      tableData.push({ workspace, ...cluster });
+      configData[`${name}`] = cluster;
+    });
 
   const readonlyForm = (
     <Table
