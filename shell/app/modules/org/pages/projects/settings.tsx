@@ -18,6 +18,7 @@ import i18n from 'i18n';
 import React from 'react';
 import { goTo, insertWhen } from 'common/utils';
 import ProjectInfo from 'project/pages/settings/components/project-info';
+import ProjectCluster from 'project/pages/settings/components/project-cluster';
 import ProjectRollback from 'project/pages/settings/components/project-rollback';
 import { Link } from 'react-router-dom';
 import projectStore from 'project/stores/project';
@@ -45,6 +46,11 @@ const Setting = () => {
     },
     // microService governance project doesn't display cluster settings and rollback settings
     ...insertWhen(info.type !== 'MSP', [
+      {
+        tabTitle: i18n.t('project:cluster setting'),
+        tabKey: 'clusterSetting',
+        content: <ProjectCluster hasEditAuth />,
+      },
       {
         tabTitle: i18n.t('project:rollback setting'),
         tabKey: 'rollbackSetting',
