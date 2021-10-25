@@ -34,13 +34,11 @@ export default () => {
       scenarioType={'addon-mysql-consumer'}
       scenarioKey={'addon-mysql-consumer'}
       inParams={inParams}
-      useMock={useMock('crud1')}
-      forceMock
       customProps={{
         filter: {
           onFilterChange: urlQueryChange,
         },
-        accountTable: {
+        consumerTable: {
           onStateChange: urlQueryChange,
         },
       }}

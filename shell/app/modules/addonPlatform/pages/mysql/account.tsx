@@ -34,8 +34,6 @@ export default () => {
       scenarioType={'addon-mysql-account'}
       scenarioKey={'addon-mysql-account'}
       inParams={inParams}
-      useMock={useMock('crud')}
-      forceMock
       customProps={{
         filter: {
           onFilterChange: urlQueryChange,
