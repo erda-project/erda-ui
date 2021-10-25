@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, InputNumber, Select } from 'core/nusi';
+import { Input, InputNumber, Select } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import './variable-input-group.scss';

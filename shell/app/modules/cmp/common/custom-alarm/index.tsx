@@ -33,19 +33,7 @@ import {
   get,
   merge,
 } from 'lodash';
-import {
-  Spin,
-  Button,
-  Switch,
-  Popconfirm,
-  Table,
-  Select,
-  Input,
-  InputNumber,
-  message,
-  Modal,
-  Tooltip,
-} from 'core/nusi';
+import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
 import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';

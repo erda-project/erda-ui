@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { floor } from 'lodash';
-import { Tooltip, Progress, Table, Spin } from 'core/nusi';
+import { Tooltip, Progress, Table, Spin } from 'antd';
 import { goTo, cutStr, secondsToTime, fromNow } from 'common/utils';
 import { theme } from 'app/themes';
 import i18n from 'i18n';

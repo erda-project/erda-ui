@@ -5,7 +5,7 @@
 }
 
 .debug-page {
-  .left {
+  > .left {
     position: relative;
     width: 40%;
     max-width: 40%;
@@ -27,7 +27,7 @@
     }
   }
 
-  .right {
+  > .right {
     position: relative;
     width: 59%;
     max-width: 59%;

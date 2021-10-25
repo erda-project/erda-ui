@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Alert, Input, Form, Row, Col } from 'core/nusi';
+import { Select, Alert, Input, Form, Row, Col } from 'antd';
 import i18n from 'i18n';
 import { CompactSelect, Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';

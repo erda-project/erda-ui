@@ -13,7 +13,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { forEach, map } from 'lodash';
-import { Tabs } from 'core/nusi';
+import { Tabs } from 'antd';
 import { MachineList } from 'dcos/pages/cluster-dashboard/machine-list';
 import InstanceList from './instance-list';
 import ResourcesChartList from './resources-chart-list';

@@ -16,7 +16,7 @@ import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { secondsToTime } from 'common/utils';
 import classnames from 'classnames';
-import { Popover, Tooltip } from 'core/nusi';
+import { Popover, Tooltip } from 'antd';
 import { isNumber, isEmpty, isEqual, debounce, get, findLast } from 'lodash';
 import PointComponentAbstract from './point-component-abstract';
 import { approvalStatusMap } from 'application/pages/deploy-list/deploy-list';

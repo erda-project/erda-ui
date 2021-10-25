@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor, Title, FormBuilder, IFormExtendType } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { INPUT_MAX_LENGTH, TEXTAREA_MAX_LENGTH } from 'app/modules/apiManagePlatform/configs.ts';

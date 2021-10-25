@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Popover, Button, Badge } from 'core/nusi';
+import { Table, Popover, Button, Badge } from 'antd';
 import moment from 'moment';
 import { KeyValueList } from 'common';
 import React from 'react';

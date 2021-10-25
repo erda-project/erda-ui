@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Row, Col, Select, Table, Input } from 'core/nusi';
+import { Row, Col, Select, Table, Input } from 'antd';
 import { Holder } from 'common';
 import classNames from 'classnames';
 import { secondsToTime } from 'common/utils';

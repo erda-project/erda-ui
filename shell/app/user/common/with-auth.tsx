@@ -15,7 +15,7 @@ import React from 'react';
 import permStore from 'app/user/stores/permission';
 import classnames from 'classnames';
 import { get, intersection } from 'lodash';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import { permState } from 'user/stores/_perm-state';

@@ -17,7 +17,7 @@ import React from 'react';
 import testCaseStore from 'project/stores/test-case';
 import { Avatar, UserInfo } from 'common';
 import { useEffectOnce } from 'react-use';
-import { Progress, Popover } from 'core/nusi';
+import { Progress, Popover } from 'antd';
 import testPlanStore from 'project/stores/test-plan';
 import testEnvStore from 'project/stores/test-env';
 import routeInfoStore from 'core/stores/route';

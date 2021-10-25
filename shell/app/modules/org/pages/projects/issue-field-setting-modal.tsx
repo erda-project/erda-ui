@@ -19,7 +19,7 @@ import orgStore from 'app/org-home/stores/org';
 import { FIELD_TYPE_ICON_MAP, DEFAULT_ISSUE_FIELDS_MAP } from 'org/common/config';
 import { getFieldsByIssue as getFieldOptions } from 'org/services/issue-field';
 import { map, isEmpty, find } from 'lodash';
-import { Modal, Select, Button, Popconfirm } from 'core/nusi';
+import { Modal, Select, Button, Popconfirm } from 'antd';
 import './issue-field-setting-modal.scss';
 import { produce } from 'immer';
 import { useEffectOnce } from 'react-use';

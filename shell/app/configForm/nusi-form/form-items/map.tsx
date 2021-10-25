@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, Input, Col } from 'core/nusi';
+import { Form, Input, Col } from 'antd';
 import { getLabel, noop, createCombiner } from 'app/configForm/nusi-form/form-items/common';
 import React from 'react';
 import { commonFields, checkWhen } from 'app/configForm/nusi-form/form-items/common/config';

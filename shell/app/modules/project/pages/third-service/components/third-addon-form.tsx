@@ -17,7 +17,7 @@ import { insertWhen, regRules } from 'common/utils';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import { filter, get, isEmpty, map } from 'lodash';
-import { Form, Select } from 'core/nusi';
+import { Form, Select } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import routeInfoStore from 'core/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';

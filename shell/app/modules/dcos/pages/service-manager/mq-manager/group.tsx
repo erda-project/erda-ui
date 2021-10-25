@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tabs, Button, Table, Alert, Tooltip } from 'core/nusi';
+import { Tabs, Button, Table, Alert, Tooltip } from 'antd';
 import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useEffectOnce } from 'react-use';

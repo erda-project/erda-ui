@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Button, Pagination } from 'core/nusi';
+import { Tooltip, Button, Pagination, Badge, Dropdown, Menu } from 'antd';
 import { Icon as CustomIcon, EmptyHolder, ErdaIcon, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';
+import { More as IconMore } from '@icon-park/react';
 import i18n from 'i18n';
 import { getImg } from 'app/config-page/img-map';
 import './list.scss';
@@ -139,6 +140,7 @@ const Item = (props: ItemProps) => {
     operations = {},
     prefixImg,
     title,
+    status,
     titlePrifxIcon,
     prefixImgCircle,
     titlePrifxIconTip,
@@ -147,8 +149,9 @@ const Item = (props: ItemProps) => {
     description = '',
     extraInfos,
   } = data || {};
+  const { click, ...restOp } = operations;
   const actions = sortBy(
-    filter(map(operations) || [], (item) => item.show !== false),
+    filter(map(restOp) || [], (item) => item.show !== false),
     'showIndex',
   );
 
@@ -167,6 +170,29 @@ const Item = (props: ItemProps) => {
       customProps.clickItem(operations?.click, data);
     }
   };
+
+  const menuOverlay = actions?.length ? (
+    <Menu style={{ minWidth: 80 }}>
+      {actions.map((action) => {
+        return (
+          <Menu.Item {...action} key={action.key}>
+            <OperationAction
+              tipProps={{ placement: 'left' }}
+              operation={action}
+              onClick={() => {
+                execOperation(action);
+                if (customProps && customProps[action.key]) {
+                  customProps[action.key](action, data);
+                }
+              }}
+            >
+              <div>{action.text}</div>
+            </OperationAction>
+          </Menu.Item>
+        );
+      })}
+    </Menu>
+  ) : null;
 
   return (
     <div className={itemClassNames} onClick={onClickItem}>
@@ -190,6 +216,7 @@ const Item = (props: ItemProps) => {
               <CustomIcon type={titleSuffixIcon} className="title-icon ml-2" />
             </Tooltip>
           ) : null}
+          {status ? <Badge className="ml-2" {...status} /> : null}
         </div>
         {description ? <Ellipsis className="body-description" title={description} /> : null}
         {extraInfos ? (
@@ -218,24 +245,11 @@ const Item = (props: ItemProps) => {
           </div>
         ) : null}
       </div>
-      {actions?.length ? (
+      {menuOverlay ? (
         <div className="cp-list-item-operations" onClick={(e) => e?.stopPropagation()}>
-          {actions.map((action) => {
-            return (
-              <OperationAction
-                key={action.key}
-                operation={action}
-                onClick={() => {
-                  execOperation(action);
-                  if (customProps && customProps[action.key]) {
-                    customProps[action.key](action, data);
-                  }
-                }}
-              >
-                <Button type="link">{action.text}</Button>
-              </OperationAction>
-            );
-          })}
+          <Dropdown overlay={menuOverlay} zIndex={1000}>
+            <IconMore size={20} className="hover-active" />
+          </Dropdown>
         </div>
       ) : null}
     </div>

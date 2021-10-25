@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { InputNumber, Select } from 'core/nusi';
+import { InputNumber, Select } from 'antd';
 import { isEqual } from 'lodash';
 import i18n from 'i18n';
 import './variable-input-group.scss';

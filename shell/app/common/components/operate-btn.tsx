@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu } from 'core/nusi';
+import { Dropdown, Menu } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import classNames from 'classnames';
 import './operate-btn.scss';

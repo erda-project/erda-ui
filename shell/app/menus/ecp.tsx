@@ -26,16 +26,19 @@ export const getEcpMenu = () => {
       href: goTo.resolve.ecpApp(),
       icon: <IconApplicationOne />,
       text: i18n.t('ecp:application'),
+      subtitle: i18n.t('App'),
     },
     {
       href: goTo.resolve.ecpResource(),
       icon: <IconDataAll />,
       text: i18n.t('resource management'),
+      subtitle: i18n.t('Resource'),
     },
     {
       href: goTo.resolve.ecpSetting(),
       icon: <IconSettingConfig />,
       text: i18n.t('ecp:configuration'),
+      subtitle: i18n.t('Config'),
     },
   ];
 };

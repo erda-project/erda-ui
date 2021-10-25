@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty, map, remove, set } from 'lodash';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import i18n from 'i18n';
 import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './multi-input.scss';

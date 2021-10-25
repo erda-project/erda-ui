@@ -15,7 +15,7 @@ import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'core/stores/loading';
-import { message, Spin, Button, Modal, Table } from 'core/nusi';
+import { message, Spin, Button, Modal, Table } from 'antd';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
 import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-modal';

@@ -17,7 +17,7 @@ import routeInfoStore from 'core/stores/route';
 import { Form } from 'dop/pages/form-editor/index';
 import { issueStateMap } from 'project/common/config';
 import { map } from 'lodash';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 
 const { Option } = Select;

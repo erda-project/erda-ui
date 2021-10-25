@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Modal, Spin } from 'core/nusi';
+import { Button, Modal, Spin } from 'antd';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'core/stores/route';

@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { IFormProps, regRulesMap, FormUnitContainer } from '../form-utils';
 import { get } from 'lodash';
 import { RenderPureForm, ReadonlyForm } from 'common';
-import { Switch } from 'core/nusi';
+import { Switch } from 'antd';
 
 // orgID,跳板机（部署起点）
 export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) => {

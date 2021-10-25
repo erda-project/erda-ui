@@ -14,7 +14,7 @@
 import React from 'react';
 import { isEmpty, map, unset, sortBy, indexOf } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Spin, Popconfirm, Pagination, Tooltip } from 'core/nusi';
+import { Button, Spin, Popconfirm, Pagination, Tooltip } from 'antd';
 import { Icon as CustomIcon, ContractiveFilter, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';

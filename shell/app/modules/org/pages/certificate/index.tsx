@@ -16,7 +16,7 @@ import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
-import { Upload, message, Button, Select, Input } from 'core/nusi';
+import { Upload, message, Button, Select, Input } from 'antd';
 import { formatTime } from 'common/utils';
 import { FormInstance } from 'core/common/interface';
 import { get, map, set } from 'lodash';

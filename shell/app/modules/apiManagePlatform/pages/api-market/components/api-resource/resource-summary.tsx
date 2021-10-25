@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor, Icon as CustomIcon, FormBuilder, IFormExtendType } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input, Menu, Dropdown } from 'core/nusi';
+import { Input, Menu, Dropdown } from 'antd';
 import i18n from 'i18n';
 import { set, keys, map, get, filter, every, forEach } from 'lodash';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';

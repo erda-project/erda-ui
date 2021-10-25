@@ -14,7 +14,7 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Popconfirm, Spin, Table, Alert } from 'core/nusi';
+import { Button, Popconfirm, Spin, Table, Alert } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import testEnvStore from 'project/stores/test-env';
 import { TestEnvDetail } from './test-env-detail';

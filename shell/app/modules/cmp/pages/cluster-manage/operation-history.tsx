@@ -17,7 +17,7 @@ import { Icon as CustomIcon, LogRoller, FilterGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Drawer, Badge, Tooltip, Switch } from 'core/nusi';
+import { Table, Drawer, Badge, Tooltip, Switch } from 'antd';
 import machineStore from 'app/modules/cmp/stores/machine';
 import React from 'react';
 import { useUserMap } from 'core/stores/userMap';

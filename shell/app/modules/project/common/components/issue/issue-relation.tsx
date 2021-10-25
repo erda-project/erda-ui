@@ -13,7 +13,7 @@
 
 import { MemberSelector, Title, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Select, Table, Popconfirm, Tooltip } from 'core/nusi';
+import { Button, Select, Table, Popconfirm, Tooltip } from 'antd';
 import React, { useImperativeHandle } from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';

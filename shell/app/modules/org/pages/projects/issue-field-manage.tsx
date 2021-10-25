@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Popconfirm, Button, Input, Tooltip, message } from 'core/nusi';
+import { Table, Popconfirm, Button, Input, Tooltip, message } from 'antd';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import issueFieldStore from 'org/stores/issue-field';

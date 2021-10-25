@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { Help as IconHelp } from '@icon-park/react';
 import { EmptyHolder } from '../empty-holder';
 import './index.scss';
@@ -30,7 +30,7 @@ const CardContainer = ({ title, tip, operation, holderWhen, style, children }: C
   return (
     <div className="ec-card-container flex flex-col" style={style}>
       {title || operation ? (
-        <div className="h-8 flex items-center justify-between">
+        <div className="h-8 flex items-center justify-between leading-8">
           {title ? (
             <div className="font-medium inline-flex items-center">
               {title}
@@ -44,7 +44,7 @@ const CardContainer = ({ title, tip, operation, holderWhen, style, children }: C
           {operation ? <div>{operation}</div> : null}
         </div>
       ) : null}
-      {holderWhen ? <EmptyHolder /> : children}
+      {holderWhen ? <EmptyHolder relative /> : children}
     </div>
   );
 };

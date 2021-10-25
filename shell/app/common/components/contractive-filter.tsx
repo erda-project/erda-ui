@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'core/nusi';
+import { Menu, Dropdown, Input, DatePicker, Checkbox, Tooltip } from 'antd';
 import { MemberSelector, ErdaIcon, Icon as CustomIcon } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';

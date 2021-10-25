@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Button, Modal } from 'core/nusi';
+import { Button, Modal } from 'antd';
 import React from 'react';
 import clusterStore from 'cmp/stores/cluster';
 import { useUpdate } from 'common/use-hooks';

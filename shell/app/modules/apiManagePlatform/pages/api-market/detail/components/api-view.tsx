@@ -21,7 +21,7 @@ import ApiMenu from 'app/modules/apiManagePlatform/pages/api-market/detail/compo
 import ApiDetail from 'app/modules/apiManagePlatform/pages/api-market/detail/components/api-detail';
 import TestModal from 'apiManagePlatform/pages/api-market/detail/components/test-modal';
 import './api-view.scss';
-import { message, Button, Input, Alert } from 'core/nusi';
+import { message, Button, Input, Alert } from 'antd';
 import i18n from 'i18n';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { IFormItem } from 'common/components/render-formItem';

@@ -21,14 +21,12 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "nusi": ["./src/nusi"],
       "i18n": ["./src/i18n"],
       "cube": ["./src/cube"],
       "custom-lodash": ["./src/custom-lodash"],
       "common": ["./src/common"],
       "common/*": ["../shell/app/common/*"],
       "common/all": ["../shell/app/common/index"],
-      "nusi/all": ["../shell/app/external/nusi"]
     }
   },
   "include": ["./src/**/*"]

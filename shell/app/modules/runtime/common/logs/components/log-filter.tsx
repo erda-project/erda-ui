@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, DatePicker } from 'core/nusi';
+import { Button, DatePicker } from 'antd';
 import { FormModal } from 'common';
 import moment, { Moment } from 'moment';
 import i18n from 'i18n';

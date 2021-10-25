@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Radio, Table } from 'core/nusi';
+import { Select, Radio, Table } from 'antd';
 import { SelectValue, ColumnProps } from 'core/common/interface';
 import { map, get } from 'lodash';
 import { useEffectOnce, useUnmount } from 'react-use';

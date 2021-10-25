@@ -28,7 +28,7 @@ import {
 } from '../services/api-design';
 import { isEmpty, map, keys } from 'lodash';
 import i18n from 'i18n';
-import { message } from 'core/nusi';
+import { message } from 'antd';
 
 interface IState {
   resourceList: API_SETTING.IApiResource[];

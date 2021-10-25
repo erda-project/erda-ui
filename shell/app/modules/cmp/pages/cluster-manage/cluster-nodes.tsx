@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
-import { Drawer } from 'core/nusi';
+import { Drawer } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { PureClusterNodeDetail } from './cluster-nodes-detail';
 import { updateSearch } from 'common/utils';

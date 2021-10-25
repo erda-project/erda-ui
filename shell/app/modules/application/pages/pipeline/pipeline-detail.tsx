@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tabs, Button, Tooltip } from 'core/nusi';
+import { Tabs, Button, Tooltip } from 'antd';
 import PipelineConfigDetail from './config-detail';
 import PipelineRunDetail from './run-detail';
 import routeInfoStore from 'core/stores/route';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Menu, Dropdown, Avatar } from 'core/nusi';
+import { Menu, Dropdown, Avatar } from 'antd';
 import { Icon as CustomIcon, MemberSelector } from 'common';
 import userStore from 'app/user/stores';
 import { useUserMap } from 'core/stores/userMap';

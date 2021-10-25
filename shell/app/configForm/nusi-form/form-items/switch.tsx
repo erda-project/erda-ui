@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, Switch } from 'core/nusi';
+import { Form, Switch } from 'antd';
 import React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';

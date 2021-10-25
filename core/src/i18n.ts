@@ -15,9 +15,6 @@ import i18n from 'i18next';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 
-import antd_zhCN from 'antd/es/locale-provider/zh_CN';
-import antd_enUS from 'antd/es/locale-provider/en_US';
-
 let userLanguage = window.navigator.userLanguage || window.navigator.language;
 userLanguage = userLanguage === 'zh-CN' ? 'zh' : 'en';
 
@@ -27,13 +24,11 @@ const localeMap = {
   en: {
     key: 'en',
     app: {},
-    antd: antd_enUS,
     moment: 'en',
   },
   zh: {
     key: 'zh',
     app: {},
-    antd: antd_zhCN,
     moment: 'zh-cn',
   },
 };

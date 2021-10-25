@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col, Radio, Input, Select } from 'core/nusi';
+import { Row, Col, Radio, Input, Select } from 'antd';
 import { map, get, isEmpty } from 'lodash';
 import { Icon as CustomIcon, PureBoardGrid, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';

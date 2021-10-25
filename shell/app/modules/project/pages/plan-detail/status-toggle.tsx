@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown } from 'core/nusi';
+import { Menu, Dropdown } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { map } from 'lodash';
 import { Down as IconDown } from '@icon-park/react';

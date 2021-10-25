@@ -14,7 +14,7 @@
 import { FormComponentProps, FormInstance } from 'core/common/interface';
 import React, { PureComponent } from 'react';
 import { isEqual, map } from 'lodash';
-import { Form, Input, Button } from 'core/nusi';
+import { Form, Input, Button } from 'antd';
 import ObjectInput from './object-input-group';
 import ListInput from './list-input-group';
 import ResourceField from './resource-field';

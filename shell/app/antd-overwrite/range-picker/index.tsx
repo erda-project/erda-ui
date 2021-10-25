@@ -12,18 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DatePicker } from './index';
-import { omit, isEmpty } from 'lodash';
-import { RangePickerProps, RangePickerValue } from 'antd/es/date-picker/interface';
+import { DatePicker } from 'antd';
+import { RangePickerProps } from 'antd/es/date-picker';
 
-const { RangePicker: PreRangePicker } = DatePicker;
+const { RangePicker: AntdRangePicker } = DatePicker;
 
-interface IProps extends RangePickerProps {
+type IProps = RangePickerProps & {
   borderTime?: boolean; //
-}
+};
 
 /**
- * @param {boolean} [props.borderTime] - 启用边界时间[00:00:00, 23:59:59]
+ * @param {boolean} [props.borderTime] - set time to [00:00:00, 23:59:59]
  */
 const RangePicker = (props: IProps) => {
   const { borderTime, onChange, value, ...rest } = props;
@@ -33,9 +32,13 @@ const RangePicker = (props: IProps) => {
     setValue(value);
   }, [value]);
 
-  const handleChange = (dates: RangePickerValue, dateStrings: [string, string]) => {
-    const moments = dates as RangePickerValue;
-    if (!isEmpty(dates)) {
+  if (!borderTime) {
+    return <AntdRangePicker {...props} />;
+  }
+
+  const handleChange = (dates: any, dateStrings: [string, string]) => {
+    const moments = dates;
+    if (dates?.length) {
       moments[0] = dates[0]?.startOf('date');
       moments[1] = dates[1]?.endOf('date');
     }
@@ -43,11 +46,8 @@ const RangePicker = (props: IProps) => {
     setValue(moments);
     onChange && onChange(moments, dateStrings);
   };
-  if (borderTime) {
-    if (props.showTime) console.error('borderTime和showTime属性不能同时使用');
-    return <PreRangePicker {...rest} value={_value} onChange={handleChange} />;
-  }
-  return <PreRangePicker {...omit(props, ['borderTime'])} />;
+
+  return <AntdRangePicker {...rest} value={_value} onChange={handleChange} />;
 };
 
 export default RangePicker;

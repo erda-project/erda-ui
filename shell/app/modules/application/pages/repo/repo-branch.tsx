@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'core/nusi';
+import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'antd';
 import { EmptyHolder, Avatar, DeleteConfirm, IF, ErdaIcon } from 'common';
 import React from 'react';
 import { fromNow, replaceEmoji } from 'common/utils';

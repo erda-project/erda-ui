@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover } from 'core/nusi';
+import { Popover } from 'antd';
 import './popover.scss';
 
 export default (props: CP_POPOVER.Props) => {

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DatePicker, Dropdown, Select } from 'core/nusi';
+import { DatePicker, Dropdown, Select } from 'antd';
 import { produce } from 'immer';
 import { useMount } from 'react-use';
 import { Moment } from 'moment';

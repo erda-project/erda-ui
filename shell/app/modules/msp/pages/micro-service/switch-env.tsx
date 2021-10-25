@@ -13,7 +13,7 @@
 
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
-import { Dropdown, Menu } from 'core/nusi';
+import { Dropdown, Menu } from 'antd';
 import mspStore from 'msp/stores/micro-service';
 import { ErdaIcon } from 'common';
 import { goTo } from 'common/utils';

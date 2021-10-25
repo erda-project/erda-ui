@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Radio, Table, Tooltip } from 'core/nusi';
+import { Spin, Button, Radio, Table, Tooltip } from 'antd';
 import { map, isEmpty } from 'lodash';
 import { RadioChangeEvent, ColumnProps } from 'core/common/interface';
 import UpgradeModal from 'cmp/pages/middleware-dashboard/upgrade-modal';

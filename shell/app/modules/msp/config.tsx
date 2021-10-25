@@ -107,6 +107,31 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
   return rootPath + targetPath;
 };
 
+export const getMSPSubtitleByName = (name: string) => {
+  const MSPSubtitleMap = {
+    环境总览: '总览',
+    MicroService: 'MS',
+    应用监控: '监控',
+    AppMonitor: 'Monitor',
+    查询分析: '查询',
+    QueryAnalysis: 'Query',
+    日志分析: '日志',
+    LogAnalyze: 'Log',
+    API网关: '网关',
+    APIGateway: 'Gateway',
+    注册中心: '注册',
+    RegisterCenter: 'Register',
+    配置中心: '配置',
+    ConfigCenter: 'Config',
+    告警管理: '告警',
+    AlarmManagement: 'Alarm',
+    环境设置: '设置',
+    EnvironmentSet: 'Set',
+  };
+
+  return MSPSubtitleMap[name];
+};
+
 const renderIcon = (type: string) => () => {
   return <ErdaIcon className="erda-icon" type={type} fill="primary" />;
 };

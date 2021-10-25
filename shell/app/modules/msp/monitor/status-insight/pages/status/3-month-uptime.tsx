@@ -14,7 +14,7 @@
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Row, Col, Spin } from 'core/nusi';
+import { Row, Col, Spin } from 'antd';
 import MonthUptime from './month-uptime';
 import monitorStatusStore from 'status-insight/stores/status';
 import { useLoading } from 'core/stores/loading';

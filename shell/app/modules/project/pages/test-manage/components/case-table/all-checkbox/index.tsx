@@ -13,7 +13,7 @@
 
 import { flatMapDeep } from 'lodash';
 import React from 'react';
-import { Checkbox } from 'core/nusi';
+import { Checkbox } from 'antd';
 import { getChoosenInfo } from 'project/utils/test-case';
 import testCaseStore from 'project/stores/test-case';
 import './index.scss';

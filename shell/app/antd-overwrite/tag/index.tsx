@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tag } from 'antd';
-import { TagProps } from 'antd/lib/tag';
+import { TagProps } from 'antd/es/tag';
 
 // Regular expression for hexadecimal colors such as #ffffff or #fff
 const colorRegex = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'core/nusi';
+import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'antd';
 import { FormModal, IF } from 'common';
 import { goTo, setLS, removeLS } from 'app/common/utils';
 import BranchSelect from './branch-select';

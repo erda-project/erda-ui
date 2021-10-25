@@ -13,7 +13,7 @@
 
 import { FormInstance } from 'core/common/interface';
 import { insertWhen } from 'common/utils/index';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import i18n from 'i18n';
 import { produce } from 'immer';
 import { getOptions, groupOptions } from 'app/modules/cmp/pages/cluster-manage/config';

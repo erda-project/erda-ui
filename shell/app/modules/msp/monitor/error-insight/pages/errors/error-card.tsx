@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip, Row, Col } from 'core/nusi';
+import { Tooltip, Row, Col } from 'antd';
 import { resolvePath, fromNow } from 'common/utils';
 import { Link } from 'react-router-dom';
 import './error-card.scss';

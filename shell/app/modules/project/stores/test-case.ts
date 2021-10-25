@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { extend, find, includes, isBoolean, map, remove, flatMapDeep } from 'lodash';
-import { message } from 'core/nusi';
+import { message } from 'antd';
 import i18n from 'i18n';
 import { createStore } from 'core/cube';
 import { checkNeedEmptyChoosenIds, getChoosenName, getCaseListName, formatQuery } from 'project/utils/test-case';

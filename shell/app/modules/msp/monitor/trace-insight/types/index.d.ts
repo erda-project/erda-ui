@@ -173,6 +173,10 @@ declare namespace MONITOR_TRACE {
     width: number;
   }
 
+  interface SpanEvent {
+    spanEvents: Array<{ timestamp: number; events: object }>;
+  }
+
   type IFixedConditionType = 'sort' | 'limit' | 'traceStatus';
 
   type IFixedCondition = {

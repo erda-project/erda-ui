@@ -15,7 +15,7 @@ import { isEmpty } from 'lodash';
 import React, { useState } from 'react';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
-import { Badge, Button, Drawer, message, Spin, Table } from 'core/nusi';
+import { Badge, Button, Drawer, message, Spin, Table } from 'antd';
 import { useInterval, useMount } from 'react-use';
 import moment from 'moment';
 import { useLoading } from 'core/stores/loading';

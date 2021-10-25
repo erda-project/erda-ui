@@ -14,7 +14,7 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import { Table } from 'core/nusi';
+import { Table } from 'antd';
 
 import { Icon as CustomIcon, Ellipsis } from 'common';
 import { updateSearch } from 'common/utils';

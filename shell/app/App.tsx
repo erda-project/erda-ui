@@ -27,10 +27,10 @@ import { setConfig, getConfig } from 'core/config';
 import permStore from 'user/stores/permission';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
-import { getCurrentLocale } from 'core/i18n';
+import { Pagination, message, ConfigProvider } from 'antd';
+import { isZh } from 'core/i18n';
 import { EmptyListHolder } from 'common';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
-import * as nusi from 'core/nusi';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 import '@icon-park/react/styles/index.css';
@@ -39,18 +39,27 @@ import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime'
 import { initAxios } from 'app/common/utils/axios-config';
 import 'tailwindcss/tailwind.css';
 
-setConfig('onAPISuccess', nusi.message.success);
+import antd_zhCN from 'antd/es/locale-provider/zh_CN';
+import antd_enUS from 'antd/es/locale-provider/en_US';
+
+setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
 
 const history = getConfig('history');
 
-const { AntdConfigProvider } = nusi;
 const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
 };
 
-const hold = nusi;
+Pagination.defaultProps = {
+  showSizeChanger: false,
+  ...Pagination.defaultProps,
+  pageSize: 15,
+  pageSizeOptions: ['15', '30', '45', '60'],
+  showTotal: (total) => (isZh() ? `共计 ${total} 条` : `total ${total} items`),
+};
+
 const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   setLS('diceLoginState', true);
 
@@ -87,13 +96,12 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {
-      const currentLocale = getCurrentLocale();
       return (
-        <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
+        <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
           <IconProvider value={IconConfig}>
             <App />
           </IconProvider>
-        </AntdConfigProvider>
+        </ConfigProvider>
       );
     };
 

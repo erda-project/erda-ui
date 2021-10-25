@@ -21,7 +21,7 @@ import { isPromise } from 'common/utils';
 import { get, map } from 'lodash';
 import i18n from 'i18n';
 import { IssueIcon, getIssueTypeOption } from 'project/common/components/issue/issue-icon';
-import { Menu, Dropdown, Modal, message } from 'core/nusi';
+import { Menu, Dropdown, Modal, message } from 'antd';
 import { Form } from 'dop/pages/form-editor/index';
 import './issue-item.scss';
 import routeInfoStore from 'core/stores/route';

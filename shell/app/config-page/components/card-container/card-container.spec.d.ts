@@ -11,19 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import { Select } from 'antd';
+declare namespace CP_CARD_CONTAINER {
+  interface Spec {
+    type: 'ChartContainer' | 'CardContainer';
+    props?: IProps;
+  }
 
-const { Option, OptGroup } = Select;
-const FixedSelect = React.forwardRef((props: any, ref) => {
-  return (
-    <Select ref={ref} getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement} {...props}>
-      {props.children}
-    </Select>
-  );
-}) as unknown as typeof Select;
+  interface IProps {
+    visible?: boolean;
+    title: string;
+    tip?: string;
+    holderWhen?: boolean;
+    style?: React.CSSProperties;
+  }
 
-(FixedSelect as any).Option = Option;
-(FixedSelect as any).OptGroup = OptGroup;
-
-export { FixedSelect };
+  type Props = MakeProps<Spec> & {
+    title: string | React.ElementType;
+    extraContent: React.ReactChild | React.ReactChild[];
+    children: React.ReactChild | React.ReactChild[];
+  };
+}

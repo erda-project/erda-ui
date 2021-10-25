@@ -184,13 +184,26 @@ const getContainerMap = (container: Obj<CONFIG_PAGE.BaseSpec>) => {
 };
 
 const EnhanceCompProps = (props: Merge<CONFIG_PAGE.BaseSpec, { children: React.ReactElement }>) => {
-  const { children, props: configProps, ...rest } = props;
+  const { children, props: configProps, data: pData, ...rest } = props;
   const [comProps, setCompProps] = React.useState(configProps);
+  const [data, setData] = React.useState(pData);
+
+  const ignoreData = comProps?.requestIgnore?.includes('data');
   React.useEffect(() => {
     if (configProps !== null && configProps !== undefined) {
       setCompProps(configProps);
     }
   }, [configProps]);
 
-  return React.cloneElement(children, { props: comProps, ...rest });
+  React.useEffect(() => {
+    if (ignoreData) {
+      if (!isEmpty(pData)) {
+        setData(pData);
+      }
+    } else {
+      setData(pData);
+    }
+  }, [pData, ignoreData]);
+
+  return React.cloneElement(children, { props: comProps, data, ...rest });
 };

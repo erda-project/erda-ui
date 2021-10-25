@@ -264,6 +264,9 @@ export enum pages {
   // 微服务-接入配置页
   mspConfiguationPage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/environment/{terminusKey}/configuration',
 
+  // 链路调试
+  mspTraceDebug = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/debug',
+
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',
 

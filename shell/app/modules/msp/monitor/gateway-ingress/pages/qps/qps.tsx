@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/stores/common';
 import QPSMap from './config/chartMap';
 import routeInfoStore from 'core/stores/route';

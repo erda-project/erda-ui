@@ -22,7 +22,7 @@ import routeInfoStore from 'core/stores/route';
 import monitorErrorStore from 'error-insight/stores/error';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
-import { Pagination, Spin } from 'core/nusi';
+import { Pagination, Spin } from 'antd';
 import { EmptyHolder } from 'common';
 import i18n from 'i18n';
 

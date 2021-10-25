@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Dropdown, Menu } from 'core/nusi';
+import { Dropdown, Menu } from 'antd';
 import { map, uniqueId } from 'lodash';
 import { i18nMap } from '../common/pipeline-node-drawer';
 import i18n from 'i18n';

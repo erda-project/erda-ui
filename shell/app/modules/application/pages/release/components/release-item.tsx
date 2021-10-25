@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { Icon as CustomIcon, IF } from 'common';
 import { cutStr, fromNow } from 'common/utils';
 import i18n from 'i18n';

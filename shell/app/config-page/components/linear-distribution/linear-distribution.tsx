@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { sumBy } from 'lodash';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { colorMap, statusColorMap } from 'app/config-page/utils';
 import './linear-distribution.scss';
 

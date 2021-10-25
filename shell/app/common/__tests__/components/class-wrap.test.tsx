@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ClassWrapper } from 'common/components/class-wrap';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import { mount } from 'enzyme';
 
 describe('ClassWrapper', () => {

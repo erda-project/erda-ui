@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map as _map, pickBy } from 'lodash';
-import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm } from 'core/nusi';
+import { Row, Col, Input, Select, Button, Tabs, Form, Popconfirm, Tooltip } from 'antd';
 import { Copy, KeyValueEditor, IF } from 'common';
 import { regRules, notify, qs } from 'common/utils';
 import CommonPanel from './trace-common-panel';
@@ -22,9 +22,12 @@ import RequestStatusViewer from './trace-status-viewer';
 import constants from './constants';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
+import monitorCommonStore from 'app/common/stores/monitorCommon';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useEffectOnce } from 'react-use';
+import TraceSearchDetail from './trace-search-detail';
 import i18n from 'i18n';
+import { FullScreenOne as IconFullScreenOne } from '@icon-park/react';
 import './trace-querier.scss';
 
 const { HTTP_METHOD_LIST, MAX_BODY_LENGTH, MAX_URL_LENGTH } = constants;
@@ -52,6 +55,8 @@ const TraceInsightQuerier = () => {
     s.spanDetailContent,
   ]);
   const urlQuery = routeInfoStore.useStore((s) => s.query);
+  const isShowTraceDetail = monitorCommonStore.useStore((s) => s.isShowTraceDetail);
+  const { setIsShowTraceDetail } = monitorCommonStore.reducers;
   const [isTraceDetailContentFetching, isTraceHistoryFetching, isRequestTraceFetching] = useLoading(traceQuerierStore, [
     'getTraceDetailContent',
     'getTraceHistoryList',
@@ -296,7 +301,19 @@ const TraceInsightQuerier = () => {
       <CommonPanel
         title={
           <div className="flex justify-between items-center">
-            <h3 className="trace-common-panel-title font-medium">{i18n.t('msp:tracing information')}</h3>
+            <div className="flex">
+              <h3 className="trace-common-panel-title font-medium mr-2">{i18n.t('msp:tracing information')}</h3>
+              {traceStatusDetail?.status === 1 && (
+                <Tooltip title={i18n.t('full screen')}>
+                  <IconFullScreenOne
+                    size="14"
+                    theme="filled"
+                    className="cursor-pointer hover:text-primary"
+                    onClick={() => setIsShowTraceDetail(true)}
+                  />
+                </Tooltip>
+              )}
+            </div>
             <IF check={requestTraceParams.responseCode}>
               <div className="response-code">{`${i18n.t('msp:request response status')}：${
                 requestTraceParams.responseCode
@@ -352,6 +369,7 @@ const TraceInsightQuerier = () => {
           {renderStatusList()}
         </Col>
       </Row>
+      {isShowTraceDetail && <TraceSearchDetail traceId={traceStatusDetail?.requestId} />}
     </div>
   );
 };

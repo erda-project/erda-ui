@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Table } from 'core/nusi';
+import { Input, Table } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { formatTime, goTo } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';

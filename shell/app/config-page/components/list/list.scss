@@ -15,7 +15,8 @@
       background-color: $color-active-bg;
 
       .cp-list-item-operations {
-        display: block;
+        display: flex;
+        align-items: center;
         cursor: default;
       }
     }

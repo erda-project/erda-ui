@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Spin, Input, Tooltip, message } from 'core/nusi';
+import { Drawer, Spin, Input, Tooltip, message } from 'antd';
 import { Avatar, Copy, ErdaIcon, MarkdownEditor, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import testCaseStore from 'project/stores/test-case';
@@ -150,7 +150,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     }
   }, [caseDetail, params.projectId, updater]);
   const shareLink = `${location.href.split('?')[0]}?${mergeSearch({ caseId: fullData.id }, true)}`;
-  const updateDate = fromNow(caseDetail.updatedAt);
+  const updateDate = fromNow(caseDetail.updatedAt, { edgeNow: true });
   const handleClose = () => {
     onClose();
     clearCaseDetail();

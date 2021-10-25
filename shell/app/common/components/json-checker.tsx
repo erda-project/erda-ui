@@ -19,7 +19,7 @@
  * @Last Modified time: 2019-02-21 19:34:32
  */
 import React from 'react';
-import { Button, Modal } from 'core/nusi';
+import { Button, Modal } from 'antd';
 import { Copy } from 'common';
 import { Copy as IconCopy } from '@icon-park/react';
 import i18n from 'i18n';

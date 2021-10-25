@@ -15,7 +15,7 @@ import { isPlainObject, map, forEach, isEmpty, filter, debounce } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import { isValidJsonStr } from 'common/utils';
-import { Input, Select, Table, Radio } from 'core/nusi';
+import { Input, Select, Table, Radio } from 'antd';
 import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { FormInstance, RadioChangeEvent } from 'core/common/interface';

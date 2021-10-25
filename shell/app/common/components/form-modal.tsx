@@ -14,7 +14,7 @@
 import { isEmpty, isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { Modal, Form, Button, Spin, Alert } from 'core/nusi';
+import { Modal, Form, Button, Spin, Alert } from 'antd';
 import { RenderPureForm } from 'common';
 import { isPromise } from 'common/utils';
 import { FormInstance } from 'core/common/interface';

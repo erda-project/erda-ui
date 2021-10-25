@@ -14,7 +14,7 @@
 import React from 'react';
 import dopStore from 'dop/stores';
 import { useMount, useUpdateEffect } from 'react-use';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import i18n from 'i18n';
 
 const { Option } = Select;

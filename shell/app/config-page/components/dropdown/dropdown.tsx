@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu } from 'core/nusi';
+import { Dropdown, Menu } from 'antd';
 import { OperationAction } from 'config-page/utils';
 
 export default (props: CP_DROPDOWN.Props) => {
@@ -33,7 +33,7 @@ export default (props: CP_DROPDOWN.Props) => {
         return (
           <Menu.Item {...menu} key={menu.key}>
             <OperationAction operation={operations?.[menu.key]} onClick={() => onClick(operations?.[menu.key])}>
-              <span>{menu.label}</span>
+              <div>{menu.label}</div>
             </OperationAction>
           </Menu.Item>
         );

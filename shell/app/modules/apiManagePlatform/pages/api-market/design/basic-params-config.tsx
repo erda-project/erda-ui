@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Button, Popconfirm } from 'core/nusi';
+import { Select, Button, Popconfirm } from 'antd';
 import i18n from 'i18n';
 import { Icon as CustomIcon, FormBuilder, IFormExtendType } from 'common';
 import { useUpdate } from 'common/use-hooks';

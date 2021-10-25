@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer as PureDrawer, Button as NusiButton } from 'core/nusi';
+import { Drawer as PureDrawer, Button as NusiButton } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import './drawer.scss';

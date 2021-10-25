@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, isEmpty } from 'lodash';
-import { Row, Col, Tooltip, Button } from 'core/nusi';
+import { Row, Col, Tooltip, Button } from 'antd';
 import { Responsive, ErrorBoundary, IF,  } from 'common';
 import { goTo, getLS, setLS, qs } from 'common/utils';
 import { useMediaLt } from 'common/use-hooks';

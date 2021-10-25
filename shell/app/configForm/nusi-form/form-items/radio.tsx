@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form, Radio } from 'core/nusi';
+import { Form, Radio } from 'antd';
 import React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';

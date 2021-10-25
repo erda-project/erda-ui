@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Form } from 'core/nusi';
+import { Form } from 'antd';
 import { ApiItem } from '../components/api-test';
 import React from 'react';
 import { commonFields, exceptField } from 'app/configForm/nusi-form/form-items';

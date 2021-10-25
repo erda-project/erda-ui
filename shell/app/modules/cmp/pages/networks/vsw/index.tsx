@@ -16,7 +16,7 @@ import { CRUDTable, Copy } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import networksStore from 'cmp/stores/networks';
 import { useLoading } from 'core/stores/loading';
-import { Select, Menu, Dropdown, Button } from 'core/nusi';
+import { Select, Menu, Dropdown, Button } from 'antd';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';

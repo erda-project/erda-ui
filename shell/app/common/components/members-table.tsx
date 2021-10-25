@@ -21,7 +21,7 @@ import { useLoading } from 'core/stores/loading';
 import { AuthorizeMemberModal } from './authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'core/nusi';
+import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'antd';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';

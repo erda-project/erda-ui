@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Modal } from 'core/nusi';
+import { Modal } from 'antd';
 
 import { useLoading } from 'core/stores/loading';
 import testSetStore from 'project/stores/test-set';

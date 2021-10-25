@@ -12,12 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu, Divider } from './index';
-import { Table } from 'antd';
-import i18n from '../i18n';
-import { ColumnProps as AntdColumnProps, TableProps } from 'antd/lib/table';
+import { Dropdown, Menu, Divider } from 'antd';
+import Table, { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
+import i18n from 'i18n';
 
-import './wrapped-table.scss';
+import './index.scss';
 
 const { Column, ColumnGroup, Summary } = Table;
 export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {

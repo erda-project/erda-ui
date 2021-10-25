@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Popconfirm } from 'core/nusi';
+import { Button, Popconfirm } from 'antd';
 import { get } from 'lodash';
 import { EmptyHolder, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';

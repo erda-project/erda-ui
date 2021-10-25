@@ -32,7 +32,7 @@ import {
   Dropdown,
   Menu,
   Tooltip,
-} from 'core/nusi';
+} from 'antd';
 import { Form as ConfigForm } from 'dop/pages/form-editor/index';
 import React from 'react';
 import {

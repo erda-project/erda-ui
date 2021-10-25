@@ -14,7 +14,7 @@
 import React from 'react';
 import { ErdaIcon } from 'common';
 import './type-select.scss';
-import { Badge } from 'core/nusi';
+import { Badge } from 'antd';
 
 enum ERDA_ICON {
   Golang = 'go',
