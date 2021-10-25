@@ -14,12 +14,14 @@
 import i18n, { getCurrentLocale, setLocale, isZh, getLang } from 'core/i18n';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
-import { map } from 'lodash';
+import defaultZh from '../../locales/zh.json';
+import defaultEn from '../../locales/en.json';
+import { map, merge } from 'lodash';
 
-map(zh, (zhValue, zhKey) => {
+map(merge(defaultZh, zh), (zhValue, zhKey) => {
   i18n.addResourceBundle('zh', zhKey, zhValue);
 });
-map(en, (enValue, enKey) => {
+map(merge(defaultEn, en), (enValue, enKey) => {
   i18n.addResourceBundle('en', enKey, enValue);
 });
 

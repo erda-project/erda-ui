@@ -11,20 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+/* eslint-disable no-param-reassign */
 import fs from 'fs';
 import path from 'path';
 import { logWarn, logError } from './log';
 
-// 标记结束点
-let files = 0;
 export const walker = ({
   root,
   dealFile,
   recursive = true,
+  files = { level: 0 },
 }: {
   root: string;
   dealFile: (content: string, filePath: string, isEnd: boolean) => void;
   recursive?: boolean;
+  files?: { level: number };
 }) => {
   if (!dealFile) {
     logError('[walker] Not assign file handler');
@@ -48,17 +49,17 @@ export const walker = ({
       }
       const subPath = path.resolve(`${root}/${fileName}`);
       if (item.isDirectory() && recursive) {
-        return walker({ root: subPath, dealFile, recursive });
+        return walker({ root: subPath, dealFile, recursive, files });
       }
       const filePath = subPath;
-      files += 1;
+      files.level += 1;
       fs.readFile(filePath, 'utf8', (readErr, content) => {
         if (readErr) {
           logError(`[walker] Read file ${filePath} error:`, readErr);
           return;
         }
-        dealFile(content, filePath, files === 1);
-        files -= 1;
+        dealFile(content, filePath, files.level === 1);
+        files.level -= 1;
       });
     });
   });

@@ -82,12 +82,10 @@ program
 program
   .command('i18n')
   .description('translate words in work dir')
-  .option('--work-dir <workDir>', 'work directory')
   .option('--switch', 'batch switch namespace')
   .action(async (options) => {
-    const { workDir: _workDir, switch: switchNs } = options;
-    const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
-    i18n({ workDir, switchNs });
+    const { switch: switchNs } = options;
+    i18n({ switchNs });
   });
 
 program

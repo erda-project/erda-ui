@@ -16,6 +16,7 @@ import path from 'path';
 import fs from 'fs';
 import { merge, differenceWith, isEqual, unset } from 'lodash';
 import { logError } from './log';
+import { internalModules, localePathMap, Modules, srcDirMap } from './i18n-config';
 
 interface Resource {
   [k: string]: { [k: string]: string };
@@ -93,6 +94,7 @@ function customFlush(done: () => void) {
     }
 
     const filePath = resource.savePath.replace('{{lng}}', lng);
+    const defaultLocalePath = `${localePathMap.default}/${lng}.json`;
     let oldContent = lng === 'zh' ? originalZhJson : originalEnJson;
 
     // Remove obsolete keys
@@ -124,49 +126,77 @@ function customFlush(done: () => void) {
             if (zh) {
               obj[k] = zh;
             } else {
-              logError(`zh.json中存在未被翻译的内容${k}，请手动处理`);
+              logError(`there is untranslated content in zh.json:${k}, please handle it manually`);
             }
           }
         });
       });
     }
 
-    fs.writeFile(filePath, JSON.stringify(output, null, resource.jsonIndent), 'utf8', (writeErr) => {
-      if (writeErr) return logError(`写入locale:${lng} 文件错误`, writeErr);
+    const { default: defaultContent, ...restContent } = output;
+    fs.writeFile(filePath, JSON.stringify(restContent, null, resource.jsonIndent), 'utf8', (writeErr) => {
+      if (writeErr) return logError(`writing failed:${lng}`, writeErr);
     });
+    fs.writeFile(
+      defaultLocalePath,
+      JSON.stringify({ default: defaultContent }, null, resource.jsonIndent),
+      'utf8',
+      (writeErr) => {
+        if (writeErr) return logError(`writing failed:${lng}`, writeErr);
+      },
+    );
   });
 
   done();
 }
 
-export default (
-  resolve: (value: void | PromiseLike<void>) => void,
-  srcDir: string,
-  _localePath: string,
-  switchNs?: boolean,
-) => {
-  const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!**/node_modules/**'];
-  if (srcDir.endsWith('shell')) {
-    paths.push(`!${srcDir}/snippets/*.{js,jsx,ts,tsx}`);
+export default async (resolve: (value: void | PromiseLike<void>) => void) => {
+  try {
+    const jsonContent = fs.readFileSync(path.resolve(process.cwd(), './temp-zh-words.json'), 'utf8');
+    zhWordMap = JSON.parse(jsonContent);
+  } catch (error) {
+    zhWordMap = {};
   }
-  localePath = _localePath;
-  if (!switchNs) {
-    zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
-  }
-  const zhJsonPath = `${localePath}/zh.json`;
-  const enJsonPath = `${localePath}/en.json`;
-  let content = fs.readFileSync(zhJsonPath, 'utf8');
-  originalZhJson = JSON.parse(content);
-  content = fs.readFileSync(enJsonPath, 'utf8');
-  originalEnJson = JSON.parse(content);
 
-  ns = Object.keys(originalZhJson);
+  // handle internal modules
+  for (const moduleName of internalModules) {
+    const srcDirs = srcDirMap[moduleName as Modules];
+    const paths = srcDirs.map((srcDir) => `${srcDir}/**/*.{js,jsx,ts,tsx}`);
+    paths.push('!**/node_modules/**');
+    paths.push('!**/__tests__/**');
 
-  vfs
-    .src(paths)
-    .pipe(scanner(options(), undefined, customFlush))
-    .pipe(vfs.dest('./'))
-    .on('end', () => {
-      resolve && resolve();
+    localePath = localePathMap[moduleName as Modules];
+    const targetLocalePath = localePathMap[moduleName as Modules];
+    const zhJsonPath = `${targetLocalePath}/zh.json`;
+    const enJsonPath = `${targetLocalePath}/en.json`;
+    let content = fs.readFileSync(zhJsonPath, 'utf8');
+    originalZhJson = JSON.parse(content);
+    content = fs.readFileSync(enJsonPath, 'utf8');
+    originalEnJson = JSON.parse(content);
+
+    const defaultLocalePath = localePathMap.default;
+    const defaultZhJsonPath = `${defaultLocalePath}/zh.json`;
+    const defaultEnJsonPath = `${defaultLocalePath}/en.json`;
+    content = fs.readFileSync(defaultZhJsonPath, 'utf8');
+    originalZhJson = merge(originalZhJson, JSON.parse(content));
+    content = fs.readFileSync(defaultEnJsonPath, 'utf8');
+    originalEnJson = merge(originalEnJson, JSON.parse(content));
+
+    ns = Object.keys(originalZhJson);
+
+    const promise = new Promise<void>((_resolve) => {
+      vfs
+        .src(paths)
+        .pipe(scanner(options(), undefined, customFlush))
+        .pipe(vfs.dest('./'))
+        .on('end', () => {
+          _resolve();
+        });
     });
+    // eslint-disable-next-line no-await-in-loop
+    await promise;
+  }
+  resolve();
+  // if (!externalModules.includes(moduleName)) {
+  // }
 };
