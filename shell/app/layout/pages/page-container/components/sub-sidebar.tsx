@@ -168,7 +168,7 @@ const SubSideBar = () => {
     if (!isEqual(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
-        openKeys: activeKeyList || [],
+        openKeys: (localStorage.getItem('isSubSidebarFold') !== 'true' && activeKeyList) || [],
         selectedKey,
       });
     }
