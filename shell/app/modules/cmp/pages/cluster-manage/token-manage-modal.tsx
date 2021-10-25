@@ -47,7 +47,7 @@ const TokenManageModal = (props: IProps) => {
               });
             }}
           >
-            <Button type="danger">{i18n.t('cmp:reset Token')}</Button>
+            <Button danger>{i18n.t('cmp:reset Token')}</Button>
           </Popconfirm>
         ) : (
           <Button

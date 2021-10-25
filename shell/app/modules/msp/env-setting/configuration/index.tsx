@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import './index.scss';
 import { ColumnProps } from 'core/common/interface';
 import { Copy, EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
