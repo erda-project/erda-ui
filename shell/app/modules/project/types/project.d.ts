@@ -133,7 +133,7 @@ declare namespace PROJECT {
     memRequestByAddon: number;
     memRequestByAddonRate: number;
     Workspace: string;
-    Tips: string;
+    tips?: string;
   }
 
   interface IBranchRule extends IBranchRuleCreateBody {
