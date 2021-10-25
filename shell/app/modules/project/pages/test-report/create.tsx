@@ -15,8 +15,12 @@ import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import { Form, Input, Button } from 'antd';
 import DiceConfigPage from 'config-page';
+import IterationSelect from 'project/common/components/issue/iteration-select';
 import { useUpdate } from 'app/common/use-hooks';
+import { encode } from 'js-base64';
 import i18n from 'i18n';
+import { set } from 'lodash';
+import { produce } from 'immer';
 import { goTo } from 'common/utils';
 import { MarkdownEditor, Title } from 'common';
 import { saveTestReport } from 'project/services/project';
@@ -24,15 +28,17 @@ import { saveTestReport } from 'project/services/project';
 interface IState {
   testDashboard: Obj | null;
   issueDashboard: Obj | null;
+  chosenIterationID: string;
 }
 
 export default () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [form] = Form.useForm();
   const saving = saveTestReport.useLoading();
-  const [{ testDashboard, issueDashboard }, updater] = useUpdate<IState>({
+  const [{ testDashboard, issueDashboard, chosenIterationID }, updater] = useUpdate<IState>({
     testDashboard: null,
     issueDashboard: null,
+    chosenIterationID: '',
   });
 
   const onClick = () => {
@@ -51,7 +57,29 @@ export default () => {
         });
     });
   };
+
+  const changeIteration = (v: string) => {
+    updater.chosenIterationID(v);
+  };
+
   const inParams = { projectId };
+  // TODO: better add a iterationID inparams; need backend support
+  if (chosenIterationID) {
+    inParams.issue__urlQuery = encode(`{"iteration":[${chosenIterationID}]}`);
+  }
+
+  const handleDashboardFilter = (data: Obj) => {
+    return produce(data, (draft) => {
+      const conditions = draft.protocol?.components?.filter?.state?.conditions || [];
+      const reConditions = conditions.map((cond: Obj) => {
+        if (cond.key === 'iteration') {
+          return { ...cond, disabled: true };
+        }
+        return cond;
+      });
+      set(draft, 'protocol.components.filter.state.conditions', reConditions);
+    });
+  };
 
   return (
     <div>
@@ -65,34 +93,41 @@ export default () => {
           <Form.Item label={i18n.t('org:report name')} name="name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
+          <Form.Item label={i18n.t('project:iteration')} name="iterationID" rules={[{ required: true }]}>
+            <IterationSelect onChange={changeIteration} autoSelectFirst disabledBacklog />
+          </Form.Item>
           <Form.Item label={i18n.t('project:test summary')} name="summary">
             <MarkdownEditor />
           </Form.Item>
         </Form>
       </div>
-      <Title title={i18n.t('project:test statistics')} />
-      <DiceConfigPage
-        scenarioType={'test-dashboard'}
-        scenarioKey={'test-dashboard'}
-        fullHeight={false}
-        updateConfig={(v) => {
-          updater.testDashboard(v);
-        }}
-        debugConfig={testDashboard}
-        inParams={inParams}
-      />
+      {chosenIterationID ? (
+        <div key={chosenIterationID}>
+          <Title title={i18n.t('project:test statistics')} />
+          <DiceConfigPage
+            scenarioType={'test-dashboard'}
+            scenarioKey={'test-dashboard'}
+            fullHeight={false}
+            updateConfig={(v) => {
+              updater.testDashboard(handleDashboardFilter(v));
+            }}
+            debugConfig={testDashboard}
+            inParams={inParams}
+          />
 
-      <Title title={i18n.t('project:test statistics')} />
-      <DiceConfigPage
-        scenarioType={'issue-dashboard'}
-        scenarioKey={'issue-dashboard'}
-        inParams={inParams}
-        fullHeight={false}
-        debugConfig={issueDashboard}
-        updateConfig={(v) => {
-          updater.issueDashboard(v);
-        }}
-      />
+          <Title title={i18n.t('project:test statistics')} />
+          <DiceConfigPage
+            scenarioType={'issue-dashboard'}
+            scenarioKey={'issue-dashboard'}
+            inParams={inParams}
+            fullHeight={false}
+            debugConfig={issueDashboard}
+            updateConfig={(v) => {
+              updater.issueDashboard(handleDashboardFilter(v));
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

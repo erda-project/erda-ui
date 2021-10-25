@@ -42,6 +42,7 @@ export interface ICondition {
   key: string;
   label: string;
   type: ConditionType;
+  disabled?: boolean;
   emptyText?: string;
   required?: boolean;
   split?: boolean;
@@ -146,6 +147,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     type,
     placeholder,
     quickSelect,
+    disabled,
     quickDelete,
     quickAdd,
     options,
@@ -181,6 +183,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       <Input
         // autoFocus // 默认全部展示，不需要自动获取焦点
         value={inputVal}
+        disabled={disabled}
         size="small"
         style={{ width: 180 }}
         allowClear
@@ -331,6 +334,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         visible={active}
         onVisibleChange={onVisibleChange}
         overlay={ops}
+        disabled={disabled}
         overlayClassName="contractive-filter-item-dropdown"
         placement="bottomLeft"
       >
@@ -385,6 +389,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <DatePicker
           size="small"
           bordered={false}
+          disabled={disabled}
           value={startDate ? moment(startDate) : undefined}
           disabledDate={disabledDate(true)}
           format={'YYYY/MM/DD'}
@@ -396,6 +401,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         <DatePicker
           size="small"
           bordered={false}
+          disabled={disabled}
           allowClear={!required}
           value={endDate ? moment(endDate) : undefined}
           disabledDate={disabledDate(false)}
@@ -443,6 +449,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           value={valueConvert(value)}
           ranges={rangeConvert(ranges)}
           size="small"
+          disabled={disabled}
           bordered={false}
           disabledDate={selectableTime ? disabledDate : undefined}
           onChange={(v) => {

@@ -31,6 +31,7 @@ interface IProps {
   disabled?: boolean;
   className?: string;
   autoSelectFirst?: boolean;
+  disabledBacklog?: boolean;
   allowClear?: boolean;
   placeholder?: string;
   mode?: 'default' | 'multiple';
@@ -46,6 +47,7 @@ export default ({
   autoSelectFirst = false,
   className,
   disabled = false,
+  disabledBacklog = false,
   allowClear = false,
   placeholder,
   mode = 'default',
@@ -90,9 +92,13 @@ export default ({
   });
 
   const iterationOption = React.useMemo(() => {
-    const list = isEmpty(iterationList) ? [] : [{ title: i18n.t('project:backlog'), id: -1 }, ...iterationList];
+    const list = isEmpty(iterationList)
+      ? []
+      : !disabledBacklog
+      ? [{ title: i18n.t('project:backlog'), id: -1 }, ...iterationList]
+      : [...iterationList];
     return addAllOption ? [{ title: i18n.t('application:all iterations'), id: 'ALL' }, ...list] : list;
-  }, [addAllOption, iterationList]);
+  }, [addAllOption, iterationList, disabledBacklog]);
 
   React.useEffect(() => {
     iterationStore.reducers.updateIterationList(iterationList);

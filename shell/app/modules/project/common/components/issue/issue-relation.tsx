@@ -85,7 +85,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       getIssueRelation({ id: issueDetail.id });
     });
   };
-  const columns: Array<ColumnProps<ISSUE.IssueType>> = [
+  const getColumns = (beRelated = false): Array<ColumnProps<ISSUE.IssueType>> => [
     {
       title: i18n.t('{name} title', { name: i18n.t('project:issue') }),
       dataIndex: 'title',
@@ -171,7 +171,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
             <Popconfirm
               title={`${i18n.t('confirm remove relation?')}`}
               placement="bottom"
-              onConfirm={() => onDelete(record)}
+              onConfirm={() => onDelete(record, beRelated)}
             >
               <span className="fake-link">{i18n.t('project:disassociate')}</span>
             </Popconfirm>
@@ -189,8 +189,11 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
     });
   };
 
-  const onDelete = (val: ISSUE.IssueType) => {
-    deleteIssueRelation({ id: issueDetail.id, relatedIssueID: val.id }).then(() => {
+  const onDelete = (val: ISSUE.IssueType, beRelated = false) => {
+    const payload = beRelated
+      ? { id: val.id, relatedIssueID: issueDetail.id }
+      : { id: issueDetail.id, relatedIssueID: val.id };
+    deleteIssueRelation(payload).then(() => {
       onRelationChange && onRelationChange();
       getList();
     });
@@ -249,7 +252,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       </div>
       <Title level={2} mt={8} title={i18n.t('project:related to these issues')} />
       <Table
-        columns={columns}
+        columns={getColumns()}
         dataSource={relatingList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
@@ -257,7 +260,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       />
       <Title level={2} mt={16} title={i18n.t('project:related by these issues')} />
       <Table
-        columns={columns}
+        columns={getColumns(true)}
         dataSource={relatedList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
