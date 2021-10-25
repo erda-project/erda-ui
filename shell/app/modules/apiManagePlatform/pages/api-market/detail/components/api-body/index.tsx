@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Radio, Select, Input, Button } from 'antd';
+import { Radio, Select, Input, Button, message } from 'antd';
 import { map, isString } from 'lodash';
 import KeyValueEdit from 'apiManagePlatform/pages/api-market/detail/components/key-val-edit';
 import { FileEditor } from 'common';
@@ -24,7 +24,7 @@ export const formatJSON = (str: string) => {
   try {
     res = JSON.stringify(JSON.parse(str), null, 2);
   } catch (e) {
-    // do nothing
+    message.error(i18n.t('application:the current input content is invalid JSON'));
   }
   return typeof res === 'string' ? res : '';
 };

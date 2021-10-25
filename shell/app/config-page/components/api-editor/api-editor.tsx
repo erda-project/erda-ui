@@ -52,7 +52,7 @@ const formatJSON = (str: string) => {
   try {
     res = JSON.stringify(JSON.parse(str), null, 2);
   } catch (e) {
-    // do nothing
+    message.error(i18n.t('application:the current input content is invalid JSON'));
   }
   return typeof res === 'string' ? res : '';
 };

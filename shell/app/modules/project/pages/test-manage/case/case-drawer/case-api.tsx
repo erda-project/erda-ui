@@ -16,7 +16,7 @@ import classnames from 'classnames';
 import { Copy, ErdaIcon, EmptyListHolder, FileEditor } from 'common';
 import { useListDnD } from 'common/use-hooks';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'antd';
+import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, message } from 'antd';
 import { Copy as IconCopy } from '@icon-park/react';
 import testEnvStore from 'project/stores/test-env';
 import React from 'react';
@@ -37,7 +37,7 @@ const formatJSON = (str: string) => {
   try {
     res = JSON.stringify(JSON.parse(str), null, 2);
   } catch (e) {
-    // do nothing
+    message.error(i18n.t('application:the current input content is invalid JSON'));
   }
   return typeof res === 'string' ? res : '';
 };
