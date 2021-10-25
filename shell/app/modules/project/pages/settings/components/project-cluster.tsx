@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Pagination } from 'antd';
+import { Table, Tooltip } from 'antd';
 import { DOC_PROJECT_RESOURCE_MANAGE, WORKSPACE_LIST } from 'common/constants';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
