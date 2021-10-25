@@ -89,95 +89,20 @@ export const ProjectList = () => {
         render: (text: string) => (text === 'MSP' ? i18n.t('org:microservice Observation Project') : 'DevOps'),
       },
       {
-        title: <span>CPU / {i18n.t('Memory usage')}</span>,
-        dataIndex: 'usage',
-        key: 'usage',
-        render: (t, record: PROJECT.Detail) => {
-          const {
-            cpuServiceUsed = 0,
-            memServiceUsed = 0,
-            cpuAddonUsed = 0,
-            memAddonUsed = 0,
-            memQuota,
-            cpuQuota,
-          } = record;
-
-          const renderBar = (serviceUsed: number, addonUsed: number, totalNum: number, unit: string) => {
-            const isOveruse = serviceUsed + addonUsed > totalNum;
-            const leftNum = totalNum - (serviceUsed + addonUsed);
-            const percent = isOveruse
-              ? [
-                  // 超过总量
-                  Math.floor((serviceUsed / (serviceUsed + addonUsed)) * 100),
-                  Math.floor((addonUsed / (serviceUsed + addonUsed)) * 100),
-                  0,
-                ]
-              : totalNum === 0
-              ? [
-                  // 总量、使用量都为0
-                  0, 0, 100,
-                ]
-              : [
-                  Math.round((serviceUsed / totalNum) * 100),
-                  Math.round((addonUsed / totalNum) * 100),
-                  Math.abs(100 - Math.round((serviceUsed / totalNum) * 100) - Math.round((addonUsed / totalNum) * 100)),
-                ];
-            const percentText = percent.map((item) => `${item}%`);
-
-            return (
-              <div className={`quota-container ${isOveruse ? 'overuse' : ''}`}>
-                <div className={'quota-bar'}>
-                  <Tooltip
-                    title={`${i18n.t('cmp:application used')} ${serviceUsed.toFixed(2)}${unit} (${
-                      isOveruse ? `${Math.floor(totalNum ? (serviceUsed / totalNum) * 100 : 100)}%` : percentText[0]
-                    })`}
-                  >
-                    <div
-                      className={`nowrap ${percentText[0] !== '0%' ? 'border-right-color' : ''}`}
-                      style={{ width: percentText[0] }}
-                    >
-                      {i18n.t('project:application')}
-                    </div>
-                  </Tooltip>
-                  <Tooltip
-                    title={`${i18n.t('cmp:addon used')} ${addonUsed.toFixed(2)}${unit} (${
-                      isOveruse ? `${Math.floor(totalNum ? (addonUsed / totalNum) * 100 : 100)}%` : percentText[1]
-                    })`}
-                  >
-                    <div
-                      className={`nowrap ${percentText[1] !== '0%' ? 'border-right-color' : ''}`}
-                      style={{ width: percentText[1] }}
-                    >
-                      addon
-                    </div>
-                  </Tooltip>
-                  <Tooltip
-                    title={`${i18n.t('available')} ${leftNum <= 0 ? 0 : leftNum.toFixed(2)}${unit} (${percentText[2]})`}
-                  >
-                    <div className="nowrap" style={{ width: percentText[2] }}>
-                      {i18n.t('project:available')}
-                    </div>
-                  </Tooltip>
-                </div>
-                <Tooltip title={i18n.t('usage limit exceeded')}>
-                  <CustomIcon type="warning" className="overuse-tip ml-1" />
-                </Tooltip>
-              </div>
-            );
-          };
-          return (
-            <div style={{ minWidth: '200px' }}>
-              <div className="flex justify-between items-center">
-                <div style={{ width: '40px' }}>CPU:</div>
-                {renderBar(+cpuServiceUsed.toFixed(2), +cpuAddonUsed.toFixed(2), cpuQuota, 'Core')}
-              </div>
-              <div className="flex justify-between items-center">
-                <div style={{ width: '40px' }}>MEM:</div>
-                {renderBar(+memServiceUsed.toFixed(2), +memAddonUsed.toFixed(2), memQuota, 'GiB')}
-              </div>
-            </div>
-          );
-        },
+        title: i18n.t('total CPU allocation'),
+        dataIndex: 'cpuQuota',
+        key: 'cpuQuota',
+        width: 200,
+        sorter: true,
+        render: (text: string) => `${text} Core`,
+      },
+      {
+        title: i18n.t('total Memory allocation'),
+        dataIndex: 'memQuota',
+        key: 'memQuota',
+        width: 200,
+        sorter: true,
+        render: (text: string) => `${text} GiB`,
       },
       {
         title: i18n.t('latest active'),
