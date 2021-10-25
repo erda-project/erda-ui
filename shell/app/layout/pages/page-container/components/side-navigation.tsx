@@ -102,7 +102,7 @@ const SideNavigation = ({
           <Menu
             inlineCollapsed={isFold}
             theme="light"
-            openKeys={openKeys}
+            openKeys={(!isFold && openKeys) || []}
             selectedKeys={[selectedKey]}
             mode="inline"
             onOpenChange={onOpenChange}

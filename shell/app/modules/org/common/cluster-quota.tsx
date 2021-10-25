@@ -74,7 +74,7 @@ const ClusterQuota = ({
           leftMem: +quota.MemAvailable.toFixed(2),
           cpuRate: +(quota.CPUQuotaRate * 100).toFixed(2),
           memRate: +(quota.MemQuotaRate * 100).toFixed(2),
-          tips: quota.Tips,
+          tips: quota.tips,
         });
     }
   }, [cluster, clusterList, workSpace, update]);
