@@ -1859,8 +1859,8 @@
   "updateQuota": {
     "desc": "修改项目环境资源配额",
     "success": {
-      "zh": "在组织 @orgName 中，对项目 @projectName 的 @workspace 环境进行了Quota配置，CPU：@cpu 核，内存：@memory",
-      "en": "Update quota of workspace @workspace in project @projectName in organization @orgName. CPU: @cpu core(s), memory: @memory"
+      "zh": "在组织 [@orgName] 中，修改了项目 [@projectName](project) 的资源配额。\n开发环境：CPU：[@devCPU]核，内存：[@devMem]；\n测试环境：CPU：[@testCPU]核，内存：[@testMem]；\n预发环境：CPU：[@stagingCPU]核，内存：[@stagingMem]；\n生产环境：CPU：[@prodCPU]核，内存：[@prodMem]",
+      "en": "Update quota for project [@projectName](project) in organization [@orgName].\nWorkspace dev: CPU: [@devCPU] core(s), memory: [@devMem];\nWorkspace test: CPU: [@testCPU] core(s), memory: [@testMem];\nWorkspace staging: CPU: [@stagingCPU] core(s), memory: [@stagingMem];\nWorkspace production: CPU: [@prodCPU], memory: [@prodMem]"
     }
   }
 }
