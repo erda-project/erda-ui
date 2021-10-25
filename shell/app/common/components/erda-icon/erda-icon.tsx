@@ -30,8 +30,9 @@ export const iconMap = {
   'double-right': 'double-right',
   'application-menu': 'application-menu',
   help: 'help',
+  plus: 'tj1',
+  moreOne: 'more-one',
 };
-
 interface IErdaIcon {
   className?: string;
   type: string; // unique identification of icon
