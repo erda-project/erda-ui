@@ -115,6 +115,7 @@ importers:
       '@types/react-router-dom': ^5.1.5
       '@types/superagent': ^4.1.7
       '@types/webpack': ^4.4.20
+      antd: ^4.16.13
       axios: ^0.21.1
       babel-loader: ^8.2.2
       babel-plugin-import: ^1.13.3
@@ -144,6 +145,7 @@ importers:
       webpack-cli: ^4.4.0
       webpack-merge: ^5.7.3
     dependencies:
+      antd: 4.16.13_react-dom@16.14.0+react@16.14.0
       axios: 0.21.1
       cube-state: 1.5.6_react@16.14.0
       history: 4.10.1
