@@ -59,6 +59,21 @@ interface IState {
   textOrJson: string;
 }
 
+const convertType = (type: string) => {
+  const newType = '';
+  const jsonType = 'json';
+  const textType = 'text';
+  if (type === 'x-www-form-urlencoded' || type === 'none') {
+    return newType;
+  } else if (type === 'application/json') {
+    return jsonType;
+  } else if (type === 'text/plain') {
+    return textType;
+  } else {
+    return newType;
+  }
+};
+
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
@@ -80,7 +95,7 @@ const convertFormData = (_formData?: Obj) => {
           value: 400,
         },
       ],
-      textOrJson: _formData?.config.body?.type === 'application/json' ? 'json' : 'text' || 'text',
+      textOrJson: convertType(_formData?.config?.body?.type),
     };
   } else {
     return {
@@ -220,16 +235,20 @@ const AddModal = (props: IProps) => {
   React.useEffect(() => {
     switch (textOrJson) {
       case 'text':
-        headers['Content-Type'] = 'text/plain';
-        body.type = 'text/plain';
-        updater.body({ ...body });
-        updater.headers({ ...headers });
+        if (body.type !== 'text/plain') {
+          headers['Content-Type'] = 'text/plain';
+          body.type = 'text/plain';
+          updater.body({ ...body });
+          updater.headers({ ...headers });
+        }
         break;
       case 'json':
-        headers['Content-Type'] = 'application/json';
-        body.type = 'application/json';
-        updater.body({ ...body });
-        updater.headers({ ...headers });
+        if (body.type !== 'application/json') {
+          headers['Content-Type'] = 'application/json';
+          body.type = 'application/json';
+          updater.body({ ...body });
+          updater.headers({ ...headers });
+        }
         break;
       default:
         break;
@@ -237,17 +256,21 @@ const AddModal = (props: IProps) => {
 
     switch (bodyType) {
       case 'none':
-        body.content = '';
-        body.type = 'none';
-        delete headers['Content-Type'];
-        updater.headers({ ...headers });
-        updater.body({ ...body });
+        if (body.type !== 'none') {
+          body.content = '';
+          body.type = 'none';
+          delete headers['Content-Type'];
+          updater.headers({ ...headers });
+          updater.body({ ...body });
+        }
         break;
       case 'x-www-form-urlencoded':
-        headers['Content-Type'] = 'x-www-form-urlencoded';
-        body.type = bodyType;
-        updater.body({ ...body });
-        updater.headers({ ...headers });
+        if (body.type !== 'x-www-form-urlencoded') {
+          headers['Content-Type'] = 'x-www-form-urlencoded';
+          body.type = bodyType;
+          updater.body({ ...body });
+          updater.headers({ ...headers });
+        }
         break;
       default:
         break;
