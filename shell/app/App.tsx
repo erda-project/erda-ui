@@ -28,7 +28,7 @@ import permStore from 'user/stores/permission';
 import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { Pagination, message, ConfigProvider } from 'antd';
-import { isZh, getCurrentLocale } from 'core/i18n';
+import { isZh } from 'core/i18n';
 import { EmptyListHolder } from 'common';
 import orgStore, { isAdminRoute } from 'app/org-home/stores/org';
 import './styles/antd-extension.scss';
@@ -39,6 +39,9 @@ import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime'
 import { initAxios } from 'app/common/utils/axios-config';
 import 'tailwindcss/tailwind.css';
 
+import antd_zhCN from 'antd/es/locale-provider/zh_CN';
+import antd_enUS from 'antd/es/locale-provider/en_US';
+
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
 
@@ -48,7 +51,6 @@ const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
 };
-
 
 Pagination.defaultProps = {
   showSizeChanger: false,
@@ -94,9 +96,8 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {
-      const currentLocale = getCurrentLocale();
       return (
-        <ConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
+        <ConfigProvider renderEmpty={EmptyListHolder} locale={isZh() ? antd_zhCN : antd_enUS}>
           <IconProvider value={IconConfig}>
             <App />
           </IconProvider>
