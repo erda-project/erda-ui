@@ -16,7 +16,8 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
 import { walker } from './util/file-walker';
-import { doTranslate } from './util/google-translate';
+import { doTranslate as googleTranslate } from './util/google-translate';
+import { doTranslate as yuodaoTranslate } from './util/youdao-translate';
 import { logInfo, logSuccess } from './util/log';
 import { getCwdModuleName } from './util/env';
 import {
@@ -29,6 +30,9 @@ import {
   tempTranslatedWordPath,
   writeLocaleFiles,
 } from './util/i18n-utils';
+import path from 'path';
+
+const configFilePath = path.resolve(process.cwd(), '.translaterc');
 
 export default async ({ workDir: _workDir, switchNs }: { workDir: string; switchNs?: boolean }) => {
   try {
@@ -85,12 +89,14 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
 
     const tempWords = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
     const _untranslatedWords = Object.keys(tempWords);
-    // The second step is to call Google Translate to automatically translate
+    // The second step is to call google/youdao Translate to automatically translate
     if (_untranslatedWords.length > 0) {
-      const spinner = ora('Google automatic translating...').start();
-      await doTranslate();
+      const isUsingYoudao = fs.existsSync(configFilePath);
+      const spinner = ora(`${isUsingYoudao ? 'youdao' : 'google'} automatic translating...`).start();
+      const translateMethod = isUsingYoudao ? yuodaoTranslate : googleTranslate;
+      await translateMethod();
       spinner.stop();
-      logSuccess('Google automatic translation completed');
+      logSuccess('automatic translation completed');
       // The third step, manually checks whether there is a problem with the translation
       await inquirer.prompt({
         name: 'confirm',
@@ -112,7 +118,7 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
       const { inputNs } = await inquirer.prompt({
         name: 'inputNs',
         type: 'input',
-        message: `The default namespace of the current module is ${chalk.red(
+        message: `the default namespace of the current module is ${chalk.red(
           ns,
         )}, If you need special designation, please type in and press enter, otherwise press enter directly`,
       });
@@ -131,7 +137,7 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
         },
       });
     });
-    const spinner = ora('Replacing source file...').start();
+    const spinner = ora('replacing source file...').start();
     await generatePromise;
     spinner.stop();
     logSuccess('replacing source file completed');
@@ -143,7 +149,7 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
     if (!switchNs) {
       fs.unlinkSync(tempFilePath);
       fs.unlinkSync(tempTranslatedWordPath);
-      logSuccess('Clearing of temporary files completed');
+      logSuccess('clearing of temporary files completed');
     }
   }
   logInfo('i18n process is completed, see you👋');

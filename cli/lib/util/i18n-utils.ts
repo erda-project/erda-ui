@@ -247,7 +247,7 @@ export const restoreSourceFile = (
   }
 };
 
-const i18nRRegex = /i18n\.r\(["'](.+?)["']\)/g;
+const i18nRRegex = /i18n\.r\(["'](.+?)["']([^)]*)\)/g;
 
 /**
  * extract i18n.r content
