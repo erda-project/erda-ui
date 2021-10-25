@@ -166,7 +166,7 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
   const tpl = result === 'success' ? target.success : target.fail;
 
   if (!tpl) {
-    logErr(`audit template:${templateName}-${result} not exist`);
+    logErr(`audit template:${templateName}-${result} not exist, did you forgot to set 'result' field ?`);
     return templateName;
   }
 
