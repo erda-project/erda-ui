@@ -107,13 +107,13 @@ export function TraceGraph(props: IProps) {
   }, [getMetaData, tags]);
 
   React.useEffect(() => {
-    if (selectedSpanId && timeRange[0]) {
+    if (selectedSpanId && spanStartTime) {
       getSpanEvents.fetch({
-        startTime: timeRange[0],
+        startTime: Math.floor(spanStartTime),
         spanId: selectedSpanId,
       });
     }
-  }, [selectedSpanId, timeRange]);
+  }, [selectedSpanId, spanStartTime]);
 
   const traverseData = (data: MONITOR_TRACE.ITraceSpan[]) => {
     for (let i = 0; i < data.length; i++) {
