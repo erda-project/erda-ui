@@ -1964,12 +1964,12 @@
   },
   "dop": {
     "JVM analysis": "JVM analysis",
-    "accounts": "accounts",
     "addon info": "addon info",
     "addon setting": "addon setting",
     "approval request": "approval request",
     "approved": "approved",
     "console": "console",
+    "consumer manager": "consumer manager",
     "deployment request": "deployment request",
     "initiated": "initiated",
     "search by owned project": "search by owned project",
