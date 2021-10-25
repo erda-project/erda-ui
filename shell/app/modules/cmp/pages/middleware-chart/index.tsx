@@ -16,7 +16,7 @@ import { useMount } from 'react-use';
 import { map, isEmpty, get, forEach, mapKeys } from 'lodash';
 import moment from 'moment';
 import { PureBoardGrid } from 'common';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import middlewareChartStore from '../../stores/middleware-chart';

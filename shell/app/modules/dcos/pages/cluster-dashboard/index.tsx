@@ -15,7 +15,7 @@ import React, { useState, useEffect } from 'react';
 import i18n from 'i18n';
 import { map, reduce, forEach, round, isEmpty, filter, get } from 'lodash';
 import classnames from 'classnames';
-import { Row, Col, Select, Tooltip, message, TreeSelect, Spin } from 'core/nusi';
+import { Row, Col, Select, Tooltip, message, TreeSelect, Spin } from 'antd';
 import { useComponentWidth } from 'common/use-hooks';
 import { IF, Holder, Icon as CustomIcon } from 'common';
 import { goTo, interpolationComp } from 'common/utils';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Button, Modal, Table, Tree } from 'core/nusi';
+import { Button, Modal, Table, Tree } from 'antd';
 import React, { useImperativeHandle } from 'react';
 import { Avatar, TableActions, UserInfo } from 'common';
 import { useUpdate } from 'common/use-hooks';

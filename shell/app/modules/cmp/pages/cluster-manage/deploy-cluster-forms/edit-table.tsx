@@ -15,7 +15,7 @@ import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { FormInstance } from 'core/common/interface';
 import { map } from 'lodash';
-import { Form, Table, Popconfirm, Button, Input, Select } from 'core/nusi';
+import { Form, Table, Popconfirm, Button, Input, Select } from 'antd';
 import i18n from 'i18n';
 import './edit-table.scss';
 

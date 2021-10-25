@@ -36,7 +36,6 @@ export default ({ command, mode }) => {
     'core/index': path.resolve(__dirname, '../core/src/index'),
     'core/config': path.resolve(__dirname, '../core/src/config'),
     'core/i18n': path.resolve(__dirname, '../core/src/i18n'),
-    'core/nusi': path.resolve(__dirname, '../core/src/nusi'),
     'core/cube': path.resolve(__dirname, '../core/src/cube'),
     'core/service': path.resolve(__dirname, '../core/src/service'),
     'admin/entry': path.resolve(__dirname, '../../erda-ui-enterprise/admin/src'),

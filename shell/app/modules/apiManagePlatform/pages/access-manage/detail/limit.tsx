@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, InputNumber, Select, Tooltip } from 'core/nusi';
+import { Input, InputNumber, Select, Tooltip } from 'antd';
 import { isEmpty, map, remove, set, cloneDeep } from 'lodash';
 import { slaUnitMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';

@@ -15,7 +15,7 @@ import { ConfigLayout, Copy } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { getInfoBlock } from '../artifacts/artifacts-info';
-import { Button } from 'core/nusi';
+import { Button } from 'antd';
 import errorReportStore from 'publisher/stores/error-report';
 import routeInfoStore from 'core/stores/route';
 import { formatTime } from 'common/utils';

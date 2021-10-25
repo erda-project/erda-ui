@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'core/nusi';
+import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'antd';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
 import { Icon as CustomIcon } from 'common';

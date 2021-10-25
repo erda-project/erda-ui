@@ -13,7 +13,7 @@
 
 import React from 'react';
 import BaseFilter, { FilterItemConfig } from './base-filter';
-import { Pagination, Input, Select } from 'core/nusi';
+import { Pagination, Input, Select } from 'antd';
 import { FilterBarHandle } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { setSearch } from 'common/utils';

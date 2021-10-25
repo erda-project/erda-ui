@@ -15,7 +15,7 @@ import React from 'react';
 import { ConfigLayout, ReadonlyForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import PublisherFormModal, { getPublisherFieldsList } from './publisher-form-modal';
-import { Button } from 'core/nusi';
+import { Button } from 'antd';
 import i18n from 'i18n';
 
 export const PublisherInfo = ({

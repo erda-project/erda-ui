@@ -14,7 +14,7 @@
 import React from 'react';
 import { Filter, PureFilter } from 'common';
 import { mount, shallow } from 'enzyme';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import * as utils from 'common/utils/query-string';
 import _ from 'lodash';
 

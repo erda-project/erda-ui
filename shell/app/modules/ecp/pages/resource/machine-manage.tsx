@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'core/nusi';
+import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'antd';
 import { map } from 'lodash';
 import { TagsRow, TableActions } from 'common';
 import { useUpdate } from 'common/use-hooks';

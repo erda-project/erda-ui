@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Tooltip, Select } from 'core/nusi';
+import { Tooltip, Select } from 'antd';
 import { map } from 'lodash';
 import { ISSUE_FIELD_TYPES, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import 'org/common/issue-field-icon.scss';

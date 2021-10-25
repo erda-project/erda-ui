@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@craco/craco": "^6.1.2",
-    "antd": "^4.15.4",
+    "antd": "^4.16.13",
     "craco-antd": "^1.19.0",
     "dayjs": "^1.10.7",
     "file-loader": "^6.2.0",

@@ -14,7 +14,7 @@
 import { fromNow } from 'common/utils';
 import { Avatar } from 'common';
 import React from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import classnames from 'classnames';
 import './comment-box.scss';
 

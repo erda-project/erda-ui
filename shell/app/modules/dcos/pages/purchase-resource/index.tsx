@@ -14,7 +14,7 @@
 import { cloneDeep } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
-import { Form, Steps, Button, Tooltip } from 'core/nusi';
+import { Form, Steps, Button, Tooltip } from 'antd';
 import { RenderPureForm, KeyValueList, Icon as CustomIcon } from 'common';
 import { connectCube } from 'common/utils';
 import { FormInstance } from 'core/common/interface';

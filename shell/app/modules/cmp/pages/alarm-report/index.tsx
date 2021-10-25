@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'core/nusi';
+import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'antd';
 import { isEmpty, map, find, get } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { FormModal } from 'common';
-import { useSwitch, useUpdate } from "common/use-hooks";
+import { useSwitch, useUpdate } from 'common/use-hooks';
 import { FormInstance, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import {

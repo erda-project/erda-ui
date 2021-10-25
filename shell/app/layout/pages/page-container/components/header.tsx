@@ -21,7 +21,7 @@ import { isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
 import { Right as IconRight } from '@icon-park/react';
 import { Route } from 'core/common/interface';
-import { Breadcrumb, Tooltip } from 'core/nusi';
+import { Breadcrumb, Tooltip } from 'antd';
 import './header.scss';
 
 const BreadcrumbItem = ({

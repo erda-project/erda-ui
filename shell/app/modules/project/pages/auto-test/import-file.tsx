@@ -13,7 +13,7 @@
 
 import React, { useState } from 'react';
 import i18n from 'i18n';
-import { message } from 'core/nusi';
+import { message } from 'antd';
 import { FileSelect, FormModal } from 'common';
 import { useLoading } from 'core/stores/loading';
 import testCaseStore from 'project/stores/test-case';

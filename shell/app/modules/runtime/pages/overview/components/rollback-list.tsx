@@ -14,7 +14,7 @@
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Drawer, Tooltip, Modal } from 'core/nusi';
+import { Drawer, Tooltip, Modal } from 'antd';
 import React from 'react';
 import DeploymentTable from 'runtime/common/components/deployment-table';
 import runtimeStore from 'runtime/stores/runtime';

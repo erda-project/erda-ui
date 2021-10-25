@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Button, Modal, Menu, Dropdown } from 'core/nusi';
+import { Spin, Button, Modal, Menu, Dropdown } from 'antd';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';

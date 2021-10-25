@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Table, Select, Button, Popconfirm, Tooltip, message } from 'core/nusi';
+import { Table, Select, Button, Popconfirm, Tooltip, message } from 'antd';
 import React from 'react';
 import { ColumnProps } from 'core/common/interface';
 import { ISSUE_PRIORITY_MAP, ISSUE_TYPE, ISSUE_ICON } from 'project/common/components/issue/issue-config';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Input, Checkbox, Badge } from 'core/nusi';
+import { Button, Input, Checkbox, Badge } from 'antd';
 import i18n from 'i18n';
 import React from 'react';
 import { ImageUpload, RenderForm, ErdaIcon } from 'common';

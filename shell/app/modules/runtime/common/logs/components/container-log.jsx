@@ -13,7 +13,7 @@
 
 import { get } from 'lodash';
 import React from 'react';
-import { Switch, Tooltip, Drawer } from 'core/nusi';
+import { Switch, Tooltip, Drawer } from 'antd';
 import { LogRoller, SimpleLog } from 'common';
 import { regLog } from 'common/components/log/log-util';
 import { transformLog } from 'app/common/utils';

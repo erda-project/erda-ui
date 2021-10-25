@@ -14,7 +14,7 @@
 import React from 'react';
 import { Icon as CustomIcon, FormBuilder, IFormExtendType } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input, Tabs, Button, message, Popconfirm, Select, Modal } from 'core/nusi';
+import { Input, Tabs, Button, message, Popconfirm, Select, Modal } from 'antd';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { ResponseConfig } from './response-config';

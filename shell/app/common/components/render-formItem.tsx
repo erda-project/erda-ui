@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'core/nusi';
+import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'antd';
 import { FormInstance } from 'core/common/interface';
 import classnames from 'classnames';
 import { ClassWrapper } from './class-wrap';

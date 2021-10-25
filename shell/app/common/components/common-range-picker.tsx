@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DatePicker } from 'core/nusi';
+import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges, getTimeSpan } from 'common/utils';

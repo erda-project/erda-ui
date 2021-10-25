@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { last, get } from 'lodash';
-import { Cascader } from 'core/nusi';
+import { Cascader } from 'antd';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';

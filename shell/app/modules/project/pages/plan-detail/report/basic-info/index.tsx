@@ -14,7 +14,7 @@
 import React from 'react';
 import moment, { Moment } from 'moment';
 import i18n from 'i18n';
-import { Col, DatePicker, Row, message } from 'core/nusi';
+import { Col, DatePicker, Row, message } from 'antd';
 import testPlanStore from 'project/stores/test-plan';
 import { useUserMap } from 'core/stores/userMap';
 import { get, map } from 'lodash';

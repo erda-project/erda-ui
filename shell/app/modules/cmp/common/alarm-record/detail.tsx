@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useMount } from 'react-use';
-import { Table, Radio } from 'core/nusi';
+import { Table, Radio } from 'antd';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';

@@ -14,7 +14,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Spin, Drawer, Table } from 'core/nusi';
+import { Spin, Drawer, Table } from 'antd';
 import { isEmpty, map } from 'lodash';
 import { Link } from 'react-router-dom';
 import { goTo } from 'common/utils';

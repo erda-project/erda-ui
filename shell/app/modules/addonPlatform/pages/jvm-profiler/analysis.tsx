@@ -16,7 +16,7 @@ import { FilterGroup, SimplePanel } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
-import { Button, Cascader, message, Spin, Table, Tooltip } from 'core/nusi';
+import { Button, Cascader, message, Spin, Table, Tooltip } from 'antd';
 import React from 'react';
 import addonStore from 'common/stores/addon';
 import jvmStore, { ProfileStateMap } from '../../stores/jvm';

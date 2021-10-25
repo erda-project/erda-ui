@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Button } from 'core/nusi';
+import { Input, Button } from 'antd';
 import { isString, isEmpty, remove, find, some } from 'lodash';
 import { useUnmount } from 'react-use';
 import i18n from 'i18n';

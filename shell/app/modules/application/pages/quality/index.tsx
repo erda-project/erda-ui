@@ -19,7 +19,7 @@
  */
 import React from 'react';
 import moment from 'moment';
-import { Row, Col, Tabs, Table, Tooltip, Spin } from 'core/nusi';
+import { Row, Col, Tabs, Table, Tooltip, Spin } from 'antd';
 import { get, isEmpty } from 'lodash';
 import { ColumnProps } from 'core/common/interface';
 import { Icon as CustomIcon, EmptyHolder, IF, FileEditor } from 'common';

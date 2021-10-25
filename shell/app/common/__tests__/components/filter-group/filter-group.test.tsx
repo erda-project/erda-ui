@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { FilterCore } from 'common/components/filter-group/filter-group';
-import { Input } from 'core/nusi';
+import { Input } from 'antd';
 import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';

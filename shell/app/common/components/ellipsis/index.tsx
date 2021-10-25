@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { AbstractTooltipProps } from 'core/common/interface';
 
 const TOOLTIP_MOUSE_ENTER_DELAY = 100;

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Input } from 'core/nusi';
+import { Table, Input } from 'antd';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
 import { produce } from 'immer';

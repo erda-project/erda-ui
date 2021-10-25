@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { FormModal, MemberSelector } from 'common';
-import { Modal, Tabs, Radio, Button, message } from 'core/nusi';
+import { Modal, Tabs, Radio, Button, message } from 'antd';
 import { map, isEmpty, cloneDeep, intersection, get } from 'lodash';
 import { changePerm2Yml } from 'user/stores/_perm-state';
 import { createIssue } from 'project/services/issue';

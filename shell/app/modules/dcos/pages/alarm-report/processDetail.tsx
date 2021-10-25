@@ -14,7 +14,7 @@
 import React from 'react';
 import { Icon } from 'common';
 import { cutStr, qs } from 'common/utils';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import processChartList from './config/processChartList';
 import i18n from 'i18n';
 import './processDetail.scss';

@@ -23,7 +23,7 @@ import sysMemberStore from 'common/stores/sys-member';
 import { insertWhen } from '../../utils';
 import { getApps } from 'common/services';
 import { useMount } from 'react-use';
-import { Alert, message } from 'core/nusi';
+import { Alert, message } from 'antd';
 import mspProjectMember from 'common/stores/msp-project-member';
 
 interface IProps {

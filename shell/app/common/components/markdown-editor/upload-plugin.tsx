@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Popover, message, Upload } from 'core/nusi';
+import { Popover, message, Upload } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { getCookies, getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';

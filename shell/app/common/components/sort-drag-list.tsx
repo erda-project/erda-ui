@@ -16,7 +16,7 @@ import { map, groupBy, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import React from 'react';
-import { Tooltip, Popconfirm, Switch, Menu, Dropdown } from 'core/nusi';
+import { Tooltip, Popconfirm, Switch, Menu, Dropdown } from 'antd';
 import './sort-drag-list.scss';
 
 interface IBeginDragData<T> {

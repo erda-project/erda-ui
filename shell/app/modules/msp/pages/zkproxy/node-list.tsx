@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Card, Button, Table, Modal } from 'core/nusi';
+import { Card, Button, Table, Modal } from 'antd';
 import { isEmpty, map, find, get } from 'lodash';
 import { useMount } from 'react-use';
 import classnames from 'classnames';

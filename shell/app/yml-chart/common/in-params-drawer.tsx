@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Button } from 'core/nusi';
+import { Drawer, Button } from 'antd';
 import { map, get, find, isNaN, compact, isEmpty, isBoolean } from 'lodash';
 import FormEditor from 'app/yml-chart/form-editor-for-pipeline/form-editor';
 import { Form } from 'dop/pages/form-editor/index';

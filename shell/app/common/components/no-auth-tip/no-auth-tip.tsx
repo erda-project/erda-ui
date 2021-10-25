@@ -13,7 +13,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import i18n from 'i18n';
 
 const NoAuthTip = ({ children, tip = i18n.t('common:no permission') }: any): any => {

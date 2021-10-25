@@ -14,7 +14,7 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor } from 'common';
-import { Button, message, Input, Checkbox, Tooltip } from 'core/nusi';
+import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { CheckOne as IconCheckOne, CloseOne as IconCloseOne, Refresh as IconRefresh } from '@icon-park/react';
 import { statusColorMap } from 'app/config-page/utils';

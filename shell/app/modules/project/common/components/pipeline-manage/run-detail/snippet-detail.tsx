@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Tabs, Tooltip } from 'core/nusi';
+import { Drawer, Tabs, Tooltip } from 'antd';
 import { map, isEmpty, get, find } from 'lodash';
 import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';

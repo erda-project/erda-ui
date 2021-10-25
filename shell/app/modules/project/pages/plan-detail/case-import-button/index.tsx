@@ -15,7 +15,7 @@ import { size } from 'lodash';
 import React, { useState, useCallback, useMemo } from 'react';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
-import { Modal, message, Select } from 'core/nusi';
+import { Modal, message, Select } from 'antd';
 import { priorityList } from '../../test-manage/constants';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';

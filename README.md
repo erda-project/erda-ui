@@ -90,7 +90,7 @@ Please use the following installation documents to install Erda.
 
 Technology stack：
 
-- UI library: Ant Design & Terminus NUSI
+- UI library: Ant Design
 - state management: cube-state
 - i18n: i18next
 - bundler: webpack

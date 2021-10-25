@@ -14,7 +14,7 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input, Menu, Dropdown, Tooltip, Modal } from 'core/nusi';
+import { Input, Menu, Dropdown, Tooltip, Modal } from 'antd';
 import i18n from 'i18n';
 import './index.scss';
 import { map } from 'lodash';

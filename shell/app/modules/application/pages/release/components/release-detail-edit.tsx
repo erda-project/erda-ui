@@ -14,7 +14,7 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 import moment from 'moment';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { Avatar } from 'common';
 import { usePerm } from 'app/user/common';
 import GotoCommit from 'application/common/components/goto-commit';

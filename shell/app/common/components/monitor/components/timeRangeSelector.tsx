@@ -13,7 +13,7 @@
 
 import { isEqual } from 'lodash';
 import React from 'react';
-import { DatePicker } from 'core/nusi';
+import { DatePicker } from 'antd';
 import { getTimeSpan, getTimeRanges } from 'common/utils';
 import moment, { Moment } from 'moment';
 import i18n from 'i18n';

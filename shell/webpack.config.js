@@ -20,7 +20,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { getScssTheme } = require('./config/theme');
+const { getScssTheme, getLessTheme } = require('./config/theme');
 const initJs = require('./app/views/init.js');
 const css = require('./app/views/css.js');
 const pkg = require('./package.json');
@@ -44,9 +44,21 @@ module.exports = () => {
 
   console.log('isProd:', isProd, process.version);
 
-  const scssVariables = getScssTheme(false);
-
   const targetConfig = require(`./webpack.${nodeEnv}.js`);
+
+  const overwriteMap = {
+    table: true,
+    select: true,
+    tag: true,
+    'range-picker': true,
+  };
+
+  const overwriteCssMap = {
+    table: 'antd/es/table/style',
+    select: 'antd/es/select/style',
+    tag: false,
+    'range-picker': false,
+  };
 
   const commonConfig = {
     parallelism: cpuNum,
@@ -125,7 +137,7 @@ module.exports = () => {
               options: {
                 sourceMap: false,
                 webpackImporter: false,
-                additionalData: scssVariables,
+                additionalData: getScssTheme(),
               },
             },
             {
@@ -137,6 +149,23 @@ module.exports = () => {
                   resolve('./app/styles/_color.scss'),
                   resolve('./app/styles/_mixin.scss'),
                 ],
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(less)$/,
+          use: [
+            ...(isProd ? [MiniCssExtractPlugin.loader] : ['style-loader']),
+            'css-loader',
+            {
+              loader: 'less-loader',
+              options: {
+                sourceMap: true,
+                lessOptions: {
+                  modifyVars: getLessTheme(),
+                  javascriptEnabled: true,
+                },
               },
             },
           ],
@@ -195,6 +224,26 @@ module.exports = () => {
                     },
                     'iconpark',
                   ],
+                  [
+                    'import',
+                    {
+                      libraryName: 'antd',
+                      customName(name, file) {
+                        if (overwriteMap[name]) {
+                          return `app/antd-overwrite/${name}`;
+                        }
+                        return `antd/es/${name}`;
+                      },
+                      style(name, file) { // name is antd/es/xx
+                        const match = overwriteCssMap[name.split('/')[2]];
+                        if (match !== undefined) {
+                          return match;
+                        }
+                        return `${name}/style`;
+                      }
+                    },
+                    'antd',
+                  ],
                   '@babel/transform-runtime', // inject runtime helpers on demand
                 ],
               },
@@ -245,11 +294,11 @@ module.exports = () => {
         },
         minify: isProd
           ? {
-              collapseWhitespace: true,
-              minifyJS: true,
-              minifyCSS: true,
-              removeEmptyAttributes: true,
-            }
+            collapseWhitespace: true,
+            minifyJS: true,
+            minifyCSS: true,
+            removeEmptyAttributes: true,
+          }
           : false,
         diceVersion: JSON.stringify(pkg.version),
       }),

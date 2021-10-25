@@ -14,7 +14,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import './app-type-select.scss';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { Icon as CustomIcon } from 'common';
 import { groupBy, map } from 'lodash';
 

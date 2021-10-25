@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Row, Col } from 'core/nusi';
+import { Row, Col } from 'antd';
 import FilterNav from 'app/modules/msp/monitor/api-insight/common/components/filterNav';
 import TransportMap from './config/chartMap';
 import routeInfoStore from 'core/stores/route';

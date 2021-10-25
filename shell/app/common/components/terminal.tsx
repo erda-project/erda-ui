@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button } from 'core/nusi';
+import { Button } from 'antd';
 import { createTerm, destroyTerm } from 'common/utils/xterm';
 import './terminal.scss';
 import i18n from 'i18n';

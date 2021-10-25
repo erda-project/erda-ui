@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input, message } from 'core/nusi';
+import { Input, message } from 'antd';
 import { cloneDeep, forEach, isEqual } from 'lodash';
 import i18n from 'i18n';
 import { Plus as IconPlus, Delete as IconDelete } from '@icon-park/react';

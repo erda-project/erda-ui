@@ -13,7 +13,7 @@
 
 import { map } from 'lodash';
 import React from 'react';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { Moment } from 'moment';

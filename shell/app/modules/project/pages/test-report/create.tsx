@@ -13,7 +13,7 @@
 
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
-import { Form, Input, Button } from 'core/nusi';
+import { Form, Input, Button } from 'antd';
 import DiceConfigPage from 'config-page';
 import { useUpdate } from 'app/common/use-hooks';
 import i18n from 'i18n';

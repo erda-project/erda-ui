@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, isFunction, isEmpty } from 'lodash';
 import moment from 'moment';
-import { Spin, Table, Badge } from 'core/nusi';
+import { Spin, Table, Badge } from 'antd';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
 import { goTo } from 'common/utils';

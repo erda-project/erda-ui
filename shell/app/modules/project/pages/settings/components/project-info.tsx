@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Button, Input } from 'core/nusi';
+import { Tooltip, Button, Input } from 'antd';
 import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import { map } from 'lodash';
 import { Minus as IconMinus, Plus as IconPlus } from '@icon-park/react';
 import './scaleSelector.scss';

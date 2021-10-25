@@ -14,7 +14,7 @@
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Button } from 'core/nusi';
+import { Spin, Button } from 'antd';
 import { isEmpty } from 'lodash';
 import { Holder } from 'common';
 import { useUpdate } from 'common/use-hooks';

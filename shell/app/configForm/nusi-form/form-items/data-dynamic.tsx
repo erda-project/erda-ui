@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Input, Form } from 'core/nusi';
+import { Input, Form } from 'antd';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
 import './data-dynamic.scss';

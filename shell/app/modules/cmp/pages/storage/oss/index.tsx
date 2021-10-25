@@ -14,7 +14,7 @@
 import React from 'react';
 import { CRUDStoreTable } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input, Select, Menu, Dropdown, Button } from 'core/nusi';
+import { Input, Select, Menu, Dropdown, Button } from 'antd';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import cloudOSSStore from 'app/modules/cmp/stores/storage';

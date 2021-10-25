@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect } from 'react';
-import { Row, Col, Spin, Popover } from 'core/nusi';
+import { Row, Col, Spin, Popover } from 'antd';
 import FileContainer from 'application/common/components/file-container';
 import { Avatar, Icon as CustomIcon, FileEditor, Copy } from 'common';
 import { fromNow, goTo } from 'common/utils';

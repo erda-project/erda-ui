@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map, isEmpty } from 'lodash';
-import { Select, Input, Tooltip, Form } from 'core/nusi';
+import { Select, Input, Tooltip, Form } from 'antd';
 import { getLabel, noop, createCombiner } from './common';
 import i18n from 'i18n';
 

@@ -16,7 +16,7 @@ import { useUpdate } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Spin, DatePicker, Button } from 'core/nusi';
+import { Spin, DatePicker, Button } from 'antd';
 import React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import issueStore from 'project/stores/issues';

@@ -14,7 +14,7 @@
 import React from 'react';
 import { TableActions, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Table, Popconfirm } from 'core/nusi';
+import { Table, Popconfirm } from 'antd';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';

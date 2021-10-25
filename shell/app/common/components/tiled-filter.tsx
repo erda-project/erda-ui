@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Select } from 'core/nusi';
+import { Input, Select } from 'antd';
 import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 import i18n from 'i18n';
 import { debounce, map, max } from 'lodash';

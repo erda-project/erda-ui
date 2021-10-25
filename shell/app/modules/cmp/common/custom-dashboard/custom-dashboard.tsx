@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Input, message } from 'core/nusi';
+import { Input, message } from 'antd';
 import { map, merge, reduce, isString, get } from 'lodash';
 import { IF, BoardGrid, PureBoardGrid, TimeSelect } from 'common';
 import { useUpdate } from 'common/use-hooks';

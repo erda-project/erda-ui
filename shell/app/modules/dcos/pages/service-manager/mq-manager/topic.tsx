@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Alert, Tooltip, Button, Table } from 'core/nusi';
+import { Alert, Tooltip, Button, Table } from 'antd';
 import i18n from 'i18n';
 import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';

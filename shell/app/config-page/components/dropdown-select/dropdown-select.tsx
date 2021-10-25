@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Dropdown, Menu, Input } from 'core/nusi';
+import { Dropdown, Menu, Input } from 'antd';
 import { ErdaIcon } from 'common';
 import React from 'react';
 import { map, get } from 'lodash';

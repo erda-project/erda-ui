@@ -18,7 +18,7 @@
  * 2、浏览器需要刷新页面
  */
 import agent from 'agent';
-import { message, notification, Button } from 'core/nusi';
+import { message, notification, Button } from 'antd';
 import React from 'react';
 import { SmilingFaceWithSquintingEyes as IconSmilingFaceWithSquintingEyes } from '@icon-park/react';
 import i18n from 'i18n';

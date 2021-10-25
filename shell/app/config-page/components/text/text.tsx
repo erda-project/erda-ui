@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon, Title } from 'common';
-import { Badge, Tooltip } from 'core/nusi';
+import { Badge, Tooltip } from 'antd';
 import { textColorMap } from 'app/config-page/utils';
 import i18n from 'i18n';
 import { getImg } from 'app/config-page/img-map';

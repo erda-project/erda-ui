@@ -14,7 +14,7 @@
 import { isNull, omitBy, size, omit } from 'lodash';
 import React, { useState, useMemo, useCallback } from 'react';
 import i18n from 'i18n';
-import { Menu, Modal, message } from 'core/nusi';
+import { Menu, Modal, message } from 'antd';
 import { DropdownSelect, FormModal, MemberSelector } from 'common';
 import { qs } from 'common/utils';
 import routeInfoStore from 'core/stores/route';

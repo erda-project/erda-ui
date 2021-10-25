@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Input, Select, DatePicker, Dropdown, Menu, Checkbox } from 'core/nusi';
+import { Form, Input, Select, DatePicker, Dropdown, Menu, Checkbox } from 'antd';
 import { isEqual, pickBy } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import Duration from './duration';

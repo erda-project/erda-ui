@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import gatewayIngressCommonStore from 'app/modules/msp/monitor/gateway-ingress/stores/common';
 import i18n from 'i18n';
 

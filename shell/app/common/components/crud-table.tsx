@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Button, Table, Spin } from 'core/nusi';
+import { Button, Table, Spin } from 'antd';
 import { FormModal, CustomFilter, useFilter, IF } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { isEmpty, reduce } from 'lodash';

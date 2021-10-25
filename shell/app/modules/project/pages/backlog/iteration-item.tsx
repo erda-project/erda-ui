@@ -15,7 +15,7 @@
 import React from 'react';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Spin, Tooltip, Pagination } from 'core/nusi';
+import { Spin, Tooltip, Pagination } from 'antd';
 import { useDrop } from 'react-dnd';
 import moment from 'moment';
 import iterationStore from 'project/stores/iteration';

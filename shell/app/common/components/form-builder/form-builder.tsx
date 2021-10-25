@@ -13,7 +13,7 @@
 
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import { Form } from 'core/nusi';
+import { Form } from 'antd';
 import { FormInstance, FormProps } from 'core/common/interface';
 import ResizeObserver from 'rc-resize-observer';
 import { throttle } from 'lodash';

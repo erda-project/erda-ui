@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Checkbox, Alert } from 'core/nusi';
+import { Button, Checkbox, Alert } from 'antd';
 import { IF, Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
 import React from 'react';

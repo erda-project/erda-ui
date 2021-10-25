@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { get } from 'lodash';
-import { Table, Button, Popconfirm, Select, Tooltip } from 'core/nusi';
+import { Table, Button, Popconfirm, Select, Tooltip } from 'antd';
 import { WithAuth, usePerm } from 'user/common';
 import { fromNow, setApiWithOrg } from 'common/utils';
 import { Copy, FormModal } from 'common';

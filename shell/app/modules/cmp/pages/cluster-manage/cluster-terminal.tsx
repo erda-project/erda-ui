@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { ClusterTerminal } from 'cmp/common/cluster-terminal';
-import { Button, Drawer, DatePicker, InputNumber } from 'core/nusi';
+import { Button, Drawer, DatePicker, InputNumber } from 'antd';
 import { getOrgFromPath, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
 import { Terminal as IconTerminal } from '@icon-park/react';

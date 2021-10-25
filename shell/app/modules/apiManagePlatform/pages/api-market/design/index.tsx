@@ -14,7 +14,7 @@
 import React from 'react';
 import { Icon as CustomIcon, EmptyHolder, LazyRender, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Input, Button, Collapse, Tooltip, Popconfirm, message, Spin, Modal, Popover } from 'core/nusi';
+import { Input, Button, Collapse, Tooltip, Popconfirm, message, Spin, Modal, Popover } from 'antd';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, keys, get, filter, isEmpty, set, unset, forEach } from 'lodash';

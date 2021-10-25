@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import yaml from 'js-yaml';
 import { get, omit, isEmpty, cloneDeep } from 'lodash';
 import { notify, isPromise } from 'common/utils';
-import { Spin, Button, message, Radio, Modal } from 'core/nusi';
+import { Spin, Button, message, Radio, Modal } from 'antd';
 import { FileEditor, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import FileContainer from 'application/common/components/file-container';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { message, Input, Popover, Button } from 'core/nusi';
+import { message, Input, Popover, Button } from 'antd';
 import { ErdaIcon } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';

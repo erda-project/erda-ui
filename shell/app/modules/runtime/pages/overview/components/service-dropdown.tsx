@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu, Modal, List } from 'core/nusi';
+import { Dropdown, Menu, Modal, List } from 'antd';
 import { Icon as CustomIcon, Copy, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { map, isEmpty } from 'lodash';

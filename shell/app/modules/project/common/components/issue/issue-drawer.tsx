@@ -18,7 +18,7 @@ import useEvent from 'react-use/lib/useEvent';
 import { WithAuth } from 'user/common';
 import issueStore from 'project/stores/issues';
 import { isEqual, find } from 'lodash';
-import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from 'core/nusi';
+import { Drawer, Spin, Popconfirm, Input, message, Popover, Button, Modal } from 'antd';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import { SubscribersSelector } from './subscribers-selector';
 import './issue-drawer.scss';

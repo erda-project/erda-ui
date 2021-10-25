@@ -15,7 +15,7 @@ import React from 'react';
 import { EditField } from 'common';
 import { EditMd } from 'common/components/edit-field';
 import { mount, shallow } from 'enzyme';
-import { Select } from 'core/nusi';
+import { Select } from 'antd';
 import i18n from 'i18n';
 import moment from 'moment';
 import { act } from 'react-dom/test-utils';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin } from 'core/nusi';
+import { Spin } from 'antd';
 import { Holder, PureBoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { TimeSelectWithStore } from 'msp/components/time-select';

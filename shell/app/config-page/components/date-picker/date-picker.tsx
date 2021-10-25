@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DatePicker as PureDatePicker } from 'core/nusi';
+import { DatePicker as PureDatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect } from 'react-use';
 import { map } from 'lodash';

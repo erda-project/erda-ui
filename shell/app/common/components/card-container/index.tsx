@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'core/nusi';
+import { Tooltip } from 'antd';
 import { Help as IconHelp } from '@icon-park/react';
 import { EmptyHolder } from '../empty-holder';
 import './index.scss';
