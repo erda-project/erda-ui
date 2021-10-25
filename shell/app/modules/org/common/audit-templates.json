@@ -1856,11 +1856,11 @@
       "en": ""
     }
   },
-  "updateQuota": {
+  "updateProjectQuota": {
     "desc": "修改项目环境资源配额",
     "success": {
-      "zh": "在组织 [@orgName] 中，修改了项目 [@projectName](project) 的资源配额。\n开发环境：CPU：[@devCPU]核，内存：[@devMem]；\n测试环境：CPU：[@testCPU]核，内存：[@testMem]；\n预发环境：CPU：[@stagingCPU]核，内存：[@stagingMem]；\n生产环境：CPU：[@prodCPU]核，内存：[@prodMem]",
-      "en": "Update quota for project [@projectName](project) in organization [@orgName].\nWorkspace dev: CPU: [@devCPU] core(s), memory: [@devMem];\nWorkspace test: CPU: [@testCPU] core(s), memory: [@testMem];\nWorkspace staging: CPU: [@stagingCPU] core(s), memory: [@stagingMem];\nWorkspace production: CPU: [@prodCPU], memory: [@prodMem]"
+      "zh": "在组织 [@orgName] 中，修改了项目 [@projectName](project) 的资源配额。\n开发环境 修改前：CPU：[@oldDevCPU] 核，内存：[@oldDevMem]；修改后：CPU：[@newDevCPU] 核，内存：[@newDevMem]\n测试环境 修改前：CPU：[@oldTestCPU] 核，内存：[@oldTestMem]；修改后：CPU：[@newTestCPU] 核，内存：[@newTestMem]\n预发环境 修改前：CPU：[@oldStagingCPU] 核，内存：[@oldStagingMem]；修改后：CPU：[@newStagingCPU] 核，内存：[@newStagingMem]\n生产环境 修改前：CPU：[@oldProdCPU] 核，内存：[@oldProdMem]；修改后：CPU：[@newProdCPU] 核，内存：[@newProdMem]",
+      "en": "Update quota for project [@projectName](project) in organization [@orgName].\nWorkspace dev Before: CPU: [@oldDevCPU] core(s), memory: [@oldDevMem]; Now: CPU: [@newDevCPU] core(s), memory: [@newDevMem]\nWorkspace test Before: CPU: [@oldTestCPU] core(s), memory: [@oldTestMem]; Now: CPU: [@newTestCPU] core(s), memory: [@newTestMem]\nWorkspace staging Before: CPU: [@oldStagingCPU] core(s), memory: [@oldStagingMem]; Now: CPU: [@newStagingCPU] core(s), memory: [@newStagingMem]\nWorkspace production Before: CPU: [@oldProdCPU], memory: [@oldProdMem]; Now: CPU: [@newProdCPU], memory: [@newProdMem]"
     }
   }
 }
