@@ -31,15 +31,14 @@ import path from 'path';
 
 const configFilePath = path.resolve(process.cwd(), '.translaterc');
 
-export default async ({ switchNs: isSwitchNs }: { switchNs?: boolean }) => {
+export default async ({ isSwitchNs = false, isExternal = false }: { isSwitchNs?: boolean; isExternal?: boolean }) => {
   try {
     // check if cwd erda ui root
     isCwdInRoot({ alert: true });
 
-    const [originalZhResource] = prepareEnv('shell', !!isSwitchNs);
-    // const [originalZhResource, originalEnResource] = prepareEnv(!!isSwitchNs);
+    const originalResources = prepareEnv(isExternal, isSwitchNs);
     // switch namespace
-    if (isSwitchNs) {
+    if (isSwitchNs && !isExternal) {
       // await batchSwitchNamespace(originalZhResource, originalEnResource);
       return;
     }
@@ -48,12 +47,12 @@ export default async ({ switchNs: isSwitchNs }: { switchNs?: boolean }) => {
     const translatedWords: { [k: string]: string } = {};
 
     // extract all i18n.d
-    await extractAllI18nD('shell', originalZhResource, translatedWords, untranslatedWords);
+    await extractAllI18nD(isExternal, originalResources, translatedWords, untranslatedWords);
 
     if (untranslatedWords.size === 0 && Object.keys(translatedWords).length === 0) {
       logInfo('sort current locale files & remove unused translation');
-      await writeLocaleFiles();
-      logInfo('No content needs to be translated is found, program exits');
+      await writeLocaleFiles(isExternal);
+      logInfo('no content needs to be translated is found, program exits');
       return;
     }
 
@@ -97,8 +96,11 @@ export default async ({ switchNs: isSwitchNs }: { switchNs?: boolean }) => {
     }
     let ns = '';
     // The fourth step is to specify the namespace
-    if (reviewedZhMap && Object.keys(reviewedZhMap).length > 0) {
-      const nsList = Object.keys(originalZhResource);
+    if (reviewedZhMap && Object.keys(reviewedZhMap).length && !isExternal) {
+      const nsList = Object.values(originalResources).reduce<string[]>((acc, resource) => {
+        const [zhResource] = resource;
+        return acc.concat(Object.keys(zhResource));
+      }, []);
       const { targetNs } = await inquirer.prompt({
         name: 'targetNs',
         type: 'list',
@@ -110,12 +112,12 @@ export default async ({ switchNs: isSwitchNs }: { switchNs?: boolean }) => {
     }
     // The fifth step, i18n.t writes back the source file
     const spinner = ora('replacing source file...').start();
-    await writeI18nTToSourceFile('shell', ns, translatedMap, reviewedZhMap);
+    await writeI18nTToSourceFile(isExternal, ns, translatedMap, reviewedZhMap);
     spinner.stop();
     logSuccess('replacing source file completed');
     // The sixth step, write the locale file
     if (reviewedZhMap && Object.keys(reviewedZhMap).length > 0) {
-      await writeLocaleFiles();
+      await writeLocaleFiles(isExternal);
     }
   } finally {
     if (!isSwitchNs) {

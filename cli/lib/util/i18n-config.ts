@@ -13,27 +13,40 @@
 
 import path from 'path';
 
-export type Modules = 'shell' | 'admin' | 'fdp';
-
-export const externalModules = ['admin', 'fdp'];
+export const externalModules = ['admin', 'fdp', 'uc'];
 
 export const internalModules = ['shell'];
 
 // all locale path
-export const localePathMap = {
+export const internalLocalePathMap: { [k: string]: string } = {
   default: path.resolve(process.cwd(), 'locales'),
   shell: path.resolve(process.cwd(), 'shell', 'app', 'locales'),
-  fdp: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src', 'locales'),
-  admin: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src', 'locales'),
 };
 
-// all source code locations includes enterprise
-export const srcDirMap = {
+export const externalLocalePathMap: { [k: string]: string } = {
+  fdp: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src', 'locales'),
+  admin: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src', 'locales'),
+  uc: path.resolve(process.cwd(), 'modules', 'uc', 'src', 'locales'),
+};
+
+// all source code locations
+export const internalSrcDirMap: { [k: string]: string[] } = {
   shell: [
     path.resolve(process.cwd(), 'shell', 'app'),
     path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'cmp'),
     path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'msp'),
   ],
+};
+
+export const externalSrcDirMap: { [k: string]: string[] } = {
   fdp: [path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src')],
   admin: [path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src')],
+  uc: [path.resolve(process.cwd(), 'modules', 'uc', 'src')],
+};
+
+// external modules only has one namespace
+export const externalModuleNamespace: { [k: string]: string } = {
+  fdp: 'fdp',
+  admin: 'admin',
+  uc: 'default',
 };

@@ -83,9 +83,10 @@ program
   .command('i18n')
   .description('translate words in work dir')
   .option('--switch', 'batch switch namespace')
+  .option('--external', 'handle external module i18n')
   .action(async (options) => {
-    const { switch: switchNs } = options;
-    i18n({ switchNs });
+    const { switch: switchNs, external } = options;
+    i18n({ isSwitchNs: switchNs, isExternal: external });
   });
 
 program
