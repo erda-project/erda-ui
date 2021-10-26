@@ -52,6 +52,7 @@ export default ({
   placeholder,
   mode = 'default',
   addAllOption = false,
+  ...rest
 }: IProps) => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   const [iterationList, paging, loading, load, clear] = useTempPaging<ITERATION.Detail>({
@@ -105,6 +106,7 @@ export default ({
   }, [iterationList]);
   return (
     <Select
+      {...rest}
       disabled={disabled}
       className={className}
       style={{ width: fullWidth ? '100%' : width }}

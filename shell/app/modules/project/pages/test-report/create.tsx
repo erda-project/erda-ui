@@ -65,7 +65,7 @@ export default () => {
   const inParams = { projectId };
   // TODO: better add a iterationID inparams; need backend support
   if (chosenIterationID) {
-    inParams.issue__urlQuery = encode(`{"iteration":[${chosenIterationID}]}`);
+    inParams.filter__urlQuery = encode(`{"iteration":[${chosenIterationID}]}`);
   }
 
   const handleDashboardFilter = (data: Obj) => {
