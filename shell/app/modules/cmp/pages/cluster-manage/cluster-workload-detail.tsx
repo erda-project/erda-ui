@@ -19,17 +19,20 @@ interface IProps {
   clusterName: string;
   workloadId: string;
   podId?: string;
+  className?: string;
 }
 export const PureClusterWorkloadDetail = (props: IProps) => {
-  const { clusterName, workloadId, podId } = props;
+  const { clusterName, workloadId, podId, className = '' } = props;
 
   const inParams = { clusterName, workloadId, podId };
   return (
-    <DiceConfigPage
-      scenarioType={'cmp-dashboard-workload-detail'}
-      scenarioKey={'cmp-dashboard-workload-detail'}
-      inParams={inParams}
-    />
+    <div className={className}>
+      <DiceConfigPage
+        scenarioType={'cmp-dashboard-workload-detail'}
+        scenarioKey={'cmp-dashboard-workload-detail'}
+        inParams={inParams}
+      />
+    </div>
   );
 };
 

@@ -1964,12 +1964,12 @@
   },
   "dop": {
     "JVM analysis": "JVM 分析",
-    "accounts": "账号管理",
     "addon info": "服务信息",
     "addon setting": "服务设置",
     "approval request": "审批请求",
     "approved": "我审批的",
     "console": "控制台",
+    "consumer manager": "使用者管理",
     "deployment request": "部署请求",
     "initiated": "我发起的",
     "search by owned project": "通过所在项目搜索",

@@ -34,10 +34,11 @@ interface IProps {
   nodeIP: string;
   nodeId: string;
   clusterName: string;
+  className?: string;
 }
 
 export const PureClusterNodeDetail = (props: IProps) => {
-  const { nodeIP, nodeId, clusterName } = props;
+  const { nodeIP, nodeId, clusterName, className = '' } = props;
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
 
   const globalVariable = React.useMemo(
@@ -64,7 +65,7 @@ export const PureClusterNodeDetail = (props: IProps) => {
   const inParams = { clusterName, nodeId };
 
   return (
-    <div>
+    <div className={className}>
       <div>
         <DiceConfigPage
           scenarioType={'cmp-dashboard-nodeDetail'}

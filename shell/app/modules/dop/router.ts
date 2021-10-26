@@ -133,14 +133,24 @@ export default function getDopRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('common/containers/addon-resource')),
                 },
                 {
-                  path: 'account',
-                  breadcrumbName: i18n.t('dop:accounts'),
-                  getComp: (cb) => cb(import('dop/pages/account')),
-                },
-                {
                   path: 'settings',
                   breadcrumbName: i18n.t('dop:addon setting'),
                   getComp: (cb) => cb(import('common/components/addon-settings')),
+                },
+                {
+                  path: 'mysql-settings',
+                  routes: [
+                    {
+                      path: 'account',
+                      breadcrumbName: i18n.t('cmp:database account'),
+                      getComp: (cb) => cb(import('addonPlatform/pages/mysql/account')),
+                    },
+                    {
+                      path: 'consumer',
+                      breadcrumbName: i18n.t('dop:consumer manager'),
+                      getComp: (cb) => cb(import('addonPlatform/pages/mysql/consumer')),
+                    },
+                  ],
                 },
                 // {
                 //   path: 'log-analytics',
