@@ -188,7 +188,7 @@ export function enhanceAPI<T extends FN>(_apiFn: T, config?: APIConfig<T>) {
 
   const onResponse = (body: PICK_BODY<T>, params?: Parameters<T>[0]) => {
     // standard response
-    if ('success' in body && 'err' in body) {
+    if ('success' in body && ('err' in body || 'data' in body)) {
       const { data, success, err, userInfo } = body;
       if (userInfo) {
         setUserMap(userInfo);
