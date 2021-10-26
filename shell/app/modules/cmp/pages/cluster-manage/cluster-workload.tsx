@@ -39,6 +39,7 @@ const ClusterNodes = () => {
     urlQuery: query,
   });
 
+  const reloadRef = React.useRef<Obj | null>(null);
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
@@ -59,6 +60,13 @@ const ClusterNodes = () => {
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
+  const onDeleteDetail = () => {
+    closeDetail();
+    if (reloadRef.current && reloadRef.current.reload) {
+      reloadRef.current.reload();
+    }
+  };
+
   return (
     <>
       <div className="top-button-group">
@@ -68,6 +76,7 @@ const ClusterNodes = () => {
         scenarioType={'cmp-dashboard-workloads-list'}
         scenarioKey={'cmp-dashboard-workloads-list'}
         inParams={inParams}
+        ref={reloadRef}
         customProps={{
           filter: {
             onFilterChange: urlQueryChange,
@@ -80,7 +89,12 @@ const ClusterNodes = () => {
       />
       <Drawer visible={visible} onClose={closeDetail} width={'80%'} maskClosable getContainer={false}>
         {visible && detailData ? (
-          <PureClusterWorkloadDetail className="mt-4" clusterName={clusterName} {...detailData} />
+          <PureClusterWorkloadDetail
+            className="mt-4"
+            clusterName={clusterName}
+            {...detailData}
+            onDelete={onDeleteDetail}
+          />
         ) : null}
       </Drawer>
     </>

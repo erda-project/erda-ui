@@ -272,7 +272,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Divider key="divider4" />,
             ]
           : null}
-        <Menu.Item key="options" className="p-0 options-container options-item">
+        <Menu.Item key="options" className="p-0 options-container options-item block">
           {useableOptions.map((op) => {
             if (has(op, 'children') && !op.children?.length) {
               return null;

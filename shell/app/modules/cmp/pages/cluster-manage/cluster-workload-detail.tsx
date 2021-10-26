@@ -20,9 +20,10 @@ interface IProps {
   workloadId: string;
   podId?: string;
   className?: string;
+  onDelete?: () => void;
 }
 export const PureClusterWorkloadDetail = (props: IProps) => {
-  const { clusterName, workloadId, podId, className = '' } = props;
+  const { clusterName, workloadId, podId, className = '', onDelete } = props;
 
   const inParams = { clusterName, workloadId, podId };
   return (
@@ -31,6 +32,17 @@ export const PureClusterWorkloadDetail = (props: IProps) => {
         scenarioType={'cmp-dashboard-workload-detail'}
         scenarioKey={'cmp-dashboard-workload-detail'}
         inParams={inParams}
+        customProps={{
+          perationButton: onDelete
+            ? {
+                click: (op: Obj) => {
+                  if (op.key === 'delete') {
+                    onDelete();
+                  }
+                },
+              }
+            : undefined,
+        }}
       />
     </div>
   );
