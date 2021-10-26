@@ -73,7 +73,7 @@ const SearchForm = ({ fields, actions, onReset, onSubmit, className }: IProps) =
                   {i18n.t('reset')}
                 </Button>
                 <Button className="ml-2" onClick={handleSubmit} type="primary" ghost>
-                  {i18n.t('addonPlatform:search')}
+                  {i18n.t('dop:search')}
                 </Button>
               </>
             )}
