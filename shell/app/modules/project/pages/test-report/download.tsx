@@ -18,6 +18,7 @@ import ExportPdf from 'project/pages/plan-detail/report/export-pdf';
 import { Upload as IconUpload } from '@icon-park/react';
 import Markdown from 'common/utils/marked';
 import { Title } from 'common';
+import IterationSelect from 'project/common/components/issue/iteration-select';
 import { useMount } from 'react-use';
 import { getTestReportDetail } from 'project/services/project';
 import i18n from 'i18n';
@@ -27,7 +28,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
   const [data, setData] = React.useState<PROJECT.ITestReportBody | null>(null);
   useMount(() => {
     getTestReportDetail.fetch({ reportId: downloadId, projectId }).then((res) => {
-      setData(res);
+      setData(res?.data);
     });
   });
 
@@ -70,6 +71,9 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
         <Form className="w-3/5" layout="vertical">
           <Form.Item label={i18n.t('org:report name')}>
             <Input bordered={false} value={data.name} readOnly />
+          </Form.Item>
+          <Form.Item label={i18n.t('project:iteration')}>
+            <IterationSelect value={data.iterationID} bordered={false} suffixIcon={null} />
           </Form.Item>
           <Form.Item label={i18n.t('project:test summary')}>
             <div
