@@ -332,7 +332,7 @@ export const extractPendingSwitchContent = (
       const wordArr = matchedText.split(':');
       const enWord = wordArr.length === 2 ? wordArr[1] : matchedText;
       const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
-      replacedText = replacedText.replace(match[0], `i18n.t('${newWordText}')`);
+      replacedText = replacedText.replace(match[0], `i18n.t('${newWordText}'${match[2] || ''})`);
       changed = true;
     }
     match = i18nRRegex.exec(content);
