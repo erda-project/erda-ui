@@ -159,9 +159,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
           secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('project') })}
           onConfirm={exitProject}
         >
-          <Button ghost type="danger">
-            {i18n.t('common:exit current {name}', { name: i18n.t('project') })}
-          </Button>
+          <Button danger>{i18n.t('common:exit current {name}', { name: i18n.t('project') })}</Button>
         </ConfirmDelete>
       ),
     },

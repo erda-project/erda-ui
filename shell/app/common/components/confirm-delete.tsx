@@ -70,11 +70,7 @@ export const ConfirmDelete = (props: IProps) => {
         <>
           <div className="text-desc mb-2">{_confirmTip}</div>
           <span onClick={showModal}>
-            {children || (
-              <Button ghost type="danger">
-                {i18n.t('common:delete current {deleteItem}', { deleteItem })}
-              </Button>
-            )}
+            {children || <Button danger>{i18n.t('common:delete current {deleteItem}', { deleteItem })}</Button>}
           </span>
         </>
       )}

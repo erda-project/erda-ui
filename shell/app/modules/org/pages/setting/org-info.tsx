@@ -210,9 +210,7 @@ export const OrgInfo = () => {
               secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('org') })}
               onConfirm={exitOrg}
             >
-              <Button ghost type="danger">
-                {i18n.t('common:exit current {name}', { name: i18n.t('org') })}
-              </Button>
+              <Button danger>{i18n.t('common:exit current {name}', { name: i18n.t('org') })}</Button>
             </ConfirmDelete>
           ),
         },

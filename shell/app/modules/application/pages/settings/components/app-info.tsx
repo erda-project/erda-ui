@@ -130,9 +130,7 @@ const PureAppInfo = (): JSX.Element => {
           secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('application') })}
           onConfirm={exitApp}
         >
-          <Button ghost type="danger">
-            {i18n.t('common:exit current {name}', { name: i18n.t('application') })}
-          </Button>
+          <Button danger>{i18n.t('common:exit current {name}', { name: i18n.t('application') })}</Button>
         </ConfirmDelete>
       ),
     },
