@@ -68,13 +68,12 @@ export const doTranslate = async () => {
   const { parsed } = dotenv.config({ path: configFilePath });
 
   const toTransList = Object.keys(wordList);
-  if (toTransList.length === 0) {
+  if (!toTransList.length) {
     return;
   }
 
-  const toTranslateCombinedString = toTransList.join('\n');
   const invokeTranslate = translate(parsed as { appKey: string; secretKey: string });
-  const result = await invokeTranslate(toTranslateCombinedString);
+  const result = await invokeTranslate(toTransList.join('\n'));
   const translationResult = result.split('\n');
   const translatedList = toTransList.reduce<Array<{ zh: string; en: string }>>((acc, word, i) => {
     acc.push({ zh: translationResult[i], en: word });

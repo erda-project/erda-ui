@@ -61,7 +61,7 @@ export const findMatchFolder = (folderName: string, workDir: string): string | n
 };
 
 /**
- * create temp files and check whether exists locale files
+ * create temp files and collect all related locale file contents
  */
 export const prepareEnv = (isExternal: boolean, switchNs: boolean) => {
   let zhResource: Obj<Obj> = {};
@@ -202,7 +202,7 @@ export const extractUntranslatedWords = (
     }
     match = i18nDRegex.exec(content);
   }
-  if (!isEnd && toTransEnglishWords.length === 0) {
+  if (!isEnd && !toTransEnglishWords.length) {
     return;
   }
 
@@ -218,6 +218,13 @@ export const extractUntranslatedWords = (
   }
 };
 
+/**
+ * i18n.d => i18n.t for all source files
+ * @param isExternal is external module
+ * @param ns target namespace
+ * @param translatedMap is translated resource
+ * @param reviewedZhMap is newly translated resource
+ */
 export const writeI18nTToSourceFile = async (
   isExternal: boolean,
   ns: string,
@@ -252,6 +259,9 @@ export const writeI18nTToSourceFile = async (
  * @param content raw file content
  * @param filePath file path with extension
  * @param isEnd is traverse done
+ * @param ns is target namespace
+ * @param translatedMap is translated resource
+ * @param reviewedZhMap is newly translated resource
  * @param resolve resolver of promise
  */
 export const restoreSourceFile = (
@@ -302,11 +312,12 @@ export const restoreSourceFile = (
 const i18nRRegex = /i18n\.r\(["'](.+?)["']([^)]*)\)/g;
 
 /**
- * extract i18n.r content
+ * extract i18n.r content and replace it with i18n.t
  * @param content raw file content
  * @param filePath file path
  * @param isEnd is traverse done
  * @param ns is target namespace
+ * @param toSwitchWords is words waiting to switch
  * @param resolve promise resolver
  */
 export const extractPendingSwitchContent = (
@@ -349,7 +360,7 @@ export const extractPendingSwitchContent = (
 };
 
 /**
- * restore raw file i18n.d => i18n.t with namespace
+ * switch raw file i18n.t => i18n.t with namespace
  * @param content raw file content
  * @param filePath file path with extension
  * @param isEnd is traverse done
@@ -406,7 +417,7 @@ const getNamespaceModuleName = (originalResources: Obj<[Obj<Obj>, Obj<Obj>]>, cu
 
 /**
  * batch switch namespace
- * @param originalResources original zh.json content
+ * @param originalResources original locale content
  */
 export const batchSwitchNamespace = async (originalResources: Obj<[Obj<Obj>, Obj<Obj>]>) => {
   const toSwitchWords = new Set<string>();
