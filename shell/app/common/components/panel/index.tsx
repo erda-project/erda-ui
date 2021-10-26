@@ -110,7 +110,7 @@ const Panel = (props: PanelProps) => {
           return (
             <Row gutter={12} key={item.label as React.Key}>
               <Col span={24}>
-                <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
+                <div className="text-black-400" title={`${getInnerText(item.label)}`}>
                   {item.label}
                   {item.tips && (
                     <span className={`erda-label-tips align-middle`}>
@@ -143,7 +143,7 @@ const Panel = (props: PanelProps) => {
                     key={item.label as React.Key}
                     className="mb-3"
                   >
-                    <div className="text-opacity-40 text-black" title={`${getInnerText(item.label)}`}>
+                    <div className="text-black-400" title={`${getInnerText(item.label)}`}>
                       {item.label}
                       {item.tips && (
                         <span className={`erda-label-tips align-middle`}>

@@ -89,7 +89,7 @@ const ClusterQuota = ({
           {i18n.t('memory')}:{leftMem} GB
         </span>
       </div>
-      <div className="text-black text-opacity-40 ">
+      <div className="text-black-400">
         {tips && (
           <>
             <CustomIcon type="warning" className="align-middle font-bold text-warning" />
@@ -103,16 +103,16 @@ const ClusterQuota = ({
   if (readOnly) {
     return (
       <>
-        <span className="mr-2 text-black text-opacity-40">{i18n.t('cluster')}:</span>
+        <span className="mr-2 text-black-400">{i18n.t('cluster')}:</span>
         {data.clusterName || ''}
-        <div className="mr-4 text-black text-opacity-40">
+        <div className="mr-4 text-black-400">
           {i18n.t('CPU allocation')}
-          <span className="text-black text-opacity-100 mx-2">{data.cpuQuota || 0}</span>
+          <span className="text-black mx-2">{data.cpuQuota || 0}</span>
           {i18n.t('core')}
         </div>
-        <div className="mr-4 text-black text-opacity-40">
+        <div className="mr-4 text-black-400">
           {i18n.t('Memory allocation')}
-          <span className="text-black text-opacity-100 mx-2">{data.memQuota || 0}</span>
+          <span className="text-black mx-2">{data.memQuota || 0}</span>
           GB
         </div>
       </>
