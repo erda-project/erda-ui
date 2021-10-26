@@ -71,11 +71,11 @@ const mspLogAnalyticsStore = createStore({
         logTotal: total,
       });
     },
-    async getLogAnalyticContext({ call, getParams }, payload: Omit<LOG_ANALYTICS.QuerySearch, 'addon'>) {
+    async getLogAnalyticContext({ call, getParams }, payload: Omit<LOG_ANALYTICS.QueryContext, 'addon'>) {
       const { addonId } = getParams();
       const props = await call(getLogAnalyticContext, { addon: addonId, ...payload });
       const { data } = props;
-      return data;
+      return data ?? [];
     },
     async getAggregation(
       { call, update, getParams, select },

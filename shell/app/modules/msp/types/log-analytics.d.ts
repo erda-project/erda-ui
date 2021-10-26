@@ -35,8 +35,11 @@ declare namespace LOG_ANALYTICS {
     total: number;
   }
 
+  type ILogSort = 'desc' | 'asc';
+
   interface IField {
     display: boolean;
+    allowEdit: boolean;
     fieldName: string;
     supportAggregation: boolean;
     group: number;
@@ -52,6 +55,17 @@ declare namespace LOG_ANALYTICS {
     pageNo: number;
     pageSize: number;
     highlight: boolean;
+  }
+
+  interface QueryContext {
+    addon: string;
+    clusterName: string;
+    query?: string;
+    sort: ILogSort;
+    timestampNanos: string;
+    id?: string;
+    offset?: number;
+    count: number;
   }
 
   interface QueryLogContext {
