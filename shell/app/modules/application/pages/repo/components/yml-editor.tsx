@@ -135,32 +135,28 @@ const YmlEditor = (props: IProps) => {
     }
   }, [content, updater]);
 
-  const closedDrawer = React.useCallback(() => {
+  const closedDrawer = React.useRef(() => {
     selectedItemRef.current = null;
     updater.selectedAddon(null);
     updater.openDrawer(false);
-  }, [updater]);
+  });
 
-  const editGlobalVariable = React.useCallback(
-    (json) => (globalVariable: any) => {
-      // if (editedYmlStructure) {
-      //   editedYmlStructure.envs = globalVariable;
-      // } else {
-      //   jsonContent.envs = globalVariable;
-      // }
-      // eslint-disable-next-line no-param-reassign
-      json.envs = globalVariable;
+  const editGlobalVariable = React.useRef((json) => (globalVariable: any) => {
+    // if (editedYmlStructure) {
+    //   editedYmlStructure.envs = globalVariable;
+    // } else {
+    //   jsonContent.envs = globalVariable;
+    // }
+    // eslint-disable-next-line no-param-reassign
+    json.envs = globalVariable;
 
-      convertDataByFileName(json, json);
-      message.success(i18n.t('application:please click save to submit the configuration'));
-      closedDrawer();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [closedDrawer],
-  );
+    convertDataByFileName(json, json);
+    message.success(i18n.t('application:please click save to submit the configuration'));
+    closedDrawer?.current();
+  });
 
-  const editService = React.useCallback(
-    (service: any, inputJson: any, parentName?: string) => {
+  const editService = React.useRef(
+    (service: any, inputJson: any, parentName?: string, _convertDataByFileName?: Function) => {
       const inputJsonCp = cloneDeep(inputJson);
       if (inputJsonCp.services[service.name]) {
         // delete service.originName;
@@ -170,7 +166,7 @@ const YmlEditor = (props: IProps) => {
         };
 
         delete inputJsonCp.services[service.name].name;
-        convertDataByFileName(inputJsonCp);
+        _convertDataByFileName?.(inputJsonCp);
       } else {
         if (parentName) {
           if (!inputJsonCp.services[parentName].depends_on) {
@@ -207,57 +203,16 @@ const YmlEditor = (props: IProps) => {
           inputJsonCp.services[service.originName] = service;
           delete inputJsonCp.services[service.originName].originName;
         }
-        convertDataByFileName(inputJsonCp);
+        _convertDataByFileName?.(inputJsonCp);
       }
 
       message.success(i18n.t('application:please click save to submit the configuration'));
-      closedDrawer();
+      closedDrawer?.current();
     },
-    [closedDrawer, convertDataByFileName],
-  );
-
-  const convertDataByFileName: any = React.useCallback(
-    (inputJsonContent: any, inputEditedYmlStructure?: IPipelineYmlStructure | null): void => {
-      let result: any = {};
-
-      const newContent = cloneDeep(inputJsonContent);
-      switch (fileType.current) {
-        case WORK_FLOW_TYPE.DICE:
-          result = convertByDiceYml({
-            jsonContent: inputJsonContent,
-            editService,
-            editGlobalVariable: (p) => editGlobalVariable(inputEditedYmlStructure || inputJsonContent)(p),
-          });
-          break;
-        case WORK_FLOW_TYPE.PIPELINE:
-          result = convertByPipelineYml({
-            title: i18n.t('application:pipeline'),
-            actions,
-            editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure),
-            editGlobalVariable: (p) => editGlobalVariable(inputEditedYmlStructure || inputJsonContent)(p),
-            pipelineYmlStructure: (inputEditedYmlStructure || editedYmlStructure) as IPipelineYmlStructure,
-          });
-          break;
-        case WORK_FLOW_TYPE.WORKFLOW:
-          result = convertByPipelineYml({
-            actions,
-            editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure),
-            editGlobalVariable: (p) => editGlobalVariable(inputEditedYmlStructure || inputJsonContent)(p),
-            pipelineYmlStructure: (inputEditedYmlStructure || editedYmlStructure) as IPipelineYmlStructure,
-          });
-          break;
-        default:
-      }
-
-      updater.jsonContent(newContent);
-      updater.editorData(cloneDeep(result.editorData));
-      updater.addons(result.addons ? cloneDeep(result.addons) : []);
-    },
-    [actions, editGlobalVariable, editPipelineConvertor, editService, editedYmlStructure, updater],
   );
 
   const editPipelineConvertor = React.useCallback(
-    (inputStructure) => (formTaskData: any) => {
+    (inputStructure, _convertDataByFileName) => (formTaskData: any) => {
       const { resource } = formTaskData;
       const selected = selectedItemRef.current;
       if (!selected || (!editedYmlStructure && !inputStructure)) {
@@ -280,12 +235,55 @@ const YmlEditor = (props: IProps) => {
         targetStage[index] = resource;
       }
 
-      convertDataByFileName(null, structure);
+      _convertDataByFileName(null, structure);
       updater.editedYmlStructure(structure);
       message.success(i18n.t('application:please click save to submit the configuration'));
-      closedDrawer();
+      closedDrawer?.current();
     },
-    [closedDrawer, convertDataByFileName, editedYmlStructure, updater],
+    [editedYmlStructure, updater],
+  );
+
+  const convertDataByFileName: any = React.useCallback(
+    (inputJsonContent: any, inputEditedYmlStructure?: IPipelineYmlStructure | null): void => {
+      let result: any = {};
+      const _editServie = (arg: any) => {
+        const reArg = [...arg, convertDataByFileName];
+        editService?.current(...reArg);
+      };
+      const newContent = cloneDeep(inputJsonContent);
+      switch (fileType.current) {
+        case WORK_FLOW_TYPE.DICE:
+          result = convertByDiceYml({
+            jsonContent: inputJsonContent,
+            editService: _editServie,
+            editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
+          });
+          break;
+        case WORK_FLOW_TYPE.PIPELINE:
+          result = convertByPipelineYml({
+            title: i18n.t('application:pipeline'),
+            actions,
+            editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure, convertDataByFileName),
+            editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
+            pipelineYmlStructure: (inputEditedYmlStructure || editedYmlStructure) as IPipelineYmlStructure,
+          });
+          break;
+        case WORK_FLOW_TYPE.WORKFLOW:
+          result = convertByPipelineYml({
+            actions,
+            editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure, convertDataByFileName),
+            editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
+            pipelineYmlStructure: (inputEditedYmlStructure || editedYmlStructure) as IPipelineYmlStructure,
+          });
+          break;
+        default:
+      }
+
+      updater.jsonContent(newContent);
+      updater.editorData(cloneDeep(result.editorData));
+      updater.addons(result.addons ? cloneDeep(result.addons) : []);
+    },
+    [actions, editPipelineConvertor, editedYmlStructure, updater],
   );
 
   const loadPipelineYmlStructure = React.useCallback(() => {
@@ -376,7 +374,7 @@ const YmlEditor = (props: IProps) => {
 
   const cancelEditing = () => {
     convertDataByFileName(originJsonContent);
-    closedDrawer();
+    closedDrawer?.current();
     changeMode({ editFile: false, addFile: false });
   };
 
@@ -439,7 +437,7 @@ const YmlEditor = (props: IProps) => {
       });
     }
 
-    closedDrawer();
+    closedDrawer?.current();
     convertDataByFileName(jsonContent);
   };
 
@@ -497,7 +495,7 @@ const YmlEditor = (props: IProps) => {
         <EditService
           editing={isEditing}
           service={service}
-          onSubmit={(newService: any) => editService(newService, jsonContent, parentName)}
+          onSubmit={(newService: any) => editService?.current(newService, jsonContent, parentName)}
         />
       );
     };
@@ -524,7 +522,7 @@ const YmlEditor = (props: IProps) => {
           isCreateTask
           task={stageTask}
           otherTaskAlias={pipelineTaskAlias}
-          onSubmit={editPipelineConvertor(editedYmlStructure)}
+          onSubmit={editPipelineConvertor(editedYmlStructure, convertDataByFileName)}
         />
       );
     };
@@ -552,7 +550,7 @@ const YmlEditor = (props: IProps) => {
             groupedAddonList={groupedAddonList}
             getAddonVersions={getAddonVersions}
             onSubmit={createdAddOn}
-            cancel={closedDrawer}
+            cancel={closedDrawer?.current}
           />
         );
       },
@@ -629,7 +627,7 @@ const YmlEditor = (props: IProps) => {
           <CreateAddOn
             editing={isEditing}
             addOn={addon.data}
-            cancel={closedDrawer}
+            cancel={closedDrawer?.current}
             getAddonVersions={getAddonVersions}
             groupedAddonList={groupedAddonList}
             onSubmit={(values: any) => editAddon(addon, values)}
@@ -747,7 +745,7 @@ const YmlEditor = (props: IProps) => {
           <React.Fragment>
             <div className="yml-editor-body services-and-add-ons">
               <BlockContainer title={i18n.t('application:service architecture')}>
-                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer} /> : null}
+                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
                   isSelectedItem={selectedItemRef.current !== null}
@@ -761,7 +759,7 @@ const YmlEditor = (props: IProps) => {
               </BlockContainer>
               <BlockContainer className="addons-container" title="Add On">
                 <div className="addons-content">
-                  {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer} /> : null}
+                  {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                   {renderAddons()}
                   {editing ? (
                     <div className={className} onClick={showCreateAddonModal}>
@@ -790,7 +788,7 @@ const YmlEditor = (props: IProps) => {
           <React.Fragment>
             <div className="yml-editor-body">
               <BlockContainer className="services-and-add-ons" title={i18n.t('application:pipeline')}>
-                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer} /> : null}
+                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
                   isSelectedItem={selectedItemRef.current !== null}
@@ -822,7 +820,7 @@ const YmlEditor = (props: IProps) => {
           <React.Fragment>
             <div className="yml-editor-body">
               <BlockContainer className="services-and-add-ons" title="Workflow">
-                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer} /> : null}
+                {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
                   isSelectedItem={selectedItemRef.current !== null}
@@ -877,7 +875,7 @@ const YmlEditor = (props: IProps) => {
         visible={openDrawer}
         title={drawerTitle}
         content={drawerContent}
-        onClose={closedDrawer}
+        onClose={closedDrawer?.current}
       />
       <FormModal
         width={620}
