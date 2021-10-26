@@ -21,31 +21,30 @@ export interface Obj<T extends any = string> {
   [k: string]: T;
 }
 
+const resolveUI = (...relativePath: string[]) => path.resolve(process.cwd(), ...relativePath);
+const resolveEnterprise = (...relativePath: string[]) => resolveUI('../erda-ui-enterprise', ...relativePath);
+
 // all locale path
 export const internalLocalePathMap: Obj = {
-  default: path.resolve(process.cwd(), 'locales'),
-  shell: path.resolve(process.cwd(), 'shell', 'app', 'locales'),
+  default: resolveUI('locales'),
+  shell: resolveUI('shell', 'app', 'locales'),
 };
 
 export const externalLocalePathMap: Obj = {
-  fdp: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src', 'locales'),
-  admin: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src', 'locales'),
-  uc: path.resolve(process.cwd(), 'modules', 'uc', 'src', 'locales'),
+  fdp: resolveEnterprise('fdp', 'src', 'locales'),
+  admin: resolveEnterprise('admin', 'src', 'locales'),
+  uc: resolveUI('modules', 'uc', 'src', 'locales'),
 };
 
 // all source code locations
 export const internalSrcDirMap: Obj<string[]> = {
-  shell: [
-    path.resolve(process.cwd(), 'shell', 'app'),
-    path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'cmp'),
-    path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'msp'),
-  ],
+  shell: [resolveUI('shell', 'app'), resolveEnterprise('cmp'), resolveEnterprise('msp')],
 };
 
 export const externalSrcDirMap: Obj<string[]> = {
-  fdp: [path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src')],
-  admin: [path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src')],
-  uc: [path.resolve(process.cwd(), 'modules', 'uc', 'src')],
+  fdp: [resolveEnterprise('fdp', 'src')],
+  admin: [resolveEnterprise('admin', 'src')],
+  uc: [resolveUI('modules', 'uc', 'src')],
 };
 
 // external modules only has one namespace
