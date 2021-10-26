@@ -91,7 +91,7 @@ export default () => {
       </div>
       <div className="bg-white rounded p-2">
         <Form className="w-3/5" layout="vertical" form={form}>
-          <Form.Item label={i18n.t('org:report name')} name="name" rules={[{ required: true }]}>
+          <Form.Item label={i18n.t('cmp:report name')} name="name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item label={i18n.t('project:iteration')} name="iterationID" rules={[{ required: true }]}>

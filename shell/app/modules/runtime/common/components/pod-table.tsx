@@ -47,7 +47,7 @@ const PodTable = (props: IProps) => {
   const handleKill = (record: RUNTIME_SERVICE.Pod) => {
     const infoContent = (
       <div className="record-info">
-        <div>{`${i18n.t('org:pod instance')}: ${record.podName}`}</div>
+        <div>{`${i18n.t('cmp:pod instance')}: ${record.podName}`}</div>
       </div>
     );
 
@@ -79,7 +79,7 @@ const PodTable = (props: IProps) => {
       width: 120,
     },
     {
-      title: i18n.t('org:pod instance'),
+      title: i18n.t('cmp:pod instance'),
       dataIndex: 'podName',
       width: 160,
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
@@ -90,7 +90,7 @@ const PodTable = (props: IProps) => {
       width: 80,
     },
     {
-      title: i18n.t('org:namespace'),
+      title: i18n.t('cmp:namespace'),
       dataIndex: 'k8sNamespace',
       width: 120,
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,

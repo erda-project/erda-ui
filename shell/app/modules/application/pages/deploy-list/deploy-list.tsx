@@ -183,7 +183,7 @@ const PureDeployList = (props: IProps) => {
         },
       },
       approved: {
-        title: i18n.t('org:approval result'),
+        title: i18n.t('cmp:approval result'),
         dataIndex: 'approvalStatus',
         width: 160,
         render: (val: string) => (approvalStatusMap[val] || {}).name,

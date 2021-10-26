@@ -57,7 +57,7 @@ export default ({ visible, toggleModal, onOk }: IProps) => {
 
   return (
     <FormModal
-      title={i18n.t('org:select project')}
+      title={i18n.t('cmp:select project')}
       fieldsList={fieldList}
       visible={visible}
       onOk={handleSubmit}

@@ -21,7 +21,7 @@ export const projectRoleMap = {
   Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
   QA: { name: i18n.t('user:Tester'), value: 'QA' },
   Support: { name: i18n.t('user:Q&A'), value: 'Support', isBuildIn: true },
-  Ops: { name: i18n.t('org:operator'), value: 'Ops', isBuildIn: true },
+  Ops: { name: i18n.t('cmp:operator'), value: 'Ops', isBuildIn: true },
   Reporter: { name: i18n.t('user:Reporter'), value: 'Reporter' },
   Creator: { name: i18n.t('user:Creator'), value: 'Creator', isCustomRole: true },
   Assignee: { name: i18n.t('user:Assignee'), value: 'Assignee', isCustomRole: true },
@@ -309,7 +309,7 @@ export const projectPerm = {
       },
     },
     blockNetwork: {
-      name: i18n.t('org:block network'),
+      name: i18n.t('cmp:block network'),
       applyUnblock: {
         pass: false,
         name: i18n.t('user:apply for unblocking'),
@@ -505,7 +505,7 @@ export const projectPerm = {
   microService: {
     name: i18n.t('msp'),
     member: {
-      name: i18n.t('org:member management'),
+      name: i18n.t('cmp:member management'),
       addProjectMember: {
         name: i18n.t('add member'),
         pass: false,

@@ -93,7 +93,7 @@ export default () => {
       dataIndex: 'ip',
     },
     {
-      title: i18n.t('org:number of instance'),
+      title: i18n.t('cmp:number of instance'),
       dataIndex: 'tasks',
       width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
@@ -184,7 +184,7 @@ export default () => {
         <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.ecpResource)}>
           {siteName}
         </Breadcrumb.Item>
-        <Breadcrumb.Item>{i18n.t('org:node list')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{i18n.t('cmp:node list')}</Breadcrumb.Item>
       </Breadcrumb>
 
       <Table

@@ -79,7 +79,7 @@ const groupTargetMap = {
 //   Manager: i18n.t('administrator'),
 //   Developer: i18n.t('developer'),
 //   Tester: i18n.t('tester'),
-//   Operator: i18n.t('org:operator'),
+//   Operator: i18n.t('cmp:operator'),
 // };
 
 interface IProps {
@@ -310,7 +310,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   const fieldsList = [
     {
       name: 'name',
-      label: i18n.t('org:group name'),
+      label: i18n.t('cmp:group name'),
       required: true,
       itemProps: {
         disabled: isEditing,

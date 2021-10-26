@@ -172,7 +172,7 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
             title: `Debug-key/store ${i18n.t('file')}`,
             value: get(detail, keyPrefix.adrManualDebug),
             textItem: [
-              { label: i18n.t('org:alias'), key: 'alias' },
+              { label: i18n.t('cmp:alias'), key: 'alias' },
               { label: 'Key password', key: 'keyPassword', type: 'password' },
               { label: 'Store password', key: 'storePassword', type: 'password' },
             ],
@@ -181,7 +181,7 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
             title: `Release-key/store ${i18n.t('file')}`,
             value: get(detail, keyPrefix.adrManualRelease),
             textItem: [
-              { label: i18n.t('org:alias'), key: 'alias' },
+              { label: i18n.t('cmp:alias'), key: 'alias' },
               { label: 'Key password', key: 'keyPassword', type: 'password' },
               { label: 'Store password', key: 'storePassword', type: 'password' },
             ],

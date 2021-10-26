@@ -69,11 +69,11 @@ const MountList = () => {
       title: k,
       dataIndex: k,
       render: (obj: any, record: any) => {
-        let detail = <Badge status="processing" text={i18n.t('org:processing')} />;
+        let detail = <Badge status="processing" text={i18n.t('cmp:processing')} />;
         if (obj.status === 'Failed') {
           detail = (
             <Popover
-              title={i18n.t('org:error detail')}
+              title={i18n.t('cmp:error detail')}
               placement="bottom"
               overlayClassName="purchase-cluster-popover"
               content={<pre className="code-block">{obj.error}</pre>}
@@ -111,7 +111,7 @@ const MountList = () => {
       title: i18n.t('operations'),
       width: '60',
       render: (_createdAt: any, record: any) => {
-        return <Button onClick={() => toggleModal(record.fullInfo)}>{i18n.t('org:check configs')}</Button>;
+        return <Button onClick={() => toggleModal(record.fullInfo)}>{i18n.t('cmp:check configs')}</Button>;
       },
     },
   ];
@@ -122,7 +122,7 @@ const MountList = () => {
       </Button>
       <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={clusterList} scroll={{ x: '100%' }} />
       <Modal
-        title={i18n.t('org:deployment configurations')}
+        title={i18n.t('cmp:deployment configurations')}
         width={700}
         visible={modalVisible}
         onCancel={() => toggleModal()}

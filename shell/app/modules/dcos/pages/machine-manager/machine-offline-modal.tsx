@@ -28,7 +28,7 @@ const MachineOffLineModal = ({ visible, formData, onCancel, onSubmit = () => {} 
     const { ip } = data;
     return new Promise((resolve, reject) => {
       if (formData.ip !== ip) {
-        notify('error', i18n.t('org:IP input error, please check'));
+        notify('error', i18n.t('cmp:IP input error, please check'));
         reject();
       } else {
         resolve(data);
@@ -56,7 +56,7 @@ const MachineOffLineModal = ({ visible, formData, onCancel, onSubmit = () => {} 
       itemProps: { type: 'password' },
     },
     {
-      label: i18n.t('org:forced offline'),
+      label: i18n.t('cmp:forced offline'),
       name: 'force',
       type: 'switch',
       initialValue: false,
@@ -64,7 +64,7 @@ const MachineOffLineModal = ({ visible, formData, onCancel, onSubmit = () => {} 
   ];
   return (
     <FormModal
-      title={i18n.t('org:Please enter the following information to confirm to go offline.')}
+      title={i18n.t('cmp:Please enter the following information to confirm to go offline.')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={handelSubmit}

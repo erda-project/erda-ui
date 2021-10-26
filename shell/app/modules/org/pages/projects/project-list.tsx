@@ -75,7 +75,7 @@ export const ProjectList = () => {
         render: (text) => <Ellipsis title={text}>{text}</Ellipsis>,
       },
       {
-        title: i18n.t('org:application/Member Statistics'),
+        title: i18n.t('cmp:application/Member Statistics'),
         dataIndex: 'stats',
         key: 'countApplications',
         width: 120,
@@ -86,7 +86,7 @@ export const ProjectList = () => {
         dataIndex: 'type',
         key: 'type',
         width: 120,
-        render: (text: string) => (text === 'MSP' ? i18n.t('org:microservice Observation Project') : 'DevOps'),
+        render: (text: string) => (text === 'MSP' ? i18n.t('cmp:microservice Observation Project') : 'DevOps'),
       },
       {
         title: i18n.t('total CPU allocation'),

@@ -88,7 +88,7 @@ function getMspRouter(): RouteConfigItem[] {
                 },
                 {
                   path: ':terminusKey/member',
-                  breadcrumbName: i18n.t('org:member management'),
+                  breadcrumbName: i18n.t('cmp:member management'),
                   getComp: (cb) => cb(import('msp/env-setting/member-manage')),
                 },
                 {

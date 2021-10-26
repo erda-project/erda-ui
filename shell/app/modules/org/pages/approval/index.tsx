@@ -42,15 +42,15 @@ const undoneStatusMap = {
 const typeMap = {
   certificate: {
     value: 'certificate',
-    name: i18n.t('org:certificate reference'),
+    name: i18n.t('cmp:certificate reference'),
   },
   'lib-reference': {
     value: 'lib-reference',
-    name: i18n.t('org:library reference'),
+    name: i18n.t('cmp:library reference'),
   },
   'unblock-application': {
     value: 'unblock-application',
-    name: i18n.t('org:unblocked application'),
+    name: i18n.t('cmp:unblocked application'),
   },
 };
 
@@ -89,7 +89,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         render: (val: APPROVAL.ApprovalItemType) => get(typeMap, `${val}.name`),
       },
       {
-        title: i18n.t('org:submitter'),
+        title: i18n.t('cmp:submitter'),
         dataIndex: 'submitter',
         width: 180,
         render: (val: string) => {
@@ -98,7 +98,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         },
       },
       {
-        title: i18n.t('org:submit time'),
+        title: i18n.t('cmp:submit time'),
         dataIndex: 'createdAt',
         width: 180,
         render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
@@ -164,7 +164,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         0,
         ...[
           {
-            title: i18n.t('org:approver'),
+            title: i18n.t('cmp:approver'),
             dataIndex: 'approver',
             render: (val: string) => {
               const curUser = userMap[val];
@@ -172,13 +172,13 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
             },
           },
           {
-            title: i18n.t('org:approval time'),
+            title: i18n.t('cmp:approval time'),
             dataIndex: 'approvalTime',
             width: 180,
             render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
           },
           {
-            title: i18n.t('org:approval result'),
+            title: i18n.t('cmp:approval result'),
             dataIndex: 'status',
             width: 100,
             render: (val: string) => get(undoneStatusMap, `${val}.name`),

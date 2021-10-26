@@ -72,8 +72,8 @@ const AddonDetailDrawer = (props: IProps) => {
     { key: i18n.t('version'), value: version },
     { key: i18n.t('specification'), value: PLAN_NAME[plan] },
     { key: i18n.t('project'), value: projectName },
-    { key: i18n.t('org:reference counts'), value: reference },
-    { key: i18n.t('org:run cluster'), value: cluster },
+    { key: i18n.t('cmp:reference counts'), value: reference },
+    { key: i18n.t('cmp:run cluster'), value: cluster },
     { key: i18n.t('created at'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
     // { key: '控制台', value: <a href={consoleUrl} target="_blank" rel="noopener noreferrer">Dubbo Admin</a>, hasValue: !!consoleUrl },
   ];
@@ -106,7 +106,7 @@ const AddonDetailDrawer = (props: IProps) => {
             </div>
           </div>
           <div className="ref">
-            <span className="title font-medium">{i18n.t('org:reference detail')}</span>
+            <span className="title font-medium">{i18n.t('cmp:reference detail')}</span>
             <Table
               scroll={{ x: '100%' }}
               columns={refTableList}
@@ -117,7 +117,7 @@ const AddonDetailDrawer = (props: IProps) => {
           </div>
           <div className="config">
             <div className="flex justify-between items-center">
-              <span className="title font-medium">{i18n.t('org:service basic parameters')}</span>
+              <span className="title font-medium">{i18n.t('cmp:service basic parameters')}</span>
               {!isEmpty(config) && (
                 <span className="copy-all cursor-pointer cursor-copy">
                   {i18n.t('copy all')}

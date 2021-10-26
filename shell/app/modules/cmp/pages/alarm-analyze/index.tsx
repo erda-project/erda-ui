@@ -24,8 +24,8 @@ import './index.scss';
 
 // const ALARM_TYPE = {
 //   machine: i18n.t('machine'),
-//   dice_addon: i18n.t('org:Erda addon'),
-//   dice_component: i18n.t('org:Erda component'),
+//   dice_addon: i18n.t('cmp:Erda addon'),
+//   dice_component: i18n.t('cmp:Erda component'),
 //   kubernetes: 'kubernetes',
 // };
 
@@ -95,7 +95,7 @@ const AlarmAnalyze = () => {
         </Col>
       </Row>
       {/* <div className="alarm-message">
-        <p className="section-title">{i18n.t('org:alarm information')}</p>
+        <p className="section-title">{i18n.t('cmp:alarm information')}</p>
         <Select
           className="w-52 mb-4"
           placeholder={i18n.t('filter by type')}

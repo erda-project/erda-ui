@@ -500,7 +500,7 @@ export const TASK_TYPE_OPTION = [
     value: 'deploy',
   },
   {
-    name: i18n.t('org:operator'),
+    name: i18n.t('cmp:operator'),
     value: 'operator',
   },
 ];

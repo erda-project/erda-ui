@@ -84,7 +84,7 @@ export const getCmpMenu = () => {
         key: 'cmpDashboard',
         href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
         icon: <IconDashboardCar />,
-        text: i18n.t('org:O & M dashboard'),
+        text: i18n.t('cmp:O & M dashboard'),
         subtitle: i18n.t('Dashboard'),
       },
       {

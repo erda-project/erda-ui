@@ -19,7 +19,7 @@ export const appRoleMap = {
   Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
   QA: { name: i18n.t('user:Tester'), value: 'QA' },
   Support: { name: i18n.t('user:Q&A'), value: 'Support', isBuildIn: true },
-  Ops: { name: i18n.t('org:operator'), value: 'Ops' },
+  Ops: { name: i18n.t('cmp:operator'), value: 'Ops' },
   Creator: { name: i18n.t('user:Creator'), value: 'Creator', isCustomRole: true },
   Assignee: { name: i18n.t('user:Assignee'), value: 'Assignee', isCustomRole: true },
   Guest: { name: i18n.t('user:Guest'), value: 'Guest' },
@@ -224,7 +224,7 @@ export const appPerm = {
     },
   },
   member: {
-    name: i18n.t('org:member management'),
+    name: i18n.t('cmp:member management'),
     addAppMember: {
       pass: false,
       name: i18n.t('user:application member > add'),

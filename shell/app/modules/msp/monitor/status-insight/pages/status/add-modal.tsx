@@ -493,7 +493,7 @@ const AddModal = (props: IProps) => {
                           style={{ width: 110 }}
                           className="mr-2"
                         >
-                          <Option value="http_code">{i18n.t('org:state code')}</Option>
+                          <Option value="http_code">{i18n.t('cmp:state code')}</Option>
                           <Option value="body">{i18n.t('request body')}</Option>
                         </Select>
                         {item.key === 'http_code' ? (

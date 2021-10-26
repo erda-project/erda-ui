@@ -209,19 +209,19 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         },
       },
       addMachine: {
-        title: i18n.t('org:add machine'),
+        title: i18n.t('cmp:add machine'),
         onClick: () => {
           updater.modalVisibleRow(record);
         },
       },
       addCloudMachines: {
-        title: i18n.t('org:add alibaba cloud machine'),
+        title: i18n.t('cmp:add alibaba cloud machine'),
         onClick: () => toggleAddCloudMachine(record),
       },
       edit: { title: i18n.t('common:change setting'), onClick: () => onEdit({ ...record, isEdgeCluster }) },
-      upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record) },
+      upgrade: { title: i18n.t('cmp:cluster upgrade'), onClick: () => checkClusterUpdate(record) },
       deleteCluster: {
-        title: i18n.t('org:cluster offline'),
+        title: i18n.t('cmp:cluster offline'),
         onClick: () => {
           toggleDeleteModal(record);
         },
@@ -273,7 +273,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
-      title: i18n.t('org:cluster name'),
+      title: i18n.t('cmp:cluster name'),
       dataIndex: 'displayName',
       width: 320,
       ellipsis: true,
@@ -414,9 +414,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       {state.deleteModalVis && (
         <ConfirmDelete
-          title={i18n.t('org:Please enter the cluster identity to confirm to go offline.')}
+          title={i18n.t('cmp:Please enter the cluster identity to confirm to go offline.')}
           onConfirm={() => submitDelete({ clusterName: state.deleteClusterName })}
-          secondTitle={i18n.t('org:Please enter {name}, to confirm the cluster to go offline', {
+          secondTitle={i18n.t('cmp:Please enter {name}, to confirm the cluster to go offline', {
             name: state.curDeleteCluster?.name,
           })}
           onCancel={() => toggleDeleteModal()}
@@ -424,7 +424,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           modalChildren={
             <Input
               value={state.deleteClusterName}
-              placeholder={i18n.t('please enter {name}', { name: i18n.t('org:cluster identity') })}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('cmp:cluster identity') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.deleteClusterName(e.target.value)}
             />
           }

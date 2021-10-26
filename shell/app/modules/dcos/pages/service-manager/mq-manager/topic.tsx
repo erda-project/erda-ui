@@ -159,11 +159,11 @@ const Topic = () => {
           value: 0,
         },
         {
-          name: i18n.t('org:partition order message'),
+          name: i18n.t('cmp:partition order message'),
           value: 1,
         },
         {
-          name: i18n.t('org:global order message'),
+          name: i18n.t('cmp:global order message'),
           value: 2,
         },
       ],

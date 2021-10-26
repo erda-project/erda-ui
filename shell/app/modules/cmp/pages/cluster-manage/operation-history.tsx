@@ -84,7 +84,7 @@ export const OperationHistory = () => {
       width: 96,
     },
     {
-      title: i18n.t('org:cluster name'),
+      title: i18n.t('cmp:cluster name'),
       dataIndex: 'clusterName',
       width: 120,
     },
@@ -167,7 +167,7 @@ export const OperationHistory = () => {
           {
             name: 'clusterName',
             type: 'select',
-            placeholder: i18n.t('org:please select cluster'),
+            placeholder: i18n.t('cmp:please select cluster'),
             options: map(clusterList, (c) => ({ name: c.name, value: c.name })),
             style: { width: '260px' },
             mode: 'multiple',
@@ -176,7 +176,7 @@ export const OperationHistory = () => {
           {
             name: 'recordType',
             type: 'select',
-            placeholder: i18n.t('org:please select operation type'),
+            placeholder: i18n.t('cmp:please select operation type'),
             allowClear: true,
             mode: 'multiple',
             options: map(operationTypes, (o) => ({ name: o.recordType, value: o.rawRecordType })),

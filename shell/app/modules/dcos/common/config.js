@@ -16,10 +16,10 @@ import i18n from 'i18n';
 import { multipleDataHandler, groupHandler } from 'common/utils/chart-utils';
 
 export const rdsAccountType = [
-  { name: i18n.t('org:read and write'), value: 'ReadWrite' },
-  { name: i18n.t('org:read only'), value: 'ReadOnly' },
-  { name: i18n.t('org:DDL only'), value: 'DDLOnly' },
-  { name: i18n.t('org:DML only'), value: 'DMLOnly' },
+  { name: i18n.t('cmp:read and write'), value: 'ReadWrite' },
+  { name: i18n.t('cmp:read only'), value: 'ReadOnly' },
+  { name: i18n.t('cmp:DDL only'), value: 'DDLOnly' },
+  { name: i18n.t('cmp:DML only'), value: 'DMLOnly' },
 ];
 
 export const supportLBRegion = [
@@ -40,8 +40,8 @@ export const supportLBRegion = [
 ];
 
 export const CHARGE_TYPE_i18n = {
-  Prepaid: i18n.t('org:Subscription'),
-  Postpaid: i18n.t('org:Pay-As-You-Go'),
+  Prepaid: i18n.t('cmp:Subscription'),
+  Postpaid: i18n.t('cmp:Pay-As-You-Go'),
 };
 
 export const lbConfig = [
@@ -551,12 +551,12 @@ export const fieldsTranslationMap = {
   // vpcCidr: '专有网络cidr',
   accessKeyId: 'AccessKeyId',
   accessKeySecret: 'AccessKeySecret',
-  PrePaid: i18n.t('org:Subscription'),
-  PostPaid: i18n.t('org:Pay-As-You-Go'),
+  PrePaid: i18n.t('cmp:Subscription'),
+  PostPaid: i18n.t('cmp:Pay-As-You-Go'),
   regionId: i18n.t('cmp:region'),
   zoneId: i18n.t('cmp:availability zone'),
   periodUnit: i18n.t('time unit'),
-  period: i18n.t('cmp:duration'),
+  period: i18n.t('cmp:duration period'),
   Week: i18n.t('week'),
   Month: i18n.t('month'),
   password: i18n.t('password'),
@@ -581,8 +581,8 @@ export const fieldsTranslationMap = {
   rdsSettings: i18n.t('cmp:cloud database configuration'),
   dbInstanceClass: i18n.t('cmp:specifications'),
   payType: i18n.t('cmp:billing method'),
-  Postpaid: i18n.t('org:Pay-As-You-Go'),
-  Prepaid: i18n.t('org:Subscription'),
+  Postpaid: i18n.t('cmp:Pay-As-You-Go'),
+  Prepaid: i18n.t('cmp:Subscription'),
   engineVersion: i18n.t('version'),
   dbInstanceStorage: i18n.t('cmp:storage disk capacity'),
   accountName: i18n.t('cmp:account name'),
@@ -631,11 +631,11 @@ export const preOrPostPaid = {
   options: [
     {
       value: 'PostPaid',
-      name: i18n.t('org:Pay-As-You-Go'),
+      name: i18n.t('cmp:Pay-As-You-Go'),
     },
     {
       value: 'PrePaid',
-      name: i18n.t('org:Subscription'),
+      name: i18n.t('cmp:Subscription'),
     },
   ],
   initialValue: 'PostPaid',
@@ -729,23 +729,23 @@ export const CLUSTER_RESOURCES_PROPORTION_MAP = {
 
 // 着色分组
 export const COLOUR_MAP = {
-  load: i18n.t('org:system load'),
-  cpu: i18n.t('org:CPU usage'),
-  mem: i18n.t('org:MEM usage'),
-  disk: i18n.t('org:Disk usage'),
-  scheduledCPU: i18n.t('org:CPU allocation'),
-  scheduledMEM: i18n.t('org:MEM allocation'),
+  load: i18n.t('cmp:system load'),
+  cpu: i18n.t('cmp:CPU usage'),
+  mem: i18n.t('cmp:MEM usage'),
+  disk: i18n.t('cmp:Disk usage'),
+  scheduledCPU: i18n.t('cmp:CPU allocation'),
+  scheduledMEM: i18n.t('cmp:MEM allocation'),
 };
 
 export const ALARM_REPORT_CHART_MAP = {
   load: {
-    cnName: i18n.t('org:system load'),
+    cnName: i18n.t('cmp:system load'),
     chartType: 'system',
     extraQuery: { avg: ['load1', 'load5', 'load15'] },
     handler: multipleDataHandler(['avg.load1', 'avg.load5', 'avg.load15']),
   },
   cpu: {
-    cnName: i18n.t('org:CPU usage rate'),
+    cnName: i18n.t('cmp:CPU usage rate'),
     chartType: 'cpu',
     extraQuery: { avg: 'cpu_usage_active' },
     handler: multipleDataHandler(['avg.cpu_usage_active']),
@@ -757,13 +757,13 @@ export const ALARM_REPORT_CHART_MAP = {
     handler: multipleDataHandler(['max.pct_util']),
   },
   disk: {
-    cnName: i18n.t('org:Disk usage rate'),
+    cnName: i18n.t('cmp:Disk usage rate'),
     chartType: 'disk',
     extraQuery: { max: 'used_percent', group: 'device' },
     handler: groupHandler('max.used_percent'),
   },
   crash: {
-    cnName: i18n.t('org:system load'),
+    cnName: i18n.t('cmp:system load'),
     chartType: 'system',
     extraQuery: { avg: ['load1', 'load5', 'load15'] },
     handler: multipleDataHandler(['avg.load1', 'avg.load5', 'avg.load15']),

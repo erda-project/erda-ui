@@ -156,7 +156,7 @@ const ReleaseList = () => {
         </Spin>
         <IF check={query.q}>
           <div className="search-tip">
-            <span>{i18n.t('org:No results found? Please try other keywords to search.')}</span>
+            <span>{i18n.t('cmp:No results found? Please try other keywords to search.')}</span>
           </div>
           <ELSE />
           <>

@@ -41,12 +41,12 @@ export const OrgSetting = () => {
       groupKey: 'common',
       tabGroup: [
         {
-          tabTitle: i18n.t('org:org info'),
+          tabTitle: i18n.t('cmp:org info'),
           tabKey: 'orgInfo',
           content: <OrgInfo />,
         },
         {
-          tabTitle: i18n.t('org:org member'),
+          tabTitle: i18n.t('cmp:org member'),
           tabKey: 'orgMember',
           content: (
             <ConfigLayout
@@ -74,7 +74,7 @@ export const OrgSetting = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('org:organization member label'),
+                  title: i18n.t('cmp:organization member label'),
                   children: <MemberLabels />,
                 },
               ]}
@@ -83,7 +83,7 @@ export const OrgSetting = () => {
         },
         ...insertWhen(orgPerm.orgCenter.viewAnnouncement.pass, [
           {
-            tabTitle: i18n.t('org:announcement management'),
+            tabTitle: i18n.t('cmp:announcement management'),
             tabKey: 'announcement',
             content: <Announcement />,
           },
@@ -111,14 +111,14 @@ export const OrgSetting = () => {
       groupKey: 'deploy',
       tabGroup: [
         {
-          tabTitle: i18n.t('org:block network'),
+          tabTitle: i18n.t('cmp:block network'),
           tabKey: 'block-network',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('org:block network'),
-                  desc: i18n.t('org:precautions after network closure'),
+                  title: i18n.t('cmp:block network'),
+                  desc: i18n.t('cmp:precautions after network closure'),
                   children: <BlockNetwork />,
                 },
               ]}
@@ -132,14 +132,14 @@ export const OrgSetting = () => {
       groupKey: 'log',
       tabGroup: [
         {
-          tabTitle: i18n.t('org:audit log'),
+          tabTitle: i18n.t('cmp:audit log'),
           tabKey: 'operation log',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('org:audit log'),
-                  desc: i18n.t('org:Clean up at 3am every day'),
+                  title: i18n.t('cmp:audit log'),
+                  desc: i18n.t('cmp:Clean up at 3am every day'),
                   children: <OperationLogSetting />,
                 },
               ]}

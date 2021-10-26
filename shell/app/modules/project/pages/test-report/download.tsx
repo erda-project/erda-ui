@@ -69,7 +69,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
     <>
       <div className="bg-white rounded p-2">
         <Form className="w-3/5" layout="vertical">
-          <Form.Item label={i18n.t('org:report name')}>
+          <Form.Item label={i18n.t('cmp:report name')}>
             <Input bordered={false} value={data.name} readOnly />
           </Form.Item>
           <Form.Item label={i18n.t('project:iteration')}>

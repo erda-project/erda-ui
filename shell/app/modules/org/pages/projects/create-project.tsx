@@ -172,31 +172,31 @@ const templateArr: ICardProps[] = [
     val: 'DevOps',
     icon: 'CombinedShape',
     description: i18n.t(
-      'org:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.',
+      'cmp:provides functions such as project management, code hub, CI/CD, artifact library and a complete R&D process.',
     ),
     disabled: false,
   },
   {
-    name: i18n.t('org:microservice Observation Project'),
+    name: i18n.t('cmp:microservice Observation Project'),
     val: 'MSP',
     icon: 'zhili',
-    description: i18n.t('org:microservice governance desc'),
+    description: i18n.t('cmp:microservice governance desc'),
     disabled: false,
   },
   {
-    name: i18n.t('org:code hosting project'),
+    name: i18n.t('cmp:code hosting project'),
     val: 'codeHostingProject',
     icon: 'code',
     description: i18n.t(
-      'org:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts',
+      'cmp:used for code repositories, supports multiple repositories and choose to enable CI/CD and artifacts',
     ),
     disabled: true,
   },
   {
-    name: i18n.t('org:agile project'),
+    name: i18n.t('cmp:agile project'),
     val: 'agileProject',
     icon: 'scrum',
-    description: i18n.t('org:support-agile-management'),
+    description: i18n.t('cmp:support-agile-management'),
     disabled: true,
   },
 ];
@@ -311,7 +311,7 @@ const CreationForm = () => {
       {
         getComp: () => (
           <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
-            {i18n.t('org:need to configure project cluster resources')}
+            {i18n.t('cmp:need to configure project cluster resources')}
           </Checkbox>
         ),
       },

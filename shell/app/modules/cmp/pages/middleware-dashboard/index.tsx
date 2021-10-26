@@ -123,13 +123,13 @@ const MiddlewareDashboard = () => {
       render: (value: string) => <span className="hover-text font-bold">{value}</span>,
     },
     {
-      title: i18n.t('org:cluster'),
+      title: i18n.t('cmp:cluster'),
       dataIndex: 'clusterName',
       key: 'clusterName',
       width: '20%',
     },
     {
-      title: i18n.t('org:project'),
+      title: i18n.t('cmp:project'),
       dataIndex: 'projectName',
       key: 'projectName',
       width: '20%',
@@ -158,7 +158,7 @@ const MiddlewareDashboard = () => {
         a.nodes - b.nodes,
     },
     {
-      title: i18n.t('org:number of references'),
+      title: i18n.t('cmp:number of references'),
       dataIndex: 'attachCount',
       key: 'attachCount',
       width: 200,

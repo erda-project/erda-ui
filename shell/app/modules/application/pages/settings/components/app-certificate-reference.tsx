@@ -45,7 +45,7 @@ const CertMap = {
         rules,
       },
       {
-        label: `Debug keystore ${i18n.t('org:alias')}`,
+        label: `Debug keystore ${i18n.t('cmp:alias')}`,
         name: ['androidKey', 'debugKeyStoreAlias'],
         initialValue: 'Debug-keystore-alias',
         rules,
@@ -69,7 +69,7 @@ const CertMap = {
         rules,
       },
       {
-        label: `Release keystore ${i18n.t('org:alias')}`,
+        label: `Release keystore ${i18n.t('cmp:alias')}`,
         name: ['androidKey', 'releaseKeyStoreAlias'],
         initialValue: 'Release-keystore-alias',
         rules,
