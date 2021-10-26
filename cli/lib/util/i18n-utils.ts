@@ -18,7 +18,7 @@ import writeLocale from './i18n-extract';
 import ora from 'ora';
 import { remove, unset } from 'lodash';
 import chalk from 'chalk';
-// import inquirer from 'inquirer';
+import inquirer from 'inquirer';
 import { walker } from './file-walker';
 import {
   externalLocalePathMap,
@@ -28,7 +28,6 @@ import {
   internalSrcDirMap,
   Obj,
 } from './i18n-config';
-import inquirer from 'inquirer';
 
 export const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 export const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
@@ -372,14 +371,16 @@ export const switchSourceFileNs = (
   let newContent = content;
   let changed = false;
   toSwitchWords.forEach((wordWithNs) => {
-    const matchText = `i18n.t('${wordWithNs}')`;
-    const matchTextRegex = new RegExp(`i18n\\.t\\('${wordWithNs}'\\)`, 'g');
-    if (newContent.includes(matchText)) {
+    const matchTextRegex = new RegExp(`i18n\\.t\\('${wordWithNs}'([^)]*)\\)`, 'g');
+    let match = matchTextRegex.exec(content);
+    while (match) {
       changed = true;
+      const matchedText = match[0];
       const wordArr = wordWithNs.split(':');
       const enWord = wordArr.length === 2 ? wordArr[1] : wordWithNs;
       const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
-      newContent = newContent.replace(matchTextRegex, `i18n.t('${newWordText}')`);
+      newContent = newContent.replace(matchedText, `i18n.t('${newWordText}'${match[1] || ''})`);
+      match = matchTextRegex.exec(content);
     }
   });
   if (changed) {
@@ -476,7 +477,7 @@ export const batchSwitchNamespace = async (originalResources: Obj<[Obj<Obj>, Obj
           targetNsContent[enWord] = currentNsContent[enWord];
         }
       }
-      unset(currentNsContent, enWord);
+      currentNs !== targetNs && unset(currentNsContent, enWord);
 
       // replace en.json content
       const targetNsEnContent = originalResources[targetModuleName][1][targetNs];
@@ -484,7 +485,7 @@ export const batchSwitchNamespace = async (originalResources: Obj<[Obj<Obj>, Obj
       if (!targetNsEnContent[enWord]) {
         targetNsEnContent[enWord] = currentNsEnContent[enWord];
       }
-      unset(currentNsEnContent, enWord);
+      currentNs !== targetNs && unset(currentNsEnContent, enWord);
     }
     for (const moduleName of Object.keys(originalResources)) {
       const [zhResource, enResource] = originalResources[moduleName];
