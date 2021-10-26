@@ -22,7 +22,8 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 // const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 const gitRevisionPlugin = new GitRevisionPlugin();
-const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
+const banner = `module: shell
+commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
 branch: ${gitRevisionPlugin.branch()}
 buildTime: ${new Date().toLocaleString('zh-CH', { timeZone: 'Asia/Shanghai' })}
 buildBy: ${os.userInfo().username}`;

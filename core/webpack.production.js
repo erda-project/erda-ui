@@ -18,7 +18,8 @@ const webpack = require('webpack');
 const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
 const gitRevisionPlugin = new GitRevisionPlugin();
-const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
+const banner = `module: core
+commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
 branch: ${gitRevisionPlugin.branch()}
 buildTime: ${new Date().toLocaleString('zh-CH', { timeZone: 'Asia/Shanghai' })}
 buildBy: ${os.userInfo().username}`;
