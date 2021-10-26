@@ -83,7 +83,9 @@ const ClusterNodes = () => {
         }}
       />
       <Drawer visible={visible} getContainer={false} onClose={closeDetail} width={'80%'} maskClosable>
-        {visible && detailData ? <PureClusterPodDetail clusterName={clusterName} {...detailData} /> : null}
+        {visible && detailData ? (
+          <PureClusterPodDetail className="mt-4" clusterName={clusterName} {...detailData} />
+        ) : null}
       </Drawer>
     </>
   );

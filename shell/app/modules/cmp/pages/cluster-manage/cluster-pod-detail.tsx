@@ -50,10 +50,11 @@ interface IProps {
   podId: string;
   podName: string;
   namespace: string;
+  className?: string;
 }
 
 export const PureClusterPodDetail = (props: IProps) => {
-  const { clusterName, podId, podName, namespace } = props;
+  const { clusterName, podId, podName, namespace, className = '' } = props;
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   const globalVariable = React.useMemo(
     () => ({
@@ -100,7 +101,7 @@ export const PureClusterPodDetail = (props: IProps) => {
   const inParams = { clusterName, podId };
 
   return (
-    <div>
+    <div className={className}>
       <div>
         <DiceConfigPage
           scenarioType={'cmp-dashboard-podDetail'}
