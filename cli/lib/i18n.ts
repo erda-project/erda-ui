@@ -15,59 +15,50 @@ import fs from 'fs';
 import inquirer from 'inquirer';
 import chalk from 'chalk';
 import ora from 'ora';
-import { walker } from './util/file-walker';
-import { doTranslate } from './util/google-translate';
-import { logInfo, logSuccess } from './util/log';
-import { getCwdModuleName } from './util/env';
+import { doTranslate as googleTranslate } from './util/google-translate';
+import { doTranslate as yuodaoTranslate } from './util/youdao-translate';
+import { logInfo, logSuccess, logError } from './util/log';
+import { isCwdInRoot } from './util/env';
 import {
-  batchSwitchNamespace,
-  extractUntranslatedWords,
-  findMatchFolder,
+  extractAllI18nD,
   prepareEnv,
-  restoreSourceFile,
   tempFilePath,
   tempTranslatedWordPath,
+  writeI18nTToSourceFile,
   writeLocaleFiles,
+  batchSwitchNamespace,
 } from './util/i18n-utils';
+import path from 'path';
+import { Obj } from './util/i18n-config';
 
-export default async ({ workDir: _workDir, switchNs }: { workDir: string; switchNs?: boolean }) => {
+const configFilePath = path.resolve(process.cwd(), '.translaterc');
+
+export default async ({ isSwitchNs = false, isExternal = false }: { isSwitchNs?: boolean; isExternal?: boolean }) => {
   try {
-    const workDir = _workDir || process.cwd();
-    let ns = getCwdModuleName({ currentPath: workDir });
-    const localePath = findMatchFolder('locales', workDir)!;
+    // check if cwd erda ui root
+    isCwdInRoot({ alert: true });
 
-    const [originalZhResource, originalEnResource] = prepareEnv(localePath, !!switchNs);
+    const originalResources = prepareEnv(isExternal, isSwitchNs);
     // switch namespace
-    if (switchNs) {
-      await batchSwitchNamespace(workDir, localePath, originalZhResource, originalEnResource);
+    if (isSwitchNs) {
+      if (isExternal) {
+        logError('external module has only one namespace, no need to switch');
+        return;
+      }
+      await batchSwitchNamespace(originalResources);
       return;
     }
 
     const untranslatedWords = new Set<string>(); // Untranslated collection
-    const translatedWords: { [k: string]: string } = {};
+    const translatedWords: Obj = {};
 
     // extract all i18n.d
-    const extractPromise = new Promise<void>((resolve) => {
-      // first step is to find out the content that needs to be translated, and assign the content to two parts: untranslated and translated
-      walker({
-        root: workDir,
-        dealFile: (...args) => {
-          extractUntranslatedWords.apply(null, [
-            ...args,
-            originalZhResource,
-            translatedWords,
-            untranslatedWords,
-            resolve,
-          ]);
-        },
-      });
-    });
-    await extractPromise;
+    await extractAllI18nD(isExternal, originalResources, translatedWords, untranslatedWords);
 
     if (untranslatedWords.size === 0 && Object.keys(translatedWords).length === 0) {
       logInfo('sort current locale files & remove unused translation');
-      await writeLocaleFiles(localePath, workDir);
-      logInfo('No content needs to be translated is found, program exits');
+      await writeLocaleFiles(isExternal);
+      logInfo('no content needs to be translated is found, program exits');
       return;
     }
 
@@ -85,12 +76,14 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
 
     const tempWords = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
     const _untranslatedWords = Object.keys(tempWords);
-    // The second step is to call Google Translate to automatically translate
+    // The second step is to call google/youdao Translate to automatically translate
     if (_untranslatedWords.length > 0) {
-      const spinner = ora('Google automatic translating...').start();
-      await doTranslate();
+      const isUsingYoudao = fs.existsSync(configFilePath);
+      const spinner = ora(`${isUsingYoudao ? 'youdao' : 'google'} automatic translating...`).start();
+      const translateMethod = isUsingYoudao ? yuodaoTranslate : googleTranslate;
+      await translateMethod();
       spinner.stop();
-      logSuccess('Google automatic translation completed');
+      logSuccess('automatic translation completed');
       // The third step, manually checks whether there is a problem with the translation
       await inquirer.prompt({
         name: 'confirm',
@@ -102,48 +95,41 @@ export default async ({ workDir: _workDir, switchNs }: { workDir: string; switch
     }
 
     const reviewedZhMap = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
-    let translatedMap: null | { [k: string]: string } = null;
+    let translatedMap: Obj = {};
 
     if (Object.keys(translatedWords).length > 0) {
       translatedMap = JSON.parse(fs.readFileSync(tempTranslatedWordPath, { encoding: 'utf-8' }));
     }
+    let ns = '';
     // The fourth step is to specify the namespace
-    if (reviewedZhMap && Object.keys(reviewedZhMap).length > 0) {
-      const { inputNs } = await inquirer.prompt({
-        name: 'inputNs',
-        type: 'input',
-        message: `The default namespace of the current module is ${chalk.red(
-          ns,
-        )}, If you need special designation, please type in and press enter, otherwise press enter directly`,
+    if (reviewedZhMap && Object.keys(reviewedZhMap).length && !isExternal) {
+      const nsList = Object.values(originalResources).reduce<string[]>((acc, resource) => {
+        const [zhResource] = resource;
+        return acc.concat(Object.keys(zhResource));
+      }, []);
+      const { targetNs } = await inquirer.prompt({
+        name: 'targetNs',
+        type: 'list',
+        message: 'please select the new namespace name',
+        choices: nsList.map((_ns) => ({ value: _ns, name: _ns })),
       });
-      if (inputNs) {
-        // eslint-disable-next-line require-atomic-updates
-        ns = inputNs;
-      }
-      logInfo('Specify the namespace as', ns);
+      logInfo('Specify the namespace as', targetNs);
+      ns = targetNs;
     }
     // The fifth step, i18n.t writes back the source file
-    const generatePromise = new Promise((resolve) => {
-      walker({
-        root: workDir,
-        dealFile: (...args) => {
-          restoreSourceFile.apply(null, [...args, ns, translatedMap, reviewedZhMap, resolve]);
-        },
-      });
-    });
-    const spinner = ora('Replacing source file...').start();
-    await generatePromise;
+    const spinner = ora('replacing source file...').start();
+    await writeI18nTToSourceFile(isExternal, ns, translatedMap, reviewedZhMap);
     spinner.stop();
     logSuccess('replacing source file completed');
     // The sixth step, write the locale file
     if (reviewedZhMap && Object.keys(reviewedZhMap).length > 0) {
-      await writeLocaleFiles(localePath, workDir);
+      await writeLocaleFiles(isExternal);
     }
   } finally {
-    if (!switchNs) {
+    if (!isSwitchNs) {
       fs.unlinkSync(tempFilePath);
       fs.unlinkSync(tempTranslatedWordPath);
-      logSuccess('Clearing of temporary files completed');
+      logSuccess('clearing of temporary files completed');
     }
   }
   logInfo('i18n process is completed, see you👋');

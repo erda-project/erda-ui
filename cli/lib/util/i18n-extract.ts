@@ -16,6 +16,15 @@ import path from 'path';
 import fs from 'fs';
 import { merge, differenceWith, isEqual, unset } from 'lodash';
 import { logError } from './log';
+import {
+  internalModules,
+  internalLocalePathMap,
+  internalSrcDirMap,
+  externalModules,
+  externalSrcDirMap,
+  externalLocalePathMap,
+  Obj,
+} from './i18n-config';
 
 interface Resource {
   [k: string]: { [k: string]: string };
@@ -30,6 +39,7 @@ let localePath: null | string = null;
 let ns: string[] = [];
 let originalZhJson = {};
 let originalEnJson = {};
+let isExternal = false;
 
 // See options at https://github.com/i18next/i18next-scanner#options
 const options = () => ({
@@ -58,12 +68,12 @@ const options = () => ({
 });
 
 function sortObject(unordered: Resource | { [k: string]: string }) {
-  const ordered: Resource | { [k: string]: string } = {};
+  const ordered: Resource | Obj = {};
   Object.keys(unordered)
     .sort()
     .forEach((key) => {
       if (typeof unordered[key] === 'object') {
-        (ordered as Resource)[key] = sortObject(unordered[key] as { [k: string]: string }) as { [k: string]: string };
+        (ordered as Resource)[key] = sortObject(unordered[key] as Obj) as Obj;
       } else {
         ordered[key] = unordered[key];
       }
@@ -72,7 +82,7 @@ function sortObject(unordered: Resource | { [k: string]: string }) {
 }
 
 function customFlush(done: () => void) {
-  const enToZhWords: { [k: string]: string } = zhWordMap;
+  const enToZhWords: Obj = zhWordMap;
   // @ts-ignore api
   const { resStore } = this.parser;
   // @ts-ignore api
@@ -124,49 +134,118 @@ function customFlush(done: () => void) {
             if (zh) {
               obj[k] = zh;
             } else {
-              logError(`zh.json中存在未被翻译的内容${k}，请手动处理`);
+              logError(`there is untranslated content in zh.json:${k}, please handle it manually`);
             }
           }
         });
       });
     }
 
-    fs.writeFile(filePath, JSON.stringify(output, null, resource.jsonIndent), 'utf8', (writeErr) => {
-      if (writeErr) return logError(`写入locale:${lng} 文件错误`, writeErr);
-    });
+    if (isExternal) {
+      fs.writeFile(filePath, `${JSON.stringify(output, null, resource.jsonIndent)}\n`, 'utf8', (writeErr) => {
+        if (writeErr) return logError(`writing failed:${lng}`, writeErr);
+      });
+    } else {
+      const { default: defaultContent, ...restContent } = output;
+      fs.writeFile(filePath, `${JSON.stringify(restContent, null, resource.jsonIndent)}\n`, 'utf8', (writeErr) => {
+        if (writeErr) return logError(`writing failed:${lng}`, writeErr);
+      });
+      const defaultLocalePath = `${internalLocalePathMap.default}/${lng}.json`;
+
+      fs.writeFile(
+        defaultLocalePath,
+        `${JSON.stringify({ default: defaultContent }, null, resource.jsonIndent)}\n`,
+        'utf8',
+        (writeErr) => {
+          if (writeErr) return logError(`writing failed:${lng}`, writeErr);
+        },
+      );
+    }
   });
 
   done();
 }
 
-export default (
-  resolve: (value: void | PromiseLike<void>) => void,
-  srcDir: string,
-  _localePath: string,
-  switchNs?: boolean,
-) => {
-  const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!**/node_modules/**'];
-  if (srcDir.endsWith('shell')) {
-    paths.push(`!${srcDir}/snippets/*.{js,jsx,ts,tsx}`);
+export default async (resolve: (value: void | PromiseLike<void>) => void, _isExternal = false) => {
+  try {
+    const jsonContent = fs.readFileSync(path.resolve(process.cwd(), './temp-zh-words.json'), 'utf8');
+    zhWordMap = JSON.parse(jsonContent);
+  } catch (error) {
+    zhWordMap = {};
   }
-  localePath = _localePath;
-  if (!switchNs) {
-    zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
+
+  if (!_isExternal) {
+    // handle internal modules
+    for (const moduleName of internalModules) {
+      const srcDirs = internalSrcDirMap[moduleName];
+      const paths = srcDirs.map((srcDir) => `${srcDir}/**/*.{js,jsx,ts,tsx}`);
+      paths.push('!**/node_modules/**');
+      paths.push('!**/__tests__/**');
+
+      localePath = internalLocalePathMap[moduleName];
+      const targetLocalePath = internalLocalePathMap[moduleName];
+      const zhJsonPath = `${targetLocalePath}/zh.json`;
+      const enJsonPath = `${targetLocalePath}/en.json`;
+      let content = fs.readFileSync(zhJsonPath, 'utf8');
+      originalZhJson = JSON.parse(content);
+      content = fs.readFileSync(enJsonPath, 'utf8');
+      originalEnJson = JSON.parse(content);
+
+      const defaultLocalePath = internalLocalePathMap.default;
+      const defaultZhJsonPath = `${defaultLocalePath}/zh.json`;
+      const defaultEnJsonPath = `${defaultLocalePath}/en.json`;
+      content = fs.readFileSync(defaultZhJsonPath, 'utf8');
+      originalZhJson = merge(originalZhJson, JSON.parse(content));
+      content = fs.readFileSync(defaultEnJsonPath, 'utf8');
+      originalEnJson = merge(originalEnJson, JSON.parse(content));
+
+      ns = Object.keys(originalZhJson);
+
+      const promise = new Promise<void>((_resolve) => {
+        vfs
+          .src(paths)
+          .pipe(scanner(options(), undefined, customFlush))
+          .pipe(vfs.dest('./'))
+          .on('end', () => {
+            _resolve();
+          });
+      });
+      // eslint-disable-next-line no-await-in-loop
+      await promise;
+    }
+  } else {
+    isExternal = true;
+    // handle external modules
+    for (const moduleName of externalModules) {
+      const srcDirs = externalSrcDirMap[moduleName];
+      const paths = srcDirs.map((srcDir) => `${srcDir}/**/*.{js,jsx,ts,tsx}`);
+      paths.push('!**/node_modules/**');
+      paths.push('!**/__tests__/**');
+
+      localePath = externalLocalePathMap[moduleName];
+      const targetLocalePath = externalLocalePathMap[moduleName];
+      const zhJsonPath = `${targetLocalePath}/zh.json`;
+      const enJsonPath = `${targetLocalePath}/en.json`;
+      let content = fs.readFileSync(zhJsonPath, 'utf8');
+      originalZhJson = JSON.parse(content);
+      content = fs.readFileSync(enJsonPath, 'utf8');
+      originalEnJson = JSON.parse(content);
+
+      ns = Object.keys(originalZhJson);
+
+      const promise = new Promise<void>((_resolve) => {
+        vfs
+          .src(paths)
+          .pipe(scanner(options(), undefined, customFlush))
+          .pipe(vfs.dest('./'))
+          .on('end', () => {
+            _resolve();
+          });
+      });
+      // eslint-disable-next-line no-await-in-loop
+      await promise;
+    }
   }
-  const zhJsonPath = `${localePath}/zh.json`;
-  const enJsonPath = `${localePath}/en.json`;
-  let content = fs.readFileSync(zhJsonPath, 'utf8');
-  originalZhJson = JSON.parse(content);
-  content = fs.readFileSync(enJsonPath, 'utf8');
-  originalEnJson = JSON.parse(content);
 
-  ns = Object.keys(originalZhJson);
-
-  vfs
-    .src(paths)
-    .pipe(scanner(options(), undefined, customFlush))
-    .pipe(vfs.dest('./'))
-    .on('end', () => {
-      resolve && resolve();
-    });
+  resolve();
 };

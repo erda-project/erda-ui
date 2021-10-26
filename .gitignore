@@ -33,6 +33,7 @@ yarn-error.log
 
 */.local-pack
 *.env
+*.translaterc
 
 shell/app/mf-modules.js
 shell/sourcemap

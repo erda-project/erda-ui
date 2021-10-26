@@ -13,13 +13,24 @@
 
 import fs from 'fs';
 import path from 'path';
-import { logError, logInfo, logSuccess, logWarn } from './log';
+import { logInfo, logSuccess, logWarn, logError } from './log';
 import writeLocale from './i18n-extract';
 import ora from 'ora';
 import { remove, unset } from 'lodash';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { walker } from './file-walker';
+import {
+  externalLocalePathMap,
+  externalModuleNamespace,
+  externalSrcDirMap,
+  internalLocalePathMap,
+  internalSrcDirMap,
+  Obj,
+} from './i18n-config';
+
+export const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
+export const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
 
 /**
  * find folder which name matches folderName under workDir
@@ -49,40 +60,30 @@ export const findMatchFolder = (folderName: string, workDir: string): string | n
   return targetPath;
 };
 
-export const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
-export const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
-
 /**
- * create temp files and check whether exists locale files
+ * create temp files and collect all related locale file contents
  */
-export const prepareEnv = (localePath: string | null, switchNs: boolean) => {
-  let zhResource: { [k: string]: { [k: string]: string } } = {};
-  let enResource: { [k: string]: { [k: string]: string } } = {};
-  if (!localePath) {
-    logError('Please make sure that the [locales] folder exists in the running directory (can be nested)');
-    throw Error('no locales folder');
-  }
+export const prepareEnv = (isExternal: boolean, switchNs: boolean) => {
+  let zhResource: Obj<Obj> = {};
+  let enResource: Obj<Obj> = {};
   if (!switchNs && !fs.existsSync(tempFilePath)) {
     fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
   }
   if (!switchNs && !fs.existsSync(tempTranslatedWordPath)) {
     fs.writeFileSync(tempTranslatedWordPath, JSON.stringify({}, null, 2), 'utf8');
   }
-  const zhJsonPath = `${localePath}/zh.json`;
-  const enJsonPath = `${localePath}/en.json`;
-  if (fs.existsSync(zhJsonPath)) {
-    const content = fs.readFileSync(zhJsonPath, 'utf8');
-    zhResource = JSON.parse(content);
-  } else {
-    fs.writeFileSync(zhJsonPath, JSON.stringify({}, null, 2), 'utf8');
-  }
-  if (fs.existsSync(enJsonPath)) {
-    const content = fs.readFileSync(enJsonPath, 'utf8');
-    enResource = JSON.parse(content);
-  } else {
-    fs.writeFileSync(enJsonPath, JSON.stringify({}, null, 2), 'utf8');
-  }
-  return [zhResource, enResource];
+  const localeMap = isExternal ? externalLocalePathMap : internalLocalePathMap;
+  const localePaths = Object.values(localeMap);
+  const originalLocaleResources = localePaths.reduce<Obj<[Obj<Obj>, Obj<Obj>]>>((acc, localePath) => {
+    const zhJsonPath = `${localePath}/zh.json`;
+    const enJsonPath = `${localePath}/en.json`;
+    zhResource = JSON.parse(fs.readFileSync(zhJsonPath, 'utf8'));
+    enResource = JSON.parse(fs.readFileSync(enJsonPath, 'utf8'));
+    const moduleName = Object.keys(localeMap).find((key) => localeMap[key] === localePath);
+    acc[moduleName!] = [zhResource, enResource];
+    return acc;
+  }, {});
+  return originalLocaleResources;
 };
 
 /**
@@ -90,16 +91,12 @@ export const prepareEnv = (localePath: string | null, switchNs: boolean) => {
  * @param localePath locale path to translate
  * @param workDir work directory
  */
-export const writeLocaleFiles = async (localePath: string, workDir: string, switchNs?: boolean) => {
-  const localePromise = new Promise<void>((resolve) => {
-    if (fs.existsSync(path.resolve(`${workDir}/src`))) {
-      writeLocale(resolve, path.resolve(`${workDir}/src`), localePath, switchNs);
-    } else {
-      writeLocale(resolve, workDir, localePath, switchNs);
-    }
+export const writeLocaleFiles = async (isExternal: boolean) => {
+  const promise = new Promise<void>((resolve) => {
+    writeLocale(resolve, isExternal);
   });
-  const loading = ora('Writing locale file...').start();
-  await localePromise;
+  const loading = ora('writing locale file...').start();
+  await promise;
   loading.stop();
   logSuccess('write locale file completed');
 };
@@ -110,9 +107,9 @@ export const writeLocaleFiles = async (localePath: string, workDir: string, swit
  */
 export const filterTranslationGroup = (
   toTranslateEnWords: string[],
-  zhResource: { [k: string]: { [k: string]: string } },
+  zhResource: Obj<Obj>,
   untranslatedWords: Set<string>,
-  translatedWords: { [k: string]: string },
+  translatedWords: Obj,
 ) => {
   const notTranslatedWords = [...toTranslateEnWords]; // The English collection of the current document that needs to be translated
   // Traverse namespaces of zh.json to see if there is any English that has been translated
@@ -134,6 +131,46 @@ export const filterTranslationGroup = (
 
 const i18nDRegex = /i18n\.d\(["'](.+?)["']\)/g;
 
+export const extractAllI18nD = async (
+  isExternal: boolean,
+  originalResource: Obj<[Obj<Obj>, Obj<Obj>]>,
+  translatedWords: Obj,
+  untranslatedWords: Set<string>,
+) => {
+  const dirMap = isExternal ? externalSrcDirMap : internalSrcDirMap;
+  const promises = Object.values(dirMap)
+    .flat()
+    .map((srcPath) => {
+      return new Promise<void>((resolve) => {
+        const moduleName = Object.keys(dirMap).find((key) => dirMap[key].includes(srcPath));
+        const [zhResource] = originalResource[moduleName!];
+        // first step is to find out the content that needs to be translated, and assign the content to two parts: untranslated and translated
+        walker({
+          root: srcPath,
+          dealFile: (...args) => {
+            extractUntranslatedWords.apply(null, [...args, zhResource, translatedWords, untranslatedWords, resolve]);
+          },
+        });
+      });
+    });
+  await Promise.all(promises);
+
+  // After all files are traversed, notTranslatedWords is written to temp-zh-words in its original format
+  if (untranslatedWords.size > 0) {
+    const enMap: Obj = {};
+    untranslatedWords.forEach((word) => {
+      enMap[word] = '';
+    });
+    fs.writeFileSync(tempFilePath, JSON.stringify(enMap, null, 2), 'utf8');
+    logSuccess(`Finish writing to the temporary file ${chalk.green('[temp-zh-words.json]')}`);
+  }
+  // translatedWords write to [temp-translated-words.json]
+  if (Object.keys(translatedWords).length > 0) {
+    fs.writeFileSync(tempTranslatedWordPath, JSON.stringify(translatedWords, null, 2), 'utf8');
+    logSuccess(`Finish writing to the temporary file ${chalk.green('[temp-translated-words.json]')}`);
+  }
+};
+
 /**
  * extract i18n.d and write filtered content to two temp files
  * @param content raw file content
@@ -148,8 +185,8 @@ export const extractUntranslatedWords = (
   content: string,
   filePath: string,
   isEnd: boolean,
-  zhResource: { [k: string]: { [k: string]: string } },
-  translatedWords: { [k: string]: string },
+  zhResource: Obj<Obj>,
+  translatedWords: Obj,
   untranslatedWords: Set<string>,
   resolve: (value: void | PromiseLike<void>) => void,
 ) => {
@@ -165,7 +202,7 @@ export const extractUntranslatedWords = (
     }
     match = i18nDRegex.exec(content);
   }
-  if (!isEnd && toTransEnglishWords.length === 0) {
+  if (!isEnd && !toTransEnglishWords.length) {
     return;
   }
 
@@ -177,22 +214,44 @@ export const extractUntranslatedWords = (
     translatedWords,
   );
   if (isEnd) {
-    // After all files are traversed, notTranslatedWords is written to temp-zh-words in its original format
-    if (untranslatedWords.size > 0) {
-      const enMap: { [k: string]: string } = {};
-      untranslatedWords.forEach((word) => {
-        enMap[word] = '';
-      });
-      fs.writeFileSync(tempFilePath, JSON.stringify(enMap, null, 2), 'utf8');
-      logSuccess(`Finish writing to the temporary file ${chalk.green('[temp-zh-words.json]')}`);
-    }
-    // translatedWords write to [temp-translated-words.json]
-    if (Object.keys(translatedWords).length > 0) {
-      fs.writeFileSync(tempTranslatedWordPath, JSON.stringify(translatedWords, null, 2), 'utf8');
-      logSuccess(`Finish writing to the temporary file ${chalk.green('[temp-translated-words.json]')}`);
-    }
     resolve();
   }
+};
+
+/**
+ * i18n.d => i18n.t for all source files
+ * @param isExternal is external module
+ * @param ns target namespace
+ * @param translatedMap is translated resource
+ * @param reviewedZhMap is newly translated resource
+ */
+export const writeI18nTToSourceFile = async (
+  isExternal: boolean,
+  ns: string,
+  translatedMap: Obj,
+  reviewedZhMap: Obj,
+) => {
+  const dirMap = isExternal ? externalSrcDirMap : internalSrcDirMap;
+  const promises = Object.values(dirMap)
+    .flat()
+    .map((srcPath) => {
+      let namespace = ns;
+      if (isExternal) {
+        const moduleName = Object.keys(dirMap).find((name) => dirMap[name].includes(srcPath));
+        namespace = externalModuleNamespace[moduleName!];
+      }
+
+      const generatePromise = new Promise((resolve) => {
+        walker({
+          root: srcPath,
+          dealFile: (...args) => {
+            restoreSourceFile.apply(null, [...args, namespace, translatedMap, reviewedZhMap, resolve]);
+          },
+        });
+      });
+      return generatePromise;
+    });
+  await Promise.all(promises);
 };
 
 /**
@@ -200,6 +259,9 @@ export const extractUntranslatedWords = (
  * @param content raw file content
  * @param filePath file path with extension
  * @param isEnd is traverse done
+ * @param ns is target namespace
+ * @param translatedMap is translated resource
+ * @param reviewedZhMap is newly translated resource
  * @param resolve resolver of promise
  */
 export const restoreSourceFile = (
@@ -207,8 +269,8 @@ export const restoreSourceFile = (
   filePath: string,
   isEnd: boolean,
   ns: string,
-  translatedMap: { [k: string]: string },
-  reviewedZhMap: { [k: string]: string },
+  translatedMap: Obj,
+  reviewedZhMap: Obj,
   resolve: (value: void | PromiseLike<void>) => void,
 ) => {
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
@@ -247,14 +309,15 @@ export const restoreSourceFile = (
   }
 };
 
-const i18nRRegex = /i18n\.r\(["'](.+?)["']\)/g;
+const i18nRRegex = /i18n\.r\(["'](.+?)["']([^)]*)\)/g;
 
 /**
- * extract i18n.r content
+ * extract i18n.r content and replace it with i18n.t
  * @param content raw file content
  * @param filePath file path
  * @param isEnd is traverse done
  * @param ns is target namespace
+ * @param toSwitchWords is words waiting to switch
  * @param resolve promise resolver
  */
 export const extractPendingSwitchContent = (
@@ -279,7 +342,7 @@ export const extractPendingSwitchContent = (
       const wordArr = matchedText.split(':');
       const enWord = wordArr.length === 2 ? wordArr[1] : matchedText;
       const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
-      replacedText = replacedText.replace(match[0], `i18n.t('${newWordText}')`);
+      replacedText = replacedText.replace(match[0], `i18n.t('${newWordText}'${match[2] || ''})`);
       changed = true;
     }
     match = i18nRRegex.exec(content);
@@ -297,7 +360,7 @@ export const extractPendingSwitchContent = (
 };
 
 /**
- * restore raw file i18n.d => i18n.t with namespace
+ * switch raw file i18n.t => i18n.t with namespace
  * @param content raw file content
  * @param filePath file path with extension
  * @param isEnd is traverse done
@@ -319,14 +382,16 @@ export const switchSourceFileNs = (
   let newContent = content;
   let changed = false;
   toSwitchWords.forEach((wordWithNs) => {
-    const matchText = `i18n.t('${wordWithNs}')`;
-    const matchTextRegex = new RegExp(`i18n\\.t\\('${wordWithNs}'\\)`, 'g');
-    if (newContent.includes(matchText)) {
+    const matchTextRegex = new RegExp(`i18n\\.t\\('${wordWithNs}'([^)]*)\\)`, 'g');
+    let match = matchTextRegex.exec(content);
+    while (match) {
       changed = true;
+      const matchedText = match[0];
       const wordArr = wordWithNs.split(':');
       const enWord = wordArr.length === 2 ? wordArr[1] : wordWithNs;
       const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
-      newContent = newContent.replace(matchTextRegex, `i18n.t('${newWordText}')`);
+      newContent = newContent.replace(matchedText, `i18n.t('${newWordText}'${match[1] || ''})`);
+      match = matchTextRegex.exec(content);
     }
   });
   if (changed) {
@@ -337,57 +402,77 @@ export const switchSourceFileNs = (
   }
 };
 
+const getNamespaceModuleName = (originalResources: Obj<[Obj<Obj>, Obj<Obj>]>, currentNs: string) => {
+  let result = null;
+  Object.entries(originalResources).some(([moduleName, content]) => {
+    const [zhResource] = content;
+    if (zhResource[currentNs]) {
+      result = moduleName;
+      return true;
+    }
+    return false;
+  });
+  return result;
+};
+
 /**
  * batch switch namespace
- * @param workDir work directory
- * @param localePath locale path
- * @param zhResource original zh.json content
- * @param enResource original en.json content
+ * @param originalResources original locale content
  */
-export const batchSwitchNamespace = async (
-  workDir: string,
-  localePath: string,
-  zhResource: { [k: string]: { [k: string]: string } },
-  enResource: { [k: string]: { [k: string]: string } },
-) => {
+export const batchSwitchNamespace = async (originalResources: Obj<[Obj<Obj>, Obj<Obj>]>) => {
   const toSwitchWords = new Set<string>();
-  const nsList = Object.keys(zhResource);
+  const nsList = Object.values(originalResources).reduce<string[]>((acc, resource) => {
+    const [zhResource] = resource;
+    return acc.concat(Object.keys(zhResource));
+  }, []);
   const { targetNs } = await inquirer.prompt({
     name: 'targetNs',
     type: 'list',
     message: 'Please select the new namespace name',
     choices: nsList.map((ns) => ({ value: ns, name: ns })),
   });
-  if (!targetNs) {
-    logWarn('no input namespace found. program exit');
-    return;
-  }
   // extract all i18n.r
-  const extractPromise = new Promise<void>((resolve) => {
-    walker({
-      root: workDir,
-      dealFile: (...args) => {
-        extractPendingSwitchContent.apply(null, [...args, targetNs, toSwitchWords, resolve]);
-      },
-    });
-  });
-  await extractPromise;
-  if (toSwitchWords.size) {
-    const restorePromise = new Promise<void>((resolve) => {
-      walker({
-        root: workDir,
-        dealFile: (...args) => {
-          switchSourceFileNs.apply(null, [...args, targetNs, toSwitchWords, resolve]);
-        },
+  const promises = Object.values(internalSrcDirMap)
+    .flat()
+    .map((srcDir) => {
+      return new Promise<void>((resolve) => {
+        walker({
+          root: srcDir,
+          dealFile: (...args) => {
+            extractPendingSwitchContent.apply(null, [...args, targetNs, toSwitchWords, resolve]);
+          },
+        });
       });
     });
-    await restorePromise;
+  await Promise.all(promises);
+  if (toSwitchWords.size) {
+    const restorePromises = Object.values(internalSrcDirMap)
+      .flat()
+      .map((srcDir) => {
+        return new Promise<void>((resolve) => {
+          walker({
+            root: srcDir,
+            dealFile: (...args) => {
+              switchSourceFileNs.apply(null, [...args, targetNs, toSwitchWords, resolve]);
+            },
+          });
+        });
+      });
+    await Promise.all(restorePromises);
+    // restore locale files
     for (const wordWithNs of toSwitchWords) {
       const wordArr = wordWithNs.split(':');
       const [currentNs, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
+      const currentModuleName = getNamespaceModuleName(originalResources, currentNs);
+      const targetModuleName = getNamespaceModuleName(originalResources, targetNs);
+      if (!currentModuleName || !targetModuleName) {
+        logError(`${currentModuleName} or ${targetModuleName} does not exist in locale files`);
+        return;
+      }
+
       // replace zh.json content
-      const targetNsContent = zhResource[targetNs];
-      const currentNsContent = zhResource[currentNs];
+      const targetNsContent = originalResources[targetModuleName][0][targetNs];
+      const currentNsContent = originalResources[currentModuleName][0][currentNs];
       if (!targetNsContent[enWord] || targetNsContent[enWord] === currentNsContent[enWord]) {
         targetNsContent[enWord] = currentNsContent[enWord];
       } else {
@@ -403,20 +488,24 @@ export const batchSwitchNamespace = async (
           targetNsContent[enWord] = currentNsContent[enWord];
         }
       }
-      unset(currentNsContent, enWord);
+      currentNs !== targetNs && unset(currentNsContent, enWord);
 
-      // replace zh.json content
-      const targetNsEnContent = enResource[targetNs];
-      const currentNsEnContent = enResource[currentNs];
+      // replace en.json content
+      const targetNsEnContent = originalResources[targetModuleName][1][targetNs];
+      const currentNsEnContent = originalResources[currentModuleName][1][currentNs];
       if (!targetNsEnContent[enWord]) {
         targetNsEnContent[enWord] = currentNsEnContent[enWord];
       }
-      unset(currentNsEnContent, enWord);
+      currentNs !== targetNs && unset(currentNsEnContent, enWord);
     }
-    fs.writeFileSync(`${localePath}/zh.json`, JSON.stringify(zhResource, null, 2), 'utf8');
-    fs.writeFileSync(`${localePath}/en.json`, JSON.stringify(enResource, null, 2), 'utf8');
+    for (const moduleName of Object.keys(originalResources)) {
+      const [zhResource, enResource] = originalResources[moduleName];
+      const localePath = internalLocalePathMap[moduleName];
+      fs.writeFileSync(`${localePath}/zh.json`, JSON.stringify(zhResource, null, 2), 'utf8');
+      fs.writeFileSync(`${localePath}/en.json`, JSON.stringify(enResource, null, 2), 'utf8');
+    }
     logInfo('sort current locale files & remove unused translation');
-    await writeLocaleFiles(localePath, workDir, true);
+    await writeLocaleFiles(false);
     logSuccess('switch namespace done.');
   } else {
     logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);

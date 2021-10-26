@@ -82,12 +82,11 @@ program
 program
   .command('i18n')
   .description('translate words in work dir')
-  .option('--work-dir <workDir>', 'work directory')
   .option('--switch', 'batch switch namespace')
+  .option('--external', 'handle external module i18n')
   .action(async (options) => {
-    const { workDir: _workDir, switch: switchNs } = options;
-    const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
-    i18n({ workDir, switchNs });
+    const { switch: switchNs, external } = options;
+    i18n({ isSwitchNs: switchNs, isExternal: external });
   });
 
 program
