@@ -263,10 +263,12 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     [pageProtocol],
   );
 
-  return (
+  return showLoading ? (
     <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''} overflow-auto`}>
       {Content}
     </Spin>
+  ) : (
+    Content
   );
 });
 
