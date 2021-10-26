@@ -75,25 +75,25 @@ const convertType = (type: string) => {
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
-      retry: _formData?.config?.retry || 2,
+      retry: _formData.config?.retry || 2,
       bodyType:
-        _formData?.config?.body?.type === 'application/json' || _formData?.config?.body?.type === 'text/plain'
+        _formData.config?.body?.type === 'application/json' || _formData.config?.body?.type === 'text/plain'
           ? 'raw'
-          : _formData?.config?.body?.type,
-      frequency: _formData?.config?.interval || TIME_LIMITS[0],
-      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData?.config?.body || { content: '', type: 'none' },
-      headers: _formData?.config?.headers || {},
-      url: _formData?.config?.url || '',
-      query: qs.parseUrl(_formData?.config?.url || '')?.query,
-      condition: _formData?.config?.triggering || [
+          : _formData.config?.body?.type,
+      frequency: _formData.config?.interval || TIME_LIMITS[0],
+      apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
+      body: _formData.config?.body || { content: '', type: 'none' },
+      headers: _formData.config?.headers || {},
+      url: _formData.config?.url || '',
+      query: qs.parseUrl(_formData.config?.url || '')?.query,
+      condition: _formData.config?.triggering || [
         {
           key: 'http_code',
           operate: '>=',
           value: 400,
         },
       ],
-      textOrJson: convertType(_formData?.config?.body?.type),
+      textOrJson: convertType(_formData.config?.body?.type),
     };
   } else {
     return {
@@ -174,13 +174,11 @@ const AddModal = (props: IProps) => {
   };
 
   const formatBody = () => {
-    if (JSON.parse(body?.content)) {
-      const jsonObj = JSON.parse(body.content);
-      body.content = JSON.stringify(jsonObj, null, 2);
+    try {
+      body.content = JSON.stringify(JSON.parse(body.content), null, 2);
       updater.body({ ...body });
-    } else {
-      return;
-    }
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
   };
 
   const setUrlParams = (queryConfig: Obj) => {
@@ -334,8 +332,7 @@ const AddModal = (props: IProps) => {
             <Tabs
               onChange={(key: string) => {
                 if (key === '2' && bodyType === 'raw' && textOrJson === 'text') {
-                  headers['Content-Type'] = 'text/plain';
-                  updater.headers({ ...headers });
+                  updater.headers({ ...headers, 'Content-Type': 'text/plain' });
                 }
                 if (key === '2' && bodyType === 'none') {
                   updater.headers({});
