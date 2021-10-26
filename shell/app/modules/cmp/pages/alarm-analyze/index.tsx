@@ -62,7 +62,7 @@ const AlarmAnalyze = () => {
       <div className="org-cluster-filter">
         <ClusterSelector clusterList={orgClusterList} onChange={changeCluster} />
       </div>
-      <Row>
+      <Row gutter={[20, 20]}>
         <Col span={24}>
           <AlarmTrendChart
             query={{
@@ -73,8 +73,6 @@ const AlarmAnalyze = () => {
             shouldLoad={shouldLoad}
           />
         </Col>
-      </Row>
-      <Row>
         <Col span={12} style={{ paddingRight: 10 }}>
           <AlarmTypeProportionChart
             query={{

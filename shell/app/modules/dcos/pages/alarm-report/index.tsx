@@ -13,15 +13,16 @@
 
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { IF } from 'common';
+import { IF, CardContainer } from 'common';
 import { Row, Col } from 'antd';
 import { MonitorChartNew } from 'charts';
-import { ChartContainer } from 'charts/utils';
 import { ALARM_REPORT_CHART_MAP } from 'app/modules/dcos/common/config';
 import topChartList from './config/topChartList';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import alarmReportStore from 'cmp/stores/alarm-report';
+
+const { ChartContainer } = CardContainer;
 
 const AlarmReport = () => {
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);

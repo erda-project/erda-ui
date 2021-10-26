@@ -15,8 +15,10 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import { compact } from 'lodash';
 import { MonitorChartNew } from 'charts';
-import { ChartContainer } from 'charts/utils';
+import { CardContainer } from 'common';
 import { chartConfig } from './config';
+
+const { ChartContainer } = CardContainer;
 
 const Chart = (props) => {
   const { data, timeSpan } = props;

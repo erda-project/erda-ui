@@ -16,10 +16,9 @@ import i18n from 'i18n';
 import { find, compact, isEmpty, reduce, map, filter } from 'lodash';
 import classNames from 'classnames';
 import { Row, Col, Spin } from 'antd';
-import { Holder, TimeSelector } from 'common';
+import { Holder, TimeSelector, CardContainer } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { MonitorChartNew } from 'charts';
-import { ChartContainer } from 'charts/utils';
 import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'core/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -34,6 +33,8 @@ interface IProps {
   setActiveKey: (key: string) => void;
   getMachineStatus: (hosts: string[]) => Promise<any[]>;
 }
+
+const { ChartContainer } = CardContainer;
 
 const ResourcesChartList = ({ clusters, machineList, setActiveKey }: IProps) => {
   const [chartList, serviceList, jobList] = clusterDashboardStore.useStore((s) => [
