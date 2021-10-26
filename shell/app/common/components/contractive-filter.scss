@@ -154,12 +154,10 @@
 
   .option-group {
     .option-group-content {
-      overflow: hidden auto;
-      max-height: 1000px;
-      transition: max-height 0.1s ease-in-out;
-
+      height: auto;
+      overflow: hidden;
       &.no-expand {
-        max-height: 0;
+        height: 0;
       }
     }
 
