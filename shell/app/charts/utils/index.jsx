@@ -12,31 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import classnames from 'classnames';
 import { getFormatter } from './formatter';
 import './regist';
 
 import './index.scss';
 
 export { getFormatter } from './formatter';
-
-export const ChartContainer = ({ title = null, operation = null, className = '', children = null }) => {
-  const containerClass = classnames({
-    'chart-container': true,
-    className,
-  });
-  return (
-    <div className={containerClass}>
-      {title || operation ? (
-        <div>
-          <h2 className="chart-title font-medium">{title}</h2>
-          {operation}
-        </div>
-      ) : null}
-      {children}
-    </div>
-  );
-};
 
 export const genMarkLine = (markLines, { unitType, decimal }) => {
   if (!markLines.length) {

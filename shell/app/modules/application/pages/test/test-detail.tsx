@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Row, Col, Select, Table, Input } from 'antd';
-import { Holder } from 'common';
+import { Holder, CardContainer } from 'common';
 import classNames from 'classnames';
 import { secondsToTime } from 'common/utils';
 import { map, filter, uniqueId, find, debounce, get, floor } from 'lodash';
 import React from 'react';
 import TestPieChart from './test-pie-chart';
-import { ChartContainer } from 'charts/utils';
 import i18n from 'i18n';
 import './test-detail.scss';
 
@@ -48,6 +47,7 @@ interface ITest {
 
 const { Option } = Select;
 const { Search } = Input;
+const { ChartContainer } = CardContainer;
 
 const convertTestCases = (tests: ITest[]) => map(tests, (item) => ({ ...item, key: uniqueId() }));
 
