@@ -17,7 +17,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { doTranslate as googleTranslate } from './util/google-translate';
 import { doTranslate as yuodaoTranslate } from './util/youdao-translate';
-import { logInfo, logSuccess } from './util/log';
+import { logInfo, logSuccess, logError } from './util/log';
 import { isCwdInRoot } from './util/env';
 import {
   extractAllI18nD,
@@ -26,8 +26,10 @@ import {
   tempTranslatedWordPath,
   writeI18nTToSourceFile,
   writeLocaleFiles,
+  batchSwitchNamespace,
 } from './util/i18n-utils';
 import path from 'path';
+import { Obj } from './util/i18n-config';
 
 const configFilePath = path.resolve(process.cwd(), '.translaterc');
 
@@ -38,13 +40,17 @@ export default async ({ isSwitchNs = false, isExternal = false }: { isSwitchNs?:
 
     const originalResources = prepareEnv(isExternal, isSwitchNs);
     // switch namespace
-    if (isSwitchNs && !isExternal) {
-      // await batchSwitchNamespace(originalZhResource, originalEnResource);
+    if (isSwitchNs) {
+      if (isExternal) {
+        logError('external module has only one namespace, no need to switch');
+        return;
+      }
+      await batchSwitchNamespace(originalResources);
       return;
     }
 
     const untranslatedWords = new Set<string>(); // Untranslated collection
-    const translatedWords: { [k: string]: string } = {};
+    const translatedWords: Obj = {};
 
     // extract all i18n.d
     await extractAllI18nD(isExternal, originalResources, translatedWords, untranslatedWords);
@@ -89,7 +95,7 @@ export default async ({ isSwitchNs = false, isExternal = false }: { isSwitchNs?:
     }
 
     const reviewedZhMap = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
-    let translatedMap: { [k: string]: string } = {};
+    let translatedMap: Obj = {};
 
     if (Object.keys(translatedWords).length > 0) {
       translatedMap = JSON.parse(fs.readFileSync(tempTranslatedWordPath, { encoding: 'utf-8' }));

@@ -13,10 +13,10 @@
 
 import fs from 'fs';
 import path from 'path';
-import { logSuccess, logWarn } from './log';
+import { logInfo, logSuccess, logWarn, logError } from './log';
 import writeLocale from './i18n-extract';
 import ora from 'ora';
-import { remove } from 'lodash';
+import { remove, unset } from 'lodash';
 import chalk from 'chalk';
 // import inquirer from 'inquirer';
 import { walker } from './file-walker';
@@ -26,7 +26,9 @@ import {
   externalSrcDirMap,
   internalLocalePathMap,
   internalSrcDirMap,
+  Obj,
 } from './i18n-config';
+import inquirer from 'inquirer';
 
 export const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 export const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
@@ -63,8 +65,8 @@ export const findMatchFolder = (folderName: string, workDir: string): string | n
  * create temp files and check whether exists locale files
  */
 export const prepareEnv = (isExternal: boolean, switchNs: boolean) => {
-  let zhResource: { [k: string]: { [k: string]: string } } = {};
-  let enResource: { [k: string]: { [k: string]: string } } = {};
+  let zhResource: Obj<Obj> = {};
+  let enResource: Obj<Obj> = {};
   if (!switchNs && !fs.existsSync(tempFilePath)) {
     fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
   }
@@ -73,9 +75,7 @@ export const prepareEnv = (isExternal: boolean, switchNs: boolean) => {
   }
   const localeMap = isExternal ? externalLocalePathMap : internalLocalePathMap;
   const localePaths = Object.values(localeMap);
-  const originalLocaleResources = localePaths.reduce<{
-    [k: string]: [{ [k: string]: { [k: string]: string } }, { [k: string]: { [k: string]: string } }];
-  }>((acc, localePath) => {
+  const originalLocaleResources = localePaths.reduce<Obj<[Obj<Obj>, Obj<Obj>]>>((acc, localePath) => {
     const zhJsonPath = `${localePath}/zh.json`;
     const enJsonPath = `${localePath}/en.json`;
     zhResource = JSON.parse(fs.readFileSync(zhJsonPath, 'utf8'));
@@ -108,9 +108,9 @@ export const writeLocaleFiles = async (isExternal: boolean) => {
  */
 export const filterTranslationGroup = (
   toTranslateEnWords: string[],
-  zhResource: { [k: string]: { [k: string]: string } },
+  zhResource: Obj<Obj>,
   untranslatedWords: Set<string>,
-  translatedWords: { [k: string]: string },
+  translatedWords: Obj,
 ) => {
   const notTranslatedWords = [...toTranslateEnWords]; // The English collection of the current document that needs to be translated
   // Traverse namespaces of zh.json to see if there is any English that has been translated
@@ -134,10 +134,8 @@ const i18nDRegex = /i18n\.d\(["'](.+?)["']\)/g;
 
 export const extractAllI18nD = async (
   isExternal: boolean,
-  originalResource: {
-    [k: string]: [{ [k: string]: { [k: string]: string } }, { [k: string]: { [k: string]: string } }];
-  },
-  translatedWords: { [k: string]: string },
+  originalResource: Obj<[Obj<Obj>, Obj<Obj>]>,
+  translatedWords: Obj,
   untranslatedWords: Set<string>,
 ) => {
   const dirMap = isExternal ? externalSrcDirMap : internalSrcDirMap;
@@ -160,7 +158,7 @@ export const extractAllI18nD = async (
 
   // After all files are traversed, notTranslatedWords is written to temp-zh-words in its original format
   if (untranslatedWords.size > 0) {
-    const enMap: { [k: string]: string } = {};
+    const enMap: Obj = {};
     untranslatedWords.forEach((word) => {
       enMap[word] = '';
     });
@@ -188,8 +186,8 @@ export const extractUntranslatedWords = (
   content: string,
   filePath: string,
   isEnd: boolean,
-  zhResource: { [k: string]: { [k: string]: string } },
-  translatedWords: { [k: string]: string },
+  zhResource: Obj<Obj>,
+  translatedWords: Obj,
   untranslatedWords: Set<string>,
   resolve: (value: void | PromiseLike<void>) => void,
 ) => {
@@ -224,8 +222,8 @@ export const extractUntranslatedWords = (
 export const writeI18nTToSourceFile = async (
   isExternal: boolean,
   ns: string,
-  translatedMap: { [k: string]: string },
-  reviewedZhMap: { [k: string]: string },
+  translatedMap: Obj,
+  reviewedZhMap: Obj,
 ) => {
   const dirMap = isExternal ? externalSrcDirMap : internalSrcDirMap;
   const promises = Object.values(dirMap)
@@ -262,8 +260,8 @@ export const restoreSourceFile = (
   filePath: string,
   isEnd: boolean,
   ns: string,
-  translatedMap: { [k: string]: string },
-  reviewedZhMap: { [k: string]: string },
+  translatedMap: Obj,
+  reviewedZhMap: Obj,
   resolve: (value: void | PromiseLike<void>) => void,
 ) => {
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
@@ -392,86 +390,112 @@ export const switchSourceFileNs = (
   }
 };
 
+const getNamespaceModuleName = (originalResources: Obj<[Obj<Obj>, Obj<Obj>]>, currentNs: string) => {
+  let result = null;
+  Object.entries(originalResources).some(([moduleName, content]) => {
+    const [zhResource] = content;
+    if (zhResource[currentNs]) {
+      result = moduleName;
+      return true;
+    }
+    return false;
+  });
+  return result;
+};
+
 /**
  * batch switch namespace
- * @param localePath locale path
- * @param zhResource original zh.json content
- * @param enResource original en.json content
+ * @param originalResources original zh.json content
  */
-// export const batchSwitchNamespace = async (
-//   localePath: string,
-//   zhResource: { [k: string]: { [k: string]: string } },
-//   enResource: { [k: string]: { [k: string]: string } },
-// ) => {
-//   const toSwitchWords = new Set<string>();
-//   const nsList = Object.keys(zhResource);
-//   const { targetNs } = await inquirer.prompt({
-//     name: 'targetNs',
-//     type: 'list',
-//     message: 'Please select the new namespace name',
-//     choices: nsList.map((ns) => ({ value: ns, name: ns })),
-//   });
-//   if (!targetNs) {
-//     logWarn('no input namespace found. program exit');
-//     return;
-//   }
-//   // extract all i18n.r
-//   const extractPromise = new Promise<void>((resolve) => {
-//     walker({
-//       root: workDir,
-//       dealFile: (...args) => {
-//         extractPendingSwitchContent.apply(null, [...args, targetNs, toSwitchWords, resolve]);
-//       },
-//     });
-//   });
-//   await extractPromise;
-//   if (toSwitchWords.size) {
-//     const restorePromise = new Promise<void>((resolve) => {
-//       walker({
-//         root: workDir,
-//         dealFile: (...args) => {
-//           switchSourceFileNs.apply(null, [...args, targetNs, toSwitchWords, resolve]);
-//         },
-//       });
-//     });
-//     await restorePromise;
-//     for (const wordWithNs of toSwitchWords) {
-//       const wordArr = wordWithNs.split(':');
-//       const [currentNs, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
-//       // replace zh.json content
-//       const targetNsContent = zhResource[targetNs];
-//       const currentNsContent = zhResource[currentNs];
-//       if (!targetNsContent[enWord] || targetNsContent[enWord] === currentNsContent[enWord]) {
-//         targetNsContent[enWord] = currentNsContent[enWord];
-//       } else {
-//         // eslint-disable-next-line no-await-in-loop
-//         const confirm = await inquirer.prompt({
-//           name: 'confirm',
-//           type: 'confirm',
-//           message: `${chalk.red(enWord)} has translation in target namespace ${targetNs} with value ${chalk.yellow(
-//             targetNsContent[enWord],
-//           )}, Do you want to override it with ${chalk.yellow(currentNsContent[enWord])}?`,
-//         });
-//         if (confirm) {
-//           targetNsContent[enWord] = currentNsContent[enWord];
-//         }
-//       }
-//       unset(currentNsContent, enWord);
+export const batchSwitchNamespace = async (originalResources: Obj<[Obj<Obj>, Obj<Obj>]>) => {
+  const toSwitchWords = new Set<string>();
+  const nsList = Object.values(originalResources).reduce<string[]>((acc, resource) => {
+    const [zhResource] = resource;
+    return acc.concat(Object.keys(zhResource));
+  }, []);
+  const { targetNs } = await inquirer.prompt({
+    name: 'targetNs',
+    type: 'list',
+    message: 'Please select the new namespace name',
+    choices: nsList.map((ns) => ({ value: ns, name: ns })),
+  });
+  // extract all i18n.r
+  const promises = Object.values(internalSrcDirMap)
+    .flat()
+    .map((srcDir) => {
+      return new Promise<void>((resolve) => {
+        walker({
+          root: srcDir,
+          dealFile: (...args) => {
+            extractPendingSwitchContent.apply(null, [...args, targetNs, toSwitchWords, resolve]);
+          },
+        });
+      });
+    });
+  await Promise.all(promises);
+  if (toSwitchWords.size) {
+    const restorePromises = Object.values(internalSrcDirMap)
+      .flat()
+      .map((srcDir) => {
+        return new Promise<void>((resolve) => {
+          walker({
+            root: srcDir,
+            dealFile: (...args) => {
+              switchSourceFileNs.apply(null, [...args, targetNs, toSwitchWords, resolve]);
+            },
+          });
+        });
+      });
+    await Promise.all(restorePromises);
+    // restore locale files
+    for (const wordWithNs of toSwitchWords) {
+      const wordArr = wordWithNs.split(':');
+      const [currentNs, enWord] = wordArr.length === 2 ? wordArr : ['default', wordWithNs];
+      const currentModuleName = getNamespaceModuleName(originalResources, currentNs);
+      const targetModuleName = getNamespaceModuleName(originalResources, targetNs);
+      if (!currentModuleName || !targetModuleName) {
+        logError(`${currentModuleName} or ${targetModuleName} does not exist in locale files`);
+        return;
+      }
 
-//       // replace zh.json content
-//       const targetNsEnContent = enResource[targetNs];
-//       const currentNsEnContent = enResource[currentNs];
-//       if (!targetNsEnContent[enWord]) {
-//         targetNsEnContent[enWord] = currentNsEnContent[enWord];
-//       }
-//       unset(currentNsEnContent, enWord);
-//     }
-//     fs.writeFileSync(`${localePath}/zh.json`, JSON.stringify(zhResource, null, 2), 'utf8');
-//     fs.writeFileSync(`${localePath}/en.json`, JSON.stringify(enResource, null, 2), 'utf8');
-//     logInfo('sort current locale files & remove unused translation');
-//     await writeLocaleFiles();
-//     logSuccess('switch namespace done.');
-//   } else {
-//     logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
-//   }
-// };
+      // replace zh.json content
+      const targetNsContent = originalResources[targetModuleName][0][targetNs];
+      const currentNsContent = originalResources[currentModuleName][0][currentNs];
+      if (!targetNsContent[enWord] || targetNsContent[enWord] === currentNsContent[enWord]) {
+        targetNsContent[enWord] = currentNsContent[enWord];
+      } else {
+        // eslint-disable-next-line no-await-in-loop
+        const confirm = await inquirer.prompt({
+          name: 'confirm',
+          type: 'confirm',
+          message: `${chalk.red(enWord)} has translation in target namespace ${targetNs} with value ${chalk.yellow(
+            targetNsContent[enWord],
+          )}, Do you want to override it with ${chalk.yellow(currentNsContent[enWord])}?`,
+        });
+        if (confirm) {
+          targetNsContent[enWord] = currentNsContent[enWord];
+        }
+      }
+      unset(currentNsContent, enWord);
+
+      // replace en.json content
+      const targetNsEnContent = originalResources[targetModuleName][1][targetNs];
+      const currentNsEnContent = originalResources[currentModuleName][1][currentNs];
+      if (!targetNsEnContent[enWord]) {
+        targetNsEnContent[enWord] = currentNsEnContent[enWord];
+      }
+      unset(currentNsEnContent, enWord);
+    }
+    for (const moduleName of Object.keys(originalResources)) {
+      const [zhResource, enResource] = originalResources[moduleName];
+      const localePath = internalLocalePathMap[moduleName];
+      fs.writeFileSync(`${localePath}/zh.json`, JSON.stringify(zhResource, null, 2), 'utf8');
+      fs.writeFileSync(`${localePath}/en.json`, JSON.stringify(enResource, null, 2), 'utf8');
+    }
+    logInfo('sort current locale files & remove unused translation');
+    await writeLocaleFiles(false);
+    logSuccess('switch namespace done.');
+  } else {
+    logWarn(`no ${chalk.red('i18n.r')} found in source code. program exit`);
+  }
+};

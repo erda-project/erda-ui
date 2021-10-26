@@ -17,20 +17,24 @@ export const externalModules = ['admin', 'fdp', 'uc'];
 
 export const internalModules = ['shell'];
 
+export interface Obj<T extends any = string> {
+  [k: string]: T;
+}
+
 // all locale path
-export const internalLocalePathMap: { [k: string]: string } = {
+export const internalLocalePathMap: Obj = {
   default: path.resolve(process.cwd(), 'locales'),
   shell: path.resolve(process.cwd(), 'shell', 'app', 'locales'),
 };
 
-export const externalLocalePathMap: { [k: string]: string } = {
+export const externalLocalePathMap: Obj = {
   fdp: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src', 'locales'),
   admin: path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src', 'locales'),
   uc: path.resolve(process.cwd(), 'modules', 'uc', 'src', 'locales'),
 };
 
 // all source code locations
-export const internalSrcDirMap: { [k: string]: string[] } = {
+export const internalSrcDirMap: Obj<string[]> = {
   shell: [
     path.resolve(process.cwd(), 'shell', 'app'),
     path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'cmp'),
@@ -38,14 +42,14 @@ export const internalSrcDirMap: { [k: string]: string[] } = {
   ],
 };
 
-export const externalSrcDirMap: { [k: string]: string[] } = {
+export const externalSrcDirMap: Obj<string[]> = {
   fdp: [path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'fdp', 'src')],
   admin: [path.resolve(process.cwd(), '..', 'erda-ui-enterprise', 'admin', 'src')],
   uc: [path.resolve(process.cwd(), 'modules', 'uc', 'src')],
 };
 
 // external modules only has one namespace
-export const externalModuleNamespace: { [k: string]: string } = {
+export const externalModuleNamespace: Obj = {
   fdp: 'fdp',
   admin: 'admin',
   uc: 'default',

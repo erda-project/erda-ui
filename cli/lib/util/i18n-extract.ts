@@ -23,6 +23,7 @@ import {
   externalModules,
   externalSrcDirMap,
   externalLocalePathMap,
+  Obj,
 } from './i18n-config';
 
 interface Resource {
@@ -67,12 +68,12 @@ const options = () => ({
 });
 
 function sortObject(unordered: Resource | { [k: string]: string }) {
-  const ordered: Resource | { [k: string]: string } = {};
+  const ordered: Resource | Obj = {};
   Object.keys(unordered)
     .sort()
     .forEach((key) => {
       if (typeof unordered[key] === 'object') {
-        (ordered as Resource)[key] = sortObject(unordered[key] as { [k: string]: string }) as { [k: string]: string };
+        (ordered as Resource)[key] = sortObject(unordered[key] as Obj) as Obj;
       } else {
         ordered[key] = unordered[key];
       }
@@ -81,7 +82,7 @@ function sortObject(unordered: Resource | { [k: string]: string }) {
 }
 
 function customFlush(done: () => void) {
-  const enToZhWords: { [k: string]: string } = zhWordMap;
+  const enToZhWords: Obj = zhWordMap;
   // @ts-ignore api
   const { resStore } = this.parser;
   // @ts-ignore api
