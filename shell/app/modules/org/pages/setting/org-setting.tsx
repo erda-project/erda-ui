@@ -20,6 +20,7 @@ import NotifyGroup from 'application/pages/settings/components/app-notify/common
 import memberStore from 'common/stores/org-member';
 import BlockNetwork from 'org/pages/setting/block-network';
 import { OrgInfo } from './org-info';
+import NotifyChannel from './notice-channel';
 import { OperationLogSetting } from './operation-log-setting';
 import { MemberScope } from 'app/common/stores/member-scope';
 import { MemberLabels } from './member-label';
@@ -169,6 +170,20 @@ export const OrgSetting = () => {
           ),
         },
       ],
+    },
+    {
+      tabTitle: i18n.d('通知渠道'),
+      tabKey: 'notifyChannel',
+      content: (
+        <ConfigLayout
+          sectionList={[
+            {
+              title: i18n.d('建立通知渠道设置通知方式'),
+              children: <NotifyChannel />,
+            },
+          ]}
+        />
+      ),
     },
   ];
 
