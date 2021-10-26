@@ -21,24 +21,15 @@ import './page.scss';
 const Page = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
-    return (
-      <React.Fragment>
-        <PageMap.performanceInterval />
-        <PageMap.timeTopN />
-        <PageMap.cpmTopN />
-      </React.Fragment>
-    );
+    return [<PageMap.performanceInterval />, <PageMap.timeTopN />, <PageMap.cpmTopN />];
   };
   const getDetailChart = () => {
     const query = chosenSortItem ? { filter_doc_path: chosenSortItem } : {};
-    return (
-      <React.Fragment>
-        <PageMap.performanceInterval query={query} />
-        <PageMap.pagePerformanceTrends query={query} />
-        {/* <PageMap.pageTopN query={{ key }} /> */}
-        <PageMap.slowTrack query={query} />
-      </React.Fragment>
-    );
+    return [
+      <PageMap.performanceInterval query={query} />,
+      <PageMap.pagePerformanceTrends query={query} />,
+      <PageMap.slowTrack query={query} />,
+    ];
   };
   return (
     <div>
@@ -53,7 +44,13 @@ const Page = () => {
             <PageMap.sortList />
           </div>
         </Col>
-        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
+        <Col span={16}>
+          <Row gutter={[20, 20]}>
+            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
+              <Col span={24}>{item}</Col>
+            ))}
+          </Row>
+        </Col>
       </Row>
     </div>
   );

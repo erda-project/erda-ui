@@ -18,12 +18,7 @@ import ScriptMap from './config/chartMap';
 
 const Script = () => {
   const getAllChart = () => {
-    return (
-      <React.Fragment>
-        <ScriptMap.errorTopN />
-        <ScriptMap.browsersTopN />
-      </React.Fragment>
-    );
+    return [<ScriptMap.errorTopN />, <ScriptMap.browsersTopN />];
   };
 
   return (
@@ -38,7 +33,13 @@ const Script = () => {
             <ScriptMap.sortList />
           </div>
         </Col>
-        <Col span={16}>{getAllChart()}</Col>
+        <Col span={16}>
+          <Row gutter={[20, 20]}>
+            {getAllChart().map((item) => (
+              <Col span={24}>{item}</Col>
+            ))}
+          </Row>
+        </Col>
       </Row>
     </div>
   );

@@ -39,7 +39,7 @@ const { Option } = Select;
 
 export const AutoRefreshStrategy = (props: SelectProps<IRefreshStrategy>) => {
   return (
-    <div className="auto-refresh relative border-all hover:border-primary">
+    <div className="auto-refresh relative border-all hover:border-primary bg-white">
       <Select defaultValue="off" bordered={false} dropdownMatchSelectWidth={false} {...props}>
         <Option key="off" value="off">
           OFF
@@ -342,7 +342,7 @@ const TimeSelect = (props: IProps) => {
         onVisibleChange={updater.visible}
       >
         <div
-          className="time-range cursor-pointer border-all rounded-l flex items-center px-2 hover:border-primary"
+          className="time-range cursor-pointer border-all rounded-l flex items-center px-2 hover:border-primary bg-white"
           onClick={() => {
             updater.visible(true);
           }}
@@ -357,7 +357,7 @@ const TimeSelect = (props: IProps) => {
         defaultValue={refreshStrategy}
         onChange={handleChangeRefreshStrategy}
       />
-      <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary">
+      <div className="manual-refresh flex justify-center items-center w-8 relative border-all rounded-r hover:border-primary bg-white">
         <IconRefresh className="m-0 cursor-pointer" fill="#070A1A" onClick={handleManualRefresh} />
       </div>
     </div>

@@ -44,7 +44,7 @@ const Summary = () => {
             <SummaryMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
+        <Col span={16} className="bg-transparent">
           <SummaryMap.summaryDetail query={query} />
         </Col>
       </Row>

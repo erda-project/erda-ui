@@ -20,22 +20,15 @@ import GeographyMap from './config/chartMap';
 const GeographyChina = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
-    return (
-      <React.Fragment>
-        <GeographyMap.regionalLoadingTime />
-        <GeographyMap.performanceInterval />
-      </React.Fragment>
-    );
+    return [<GeographyMap.regionalLoadingTime />, <GeographyMap.performanceInterval />];
   };
   const getDetailChart = () => {
     const query = chosenSortItem ? { filter_province: chosenSortItem } : {};
-    return (
-      <React.Fragment>
-        <GeographyMap.performanceInterval query={query} />
-        <GeographyMap.pagePerformanceTrends query={query} />
-        <GeographyMap.slowTrack query={query} />
-      </React.Fragment>
-    );
+    return [
+      <GeographyMap.performanceInterval query={query} />,
+      <GeographyMap.pagePerformanceTrends query={query} />,
+      <GeographyMap.slowTrack query={query} />,
+    ];
   };
   return (
     <div>
@@ -49,7 +42,13 @@ const GeographyChina = () => {
             <GeographyMap.sortList />
           </div>
         </Col>
-        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
+        <Col span={16}>
+          <Row gutter={[20, 20]}>
+            {(chosenSortItem ? getDetailChart() : getAllChart()).map((item) => (
+              <Col span={24}>{item}</Col>
+            ))}
+          </Row>
+        </Col>
       </Row>
     </div>
   );

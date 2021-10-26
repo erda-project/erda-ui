@@ -32,6 +32,11 @@
       border-radius: 0;
     }
   }
+
+  .bg-transparent .ec-card-container {
+    background-color: transparent;
+    box-shadow: none;
+  }
 }
 
 .sort-panel {

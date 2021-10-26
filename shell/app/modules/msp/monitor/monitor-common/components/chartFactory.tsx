@@ -15,10 +15,12 @@ import React from 'react';
 import { get, has, isEqual } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { MonitorChartNew, PieChart, MapChart, HollowPieChart } from 'charts';
-import { ChartContainer } from 'charts/utils';
+import { CardContainer } from 'common';
 import monitorChartStore from 'app/modules/msp/monitor/monitor-common/stores/monitorChart';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
+
+const { ChartContainer } = CardContainer;
 
 interface ILoadObj {
   id: number;
