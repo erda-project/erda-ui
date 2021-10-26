@@ -46,7 +46,7 @@ const refTableList = [
     width: 220,
   },
   {
-    title: i18n.t('addonPlatform:deployment details'),
+    title: i18n.t('dop:deployment details'),
     dataIndex: 'applicationId',
     key: 'applicationId',
     align: 'center' as const,

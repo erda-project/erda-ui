@@ -124,13 +124,13 @@ export default () => {
   const getCols = (isHistory: boolean) => {
     const cols: Array<ColumnProps<JVM.ProfileItem>> = [
       {
-        title: i18n.t('addonPlatform:application / service / instance name'),
+        title: i18n.t('dop:application / service / instance name'),
         dataIndex: 'serviceInstanceName',
         key: 'serviceInstanceName',
         render: (_, record) => `${record.applicationName} / ${record.applicationName} / ${record.serviceInstanceName}`,
       },
       {
-        title: i18n.t('addonPlatform:analyze id'),
+        title: i18n.t('dop:analyze id'),
         dataIndex: 'profiling',
         key: 'profiling',
         render: (v) => <Tooltip title={v}>{v}</Tooltip>,
@@ -143,11 +143,11 @@ export default () => {
         render: (v) => {
           return (
             {
-              [ProfileStateMap.PENDING]: i18n.t('addonPlatform:attaching to process'),
-              [ProfileStateMap.RUNNING]: i18n.t('addonPlatform:processing'),
-              [ProfileStateMap.COMPLETED]: i18n.t('addonPlatform:completed'),
-              [ProfileStateMap.FAILED]: i18n.t('addonPlatform:failed'),
-              [ProfileStateMap.TERMINATING]: i18n.t('addonPlatform:terminate'),
+              [ProfileStateMap.PENDING]: i18n.t('dop:attaching to process'),
+              [ProfileStateMap.RUNNING]: i18n.t('dop:processing'),
+              [ProfileStateMap.COMPLETED]: i18n.t('dop:completed'),
+              [ProfileStateMap.FAILED]: i18n.t('dop:failed'),
+              [ProfileStateMap.TERMINATING]: i18n.t('dop:terminate'),
             }[v] || null
           );
         },
@@ -168,7 +168,7 @@ export default () => {
             render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
           }
         : {
-            title: i18n.t('addonPlatform:started at'),
+            title: i18n.t('dop:started at'),
             key: 'startFrom',
             width: 120,
             render: (v) => fromNow(v),
@@ -192,12 +192,12 @@ export default () => {
 
   return (
     <div className="jvm-profile">
-      <Spin spinning={isPending} tip={i18n.t('addonPlatform:attaching to process')}>
+      <Spin spinning={isPending} tip={i18n.t('dop:attaching to process')}>
         <div className="px-5 pt-5 pb-1 mb-5 bg-white border-all">
           <FilterGroup
             list={[
               {
-                label: i18n.t('addonPlatform:select instance'),
+                label: i18n.t('dop:select instance'),
                 name: 'ids',
                 type: 'custom',
                 placeholder: '选择后进行分析',
@@ -207,12 +207,12 @@ export default () => {
             onChange={onChange}
           >
             <Button type="primary" disabled={!idList.length} onClick={startProfile}>
-              {i18n.t('addonPlatform:start analysis')}
+              {i18n.t('dop:start analysis')}
             </Button>
           </FilterGroup>
         </div>
       </Spin>
-      <SimplePanel title={i18n.t('addonPlatform:analyzing')} className="block">
+      <SimplePanel title={i18n.t('dop:analyzing')} className="block">
         <Table
           dataSource={runningList}
           columns={getCols(false)}
@@ -221,7 +221,7 @@ export default () => {
           scroll={{ x: 900 }}
         />
       </SimplePanel>
-      <SimplePanel title={i18n.t('addonPlatform:historical analysis')} className="block mt-5">
+      <SimplePanel title={i18n.t('dop:historical analysis')} className="block mt-5">
         <Table
           dataSource={historyList}
           columns={getCols(true)}

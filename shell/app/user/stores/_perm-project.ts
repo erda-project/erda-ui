@@ -47,7 +47,7 @@ export const projectPerm = {
     role: ['Owner', 'Lead'],
   },
   service: {
-    name: i18n.t('addonPlatform:addon category'),
+    name: i18n.t('dop:addon category'),
     addProjectService: {
       pass: false,
       name: i18n.t('user:add project service'),

@@ -77,7 +77,7 @@ export default () => {
         <div className="left flex justify-between items-center mb-2">
           <Select
             className="mr-3"
-            placeholder={i18n.t('addonPlatform:select instance')}
+            placeholder={i18n.t('dop:select instance')}
             allowClear
             value={instanceId}
             style={{ width: '300px' }}
