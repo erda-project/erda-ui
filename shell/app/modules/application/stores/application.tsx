@@ -152,14 +152,14 @@ const appStore = createStore({
       await call(
         updateAppDetail,
         { values: payload, appId: params.appId },
-        { successMsg: i18n.t('application:modified successfully') },
+        { successMsg: i18n.t('dop:modified successfully') },
       );
       await appStore.effects.getAppDetail(params.appId, true);
     },
     async remove({ call, getParams }) {
       const params = getParams();
       const result = await call(remove, params, {
-        successMsg: i18n.t('application:deleted successfully'),
+        successMsg: i18n.t('dop:deleted successfully'),
         fullResult: true,
       });
       if (result.success) {

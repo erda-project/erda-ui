@@ -44,7 +44,7 @@ const release = createStore({
       return { list, total };
     },
     async updateInfo({ call }, payload: RELEASE.UpdateBody) {
-      await call(updateInfo, payload, { successMsg: i18n.t('application:modified successfully') });
+      await call(updateInfo, payload, { successMsg: i18n.t('dop:modified successfully') });
       const params = { pageNo: 1, pageSize: 10 }; // 修改后的记录会被排序到第一条，故重新请求第一页
       await release.effects.getReleaseList(params);
     },

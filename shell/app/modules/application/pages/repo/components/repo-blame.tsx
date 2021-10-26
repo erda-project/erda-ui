@@ -62,7 +62,7 @@ const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }:
                 <div className="sub-info">
                   <Avatar className="mr-2" name={author.name} />
                   <span className="commit-when mr-4">
-                    {author.name} {i18n.t('application:submitted in')} {fromNow(author.when)}
+                    {author.name} {i18n.t('dop:submitted in')} {fromNow(author.when)}
                   </span>
                   <span
                     className="cursor-copy commit-sha hover-text"
@@ -83,7 +83,7 @@ const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }:
           </Popover>
         </div>
         <span className="info-right">
-          {i18n.t('application:submitted in')} {fromNow(author.when)}
+          {i18n.t('dop:submitted in')} {fromNow(author.when)}
         </span>
       </div>
     </div>

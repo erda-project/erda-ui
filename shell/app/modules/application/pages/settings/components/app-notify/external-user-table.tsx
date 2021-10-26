@@ -34,11 +34,11 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
   const updateEditingExternalUsers = (users: COMMON_NOTIFY.ExternalUserInfo[]) => {
     onChange([]);
     if (every(users, (user) => isEmpty(omit(user, 'uniKey')))) {
-      message.warning(i18n.t('application:add at least one'));
+      message.warning(i18n.t('dop:add at least one'));
       return;
     }
     if (some(users, (user) => !user.username.trim())) {
-      message.warning(i18n.t('application:external username cannot be empty'));
+      message.warning(i18n.t('dop:external username cannot be empty'));
       return;
     }
     onChange(map(users, (user) => JSON.stringify(omit(user, 'uniKey'))));
@@ -81,7 +81,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
 
   const columns = [
     {
-      title: i18n.t('application:user name'),
+      title: i18n.t('dop:user name'),
       dataIndex: 'username',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
@@ -93,7 +93,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       ),
     },
     {
-      title: i18n.t('application:email'),
+      title: i18n.t('dop:email'),
       dataIndex: 'email',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
@@ -105,7 +105,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       ),
     },
     {
-      title: i18n.t('application:mobile'),
+      title: i18n.t('dop:mobile'),
       dataIndex: 'mobile',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input

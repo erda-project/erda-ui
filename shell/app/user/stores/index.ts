@@ -165,11 +165,11 @@ const userStore = createStore({
         return { valid };
       } catch (error) {
         if (error.message && error.message.includes('the network is offline')) {
-          update({ licenseInfo: { valid: false, message: i18n.t('application:failed to fetch license') } });
+          update({ licenseInfo: { valid: false, message: i18n.t('dop:failed to fetch license') } });
           return { valid: false };
         } else {
           // license接口事实不通
-          update({ licenseInfo: { valid: true, message: i18n.t('application:failed to fetch license interface') } });
+          update({ licenseInfo: { valid: true, message: i18n.t('dop:failed to fetch license interface') } });
           return { valid: true, showAlert: true };
         }
       }
@@ -205,10 +205,10 @@ const userStore = createStore({
       return { list: appList, total };
     },
     async pinApp({ call }, appId: number) {
-      await call(pinApp, appId, { successMsg: i18n.t('application:pinned successfully') });
+      await call(pinApp, appId, { successMsg: i18n.t('dop:pinned successfully') });
     },
     async unpinApp({ call }, appId: number) {
-      await call(unpinApp, appId, { successMsg: i18n.t('application:unpinned successfully') });
+      await call(unpinApp, appId, { successMsg: i18n.t('dop:unpinned successfully') });
     },
     /**
      * payload: {

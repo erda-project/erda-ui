@@ -249,13 +249,13 @@ const VariableConfig = ({
       },
     },
     {
-      title: i18n.t('application:type'),
+      title: i18n.t('dop:type'),
       dataIndex: 'type',
       width: 96,
-      render: (text: string) => (text === typeMap.kv ? i18n.t('application:value') : i18n.t('application:file')),
+      render: (text: string) => (text === typeMap.kv ? i18n.t('dop:value') : i18n.t('dop:file')),
     },
     {
-      title: i18n.t('application:remark'),
+      title: i18n.t('dop:remark'),
       dataIndex: 'comment',
       render: (text: string) => (text ? <Tooltip title={text}>{text.slice(0, 30)}</Tooltip> : '-'),
     },
@@ -271,7 +271,7 @@ const VariableConfig = ({
           <div className="table-operations">
             <IF check={canDownload}>
               {encrypt ? (
-                <Tooltip title={i18n.t('application:encrypted files cannot be downloaded')}>
+                <Tooltip title={i18n.t('dop:encrypted files cannot be downloaded')}>
                   <a className="table-operations-btn disabled">{i18n.t('download')}</a>
                 </Tooltip>
               ) : (
@@ -287,7 +287,7 @@ const VariableConfig = ({
             </IF>
             <IF check={canDelete && !record.isFromDefault}>
               <Popconfirm
-                title={`${i18n.t('application:confirm to delete configuration')}？`}
+                title={`${i18n.t('dop:confirm to delete configuration')}？`}
                 onConfirm={() =>
                   deleteConfig({
                     key: record.key,
@@ -367,7 +367,7 @@ const VariableConfig = ({
             return (
               <Panel header={ENV_I18N[env]} key={env}>
                 <Button type="primary" className="mb-3" ghost onClick={() => openModal(null, env)}>
-                  {i18n.t('application:add variable')}
+                  {i18n.t('dop:add variable')}
                 </Button>
                 {configType === configTypeMap.deploy && (
                   <>
@@ -419,7 +419,7 @@ const VariableConfig = ({
           }}
         />
         {isJsonInvalid && (
-          <span className="text-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
+          <span className="text-danger">{i18n.t('dop:the current input content is invalid JSON')}</span>
         )}
       </Modal>
       <Modal

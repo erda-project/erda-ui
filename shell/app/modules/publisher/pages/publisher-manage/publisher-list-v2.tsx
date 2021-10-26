@@ -47,11 +47,11 @@ export const publisherTabs = () => {
   return [
     {
       key: 'MOBILE',
-      name: i18n.t('application:mobile app'),
+      name: i18n.t('dop:mobile app'),
     },
     {
       key: 'LIBRARY',
-      name: i18n.t('application:library/module'),
+      name: i18n.t('dop:library/module'),
     },
   ];
 };

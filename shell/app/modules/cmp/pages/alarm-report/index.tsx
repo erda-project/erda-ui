@@ -151,7 +151,7 @@ export default () => {
         ),
       },
       {
-        label: i18n.t('application:notification method'),
+        label: i18n.t('dop:notification method'),
         name: ['notifyTarget', 'groupType'],
         type: 'select',
         initialValue: get(editingTask, 'notifyTarget.groupType'),
@@ -259,7 +259,7 @@ export default () => {
                 handleEdit(record);
               }}
             >
-              {i18n.t('application:edit')}
+              {i18n.t('dop:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -268,7 +268,7 @@ export default () => {
                 handleDelete(id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('dop:delete')}
             </span>
             <span
               onClick={(e) => {

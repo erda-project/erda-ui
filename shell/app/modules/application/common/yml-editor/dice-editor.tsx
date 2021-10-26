@@ -105,7 +105,7 @@ import { IYmlEditorProps } from './index';
 // //         // @ts-ignore
 // //         item = {
 // //           icon: 'qj',
-// //           title: i18n.t('application:deploy global variables'),
+// //           title: i18n.t('dop:deploy global variables'),
 // //           lineTo: ['all'],
 // //           data: currentItem,
 // //           allowMove: false,
@@ -132,7 +132,7 @@ import { IYmlEditorProps } from './index';
 // //             // @ts-ignore
 // //             group.push({
 // //               icon: 'wfw',
-// //               title: i18n.t('application:microService'),
+// //               title: i18n.t('dop:microService'),
 // //               data: currentItem,
 // //               name: service.name,
 // //               lineTo: service.depends_on,
@@ -204,7 +204,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //       loadedContent = initYmlDefaultFields(loadedContent === 'undefined' ? emptyObj : loadedContent);
   //       updater.originJsonContent(loadedContent);
   //     } catch (e) {
-  //       notify('error', `${i18n.t('application:yml format error')}：${e.message}`);
+  //       notify('error', `${i18n.t('dop:yml format error')}：${e.message}`);
   //       updater.jsonContent(defaultJson);
   //     }
   //   }, [content, updater]);
@@ -269,7 +269,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //           name: 'message',
   //           type: 'textArea',
   //           itemProps: {
-  //             placeholder: i18n.t('application:submit information'),
+  //             placeholder: i18n.t('dop:submit information'),
   //             autoSize: { minRows: 3, maxRows: 7 },
   //             maxLength: 200,
   //           },
@@ -281,7 +281,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //           initialValue: branch,
   //           options: (info.branches || []).map((a: any) => ({ name: a, value: a })),
   //           itemProps: {
-  //             placeholder: i18n.t('application:submit branch'),
+  //             placeholder: i18n.t('dop:submit branch'),
   //             disabled: true,
   //           },
   //         },
@@ -298,10 +298,10 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //         />
   //         <div className="p-4">
   //           <Button type="primary" className="mr-3" onClick={checkForm}>
-  //             {i18n.t('application:save')}
+  //             {i18n.t('dop:save')}
   //           </Button>
   //           <Button onClick={cancelEditing}>
-  //             {i18n.t('application:cancel')}
+  //             {i18n.t('dop:cancel')}
   //           </Button>
   //         </div>
   //       </>
@@ -321,7 +321,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
 
   //   return (
   //     <div>
-  //       <FileContainer className="new-yml-editor flex flex-col justify-center full-spin-height" name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={ops}>
+  //       <FileContainer className="new-yml-editor flex flex-col justify-center full-spin-height" name={editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName} ops={ops}>
   //         <Spin spinning={loading.commit}>
   //           <YmlChart
   //             data={displayData}

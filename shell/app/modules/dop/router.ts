@@ -57,7 +57,7 @@ export default function getDopRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'my-approve/:approvalType',
-              breadcrumbName: i18n.t('dop:approved'),
+              breadcrumbName: i18n.t('dop:my approval'),
               tabs: approvalTabs,
               ignoreTabQuery: true,
               routes: [

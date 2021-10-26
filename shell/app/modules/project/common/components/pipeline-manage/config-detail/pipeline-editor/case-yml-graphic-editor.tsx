@@ -45,7 +45,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
     scope,
   } = props;
 
-  let title = i18n.t('application:new node');
+  let title = i18n.t('dop:new node');
   if (!isCreate) {
     title = `${editing ? i18n.t('edit') : i18n.t('common:view')} ${get(propsNodeData, 'alias') || ''}`;
   }

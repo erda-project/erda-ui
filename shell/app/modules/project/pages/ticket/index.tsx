@@ -226,7 +226,7 @@ const Ticket = () => {
 
   const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
-      title: i18n.t('application:ticket title'),
+      title: i18n.t('dop:ticket title'),
       dataIndex: 'title',
       render: (val: string, record: ISSUE.Issue) => {
         return (
@@ -427,7 +427,7 @@ const Ticket = () => {
       <div className="top-button-group">
         <WithAuth pass={ticketPerm.create.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.drawerVisible(true)}>
-            {i18n.t('application:add ticket')}
+            {i18n.t('dop:add ticket')}
           </Button>
         </WithAuth>
       </div>

@@ -109,10 +109,10 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
       <span className="add-on-info">
         <div className="add-on-info-name">
           <span className="display-name">{addon.displayName}</span>
-          {addon.instanceId ? <span className="tag-default">{i18n.t('application:instance')}</span> : null}
+          {addon.instanceId ? <span className="tag-default">{i18n.t('dop:instance')}</span> : null}
           {reselect ? (
             <a onClick={reselectFunc} className="reselect">
-              {i18n.t('application:reselect')}
+              {i18n.t('dop:reselect')}
             </a>
           ) : null}
         </div>
@@ -200,8 +200,8 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
           showIcon
           message={
             editing
-              ? i18n.t('application:the current instance does not exist, please add it again!')
-              : i18n.t('application:yml-addon-not-exist-tip')
+              ? i18n.t('dop:the current instance does not exist, please add it again!')
+              : i18n.t('dop:yml-addon-not-exist-tip')
           }
           type="error"
         />
@@ -217,7 +217,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
           onChange={this.searchInputChange}
           value={searchValue}
           className="add-on-input"
-          placeholder={`${i18n.t('application:please choose')} Add-on`}
+          placeholder={`${i18n.t('dop:please choose')} Add-on`}
         />
       </React.Fragment>
     );
@@ -310,16 +310,16 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     const name = (
       <Item
         name="alias"
-        label={i18n.t('application:name')}
+        label={i18n.t('dop:name')}
         initialValue={nameValue}
         rules={[
           {
             required: true,
-            message: i18n.t('application:please enter a name'),
+            message: i18n.t('dop:please enter a name'),
           },
         ]}
       >
-        <Input autoFocus disabled={this.isEditing()} placeholder={i18n.t('application:please enter a name')} />
+        <Input autoFocus disabled={this.isEditing()} placeholder={i18n.t('dop:please enter a name')} />
       </Item>
     );
 
@@ -331,14 +331,14 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         rules={[
           {
             required: true,
-            message: i18n.t('application:please select the version'),
+            message: i18n.t('dop:please select the version'),
           },
         ]}
       >
         <Select
           disabled={this.isEditing()}
           className="w-full"
-          placeholder={i18n.t('application:please select the version')}
+          placeholder={i18n.t('dop:please select the version')}
           onSelect={() => setFieldsValue?.({ plan: undefined })}
         >
           {selectedAddonVersions.map((v: string) => (
@@ -369,12 +369,12 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     const plan = (
       <Item
         name="plan"
-        label={i18n.t('application:configuration')}
+        label={i18n.t('dop:configuration')}
         initialValue={convertAddonPlan(planValue)}
         rules={[
           {
             required: true,
-            message: i18n.t('application:please select configuration'),
+            message: i18n.t('dop:please select configuration'),
           },
         ]}
       >
@@ -396,10 +396,10 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         {editing ? (
           <Item className="add-on-form-btn-group">
             <Button className="mr-2" onClick={cancel}>
-              {i18n.t('application:cancel')}
+              {i18n.t('dop:cancel')}
             </Button>
             <Button type="primary" onClick={this.submitAddon}>
-              {i18n.t('application:save')}
+              {i18n.t('dop:save')}
             </Button>
           </Item>
         ) : null}

@@ -127,22 +127,22 @@ export const actionMap = {
 
 export const issueStateMap = {
   EPIC: {
-    OPEN: i18n.t('application:pending'),
+    OPEN: i18n.t('dop:pending'),
     WORKING: i18n.t('dop:processing'),
     DONE: i18n.t('dop:completed'),
   },
   TASK: {
-    OPEN: i18n.t('application:pending'),
+    OPEN: i18n.t('dop:pending'),
     WORKING: i18n.t('dop:processing'),
     DONE: i18n.t('dop:completed'),
   },
   REQUIREMENT: {
-    OPEN: i18n.t('application:pending'),
+    OPEN: i18n.t('dop:pending'),
     WORKING: i18n.t('dop:processing'),
     DONE: i18n.t('dop:completed'),
   },
   BUG: {
-    OPEN: i18n.t('application:pending'),
+    OPEN: i18n.t('dop:pending'),
     WORKING: i18n.t('dop:processing'),
     WONTFIX: i18n.t("project:won't fix"),
     REOPEN: i18n.t('project:reopen'),

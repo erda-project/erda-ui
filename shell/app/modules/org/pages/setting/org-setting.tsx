@@ -37,7 +37,7 @@ export const OrgSetting = () => {
 
   const dataSource = [
     {
-      groupTitle: i18n.t('application:general settings'),
+      groupTitle: i18n.t('dop:general settings'),
       groupKey: 'common',
       tabGroup: [
         {
@@ -153,13 +153,13 @@ export const OrgSetting = () => {
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:notification group'),
+          tabTitle: i18n.t('dop:notification group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:organize notification groups to set up notifications'),
                   children: (
                     <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'org', scopeId: `${orgId}` }} />
                   ),

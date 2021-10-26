@@ -56,14 +56,14 @@ export const projectPerm = {
     viewService: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   iteration: {
     name: i18n.t('project:sprint'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
     },
     operation: {
@@ -81,7 +81,7 @@ export const projectPerm = {
     name: i18n.t('requirement'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
     },
     batchOperation: {
@@ -96,12 +96,12 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
       role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
     },
     delete: {
       pass: false,
-      name: i18n.t('application:delete'),
+      name: i18n.t('dop:delete'),
       role: ['Owner', 'PM', 'PD', 'Creator'],
     },
     updateStatus: {
@@ -129,7 +129,7 @@ export const projectPerm = {
     name: i18n.t('project:milestone'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
     },
     create: {
@@ -139,12 +139,12 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
       role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
     },
     delete: {
       pass: false,
-      name: i18n.t('application:delete'),
+      name: i18n.t('dop:delete'),
       role: ['Owner', 'PM', 'PD', 'Creator'],
     },
     updateStatus: {
@@ -162,7 +162,7 @@ export const projectPerm = {
     name: i18n.t('task'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
     },
     batchOperation: {
@@ -177,12 +177,12 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
       role: ['Owner', 'Lead', 'QA', 'Creator', 'Assignee', 'PM', 'PD', 'Dev'],
     },
     delete: {
       pass: false,
-      name: i18n.t('application:delete'),
+      name: i18n.t('dop:delete'),
       role: ['Owner', 'Lead', 'Creator'],
     },
     updateStatus: {
@@ -210,12 +210,12 @@ export const projectPerm = {
     name: i18n.t('bug'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
     },
     delete: {
       pass: false,
-      name: i18n.t('application:delete'),
+      name: i18n.t('dop:delete'),
       role: ['Owner', 'Lead', 'PM', 'QA', 'Creator'],
     },
     export: {
@@ -235,7 +235,7 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
       role: ['Owner', 'PM', 'QA', 'Creator', 'Assignee', 'Lead', 'PD', 'Dev'],
     },
     updateStatus: {
@@ -245,7 +245,7 @@ export const projectPerm = {
     },
     closeBug: {
       pass: false,
-      name: i18n.t('application:close'),
+      name: i18n.t('dop:close'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator'],
     },
     switchType: {
@@ -268,12 +268,12 @@ export const projectPerm = {
     },
     editProjectMember: {
       pass: false,
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
       role: ['Owner', 'Lead', 'PM'],
     },
     removeProjectMember: {
       pass: false,
-      name: i18n.t('application:delete'),
+      name: i18n.t('dop:delete'),
       role: ['Owner', 'Lead', 'PM'],
     },
     showAuthorize: {
@@ -319,7 +319,7 @@ export const projectPerm = {
     viewSetting: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   ticket: {
@@ -327,7 +327,7 @@ export const projectPerm = {
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Reporter', 'Guest'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
     create: {
       pass: false,
@@ -337,7 +337,7 @@ export const projectPerm = {
     edit: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
     },
     updateStatus: {
       pass: false,
@@ -347,7 +347,7 @@ export const projectPerm = {
     delete: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
-      name: i18n.t('application:delete'),
+      name: i18n.t('dop:delete'),
     },
   },
   apiManage: {
@@ -356,7 +356,7 @@ export const projectPerm = {
       name: i18n.t('API market'),
       read: {
         pass: false,
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
         role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
       },
       edit: {
@@ -399,17 +399,17 @@ export const projectPerm = {
       name: i18n.t('access management'),
       read: {
         pass: false,
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
         role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
       },
       edit: {
         pass: false,
-        name: i18n.t('application:edit'),
+        name: i18n.t('dop:edit'),
         role: ['Owner', 'Lead', 'PM'],
       },
       delete: {
         pass: false,
-        name: i18n.t('application:delete'),
+        name: i18n.t('dop:delete'),
         role: ['Owner', 'Lead', 'PM'],
       },
       approve: {
@@ -424,7 +424,7 @@ export const projectPerm = {
     viewAppList: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   backLog: {
@@ -432,7 +432,7 @@ export const projectPerm = {
     viewBackLog: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   testManage: {
@@ -440,7 +440,7 @@ export const projectPerm = {
     viewTest: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   dashboard: {
@@ -448,7 +448,7 @@ export const projectPerm = {
     viewDashboard: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   resource: {
@@ -456,7 +456,7 @@ export const projectPerm = {
     viewResource: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   issue: {
@@ -464,7 +464,7 @@ export const projectPerm = {
     viewIssue: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   dataBank: {
@@ -474,7 +474,7 @@ export const projectPerm = {
       view: {
         pass: false,
         role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops'],
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
       },
     },
     configData: {
@@ -482,16 +482,16 @@ export const projectPerm = {
       view: {
         pass: false,
         role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops'],
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
       },
     },
   },
   pipeline: {
-    name: i18n.t('application:pipeline'),
+    name: i18n.t('dop:pipeline'),
     view: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   milestone: {
@@ -499,7 +499,7 @@ export const projectPerm = {
     view: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Ops', 'Support'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   microService: {

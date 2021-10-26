@@ -56,12 +56,12 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
 
   const drawerProps = editing
     ? {
-        title: i18n.t('application:inputs configuration'),
+        title: i18n.t('dop:inputs configuration'),
         width: '80%',
         maskClosable: false,
       }
     : {
-        title: i18n.t('application:inputs form'),
+        title: i18n.t('dop:inputs form'),
         width: '40%',
         maskClosable: true,
       };
@@ -148,9 +148,7 @@ export const ymlDataToFormData = (data: PIPELINE.IPipelineInParams[], val: Obj =
     const component = get(find(typeMapping, { type }), 'component') || type;
     let labelTip = desc;
     if (_defaultVal !== null && _defaultVal !== undefined && value === _defaultVal) {
-      labelTip = `${
-        inConfig ? i18n.t('application:default value comes from the environment configuration') : ''
-      }; ${desc}`;
+      labelTip = `${inConfig ? i18n.t('dop:default value comes from the environment configuration') : ''}; ${desc}`;
     }
     if (type === 'boolean' && _defaultVal !== true) _defaultVal = false;
     if (type === 'int') _defaultVal = _defaultVal === null ? undefined : isNaN(+_defaultVal) ? undefined : +_defaultVal;

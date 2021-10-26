@@ -50,11 +50,11 @@ const ReleaseDetailEdit = (props: IProps) => {
       getComp: () => version ?? '--',
     },
     {
-      label: i18n.t('application:branch'),
+      label: i18n.t('dop:branch'),
       getComp: () => labels.gitBranch,
     },
     {
-      label: i18n.t('application:submit id'),
+      label: i18n.t('dop:submit id'),
       getComp: () => (
         <GotoCommit commitId={labels.gitCommitId} projectId={projectId} appId={applicationId} length={6} />
       ),
@@ -64,7 +64,7 @@ const ReleaseDetailEdit = (props: IProps) => {
       showInfo: true,
     },
     {
-      label: i18n.t('application:operator'),
+      label: i18n.t('dop:operator'),
       getComp: () => {
         const userInfo = userMap[userId];
         if (!userInfo) {
@@ -84,7 +84,7 @@ const ReleaseDetailEdit = (props: IProps) => {
       getComp: () => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      label: i18n.t('application:description'),
+      label: i18n.t('dop:description'),
       name: 'desc',
       viewType: 'markdown',
       getComp: () => <MarkdownEditor />,

@@ -56,14 +56,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const { value } = this.state;
     const replicas = (
       <div>
-        <span className="edit-service-label">{i18n.t('application:number of instance')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:number of instance')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
             className="w-full"
             value={value.replicas || 1}
             onChange={(e: any) => this.changeValue(e, 'replicas')}
-            placeholder={i18n.t('application:please enter the number of instance')}
+            placeholder={i18n.t('dop:please enter the number of instance')}
           />
         </span>
       </div>
@@ -71,13 +71,13 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     return (
       <div>
         <div>
-          <span className="edit-service-label">{i18n.t('application:deployment mode')}: </span>
+          <span className="edit-service-label">{i18n.t('dop:deployment mode')}: </span>
           <span>
             <Select
               disabled={disabled}
               defaultValue={'replicated'}
               onChange={(e: any) => this.changeValue(e, 'mode')}
-              placeholder={i18n.t('application:please enter the network configuration')}
+              placeholder={i18n.t('dop:please enter the network configuration')}
             >
               <Option value="replicated">replicated</Option>
             </Select>

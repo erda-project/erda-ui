@@ -77,7 +77,7 @@ const SnippetDetail = (props: IProps) => {
             ),
         );
         if (temp.length) {
-          detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
+          detailInfo.push(<h4>{i18n.t('dop:details')}</h4>);
           detailInfo.push(...temp);
         }
       }
@@ -96,7 +96,7 @@ const SnippetDetail = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">

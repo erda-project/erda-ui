@@ -93,7 +93,7 @@ const YmlEditor = (props: IProps) => {
     editorData: [],
     addons: [],
     openDrawer: false,
-    drawerTitle: i18n.t('application:edit') as string,
+    drawerTitle: i18n.t('dop:edit') as string,
     selectedAddon: null,
     groupedAddonList: [],
     editedYmlStructure: null as null | IPipelineYmlStructure,
@@ -130,7 +130,7 @@ const YmlEditor = (props: IProps) => {
       loadedContent = initYmlDefaultFields(loadedContent === 'undefined' ? emptyObj : loadedContent);
       updater.originJsonContent(loadedContent);
     } catch (e) {
-      notify('error', `${i18n.t('application:yml format error')}：${e.message}`);
+      notify('error', `${i18n.t('dop:yml format error')}：${e.message}`);
       updater.jsonContent(defaultJson);
     }
   }, [content, updater]);
@@ -151,7 +151,7 @@ const YmlEditor = (props: IProps) => {
     json.envs = globalVariable;
 
     convertDataByFileName(json, json);
-    message.success(i18n.t('application:please click save to submit the configuration'));
+    message.success(i18n.t('dop:please click save to submit the configuration'));
     closedDrawer?.current();
   });
 
@@ -206,7 +206,7 @@ const YmlEditor = (props: IProps) => {
         _convertDataByFileName?.(inputJsonCp);
       }
 
-      message.success(i18n.t('application:please click save to submit the configuration'));
+      message.success(i18n.t('dop:please click save to submit the configuration'));
       closedDrawer?.current();
     },
   );
@@ -237,7 +237,7 @@ const YmlEditor = (props: IProps) => {
 
       _convertDataByFileName(null, structure);
       updater.editedYmlStructure(structure);
-      message.success(i18n.t('application:please click save to submit the configuration'));
+      message.success(i18n.t('dop:please click save to submit the configuration'));
       closedDrawer?.current();
     },
     [editedYmlStructure, updater],
@@ -261,7 +261,7 @@ const YmlEditor = (props: IProps) => {
           break;
         case WORK_FLOW_TYPE.PIPELINE:
           result = convertByPipelineYml({
-            title: i18n.t('application:pipeline'),
+            title: i18n.t('dop:pipeline'),
             actions,
             editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure, convertDataByFileName),
             editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
@@ -292,7 +292,7 @@ const YmlEditor = (props: IProps) => {
     try {
       convertDataByFileName(null, cloneEditedYmlStructure);
     } catch (e) {
-      notify('error', `${i18n.t('application:yml format error')}：${e.message}`);
+      notify('error', `${i18n.t('dop:yml format error')}：${e.message}`);
       updater.editedYmlStructure(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -359,7 +359,7 @@ const YmlEditor = (props: IProps) => {
     }).then((res: any) => {
       toggleModal(false);
       if (res.success) {
-        message.success(i18n.t('application:file deleted successfully'));
+        message.success(i18n.t('dop:file deleted successfully'));
         goTo('../');
       }
     });
@@ -385,7 +385,7 @@ const YmlEditor = (props: IProps) => {
         name: 'message',
         type: 'textArea',
         itemProps: {
-          placeholder: i18n.t('application:submit information'),
+          placeholder: i18n.t('dop:submit information'),
           autoSize: { minRows: 3, maxRows: 7 },
           maxLength: 200,
         },
@@ -397,7 +397,7 @@ const YmlEditor = (props: IProps) => {
         initialValue: branch,
         options: (info.branches || []).map((a: any) => ({ name: a, value: a })),
         itemProps: {
-          placeholder: i18n.t('application:submit branch'),
+          placeholder: i18n.t('dop:submit branch'),
           disabled: true,
         },
       },
@@ -415,9 +415,9 @@ const YmlEditor = (props: IProps) => {
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="commit-file-form-container">
           <Button type="primary" className="mr-3" onClick={checkForm}>
-            {i18n.t('application:save')}
+            {i18n.t('dop:save')}
           </Button>
-          <Button onClick={cancelEditing}>{i18n.t('application:cancel')}</Button>
+          <Button onClick={cancelEditing}>{i18n.t('dop:cancel')}</Button>
         </div>
       </React.Fragment>
     );
@@ -502,7 +502,7 @@ const YmlEditor = (props: IProps) => {
     selectedItemRef.current = service;
     // updater.selectedItem(service);
     updater.openDrawer(true);
-    updater.drawerTitle(i18n.t('application:edit'));
+    updater.drawerTitle(i18n.t('dop:edit'));
   };
 
   const renderCreatePipelineComponent = (stageTask: any) => {
@@ -528,13 +528,13 @@ const YmlEditor = (props: IProps) => {
     };
     selectedItemRef.current = stageTask;
     updater.openDrawer(true);
-    updater.drawerTitle(i18n.t('application:add'));
+    updater.drawerTitle(i18n.t('dop:add'));
   };
 
   const clickAddonItem = (item: IDiceYamlEditorItem) => {
     updater.selectedAddon(item);
     updater.openDrawer(true);
-    updater.drawerTitle(editing ? i18n.t('application:edit') : i18n.t('application:view'));
+    updater.drawerTitle(editing ? i18n.t('dop:edit') : i18n.t('dop:view'));
   };
 
   const showCreateAddonModal = () => {
@@ -556,7 +556,7 @@ const YmlEditor = (props: IProps) => {
       },
     });
     updater.openDrawer(true);
-    updater.drawerTitle(i18n.t('application:edit'));
+    updater.drawerTitle(i18n.t('dop:edit'));
   };
 
   const openDrawerForEditor = (item: any) => {
@@ -566,7 +566,7 @@ const YmlEditor = (props: IProps) => {
     }
     selectedItemRef.current = item;
     updater.openDrawer(true);
-    updater.drawerTitle(editing ? i18n.t('application:edit') : i18n.t('application:view'));
+    updater.drawerTitle(editing ? i18n.t('dop:edit') : i18n.t('dop:view'));
   };
 
   const createdAddOn = (options: any) => {
@@ -645,7 +645,7 @@ const YmlEditor = (props: IProps) => {
             <div>
               {version}
               <div>
-                <span>{i18n.t('application:configuration')}: </span>
+                <span>{i18n.t('dop:configuration')}: </span>
                 <span>{getAddonPlanCN(addon.data.plan)}</span>
               </div>
             </div>
@@ -689,7 +689,7 @@ const YmlEditor = (props: IProps) => {
         editFile: false,
         addFile: false,
       });
-      message.success(i18n.t('application:file modified successfully'));
+      message.success(i18n.t('dop:file modified successfully'));
       getRepoBlob();
     });
   };
@@ -737,14 +737,14 @@ const YmlEditor = (props: IProps) => {
     const className =
       selectedAddon && selectedAddon.creatingAddon ? classnames(defaultClass, 'selected-item') : defaultClass;
 
-    const title = editing ? `${i18n.t('application:edit')} ${fileName}` : fileName;
+    const title = editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName;
 
     return (
       <FileContainer className="yaml-editor-container" name={title} ops={ops}>
         <Spin spinning={isFetching}>
           <React.Fragment>
             <div className="yml-editor-body services-and-add-ons">
-              <BlockContainer title={i18n.t('application:service architecture')}>
+              <BlockContainer title={i18n.t('dop:service architecture')}>
                 {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
@@ -780,14 +780,14 @@ const YmlEditor = (props: IProps) => {
    * 渲染 Pipeline 内容
    */
   const renderPipelineContent = () => {
-    const title = editing ? `${i18n.t('application:edit')} ${fileName}` : fileName;
+    const title = editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName;
 
     return (
       <FileContainer className="yaml-editor-container" name={title} ops={ops}>
         <Spin spinning={isFetching}>
           <React.Fragment>
             <div className="yml-editor-body">
-              <BlockContainer className="services-and-add-ons" title={i18n.t('application:pipeline')}>
+              <BlockContainer className="services-and-add-ons" title={i18n.t('dop:pipeline')}>
                 {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
@@ -812,7 +812,7 @@ const YmlEditor = (props: IProps) => {
    * 渲染 workflow 内容
    */
   const renderWorkflowContent = () => {
-    const title = editing ? `${i18n.t('application:edit')} ${fileName}` : fileName;
+    const title = editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName;
 
     return (
       <FileContainer className="yaml-editor-container" name={title} ops={ops}>
@@ -879,7 +879,7 @@ const YmlEditor = (props: IProps) => {
       />
       <FormModal
         width={620}
-        title={`${i18n.t('application:delete')}${name}`}
+        title={`${i18n.t('dop:delete')}${name}`}
         fieldsList={getFieldsList()}
         visible={modalVisible}
         onOk={handleDelete}

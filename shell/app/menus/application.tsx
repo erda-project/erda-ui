@@ -44,7 +44,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'repo',
     href: goTo.resolve.repo(), // `/dop/projects/${projectId}/apps/${appId}/repo`,
     icon: <IconCode />,
-    text: i18n.t('application:files'),
+    text: i18n.t('dop:files'),
     subtitle: i18n.t('Code'),
   };
   const pipeline = {
@@ -52,7 +52,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'pipeline',
     href: goTo.resolve.pipelineRoot(), // `/dop/projects/${projectId}/apps/${appId}/pipeline`,
     icon: <IconAssemblyLine />,
-    text: i18n.t('application:pipeline'),
+    text: i18n.t('dop:pipeline'),
     subtitle: i18n.t('Pipeline'),
   };
   const apiDesign = {
@@ -69,7 +69,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/dop/projects/${projectId}/apps/${appId}/deploy`,
     icon: <CustomIcon type="bushuzhongxin" />,
-    text: i18n.t('application:deployment center'),
+    text: i18n.t('dop:deployment center'),
     subtitle: i18n.t('Deploy'),
   };
   const dataTask = {
@@ -77,7 +77,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'dataTask',
     href: goTo.resolve.dataTaskRoot(), // `/dop/projects/${projectId}/apps/${appId}/dataTask`,
     icon: <IconActivitySource />,
-    text: `${i18n.t('application:data task')}`,
+    text: `${i18n.t('dop:data task')}`,
     subtitle: `${i18n.t('Task')}`,
   };
   const dataModel = {
@@ -85,7 +85,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'dataModel',
     href: goTo.resolve.appDataModel(), // `/dop/projects/${projectId}/apps/${appId}/dataModel`,
     icon: <IconChildrenPyramid />,
-    text: `${i18n.t('application:data model')}`,
+    text: `${i18n.t('dop:data model')}`,
     subtitle: `${i18n.t('Model')}`,
   };
   const dataMarket = {
@@ -93,7 +93,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'dataMarket',
     href: goTo.resolve.appDataMarket(), // `/dop/projects/${projectId}/apps/${appId}/dataMarket`,
     icon: <IconMarketAnalysis />,
-    text: `${i18n.t('application:data market')}`,
+    text: `${i18n.t('dop:data market')}`,
     subtitle: `${i18n.t('Market')}`,
   };
   const test = {
@@ -101,7 +101,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'test',
     href: goTo.resolve.appCodeQuality(), // `/dop/projects/${projectId}/apps/${appId}/test`,
     icon: <CustomIcon type="daimazhiliang" />,
-    text: i18n.t('application:code quality'),
+    text: i18n.t('dop:code quality'),
     subtitle: i18n.t('Quality'),
   };
   const release = {
@@ -117,7 +117,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'setting',
     href: goTo.resolve.appSetting(), // `/dop/projects/${projectId}/apps/${appId}/setting`,
     icon: <IconConfig />,
-    text: i18n.t('application:application setting'),
+    text: i18n.t('dop:application setting'),
     subtitle: i18n.t('Setting'),
   };
 

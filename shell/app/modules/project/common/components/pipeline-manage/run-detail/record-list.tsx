@@ -232,14 +232,14 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
     <>
       <Popover
         placement="bottomRight"
-        title={i18n.t('application:execute records')}
+        title={i18n.t('dop:execute records')}
         content={renderRecordList()}
         trigger="hover"
         visible={isPopoverVisible}
         onVisibleChange={handlePopoverVisible}
         arrowPointAtCenter
       >
-        <Button>{i18n.t('application:execute records')}</Button>
+        <Button>{i18n.t('dop:execute records')}</Button>
       </Popover>
       <Drawer
         width="50%"

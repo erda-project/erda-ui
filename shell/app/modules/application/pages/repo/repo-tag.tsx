@@ -55,7 +55,7 @@ const RepoTag = () => {
   const onCreateTag = (tagInfo: { ref: string; tag: string; message: string }) => {
     createTag(tagInfo).then((res: any) => {
       if (!res.success) {
-        message.error(i18n.t('application:failed to add tag'));
+        message.error(i18n.t('dop:failed to add tag'));
         return;
       }
       message.success(i18n.t('project:label created successfully'));
@@ -111,7 +111,7 @@ const RepoTag = () => {
       setRefType(null);
       const ret = await checkCommitId({ commitId: values.ref });
       if (ret === 'error') {
-        message.error(i18n.t('application:invalid commit SHA'));
+        message.error(i18n.t('dop:invalid commit SHA'));
         return null;
       }
     }
@@ -128,7 +128,7 @@ const RepoTag = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('application:source type'),
+      label: i18n.t('dop:source type'),
       name: 'refType',
       type: 'radioGroup',
       initialValue: 'branch',
@@ -143,7 +143,7 @@ const RepoTag = () => {
       },
     },
     {
-      label: i18n.t('application:based on source'),
+      label: i18n.t('dop:based on source'),
       name: 'ref',
       type: 'custom',
       getComp: ({ form }: any) => <RefComp form={form} />,
@@ -158,7 +158,7 @@ const RepoTag = () => {
         {
           validator: (_rule: any, value: string, callback: Function) => {
             if (!/^[A-Za-z0-9._-]+$/.test(value)) {
-              callback(i18n.t('application:Must be composed of letters, numbers, underscores, hyphens and dots.'));
+              callback(i18n.t('dop:Must be composed of letters, numbers, underscores, hyphens and dots.'));
             } else {
               callback();
             }
@@ -184,12 +184,12 @@ const RepoTag = () => {
       <div className="top-button-group">
         <WithAuth pass={repoBranchAuth.addTag.pass} tipProps={{ placement: 'bottom' }}>
           <Button disabled={isLocked} type="primary" onClick={() => setVisible(true)}>
-            {i18n.t('application:add label')}
+            {i18n.t('dop:add label')}
           </Button>
         </WithAuth>
         <FormModal
           visible={visible}
-          name={i18n.t('application:tag')}
+          name={i18n.t('dop:tag')}
           fieldsList={fieldsList}
           onOk={onCreateTag}
           onCancel={() => setVisible(false)}
@@ -198,7 +198,7 @@ const RepoTag = () => {
       </div>
       <Search
         className="repo-tag-search-input mb-4"
-        placeholder={i18n.t('common:search by {name}', { name: i18n.t('application:tag') })}
+        placeholder={i18n.t('common:search by {name}', { name: i18n.t('dop:tag') })}
         onChange={handleChangeBranchName}
       />
       <div className="repo-tag-list">
@@ -231,10 +231,10 @@ const RepoTag = () => {
                 </div>
                 <div className="branch-item-right">
                   <Button className="ml-3" onClick={() => download(name, 'zip')}>
-                    {i18n.t('application:download zip')}
+                    {i18n.t('dop:download zip')}
                   </Button>
                   <Button className="ml-3" onClick={() => download(name, 'tar.gz')}>
-                    {i18n.t('application:download tar.gz')}
+                    {i18n.t('dop:download tar.gz')}
                   </Button>
                   <DeleteConfirm
                     onConfirm={() => {

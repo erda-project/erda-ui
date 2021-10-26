@@ -96,13 +96,13 @@ const autoTestCase = createFlatStore({
       return pipelineReport;
     },
     async cancelBuild({ call }, payload: { pipelineID: string }) {
-      const result = await call(cancelBuild, payload, { successMsg: i18n.t('application:build cancelled') });
+      const result = await call(cancelBuild, payload, { successMsg: i18n.t('dop:build cancelled') });
       return result;
     },
     async runBuild({ call, update }, payload: { pipelineID: string; runPipelineParams?: any }) {
       const { pipelineID } = payload;
       const result = await call(runBuild, payload, {
-        successMsg: i18n.t('application:start executing the build'),
+        successMsg: i18n.t('dop:start executing the build'),
         fullResult: true,
       });
       const pipelineDetail = await call(getPipelineDetail, { pipelineID });
@@ -114,11 +114,7 @@ const autoTestCase = createFlatStore({
       payload: { pipelineID: string; runPipelineParams?: any },
     ): Promise<BUILD.IRerunResponse> {
       const { pipelineID, runPipelineParams } = payload;
-      const result = await call(
-        reRunFailed,
-        { pipelineID },
-        { successMsg: i18n.t('application:start retrying failed nodes') },
-      );
+      const result = await call(reRunFailed, { pipelineID }, { successMsg: i18n.t('dop:start retrying failed nodes') });
       await call(runBuild, { pipelineID: result.id, runPipelineParams });
       return result;
     },
@@ -127,11 +123,7 @@ const autoTestCase = createFlatStore({
       payload: { pipelineID: string; runPipelineParams?: any },
     ): Promise<BUILD.IRerunResponse> {
       const { pipelineID, runPipelineParams } = payload;
-      const result = await call(
-        reRunEntire,
-        { pipelineID },
-        { successMsg: i18n.t('application:start retrying build') },
-      );
+      const result = await call(reRunEntire, { pipelineID }, { successMsg: i18n.t('dop:start retrying build') });
       await call(runBuild, { pipelineID: result.id, runPipelineParams }); // 重试流水线只是新建一个流水线，不会自动跑
       return result;
     },

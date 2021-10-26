@@ -36,7 +36,7 @@ export default ({ visible, toggleModal, onOk }: IProps) => {
       getComp: () => (
         <LoadMoreSelector
           getData={_getProjectList}
-          placeholder={i18n.t('application:please select project')}
+          placeholder={i18n.t('dop:please select project')}
           dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
             total,
             list: map(list, (project) => {

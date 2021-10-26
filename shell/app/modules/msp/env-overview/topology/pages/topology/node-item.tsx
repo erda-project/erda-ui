@@ -46,9 +46,9 @@ interface INodeEle {
 const MenuItem = Menu.Item;
 
 const nameMap = {
-  ConfigCenter: i18n.t('application:configCenter'),
-  RegisterCenter: i18n.t('application:registration center'),
-  APIGateway: i18n.t('application:apiGateway'),
+  ConfigCenter: i18n.t('dop:configCenter'),
+  RegisterCenter: i18n.t('dop:registration center'),
+  APIGateway: i18n.t('dop:apiGateway'),
 };
 
 export const getRelativeNodes = (node: any, external: any) => {

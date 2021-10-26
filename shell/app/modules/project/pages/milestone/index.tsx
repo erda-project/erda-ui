@@ -93,7 +93,7 @@ export const Milestone = () => {
       {
         key: 'title',
         label: i18n.t('title'),
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         fixed: true,
         showIndex: 2,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
@@ -102,7 +102,7 @@ export const Milestone = () => {
       {
         key: 'label',
         label: i18n.t('project:label'),
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 3,
         haveFilter: true,
@@ -113,7 +113,7 @@ export const Milestone = () => {
       {
         key: 'priority',
         label: i18n.t('project:priority'),
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 4,
         type: 'select' as const,
@@ -123,7 +123,7 @@ export const Milestone = () => {
       {
         key: 'assignee',
         label: i18n.t('project:assignee'),
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 5,
         customProps: {

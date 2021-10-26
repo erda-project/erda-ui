@@ -24,7 +24,7 @@ interface IProps {
 }
 
 const nameMap = {
-  projectPipeline: i18n.t('application:pipeline'),
+  projectPipeline: i18n.t('dop:pipeline'),
   configSheet: i18n.t('project:config data'),
 };
 

@@ -41,13 +41,13 @@ enum TargetType {
 export const notifyChannelOptionsMap = {
   [TargetType.DINGDING]: [{ name: i18n.t('DingTalk'), value: 'dingding' }],
   [TargetType.USER]: [
-    { name: i18n.t('application:email'), value: 'email' },
+    { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
   ],
-  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('application:email'), value: 'email' }],
-  [TargetType.WEBHOOK]: [{ name: i18n.t('application:webhook'), value: 'webhook' }],
+  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
+  [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
   [TargetType.ROLE]: [
-    { name: i18n.t('application:email'), value: 'email' },
+    { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
   ],
 };
@@ -55,23 +55,23 @@ export const notifyChannelOptionsMap = {
 // 当群组为成员或外部成员时，通知方式包含 电话/短信
 export const smsNotifyChannelOptionsMap = Object.assign({}, notifyChannelOptionsMap, {
   [TargetType.USER]: [
-    { name: i18n.t('application:email'), value: 'email' },
+    { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
     { name: i18n.t('SMS'), value: 'sms' },
     { name: i18n.t('phone'), value: 'vms' },
   ],
   [TargetType.EXTERNAL_USER]: [
-    { name: i18n.t('application:email'), value: 'email' },
+    { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('SMS'), value: 'sms' },
     { name: i18n.t('phone'), value: 'vms' },
   ],
 });
 
 const groupTargetMap = {
-  user: i18n.t('application:member'),
-  dingding: i18n.t('application:DingTalk address'),
-  webhook: i18n.t('application:external api'),
-  external_user: i18n.t('application:external user'),
+  user: i18n.t('dop:member'),
+  dingding: i18n.t('dop:DingTalk address'),
+  webhook: i18n.t('dop:external api'),
+  external_user: i18n.t('dop:external user'),
   role: i18n.t('member role'),
 };
 
@@ -105,14 +105,14 @@ export const ListTargets = ({
   let targetsEle = (
     <>
       <ErdaIcon fill="black-400" size="16" type="sidebarUser" className="color-text-desc mr-1" />
-      <Tooltip title={`${i18n.t('application:group address')}: ${firstValue}`}>
-        <span className="group-address nowrap">{`${i18n.t('application:group address')}: ${firstValue}`}</span>
+      <Tooltip title={`${i18n.t('dop:group address')}: ${firstValue}`}>
+        <span className="group-address nowrap">{`${i18n.t('dop:group address')}: ${firstValue}`}</span>
       </Tooltip>
     </>
   );
   switch (type) {
     case TargetType.USER:
-      text = `${userMap[firstValue] ? userMap[firstValue].nick : '--'} ${i18n.t('application:and {length} others', {
+      text = `${userMap[firstValue] ? userMap[firstValue].nick : '--'} ${i18n.t('dop:and {length} others', {
         length: values.length,
       })}`;
       targetsEle = (
@@ -129,7 +129,7 @@ export const ListTargets = ({
       );
       break;
     case TargetType.EXTERNAL_USER:
-      text = `${JSON.parse(firstValue).username} ${i18n.t('application:and {length} others', {
+      text = `${JSON.parse(firstValue).username} ${i18n.t('dop:and {length} others', {
         length: values.length,
       })}`;
       targetsEle = (
@@ -147,7 +147,7 @@ export const ListTargets = ({
       );
       break;
     case TargetType.ROLE:
-      text = `${i18n.t('application:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
+      text = `${i18n.t('dop:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
           <ErdaIcon fill="black-400" size="16" type="sidebarUser" className="mr-1" />
@@ -238,8 +238,8 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   const handleDele = (id: number) => {
     confirm({
-      title: i18n.t('application:are you sure you want to delete this item?'),
-      content: i18n.t('application:the notification group will be permanently deleted'),
+      title: i18n.t('dop:are you sure you want to delete this item?'),
+      content: i18n.t('dop:the notification group will be permanently deleted'),
       onOk() {
         deleteNotifyGroups({ id, scopeType: commonPayload.scopeType }).then(() => {
           handleGetNotifyGroups();
@@ -319,7 +319,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
     },
     {
       name: 'targetType',
-      label: i18n.t('application:notified to'),
+      label: i18n.t('dop:notified to'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -388,7 +388,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       };
       extraFields.push({
         name: ['targets', 'secret'],
-        label: i18n.t('application:signature'),
+        label: i18n.t('dop:signature'),
         type: 'textArea',
         required: true,
         itemProps: {
@@ -441,7 +441,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   const columns: Array<ColumnProps<COMMON_NOTIFY.INotifyGroup>> = [
     {
-      title: i18n.t('application:notification name'),
+      title: i18n.t('dop:notification name'),
       dataIndex: 'name',
       width: 200,
     },
@@ -477,7 +477,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('application:edit')}
+              {i18n.t('dop:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -485,7 +485,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
                 handleDele(id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('dop:delete')}
             </span>
           </div>
         );
@@ -495,20 +495,20 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('application:new notification group')}>
+      <Tooltip title={i18n.t('dop:new notification group')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             openModal();
           }}
         >
-          <Button type="primary">{i18n.t('application:new notification group')}</Button>
+          <Button type="primary">{i18n.t('dop:new notification group')}</Button>
         </div>
       </Tooltip>
       <FormModal
         width={800}
         ref={formRef}
-        title={`${isEditing ? i18n.t('application:edit group') : i18n.t('application:new Group')}`}
+        title={`${isEditing ? i18n.t('dop:edit group') : i18n.t('dop:new Group')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}

@@ -119,7 +119,7 @@ const ReleaseList = () => {
           className="mb-2 mx-4"
           value={queryObj?.branchName}
           onChange={(v: any) => updater.queryObj({ ...queryObj, branchName: v })}
-          placeholder={i18n.t('filter by {name}', { name: i18n.t('application:branch') })}
+          placeholder={i18n.t('filter by {name}', { name: i18n.t('dop:branch') })}
           allowClear
         >
           {map(branchInfo, (branch) => (

@@ -92,7 +92,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
   const fields = React.useMemo(
     () => [
       {
-        label: i18n.t('application:outputs configuration'),
+        label: i18n.t('dop:outputs configuration'),
         component: 'arrayObj',
         key: 'outputs',
         required: false,
@@ -187,11 +187,11 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
 
   const drawerProps = editing
     ? {
-        title: i18n.t('application:outputs configuration'),
+        title: i18n.t('dop:outputs configuration'),
         maskClosable: false,
       }
     : {
-        title: i18n.t('application:outputs form'),
+        title: i18n.t('dop:outputs form'),
         maskClosable: true,
       };
   return (

@@ -32,11 +32,11 @@ const { Search } = Input;
 export const BRANCH_TABS = [
   {
     key: 'branches',
-    name: i18n.t('application:branch'),
+    name: i18n.t('dop:branch'),
   },
   {
     key: 'tags',
-    name: i18n.t('application:tag'),
+    name: i18n.t('dop:tag'),
   },
 ];
 
@@ -68,7 +68,7 @@ const RepoBranch = () => {
     <Spin spinning={isFetching}>
       <Search
         className="repo-branch-search-input mb-4"
-        placeholder={i18n.t('common:search by {name}', { name: i18n.t('application:branch') })}
+        placeholder={i18n.t('common:search by {name}', { name: i18n.t('dop:branch') })}
         onChange={handleChangeBranchName}
       />
       <IF check={info.isLocked}>
@@ -97,7 +97,7 @@ const RepoBranch = () => {
                       <span className="text-normal hover-active">{name}</span>
                     </Link>
                     {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
-                    {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
+                    {isMerged && <span className="tag-success">{i18n.t('dop:Merged')}</span>}
                   </div>
                   <div className="flex items-center text-sub">
                     <span className="inline-flex items-center">
@@ -118,7 +118,7 @@ const RepoBranch = () => {
                 </div>
                 <div className="branch-item-right flex">
                   <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
-                    {i18n.t('application:compare')}
+                    {i18n.t('dop:compare')}
                   </Button>
                   <DeleteConfirm
                     onConfirm={() => {
@@ -145,7 +145,7 @@ const RepoBranch = () => {
                         }}
                       >
                         <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>
-                          {i18n.t('application:set as default')}
+                          {i18n.t('dop:set as default')}
                         </Menu.Item>
                       </Menu>
                     }

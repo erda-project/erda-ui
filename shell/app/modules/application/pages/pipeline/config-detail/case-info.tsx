@@ -39,7 +39,7 @@ const CaseInfo = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('application:commit message'),
+      label: i18n.t('dop:commit message'),
       valueKey: 'desc',
       valueItem: ({ value: val }: any) => {
         return (

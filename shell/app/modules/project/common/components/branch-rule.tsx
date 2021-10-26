@@ -229,7 +229,7 @@ const BranchRule = (props: IProps) => {
 
   const columns = [
     {
-      title: i18n.t('application:branch'),
+      title: i18n.t('dop:branch'),
       dataIndex: 'rule',
       width: 200,
     },

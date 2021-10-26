@@ -188,7 +188,7 @@ const CreationForm = () => {
             initialValue: '-1',
             options: map(template, (item) => item),
             itemProps: {
-              placeholder: i18n.t('application:please choose'),
+              placeholder: i18n.t('dop:please choose'),
               onChange: (v) => {
                 const form = formRef.current;
                 // 选择模板后，只能使用内置仓库
@@ -288,7 +288,7 @@ const CreationForm = () => {
                 showIcon
                 type="warning"
                 message={i18n.t(
-                  'application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',
+                  'dop:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',
                 )}
               />
             ),

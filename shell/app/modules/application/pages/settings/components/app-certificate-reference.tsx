@@ -147,11 +147,11 @@ const AppCertificateReference = () => {
   const getColumns = ({ deleteItem }: any) => {
     const columns = [
       {
-        title: i18n.t('application:certificate name'),
+        title: i18n.t('dop:certificate name'),
         dataIndex: 'name',
       },
       {
-        title: i18n.t('application:certificate type'),
+        title: i18n.t('dop:certificate type'),
         dataIndex: 'type',
         render: (v: string) => CertMap[v] && CertMap[v].name,
       },
@@ -162,13 +162,13 @@ const AppCertificateReference = () => {
         render: (text: string) => formatTime(text, 'YYYY-MM-DD HH:mm:ss'),
       },
       {
-        title: i18n.t('application:approval status'),
+        title: i18n.t('dop:approval status'),
         dataIndex: 'status',
         width: 200,
         render: (text: string) => approvalStatus[text],
       },
       {
-        title: i18n.t('application:operation'),
+        title: i18n.t('dop:operation'),
         dataIndex: 'op',
         width: 140,
         render: (_v: any, record: APP_SETTING.CertRef) => {
@@ -223,7 +223,7 @@ const AppCertificateReference = () => {
         initialValue: +appId,
       },
       {
-        label: i18n.t('application:choose certificate'),
+        label: i18n.t('dop:choose certificate'),
         name: 'certificateId',
         type: 'custom',
         getComp: () => {
@@ -263,7 +263,7 @@ const AppCertificateReference = () => {
       },
     },
     {
-      label: i18n.t('application:push to variable config'),
+      label: i18n.t('dop:push to variable config'),
       name: 'enable',
       type: 'switch',
       itemProps: {
@@ -306,7 +306,7 @@ const AppCertificateReference = () => {
   return (
     <>
       <FormModal
-        title={i18n.t('application:push config')}
+        title={i18n.t('dop:push config')}
         visible={state.visible}
         formData={state.editData}
         fieldsList={configFields}

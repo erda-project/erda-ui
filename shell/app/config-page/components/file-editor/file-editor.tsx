@@ -26,7 +26,7 @@ const fileTypeReg = {
         yaml.load(val);
         return true;
       } catch (e) {
-        const msg = `${i18n.t('application:input format error')}：${e.message}`;
+        const msg = `${i18n.t('dop:input format error')}：${e.message}`;
         notify('error', <pre className="prewrap">{msg}</pre>);
         return false;
       }

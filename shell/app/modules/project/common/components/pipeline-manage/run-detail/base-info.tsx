@@ -53,7 +53,7 @@ const BaseInfo = (props: IProps) => {
       label: i18n.t('duration'),
       valueKey: 'costTimeSec',
       valueItem: ({ value: val }: any) => {
-        return val && val !== -1 ? `${i18n.t('application:time cost')} ${secondsToTime(+val)}` : '-';
+        return val && val !== -1 ? `${i18n.t('dop:time cost')} ${secondsToTime(+val)}` : '-';
       },
     },
     {

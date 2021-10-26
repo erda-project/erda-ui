@@ -55,8 +55,8 @@ const ReleaseDetail = ({ releaseId, data }: IProps) => {
       <div className="release-detail-header">
         <div className="tab-menu">
           <Menu onClick={changeMenu} selectedKeys={[state.chosenMenu]} mode="horizontal">
-            <Menu.Item key="edit">{i18n.t('application:details')}</Menu.Item>
-            <Menu.Item key="info">{i18n.t('application:basic information')}</Menu.Item>
+            <Menu.Item key="edit">{i18n.t('dop:details')}</Menu.Item>
+            <Menu.Item key="info">{i18n.t('dop:basic information')}</Menu.Item>
             {![appMode.MOBILE].includes(appDetail.mode) && <Menu.Item key="yml">dice.yml</Menu.Item>}
           </Menu>
         </div>

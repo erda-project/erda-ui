@@ -35,12 +35,12 @@ const ApiDocAddModal = (props: IProps) => {
 
   const treeFieldList = [
     {
-      label: i18n.t('application:branch'),
+      label: i18n.t('dop:branch'),
       name: 'pinode',
       required: true,
       type: 'select',
       itemProps: {
-        placeholder: i18n.t('please select {name}', { name: i18n.t('application:branch') }),
+        placeholder: i18n.t('please select {name}', { name: i18n.t('dop:branch') }),
         optionFilterProp: 'children',
         showSearch: true,
       },

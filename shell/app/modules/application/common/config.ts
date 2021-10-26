@@ -32,57 +32,57 @@ export const appMode = {
 
 export const modeOptions = [
   {
-    name: i18n.t('application:business app'),
+    name: i18n.t('dop:business app'),
     value: appMode.SERVICE,
     src: ywyy_svg,
-    desc: i18n.t('application:Business-app-intro', { keySeparator: '>' }),
+    desc: i18n.t('dop:Business-app-intro', { keySeparator: '>' }),
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:mobile app'),
+    name: i18n.t('dop:mobile app'),
     value: appMode.MOBILE,
     src: android_svg,
     desc: i18n.t(
-      'application:Mobile application is a mobile client developed on Android and iOS platforms, including the overall process of development, release and submit to the app store.',
+      'dop:Mobile application is a mobile client developed on Android and iOS platforms, including the overall process of development, release and submit to the app store.',
       { keySeparator: '>' },
     ),
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:library/module'),
+    name: i18n.t('dop:library/module'),
     value: appMode.LIBRARY,
     src: kyy_svg,
-    desc: i18n.t('application:Library-app-intro', { keySeparator: '>' }),
+    desc: i18n.t('dop:Library-app-intro', { keySeparator: '>' }),
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:bigData app'),
+    name: i18n.t('dop:bigData app'),
     value: appMode.BIGDATA,
     src: dsjyy_svg,
     desc: 'big data app',
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:ability app'),
+    name: i18n.t('dop:ability app'),
     value: appMode.ABILITY,
     src: dsjyy_svg,
     desc: 'ability app',
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:project level app'),
+    name: i18n.t('dop:project level app'),
     value: appMode.PROJECT_SERVICE,
     src: xmjyy_svg,
-    desc: i18n.t('application:project-level-app-form-tip'),
+    desc: i18n.t('dop:project-level-app-form-tip'),
     groupIndex: 1,
   },
 ];
 
 export const approvalStatus = {
-  pending: i18n.t('application:approval pending'),
-  approved: i18n.t('application:approved'),
-  denied: i18n.t('application:denied'),
-  cancel: i18n.t('application:cancel'),
+  pending: i18n.t('dop:approval pending'),
+  approved: i18n.t('dop:approved'),
+  denied: i18n.t('dop:denied'),
+  cancel: i18n.t('dop:cancel'),
 };
 
 export enum RepositoryMode {

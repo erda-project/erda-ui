@@ -98,7 +98,7 @@ export default ({
       : !disabledBacklog
       ? [{ title: i18n.t('project:backlog'), id: -1 }, ...iterationList]
       : [...iterationList];
-    return addAllOption ? [{ title: i18n.t('application:all iterations'), id: 'ALL' }, ...list] : list;
+    return addAllOption ? [{ title: i18n.t('dop:all iterations'), id: 'ALL' }, ...list] : list;
   }, [addAllOption, iterationList, disabledBacklog]);
 
   React.useEffect(() => {

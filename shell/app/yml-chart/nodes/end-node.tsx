@@ -40,7 +40,7 @@ export const EndNode = (props: IProps) => {
 
   return (
     <div className={classes} onClick={onClick}>
-      {disabled ? '' : i18n.t('application:outputs configuration')}
+      {disabled ? '' : i18n.t('dop:outputs configuration')}
     </div>
   );
 };

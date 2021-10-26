@@ -27,10 +27,7 @@ const ExportFile = ({ afterExport }: IProps) => {
 
   const onExport = (e: any) => {
     exportFile(e.key).then(() => {
-      message.success(
-        i18n.t('application:The export task has been created, please check the progress in the record'),
-        4,
-      );
+      message.success(i18n.t('dop:The export task has been created, please check the progress in the record'), 4);
       afterExport?.();
     });
   };

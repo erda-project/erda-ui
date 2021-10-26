@@ -113,7 +113,7 @@ export default ({ scope }: { scope: string }) => {
         name: 'alertType',
         customProps: {
           mode: 'multiple',
-          placeholder: i18n.t('application:filter by alarm type'),
+          placeholder: i18n.t('dop:filter by alarm type'),
           options: map(alarmAttrs.alertType, ({ key, display }) => (
             <Select.Option key={key} value={key}>
               {display}

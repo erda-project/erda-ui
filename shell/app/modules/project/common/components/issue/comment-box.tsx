@@ -49,7 +49,7 @@ export const IssueCommentBox = (props: IProps) => {
           className="ml-3"
           onClick={() => {
             if (isEmpty(stateMap.content.trim())) {
-              message.warning(i18n.t('application:this item cannot be empty'));
+              message.warning(i18n.t('dop:this item cannot be empty'));
               return;
             }
             onSave(stateMap.content);

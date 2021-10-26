@@ -139,7 +139,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
                       });
                     }}
                   >
-                    {i18n.t('application:approved')}
+                    {i18n.t('dop:approved')}
                   </span>
                   <span
                     className="table-operations-btn"
@@ -149,7 +149,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
                       });
                     }}
                   >
-                    {i18n.t('application:denied')}
+                    {i18n.t('dop:denied')}
                   </span>
                 </>
               ) : null}

@@ -54,7 +54,7 @@ const fields = [
     component: 'textarea',
     key: 'reason',
     componentProps: {
-      placeholder: i18n.t('application:please enter the reason for rejection'),
+      placeholder: i18n.t('dop:please enter the reason for rejection'),
     },
     rules: [{ max: '100', msg: i18n.t('length is {min}~{max}', { min: 1, max: 100 }) }],
     required: true,
@@ -105,7 +105,7 @@ const PureDeployList = (props: IProps) => {
       render: (item: string) => <Tooltip title={item}>{item}</Tooltip>,
     },
     {
-      title: i18n.t('application:pipeline ID'),
+      title: i18n.t('dop:pipeline ID'),
       dataIndex: 'buildId',
       width: 120,
       render: (val: string, record: DEPLOY.IDeploy) => {
@@ -176,7 +176,7 @@ const PureDeployList = (props: IProps) => {
                   update({ modalVis: true, editData: record });
                 }}
               >
-                {i18n.t('application:denied')}
+                {i18n.t('dop:denied')}
               </span>
             </div>
           );
@@ -191,7 +191,7 @@ const PureDeployList = (props: IProps) => {
     },
     initiate: {
       Reject: {
-        title: i18n.t('application:reason for rejection'),
+        title: i18n.t('dop:reason for rejection'),
         dataIndex: 'approvalReason',
         render: (approvalReason: string) => {
           return <Tooltip title={approvalReason}>{approvalReason}</Tooltip>;
@@ -266,7 +266,7 @@ const PureDeployList = (props: IProps) => {
         />
       </Spin>
       <FormModal
-        title={i18n.t('application:reason for rejection')}
+        title={i18n.t('dop:reason for rejection')}
         onCancel={onCancel}
         onOk={onFinish}
         visible={modalVis}

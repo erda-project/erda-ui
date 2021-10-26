@@ -144,7 +144,7 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'priority',
-    displayName: i18n.t('application:priority'),
+    displayName: i18n.t('dop:priority'),
     propertyType: 'Select',
   },
   {
@@ -159,7 +159,7 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'labels',
-    displayName: i18n.t('application:tag'),
+    displayName: i18n.t('dop:tag'),
     propertyType: 'MultiSelect',
   },
 ];

@@ -97,7 +97,7 @@ const DomainModal = (props: IProps) => {
           runtimeStore.setHasChange(true);
         }
       } else {
-        message.warning(i18n.t('application:no change'));
+        message.warning(i18n.t('dop:no change'));
       }
     });
   };

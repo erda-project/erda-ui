@@ -112,7 +112,7 @@ const PodTable = (props: IProps) => {
       render: (text: string) => (moment(text).isValid() ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('application:operation'),
+      title: i18n.t('dop:operation'),
       dataIndex: 'op',
       width: 96,
       fixed: 'right',

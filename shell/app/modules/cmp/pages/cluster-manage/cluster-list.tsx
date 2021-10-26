@@ -45,7 +45,7 @@ export const statusMap = {
   offline: ['red', i18n.t('cmp:offline')],
   initializing: ['yellow', i18n.t('runtime:initializing')],
   'initialize error': ['red', i18n.t('cmp:initialization failed')],
-  pending: ['gray', i18n.t('application:pending')],
+  pending: ['gray', i18n.t('dop:pending')],
   unknown: ['red', i18n.t('unknown')],
 };
 
@@ -291,7 +291,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       ),
     },
     {
-      title: i18n.t('application:status'),
+      title: i18n.t('dop:status'),
       dataIndex: 'clusterStatus',
       width: 120,
       render: (_text, record) => {
@@ -314,7 +314,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (text) => text || '-',
     },
     {
-      title: i18n.t('application:type'),
+      title: i18n.t('dop:type'),
       dataIndex: 'clusterType',
       width: 160,
       ellipsis: true,

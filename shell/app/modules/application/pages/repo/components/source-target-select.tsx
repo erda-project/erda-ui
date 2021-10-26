@@ -55,16 +55,16 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
   };
 
   const msgCheckrunTypeTipMap = {
-    success: i18n.t('application:checkrun-success-tip'),
-    failure: i18n.t('application:checkrun-failure-tip'),
-    progress: i18n.t('application:checkrun-process-tip'),
+    success: i18n.t('dop:checkrun-success-tip'),
+    failure: i18n.t('dop:checkrun-failure-tip'),
+    progress: i18n.t('dop:checkrun-process-tip'),
   };
 
   return (
     <div>
       {hasError && renderAlert(errorMsg, 'error')}
-      {hasConflict && renderAlert(i18n.t('application:have conflict'), 'error')}
-      {isMerged && renderAlert(i18n.t('application:no changes to merge'), 'info')}
+      {hasConflict && renderAlert(i18n.t('dop:have conflict'), 'error')}
+      {isMerged && renderAlert(i18n.t('dop:no changes to merge'), 'info')}
       {pipelineID &&
         renderAlert(
           <span>
@@ -80,7 +80,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
                 });
               }}
             >
-              {i18n.t('application:pipeline')}
+              {i18n.t('dop:pipeline')}
             </span>
           </span>,
           msgCheckrunTypeMap[resultType as string],
@@ -258,12 +258,11 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
         {renderErrorBlock(mrStats)}
         {disableRemoveSource ? (
           <Checkbox className="delete-after-merge" disabled checked={false}>
-            {i18n.t('application:delete source branch after merge')}(
-            {i18n.t('application:The default branch cannot be deleted.')})
+            {i18n.t('dop:delete source branch after merge')}({i18n.t('dop:The default branch cannot be deleted.')})
           </Checkbox>
         ) : (
           <Checkbox className="delete-after-merge" onChange={this.handleCheck} checked={removeSourceBranch}>
-            {i18n.t('application:delete source branch after merge')}
+            {i18n.t('dop:delete source branch after merge')}
           </Checkbox>
         )}
         <span className={`show-diff-btn ${couldShowDiff ? '' : 'invisible'}`}>

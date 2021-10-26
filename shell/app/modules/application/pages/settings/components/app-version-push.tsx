@@ -200,7 +200,7 @@ const AppVersionPush = () => {
     <SectionInfoEdit
       hasAuth
       data={state}
-      formName={i18n.t('application:version push')}
+      formName={i18n.t('dop:version push')}
       fieldsList={getFieldsList}
       updateInfo={save}
     />

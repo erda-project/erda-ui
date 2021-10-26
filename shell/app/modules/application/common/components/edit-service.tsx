@@ -79,17 +79,17 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
 
     const nameField = (
       <Item
-        label={i18n.t('application:service name')}
+        label={i18n.t('dop:service name')}
         name="name"
         initialValue={name}
         rules={[
           {
             required: true,
-            message: i18n.t('application:please enter the service name'),
+            message: i18n.t('dop:please enter the service name'),
           },
         ]}
       >
-        <Input disabled={!editing} placeholder={i18n.t('application:please enter the service name')} />
+        <Input disabled={!editing} placeholder={i18n.t('dop:please enter the service name')} />
       </Item>
     );
     const _ports: any[] = [];
@@ -125,8 +125,8 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         <ListInput
           disabled={!editing}
           type="number"
-          label={i18n.t('application:please enter the exposed port')}
-          placeholder={i18n.t('application:exposed port')}
+          label={i18n.t('dop:please enter the exposed port')}
+          placeholder={i18n.t('dop:exposed port')}
         />
       </Item>
     );
@@ -141,7 +141,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
           return val?.length ? val.map((v) => v.value) : val;
         }}
       >
-        <ListInput disabled={!editing} label={i18n.t('application:hosts mapping')} />
+        <ListInput disabled={!editing} label={i18n.t('dop:hosts mapping')} />
       </Item>
     );
     if (!editing && (!hosts || (hosts && !hosts.length))) {
@@ -149,25 +149,25 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     }
     const resourceField = (
       <Item
-        label={i18n.t('application:resources')}
+        label={i18n.t('dop:resources')}
         name="resources"
         initialValue={resources}
         rules={[
           {
             required: true,
-            message: i18n.t('application:please select a resource'),
+            message: i18n.t('dop:please select a resource'),
           },
           {
             validator: resourcesValidator,
           },
         ]}
       >
-        <ResourceField disabled={!editing} placeholder={i18n.t('application:please select a resource')} />
+        <ResourceField disabled={!editing} placeholder={i18n.t('dop:please select a resource')} />
       </Item>
     );
     const deploymentsField = (
-      <Item label={i18n.t('application:deployment strategy')} name="deployments" initialValue={deployments}>
-        <DeploymentsField disabled={!editing} placeholder={i18n.t('application:please select a deployment strategy')} />
+      <Item label={i18n.t('dop:deployment strategy')} name="deployments" initialValue={deployments}>
+        <DeploymentsField disabled={!editing} placeholder={i18n.t('dop:please select a deployment strategy')} />
       </Item>
     );
 
@@ -178,14 +178,14 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         rules={[
           {
             required: true,
-            message: i18n.t('application:please enter an environment variable'),
+            message: i18n.t('dop:please enter an environment variable'),
           },
         ]}
       >
         <ObjectInput
           disabled={!editing}
-          label={i18n.t('application:environment variable')}
-          errorMessage={i18n.t('application:environment variables cannot be empty')}
+          label={i18n.t('dop:environment variable')}
+          errorMessage={i18n.t('dop:environment variables cannot be empty')}
         />
       </Item>
     );
@@ -194,8 +194,8 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       envsField = null;
     }
     let cmdField = (
-      <Item label={i18n.t('application:start command')} name="cmd" initialValue={cmd}>
-        <Input disabled={!editing} placeholder={i18n.t('application:please enter the start command')} />
+      <Item label={i18n.t('dop:start command')} name="cmd" initialValue={cmd}>
+        <Input disabled={!editing} placeholder={i18n.t('dop:please enter the start command')} />
       </Item>
     );
 
@@ -213,8 +213,8 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         <ListInput
           disabled={!editing}
           required={false}
-          label={i18n.t('application:mounting')}
-          placeholder={i18n.t('application:please enter the mount directory')}
+          label={i18n.t('dop:mounting')}
+          placeholder={i18n.t('dop:please enter the mount directory')}
         />
       </Item>
     );
@@ -222,7 +222,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       bindsField = null;
     }
     let healthCheckField = (
-      <Item label={i18n.t('application:health check')} name="health_check" initialValue={health_check}>
+      <Item label={i18n.t('dop:health check')} name="health_check" initialValue={health_check}>
         <HealthCheckField disabled={!editing} />
       </Item>
     );
@@ -236,8 +236,8 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     // })(<VolumesField required={false} label="持久化目录" placeholder="请输入文件目录" />);
 
     let imageField = (
-      <Item label={i18n.t('application:image name')} name="image" initialValue={image}>
-        <Input disabled={!editing} placeholder={i18n.t('application:please enter the image name')} />
+      <Item label={i18n.t('dop:image name')} name="image" initialValue={image}>
+        <Input disabled={!editing} placeholder={i18n.t('dop:please enter the image name')} />
       </Item>
     );
     if (!editing && !image) {
@@ -258,7 +258,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         {imageField || editing ? imageField : null}
         {editing ? (
           <Button type="primary" ghost onClick={this.onSubmit}>
-            {i18n.t('application:save')}
+            {i18n.t('dop:save')}
           </Button>
         ) : null}
       </Form>

@@ -142,7 +142,7 @@ export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name:
   },
   DETACHING: {
     status: 'DETACHING',
-    name: i18n.t('application:deleting'),
+    name: i18n.t('dop:deleting'),
   },
   DETACHED: {
     status: 'DETACHED',

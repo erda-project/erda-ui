@@ -121,7 +121,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
 
           <IF check={testDetail && testDetail.uuid}>
             <span className="test-log hover-active" onClick={this.toggleLog}>
-              {i18n.t('application:log')}
+              {i18n.t('dop:log')}
             </span>
           </IF>
         </div>
@@ -129,7 +129,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
           when={!currentSuite}
           page
           relative
-          tip={`${i18n.t('application:no data, please confirm if there is a corresponding test code')}(UT/IT)`}
+          tip={`${i18n.t('dop:no data, please confirm if there is a corresponding test code')}(UT/IT)`}
         >
           <TestDetail key={chosenSuiteIndex} suite={currentSuite} />
         </Holder>

@@ -263,7 +263,7 @@ export const TestEnvDetail = (props: IProps) => {
     const fieldMap = {
       auto: [
         {
-          label: i18n.t('application:name'),
+          label: i18n.t('dop:name'),
           name: 'displayName',
           itemProps: {
             maxLength: 191,
@@ -271,7 +271,7 @@ export const TestEnvDetail = (props: IProps) => {
           },
         },
         {
-          label: i18n.t('application:description'),
+          label: i18n.t('dop:description'),
           name: 'desc',
           type: 'textArea',
           itemProps: {

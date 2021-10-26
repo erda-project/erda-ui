@@ -80,7 +80,7 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:files'),
+      groupTitle: i18n.t('dop:files'),
       groupKey: 'repository',
       tabGroup: [
         {
@@ -172,13 +172,13 @@ const ProjectSettings = () => {
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:notification'),
+          tabTitle: i18n.t('dop:notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:help you better organize your notifications'),
+                  title: i18n.t('dop:help you better organize your notifications'),
                   children: (
                     <NotifyConfig
                       memberStore={memberStore}
@@ -191,13 +191,13 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('application:notification group'),
+          tabTitle: i18n.t('dop:notification group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:organize notification groups to set up notifications'),
                   children: (
                     <NotifyGroup
                       memberStore={memberStore}

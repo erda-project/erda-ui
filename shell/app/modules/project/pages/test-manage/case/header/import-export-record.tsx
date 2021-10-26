@@ -79,9 +79,7 @@ const ImportExportRecord = ({
             });
             if (haveJustFinishedJob) {
               message.info(
-                i18n.t(
-                  'application:The import and export tasks you submitted have status updates, please check the records',
-                ),
+                i18n.t('dop:The import and export tasks you submitted have status updates, please check the records'),
                 4,
               );
             }

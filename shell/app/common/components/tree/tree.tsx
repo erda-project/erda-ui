@@ -739,7 +739,7 @@ export const TreeCategory = ({
 
   const generateSearchOptions = () => {
     const { fileGroup, folderGroup } = filterOptions;
-    const { file, folder } = searchGroup || { file: i18n.t('application:file'), folder: i18n.t('common:folder') };
+    const { file, folder } = searchGroup || { file: i18n.t('dop:file'), folder: i18n.t('common:folder') };
     const options = [];
     if (folderGroup.length > 0) {
       options.push(

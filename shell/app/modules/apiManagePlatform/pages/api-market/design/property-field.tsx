@@ -408,7 +408,7 @@ export const objectExampleField = {
 // description field
 export const descriptionField = {
   type: Input.TextArea,
-  label: i18n.t('application:description'),
+  label: i18n.t('dop:description'),
   name: 'description',
   colSpan: 24,
   required: false,

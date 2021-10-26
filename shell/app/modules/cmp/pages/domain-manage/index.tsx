@@ -145,7 +145,7 @@ const DomainManage = () => {
         customProps: {
           allowClear: true,
           children: envOptions,
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('application:environment') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:environment') }),
         },
       },
     ],
@@ -188,7 +188,7 @@ const DomainManage = () => {
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
-      title: i18n.t('application:environment'),
+      title: i18n.t('dop:environment'),
       dataIndex: 'workspace',
       render: (key: string) => <Tooltip title={ENV_DIC[key]}>{ENV_DIC[key]}</Tooltip>,
     },

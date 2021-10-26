@@ -482,7 +482,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ...fieldsList,
       {
         name: 'groupType',
-        label: i18n.t('application:notification method'),
+        label: i18n.t('dop:notification method'),
         required: true,
         type: 'select',
         initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
@@ -550,8 +550,8 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const handleDeleteAlarm = (id: number) => {
     confirm({
-      title: i18n.t('application:are you sure you want to delete this item?'),
-      content: i18n.t('application:the notification will be permanently deleted'),
+      title: i18n.t('dop:are you sure you want to delete this item?'),
+      content: i18n.t('dop:the notification will be permanently deleted'),
       onOk() {
         deleteAlert(id);
       },
@@ -690,7 +690,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEditALarm(record.id)}>
-              {i18n.t('application:edit')}
+              {i18n.t('dop:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -698,7 +698,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                 handleDeleteAlarm(record.id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('dop:delete')}
             </span>
             <Switch
               size="small"

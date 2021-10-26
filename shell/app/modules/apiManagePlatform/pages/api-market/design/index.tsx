@@ -86,7 +86,7 @@ const ErrorEmptyHolder = ({
     Comp = (
       <EmptyHolder
         tip={i18n.t('project:please download from the code repository')}
-        action={<Link to={apiBranchLink}>{i18n.t('application:new branch')}</Link>}
+        action={<Link to={apiBranchLink}>{i18n.t('dop:new branch')}</Link>}
       />
     );
   } else if (isEmpty(validBranches)) {
