@@ -349,8 +349,8 @@ export const ResourceTable = React.memo(
             <span>
               {i18n.t('cmp:Allocation of project resources')}
               <span className="ml-1 text-desc text-xs">
-                {i18n.t('cmp:The total number of selected resources')}: CPU: {data?.summary?.cpu}, {i18n.t('cmp:内存')}:{' '}
-                {data?.summary?.memory}, {i18n.t('cmp:Conversion nodes')}: {data?.summary?.node}
+                {i18n.t('cmp:The total number of selected resources')}: CPU: {data?.summary?.cpu},{' '}
+                {i18n.t('cmp:Memory')}: {data?.summary?.memory}, {i18n.t('cmp:Conversion nodes')}: {data?.summary?.node}
               </span>
             </span>
           }
