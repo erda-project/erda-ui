@@ -54,8 +54,8 @@ const ClusterQuota = ({
   });
 
   const clusterList = React.useMemo(() => {
-    if (leftResource?.ClusterList?.length) {
-      return leftResource.ClusterList.filter((item) => item.Workspace === workSpace.toLocaleLowerCase());
+    if (leftResource?.clusterList?.length) {
+      return leftResource.clusterList.filter((item) => item.workspace === workSpace.toLocaleLowerCase());
     } else {
       return [];
     }
@@ -65,14 +65,14 @@ const ClusterQuota = ({
 
   React.useEffect(() => {
     if (cluster && clusterList && clusterList.length !== 0) {
-      const quota = clusterList.find((item: PROJECT.ICluster) => item.ClusterName === cluster);
+      const quota = clusterList.find((item: PROJECT.ICluster) => item.clusterName === cluster);
 
       quota &&
         update({
-          leftCpu: +quota.CPUAvailable.toFixed(2),
-          leftMem: +quota.MemAvailable.toFixed(2),
-          cpuRate: +(quota.CPUQuotaRate * 100).toFixed(2),
-          memRate: +(quota.MemQuotaRate * 100).toFixed(2),
+          leftCpu: +quota.cpuAvailable.toFixed(2),
+          leftMem: +quota.memAvailable.toFixed(2),
+          cpuRate: +(quota.cpuQuotaRate * 100).toFixed(2),
+          memRate: +(quota.memQuotaRate * 100).toFixed(2),
           tips: quota.tips,
         });
     }
@@ -127,9 +127,9 @@ const ClusterQuota = ({
       >
         <CompactSelect title={i18n.t('cluster')}>
           <Select disabled={!canEdit}>
-            {(clusterList || []).map((clusterItem: { ClusterName: string }) => (
-              <Option key={clusterItem.ClusterName} value={clusterItem.ClusterName}>
-                {clusterItem.ClusterName}
+            {(clusterList || []).map((clusterItem: { clusterName: string }) => (
+              <Option key={clusterItem.clusterName} value={clusterItem.clusterName}>
+                {clusterItem.clusterName}
               </Option>
             ))}
           </Select>
