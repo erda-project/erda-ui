@@ -549,7 +549,7 @@ const AddModal = (props: IProps) => {
                 {i18n.t('common:add')}
               </Button>
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
-              <InputNumber value={retry} min={1} max={10} defaultValue={2} onChange={(v) => updater.retry(v)} />
+              <InputNumber value={retry} min={0} max={10} defaultValue={2} onChange={(v) => updater.retry(v)} />
               <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
               <Select
                 style={{ width: 100 }}
