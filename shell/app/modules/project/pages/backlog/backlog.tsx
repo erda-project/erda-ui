@@ -63,24 +63,25 @@ const Backlog = () => {
       const stateIds: number[] = [];
       const initState: string[] = [];
       const typeArr = ['REQUIREMENT', 'TASK', 'BUG'];
-      const collection = workflowStateList.reduce((acc, current) => {
-        const { issueType, stateName, stateID, stateBelong } = current;
-        if (!typeArr.includes(issueType)) {
+      const collection =
+        workflowStateList?.reduce((acc, current) => {
+          const { issueType, stateName, stateID, stateBelong } = current;
+          if (!typeArr.includes(issueType)) {
+            return acc;
+          }
+          if (!['CLOSED', 'DONE'].includes(stateBelong)) {
+            initState.push(`${stateID}`);
+          }
+          if (acc[issueType]) {
+            acc[issueType].push({ label: stateName, value: `${stateID}` });
+          } else {
+            acc[issueType] = [{ label: stateName, value: `${stateID}` }];
+          }
+          if (!allStateIds.current.length) {
+            stateIds.push(stateID);
+          }
           return acc;
-        }
-        if (!['CLOSED', 'DONE'].includes(stateBelong)) {
-          initState.push(`${stateID}`);
-        }
-        if (acc[issueType]) {
-          acc[issueType].push({ label: stateName, value: `${stateID}` });
-        } else {
-          acc[issueType] = [{ label: stateName, value: `${stateID}` }];
-        }
-        if (!allStateIds.current.length) {
-          stateIds.push(stateID);
-        }
-        return acc;
-      }, {});
+        }, {}) || {};
       if (!allStateIds.current.length) {
         allStateIds.current = stateIds;
       }
