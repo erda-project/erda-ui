@@ -47,6 +47,7 @@ export default () => {
         .fetch({
           projectId,
           ...res,
+          iterationID: +res.iterationID,
           reportData: {
             'issue-dashboard': issueDashboard,
             'test-dashboard': testDashboard,

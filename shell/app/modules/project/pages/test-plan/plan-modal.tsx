@@ -116,7 +116,6 @@ const TestPlanModal = (props: IProps) => {
     {
       label: i18n.t('project:owned iteration'),
       name: 'iterationID',
-      required: false,
       type: 'select',
       options: iterationList.map((iteration) => ({ name: iteration.title, value: iteration.id })),
       itemProps: {
