@@ -117,11 +117,14 @@ export const filterTranslationGroup = (
     // All translations in the current namespace
     const namespaceWords = zhResource[namespaceKey];
     toTranslateEnWords.forEach((enWord) => {
+      const convertedEnWord = enWord.replace(/:/g, '&#58;');
       // When there is an existing translation and translatedWords does not contains it, add it to the translated list and remove it from the untranslated list
-      if (namespaceWords[enWord] && !translatedWords[enWord]) {
+      if (namespaceWords[convertedEnWord] && !translatedWords[convertedEnWord]) {
         // eslint-disable-next-line no-param-reassign
-        translatedWords[enWord] =
-          namespaceKey === 'default' ? namespaceWords[enWord] : `${namespaceKey}:${namespaceWords[enWord]}`;
+        translatedWords[convertedEnWord] =
+          namespaceKey === 'default'
+            ? namespaceWords[convertedEnWord]
+            : `${namespaceKey}:${namespaceWords[convertedEnWord]}`;
         remove(notTranslatedWords, (w) => w === enWord);
       }
     });
@@ -289,16 +292,18 @@ export const restoreSourceFile = (
     if (match) {
       const [fullMatch, enWord] = match;
       let replaceText;
+      const convertedEnWord = enWord.replace(/:/g, '&#58;');
       if (reviewedZhMap?.[enWord]) {
         // Replace if found the translation in [temp-zh-words.json]
-        const i18nContent = ns === 'default' ? `i18n.t('${enWord}')` : `i18n.t('${ns}:${enWord}')`;
+        const i18nContent = ns === 'default' ? `i18n.t('${convertedEnWord}')` : `i18n.t('${ns}:${convertedEnWord}')`;
         replaceText = i18nContent;
-      } else if (translatedMap?.[enWord]) {
+      } else if (translatedMap?.[convertedEnWord]) {
         // Replace if find the translation in [temp-translated-words.json]
-        const nsArray = translatedMap?.[enWord].split(':');
-        replaceText = nsArray.length === 2 ? `i18n.t('${nsArray[0]}:${enWord}')` : `i18n.t('${enWord}')`;
+        const nsArray = translatedMap?.[convertedEnWord].split(':');
+        replaceText =
+          nsArray.length === 2 ? `i18n.t('${nsArray[0]}:${convertedEnWord}')` : `i18n.t('${convertedEnWord}')`;
       } else {
-        logWarn(enWord, 'not yet translated');
+        logWarn(convertedEnWord, 'not yet translated');
       }
       if (replaceText) {
         newContent = newContent.replace(fullMatch, replaceText);
