@@ -15,7 +15,7 @@ import { map, isEmpty } from 'lodash';
 import React from 'react';
 import { Row, Col, Select } from 'antd';
 import { MonitorChartNew } from 'charts';
-import { EmptyHolder, Icon as CustomIcon } from 'common';
+import { EmptyHolder, Icon as CustomIcon, CardContainer } from 'common';
 import { useEffectOnce } from 'react-use';
 import comparativeStore from '../../stores/comparative';
 import routeInfoStore from 'core/stores/route';
@@ -153,8 +153,7 @@ const BIComparative = () => {
             {map(data, ({ results, xAxis, titleText }, i) => {
               return (
                 <Col className="gutter-row" span={i ? 12 : 24} key={i}>
-                  <div className="chart-container">
-                    <h2 className="chart-title">{titleText}</h2>
+                  <CardContainer.ChartContainer title={titleText}>
                     <MonitorChartNew
                       seriesType="bar"
                       yAxisNames={[i18n.t('msp:request times')]}
@@ -185,7 +184,7 @@ const BIComparative = () => {
                       isLabel
                       isBarChangeColor
                     />
-                  </div>
+                  </CardContainer.ChartContainer>
                 </Col>
               );
             })}
