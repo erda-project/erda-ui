@@ -109,7 +109,7 @@ const Panel = (props: PanelProps) => {
           if (item.hide) return null;
           return (
             <Row gutter={12} key={item.label as React.Key}>
-              <Col span={24}>
+              <Col span={24} className="pb-2">
                 <div className="text-black-400" title={`${getInnerText(item.label)}`}>
                   {item.label}
                   {item.tips && (
@@ -120,8 +120,8 @@ const Panel = (props: PanelProps) => {
                     </span>
                   )}
                 </div>
-                <div title={getInnerText(getRealValue(item))} className="break-words">
-                  {getRealValue(item)}
+                <div title={item.value || getInnerText(getRealValue(item))} className="break-words">
+                  {item.value || getRealValue(item)}
                 </div>
               </Col>
             </Row>
