@@ -200,7 +200,17 @@ const TestPlanDetail = () => {
             </Button>
           </EnvSelect>
         )}
-        <Button type="primary" ghost onClick={() => updateModalProp({ visible: true, mode: 'edit' })}>
+        <Button
+          type="primary"
+          ghost
+          onClick={() =>
+            updateModalProp({
+              visible: true,
+              mode: 'edit',
+              afterSubmit: () => getTestPlanItemDetail(+params.testPlanId),
+            })
+          }
+        >
           {i18n.t('dop:edit')}
         </Button>
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'copy' })}>
