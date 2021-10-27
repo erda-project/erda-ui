@@ -49,7 +49,7 @@ const getApiManagePlatformRouter = (): RouteConfigItem[] => [
       },
       {
         path: 'api-design',
-        breadcrumbName: i18n.t('project:API design'),
+        breadcrumbName: i18n.t('dop:API design'),
         routes: [
           {
             layout: { fullHeight: true },

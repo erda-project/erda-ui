@@ -117,7 +117,7 @@ const PipelineNode = (props: IProps) => {
             ),
         );
         if (temp.length) {
-          detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
+          detailInfo.push(<h4>{i18n.t('dop:details')}</h4>);
           detailInfo.push(...temp);
         }
       }
@@ -136,7 +136,7 @@ const PipelineNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
@@ -150,7 +150,7 @@ const PipelineNode = (props: IProps) => {
         // </pre>
       }
       // if (!isEmpty(errors)) {
-      //   detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+      //   detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
       //   detailInfo.push(
       //     <pre className="flow-chart-err-block">
       //       {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}
@@ -193,7 +193,7 @@ const PipelineNode = (props: IProps) => {
     // 右侧跳转链接图标
     if (status === 'Success') {
       if (isType('it') || isType('ut')) {
-        operations.push(['link', 'test-link', i18n.t('application:test')]);
+        operations.push(['link', 'test-link', i18n.t('dop:test')]);
       }
       // if (name === 'sonar') {
       //   operations.push(this.['link', 'sonar-link', '代码质量']);
@@ -201,7 +201,7 @@ const PipelineNode = (props: IProps) => {
     }
 
     if (status === 'Running' || (executeStatus.includes(status) && isNumber(costTimeSec) && costTimeSec !== -1)) {
-      operations.push(['log', 'log', i18n.t('application:log')]);
+      operations.push(['log', 'log', i18n.t('dop:log')]);
     }
 
     if (result) {
@@ -209,11 +209,11 @@ const PipelineNode = (props: IProps) => {
       if (metadata != null) {
         const runtimeIDObj = metadata.find((a: any) => a.name === 'runtimeID');
         if (runtimeIDObj) {
-          operations.push(['link', 'link', i18n.t('application:overview')]);
+          operations.push(['link', 'link', i18n.t('dop:overview')]);
         }
         const releaseIDObj = metadata.find((a: any) => a.name === 'releaseID');
         if (releaseIDObj) {
-          operations.push(['link', 'release-link', i18n.t('application:version details')]);
+          operations.push(['link', 'release-link', i18n.t('dop:version details')]);
         }
         const publisherIDObj = metadata.find((a: any) => a.name === 'publisherID');
         if (publisherIDObj) {
@@ -222,7 +222,7 @@ const PipelineNode = (props: IProps) => {
 
         // only project level app exist pipeline link
         if (appDetail.isProjectLevel && metadata.find((a) => a.name === 'pipelineID')) {
-          operations.push(['link', 'pipeline-link', i18n.t('application:pipeline')]);
+          operations.push(['link', 'pipeline-link', i18n.t('dop:pipeline')]);
         }
       }
     }

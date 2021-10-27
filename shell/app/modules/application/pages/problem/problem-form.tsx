@@ -20,15 +20,15 @@ export const getProblemType = (): PROBLEM.TicketType[] => {
   const typeArr = [
     {
       value: 'bug',
-      name: i18n.t('application:code defect'),
+      name: i18n.t('dop:code defect'),
     },
     {
       value: 'vulnerability',
-      name: i18n.t('application:code vulnerability'),
+      name: i18n.t('dop:code vulnerability'),
     },
     {
       value: 'codeSmell',
-      name: i18n.t('application:code smell'),
+      name: i18n.t('dop:code smell'),
     },
   ];
   return typeArr;
@@ -37,17 +37,17 @@ export const getProblemType = (): PROBLEM.TicketType[] => {
 export const ProblemPriority = [
   {
     value: 'low',
-    name: i18n.t('application:low'),
+    name: i18n.t('dop:low'),
     color: 'tag-info',
   },
   {
     value: 'medium',
-    name: i18n.t('application:medium'),
+    name: i18n.t('dop:medium'),
     color: 'tag-warning',
   },
   {
     value: 'high',
-    name: i18n.t('application:high'),
+    name: i18n.t('dop:high'),
     color: 'tag-danger',
   },
 ];
@@ -63,22 +63,22 @@ export const ProblemForm = ({
 }) => {
   const fieldsList = [
     {
-      label: i18n.t('application:ticket title'),
+      label: i18n.t('dop:ticket title'),
       name: 'title',
     },
     {
-      label: i18n.t('application:ticket content'),
+      label: i18n.t('dop:ticket content'),
       name: 'content',
       getComp: () => <MarkdownEditor btnText={i18n.t('submit comment')} />,
     },
     {
-      label: i18n.t('application:ticket type'),
+      label: i18n.t('dop:ticket type'),
       name: 'type',
       type: 'select',
       options: getProblemType(),
     },
     {
-      label: i18n.t('application:priority'),
+      label: i18n.t('dop:priority'),
       name: 'priority',
       type: 'radioGroup',
       options: ProblemPriority,
@@ -87,7 +87,7 @@ export const ProblemForm = ({
   return (
     <FormModal
       width={700}
-      name={i18n.t('application:tickets')}
+      name={i18n.t('task ticket')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={onOk}

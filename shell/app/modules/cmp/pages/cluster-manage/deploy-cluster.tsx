@@ -48,7 +48,7 @@ const DeployCluster = () => {
     if (!isEmpty(deployingCluster) && firstVisit) {
       message.info(
         i18n.t(
-          'org:The last deployment information has been initialized. Please click the reset button at the bottom if unnecessary.',
+          'cmp:The last deployment information has been initialized. Please click the reset button at the bottom if unnecessary.',
         ),
       );
       firstVisit = false;
@@ -65,7 +65,7 @@ const DeployCluster = () => {
   return (
     <div className="deploy-cluster">
       <div className="deploy-info font-medium">
-        {i18n.t('organization')} {currentOrg.name} {i18n.t('org:new cluster deployment')}
+        {i18n.t('organization')} {currentOrg.name} {i18n.t('cmp:new cluster deployment')}
         <div className="deploy-operator">
           <Button onClick={() => setLogVisible(true)}>{i18n.t('check log')}</Button>
           <Button onClick={() => killDeployCluster()}>{i18n.t('stop deploying')}</Button>

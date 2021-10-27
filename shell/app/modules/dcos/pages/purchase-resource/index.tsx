@@ -180,7 +180,7 @@ class OrderPage extends React.Component<IProps, any> {
           initialValue: 'Week',
         },
         {
-          label: i18n.t('cmp:duration'),
+          label: i18n.t('cmp:duration period'),
           name: ['ecs', 'period'],
           type: 'select',
           options: periodList.map((a) => ({ value: a, name: a })),
@@ -248,7 +248,7 @@ class OrderPage extends React.Component<IProps, any> {
       const periodList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, 60];
       extraFields = [
         {
-          label: `${i18n.t('cmp:duration')}(${i18n.t('month')}）`,
+          label: `${i18n.t('cmp:duration period')}(${i18n.t('month')}）`,
           name: ['redis', 'period'],
           type: 'radioGroup',
           options: periodList.map((a) => ({ value: a, name: a })),
@@ -349,7 +349,7 @@ class OrderPage extends React.Component<IProps, any> {
           initialValue: 'Month',
         },
         {
-          label: i18n.t('cmp:duration'),
+          label: i18n.t('cmp:duration period'),
           name: ['rds', 'usedTime'],
           type: 'radioGroup',
           options: usedTimeList.map((a) => ({ value: a, name: a })),
@@ -385,11 +385,11 @@ class OrderPage extends React.Component<IProps, any> {
         options: [
           {
             value: 'Postpaid', // 这里是小写，简直操蛋
-            name: i18n.t('org:Pay-As-You-Go'),
+            name: i18n.t('cmp:Pay-As-You-Go'),
           },
           {
             value: 'Prepaid',
-            name: i18n.t('org:Subscription'),
+            name: i18n.t('cmp:Subscription'),
           },
         ],
         initialValue: 'Postpaid',

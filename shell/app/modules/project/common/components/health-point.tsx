@@ -20,107 +20,107 @@ import './health-point.scss';
 export const statusMap = {
   runtime: {
     Init: {
-      text: i18n.t('project:initializing'),
+      text: i18n.t('dop:initializing'),
       state: 'processing',
     },
     Progressing: {
-      text: i18n.t('project:deploying'),
+      text: i18n.t('dop:deploying'),
       state: 'processing',
     },
     DEPLOYING: {
-      text: i18n.t('project:deploying'),
+      text: i18n.t('dop:deploying'),
       state: 'processing',
     },
     UnHealthy: {
-      text: i18n.t('project:unhealthy'),
+      text: i18n.t('dop:unhealthy'),
       state: 'warning',
     },
     OK: {
-      text: i18n.t('project:health'),
+      text: i18n.t('dop:health'),
       state: 'success',
     },
     Healthy: {
-      text: i18n.t('project:health'),
+      text: i18n.t('dop:health'),
       state: 'success',
     },
   },
   service: {
     Progressing: {
-      text: i18n.t('project:deploying'),
+      text: i18n.t('dop:deploying'),
       state: 'processing',
     },
     UnHealthy: {
-      text: i18n.t('project:unhealthy'),
+      text: i18n.t('dop:unhealthy'),
       state: 'warning',
     },
     Healthy: {
-      text: i18n.t('project:health'),
+      text: i18n.t('dop:health'),
       state: 'success',
     },
   },
   task: {
     Killed: {
-      text: i18n.t('project:stopped'),
+      text: i18n.t('dop:stopped'),
       state: 'error',
     },
     Stopped: {
-      text: i18n.t('project:stopped'),
+      text: i18n.t('dop:stopped'),
       state: 'error',
     },
     Failed: {
-      text: i18n.t('project:deployment failed'),
+      text: i18n.t('dop:deployment failed'),
       state: 'error',
     },
     Finished: {
-      text: i18n.t('project:complete'),
+      text: i18n.t('dop:complete'),
       state: 'default',
     },
     Starting: {
-      text: i18n.t('project:starting'),
+      text: i18n.t('dop:starting'),
       state: 'processing',
     },
     Healthy: {
-      text: i18n.t('project:health'),
+      text: i18n.t('dop:health'),
       state: 'success',
     },
     UnHealthy: {
-      text: i18n.t('project:unhealthy'),
+      text: i18n.t('dop:unhealthy'),
       state: 'warning',
     },
     Unknown: {
-      text: i18n.t('project:unknown'),
+      text: i18n.t('dop:unknown'),
       state: 'warning',
     },
     OOM: {
-      text: i18n.t('project:oom'),
+      text: i18n.t('dop:oom'),
       state: 'warning',
     },
     Running: {
-      text: i18n.t('project:running'),
+      text: i18n.t('dop:running'),
       state: 'success',
     },
     Dead: {
-      text: i18n.t('project:stopped'),
+      text: i18n.t('dop:stopped'),
       state: 'error',
     },
   },
   machine: {
     fatal: {
-      text: i18n.t('project:error'),
+      text: i18n.t('dop:error'),
       state: 'error',
     },
     warning: {
-      text: i18n.t('project:unhealthy'),
+      text: i18n.t('dop:unhealthy'),
       state: 'warning',
     },
     normal: {
-      text: i18n.t('project:health'),
+      text: i18n.t('dop:health'),
       state: 'success',
     },
   },
 };
 
-const fallback = { text: i18n.t('project:unknown'), state: 'default' };
+const fallback = { text: i18n.t('dop:unknown'), state: 'default' };
 
 interface IProps {
   type: string;

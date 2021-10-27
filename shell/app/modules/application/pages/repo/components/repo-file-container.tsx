@@ -121,7 +121,7 @@ const RepoFileContainerComp = (props: IProps) => {
     }).then((res) => {
       toggleModal(false);
       if (res.success) {
-        message.success(i18n.t('application:file deleted successfully'));
+        message.success(i18n.t('dop:file deleted successfully'));
         // back to parent path
         const parentPath = res?.data?.commit?.parentDirPath;
         const { branch, tag } = getInfoFromRefName(info.refName);
@@ -165,7 +165,7 @@ const RepoFileContainerComp = (props: IProps) => {
 
     if (editFile) {
       return (
-        <Tooltip title={i18n.t('application:cancel')}>
+        <Tooltip title={i18n.t('dop:cancel')}>
           <ErdaIcon
             className="cursor-pointer"
             width="20"
@@ -185,19 +185,16 @@ const RepoFileContainerComp = (props: IProps) => {
       const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
 
       const disabledTips = branchAuth
-        ? [
-            i18n.t('application:can only edit files under the branch'),
-            i18n.t('application:can only delete files under the branch'),
-          ]
+        ? [i18n.t('dop:can only edit files under the branch'), i18n.t('dop:can only delete files under the branch')]
         : [
-            i18n.t('application:branch is protected, you have no permission yet'),
-            i18n.t('application:branch is protected, you have no permission yet'),
+            i18n.t('dop:branch is protected, you have no permission yet'),
+            i18n.t('dop:branch is protected, you have no permission yet'),
           ];
       return (
         <IF check={isBranchTree && branchAuth}>
           <ButtonGroup className="mr-5">
             <Button size="small" onClick={() => changeMode({ fileBlame: !fileBlame })}>
-              {fileBlame ? i18n.t('application:normal view') : i18n.t('application:view by line')}
+              {fileBlame ? i18n.t('dop:normal view') : i18n.t('dop:view by line')}
             </Button>
             <Button
               size="small"
@@ -205,11 +202,11 @@ const RepoFileContainerComp = (props: IProps) => {
                 goTo(goTo.pages.commits, { projectId, appId, branch, path });
               }}
             >
-              {i18n.t('application:submission history')}
+              {i18n.t('dop:submission history')}
             </Button>
           </ButtonGroup>
           <IF check={!binary}>
-            <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:edit')}>
+            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:edit')}>
               <div className="mt-1 mr-3">
                 <ErdaIcon
                   fill="black-400"
@@ -221,7 +218,7 @@ const RepoFileContainerComp = (props: IProps) => {
               </div>
             </Tooltip>
           </IF>
-          <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:delete')}>
+          <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:delete')}>
             <ErdaIcon
               fill="black-400"
               width="20"
@@ -263,7 +260,7 @@ const RepoFileContainerComp = (props: IProps) => {
     }).then((res) => {
       if (res.success) {
         changeMode({ editFile: false, addFile: false });
-        message.success(i18n.t('application:file modified successfully'));
+        message.success(i18n.t('dop:file modified successfully'));
         getRepoBlob();
       }
     });
@@ -274,14 +271,14 @@ const RepoFileContainerComp = (props: IProps) => {
       return pipelineYmlStructure.needUpgrade ? (
         <>
           <DeleteConfirm
-            title={`${path} ${i18n.t('application:New version available. Upgrade now?')}?`}
+            title={`${path} ${i18n.t('dop:New version available. Upgrade now?')}?`}
             secondTitle=""
             onConfirm={onYmlUpgrade}
           >
             <div className="file-alert cursor-pointer">
               <CustomIcon className="mr-1" type="jg" />
               <span className="alert-text">
-                {i18n.t('application:current')} {path} {i18n.t('application:can be upgraded with one click')}！
+                {i18n.t('dop:current')} {path} {i18n.t('dop:can be upgraded with one click')}！
               </span>
             </div>
           </DeleteConfirm>
@@ -347,7 +344,7 @@ const RepoFileContainerComp = (props: IProps) => {
     const { branch } = getInfoFromRefName(info.refName);
     const fieldsList = [
       {
-        label: i18n.t('application:submit information'),
+        label: i18n.t('dop:submit information'),
         name: 'message',
         type: 'textArea',
         itemProps: {
@@ -357,7 +354,7 @@ const RepoFileContainerComp = (props: IProps) => {
         initialValue: `Delete ${name}`,
       },
       {
-        label: i18n.t('application:submit branch'),
+        label: i18n.t('dop:submit branch'),
         name: 'branch',
         type: 'select',
         initialValue: branch,
@@ -374,7 +371,7 @@ const RepoFileContainerComp = (props: IProps) => {
       {renderContent()}
       <FormModal
         width={620}
-        title={`${i18n.t('application:delete')}${props.name}`}
+        title={`${i18n.t('dop:delete')}${props.name}`}
         fieldsList={getFieldsList()}
         visible={state.modalVisible}
         onOk={handleDelete}

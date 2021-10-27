@@ -50,40 +50,40 @@ const testEnv = createFlatStore({
   effects: {
     async createTestEnv({ call }, payload: TEST_ENV.CreateBody, query: TEST_ENV.EnvListQuery) {
       const newData = await call(createTestEnv, payload, {
-        successMsg: i18n.t('project:environment configuration added successfully'),
+        successMsg: i18n.t('dop:environment configuration added successfully'),
       });
       testEnv.getTestEnvList(query);
       testEnv.setActiveEnv(newData);
     },
     async createAutoTestEnv({ call }, payload: TEST_ENV.ICreateAutoTestEnv, query: TEST_ENV.IAutoEnvQuery) {
       const newData = await call(createAutoTestEnv, payload, {
-        successMsg: i18n.t('project:environment configuration added successfully'),
+        successMsg: i18n.t('dop:environment configuration added successfully'),
       });
       testEnv.getAutoTestEnvList(query);
       testEnv.setActiveEnv(newData);
     },
     async updateTestEnv({ call }, payload: TEST_ENV.Item, query: TEST_ENV.EnvListQuery) {
       await call(updateTestEnv, payload, {
-        successMsg: i18n.t('project:environment configuration updated successfully'),
+        successMsg: i18n.t('dop:environment configuration updated successfully'),
       });
       testEnv.getTestEnvList(query);
       testEnv.setActiveEnv(payload);
     },
     async updateAutoTestEnv({ call }, payload: TEST_ENV.ICreateAutoTestEnv) {
       await call(updateAutoTestEnv, payload, {
-        successMsg: i18n.t('project:environment configuration updated successfully'),
+        successMsg: i18n.t('dop:environment configuration updated successfully'),
       });
       testEnv.getAutoTestEnvList({ scope: payload.scope, scopeID: Number(payload.scopeID) });
       testEnv.setActiveEnv(payload);
     },
     async deleteTestEnv({ call }, id: number, query: TEST_ENV.EnvListQuery) {
-      await call(deleteTestEnv, id, { successMsg: i18n.t('project:environment configuration deleted successfully') });
+      await call(deleteTestEnv, id, { successMsg: i18n.t('dop:environment configuration deleted successfully') });
       testEnv.getTestEnvList(query);
       testEnv.setActiveEnv({});
     },
     async deleteAutoTestEnv({ call }, ns: string, query: TEST_ENV.IAutoEnvQuery) {
       await call(deleteAutoTestEnv, ns, {
-        successMsg: i18n.t('project:environment configuration deleted successfully'),
+        successMsg: i18n.t('dop:environment configuration deleted successfully'),
       });
       testEnv.getAutoTestEnvList(query);
       testEnv.setActiveEnv({});

@@ -62,13 +62,13 @@ export default ({ hasEditAuth }: IProps) => {
       columns={[
         {
           key: 'workspace',
-          title: i18n.t('project:environments'),
+          title: i18n.t('dop:environments'),
           width: '200',
           dataIndex: 'workspace',
           render: (val: string) => workSpaceMap[val] || val,
         },
         {
-          title: i18n.t('project:rollback point'),
+          title: i18n.t('dop:rollback point'),
           width: '400',
           dataIndex: 'point',
           align: 'left',
@@ -86,9 +86,9 @@ export default ({ hasEditAuth }: IProps) => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}
-      name={i18n.t('project:rollback setting')}
+      name={i18n.t('dop:rollback setting')}
       // desc={i18n.t('')}
-      formName={i18n.t('project:rollback setting')}
+      formName={i18n.t('dop:rollback setting')}
     />
   );
 };

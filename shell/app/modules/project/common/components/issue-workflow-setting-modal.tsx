@@ -132,7 +132,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
   const fName = FIELD_TYPE_ICON_MAP[issueType]?.name;
   return (
     <Modal
-      title={i18n.t('edit {name}', { name: `${fName}${i18n.t('project:workflow')}` })}
+      title={i18n.t('edit {name}', { name: `${fName}${i18n.t('dop:workflow')}` })}
       visible={visible}
       width="1010px"
       onCancel={onCancel}
@@ -221,7 +221,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
               </div>
             </div>
             <Divider className="my-2" orientation="left">
-              {i18n.t('project:state setting')}
+              {i18n.t('dop:state setting')}
             </Divider>
             <div className="flex justify-between items-center">
               <div className="form-content-left">
@@ -258,7 +258,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
               </div>
             </div>
             <Divider className="my-2" orientation="left">
-              {i18n.t('project:circulation setting')}
+              {i18n.t('dop:circulation setting')}
             </Divider>
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
@@ -268,7 +268,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                       <Tooltip title={stateName}>
                         <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
-                      <span className="ml-2 text-desc">{i18n.t('project:can circulate to')}</span>
+                      <span className="ml-2 text-desc">{i18n.t('dop:can circulate to')}</span>
                     </div>
                   </div>
                   <div className="form-content-right flex justify-between items-center">

@@ -74,11 +74,11 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
         }
         case 'issueType': {
           const replaceMap = {
-            epic: i18n.t('project:milestone'),
-            requirement: i18n.t('project:requirement'),
-            task: i18n.t('project:task'),
-            bug: i18n.t('project:bug'),
-            ticket: i18n.t('project:ticket'),
+            epic: i18n.t('dop:milestone'),
+            requirement: i18n.t('dop:requirement'),
+            task: i18n.t('dop:task'),
+            bug: i18n.t('dop:bug'),
+            ticket: i18n.t('dop:ticket'),
           };
           // 如果是需求池里的需求，把链接替换一下
           if (fullContext.iterationId === -1) {

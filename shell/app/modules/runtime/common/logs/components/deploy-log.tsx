@@ -97,7 +97,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
             <span>
               <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />
               &nbsp;
-              {i18n.t('application:upgrade log')}
+              {i18n.t('dop:upgrade log')}
             </span>
           ),
         });
@@ -125,7 +125,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
       if (migrationId) {
         return {
           content: logInfo[0],
-          suffix: <a onClick={() => checkMigrationLog()}>{i18n.t('application:view upgrade log')}</a>,
+          suffix: <a onClick={() => checkMigrationLog()}>{i18n.t('dop:view upgrade log')}</a>,
         };
       }
 

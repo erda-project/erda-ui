@@ -20,18 +20,18 @@ import i18n from 'i18n';
 const approvalTabs = [
   {
     key: 'pending',
-    name: i18n.t('org:pending approval'),
+    name: i18n.t('cmp:pending approval'),
   },
   {
     key: 'approved',
-    name: i18n.t('org:approved'),
+    name: i18n.t('cmp:approved'),
   },
 ];
 
 const initiateTabs = [
   {
     key: 'WaitApprove',
-    name: i18n.t('org:pending approval'),
+    name: i18n.t('cmp:pending approval'),
   },
   {
     key: 'Accept',
@@ -57,7 +57,7 @@ export default function getDopRouter(): RouteConfigItem[] {
           routes: [
             {
               path: 'my-approve/:approvalType',
-              breadcrumbName: i18n.t('dop:approved'),
+              breadcrumbName: i18n.t('dop:my approval'),
               tabs: approvalTabs,
               ignoreTabQuery: true,
               routes: [

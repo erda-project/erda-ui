@@ -17,11 +17,11 @@ import permStore from 'user/stores/permission';
 const approvalTabs = [
   {
     key: 'undone',
-    name: i18n.t('org:pending approval'),
+    name: i18n.t('cmp:pending approval'),
   },
   {
     key: 'done',
-    name: i18n.t('org:approved'),
+    name: i18n.t('cmp:approved'),
   },
 ];
 
@@ -30,7 +30,7 @@ const marketTabs = () => {
   return [
     {
       key: 'setting',
-      name: i18n.t('org:publisher info'),
+      name: i18n.t('cmp:publisher info'),
       show: orgPerm.orgCenter.viewMarket.pass,
     },
     {
@@ -70,7 +70,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
                 // },
                 {
                   path: 'dashboard',
-                  breadcrumbName: i18n.t('project:statistics'),
+                  breadcrumbName: i18n.t('dop:statistics'),
                   getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
                   layout: {
                     noWrapper: true,
@@ -112,12 +112,12 @@ function getOrgCenterRouter(): RouteConfigItem[] {
         },
         {
           path: 'safety',
-          breadcrumbName: i18n.t('org:audit log'),
+          breadcrumbName: i18n.t('cmp:audit log'),
           getComp: (cb) => cb(import('app/modules/org/pages/safety')),
         },
         {
           path: 'approval/:approvalType',
-          breadcrumbName: i18n.t('org:approval'),
+          breadcrumbName: i18n.t('cmp:approval'),
           tabs: approvalTabs,
           ignoreTabQuery: true,
           getComp: (cb) => cb(import('app/modules/org/pages/approval')),
@@ -129,7 +129,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
             {
               path: 'detail',
               layout: { fullHeight: true },
-              breadcrumbName: i18n.t('org:org detail'),
+              breadcrumbName: i18n.t('cmp:org detail'),
               getComp: (cb) => cb(import('app/modules/org/pages/setting/org-setting'), 'OrgSetting'),
             },
           ],

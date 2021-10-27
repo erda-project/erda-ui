@@ -18,7 +18,7 @@ import React from 'react';
 import './time-input.scss';
 
 export const checkReg = /^(\d+w\s)?(\d+d\s)?(\d+h\s)?(\d+m\s)?$/;
-export const checkMsg = i18n.t('project:Format must be 2w 3d 4h 5m');
+export const checkMsg = i18n.t('dop:Format must be 2w 3d 4h 5m');
 const hourMin = 60;
 const dayMin = 8 * hourMin; // 1d = 8h
 const weekMin = 5 * dayMin; // 1w = 5d
@@ -144,7 +144,7 @@ export const TimeInput = React.forwardRef(
         <Input
           allowClear
           className={showTip ? 'with-error' : ''}
-          placeholder={i18n.t('project:please input time')}
+          placeholder={i18n.t('dop:please input time')}
           onFocus={() => setShowBtn(true)}
           {...rest}
           ref={ref}

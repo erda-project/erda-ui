@@ -44,13 +44,13 @@ export const clusterTypeMap = [
       type: 'k8s',
       name: 'Kubernetes',
       icon: clusterImgMap.k8s,
-      description: i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' }),
+      description: i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' }),
     },
     {
       type: 'edas',
       name: 'EDAS',
       icon: clusterImgMap.edas,
-      description: i18n.t('org:import an existing Erda {type} cluster', { type: 'EDAS' }),
+      description: i18n.t('cmp:import an existing Erda {type} cluster', { type: 'EDAS' }),
     },
   ],
 ];
@@ -88,7 +88,7 @@ export const ClusterTypeModal = (props: any) => {
 
   return (
     <Modal
-      title={i18n.t('org:select the cluster type')}
+      title={i18n.t('cmp:select the cluster type')}
       visible={visible}
       onOk={handleSubmit}
       onCancel={toggleModal}

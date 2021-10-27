@@ -92,7 +92,7 @@ const DataList = (props: IProps) => {
         <div className="header-left">
           <Select
             className="data-select"
-            placeholder={i18n.t('application:select a business domain')}
+            placeholder={i18n.t('dop:select a business domain')}
             value={!isEmpty(businessDomain) ? businessDomain.enName : ''}
           >
             {!isEmpty(businessDomain) && <Option value={businessDomain.enName}>{businessDomain.cnName}</Option>}
@@ -113,12 +113,12 @@ const DataList = (props: IProps) => {
             className="data-select"
             value={searchKey}
             onChange={onSearchKeyChange}
-            placeholder={i18n.t('application:chinese/english search for input form')}
+            placeholder={i18n.t('dop:chinese/english search for input form')}
             onPressEnter={onSearch}
           />
         </div>
         <div className="header-right">
-          <Button onClick={onReset}>{i18n.t('application:reset')}</Button>
+          <Button onClick={onReset}>{i18n.t('dop:reset')}</Button>
           <Button type="primary" ghost onClick={onSearch}>
             {i18n.t('search')}
           </Button>

@@ -292,7 +292,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     const { tplContent } = this.state;
     let disableSubmitTip: string | null = null;
     if (mrStats.hasError) {
-      disableSubmitTip = i18n.t('application:merge request has errors');
+      disableSubmitTip = i18n.t('dop:merge request has errors');
     }
     const {
       sourceBranch,
@@ -311,7 +311,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     const fieldsList = [
       {
         label: '',
-        getComp: () => <div className="section-title">{i18n.t('application:choose branch')}</div>,
+        getComp: () => <div className="section-title">{i18n.t('dop:choose branch')}</div>,
         extraProps: fieldExtraProps,
       },
       {
@@ -335,7 +335,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           {
             validator: (_rule: any, value: any, callback: Function) => {
               if (!value || !value.sourceBranch) {
-                callback(i18n.t('application:no comparison branch selected'));
+                callback(i18n.t('dop:no comparison branch selected'));
                 return;
               }
               callback();

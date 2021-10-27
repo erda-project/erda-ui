@@ -77,7 +77,7 @@ const SnippetDetail = (props: IProps) => {
             ),
         );
         if (temp.length) {
-          detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
+          detailInfo.push(<h4>{i18n.t('dop:details')}</h4>);
           detailInfo.push(...temp);
         }
       }
@@ -96,7 +96,7 @@ const SnippetDetail = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">
@@ -190,7 +190,7 @@ const SnippetDetail = (props: IProps) => {
             <Tabs.TabPane tab={i18n.t('log')} key="log">
               {actKey === 'log' && logProps.logId ? <BuildLog withoutDrawer {...logProps} /> : <EmptyHolder relative />}
             </Tabs.TabPane>
-            <Tabs.TabPane tab={i18n.t('project:execute result')} key="result">
+            <Tabs.TabPane tab={i18n.t('dop:execute result')} key="result">
               {hasResult ? <ResultView data={chosenData} /> : <EmptyHolder relative />}
             </Tabs.TabPane>
           </Tabs>

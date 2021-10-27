@@ -56,7 +56,7 @@ export const getOrgCenterMenu = () => {
           key: 'orgSafety',
           href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
           icon: <IconLog />,
-          text: i18n.t('org:audit log'),
+          text: i18n.t('cmp:audit log'),
           subtitle: i18n.t('Audit'),
           show: orgPerm.orgCenter.viewAuditLog.pass,
         },

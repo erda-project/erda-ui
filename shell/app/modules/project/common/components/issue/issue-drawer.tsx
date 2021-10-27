@@ -167,7 +167,7 @@ export const IssueDrawer = (props: IProps) => {
                   data={data}
                 />
                 <IF check={editMode && shareLink}>
-                  <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
+                  <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
                   <IconShareOne
                     className="cursor-copy copy-share-link mr-1 ml-3"
                     size="16px"
@@ -177,13 +177,13 @@ export const IssueDrawer = (props: IProps) => {
                 <IF check={editMode}>
                   <WithAuth pass={canCreate}>
                     <Popover
-                      title={i18n.t('project:copy issue')}
+                      title={i18n.t('dop:copy issue')}
                       visible={showCopy}
                       onVisibleChange={(v) => setShowCopy(v)}
                       content={
                         <>
                           <Input
-                            placeholder={i18n.t('project:Please enter the issue title')}
+                            placeholder={i18n.t('dop:Please enter the issue title')}
                             style={{ width: 400 }}
                             value={copyTitle}
                             onChange={(e) => setCopyTitle(e.target.value)}
@@ -201,7 +201,7 @@ export const IssueDrawer = (props: IProps) => {
                             <Button
                               onClick={() => {
                                 if (copyTitle === '') {
-                                  message.error(i18n.t('project:The title can not be empty'));
+                                  message.error(i18n.t('dop:The title can not be empty'));
                                   return;
                                 }
                                 handleCopy && handleCopy(true, copyTitle);

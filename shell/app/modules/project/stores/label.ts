@@ -38,14 +38,14 @@ const projectLabel = createStore({
       await call(
         createLabel,
         { ...payload, projectID: +projectId || projectID },
-        { successMsg: i18n.t('project:label created successfully') },
+        { successMsg: i18n.t('dop:label created successfully') },
       );
     },
     async updateLabel({ call }, payload: LABEL.Item) {
-      await call(updateLabel, payload, { successMsg: i18n.t('project:label updated successfully') });
+      await call(updateLabel, payload, { successMsg: i18n.t('dop:label updated successfully') });
     },
     async deleteLabel({ call }, labelId: number) {
-      await call(deleteLabel, labelId, { successMsg: i18n.t('project:label deleted successfully') });
+      await call(deleteLabel, labelId, { successMsg: i18n.t('dop:label deleted successfully') });
       projectLabel.reducers.deleteLabel(labelId);
     },
   },

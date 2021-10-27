@@ -39,7 +39,7 @@ const RepoMRCreation = () => {
       {showDiff && (
         <React.Fragment>
           <div className="section-title" ref={diffRef}>
-            {i18n.t('application:comparison results')}
+            {i18n.t('dop:comparison results')}
           </div>
           <div className="mr-compare-diff">
             <RepoCompareDetail hideComment disableComment />

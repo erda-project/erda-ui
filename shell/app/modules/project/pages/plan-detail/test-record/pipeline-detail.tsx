@@ -108,7 +108,7 @@ export class PipelineDetail extends React.Component<IProps, IState> {
           logVisible: true,
           logProps: {
             logId: node.extra.uuid,
-            title: i18n.t('project:interface test log'),
+            title: i18n.t('dop:interface test log'),
             customFetchAPIPrefix: `/api/apitests/pipeline/${node.pipelineID}/task/${node.id}/logs`,
             pipelineID: node.pipelineID,
             taskID: node.id,

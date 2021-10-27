@@ -50,16 +50,16 @@ export const PureAppSettings = () => {
 
   const settingSource = [
     {
-      groupTitle: i18n.t('application:general settings'),
+      groupTitle: i18n.t('dop:general settings'),
       groupKey: 'common',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:application information'),
+          tabTitle: i18n.t('dop:application information'),
           tabKey: 'appInfo',
           content: <AppInfo />,
         },
         {
-          tabTitle: i18n.t('application:app member'),
+          tabTitle: i18n.t('dop:app member'),
           tabKey: 'appMember',
           content: (
             <ConfigLayout
@@ -77,7 +77,7 @@ export const PureAppSettings = () => {
                   children: <MembersTable scopeKey={MemberScope.APP} />,
                 },
                 {
-                  title: i18n.t('application:view the project member'),
+                  title: i18n.t('dop:view the project member'),
                   children: <MembersTable readOnly hideBatchOps hideRowSelect scopeKey={MemberScope.PROJECT} />,
                 },
               ]}
@@ -87,17 +87,17 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:repository'),
+      groupTitle: i18n.t('dop:repository'),
       groupKey: 'repository',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:merge description'),
+          tabTitle: i18n.t('dop:merge description'),
           tabKey: 'mrDesc',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:set the default merge request description template'),
+                  title: i18n.t('dop:set the default merge request description template'),
                   children: <MergeDes />,
                 },
               ]}
@@ -105,14 +105,14 @@ export const PureAppSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('project:branch rule'),
+          tabTitle: i18n.t('dop:branch rule'),
           tabKey: 'branchRule',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:application branch rule'),
-                  desc: i18n.t('application:application-branch-rule-desc'),
+                  title: i18n.t('dop:application branch rule'),
+                  desc: i18n.t('dop:application-branch-rule-desc'),
                   children: <BranchRule operationAuth={branchRuleOperation} scopeId={+params.appId} scopeType="app" />,
                 },
               ]}
@@ -120,12 +120,12 @@ export const PureAppSettings = () => {
           ),
         },
         // {
-        //   tabTitle: i18n.t('application:repository settings'),
+        //   tabTitle: i18n.t('dop:repository settings'),
         //   tabKey: 'repoSetting',
         //   content: (
         //     <ConfigLayout
         //       sectionList={[{
-        //         title: i18n.t('application:repository settings'),
+        //         title: i18n.t('dop:repository settings'),
         //         children: <RepoSetting appDetail={appDetail} />,
         //       }]}
         //     />
@@ -134,19 +134,19 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:pipeline'),
+      groupTitle: i18n.t('dop:pipeline'),
       groupKey: 'pipeline',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:variable configuration'),
+          tabTitle: i18n.t('dop:variable configuration'),
           tabKey: 'privateConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:variable configuration'),
+                  title: i18n.t('dop:variable configuration'),
                   desc: i18n.t(
-                    'application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
+                    'dop:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
                   ),
                   children: <PipelineConfig />,
                 },
@@ -157,18 +157,18 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:deployment center'),
+      groupTitle: i18n.t('dop:deployment center'),
       groupKey: 'deploy',
       tabGroup: [
         {
-          tabTitle: `${i18n.t('application:parameter setting')}`,
+          tabTitle: `${i18n.t('dop:parameter setting')}`,
           tabKey: 'appConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:variable-config'),
-                  desc: i18n.t('application:configure-deployment-environment'),
+                  title: i18n.t('dop:variable-config'),
+                  desc: i18n.t('dop:configure-deployment-environment'),
                   children: <DeployConfig />,
                 },
               ]}
@@ -178,17 +178,17 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:notification management'),
+      groupTitle: i18n.t('dop:notification management'),
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:notification'),
+          tabTitle: i18n.t('dop:notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:help you better organize your notifications'),
+                  title: i18n.t('dop:help you better organize your notifications'),
                   children: (
                     <NotifyConfig
                       memberStore={memberStore}
@@ -201,13 +201,13 @@ export const PureAppSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('application:notification group'),
+          tabTitle: i18n.t('dop:notification group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:organize notification groups to set up notifications'),
                   children: (
                     <NotifyGroup
                       memberStore={memberStore}
@@ -222,20 +222,20 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:more settings'), // 暂时只有库应用和移动应用才有
+      groupTitle: i18n.t('dop:more settings'), // 暂时只有库应用和移动应用才有
       groupKey: 'more',
       tabGroup: (() => {
         const list = [
           {
-            tabTitle: i18n.t('application:variable configuration'),
+            tabTitle: i18n.t('dop:variable configuration'),
             tabKey: 'variableConfig',
             content: (
               <ConfigLayout
                 sectionList={[
                   {
-                    title: i18n.t('application:variable configuration'),
+                    title: i18n.t('dop:variable configuration'),
                     desc: i18n.t(
-                      'application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
+                      'dop:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.',
                     ),
                     children: <MobileConfig />,
                   },
@@ -244,13 +244,13 @@ export const PureAppSettings = () => {
             ),
           },
           {
-            tabTitle: i18n.t('application:version push'),
+            tabTitle: i18n.t('dop:version push'),
             tabKey: 'versionPush',
             content: (
               <ConfigLayout
                 sectionList={[
                   {
-                    title: i18n.t('application:auto-push-after-relate'),
+                    title: i18n.t('dop:auto-push-after-relate'),
                     children: <VersionPushConfig />,
                   },
                 ]}
@@ -261,13 +261,13 @@ export const PureAppSettings = () => {
         if ([appMode.MOBILE].includes(get(appDetail, 'mode'))) {
           list.push(
             {
-              tabTitle: i18n.t('application:subscribe module'),
+              tabTitle: i18n.t('dop:subscribe module'),
               tabKey: 'libraryImport',
               content: (
                 <ConfigLayout
                   sectionList={[
                     {
-                      title: i18n.t('application:refer-to-market'),
+                      title: i18n.t('dop:refer-to-market'),
                       children: <LibraryImport />,
                     },
                   ]}
@@ -275,13 +275,13 @@ export const PureAppSettings = () => {
               ),
             },
             {
-              tabTitle: i18n.t('application:reference certificate'),
+              tabTitle: i18n.t('dop:reference certificate'),
               tabKey: 'certificateImport',
               content: (
                 <ConfigLayout
                   sectionList={[
                     {
-                      title: i18n.t('application:apply-reference-certificate'),
+                      title: i18n.t('dop:apply-reference-certificate'),
                       children: <CertificateImport />,
                     },
                   ]}

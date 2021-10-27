@@ -95,7 +95,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       return;
     }
     if ((issueBugs || []).some((item) => item.issueID === selectBug)) {
-      message.info(i18n.t('project:This bug has been associated with the current use case. Please select again.'));
+      message.info(i18n.t('dop:This bug has been associated with the current use case. Please select again.'));
       return;
     }
     addRelation({ issueIDs: [selectBug], id: relationID }).then(() => {
@@ -137,7 +137,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       },
     },
     {
-      title: i18n.t('project:priority'),
+      title: i18n.t('dop:priority'),
       dataIndex: 'priority',
       width: 96,
       render: (text: string) =>
@@ -217,7 +217,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
             <Select
               className="filter-select"
               onChange={handleSelectPriority}
-              placeholder={i18n.t('project:priority')}
+              placeholder={i18n.t('dop:priority')}
               allowClear
             >
               {map(ISSUE_PRIORITY_MAP, (item) => {

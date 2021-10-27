@@ -163,7 +163,7 @@ const Certificate = () => {
               {/* <span className="table-operations-btn" onClick={() => onEdit(record)}>{i18n.t('edit')}</span> */}
               <DeleteConfirm
                 title={i18n.t('delete certificate')}
-                secondTitle={i18n.t('org:confirm-delete-certificate')}
+                secondTitle={i18n.t('cmp:confirm-delete-certificate')}
                 onConfirm={() => deleteItem(record).then(() => reloadList())}
               >
                 <span className="table-operations-btn">{i18n.t('delete')}</span>
@@ -385,7 +385,7 @@ const Certificate = () => {
           }),
         },
         {
-          label: `Debug-key ${i18n.t('org:alias')}`,
+          label: `Debug-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrManualDebug.concat(['alias']),
         },
         {
@@ -436,7 +436,7 @@ const Certificate = () => {
           }),
         },
         {
-          label: `Release-key ${i18n.t('org:alias')}`,
+          label: `Release-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrManualRelease.concat(['alias']),
         },
         {
@@ -468,7 +468,7 @@ const Certificate = () => {
       ],
       auto: [
         {
-          label: `Debug-key ${i18n.t('org:alias')}`,
+          label: `Debug-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrAuto.concat(['debugKeyStore', 'alias']),
         },
         {
@@ -490,7 +490,7 @@ const Certificate = () => {
           getComp: () => <Input.Password />,
         },
         {
-          label: `Release-key ${i18n.t('org:alias')}`,
+          label: `Release-key ${i18n.t('cmp:alias')}`,
           name: keyPrefix.adrAuto.concat(['releaseKeyStore', 'alias']),
         },
         {

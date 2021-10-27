@@ -93,9 +93,9 @@ const MiddlewareChart = () => {
 
   return (
     <Spin spinning={loading}>
-      {/* <h3 className="title mb-4">{i18n.t('org:middleware container chart')}</h3> */}
+      {/* <h3 className="title mb-4">{i18n.t('cmp:middleware container chart')}</h3> */}
       <PureBoardGrid layout={getLayout([...containerChartMetas, ...middlewareChartMetas])} />
-      {/* <h3 className="title mt-6 mb-4">{i18n.t('org:middleware indicator chart')}</h3>
+      {/* <h3 className="title mt-6 mb-4">{i18n.t('cmp:middleware indicator chart')}</h3>
       <PureBoardGrid
         layout={getLayout(middlewareChartMetas)}
       /> */}

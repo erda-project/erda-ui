@@ -86,25 +86,25 @@ export default () => {
     <div>
       <div className="top-button-group">
         <Button type="primary" onClick={onClick} loading={saving}>
-          {i18n.t('project:create test report')}
+          {i18n.t('dop:create test report')}
         </Button>
       </div>
       <div className="bg-white rounded p-2">
         <Form className="w-3/5" layout="vertical" form={form}>
-          <Form.Item label={i18n.t('org:report name')} name="name" rules={[{ required: true }]}>
+          <Form.Item label={i18n.t('cmp:report name')} name="name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label={i18n.t('project:iteration')} name="iterationID" rules={[{ required: true }]}>
+          <Form.Item label={i18n.t('dop:iteration')} name="iterationID" rules={[{ required: true }]}>
             <IterationSelect onChange={changeIteration} autoSelectFirst disabledBacklog />
           </Form.Item>
-          <Form.Item label={i18n.t('project:test summary')} name="summary">
+          <Form.Item label={i18n.t('dop:test summary')} name="summary">
             <MarkdownEditor />
           </Form.Item>
         </Form>
       </div>
       {chosenIterationID ? (
         <div key={chosenIterationID}>
-          <Title title={i18n.t('project:test statistics')} />
+          <Title title={i18n.t('dop:test statistics')} />
           <DiceConfigPage
             scenarioType={'test-dashboard'}
             scenarioKey={'test-dashboard'}
@@ -116,7 +116,7 @@ export default () => {
             inParams={inParams}
           />
 
-          <Title title={i18n.t('project:test statistics')} />
+          <Title title={i18n.t('dop:test statistics')} />
           <DiceConfigPage
             scenarioType={'issue-dashboard'}
             scenarioKey={'issue-dashboard'}

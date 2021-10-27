@@ -46,13 +46,13 @@ const FileContainer = ({ children, name, className = '', ops, isEditing }: IProp
     <article className={`file-container ${clsName}`}>
       <div className="file-title font-bold">
         <span className="flex-1 nowrap">
-          {isEditing ? i18n.t('application:edit') : null}
+          {isEditing ? i18n.t('dop:edit') : null}
           {name}
         </span>
         <span className="file-ops">{ops}</span>
       </div>
       <div className="file-content">
-        <Spin spinning={isSpinning} tip={`${i18n.t('application:content loading')}...`} wrapperClassName="flex-1">
+        <Spin spinning={isSpinning} tip={`${i18n.t('dop:content loading')}...`} wrapperClassName="flex-1">
           {children}
         </Spin>
       </div>

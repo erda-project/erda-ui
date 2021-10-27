@@ -53,9 +53,9 @@ const { Option } = Select;
 
 export const i18nMap = {
   version: i18n.t('version'),
-  params: i18n.t('application:task params'),
-  resources: i18n.t('application:running resources'),
-  commands: i18n.t('application:task commands'),
+  params: i18n.t('dop:task params'),
+  resources: i18n.t('dop:running resources'),
+  commands: i18n.t('dop:task commands'),
   image: i18n.t('image'),
 };
 
@@ -179,10 +179,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     const name = form.getFieldValue(['resource', 'alias']);
 
     if (!value) {
-      return callback(i18n.t('application:please enter the task name'));
+      return callback(i18n.t('dop:please enter the task name'));
     }
     if (otherTaskAlias.includes(name)) {
-      return callback(i18n.t('application:An Action with the same name exists.'));
+      return callback(i18n.t('dop:An Action with the same name exists.'));
     }
     callback();
   };
@@ -201,7 +201,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       rules={[
         {
           required: true,
-          message: `${i18n.t('application:please choose')}Task Type`,
+          message: `${i18n.t('dop:please choose')}Task Type`,
         },
       ]}
     >
@@ -221,15 +221,11 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       rules={[
         {
           required: true,
-          message: `${i18n.t('application:please choose')}Task Version`,
+          message: `${i18n.t('dop:please choose')}Task Version`,
         },
       ]}
     >
-      <Select
-        disabled={!editing}
-        onChange={changeActionVersion}
-        placeholder={`${i18n.t('application:please choose version')}`}
-      >
+      <Select disabled={!editing} onChange={changeActionVersion} placeholder={`${i18n.t('dop:please choose version')}`}>
         {actionConfigs.map((config) => (
           <Option key={config.version} value={config.version}>
             {config.version}
@@ -245,7 +241,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       <Alert
         className="addon-error-tag"
         showIcon
-        message={i18n.t('application:the current action does not exist, please re-select!')}
+        message={i18n.t('dop:the current action does not exist, please re-select!')}
         type="error"
       />
     );
@@ -253,7 +249,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
   const taskName = (
     <Item
-      label={i18n.t('application:task name')}
+      label={i18n.t('dop:task name')}
       name={['resource', 'alias']}
       initialValue={taskInitName}
       rules={[
@@ -263,7 +259,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         },
       ]}
     >
-      <Input autoFocus={!type} disabled={!editing} placeholder={i18n.t('application:please enter the task name')} />
+      <Input autoFocus={!type} disabled={!editing} placeholder={i18n.t('dop:please enter the task name')} />
     </Item>
   );
 
@@ -364,7 +360,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         rules={[
           {
             required: value.required,
-            message: i18n.t('application:this item cannot be empty'),
+            message: i18n.t('dop:this item cannot be empty'),
           },
         ]}
       >
@@ -383,7 +379,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         rules={[
           {
             required: value.required,
-            message: i18n.t('application:this item cannot be empty'),
+            message: i18n.t('dop:this item cannot be empty'),
           },
         ]}
         getValueFromEvent={(val: Array<{ value: string }>) => {
@@ -417,7 +413,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
           <InputNumber
             disabled={!editing || value.readOnly}
             className="w-full"
-            placeholder={i18n.t('application:please enter data')}
+            placeholder={i18n.t('dop:please enter data')}
           />
         );
         break;
@@ -425,7 +421,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         input = (
           <Input
             disabled={!editing || value.readOnly}
-            placeholder={i18n.t('application:please enter data')}
+            placeholder={i18n.t('dop:please enter data')}
             addonAfter={unit}
           />
         );
@@ -441,7 +437,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         rules={[
           {
             required: value.required,
-            message: i18n.t('application:this item cannot be empty'),
+            message: i18n.t('dop:this item cannot be empty'),
           },
         ]}
       >
@@ -639,7 +635,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       {renderTaskTypeStructure()}
       {editing ? (
         <Button type="primary" ghost onClick={onSubmit}>
-          {i18n.t('application:save')}
+          {i18n.t('dop:save')}
         </Button>
       ) : null}
     </Form>
@@ -656,7 +652,7 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
   const { nodeData: propsNodeData, editing, closeDrawer, visible, isCreate } = props;
   let title = '';
   if (isCreate) {
-    title = i18n.t('application:new node');
+    title = i18n.t('dop:new node');
   } else {
     title = `${editing ? i18n.t('edit') : i18n.t('common:view')} ${get(propsNodeData, 'alias') || ''}`;
   }
@@ -767,7 +763,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
         originActions={originActions}
         onChange={changeResourceType}
         value={chosenActionName}
-        placeholder={`${i18n.t('application:please choose task type')}`}
+        placeholder={`${i18n.t('dop:please choose task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
         <IF check={!!useProtocol}>

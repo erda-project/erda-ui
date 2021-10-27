@@ -35,7 +35,7 @@ export const problemTabs = () => {
       key: 'open',
       name: (
         <span>
-          {i18n.t('application:pending')}
+          {i18n.t('dop:pending')}
           <span className="dice-badge">{openTotal}</span>
         </span>
       ),
@@ -103,7 +103,7 @@ const Ticket = ({ scope }: IProps) => {
     <div>
       <div className="top-button-group">
         <Button type="primary" onClick={() => openModal()}>
-          {i18n.t('application:add ticket')}
+          {i18n.t('dop:add ticket')}
         </Button>
         <ProblemForm visible={visible} onOk={onOk} onCancel={closeModal} />
       </div>

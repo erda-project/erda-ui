@@ -88,7 +88,7 @@ export const Form = (props: CP_FORM.Props) => {
             <div>
               {operations?.submit && (
                 <OperationAction onClick={() => formRef.current.onSubmit()} operation={operations.submit}>
-                  <Button type="primary">{i18n.t('application:commit')}</Button>
+                  <Button type="primary">{i18n.t('dop:commit')}</Button>
                 </OperationAction>
               )}
               {operations?.cancel && (
@@ -103,7 +103,7 @@ export const Form = (props: CP_FORM.Props) => {
         <div>
           {operations?.submit && (
             <OperationAction onClick={onOk} operation={operations.submit}>
-              <Button type="primary">{i18n.t('application:commit')}</Button>
+              <Button type="primary">{i18n.t('dop:commit')}</Button>
             </OperationAction>
           )}
           {operations?.cancel && (

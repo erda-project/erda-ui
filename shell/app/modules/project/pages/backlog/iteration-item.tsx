@@ -182,7 +182,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
       key: 'title',
       required: true,
       componentProps: {
-        placeholder: i18n.t('application:please enter a name'),
+        placeholder: i18n.t('dop:please enter a name'),
         maxLength: 255,
         size: 'small',
         className: 'backlog-iteration-form-title',

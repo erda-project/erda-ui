@@ -231,7 +231,7 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb-5',
           name: 'state',
-          label: i18n.t('project:state'),
+          label: i18n.t('dop:state'),
           type: 'select',
           itemProps: {
             options: map(
@@ -252,7 +252,7 @@ const IssueMetaFields = React.forwardRef(
       {
         className: 'mb-5 w-full',
         name: 'assignee',
-        label: i18n.t('project:assignee'),
+        label: i18n.t('dop:assignee'),
         type: 'custom',
         showRequiredMark: true,
         getComp: ({ value, onSave }: any) => {
@@ -275,7 +275,7 @@ const IssueMetaFields = React.forwardRef(
           className: 'mb-5 w-full',
           type: 'custom',
           name: 'owner',
-          label: i18n.t('project:responsible person'),
+          label: i18n.t('dop:responsible person'),
           getComp: ({ value, onSave }: any) => {
             return (
               <MemberSelector
@@ -299,7 +299,7 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb-5 w-full',
           name: 'iterationID',
-          label: i18n.t('project:owned iteration'),
+          label: i18n.t('dop:owned iteration'),
           type: 'custom',
           valueRender: (value: string) => {
             const match = iterationList.find((item) => String(item.id) === String(value));
@@ -311,7 +311,7 @@ const IssueMetaFields = React.forwardRef(
               value={value}
               onChange={onSave}
               disabled={!editAuth}
-              placeholder={i18n.t('please choose {name}', { name: i18n.t('project:owned iteration') })}
+              placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:owned iteration') })}
             />
           ),
         },
@@ -320,7 +320,7 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb-5',
           name: 'source',
-          label: i18n.t('project:source'),
+          label: i18n.t('dop:source'),
           itemProps: {
             placeholder: i18n.t('please enter'),
             maxLength: 200,
@@ -335,7 +335,7 @@ const IssueMetaFields = React.forwardRef(
       {
         name: 'priority',
         className: 'mb-5',
-        label: i18n.t('project:priority'),
+        label: i18n.t('dop:priority'),
         type: 'select',
         itemProps: { options: priorityOptions, allowClear: false },
       },
@@ -343,12 +343,12 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb-5',
           name: 'severity',
-          label: i18n.t('project:severity'),
+          label: i18n.t('dop:severity'),
           type: 'select',
           itemProps: {
             options: severityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('project:severity') }),
+            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:severity') }),
           },
         },
       ]),
@@ -356,19 +356,19 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb-5',
           name: 'complexity',
-          label: i18n.t('project:complexity'),
+          label: i18n.t('dop:complexity'),
           type: 'select',
           itemProps: {
             options: complexityOptions,
             allowClear: false,
-            placeholder: i18n.t('please choose {name}', { name: i18n.t('project:complexity') }),
+            placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:complexity') }),
           },
         },
       ]),
       {
         className: 'mb-5 w-full',
         name: 'planFinishedAt',
-        label: i18n.t('project:deadline'),
+        label: i18n.t('dop:deadline'),
         type: 'datePicker',
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
@@ -379,7 +379,7 @@ const IssueMetaFields = React.forwardRef(
         {
           className: 'mb-5',
           name: ['issueManHour', 'estimateTime'],
-          label: i18n.t('project:EstimateTime'),
+          label: i18n.t('dop:EstimateTime'),
           type: 'custom',
           getComp: ({ value, disabled, originalValue }: any) => (
             <TimeInput
@@ -408,7 +408,7 @@ const IssueMetaFields = React.forwardRef(
           {
             className: 'mb-5',
             name: 'issueManHour',
-            label: i18n.t('project:Time tracking'),
+            label: i18n.t('dop:Time tracking'),
             type: 'custom',
             getComp: ({ value, disabled }: any) => (
               <TimeTrace
@@ -428,7 +428,7 @@ const IssueMetaFields = React.forwardRef(
       {
         className: 'mb-5 w-full',
         name: 'labels',
-        label: i18n.t('project:label'),
+        label: i18n.t('dop:label'),
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
         itemProps: {
           options: map(optionList, ({ id: labelId, name, isNewLabel }) => {
@@ -460,7 +460,7 @@ const IssueMetaFields = React.forwardRef(
                   goTo(goTo.resolve.projectLabel(), { jumpOut: true });
                 }}
               >
-                <div className="mx-3">{i18n.t('project:edit label')}</div>
+                <div className="mx-3">{i18n.t('dop:edit label')}</div>
               </Link>
             </div>
           ),
@@ -493,7 +493,7 @@ const IssueMetaFields = React.forwardRef(
           className: `mb-5 w-full`,
           type: 'select',
           name: 'bugStage',
-          label: i18n.t('project:import source'),
+          label: i18n.t('dop:import source'),
           showRequiredMark: true,
           itemProps: { options: stageOptions, allowClear: false },
         },
@@ -766,32 +766,32 @@ export const EditIssueDrawer = (props: IProps) => {
         return false;
       }
       // if (!isEditMode && !_data.issueManHour?.estimateTime) {
-      //   message.warn(i18n.t('project:missing estimateTime'));
+      //   message.warn(i18n.t('dop:missing estimateTime'));
       //   return false;
       // }
     }
     if (!_data.title) {
-      message.warn(i18n.t('project:missing title'));
+      message.warn(i18n.t('dop:missing title'));
       return false;
     }
     if (!_data.assignee) {
-      message.warn(i18n.t('project:missing assignee'));
+      message.warn(i18n.t('dop:missing assignee'));
       return false;
     }
 
     // if (!_data.iterationID) {
-    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('project:owned iteration') }));
+    //   message.warn(i18n.t('please choose {name}', { name: i18n.t('dop:owned iteration') }));
     //   return false;
     // }
 
     if (ISSUE_TYPE.BUG === issueType) {
       if (!_data.bugStage) {
-        message.warn(i18n.t('project:missing import source'));
+        message.warn(i18n.t('dop:missing import source'));
         return false;
       }
     }
     if (!_data.planFinishedAt && ISSUE_TYPE.EPIC === issueType) {
-      message.warn(i18n.t('project:missing deadline'));
+      message.warn(i18n.t('dop:missing deadline'));
       return false;
     }
     return true;
@@ -858,17 +858,17 @@ export const EditIssueDrawer = (props: IProps) => {
         setTempStateData(value.state);
         // 编辑模式下修改状态时，必填时间追踪和预估工时, 任务类型
         if (!params.taskType && issueType === ISSUE_TYPE.TASK) {
-          warnMessage.push({ msg: i18n.t('project:missing task type'), key: 'taskType' });
+          warnMessage.push({ msg: i18n.t('dop:missing task type'), key: 'taskType' });
         }
         if (!params.issueManHour.estimateTime) {
-          warnMessage.push({ msg: i18n.t('project:EstimateTime'), key: 'issueManHour.estimateTime' });
+          warnMessage.push({ msg: i18n.t('dop:EstimateTime'), key: 'issueManHour.estimateTime' });
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
           // filter out the working
           const workingState = formData.issueButton.find((item) => item.stateBelong === 'WORKING');
           // When working exists and select working, don't warn
           if (!workingState || value.state !== workingState.stateID) {
-            warnMessage.push({ msg: i18n.t('project:time spent in time tracing'), key: 'issueManHour.elapsedTime' });
+            warnMessage.push({ msg: i18n.t('dop:time spent in time tracing'), key: 'issueManHour.elapsedTime' });
           }
         }
       }
@@ -876,7 +876,7 @@ export const EditIssueDrawer = (props: IProps) => {
         message.warn(
           <>
             <span className="font-bold">{map(warnMessage, 'msg').join(', ')}</span>
-            <span>{i18n.t('project:missing')}</span>
+            <span>{i18n.t('dop:missing')}</span>
           </>,
         );
         focusOnFields(warnMessage[0].key);
@@ -967,7 +967,7 @@ export const EditIssueDrawer = (props: IProps) => {
       if (isEmpty(value.labels) || includes(labelNames, labelName)) {
         setField(value);
       } else {
-        message.info(i18n.t('project:the label does not exist, please select again'));
+        message.info(i18n.t('dop:the label does not exist, please select again'));
         setField({ ...value, labels: value.labels.slice(0, -1) }); // remove the last label, which is not exist
       }
     } else {
@@ -1113,13 +1113,13 @@ export const EditIssueDrawer = (props: IProps) => {
             </Menu>
           }
         >
-          <Button className="mr-2">{i18n.t('project:one click to backlog')}</Button>
+          <Button className="mr-2">{i18n.t('dop:one click to backlog')}</Button>
         </Dropdown>,
       ];
     } else {
       footer = [
         <WithAuth key="create" pass={addQuickIssueAuth}>
-          <Button className="mr-2">{i18n.t('project:one click to backlog')}</Button>
+          <Button className="mr-2">{i18n.t('dop:one click to backlog')}</Button>
         </WithAuth>,
       ];
     }
@@ -1159,7 +1159,7 @@ export const EditIssueDrawer = (props: IProps) => {
       subDrawer={subDrawer}
       canDelete={deleteAuth && !isMonitorTicket}
       canCreate={createAuth}
-      confirmCloseTip={isEditMode ? undefined : i18n.t('project:The new data will be lost if closed. Continue?')}
+      confirmCloseTip={isEditMode ? undefined : i18n.t('dop:The new data will be lost if closed. Continue?')}
       handleCopy={handleSubmit}
       maskClosable={isEditMode}
       data={formData}
@@ -1218,7 +1218,7 @@ export const EditIssueDrawer = (props: IProps) => {
         <EditField
           name="content"
           disabled={!editAuth}
-          placeHolder={i18n.t('project:no content yet')}
+          placeHolder={i18n.t('dop:no content yet')}
           type="markdown"
           onChangeCb={setFieldCb}
           itemProps={{
@@ -1232,7 +1232,7 @@ export const EditIssueDrawer = (props: IProps) => {
       </div>
       <IF check={isEditMode}>
         <Tabs className="issue-drawer-tabs" defaultActiveKey="streams">
-          <TabPane tab={i18n.t('project:activity log')} key="streams">
+          <TabPane tab={i18n.t('dop:activity log')} key="streams">
             <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
             {issueType !== ISSUE_TYPE.TICKET ? (
               <AddRelation onSave={(data) => addIssueStream(issueDetail, data)} editAuth={editAuth} />
@@ -1250,7 +1250,7 @@ export const EditIssueDrawer = (props: IProps) => {
             />
           </TabPane>
           {issueType === ISSUE_TYPE.BUG ? (
-            <TabPane tab={i18n.t('project:relate to test case')} key="testCase">
+            <TabPane tab={i18n.t('dop:relate to test case')} key="testCase">
               <IssueTestCaseRelation list={testPlanCaseRels || []} />
             </TabPane>
           ) : null}

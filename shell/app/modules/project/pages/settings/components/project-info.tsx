@@ -96,25 +96,25 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         type: 'radioGroup',
         options: [
           {
-            name: i18n.t('project:public project'),
+            name: i18n.t('dop:public project'),
             value: 'true',
           },
           {
-            name: i18n.t('project:private project'),
+            name: i18n.t('dop:private project'),
             value: 'false',
           },
         ],
       },
     ]),
     {
-      label: i18n.t('project:project icon'),
+      label: i18n.t('dop:project icon'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
-      label: i18n.t('project:project description'),
+      label: i18n.t('dop:project description'),
       name: 'desc',
       type: 'textArea',
       required: false,
@@ -122,7 +122,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
     },
     ...insertWhen(notMSP, useQuotaFields(canEditQuota, showQuotaTip, canGetClusterListAndResources)),
     // {
-    //   label: i18n.t('project:DingTalk notification address'),
+    //   label: i18n.t('dop:DingTalk notification address'),
     //   name: 'ddHook',
     //   required: false,
     // },
@@ -166,15 +166,14 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   ];
   if (canDelete) {
     extraSectionList.push({
-      title: i18n.t('project:delete project'),
+      title: i18n.t('dop:delete project'),
       children: (
         <ConfirmDelete
           deleteItem={i18n.t('project')}
           onConfirm={onDelete}
-          secondTitle={i18n.t(
-            'project:The project cannot be restored after deletion. Please enter {name} to confirm.',
-            { name: info.displayName },
-          )}
+          secondTitle={i18n.t('dop:The project cannot be restored after deletion. Please enter {name} to confirm.', {
+            name: info.displayName,
+          })}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
           modalChildren={
@@ -189,7 +188,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
     });
   }
 
-  const formName = i18n.t('project:project info');
+  const formName = i18n.t('dop:project info');
   return (
     <SectionInfoEdit
       hasAuth={canEdit}
@@ -202,7 +201,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         info.id && inOrgCenter && notMSP ? (
           <div>
             {formName}
-            <Tooltip title={i18n.t('project:applications')}>
+            <Tooltip title={i18n.t('dop:applications')}>
               <CustomIcon
                 type="link1"
                 className="ml-2 hover-active"

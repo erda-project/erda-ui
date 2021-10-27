@@ -237,7 +237,7 @@ const AddonCardList = (props: IProps) => {
         <div className="addons-content">
           <IF check={!isEmpty(addonCategory)}>
             <div className="addon-menu">
-              <span className="content-title font-medium">{i18n.t('addonPlatform:addon category')}</span>
+              <span className="content-title font-medium">{i18n.t('dop:addon category')}</span>
               <ul className="menu-list">{renderCategoryList()}</ul>
             </div>
           </IF>

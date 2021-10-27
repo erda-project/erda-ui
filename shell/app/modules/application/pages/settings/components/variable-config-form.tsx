@@ -63,12 +63,12 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
       ],
     },
     {
-      label: i18n.t('application:type'),
+      label: i18n.t('dop:type'),
       name: 'type',
       type: 'select',
       options: [
-        { name: i18n.t('application:value'), value: typeMap.kv },
-        { name: i18n.t('application:file'), value: typeMap.file },
+        { name: i18n.t('dop:value'), value: typeMap.kv },
+        { name: i18n.t('dop:file'), value: typeMap.file },
       ],
       initialValue: typeMap.kv,
       itemProps: {
@@ -140,14 +140,14 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
                   <span className="text-desc ml-2">
                     {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
                   </span>
-                  <div className="text-desc mt-2">{i18n.t('application:upload-file-tip')}</div>
+                  <div className="text-desc mt-2">{i18n.t('dop:upload-file-tip')}</div>
                 </Spin>
               </div>
             );
           },
         },
     {
-      label: i18n.t('application:remark'),
+      label: i18n.t('dop:remark'),
       name: 'comment',
       required: false,
       itemProps: {
@@ -155,7 +155,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
       },
     },
     {
-      label: i18n.t('application:encrypt'),
+      label: i18n.t('dop:encrypt'),
       name: 'encrypt',
       type: 'switch',
       initialValue: false,
@@ -167,7 +167,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
 
   return (
     <FormModal
-      name={i18n.t('application:config')}
+      name={i18n.t('dop:config')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={(data: any, isAdd: boolean) => {

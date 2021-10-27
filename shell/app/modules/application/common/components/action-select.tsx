@@ -94,7 +94,7 @@ export default class extends PureComponent<IProps, any> {
           onChange={this.searchInputChange}
           value={searchValue}
           className="actions-input"
-          placeholder={placeholder || `${i18n.t('application:please choose')} Add-on`}
+          placeholder={placeholder || `${i18n.t('dop:please choose')} Add-on`}
         />
         {this.renderSelectContent()}
       </React.Fragment>
@@ -115,7 +115,7 @@ export default class extends PureComponent<IProps, any> {
           {label}:
           {selectedItem && !disabled ? (
             <a onClick={this.clear} className="reselect">
-              {i18n.t('application:reselect')}
+              {i18n.t('dop:reselect')}
             </a>
           ) : null}
         </div>

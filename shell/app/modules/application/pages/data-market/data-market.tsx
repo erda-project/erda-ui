@@ -35,7 +35,7 @@ interface IProps {
 const pageConfig = {
   iconType: 'bg',
   domainName: 'marketDomain',
-  domainPlaceholder: i18n.t('application:select a market area'),
+  domainPlaceholder: i18n.t('dop:select a market area'),
 };
 
 const DataMarket = (props: IProps) => {

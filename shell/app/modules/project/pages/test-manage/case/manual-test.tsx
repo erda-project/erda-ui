@@ -120,7 +120,7 @@ const ManualTest = () => {
     <SplitPage>
       <SplitPage.Left>
         <div className="section-title mb-0">
-          <span>{i18n.t('project:test set')}</span>
+          <span>{i18n.t('dop:test set')}</span>
           <AddTestSet afterCreate={handleAddTestSetFromOut} />
         </div>
 
@@ -138,7 +138,7 @@ const ManualTest = () => {
       <SplitPage.Right>
         <div className="section-title mb-0">
           <span>
-            {i18n.t('project:use case list')}
+            {i18n.t('dop:use case list')}
             <Tooltip title={i18n.t('dop:there is a new import case, click to refresh the list')}>
               <ErdaIcon
                 color="black-800"
@@ -156,7 +156,7 @@ const ManualTest = () => {
             {query.recycled !== 'true' && (
               <>
                 <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer} className="mb-2">
-                  {i18n.t('project:add use case')}
+                  {i18n.t('dop:add use case')}
                 </Button>
                 <ImportFile afterImport={afterImport} />
                 <ExportFile afterExport={afterExport} />
@@ -183,7 +183,7 @@ const ManualTest = () => {
           <div className="mr-3-group inline-flex" style={{ minWidth: '220px' }}>
             <Input
               style={{ width: '160px' }}
-              placeholder={i18n.t('project:search for')}
+              placeholder={i18n.t('dop:search for')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               prefix={<IconSearch />}

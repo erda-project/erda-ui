@@ -35,9 +35,9 @@ import orgStore from 'app/org-home/stores/org';
 const { confirm } = Modal;
 
 const ReportTypeMap = {
-  daily: i18n.t('org:daily report'),
-  weekly: i18n.t('org:weekly report'),
-  monthly: i18n.t('org:monthly report'),
+  daily: i18n.t('cmp:daily report'),
+  weekly: i18n.t('cmp:weekly report'),
+  monthly: i18n.t('cmp:monthly report'),
 };
 
 export default () => {
@@ -88,14 +88,14 @@ export default () => {
     const activeGroup = find(notifyGroups, { id: activeGroupId });
     const fieldsList = [
       {
-        label: i18n.t('org:report name'),
+        label: i18n.t('cmp:report name'),
         name: 'name',
         itemProps: {
           maxLength: 50,
         },
       },
       {
-        label: i18n.t('org:report type'),
+        label: i18n.t('cmp:report type'),
         name: 'type',
         type: 'radioGroup',
         itemProps: { disabled: !isEmpty(editingTask) },
@@ -103,14 +103,14 @@ export default () => {
         initialValue: 'daily',
       },
       {
-        label: i18n.t('org:report template'),
+        label: i18n.t('cmp:report template'),
         name: 'dashboardId',
         type: 'select',
         options: map(systemDashboards, ({ name, id }) => ({ name, value: id })),
         initialValue: 'daily',
       },
       {
-        label: i18n.t('org:select group'),
+        label: i18n.t('cmp:select group'),
         name: ['notifyTarget', 'groupId'],
         getComp: () => (
           <Select
@@ -135,7 +135,7 @@ export default () => {
                         goTo(goTo.pages.cmpNotifyGroup);
                       }}
                     >
-                      {i18n.t('org:add more notification groups')}
+                      {i18n.t('cmp:add more notification groups')}
                     </span>
                   </WithAuth>
                 </div>
@@ -151,7 +151,7 @@ export default () => {
         ),
       },
       {
-        label: i18n.t('application:notification method'),
+        label: i18n.t('dop:notification method'),
         name: ['notifyTarget', 'groupType'],
         type: 'select',
         initialValue: get(editingTask, 'notifyTarget.groupType'),
@@ -164,8 +164,8 @@ export default () => {
 
   const handleDelete = (id: number) => {
     confirm({
-      title: i18n.t('org:are you sure you want to delete this task?'),
-      content: i18n.t('org:the task will be permanently deleted'),
+      title: i18n.t('cmp:are you sure you want to delete this task?'),
+      content: i18n.t('cmp:the task will be permanently deleted'),
       onOk() {
         deleteReportTask(id);
       },
@@ -210,11 +210,11 @@ export default () => {
 
   const columns: Array<ColumnProps<COMMON_ALARM_REPORT.ReportTask>> = [
     {
-      title: i18n.t('org:report name'),
+      title: i18n.t('cmp:report name'),
       dataIndex: 'name',
     },
     {
-      title: i18n.t('org:report type'),
+      title: i18n.t('cmp:report type'),
       dataIndex: 'type',
       width: 100,
       render: (text) => ReportTypeMap[text],
@@ -225,7 +225,7 @@ export default () => {
       className: 'notify-info',
       render: (notifyTarget) => {
         const targets = get(notifyTarget, 'notifyGroup.targets', []);
-        const tip = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
+        const tip = i18n.t('cmp:Notification group does not exist or has been remove. Please change one.');
         return (
           <div className="flex">
             {isEmpty(targets) ? (
@@ -259,7 +259,7 @@ export default () => {
                 handleEdit(record);
               }}
             >
-              {i18n.t('application:edit')}
+              {i18n.t('dop:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -268,7 +268,7 @@ export default () => {
                 handleDelete(id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('dop:delete')}
             </span>
             <span
               onClick={(e) => {
@@ -301,7 +301,7 @@ export default () => {
             openModal();
           }}
         >
-          {i18n.t('org:new report task')}
+          {i18n.t('cmp:new report task')}
         </Button>
         <FormModal
           visible={modalVisible}

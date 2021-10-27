@@ -86,7 +86,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
             className="variable-input"
             value={item.key}
             onChange={(e: any) => this.changeKey(e, index)}
-            placeholder={`${i18n.t('application:please enter')}Key`}
+            placeholder={`${i18n.t('dop:please enter')}Key`}
           />
           <span className="variable-equal">=</span>
           <Input
@@ -94,7 +94,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
             className="variable-input"
             value={item.value}
             onChange={(e: any) => this.changeValue(e, index)}
-            placeholder={`${i18n.t('application:please enter')}Value`}
+            placeholder={`${i18n.t('dop:please enter')}Value`}
           />
           {disabled ? null : (
             <IconDelete className="variable-icon ml-3 cursor-pointer" onClick={() => this.deleteVariable(index)} />

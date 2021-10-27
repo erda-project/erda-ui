@@ -78,7 +78,7 @@ const Topic = () => {
     getCloudResourceTimeCol(),
     getRemarkCol(),
     {
-      title: i18n.t('application:operation'),
+      title: i18n.t('dop:operation'),
       dataIndex: 'op',
       width: 100,
       render: (_v: any, record: CLOUD_SERVICE.IMQTopic) => {
@@ -159,17 +159,17 @@ const Topic = () => {
           value: 0,
         },
         {
-          name: i18n.t('org:partition order message'),
+          name: i18n.t('cmp:partition order message'),
           value: 1,
         },
         {
-          name: i18n.t('org:global order message'),
+          name: i18n.t('cmp:global order message'),
           value: 2,
         },
       ],
     },
     {
-      label: i18n.t('application:remark'),
+      label: i18n.t('dop:remark'),
       name: 'remark',
       type: 'textArea',
       required: false,

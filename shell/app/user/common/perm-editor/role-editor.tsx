@@ -110,7 +110,7 @@ const AddRole = (props: IProps) => {
             const valueArr = map(val, 'value');
             const nameArr = map(val, 'name');
             if (compact(valueArr).length !== val.length || compact(nameArr).length !== val.length) {
-              tip = i18n.t('application:this item cannot be empty');
+              tip = i18n.t('dop:this item cannot be empty');
             } else if (uniq(nameArr).length !== val.length) {
               tip = i18n.t('{name} already exists', { name: i18n.t('name') });
             } else if (uniq(valueArr).length !== val.length) {

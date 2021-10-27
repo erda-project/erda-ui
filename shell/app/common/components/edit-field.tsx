@@ -175,7 +175,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
-          placeholder={placeHolder || (label && `${i18n.t('project:please set ')}${label}`)}
+          placeholder={placeHolder || (label && `${i18n.t('dop:please set ')}${label}`)}
           disabled={disabled}
           {...rest}
         >

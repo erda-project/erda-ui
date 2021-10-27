@@ -48,10 +48,10 @@ export const checkNeedEmptyChoosenIds = (oldQuery: object, newQuery: object) =>
   !isEqual(getCompareObject(oldQuery), getCompareObject(newQuery));
 
 export const colorMap = {
-  [i18n.t('project:pass')]: '#25ca64',
-  [i18n.t('project:not passed')]: '#ff4946',
-  [i18n.t('project:not performed')]: '#bbbbbb',
-  [i18n.t('project:blocking')]: '#ffc11f',
+  [i18n.t('dop:pass')]: '#25ca64',
+  [i18n.t('dop:not passed')]: '#ff4946',
+  [i18n.t('dop:not performed')]: '#bbbbbb',
+  [i18n.t('dop:blocking')]: '#ffc11f',
 };
 
 export const caseIDMap: { [k in TEST_CASE.PageScope]: string } = {

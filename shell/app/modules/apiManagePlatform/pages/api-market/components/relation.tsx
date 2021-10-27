@@ -326,7 +326,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
         },
       },
       {
-        label: i18n.t('application:app name'),
+        label: i18n.t('dop:app name'),
         name: 'appID',
         initialValue: defaultAppID,
         required: false,

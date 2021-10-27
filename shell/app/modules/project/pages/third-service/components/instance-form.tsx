@@ -152,10 +152,10 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
           <>
             <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={edit} />
             <div className="text-red">
-              {i18n.t('project:Modifying service parameters will restart all associated applications.')}
+              {i18n.t('dop:Modifying service parameters will restart all associated applications.')}
             </div>
-            <div className="text-red">{i18n.t('project:op-affect-related-app')}</div>
-            <div className="text-red">{i18n.t('project:key-secret-encrypt-tip')}</div>
+            <div className="text-red">{i18n.t('dop:op-affect-related-app')}</div>
+            <div className="text-red">{i18n.t('dop:key-secret-encrypt-tip')}</div>
           </>
         ),
       },
@@ -166,7 +166,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
   const fields = [
     ...insertWhen(CLOUD_TYPES.includes(addonName), [
       {
-        label: i18n.t('project:mode'),
+        label: i18n.t('dop:mode'),
         name: 'mode',
         type: 'radioGroup',
         options: [

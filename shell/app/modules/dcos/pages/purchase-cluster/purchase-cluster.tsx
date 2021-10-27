@@ -259,13 +259,13 @@ class OrderPage extends React.Component<IProps> {
                       </div>
                     );
                   })
-                : i18n.t('org:please input accessKeyId and accessKeySecret first')}
+                : i18n.t('cmp:please input accessKeyId and accessKeySecret first')}
             </div>
           </Spin>
         ),
       },
       {
-        label: i18n.t('org:availability zone'),
+        label: i18n.t('cmp:availability zone'),
         name: 'zoneId',
         getComp: ({ form }: { form: FormInstance }) => (
           <Spin spinning={isFetchingZones}>
@@ -282,7 +282,7 @@ class OrderPage extends React.Component<IProps> {
                       </div>
                     );
                   })
-                : i18n.t('org:please select a region first')}
+                : i18n.t('cmp:please select a region first')}
             </div>
           </Spin>
         ),
@@ -310,7 +310,7 @@ class OrderPage extends React.Component<IProps> {
         itemProps: { step: 1, min: 5, max: 100, placeholder: '5-100 M' },
       },
       {
-        label: i18n.t('org:network billing method'),
+        label: i18n.t('cmp:network billing method'),
         name: ['natSetting', 'EipInternetChargeType'],
         type: 'radioGroup',
         options: [
@@ -320,13 +320,13 @@ class OrderPage extends React.Component<IProps> {
           },
           {
             value: 'PayByBandwidth',
-            name: i18n.t('org:pay by bandwidth'),
+            name: i18n.t('cmp:pay by bandwidth'),
           },
         ],
         initialValue: 'PayByTraffic',
       },
       {
-        label: i18n.t('org:instance billing method'),
+        label: i18n.t('cmp:instance billing method'),
         name: ['natSetting', 'EipInstanceChargeType'],
         ...preOrPostPaid,
       },
@@ -350,7 +350,7 @@ class OrderPage extends React.Component<IProps> {
           },
           {
             value: 'Performance',
-            name: i18n.t('org:performance type'),
+            name: i18n.t('cmp:performance type'),
           },
         ],
         initialValue: 'Capacity',
@@ -417,8 +417,8 @@ class OrderPage extends React.Component<IProps> {
         name: ['loadBalancerSetting', 'loadBalancerSpec'],
         type: 'select',
         options: lbConfig.map((o) => ({
-          name: `${o.key} (${i18n.t('org:maximum number of connections')}: ${o.maxConn} ${i18n.t(
-            'org:new connections per second',
+          name: `${o.key} (${i18n.t('cmp:maximum number of connections')}: ${o.maxConn} ${i18n.t(
+            'cmp:new connections per second',
           )}: ${o.CPS} ${i18n.t('queries per second')}:${o.QPS})`,
           value: o.key,
         })),
@@ -430,23 +430,23 @@ class OrderPage extends React.Component<IProps> {
         ],
       },
       {
-        label: i18n.t('org:billing method'),
+        label: i18n.t('cmp:billing method'),
         name: ['loadBalancerSetting', 'loadBalancePayType'],
         type: 'radioGroup',
         options: [
           {
             value: 'PayOnDemand',
-            name: i18n.t('org:pay as you go'),
+            name: i18n.t('cmp:pay as you go'),
           },
           {
             value: 'PrePay',
-            name: i18n.t('org:Subscription'),
+            name: i18n.t('cmp:Subscription'),
           },
         ],
       },
       ...lbPayTypeExtra,
       {
-        label: i18n.t('org:network billing method'),
+        label: i18n.t('cmp:network billing method'),
         name: ['loadBalancerSetting', 'loadBalancerInternetChargeType'],
         type: 'radioGroup',
         options: [
@@ -528,15 +528,15 @@ class OrderPage extends React.Component<IProps> {
       ];
     }
     const placeholderMap = {
-      master: i18n.t('org:suggest 3 nodes in production and 1 node in test'),
+      master: i18n.t('cmp:suggest 3 nodes in production and 1 node in test'),
       pubilc: i18n.t(
-        'org:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.',
+        'cmp:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.',
       ),
-      private: i18n.t('org:suggest production is assessed by business volume, 1 node in test'),
+      private: i18n.t('cmp:suggest production is assessed by business volume, 1 node in test'),
     };
     return [
       {
-        label: showLabel ? i18n.t('org:node type') : null,
+        label: showLabel ? i18n.t('cmp:node type') : null,
         name: `ecsSettings.${type}.nodeType`,
         initialValue: type,
         itemProps: {
@@ -547,12 +547,12 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please select node type'),
+            message: i18n.t('cmp:please select node type'),
           },
         ],
       },
       {
-        label: showLabel ? i18n.t('org:instance specification') : null,
+        label: showLabel ? i18n.t('cmp:instance specification') : null,
         name: `ecsSettings.${type}.instanceType`,
         initialValue: 'ecs.sn2ne.2xlarge',
         formLayout: 'horizontal',
@@ -560,7 +560,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:Please fill in the instance specification.'),
+            message: i18n.t('cmp:Please fill in the instance specification.'),
           },
         ],
         itemProps: {
@@ -572,7 +572,7 @@ class OrderPage extends React.Component<IProps> {
         },
       },
       {
-        label: showLabel ? i18n.t('org:billing method') : null,
+        label: showLabel ? i18n.t('cmp:billing method') : null,
         name: `ecsSettings.${type}.instanceChargeType`,
         ...preOrPostPaid,
         formLayout: 'horizontal',
@@ -580,7 +580,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please choose a billing method'),
+            message: i18n.t('cmp:please choose a billing method'),
           },
         ],
       },
@@ -595,12 +595,12 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please fill in the system disk capacity'),
+            message: i18n.t('cmp:please fill in the system disk capacity'),
           },
         ],
       },
       {
-        label: showLabel ? i18n.t('org:purchased instances') : null,
+        label: showLabel ? i18n.t('cmp:purchased instances') : null,
         name: `ecsSettings.${type}.amount`,
         type: 'inputNumber',
         itemProps: { step: 1, min: 1, max: 100, placeholder: '1-100' },
@@ -612,7 +612,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please fill in the purchased instances'),
+            message: i18n.t('cmp:please fill in the purchased instances'),
           },
         ],
       },
@@ -682,7 +682,7 @@ class OrderPage extends React.Component<IProps> {
         name: ['redisSettings', 'instanceClass'],
         type: 'select',
         options: fullList.map((item) => ({
-          name: `${item.text} (${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
+          name: `${item.text} (${i18n.t('cmp:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
             'maximum throughput',
           )}: ${item.maxThrp})`,
           value: item.key,
@@ -690,12 +690,12 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please select specifications'),
+            message: i18n.t('cmp:please select specifications'),
           },
         ],
       },
       {
-        label: i18n.t('org:payment type'),
+        label: i18n.t('cmp:payment type'),
         name: ['redisSettings', 'chargeType'],
         ...preOrPostPaid,
       },
@@ -764,7 +764,7 @@ class OrderPage extends React.Component<IProps> {
         name: ['rdsSettings', 'dbInstanceClass'],
         type: 'select',
         options: rdsConfig.map((item) => ({
-          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('org:maximum number of connections')}: ${
+          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('cmp:maximum number of connections')}: ${
             item.maxConn
           }, ${i18n.t('maximum IOPS')}: ${item.maxIOPS})`,
           value: item.key,
@@ -777,7 +777,7 @@ class OrderPage extends React.Component<IProps> {
         ],
       },
       {
-        label: i18n.t('org:payment type'),
+        label: i18n.t('cmp:payment type'),
         name: ['rdsSettings', 'payType'],
         type: 'radioGroup',
         options: [
@@ -787,7 +787,7 @@ class OrderPage extends React.Component<IProps> {
           },
           {
             value: 'Prepaid',
-            name: i18n.t('org:Subscription'),
+            name: i18n.t('cmp:Subscription'),
           },
         ],
         initialValue: 'Postpaid',
@@ -807,7 +807,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:Please fill in the storage disk capacity'),
+            message: i18n.t('cmp:Please fill in the storage disk capacity'),
           },
         ],
       },
@@ -821,7 +821,7 @@ class OrderPage extends React.Component<IProps> {
         ],
       },
       {
-        label: i18n.t('org:database name'),
+        label: i18n.t('cmp:database name'),
         name: ['rdsSettings', 'dbName'],
         itemProps: { maxLength: 16 },
         rules: [
@@ -835,7 +835,7 @@ class OrderPage extends React.Component<IProps> {
         name: ['rdsSettings', 'Password'],
         required: false,
         itemProps: {
-          placeholder: i18n.t('org:6 to 32 digits, consisting of letters, numbers and underscores'),
+          placeholder: i18n.t('cmp:6 to 32 digits, consisting of letters, numbers and underscores'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -849,13 +849,13 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             pattern: /^[a-zA-Z0-9_]{6,32}$/,
-            message: i18n.t('org:6 to 32 digits, consisting of letters, numbers and underscores'),
+            message: i18n.t('cmp:6 to 32 digits, consisting of letters, numbers and underscores'),
           },
         ],
         initialValue: '',
       },
       {
-        label: i18n.t('org:database encoding'),
+        label: i18n.t('cmp:database encoding'),
         name: ['rdsSettings.parameters', 'character_set_server'],
         type: 'radioGroup',
         options: ['utf8', 'gbk', 'latin1', 'utf8mb4'].map((a) => ({ name: a, value: a })),

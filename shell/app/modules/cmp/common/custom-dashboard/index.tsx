@@ -115,7 +115,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
     <>
       <div className="top-button-group">
         <Button type="primary" onClick={() => goTo(urlMap[scope].add)}>
-          {i18n.t('org:new dashboard')}
+          {i18n.t('cmp:new dashboard')}
         </Button>
       </div>
       <Table

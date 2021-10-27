@@ -39,14 +39,14 @@ interface IProps {
 }
 
 const formMenu = [
-  { key: 'jump-board', name: i18n.t('org:jump server') },
-  { key: 'cluster-config', name: i18n.t('org:cluster infos') },
-  { key: 'cluster-ssh', name: i18n.t('org:cluster ssh infos') },
-  { key: 'cluster-fps', name: i18n.t('org:file proxy service') },
-  { key: 'storage', name: i18n.t('org:storage configs') },
-  { key: 'nodes', name: i18n.t('org:node list') },
-  { key: 'platform', name: i18n.t('org:platform configs') },
-  { key: 'docker', name: i18n.t('org:docker configs') },
+  { key: 'jump-board', name: i18n.t('cmp:jump server') },
+  { key: 'cluster-config', name: i18n.t('cmp:cluster infos') },
+  { key: 'cluster-ssh', name: i18n.t('cmp:cluster ssh infos') },
+  { key: 'cluster-fps', name: i18n.t('cmp:file proxy service') },
+  { key: 'storage', name: i18n.t('cmp:storage configs') },
+  { key: 'nodes', name: i18n.t('cmp:node list') },
+  { key: 'platform', name: i18n.t('cmp:platform configs') },
+  { key: 'docker', name: i18n.t('cmp:docker configs') },
 ];
 
 const eleInView = (ref: any) => {

@@ -80,7 +80,7 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
             className={`nowrap ${requestByServiceRate !== 0 ? 'border-right-color' : ''}`}
             style={{ width: `${requestByServiceRate}%` }}
           >
-            {i18n.t('project:application')}
+            {i18n.t('dop:application')}
           </div>
         </Tooltip>
         <Tooltip title={`${i18n.t('cmp:addon used')} ${requestByAddon}${unit} (${requestByAddonRate}%)`}>
@@ -93,8 +93,8 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
         </Tooltip>
         <Tooltip
           title={`
-              ${i18n.t('msp:available')} 
-              ${(quota - request).toFixed(2)}${unit} 
+              ${i18n.t('msp:available')}
+              ${(quota - request).toFixed(2)}${unit}
               (${(100 - requestRate).toFixed(2)})%
             `}
         >
@@ -151,13 +151,13 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       columns={[
         {
           key: 'workspace',
-          title: i18n.t('project:environments'),
+          title: i18n.t('dop:environments'),
           width: 120,
           dataIndex: 'workspace',
           render: (val: string) => workSpaceMap[val] || val,
         },
         {
-          title: i18n.t('project:using clusters'),
+          title: i18n.t('dop:using clusters'),
           dataIndex: 'clusterName',
           align: 'left',
         },
@@ -197,7 +197,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}
-      name={i18n.t('project:project resource')}
+      name={i18n.t('dop:project resource')}
       desc={
         <span>
           {i18n.t(
@@ -209,7 +209,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           </a>
         </span>
       }
-      formName={i18n.t('project:cluster used by the environment')}
+      formName={i18n.t('dop:cluster used by the environment')}
     />
   );
 };

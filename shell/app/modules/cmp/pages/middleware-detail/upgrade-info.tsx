@@ -89,7 +89,7 @@ const UpgradeInfo = ({ data }: IProps) => {
         <div className="flex justify-between items-center">
           <span className="title font-medium">
             {i18n.t('default:configuration information')}
-            <Tooltip title={i18n.t('org:please fill in the real configuration information')}>
+            <Tooltip title={i18n.t('cmp:please fill in the real configuration information')}>
               <Icon className="ml-2" type="tishi" />
             </Tooltip>
           </span>

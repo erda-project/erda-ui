@@ -82,10 +82,10 @@ export const createCustomDashboardStore = (scope: CustomDashboardScope) => {
     state: initState,
     effects: {
       async createCustomDashboard({ call }, payload: Custom_Dashboard.DashboardItem) {
-        await call(createCustomDashboard, payload, { successMsg: i18n.t('org:O&M dashboard added successfully') });
+        await call(createCustomDashboard, payload, { successMsg: i18n.t('cmp:O&M dashboard added successfully') });
       },
       async updateCustomDashboard({ call }, payload: Custom_Dashboard.DashboardItem) {
-        await call(updateCustomDashboard, payload, { successMsg: i18n.t('org:O&M dashboard updated successfully') });
+        await call(updateCustomDashboard, payload, { successMsg: i18n.t('cmp:O&M dashboard updated successfully') });
       },
       async getCustomDashboard({ call, update }, payload: Custom_Dashboard.GetDashboardPayload) {
         const { list } = await call(getCustomDashboard, payload, { paging: { key: 'customDashboardPaging' } });

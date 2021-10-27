@@ -116,7 +116,7 @@ export default () => {
           <div className="jvm-profiler flex justify-between items-center">
             <div className="profiler-info flex-1">
               <p className="info-item">
-                <span className="label">{`${i18n.t('addonPlatform:analyze ID')}: `}</span>
+                <span className="label">{`${i18n.t('dop:analyze ID')}: `}</span>
                 <span className="value">{profileId}</span>
               </p>
               <p className="info-item">
@@ -125,7 +125,7 @@ export default () => {
               </p>
               {isRunning ? (
                 <p className="info-item">
-                  <span className="label">{`${i18n.t('addonPlatform:started at')}: `}</span>
+                  <span className="label">{`${i18n.t('dop:started at')}: `}</span>
                   <span className="value">{fromNow(createTime)}</span>
                 </p>
               ) : (
@@ -137,22 +137,22 @@ export default () => {
             </div>
             <div className="profiler-actions ml-6">
               <Button type="primary" disabled={!isRunning} onClick={stopProfile}>
-                {i18n.t('addonPlatform:stop analysis')}
+                {i18n.t('dop:stop analysis')}
               </Button>
             </div>
           </div>
         </div>
         <div className="panel block mb-5">
-          <div className="panel-title">{i18n.t('addonPlatform:jvm process info')}</div>
+          <div className="panel-title">{i18n.t('dop:jvm process info')}</div>
           <div className="panel-body">{getPanelBody(jvmInfo.jvm_process)}</div>
         </div>
         <div className="flex justify-between items-center">
           <div className="panel block flex-1 mr-5">
-            <div className="panel-title">{i18n.t('addonPlatform:jvm properties')}</div>
+            <div className="panel-title">{i18n.t('dop:jvm properties')}</div>
             <div className="panel-body">{getPanelBody(jvmInfo.jvm_options)}</div>
           </div>
           <div className="panel block flex-1">
-            <div className="panel-title">{i18n.t('addonPlatform:system properties')}</div>
+            <div className="panel-title">{i18n.t('dop:system properties')}</div>
             <div className="panel-body">{getPanelBody(jvmInfo.jvm_properties)}</div>
           </div>
         </div>

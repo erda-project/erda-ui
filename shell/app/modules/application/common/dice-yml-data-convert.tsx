@@ -59,7 +59,7 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
         // @ts-ignore
         item = {
           icon: 'qj',
-          title: i18n.t('application:deploy global variables'),
+          title: i18n.t('dop:deploy global variables'),
           lineTo: ['all'],
           data: currentItem,
           allowMove: false,
@@ -80,7 +80,7 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
             // @ts-ignore
             group.push({
               icon: 'wfw',
-              title: i18n.t('application:microService'),
+              title: i18n.t('dop:microService'),
               data: currentItem,
               name: service.name,
               lineTo: service.depends_on,
@@ -114,13 +114,13 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
     result.push([
       {
         icon: 'qj',
-        title: i18n.t('application:deploy global variables'),
+        title: i18n.t('dop:deploy global variables'),
         lineTo: [],
         allowMove: false,
         content: () => {
           return null;
         },
-        editView: () => <div>{i18n.t('application:edit deployment global variables')}</div>,
+        editView: () => <div>{i18n.t('dop:edit deployment global variables')}</div>,
       },
     ]);
   }

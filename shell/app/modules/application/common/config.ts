@@ -32,57 +32,57 @@ export const appMode = {
 
 export const modeOptions = [
   {
-    name: i18n.t('application:business app'),
+    name: i18n.t('dop:business app'),
     value: appMode.SERVICE,
     src: ywyy_svg,
-    desc: i18n.t('application:Business-app-intro', { keySeparator: '>' }),
+    desc: i18n.t('dop:Business-app-intro', { keySeparator: '>' }),
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:mobile app'),
+    name: i18n.t('dop:mobile app'),
     value: appMode.MOBILE,
     src: android_svg,
     desc: i18n.t(
-      'application:Mobile application is a mobile client developed on Android and iOS platforms, including the overall process of development, release and submit to the app store.',
+      'dop:Mobile application is a mobile client developed on Android and iOS platforms, including the overall process of development, release and submit to the app store.',
       { keySeparator: '>' },
     ),
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:library/module'),
+    name: i18n.t('dop:library/module'),
     value: appMode.LIBRARY,
     src: kyy_svg,
-    desc: i18n.t('application:Library-app-intro', { keySeparator: '>' }),
+    desc: i18n.t('dop:Library-app-intro', { keySeparator: '>' }),
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:bigData app'),
+    name: i18n.t('dop:bigData app'),
     value: appMode.BIGDATA,
     src: dsjyy_svg,
     desc: 'big data app',
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:ability app'),
+    name: i18n.t('dop:ability app'),
     value: appMode.ABILITY,
     src: dsjyy_svg,
     desc: 'ability app',
     groupIndex: 1,
   },
   {
-    name: i18n.t('application:project level app'),
+    name: i18n.t('dop:project level app'),
     value: appMode.PROJECT_SERVICE,
     src: xmjyy_svg,
-    desc: i18n.t('application:project-level-app-form-tip'),
+    desc: i18n.t('dop:project-level-app-form-tip'),
     groupIndex: 1,
   },
 ];
 
 export const approvalStatus = {
-  pending: i18n.t('application:approval pending'),
-  approved: i18n.t('application:approved'),
-  denied: i18n.t('application:denied'),
-  cancel: i18n.t('application:cancel'),
+  pending: i18n.t('dop:approval pending'),
+  approved: i18n.t('dop:approved'),
+  denied: i18n.t('dop:denied'),
+  cancel: i18n.t('dop:cancel'),
 };
 
 export enum RepositoryMode {
@@ -95,7 +95,7 @@ export enum RepositoryMode {
 
 export const repositoriesTypes = {
   [RepositoryMode.Internal]: {
-    name: i18n.t('project:System built-in Git repository'),
+    name: i18n.t('dop:System built-in Git repository'),
     value: RepositoryMode.Internal,
     displayname: '',
     logo: githubImg,
@@ -103,44 +103,44 @@ export const repositoriesTypes = {
     desc: null,
   },
   [RepositoryMode.General]: {
-    name: i18n.t('project:external general Git repository'),
+    name: i18n.t('dop:external general Git repository'),
     value: RepositoryMode.General,
     displayname: 'Git',
     logo: githubImg,
     usable: true,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
   // 3.16 只做外置通用git仓库
   [RepositoryMode.GitLab]: {
-    name: i18n.t('project:connect to {type}', { type: 'GitLab' }),
+    name: i18n.t('dop:connect to {type}', { type: 'GitLab' }),
     value: RepositoryMode.GitLab,
     displayname: 'GitLab',
     logo: gitlabImg,
     usable: false,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
   [RepositoryMode.GitHub]: {
-    name: i18n.t('project:connect to {type}', { type: 'GitHub' }),
+    name: i18n.t('dop:connect to {type}', { type: 'GitHub' }),
     value: RepositoryMode.GitHub,
     displayname: 'GitHub',
     logo: githubImg,
     usable: false,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
   [RepositoryMode.Coding]: {
-    name: i18n.t('project:connect to Coding'),
+    name: i18n.t('dop:connect to Coding'),
     value: RepositoryMode.Coding,
     displayname: 'Coding',
     logo: codingImg,
     usable: false,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
 };

@@ -86,7 +86,7 @@ const RepoEditor = ({
       try {
         yaml.load(value);
       } catch (e) {
-        notify('error', <pre className="prewrap">{`${i18n.t('application:input format error')}：${e.message}`}</pre>);
+        notify('error', <pre className="prewrap">{`${i18n.t('dop:input format error')}：${e.message}`}</pre>);
         return;
       }
     }
@@ -106,10 +106,10 @@ const RepoEditor = ({
         if (res.success) {
           changeMode({ editFile: false, addFile: false });
           if (isAddMode) {
-            message.success(i18n.t('application:file created successfully'));
+            message.success(i18n.t('dop:file created successfully'));
             getRepoTree({ force: true });
           } else {
-            message.success(i18n.t('application:file modified successfully'), 2);
+            message.success(i18n.t('dop:file modified successfully'), 2);
             getRepoBlob();
           }
         }
@@ -125,9 +125,9 @@ const RepoEditor = ({
       {
         name: 'message',
         type: 'textArea',
-        rules: [{ required: true, message: i18n.t('application:submit information can not be empty') }],
+        rules: [{ required: true, message: i18n.t('dop:submit information can not be empty') }],
         itemProps: {
-          placeholder: i18n.t('application:submit information'),
+          placeholder: i18n.t('dop:submit information'),
           maxLength: 200,
           autoSize: { minRows: 3, maxRows: 7 },
         },
@@ -138,7 +138,7 @@ const RepoEditor = ({
         initialValue: branch || 'master',
         options: branches.map((a: string) => ({ name: a, value: a })),
         itemProps: {
-          placeholder: i18n.t('application:submit branch'),
+          placeholder: i18n.t('dop:submit branch'),
           disabled: true,
         },
       },
@@ -146,10 +146,10 @@ const RepoEditor = ({
         getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
-              {i18n.t('application:save')}
+              {i18n.t('dop:save')}
             </Button>
             <Button className="ml-3" onClick={() => changeMode({ editFile: false, addFile: false })}>
-              {i18n.t('application:cancel')}
+              {i18n.t('dop:cancel')}
             </Button>
           </div>
         ),
@@ -161,7 +161,7 @@ const RepoEditor = ({
     ? [
         <Input
           name="name"
-          placeholder={i18n.t('application:file name')}
+          placeholder={i18n.t('dop:file name')}
           autoFocus
           maxLength={255}
           onChange={(e) => {

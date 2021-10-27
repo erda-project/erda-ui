@@ -125,7 +125,7 @@ export const Build = (props: IProps) => {
               label: `${keyValue}${
                 source !== 'dice'
                   ? source === 'qa'
-                    ? `（${i18n.t('application:code quality analysis')}: ${ymlName}）`
+                    ? `（${i18n.t('dop:code quality analysis')}: ${ymlName}）`
                     : `（${source}: ${ymlName}）`
                   : `（${ymlName}）`
               }`,

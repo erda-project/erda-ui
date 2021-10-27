@@ -78,7 +78,7 @@ export default ({ title, editGlobalVariable, editConvertor, actions, pipelineYml
         item = {
           id: 'qj-1',
           icon: 'qj',
-          title: `${title || ''} ${i18n.t('application:global variable')}`,
+          title: `${title || ''} ${i18n.t('dop:global variable')}`,
           lineTo: ['all'],
           data: currentItem,
           allowMove: false,
@@ -123,8 +123,8 @@ export default ({ title, editGlobalVariable, editConvertor, actions, pipelineYml
       {
         id: 'qj-1',
         icon: 'qj',
-        title: i18n.t('application:deploy global variables'),
-        name: i18n.t('application:deploy global variables'),
+        title: i18n.t('dop:deploy global variables'),
+        name: i18n.t('dop:deploy global variables'),
         lineTo: ['all'],
         allowMove: false,
         content: () => {

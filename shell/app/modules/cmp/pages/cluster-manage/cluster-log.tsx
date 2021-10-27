@@ -163,8 +163,8 @@ export const ClusterLog = ({ recordID, onClose }: { recordID?: string; onClose: 
 
   const switchLog = (
     <Switch
-      checkedChildren={i18n.t('application:error')}
-      unCheckedChildren={i18n.t('application:standard')}
+      checkedChildren={i18n.t('dop:error')}
+      unCheckedChildren={i18n.t('dop:standard')}
       checked={state.isStdErr}
       onChange={() => updater.isStdErr(!state.isStdErr)}
     />
