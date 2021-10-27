@@ -46,7 +46,7 @@ const TestPlanModal = (props: IProps) => {
     setLoading(true);
     const close = () => {
       setLoading(false);
-      afterSubmit();
+      afterSubmit?.();
       onCancel();
     };
     if (mode === 'edit') {
