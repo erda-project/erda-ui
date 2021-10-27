@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Popover, Input, Tooltip } from 'antd';
+import { Tree, Popover, Popconfirm, Input, Tooltip } from 'antd';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
@@ -224,11 +224,14 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         } else if (confirm) {
           _actions.push({
             node: (
-              <Popover
-                trigger="click"
-                content={confirm}
-                onCancel={(e) => e.stopPropagation()}
-                onOk={() => execOperation(item, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys })}
+              <Popconfirm
+                title={confirm}
+                arrowPointAtCenter
+                onConfirm={(e) => {
+                  e && e.stopPropagation();
+                  execOperation(item, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys });
+                }}
+                onCancel={(e) => e && e.stopPropagation()}
               >
                 <div
                   onClick={(e) => {
@@ -237,7 +240,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
                 >
                   {text}
                 </div>
-              </Popover>
+              </Popconfirm>
             ),
             func: noop,
           });
