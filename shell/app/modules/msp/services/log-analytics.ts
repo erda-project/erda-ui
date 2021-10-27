@@ -29,7 +29,10 @@ export const getLogAnalytics = ({ addon, ...rest }: LOG_ANALYTICS.QuerySearch): 
     .then((response: any) => response.body);
 };
 
-export const getLogAnalyticContext = ({ addon, ...rest }: LOG_ANALYTICS.QuerySearch) => {
+export const getLogAnalyticContext = ({
+  addon,
+  ...rest
+}: LOG_ANALYTICS.QueryContext): { data: LOG_ANALYTICS.LogItem[]; total: number } => {
   return agent
     .get(`/api/log-analytics/${addon}/sequentialSearch`)
     .query(rest)
