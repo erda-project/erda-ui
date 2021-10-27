@@ -12,6 +12,41 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
+
+const apis = {
+  getResourceGauge: {
+    api: '/api/resource-overview/gauge',
+  },
+  getResourceClass: {
+    api: '/api/resource-overview/class',
+  },
+  getResourceTable: {
+    api: '/api/resource-overview/report-table',
+  },
+  getClusterTrend: {
+    api: '/api/resource-overview/cluster-trend',
+  },
+  getProjectTrend: {
+    api: '/api/resource-overview/project-trend',
+  },
+};
+
+export const getResourceClass = apiCreator<(p: ORG_DASHBOARD.ResourceClassQuery) => ORG_DASHBOARD.ResourceClassData>(
+  apis.getResourceClass,
+);
+export const getResourceGauge = apiCreator<(p: ORG_DASHBOARD.ResourceGaugeQuery) => ORG_DASHBOARD.ResourceGaugeData>(
+  apis.getResourceGauge,
+);
+export const getResourceTable = apiCreator<(p: ORG_DASHBOARD.ResourceTableQuery) => ORG_DASHBOARD.ResourceTableData>(
+  apis.getResourceTable,
+);
+export const getClusterTrend = apiCreator<(p: ORG_DASHBOARD.ClusterTrendQuery) => ORG_DASHBOARD.EchartOption>(
+  apis.getClusterTrend,
+);
+export const getProjectTrend = apiCreator<(p: ORG_DASHBOARD.ProjectTrendQuery) => ORG_DASHBOARD.EchartOption>(
+  apis.getProjectTrend,
+);
 
 interface IFilterTypeQuery {
   clusterName: string;

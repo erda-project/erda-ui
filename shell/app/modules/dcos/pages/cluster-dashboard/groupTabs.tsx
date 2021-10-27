@@ -15,8 +15,8 @@ import React, { useEffect, useState } from 'react';
 import { forEach, map } from 'lodash';
 import { Tabs } from 'antd';
 import { MachineList } from 'dcos/pages/cluster-dashboard/machine-list';
-import InstanceList from './instance-list';
-import ResourcesChartList from './resources-chart-list';
+import { ResourceSummary, ResourceTable } from './resources-summary';
+import { ResourcesUsagePie } from './resources-usage-trend';
 import AlarmRecord from './alarm-record';
 import i18n from 'i18n';
 
@@ -28,9 +28,14 @@ interface IProps {
   onActiveMachine: (payload: object, key?: string) => void;
 }
 
+interface ITempCluster {
+  clusterName: string;
+  hostIPs: string[];
+}
 const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
-  const [clusters, setClusters] = useState<any[]>([]);
-  const [activeKey, setActiveKey] = useState('machine');
+  const [clusters, setClusters] = useState<ITempCluster[]>([]);
+  const [activeKey, setActiveKey] = useState('resource-distribute');
+  const clusterNameStr = clusters.map((c) => c.clusterName).join(',');
 
   useEffect(() => {
     const clusterHostMap = {};
@@ -62,17 +67,11 @@ const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
       <TabPane tab={`${i18n.t('cmp:machine alarm')}`} key="alarm">
         <AlarmRecord clusters={clusters} />
       </TabPane>
-      <TabPane tab={`${i18n.t('cmp:resource statistics')}`} key="resource">
-        <ResourcesChartList machineList={machineList} clusters={clusters} setActiveKey={setActiveKey} />
+      <TabPane tab={`${i18n.t('cmp:resource overview')}`} key="resource-overview">
+        <ResourceSummary clusterNameStr={clusterNameStr} />
       </TabPane>
-      {/* <TabPane tab="实例列表" key="instance">
-        <InstanceList instanceType="all" clusters={clusters} onClickMachine={onActiveMachine} />
-      </TabPane> */}
-      <TabPane tab={`${i18n.t('cmp:services')}`} key="service">
-        <InstanceList instanceType="service" clusters={clusters} />
-      </TabPane>
-      <TabPane tab={`${i18n.t('cmp:task list')}`} key="job">
-        <InstanceList instanceType="job" clusters={clusters} />
+      <TabPane tab={`${i18n.t('cmp:resource distribute')}`} key="resource-distribute">
+        <ResourcesUsagePie clusterNameStr={clusterNameStr} />
       </TabPane>
     </Tabs>
   );

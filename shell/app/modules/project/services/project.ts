@@ -64,6 +64,9 @@ const apis = {
   getTestReportDetail: {
     api: 'get@/api/projects/:projectId/test-reports/:reportId',
   },
+  getProjects: {
+    api: '/api/projects',
+  },
 };
 export const saveTestReport = apiCreator<(params: Merge<PROJECT.ITestReportBody, { projectId: string }>) => void>(
   apis.saveTestReport,
@@ -72,3 +75,5 @@ export const saveTestReport = apiCreator<(params: Merge<PROJECT.ITestReportBody,
 export const getTestReportDetail = apiCreator<
   (params: { reportId: string; projectId: string }) => PROJECT.ITestReportBody
 >(apis.getTestReportDetail);
+
+export const getProjectListNew = apiCreator<(p: PROJECT.ListQuery) => IPagingResp<PROJECT.Detail>>(apis.getProjects);
