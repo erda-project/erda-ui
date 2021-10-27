@@ -366,7 +366,7 @@ function getCmpRouter(): RouteConfigItem[] {
               tabs: opTabs,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('alarm record'),
-              pageName: i18n.d('运维'),
+              pageName: i18n.t('Operator'),
               routes: [
                 {
                   path: ':recordId',
@@ -380,7 +380,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'alarm-strategy',
-              pageName: i18n.d('运维'),
+              pageName: i18n.t('Operator'),
               tabs: opTabs,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('alarm strategy'),
@@ -388,7 +388,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'alarm-custom',
-              pageName: i18n.d('运维'),
+              pageName: i18n.t('Operator'),
               tabs: opTabs,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('custom alarm'),
@@ -406,7 +406,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'op-dashboard',
-              pageName: i18n.d('运维'),
+              pageName: i18n.t('Operator'),
               tabs: opTabs,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('cmp:O & M dashboard'),
@@ -430,7 +430,7 @@ function getCmpRouter(): RouteConfigItem[] {
             },
             {
               path: 'op-report',
-              pageName: i18n.d('运维'),
+              pageName: i18n.t('Operator'),
               tabs: opTabs,
               ignoreTabQuery: true,
               breadcrumbName: i18n.t('O & M report'),
