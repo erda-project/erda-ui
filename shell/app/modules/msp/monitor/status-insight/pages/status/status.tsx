@@ -171,7 +171,11 @@ const Status = () => {
         }
         return (
           <div>
-            <StatusChart xAxisData={chart.time} data={chart.latency} style={{ width: '120px', height: '40px' }} />
+            <StatusChart
+              xAxisData={chart.time}
+              data={chart.latency}
+              style={{ width: '120px', height: '40px', minHeight: 0 }}
+            />
             <ul className="status-list">
               {chart.status.map((item: string, i: number) => (
                 <li key={String(i)} className={typeMap[item].color} />
