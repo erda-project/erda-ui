@@ -17,7 +17,28 @@ import { colorMap } from 'config-page/utils';
 import { CardContainer } from 'common';
 import { map, uniq, merge, get } from 'lodash';
 
-const getOption = (chartType: string, option: Obj) => {
+const handleAxisValueLength = (opt: Obj, yAxisLabelLen = 10) => {
+  const reOpt = { ...opt };
+  if (opt.yAxis) {
+    if (Array.isArray(reOpt.yAxis)) {
+      reOpt.yAxis = reOpt.yAxis.map((item) => ({
+        ...item,
+        axisLabel: {
+          formatter: (v: string) => (v.length > yAxisLabelLen ? `${v.substr(0, yAxisLabelLen)}...` : v),
+          ...(item.axisLabel || {}),
+        },
+      }));
+    } else {
+      reOpt.yAxis.axisLabel = {
+        formatter: (v: string) => (v.length > yAxisLabelLen ? `${v.substr(0, yAxisLabelLen)}...` : v),
+        ...(reOpt.yAxis.axisLabel || {}),
+      };
+    }
+  }
+  return reOpt;
+};
+
+const getOption = (chartType: string, option: Obj, yAxisLabelLen: number) => {
   let commonOp: Obj = {
     grid: {
       bottom: 10,
@@ -136,14 +157,14 @@ const getOption = (chartType: string, option: Obj) => {
   const isEmpty = !reOption.series?.filter((item: Obj) => item?.data)?.length;
 
   return {
-    option: merge(commonOp, reOption),
+    option: handleAxisValueLength(merge(commonOp, reOption), yAxisLabelLen),
     isEmpty,
   };
 };
 
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation } = props;
-  const { style = {}, pureChart, title, option, chartType, visible = true, ...rest } = configProps || {};
+  const { style = {}, yAxisLabelLen, pureChart, title, option, chartType, visible = true, ...rest } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
@@ -163,7 +184,7 @@ const Chart = (props: CP_CHART.Props) => {
     },
   };
 
-  const { option: reOption, isEmpty } = getOption(chartType, { color: reColor, ...optionRest });
+  const { option: reOption, isEmpty } = getOption(chartType, { color: reColor, ...optionRest }, yAxisLabelLen);
   const ChartComp = <EChart key={cId} onEvents={onEvents} option={reOption} notMerge {...rest} />;
   return pureChart ? (
     ChartComp
