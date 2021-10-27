@@ -151,12 +151,12 @@ const PermExport = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('project:iteration'),
+      label: i18n.t('dop:iteration'),
       name: 'iterationID',
       getComp: () => (projectId ? <IterationSelect /> : '请在具体项目下添加任务'),
     },
     {
-      label: i18n.t('project:assignee'),
+      label: i18n.t('dop:assignee'),
       name: 'assignee',
       getComp: () =>
         projectId ? (
@@ -221,13 +221,13 @@ ${_ymlStr}
   return (
     <div className="dice-perm-export flex justify-between items-center">
       <Button className="mr-2" size="small" onClick={() => setVisible(true)}>
-        {i18n.t('project:export')}
+        {i18n.t('dop:export')}
       </Button>
       <Button value="task" className="mr-2" size="small" onClick={() => setTaskVisible(true)}>
         {i18n.t('add {name}', { name: i18n.t('task') })}
       </Button>
       <Modal
-        title={i18n.t('project:permission configuration')}
+        title={i18n.t('dop:permission configuration')}
         visible={visible}
         onOk={onOk}
         onCancel={onCancel}

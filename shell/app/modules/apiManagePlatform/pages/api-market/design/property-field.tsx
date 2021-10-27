@@ -135,14 +135,14 @@ export const EnumRef = React.forwardRef(
       <div className="flex items-center justify-start">
         {disabled ? (
           <div>
-            <span className="mr-2">{i18n.t('project:enumerated value')}: </span>
+            <span className="mr-2">{i18n.t('dop:enumerated value')}: </span>
             {isEnumExist && map(enumProps?.value, (item) => <span className="tag-default">{item}</span>)}
           </div>
         ) : (
           <>
             {!restProps?.hideCheckBox && (
               <Checkbox disabled={disabled} checked={enumVisible} onChange={onCheckHandle}>
-                {i18n.t('project:enumerated value')}{' '}
+                {i18n.t('dop:enumerated value')}{' '}
               </Checkbox>
             )}
             {showAddBtn && (
@@ -150,7 +150,7 @@ export const EnumRef = React.forwardRef(
                 <CustomLabel
                   value={enumProps?.value || []}
                   onChange={onChangeHandle}
-                  labelName={i18n.t('project:add enum value')}
+                  labelName={i18n.t('dop:add enum value')}
                 />
               </div>
             )}
@@ -184,7 +184,7 @@ export const booleanDefaultValueField = {
 // boolean example
 export const booleanExampleField = {
   type: RadioGroup,
-  label: i18n.t('project:example'),
+  label: i18n.t('dop:example'),
   name: 'example',
   colSpan: 6,
   required: false,
@@ -198,7 +198,7 @@ export const booleanExampleField = {
 // string rules
 export const stringPatternField = {
   type: Input,
-  label: i18n.t('project:validation rules'),
+  label: i18n.t('dop:validation rules'),
   name: 'pattern',
   required: false,
   colSpan: 8,
@@ -211,7 +211,7 @@ export const stringPatternField = {
 export const stringMinLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('project:minimum length'),
+    label: i18n.t('dop:minimum length'),
     name: 'minLength',
     colSpan: 8,
     required: false,
@@ -227,7 +227,7 @@ export const stringMinLengthField = (dataTempStorage: Obj) => {
           if (maxLength === undefined || maxLength >= value) {
             callback();
           } else {
-            callback(i18n.t('project:the minimum value must be less than or equal to the maximum value'));
+            callback(i18n.t('dop:the minimum value must be less than or equal to the maximum value'));
           }
         },
       },
@@ -238,7 +238,7 @@ export const stringMinLengthField = (dataTempStorage: Obj) => {
 export const stringMaxLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
-    label: i18n.t('project:the maximum length'),
+    label: i18n.t('dop:the maximum length'),
     name: 'maxLength',
     colSpan: 8,
     required: false,
@@ -254,7 +254,7 @@ export const stringMaxLengthField = (dataTempStorage: Obj) => {
           if (minLength === undefined || minLength <= value) {
             callback();
           } else {
-            callback(i18n.t('project:the maximum value must be greater than or equal to the minimum value'));
+            callback(i18n.t('dop:the maximum value must be greater than or equal to the minimum value'));
           }
         },
       },
@@ -278,7 +278,7 @@ export const stringDefaultValueField = {
 // string example
 export const stringExampleField = {
   type: Input,
-  label: i18n.t('project:example'),
+  label: i18n.t('dop:example'),
   name: 'example',
   colSpan: 24,
   required: false,
@@ -293,7 +293,7 @@ export const stringExampleField = {
 // number value type
 export const numberFormatField = {
   type: Select,
-  label: i18n.t('project:numeric type'),
+  label: i18n.t('dop:numeric type'),
   name: 'format',
   required: false,
   colSpan: 8,
@@ -321,7 +321,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
           if (maximum === undefined || maximum >= value) {
             callback();
           } else {
-            callback(i18n.t('project:the minimum value must be less than or equal to the maximum value'));
+            callback(i18n.t('dop:the minimum value must be less than or equal to the maximum value'));
           }
         },
       },
@@ -348,7 +348,7 @@ export const numberMaximumField = (dataTempStorage: Obj) => {
           if (minimum === undefined || minimum <= value) {
             callback();
           } else {
-            callback(i18n.t('project:the maximum value must be greater than or equal to the minimum value'));
+            callback(i18n.t('dop:the maximum value must be greater than or equal to the minimum value'));
           }
         },
       },
@@ -369,7 +369,7 @@ export const numberDefaultValueField = {
 // number example
 export const numberExampleField = {
   type: InputNumber,
-  label: i18n.t('project:example'),
+  label: i18n.t('dop:example'),
   name: 'example',
   colSpan: 24,
   required: false,
@@ -381,7 +381,7 @@ export const numberExampleField = {
 // value type of integer
 export const integerFormatField = {
   type: Select,
-  label: i18n.t('project:numeric type'),
+  label: i18n.t('dop:numeric type'),
   name: 'format',
   required: false,
   colSpan: 8,
@@ -394,7 +394,7 @@ export const integerFormatField = {
 // object example configuration items
 export const objectExampleField = {
   type: ApiFileEditor,
-  label: i18n.t('project:example'),
+  label: i18n.t('dop:example'),
   name: 'example',
   colSpan: 24,
   required: false,
@@ -543,7 +543,7 @@ export const getPropertyFormSelector = (props: {
               }
 
               if (nameMap.includes(value)) {
-                callback(i18n.t('project:the parameter names cannot be the same'));
+                callback(i18n.t('dop:the parameter names cannot be the same'));
               } else if (pattern.test(value)) {
                 callback(message);
               } else {
@@ -600,7 +600,7 @@ export const getPropertyFormSelector = (props: {
               } else if (value.toLocaleLowerCase() in BASE_DATA_TYPE) {
                 callback(
                   i18n.t(
-                    'project:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.',
+                    'dop:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.',
                   ),
                 );
               } else {

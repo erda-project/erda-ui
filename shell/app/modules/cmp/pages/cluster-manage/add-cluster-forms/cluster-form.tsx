@@ -337,7 +337,7 @@ export const AddClusterModal = (props: IProps) => {
       title={
         clusterType === 'k8s'
           ? initData
-            ? i18n.t('project:edit cluster configuration')
+            ? i18n.t('dop:edit cluster configuration')
             : i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' })
           : undefined
       }

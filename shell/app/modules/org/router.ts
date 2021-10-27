@@ -70,7 +70,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
                 // },
                 {
                   path: 'dashboard',
-                  breadcrumbName: i18n.t('project:statistics'),
+                  breadcrumbName: i18n.t('dop:statistics'),
                   getComp: (cb) => cb(import('project/pages/issue/issue-dashboard')),
                   layout: {
                     noWrapper: true,

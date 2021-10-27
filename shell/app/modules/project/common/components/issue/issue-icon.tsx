@@ -30,13 +30,13 @@ export const ISSUE_ICON_MAP = {
     icon: 'bb1',
     color: 'primary',
     value: 'EPIC',
-    name: i18n.t('project:milestone'),
+    name: i18n.t('dop:milestone'),
   },
   ITERATION: {
     icon: 'bb1',
     color: 'primary',
     value: 'ITERATION',
-    name: i18n.t('project:iteration'),
+    name: i18n.t('dop:iteration'),
   },
   REQUIREMENT: {
     icon: ISSUE_TYPE_MAP.REQUIREMENT.icon,

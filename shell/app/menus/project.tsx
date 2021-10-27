@@ -32,7 +32,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
       icon: <IconApplicationOne />,
-      text: i18n.t('project:applications'),
+      text: i18n.t('dop:applications'),
       subtitle: i18n.t('App'),
       show: projectPerm.appList.viewAppList.pass,
     },
@@ -64,22 +64,22 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       subMenu: [
         {
           href: goTo.resolve.projectTestDashboard(),
-          text: i18n.t('project:statistics'),
+          text: i18n.t('dop:statistics'),
           prefix: goTo.resolve.projectTestStatisticsRoot(),
         },
         {
           href: goTo.resolve.projectManualTestCase(),
-          text: i18n.t('project:manual test'),
+          text: i18n.t('dop:manual test'),
           prefix: `${goTo.resolve.projectManualTestRoot()}/`,
         },
         {
           href: goTo.resolve.projectAutoTestCase(),
-          text: i18n.t('project:auto test'),
+          text: i18n.t('dop:auto test'),
           prefix: `${goTo.resolve.projectAutoTestRoot()}/`,
         },
         {
           href: goTo.resolve.projectTestReport(),
-          text: i18n.t('project:test report'),
+          text: i18n.t('dop:test report'),
           prefix: `${goTo.resolve.projectTestReport()}`,
         },
       ],
@@ -87,19 +87,19 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectService(),
       icon: <CustomIcon type="kuozhanfuwu" />,
-      text: i18n.t('project:addon'),
+      text: i18n.t('dop:addon'),
       subtitle: 'Addon',
       show: projectPerm.service.viewService.pass,
     },
     {
-      text: i18n.t('project:resource summary'),
+      text: i18n.t('dop:resource summary'),
       subtitle: i18n.t('Resource'),
       icon: <IconDataAll />,
       href: goTo.resolve.projectResource(),
       show: projectPerm.resource.viewResource.pass,
     },
     {
-      text: i18n.t('project:tickets'),
+      text: i18n.t('dop:tickets'),
       subtitle: i18n.t('Tickets'),
       icon: <IconList />,
       href: goTo.resolve.projectTicket(),

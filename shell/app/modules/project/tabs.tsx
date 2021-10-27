@@ -28,7 +28,7 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
       name: (
         <span>
           <CustomIcon type="back" />
-          {i18n.t('project:iteration')}
+          {i18n.t('dop:iteration')}
           {iterationName ? (
             iterationName.length > 8 ? (
               <Tooltip title={iterationName} placement="topLeft">
@@ -46,7 +46,7 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
     },
     {
       key: 'all',
-      name: i18n.t('project:all issues'),
+      name: i18n.t('dop:all issues'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
@@ -77,18 +77,18 @@ export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
       name: (
         <span>
           <CustomIcon type="back" />
-          {i18n.t('project:test space')}
+          {i18n.t('dop:test space')}
           {autoTestSpaceName ? `(${autoTestSpaceName})` : ''}
         </span>
       ),
     },
     {
       key: 'apis',
-      name: i18n.t('project:APIs'),
+      name: i18n.t('dop:APIs'),
     },
     {
       key: 'scenes',
-      name: i18n.t('project:Scenes'),
+      name: i18n.t('dop:Scenes'),
     },
   ];
 };
@@ -99,22 +99,22 @@ export const PROJECT_TABS = () => {
   return [
     {
       key: 'milestone',
-      name: i18n.t('project:milestone'),
+      name: i18n.t('dop:milestone'),
       show: projectPerm.epic.read.pass,
     },
     {
       key: 'backlog',
-      name: i18n.t('project:backlog'),
+      name: i18n.t('dop:backlog'),
       show: projectPerm.backLog.viewBackLog.pass,
     },
     {
       key: 'iteration',
-      name: i18n.t('project:sprint'),
+      name: i18n.t('dop:sprint'),
       show: projectPerm.iteration.read.pass,
     },
     {
       key: 'all',
-      name: i18n.t('project:all issues'),
+      name: i18n.t('dop:all issues'),
       show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
@@ -134,7 +134,7 @@ export const PROJECT_TABS = () => {
     },
     {
       key: 'dashboard',
-      name: i18n.t('project:statistics'),
+      name: i18n.t('dop:statistics'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
   ];
@@ -143,49 +143,49 @@ export const PROJECT_TABS = () => {
 export const MANUAL_TEST_TABS = [
   {
     key: 'testCase',
-    name: i18n.t('project:test case'),
+    name: i18n.t('dop:test case'),
   },
   {
     key: 'testPlan',
-    name: i18n.t('project:test plan'),
+    name: i18n.t('dop:test plan'),
   },
   {
     key: 'testEnv',
-    name: i18n.t('project:parameter configuration'),
+    name: i18n.t('dop:parameter configuration'),
   },
 ];
 
 export const TEST_STATISTICS_TABS = [
   {
     key: 'test-dashboard',
-    name: i18n.t('project:test statistics'),
+    name: i18n.t('dop:test statistics'),
   },
   {
     key: 'code-coverage',
-    name: i18n.t('project:code coverage statistics'),
+    name: i18n.t('dop:code coverage statistics'),
   },
 ];
 
 export const AUTO_TEST_TABS = [
   {
     key: 'testCase',
-    name: i18n.t('project:test case'),
+    name: i18n.t('dop:test case'),
   },
   {
     key: 'config-sheet',
-    name: i18n.t('project:config data'),
+    name: i18n.t('dop:config data'),
   },
   {
     key: 'testPlan',
-    name: i18n.t('project:test plan'),
+    name: i18n.t('dop:test plan'),
   },
   {
     key: 'data-source',
-    name: i18n.t('project:data sources'),
+    name: i18n.t('dop:data sources'),
   },
 
   {
     key: 'testEnv',
-    name: i18n.t('project:parameter configuration'),
+    name: i18n.t('dop:parameter configuration'),
   },
 ];

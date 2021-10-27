@@ -158,7 +158,7 @@ const testSetStore = createStore({
       return res;
     },
     async renameTestSet({ call }, payload: Omit<TEST_SET.updateBody, 'moveToParentID'>) {
-      const res = await call(renameTestSet, payload, { successMsg: i18n.t('project:update completed') });
+      const res = await call(renameTestSet, payload, { successMsg: i18n.t('dop:update completed') });
       return res;
     },
     async createTestSet({ call, getParams }, payload: Omit<TEST_SET.CreateBody, 'projectID'>) {
@@ -166,22 +166,22 @@ const testSetStore = createStore({
       const newSet = await call(
         createTestSet,
         { ...payload, projectID: +projectId },
-        { successMsg: i18n.t('project:completed') },
+        { successMsg: i18n.t('dop:completed') },
       );
       return newSet;
     },
     async deleteTestSetToRecycle({ call }, testSetID: number) {
-      await call(deleteTestSet, { testSetID }, { successMsg: i18n.t('project:deleted successfully') });
+      await call(deleteTestSet, { testSetID }, { successMsg: i18n.t('dop:deleted successfully') });
       await testCaseStore.effects.emptyListByTestSetId(testSetID);
     },
     async deleteTestSetEntirely({ call }, testSetID: number) {
-      await call(deleteTestSetEntirely, { testSetID }, { successMsg: i18n.t('project:deleted successfully') });
+      await call(deleteTestSetEntirely, { testSetID }, { successMsg: i18n.t('dop:deleted successfully') });
       await testCaseStore.effects.emptyListByTestSetId(testSetID);
     },
     async recoverTestSet({ call, getParams }, payload: TEST_SET.RecoverQuery) {
       const { projectId } = getParams();
       await call(recoverTestSet, { ...payload, projectId });
-      message.success(i18n.t('project:restored successfully'));
+      message.success(i18n.t('dop:restored successfully'));
       await testCaseStore.effects.emptyListByTestSetId(payload.testSetID);
     },
     async updateBreadcrumb({ update }, breadcrumbInfo: IBreadcrumbInfo) {
@@ -210,7 +210,7 @@ const testSetStore = createStore({
       } else {
         await call(moveTestSet, { testSetID, moveToParentID: parentID });
       }
-      message.success(i18n.t('project:operated successfully'));
+      message.success(i18n.t('dop:operated successfully'));
       testSetStore.reducers.updateReloadTestSet({ isMove: !isCopy, testSetID, parentID, projectID });
     },
     // 用例批量复制，移动，恢复

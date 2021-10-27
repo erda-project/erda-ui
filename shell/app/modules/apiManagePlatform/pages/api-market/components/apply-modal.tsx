@@ -287,7 +287,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       name: 'name',
       pattern: identifierReg,
       itemProps: {
-        placeholder: i18n.t('project:letters, numbers, underscores and hyphens'),
+        placeholder: i18n.t('dop:letters, numbers, underscores and hyphens'),
         autoComplete: 'off',
         maxLength: 50,
       },

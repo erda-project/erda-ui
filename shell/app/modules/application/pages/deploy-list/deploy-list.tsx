@@ -44,7 +44,7 @@ export enum APPROVE_TYPE {
 
 export const approvalStatusMap = {
   WaitApprove: { name: i18n.t('pending approval'), value: 'WaitApprove' },
-  Accept: { name: i18n.t('project:passed'), value: 'Accept' },
+  Accept: { name: i18n.t('dop:passed'), value: 'Accept' },
   Reject: { name: i18n.t('rejected'), value: 'Reject' },
 };
 
@@ -168,7 +168,7 @@ const PureDeployList = (props: IProps) => {
                   });
                 }}
               >
-                <span className="table-operations-btn">{i18n.t('project:pass')}</span>
+                <span className="table-operations-btn">{i18n.t('dop:pass')}</span>
               </Popconfirm>
               <span
                 className="table-operations-btn"

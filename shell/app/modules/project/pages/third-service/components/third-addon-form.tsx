@@ -85,7 +85,7 @@ const ThirdAddonForm = (props: IProps) => {
   const modeToField = {
     [MODE_MAP.NEW]: [
       {
-        label: i18n.t('project:environments'),
+        label: i18n.t('dop:environments'),
         name: 'workspace',
         itemProps: {
           disabled: editData !== null || query.addon === AddonType.APIGateway,
@@ -108,7 +108,7 @@ const ThirdAddonForm = (props: IProps) => {
       },
       ...insertWhen(curAddon.plan, [
         {
-          label: i18n.t('project:plan'),
+          label: i18n.t('dop:plan'),
           name: 'plan',
           itemProps: {
             disabled: editData !== null || query.addon === AddonType.APIGateway,
@@ -156,7 +156,7 @@ const ThirdAddonForm = (props: IProps) => {
 
   const getFields = () => {
     const typeField = {
-      label: i18n.t('project:third service'),
+      label: i18n.t('dop:third service'),
       name: 'addonName',
       type: 'select',
       initialValue: editData ? editData.addonName : query.addon || null,
@@ -174,12 +174,12 @@ const ThirdAddonForm = (props: IProps) => {
         )),
     };
     const nameField = {
-      label: i18n.t('project:name'),
+      label: i18n.t('dop:name'),
       name: 'name',
       initialValue: editData ? editData.name || '' : null,
       itemProps: { disabled: editData !== null },
       rules: [
-        { max: 30, message: i18n.t('project:no more than 30 characters') },
+        { max: 30, message: i18n.t('dop:no more than 30 characters') },
         regRules.commonStr,
         {
           validator: (_rule: any, value: any, callback: any) => {
@@ -187,7 +187,7 @@ const ThirdAddonForm = (props: IProps) => {
               const _workspace = workspace || form.getFieldValue('workspace');
               const match = _addonInsList.find((a) => a.name === value && a.workspace === _workspace);
               if (match) {
-                callback(i18n.t('project:service instance name is repeated'));
+                callback(i18n.t('dop:service instance name is repeated'));
               } else {
                 callback();
               }
@@ -199,7 +199,7 @@ const ThirdAddonForm = (props: IProps) => {
       ],
     };
     const tenantField = {
-      label: i18n.t('project:mode'),
+      label: i18n.t('dop:mode'),
       name: 'mode',
       type: 'radioGroup',
       options: [
@@ -218,7 +218,7 @@ const ThirdAddonForm = (props: IProps) => {
       },
     };
     const createTypeField = {
-      label: i18n.t('project:creation method'),
+      label: i18n.t('dop:creation method'),
       name: 'createType',
       type: 'radioGroup',
       itemProps: {
@@ -230,8 +230,8 @@ const ThirdAddonForm = (props: IProps) => {
       },
       initialValue: createType,
       options: [
-        { value: CREATE_MAP.CREATE, name: i18n.t('project:Manual entry') },
-        { value: CREATE_MAP.IMPORT, name: i18n.t('project:Config import') },
+        { value: CREATE_MAP.CREATE, name: i18n.t('dop:Manual entry') },
+        { value: CREATE_MAP.IMPORT, name: i18n.t('dop:Config import') },
       ],
     };
 
@@ -242,7 +242,7 @@ const ThirdAddonForm = (props: IProps) => {
           typeField,
           createTypeField,
           {
-            label: i18n.t('project:Config content'),
+            label: i18n.t('dop:Config content'),
             name: 'importConfig',
             getComp: () => <FileEditor fileExtension="json" minLines={8} />,
           },

@@ -45,7 +45,7 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
               {({ exportPdf }) => (
                 <span className="text-sm cursor-pointer text-primary" ref={exportRef} onClick={() => exportPdf()}>
                   <IconUpload />
-                  {i18n.t('project:export report')}
+                  {i18n.t('dop:export report')}
                 </span>
               )}
             </ExportPdf>
@@ -72,10 +72,10 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
           <Form.Item label={i18n.t('cmp:report name')}>
             <Input bordered={false} value={data.name} readOnly />
           </Form.Item>
-          <Form.Item label={i18n.t('project:iteration')}>
+          <Form.Item label={i18n.t('dop:iteration')}>
             <IterationSelect value={data.iterationID} bordered={false} suffixIcon={null} />
           </Form.Item>
-          <Form.Item label={i18n.t('project:test summary')}>
+          <Form.Item label={i18n.t('dop:test summary')}>
             <div
               className="border-all rounded p-2 md-content"
               dangerouslySetInnerHTML={{ __html: Markdown(data.summary) }}
@@ -83,7 +83,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
           </Form.Item>
         </Form>
       </div>
-      <Title title={i18n.t('project:test statistics')} />
+      <Title title={i18n.t('dop:test statistics')} />
       <DiceConfigPage
         scenarioType={'test-dashboard'}
         scenarioKey={'test-dashboard'}
@@ -91,7 +91,7 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
         fullHeight={false}
         debugConfig={data.reportData?.['test-dashboard']}
       />
-      <Title title={i18n.t('project:test statistics')} />
+      <Title title={i18n.t('dop:test statistics')} />
       <DiceConfigPage
         scenarioType={'issue-dashboard'}
         scenarioKey={'issue-dashboard'}

@@ -65,7 +65,7 @@ const CaseInfo = (props: IProps) => {
       },
     },
     {
-      label: i18n.t('project:updater'),
+      label: i18n.t('dop:updater'),
       valueKey: 'updaterID',
       valueItem: ({ value: val }: any) => {
         const curUser = userMap[val];

@@ -95,7 +95,7 @@ export enum RepositoryMode {
 
 export const repositoriesTypes = {
   [RepositoryMode.Internal]: {
-    name: i18n.t('project:System built-in Git repository'),
+    name: i18n.t('dop:System built-in Git repository'),
     value: RepositoryMode.Internal,
     displayname: '',
     logo: githubImg,
@@ -103,44 +103,44 @@ export const repositoriesTypes = {
     desc: null,
   },
   [RepositoryMode.General]: {
-    name: i18n.t('project:external general Git repository'),
+    name: i18n.t('dop:external general Git repository'),
     value: RepositoryMode.General,
     displayname: 'Git',
     logo: githubImg,
     usable: true,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
   // 3.16 只做外置通用git仓库
   [RepositoryMode.GitLab]: {
-    name: i18n.t('project:connect to {type}', { type: 'GitLab' }),
+    name: i18n.t('dop:connect to {type}', { type: 'GitLab' }),
     value: RepositoryMode.GitLab,
     displayname: 'GitLab',
     logo: gitlabImg,
     usable: false,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
   [RepositoryMode.GitHub]: {
-    name: i18n.t('project:connect to {type}', { type: 'GitHub' }),
+    name: i18n.t('dop:connect to {type}', { type: 'GitHub' }),
     value: RepositoryMode.GitHub,
     displayname: 'GitHub',
     logo: githubImg,
     usable: false,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
   [RepositoryMode.Coding]: {
-    name: i18n.t('project:connect to Coding'),
+    name: i18n.t('dop:connect to Coding'),
     value: RepositoryMode.Coding,
     displayname: 'Coding',
     logo: codingImg,
     usable: false,
     desc: i18n.t(
-      'project:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
+      'dop:If you choose to configure an external code repository, the DevOps platform will no longer provide functions such as  code browsing, submission history viewing, branch management or merge requests. Other functions such as pipeline and deployment will not be affected.',
     ),
   },
 };

@@ -105,7 +105,7 @@ export const PureAppSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('project:branch rule'),
+          tabTitle: i18n.t('dop:branch rule'),
           tabKey: 'branchRule',
           content: (
             <ConfigLayout

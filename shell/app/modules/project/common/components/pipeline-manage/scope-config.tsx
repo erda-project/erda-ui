@@ -18,10 +18,10 @@ const autoTestConfig = {
   scope: scopeMap.autoTest.scope,
   text: {
     // 文案
-    fileTreeTitle: i18n.t('project:test set'), // 文件树title、
-    addFolder: i18n.t('project:new sub testset'), // 添加文件夹
+    fileTreeTitle: i18n.t('dop:test set'), // 文件树title、
+    addFolder: i18n.t('dop:new sub testset'), // 添加文件夹
     addFile: i18n.t('common:new use case'), // 添加文件
-    searchFolder: i18n.t('project:test set'), // 搜索文件夹
+    searchFolder: i18n.t('dop:test set'), // 搜索文件夹
     searchFile: i18n.t('common:test case'), // 搜索文件
     executeButton: i18n.t('test'), // 执行按钮
   },

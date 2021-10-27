@@ -151,9 +151,9 @@ interface IIssueFormProps {
 }
 
 const placeholderMap = {
-  REQUIREMENT: i18n.t('{name} title', { name: i18n.t('project:requirement') }),
-  TASK: i18n.t('{name} title', { name: i18n.t('project:task') }),
-  BUG: i18n.t('{name} title', { name: i18n.t('project:bug') }),
+  REQUIREMENT: i18n.t('{name} title', { name: i18n.t('dop:requirement') }),
+  TASK: i18n.t('{name} title', { name: i18n.t('dop:task') }),
+  BUG: i18n.t('{name} title', { name: i18n.t('dop:bug') }),
 };
 
 export const IssueForm = (props: IIssueFormProps) => {

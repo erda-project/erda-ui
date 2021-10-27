@@ -39,20 +39,20 @@ const Setting = () => {
 
   const dataSource = [
     {
-      tabTitle: i18n.t('project:project info'),
+      tabTitle: i18n.t('dop:project info'),
       tabKey: 'projectInfo',
       content: <ProjectInfo canEdit canEditQuota canDelete showQuotaTip />,
     },
     // microService governance project doesn't display cluster settings and rollback settings
     ...insertWhen(info.type !== 'MSP', [
       {
-        tabTitle: i18n.t('project:rollback setting'),
+        tabTitle: i18n.t('dop:rollback setting'),
         tabKey: 'rollbackSetting',
         content: <ProjectRollback hasEditAuth />,
       },
     ]),
     {
-      tabTitle: i18n.t('project:project member'),
+      tabTitle: i18n.t('dop:project member'),
       tabKey: 'projectMember',
       content: (
         <ConfigLayout

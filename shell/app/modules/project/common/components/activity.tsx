@@ -147,7 +147,7 @@ export const TimelineActivity = ({
   const ranges = Object.keys(groupActivityList);
 
   return (
-    <Timeline className="activity-timeline" pending={isLoading ? `${i18n.t('project:loading')}...` : false}>
+    <Timeline className="activity-timeline" pending={isLoading ? `${i18n.t('dop:loading')}...` : false}>
       {map(ranges, (range, i) => {
         return (
           <TimelineItem key={i}>
@@ -165,7 +165,7 @@ export const TimelineActivity = ({
       })}
       <IF check={hasMore && !isLoading}>
         <TimelineItem key="key-load" className="load-more">
-          <a onClick={() => loadMore()}>{i18n.t('project:load more')}</a>
+          <a onClick={() => loadMore()}>{i18n.t('dop:load more')}</a>
         </TimelineItem>
         <ELSE />
         <TimelineItem />

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon } from 'common';
-import { useListDnD } from "common/use-hooks";
+import { useListDnD } from 'common/use-hooks';
 import { reorder } from 'common/utils';
 import { map, cloneDeep } from 'lodash';
 import { Input } from 'antd';
@@ -111,7 +111,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
         <TextArea
           autoSize
           className="flex-1"
-          placeholder={i18n.t('project:input step')}
+          placeholder={i18n.t('dop:input step')}
           value={step.step}
           onChange={(e) => updateStep(index, 'step', e.target.value)}
         />
@@ -120,7 +120,7 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
       <div className="flex justify-between items-center result-detail">
         <TextArea
           autoSize
-          placeholder={i18n.t('project:input expected result')}
+          placeholder={i18n.t('dop:input expected result')}
           value={step.result}
           onChange={(e) => updateStep(index, 'result', e.target.value)}
         />

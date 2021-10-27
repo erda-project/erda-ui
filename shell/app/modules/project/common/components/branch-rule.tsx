@@ -49,7 +49,7 @@ interface IProps {
 const extraFieldsMap = {
   app: [
     {
-      label: i18n.t('project:continuous integration'),
+      label: i18n.t('dop:continuous integration'),
       component: 'switch',
       key: 'isTriggerPipeline',
       defaultValue: false,
@@ -58,11 +58,11 @@ const extraFieldsMap = {
         unCheckedChildren: i18n.t('common:no'),
       },
       required: true,
-      labelTip: i18n.t('project:code-trigger-CI'),
+      labelTip: i18n.t('dop:code-trigger-CI'),
       type: 'switch',
     },
     {
-      label: i18n.t('project:protected branch'),
+      label: i18n.t('dop:protected branch'),
       component: 'switch',
       defaultValue: false,
       key: 'isProtect',
@@ -71,17 +71,17 @@ const extraFieldsMap = {
         unCheckedChildren: i18n.t('common:no'),
       },
       required: true,
-      labelTip: i18n.t('project:protected-branch-form-tip'),
+      labelTip: i18n.t('dop:protected-branch-form-tip'),
       type: 'switch',
     },
   ],
   project: [
     {
-      label: i18n.t('project:deployment environment'),
+      label: i18n.t('dop:deployment environment'),
       component: 'select',
       key: 'workspace',
       labelTip: i18n.t(
-        'project:Branch binds environment in the platform. The branch code can only be deployed to the environment selected below by CI/CD pipeline.',
+        'dop:Branch binds environment in the platform. The branch code can only be deployed to the environment selected below by CI/CD pipeline.',
       ),
       required: true,
       dataSource: {
@@ -91,11 +91,11 @@ const extraFieldsMap = {
       type: 'select',
     },
     {
-      label: i18n.t('project:artifact deployment environment'),
+      label: i18n.t('dop:artifact deployment environment'),
       component: 'select',
       key: 'artifactWorkspace',
       labelTip: i18n.t(
-        'project:The artifact is a release product of pipeline, and the environment selected below can be directly deployed by the artifact of this branch.',
+        'dop:The artifact is a release product of pipeline, and the environment selected below can be directly deployed by the artifact of this branch.',
       ),
       required: true,
       componentProps: {
@@ -108,7 +108,7 @@ const extraFieldsMap = {
       type: 'select',
     },
     {
-      label: i18n.t('project:app release confirmation'),
+      label: i18n.t('dop:app release confirmation'),
       component: 'switch',
       defaultValue: false,
       key: 'needApproval',
@@ -119,7 +119,7 @@ const extraFieldsMap = {
       required: true,
       visible: false,
       labelTip: i18n.t(
-        'project:When enabled, application deployment needs to be reviewed and approved by the project administrator.',
+        'dop:When enabled, application deployment needs to be reviewed and approved by the project administrator.',
       ),
       type: 'switch',
     },
@@ -129,29 +129,29 @@ const extraFieldsMap = {
 const extraColumnsMap = {
   app: [
     {
-      title: i18n.t('project:continuous integration'),
+      title: i18n.t('dop:continuous integration'),
       dataIndex: 'isTriggerPipeline',
       render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
     },
     {
-      title: i18n.t('project:protected branch'),
+      title: i18n.t('dop:protected branch'),
       dataIndex: 'isProtect',
       render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
     },
   ],
   project: [
     {
-      title: i18n.t('project:deployment environment'),
+      title: i18n.t('dop:deployment environment'),
       dataIndex: 'workspace',
       width: 196,
     },
     {
-      title: i18n.t('project:artifact deployment environment'),
+      title: i18n.t('dop:artifact deployment environment'),
       dataIndex: 'artifactWorkspace',
       width: 244,
     },
     // {
-    //   title: i18n.t('project:app release confirmation'),
+    //   title: i18n.t('dop:app release confirmation'),
     //   dataIndex: 'needApproval',
     //   render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
     // },
@@ -179,7 +179,7 @@ const BranchRule = (props: IProps) => {
 
   const fields = [
     {
-      label: i18n.t('project:branch name'),
+      label: i18n.t('dop:branch name'),
       component: 'input',
       key: 'rule',
       rules: [
@@ -217,11 +217,11 @@ const BranchRule = (props: IProps) => {
       rules: [
         {
           max: '50',
-          msg: i18n.t('project:within {num} characters', { num: 50 }),
+          msg: i18n.t('dop:within {num} characters', { num: 50 }),
         },
       ],
       componentProps: {
-        placeholder: i18n.t('project:within {num} characters', { num: 50 }),
+        placeholder: i18n.t('dop:within {num} characters', { num: 50 }),
       },
       type: 'textarea',
     },
@@ -319,13 +319,13 @@ const BranchRule = (props: IProps) => {
       <div className="mb-3">
         <WithAuth pass={operationAuth}>
           <Button ghost type="primary" onClick={() => updater.modalVis(true)}>
-            {i18n.t('project:new branch rule')}
+            {i18n.t('dop:new branch rule')}
           </Button>
         </WithAuth>
       </div>
       <Table rowKey="id" dataSource={branchRules} columns={columns} scroll={{ x: 900 }} />
       <FormModal
-        name={i18n.t('project:branch rule')}
+        name={i18n.t('dop:branch rule')}
         onCancel={onCancel}
         onOk={onFinish}
         visible={modalVis}

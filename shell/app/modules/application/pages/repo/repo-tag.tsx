@@ -58,7 +58,7 @@ const RepoTag = () => {
         message.error(i18n.t('dop:failed to add tag'));
         return;
       }
-      message.success(i18n.t('project:label created successfully'));
+      message.success(i18n.t('dop:label created successfully'));
       setVisible(false);
     });
   };

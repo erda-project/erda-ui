@@ -41,14 +41,14 @@ const CustomAddonConfigModal = (props: IProps) => {
 
   return (
     <Modal
-      title={i18n.t('project:custom addon config')}
+      title={i18n.t('dop:custom addon config')}
       width={800}
       visible={visible}
       onCancel={onCancel}
       destroyOnClose
       footer={null}
     >
-      <Alert showIcon type="info" className="mb-2" message={i18n.t('project:transfer-custom-addon')} />
+      <Alert showIcon type="info" className="mb-2" message={i18n.t('dop:transfer-custom-addon')} />
       <FileEditor fileExtension="json" value={json} minLines={8} onChange={(value: string) => updater.json(value)} />
     </Modal>
   );

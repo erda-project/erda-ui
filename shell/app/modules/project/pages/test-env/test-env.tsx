@@ -83,12 +83,12 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
       [
         ...insertWhen(testType === 'manual', [
           {
-            title: i18n.t('project:environment name'),
+            title: i18n.t('dop:environment name'),
             dataIndex: 'name',
             width: 300,
           },
           {
-            title: i18n.t('project:environmental domain name'),
+            title: i18n.t('dop:environmental domain name'),
             dataIndex: 'domain',
             render: (text: string) => text || '--',
           },
@@ -105,7 +105,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
           },
         ]),
         {
-          title: i18n.t('project:operation'),
+          title: i18n.t('dop:operation'),
           key: 'ops',
           width: 180,
           fixed: 'right',
@@ -121,7 +121,7 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
                 {i18n.t('edit')}
               </span>
               <Popconfirm
-                title={i18n.t('project:confirm to delete?')}
+                title={i18n.t('dop:confirm to delete?')}
                 onConfirm={(e) => {
                   if (e !== undefined) {
                     e.stopPropagation();
@@ -154,13 +154,13 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
       {isSingle ? (
         isEmpty(envList) ? (
           <Button type="primary" ghost className="mb-3" onClick={() => handleOpenDetail({}, true)}>
-            {i18n.t('project:add configuration')}
+            {i18n.t('dop:add configuration')}
           </Button>
         ) : null
       ) : (
         <div className="top-button-group">
           <Button type="primary" onClick={() => handleOpenDetail({}, true)}>
-            {i18n.t('project:add configuration')}
+            {i18n.t('dop:add configuration')}
           </Button>
         </div>
       )}
@@ -168,9 +168,9 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         className="text-desc mb-2"
         message={
           testType === 'manual'
-            ? i18n.t('project:This parameter is provided to the use case interface of test case in manual test')
+            ? i18n.t('dop:This parameter is provided to the use case interface of test case in manual test')
             : i18n.t(
-                'project:This parameter is provided to the use case interface of test case in automated interface test',
+                'dop:This parameter is provided to the use case interface of test case in automated interface test',
               )
         }
         type="info"

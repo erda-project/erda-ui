@@ -503,7 +503,7 @@ const AddModal = (props: IProps) => {
                               style={{ width: 150 }}
                               value={item?.operate}
                               className="mr-2"
-                              placeholder={i18n.t('project:compare')}
+                              placeholder={i18n.t('dop:compare')}
                             >
                               {map(OPERATORS, (value, key) => (
                                 <Option value={key}>{value}</Option>
@@ -522,7 +522,7 @@ const AddModal = (props: IProps) => {
                               style={{ width: 150 }}
                               value={item?.operate}
                               className="mr-2"
-                              placeholder={i18n.t('project:compare')}
+                              placeholder={i18n.t('dop:compare')}
                             >
                               {map(CONTAINS, (val, key) => (
                                 <Option value={key}>{val}</Option>

@@ -53,7 +53,7 @@ const ValMap = {
           {
             type: 'key',
             props: {
-              placeholder: i18n.t('project:parameter name'),
+              placeholder: i18n.t('dop:parameter name'),
             },
             getProps: ({ editKey }: { editKey: boolean }) => {
               return {
@@ -64,7 +64,7 @@ const ValMap = {
           {
             type: 'value',
             props: {
-              placeholder: i18n.t('project:parameter value'),
+              placeholder: i18n.t('dop:parameter value'),
             },
           },
           {

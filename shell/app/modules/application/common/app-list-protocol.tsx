@@ -55,9 +55,9 @@ const getBlockNetInfo = (app: IApplication) => {
   const { blockStatus, unBlockStart, unBlockEnd } = app;
   const period =
     unBlockEnd && unBlockStart
-      ? `${i18n.t('project:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(
-          unBlockEnd,
-        ).format('YYYY-MM-DD HH:mm')}`
+      ? `${i18n.t('dop:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(unBlockEnd).format(
+          'YYYY-MM-DD HH:mm',
+        )}`
       : '';
   const periodInfo = period ? { icon: 'time', text: period, tooltip: period } : null;
   const statusMap = {

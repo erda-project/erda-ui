@@ -152,7 +152,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
         try {
           bodyValue = JSON.parse(bodyValue);
         } catch (_) {
-          message.error(i18n.t('project:JSON format error'));
+          message.error(i18n.t('dop:JSON format error'));
           return;
         }
       }

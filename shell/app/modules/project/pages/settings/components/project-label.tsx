@@ -66,7 +66,7 @@ export default () => {
 
   const handleDelete = (label: LABEL.Item) => {
     Modal.confirm({
-      title: i18n.t('project:issues associated label will be deleted, confirm to delete?'),
+      title: i18n.t('dop:issues associated label will be deleted, confirm to delete?'),
       onOk: () => {
         deleteLabel(label.id);
       },
@@ -88,7 +88,7 @@ export default () => {
       },
     },
     {
-      label: i18n.t('project:label name'),
+      label: i18n.t('dop:label name'),
       name: 'name',
       rules: [
         {
@@ -98,12 +98,12 @@ export default () => {
         },
       ],
       itemProps: {
-        placeholder: i18n.t('project:within {num} characters', { num: 50 }),
+        placeholder: i18n.t('dop:within {num} characters', { num: 50 }),
         maxLength: 50,
       },
     },
     {
-      label: i18n.t('project:label color'),
+      label: i18n.t('dop:label color'),
       name: 'color',
       type: 'custom',
       initialValue: colors[0],
@@ -125,7 +125,7 @@ export default () => {
           </div>
         );
       },
-      rules: [{ required: true, message: i18n.t('project:please select color') }],
+      rules: [{ required: true, message: i18n.t('dop:please select color') }],
     },
   ];
 
@@ -134,7 +134,7 @@ export default () => {
       <div>
         <span className="label-item create" onClick={() => updater.modalVisible(true)}>
           <IconPlus size="14px" />
-          {i18n.t('project:add label')}
+          {i18n.t('dop:add label')}
         </span>
         {list.map((label) => (
           <span
@@ -154,7 +154,7 @@ export default () => {
         ))}
       </div>
       <FormModal
-        name={i18n.t('project:label')}
+        name={i18n.t('dop:label')}
         visible={state.modalVisible}
         fieldsList={fieldsList}
         formData={state.activeLabel}

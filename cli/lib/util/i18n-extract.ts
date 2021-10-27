@@ -134,7 +134,7 @@ function customFlush(done: () => void) {
             if (zh) {
               obj[k] = zh;
             } else {
-              logError(`there is untranslated content in zh.json:${k}, please handle it manually`);
+              logError(`there is untranslated content in zh.json: ${k}, please handle it manually`);
             }
           }
         });

@@ -130,7 +130,7 @@ export default function DataSourceManagement() {
       {addonList ? (
         <AddonCardList
           isFetching={loadingAddons}
-          searchPlaceHolder={i18n.t('project:filter by data source name')}
+          searchPlaceHolder={i18n.t('dop:filter by data source name')}
           searchProps={['name']}
           hideSearch
           showDataSourceSearch
@@ -145,13 +145,13 @@ export default function DataSourceManagement() {
         <Tooltip
           title={
             <div>
-              {i18n.t('project:add-data-source-tip-1')}
-              <Link to={goTo.resolve.projectService({ projectId })}>{i18n.t('project:add-data-source-tip-2')}</Link>
+              {i18n.t('dop:add-data-source-tip-1')}
+              <Link to={goTo.resolve.projectService({ projectId })}>{i18n.t('dop:add-data-source-tip-2')}</Link>
             </div>
           }
           placement="left"
         >
-          <Button type="primary">{i18n.t('project:add data source')}</Button>
+          <Button type="primary">{i18n.t('dop:add data source')}</Button>
         </Tooltip>
       </div>
       <AddonModal

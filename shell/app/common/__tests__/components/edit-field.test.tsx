@@ -89,7 +89,7 @@ describe('EditField', () => {
       />,
     );
     expect(wrapper.find('Option')).toHaveLength(1);
-    expect(wrapper.find(`.${cls}`).prop('placeholder')).toBe(`${i18n.t('project:please set ')}${label}`);
+    expect(wrapper.find(`.${cls}`).prop('placeholder')).toBe(`${i18n.t('dop:please set ')}${label}`);
     expect(wrapper.find(`.${cls}`).prop('disabled')).toBeTruthy();
     wrapper.setProps({
       disabled: false,

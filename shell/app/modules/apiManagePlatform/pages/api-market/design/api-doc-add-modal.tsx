@@ -52,7 +52,7 @@ const ApiDocAddModal = (props: IProps) => {
       required: true,
       itemProps: {
         placeholder: i18n.t(
-          'project:please enter service name, which needs to be consistent with the service name declared in dice.yml',
+          'dop:please enter service name, which needs to be consistent with the service name declared in dice.yml',
         ),
       },
       rules: [regRules.commonStr],
@@ -61,7 +61,7 @@ const ApiDocAddModal = (props: IProps) => {
 
   return (
     <FormModal
-      title={i18n.t('project:create document')}
+      title={i18n.t('dop:create document')}
       fieldsList={treeFieldList}
       visible={visible}
       onOk={onSubmit}

@@ -280,7 +280,7 @@ const CreationForm = () => {
         />
       ),
       itemProps: {
-        placeholder: i18n.t('project:the project name displayed on the Erda platform, supports Chinese characters'),
+        placeholder: i18n.t('dop:the project name displayed on the Erda platform, supports Chinese characters'),
         maxLength: 40,
       },
     },

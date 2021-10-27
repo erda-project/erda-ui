@@ -662,7 +662,7 @@ export const MembersTable = ({
                     menuList={batchOptions}
                     onClickMenu={onBatchClick}
                     disabled={isEmpty(state.selectedKeys)}
-                    buttonText={i18n.t('project:batch processing')}
+                    buttonText={i18n.t('dop:batch processing')}
                   />
                 )}
               </>

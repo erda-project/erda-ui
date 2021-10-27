@@ -96,7 +96,7 @@ const PipelineDetail = (props: IProps) => {
     if (!hasUseableYml) {
       return {
         hasAuth: false,
-        authTip: i18n.t('project:please add valid tasks to the pipeline below before operating'),
+        authTip: i18n.t('dop:please add valid tasks to the pipeline below before operating'),
       };
     }
     return { hasAuth: true };
@@ -145,7 +145,7 @@ const PipelineDetail = (props: IProps) => {
               </Button>
             </WithAuth>
           ) : (
-            <Tooltip title={i18n.t('project:pipeline-run-tip')}>
+            <Tooltip title={i18n.t('dop:pipeline-run-tip')}>
               <Button type="primary" disabled>
                 {i18n.t('dop:add pipeline')}
               </Button>

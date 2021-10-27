@@ -63,12 +63,12 @@ const TagModal = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('project:search label under project'),
+      label: i18n.t('dop:search label under project'),
       name: 'labelIds',
       type: 'select',
       options: map(list, ({ id: value, name }) => ({ value, name })),
       itemProps: {
-        placeholder: i18n.t('project:search label under project'),
+        placeholder: i18n.t('dop:search label under project'),
         filterOption,
         mode: 'tag',
       },
@@ -78,7 +78,7 @@ const TagModal = () => {
   return (
     <FormModal
       visible={!!caseAction}
-      title={i18n.t('project:change label')}
+      title={i18n.t('dop:change label')}
       onCancel={closeNormalModal}
       onOk={onOk}
       fieldsList={fieldsList}

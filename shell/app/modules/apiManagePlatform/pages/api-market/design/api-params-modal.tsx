@@ -26,8 +26,8 @@ import './api-params-modal.scss';
 
 const { Panel } = Collapse;
 
-const SAME_TIP = i18n.t('project:same field exists');
-const EMPTY_TIP = i18n.t('project:please select the parameters to be imported');
+const SAME_TIP = i18n.t('dop:same field exists');
+const EMPTY_TIP = i18n.t('dop:please select the parameters to be imported');
 
 interface IProps {
   visible: boolean;
@@ -147,7 +147,7 @@ const ApiParamsModal = (props: IProps) => {
 
   return (
     <Modal
-      title={i18n.t('project:import parameters')}
+      title={i18n.t('dop:import parameters')}
       visible={visible}
       onCancel={onCancel}
       destroyOnClose

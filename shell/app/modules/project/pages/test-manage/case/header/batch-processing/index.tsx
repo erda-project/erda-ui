@@ -44,14 +44,14 @@ const BatchProcessing = ({ recycled }: IProps) => {
 
   const onClick = ({ key }: any) => {
     if (!caseTotal || !checked) {
-      message.error(i18n.t('project:After the use case is selected, the batch operation can be performed.'));
+      message.error(i18n.t('dop:After the use case is selected, the batch operation can be performed.'));
       return;
     }
     switch (key) {
       case TestOperation.delete:
         Modal.confirm({
-          title: i18n.t('project:delete'),
-          content: i18n.t('project:are you sure to delete the currently selected use case?'),
+          title: i18n.t('dop:delete'),
+          content: i18n.t('dop:are you sure to delete the currently selected use case?'),
           onOk: () => {
             toggleToRecycle({ testCaseIDs: primaryKeys, recycled: true, moveToTestSetID: rootId });
           },
@@ -71,9 +71,9 @@ const BatchProcessing = ({ recycled }: IProps) => {
         break;
       case TestOperation.deleteEntirely:
         Modal.confirm({
-          title: i18n.t('project:delete completely'),
+          title: i18n.t('dop:delete completely'),
           content:
-            i18n.t('project:the use case will not be recovered after it is completely deleted, ') +
+            i18n.t('dop:the use case will not be recovered after it is completely deleted, ') +
             i18n.t('is it confirmed?'),
           onOk: () => deleteEntirely(),
         });
@@ -88,7 +88,7 @@ const BatchProcessing = ({ recycled }: IProps) => {
       <DropdownSelect
         menuList={recycled ? menuItemsMap.recycled : menuItemsMap.normal}
         onClickMenu={onClick}
-        buttonText={i18n.t('project:batch processing')}
+        buttonText={i18n.t('dop:batch processing')}
         btnProps={{
           type: 'primary',
           ghost: true,
@@ -106,17 +106,17 @@ export default BatchProcessing;
 
 const menuItemsMap = {
   normal: [
-    { key: TestOperation.delete, name: i18n.t('project:delete') },
+    { key: TestOperation.delete, name: i18n.t('dop:delete') },
     {
       key: TestOperation.priority,
-      name: i18n.t('project:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),
+      name: i18n.t('dop:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),
     },
-    { key: TestOperation.copy, name: i18n.t('project:copy to') },
-    { key: TestOperation.move, name: i18n.t('project:move to') },
-    { key: TestOperation.plan, name: i18n.t('project:add to test plan') },
+    { key: TestOperation.copy, name: i18n.t('dop:copy to') },
+    { key: TestOperation.move, name: i18n.t('dop:move to') },
+    { key: TestOperation.plan, name: i18n.t('dop:add to test plan') },
   ],
   recycled: [
-    { key: TestOperation.recover, name: i18n.t('project:recover to') },
-    { key: TestOperation.deleteEntirely, name: i18n.t('project:delete completely') },
+    { key: TestOperation.recover, name: i18n.t('dop:recover to') },
+    { key: TestOperation.deleteEntirely, name: i18n.t('dop:delete completely') },
   ],
 };

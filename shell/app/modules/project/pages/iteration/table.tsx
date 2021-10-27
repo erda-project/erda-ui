@@ -28,7 +28,7 @@ import routeInfoStore from 'core/stores/route';
 const { Option } = Select;
 
 const iterationOptions = [
-  { cnName: i18n.t('project:processing'), enName: 'unarchive' },
+  { cnName: i18n.t('dop:processing'), enName: 'unarchive' },
   { cnName: i18n.t('archived'), enName: 'archived' },
 ].map(({ cnName, enName }) => (
   <Option key={enName} value={enName}>
@@ -110,7 +110,7 @@ export const Iteration = () => {
 
   const columns = [
     {
-      title: i18n.t('project:iteration name'),
+      title: i18n.t('dop:iteration name'),
       dataIndex: 'title',
       width: 200,
       render: (val: string) => (
@@ -120,7 +120,7 @@ export const Iteration = () => {
       ),
     },
     {
-      title: i18n.t('project:iteration goal'),
+      title: i18n.t('dop:iteration goal'),
       dataIndex: 'content',
       // width: 300,
     },
@@ -132,7 +132,7 @@ export const Iteration = () => {
         `${moment(startedAt).format('YYYY/MM/DD')} - ${moment(record.finishedAt).format('YYYY/MM/DD')}`,
     },
     {
-      title: i18n.t('project:progress'),
+      title: i18n.t('dop:progress'),
       width: 120,
       dataIndex: 'issueSummary',
       render: (_k: any, record: ITERATION.Detail) => {
@@ -157,7 +157,7 @@ export const Iteration = () => {
             <div className="table-operations" onClick={(e) => e.stopPropagation()}>
               <WithAuth pass={handleFiledAuth}>
                 <span className="table-operations-btn" onClick={() => onFiled(record, 'UNFILED')}>
-                  {i18n.t('project:unarchive')}
+                  {i18n.t('dop:unarchive')}
                 </span>
               </WithAuth>
             </div>
@@ -201,7 +201,7 @@ export const Iteration = () => {
       <div className="top-button-group">
         <WithAuth pass={addAuth} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={onCreate}>
-            {i18n.t('project:new iteration')}
+            {i18n.t('dop:new iteration')}
           </Button>
         </WithAuth>
       </div>

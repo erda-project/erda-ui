@@ -99,7 +99,7 @@ const ApiSummary = () => {
     },
     {
       type: MarkdownEditor,
-      label: i18n.t('project:description'),
+      label: i18n.t('dop:description'),
       name: 'description',
       required: false,
       colSpan: 24,
@@ -123,7 +123,7 @@ const ApiSummary = () => {
   return (
     <div className="api-summary">
       <FormBuilder isMultiColumn ref={formRef}>
-        <Title level={1} title={i18n.t('project:API overview')} />
+        <Title level={1} title={i18n.t('dop:API overview')} />
         <Fields fields={basicFields} fid="basicFields" />
       </FormBuilder>
     </div>

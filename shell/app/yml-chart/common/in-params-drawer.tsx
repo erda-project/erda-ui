@@ -87,7 +87,7 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
           </div>
         </>
       ) : isEmpty(fields) ? (
-        <div>{i18n.t('project:have no params')}</div>
+        <div>{i18n.t('dop:have no params')}</div>
       ) : (
         <Form fields={fields} key={formKey} />
       )}

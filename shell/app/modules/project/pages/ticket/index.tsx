@@ -117,7 +117,7 @@ const Ticket = () => {
         type: Select,
         name: 'priority',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
           allowClear: true,
           children: map(ISSUE_PRIORITY_MAP, (item) => {
             const { value, iconLabel } = item;
@@ -133,7 +133,7 @@ const Ticket = () => {
         type: Select,
         name: 'severity',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:severity') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:severity') }),
           allowClear: true,
           children: map(BUG_SEVERITY_MAP, (item) => {
             const { value, iconLabel } = item;
@@ -162,7 +162,7 @@ const Ticket = () => {
         name: 'assignee',
         customProps: {
           mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:assignee') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:assignee') }),
           scopeType: 'project',
           size: 'small',
           scopeId: projectId,
@@ -184,14 +184,14 @@ const Ticket = () => {
         type: Input,
         name: 'source',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:source') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:source') }),
         },
       },
       {
         type: Select,
         name: 'label',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:label') }),
           allowClear: true,
           mode: 'multiple',
           children: map(labelList, (item) => {
@@ -239,11 +239,11 @@ const Ticket = () => {
       },
     },
     // {
-    //   title: i18n.t('project:source'),
+    //   title: i18n.t('dop:source'),
     //   dataIndex: 'source',
     // },
     // {
-    //   title: i18n.t('project:label'),
+    //   title: i18n.t('dop:label'),
     //   dataIndex: 'labels',
     //   render: (labels = []) => (
     //     <>
@@ -299,7 +299,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('project:priority'),
+      title: i18n.t('dop:priority'),
       dataIndex: 'priority',
       width: 120,
       render: (val: string, record: ISSUE.Ticket) => {
@@ -318,7 +318,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('project:severity'),
+      title: i18n.t('dop:severity'),
       dataIndex: 'severity',
       width: 120,
       render: (val: string, record: ISSUE.Issue) => {
@@ -337,7 +337,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('project:assignee'),
+      title: i18n.t('dop:assignee'),
       dataIndex: 'assignee',
       width: 160,
       render: (v: string, record: ISSUE.Ticket) => {
@@ -363,7 +363,7 @@ const Ticket = () => {
       },
     },
     {
-      title: i18n.t('project:createdAt'),
+      title: i18n.t('dop:createdAt'),
       dataIndex: 'createdAt',
       width: 180,
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),

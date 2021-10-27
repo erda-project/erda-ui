@@ -60,7 +60,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'apiDesign',
     href: goTo.resolve.appApiDesign(), // `/dop/projects/${projectId}/apps/${appId}/apiDesign`,
     icon: <IconApi />,
-    text: i18n.t('project:API design'),
+    text: i18n.t('dop:API design'),
     subtitle: 'API',
   };
 

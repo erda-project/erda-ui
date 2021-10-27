@@ -139,16 +139,16 @@ const KVPairTable = (props: any) => {
   const { value, disabled } = props;
   const columns = [
     {
-      title: i18n.t('project:name'),
+      title: i18n.t('dop:name'),
       dataIndex: 'Key',
       width: 200,
     },
     {
-      title: i18n.t('project:parameter content'),
+      title: i18n.t('dop:parameter content'),
       dataIndex: 'Value',
     },
     {
-      title: i18n.t('project:operation'),
+      title: i18n.t('dop:operation'),
       key: 'op',
       width: 80,
       render: (_: any, record: any) => (record.isLast ? null : record.Op),
@@ -178,7 +178,7 @@ const KVPairTable = (props: any) => {
   }
   if (props.DescComp) {
     columns.splice(1, 0, {
-      title: i18n.t('project:paramType'),
+      title: i18n.t('dop:paramType'),
       dataIndex: 'Desc',
       width: 150,
     });
@@ -282,7 +282,7 @@ export const TestEnvDetail = (props: IProps) => {
       ],
       manual: [
         {
-          label: i18n.t('project:environment name'),
+          label: i18n.t('dop:environment name'),
           name: 'name',
           itemProps: {
             maxLength: 50,
@@ -295,7 +295,7 @@ export const TestEnvDetail = (props: IProps) => {
     return [
       ...fieldMap[_type],
       {
-        label: i18n.t('project:environmental domain name'),
+        label: i18n.t('dop:environmental domain name'),
         name: 'domain',
         getComp: () => <ProtocolInput disabled={disabled} />,
         required: false,
@@ -528,7 +528,7 @@ export const TestEnvDetail = (props: IProps) => {
 
   return (
     <FormModal
-      name={i18n.t('project:parameter configuration')}
+      name={i18n.t('dop:parameter configuration')}
       visible={visible}
       width={900}
       modalProps={{
@@ -570,7 +570,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         }}
         value={value}
       />
-      {_isValid ? null : <span className="text-danger">{i18n.t('project:JSON format error')}</span>}
+      {_isValid ? null : <span className="text-danger">{i18n.t('dop:JSON format error')}</span>}
     </>
   );
 };

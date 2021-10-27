@@ -106,7 +106,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
             />
           </Tabs.TabPane>
           <Tabs.TabPane
-            tab={i18n.t('project:node reference')}
+            tab={i18n.t('dop:node reference')}
             key="addCaseRef"
             disabled={!isCreate && chosenKey === 'addNode'}
           >

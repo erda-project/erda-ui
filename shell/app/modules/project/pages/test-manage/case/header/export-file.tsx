@@ -35,11 +35,11 @@ const ExportFile = ({ afterExport }: IProps) => {
   return (
     <DropdownSelect
       menuList={[
-        { key: 'excel', name: i18n.t('project:export Excel') },
-        { key: 'xmind', name: i18n.t('project:export Xmind') },
+        { key: 'excel', name: i18n.t('dop:export Excel') },
+        { key: 'xmind', name: i18n.t('dop:export Xmind') },
       ]}
       onClickMenu={onExport}
-      buttonText={i18n.t('project:export')}
+      buttonText={i18n.t('dop:export')}
       btnProps={{
         type: 'primary',
         ghost: true,

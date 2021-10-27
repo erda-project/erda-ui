@@ -24,13 +24,13 @@ import orgStore from 'app/org-home/stores/org';
 
 const VERSION_TIP = (
   <div>
-    <div>{i18n.t('project:tips of publish api 1')}</div>
+    <div>{i18n.t('dop:tips of publish api 1')}</div>
     <div>
       <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">
         https://semver.org/lang/zh-CN/
       </a>
     </div>
-    <div>{i18n.t('project:tips of publish api 2')}</div>
+    <div>{i18n.t('dop:tips of publish api 2')}</div>
   </div>
 );
 
@@ -82,8 +82,8 @@ const ApiPublishModal = (props: IProps) => {
       type: 'input',
       required: true,
       itemProps: {
-        placeholder: i18n.t('project:example {content}', {
-          content: i18n.t('project:interface document in user center'),
+        placeholder: i18n.t('dop:example {content}', {
+          content: i18n.t('dop:interface document in user center'),
         }),
       },
     },
@@ -93,7 +93,7 @@ const ApiPublishModal = (props: IProps) => {
       name: 'assetID',
       required: true,
       itemProps: {
-        placeholder: i18n.t('project:example {content}', { content: 'user-content' }),
+        placeholder: i18n.t('dop:example {content}', { content: 'user-content' }),
       },
       rules: [
         {
@@ -107,7 +107,7 @@ const ApiPublishModal = (props: IProps) => {
     {
       label: (
         <span>
-          {i18n.t('project:release version')}
+          {i18n.t('dop:release version')}
           <Tooltip title={VERSION_TIP}>
             <CustomIcon type="tishi" />
           </Tooltip>
@@ -117,7 +117,7 @@ const ApiPublishModal = (props: IProps) => {
       name: 'version',
       required: false,
       itemProps: {
-        placeholder: i18n.t('project:example {content}', { content: 'user-content' }),
+        placeholder: i18n.t('dop:example {content}', { content: 'user-content' }),
         autoComplete: 'off',
       },
       rules: [
@@ -149,14 +149,14 @@ const ApiPublishModal = (props: IProps) => {
         versions: [_versions],
       });
     } else {
-      message.warning(i18n.t('project:api can not be empty'));
+      message.warning(i18n.t('dop:api can not be empty'));
     }
     onClose();
   };
 
   return (
     <FormModal
-      title={i18n.t('project:publish documents')}
+      title={i18n.t('dop:publish documents')}
       fieldsList={apiFieldList}
       visible={visible}
       ref={formRef}

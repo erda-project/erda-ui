@@ -146,7 +146,7 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'apiDesign',
         mark: 'apiDesign',
-        breadcrumbName: i18n.t('project:API design'),
+        breadcrumbName: i18n.t('dop:API design'),
         routes: [
           {
             layout: { fullHeight: true },

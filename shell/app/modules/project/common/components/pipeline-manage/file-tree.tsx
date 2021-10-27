@@ -97,13 +97,13 @@ const FileTree = (props: IProps) => {
     },
     ...insertWhen(node.key === rootNode?.key, [
       {
-        node: i18n.t('project:paste'),
+        node: i18n.t('dop:paste'),
         preset: 'paste',
       },
     ]),
     ...insertWhen(node.key !== rootNode?.key, [
       {
-        node: i18n.t('project:rename'),
+        node: i18n.t('dop:rename'),
         preset: 'renameFolder',
       },
       {
@@ -111,11 +111,11 @@ const FileTree = (props: IProps) => {
         preset: 'copy',
       },
       {
-        node: i18n.t('project:cut'),
+        node: i18n.t('dop:cut'),
         preset: 'cut',
       },
       {
-        node: i18n.t('project:paste'),
+        node: i18n.t('dop:paste'),
         preset: 'paste',
       },
       {
@@ -123,7 +123,7 @@ const FileTree = (props: IProps) => {
         preset: 'delete',
       },
       // {
-      //   node: i18n.t('project:add to test plan'),
+      //   node: i18n.t('dop:add to test plan'),
       //   func: () => {},
       // },
     ]),
@@ -146,7 +146,7 @@ const FileTree = (props: IProps) => {
       preset: 'copy',
     },
     {
-      node: i18n.t('project:cut'),
+      node: i18n.t('dop:cut'),
       preset: 'cut',
     },
     {

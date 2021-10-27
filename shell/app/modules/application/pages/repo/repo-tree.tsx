@@ -402,7 +402,7 @@ const RepoTreePage = () => {
   if (appDetail.isExternalRepo) {
     const repoConfigFieldsList = [
       {
-        label: i18n.t('project:repository address'),
+        label: i18n.t('dop:repository address'),
         name: ['repoConfig', 'url'],
         itemProps: {
           disabled: true,
@@ -426,7 +426,7 @@ const RepoTreePage = () => {
         },
       },
       {
-        label: i18n.t('project:repository description'),
+        label: i18n.t('dop:repository description'),
         type: 'textArea',
         name: ['repoConfig', 'desc'],
         required: false,
@@ -451,17 +451,17 @@ const RepoTreePage = () => {
           </WithAuth>
         </div>
         <Form layout="vertical">
-          <FormItem label={i18n.t('project:repository source')}>
+          <FormItem label={i18n.t('dop:repository source')}>
             <p>{repoTypeConfig.name}</p>
             <img className="logo" src={repoTypeConfig.logo} width="46px" />
           </FormItem>
-          <FormItem label={i18n.t('project:repository address')}>
+          <FormItem label={i18n.t('dop:repository address')}>
             <a href={rest.url} target="_blank" rel="noopener noreferrer">
               {rest.url}
             </a>
           </FormItem>
           {rest.desc ? (
-            <FormItem label={i18n.t('project:repository description')}>
+            <FormItem label={i18n.t('dop:repository description')}>
               <p>{rest.desc}</p>
             </FormItem>
           ) : null}
@@ -469,7 +469,7 @@ const RepoTreePage = () => {
         <FormModal
           visible={showEdit}
           formData={{ repoConfig: rest }}
-          name={i18n.t('project:repository information')}
+          name={i18n.t('dop:repository information')}
           fieldsList={repoConfigFieldsList}
           onOk={updateApplication}
           onCancel={() => setShowEdit(false)}

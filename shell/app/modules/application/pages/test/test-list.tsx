@@ -98,7 +98,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     render: (text) => getTestDuration(text),
   },
   {
-    title: i18n.t('project:execute result'),
+    title: i18n.t('dop:execute result'),
     width: 200,
     dataIndex: ['totals', 'tests'],
     render: (_text, record) => <ExecuteResult totals={record.totals} />,

@@ -125,7 +125,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         ),
       },
       {
-        title: i18n.t('project:executor'),
+        title: i18n.t('dop:executor'),
         dataIndex: ['extra', 'runUser', 'name'],
         width: 100,
         align: 'center',
@@ -138,7 +138,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       },
       ...insertWhen(scope === 'autoTest', [
         {
-          title: i18n.t('project:report'),
+          title: i18n.t('dop:report'),
           key: 'report',
           width: 200,
           render: (_: any, record: any) => (
@@ -195,19 +195,19 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
 
   const reportColumns = [
     {
-      title: i18n.t('project:total number of interfaces'),
+      title: i18n.t('dop:total number of interfaces'),
       dataIndex: 'autoTestNum',
       align: 'center',
       render: (_: any, record: any) => get(record, 'meta.autoTestNum', '-'),
     },
     {
-      title: i18n.t('project:number of case'),
+      title: i18n.t('dop:number of case'),
       dataIndex: 'autoTestCaseNum',
       align: 'center',
       render: (_: any, record: any) => get(record, 'meta.autoTestCaseNum', '-'),
     },
     {
-      title: i18n.t('project:interface execution rate'),
+      title: i18n.t('dop:interface execution rate'),
       dataIndex: 'apiExecutionRate',
       align: 'center',
       render: (_: any, record: any) => {
@@ -217,7 +217,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       },
     },
     {
-      title: i18n.t('project:interface pass rate'),
+      title: i18n.t('dop:interface pass rate'),
       dataIndex: 'apiPassRate',
       align: 'center',
       render: (_: any, record: any) => {
@@ -244,7 +244,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       <Drawer
         width="50%"
         visible={isDrawerVisible}
-        title={i18n.t('project:automatic test report')}
+        title={i18n.t('dop:automatic test report')}
         onClose={() => setIsDrawerVisible(false)}
         destroyOnClose
         className="site-message-drawer"

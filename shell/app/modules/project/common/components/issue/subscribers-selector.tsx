@@ -83,7 +83,7 @@ export const SubscribersSelector = (props: IProps) => {
             }}
           >
             <IconPreviewCloseOne />
-            {i18n.t('project:unfollow')}
+            {i18n.t('dop:unfollow')}
           </div>
         ) : (
           <div
@@ -97,7 +97,7 @@ export const SubscribersSelector = (props: IProps) => {
             }}
           >
             <IconPreviewOpen />
-            {i18n.t('project:follow')}
+            {i18n.t('dop:follow')}
           </div>
         )}
       </Menu.Item>
@@ -137,7 +137,7 @@ export const SubscribersSelector = (props: IProps) => {
               }}
             >
               <IconPlus />
-              {i18n.t('project:Add Followers')}
+              {i18n.t('dop:Add Followers')}
               <IconRight className="add-follower-btn" />
             </span>
           )}
@@ -148,8 +148,8 @@ export const SubscribersSelector = (props: IProps) => {
         <div onClick={(e) => e.stopPropagation()}>
           <div className="followers-num">
             {subscribers.length !== 0
-              ? i18n.t('project:{num} members are following', { num: subscribers.length })
-              : i18n.t('project:no member is concerned about it')}
+              ? i18n.t('dop:{num} members are following', { num: subscribers.length })
+              : i18n.t('dop:no member is concerned about it')}
           </div>
           <div className="followers">
             {subscribers.map((item) => {
@@ -212,8 +212,8 @@ export const SubscribersSelector = (props: IProps) => {
       >
         <span className="attention-dropdown-btn ml-1">
           {subscribers.length !== 0
-            ? i18n.t('project:{num} people followed', { num: subscribers.length })
-            : i18n.t('project:no attention')}
+            ? i18n.t('dop:{num} people followed', { num: subscribers.length })
+            : i18n.t('dop:no attention')}
           <CustomIcon type="caret-down" className="ml-0.5 mr-0" />
         </span>
       </Dropdown>

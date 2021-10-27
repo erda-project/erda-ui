@@ -66,64 +66,64 @@ export const ISSUE_ICON = {
 };
 
 export const ISSUE_COMPLEXITY_MAP = {
-  HARD: { value: 'HARD', label: i18n.t('project:complex') },
+  HARD: { value: 'HARD', label: i18n.t('dop:complex') },
   NORMAL: { value: 'NORMAL', label: i18n.t('medium') },
-  EASY: { value: 'EASY', label: i18n.t('project:easy') },
+  EASY: { value: 'EASY', label: i18n.t('dop:easy') },
 };
 
 export const BUG_SEVERITY_MAP = {
   FATAL: {
     value: 'FATAL',
-    label: `P0 ${i18n.t('project:severity-fatal')}`,
+    label: `P0 ${i18n.t('dop:severity-fatal')}`,
     icon: ISSUE_ICON.severity.FATAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.FATAL}
-        {i18n.t('project:severity-fatal')}
+        {i18n.t('dop:severity-fatal')}
       </div>
     ),
   },
   SERIOUS: {
     value: 'SERIOUS',
-    label: `P1 ${i18n.t('project:serious')}`,
+    label: `P1 ${i18n.t('dop:serious')}`,
     icon: ISSUE_ICON.severity.SERIOUS,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.SERIOUS}
-        {i18n.t('project:serious')}
+        {i18n.t('dop:serious')}
       </div>
     ),
   },
   NORMAL: {
     value: 'NORMAL',
-    label: `P2 ${i18n.t('project:normal')}`,
+    label: `P2 ${i18n.t('dop:normal')}`,
     icon: ISSUE_ICON.severity.NORMAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.NORMAL}
-        {i18n.t('project:normal')}
+        {i18n.t('dop:normal')}
       </div>
     ),
   },
   SLIGHT: {
     value: 'SLIGHT',
-    label: `P3 ${i18n.t('project:slight')}`,
+    label: `P3 ${i18n.t('dop:slight')}`,
     icon: ISSUE_ICON.severity.SLIGHT,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.SLIGHT}
-        {i18n.t('project:slight')}
+        {i18n.t('dop:slight')}
       </div>
     ),
   },
   SUGGEST: {
     value: 'SUGGEST',
-    label: `P4 ${i18n.t('project:suggest')}`,
+    label: `P4 ${i18n.t('dop:suggest')}`,
     icon: ISSUE_ICON.severity.SUGGEST,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.severity.SUGGEST}
-        {i18n.t('project:suggest')}
+        {i18n.t('dop:suggest')}
       </div>
     ),
   },
@@ -165,18 +165,18 @@ export const ISSUE_TYPE_MAP = {
   },
   TICKET: {
     value: 'TICKET',
-    label: i18n.t('project:ticket'),
+    label: i18n.t('dop:ticket'),
     icon: null,
-    iconLabel: <div className="flex items-center">{i18n.t('project:ticket')}</div>,
+    iconLabel: <div className="flex items-center">{i18n.t('dop:ticket')}</div>,
   },
   EPIC: {
     value: 'EPIC',
-    label: i18n.t('project:milestone'),
+    label: i18n.t('dop:milestone'),
     icon: ISSUE_ICON.issue.EPIC,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.issue.EPIC}
-        {i18n.t('project:milestone')}
+        {i18n.t('dop:milestone')}
       </div>
     ),
   },
@@ -185,12 +185,12 @@ export const ISSUE_TYPE_MAP = {
 export const ISSUE_PRIORITY_MAP = {
   URGENT: {
     value: 'URGENT',
-    label: i18n.t('project:urgent'),
+    label: i18n.t('dop:urgent'),
     icon: ISSUE_ICON.priority.URGENT,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.URGENT}
-        {i18n.t('project:urgent')}
+        {i18n.t('dop:urgent')}
       </div>
     ),
   },
@@ -235,48 +235,48 @@ export const REQUIREMENT_STATE_MAP = {
   OPEN: {
     value: 'OPEN',
     icon: ISSUE_ICON.state.OPEN,
-    label: i18n.t('project:open'),
+    label: i18n.t('dop:open'),
     color: 'yellow',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.OPEN}
-        {i18n.t('project:open')}
+        {i18n.t('dop:open')}
       </div>
     ),
   },
   WORKING: {
     value: 'WORKING',
     icon: ISSUE_ICON.state.WORKING,
-    label: i18n.t('project:processing'),
+    label: i18n.t('dop:processing'),
     color: 'blue',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.WORKING}
-        {i18n.t('project:processing')}
+        {i18n.t('dop:processing')}
       </div>
     ),
   },
   TESTING: {
     value: 'TESTING',
     icon: ISSUE_ICON.state.TESTING,
-    label: i18n.t('project:testing'),
+    label: i18n.t('dop:testing'),
     color: 'blue',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.TESTING}
-        {i18n.t('project:testing')}
+        {i18n.t('dop:testing')}
       </div>
     ),
   },
   DONE: {
     value: 'DONE',
     icon: ISSUE_ICON.state.DONE,
-    label: i18n.t('project:done'),
+    label: i18n.t('dop:done'),
     color: 'green',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.DONE}
-        {i18n.t('project:done')}
+        {i18n.t('dop:done')}
       </div>
     ),
   },
@@ -294,39 +294,39 @@ export const TASK_STATE_MAP: ISSUE.TaskMap = {
   OPEN: {
     value: 'OPEN',
     icon: ISSUE_ICON.state.OPEN,
-    label: i18n.t('project:open'),
+    label: i18n.t('dop:open'),
     nextStates: ['WORKING'],
     color: 'yellow',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.OPEN}
-        {i18n.t('project:open')}
+        {i18n.t('dop:open')}
       </div>
     ),
   },
   WORKING: {
     value: 'WORKING',
     icon: ISSUE_ICON.state.WORKING,
-    label: i18n.t('project:processing'),
+    label: i18n.t('dop:processing'),
     nextStates: ['DONE'],
     color: 'blue',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.WORKING}
-        {i18n.t('project:processing')}
+        {i18n.t('dop:processing')}
       </div>
     ),
   },
   DONE: {
     value: 'DONE',
     icon: ISSUE_ICON.state.DONE,
-    label: i18n.t('project:done'),
+    label: i18n.t('dop:done'),
     nextStates: [],
     color: 'green',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.DONE}
-        {i18n.t('project:done')}
+        {i18n.t('dop:done')}
       </div>
     ),
   },
@@ -343,72 +343,72 @@ export const BUG_STATE_MAP = {
   OPEN: {
     value: 'OPEN',
     icon: ISSUE_ICON.state.OPEN,
-    label: i18n.t('project:open'),
+    label: i18n.t('dop:open'),
     color: 'yellow',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.OPEN}
-        {i18n.t('project:open')}
+        {i18n.t('dop:open')}
       </div>
     ),
   },
   RESOLVED: {
     value: 'RESOLVED',
     icon: ISSUE_ICON.state.RESOLVED,
-    label: i18n.t('project:resolved'),
+    label: i18n.t('dop:resolved'),
     color: 'green',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.RESOLVED}
-        {i18n.t('project:resolved')}
+        {i18n.t('dop:resolved')}
       </div>
     ),
   },
   REOPEN: {
     value: 'REOPEN',
     icon: ISSUE_ICON.state.REOPEN,
-    label: i18n.t('project:reopen'),
+    label: i18n.t('dop:reopen'),
     color: 'red',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.REOPEN}
-        {i18n.t('project:reopen')}
+        {i18n.t('dop:reopen')}
       </div>
     ),
   },
   WONTFIX: {
     value: 'WONTFIX',
     icon: ISSUE_ICON.state.WONTFIX,
-    label: i18n.t("project:won't fix"),
+    label: i18n.t("dop:won't fix"),
     color: 'text',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.WONTFIX}
-        {i18n.t("project:won't fix")}
+        {i18n.t("dop:won't fix")}
       </div>
     ),
   },
   DUP: {
     value: 'DUP',
     icon: ISSUE_ICON.state.DUP,
-    label: i18n.t("project:won't fix, duplicated"),
+    label: i18n.t("dop:won't fix, duplicated"),
     color: 'text',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.DUP}
-        {i18n.t("project:won't fix, duplicated")}
+        {i18n.t("dop:won't fix, duplicated")}
       </div>
     ),
   },
   CLOSED: {
     value: 'CLOSED',
     icon: ISSUE_ICON.state.CLOSED,
-    label: i18n.t('project:closed'),
+    label: i18n.t('dop:closed'),
     color: 'green',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.CLOSED}
-        {i18n.t('project:closed')}
+        {i18n.t('dop:closed')}
       </div>
     ),
   },
@@ -422,38 +422,38 @@ export const ISSUE_STATE_MAP = {
 };
 
 export const ISSUE_BUTTON_STATE = {
-  canOpen: { label: i18n.t('project:open'), state: 'OPEN' },
-  canDup: { label: i18n.t('project:duplicated'), state: 'DUP' },
-  canReOpen: { label: i18n.t('project:reopen'), state: 'REOPEN' },
-  canResolved: { label: i18n.t('project:resolved'), state: 'RESOLVED' },
-  canTesting: { label: i18n.t('project:testing'), state: 'TESTING' },
-  canWontfix: { label: i18n.t("project:won't fix"), state: 'WONTFIX' },
-  canWorking: { label: i18n.t('project:processing'), state: 'WORKING' },
-  canClosed: { label: i18n.t('project:close'), state: 'CLOSED' },
-  canDone: { label: i18n.t('project:completed'), state: 'DONE' },
+  canOpen: { label: i18n.t('dop:open'), state: 'OPEN' },
+  canDup: { label: i18n.t('dop:duplicated'), state: 'DUP' },
+  canReOpen: { label: i18n.t('dop:reopen'), state: 'REOPEN' },
+  canResolved: { label: i18n.t('dop:resolved'), state: 'RESOLVED' },
+  canTesting: { label: i18n.t('dop:testing'), state: 'TESTING' },
+  canWontfix: { label: i18n.t("dop:won't fix"), state: 'WONTFIX' },
+  canWorking: { label: i18n.t('dop:processing'), state: 'WORKING' },
+  canClosed: { label: i18n.t('dop:close'), state: 'CLOSED' },
+  canDone: { label: i18n.t('dop:completed'), state: 'DONE' },
 };
 
 export const EDIT_PROPS = {
   [ISSUE_TYPE.REQUIREMENT]: {
-    titlePlaceHolder: i18n.t('project:input requirement name'),
-    contentLabel: i18n.t('project:requirement description'),
+    titlePlaceHolder: i18n.t('dop:input requirement name'),
+    contentLabel: i18n.t('dop:requirement description'),
   },
   [ISSUE_TYPE.TASK]: {
-    titlePlaceHolder: i18n.t('project:input task name'),
-    contentLabel: i18n.t('project:task description'),
+    titlePlaceHolder: i18n.t('dop:input task name'),
+    contentLabel: i18n.t('dop:task description'),
   },
   [ISSUE_TYPE.BUG]: {
-    titlePlaceHolder: i18n.t('project:input bug name'),
-    contentLabel: i18n.t('project:bug description'),
+    titlePlaceHolder: i18n.t('dop:input bug name'),
+    contentLabel: i18n.t('dop:bug description'),
   },
   [ISSUE_TYPE.TICKET]: {
-    titlePlaceHolder: i18n.t('project:input ticket name'),
-    contentLabel: i18n.t('project:ticket description'),
-    panelTitle: i18n.t('project:related task'),
+    titlePlaceHolder: i18n.t('dop:input ticket name'),
+    contentLabel: i18n.t('dop:ticket description'),
+    panelTitle: i18n.t('dop:related task'),
   },
   [ISSUE_TYPE.EPIC]: {
-    titlePlaceHolder: i18n.t('project:input milestone name'),
-    contentLabel: i18n.t('project:milestone description'),
+    titlePlaceHolder: i18n.t('dop:input milestone name'),
+    contentLabel: i18n.t('dop:milestone description'),
   },
 };
 
@@ -465,15 +465,15 @@ export enum ISSUE_OPTION {
 
 export const BUG_STAGE_OPTION = [
   {
-    name: i18n.t('project:demand design'),
+    name: i18n.t('dop:demand design'),
     value: 'demandDesign',
   },
   {
-    name: i18n.t('project:architecture design'),
+    name: i18n.t('dop:architecture design'),
     value: 'architectureDesign',
   },
   {
-    name: i18n.t('project:code development'),
+    name: i18n.t('dop:code development'),
     value: 'codeDevelopment',
   },
 ];

@@ -59,7 +59,7 @@ export const ProjectList = () => {
   const getColumns = () => {
     const columns: Array<ColumnProps<PROJECT.Detail>> = [
       {
-        title: i18n.t('project:project ID'),
+        title: i18n.t('dop:project ID'),
         dataIndex: 'id',
         key: 'id',
         width: 80,
@@ -115,7 +115,7 @@ export const ProjectList = () => {
       },
 
       {
-        title: i18n.t('project:statistics'),
+        title: i18n.t('dop:statistics'),
         key: 'op',
         dataIndex: 'id',
         width: 80,

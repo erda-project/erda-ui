@@ -29,7 +29,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
     <div className="pass-and-next">
       <Button onClick={() => onClick(CaseStatus.INIT)} disabled={current === CaseStatus.INIT}>
         <CustomIcon className="rounded-full bg-icon text-white" type="wh" />
-        {i18n.t('project:not performed')}
+        {i18n.t('dop:not performed')}
       </Button>
       <Button
         className="border-green"
@@ -37,7 +37,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         disabled={current === CaseStatus.PASSED}
       >
         <CustomIcon className="rounded-full bg-green text-white" type="tg" />
-        {i18n.t('project:pass')}
+        {i18n.t('dop:pass')}
       </Button>
       <Button
         className="border-yellow"
@@ -45,13 +45,13 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         disabled={current === CaseStatus.BLOCK}
       >
         <CustomIcon className="rounded-full bg-yellow text-white" type="zs" />
-        {i18n.t('project:blocking')}
+        {i18n.t('dop:blocking')}
       </Button>
       <Button className="border-red" onClick={() => onClick(CaseStatus.FAIL)} disabled={current === CaseStatus.FAIL}>
         <CustomIcon className="rounded-full bg-red text-white" type="wtg" />
-        {i18n.t('project:not passed')}
+        {i18n.t('dop:not passed')}
       </Button>
-      {hasNext ? <span className="ml-1">{i18n.t('project:and next')}</span> : null}
+      {hasNext ? <span className="ml-1">{i18n.t('dop:and next')}</span> : null}
     </div>
   );
 };

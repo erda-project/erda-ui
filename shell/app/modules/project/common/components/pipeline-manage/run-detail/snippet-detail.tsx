@@ -190,7 +190,7 @@ const SnippetDetail = (props: IProps) => {
             <Tabs.TabPane tab={i18n.t('log')} key="log">
               {actKey === 'log' && logProps.logId ? <BuildLog withoutDrawer {...logProps} /> : <EmptyHolder relative />}
             </Tabs.TabPane>
-            <Tabs.TabPane tab={i18n.t('project:execute result')} key="result">
+            <Tabs.TabPane tab={i18n.t('dop:execute result')} key="result">
               {hasResult ? <ResultView data={chosenData} /> : <EmptyHolder relative />}
             </Tabs.TabPane>
           </Tabs>

@@ -95,12 +95,12 @@ export const OrgSetting = () => {
       groupKey: 'project',
       tabGroup: [
         {
-          tabTitle: i18n.t('project:joint issue type'),
+          tabTitle: i18n.t('dop:joint issue type'),
           tabKey: 'issueType',
           content: <IssueTypeManage />,
         },
         {
-          tabTitle: i18n.t('project:issue custom fields'),
+          tabTitle: i18n.t('dop:issue custom fields'),
           tabKey: 'issueField',
           content: <IssueFieldManage />,
         },
@@ -149,7 +149,7 @@ export const OrgSetting = () => {
       ],
     },
     {
-      groupTitle: i18n.t('project:notification management'),
+      groupTitle: i18n.t('dop:notification management'),
       groupKey: 'notification',
       tabGroup: [
         {

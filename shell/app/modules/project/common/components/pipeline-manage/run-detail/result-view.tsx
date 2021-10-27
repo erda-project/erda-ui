@@ -25,8 +25,8 @@ interface IProps {
 const labelMap = {
   api_request: i18n.t('request detail'),
   api_response: i18n.t('response detail'),
-  api_assert_detail: i18n.t('project:assertion detail'),
-  api_assert_success: i18n.t('project:assertion result'),
+  api_assert_detail: i18n.t('dop:assertion detail'),
+  api_assert_success: i18n.t('dop:assertion result'),
   status: i18n.t('status'),
   result: i18n.t('result'),
 };
@@ -88,7 +88,7 @@ export const ResultViewDrawer = (props: IResultViewDrawerProps) => {
   const { visible, onClose, data } = props;
 
   return (
-    <Drawer width={800} title={i18n.t('project:execute result')} visible={visible} onClose={onClose}>
+    <Drawer width={800} title={i18n.t('dop:execute result')} visible={visible} onClose={onClose}>
       <ResultView data={data} />
     </Drawer>
   );

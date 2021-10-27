@@ -202,17 +202,17 @@ const Backlog = () => {
       },
       {
         key: 'priority',
-        label: i18n.t('project:priority'),
+        label: i18n.t('dop:priority'),
         emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 2,
         type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
         options: map(ISSUE_PRIORITY_MAP),
       },
       {
         key: 'state',
-        label: i18n.t('project:state'),
+        label: i18n.t('dop:state'),
         type: 'select' as const,
         options: stateCollection,
         allowClear: false,
@@ -221,17 +221,17 @@ const Backlog = () => {
       },
       {
         key: 'label',
-        label: i18n.t('project:label'),
+        label: i18n.t('dop:label'),
         emptyText: i18n.t('dop:all'),
         fixed: false,
         haveFilter: true,
         type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:label') }),
         options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
       },
       {
         key: 'assignee',
-        label: i18n.t('project:assignee'),
+        label: i18n.t('dop:assignee'),
         fixed: false,
         type: 'memberSelector',
         customProps: {
@@ -240,7 +240,7 @@ const Backlog = () => {
       },
       {
         key: 'creator',
-        label: i18n.t('project:creator'),
+        label: i18n.t('dop:creator'),
         fixed: false,
         type: 'memberSelector',
         customProps: {
@@ -249,13 +249,13 @@ const Backlog = () => {
       },
       {
         key: 'finishedAtStartEnd',
-        label: i18n.t('project:deadline'),
+        label: i18n.t('dop:deadline'),
         fixed: false,
         type: 'dateRange',
       },
       {
         key: 'createdAtStartEnd',
-        label: i18n.t('project:creation date'),
+        label: i18n.t('dop:creation date'),
         fixed: false,
         type: 'dateRange',
       },
@@ -263,7 +263,7 @@ const Backlog = () => {
         key: 'title',
         emptyText: i18n.t('dop:all'),
         fixed: true,
-        placeholder: i18n.t('project:please enter title or ID'),
+        placeholder: i18n.t('dop:please enter title or ID'),
         type: 'input' as const,
       },
     ],
@@ -296,24 +296,24 @@ const Backlog = () => {
     <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
       <div className="backlog-issues-title flex justify-between items-center mb-2">
         <div className="flex items-center">
-          <span className="font-bold text-base mr-2">{i18n.t('project:backlog')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('dop:backlog')}</span>
           <Tooltip
             placement="right"
-            title={i18n.t('project:this is mainly for items that have not been scheduled for a specific iteration')}
+            title={i18n.t('dop:this is mainly for items that have not been scheduled for a specific iteration')}
           >
             <ErdaIcon type="help" className="cursor-pointer mr-2" />
           </Tooltip>
-          <span className="text-desc">{i18n.t('{num} {type}', { num: total, type: i18n.t('project:issue') })}</span>
+          <span className="text-desc">{i18n.t('{num} {type}', { num: total, type: i18n.t('dop:issue') })}</span>
         </div>
         <div>
           <WithAuth pass={addAuth}>
             <Button className="mr-2" type="primary" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr-1" />
-              {i18n.t('add {name}', { name: i18n.t('project:issue') })}
+              {i18n.t('add {name}', { name: i18n.t('dop:issue') })}
             </Button>
           </WithAuth>
 
-          <Popconfirm title={i18n.t('project:confirm to export')} onConfirm={() => window.open(downloadUrl)}>
+          <Popconfirm title={i18n.t('dop:confirm to export')} onConfirm={() => window.open(downloadUrl)}>
             <Button className="ml-2 px-2">
               <CustomIcon type="daochu" />
             </Button>
@@ -388,16 +388,16 @@ const Backlog = () => {
 const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-issues-empty-holder">
     <img src={backlog_db_svg} className="mb-3" />
-    <div className="text-2xl font-bold my-2">{i18n.t('project:backlog')}</div>
+    <div className="text-2xl font-bold my-2">{i18n.t('dop:backlog')}</div>
     <div className="desc">
-      {i18n.t('project:add-todo-issue-tip1')}
+      {i18n.t('dop:add-todo-issue-tip1')}
       <WithAuth pass={addAuth}>
         <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr-1" />
-          {i18n.t('add {name}', { name: i18n.t('project:issue') })}
+          {i18n.t('add {name}', { name: i18n.t('dop:issue') })}
         </Button>
       </WithAuth>
-      {i18n.t('project:Create a new issue, and you can drag it to the iteration on the right and set its priority.')}
+      {i18n.t('dop:Create a new issue, and you can drag it to the iteration on the right and set its priority.')}
     </div>
   </div>
 );

@@ -109,12 +109,12 @@ const { TextArea } = Input;
 
 const BODY_RAW_OPTION = ['text/plain', 'application/json'];
 
-const formatTip = i18n.t('project:four parameter references').replace(/</g, '{').replace(/>/g, '}');
+const formatTip = i18n.t('dop:four parameter references').replace(/</g, '{').replace(/>/g, '}');
 
 const tip = () => (
   <div className="json-format-tip">
     <p className="json-format-tip-title">*{i18n.t('Instructions')}</p>
-    <p className="json-format-tip-title">{i18n.t('project:Method of parameter refers to variable')}</p>
+    <p className="json-format-tip-title">{i18n.t('dop:Method of parameter refers to variable')}</p>
     {map(formatTip.split(';'), (item) => (
       <div>
         <p className="json-format-tip-type">{item.split('/')[0]}</p>
@@ -555,7 +555,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                   style={{ width: 110 }}
                   value={api.method}
                   onChange={(val) => updateApi('method', val, false)}
-                  placeholder={i18n.t('project:please choose')}
+                  placeholder={i18n.t('dop:please choose')}
                 >
                   {map(methodList, (method) => (
                     <Option value={method} key={method}>
@@ -565,7 +565,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 </Select>
               }
               className="url"
-              placeholder={i18n.t('project:please enter')}
+              placeholder={i18n.t('dop:please enter')}
               value={api.url}
               onChange={(e) => updateApi('url', e.target.value.trim())}
               // onBlur={handleBlurCapture}
@@ -635,47 +635,43 @@ const AssertTips = () => {
     <ul className="contents ml-4">
       <li className="level1">
         <span className="font-medium">
-          {i18n.t('project:greater than, greater than or equal to, less than, less than or equal to')}:{' '}
+          {i18n.t('dop:greater than, greater than or equal to, less than, less than or equal to')}:{' '}
         </span>
-        {format(i18n.t('project|supports integers and decimals', { nsSeparator: '|' }))}
+        {format(i18n.t('dop:supports integers and decimals'))}
       </li>
       <li className="level1">
-        <span className="font-medium">{i18n.t('project:equal to, not equal to')}: </span>
-        {format(i18n.t('project|support integers, decimals, strings, objects (arrays, Map)', { nsSeparator: '|' }))}
+        <span className="font-medium">{i18n.t('dop:equal to, not equal to')}: </span>
+        {format(i18n.t('dop:support integers, decimals, strings, objects (arrays, Map)'))}
       </li>
       <li className="level1">
-        <span className="font-medium">{i18n.t('project:contain, not contain')}: </span>
-        {format(i18n.t('project|support string and regular matching', { nsSeparator: '|' }))}
+        <span className="font-medium">{i18n.t('dop:contain, not contain')}: </span>
+        {format(i18n.t('dop:support string and regular matching'))}
       </li>
       <li className="level1">
-        <span className="font-medium">{i18n.t('project:empty, not empty')}: </span>
-        {format(i18n.t('project|support judging if arrays, maps and strings are empty', { nsSeparator: '|' }))}
+        <span className="font-medium">{i18n.t('dop:empty, not empty')}: </span>
+        {format(i18n.t('dop:support judging if arrays, maps and strings are empty'))}
       </li>
       <li className="level1">
-        <span className="font-medium">{i18n.t('project:exist, not exist')}: </span>
+        <span className="font-medium">{i18n.t('dop:exist, not exist')}: </span>
         {format(
-          i18n.t('project|Please fill in the json expression of obtained target key to determine if the key exists.', {
-            nsSeparator: '|',
-          }),
+          i18n.t('dop:Please fill in the json expression of obtained target key to determine if the key exists.'),
         )}
       </li>
       <li className="level1">
-        <span className="font-medium">{i18n.t('project:belong to, not belong to')}: </span>
-        {format(
-          i18n.t('project|support positive and negative integers, 0, and character strings', { nsSeparator: '|' }),
-        )}
+        <span className="font-medium">{i18n.t('dop:belong to, not belong to')}: </span>
+        {format(i18n.t('dop:support positive and negative integers, 0, and character strings'))}
         <ul className="ml-4">
           <li className="level2">
             {format(
               i18n.t(
-                'project|Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.',
+                'dop|Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.',
                 { nsSeparator: '|' },
               ),
             )}
           </li>
           <li className="level2">
             {format(
-              i18n.t('project|only supports collections for strings, for example: <"abc","bcd","200","-200">', {
+              i18n.t('dop|only supports collections for strings, for example: <"abc","bcd","200","-200">', {
                 nsSeparator: '|',
               }),
             )}
@@ -747,7 +743,7 @@ const ApiTabComps = {
           return (
             <Popover
               content={<pre className="text-xs">{cutStr(res.actualValue, 200)}</pre>}
-              title={i18n.t('project:actual value')}
+              title={i18n.t('dop:actual value')}
               trigger="hover"
             >
               {res.success === true ? (
@@ -762,7 +758,7 @@ const ApiTabComps = {
       };
       return (
         <div className="case-api-tables">
-          <div className="table-title">{i18n.t('project:output parameter')}</div>
+          <div className="table-title">{i18n.t('dop:output parameter')}</div>
           <div className="table-body">
             <KeyValEdit
               type="out_params"
@@ -779,7 +775,7 @@ const ApiTabComps = {
               itemMap={{
                 key: {
                   props: {
-                    placeholder: i18n.t('project:output parameter name'),
+                    placeholder: i18n.t('dop:output parameter name'),
                   },
                 },
                 source: {
@@ -789,7 +785,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('project:source')}
+                        placeholder={i18n.t('dop:source')}
                         onChange={(val) => {
                           onCurChange(val, false);
                         }}
@@ -817,7 +813,7 @@ const ApiTabComps = {
             />
           </div>
           <div className="table-title">
-            {i18n.t('project:assertion')} <AssertTips />
+            {i18n.t('dop:assertion')} <AssertTips />
           </div>
           <div className="table-body">
             <KeyValEdit
@@ -841,7 +837,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('project:parameter name')}
+                        placeholder={i18n.t('dop:parameter name')}
                         onChange={(v) => onCurChange(v, false)}
                       >
                         {data.out_params?.map((option: any) => {
@@ -862,7 +858,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
-                        placeholder={i18n.t('project:compare')}
+                        placeholder={i18n.t('dop:compare')}
                         onChange={(v) => onCurChange(v, false)}
                       >
                         {map(comparisonOperators || [], (item) => {
@@ -920,7 +916,7 @@ const TestJsonEditor = (props: any) => {
 
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>,
+  none: () => <div className="body-val-none">{i18n.t('dop:the current request has no body')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody, renderProps, processDataTemp }: any = props;
     const { temp, ...rest } = renderProps.form || {};
@@ -1197,7 +1193,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                   ) : (
                     <Input
                       className="flex-1"
-                      placeholder={i18n.t('project:please enter')}
+                      placeholder={i18n.t('dop:please enter')}
                       value={val}
                       onChange={(e) => updateValue(i, key, e.target.value)}
                       // onBlur={e => updateValue(i, key, e.target.value, true)}
@@ -1214,7 +1210,7 @@ const KeyValEdit = (props: IKeyValProps) => {
               {type === 'out_params' ? (
                 <Popconfirm
                   title={i18n.t(
-                    'project:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?',
+                    'dop:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?',
                   )}
                   onConfirm={() => handleDelete(i)}
                 >

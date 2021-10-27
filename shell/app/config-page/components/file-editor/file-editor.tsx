@@ -38,7 +38,7 @@ const fileTypeReg = {
         JSON.parse(val);
         return true;
       } catch (_) {
-        notify('error', i18n.t('project:JSON format error'));
+        notify('error', i18n.t('dop:JSON format error'));
         return false;
       }
     },

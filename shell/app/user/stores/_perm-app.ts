@@ -202,7 +202,7 @@ export const appPerm = {
       role: ['Owner', 'Lead'],
     },
     branchRule: {
-      name: i18n.t('project:branch rule'),
+      name: i18n.t('dop:branch rule'),
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
