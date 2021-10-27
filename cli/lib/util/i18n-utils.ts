@@ -16,7 +16,7 @@ import path from 'path';
 import { logInfo, logSuccess, logWarn, logError } from './log';
 import writeLocale from './i18n-extract';
 import ora from 'ora';
-import { remove, unset } from 'lodash';
+import { merge, remove, unset } from 'lodash';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { walker } from './file-walker';
@@ -148,7 +148,13 @@ export const extractAllI18nD = async (
         walker({
           root: srcPath,
           dealFile: (...args) => {
-            extractUntranslatedWords.apply(null, [...args, zhResource, translatedWords, untranslatedWords, resolve]);
+            extractUntranslatedWords.apply(null, [
+              ...args,
+              !isExternal ? merge(zhResource, originalResource.default[0]) : zhResource,
+              translatedWords,
+              untranslatedWords,
+              resolve,
+            ]);
           },
         });
       });
