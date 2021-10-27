@@ -59,16 +59,21 @@ interface IState {
   textOrJson: string;
 }
 
+const formType = 'x-www-form-urlencoded';
+const noneType = 'none';
+const jsonType = 'application/json';
+const textType = 'text/plain';
+
 const convertType = (type: string) => {
-  const newType = '';
-  const jsonType = 'json';
-  const textType = 'text';
-  if (type === 'x-www-form-urlencoded' || type === 'none') {
+  let newType = '';
+  if (type === formType || type === noneType) {
     return newType;
-  } else if (type === 'application/json') {
-    return jsonType;
+  } else if (type === jsonType) {
+    newType = 'json';
+    return newType;
   } else {
-    return textType;
+    newType = 'text';
+    return newType;
   }
 };
 
@@ -77,12 +82,12 @@ const convertFormData = (_formData?: Obj) => {
     return {
       retry: _formData.config?.retry || 2,
       bodyType:
-        _formData.config?.body?.type === 'application/json' || _formData.config?.body?.type === 'text/plain'
+        _formData.config?.body?.type === jsonType || _formData.config?.body?.type === textType
           ? 'raw'
           : _formData.config?.body?.type,
       frequency: _formData.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData.config?.body || { content: '', type: 'none' },
+      body: _formData.config?.body || { content: '', type: noneType },
       headers: _formData.config?.headers || {},
       url: _formData.config?.url || '',
       query: qs.parseUrl(_formData.config?.url || '')?.query,
@@ -233,15 +238,15 @@ const AddModal = (props: IProps) => {
   React.useEffect(() => {
     switch (textOrJson) {
       case 'text':
-        updater.body({ ...body, type: 'text/plain' });
+        updater.body({ ...body, type: textType });
         updater.headers({
-          'Content-Type': 'text/plain',
+          'Content-Type': textType,
         });
         break;
       case 'json':
-        updater.body({ ...body, type: 'application/json' });
+        updater.body({ ...body, type: jsonType });
         updater.headers({
-          'Content-Type': 'application/json',
+          'Content-Type': jsonType,
         });
         break;
       default:
@@ -249,16 +254,16 @@ const AddModal = (props: IProps) => {
     }
 
     switch (bodyType) {
-      case 'none':
+      case noneType:
         updater.textOrJson('');
         updater.headers({});
-        updater.body({ content: '', type: 'none' });
+        updater.body({ content: '', type: noneType });
         break;
-      case 'x-www-form-urlencoded':
+      case formType:
         updater.textOrJson('');
-        updater.body({ ...body, type: 'x-www-form-urlencoded' });
+        updater.body({ ...body, type: formType });
         updater.headers({
-          'Content-Type': 'x-www-form-urlencoded',
+          'Content-Type': formType,
         });
         break;
       default:
@@ -332,9 +337,9 @@ const AddModal = (props: IProps) => {
             <Tabs
               onChange={(key: string) => {
                 if (key === '2' && bodyType === 'raw' && textOrJson === 'text') {
-                  updater.headers({ ...headers, 'Content-Type': 'text/plain' });
+                  updater.headers({ ...headers, 'Content-Type': textType });
                 }
-                if (key === '2' && bodyType === 'none') {
+                if (key === '2' && bodyType === noneType) {
                   updater.headers({});
                 }
               }}
@@ -352,10 +357,10 @@ const AddModal = (props: IProps) => {
               <TabPane tab="Headers" key="2">
                 <KeyValueTable
                   isTextArea={false}
-                  onChange={(header: any) => {
+                  onChange={(header) => {
                     updater.headers(header);
                   }}
-                  onDel={(header: any) => {
+                  onDel={(header) => {
                     updater.headers(header);
                   }}
                   data={headers}
@@ -366,7 +371,7 @@ const AddModal = (props: IProps) => {
                 <Radio.Group
                   onChange={(e) => {
                     updater.bodyType(e.target.value);
-                    if (e.target.value === 'x-www-form-urlencoded') {
+                    if (e.target.value === formType) {
                       body.content = '';
                       updater.body({ ...body });
                     }
@@ -382,10 +387,10 @@ const AddModal = (props: IProps) => {
                   <Radio value={'x-www-form-urlencoded'}>x-www-form-urlencoded</Radio>
                   <Radio value={'raw'}>raw</Radio>
                 </Radio.Group>
-                {bodyType === 'none' ? (
+                {bodyType === noneType ? (
                   <div className="p-6 text-center">{i18n.t('project:the current request has no body')}</div>
                 ) : null}
-                {bodyType === 'x-www-form-urlencoded' ? (
+                {bodyType === formType ? (
                   <div className="mt-4">
                     <KeyValueTable
                       className="mb-2"
@@ -419,7 +424,7 @@ const AddModal = (props: IProps) => {
                 {bodyType === 'raw' && textOrJson === 'text' ? (
                   <TextArea
                     value={body?.content}
-                    onChange={(e: any) => {
+                    onChange={(e) => {
                       body.content = e.target.value;
                       updater.body({ ...body });
                     }}
