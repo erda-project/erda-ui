@@ -632,7 +632,7 @@ const ClusterDashboard = () => {
                 ),
                 {
                   CreateClusterLink: (
-                    <Link to={`${goTo.resolve.cmpClusters()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
+                    <Link to={`${goTo.resolve.cmpClusterManage()}?autoOpen=true`}>{i18n.t('cmp:create cluster')}</Link>
                   ),
                   DocumentationHref: (
                     <a href={DOC_CMP_CLUSTER_CREATE} target="__blank">

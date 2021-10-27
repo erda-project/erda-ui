@@ -105,13 +105,17 @@ const Header = () => {
   );
 
   const getBreadcrumbTitle = React.useCallback(
-    (route: Route) => {
-      const { breadcrumbName } = route;
+    (route: Route, isBreadcrumb = false) => {
+      const { breadcrumbName, pageName } = route;
       let _title = '';
-      if (isFunction(breadcrumbName)) {
-        _title = breadcrumbName({ infoMap, route, params, query });
+      if (!isBreadcrumb && pageName) {
+        _title = isFunction(pageName)
+          ? breadcrumbName({ infoMap, route, params, query })
+          : checkHasTemplate(pageName as string);
       } else {
-        _title = checkHasTemplate(breadcrumbName as string);
+        _title = isFunction(breadcrumbName)
+          ? breadcrumbName({ infoMap, route, params, query })
+          : checkHasTemplate(breadcrumbName as string);
       }
       return _title;
     },
@@ -163,7 +167,7 @@ const Header = () => {
     if (!route.breadcrumbName || (allRoutes.length && allRoutes[allRoutes.length - 1] === route)) {
       return null;
     }
-    const _title = getBreadcrumbTitle(route);
+    const _title = getBreadcrumbTitle(route, true);
     return _title && <BreadcrumbItem paths={[...paths]} route={route as IRoute} params={_params} title={_title} />;
   };
 
