@@ -30,9 +30,9 @@ import commonStore from 'common/stores/common';
 import './activity.scss';
 
 const deployStatusCnMap = {
-  OK: <span className="tag-success">{i18n.t('runtime:succeed')}</span>,
-  FAILED: <span className="tag-warning">{i18n.t('runtime:failed')}</span>,
-  CANCELED: <span className="tag-default">{i18n.t('runtime:cancel')}</span>,
+  OK: <span className="tag-success">{i18n.t('succeed')}</span>,
+  FAILED: <span className="tag-warning">{i18n.t('failed')}</span>,
+  CANCELED: <span className="tag-default">{i18n.t('cancel')}</span>,
 };
 
 interface DeployCardProps {

@@ -159,7 +159,7 @@ const Configuration = () => {
       render: (id: string) =>
         accessPerm.createAccessKey.pass ? (
           <Popconfirm onConfirm={() => deleteKey(id)} title={`${i18n.t('common:confirm to delete')}?`}>
-            <a className="table-operations-btn">{i18n.t('dop:delete')}</a>
+            <a className="table-operations-btn">{i18n.t('delete')}</a>
           </Popconfirm>
         ) : null,
     },
@@ -251,7 +251,7 @@ const Configuration = () => {
                 })
               }
             >
-              {i18n.t('dop:close')}
+              {i18n.t('close')}
             </Button>,
           ]}
         >

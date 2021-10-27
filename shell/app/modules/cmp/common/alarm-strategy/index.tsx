@@ -641,7 +641,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     },
     ...insertWhen(scopeType === ScopeType.ORG, [
       {
-        title: i18n.t('cmp:cluster'),
+        title: i18n.t('cluster'),
         dataIndex: 'clusterNames',
         width: 200,
         render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
@@ -698,7 +698,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                 handleDeleteAlarm(record.id);
               }}
             >
-              {i18n.t('dop:delete')}
+              {i18n.t('delete')}
             </span>
             <Switch
               size="small"

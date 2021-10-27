@@ -113,7 +113,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
 
   const fields = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('cmp:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('cluster') }),
       component: 'input',
       key: 'clusterName',
       rules: [

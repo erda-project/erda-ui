@@ -416,7 +416,7 @@ const YmlEditor = (props: IProps) => {
           <Button type="primary" className="mr-3" onClick={checkForm}>
             {i18n.t('dop:save')}
           </Button>
-          <Button onClick={cancelEditing}>{i18n.t('dop:cancel')}</Button>
+          <Button onClick={cancelEditing}>{i18n.t('cancel')}</Button>
         </div>
       </React.Fragment>
     );
@@ -878,7 +878,7 @@ const YmlEditor = (props: IProps) => {
       />
       <FormModal
         width={620}
-        title={`${i18n.t('dop:delete')}${name}`}
+        title={`${i18n.t('delete')}${name}`}
         fieldsList={getFieldsList()}
         visible={modalVisible}
         onOk={handleDelete}

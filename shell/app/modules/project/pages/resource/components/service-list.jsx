@@ -115,7 +115,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         render: (text = '') => {
           return (
             text && (
-              <Tooltip title={`${i18n.t('dop:click to copy')}：${text}`} overlayClassName="tooltip-word-break">
+              <Tooltip title={`${i18n.t('click to copy')}：${text}`} overlayClassName="tooltip-word-break">
                 <span
                   className="image-name cursor-copy"
                   data-clipboard-tip={i18n.t('dop:image name')}

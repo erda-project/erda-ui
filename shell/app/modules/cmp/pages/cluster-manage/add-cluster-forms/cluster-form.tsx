@@ -56,7 +56,7 @@ const ClusterBasicForm = ({
 
   const fieldsList = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('cmp:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('cluster') }),
       name: 'name',
       config: {
         getValueFromEvent(e: any) {

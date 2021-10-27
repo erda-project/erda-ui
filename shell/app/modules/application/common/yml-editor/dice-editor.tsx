@@ -301,7 +301,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //             {i18n.t('dop:save')}
   //           </Button>
   //           <Button onClick={cancelEditing}>
-  //             {i18n.t('dop:cancel')}
+  //             {i18n.t('cancel')}
   //           </Button>
   //         </div>
   //       </>

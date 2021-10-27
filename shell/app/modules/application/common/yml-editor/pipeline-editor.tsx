@@ -239,7 +239,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               onCancel();
             }}
           >
-            {i18n.t('dop:cancel')}
+            {i18n.t('cancel')}
           </Button>
         </div>
       </>

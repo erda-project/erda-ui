@@ -30,7 +30,7 @@ interface IListProps {
 }
 
 const EraseStatus = {
-  success: i18n.t('publisher:succeed'),
+  success: i18n.t('succeed'),
   failure: i18n.t('publisher:failure'),
   erasing: i18n.t('publisher:erasing'),
 };

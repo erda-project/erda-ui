@@ -28,7 +28,7 @@ import './index.scss';
 
 const SUMMARY_KEY_MAP = {
   podName: i18n.t('cmp:pod instance'),
-  clusterName: i18n.t('cmp:cluster'),
+  clusterName: i18n.t('cluster'),
   nodeName: i18n.t('cmp:node'),
   namespace: i18n.t('cmp:namespace'),
   hostIP: i18n.t('runtime:Host IP'),

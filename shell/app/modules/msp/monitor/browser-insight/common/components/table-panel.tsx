@@ -37,7 +37,7 @@ const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
         value.length > 30 ? <Tooltip title={value}>{`${value.substr(0, 30)}...`}</Tooltip> : value,
     },
     {
-      title: i18n.t('msp:time'),
+      title: i18n.t('time'),
       dataIndex: 'time',
       key: 'time',
       width: 280,

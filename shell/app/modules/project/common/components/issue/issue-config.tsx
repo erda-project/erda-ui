@@ -403,12 +403,12 @@ export const BUG_STATE_MAP = {
   CLOSED: {
     value: 'CLOSED',
     icon: ISSUE_ICON.state.CLOSED,
-    label: i18n.t('dop:closed'),
+    label: i18n.t('closed'),
     color: 'green',
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.state.CLOSED}
-        {i18n.t('dop:closed')}
+        {i18n.t('closed')}
       </div>
     ),
   },
@@ -429,7 +429,7 @@ export const ISSUE_BUTTON_STATE = {
   canTesting: { label: i18n.t('dop:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("dop:won't fix"), state: 'WONTFIX' },
   canWorking: { label: i18n.t('dop:processing'), state: 'WORKING' },
-  canClosed: { label: i18n.t('dop:close'), state: 'CLOSED' },
+  canClosed: { label: i18n.t('close'), state: 'CLOSED' },
   canDone: { label: i18n.t('dop:completed'), state: 'DONE' },
 };
 

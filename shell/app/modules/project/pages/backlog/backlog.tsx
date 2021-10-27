@@ -241,7 +241,7 @@ const Backlog = () => {
       },
       {
         key: 'creator',
-        label: i18n.t('dop:creator'),
+        label: i18n.t('creator'),
         fixed: false,
         type: 'memberSelector',
         customProps: {

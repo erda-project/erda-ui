@@ -396,7 +396,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         {editing ? (
           <Item className="add-on-form-btn-group">
             <Button className="mr-2" onClick={cancel}>
-              {i18n.t('dop:cancel')}
+              {i18n.t('cancel')}
             </Button>
             <Button type="primary" onClick={this.submitAddon}>
               {i18n.t('dop:save')}

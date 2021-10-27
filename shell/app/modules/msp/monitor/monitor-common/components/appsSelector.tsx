@@ -123,7 +123,7 @@ const AppsSelector = () => {
         <IF check={appPaging.hasMore}>
           <li onClick={loadMore}>
             <CustomIcon type="Loading" />
-            {i18n.t('msp:load more')}
+            {i18n.t('load more')}
           </li>
         </IF>
       </ul>

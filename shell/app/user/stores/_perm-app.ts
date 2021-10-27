@@ -85,7 +85,7 @@ export const appPerm = {
       },
       close: {
         pass: false,
-        name: i18n.t('dop:close'),
+        name: i18n.t('close'),
         role: ['Owner', 'Lead', 'Creator'],
       },
     },
@@ -295,7 +295,7 @@ export const appPerm = {
       },
       delete: {
         pass: false,
-        name: i18n.t('dop:delete'),
+        name: i18n.t('delete'),
         role: ['Owner', 'Lead'],
       },
       approve: {

@@ -194,7 +194,7 @@ const AddPipelineYml = () => {
               {i18n.t('dop:save')}
             </Button>
             <Button className="ml-3" onClick={cancelEdit}>
-              {i18n.t('dop:cancel')}
+              {i18n.t('cancel')}
             </Button>
           </div>
         ),

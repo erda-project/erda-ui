@@ -207,7 +207,7 @@ export const ResourceTrend = React.memo(
       {
         type: 'select',
         key: 'projectNames',
-        label: i18n.t('cmp:project'),
+        label: i18n.t('project'),
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),

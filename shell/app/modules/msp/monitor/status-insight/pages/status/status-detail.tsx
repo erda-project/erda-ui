@@ -112,7 +112,7 @@ const StatusDetail = () => {
               // ) : null
             }
             <Button type="primary" ghost onClick={toggleModal}>
-              {i18n.t('msp:edit')}
+              {i18n.t('edit')}
             </Button>
           </div>
           <AddModal

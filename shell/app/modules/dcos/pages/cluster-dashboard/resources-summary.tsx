@@ -248,7 +248,7 @@ export const ResourceTable = React.memo(
     }));
     const columns: ColumnsType<ORG_DASHBOARD.ResourceTableRecord> = [
       {
-        title: i18n.t('cmp:Project'),
+        title: i18n.t('Project'),
         dataIndex: 'projectName',
         key: 'projectName',
         sorter: {
@@ -354,7 +354,7 @@ export const ResourceTable = React.memo(
       {
         type: 'select',
         key: 'projectIds',
-        label: i18n.t('cmp:Project'),
+        label: i18n.t('Project'),
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),

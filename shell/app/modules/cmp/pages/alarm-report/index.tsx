@@ -268,7 +268,7 @@ export default () => {
                 handleDelete(id);
               }}
             >
-              {i18n.t('dop:delete')}
+              {i18n.t('delete')}
             </span>
             <span
               onClick={(e) => {

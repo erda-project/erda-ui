@@ -299,7 +299,7 @@ const AddModal = (props: IProps) => {
       initialValue: 'http',
     },
     {
-      label: i18n.t('msp:name'),
+      label: i18n.t('name'),
       name: 'name',
     },
     {

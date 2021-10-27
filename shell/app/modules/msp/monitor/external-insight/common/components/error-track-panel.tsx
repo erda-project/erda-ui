@@ -53,7 +53,7 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
       ),
     },
     {
-      title: i18n.t('msp:time'),
+      title: i18n.t('time'),
       dataIndex: 'time',
       key: 'time',
       width: 200,

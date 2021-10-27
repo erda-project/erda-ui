@@ -81,7 +81,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
   }
   return (
     <>
-      <Button onClick={onClose}>{i18n.t('dop:cancel')}</Button>
+      <Button onClick={onClose}>{i18n.t('cancel')}</Button>
       <Button
         className="ml-3"
         type="primary"

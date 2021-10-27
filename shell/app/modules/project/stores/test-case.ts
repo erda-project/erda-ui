@@ -221,7 +221,7 @@ const testCaseStore = createStore({
           recycled: false,
         },
         testPlanID,
-        { successMsg: i18n.t('dop:created successfully') },
+        { successMsg: i18n.t('created successfully') },
       );
       return res;
     },

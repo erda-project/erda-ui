@@ -585,7 +585,7 @@ export const fieldsTranslationMap = {
   Prepaid: i18n.t('cmp:Subscription'),
   engineVersion: i18n.t('version'),
   dbInstanceStorage: i18n.t('cmp:storage disk capacity'),
-  accountName: i18n.t('cmp:account name'),
+  accountName: i18n.t('account name'),
   dbName: i18n.t('cmp:database name'),
   Password: i18n.t('password'),
   character_set_server: i18n.t('cmp:database encoding'),

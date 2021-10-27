@@ -47,7 +47,7 @@ const HollowPieChart = ({ data }) => {
       },
       series: [
         {
-          name: i18n.t('charts:status'),
+          name: i18n.t('status'),
           type: 'pie',
           radius: ['50%', '70%'],
           hoverOffset: 2,

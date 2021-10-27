@@ -257,7 +257,7 @@ const ErrorDetail = () => {
             <IF check={requestId}>
               <div className="content-block requestid-item">
                 <span className="request-label">Request Id: </span>
-                <Tooltip title={i18n.t('msp:click to copy')}>
+                <Tooltip title={i18n.t('click to copy')}>
                   <span className="requestid-text cursor-copy">
                     <Copy>{requestId}</Copy>
                   </span>

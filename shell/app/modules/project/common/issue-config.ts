@@ -79,7 +79,7 @@ export const BUG_STATE_MAP = {
   REOPEN: { icon: 'zt', label: i18n.t('dop:reopen') },
   WONTFIX: { icon: 'zs', label: i18n.t("dop:won't fix") },
   DUP: { icon: 'zs', label: i18n.t("dop:won't fix, duplicated") },
-  CLOSED: { icon: 'tg', label: i18n.t('dop:closed') },
+  CLOSED: { icon: 'tg', label: i18n.t('closed') },
 };
 export const BUG_STATE = Object.keys(BUG_STATE_MAP);
 
@@ -97,7 +97,7 @@ export const ISSUE_BUTTON_STATE = {
   canTesting: { label: i18n.t('dop:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("dop:won't fix"), state: 'WONTFIX' },
   canWorking: { label: i18n.t('dop:processing'), state: 'WORKING' },
-  canClosed: { label: i18n.t('dop:close'), state: 'CLOSED' },
+  canClosed: { label: i18n.t('close'), state: 'CLOSED' },
   canDone: { label: i18n.t('dop:completed'), state: 'DONE' },
 };
 

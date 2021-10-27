@@ -57,7 +57,7 @@ export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetc
       width: 100,
     },
     {
-      title: i18n.t('msp:time'),
+      title: i18n.t('time'),
       dataIndex: 'time',
       key: 'time',
       render: (value: string) => moment(value).format('YYYY-MM-DD HH:mm:ss'),

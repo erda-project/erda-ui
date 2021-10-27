@@ -356,7 +356,7 @@ export default ({ scopeType }: { scopeType: string }) => {
 
   const getFieldColumns = (form: FormInstance) => [
     {
-      title: i18n.t('cmp:field'),
+      title: i18n.t('field'),
       dataIndex: 'field',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Select

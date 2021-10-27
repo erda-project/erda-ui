@@ -89,7 +89,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       menu = (
         <Menu>
           <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('dop:edit')}</Menu.Item>
-          <Menu.Item onClick={() => deleteItem && deleteItem(item)}>{i18n.t('dop:delete')}</Menu.Item>
+          <Menu.Item onClick={() => deleteItem && deleteItem(item)}>{i18n.t('delete')}</Menu.Item>
         </Menu>
       );
     }

@@ -485,7 +485,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
                 handleDele(id);
               }}
             >
-              {i18n.t('dop:delete')}
+              {i18n.t('delete')}
             </span>
           </div>
         );

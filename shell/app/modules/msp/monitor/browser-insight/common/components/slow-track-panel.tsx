@@ -36,7 +36,7 @@ const SlowTrackPanel = ({ data }: { data: object }) => {
       width: 320,
     },
     {
-      title: i18n.t('msp:time'),
+      title: i18n.t('time'),
       dataIndex: 'time',
       key: 'time',
       width: 280,

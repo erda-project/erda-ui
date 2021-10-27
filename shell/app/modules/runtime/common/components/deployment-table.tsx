@@ -42,7 +42,7 @@ const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IPro
       dataIndex: 'id',
     },
     {
-      title: i18n.t('runtime:operator'),
+      title: i18n.t('operator'),
       dataIndex: 'operator',
       render: (operator: string) => {
         const { nick = '', avatar = '', name = '' } = userMap[operator] || {};
