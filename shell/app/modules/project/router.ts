@@ -36,7 +36,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'issues',
           mark: 'issues',
-          breadcrumbName: i18n.t('project:issues'),
+          breadcrumbName: i18n.t('dop:project collaboration'),
           routes: [
             {
               path: 'all',

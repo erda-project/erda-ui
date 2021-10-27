@@ -39,7 +39,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
-      text: i18n.t('project:issues'),
+      text: i18n.t('dop:project collaboration'),
       subtitle: i18n.t('Issues'),
       show:
         projectPerm.backLog.viewBackLog.pass ||
