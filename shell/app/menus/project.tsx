@@ -58,7 +58,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}`,
       icon: <CustomIcon type="ceshiguanli" />,
-      text: i18n.t('project:test'),
+      text: i18n.t('test'),
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [

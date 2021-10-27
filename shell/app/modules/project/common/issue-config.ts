@@ -24,7 +24,7 @@ export enum ISSUE_TYPE {
 
 export const ISSUE_COMPLEXITY_MAP = {
   HARD: { value: 'HARD', label: i18n.t('project:complex'), icon: 'fz3' },
-  NORMAL: { value: 'NORMAL', label: i18n.t('project:medium'), icon: 'fz5' },
+  NORMAL: { value: 'NORMAL', label: i18n.t('medium'), icon: 'fz5' },
   EASY: { value: 'EASY', label: i18n.t('project:easy'), icon: 'fz2' },
 };
 
@@ -38,9 +38,9 @@ export const BUG_SEVERITY_MAP = {
 
 export const ISSUE_PRIORITY_MAP = {
   URGENT: { value: 'URGENT', label: i18n.t('project:urgent'), icon: 'yx4' },
-  HIGH: { value: 'HIGH', label: i18n.t('project:high'), icon: 'yx3' },
-  NORMAL: { value: 'NORMAL', label: i18n.t('project:medium'), icon: 'yx2' },
-  LOW: { value: 'LOW', label: i18n.t('project:low'), icon: 'yx1' },
+  HIGH: { value: 'HIGH', label: i18n.t('high'), icon: 'yx3' },
+  NORMAL: { value: 'NORMAL', label: i18n.t('medium'), icon: 'yx2' },
+  LOW: { value: 'LOW', label: i18n.t('low'), icon: 'yx1' },
 };
 export const ISSUE_PRIORITY_ICON_STYLE = { height: '20px', width: '20px', verticalAlign: 'sub' };
 export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);

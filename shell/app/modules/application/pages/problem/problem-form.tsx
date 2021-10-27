@@ -87,7 +87,7 @@ export const ProblemForm = ({
   return (
     <FormModal
       width={700}
-      name={i18n.t('dop:tickets')}
+      name={i18n.t('task ticket')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={onOk}

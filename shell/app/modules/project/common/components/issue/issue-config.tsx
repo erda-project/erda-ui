@@ -67,7 +67,7 @@ export const ISSUE_ICON = {
 
 export const ISSUE_COMPLEXITY_MAP = {
   HARD: { value: 'HARD', label: i18n.t('project:complex') },
-  NORMAL: { value: 'NORMAL', label: i18n.t('project:medium') },
+  NORMAL: { value: 'NORMAL', label: i18n.t('medium') },
   EASY: { value: 'EASY', label: i18n.t('project:easy') },
 };
 
@@ -196,34 +196,34 @@ export const ISSUE_PRIORITY_MAP = {
   },
   HIGH: {
     value: 'HIGH',
-    label: i18n.t('project:high'),
+    label: i18n.t('high'),
     icon: ISSUE_ICON.priority.HIGH,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.HIGH}
-        {i18n.t('project:high')}
+        {i18n.t('high')}
       </div>
     ),
   },
   NORMAL: {
     value: 'NORMAL',
-    label: i18n.t('project:medium'),
+    label: i18n.t('medium'),
     icon: ISSUE_ICON.priority.NORMAL,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.NORMAL}
-        {i18n.t('project:medium')}
+        {i18n.t('medium')}
       </div>
     ),
   },
   LOW: {
     value: 'LOW',
-    label: i18n.t('project:low'),
+    label: i18n.t('low'),
     icon: ISSUE_ICON.priority.LOW,
     iconLabel: (
       <div className="flex items-center">
         {ISSUE_ICON.priority.LOW}
-        {i18n.t('project:low')}
+        {i18n.t('low')}
       </div>
     ),
   },

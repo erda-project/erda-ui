@@ -436,7 +436,7 @@ export const projectPerm = {
     },
   },
   testManage: {
-    name: i18n.t('project:test'),
+    name: i18n.t('test'),
     viewTest: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Support', 'Ops'],

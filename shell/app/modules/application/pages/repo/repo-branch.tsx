@@ -118,7 +118,7 @@ const RepoBranch = () => {
                 </div>
                 <div className="branch-item-right flex">
                   <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
-                    {i18n.t('dop:compare')}
+                    {i18n.t('compare')}
                   </Button>
                   <DeleteConfirm
                     onConfirm={() => {

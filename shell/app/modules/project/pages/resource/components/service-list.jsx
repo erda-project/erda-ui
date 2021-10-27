@@ -118,7 +118,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
               <Tooltip title={`${i18n.t('project:click to copy')}：${text}`} overlayClassName="tooltip-word-break">
                 <span
                   className="image-name cursor-copy"
-                  data-clipboard-tip={i18n.t('project:image name')}
+                  data-clipboard-tip={i18n.t('dop:image name')}
                   data-clipboard-text={text}
                 >
                   {getImageText(text)}

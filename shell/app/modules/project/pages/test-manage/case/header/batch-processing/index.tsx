@@ -107,7 +107,6 @@ export default BatchProcessing;
 const menuItemsMap = {
   normal: [
     { key: TestOperation.delete, name: i18n.t('project:delete') },
-    // { key: TestOperation.tag, name: i18n.t('project:tag') },
     {
       key: TestOperation.priority,
       name: i18n.t('project:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),

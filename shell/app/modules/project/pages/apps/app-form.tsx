@@ -257,7 +257,7 @@ const CreationForm = () => {
         extraProps: fieldExtraProps,
       },
       {
-        label: i18n.t('project:repository'),
+        label: i18n.t('repository'),
         name: ['repoConfig', 'type'],
         type: 'select',
         initialValue: RepositoryMode.Internal,

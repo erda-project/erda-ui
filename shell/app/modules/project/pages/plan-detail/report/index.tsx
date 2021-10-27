@@ -58,7 +58,7 @@ const DetailIntro = () => {
       </div>
       <div className="sub-section-title">{i18n.t('project:basic information')}</div>
       <BasicInfo />
-      <div className="sub-section-title">{i18n.t('project:overview')}</div>
+      <div className="sub-section-title">{i18n.t('overview')}</div>
       <NumberInfo />
       <div className="sub-section-title">{i18n.t('project:test summary')}</div>
       <MarkdownEditor

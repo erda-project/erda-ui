@@ -63,12 +63,12 @@ const RepoBranchCompare = () => {
         <IconSwitch />
       </span>
       <BranchSelect {...{ branches, tags, current: state.to }} onChange={onChange('to')}>
-        <span>{i18n.t('dop:compare')}:</span>
+        <span>{i18n.t('compare')}:</span>
         <span className="branch-name font-bold nowrap">{state.to || null}</span>
         {state.to ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>
-        {i18n.t('dop:compare')}
+        {i18n.t('compare')}
       </Button>
     </div>
   );
