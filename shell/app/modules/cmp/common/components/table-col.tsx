@@ -179,7 +179,7 @@ export const getCloudResourceRegionCol = (dataIndex = 'regionID', msg?: any) => 
 
 export const getRemarkCol = (dataIndex = 'remark') => {
   return {
-    title: i18n.t('application:remark'),
+    title: i18n.t('dop:remark'),
     dataIndex,
     ellipsis: {
       showTitle: false,

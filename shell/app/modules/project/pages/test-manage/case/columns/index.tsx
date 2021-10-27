@@ -33,13 +33,13 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     sorter: true,
   },
   {
-    title: i18n.t('project:use case title'),
+    title: i18n.t('dop:use case title'),
     dataIndex: 'name',
     key: 'name',
     render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
   {
-    title: i18n.t('project:priority'),
+    title: i18n.t('dop:priority'),
     dataIndex: 'priority',
     key: 'priority',
     width: 96,
@@ -47,7 +47,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     render: (value: string, record: any) => renderContent((value) => value, value, record),
   },
   {
-    title: i18n.t('project:updater'),
+    title: i18n.t('dop:updater'),
     dataIndex: 'updaterID',
     key: 'updaterID',
     width: 96,
@@ -62,7 +62,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
       ),
   },
   {
-    title: i18n.t('project:updated'),
+    title: i18n.t('dop:updated'),
     dataIndex: 'updatedAt',
     key: 'updatedAt',
     width: 200,
@@ -90,7 +90,7 @@ const renderContent = (children, value: string, record: any, dataIndex?: string)
 export const columns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
   ...commonColumns,
   {
-    title: i18n.t('project:operation'),
+    title: i18n.t('dop:operation'),
     dataIndex: 'operation',
     key: 'operation',
     className: 'operation',

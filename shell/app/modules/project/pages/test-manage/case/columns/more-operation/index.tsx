@@ -38,8 +38,8 @@ const MoreOperation = ({ record }: IProps) => {
     switch (key) {
       case TestOperation.delete:
         Modal.confirm({
-          title: i18n.t('project:delete'),
-          content: i18n.t('project:are you sure to delete the current use case?'),
+          title: i18n.t('dop:delete'),
+          content: i18n.t('dop:are you sure to delete the current use case?'),
           onOk: () => {
             toggleToRecycle({ testCaseIDs: [record.id], recycled: true, moveToTestSetID: rootId });
           },
@@ -47,9 +47,9 @@ const MoreOperation = ({ record }: IProps) => {
         break;
       case TestOperation.deleteEntirely:
         Modal.confirm({
-          title: i18n.t('project:delete completely'),
+          title: i18n.t('dop:delete completely'),
           content:
-            i18n.t('project:the use case will not be recovered after it is completely deleted, ') +
+            i18n.t('dop:the use case will not be recovered after it is completely deleted, ') +
             i18n.t('is it confirmed?'),
           onOk: () => {
             deleteEntirely(record.id);
@@ -116,20 +116,20 @@ const MoreOperation = ({ record }: IProps) => {
 export default MoreOperation;
 
 const referenceMenus = [
-  { key: TestOperation.delete, name: i18n.t('project:delete') },
-  { key: TestOperation.copy, name: i18n.t('project:copy to') },
-  { key: TestOperation.move, name: i18n.t('project:move to') },
+  { key: TestOperation.delete, name: i18n.t('dop:delete') },
+  { key: TestOperation.copy, name: i18n.t('dop:copy to') },
+  { key: TestOperation.move, name: i18n.t('dop:move to') },
 ];
 
 const menuItemsMap = {
   normal: [
     ...referenceMenus,
-    { key: TestOperation.plan, name: i18n.t('project:add to test plan') },
+    { key: TestOperation.plan, name: i18n.t('dop:add to test plan') },
     { key: TestOperation.env, name: i18n.t('runtime:environment variable configs') },
   ],
   reference: referenceMenus,
   recycled: [
-    { key: TestOperation.deleteEntirely, name: i18n.t('project:delete completely') },
-    { key: TestOperation.recover, name: i18n.t('project:recover to') },
+    { key: TestOperation.deleteEntirely, name: i18n.t('dop:delete completely') },
+    { key: TestOperation.recover, name: i18n.t('dop:recover to') },
   ],
 };

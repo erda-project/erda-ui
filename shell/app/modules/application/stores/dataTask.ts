@@ -70,7 +70,7 @@ const dataTask = createStore({
       const result = await call(
         batchCreateTask,
         { ...payload, appId },
-        { successMsg: i18n.t('application:start executing the build') },
+        { successMsg: i18n.t('dop:start executing the build') },
       );
       return result;
     },

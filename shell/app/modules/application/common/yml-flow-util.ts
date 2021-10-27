@@ -39,15 +39,15 @@ export const getAddonPlanCN = (plan = ''): string => {
   switch (config) {
     case 'basic':
     case 'small':
-      return i18n.t('application:basic edition');
+      return i18n.t('dop:basic edition');
     case 'professional':
     case 'medium':
-      return i18n.t('application:professional edition');
+      return i18n.t('dop:professional edition');
     case 'ultimate':
     case 'large':
-      return i18n.t('application:ultimate edition');
+      return i18n.t('dop:ultimate edition');
     default:
-      return i18n.t('application:ultimate edition');
+      return i18n.t('dop:ultimate edition');
   }
 };
 
@@ -71,7 +71,7 @@ export const sortByLineType = (list: any[]) => {
 let count = 0;
 export const getItemName = () => {
   count += 1;
-  return `${i18n.t('application:new node')}${count}`;
+  return `${i18n.t('dop:new node')}${count}`;
 };
 
 export const randomId = () => {

@@ -75,18 +75,18 @@ export default ({ scope }: { scope: string }) => {
       dataIndex: 'title',
     },
     {
-      title: i18n.t('org:alarm status'),
+      title: i18n.t('cmp:alarm status'),
       dataIndex: 'alertState',
       width: 150,
       render: (alertState) => <AlarmState state={alertState} />,
     },
     {
-      title: i18n.t('org:alarm type'),
+      title: i18n.t('cmp:alarm type'),
       dataIndex: 'alertType',
       width: 150,
     },
     {
-      title: i18n.t('org:alarm time'),
+      title: i18n.t('cmp:alarm time'),
       dataIndex: 'alertTime',
       width: 200,
       render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
@@ -100,7 +100,7 @@ export default ({ scope }: { scope: string }) => {
         name: 'alertState',
         customProps: {
           mode: 'multiple',
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('org:alarm status') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('cmp:alarm status') }),
           options: map(alarmAttrs.alertState, ({ key, display }) => (
             <Select.Option key={key} value={key}>
               {display}
@@ -113,7 +113,7 @@ export default ({ scope }: { scope: string }) => {
         name: 'alertType',
         customProps: {
           mode: 'multiple',
-          placeholder: i18n.t('application:filter by alarm type'),
+          placeholder: i18n.t('dop:filter by alarm type'),
           options: map(alarmAttrs.alertType, ({ key, display }) => (
             <Select.Option key={key} value={key}>
               {display}

@@ -34,17 +34,17 @@ export const ClusterSSHForm = ({ form, isReadonly, data, curRef }: IFormProps) =
     {
       label: i18n.t('password'),
       name: `${formPrefix}.password`,
-      itemProps: { placeholder: i18n.t('org:leave blank if a trust relationship has been established') },
+      itemProps: { placeholder: i18n.t('cmp:leave blank if a trust relationship has been established') },
       required: false,
     },
     {
-      label: i18n.t('org:account used for installation and operation'),
+      label: i18n.t('cmp:account used for installation and operation'),
       name: `${formPrefix}.account`,
       initialValue: 'dice',
     },
   ];
   return (
-    <FormUnitContainer title={i18n.t('org:cluster ssh infos')} curRef={curRef}>
+    <FormUnitContainer title={i18n.t('cmp:cluster ssh infos')} curRef={curRef}>
       {isReadonly ? (
         <ReadonlyForm fieldsList={fieldsList} data={data} />
       ) : (

@@ -49,18 +49,18 @@ const PureAppInfo = (): JSX.Element => {
   const gitRepo = `${protocol}//${appDetail.gitRepoNew}`;
   const fieldsList = [
     {
-      label: i18n.t('application:app name'),
+      label: i18n.t('dop:app name'),
       name: 'name',
       itemProps: {
         disabled: true,
       },
     },
     // {
-    //   label: i18n.t('application:app name'),
+    //   label: i18n.t('dop:app name'),
     //   name: 'displayName',
     // },
     {
-      label: i18n.t('application:app types'),
+      label: i18n.t('dop:app types'),
       name: 'mode',
       type: 'radioGroup',
       options: filter(modeOptions, (item) => item.value !== 'ABILITY'),
@@ -69,7 +69,7 @@ const PureAppInfo = (): JSX.Element => {
       },
     },
     {
-      label: i18n.t('application:app repository address'),
+      label: i18n.t('dop:app repository address'),
       name: 'gitRepo',
       itemProps: {
         disabled: true,
@@ -81,31 +81,31 @@ const PureAppInfo = (): JSX.Element => {
       type: 'radioGroup',
       options: [
         {
-          name: i18n.t('application:public application'),
+          name: i18n.t('dop:public application'),
           value: 'true',
         },
         {
-          name: i18n.t('application:private application'),
+          name: i18n.t('dop:private application'),
           value: 'false',
         },
       ],
     },
     {
-      label: i18n.t('application:application description'),
+      label: i18n.t('dop:application description'),
       name: 'desc',
       type: 'textArea',
       required: false,
       itemProps: { rows: 4, maxLength: 200 },
     },
     {
-      label: i18n.t('application:app icon'),
+      label: i18n.t('dop:app icon'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     // {
-    //   label: i18n.t('application:DingTalk notification address'),
+    //   label: i18n.t('dop:DingTalk notification address'),
     //   name: 'config.ddHookUrl',
     //   required: false,
     // },
@@ -138,21 +138,20 @@ const PureAppInfo = (): JSX.Element => {
 
   if (permMap.deleteApp.pass) {
     extraSectionList.push({
-      title: i18n.t('application:delete application'),
+      title: i18n.t('dop:delete application'),
       children: (
         <ConfirmDelete
           deleteItem={i18n.t('application')}
           onConfirm={remove}
-          secondTitle={i18n.t(
-            'application:The application cannot be restored after deletion.Please enter {name} to confirm.',
-            { name: appDetail.name },
-          )}
+          secondTitle={i18n.t('dop:The application cannot be restored after deletion.Please enter {name} to confirm.', {
+            name: appDetail.name,
+          })}
           onCancel={() => setConfirmAppName('')}
           disabledConfirm={confirmAppName !== appDetail.name}
           modalChildren={
             <Input
               value={confirmAppName}
-              placeholder={i18n.t('please enter {name}', { name: i18n.t('application:app name') })}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:app name') })}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmAppName(e.target.value)}
             />
           }
@@ -175,7 +174,7 @@ const PureAppInfo = (): JSX.Element => {
       fieldsList={fieldsList}
       updateInfo={onUpdate}
       extraSections={extraSectionList}
-      name={i18n.t('application:basic information')}
+      name={i18n.t('dop:basic information')}
     />
   );
 };

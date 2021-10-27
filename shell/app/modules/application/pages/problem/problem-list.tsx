@@ -48,7 +48,7 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         type: Select,
         name: 'priority',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('application:priority') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
           options: ProblemPriority.map((priorityType: any) => (
             <Option key={priorityType.value} value={priorityType.value}>
               {priorityType.name}
@@ -104,7 +104,7 @@ export const ProblemList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' 
       },
     },
     {
-      title: i18n.t('application:priority'),
+      title: i18n.t('dop:priority'),
       dataIndex: 'priority',
       width: 96,
       render: (text) => {

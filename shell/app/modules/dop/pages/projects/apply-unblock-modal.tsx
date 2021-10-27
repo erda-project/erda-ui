@@ -68,7 +68,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
         {
           validator: (_rule: any, [start, end]: [Moment, Moment], callback: Function) => {
             if (end.diff(start, 'days') > 7) {
-              callback(i18n.t('project:The deployment time should not be longer than 7 days.'));
+              callback(i18n.t('dop:The deployment time should not be longer than 7 days.'));
               return;
             }
             callback();
@@ -102,7 +102,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
 
   return (
     <FormModal
-      title={i18n.t('project:apply to deploy')}
+      title={i18n.t('dop:apply to deploy')}
       fieldsList={fieldsList}
       visible={visible}
       modalProps={{

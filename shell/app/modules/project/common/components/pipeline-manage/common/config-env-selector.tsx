@@ -113,7 +113,7 @@ const ConfigEnvSelector = (props: IProps) => {
         {
           component: 'custom',
           getComp: () => {
-            return <div className="font-medium border-bottom">{i18n.t('project:params configuration')}</div>;
+            return <div className="font-medium border-bottom">{i18n.t('dop:params configuration')}</div>;
           },
         },
         ..._inParamsForm,
@@ -160,7 +160,7 @@ const ConfigEnvSelector = (props: IProps) => {
               updateObj.canDoTest = true;
               updateObj.formVis = true;
             } else {
-              notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
+              notify('warning', i18n.t('dop:please add valid tasks to the pipeline below before operating'));
             }
             const inP = ymlDataToFormData(get(res, 'data.params') || [], getLastRunParams());
             if (isEmpty(inP) && !scopeConfigData.executeEnvChosen && !scopeConfigData.executeClusterChosen) {
@@ -174,10 +174,10 @@ const ConfigEnvSelector = (props: IProps) => {
             if (updateObj.needModal === false) execute();
           })
           .catch(() => {
-            notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
+            notify('warning', i18n.t('dop:please add valid tasks to the pipeline below before operating'));
           });
       } else {
-        notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
+        notify('warning', i18n.t('dop:please add valid tasks to the pipeline below before operating'));
       }
     }
   };
@@ -232,7 +232,7 @@ const ConfigEnvSelector = (props: IProps) => {
 
   return (
     <div>
-      <Tooltip title={canRunTest ? '' : i18n.t('project:pipeline-run-tip')}>
+      <Tooltip title={canRunTest ? '' : i18n.t('dop:pipeline-run-tip')}>
         <Button
           type="primary"
           disabled={!canRunTest}

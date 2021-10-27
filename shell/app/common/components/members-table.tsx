@@ -218,7 +218,7 @@ export const MembersTable = ({
         updater.verifyCode(verifyCode as any);
         updater.inviteModalVisible(true);
       } else {
-        message.error(i18n.t('org:cannot generate invitation code temporarily'));
+        message.error(i18n.t('cmp:cannot generate invitation code temporarily'));
       }
     });
   };
@@ -635,10 +635,10 @@ export const MembersTable = ({
               url={`${
                 window.location.origin.endsWith('erda.cloud') ? FULL_ROOT_DOMAIN : window.location.origin
               }${goTo.resolve.inviteToOrg()}`}
-              linkPrefixTip={`${i18n.t('org:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
+              linkPrefixTip={`${i18n.t('cmp:visit the link to join the organization')} [${orgDisplayName || orgName}]`}
               code={state.verifyCode}
               tip={i18n.t(
-                'org:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.',
+                'cmp:You can share the link to QQ, WeChat, DingTalk and other work groups, and colleagues can join the organization through this link.',
               )}
               onCancel={() => updater.inviteModalVisible(false)}
               modalProps={{ width: 600 }}
@@ -662,7 +662,7 @@ export const MembersTable = ({
                     menuList={batchOptions}
                     onClickMenu={onBatchClick}
                     disabled={isEmpty(state.selectedKeys)}
-                    buttonText={i18n.t('project:batch processing')}
+                    buttonText={i18n.t('dop:batch processing')}
                   />
                 )}
               </>

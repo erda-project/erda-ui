@@ -200,7 +200,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   ];
 
   return (
-    <FormUnitContainer title={i18n.t('org:node list')} curRef={curRef}>
+    <FormUnitContainer title={i18n.t('cmp:node list')} curRef={curRef}>
       {isReadonly ? (
         <ReadonlyForm fieldsList={fieldsList} data={data} />
       ) : (

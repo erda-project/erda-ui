@@ -17,7 +17,7 @@ import i18n from 'i18n';
 export const DEFAULT_FIELDS = [
   {
     uniqueName: 'title',
-    showName: i18n.t('project:title'),
+    showName: i18n.t('dop:title'),
     fieldTypeCode: 'STRING',
     module: 'ISSUE',
     defaultValue: null,
@@ -32,7 +32,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'preCondition',
-    showName: i18n.t('project:preconditions'),
+    showName: i18n.t('dop:preconditions'),
     fieldTypeCode: 'richText',
     module: 'ISSUE',
     defaultValue: null,
@@ -47,7 +47,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'stepAndResult',
-    showName: i18n.t('project:steps and results'),
+    showName: i18n.t('dop:steps and results'),
     fieldTypeCode: 'STRING',
     module: 'ISSUE',
     defaultValue: null,
@@ -62,7 +62,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'desc',
-    showName: i18n.t('project:description'),
+    showName: i18n.t('dop:description'),
     fieldTypeCode: 'richText',
     module: 'ISSUE',
     defaultValue: null,
@@ -77,7 +77,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'priority',
-    showName: i18n.t('project:priority'),
+    showName: i18n.t('dop:priority'),
     fieldTypeCode: 'select',
     module: 'ISSUE',
     defaultValue: '2',
@@ -92,7 +92,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'attachments',
-    showName: i18n.t('project:attachment'),
+    showName: i18n.t('dop:attachment'),
     fieldTypeCode: 'attachment',
     module: 'ISSUE',
     defaultValue: null,
@@ -107,7 +107,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'labels',
-    showName: i18n.t('project:label'),
+    showName: i18n.t('dop:label'),
     fieldTypeCode: 'label',
     module: 'ISSUE',
     defaultValue: null,
@@ -122,7 +122,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'module',
-    showName: i18n.t('project:module'),
+    showName: i18n.t('dop:module'),
     fieldTypeCode: 'module',
     module: 'ISSUE',
     defaultValue: null,
@@ -137,7 +137,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'bugIds',
-    showName: i18n.t('project:related bugs'),
+    showName: i18n.t('dop:related bugs'),
     fieldTypeCode: 'issue',
     module: 'ISSUE',
     defaultValue: null,

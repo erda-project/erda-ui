@@ -824,7 +824,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
                 {i18n.t('common:add parameter')}
               </Button>
               <Button className="operation-btn mb-4 ml-2" onClick={() => updater.paramsModalVisible(true)}>
-                {i18n.t('project:import parameters')}
+                {i18n.t('dop:import parameters')}
               </Button>
             </>
           )}

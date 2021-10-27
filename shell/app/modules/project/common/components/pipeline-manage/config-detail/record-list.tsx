@@ -74,7 +74,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         render: (runIndex: any) => <span className="run-index">{runIndex}</span>,
       },
       {
-        title: i18n.t('project:updater'),
+        title: i18n.t('dop:updater'),
         dataIndex: 'updaterID',
         width: 100,
         align: 'center',
@@ -126,11 +126,11 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   return (
     <Popover
       placement="bottomRight"
-      title={i18n.t('project:modify record')}
+      title={i18n.t('dop:modify record')}
       content={renderRecordList()}
       arrowPointAtCenter
     >
-      <Button>{i18n.t('project:modify record')}</Button>
+      <Button>{i18n.t('dop:modify record')}</Button>
     </Popover>
   );
 });

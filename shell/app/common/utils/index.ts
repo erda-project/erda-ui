@@ -110,36 +110,36 @@ export const equalByKeys = (a: object, b: object, keys: string[]) => {
 
 // antd form 校验规则已有的内建校验类型 https://github.com/yiminghe/async-validator#type，以下为自定义规则
 export const regRules = {
-  mobile: { pattern: /^(1[3|4|5|7|8|9])\d{9}$/, message: i18n.t('project:please enter the correct phone number') },
-  header: { pattern: /^[a-zA-Z0-9]/, message: i18n.t('project:must start with a letter or number') },
+  mobile: { pattern: /^(1[3|4|5|7|8|9])\d{9}$/, message: i18n.t('dop:please enter the correct phone number') },
+  header: { pattern: /^[a-zA-Z0-9]/, message: i18n.t('dop:must start with a letter or number') },
   commonStr: {
     pattern: /^[a-zA-Z0-9_-]*$/,
-    message: i18n.t('project:can only contain characters, numbers, underscores and hyphens'),
+    message: i18n.t('dop:can only contain characters, numbers, underscores and hyphens'),
   },
   port: {
     pattern: /^([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])(-([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/,
-    message: i18n.t('project:please fill in the correct port number'),
+    message: i18n.t('dop:please fill in the correct port number'),
   },
   ip: {
     pattern: /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$/,
-    message: i18n.t('project:please fill in the correct ip'),
+    message: i18n.t('dop:please fill in the correct ip'),
   },
-  noSpace: { pattern: /^[^ \f\r\t\v]*$/, message: i18n.t('project:do not start with a space') },
+  noSpace: { pattern: /^[^ \f\r\t\v]*$/, message: i18n.t('dop:do not start with a space') },
   http: {
     pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
-    message: i18n.t('project:please enter the correct http address'),
+    message: i18n.t('dop:please enter the correct http address'),
   },
   url: {
     pattern:
       /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
-    message: i18n.t('project:please enter the correct url address'),
+    message: i18n.t('dop:please enter the correct url address'),
   },
-  email: { pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/, message: i18n.t('project:please enter the correct email') },
-  xmind: { pattern: /\.(xmind|xmt|xmap|xmind|xmt|xmap)$/, message: i18n.t('project:not an xmind file') },
-  excel: { pattern: /\.(xlsx|xls|XLSX|XLS)$/, message: i18n.t('project:not an excel file') },
+  email: { pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/, message: i18n.t('dop:please enter the correct email') },
+  xmind: { pattern: /\.(xmind|xmt|xmap|xmind|xmt|xmap)$/, message: i18n.t('dop:not an xmind file') },
+  excel: { pattern: /\.(xlsx|xls|XLSX|XLS)$/, message: i18n.t('dop:not an excel file') },
   excelOrXmind: {
     pattern: /\.(xlsx|xls|XLSX|XLS|xmind|xmt|xmap|xmind|xmt|xmap)$/,
-    message: i18n.t('project:not excel or xmind files'),
+    message: i18n.t('dop:not excel or xmind files'),
   },
   banFullWidthPunctuation: {
     pattern:
@@ -148,7 +148,7 @@ export const regRules = {
   },
   dingding: {
     pattern: /^https:\/\/oapi\.dingtalk\.com\//g,
-    message: i18n.t('project:please enter the DingTalk address with prefix {prefix}', {
+    message: i18n.t('dop:please enter the DingTalk address with prefix {prefix}', {
       prefix: 'https://oapi.dingtalk.com/',
       interpolation: { escapeValue: false },
     }),
@@ -163,7 +163,7 @@ export const regRules = {
   }),
   specialLetter: {
     pattern: /[`~!@#$%^&*()+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*（）——+={}|《》？：“”【】、；‘'，。、]/im,
-    message: i18n.t('project:cannot enter special characters'),
+    message: i18n.t('dop:cannot enter special characters'),
   },
 };
 

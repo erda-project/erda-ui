@@ -64,12 +64,12 @@ const PlanModal = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('project:test plan'),
+      label: i18n.t('dop:test plan'),
       name: 'testPlanId',
       type: 'select',
       options: map(relatedPlans, ({ id: value, name: planName }) => ({ value, name: planName })),
       itemProps: {
-        placeholder: i18n.t('project:Search for the test plan I am involved in/responsible for.'),
+        placeholder: i18n.t('dop:Search for the test plan I am involved in/responsible for.'),
         onSearch: handleSearch,
         onPopupScroll: handlePopupScroll,
         showSearch: true,
@@ -81,7 +81,7 @@ const PlanModal = () => {
   return (
     <FormModal
       visible={visible}
-      title={i18n.t('project:add to test plan')}
+      title={i18n.t('dop:add to test plan')}
       fieldsList={fieldsList}
       onCancel={closePlanModal}
       onOk={onOk}

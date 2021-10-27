@@ -191,20 +191,20 @@ const TestPlanDetail = () => {
         />
         {firstRecord && firstRecord.status === 'Running' ? (
           <Button loading={loadingRecords} onClick={() => cancelPipeline({ pipelineID: firstRecord.id })}>
-            {i18n.t('project:cancel interface test')}
+            {i18n.t('dop:cancel interface test')}
           </Button>
         ) : (
           <EnvSelect execute={handleExecute}>
             <Button loading={loadingRecords}>
-              {i18n.t('project:start interface test')} <IconDown size="16px" />
+              {i18n.t('dop:start interface test')} <IconDown size="16px" />
             </Button>
           </EnvSelect>
         )}
         <Button type="primary" ghost onClick={() => updateModalProp({ visible: true, mode: 'edit' })}>
-          {i18n.t('project:edit')}
+          {i18n.t('dop:edit')}
         </Button>
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'copy' })}>
-          {i18n.t('project:copy')}
+          {i18n.t('dop:copy')}
         </Button>
         <PlanModal
           testPlanId={params.testPlanId}
@@ -219,7 +219,7 @@ const TestPlanDetail = () => {
         <BaseInfo />
       </Spin>
       <Tabs className="test-detail-tabs" type="card" onChange={changeTabKey}>
-        <TabPane tab={i18n.t('project:test case')} key="case">
+        <TabPane tab={i18n.t('dop:test case')} key="case">
           <SplitPage className="full-tab-content">
             <SplitPage.Left fixedSplit className="case-tree-container">
               <CaseTree
@@ -237,10 +237,10 @@ const TestPlanDetail = () => {
                 <div className="ml-3-group">
                   <DropdownSelect
                     menuList={[
-                      { name: i18n.t('project:new'), key: 'add' },
-                      { name: i18n.t('project:reference'), key: 'import' },
+                      { name: i18n.t('dop:new'), key: 'add' },
+                      { name: i18n.t('dop:reference'), key: 'import' },
                     ]}
-                    buttonText={i18n.t('project:add use case')}
+                    buttonText={i18n.t('dop:add use case')}
                     btnProps={{
                       type: 'primary',
                       ghost: true,
@@ -255,7 +255,7 @@ const TestPlanDetail = () => {
                 <div className="mr-3-group">
                   <Input
                     style={{ width: '160px' }}
-                    placeholder={i18n.t('project:search for')}
+                    placeholder={i18n.t('dop:search for')}
                     onChange={(e) => debouncedSearch({ query: e.target.value })}
                     prefix={<IconSearch />}
                   />
@@ -298,10 +298,10 @@ const TestPlanDetail = () => {
             </SplitPage.Right>
           </SplitPage>
         </TabPane>
-        <TabPane tab={i18n.t('project:test report')} key="report">
+        <TabPane tab={i18n.t('dop:test report')} key="report">
           <Report key={reportKey} />
         </TabPane>
-        <TabPane tab={i18n.t('project:interface test record')} key="pipeline">
+        <TabPane tab={i18n.t('dop:interface test record')} key="pipeline">
           <div className="tab-content">
             <TestRecords />
           </div>

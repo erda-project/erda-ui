@@ -55,14 +55,14 @@ const unFinishState = [
 
 const endTimeTip = (time: string, isFinished: boolean) => {
   const diffDay = moment(time).endOf('day').diff(moment().endOf('day'), 'day');
-  let tip = <span>{i18n.t('project:due in {num} days', { num: diffDay })}</span>;
+  let tip = <span>{i18n.t('dop:due in {num} days', { num: diffDay })}</span>;
   if (!isFinished) {
     if (diffDay === 0) {
       tip = <span className="text-warning">{i18n.t('due today')}</span>;
     } else if (diffDay === 1) {
       tip = <span className="text-warning">{i18n.t('due tomorrow')}</span>;
     } else if (diffDay < 0) {
-      tip = <span className="text-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
+      tip = <span className="text-danger">{i18n.t('dop:due {num} days ago', { num: -diffDay })}</span>;
     }
   }
   return <Tooltip title={moment(time).format('YYYY-MM-DD')}>{tip}</Tooltip>;
@@ -219,7 +219,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
     },
     ...insertWhen(issueType === ISSUE_TYPE.REQUIREMENT, [
       {
-        title: i18n.t('project:progress'),
+        title: i18n.t('dop:progress'),
         width: 100,
         dataIndex: 'issueSummary',
         key: 'issueSummary',
@@ -237,7 +237,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
     ]),
     // ...insertWhen(issueType === ISSUE_TYPE.TASK, [
     //   {
-    //     title: i18n.t('project:progress'),
+    //     title: i18n.t('dop:progress'),
     //     width: 100,
     //     dataIndex: 'issueSummary',
     //     key: 'issueSummary',
@@ -251,7 +251,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
     //   },
     // ]),
     {
-      title: i18n.t('project:priority'),
+      title: i18n.t('dop:priority'),
       width: 120,
       dataIndex: 'priority',
       key: 'priority',
@@ -272,7 +272,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
     },
     ...insertWhen(issueType === ISSUE_TYPE.BUG, [
       {
-        title: i18n.t('project:severity'),
+        title: i18n.t('dop:severity'),
         width: 120,
         dataIndex: 'severity',
         key: 'severity',
@@ -293,7 +293,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
       },
     ]),
     {
-      title: i18n.t('project:status'),
+      title: i18n.t('dop:status'),
       width: 120,
       dataIndex: 'state',
       key: 'state',
@@ -328,7 +328,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
       },
     },
     {
-      title: i18n.t('project:assignee'),
+      title: i18n.t('dop:assignee'),
       width: 120,
       dataIndex: 'assignee',
       key: 'assignee',

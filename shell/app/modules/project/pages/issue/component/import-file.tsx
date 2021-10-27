@@ -34,7 +34,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
   const beforeUpload = (file: any) => {
     const isLt20M = file.size / 1024 / 1024 < 20;
     if (!isLt20M) {
-      message.error(i18n.t('project:file must be smaller than 20 MB'));
+      message.error(i18n.t('dop:file must be smaller than 20 MB'));
     }
     return isLt20M;
   };
@@ -47,21 +47,21 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
   const onSuccess = (res: any) => {
     const { successNumber, falseNumber, uuid } = res;
     if (falseNumber === 0) {
-      message.success(i18n.t('project:imported {total} item successfully', { total: successNumber }));
+      message.success(i18n.t('dop:imported {total} item successfully', { total: successNumber }));
     } else if (successNumber || falseNumber) {
       Modal.info({
-        title: i18n.t('project:import results'),
+        title: i18n.t('dop:import results'),
         content: (
           <div>
             <br />
-            <p>{i18n.t('project:imported {total} item successfully', { total: successNumber })}</p>
+            <p>{i18n.t('dop:imported {total} item successfully', { total: successNumber })}</p>
             <div>
-              <span>{i18n.t('project:imported {total} item unsuccessfully', { total: falseNumber })}</span>
+              <span>{i18n.t('dop:imported {total} item unsuccessfully', { total: falseNumber })}</span>
               {uuid && (
                 <>
                   <span> —— </span>
                   <span className="text-primary hover-text" onClick={() => window.open(`/api/files/${uuid}`)}>
-                    {i18n.t('project:download failed file')}
+                    {i18n.t('dop:download failed file')}
                   </span>
                 </>
               )}
@@ -86,7 +86,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
 
   const fieldList = [
     {
-      label: i18n.t('project:select a document'),
+      label: i18n.t('dop:select a document'),
       name: 'file',
       getComp: () => <FileSelect accept=".xlsx, .xls, .XLSX, .XLS" visible={visible} beforeUpload={beforeUpload} />,
     },
@@ -96,8 +96,8 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
     <>
       <FormModal
         loading={uploadLoading}
-        tip={i18n.t('project:uploading, please do not leave')}
-        title={i18n.t('project:import file')}
+        tip={i18n.t('dop:uploading, please do not leave')}
+        title={i18n.t('dop:import file')}
         fieldsList={fieldList}
         visible={visible}
         onOk={handleOk}
@@ -110,7 +110,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
       >
         <div className="modal-tip">
           <span onClick={() => window.open(download)} className="text-primary hover-text">
-            {i18n.t('project:download template')}
+            {i18n.t('dop:download template')}
           </span>
         </div>
       </FormModal>

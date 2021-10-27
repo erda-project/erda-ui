@@ -30,7 +30,7 @@ const ChangeResult = () => {
 
   const onClick = () => {
     if (!caseTotal || !checked) {
-      message.error(i18n.t('project:After the use case is selected, the batch operation can be performed.'));
+      message.error(i18n.t('dop:After the use case is selected, the batch operation can be performed.'));
       return;
     }
     openNormalModal(TestOperation.testPlanTestCasesExecutionResult);
@@ -38,7 +38,7 @@ const ChangeResult = () => {
 
   return (
     <>
-      <Button onClick={onClick}>{i18n.t('project:change execution result')}</Button>
+      <Button onClick={onClick}>{i18n.t('dop:change execution result')}</Button>
       <MetaModal />
     </>
   );

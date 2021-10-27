@@ -21,9 +21,9 @@ import { CaseTree } from '../../components';
 import { TestOperation } from '../../constants';
 
 const titleMap = {
-  [TestOperation.copy]: i18n.t('project:copy to'),
-  [TestOperation.move]: i18n.t('project:move to'),
-  [TestOperation.recover]: i18n.t('project:recover to'),
+  [TestOperation.copy]: i18n.t('dop:copy to'),
+  [TestOperation.move]: i18n.t('dop:move to'),
+  [TestOperation.recover]: i18n.t('dop:recover to'),
 };
 
 const ProjectTreeModal = () => {

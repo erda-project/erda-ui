@@ -18,7 +18,7 @@ export const sysRoleMap = {
 };
 
 export const sysPerm = {
-  name: i18n.t('application:system'),
+  name: i18n.t('dop:system'),
   view: {
     role: ['Manager'],
     pass: false,

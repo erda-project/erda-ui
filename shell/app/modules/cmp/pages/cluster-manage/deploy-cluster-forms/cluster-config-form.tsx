@@ -33,14 +33,14 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
       options: ['k8s', 'dcos'].map((v) => ({ value: v, name: v })),
     },
     {
-      label: i18n.t('org:DNS server'),
+      label: i18n.t('cmp:DNS server'),
       name: `${formPrefix}.nameservers`,
       type: 'select',
       itemProps: {
         mode: 'tags',
         tokenSeparators: [';', ' '],
         dropdownStyle: { display: 'none' },
-        placeholder: i18n.t('org:Please enter the IP, separated by pressing Enter or semicolons, up to 5 allowed'),
+        placeholder: i18n.t('cmp:Please enter the IP, separated by pressing Enter or semicolons, up to 5 allowed'),
       },
       options: [],
       rules: [
@@ -48,31 +48,31 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
           validator: (_rule: any, value: any, callback: Function) => {
             let pass = false;
             if (value) {
-              if (value.length > 5) return callback(i18n.t('org:fill in up to 5 IPs'));
+              if (value.length > 5) return callback(i18n.t('cmp:fill in up to 5 IPs'));
               value.forEach((item: string) => {
                 const o = item.replace(/\s+/g, '');
                 o !== '' && (pass = regRulesMap.ip.pattern.test(o));
               });
             }
-            return pass ? callback() : callback(i18n.t('org:Please fill in the correct IP, separated by semicolon.'));
+            return pass ? callback() : callback(i18n.t('cmp:Please fill in the correct IP, separated by semicolon.'));
           },
         },
       ],
     },
     {
-      label: i18n.t('org:container segment'),
+      label: i18n.t('cmp:container segment'),
       name: `${formPrefix}.containerSubnet`,
       initialValue: '9.0.0.0/8',
       rules: [{ ...regRulesMap.subnet }],
     },
     {
-      label: i18n.t('org:VIP segment'),
+      label: i18n.t('cmp:VIP segment'),
       name: `${formPrefix}.virtualSubnet`,
       initialValue: '10.96.0.0/12',
       rules: [{ ...regRulesMap.subnet }],
     },
     {
-      label: i18n.t('org:whether to install offline'),
+      label: i18n.t('cmp:whether to install offline'),
       name: `${formPrefix}.offline`,
       initialValue: false,
       required: false,

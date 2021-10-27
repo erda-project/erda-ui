@@ -103,17 +103,17 @@ export const clusterSpecMap = {
       value: 'Standard',
       tip: (
         <>
-          {i18n.t('org:masters occupy 3 nodes')}
+          {i18n.t('cmp:masters occupy 3 nodes')}
           <br />
-          {i18n.t('org:lb occupies 2 nodes')}
+          {i18n.t('cmp:lb occupies 2 nodes')}
           <br />
-          {i18n.t('org:platform occupies 2 nodes')}
+          {i18n.t('cmp:platform occupies 2 nodes')}
           <br />
         </>
       ),
     },
-    Small: { name: i18n.t('small'), value: 'Small', tip: i18n.t('org:masters, lb and platform share 3 nodes') },
-    Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('org:masters, LB and platform share 1 node') },
+    Small: { name: i18n.t('small'), value: 'Small', tip: i18n.t('cmp:masters, lb and platform share 3 nodes') },
+    Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('cmp:masters, LB and platform share 1 node') },
   },
   'alicloud-cs': {
     Standard: { name: i18n.t('standard'), value: 'Standard', tip: i18n.t('cmp:3 machines') },
@@ -128,8 +128,8 @@ export const clusterSpecMap = {
 };
 
 export const chargeTypeMap = {
-  PrePaid: { name: i18n.t('org:Subscription'), value: 'PrePaid' },
-  PostPaid: { name: i18n.t('org:Pay-As-You-Go'), value: 'PostPaid' },
+  PrePaid: { name: i18n.t('cmp:Subscription'), value: 'PrePaid' },
+  PostPaid: { name: i18n.t('cmp:Pay-As-You-Go'), value: 'PostPaid' },
 };
 
 export const chargePeriodMap = [
@@ -145,8 +145,8 @@ export const chargePeriodMap = [
 ];
 
 export const diskTypeMap = {
-  cloud_ssd: { name: i18n.t('org:SSD cloud'), value: 'cloud_ssd' },
-  cloud_efficiency: { name: i18n.t('org:efficiency cloud'), value: 'cloud_efficiency' },
+  cloud_ssd: { name: i18n.t('cmp:SSD cloud'), value: 'cloud_ssd' },
+  cloud_efficiency: { name: i18n.t('cmp:efficiency cloud'), value: 'cloud_efficiency' },
 };
 
 export const groupOptions = (list: any[], optionRender?: (arg: any) => React.ReactChild) => {

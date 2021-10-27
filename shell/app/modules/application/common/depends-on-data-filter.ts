@@ -108,8 +108,8 @@ export default (currentItem: any) => {
   const circularDep = checkCircularDep(originData);
   if (circularDep.length) {
     message.warning(
-      `${i18n.t('application:detected circular dependencies')}：${circularDep.join(' 和 ')}， ${i18n.t(
-        'application:the loop node does not render',
+      `${i18n.t('dop:detected circular dependencies')}：${circularDep.join(' 和 ')}， ${i18n.t(
+        'dop:the loop node does not render',
       )}`,
     );
     return [];

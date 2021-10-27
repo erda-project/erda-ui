@@ -42,23 +42,23 @@ export const activityConfig = {
 export const stepList = [
   {
     key: 'INIT',
-    name: i18n.t('project:initializing'),
+    name: i18n.t('dop:initializing'),
   },
   {
     key: 'ADDON_REQUESTING',
-    name: i18n.t('project:plugin deployment'),
+    name: i18n.t('dop:plugin deployment'),
   },
   {
     key: 'SCRIPT_APPLYING',
-    name: i18n.t('project:script deployment'),
+    name: i18n.t('dop:script deployment'),
   },
   {
     key: 'SERVICE_DEPLOYING',
-    name: i18n.t('project:service deployment'),
+    name: i18n.t('dop:service deployment'),
   },
   {
     key: 'COMPLETED',
-    name: i18n.t('project:completed'),
+    name: i18n.t('dop:completed'),
   },
 ];
 
@@ -127,26 +127,26 @@ export const actionMap = {
 
 export const issueStateMap = {
   EPIC: {
-    OPEN: i18n.t('application:pending'),
-    WORKING: i18n.t('addonPlatform:processing'),
-    DONE: i18n.t('addonPlatform:completed'),
+    OPEN: i18n.t('dop:pending'),
+    WORKING: i18n.t('dop:processing'),
+    DONE: i18n.t('dop:completed'),
   },
   TASK: {
-    OPEN: i18n.t('application:pending'),
-    WORKING: i18n.t('addonPlatform:processing'),
-    DONE: i18n.t('addonPlatform:completed'),
+    OPEN: i18n.t('dop:pending'),
+    WORKING: i18n.t('dop:processing'),
+    DONE: i18n.t('dop:completed'),
   },
   REQUIREMENT: {
-    OPEN: i18n.t('application:pending'),
-    WORKING: i18n.t('addonPlatform:processing'),
-    DONE: i18n.t('addonPlatform:completed'),
+    OPEN: i18n.t('dop:pending'),
+    WORKING: i18n.t('dop:processing'),
+    DONE: i18n.t('dop:completed'),
   },
   BUG: {
-    OPEN: i18n.t('application:pending'),
-    WORKING: i18n.t('addonPlatform:processing'),
-    WONTFIX: i18n.t("project:won't fix"),
-    REOPEN: i18n.t('project:reopen'),
-    RESOLVED: i18n.t('project:resolved'),
+    OPEN: i18n.t('dop:pending'),
+    WORKING: i18n.t('dop:processing'),
+    WONTFIX: i18n.t("dop:won't fix"),
+    REOPEN: i18n.t('dop:reopen'),
+    RESOLVED: i18n.t('dop:resolved'),
     CLOSED: i18n.t('closed'),
   },
 };

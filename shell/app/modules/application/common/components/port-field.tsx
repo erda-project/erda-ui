@@ -61,7 +61,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             style={{ width: '130px' }}
             value={item.protocol}
             disabled={disabled}
-            placeholder={i18n.t('application:please select the protocol')}
+            placeholder={i18n.t('dop:please select the protocol')}
             onChange={(v: any) => this.changeValue(index, 'protocol', v)}
           >
             <Option value="TCP">TCP</Option>
@@ -70,7 +70,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           <InputNumber
             disabled={disabled}
             style={{ width: '130px' }}
-            placeholder={i18n.t('application:please enter the listening port')}
+            placeholder={i18n.t('dop:please enter the listening port')}
             className="ml-2"
             value={item.port}
             onChange={(v: any) => this.changeValue(index, 'port', v)}
@@ -85,7 +85,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     return (
       <div>
         <div className="edit-service-label">
-          {i18n.t('application:ports')}
+          {i18n.t('dop:ports')}
           {disabled ? null : <IconPlus className="variable-icon cursor-pointer" onClick={this.addNew} />}
         </div>
         {content}

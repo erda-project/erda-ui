@@ -159,13 +159,13 @@ export const CaseTreeSelector = (props: IProps) => {
         if (otherTaskAlias.includes(chosenCase.alias)) {
           renameFields = [
             {
-              label: i18n.t('project:case name'),
+              label: i18n.t('dop:case name'),
               key: reAliasKey,
               type: 'input',
               component: 'input',
               required: true,
               componentProps: {
-                placeholder: i18n.t('project:Name already existed. Please rename it.'),
+                placeholder: i18n.t('dop:Name already existed. Please rename it.'),
                 maxLength: 50,
               },
               rules: [
@@ -189,7 +189,7 @@ export const CaseTreeSelector = (props: IProps) => {
                 {
                   component: 'custom',
                   getComp: () => {
-                    return <div className="font-medium border-bottom">{i18n.t('project:node params')}</div>;
+                    return <div className="font-medium border-bottom">{i18n.t('dop:node params')}</div>;
                   },
                 },
               ];
@@ -273,9 +273,9 @@ export const CaseTreeSelector = (props: IProps) => {
           const snippet_config = get(node, 'meta.snippetAction.snippet_config') || {};
           if (isEmpty(snippet_config)) {
             // 没有snippet_config，为无效用例，不可引用
-            notify('error', i18n.t('project:this use case is invalid, please refine it before citation'));
+            notify('error', i18n.t('dop:this use case is invalid, please refine it before citation'));
           } else if (curCaseId === node.inode) {
-            notify('error', i18n.t('project:cannot refer to itself'));
+            notify('error', i18n.t('dop:cannot refer to itself'));
           } else {
             updater.chosenCase({
               ...(get(node, 'meta.snippetAction') || {}),

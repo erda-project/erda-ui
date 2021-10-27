@@ -15,15 +15,15 @@ import i18n from 'i18n';
 import { map, keys } from 'lodash';
 
 const addonNameMap = {
-  应用监控: i18n.t('application:appMonitor'),
-  配置中心: i18n.t('application:configCenter'),
-  搜索中心: i18n.t('application:searchCenter'),
-  对象存储: i18n.t('application:objectStorage'),
-  日志分析: i18n.t('application:logAnalysis'),
-  API网关: i18n.t('application:apiGateway'),
-  服务网格: i18n.t('application:serviceMesh'),
-  注册中心: i18n.t('application:registration center'),
-  通知中心: i18n.t('application:notification center'),
+  应用监控: i18n.t('dop:appMonitor'),
+  配置中心: i18n.t('dop:configCenter'),
+  搜索中心: i18n.t('dop:searchCenter'),
+  对象存储: i18n.t('dop:objectStorage'),
+  日志分析: i18n.t('dop:logAnalysis'),
+  API网关: i18n.t('dop:apiGateway'),
+  服务网格: i18n.t('dop:serviceMesh'),
+  注册中心: i18n.t('dop:registration center'),
+  通知中心: i18n.t('dop:notification center'),
 };
 
 export const monthMap = {

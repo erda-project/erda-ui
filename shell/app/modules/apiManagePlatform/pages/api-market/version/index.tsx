@@ -182,7 +182,7 @@ const ApiVersions = () => {
           value: get(asset, 'projectName'),
         },
         {
-          label: i18n.t('application:app name'),
+          label: i18n.t('dop:app name'),
           value: get(asset, 'appName'),
         },
       ],

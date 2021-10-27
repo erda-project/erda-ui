@@ -39,13 +39,13 @@ const NewSet = ({ afterCreate }: IProps) => {
   const handleSave = () => {
     if (value) {
       if (value.includes('/') || value.includes('\\')) {
-        message.error(i18n.t('project:The name cannot contain forward and backward slashes. Please enter again.'));
+        message.error(i18n.t('dop:The name cannot contain forward and backward slashes. Please enter again.'));
         return;
       }
       createTestSet({ parentID: 0, name: value }).then(afterCreate);
       handleHide();
     } else {
-      message.warning(i18n.t('project:name is required'));
+      message.warning(i18n.t('dop:name is required'));
     }
   };
 
@@ -53,7 +53,7 @@ const NewSet = ({ afterCreate }: IProps) => {
     <div className="flex justify-between items-center">
       <Input
         autoFocus
-        placeholder={i18n.t('project:enter test set name')}
+        placeholder={i18n.t('dop:enter test set name')}
         value={value}
         maxLength={50}
         onChange={(e) => setValue(e.target.value)}
@@ -74,7 +74,7 @@ const NewSet = ({ afterCreate }: IProps) => {
       align={{ offset: [10, 0] }}
       onVisibleChange={(v) => (v ? setVisible(v) : handleHide())}
     >
-      <Button type="primary">{i18n.t('project:add test set')}</Button>
+      <Button type="primary">{i18n.t('dop:add test set')}</Button>
     </Popover>
   );
 };

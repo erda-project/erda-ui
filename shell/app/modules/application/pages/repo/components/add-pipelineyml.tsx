@@ -68,7 +68,7 @@ const AddPipelineYml = () => {
     try {
       yaml.load(val);
     } catch (e) {
-      const msg = `${i18n.t('application:input format error')}：${e.message}`;
+      const msg = `${i18n.t('dop:input format error')}：${e.message}`;
       if (tipWithModal) {
         updater.errorMsg(msg);
       } else {
@@ -132,7 +132,7 @@ const AddPipelineYml = () => {
         try {
           yaml.load(ymlStr);
         } catch (e) {
-          notify('error', <pre className="prewrap">{`${i18n.t('application:input format error')}：${e.message}`}</pre>);
+          notify('error', <pre className="prewrap">{`${i18n.t('dop:input format error')}：${e.message}`}</pre>);
           return;
         }
 
@@ -150,7 +150,7 @@ const AddPipelineYml = () => {
           }).then((res: any) => {
             if (res.success) {
               cancelEdit();
-              message.success(i18n.t('application:file created successfully'));
+              message.success(i18n.t('dop:file created successfully'));
               getRepoTree({ force: true });
             }
           });
@@ -171,7 +171,7 @@ const AddPipelineYml = () => {
         name: 'message',
         type: 'textArea',
         itemProps: {
-          placeholder: i18n.t('application:submit information'),
+          placeholder: i18n.t('dop:submit information'),
           maxLength: 200,
           autoSize: { minRows: 3, maxRows: 7 },
         },
@@ -183,7 +183,7 @@ const AddPipelineYml = () => {
         initialValue: branch || 'master',
         options: branches.map((a: string) => ({ name: a, value: a })),
         itemProps: {
-          placeholder: i18n.t('application:submit branch'),
+          placeholder: i18n.t('dop:submit branch'),
           disabled: true,
         },
       },
@@ -191,10 +191,10 @@ const AddPipelineYml = () => {
         getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
-              {i18n.t('application:save')}
+              {i18n.t('dop:save')}
             </Button>
             <Button className="ml-3" onClick={cancelEdit}>
-              {i18n.t('application:cancel')}
+              {i18n.t('dop:cancel')}
             </Button>
           </div>
         ),
@@ -239,7 +239,7 @@ const AddPipelineYml = () => {
       }
     });
     updater.ymlObj(newYmlObj);
-    message.success(i18n.t('application:please click save to submit the configuration'));
+    message.success(i18n.t('dop:please click save to submit the configuration'));
   };
 
   const onAddData = (addData: any) => {
@@ -268,7 +268,7 @@ const AddPipelineYml = () => {
         }
       });
       updater.ymlObj(newYmlObj);
-      message.success(i18n.t('application:please click save to submit the configuration'));
+      message.success(i18n.t('dop:please click save to submit the configuration'));
     }
   };
 
@@ -278,7 +278,7 @@ const AddPipelineYml = () => {
 
   return (
     <div className="repo-add-pipelineyml">
-      <Alert message={i18n.t('application:add-pipeline-tip')} type="info" showIcon />
+      <Alert message={i18n.t('dop:add-pipeline-tip')} type="info" showIcon />
       <PipelineTemplateSelector
         ref={selectorRef}
         onChange={(val: string) => {
@@ -287,7 +287,7 @@ const AddPipelineYml = () => {
         }}
       />
       <div ref={editViewRef}>
-        <div className="font-bold text-base my-3">{i18n.t('application:pipeline configuration')}</div>
+        <div className="font-bold text-base my-3">{i18n.t('dop:pipeline configuration')}</div>
         <FileContainer
           name={
             <FileNameInput
@@ -347,7 +347,7 @@ const AddPipelineYml = () => {
             {i18n.t('cancel')}
           </Button>,
           <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>
-            {i18n.t('application:reset and switch')}
+            {i18n.t('dop:reset and switch')}
           </Button>,
         ]}
       >
@@ -426,7 +426,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
 
   return (
     <div className="pipeline-template">
-      <div className="font-bold text-base my-3">{i18n.t('application:template select')}</div>
+      <div className="font-bold text-base my-3">{i18n.t('dop:template select')}</div>
       <CardsLayout dataList={pipelineTemplates} contentRender={templateRender} />
     </div>
   );
@@ -443,7 +443,7 @@ const FileNameInput = ({ value, onChange, disabled, ...rest }: IFileNameProps) =
     <Input
       style={{ width: 200 }}
       value={value}
-      placeholder={i18n.t('please enter {name}', { name: i18n.t('application:file name') })}
+      placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:file name') })}
       disabled={disabled}
       onChange={(e: any) => {
         onChange(e.target.value.trim());

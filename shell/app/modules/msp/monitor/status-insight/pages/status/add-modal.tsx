@@ -389,7 +389,7 @@ const AddModal = (props: IProps) => {
                   <Radio value={'raw'}>raw</Radio>
                 </Radio.Group>
                 {bodyType === noneType ? (
-                  <div className="p-6 text-center">{i18n.t('project:the current request has no body')}</div>
+                  <div className="p-6 text-center">{i18n.t('dop:the current request has no body')}</div>
                 ) : null}
                 {bodyType === formType ? (
                   <div className="mt-4">
@@ -493,7 +493,7 @@ const AddModal = (props: IProps) => {
                           style={{ width: 110 }}
                           className="mr-2"
                         >
-                          <Option value="http_code">{i18n.t('org:state code')}</Option>
+                          <Option value="http_code">{i18n.t('cmp:state code')}</Option>
                           <Option value="body">{i18n.t('request body')}</Option>
                         </Select>
                         {item.key === 'http_code' ? (
@@ -503,7 +503,7 @@ const AddModal = (props: IProps) => {
                               style={{ width: 150 }}
                               value={item?.operate}
                               className="mr-2"
-                              placeholder={i18n.t('project:compare')}
+                              placeholder={i18n.t('dop:compare')}
                             >
                               {map(OPERATORS, (value, key) => (
                                 <Option value={key}>{value}</Option>
@@ -522,7 +522,7 @@ const AddModal = (props: IProps) => {
                               style={{ width: 150 }}
                               value={item?.operate}
                               className="mr-2"
-                              placeholder={i18n.t('project:compare')}
+                              placeholder={i18n.t('dop:compare')}
                             >
                               {map(CONTAINS, (val, key) => (
                                 <Option value={key}>{val}</Option>

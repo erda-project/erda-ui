@@ -35,13 +35,13 @@ export default function BackupManagement() {
   const { branches = [] } = info;
   const columns: any[] = [
     {
-      title: i18n.t('application:Git reference'),
+      title: i18n.t('dop:Git reference'),
       dataIndex: 'name',
       width: 180,
       render: (name: string) => name.slice(0, name.indexOf('.')),
     },
     {
-      title: i18n.t('application:commit ID'),
+      title: i18n.t('dop:commit ID'),
       width: 150,
       dataIndex: 'commitId',
       render: (commitId: string) => (
@@ -51,7 +51,7 @@ export default function BackupManagement() {
       ),
     },
     {
-      title: i18n.t('application:submit information'),
+      title: i18n.t('dop:submit information'),
       dataIndex: 'remark',
     },
     {
@@ -84,7 +84,7 @@ export default function BackupManagement() {
                   deleteBackup({ uuid: record.uuid }).then(() => reloadBackupList({ pageNo: 1 }));
                 }}
               >
-                <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('delete')}>
+                <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('delete')}>
                   <span className={info.isLocked ? '' : 'table-operations-btn'}>{i18n.t('delete')}</span>
                 </Tooltip>
               </Popconfirm>
@@ -97,7 +97,7 @@ export default function BackupManagement() {
 
   const fieldsList = [
     {
-      label: i18n.t('application:choose branch'),
+      label: i18n.t('dop:choose branch'),
       name: 'branchRef',
       type: 'custom',
       getComp: ({ form }: any) => (
@@ -121,7 +121,7 @@ export default function BackupManagement() {
     },
     // 暂无法备份历史 commit 代码，只能备份最新 commit 代码，故隐藏此字段
     {
-      label: i18n.t('application:commit ID'),
+      label: i18n.t('dop:commit ID'),
       name: 'commitId',
       required: true,
       type: 'input',
@@ -131,12 +131,12 @@ export default function BackupManagement() {
       rules: [
         {
           pattern: /^[a-z0-9]{40}$/,
-          message: i18n.t('application:commitID-input-tip'),
+          message: i18n.t('dop:commitID-input-tip'),
         },
       ],
     },
     {
-      label: i18n.t('application:submit information'),
+      label: i18n.t('dop:submit information'),
       name: 'remark',
       required: false,
       type: 'textArea',
@@ -177,18 +177,15 @@ export default function BackupManagement() {
       <Copy selector=".cursor-copy" />
       <div className="top-button-group">
         <WithAuth pass={newBackupAuth}>
-          <Tooltip
-            title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:new backup')}
-            placement="left"
-          >
+          <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:new backup')} placement="left">
             <Button type="primary" disabled={info.isLocked} onClick={() => setVisible(true)}>
-              {i18n.t('application:new backup')}
+              {i18n.t('dop:new backup')}
             </Button>
           </Tooltip>
         </WithAuth>
         <FormModal
           visible={visible}
-          name={i18n.t('application:backup')}
+          name={i18n.t('dop:backup')}
           fieldsList={fieldsList}
           onOk={onAddBackup}
           onCancel={() => setVisible(false)}

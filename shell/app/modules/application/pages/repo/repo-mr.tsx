@@ -32,14 +32,14 @@ export const mrTabs = () => {
       key: 'open',
       name: (
         <span>
-          {i18n.t('application:committed')}
+          {i18n.t('dop:committed')}
           <span className="dice-badge">{info ? info.mergeRequestCount : 0}</span>
         </span>
       ),
     },
     {
       key: 'merged',
-      name: i18n.t('application:have merged'),
+      name: i18n.t('dop:have merged'),
     },
     {
       key: 'closed',
@@ -63,7 +63,7 @@ const PureRepoMR = () => {
             type="primary"
             onClick={() => goTo('./createMR', { forbidRepeat: true })}
           >
-            {i18n.t('application:new merge request')}
+            {i18n.t('dop:new merge request')}
           </Button>
         </WithAuth>
       </div>

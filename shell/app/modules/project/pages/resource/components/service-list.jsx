@@ -80,7 +80,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         ),
       },
       {
-        title: i18n.t('project:number of instance'),
+        title: i18n.t('dop:number of instance'),
         dataIndex: 'instance',
         width: 176,
         sorter: (a, b) => Number(a.instance) - Number(b.instance),
@@ -97,17 +97,17 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         sorter: (c, d) =>
           Number((c.ip_addr || c.ipAddress || '').replace(/\./g, '')) -
           Number((d.ip_addr || d.ipAddress || '').replace(/\./g, '')),
-        render: (_ip, record) => record.ip_addr || record.ipAddress || i18n.t('project:no ip address'),
+        render: (_ip, record) => record.ip_addr || record.ipAddress || i18n.t('dop:no ip address'),
       },
       {
-        title: i18n.t('project:host address'),
+        title: i18n.t('dop:host address'),
         dataIndex: 'host_private_addr',
         key: 'host_private_addr',
         width: 120,
-        render: (_host, record) => record.host_private_addr || record.host || i18n.t('project:no host address'),
+        render: (_host, record) => record.host_private_addr || record.host || i18n.t('dop:no host address'),
       },
       {
-        title: i18n.t('project:image'),
+        title: i18n.t('dop:image'),
         dataIndex: 'image',
         key: 'image',
         // className: 'item-image',
@@ -115,10 +115,10 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         render: (text = '') => {
           return (
             text && (
-              <Tooltip title={`${i18n.t('project:click to copy')}：${text}`} overlayClassName="tooltip-word-break">
+              <Tooltip title={`${i18n.t('dop:click to copy')}：${text}`} overlayClassName="tooltip-word-break">
                 <span
                   className="image-name cursor-copy"
-                  data-clipboard-tip={i18n.t('project:image name')}
+                  data-clipboard-tip={i18n.t('dop:image name')}
                   data-clipboard-text={text}
                 >
                   {getImageText(text)}
@@ -131,7 +131,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       ...CPU_MEM,
     ];
     cols[4] = {
-      title: i18n.t('project:memory'),
+      title: i18n.t('dop:memory'),
       dataIndex: 'memory',
       key: 'memory',
       width: 120,

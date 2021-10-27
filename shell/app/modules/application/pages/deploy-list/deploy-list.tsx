@@ -44,7 +44,7 @@ export enum APPROVE_TYPE {
 
 export const approvalStatusMap = {
   WaitApprove: { name: i18n.t('pending approval'), value: 'WaitApprove' },
-  Accept: { name: i18n.t('project:passed'), value: 'Accept' },
+  Accept: { name: i18n.t('dop:passed'), value: 'Accept' },
   Reject: { name: i18n.t('rejected'), value: 'Reject' },
 };
 
@@ -54,7 +54,7 @@ const fields = [
     component: 'textarea',
     key: 'reason',
     componentProps: {
-      placeholder: i18n.t('application:please enter the reason for rejection'),
+      placeholder: i18n.t('dop:please enter the reason for rejection'),
     },
     rules: [{ max: '100', msg: i18n.t('length is {min}~{max}', { min: 1, max: 100 }) }],
     required: true,
@@ -105,7 +105,7 @@ const PureDeployList = (props: IProps) => {
       render: (item: string) => <Tooltip title={item}>{item}</Tooltip>,
     },
     {
-      title: i18n.t('application:pipeline ID'),
+      title: i18n.t('dop:pipeline ID'),
       dataIndex: 'buildId',
       width: 120,
       render: (val: string, record: DEPLOY.IDeploy) => {
@@ -168,7 +168,7 @@ const PureDeployList = (props: IProps) => {
                   });
                 }}
               >
-                <span className="table-operations-btn">{i18n.t('project:pass')}</span>
+                <span className="table-operations-btn">{i18n.t('dop:pass')}</span>
               </Popconfirm>
               <span
                 className="table-operations-btn"
@@ -176,14 +176,14 @@ const PureDeployList = (props: IProps) => {
                   update({ modalVis: true, editData: record });
                 }}
               >
-                {i18n.t('application:denied')}
+                {i18n.t('dop:denied')}
               </span>
             </div>
           );
         },
       },
       approved: {
-        title: i18n.t('org:approval result'),
+        title: i18n.t('cmp:approval result'),
         dataIndex: 'approvalStatus',
         width: 160,
         render: (val: string) => (approvalStatusMap[val] || {}).name,
@@ -191,7 +191,7 @@ const PureDeployList = (props: IProps) => {
     },
     initiate: {
       Reject: {
-        title: i18n.t('application:reason for rejection'),
+        title: i18n.t('dop:reason for rejection'),
         dataIndex: 'approvalReason',
         render: (approvalReason: string) => {
           return <Tooltip title={approvalReason}>{approvalReason}</Tooltip>;
@@ -266,7 +266,7 @@ const PureDeployList = (props: IProps) => {
         />
       </Spin>
       <FormModal
-        title={i18n.t('application:reason for rejection')}
+        title={i18n.t('dop:reason for rejection')}
         onCancel={onCancel}
         onOk={onFinish}
         visible={modalVis}

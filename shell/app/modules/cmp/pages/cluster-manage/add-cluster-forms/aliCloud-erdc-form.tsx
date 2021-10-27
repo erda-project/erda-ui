@@ -40,7 +40,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const basicFields = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('org:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('cmp:cluster') }),
       component: 'input',
       key: 'clusterName',
       rules: [
@@ -48,17 +48,17 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         {
           validator: (v: any) => {
             const curCluster = find(clusterList, { name: v });
-            return [!curCluster, i18n.t('org:cluster already existed')];
+            return [!curCluster, i18n.t('cmp:cluster already existed')];
           },
         },
       ],
       componentProps: {
-        placeholder: i18n.t('org:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
+        placeholder: i18n.t('cmp:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
       },
       required: true,
     },
     {
-      label: i18n.t('org:cluster name'),
+      label: i18n.t('cmp:cluster name'),
       component: 'input',
       key: 'displayName',
       rules: [
@@ -71,7 +71,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('org:extensive domain'),
+      label: i18n.t('cmp:extensive domain'),
       component: 'input',
       key: 'rootDomain',
       rules: [
@@ -83,7 +83,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('org:cluster specifications'),
+      label: i18n.t('cmp:cluster specifications'),
       component: 'radio',
       key: 'clusterSize',
       componentProps: {
@@ -101,7 +101,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       },
     },
     {
-      label: i18n.t('org:whether to enable https'),
+      label: i18n.t('cmp:whether to enable https'),
       component: 'switch',
       key: 'enableHttps',
       required: true,
@@ -193,7 +193,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
 
   const networkFields = [
     {
-      label: i18n.t('org:container segment'),
+      label: i18n.t('cmp:container segment'),
       component: 'input',
       key: 'dockerCIDR',
       rules: [
@@ -205,7 +205,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('org:Pod network segment'),
+      label: i18n.t('cmp:Pod network segment'),
       component: 'input',
       key: 'podCIDR',
       required: true,
@@ -217,7 +217,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       ],
     },
     {
-      label: i18n.t('org:Service network segment'),
+      label: i18n.t('cmp:Service network segment'),
       component: 'input',
       key: 'serviceCIDR',
       required: true,

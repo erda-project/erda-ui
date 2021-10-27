@@ -187,7 +187,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
     if (nameColumn) {
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
-        title: <span>{i18n.t('project:use case title')}</span>,
+        title: <span>{i18n.t('dop:use case title')}</span>,
         render: (name: string, record: any) => {
           const obj = {
             children: <Ellipsis className="font-bold" title={name} />,

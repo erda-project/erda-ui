@@ -103,7 +103,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
 
   const onOk = () => {
     if (!modalCaseTotal || !checked) {
-      message.error(i18n.t('project:After the use case is selected, the batch operation can be performed.'));
+      message.error(i18n.t('dop:After the use case is selected, the batch operation can be performed.'));
       return;
     }
     setPriorityFilter(routeQuery.priority);
@@ -139,7 +139,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
     <Modal
       closable={false}
       visible={visible}
-      title={i18n.t('project:import use case')}
+      title={i18n.t('dop:import use case')}
       width={1000}
       onOk={onOk}
       onCancel={handleCancel}
@@ -153,7 +153,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
         <div className="right">
           <Select
             style={{ width: 240 }}
-            placeholder={i18n.t('project:filter by priority')}
+            placeholder={i18n.t('dop:filter by priority')}
             mode="multiple"
             value={priorityFilter}
             onChange={handleFilter}

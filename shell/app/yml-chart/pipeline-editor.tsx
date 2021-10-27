@@ -126,7 +126,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     }
 
     updater.ymlObj(newYmlObj);
-    message.success(i18n.t('application:please click save to submit the configuration'));
+    message.success(i18n.t('dop:please click save to submit the configuration'));
   };
 
   const handleSubmit = () => {
@@ -159,7 +159,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       draft.outputs = outP;
     });
     updater.ymlObj(newYmlObj);
-    message.success(i18n.t('application:please click save to submit the configuration'));
+    message.success(i18n.t('dop:please click save to submit the configuration'));
   };
 
   // 添加出参
@@ -168,7 +168,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       draft.params = inP;
     });
     updater.ymlObj(newYmlObj);
-    message.success(i18n.t('application:please click save to submit the configuration'));
+    message.success(i18n.t('dop:please click save to submit the configuration'));
   };
 
   // 添加普通节点
@@ -206,7 +206,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       }
 
       updater.ymlObj(newYmlObj);
-      message.success(i18n.t('application:please click save to submit the configuration'));
+      message.success(i18n.t('dop:please click save to submit the configuration'));
     }
   };
 
@@ -234,11 +234,11 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     try {
       yaml.load(val);
     } catch (e) {
-      const msg = `${i18n.t('application:input format error')}：${e.message}`;
+      const msg = `${i18n.t('dop:input format error')}：${e.message}`;
       if (!tipWithModal) {
         notify('error', <pre className="prewrap">{msg}</pre>);
       } else {
-        updater.errorMsg(`${i18n.t('application:input format error')}：${e.message}`);
+        updater.errorMsg(`${i18n.t('dop:input format error')}：${e.message}`);
       }
       return false;
     }
@@ -303,7 +303,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       </Radio.Group>
       {!editing ? (
         <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
-          {i18n.t('application:edit')}
+          {i18n.t('dop:edit')}
         </Button>
       ) : (
         <div className="px-3 py-2">
@@ -375,7 +375,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           </Button>,
           ...insertWhen(originYmlValid, [
             <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>
-              {i18n.t('application:reset and switch')}
+              {i18n.t('dop:reset and switch')}
             </Button>,
           ]),
         ]}

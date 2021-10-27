@@ -26,7 +26,7 @@ const fileTypeReg = {
         yaml.load(val);
         return true;
       } catch (e) {
-        const msg = `${i18n.t('application:input format error')}：${e.message}`;
+        const msg = `${i18n.t('dop:input format error')}：${e.message}`;
         notify('error', <pre className="prewrap">{msg}</pre>);
         return false;
       }
@@ -38,7 +38,7 @@ const fileTypeReg = {
         JSON.parse(val);
         return true;
       } catch (_) {
-        notify('error', i18n.t('project:JSON format error'));
+        notify('error', i18n.t('dop:JSON format error'));
         return false;
       }
     },

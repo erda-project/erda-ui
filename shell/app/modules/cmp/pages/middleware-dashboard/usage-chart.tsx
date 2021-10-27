@@ -36,7 +36,7 @@ export const AddonUsageChart = () => {
     return ['cpu', 'mem'].map((type) => {
       const legendData: string[] = [];
       const series = {
-        name: i18n.t('org:usage proportion'),
+        name: i18n.t('cmp:usage proportion'),
         data: [] as any[],
         radius: '60%',
       };
@@ -83,7 +83,7 @@ export const AddonUsageChart = () => {
       moved: false,
       static: false,
       view: {
-        title: `${i18n.t('org:cpu usage proportion')}(${i18n.t('project:total')}: ${overview.cpu} Core)`,
+        title: `${i18n.t('cmp:cpu usage proportion')}(${i18n.t('dop:total')}: ${overview.cpu} Core)`,
         chartType: 'chart:pie',
         hideReload: true,
         staticData: cpuAndMemUsage[0],
@@ -109,7 +109,7 @@ export const AddonUsageChart = () => {
       moved: false,
       static: false,
       view: {
-        title: `${i18n.t('org:memory usage proportion')}(${i18n.t('project:total')}: ${overview.mem} GiB)`,
+        title: `${i18n.t('cmp:memory usage proportion')}(${i18n.t('dop:total')}: ${overview.mem} GiB)`,
         chartType: 'chart:pie',
         hideReload: true,
         staticData: cpuAndMemUsage[1],
@@ -135,7 +135,7 @@ export const AddonUsageChart = () => {
       moved: false,
       static: false,
       view: {
-        title: i18n.t('org:daily addon usage'),
+        title: i18n.t('cmp:daily addon usage'),
         chartType: 'chart:line',
         hideReload: true,
         staticData: dailyUsage,

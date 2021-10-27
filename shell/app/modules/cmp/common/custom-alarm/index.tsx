@@ -238,7 +238,7 @@ export default ({ scopeType }: { scopeType: string }) => {
             </span>
             {/* <IF check={record.dashboardId}>
               <span className="table-operations-btn" onClick={() => goTo(`./${record.dashboardId}`)}>
-                {i18n.t('org:view dashboard')}
+                {i18n.t('cmp:view dashboard')}
               </span>
             </IF> */}
             <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} onConfirm={() => deleteCustomAlarm(record.id)}>
@@ -299,7 +299,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('org:expected value'),
+      title: i18n.t('cmp:expected value'),
       dataIndex: 'value',
       render: (value: any, { uniKey }: COMMON_CUSTOM_ALARM.Filter) => {
         let expectedValEle = (
@@ -356,7 +356,7 @@ export default ({ scopeType }: { scopeType: string }) => {
 
   const getFieldColumns = (form: FormInstance) => [
     {
-      title: i18n.t('org:field'),
+      title: i18n.t('cmp:field'),
       dataIndex: 'field',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
@@ -379,7 +379,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('org:alias'),
+      title: i18n.t('cmp:alias'),
       dataIndex: 'alias',
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Input
@@ -391,7 +391,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('org:aggregator'),
+      title: i18n.t('cmp:aggregator'),
       dataIndex: 'aggregator',
       render: (value: string, { uniKey, aggregations }: COMMON_CUSTOM_ALARM.Field) => (
         <Select
@@ -430,7 +430,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       ),
     },
     {
-      title: i18n.t('org:default threshold'),
+      title: i18n.t('cmp:default threshold'),
       dataIndex: 'value',
       fixed: 'right',
       width: 120,
@@ -576,7 +576,7 @@ export default ({ scopeType }: { scopeType: string }) => {
 
   const handleShowNotifySample = () => {
     Modal.info({
-      title: i18n.t('org:template sample'),
+      title: i18n.t('cmp:template sample'),
       content: <span className="prewrap">{customMetricMap.notifySample}</span>,
     });
   };
@@ -660,23 +660,23 @@ export default ({ scopeType }: { scopeType: string }) => {
   const beforeSubmit = (data: any) => {
     return new Promise((resolve, reject) => {
       if (isEmpty(editingFields)) {
-        message.warning(i18n.t('org:field rules are required'));
+        message.warning(i18n.t('cmp:field rules are required'));
         return reject();
       }
       if (someValueEmpty(editingFilters, 'value')) {
-        message.warning(i18n.t('org:The expected value of filter rule is required.'));
+        message.warning(i18n.t('cmp:The expected value of filter rule is required.'));
         return reject();
       }
       if (someValueEmpty(editingFields, 'alias')) {
-        message.warning(i18n.t('org:field rule alias is required'));
+        message.warning(i18n.t('cmp:field rule alias is required'));
         return reject();
       }
       if (uniqBy(editingFields, 'alias').length !== editingFields.length) {
-        message.warning(i18n.t('org:field rule alias cannot be repeated'));
+        message.warning(i18n.t('cmp:field rule alias cannot be repeated'));
         return reject();
       }
       if (someValueEmpty(editingFields, 'value')) {
-        message.warning(i18n.t('org:field rule threshold is required'));
+        message.warning(i18n.t('cmp:field rule threshold is required'));
         return reject();
       }
       resolve(data);
@@ -738,7 +738,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         itemProps: {
           className: 'w-full',
           showSearch: true,
-          placeholder: i18n.t('org:please select index group'),
+          placeholder: i18n.t('cmp:please select index group'),
           onChange: (v: any) => {
             getMetaData({ groupId: v[v.length - 1] }).then(() => {
               form.setFieldsValue({
@@ -760,7 +760,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       fieldsList = concat(
         fieldsList,
         {
-          label: i18n.t('org:filter rule'),
+          label: i18n.t('cmp:filter rule'),
           name: ['rule', 'filters'],
           required: false,
           getComp: () => (
@@ -772,7 +772,7 @@ export default ({ scopeType }: { scopeType: string }) => {
                 disabled={someValueEmpty(editingFilters, 'value')}
                 onClick={handleAddEditingFilters}
               >
-                {i18n.t('org:add filter rules')}
+                {i18n.t('cmp:add filter rules')}
               </Button>
               <Table
                 className="filter-rule-table"
@@ -786,7 +786,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           ),
         },
         {
-          label: i18n.t('org:grouping rules'),
+          label: i18n.t('cmp:grouping rules'),
           name: ['rule', 'group'],
           required: true,
           type: 'select',
@@ -798,7 +798,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           },
         },
         {
-          label: i18n.t('org:field rule'),
+          label: i18n.t('cmp:field rule'),
           name: ['rule', 'functions'],
           required: false,
           getComp: () => (
@@ -810,7 +810,7 @@ export default ({ scopeType }: { scopeType: string }) => {
                 disabled={someValueEmpty(editingFields, 'value')}
                 onClick={handleAddEditingFields}
               >
-                {i18n.t('org:add field rules')}
+                {i18n.t('cmp:add field rules')}
               </Button>
               <Table
                 className="field-rule-table"
@@ -838,7 +838,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           disabled={isEmpty(customMetricMap.notifySample)}
           onClick={handleShowNotifySample}
         >
-          {i18n.t('org:template sample')}
+          {i18n.t('cmp:template sample')}
         </Button>
         <MarkdownEditor
           value={form.getFieldValue(['notify', 'content'])}
@@ -851,7 +851,7 @@ export default ({ scopeType }: { scopeType: string }) => {
             });
           }}
           defaultMode="md"
-          placeholder={i18n.t('org:refer to template sample to input')}
+          placeholder={i18n.t('cmp:refer to template sample to input')}
           maxLength={512}
         />
       </>
@@ -859,7 +859,7 @@ export default ({ scopeType }: { scopeType: string }) => {
 
     const fieldsList = [
       {
-        label: i18n.t('org:optional notification methods'),
+        label: i18n.t('cmp:optional notification methods'),
         name: ['notify', 'targets'],
         type: 'select',
         required: false,
@@ -874,7 +874,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('org:message title rules'),
+        label: i18n.t('cmp:message title rules'),
         name: ['notify', 'title'],
         itemProps: {
           maxLength: 128,
@@ -882,7 +882,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         },
       },
       {
-        label: i18n.t('org:message content rules'),
+        label: i18n.t('cmp:message content rules'),
         name: ['notify', 'content'],
         getComp: () => <Comp />,
       },
@@ -895,9 +895,9 @@ export default ({ scopeType }: { scopeType: string }) => {
     return (
       <div className="custom-alarm-form">
         <BasicForm form={form} />
-        <div className="title font-bold text-base">{i18n.t('org:trigger rules')}</div>
+        <div className="title font-bold text-base">{i18n.t('cmp:trigger rules')}</div>
         <RuleForm form={form} />
-        <div className="title font-bold text-base">{i18n.t('org:message template')}</div>
+        <div className="title font-bold text-base">{i18n.t('cmp:message template')}</div>
         <NotifyForm form={form} />
       </div>
     );
@@ -920,7 +920,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     <div className="custom-alarm">
       <div className="top-button-group">
         <Button type="primary" onClick={() => openModal()}>
-          {i18n.t('org:create custom rule')}
+          {i18n.t('cmp:create custom rule')}
         </Button>
       </div>
       <Spin spinning={getCustomAlarmsLoading}>
@@ -934,7 +934,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         />
       </Spin>
       <FormModal
-        name={i18n.t('org:custom rule')}
+        name={i18n.t('cmp:custom rule')}
         loading={getCustomAlarmDetailLoading || extraLoading}
         visible={modalVisible}
         width={1200}

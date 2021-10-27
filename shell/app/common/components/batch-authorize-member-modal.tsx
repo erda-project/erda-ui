@@ -45,7 +45,7 @@ export const BatchAuthorizeMemberModal = ({ projectId, ...rest }: IProps) => {
           <LoadMoreSelector
             getData={_getApps}
             mode="multiple"
-            placeholder={i18n.t('project:please select application')}
+            placeholder={i18n.t('dop:please select application')}
             extraQuery={{ projectId }}
             dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
@@ -67,7 +67,7 @@ export const BatchAuthorizeMemberModal = ({ projectId, ...rest }: IProps) => {
         type: 'select',
         itemProps: {
           mode: 'multiple',
-          placeholder: i18n.t('project:please set'),
+          placeholder: i18n.t('dop:please set'),
         },
         options: [
           // { name: i18n.t('not member'), value: '' },

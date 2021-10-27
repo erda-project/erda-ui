@@ -87,7 +87,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   };
   const getColumns = (beRelated = false): Array<ColumnProps<ISSUE.IssueType>> => [
     {
-      title: i18n.t('{name} title', { name: i18n.t('project:issue') }),
+      title: i18n.t('{name} title', { name: i18n.t('dop:issue') }),
       dataIndex: 'title',
       render: (v: string, record: ISSUE.IssueType) => {
         const { type, id, iterationID: _iterationID } = record;
@@ -127,13 +127,13 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       },
     },
     {
-      title: i18n.t('project:priority'),
+      title: i18n.t('dop:priority'),
       dataIndex: 'priority',
       width: 80,
       render: (v: string) => (v ? ISSUE_PRIORITY_MAP[v]?.iconLabel : null),
     },
     {
-      title: i18n.t('project:assignee'),
+      title: i18n.t('dop:assignee'),
       dataIndex: 'assignee',
       width: 240,
       render: (userId: string, record: ISSUE.Task) => {
@@ -173,7 +173,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
               placement="bottom"
               onConfirm={() => onDelete(record, beRelated)}
             >
-              <span className="fake-link">{i18n.t('project:disassociate')}</span>
+              <span className="fake-link">{i18n.t('dop:disassociate')}</span>
             </Popconfirm>
           </WithAuth>,
         ];
@@ -215,7 +215,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                   type={activeButtonType === 'create' ? 'primary' : 'default'}
                   onClick={() => setActiveButtonType('create')}
                 >
-                  {i18n.t('project:create and relate to the issue')}
+                  {i18n.t('dop:create and relate to the issue')}
                 </Button>
               </WithAuth>
               <WithAuth pass={authObj.edit.pass}>
@@ -224,7 +224,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                   onClick={() => setActiveButtonType('exist')}
                   className="ml-3"
                 >
-                  {i18n.t('project:related to existing issues')}
+                  {i18n.t('dop:related to existing issues')}
                 </Button>
               </WithAuth>
             </div>
@@ -250,7 +250,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
           </>
         )}
       </div>
-      <Title level={2} mt={8} title={i18n.t('project:related to these issues')} />
+      <Title level={2} mt={8} title={i18n.t('dop:related to these issues')} />
       <Table
         columns={getColumns()}
         dataSource={relatingList}
@@ -258,7 +258,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         rowKey={(rec: ISSUE.IssueType, i: number | undefined) => `${i}${rec.id}`}
         scroll={{ x: 900 }}
       />
-      <Title level={2} mt={16} title={i18n.t('project:related by these issues')} />
+      <Title level={2} mt={16} title={i18n.t('dop:related by these issues')} />
       <Table
         columns={getColumns(true)}
         dataSource={relatedList}
@@ -346,10 +346,10 @@ const AddIssueRelation = ({
   return (
     <div className="issue-relation-box mt-3">
       <div className="flex items-center justify-start">
-        <div className="mr-3">{i18n.t('project:filter condition')}:</div>
+        <div className="mr-3">{i18n.t('dop:filter condition')}:</div>
         <IterationSelect
           value={chosenIterationID}
-          placeholder={i18n.t('project:owned iteration')}
+          placeholder={i18n.t('dop:owned iteration')}
           width="174px"
           onChange={(v: number) => {
             update({ chosenIterationID: v, chosenIssue: undefined });
@@ -363,7 +363,7 @@ const AddIssueRelation = ({
           onChange={(v: any) => update({ chosenIssueType: v, chosenIssue: undefined })}
           value={chosenIssueType}
           allowClear
-          placeholder={i18n.t('project:issue type')}
+          placeholder={i18n.t('dop:issue type')}
         >
           {getIssueTypeOption()}
         </Select>
@@ -378,7 +378,7 @@ const AddIssueRelation = ({
           onSearch={(v: string) => debounceSearch(v)}
           getPopupContainer={() => document.body}
           disabled={!chosenIterationID}
-          placeholder={i18n.t('please select {name}', { name: i18n.t('project:issue') })}
+          placeholder={i18n.t('please select {name}', { name: i18n.t('dop:issue') })}
         >
           {map(
             filter(issueList, (item) => item.id !== currentIssue.id),

@@ -37,13 +37,13 @@ export const ReleaseItem = (props: IProps) => {
       title={
         <>
           <div className="sub-info">
-            <IF check={clusterName}>{`${i18n.t('application:owned cluster')}：${clusterName}`}</IF>
+            <IF check={clusterName}>{`${i18n.t('dop:owned cluster')}：${clusterName}`}</IF>
           </div>
           <div className="sub-info">
-            <IF check={projectName}>{`${i18n.t('application:owned project')}：${projectName}`}</IF>
+            <IF check={projectName}>{`${i18n.t('dop:owned project')}：${projectName}`}</IF>
           </div>
           <div className="sub-info">
-            <IF check={applicationName}>{`${i18n.t('application:owned application')}：${applicationName}`}</IF>
+            <IF check={applicationName}>{`${i18n.t('dop:owned application')}：${applicationName}`}</IF>
           </div>
         </>
       }

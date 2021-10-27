@@ -84,7 +84,7 @@ export const getDopMenu = () => {
           subtitle: i18n.t('Approve'),
           subMenu: [
             {
-              text: i18n.t('dop:approved'),
+              text: i18n.t('dop:my approval'),
               href: goTo.resolve.dopApprovePending(), // '/dop/approval/my-approve/pending',
               prefix: `${goTo.resolve.dopApprove()}/`,
             },

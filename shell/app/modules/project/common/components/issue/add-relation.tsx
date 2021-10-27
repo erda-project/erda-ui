@@ -92,7 +92,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
     return (
       <WithAuth pass={editAuth}>
         <Button className="ml-3" onClick={() => updater.visible(true)}>
-          {i18n.t('project:relate to mr')}
+          {i18n.t('dop:relate to mr')}
         </Button>
       </WithAuth>
     );
@@ -108,7 +108,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
           showSearch
           value={selectApp ? selectApp.id : undefined}
           filterOption={false}
-          placeholder={i18n.t('project:search by application name')}
+          placeholder={i18n.t('dop:search by application name')}
         >
           {appList.map(({ id, name }) => (
             <Select.Option key={id} value={id}>
@@ -122,7 +122,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
           scopeId={selectApp && selectApp.id}
           onChange={(val: any) => updater.selectedCreator(val)}
           value={selectedCreator}
-          placeholder={i18n.t('project:filter by creator')}
+          placeholder={i18n.t('dop:filter by creator')}
           extraQuery={{ scopeId: selectApp && selectApp.id }}
         />
         <Select
@@ -132,7 +132,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
           showSearch
           value={selectMr ? selectMr.id : undefined}
           filterOption={false}
-          placeholder={i18n.t('project:search by id or title')}
+          placeholder={i18n.t('dop:search by id or title')}
         >
           {mrList.map(({ id, title }) => (
             <Select.Option key={id} value={id}>

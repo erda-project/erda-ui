@@ -55,7 +55,7 @@ const RepoBranchCompare = () => {
   return (
     <div className="repo-branch-compare" key={window.location.pathname}>
       <BranchSelect {...{ branches, tags, current: encodeURIComponent(state.from) }} onChange={onChange('from')}>
-        <span>{i18n.t('application:based on source')}:</span>
+        <span>{i18n.t('dop:based on source')}:</span>
         <span className="branch-name font-bold nowrap">{state.from || null}</span>
         {state.from ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
@@ -63,12 +63,12 @@ const RepoBranchCompare = () => {
         <IconSwitch />
       </span>
       <BranchSelect {...{ branches, tags, current: state.to }} onChange={onChange('to')}>
-        <span>{i18n.t('application:compare')}:</span>
+        <span>{i18n.t('compare')}:</span>
         <span className="branch-name font-bold nowrap">{state.to || null}</span>
         {state.to ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>
-        {i18n.t('application:compare')}
+        {i18n.t('compare')}
       </Button>
     </div>
   );

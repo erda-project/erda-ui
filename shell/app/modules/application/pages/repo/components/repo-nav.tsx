@@ -45,12 +45,12 @@ const PureRepoNavOperation = () => {
     const initialBranch = getInfoFromRefName(info.refName).branch;
     const fieldsList = [
       {
-        label: i18n.t('application:file directory'),
+        label: i18n.t('dop:file directory'),
         name: 'dirName',
-        rules: [{ max: 255, message: i18n.t('application:Up to 255 characters for directory name') }],
+        rules: [{ max: 255, message: i18n.t('dop:Up to 255 characters for directory name') }],
       },
       {
-        label: i18n.t('application:commit message'),
+        label: i18n.t('dop:commit message'),
         name: 'message',
         type: 'textArea',
         itemProps: {
@@ -60,7 +60,7 @@ const PureRepoNavOperation = () => {
         initialValue: 'Add new directory',
       },
       {
-        label: i18n.t('application:branch to commit'),
+        label: i18n.t('dop:branch to commit'),
         name: 'branch',
         type: 'select',
         initialValue: initialBranch,
@@ -88,7 +88,7 @@ const PureRepoNavOperation = () => {
       toggleModal(false);
       if (res.success) {
         getRepoTree();
-        message.success(i18n.t('application:folder is created successfully'));
+        message.success(i18n.t('dop:folder is created successfully'));
       }
     });
   };
@@ -106,12 +106,12 @@ const PureRepoNavOperation = () => {
 
   const disabledTips = branchAuth
     ? [
-        i18n.t('application:creating file is only allowed under the branch'),
-        i18n.t('application:creating folder is only allowed under the branch'),
+        i18n.t('dop:creating file is only allowed under the branch'),
+        i18n.t('dop:creating folder is only allowed under the branch'),
       ]
     : [
-        i18n.t('application:branch is protected, you have no permission yet'),
-        i18n.t('application:branch is protected, you have no permission yet'),
+        i18n.t('dop:branch is protected, you have no permission yet'),
+        i18n.t('dop:branch is protected, you have no permission yet'),
       ];
 
   const curBranch = branch || tag || info.defaultBranch;
@@ -128,10 +128,10 @@ const PureRepoNavOperation = () => {
       }}
     >
       <Menu.Item disabled={isLocked} key="file">
-        {i18n.t('application:create new file')}
+        {i18n.t('dop:create new file')}
       </Menu.Item>
       <Menu.Item disabled={isLocked} key="folder">
-        {i18n.t('application:create folder')}
+        {i18n.t('dop:create folder')}
       </Menu.Item>
     </Menu>
   );
@@ -141,7 +141,7 @@ const PureRepoNavOperation = () => {
       <IF check={isBranchTree && branchAuth}>
         <IF check={isInDiceDirectory(tree.path)}>
           <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
-            {i18n.t('application:add pipeline')}
+            {i18n.t('dop:add pipeline')}
           </Button>
         </IF>
         <IF check={isRootPath}>
@@ -156,11 +156,11 @@ const PureRepoNavOperation = () => {
                 }
               }}
             >
-              {i18n.t('edit {name}', { name: i18n.t('application:pipeline') })}
+              {i18n.t('edit {name}', { name: i18n.t('dop:pipeline') })}
             </Button>
           ) : (
             <Button disabled={isLocked} onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
-              {i18n.t('application:add pipeline')}
+              {i18n.t('dop:add pipeline')}
             </Button>
           )}
         </IF>
@@ -173,7 +173,7 @@ const PureRepoNavOperation = () => {
         <IF.ELSE />
         <IF check={isRootPath && !hasPipeline}>
           <Tooltip title={disabledTips[0]}>
-            <Button disabled>{i18n.t('application:add pipeline')}</Button>
+            <Button disabled>{i18n.t('dop:add pipeline')}</Button>
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>
@@ -186,7 +186,7 @@ const PureRepoNavOperation = () => {
 
       <FormModal
         width={620}
-        title={i18n.t('application:create new folder')}
+        title={i18n.t('dop:create new folder')}
         fieldsList={getFieldsList()}
         visible={modalVisible}
         onOk={handleAdd}
@@ -250,14 +250,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
     <Spin spinning={isFetchingInfo}>
       <div className="nav-block">
         <BranchSelect {...{ branches, commitId: treeCommitId, tags, current: curBranch }} onChange={changeBranch}>
-          <span>
-            {isTag
-              ? i18n.t('application:tag')
-              : treeCommitId
-              ? i18n.t('application:commit')
-              : i18n.t('application:branch')}
-            :
-          </span>
+          <span>{isTag ? i18n.t('dop:tag') : treeCommitId ? i18n.t('dop:commit') : i18n.t('dop:branch')}:</span>
           <span className="branch-name font-bold nowrap">{curBranch}</span>
           <IconDownOne theme="filled" size="16px" />
         </BranchSelect>

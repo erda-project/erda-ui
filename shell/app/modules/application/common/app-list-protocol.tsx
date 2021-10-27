@@ -55,9 +55,9 @@ const getBlockNetInfo = (app: IApplication) => {
   const { blockStatus, unBlockStart, unBlockEnd } = app;
   const period =
     unBlockEnd && unBlockStart
-      ? `${i18n.t('project:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(
-          unBlockEnd,
-        ).format('YYYY-MM-DD HH:mm')}`
+      ? `${i18n.t('dop:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(unBlockEnd).format(
+          'YYYY-MM-DD HH:mm',
+        )}`
       : '';
   const periodInfo = period ? { icon: 'time', text: period, tooltip: period } : null;
   const statusMap = {
@@ -95,12 +95,12 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
     } = l;
     const extraInfos: CP_LIST.IIconInfo[] = [
       isPublic
-        ? { icon: 'unlock', text: i18n.t('application:public application') }
-        : { icon: 'lock', text: i18n.t('application:private application') },
+        ? { icon: 'unlock', text: i18n.t('dop:public application') }
+        : { icon: 'lock', text: i18n.t('dop:private application') },
       {
         icon: 'api-app',
         text: projectDisplayName,
-        tooltip: `${i18n.t('application:owned project')}: ${projectDisplayName}(${projectName})`,
+        tooltip: `${i18n.t('dop:owned project')}: ${projectDisplayName}(${projectName})`,
         operations: isInProject
           ? undefined
           : {
@@ -117,7 +117,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       {
         icon: 'category-management',
         text: (modeOptions.find((m) => m.value === mode) as { name: string })?.name,
-        tooltip: i18n.t('application:application type'),
+        tooltip: i18n.t('dop:application type'),
       },
     ].concat(getBlockNetInfo(l));
 
@@ -125,7 +125,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       extraInfos.splice(2, 0, {
         icon: 'list-numbers',
         text: `${stats.countRuntimes}`,
-        tooltip: `${i18n.t('application:number of application instance')}`,
+        tooltip: `${i18n.t('dop:number of application instance')}`,
         ...(appPerm.runtime.read.pass
           ? {
               operations: {
@@ -153,7 +153,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       ? {
           unpinApp: {
             key: 'unpinApp',
-            text: i18n.t('application:unpin'),
+            text: i18n.t('dop:unpin'),
             reload: true,
             meta: { appId: l.id },
           },
@@ -161,7 +161,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       : {
           pinApp: {
             key: 'pinApp',
-            text: i18n.t('application:sticky'),
+            text: i18n.t('dop:sticky'),
             reload: true,
             meta: { appId: l.id },
           },
@@ -171,7 +171,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       id,
       projectId,
       title: name,
-      description: desc || i18n.t('application:edit description in application setting'),
+      description: desc || i18n.t('dop:edit description in application setting'),
       prefixImg: (
         <IF check={logo}>
           <img src={ossImg(logo, { w: 46 })} alt="logo" />
@@ -198,7 +198,7 @@ const getPageConfig = (isInProject = false) => {
     {
       key: 'q',
       label: i18n.t('title'),
-      emptyText: i18n.t('application:all'),
+      emptyText: i18n.t('dop:all'),
       fixed: true,
       showIndex: 2,
       placeholder: i18n.t('filter by {name}', { name: i18n.t('name') }),
@@ -207,16 +207,16 @@ const getPageConfig = (isInProject = false) => {
     isInProject
       ? {
           key: 'public',
-          emptyText: i18n.t('application:all'),
+          emptyText: i18n.t('dop:all'),
           fixed: true,
           label: i18n.t('whether to be public'),
           customProps: {
             mode: 'single',
           },
           options: [
-            { label: i18n.t('application:all'), value: 'all' },
-            { label: i18n.t('application:public application'), value: 'public' },
-            { label: i18n.t('application:private application'), value: 'private' },
+            { label: i18n.t('dop:all'), value: 'all' },
+            { label: i18n.t('dop:public application'), value: 'public' },
+            { label: i18n.t('dop:private application'), value: 'private' },
           ],
           showIndex: 1,
           type: 'select',

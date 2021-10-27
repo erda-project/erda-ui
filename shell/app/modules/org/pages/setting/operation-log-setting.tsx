@@ -35,7 +35,7 @@ export const OperationLogSetting = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('org:Operation log retention days'),
+      label: i18n.t('cmp:Operation log retention days'),
       component: 'inputNumber',
       key: 'interval',
       componentProps: {

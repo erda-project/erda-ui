@@ -138,18 +138,18 @@ const apiDesignStore = createFlatStore({
     },
     async renameTreeNode({ call }, payload: { name: string; inode: string }) {
       const data = await call(renameTreeNode, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('project:rename') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:rename') }),
       });
       return data;
     },
     async moveTreeNode({ call }, payload: { pinode: string; inode: string }) {
       const data = await call(moveTreeNode, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('project:move') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('dop:move') }),
       });
       return data;
     },
     async commitSaveApi({ select }) {
-      message.info(i18n.t('project:It is being saved and it will take effect later.'));
+      message.info(i18n.t('dop:It is being saved and it will take effect later.'));
 
       const validData = await apiDesignStore.validateApiSwagger();
       if (!validData.valid) {

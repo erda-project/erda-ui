@@ -58,7 +58,7 @@ const machine = createStore({
     },
     async updaterMachineLabels({ call }, payload: ORG_MACHINE.IMachineLabelBody) {
       await call(updaterMachineLabels, payload, {
-        successMsg: i18n.t('org:set up successfully, wait for a while to take effect'),
+        successMsg: i18n.t('cmp:set up successfully, wait for a while to take effect'),
       });
     },
     async getClusterOperationHistory({ call, update }, payload: IOpHistoryQuery) {

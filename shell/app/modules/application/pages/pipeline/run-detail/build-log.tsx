@@ -67,7 +67,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         <span>
           <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />
           &nbsp;
-          {i18n.t('application:deployment log')}
+          {i18n.t('dop:deployment log')}
         </span>
       ),
     });
@@ -94,7 +94,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         content: `${extraInfo}${logInfo[0]}`,
         suffix: (
           <a onClick={() => this.pushSlideComp(logParams.deploymentId, logParams.applicationId)}>
-            {i18n.t('application:view deployment log')}
+            {i18n.t('dop:view deployment log')}
           </a>
         ),
       };
@@ -129,8 +129,8 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
     const { isStdErr } = this.state;
     const switchLog = (
       <Switch
-        checkedChildren={i18n.t('application:error')}
-        unCheckedChildren={i18n.t('application:standard')}
+        checkedChildren={i18n.t('dop:error')}
+        unCheckedChildren={i18n.t('dop:standard')}
         checked={isStdErr}
         onChange={this.toggleLogName}
       />
@@ -176,7 +176,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
         title={
           slidePanelComps.length
             ? slidePanelComps[slidePanelComps.length - 1].getTitle()
-            : title || i18n.t('application:build log')
+            : title || i18n.t('dop:build log')
         }
         width="80%"
         visible={visible}

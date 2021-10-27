@@ -142,7 +142,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
         static: false,
         view: {
           chartType: 'chart:area',
-          title: i18n.t('org:alarm times trends'),
+          title: i18n.t('cmp:alarm times trends'),
           staticData: convertChartData(alarmTimesChart),
           config: {
             optionProps: {
@@ -157,12 +157,12 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
 
   const columns: Array<ColumnProps<ALARM_REPORT.AlarmHistory>> = [
     {
-      title: i18n.t('org:create time'),
+      title: i18n.t('cmp:create time'),
       dataIndex: 'timestamp',
       render: (timestamp) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('org:alarm status'),
+      title: i18n.t('cmp:alarm status'),
       dataIndex: 'alertState',
       width: 280,
       render: (alertState) => <AlarmState state={alertState} />,
@@ -184,7 +184,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
             }
           }}
         >
-          {isExistingTicket ? i18n.t('org:check ticket') : i18n.t('org:create ticket')}
+          {isExistingTicket ? i18n.t('cmp:check ticket') : i18n.t('cmp:create ticket')}
         </Button>
       </div> */}
       <div className="flex items-start justify-between mb-4">

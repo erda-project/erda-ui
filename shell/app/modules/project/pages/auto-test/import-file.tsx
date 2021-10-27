@@ -42,7 +42,7 @@ const ImportFile = ({ visible, onClose, type = 'testCase' }: IProps) => {
   }, [visible]);
 
   const onSuccess = () => {
-    message.success(i18n.t('project:start importing, please view detail in records'));
+    message.success(i18n.t('dop:start importing, please view detail in records'));
     onClose();
   };
 
@@ -54,7 +54,7 @@ const ImportFile = ({ visible, onClose, type = 'testCase' }: IProps) => {
 
   const fieldList = [
     {
-      label: i18n.t('project:select a document'),
+      label: i18n.t('dop:select a document'),
       name: 'file',
       getComp: () => <FileSelect accept=".xlsx, .xls, .XLSX, .XLS" visible={uploadVisible} />,
     },
@@ -64,14 +64,14 @@ const ImportFile = ({ visible, onClose, type = 'testCase' }: IProps) => {
     <FormModal
       loading={loading}
       okButtonState={loading}
-      title={i18n.t('project:upload files')}
+      title={i18n.t('dop:upload files')}
       fieldsList={fieldList}
       visible={uploadVisible}
       onOk={handleOk}
       modalProps={{ getContainer: false }}
       onCancel={onClose}
     >
-      <div>{i18n.t('project:currently supports importing Excel files')}</div>
+      <div>{i18n.t('dop:currently supports importing Excel files')}</div>
     </FormModal>
   );
 };

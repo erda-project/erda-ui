@@ -34,24 +34,24 @@ export default ({ visible, onSearch, onClose }: IProps) => {
   const filterList: any[] = [
     {
       type: 'select',
-      label: i18n.t('project:priority'),
+      label: i18n.t('dop:priority'),
       name: 'priority',
       value: query.priority,
       options: priorityList.map((v) => ({ name: v, value: v })),
-      placeholder: i18n.t('project:unlimited'),
+      placeholder: i18n.t('dop:unlimited'),
       mode: 'multiple',
     },
     // 3.38 未做
     // {
     //   type: 'custom',
     //   name: 'labelIds',
-    //   label: i18n.t('project:label'),
+    //   label: i18n.t('dop:label'),
     //   Comp: <LabelSelect type="test" value={query.labelIds} fullWidth />,
     // },
     {
       type: 'custom',
       name: 'updaterID',
-      label: i18n.t('project:updater'),
+      label: i18n.t('dop:updater'),
       value: query.updaterID,
       Comp: (
         <MemberSelector
@@ -80,7 +80,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
       {
         type: 'custom',
         name: 'executorID',
-        label: i18n.t('project:executor'),
+        label: i18n.t('dop:executor'),
         value: query.executorID,
         Comp: (
           <MemberSelector
@@ -95,14 +95,14 @@ export default ({ visible, onSearch, onClose }: IProps) => {
       {
         type: 'select',
         name: 'execStatus',
-        label: i18n.t('project:execute result'),
-        placeholder: i18n.t('project:unlimited'),
+        label: i18n.t('dop:execute result'),
+        placeholder: i18n.t('dop:unlimited'),
         mode: 'multiple',
         options: [
-          { value: CaseStatus.INIT, name: i18n.t('project:not performed') },
-          { value: CaseStatus.PASSED, name: i18n.t('project:passed') },
-          { value: CaseStatus.FAIL, name: i18n.t('project:not passed') },
-          { value: CaseStatus.BLOCK, name: i18n.t('project:blocking') },
+          { value: CaseStatus.INIT, name: i18n.t('dop:not performed') },
+          { value: CaseStatus.PASSED, name: i18n.t('dop:passed') },
+          { value: CaseStatus.FAIL, name: i18n.t('dop:not passed') },
+          { value: CaseStatus.BLOCK, name: i18n.t('dop:blocking') },
         ],
         value: query.execStatus,
       },

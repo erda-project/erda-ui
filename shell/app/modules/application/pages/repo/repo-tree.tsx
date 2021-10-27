@@ -75,7 +75,7 @@ const RepoDownload = (props: IDownProp) => {
             <Input
               className="w-full"
               value={gitRepo}
-              addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))}
+              addonAfter={renderAddonAfter(gitRepo, i18n.t('dop:repo address'))}
             />
           </div>
           <Copy selector=".cursor-copy" />
@@ -111,7 +111,7 @@ const RepoDownload = (props: IDownProp) => {
     >
       <div className="repo-clone-btn">
         <Button type="primary" ghost>
-          {i18n.t('application:repo address')}
+          {i18n.t('dop:repo address')}
         </Button>
       </div>
     </Popover>
@@ -140,7 +140,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
     return (
       <div className="repo-tree-holder relative">
         <EmptyHolder
-          tip={`${i18n.t('application:current branch or path')}：${after} ${i18n.t('does not exist')}。`}
+          tip={`${i18n.t('dop:current branch or path')}：${after} ${i18n.t('does not exist')}。`}
           action={<Link to={before.slice(0, -'/tree'.length)}>{i18n.t('back to repo home')}</Link>}
         />
       </div>
@@ -321,7 +321,7 @@ const RepoTreePage = () => {
     const { type, current } = repoNavRef.current?.target || {};
     const fieldsList = [
       {
-        label: i18n.t('application:source type'),
+        label: i18n.t('dop:source type'),
         name: 'refType',
         type: 'radioGroup',
         initialValue: type,
@@ -337,14 +337,14 @@ const RepoTreePage = () => {
         ],
       },
       {
-        label: i18n.t('application:based on source'),
+        label: i18n.t('dop:based on source'),
         name: 'refValue',
         type: 'custom',
         initialValue: current,
         getComp: ({ form }: any) => <RefComp info={info} form={form} defaultValue={{ [type]: current }} />,
       },
       {
-        label: i18n.t('application:branch'),
+        label: i18n.t('dop:branch'),
         name: 'branch',
         itemProps: {
           autoFocus: true,
@@ -353,7 +353,7 @@ const RepoTreePage = () => {
           {
             validator: (_rule: any, value: string, callback: Function) => {
               if (value.includes('%')) {
-                callback(i18n.t('application:cannot contain %'));
+                callback(i18n.t('dop:cannot contain %'));
               } else {
                 callback();
               }
@@ -369,7 +369,7 @@ const RepoTreePage = () => {
     if (values.refType === 'commitId') {
       const ret = await checkCommitId({ commitId: values.refValue });
       if (ret === 'error') {
-        message.error(i18n.t('application:invalid commit SHA'));
+        message.error(i18n.t('dop:invalid commit SHA'));
         return null;
       }
     }
@@ -379,7 +379,7 @@ const RepoTreePage = () => {
   const onCreateBranch = (branchInfo: { refValue: string; branch: string }) => {
     createBranch(branchInfo).then((error: any) => {
       if (error) {
-        message.error(i18n.t('application:failed to create branch'));
+        message.error(i18n.t('dop:failed to create branch'));
         return;
       }
       const { before } = getSplitPathBy('tree');
@@ -402,7 +402,7 @@ const RepoTreePage = () => {
   if (appDetail.isExternalRepo) {
     const repoConfigFieldsList = [
       {
-        label: i18n.t('project:repository address'),
+        label: i18n.t('dop:repository address'),
         name: ['repoConfig', 'url'],
         itemProps: {
           disabled: true,
@@ -426,7 +426,7 @@ const RepoTreePage = () => {
         },
       },
       {
-        label: i18n.t('project:repository description'),
+        label: i18n.t('dop:repository description'),
         type: 'textArea',
         name: ['repoConfig', 'desc'],
         required: false,
@@ -451,17 +451,17 @@ const RepoTreePage = () => {
           </WithAuth>
         </div>
         <Form layout="vertical">
-          <FormItem label={i18n.t('project:repository source')}>
+          <FormItem label={i18n.t('dop:repository source')}>
             <p>{repoTypeConfig.name}</p>
             <img className="logo" src={repoTypeConfig.logo} width="46px" />
           </FormItem>
-          <FormItem label={i18n.t('project:repository address')}>
+          <FormItem label={i18n.t('dop:repository address')}>
             <a href={rest.url} target="_blank" rel="noopener noreferrer">
               {rest.url}
             </a>
           </FormItem>
           {rest.desc ? (
-            <FormItem label={i18n.t('project:repository description')}>
+            <FormItem label={i18n.t('dop:repository description')}>
               <p>{rest.desc}</p>
             </FormItem>
           ) : null}
@@ -469,7 +469,7 @@ const RepoTreePage = () => {
         <FormModal
           visible={showEdit}
           formData={{ repoConfig: rest }}
-          name={i18n.t('project:repository information')}
+          name={i18n.t('dop:repository information')}
           fieldsList={repoConfigFieldsList}
           onOk={updateApplication}
           onCancel={() => setShowEdit(false)}
@@ -498,11 +498,11 @@ const RepoTreePage = () => {
       </IF>
       <RepoNav ref={repoNavRef} info={info} tree={tree} isFetchingInfo={isFetchingInfo} appId={appDetail.id} />
       <div className="top-button-group">
-        <Tooltip title={i18n.t('application:how to start')}>
+        <Tooltip title={i18n.t('dop:how to start')}>
           <CustomIcon className="text-desc hover-active" type="help" onClick={() => toggleTip(true)} />
         </Tooltip>
         <Modal
-          title={i18n.t('application:how to start')}
+          title={i18n.t('dop:how to start')}
           visible={tipVisible}
           footer={null}
           onCancel={() => toggleTip(false)}
@@ -510,7 +510,7 @@ const RepoTreePage = () => {
         >
           <StartTip />
         </Modal>
-        {/* <Button onClick={() => goTo(goTo.pages.repoBackup, { ...params })}>{i18n.t('application:repo backup')}</Button> */}
+        {/* <Button onClick={() => goTo(goTo.pages.repoBackup, { ...params })}>{i18n.t('dop:repo backup')}</Button> */}
         <RepoDownload info={info} appDetail={appDetail} />
         <WithAuth pass={branchPerm.writeNormal.pass} tipProps={{ placement: 'bottom' }}>
           <Button
@@ -520,7 +520,7 @@ const RepoTreePage = () => {
               setVisible(true);
             }}
           >
-            {i18n.t('application:new branch')}
+            {i18n.t('dop:new branch')}
           </Button>
         </WithAuth>
       </div>
@@ -531,7 +531,7 @@ const RepoTreePage = () => {
       )}
       <FormModal
         visible={visible}
-        name={i18n.t('application:branch')}
+        name={i18n.t('dop:branch')}
         fieldsList={getFieldsList()}
         onOk={onCreateBranch}
         onCancel={() => setVisible(false)}

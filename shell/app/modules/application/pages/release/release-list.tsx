@@ -119,7 +119,7 @@ const ReleaseList = () => {
           className="mb-2 mx-4"
           value={queryObj?.branchName}
           onChange={(v: any) => updater.queryObj({ ...queryObj, branchName: v })}
-          placeholder={i18n.t('filter by {name}', { name: i18n.t('application:branch') })}
+          placeholder={i18n.t('filter by {name}', { name: i18n.t('dop:branch') })}
           allowClear
         >
           {map(branchInfo, (branch) => (
@@ -156,7 +156,7 @@ const ReleaseList = () => {
         </Spin>
         <IF check={query.q}>
           <div className="search-tip">
-            <span>{i18n.t('org:No results found? Please try other keywords to search.')}</span>
+            <span>{i18n.t('cmp:No results found? Please try other keywords to search.')}</span>
           </div>
           <ELSE />
           <>

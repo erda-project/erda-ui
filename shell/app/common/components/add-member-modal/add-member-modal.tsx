@@ -146,7 +146,7 @@ export const AddMemberModal = ({
           <LoadMoreSelector
             getData={_getApps}
             mode="multiple"
-            placeholder={i18n.t('project:please select application')}
+            placeholder={i18n.t('dop:please select application')}
             extraQuery={{ projectId: scope.id }}
             dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
@@ -169,7 +169,7 @@ export const AddMemberModal = ({
         required: false,
         itemProps: {
           mode: 'multiple',
-          placeholder: i18n.t('project:please set'),
+          placeholder: i18n.t('dop:please set'),
         },
         options: [...map(appRoleMap, (v: string, k: string) => ({ name: v, value: k }))],
       },
