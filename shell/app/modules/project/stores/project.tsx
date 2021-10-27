@@ -156,7 +156,7 @@ const project = createStore({
     },
     async createProject({ call }, payload: PROJECT.CreateBody) {
       return call(createProject, payload, {
-        successMsg: i18n.t('project:project created successfully'),
+        successMsg: i18n.t('dop:project created successfully'),
         fullResult: true,
       });
     },
@@ -173,8 +173,8 @@ const project = createStore({
         { ...originalInfo, ...payload, projectId },
         {
           successMsg: isUpdateCluster
-            ? i18n.t('project:settings updated successfully')
-            : i18n.t('project:project updated successfully'),
+            ? i18n.t('dop:settings updated successfully')
+            : i18n.t('dop:project updated successfully'),
         },
       );
       if (!isUpdateCluster) {
@@ -184,7 +184,7 @@ const project = createStore({
     },
     async deleteProject({ call, getParams }) {
       const { projectId } = getParams();
-      await call(deleteProject, projectId, { successMsg: i18n.t('project:project deleted successfully') });
+      await call(deleteProject, projectId, { successMsg: i18n.t('dop:project deleted successfully') });
     },
     async getProjectApps({ call, update, getParams, select }, payload: Optional<APPLICATION.GetAppList, 'projectId'>) {
       const routeParams = getParams();

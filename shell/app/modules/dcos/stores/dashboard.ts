@@ -24,15 +24,15 @@ import { createStore } from 'core/cube';
 
 const RESOURCE_TYPE_MAP = {
   cpu: {
-    title: i18n.t('org:CPU allocation'),
+    title: i18n.t('cmp:CPU allocation'),
     url: '/api/cluster/resources/containers/group/allocation/cpu',
   },
   mem: {
-    title: i18n.t('org:MEM allocation'),
+    title: i18n.t('cmp:MEM allocation'),
     url: '/api/cluster/resources/containers/group/allocation/mem',
   },
   count: {
-    title: i18n.t('org:operation num'),
+    title: i18n.t('cmp:operation num'),
     url: '/api/cluster/resources/containers/group/count',
   },
 };

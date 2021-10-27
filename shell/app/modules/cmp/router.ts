@@ -22,7 +22,7 @@ import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 export const getOrgProjectTabs = () => [
   {
     key: 'member',
-    name: i18n.t('org:member management'),
+    name: i18n.t('cmp:member management'),
   },
 ];
 
@@ -61,16 +61,16 @@ function getCmpRouter(): RouteConfigItem[] {
         ...getDcosRouter(),
         {
           path: 'clusters',
-          breadcrumbName: i18n.t('org:cluster management'),
+          breadcrumbName: i18n.t('cmp:cluster management'),
           routes: [
             {
               path: 'addCluster',
-              pageName: i18n.t('org:cluster deployment'),
+              pageName: i18n.t('cmp:cluster deployment'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/deploy-cluster')),
             },
             {
               path: 'history',
-              pageName: i18n.t('org:operation history'),
+              pageName: i18n.t('cmp:operation history'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/operation-history'), 'OperationHistory'),
             },
             {
@@ -167,14 +167,14 @@ function getCmpRouter(): RouteConfigItem[] {
                 {
                   path: 'mount',
                   mark: 'cmp', // 侧边栏使用cmp的菜单
-                  breadcrumbName: i18n.t('org:physical cluster'),
+                  breadcrumbName: i18n.t('cmp:physical cluster'),
                   routes: [
                     {
                       getComp: (cb) => cb(import('dcos/pages/mount-list/mount-list')),
                     },
                     {
                       path: 'add',
-                      breadcrumbName: i18n.t('org:select resources'),
+                      breadcrumbName: i18n.t('cmp:select resources'),
                       getComp: (cb) => cb(import('dcos/pages/purchase-cluster/purchase-cluster')),
                     },
                   ],
@@ -189,11 +189,11 @@ function getCmpRouter(): RouteConfigItem[] {
                       routes: [
                         {
                           path: ':processId',
-                          breadcrumbName: i18n.t('org:process details'),
+                          breadcrumbName: i18n.t('cmp:process details'),
                           getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
                         },
                         {
-                          breadcrumbName: i18n.t('org:alarm data report'),
+                          breadcrumbName: i18n.t('cmp:alarm data report'),
                           getComp: (cb) => cb(import('dcos/pages/alarm-report')),
                         },
                       ],
@@ -219,7 +219,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('org:task list'),
+          breadcrumbName: i18n.t('cmp:task list'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {
@@ -239,11 +239,11 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'customDashboard',
-          breadcrumbName: i18n.t('org:O & M dashboard'),
+          breadcrumbName: i18n.t('cmp:O & M dashboard'),
           routes: [
             {
               path: 'add',
-              breadcrumbName: i18n.t('org:new O & M dashboard'),
+              breadcrumbName: i18n.t('cmp:new O & M dashboard'),
               layout: { fullHeight: true },
               getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
             },

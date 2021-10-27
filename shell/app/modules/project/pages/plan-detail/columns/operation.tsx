@@ -31,7 +31,7 @@ const Operation = ({ record, afterDelete }: IProps) => {
   const onDelete = (id: number) => {
     Modal.confirm({
       title: i18n.t('remove'),
-      content: i18n.t('project:are you sure to remove the relevant use cases from the current plan?'),
+      content: i18n.t('dop:are you sure to remove the relevant use cases from the current plan?'),
       onOk: () => {
         deleteRelations({ relationIDs: [id], type: 'single' }).then(afterDelete);
       },
@@ -46,7 +46,7 @@ const Operation = ({ record, afterDelete }: IProps) => {
     <TableActions>
       <StatusToggle state={record.execStatus} onChange={handleUpdate} />
       <span className="fake-link ml-2" onClick={() => onDelete(record.id)}>
-        {i18n.t('project:remove')}
+        {i18n.t('dop:remove')}
       </span>
       <span
         className="fake-link ml-2"

@@ -79,9 +79,7 @@ const ImportExportRecord = ({
             });
             if (haveJustFinishedJob) {
               message.info(
-                i18n.t(
-                  'application:The import and export tasks you submitted have status updates, please check the records',
-                ),
+                i18n.t('dop:The import and export tasks you submitted have status updates, please check the records'),
                 4,
               );
             }
@@ -199,7 +197,7 @@ const ImportExportRecord = ({
             <CustomIcon type="warning" className="ml-4 font-bold text-sm text-warning" />
             <span className="text-sm text-dark-6 font-normal">
               {i18n.t(
-                'project:import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait',
+                'dop:import and export tasks are in queue, there are export tasks({export}), import tasks({import}), please wait',
                 { export: counter.export || 0, import: counter.import || 0 },
               )}
             </span>

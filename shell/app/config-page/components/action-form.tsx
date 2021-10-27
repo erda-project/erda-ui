@@ -95,9 +95,9 @@ export const ActionForm = (props: IProps) => {
               validator: (val = '') => {
                 let tip = '';
                 if (!val) {
-                  tip = i18n.t('application:please enter the task name');
+                  tip = i18n.t('dop:please enter the task name');
                 } else if (otherTaskAlias.includes(val)) {
-                  tip = i18n.t('application:An Action with the same name exists.');
+                  tip = i18n.t('dop:An Action with the same name exists.');
                 }
                 return [!tip, tip];
               },

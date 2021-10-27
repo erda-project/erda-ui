@@ -95,7 +95,7 @@ const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
           key={comment.id}
           user={comment.author.nickName}
           time={comment.createdAt}
-          action={i18n.t('application:commented at')}
+          action={i18n.t('dop:commented at')}
           content={Markdown(comment.note || '')}
         />
       ))}
@@ -198,7 +198,7 @@ export const FileDiff = ({
         {
           [ACTION.ADD]: <IconFileAddition className="text-base text-green" />,
           [ACTION.DELETE]: <IconDelete className="text-base text-red" />,
-          [ACTION.RENAME]: i18n.t('application:file moved'),
+          [ACTION.RENAME]: i18n.t('dop:file moved'),
         }[type] || '';
 
       return (
@@ -309,14 +309,14 @@ export const FileDiff = ({
       </div>
       <IF check={!isExpanding}>
         <div className="file-content-collapsed">
-          {i18n.t('application:comparison result has been folded')}。
+          {i18n.t('dop:comparison result has been folded')}。
           <span
             className="click-to-expand text-link"
             onClick={() => {
               setFileExpanding(!isExpanding);
             }}
           >
-            {i18n.t('application:click to expand')}
+            {i18n.t('dop:click to expand')}
           </span>
         </div>
         <ELSE />
@@ -494,14 +494,12 @@ export const FileDiff = ({
                                       note,
                                     }).then(() => toggleEditFn(lineKey, false))
                                   }
-                                  btnText={i18n.t('application:post comment')}
+                                  btnText={i18n.t('dop:post comment')}
                                   onCancel={() => toggleEditFn(lineKey, false)}
                                   onSetLS={(v) => handleSetLS(lineKey, v)}
                                 />
                                 <ELSE />
-                                <Button onClick={() => toggleEditFn(lineKey, true)}>
-                                  {i18n.t('application:reply')}
-                                </Button>
+                                <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('dop:reply')}</Button>
                               </IF>
                             </td>
                           </tr>
@@ -554,7 +552,7 @@ export const FileDiff = ({
                               <CommentListBox comments={comments} />
                               <IF check={comments && !showLeftCommentEdit}>
                                 <Button onClick={() => toggleLeftCommentEdit(lineKey, true)}>
-                                  {i18n.t('application:reply')}
+                                  {i18n.t('dop:reply')}
                                 </Button>
                               </IF>
                             </IF>
@@ -566,7 +564,7 @@ export const FileDiff = ({
                                     note,
                                   }).then(() => toggleLeftCommentEdit(lineKey, false))
                                 }
-                                btnText={i18n.t('application:post comment')}
+                                btnText={i18n.t('dop:post comment')}
                                 onCancel={() => toggleLeftCommentEdit(lineKey, false)}
                               />
                             </IF>
@@ -577,7 +575,7 @@ export const FileDiff = ({
                               <CommentListBox comments={comments} />
                               <IF check={comments && !showRightCommentEdit}>
                                 <Button onClick={() => toggleRightCommentEdit(lineKey, true)}>
-                                  {i18n.t('application:reply')}
+                                  {i18n.t('dop:reply')}
                                 </Button>
                               </IF>
                             </IF>
@@ -589,7 +587,7 @@ export const FileDiff = ({
                                     note,
                                   }).then(() => toggleRightCommentEdit(lineKey, false))
                                 }
-                                btnText={i18n.t('application:post comment')}
+                                btnText={i18n.t('dop:post comment')}
                                 onCancel={() => toggleRightCommentEdit(lineKey, false)}
                               />
                             </IF>
@@ -711,29 +709,27 @@ const FilesDiff = (props: IDiffProps) => {
         <div className="commit-summary">
           <div>
             <span>
-              {i18n.t('application:share')}
+              {i18n.t('dop:share')}
               <span className="changed-count ml-2">
-                {filesChanged} {i18n.t('application:changed file(s)')}
+                {filesChanged} {i18n.t('dop:changed file(s)')}
               </span>
-              <Tooltip
-                title={expandDiffFiles ? i18n.t('application:collapse file') : i18n.t('application:expand file')}
-              >
+              <Tooltip title={expandDiffFiles ? i18n.t('dop:collapse file') : i18n.t('dop:expand file')}>
                 <span className="ml-2 cursor-pointer df-icon" onClick={onToggleDiffFiles}>
                   {expandDiffFiles ? <CustomIcon type="sq" /> : <CustomIcon type="zk" />}
                 </span>
               </Tooltip>
               <span className="add-count ml-2">
-                {totalAddition} {i18n.t('application:additions')}
+                {totalAddition} {i18n.t('dop:additions')}
               </span>
               <span className="del-count ml-2">
-                {totalDeletion} {i18n.t('application:deletions')}
+                {totalDeletion} {i18n.t('dop:deletions')}
               </span>
             </span>
           </div>
           <div className="toggle-view-btn">
             <RadioGroup onChange={showToggle} defaultValue={showStyle}>
-              <RadioButton value="inline">{i18n.t('application:single line')}</RadioButton>
-              <RadioButton value="sideBySide">{i18n.t('application:side-by-side')}</RadioButton>
+              <RadioButton value="inline">{i18n.t('dop:single line')}</RadioButton>
+              <RadioButton value="sideBySide">{i18n.t('dop:side-by-side')}</RadioButton>
             </RadioGroup>
           </div>
         </div>

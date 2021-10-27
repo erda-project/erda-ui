@@ -69,14 +69,14 @@ export const webSlowTrackPanel = ({
       render: (value: string) => moment(value).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: `${i18n.t('application:maximum time consuming')}(ms)`,
+      title: `${i18n.t('dop:maximum time consuming')}(ms)`,
       dataIndex: 'max',
       key: 'max',
       width: 140,
       render: (value: number) => (value / 1000000).toFixed(2),
     },
     {
-      title: `${i18n.t('application:minimum time consuming')}(ms)`,
+      title: `${i18n.t('dop:minimum time consuming')}(ms)`,
       dataIndex: 'min',
       key: 'min',
       width: 140,

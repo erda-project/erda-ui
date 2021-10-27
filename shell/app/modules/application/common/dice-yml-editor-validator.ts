@@ -16,9 +16,9 @@ import { map } from 'lodash';
 
 export const resourcesValidator = (_rule: any, value: any, callback: (message?: string) => void) => {
   if (!value.mem || value.mem < 0) {
-    return callback(i18n.t('application:the memory size cannot be empty'));
+    return callback(i18n.t('dop:the memory size cannot be empty'));
   } else if (!value.cpu || value.cpu < 0) {
-    return callback(i18n.t('application:the number of cpu cannot be empty'));
+    return callback(i18n.t('dop:the number of cpu cannot be empty'));
   }
 
   callback();
@@ -33,7 +33,7 @@ export const portsValidator = (_rule: any, value: any, callback: (message?: stri
     }
   });
   if (!pass) {
-    return callback(i18n.t('application:port cannot be empty'));
+    return callback(i18n.t('dop:port cannot be empty'));
   }
 
   callback();

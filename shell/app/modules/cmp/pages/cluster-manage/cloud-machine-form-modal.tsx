@@ -51,7 +51,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
       },
     },
     {
-      label: i18n.t('org:machine label'),
+      label: i18n.t('cmp:machine label'),
       name: 'labels',
       getComp: () => <LabelSelector />,
     },
@@ -64,7 +64,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
       rules: [{ validator: checkCustomLabels }],
     },
     {
-      label: i18n.t('org:machine type'),
+      label: i18n.t('cmp:machine type'),
       name: 'instanceType',
       initialValue: 'ecs.sn2ne.2xlarge',
       itemProps: { type: 'hidden' },
@@ -88,7 +88,7 @@ const BasicForm = ({ form }: { form: FormInstance }) => {
 const MoreForm = ({ form }: { form: FormInstance }) => {
   const fieldsList = [
     {
-      label: i18n.t('org:disk size'),
+      label: i18n.t('cmp:disk size'),
       name: 'diskSize',
       type: 'inputNumber',
       initialValue: 200,
@@ -104,7 +104,7 @@ const MoreForm = ({ form }: { form: FormInstance }) => {
       },
     },
     {
-      label: i18n.t('org:disk type'),
+      label: i18n.t('cmp:disk type'),
       name: 'diskType',
       type: 'select',
       initialValue: diskTypeMap.cloud_ssd.value,
@@ -166,7 +166,7 @@ const CloudMachineFormModal = (props: IProps) => {
   return (
     <FormModal
       width={800}
-      title={i18n.t('org:add alibaba cloud machine')}
+      title={i18n.t('cmp:add alibaba cloud machine')}
       visible={visible}
       onOk={handelSubmit}
       onCancel={onCancel}

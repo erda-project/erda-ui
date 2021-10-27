@@ -26,7 +26,7 @@ const OrgList = () => {
           <img src={erda_png} />
         </div>
         <div className="info-text mt-5">
-          <span className="desc text-base font-bold">{i18n.t('org:org-intro')}</span>
+          <span className="desc text-base font-bold">{i18n.t('cmp:org-intro')}</span>
         </div>
       </div>
       <div className="org-home-list">

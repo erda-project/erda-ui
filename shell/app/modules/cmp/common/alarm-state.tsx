@@ -16,8 +16,8 @@ import React from 'react';
 import i18n from 'i18n';
 
 const ALARM_STATE_MAP = {
-  alert: { icon: 'wh', label: i18n.t('org:alarm') },
-  recover: { icon: 'tg', label: i18n.t('org:recover') },
+  alert: { icon: 'wh', label: i18n.t('cmp:alarm') },
+  recover: { icon: 'tg', label: i18n.t('cmp:recover') },
 };
 
 interface IProps {

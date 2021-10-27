@@ -41,20 +41,20 @@ export const OrgInfo = () => {
         disabled: true,
       },
       rules: [
-        { required: true, message: i18n.t('org:Please enter the organization identifier.') },
+        { required: true, message: i18n.t('cmp:Please enter the organization identifier.') },
         {
           pattern: /^[a-z0-9-]*$/,
-          message: i18n.t('org:consist of lowercase letters, numbers and hyphens'),
+          message: i18n.t('cmp:consist of lowercase letters, numbers and hyphens'),
         },
       ],
     },
     {
-      label: i18n.t('org:org name'),
+      label: i18n.t('cmp:org name'),
       name: 'displayName',
     },
     ...insertWhen(!currentOrg.publisherId && isEnterprise, [
       {
-        label: i18n.t('org:become a publisher'),
+        label: i18n.t('cmp:become a publisher'),
         required: false,
         type: 'switch',
         itemProps: {
@@ -72,15 +72,15 @@ export const OrgInfo = () => {
       },
     ]),
     {
-      label: i18n.t('org:notice language'),
+      label: i18n.t('cmp:notice language'),
       name: 'locale',
       type: 'select',
       itemProps: {
-        placeholder: i18n.t('org:used for site messages and mails'),
+        placeholder: i18n.t('cmp:used for site messages and mails'),
       },
       options: [
-        { value: 'zh-CN', name: i18n.t('org:Chinese') },
-        { value: 'en-US', name: i18n.t('org:English') },
+        { value: 'zh-CN', name: i18n.t('cmp:Chinese') },
+        { value: 'en-US', name: i18n.t('cmp:English') },
       ],
     },
     {
@@ -89,24 +89,24 @@ export const OrgInfo = () => {
       type: 'radioGroup',
       options: [
         {
-          name: i18n.t('org:public org'),
+          name: i18n.t('cmp:public org'),
           value: 'true',
         },
         {
-          name: i18n.t('org:private org'),
+          name: i18n.t('cmp:private org'),
           value: 'false',
         },
       ],
     },
     {
-      label: i18n.t('org:org logo'),
+      label: i18n.t('cmp:org logo'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
-      label: i18n.t('org:org description'),
+      label: i18n.t('cmp:org description'),
       name: 'desc',
       itemProps: {
         type: 'textarea',
@@ -216,7 +216,7 @@ export const OrgInfo = () => {
         },
       ]}
       updateInfo={updateInfo}
-      name={i18n.t('org:org info')}
+      name={i18n.t('cmp:org info')}
     />
   );
 };

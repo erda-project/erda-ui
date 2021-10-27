@@ -75,7 +75,7 @@ const VPS = () => {
         },
       },
       {
-        title: i18n.t('application:operation'),
+        title: i18n.t('dop:operation'),
         dataIndex: 'op',
         width: 100,
         render: (_v: any, record: NETWORKS.ICloudVpc) => {

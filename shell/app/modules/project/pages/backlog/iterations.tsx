@@ -75,16 +75,16 @@ const Iterations = () => {
     <div className="backlog-iterations flex flex-col justify-center h-full">
       <div className="backlog-iterations-title  flex justify-between items-center mb-2">
         <div>
-          <span className="font-bold text-base mr-2">{i18n.t('project:unfinished iteration')}</span>
+          <span className="font-bold text-base mr-2">{i18n.t('dop:unfinished iteration')}</span>
           <span className="text-desc">
-            {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('project:iteration') })}
+            {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('dop:iteration') })}
           </span>
         </div>
         <div>
           <WithAuth pass={addAuth}>
             <Button className="px-2 mt-3" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr-1" />
-              {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
+              {i18n.t('add {name}', { name: i18n.t('dop:iteration') })}
             </Button>
           </WithAuth>
         </div>
@@ -109,17 +109,17 @@ const Iterations = () => {
 const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-iterations-empty-holder">
     <img src={backlog_dd_svg} className="mb-3" />
-    <div className="text-2xl font-bold my-2">{i18n.t('project:unfinished iteration')}</div>
+    <div className="text-2xl font-bold my-2">{i18n.t('dop:unfinished iteration')}</div>
     <div className="desc">
-      {i18n.t('project:add-iteration-tip1')}
+      {i18n.t('dop:add-iteration-tip1')}
       <WithAuth pass={addAuth}>
         <Button className="px-2" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr-1" />
-          {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
+          {i18n.t('add {name}', { name: i18n.t('dop:iteration') })}
         </Button>
       </WithAuth>
       {i18n.t(
-        'project:Create a new iteration, and you can drag the backlog on the left to an iteration and set its priority.',
+        'dop:Create a new iteration, and you can drag the backlog on the left to an iteration and set its priority.',
       )}
     </div>
   </div>

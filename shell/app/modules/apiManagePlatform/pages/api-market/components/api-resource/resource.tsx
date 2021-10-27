@@ -162,7 +162,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
             }
             if (fieldData?.newTags) {
               set(draft, 'tags', fieldData?.newTags);
-              message.success(i18n.t('project:category created successfully'));
+              message.success(i18n.t('dop:category created successfully'));
             }
           } else if (key === 'query' || key === 'header') {
             set(draft, [...prefixPath, 'parameters'], fieldData?.parameters);
@@ -328,7 +328,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
               } else if (!value) {
                 callback(i18n.t('can not be empty'));
               } else if (!value.startsWith('/')) {
-                callback(i18n.t('project:path must start with /'));
+                callback(i18n.t('dop:path must start with /'));
               } else {
                 callback();
               }
@@ -384,7 +384,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
 
       if (formErrorNum > 0) {
         confirm({
-          title: i18n.t('project:Are you sure to leave, with the error message not saved?'),
+          title: i18n.t('dop:Are you sure to leave, with the error message not saved?'),
           onOk() {
             nextHandle();
           },
@@ -469,7 +469,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
 
     if (formErrorNum > 0) {
       confirm({
-        title: i18n.t('project:Are you sure to leave, with the error message not saved?'),
+        title: i18n.t('dop:Are you sure to leave, with the error message not saved?'),
         onOk() {
           nextHandle();
         },

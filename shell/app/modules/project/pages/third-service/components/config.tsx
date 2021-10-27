@@ -368,7 +368,7 @@ export const useDBFields = () => [
       {
         pattern: /^[a-zA-Z0-9_-]{2,64}$/,
         message: `${i18n.t('length is {min}~{max}', { min: 2, max: 64 })},${i18n.t(
-          'project:can only contain characters, numbers, underscores and hyphens',
+          'dop:can only contain characters, numbers, underscores and hyphens',
         )}`,
       },
     ],
@@ -386,7 +386,7 @@ export const useTopicFields = () => [
       {
         pattern: /^[a-zA-Z0-9_-]{5,64}$/,
         message: `${i18n.t('length is {min}~{max}', { min: 5, max: 64 })},${i18n.t(
-          'project:can only contain characters, numbers, underscores and hyphens',
+          'dop:can only contain characters, numbers, underscores and hyphens',
         )}`,
       },
       {
@@ -421,7 +421,7 @@ export const useTopicFields = () => [
       placeholder: `${i18n.t('start with {name}', { name: 'GID-、GID_' })},${i18n.t('length is {min}~{max}', {
         min: 5,
         max: 64,
-      })},${i18n.t('project:can only contain characters, numbers, underscores and hyphens')}`,
+      })},${i18n.t('dop:can only contain characters, numbers, underscores and hyphens')}`,
     },
     rules: [
       {
@@ -429,7 +429,7 @@ export const useTopicFields = () => [
         message: `${i18n.t('start with {name}', { name: 'GID-、GID_' })},${i18n.t('length is {min}~{max}', {
           min: 5,
           max: 64,
-        })},${i18n.t('project:can only contain characters, numbers, underscores and hyphens')}`,
+        })},${i18n.t('dop:can only contain characters, numbers, underscores and hyphens')}`,
       },
     ],
   },
@@ -447,7 +447,7 @@ export const useBucketField = () => {
         {
           pattern: /^[a-zA-Z0-9_-]{3,64}$/,
           message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t(
-            'project:can only contain characters, numbers, underscores and hyphens',
+            'dop:can only contain characters, numbers, underscores and hyphens',
           )}`,
         },
       ],

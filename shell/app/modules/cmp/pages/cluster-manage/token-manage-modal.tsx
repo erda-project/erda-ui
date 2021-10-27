@@ -64,7 +64,7 @@ const TokenManageModal = (props: IProps) => {
             {i18n.t('cmp:create Token')}
           </Button>
         ),
-        <Button onClick={onCancel}>{i18n.t('application:close')}</Button>,
+        <Button onClick={onCancel}>{i18n.t('dop:close')}</Button>,
       ]}
     >
       <div className="rounded-sm p-2 text-gray mb-6">

@@ -63,13 +63,13 @@ export const EditCategory = (props: IProps) => {
         return;
       }
       if (value.includes('/') || value.includes('\\')) {
-        message.error(i18n.t('project:The name cannot contain forward and backward slashes. Please enter again.'));
+        message.error(i18n.t('dop:The name cannot contain forward and backward slashes. Please enter again.'));
         return;
       }
       await onSubmit({ name: value });
       handleHide();
     } else {
-      message.warning(i18n.t('project:name is required'));
+      message.warning(i18n.t('dop:name is required'));
     }
   };
 

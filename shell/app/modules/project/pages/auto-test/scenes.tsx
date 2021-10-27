@@ -142,8 +142,8 @@ export default AutoTestScenes;
 const labelMap = {
   api_request: i18n.t('request detail'),
   api_response: i18n.t('response detail'),
-  api_assert_detail: i18n.t('project:assertion detail'),
-  api_assert_success: i18n.t('project:assertion result'),
+  api_assert_detail: i18n.t('dop:assertion detail'),
+  api_assert_success: i18n.t('dop:assertion result'),
   status: i18n.t('status'),
   result: i18n.t('result'),
 };
@@ -255,7 +255,7 @@ export const getPreviewData = (d: any) => {
   const previewData = {
     data: {
       info: {
-        _drawerTitle: i18n.t('project:execute result'),
+        _drawerTitle: i18n.t('dop:execute result'),
         ...dataObj,
       },
     },

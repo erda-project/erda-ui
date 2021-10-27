@@ -96,12 +96,12 @@ export const ProjectDashboard = () => {
     <div className="project-dashboard">
       <div className="flex justify-between items-center mb-3">
         <RadioGroup onChange={(e: any) => updater.type(e.target.value)} value={type}>
-          <RadioButton value={DashboardType.BUG}>{i18n.t('project:bug')}</RadioButton>
-          <RadioButton value={DashboardType.WORKING}>{i18n.t('project:workload')}</RadioButton>
+          <RadioButton value={DashboardType.BUG}>{i18n.t('dop:bug')}</RadioButton>
+          <RadioButton value={DashboardType.WORKING}>{i18n.t('dop:workload')}</RadioButton>
         </RadioGroup>
         <IterationSelect
           allowClear
-          placeholder={i18n.t('project:view by iteration')}
+          placeholder={i18n.t('dop:view by iteration')}
           value={iterationID}
           onChange={(v) => updateSearch({ iterationID: v || undefined })}
         />

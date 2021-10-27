@@ -109,7 +109,7 @@ export default function ScanRule(props: IProps) {
   };
   const optionalColumns: Array<ColumnProps<object>> = [
     {
-      title: i18n.t('project:rule name'),
+      title: i18n.t('dop:rule name'),
       dataIndex: 'metricKey',
       width: 200,
     },
@@ -124,7 +124,7 @@ export default function ScanRule(props: IProps) {
       width: 176,
     },
     {
-      title: i18n.t('project:access control value'),
+      title: i18n.t('dop:access control value'),
       dataIndex: 'metricValue',
       align: 'center',
       width: 160,
@@ -159,7 +159,7 @@ export default function ScanRule(props: IProps) {
 
   const appendedColumns: Array<ColumnProps<SCAN_RULE.AppendedItem>> = [
     {
-      title: i18n.t('project:rule name'),
+      title: i18n.t('dop:rule name'),
       dataIndex: 'metricKey',
       width: 200,
     },
@@ -174,7 +174,7 @@ export default function ScanRule(props: IProps) {
       width: 176,
     },
     {
-      title: i18n.t('project:access control value'),
+      title: i18n.t('dop:access control value'),
       dataIndex: 'metricValue',
       width: 160,
       render: (item: string, record: SCAN_RULE.AppendedItem) => {
@@ -219,7 +219,7 @@ export default function ScanRule(props: IProps) {
                   const { id, description, valueType, decimalScale } = record;
                   const isIllegal = checkRule([{ valueType, metricValue, decimalScale }]);
                   if (isIllegal) {
-                    message.error(i18n.t('project:please enter the correct data'));
+                    message.error(i18n.t('dop:please enter the correct data'));
                     return;
                   }
                   await updateScanRule({
@@ -243,7 +243,7 @@ export default function ScanRule(props: IProps) {
         return (
           <div className="table-operations">
             <Tooltip
-              title={isHandle ? '' : i18n.t('project:Platform default rules. Please add custom rules if necessary.')}
+              title={isHandle ? '' : i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
             >
               <WithAuth pass={operationAuth}>
                 <span
@@ -270,9 +270,7 @@ export default function ScanRule(props: IProps) {
             >
               <WithAuth pass={operationAuth}>
                 <Tooltip
-                  title={
-                    isHandle ? '' : i18n.t('project:Platform default rules. Please add custom rules if necessary.')
-                  }
+                  title={isHandle ? '' : i18n.t('dop:Platform default rules. Please add custom rules if necessary.')}
                 >
                   <span className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}>{i18n.t('delete')}</span>
                 </Tooltip>
@@ -319,8 +317,8 @@ export default function ScanRule(props: IProps) {
 
   function handleBatchDelete() {
     Modal.confirm({
-      title: i18n.t('project:Are you sure to delete in batches?'),
-      content: i18n.t('project:batch-delete-tip-content'),
+      title: i18n.t('dop:Are you sure to delete in batches?'),
+      content: i18n.t('dop:batch-delete-tip-content'),
       async onOk() {
         await batchDeleteScanRule({ scopeId, scopeType, ids: appendedRowKeys });
         updater.appendedCurrent(1);
@@ -371,7 +369,7 @@ export default function ScanRule(props: IProps) {
     });
     const isIllegal = checkRule(metrics);
     if (isIllegal) {
-      message.error(i18n.t('project:please enter the correct data'));
+      message.error(i18n.t('dop:please enter the correct data'));
       return;
     }
 
@@ -407,7 +405,7 @@ export default function ScanRule(props: IProps) {
               updater.loading(false);
             }}
           >
-            {i18n.t('project:add access control rules')}
+            {i18n.t('dop:add access control rules')}
           </Button>
         </WithAuth>
         {appendedRowKeys.length > 0 && (
@@ -434,7 +432,7 @@ export default function ScanRule(props: IProps) {
         width={800}
         visible={visible}
         destroyOnClose
-        title={i18n.t('project:add access control rules')}
+        title={i18n.t('dop:add access control rules')}
         closable={false}
         afterClose={() => updater.visible(false)}
         okButtonProps={{ disabled: optionalRowKeys.length === 0 }}

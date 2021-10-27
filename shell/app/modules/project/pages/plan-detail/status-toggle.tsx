@@ -26,10 +26,10 @@ export enum CaseStatus {
 }
 
 export const caseStateMap = {
-  INIT: { name: i18n.t('project:not performed'), value: 'INIT' },
-  PASSED: { name: i18n.t('project:passed'), value: 'PASSED' },
-  FAIL: { name: i18n.t('project:not passed'), value: 'FAIL' },
-  BLOCK: { name: i18n.t('project:blocking'), value: 'BLOCK' },
+  INIT: { name: i18n.t('dop:not performed'), value: 'INIT' },
+  PASSED: { name: i18n.t('dop:passed'), value: 'PASSED' },
+  FAIL: { name: i18n.t('dop:not passed'), value: 'FAIL' },
+  BLOCK: { name: i18n.t('dop:blocking'), value: 'BLOCK' },
 };
 
 interface IProps {
@@ -46,7 +46,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       child: (
         <span>
           <CustomIcon className="bg-icon rounded-full text-white" type="wh" />
-          <span className="text-dark-6">{i18n.t('project:not performed')}</span>
+          <span className="text-dark-6">{i18n.t('dop:not performed')}</span>
         </span>
       ),
     },
@@ -54,7 +54,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       child: (
         <span>
           <CustomIcon className="bg-green rounded-full text-white" type="tg" />
-          <span className="text-green">{i18n.t('project:passed')}</span>
+          <span className="text-green">{i18n.t('dop:passed')}</span>
         </span>
       ),
     },
@@ -62,7 +62,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       child: (
         <span>
           <CustomIcon className="bg-red rounded-full text-white" type="wtg" />
-          <span className="text-red">{i18n.t('project:not passed')}</span>
+          <span className="text-red">{i18n.t('dop:not passed')}</span>
         </span>
       ),
     },
@@ -70,7 +70,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       child: (
         <span>
           <CustomIcon className="bg-yellow rounded-full text-white" type="zs" />
-          <span className="text-yellow">{i18n.t('project:blocking')}</span>
+          <span className="text-yellow">{i18n.t('dop:blocking')}</span>
         </span>
       ),
     },
@@ -81,7 +81,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
         child: (
           <span>
             <CustomIcon className="bg-yellow rounded-full text-white" type="zs" />
-            <span className="text-yellow">{i18n.t('project:pause')}</span>
+            <span className="text-yellow">{i18n.t('dop:pause')}</span>
           </span>
         ),
       },
@@ -89,7 +89,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
         child: (
           <span>
             <CustomIcon className="bg-blue rounded-full text-white" type="wh" />
-            <span className="text-blue">{i18n.t('project:processing')}</span>
+            <span className="text-blue">{i18n.t('dop:processing')}</span>
           </span>
         ),
       },
@@ -97,7 +97,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
         child: (
           <span>
             <CustomIcon className="bg-green rounded-full text-white" type="tg" />
-            <span className="text-green">{i18n.t('project:completed')}</span>
+            <span className="text-green">{i18n.t('dop:completed')}</span>
           </span>
         ),
       },

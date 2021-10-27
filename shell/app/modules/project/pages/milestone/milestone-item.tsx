@@ -52,7 +52,7 @@ export default ({ item, onClickItem }: IProps) => {
       {isDragging && (
         <Alert
           message={i18n.t(
-            'project:It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.',
+            'dop:It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.',
           )}
           type="info"
           showIcon

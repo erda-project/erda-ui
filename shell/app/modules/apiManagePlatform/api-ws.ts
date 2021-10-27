@@ -74,7 +74,7 @@ export const initApiWs = (payload: IInitApiWs) => {
         }, 1000);
       } else if (data.type === 'auto_save_response') {
         timer = setTimeout(() => {
-          message.success(i18n.t('{action} successfully', { action: i18n.t('project:auto save') }));
+          message.success(i18n.t('{action} successfully', { action: i18n.t('dop:auto save') }));
           setDocChangedState(false);
         }, 1000);
       }
@@ -105,8 +105,8 @@ export const initApiWs = (payload: IInitApiWs) => {
     };
   } else {
     notification.error({
-      message: i18n.t('project:connection failed'),
-      description: i18n.t('project:your browser does not support WebSocket!'),
+      message: i18n.t('dop:connection failed'),
+      description: i18n.t('dop:your browser does not support WebSocket!'),
     });
   }
 };

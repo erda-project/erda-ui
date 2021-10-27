@@ -38,7 +38,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
   const onClick = useCallback(
     ({ key }: any) => {
       if (key !== 'excel' && (!caseTotal || !checked)) {
-        message.error(i18n.t('project:After the use case is selected, the batch operation can be performed.'));
+        message.error(i18n.t('dop:After the use case is selected, the batch operation can be performed.'));
         return;
       }
       let selectProjectId;
@@ -46,8 +46,8 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
       switch (key) {
         case 'delete':
           Modal.confirm({
-            title: i18n.t('project:remove'),
-            content: i18n.t('project:plan-remove-case-confirm'),
+            title: i18n.t('dop:remove'),
+            content: i18n.t('dop:plan-remove-case-confirm'),
             onOk: () => deleteRelations({ type: 'multi', relationIDs: [] }).then(afterDeleteRef.current),
           });
           break;
@@ -78,16 +78,16 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
     return (
       <Menu onClick={onClick}>
         <Menu.Item key="delete">
-          <span>{i18n.t('project:delete')}</span>
+          <span>{i18n.t('dop:delete')}</span>
         </Menu.Item>
         <Menu.Item key="actor">
-          <span>{i18n.t('project:change executor')}</span>
+          <span>{i18n.t('dop:change executor')}</span>
         </Menu.Item>
         {/* <Menu.Item key="remark">
           <span>添加备注</span>
         </Menu.Item> */}
         <Menu.Item key="excel">
-          <span>{i18n.t('project:export Excel')}</span>
+          <span>{i18n.t('dop:export Excel')}</span>
         </Menu.Item>
       </Menu>
     );
@@ -105,16 +105,16 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
 
   const fieldsList = [
     {
-      label: i18n.t('project:executor'),
+      label: i18n.t('dop:executor'),
       name: 'executorID',
       getComp: () => <MemberSelector scopeType="project" scopeId={params.projectId} />,
     },
   ];
   return (
     <>
-      <DropdownSelect overlay={menus} buttonText={i18n.t('project:batch processing')} />
+      <DropdownSelect overlay={menus} buttonText={i18n.t('dop:batch processing')} />
       <FormModal
-        title={i18n.t('project:change executor')}
+        title={i18n.t('dop:change executor')}
         visible={visible}
         onOk={handleOk}
         onCancel={onCancel}

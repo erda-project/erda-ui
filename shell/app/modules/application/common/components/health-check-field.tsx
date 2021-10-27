@@ -78,7 +78,7 @@ const HealthCheckField = (props: IVariableInputGroupProps) => {
   return (
     <div>
       <div>
-        <span className="edit-service-label">{i18n.t('application:health check mechanism')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:health check mechanism')}: </span>
         <span>
           <Select disabled={disabled} value={healthCheckKey} onChange={(e: string) => changeType(e)}>
             <Option value="http">HTTP</Option>
@@ -102,7 +102,7 @@ const HttpComp = (props: IProps) => {
   return (
     <div>
       <div>
-        <span className="edit-service-label">{i18n.t('application:port')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:port')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
@@ -110,30 +110,30 @@ const HttpComp = (props: IProps) => {
             className="w-full"
             value={value?.port}
             onChange={(v?: number) => changeValue(v, 'port')}
-            placeholder={i18n.t('application:please enter the port')}
+            placeholder={i18n.t('dop:please enter the port')}
           />
         </span>
       </div>
       <div>
-        <span className="edit-service-label">URI {i18n.t('application:path')}: </span>
+        <span className="edit-service-label">URI {i18n.t('dop:path')}: </span>
         <span>
           <Input
             disabled={disabled}
             value={value?.path}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeValue(e.target.value, 'path')}
-            placeholder={i18n.t('application:please enter the path')}
+            placeholder={i18n.t('dop:please enter the path')}
           />
         </span>
       </div>
       <div>
-        <span className="edit-service-label">{i18n.t('application:duration')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:duration')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
             className="w-full"
             value={value?.duration || 0}
             onChange={(v?: number) => changeValue(v, 'duration')}
-            placeholder={i18n.t('application:please enter the duration')}
+            placeholder={i18n.t('dop:please enter the duration')}
             min={1}
             formatter={(v: any) => `${v}秒`}
             parser={(v: any) => v.replace('秒', '')}
@@ -154,25 +154,25 @@ const CommandComp = (props: ICommandProps) => {
   return (
     <div>
       <div>
-        <span className="edit-service-label">{i18n.t('application:command')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:command')}: </span>
         <span>
           <Input
             disabled={disabled}
             value={value?.cmd}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeValue(e.target.value, 'cmd')}
-            placeholder={i18n.t('application:please enter the command')}
+            placeholder={i18n.t('dop:please enter the command')}
           />
         </span>
       </div>
       <div>
-        <span className="edit-service-label">{i18n.t('application:duration')}: </span>
+        <span className="edit-service-label">{i18n.t('dop:duration')}: </span>
         <span>
           <InputNumber
             disabled={disabled}
             className="w-full"
             value={value?.duration || 0}
             onChange={(v?: number) => changeValue(v, 'duration')}
-            placeholder={i18n.t('application:please enter the duration')}
+            placeholder={i18n.t('dop:please enter the duration')}
             min={1}
             formatter={(v: any) => `${v}秒`}
             parser={(v: any) => v.replace('秒', '')}

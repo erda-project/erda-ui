@@ -185,7 +185,7 @@ function ServiceList({
         ),
       },
       {
-        title: i18n.t('org:number of instance'),
+        title: i18n.t('cmp:number of instance'),
         dataIndex: 'instance',
         key: 'instance',
         width: 176,

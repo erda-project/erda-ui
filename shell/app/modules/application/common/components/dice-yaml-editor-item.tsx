@@ -82,14 +82,14 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     if (item.allowDelete === false || item.status === 'new') {
       menu = (
         <Menu>
-          <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('application:edit')}</Menu.Item>
+          <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('dop:edit')}</Menu.Item>
         </Menu>
       );
     } else {
       menu = (
         <Menu>
-          <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('application:edit')}</Menu.Item>
-          <Menu.Item onClick={() => deleteItem && deleteItem(item)}>{i18n.t('application:delete')}</Menu.Item>
+          <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('dop:edit')}</Menu.Item>
+          <Menu.Item onClick={() => deleteItem && deleteItem(item)}>{i18n.t('dop:delete')}</Menu.Item>
         </Menu>
       );
     }

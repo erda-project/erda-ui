@@ -19,7 +19,7 @@ export const rootKey = '0';
 export const recycledId = 'recycled' as any as number;
 export const recycledKey = `${rootId}-${recycledId}`;
 export const recycledRoot: TEST_SET.TestSetNode = {
-  title: i18n.t('project:recycle bin'),
+  title: i18n.t('dop:recycle bin'),
   key: recycledKey,
   iconType: 'ljt',
   iconClass: 'text-red',

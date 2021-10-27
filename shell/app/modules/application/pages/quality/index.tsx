@@ -48,19 +48,19 @@ interface ISonarInfo {
 const QUALITY_DATAS = [
   {
     key: 'bugs',
-    name: i18n.t('application:code defect'),
+    name: i18n.t('dop:code defect'),
     query: 'bug',
     icon: 'bug',
   },
   {
     key: 'vulnerabilities',
-    name: i18n.t('application:code vulnerability'),
+    name: i18n.t('dop:code vulnerability'),
     query: 'vulnerability',
     icon: 'Vulnerabilities',
   },
   {
     key: 'codeSmells',
-    name: i18n.t('application:code smell'),
+    name: i18n.t('dop:code smell'),
     query: 'codeSmell',
     icon: 'codesmells',
   },
@@ -154,22 +154,22 @@ const CodeQuality = () => {
     const data = { coverage, duplications }[type];
     const SONAR_MAP = {
       coverage: {
-        percentCNName: i18n.t('application: coverage'),
+        percentCNName: i18n.t('dop: coverage'),
         percentName: 'coverage',
-        lineCNName: i18n.t('application:number of lines not covered'),
+        lineCNName: i18n.t('dop:number of lines not covered'),
         linesName: 'uncovered_lines',
       },
       duplications: {
-        percentCNName: i18n.t('application:repeat rate'),
+        percentCNName: i18n.t('dop:repeat rate'),
         percentName: 'duplicated_lines_density',
-        lineCNName: i18n.t('application:repeat number of lines'),
+        lineCNName: i18n.t('dop:repeat number of lines'),
         linesName: 'duplicated_lines',
       },
     };
 
     const columns: Array<ColumnProps<QA.Item>> = [
       {
-        title: i18n.t('application:file name'),
+        title: i18n.t('dop:file name'),
         width: 240,
         key: 'name',
         render: ({ name }) => (
@@ -180,7 +180,7 @@ const CodeQuality = () => {
         ),
       },
       {
-        title: i18n.t('application:file path'),
+        title: i18n.t('dop:file path'),
         key: 'path',
         render: ({ path }) => <Tooltip title={path}>{path}</Tooltip>,
       },
@@ -221,8 +221,8 @@ const CodeQuality = () => {
 
   const renderSonarDetail = (type: string) => {
     const ANNOTATIONS_TEXT_MAP = {
-      coverage: i18n.t('application:this paragraph is not covered'),
-      duplications: i18n.t('application:this paragraph is repeated'),
+      coverage: i18n.t('dop:this paragraph is not covered'),
+      duplications: i18n.t('dop:this paragraph is repeated'),
     };
     const { name, lines: originalLines, language } = curSonarInfo;
     const lines = originalLines.map((line) => parseInt(line, 10)).sort((a, b) => a - b);
@@ -289,18 +289,18 @@ const CodeQuality = () => {
         {!isEmpty(headerInfo) && (
           <Row className="quality-info mb-5" gutter={24}>
             <Col span={8}>
-              <div className="label mb-2 ">{i18n.t('application:recent detection time')}</div>
+              <div className="label mb-2 ">{i18n.t('dop:recent detection time')}</div>
               <span className="value">{moment(headerInfo.time).format('YYYY-MM-DD HH:mm:ss')}</span>
             </Col>
             <Col span={8}>
-              <div className="label mb-2">{i18n.t('application:detection branch')}</div>
+              <div className="label mb-2">{i18n.t('dop:detection branch')}</div>
               <span className="value">
                 <CustomIcon type="hb" />
                 {headerInfo.branch}
               </span>
             </Col>
             <Col span={8}>
-              <div className="label mb-2">{i18n.t('application:submit')} ID</div>
+              <div className="label mb-2">{i18n.t('dop:submit')} ID</div>
               <span
                 className="value commit-id hover-table-text"
                 onClick={() => {
@@ -319,10 +319,10 @@ const CodeQuality = () => {
           <div className="quality-data-panel mb-5">{renderDataPanel()}</div>
           <div className="quality-data-detail">
             <Tabs defaultActiveKey="coverage" onTabClick={closeDetail} onChange={handleChangeActiveKey}>
-              <TabPane key="coverage" tab={`${i18n.t('application: coverage')} ${sonarStatistics.coverage}%`}>
+              <TabPane key="coverage" tab={`${i18n.t('dop: coverage')} ${sonarStatistics.coverage}%`}>
                 {visible ? renderSonarDetail('coverage') : renderSonarResultsTable('coverage')}
               </TabPane>
-              <TabPane key="duplications" tab={`${i18n.t('application:repeat rate')} ${sonarStatistics.duplications}%`}>
+              <TabPane key="duplications" tab={`${i18n.t('dop:repeat rate')} ${sonarStatistics.duplications}%`}>
                 {visible ? renderSonarDetail('duplications') : renderSonarResultsTable('duplications')}
               </TabPane>
             </Tabs>

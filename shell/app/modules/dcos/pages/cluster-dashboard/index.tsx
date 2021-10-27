@@ -653,7 +653,7 @@ const ClusterDashboard = () => {
                   <div className="filter-item-label">{i18n.t('Group')}</div>
                   <Select
                     value={selectedGroups}
-                    placeholder={i18n.t('org:no more than 2 groups')}
+                    placeholder={i18n.t('cmp:no more than 2 groups')}
                     className="filter-item-content"
                     style={{ width: '100%' }}
                     showArrow
@@ -679,7 +679,7 @@ const ClusterDashboard = () => {
                     allowClear
                     multiple
                     // treeDefaultExpandAll
-                    placeholder={i18n.t('org:input to search')}
+                    placeholder={i18n.t('cmp:input to search')}
                     onChange={handleChangeFilters}
                   >
                     {map(filterGroup, ({ name, key, values, unit, prefix }: ORG_DASHBOARD.IFilterType) => (

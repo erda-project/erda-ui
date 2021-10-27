@@ -30,7 +30,7 @@ const DeleteClusterModal = ({ visible, curCluster, onCancel, onSubmit = () => {}
     const prevName = get(curCluster, 'displayName') || get(curCluster, 'name');
     return new Promise((resolve, reject) => {
       if (!curCluster || (prevName && prevName !== clusterName)) {
-        notify('error', i18n.t('org:cluster name input error, please check'));
+        notify('error', i18n.t('cmp:cluster name input error, please check'));
         reject();
       } else {
         resolve({ clusterName: get(curCluster, 'name') });
@@ -50,7 +50,7 @@ const DeleteClusterModal = ({ visible, curCluster, onCancel, onSubmit = () => {}
 
   return (
     <FormModal
-      title={i18n.t('org:please enter the cluster name to confirm offline')}
+      title={i18n.t('cmp:please enter the cluster name to confirm offline')}
       fieldsList={fieldsList}
       visible={visible}
       width={300}

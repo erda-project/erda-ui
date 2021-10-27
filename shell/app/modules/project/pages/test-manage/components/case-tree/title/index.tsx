@@ -30,21 +30,21 @@ interface IMenuMeta {
 const getMenuMap = (type: TestSetMenuType, editMode: editModeEnum): IMenuMeta[] => {
   const menuItemsMap = {
     [TestSetMenuType.root]: [
-      { key: TestOperation.add, name: i18n.t('project:new sub testset') },
-      { key: TestOperation.paste, name: i18n.t('project:paste'), disabled: editMode === '' },
+      { key: TestOperation.add, name: i18n.t('dop:new sub testset') },
+      { key: TestOperation.paste, name: i18n.t('dop:paste'), disabled: editMode === '' },
     ],
     [TestSetMenuType.normal]: [
-      { key: TestOperation.add, name: i18n.t('project:new sub testset') },
-      { key: TestOperation.rename, name: i18n.t('project:rename') },
-      { key: TestOperation.copy, name: i18n.t('project:copy') },
-      { key: TestOperation.clip, name: i18n.t('project:cut') },
-      { key: TestOperation.paste, name: i18n.t('project:paste'), disabled: editMode === '' },
-      { key: TestOperation.delete, name: i18n.t('project:delete') },
-      { key: TestOperation.plan, name: i18n.t('project:add to test plan') },
+      { key: TestOperation.add, name: i18n.t('dop:new sub testset') },
+      { key: TestOperation.rename, name: i18n.t('dop:rename') },
+      { key: TestOperation.copy, name: i18n.t('dop:copy') },
+      { key: TestOperation.clip, name: i18n.t('dop:cut') },
+      { key: TestOperation.paste, name: i18n.t('dop:paste'), disabled: editMode === '' },
+      { key: TestOperation.delete, name: i18n.t('dop:delete') },
+      { key: TestOperation.plan, name: i18n.t('dop:add to test plan') },
     ],
     [TestSetMenuType.recycled]: [
-      { key: TestOperation.recover, name: i18n.t('project:recover to') },
-      { key: TestOperation.deleteEntirely, name: i18n.t('project:delete completely') },
+      { key: TestOperation.recover, name: i18n.t('dop:recover to') },
+      { key: TestOperation.deleteEntirely, name: i18n.t('dop:delete completely') },
     ],
   };
   return menuItemsMap[type];
@@ -119,9 +119,9 @@ const Title = ({
         break;
       case TestOperation.delete:
         Modal.confirm({
-          title: i18n.t('project:delete'),
+          title: i18n.t('dop:delete'),
           content:
-            i18n.t('project:Deleting will put the current test set and included test cases into the recycle bin.') +
+            i18n.t('dop:Deleting will put the current test set and included test cases into the recycle bin.') +
             i18n.t('are you sure?'),
           onOk: () => {
             deleteTestSetToRecycle(id).then(() => {
@@ -132,8 +132,8 @@ const Title = ({
         break;
       case TestOperation.deleteEntirely:
         Modal.confirm({
-          title: i18n.t('project:delete'),
-          content: i18n.t('project:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
+          title: i18n.t('dop:delete'),
+          content: i18n.t('dop:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
           onOk: () => {
             deleteTestSetEntirely(id).then(() => {
               onOperateNode(eventKey, TestOperation.deleteEntirely);
@@ -188,7 +188,7 @@ const Title = ({
     const name: string = inputRef.current?.input.value;
     if (name) {
       if (includes(name, '/') || includes(name, '\\')) {
-        message.error(i18n.t('project:The name cannot contain forward and backward slashes. Please enter again.'));
+        message.error(i18n.t('dop:The name cannot contain forward and backward slashes. Please enter again.'));
         return;
       }
       if (!includes(eventKey, TEMP_MARK)) {
@@ -206,7 +206,7 @@ const Title = ({
         onUpdateNode(eventKey, +info.id, info.name);
       });
     } else {
-      message.warning(i18n.t('project:name is required'));
+      message.warning(i18n.t('dop:name is required'));
     }
   };
 
@@ -224,8 +224,8 @@ const Title = ({
         domEvent.stopPropagation();
         if (key === 'delete') {
           Modal.confirm({
-            title: i18n.t('project:delete'),
-            content: i18n.t('project:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
+            title: i18n.t('dop:delete'),
+            content: i18n.t('dop:It cannot be restored if completely deleted.') + i18n.t('is it confirmed?'),
             onOk: () => {
               customClickDic[key](id).then(() => {
                 onOperateNode(eventKey, TestOperation.deleteEntirely);
@@ -276,7 +276,7 @@ const Title = ({
           size="small"
           defaultValue={value}
           maxLength={50}
-          placeholder={i18n.t('project:enter test set name')}
+          placeholder={i18n.t('dop:enter test set name')}
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />

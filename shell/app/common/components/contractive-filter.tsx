@@ -153,7 +153,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     options,
     required,
     customProps,
-    emptyText = i18n.t('application:all'),
+    emptyText = i18n.t('dop:all'),
     getComp,
   } = itemData;
   const [filterMap, setFilterMap] = React.useState({});

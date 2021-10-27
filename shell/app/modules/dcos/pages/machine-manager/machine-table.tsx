@@ -77,10 +77,10 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
       placement="top"
       title={
         unitType
-          ? `${i18n.t('org:allocation')}: ${getFormatter(unitType).format(request)} / ${getFormatter(unitType).format(
+          ? `${i18n.t('cmp:allocation')}: ${getFormatter(unitType).format(request)} / ${getFormatter(unitType).format(
               total,
             )}`
-          : `${i18n.t('org:allocation')}: ${round(request, 2)} ${unit} / ${round(total, 2)} ${unit}`
+          : `${i18n.t('cmp:allocation')}: ${round(request, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
       <div
@@ -146,7 +146,7 @@ class Operation extends React.PureComponent<IOperation> {
     confirm({
       className: 'terminal-confirm-modal',
       content,
-      title: i18n.t('org:confirm login config'),
+      title: i18n.t('cmp:confirm login config'),
       onOk: this.openTerminal,
       onCancel: this.resetDefaultUserInfo,
     });
@@ -510,7 +510,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('org:number of instance'),
+      title: i18n.t('cmp:number of instance'),
       dataIndex: 'tasks',
       width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
@@ -567,7 +567,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('org:Disk usage'),
+      title: i18n.t('cmp:Disk usage'),
       width: 120,
       dataIndex: 'diskProportion',
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) =>
@@ -620,7 +620,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 setmachineOffLineVis(true);
               }}
             >
-              {i18n.t('org:offline')}
+              {i18n.t('cmp:offline')}
             </span>
           </TableActions>
         );

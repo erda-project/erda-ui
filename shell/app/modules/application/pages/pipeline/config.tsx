@@ -22,12 +22,12 @@ export const SCOPE_APP_PIPELINE = 'project-app';
 
 export const scopeMap = {
   autoTest: {
-    name: i18n.t('project:test case'),
+    name: i18n.t('dop:test case'),
     scope: SCOPE_AUTOTEST,
     icon: 'test-case-secondary',
   },
   autoTestPlan: {
-    name: i18n.t('project:test plan'),
+    name: i18n.t('dop:test plan'),
     scope: SCOPE_AUTOTEST_PLAN,
     icon: 'imagevector',
   },
@@ -37,7 +37,7 @@ export const scopeMap = {
     icon: 'liushuixianmoban',
   },
   appPipeline: {
-    name: i18n.t('project:application pipeline'),
+    name: i18n.t('dop:application pipeline'),
     scope: SCOPE_APP_PIPELINE,
     icon: 'liushuixian2',
   },

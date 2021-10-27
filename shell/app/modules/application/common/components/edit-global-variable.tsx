@@ -71,7 +71,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
           rules={[
             {
               required: true,
-              message: i18n.t('application:environment variables cannot be empty'),
+              message: i18n.t('dop:environment variables cannot be empty'),
             },
           ]}
         >
@@ -83,14 +83,14 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
     return (
       <Form ref={this.formRef} className="global-input-form">
         <div className="global-input-form-title">
-          {i18n.t('application:global environment variable')}
+          {i18n.t('dop:global environment variable')}
           {editing ? <IconPlus className="variable-icon cursor-pointer" onClick={this.addNewVariable} /> : null}
         </div>
         {content}
         <div className="mt-3">
           {editing ? (
             <Button type="primary" ghost onClick={this.onSubmit}>
-              {i18n.t('application:save')}
+              {i18n.t('dop:save')}
             </Button>
           ) : null}
         </div>
@@ -124,7 +124,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
             form?.setFields({
               [originKey]: {
                 value: item,
-                errors: [new Error(i18n.t('application:environment variables cannot be empty'))],
+                errors: [new Error(i18n.t('dop:environment variables cannot be empty'))],
               },
             });
           }

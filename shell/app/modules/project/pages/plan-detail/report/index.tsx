@@ -37,7 +37,7 @@ const DetailIntro = () => {
 
   const handleSummary = (v: string) => {
     if (v.length > 7000) {
-      message.warning(i18n.t('project:content should not exceed 7000'));
+      message.warning(i18n.t('dop:content should not exceed 7000'));
       return;
     }
     updateSummary({ summary: v });
@@ -46,31 +46,31 @@ const DetailIntro = () => {
   return (
     <div id="report-page" className="report-page">
       <div className="section-title">
-        <span>{i18n.t('project:test report details')}</span>
-        <ExportPdf domId="report-page" tip={i18n.t('project:test report')}>
+        <span>{i18n.t('dop:test report details')}</span>
+        <ExportPdf domId="report-page" tip={i18n.t('dop:test report')}>
           {({ exportPdf }) => (
             <span className="text-sm cursor-pointer text-primary" onClick={() => exportPdf()}>
               <IconUpload />
-              {i18n.t('project:export report')}
+              {i18n.t('dop:export report')}
             </span>
           )}
         </ExportPdf>
       </div>
-      <div className="sub-section-title">{i18n.t('project:basic information')}</div>
+      <div className="sub-section-title">{i18n.t('dop:basic information')}</div>
       <BasicInfo />
-      <div className="sub-section-title">{i18n.t('project:overview')}</div>
+      <div className="sub-section-title">{i18n.t('overview')}</div>
       <NumberInfo />
-      <div className="sub-section-title">{i18n.t('project:test summary')}</div>
+      <div className="sub-section-title">{i18n.t('dop:test summary')}</div>
       <MarkdownEditor
         value={get(planReport, 'testPlan.summary', '')}
         onBlur={handleSummary}
         maxLength={2000}
-        placeholder={i18n.t('project:no content yet')}
+        placeholder={i18n.t('dop:no content yet')}
       />
       {/* <EditReport projectId={projectId} testPlanId={testPlanId} /> */}
-      <div className="sub-section-title">{i18n.t('project:use case execution result distribution')}</div>
+      <div className="sub-section-title">{i18n.t('dop:use case execution result distribution')}</div>
       <ChartsResult />
-      <div className="sub-section-title">{i18n.t('project:summary of individual use case execution')}</div>
+      <div className="sub-section-title">{i18n.t('dop:summary of individual use case execution')}</div>
       <PersonalUseCase />
       {/* <div className="sub-section-title">未关闭缺陷列表</div> */}
       {/* <DefectTable

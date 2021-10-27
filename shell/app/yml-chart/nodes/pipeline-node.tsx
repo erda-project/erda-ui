@@ -39,7 +39,7 @@ export const PipelineNode = (props: IProps) => {
         }
       }}
     >
-      <Menu.Item key="delete">{i18n.t('application:delete')}</Menu.Item>
+      <Menu.Item key="delete">{i18n.t('dop:delete')}</Menu.Item>
     </Menu>
   );
 

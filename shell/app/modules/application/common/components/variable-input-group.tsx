@@ -64,7 +64,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           className="variable-input"
           value={key}
           onChange={this.changeKey}
-          placeholder={i18n.t('application:please enter the key')}
+          placeholder={i18n.t('dop:please enter the key')}
         />
         <span className="variable-equal">=</span>
         <Input
@@ -72,7 +72,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           className="variable-input"
           value={value}
           onChange={this.changeValue}
-          placeholder={i18n.t('application:please input the value')}
+          placeholder={i18n.t('dop:please input the value')}
         />
         {lock !== false ? <IconLock className="variable-icon variable-input-lock" /> : null}
         {disabled ? null : (

@@ -36,7 +36,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
     //   itemProps: { type: 'hidden' },
     // },
     {
-      label: i18n.t('org:allocation component node'),
+      label: i18n.t('cmp:allocation component node'),
       name: `${formPrefix}.assignNodes.nexus`,
       itemProps: {
         placeholder: i18n.t('nexus:'),
@@ -45,11 +45,11 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
         {
           validator: (_rule: any, value: any, callback: Function) => {
             let pass = true;
-            let errorMsg = i18n.t('org:please input correct IP');
+            let errorMsg = i18n.t('cmp:please input correct IP');
             if (!regRulesMap.ip.pattern.test(value)) {
               pass = false;
             } else {
-              errorMsg = i18n.t('org:The allocated node should be a certain one in the node list. Please check.');
+              errorMsg = i18n.t('cmp:The allocated node should be a certain one in the node list. Please check.');
             }
             const nodes = form.getFieldValue(['config', 'nodes']);
             if (nodes && pass) {
@@ -63,30 +63,30 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
       ],
     },
     {
-      label: i18n.t('org:extensive domain'),
+      label: i18n.t('cmp:extensive domain'),
       name: `${formPrefix}.wildcardDomain`,
       rules: [{ ...regRulesMap.wildcardDomain }],
     },
     {
-      label: i18n.t('org:whether to use the mixed master node'),
+      label: i18n.t('cmp:whether to use the mixed master node'),
       name: `${formPrefix}.acceptMaster`,
       initialValue: false,
       type: 'switch',
     },
     {
-      label: i18n.t('org:whether to use mixed lb nodes'),
+      label: i18n.t('cmp:whether to use mixed lb nodes'),
       name: `${formPrefix}.acceptLB`,
       initialValue: false,
       type: 'switch',
     },
     {
-      label: i18n.t('org:absolute path for local data storage'),
+      label: i18n.t('cmp:absolute path for local data storage'),
       name: `${formPrefix}.dataRoot`,
       initialValue: '/data',
       rules: [{ ...regRulesMap.absolutePath }],
     },
     {
-      label: i18n.t('org:lb access protocol'),
+      label: i18n.t('cmp:lb access protocol'),
       name: `${formPrefix}.scheme`,
       type: 'radioGroup',
       initialValue: 'http',
@@ -99,23 +99,23 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
       },
     },
     {
-      label: i18n.t('org:lb access port '),
+      label: i18n.t('cmp:lb access port '),
       name: `${formPrefix}.port`,
       initialValue: 80,
       rules: [{ ...regRulesMap.port }],
     },
     {
-      label: i18n.t('org:image host'),
+      label: i18n.t('cmp:image host'),
       name: `${formPrefix}.registryHost`,
     },
     {
-      label: i18n.t('org:platform-vpn client network segment'),
+      label: i18n.t('cmp:platform-vpn client network segment'),
       name: `${formPrefix}.openvpn.peerSubnet`,
       initialValue: '10.99.99.0/24',
       rules: [{ ...regRulesMap.subnet }],
     },
     {
-      label: i18n.t('org:platform-vpn network segment'),
+      label: i18n.t('cmp:platform-vpn network segment'),
       name: `${formPrefix}.openvpn.subnets`,
       type: 'select',
       required: false,
@@ -123,7 +123,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
         mode: 'tags',
         tokenSeparators: [';'],
         dropdownStyle: { display: 'none' },
-        placeholder: i18n.t('org:Please input client segment, separated by pressing Enter or semicolon.'),
+        placeholder: i18n.t('cmp:Please input client segment, separated by pressing Enter or semicolon.'),
       },
       rules: [
         {
@@ -137,7 +137,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
             }
             return pass
               ? callback()
-              : callback(i18n.t('org:Please fill in the correct network segment, separated by pressing Enter.'));
+              : callback(i18n.t('cmp:Please fill in the correct network segment, separated by pressing Enter.'));
           },
         },
       ],
@@ -145,42 +145,42 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
   ];
   const MySQLField = [
     {
-      label: i18n.t('org:MySQL Host'),
+      label: i18n.t('cmp:MySQL Host'),
       name: `${formPrefix}.mysql.host`,
       required: false,
       rules: [{ ...regRulesMap.ip }],
     },
     {
-      label: i18n.t('org:MySQL Port'),
+      label: i18n.t('cmp:MySQL Port'),
       name: `${formPrefix}.mysql.port`,
       initialValue: 3306,
       required: false,
       rules: [{ ...regRulesMap.port }],
     },
     {
-      label: i18n.t('org:MySQL User'),
+      label: i18n.t('cmp:MySQL User'),
       required: false,
       name: `${formPrefix}.mysql.username`,
     },
     {
-      label: i18n.t('org:MySQL Password'),
+      label: i18n.t('cmp:MySQL Password'),
       required: false,
       name: `${formPrefix}.mysql.password`,
     },
     {
-      label: i18n.t('org:MySQL Erda database'),
+      label: i18n.t('cmp:MySQL Erda database'),
       required: false,
       name: `${formPrefix}.mysql.diceDB`,
       initialValue: 'dice',
     },
     {
-      label: i18n.t('org:MySQL pandora name'),
+      label: i18n.t('cmp:MySQL pandora name'),
       required: false,
       name: `${formPrefix}.mysql.pandoraDB`,
       initialValue: 'pandora',
     },
     {
-      label: i18n.t('org:MySQL sonar name'),
+      label: i18n.t('cmp:MySQL sonar name'),
       required: false,
       name: `${formPrefix}.mysql.sonarDB`,
       initialValue: 'sonar',

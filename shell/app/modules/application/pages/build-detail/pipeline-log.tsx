@@ -90,7 +90,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
         <Tooltip
           title={
             isBuilding
-              ? `${i18n.t('application:refresh every {time}, click to refresh now', {
+              ? `${i18n.t('dop:refresh every {time}, click to refresh now', {
                   time: `${DURATION / 1000} ${i18n.t('common:second(s)')}`,
                 })}`
               : i18n.t('refresh')

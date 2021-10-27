@@ -54,7 +54,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     return (
       <div>
         <div>
-          <span className="edit-service-label">cpu {i18n.t('application:cores')}: </span>
+          <span className="edit-service-label">cpu {i18n.t('dop:cores')}: </span>
           <span>
             <InputNumber
               disabled={disabled}
@@ -65,7 +65,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           </span>
         </div>
         <div>
-          <span className="edit-service-label">{i18n.t('application:memory size')}(M): </span>
+          <span className="edit-service-label">{i18n.t('dop:memory size')}(M): </span>
           <span>
             <InputNumber
               disabled={disabled}
@@ -76,7 +76,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           </span>
         </div>
         <div>
-          <span className="edit-service-label">{i18n.t('application:disk size')}(M): </span>
+          <span className="edit-service-label">{i18n.t('dop:disk size')}(M): </span>
           <span>
             <InputNumber
               disabled={disabled}
@@ -88,7 +88,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         </div>
         {/** 2021.3  前后端的network不一致，经确认，是个无效配置（后端暂未支持），先去除 */}
         {/* <div>
-          <span className="edit-service-label">{i18n.t('application:network configuration')}: </span>
+          <span className="edit-service-label">{i18n.t('dop:network configuration')}: </span>
           <span>
             <Select
               disabled={disabled}

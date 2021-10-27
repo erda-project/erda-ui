@@ -93,7 +93,7 @@ export const Milestone = () => {
       {
         key: 'title',
         label: i18n.t('title'),
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         fixed: true,
         showIndex: 2,
         placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
@@ -101,29 +101,29 @@ export const Milestone = () => {
       },
       {
         key: 'label',
-        label: i18n.t('project:label'),
-        emptyText: i18n.t('application:all'),
+        label: i18n.t('dop:label'),
+        emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 3,
         haveFilter: true,
         type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:label') }),
         options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
       },
       {
         key: 'priority',
-        label: i18n.t('project:priority'),
-        emptyText: i18n.t('application:all'),
+        label: i18n.t('dop:priority'),
+        emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 4,
         type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:priority') }),
         options: map(ISSUE_PRIORITY_MAP),
       },
       {
         key: 'assignee',
-        label: i18n.t('project:assignee'),
-        emptyText: i18n.t('application:all'),
+        label: i18n.t('dop:assignee'),
+        emptyText: i18n.t('dop:all'),
         fixed: false,
         showIndex: 5,
         customProps: {
@@ -170,7 +170,7 @@ export const Milestone = () => {
         <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
         <WithAuth pass={epicAuth.create.pass} tipProps={{ placement: 'bottom' }}>
           <Button className="top-button-group" type="primary" onClick={() => updater.modalVisible(true)}>
-            {i18n.t('project:create milestone')}
+            {i18n.t('dop:create milestone')}
           </Button>
         </WithAuth>
       </div>

@@ -27,7 +27,7 @@ import orgStore from 'app/org-home/stores/org';
 import { AliCloudFormPreview } from './index';
 
 const cloudVendorMap = {
-  name: i18n.t('org:Alibaba Cloud container service cluster'),
+  name: i18n.t('cmp:Alibaba Cloud container service cluster'),
   initValue: {
     vpcCIDR: '192.168.0.0/16',
     vSwitchCIDR: '192.168.0.0/18',
@@ -85,7 +85,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
   };
 
   const vpcCIDRField = {
-    label: i18n.t('org:VPC network segment'),
+    label: i18n.t('cmp:VPC network segment'),
     component: 'input',
     key: 'vpcCIDR',
     disabled: getFormData('isNewVpc') === 'exist',
@@ -101,7 +101,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
   };
 
   const vSwitchCIDRField = {
-    label: i18n.t('org:switch network segment'),
+    label: i18n.t('cmp:switch network segment'),
     component: 'input',
     key: 'vSwitchCIDR',
     required: true,
@@ -113,7 +113,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
 
   const fields = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('org:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('cmp:cluster') }),
       component: 'input',
       key: 'clusterName',
       rules: [
@@ -121,18 +121,18 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
         {
           validator: (v: any) => {
             const curCluster = find(clusterList, { name: v });
-            return [!curCluster, i18n.t('org:cluster already existed')];
+            return [!curCluster, i18n.t('cmp:cluster already existed')];
           },
         },
       ],
       componentProps: {
-        placeholder: i18n.t('org:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
+        placeholder: i18n.t('cmp:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
       },
       required: true,
       category: 'basic',
     },
     {
-      label: i18n.t('org:cluster name'),
+      label: i18n.t('cmp:cluster name'),
       component: 'input',
       key: 'displayName',
       rules: [
@@ -146,7 +146,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:extensive domain'),
+      label: i18n.t('cmp:extensive domain'),
       component: 'input',
       key: 'rootDomain',
       rules: [
@@ -182,7 +182,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:cluster specifications'),
+      label: i18n.t('cmp:cluster specifications'),
       component: 'radio',
       key: 'clusterSpec',
       componentProps: {
@@ -201,7 +201,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:billing method'),
+      label: i18n.t('cmp:billing method'),
       component: 'radio',
       key: 'chargeType',
       componentProps: {
@@ -215,7 +215,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:purchase time'),
+      label: i18n.t('cmp:purchase time'),
       component: 'select',
       key: 'chargePeriod',
       required: true,
@@ -235,7 +235,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'basic',
     },
     {
-      label: i18n.t('org:whether to enable https'),
+      label: i18n.t('cmp:whether to enable https'),
       component: 'switch',
       key: 'enableHttps',
       required: true,
@@ -378,7 +378,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
     },
     vSwitchCIDRField,
     {
-      label: i18n.t('org:Pod network segment'),
+      label: i18n.t('cmp:Pod network segment'),
       component: 'input',
       key: 'podCIDR',
       defaultValue: getFormData('isNewVpc') === 'exist' ? undefined : get(cloudVendorMap, 'initValue.podCIDR'),
@@ -386,7 +386,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       category: 'more',
     },
     {
-      label: i18n.t('org:Service network segment'),
+      label: i18n.t('cmp:Service network segment'),
       component: 'input',
       key: 'serviceCIDR',
       defaultValue: get(cloudVendorMap, 'initValue.serviceCIDR'),
@@ -475,7 +475,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
                 <RenderFields form={form} fields={basicFields} />
                 {region ? (
                   <>
-                    <div className="font-bold">{i18n.t('application:more settings')}</div>
+                    <div className="font-bold">{i18n.t('dop:more settings')}</div>
                     <RenderFields form={form} fields={moreFields} />
                   </>
                 ) : null}

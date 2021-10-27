@@ -126,7 +126,7 @@ const CreationForm = () => {
       extraProps: fieldExtraProps,
     },
     {
-      label: i18n.t('project:app types'),
+      label: i18n.t('dop:app types'),
       name: 'mode',
       type: 'radioGroup',
       options: useOption,
@@ -151,7 +151,7 @@ const CreationForm = () => {
       },
     },
     {
-      label: i18n.t('project:application name'),
+      label: i18n.t('dop:application name'),
       name: 'name',
       itemProps: {
         placeholder: i18n.t('project-app-name-tip'),
@@ -165,7 +165,7 @@ const CreationForm = () => {
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
             if (value && value.toLowerCase().endsWith('_ability')) {
-              return callback(i18n.t('project:The name is reserved internally. Please change the name.'));
+              return callback(i18n.t('dop:The name is reserved internally. Please change the name.'));
             }
             callback();
           },
@@ -188,7 +188,7 @@ const CreationForm = () => {
             initialValue: '-1',
             options: map(template, (item) => item),
             itemProps: {
-              placeholder: i18n.t('application:please choose'),
+              placeholder: i18n.t('dop:please choose'),
               onChange: (v) => {
                 const form = formRef.current;
                 // 选择模板后，只能使用内置仓库
@@ -204,12 +204,12 @@ const CreationForm = () => {
           ...(tempSelected !== '-1'
             ? [
                 {
-                  label: i18n.t('project:displayed name'),
+                  label: i18n.t('dop:displayed name'),
                   name: 'mobileDisplayName',
                   type: 'input',
                   pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/,
                   itemProps: {
-                    placeholder: i18n.t('project:chinese, letters, numbers'),
+                    placeholder: i18n.t('dop:chinese, letters, numbers'),
                     maxLength: 30,
                   },
                 },
@@ -224,7 +224,7 @@ const CreationForm = () => {
                   },
                 },
                 {
-                  label: `${i18n.t('project:package name')}`,
+                  label: `${i18n.t('dop:package name')}`,
                   name: 'packageName',
                   type: 'input',
                   pattern: /^[a-zA-Z][0-9a-zA-Z_]*(\.[a-zA-Z][0-9a-zA-Z_]*)+$/,
@@ -238,14 +238,14 @@ const CreationForm = () => {
         ]
       : []),
     {
-      label: i18n.t('project:application description'),
+      label: i18n.t('dop:application description'),
       name: 'desc',
       type: 'textArea',
       required: false,
       itemProps: { rows: 4, maxLength: 200, style: { resize: 'none' } },
     },
     {
-      label: i18n.t('project:app logo'),
+      label: i18n.t('dop:app logo'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
@@ -253,11 +253,11 @@ const CreationForm = () => {
     ...insertWhen(mode !== appMode.PROJECT_SERVICE, [
       {
         label: '',
-        getComp: () => <div>{i18n.t('project:repository information')}</div>,
+        getComp: () => <div>{i18n.t('dop:repository information')}</div>,
         extraProps: fieldExtraProps,
       },
       {
-        label: i18n.t('project:repository'),
+        label: i18n.t('repository'),
         name: ['repoConfig', 'type'],
         type: 'select',
         initialValue: RepositoryMode.Internal,
@@ -288,22 +288,22 @@ const CreationForm = () => {
                 showIcon
                 type="warning"
                 message={i18n.t(
-                  'application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',
+                  'dop:It is recommended to use sources in the same region. Otherwise it may cause request timeout.',
                 )}
               />
             ),
           },
           {
-            label: i18n.t('project:repository address'),
+            label: i18n.t('dop:repository address'),
             name: ['repoConfig', 'url'],
             rules: [
               {
                 pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,256}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-                message: i18n.t('project:please enter valid repository address'),
+                message: i18n.t('dop:please enter valid repository address'),
               },
             ],
             itemProps: {
-              placeholder: i18n.t('project:Please enter the repository address started with http or https.'),
+              placeholder: i18n.t('dop:Please enter the repository address started with http or https.'),
             },
           },
           {
@@ -323,7 +323,7 @@ const CreationForm = () => {
             },
           },
           {
-            label: i18n.t('project:repository description'),
+            label: i18n.t('dop:repository description'),
             type: 'textArea',
             name: ['repoConfig', 'desc'],
             required: false,

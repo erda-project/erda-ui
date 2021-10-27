@@ -22,8 +22,8 @@ import routeInfoStore from 'core/stores/route';
 
 const setup = {
   type: 'dataTask',
-  addTitle: i18n.t('application:new task'),
-  categoryTitle: i18n.t('application:all tasks'),
+  addTitle: i18n.t('dop:new task'),
+  categoryTitle: i18n.t('dop:all tasks'),
   iconType: 'rw',
 };
 
@@ -63,7 +63,7 @@ export const DataTask = () => {
     return (
       <Modal
         width={800}
-        title={i18n.t('application:choose the workflow file (master branch)')}
+        title={i18n.t('dop:choose the workflow file (master branch)')}
         visible={modalVisible}
         destroyOnClose
         footer={null}

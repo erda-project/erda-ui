@@ -87,13 +87,13 @@ const AuditList = ({ sys }: { sys: boolean }) => {
 
   const columns = [
     {
-      title: i18n.t('org:operation time'),
+      title: i18n.t('cmp:operation time'),
       dataIndex: 'startTime',
       width: 180,
       render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('org:audit-operator'),
+      title: i18n.t('cmp:audit-operator'),
       dataIndex: 'userId',
       width: 150,
       render: (v: string) => {
@@ -101,7 +101,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
       },
     },
     {
-      title: i18n.t('org:operation'),
+      title: i18n.t('cmp:operation'),
       key: 'op',
       render: (val: string, r: AUDIT.Item) => {
         const content = auditTpl(r, extraTpls);

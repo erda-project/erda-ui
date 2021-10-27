@@ -76,31 +76,31 @@ const TestPlanModal = (props: IProps) => {
 
   const fieldsList: FormModalList = [
     {
-      label: i18n.t('project:plan name'),
+      label: i18n.t('dop:plan name'),
       name: 'name',
-      rules: [{ required: true, message: i18n.t('project:please fill in the test plan name') }],
+      rules: [{ required: true, message: i18n.t('dop:please fill in the test plan name') }],
       initialValue: planItem.name,
       itemProps: {
-        placeholder: i18n.t('project:add test plan name'),
+        placeholder: i18n.t('dop:add test plan name'),
         maxLength: 50,
       },
     },
     {
-      label: i18n.t('project:principal'),
+      label: i18n.t('dop:principal'),
       name: 'ownerID',
-      rules: [{ required: true, message: i18n.t('project:please add a test leader') }],
+      rules: [{ required: true, message: i18n.t('dop:please add a test leader') }],
       initialValue: planItem.ownerID,
       getComp: () => <MemberSelector allowClear={false} scopeType="project" scopeId={params.projectId} />,
     },
     {
-      label: i18n.t('project:participant'),
+      label: i18n.t('dop:participant'),
       name: 'partnerIDs',
       rules: [
-        { required: true, message: i18n.t('project:please add test participants') },
+        { required: true, message: i18n.t('dop:please add test participants') },
         {
           validator: (_rule: any, value: any, callback: Function) => {
             if (value && value.length > 60) {
-              callback(i18n.t("project:can't exceed 60 people"));
+              callback(i18n.t("dop:can't exceed 60 people"));
               return;
             }
             callback();
@@ -114,12 +114,12 @@ const TestPlanModal = (props: IProps) => {
       getComp: () => <MemberSelector mode="multiple" scopeId={params.projectId} scopeType="project" />,
     },
     {
-      label: i18n.t('project:owned iteration'),
+      label: i18n.t('dop:owned iteration'),
       name: 'iterationID',
       type: 'select',
       options: iterationList.map((iteration) => ({ name: iteration.title, value: iteration.id })),
       itemProps: {
-        placeholder: i18n.t('project:select iteration'),
+        placeholder: i18n.t('dop:select iteration'),
         allowClear: true,
       },
     },
@@ -128,10 +128,10 @@ const TestPlanModal = (props: IProps) => {
     <FormModal
       title={
         mode === 'copy'
-          ? i18n.t('project:copy and create a new plan')
+          ? i18n.t('dop:copy and create a new plan')
           : testPlanId
-          ? i18n.t('project:edit test plan')
-          : i18n.t('project:new test plan')
+          ? i18n.t('dop:edit test plan')
+          : i18n.t('dop:new test plan')
       }
       visible={visible}
       onOk={handleOk}

@@ -52,8 +52,8 @@ enum SilencePeriodType {
 }
 
 const SILENCE_PERIOD_POLICY_MAP = {
-  [SilencePeriodType.FIXED]: i18n.t('org:fixed'),
-  [SilencePeriodType.DOUBLED]: i18n.t('org:doubled'),
+  [SilencePeriodType.FIXED]: i18n.t('cmp:fixed'),
+  [SilencePeriodType.DOUBLED]: i18n.t('cmp:doubled'),
 };
 
 const alarmStrategyStoreMap = {
@@ -230,7 +230,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const columns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IFormRule>> = [
     {
-      title: i18n.t('org:rule name'),
+      title: i18n.t('cmp:rule name'),
       dataIndex: 'alertIndex',
       render: (value: string, { key }) => (
         <Select
@@ -252,7 +252,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: `${i18n.t('org:duration')}(min)`,
+      title: `${i18n.t('cmp:duration')}(min)`,
       dataIndex: 'window',
       width: 130,
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
@@ -269,7 +269,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: i18n.t('org:aggregation rules'),
+      title: i18n.t('cmp:aggregation rules'),
       dataIndex: 'functions',
       width: 410,
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
@@ -307,7 +307,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     // {
-    //   title: i18n.t('org:alarm after recovery'),
+    //   title: i18n.t('cmp:alarm after recovery'),
     //   dataIndex: 'isRecover',
     //   width: 105,
     //   render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => <Switch checked={isRecover} onChange={checked => handleEditEditingRule(key, { key: 'isRecover', value: checked })} />,
@@ -334,7 +334,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   let fieldsList = [
     {
-      label: i18n.t('org:alarm name'),
+      label: i18n.t('cmp:alarm name'),
       name: 'name',
       itemProps: {
         disabled: !isEmpty(state.editingFormRule),
@@ -343,7 +343,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       initialValue: state.editingFormRule.name,
     },
     {
-      label: i18n.t('org:alarm rule'),
+      label: i18n.t('cmp:alarm rule'),
       name: 'expressions',
       required: false,
       getComp: () => (
@@ -368,10 +368,10 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                 </div>
               }
             >
-              <Button className="mr-2">{i18n.t('org:type template')}</Button>
+              <Button className="mr-2">{i18n.t('cmp:type template')}</Button>
             </Popover>
             <Button type="primary" ghost onClick={handleAddEditingRule}>
-              {i18n.t('org:add rule')}
+              {i18n.t('cmp:add rule')}
             </Button>
           </div>
           <Table
@@ -387,7 +387,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      label: i18n.t('org:silence period'),
+      label: i18n.t('cmp:silence period'),
       name: 'silence',
       initialValue: state.editingFormRule.notifies
         ? `${state.editingFormRule.notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
@@ -405,7 +405,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       options: map(SILENCE_PERIOD_POLICY_MAP, (name, value) => ({ name, value })),
     },
     {
-      label: i18n.t('org:select group'),
+      label: i18n.t('cmp:select group'),
       name: 'groupId',
       initialValue: state.activedGroupId,
       config: {
@@ -430,7 +430,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                         goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
                       }}
                     >
-                      {i18n.t('org:add more notification groups')}
+                      {i18n.t('cmp:add more notification groups')}
                     </span>
                   </WithAuth>
                 </div>
@@ -450,7 +450,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   if (scopeType === ScopeType.ORG) {
     fieldsList.splice(1, 0, {
-      label: i18n.t('org:alarm cluster'),
+      label: i18n.t('cmp:alarm cluster'),
       name: 'clusterName',
       type: 'select',
       initialValue: state.editingFormRule.clusterName,
@@ -482,7 +482,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ...fieldsList,
       {
         name: 'groupType',
-        label: i18n.t('application:notification method'),
+        label: i18n.t('dop:notification method'),
         required: true,
         type: 'select',
         initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
@@ -550,8 +550,8 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const handleDeleteAlarm = (id: number) => {
     confirm({
-      title: i18n.t('application:are you sure you want to delete this item?'),
-      content: i18n.t('application:the notification will be permanently deleted'),
+      title: i18n.t('dop:are you sure you want to delete this item?'),
+      content: i18n.t('dop:the notification will be permanently deleted'),
       onOk() {
         deleteAlert(id);
       },
@@ -602,7 +602,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const beforeSubmit = async (param: any) => {
     if (isEmpty(state.editingRules)) {
       warning({
-        title: i18n.t('org:create at least one rule'),
+        title: i18n.t('cmp:create at least one rule'),
       });
       return null;
     }
@@ -613,7 +613,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     });
     if (!isLegalFunctions) {
       warning({
-        title: i18n.t('org:rule value cannot be empty'),
+        title: i18n.t('cmp:rule value cannot be empty'),
       });
       return null;
     }
@@ -635,13 +635,13 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const alartListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
     {
-      title: i18n.t('org:alarm name'),
+      title: i18n.t('cmp:alarm name'),
       dataIndex: 'name',
       width: 150,
     },
     ...insertWhen(scopeType === ScopeType.ORG, [
       {
-        title: i18n.t('org:cluster'),
+        title: i18n.t('cmp:cluster'),
         dataIndex: 'clusterNames',
         width: 200,
         render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
@@ -662,7 +662,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       className: 'notify-info',
       ellipsis: true,
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
-        const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
+        const tips = i18n.t('cmp:Notification group does not exist or has been remove. Please change one.');
         return (
           <div className="flex-div flex">
             {isEmpty(notifyGroup) ? (
@@ -690,7 +690,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEditALarm(record.id)}>
-              {i18n.t('application:edit')}
+              {i18n.t('dop:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -698,7 +698,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                 handleDeleteAlarm(record.id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('dop:delete')}
             </span>
             <Switch
               size="small"
@@ -727,14 +727,14 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
             openModal();
           }}
         >
-          {i18n.t('org:new strategy')}
+          {i18n.t('cmp:new strategy')}
         </Button>
         <FormModal
           loading={getAlertDetailLoading}
           width={1000}
           visible={modalVisible}
           onCancel={handleCloseModal}
-          title={isEmpty(state.editingFormRule) ? i18n.t('org:new strategy') : i18n.t('org:edit strategy')}
+          title={isEmpty(state.editingFormRule) ? i18n.t('cmp:new strategy') : i18n.t('cmp:edit strategy')}
           fieldsList={fieldsList}
           modalProps={{ destroyOnClose: true }}
           onOk={handleAddAlarm}

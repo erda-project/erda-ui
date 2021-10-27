@@ -74,7 +74,7 @@ const PipelineDetail = (props: IProps) => {
       // network blocked
       return {
         hasAuth: false,
-        authTip: i18n.t('application:Function unavailable in network block period.'),
+        authTip: i18n.t('dop:Function unavailable in network block period.'),
       };
     }
     if (!deployPerm[`${env.toLowerCase()}DeployOperation`]) {
@@ -96,7 +96,7 @@ const PipelineDetail = (props: IProps) => {
     if (!hasUseableYml) {
       return {
         hasAuth: false,
-        authTip: i18n.t('project:please add valid tasks to the pipeline below before operating'),
+        authTip: i18n.t('dop:please add valid tasks to the pipeline below before operating'),
       };
     }
     return { hasAuth: true };
@@ -106,7 +106,7 @@ const PipelineDetail = (props: IProps) => {
     // edit auth, same to repo
     const isProtectBranch = get(find(branchInfo, { name: branch }), 'isProtect');
     const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
-    const authTip = isProtectBranch ? i18n.t('application:branch is protected, you have no permission yet') : undefined;
+    const authTip = isProtectBranch ? i18n.t('dop:branch is protected, you have no permission yet') : undefined;
     return { hasAuth: branchAuth, authTip };
   };
 
@@ -141,13 +141,13 @@ const PipelineDetail = (props: IProps) => {
           canRunTest ? (
             <WithAuth pass={deployAuthObj.hasAuth} noAuthTip={deployAuthObj.authTip}>
               <Button type="primary" onClick={addNewPipeline}>
-                {i18n.t('application:add pipeline')}
+                {i18n.t('dop:add pipeline')}
               </Button>
             </WithAuth>
           ) : (
-            <Tooltip title={i18n.t('project:pipeline-run-tip')}>
+            <Tooltip title={i18n.t('dop:pipeline-run-tip')}>
               <Button type="primary" disabled>
-                {i18n.t('application:add pipeline')}
+                {i18n.t('dop:add pipeline')}
               </Button>
             </Tooltip>
           )

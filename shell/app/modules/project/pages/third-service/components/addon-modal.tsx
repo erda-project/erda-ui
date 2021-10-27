@@ -71,7 +71,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     });
     return [
       !!errorKeys.length,
-      i18n.t('project:parameter key can only contain letters, numbers, dots, underscores and hyphens', {
+      i18n.t('dop:parameter key can only contain letters, numbers, dots, underscores and hyphens', {
         keySeparator: '>',
       }),
     ];
@@ -167,10 +167,10 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     if (editData) {
       return [
         <Button key="cancel" onClick={() => this.handleCancel()}>
-          {i18n.t('project:cancel')}
+          {i18n.t('dop:cancel')}
         </Button>,
         <Button key="confirm" type="primary" onClick={() => this.handleOk()}>
-          {i18n.t('project:confirm')}
+          {i18n.t('dop:confirm')}
         </Button>,
       ];
     }
@@ -178,7 +178,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
       const currentAddon = this.getCurAddon();
       return [
         <Button key="cancel" onClick={() => this.handleCancel()}>
-          {i18n.t('project:cancel')}
+          {i18n.t('dop:cancel')}
         </Button>,
         // API 网关只有基础信息，不需要下一步
         currentAddon.vars === null || this.state.onlyOneStep ? (
@@ -188,24 +188,24 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             loading={this.state.submitLoading}
             onClick={() => this.handleSaveDiceAddons()}
           >
-            {i18n.t('project:confirm')}
+            {i18n.t('dop:confirm')}
           </Button>
         ) : (
           <Button key="next" type="primary" onClick={() => this.toStep(STEP.SECOND)}>
-            {i18n.t('project:next')}
+            {i18n.t('dop:next')}
           </Button>
         ),
       ];
     }
     return [
       <Button key="cancel" onClick={() => this.handleCancel()}>
-        {i18n.t('project:cancel')}
+        {i18n.t('dop:cancel')}
       </Button>,
       <Button key="prev" onClick={() => this.toStep(STEP.FIRST)}>
-        {i18n.t('project:previous')}
+        {i18n.t('dop:previous')}
       </Button>,
       <Button key="confirm" type="primary" loading={this.state.submitLoading} onClick={() => this.handleOk()}>
-        {i18n.t('project:confirm')}
+        {i18n.t('dop:confirm')}
       </Button>,
     ];
   };
@@ -266,9 +266,9 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         title={
           editData
             ? this.props.category === 'DATA_SOURCE'
-              ? i18n.t('project:edit custom data source')
-              : i18n.t('project:edit service instance')
-            : i18n.t('project:add service instance')
+              ? i18n.t('dop:edit custom data source')
+              : i18n.t('dop:edit service instance')
+            : i18n.t('dop:add service instance')
         }
         width={800}
         visible={visible}

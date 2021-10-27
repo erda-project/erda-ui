@@ -37,7 +37,7 @@ const LogFilter = (props: IProps) => {
   const fieldsList = [
     {
       name: 'timeSpan',
-      label: i18n.t('application:duration'),
+      label: i18n.t('dop:duration'),
       initialValue: [current.clone().subtract(10, 'minutes'), current],
       config: {
         valuePropType: 'array',

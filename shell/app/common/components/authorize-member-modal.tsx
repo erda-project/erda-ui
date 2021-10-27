@@ -103,7 +103,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
                 }
               }
             }}
-            placeholder={`${i18n.t('project:please set ')}`}
+            placeholder={`${i18n.t('dop:please set ')}`}
           >
             {map(roleMap, (v: string, k: string) => (
               <Option key={k} value={k}>
@@ -135,7 +135,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
         onSearch={(q) => load({ q, pageNo: 1 })}
         className="mb-3"
         allowClear
-        placeholder={i18n.t('project:search by application name')}
+        placeholder={i18n.t('dop:search by application name')}
       />
       <Table loading={loading} rowKey={'id'} pagination={pagination} columns={columns} dataSource={list} />
     </Modal>

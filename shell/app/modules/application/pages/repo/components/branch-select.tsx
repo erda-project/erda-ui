@@ -106,7 +106,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
     const tagList = tags.filter((t) => t.includes(filterKey));
     const commitList = commitId ? (
       <React.Fragment>
-        <div className="title">{i18n.t('application:commit')}</div>
+        <div className="title">{i18n.t('dop:commit')}</div>
         <ul>
           <li className="branch-item" onClick={() => onChange(commitId)}>
             {commitId === current ? <IconCheck /> : null}
@@ -120,9 +120,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
       <React.Fragment>
         <Search
           placeholder={
-            hideTagList
-              ? i18n.t('application:enter branch name to filter')
-              : i18n.t('application:enter branch or tag name to filter')
+            hideTagList ? i18n.t('dop:enter branch name to filter') : i18n.t('dop:enter branch or tag name to filter')
           }
           autoFocus
           onBlur={this.handleBlur}
@@ -132,7 +130,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
         <div className="list-wrap">
           {commitList}
           <div className="title">
-            {i18n.t('application:branch')} ({branchList.length})
+            {i18n.t('dop:branch')} ({branchList.length})
           </div>
           <ul>
             {branchList.map((branch) => (
@@ -145,7 +143,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
           {hideTagList ? null : (
             <>
               <div className="title">
-                {i18n.t('application:tag')} ({tagList.length})
+                {i18n.t('dop:tag')} ({tagList.length})
               </div>
               <ul>
                 {tagList.map((tag) => (
@@ -162,9 +160,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
 
     return (
       <Popover
-        title={
-          hideTagList ? i18n.t('application:please choose branch') : i18n.t('application:please choose branch or tag')
-        }
+        title={hideTagList ? i18n.t('dop:please choose branch') : i18n.t('dop:please choose branch or tag')}
         key={this.state.inputKey}
         overlayClassName="branch-select-popover"
         trigger="click"

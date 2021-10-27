@@ -71,7 +71,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
   const period =
     unBlockEnd && unBlockStart && scope === 'app' ? (
       <span className="text-desc ml-3">
-        {i18n.t('project:time period')}: {moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~
+        {i18n.t('dop:time period')}: {moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~
         {moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}
       </span>
     ) : null;
@@ -79,11 +79,11 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
   if (scope === 'project') {
     unBlock = canOperate ? (
       <span className="text-primary ml-3 unblock-btn" onClick={handleClick}>
-        {i18n.t('project:apply to deploy')}
+        {i18n.t('dop:apply to deploy')}
       </span>
     ) : (
       <Tooltip title={i18n.t('You do not have enough permissions')}>
-        <span className="not-allowed ml-3 unblock-btn">{i18n.t('project:apply to deploy')}</span>
+        <span className="not-allowed ml-3 unblock-btn">{i18n.t('dop:apply to deploy')}</span>
       </Tooltip>
     );
   }

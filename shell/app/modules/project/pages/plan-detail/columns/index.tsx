@@ -25,7 +25,7 @@ planDetailColumns.splice(
   4,
   0,
   {
-    title: i18n.t('project:interface pass rate'),
+    title: i18n.t('dop:interface pass rate'),
     dataIndex: 'apiPassedCount',
     key: 'apiPass',
     width: 140,
@@ -42,7 +42,7 @@ planDetailColumns.splice(
     },
   },
   {
-    title: i18n.t('project:executor'),
+    title: i18n.t('dop:executor'),
     dataIndex: 'executorID',
     key: 'executorID',
     width: 100,
@@ -54,7 +54,7 @@ export const getColumns = ({ afterDelete }: { afterDelete: (data: number[]) => v
   [
     ...planDetailColumns,
     {
-      title: i18n.t('project:operation'),
+      title: i18n.t('dop:operation'),
       dataIndex: 'operation',
       key: 'operation',
       width: 280,

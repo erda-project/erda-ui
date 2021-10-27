@@ -34,7 +34,7 @@ const ExportPdf = ({ domId, children, tip = 'pdf', onFinish }: IProps) => {
   const exportPdf = async () => {
     const page: Element | null = document.getElementById(domId);
     if (!page) {
-      message.error(`${i18n.t('project:there is no need to export')}${tip}！`);
+      message.error(`${i18n.t('dop:there is no need to export')}${tip}！`);
       return;
     }
     // XXX 2020/8/30 修复导出测试报告包含图片报错（临时方案）
@@ -51,7 +51,7 @@ const ExportPdf = ({ domId, children, tip = 'pdf', onFinish }: IProps) => {
       });
       mdContent.innerHTML = content;
     }
-    const exportLoading = message.loading(`${i18n.t('project:exporting')}: ${tip}...`, 0);
+    const exportLoading = message.loading(`${i18n.t('dop:exporting')}: ${tip}...`, 0);
     await loadJsFile(domToImageSrc);
     await loadJsFile(jsPdfSrc);
     const domToImage = window.domtoimage;
@@ -74,7 +74,7 @@ const ExportPdf = ({ domId, children, tip = 'pdf', onFinish }: IProps) => {
         onFinish?.();
       })
       .catch(() => {
-        message.error(i18n.t('project:sorry, export failed!'));
+        message.error(i18n.t('dop:sorry, export failed!'));
       })
       .finally(() => {
         mdContent.innerHTML = str;
@@ -82,7 +82,7 @@ const ExportPdf = ({ domId, children, tip = 'pdf', onFinish }: IProps) => {
   };
 
   if (typeof children !== 'function') {
-    return i18n.t('project:please pass in the method as the children of the exportPdf component');
+    return i18n.t('dop:please pass in the method as the children of the exportPdf component');
   }
 
   return children({ exportPdf });

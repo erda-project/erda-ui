@@ -93,23 +93,23 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId:
 
   return [
     {
-      text: i18n.t('application:code'),
+      text: i18n.t('dop:code'),
       href: getHref(currentBranch ? `/tree/${currentBranch}` : ''),
       isActive: (key: string) =>
         key === repoRoot || key.startsWith(`${repoRoot}/tree`) || key.startsWith(`${repoRoot}/backup`),
     },
     {
-      text: i18n.t('application:commit history'),
+      text: i18n.t('dop:commit history'),
       href: getHref(currentBranch ? `/commits/${currentBranch}` : '/commits/'),
       prefix: getHref('/commit'),
     },
     {
-      text: i18n.t('application:branch management'),
+      text: i18n.t('dop:branch management'),
       href: getHref(currentBranch ? `/branches?cb=${currentBranch}` : '/branches'),
       isActive: (key: string) => key.startsWith(`${repoRoot}/branches`) || key.startsWith(`${repoRoot}/tags`),
     },
     {
-      text: i18n.t('application:merge requests'),
+      text: i18n.t('dop:merge requests'),
       href: getHref(currentBranch ? `/mr/open?cb=${currentBranch}` : '/mr/open'),
       isActive: (key: string) => key.startsWith(`${repoRoot}/mr`),
     },
@@ -408,7 +408,7 @@ const repoStore = createStore({
             repoPrefix: appDetail.gitRepoAbbrev,
             ...payload,
           },
-          { successMsg: i18n.t('application:new branch added successfully') },
+          { successMsg: i18n.t('dop:new branch added successfully') },
         );
         const { appId } = getParams();
         setLS(`branch-${appId}`, payload.branch);
@@ -427,8 +427,8 @@ const repoStore = createStore({
           ...payload,
         },
         {
-          successMsg: i18n.t('application:branch deleted successfully'),
-          errorMsg: i18n.t('application:failed to delete branch'),
+          successMsg: i18n.t('dop:branch deleted successfully'),
+          errorMsg: i18n.t('dop:failed to delete branch'),
         },
       );
       await repoStore.effects.getListByType({ type: 'branch' });
@@ -448,7 +448,7 @@ const repoStore = createStore({
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
         },
-        { successMsg: i18n.t('default:deleted successfully'), errorMsg: i18n.t('application:failed to delete tag') },
+        { successMsg: i18n.t('default:deleted successfully'), errorMsg: i18n.t('dop:failed to delete tag') },
       );
       await repoStore.effects.getListByType({ type: 'tag' });
     },
@@ -473,7 +473,7 @@ const repoStore = createStore({
           repoPrefix: appDetail.gitRepoAbbrev,
           branch,
         },
-        { successMsg: i18n.t('application:set default branch successfully') },
+        { successMsg: i18n.t('dop:set default branch successfully') },
       );
       const curBranches = select((s) => s.branch);
       update({
@@ -679,7 +679,7 @@ const repoStore = createStore({
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
         },
-        { successMsg: i18n.t('application:added successfully'), errorMsg: i18n.t('application:failed to delete tag') },
+        { successMsg: i18n.t('dop:added successfully'), errorMsg: i18n.t('dop:failed to delete tag') },
       );
     },
     async getBackupList({ call, update }, payload: REPOSITORY.ICommitPaging) {
@@ -704,7 +704,7 @@ const repoStore = createStore({
         },
         {
           successMsg: i18n.t('default:deleted successfully'),
-          errorMsg: i18n.t('application:failed to delete backup'),
+          errorMsg: i18n.t('dop:failed to delete backup'),
         },
       );
     },

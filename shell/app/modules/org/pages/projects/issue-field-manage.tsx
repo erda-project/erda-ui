@@ -68,7 +68,7 @@ const IssueFieldManage = () => {
   const fieldsList: object[] = React.useMemo(
     () => [
       {
-        label: i18n.t('project:field name'),
+        label: i18n.t('dop:field name'),
         name: 'propertyName',
       },
     ],
@@ -80,7 +80,7 @@ const IssueFieldManage = () => {
       if (!isEmpty(relatedIssue)) {
         message.warning(
           i18n.t(
-            'project:This field has been referenced. If you want to delete it, please remove the reference in the corresponding issue type first.',
+            'dop:This field has been referenced. If you want to delete it, please remove the reference in the corresponding issue type first.',
           ),
         );
         return;
@@ -96,7 +96,7 @@ const IssueFieldManage = () => {
     () => [
       {
         key: 'propertyName',
-        title: i18n.t('project:field name'),
+        title: i18n.t('dop:field name'),
         width: '200',
         dataIndex: 'propertyName',
       },
@@ -115,7 +115,7 @@ const IssueFieldManage = () => {
       },
       {
         key: 'relatedIssue',
-        title: i18n.t('project:related issue type'),
+        title: i18n.t('dop:related issue type'),
         width: '250',
         dataIndex: 'relatedIssue',
         render: (types: string[]) => {
@@ -182,7 +182,7 @@ const IssueFieldManage = () => {
       type: Input,
       name: 'propertyName',
       customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:field name') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:field name') }),
       },
     },
   ];
@@ -240,8 +240,8 @@ const IssueFieldManage = () => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={getFieldsByIssue}
-      name={i18n.t('project:issue field')}
-      desc={i18n.t('project:Custom fields common to the whole organization to meet needs of more scenarios.')}
+      name={i18n.t('dop:issue field')}
+      desc={i18n.t('dop:Custom fields common to the whole organization to meet needs of more scenarios.')}
     />
   );
 };

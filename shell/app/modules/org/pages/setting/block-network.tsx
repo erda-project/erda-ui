@@ -46,7 +46,7 @@ const BlockNetwork = () => {
   }, [currentOrg.blockoutConfig, updater]);
   const toggleBlockNetwork = (isOn: boolean, key: Environment) => {
     Modal.confirm({
-      title: isOn ? i18n.t('org:confirm to open the network block') : i18n.t('org:confirm to close the network block'),
+      title: isOn ? i18n.t('cmp:confirm to open the network block') : i18n.t('cmp:confirm to close the network block'),
       onOk: () => {
         const payload = {
           ...currentOrg,

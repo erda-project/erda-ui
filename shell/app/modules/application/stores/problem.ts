@@ -28,7 +28,7 @@ import { map } from 'lodash';
 import userStore from 'app/user/stores';
 
 const getUser = (user: ILoginUser) =>
-  user ? user.nick || user.name || user.email || user.phone || user.id : i18n.t('application:system');
+  user ? user.nick || user.name || user.email || user.phone || user.id : i18n.t('dop:system');
 
 interface IState {
   ticketList: PROBLEM.Ticket[];

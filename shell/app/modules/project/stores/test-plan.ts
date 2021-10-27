@@ -299,7 +299,7 @@ const testPlan = createStore({
       await call(
         executeCaseApi,
         { testPlanID, ...payload },
-        { successMsg: i18n.t('project:start performing interface testing, please wait') },
+        { successMsg: i18n.t('dop:start performing interface testing, please wait') },
       );
     },
     async getExecuteRecords(
@@ -324,7 +324,7 @@ const testPlan = createStore({
       await call(
         cancelBuild,
         { pipelineID, testPlanID },
-        { successMsg: i18n.t('project:interface test has been canceled') },
+        { successMsg: i18n.t('dop:interface test has been canceled') },
       );
     },
     async exportFiles({ call, getParams }, queryParam: string) {

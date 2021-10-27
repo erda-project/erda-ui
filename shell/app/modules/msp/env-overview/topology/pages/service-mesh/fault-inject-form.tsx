@@ -224,7 +224,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
               toggleShowAdd(true);
             }}
           >
-            {i18n.t('application:add')}
+            {i18n.t('dop:add')}
           </Button>
         </div>
         {isEmpty(useData) ? (

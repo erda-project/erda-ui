@@ -85,13 +85,13 @@ const RuntimeBox = (props: IProps) => {
             countDown={3}
             secondTitle={
               <span>
-                {i18n.t('application:confirm to delete Runtime')}:{' '}
+                {i18n.t('dop:confirm to delete Runtime')}:{' '}
                 <b>{isZh() ? `${envMap[env.toUpperCase()]}环境的 【${branch}】` : `【${branch}】 in ${env}`}</b>
               </span>
             }
           >
             <WithAuth pass={permMap[`${env}Delete`]} disableMode={false}>
-              <span className="popover-item">{i18n.t('application:delete')}</span>
+              <span className="popover-item">{i18n.t('dop:delete')}</span>
             </WithAuth>
           </DeleteConfirm>
           <WithAuth pass={permMap[`${env}DeployOperation`]} disableMode={false}>
@@ -105,7 +105,7 @@ const RuntimeBox = (props: IProps) => {
                 setVisible(false);
               }}
             >
-              {i18n.t('application:restart')}
+              {i18n.t('dop:restart')}
             </span>
           </WithAuth>
         </div>
@@ -160,7 +160,7 @@ const RuntimeBox = (props: IProps) => {
   }
 
   return (
-    <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
+    <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('dop:deleting')}>
       <div
         className={`flex justify-between items-center runtime-box ${isWaitApprove ? 'large' : ''}`}
         onClick={(e) => gotoRuntime(id, e)}
@@ -185,7 +185,7 @@ const RuntimeBox = (props: IProps) => {
 
         {releaseId ? (
           <div className="transform-box">
-            <Tooltip title={i18n.t('application:view version information')}>
+            <Tooltip title={i18n.t('dop:view version information')}>
               <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
                 <ErdaIcon className="mr-1 transform-icon" fill="primary-800" width="20" height="21" type="bb" />
                 <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
@@ -201,7 +201,7 @@ const RuntimeBox = (props: IProps) => {
           </div>
           {['Healthy', 'OK'].includes(status) ? null : <HealthPoint type="runtime" status={status} />}
         </div>
-        {isWaitApprove ? <Alert message={i18n.t('application:project admin confirming')} type="info" showIcon /> : null}
+        {isWaitApprove ? <Alert message={i18n.t('dop:project admin confirming')} type="info" showIcon /> : null}
       </div>
     </Spin>
   );

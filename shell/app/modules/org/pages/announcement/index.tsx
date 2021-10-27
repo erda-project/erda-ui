@@ -38,9 +38,9 @@ interface Column {
 }
 
 const statusMap = {
-  published: i18n.t('org:notice published'),
-  unpublished: i18n.t('org:notice unpublished'),
-  deprecated: i18n.t('org:notice deprecated'),
+  published: i18n.t('cmp:notice published'),
+  unpublished: i18n.t('cmp:notice unpublished'),
+  deprecated: i18n.t('cmp:notice deprecated'),
 };
 
 const columns: Column[] = [
@@ -50,11 +50,11 @@ const columns: Column[] = [
     width: 72,
   },
   {
-    title: i18n.t('org:announcement content'),
+    title: i18n.t('cmp:announcement content'),
     dataIndex: 'content',
   },
   {
-    title: i18n.t('org:notice createdAt'),
+    title: i18n.t('cmp:notice createdAt'),
     dataIndex: 'createdAt',
     width: 180,
     render(value) {
@@ -62,7 +62,7 @@ const columns: Column[] = [
     },
   },
   {
-    title: i18n.t('org:notice status'),
+    title: i18n.t('cmp:notice status'),
     dataIndex: 'status',
     width: 100,
     render(value) {
@@ -145,7 +145,7 @@ const NoticeManage = () => {
 
   const fieldList = [
     {
-      label: i18n.t('org:announcement content'),
+      label: i18n.t('cmp:announcement content'),
       name: 'content',
       required: true,
       type: 'textArea',
@@ -165,7 +165,7 @@ const NoticeManage = () => {
   };
   const opCol: Column[] = [
     {
-      title: i18n.t('org:notice operation'),
+      title: i18n.t('cmp:notice operation'),
       dataIndex: 'orgID',
       width: 160,
       render(_value, { status, content, id }) {
@@ -173,12 +173,12 @@ const NoticeManage = () => {
           <div className="operation-td">
             {status === 'published' ? (
               <Popconfirm
-                title={`${i18n.t('org:confirm to deprecate')}?`}
+                title={`${i18n.t('cmp:confirm to deprecate')}?`}
                 onConfirm={() => {
                   deprecateNotice(id);
                 }}
               >
-                <span>{i18n.t('org:notice deprecate')}</span>
+                <span>{i18n.t('cmp:notice deprecate')}</span>
               </Popconfirm>
             ) : (
               <>
@@ -187,14 +187,14 @@ const NoticeManage = () => {
                     publishAnnouncement(id);
                   }}
                 >
-                  {i18n.t('org:notice publish')}
+                  {i18n.t('cmp:notice publish')}
                 </span>
                 <span
                   onClick={() => {
                     editNotice(id, content);
                   }}
                 >
-                  {i18n.t('org:notice edit')}
+                  {i18n.t('cmp:notice edit')}
                 </span>
                 <Popconfirm
                   title={`${i18n.t('common:confirm to delete')}?`}
@@ -202,7 +202,7 @@ const NoticeManage = () => {
                     deleteAnnouncement(id);
                   }}
                 >
-                  <span>{i18n.t('org:notice delete')}</span>
+                  <span>{i18n.t('cmp:notice delete')}</span>
                 </Popconfirm>
               </>
             )}
@@ -221,7 +221,7 @@ const NoticeManage = () => {
               editNotice(undefined, undefined);
             }}
           >
-            {i18n.t('org:create announcement')}
+            {i18n.t('cmp:create announcement')}
           </Button>
         </div>
         <div className="notice-filter">
@@ -229,7 +229,7 @@ const NoticeManage = () => {
             className="data-select"
             value={searchKey}
             onChange={onSearchKeyChange}
-            placeholder={i18n.t('org:search by content')}
+            placeholder={i18n.t('cmp:search by content')}
           />
         </div>
         <Table
@@ -241,7 +241,7 @@ const NoticeManage = () => {
         />
         <FormModal
           formData={formData}
-          name={i18n.t('org:announcement management')}
+          name={i18n.t('cmp:announcement management')}
           fieldsList={fieldList}
           visible={showModal}
           onCancel={useCallback(() => {

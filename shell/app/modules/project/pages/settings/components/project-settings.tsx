@@ -35,11 +35,11 @@ const ProjectSettings = () => {
 
   const dataSource = [
     {
-      groupTitle: i18n.t('project:general settings'),
+      groupTitle: i18n.t('dop:general settings'),
       groupKey: 'common',
       tabGroup: [
         {
-          tabTitle: i18n.t('project:project info'),
+          tabTitle: i18n.t('dop:project info'),
           tabKey: 'projectInfo',
           content: (
             <ProjectInfo
@@ -51,12 +51,12 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('project:project resource'),
+          tabTitle: i18n.t('dop:project resource'),
           tabKey: 'projectResource',
           content: <ProjectCluster hasEditAuth={false} />,
         },
         {
-          tabTitle: i18n.t('project:project member'),
+          tabTitle: i18n.t('dop:project member'),
           tabKey: 'projectMember',
           content: (
             <ConfigLayout
@@ -80,18 +80,18 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:files'),
+      groupTitle: i18n.t('dop:files'),
       groupKey: 'repository',
       tabGroup: [
         {
-          tabTitle: i18n.t('project:branch rule'),
+          tabTitle: i18n.t('dop:branch rule'),
           tabKey: 'branchRule',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('project:branch rule'),
-                  desc: i18n.t('project:branch-config-tip'),
+                  title: i18n.t('dop:branch rule'),
+                  desc: i18n.t('dop:branch-config-tip'),
                   children: (
                     <BranchRule
                       operationAuth={permMap.setting.branchRule.operation.pass}
@@ -105,15 +105,15 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('project:code quality access control'),
+          tabTitle: i18n.t('dop:code quality access control'),
           tabKey: 'scanRule',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('project:code quality access control'),
+                  title: i18n.t('dop:code quality access control'),
                   desc: i18n.t(
-                    'project:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.',
+                    'dop:Code scanning configuration is mainly divided into rule configuration and code quality access control configuration. When the access control rules are met, it means that the code quality threshold cannot be passed.',
                   ),
                   children: (
                     <ScanRule
@@ -130,18 +130,18 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('project:issues'),
+      groupTitle: i18n.t('dop:project collaboration'),
       groupKey: 'collaboration',
       tabGroup: [
         {
-          tabTitle: i18n.t('project:issue workflow'),
+          tabTitle: i18n.t('dop:issue workflow'),
           tabKey: 'issueManage',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('project:issue workflow'),
-                  desc: i18n.t('project:issue-workflow-config-tip'),
+                  title: i18n.t('dop:issue workflow'),
+                  desc: i18n.t('dop:issue-workflow-config-tip'),
                   children: <IssueWorkflow />,
                 },
               ]}
@@ -149,15 +149,15 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('project:label setting'),
+          tabTitle: i18n.t('dop:label setting'),
           tabKey: 'projectLabel',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('project:manage all project labels'),
+                  title: i18n.t('dop:manage all project labels'),
                   desc: i18n.t(
-                    'project:Tags can be used for issue and test management, to quickly locate and filter relevant content.',
+                    'dop:Tags can be used for issue and test management, to quickly locate and filter relevant content.',
                   ),
                   children: <ProjectLabel />,
                 },
@@ -168,17 +168,17 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('project:notification management'),
+      groupTitle: i18n.t('dop:notification management'),
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:notification'),
+          tabTitle: i18n.t('dop:notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:help you better organize your notifications'),
+                  title: i18n.t('dop:help you better organize your notifications'),
                   children: (
                     <NotifyConfig
                       memberStore={memberStore}
@@ -191,13 +191,13 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('application:notification group'),
+          tabTitle: i18n.t('dop:notification group'),
           tabKey: 'notifyGroup',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('application:organize notification groups to set up notifications'),
+                  title: i18n.t('dop:organize notification groups to set up notifications'),
                   children: (
                     <NotifyGroup
                       memberStore={memberStore}
@@ -221,7 +221,7 @@ const ProjectSettings = () => {
   //       <ConfigLayout
   //         sectionList={[
   //           {
-  //             title: i18n.t('project:configure-env'),
+  //             title: i18n.t('dop:configure-env'),
   //             children: <ConfigurationCenter type="project" />,
   //           },
   //         ]}

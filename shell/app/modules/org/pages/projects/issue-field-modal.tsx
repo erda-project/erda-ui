@@ -61,7 +61,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
   const handleSubmit = async (values: IFieldForm) => {
     const { enumeratedValues, propertyName } = values;
     if (specialFieldNameList.includes(propertyName) && isEmpty(formData)) {
-      message.warning(i18n.t('the same {key} exists', { key: i18n.t('project:field name') }));
+      message.warning(i18n.t('the same {key} exists', { key: i18n.t('dop:field name') }));
       return;
     }
     const enumeratedList = isEmpty(enumeratedValues) ? [] : enumeratedValues.slice(0, enumeratedValues.length - 1);
@@ -103,11 +103,11 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       },
     },
     {
-      label: i18n.t('project:field name'),
+      label: i18n.t('dop:field name'),
       name: 'propertyName',
       itemProps: {
         disabled: formData?.isSpecialField,
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('project:field name') }),
+        placeholder: i18n.t('please enter {name}', { name: i18n.t('dop:field name') }),
       },
     },
     {
@@ -147,7 +147,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
     },
     ...insertWhen(optionListVisible, [
       {
-        label: i18n.t('project:enumerated value'),
+        label: i18n.t('dop:enumerated value'),
         name: 'enumeratedValues',
         required: true,
         type: 'custom',
@@ -170,10 +170,10 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
               });
 
               if (!list.length || !valid) {
-                return callback(i18n.t('project:enumerated value can not be empty'));
+                return callback(i18n.t('dop:enumerated value can not be empty'));
               }
               if (isSameName) {
-                return callback(i18n.t('project:enumerated value can not be the same'));
+                return callback(i18n.t('dop:enumerated value can not be the same'));
               }
               callback();
             },
@@ -190,7 +190,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
 
   return (
     <FormModal
-      name={i18n.t('project:issue field')}
+      name={i18n.t('dop:issue field')}
       fieldsList={fieldList}
       visible={visible}
       onOk={handleSubmit}

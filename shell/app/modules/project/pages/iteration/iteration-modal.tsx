@@ -71,7 +71,7 @@ export default ({ visible, data, onClose }: IProps) => {
     },
     {
       name: 'content',
-      label: i18n.t('project:iteration goal'),
+      label: i18n.t('dop:iteration goal'),
       type: 'textArea',
       required: false,
       itemProps: {
@@ -104,7 +104,7 @@ export default ({ visible, data, onClose }: IProps) => {
 
   return (
     <FormModal
-      name={i18n.t('project:iteration')}
+      name={i18n.t('dop:iteration')}
       visible={visible}
       fieldsList={fieldsList}
       formData={state.detail}
