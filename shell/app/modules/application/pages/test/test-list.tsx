@@ -25,7 +25,7 @@ import { ColumnProps } from 'core/common/interface';
 const getTestDuration = (duration: any) => {
   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 3); // 时间为纳秒
   return duration !== 0 && seconds === 0
-    ? `${duration / 1000000} ${i18n.t('application:millisecond(s)')}`
+    ? `${duration / 1000000} ${i18n.t('dop:millisecond(s)')}`
     : secondsToTime(seconds, true);
 };
 
@@ -39,16 +39,16 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
   const title = (
     <div>
       <div>
-        {i18n.t('application:failed')}: {failed}
+        {i18n.t('dop:failed')}: {failed}
       </div>
       <div>
-        {i18n.t('application:error')}: {error}
+        {i18n.t('dop:error')}: {error}
       </div>
       <div>
-        {i18n.t('application:pass')}: {passed}
+        {i18n.t('dop:pass')}: {passed}
       </div>
       <div>
-        {i18n.t('application:jump over')}: {skipped}
+        {i18n.t('dop:jump over')}: {skipped}
       </div>
     </div>
   );
@@ -72,7 +72,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     render: (text) => <span>{cutStr(text, 30, { showTip: true })}</span>,
   },
   {
-    title: i18n.t('application:branch'),
+    title: i18n.t('dop:branch'),
     dataIndex: 'branch',
   },
   {
@@ -92,13 +92,13 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
     width: 120,
   },
   {
-    title: i18n.t('application:time consuming'),
+    title: i18n.t('dop:time consuming'),
     dataIndex: ['totals', 'duration'],
     width: 160,
     render: (text) => getTestDuration(text),
   },
   {
-    title: i18n.t('project:execute result'),
+    title: i18n.t('dop:execute result'),
     width: 200,
     dataIndex: ['totals', 'tests'],
     render: (_text, record) => <ExecuteResult totals={record.totals} />,

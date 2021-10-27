@@ -691,7 +691,7 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
  * 1、在formModal中使用：
  * ```
     const fieldList = [{
-        label: i18n.t('application:choose certificate'),
+        label: i18n.t('dop:choose certificate'),
         name: 'certificateId',
         getComp: () => {
           const getData = (q: any) => {

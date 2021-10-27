@@ -77,7 +77,7 @@ const Group = () => {
     getCloudResourceTimeCol(),
     getRemarkCol(),
     {
-      title: i18n.t('application:operation'),
+      title: i18n.t('dop:operation'),
       dataIndex: 'op',
       width: 100,
       render: (_v: any, record: CLOUD_SERVICE.IMQGroup) => {
@@ -167,7 +167,7 @@ const Group = () => {
       ],
     },
     {
-      label: i18n.t('application:remark'),
+      label: i18n.t('dop:remark'),
       name: 'remark',
       type: 'textArea',
       required: false,

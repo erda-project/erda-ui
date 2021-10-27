@@ -56,7 +56,7 @@ const ClusterBasicForm = ({
 
   const fieldsList = [
     {
-      label: i18n.t('{name} identifier', { name: i18n.t('org:cluster') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('cmp:cluster') }),
       name: 'name',
       config: {
         getValueFromEvent(e: any) {
@@ -66,7 +66,7 @@ const ClusterBasicForm = ({
       },
       itemProps: {
         disabled: editMode,
-        placeholder: i18n.t('org:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
+        placeholder: i18n.t('cmp:letters and numbers, separated by hyphens, cannot be modified if confirmed'),
       },
       rules: [
         regRules.clusterName,
@@ -74,7 +74,7 @@ const ClusterBasicForm = ({
           validator: (_rule: unknown, v: string, callback: Function) => {
             const curCluster = find(clusterList, { name: v });
             if (!editMode && curCluster) {
-              callback(i18n.t('org:cluster already existed'));
+              callback(i18n.t('cmp:cluster already existed'));
             } else if (v) {
               debounceCheckName(v, callback);
             } else {
@@ -85,7 +85,7 @@ const ClusterBasicForm = ({
       ],
     },
     {
-      label: i18n.t('org:cluster name'),
+      label: i18n.t('cmp:cluster name'),
       name: 'displayName',
       pattern: /^.{1,50}$/,
       required: false,
@@ -94,7 +94,7 @@ const ClusterBasicForm = ({
       },
     },
     {
-      label: i18n.t('org:extensive domain'),
+      label: i18n.t('cmp:extensive domain'),
       name: 'wildcardDomain',
       pattern: /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/,
       config: {
@@ -119,12 +119,12 @@ const ClusterBasicForm = ({
       itemProps: { type: 'hidden' },
     },
     ...insertWhen(clusterType === 'edas', [
-      { label: i18n.t('org:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
+      { label: i18n.t('cmp:EDAS address'), name: ['scheduler', 'edasConsoleAddr'] },
       { label: 'AK', name: ['scheduler', 'accessKey'] },
       { label: 'AS', name: ['scheduler', 'accessSecret'] },
-      { label: i18n.t('org:cluster ID'), name: ['scheduler', 'clusterID'] },
+      { label: i18n.t('cmp:cluster ID'), name: ['scheduler', 'clusterID'] },
       { label: 'Region ID', name: ['scheduler', 'regionID'] },
-      { label: i18n.t('org:namespace'), name: ['scheduler', 'logicalRegionID'] },
+      { label: i18n.t('cmp:namespace'), name: ['scheduler', 'logicalRegionID'] },
     ]),
     ...insertWhen(clusterType === 'k8s' || clusterType === 'edas', [
       {
@@ -234,12 +234,12 @@ const ClusterSchedulerForm = ({ form, clusterType }: { form: FormInstance; clust
   const fieldListMap = {
     k8s: [
       {
-        label: i18n.t('org:oversold ratio'),
+        label: i18n.t('cmp:oversold ratio'),
         name: ['scheduler', 'cpuSubscribeRatio'],
         type: 'inputNumber',
         extraProps: {
           extra: i18n.t(
-            'org:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.',
+            'cmp:Set the cluster oversold ratio. If the oversold ratio is 2, then 1 core CPU is used as 2 cores.',
           ),
         },
         itemProps: {
@@ -331,14 +331,14 @@ export const AddClusterModal = (props: IProps) => {
   return (
     <FormModal
       width={800}
-      name={i18n.t('org:{type} cluster', {
+      name={i18n.t('cmp:{type} cluster', {
         type: get(find(flatten(clusterTypeMap), { type: clusterType }), 'name', ''),
       })}
       title={
         clusterType === 'k8s'
           ? initData
-            ? i18n.t('project:edit cluster configuration')
-            : i18n.t('org:import an existing Erda {type} cluster', { type: 'Kubernetes' })
+            ? i18n.t('dop:edit cluster configuration')
+            : i18n.t('cmp:import an existing Erda {type} cluster', { type: 'Kubernetes' })
           : undefined
       }
       visible={visible}

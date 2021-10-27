@@ -30,7 +30,7 @@ const formatJSON = (str: string) => {
   try {
     res = JSON.stringify(JSON.parse(str), null, 2);
   } catch (e) {
-    message.error(i18n.t('application:the current input content is invalid JSON'));
+    message.error(i18n.t('dop:the current input content is invalid JSON'));
   }
   return typeof res === 'string' ? res : '';
 };
@@ -145,7 +145,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
               value={api.method}
               disabled={disabled}
               onChange={(val) => updateApi('method', val as string)}
-              placeholder={i18n.t('project:please choose')}
+              placeholder={i18n.t('dop:please choose')}
             >
               {map(HTTP_METHOD_LIST, (method) => (
                 <Option value={method} key={method}>
@@ -155,7 +155,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
             </Select>
           }
           className="url"
-          placeholder={i18n.t('project:please enter')}
+          placeholder={i18n.t('dop:please enter')}
           value={api.url}
           onChange={(e) => updateApi('url', e.target.value.trim())}
         />
@@ -208,18 +208,18 @@ const ApiTabComps = {
           itemMap={{
             key: {
               props: {
-                placeholder: i18n.t('project:parameter name'),
+                placeholder: i18n.t('dop:parameter name'),
               },
               trim: true,
             },
             value: {
               props: {
-                placeholder: i18n.t('project:parameter value'),
+                placeholder: i18n.t('dop:parameter value'),
               },
             },
             desc: {
               props: {
-                placeholder: i18n.t('project:description'),
+                placeholder: i18n.t('dop:description'),
               },
             },
           }}
@@ -244,18 +244,18 @@ const ApiTabComps = {
           itemMap={{
             key: {
               props: {
-                placeholder: i18n.t('project:parameter name'),
+                placeholder: i18n.t('dop:parameter name'),
               },
               trim: true,
             },
             value: {
               props: {
-                placeholder: i18n.t('project:parameter value'),
+                placeholder: i18n.t('dop:parameter value'),
               },
             },
             desc: {
               props: {
-                placeholder: i18n.t('project:description'),
+                placeholder: i18n.t('dop:description'),
               },
             },
           }}
@@ -273,7 +273,7 @@ const ApiTabComps = {
       const { data, onChange, disabled } = props;
       return (
         <div className="api-tables">
-          <div className="table-title">{i18n.t('project:output parameter')}</div>
+          <div className="table-title">{i18n.t('dop:output parameter')}</div>
           <div className="table-body">
             <KeyValEdit
               type="out_params"
@@ -292,7 +292,7 @@ const ApiTabComps = {
               itemMap={{
                 key: {
                   props: {
-                    placeholder: i18n.t('project:output parameter name'),
+                    placeholder: i18n.t('dop:output parameter name'),
                   },
                   trim: true,
                 },
@@ -303,7 +303,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} api-test-select`}
-                        placeholder={i18n.t('project:source')}
+                        placeholder={i18n.t('dop:source')}
                         onChange={onCurChange}
                         disabled={propsDisabled}
                       >
@@ -335,7 +335,7 @@ const ApiTabComps = {
               }}
             />
           </div>
-          <div className="table-title">{i18n.t('project:assertion')}</div>
+          <div className="table-title">{i18n.t('dop:assertion')}</div>
           <div className="table-body">
             <KeyValEdit
               type="asserts"
@@ -359,7 +359,7 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} api-test-select`}
-                        placeholder={i18n.t('project:parameter name')}
+                        placeholder={i18n.t('dop:parameter name')}
                         onChange={onCurChange}
                         disabled={disabled}
                       >
@@ -381,24 +381,24 @@ const ApiTabComps = {
                       <Select
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} api-test-select`}
-                        placeholder={i18n.t('project:compare')}
+                        placeholder={i18n.t('dop:compare')}
                         onChange={onCurChange}
                         disabled={disabled}
                       >
-                        <Option value=">">{i18n.t('project:more than the')}</Option>
-                        <Option value=">=">{i18n.t('project:greater than or equal to')}</Option>
-                        <Option value="=">{i18n.t('project:equal to')}</Option>
-                        <Option value="<=">{i18n.t('project:less than or equal to')}</Option>
-                        <Option value="<">{i18n.t('project:less than')}</Option>
-                        <Option value="!=">{i18n.t('project:not equal to')}</Option>
-                        <Option value="contains">{i18n.t('project:contains')}</Option>
-                        <Option value="not_contains">{i18n.t('project:does not contain')}</Option>
-                        <Option value="exist">{i18n.t('project:existence')}</Option>
-                        <Option value="not_exist">{i18n.t('project:does not exist')}</Option>
-                        <Option value="empty">{i18n.t('project:is empty')}</Option>
-                        <Option value="not_empty">{i18n.t('project:not null')}</Option>
-                        <Option value="belong">{i18n.t('project:belongs to')}</Option>
-                        <Option value="not_belong">{i18n.t('project:does not belong to')}</Option>
+                        <Option value=">">{i18n.t('dop:more than the')}</Option>
+                        <Option value=">=">{i18n.t('dop:greater than or equal to')}</Option>
+                        <Option value="=">{i18n.t('dop:equal to')}</Option>
+                        <Option value="<=">{i18n.t('dop:less than or equal to')}</Option>
+                        <Option value="<">{i18n.t('dop:less than')}</Option>
+                        <Option value="!=">{i18n.t('dop:not equal to')}</Option>
+                        <Option value="contains">{i18n.t('dop:contains')}</Option>
+                        <Option value="not_contains">{i18n.t('dop:does not contain')}</Option>
+                        <Option value="exist">{i18n.t('dop:existence')}</Option>
+                        <Option value="not_exist">{i18n.t('dop:does not exist')}</Option>
+                        <Option value="empty">{i18n.t('dop:is empty')}</Option>
+                        <Option value="not_empty">{i18n.t('dop:not null')}</Option>
+                        <Option value="belong">{i18n.t('dop:belongs to')}</Option>
+                        <Option value="not_belong">{i18n.t('dop:does not belong to')}</Option>
                       </Select>
                     );
                   },
@@ -449,7 +449,7 @@ const TestJsonEditor = (props: any) => {
 };
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>,
+  none: () => <div className="body-val-none">{i18n.t('dop:the current request has no body')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody, disabled }: any = props;
     return (
@@ -469,18 +469,18 @@ const ValMap = {
         itemMap={{
           key: {
             props: {
-              placeholder: i18n.t('project:parameter name'),
+              placeholder: i18n.t('dop:parameter name'),
             },
             trim: true,
           },
           value: {
             props: {
-              placeholder: i18n.t('project:parameter value'),
+              placeholder: i18n.t('dop:parameter value'),
             },
           },
           desc: {
             props: {
-              placeholder: i18n.t('project:description'),
+              placeholder: i18n.t('dop:description'),
             },
           },
         }}
@@ -709,7 +709,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                   ) : (
                     <Input
                       className="flex-1 width0"
-                      placeholder={i18n.t('project:please enter')}
+                      placeholder={i18n.t('dop:please enter')}
                       disabled={disabled}
                       value={val}
                       onChange={(e) => updateValue(i, key, trim ? e.target.value?.trim() : e.target.value)}
@@ -727,7 +727,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                 {type === 'out_params' ? (
                   <Popconfirm
                     title={i18n.t(
-                      'project:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?',
+                      'dop:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?',
                     )}
                     onConfirm={() => handleDelete(i)}
                   >

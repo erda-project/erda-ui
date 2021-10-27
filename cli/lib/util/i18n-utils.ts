@@ -16,7 +16,7 @@ import path from 'path';
 import { logInfo, logSuccess, logWarn, logError } from './log';
 import writeLocale from './i18n-extract';
 import ora from 'ora';
-import { remove, unset } from 'lodash';
+import { merge, remove, unset } from 'lodash';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import { walker } from './file-walker';
@@ -148,7 +148,13 @@ export const extractAllI18nD = async (
         walker({
           root: srcPath,
           dealFile: (...args) => {
-            extractUntranslatedWords.apply(null, [...args, zhResource, translatedWords, untranslatedWords, resolve]);
+            extractUntranslatedWords.apply(null, [
+              ...args,
+              !isExternal ? merge(zhResource, originalResource.default[0]) : zhResource,
+              translatedWords,
+              untranslatedWords,
+              resolve,
+            ]);
           },
         });
       });
@@ -309,7 +315,7 @@ export const restoreSourceFile = (
   }
 };
 
-const i18nRRegex = /i18n\.r\(["'](.+?)["']([^)]*)\)/g;
+const i18nRRegex = /i18n\.r\(\s*('|")(.+)(?:'|")([^)\n]*)\s*\)/g;
 
 /**
  * extract i18n.r content and replace it with i18n.t
@@ -337,12 +343,13 @@ export const extractPendingSwitchContent = (
   let changed = false;
   while (match) {
     if (match) {
-      const matchedText = match[1];
+      const matchedText = match[2];
+      const quote = match[1];
       toSwitchWords.add(matchedText);
       const wordArr = matchedText.split(':');
       const enWord = wordArr.length === 2 ? wordArr[1] : matchedText;
       const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
-      replacedText = replacedText.replace(match[0], `i18n.t('${newWordText}'${match[2] || ''})`);
+      replacedText = replacedText.replace(match[0], `i18n.t(${quote}${newWordText}${quote}${match[3] || ''})`);
       changed = true;
     }
     match = i18nRRegex.exec(content);
@@ -382,15 +389,17 @@ export const switchSourceFileNs = (
   let newContent = content;
   let changed = false;
   toSwitchWords.forEach((wordWithNs) => {
-    const matchTextRegex = new RegExp(`i18n\\.t\\('${wordWithNs}'([^)]*)\\)`, 'g');
+    // /i18n\.r\(\s*('|")(.+)(?:'|")([^)\n]*)\s*\)/g;
+    const matchTextRegex = new RegExp(`i18n\\.t\\(\\s*('|")${wordWithNs}(?:'|")([^\\)\\n]*)\\s*\\)`, 'g');
     let match = matchTextRegex.exec(content);
     while (match) {
       changed = true;
       const matchedText = match[0];
+      const quote = match[1];
       const wordArr = wordWithNs.split(':');
       const enWord = wordArr.length === 2 ? wordArr[1] : wordWithNs;
       const newWordText = ns === 'default' ? enWord : `${ns}:${enWord}`;
-      newContent = newContent.replace(matchedText, `i18n.t('${newWordText}'${match[1] || ''})`);
+      newContent = newContent.replace(matchedText, `i18n.t(${quote}${newWordText}${quote}${match[2] || ''})`);
       match = matchTextRegex.exec(content);
     }
   });

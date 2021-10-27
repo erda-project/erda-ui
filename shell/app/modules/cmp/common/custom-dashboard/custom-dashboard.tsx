@@ -150,7 +150,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
 
   const beforeHandleSave = () => {
     if (!dashboardName) {
-      message.warning(i18n.t('org:please input dashboard name'));
+      message.warning(i18n.t('cmp:please input dashboard name'));
       return false;
     }
     return true;
@@ -212,7 +212,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
                 maxLength={50}
                 className="mr-4"
                 style={{ width: 200 }}
-                placeholder={i18n.t('org:please input dashboard name')}
+                placeholder={i18n.t('cmp:please input dashboard name')}
                 allowClear
                 value={dashboardName}
                 onChange={(e: any) => updater.dashboardName(e.target.value)}
@@ -220,7 +220,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
               <Input
                 maxLength={200}
                 style={{ width: 370 }}
-                placeholder={i18n.t('org:please input dashboard description')}
+                placeholder={i18n.t('cmp:please input dashboard description')}
                 allowClear
                 value={dashboardDesc}
                 onChange={(e: any) => updater.dashboardDesc(e.target.value)}

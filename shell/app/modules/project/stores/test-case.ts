@@ -221,7 +221,7 @@ const testCaseStore = createStore({
           recycled: false,
         },
         testPlanID,
-        { successMsg: i18n.t('project:created successfully') },
+        { successMsg: i18n.t('dop:created successfully') },
       );
       return res;
     },
@@ -252,7 +252,7 @@ const testCaseStore = createStore({
     async moveCase({ call }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
       const res = await call(batchUpdateCase, payload);
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
-      message.success(i18n.t('project:update completed'));
+      message.success(i18n.t('dop:update completed'));
       testCaseStore.effects.getCases();
       return res;
     },
@@ -265,7 +265,7 @@ const testCaseStore = createStore({
       };
       const res = await call(batchUpdateCase, payload);
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
-      message.success(i18n.t('project:update completed'));
+      message.success(i18n.t('dop:update completed'));
       testCaseStore.effects.getCases();
       return res;
     },
@@ -273,7 +273,7 @@ const testCaseStore = createStore({
     async toggleToRecycle({ call }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
       const res = await call(batchUpdateCase, payload);
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
-      message.success(i18n.t('project:deleted successfully'));
+      message.success(i18n.t('dop:deleted successfully'));
       testCaseStore.effects.getCases();
       return res;
     },
@@ -290,7 +290,7 @@ const testCaseStore = createStore({
         await call(deleteEntirely, { testCaseIDs: tempIds });
       }
       testCaseStore.reducers.removeChoosenIds(tempIds);
-      message.success(i18n.t('project:deleted successfully'));
+      message.success(i18n.t('dop:deleted successfully'));
       testCaseStore.effects.getCases();
     },
     async emptyListByTestSetId({ update }, targetTestSetId: number) {
@@ -354,7 +354,7 @@ const testCaseStore = createStore({
       const res = await call(
         removeRelation,
         { ...payload, testPlanID: testPlanId },
-        { successMsg: i18n.t('project:disassociated successfully') },
+        { successMsg: i18n.t('dop:disassociated successfully') },
       );
       return res;
     },
@@ -363,7 +363,7 @@ const testCaseStore = createStore({
       const res = await call(
         addRelation,
         { ...payload, testPlanID: testPlanId },
-        { successMsg: i18n.t('project:associated successfully') },
+        { successMsg: i18n.t('dop:associated successfully') },
       );
       return res;
     },

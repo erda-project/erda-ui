@@ -33,7 +33,7 @@ interface IProps {
 
 const columns = [
   {
-    title: i18n.t('application:attribute english name'),
+    title: i18n.t('dop:attribute english name'),
     dataIndex: 'enName',
     width: 60,
     render: (enName: string) => (
@@ -43,7 +43,7 @@ const columns = [
     ),
   },
   {
-    title: i18n.t('application:attribute type'),
+    title: i18n.t('dop:attribute type'),
     dataIndex: 'type',
     width: 50,
     render: (type: string) => (
@@ -53,7 +53,7 @@ const columns = [
     ),
   },
   {
-    title: i18n.t('application:attribute chinese name'),
+    title: i18n.t('dop:attribute chinese name'),
     dataIndex: 'cnName',
     width: 60,
     render: (cnName: string) => (
@@ -63,7 +63,7 @@ const columns = [
     ),
   },
   {
-    title: i18n.t('application:attribute description'),
+    title: i18n.t('dop:attribute description'),
     dataIndex: 'desc',
     width: 60,
     render: (desc: string) => (
@@ -119,14 +119,14 @@ const TableDrawer = (props) => {
   return (
     <Drawer
       destroyOnClose
-      title={i18n.t('application:class catalog')}
+      title={i18n.t('dop:class catalog')}
       width="50%"
       visible={drawerVisible}
       onClose={closeDrawer}
     >
       <Spin spinning={isFetching}>
         <SearchTable
-          placeholder={i18n.t('application:search by chinese/english name of attribute')}
+          placeholder={i18n.t('dop:search by chinese/english name of attribute')}
           onSearch={onTableSearch}
           needDebounce
         >

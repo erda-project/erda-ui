@@ -116,7 +116,7 @@ const RepoMrTable = ({ type }: IProps) => {
               const actionMap = {
                 open: i18n.t('submit'),
                 closed: i18n.t('close'),
-                merged: i18n.t('application:merged'),
+                merged: i18n.t('dop:merged'),
               };
               const updateKeyMap = {
                 open: 'createdAt',
@@ -136,8 +136,7 @@ const RepoMrTable = ({ type }: IProps) => {
                     </span>
                   </div>
                   <div className="desc">
-                    {i18n.t('application:assigned user')}：
-                    <Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
+                    {i18n.t('dop:assigned user')}：<Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
                   </div>
                   <div className="sub-title flex items-center flex-wrap justify-start">
                     <span className="mr-1">#{item.mergeId}</span>

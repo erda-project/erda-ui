@@ -88,7 +88,7 @@ const build = createStore({
     },
     async runBuild({ call, update }, payload: { pipelineID: number }) {
       const result = await call(runBuild, payload, {
-        successMsg: i18n.t('application:start executing the build'),
+        successMsg: i18n.t('dop:start executing the build'),
         fullResult: true,
       });
       const pipelineDetail = await call(getPipelineDetail, payload);
@@ -96,27 +96,27 @@ const build = createStore({
       return result;
     },
     async reRunEntire({ call }, payload: { pipelineID: number }): Promise<BUILD.IRerunResponse> {
-      const result = await call(reRunEntire, payload, { successMsg: i18n.t('application:start retrying build') });
+      const result = await call(reRunEntire, payload, { successMsg: i18n.t('dop:start retrying build') });
       await call(runBuild, { pipelineID: result.id }); // 重试流水线只是新建一个流水线，不会自动跑
       return result;
     },
     async reRunFailed({ call }, payload: { pipelineID: number }): Promise<BUILD.IRerunResponse> {
       const result = await call(reRunFailed, payload, {
-        successMsg: i18n.t('application:start retrying failed nodes'),
+        successMsg: i18n.t('dop:start retrying failed nodes'),
       });
       await call(runBuild, { pipelineID: result.id });
       return result;
     },
     async startBuildCron({ call }, payload: { cronID: number }) {
-      const result = await call(startBuildCron, payload, { successMsg: i18n.t('application:timed successfully') });
+      const result = await call(startBuildCron, payload, { successMsg: i18n.t('dop:timed successfully') });
       return result;
     },
     async cancelBuildCron({ call }, payload: { cronID: number }) {
-      const result = await call(cancelBuildCron, payload, { successMsg: i18n.t('application:timing canceled') });
+      const result = await call(cancelBuildCron, payload, { successMsg: i18n.t('dop:timing canceled') });
       return result;
     },
     async cancelBuild({ call }, payload: { pipelineID: number }) {
-      const result = await call(cancelBuild, payload, { successMsg: i18n.t('application:build cancelled') });
+      const result = await call(cancelBuild, payload, { successMsg: i18n.t('dop:build cancelled') });
       return result;
     },
     async getExecuteRecords(
@@ -148,7 +148,7 @@ const build = createStore({
       const detail = await call(
         addPipeline,
         { ...payload, appId },
-        { successMsg: i18n.t('application:build created successfully') },
+        { successMsg: i18n.t('dop:build created successfully') },
       );
       return detail;
     },
@@ -182,7 +182,7 @@ const build = createStore({
       const result = await call(
         batchCreateTask,
         { ...payload, appId },
-        { successMsg: i18n.t('application:start executing the build') },
+        { successMsg: i18n.t('dop:start executing the build') },
       );
       return result;
     },

@@ -22,7 +22,7 @@ import Group from './group';
 export const mqTabs = {
   info: {
     key: 'info',
-    name: i18n.t('project:basic information'),
+    name: i18n.t('dop:basic information'),
     content: <MQInfoBox />,
   },
   topic: {

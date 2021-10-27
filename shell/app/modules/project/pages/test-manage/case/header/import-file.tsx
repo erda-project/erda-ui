@@ -36,7 +36,7 @@ const ImportFile = ({ afterImport }: IProps) => {
   };
 
   const onSuccess = () => {
-    message.success(i18n.t('project:start importing, please view detail in records'));
+    message.success(i18n.t('dop:start importing, please view detail in records'));
     afterImport && afterImport();
     handleCancel();
   };
@@ -53,7 +53,7 @@ const ImportFile = ({ afterImport }: IProps) => {
 
   const fieldList = [
     {
-      label: i18n.t('project:select a document'),
+      label: i18n.t('dop:select a document'),
       name: 'file',
       getComp: () => (
         <FileSelect
@@ -67,35 +67,35 @@ const ImportFile = ({ afterImport }: IProps) => {
   return (
     <>
       <Button type="primary" ghost onClick={toggleFileUpload}>
-        {i18n.t('project:import')}
+        {i18n.t('dop:import')}
       </Button>
       <FormModal
         loading={confirmLoading}
         okButtonState={confirmLoading}
-        title={i18n.t('project:upload files')}
+        title={i18n.t('dop:upload files')}
         fieldsList={fieldList}
         visible={uploadVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <div className="modal-tip">
-          1.{i18n.t('project:currently supports importing Xmind and Excel files')}
+          1.{i18n.t('dop:currently supports importing Xmind and Excel files')}
           <p className="my-3">
-            &nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}
+            &nbsp;&nbsp;{i18n.t('dop:if you need to import with Excel, please')}
             <a href={`/static/usecase_model_${locale}.xlsx`} className="modal-tip-link">
-              {i18n.t('project:download template')}
+              {i18n.t('dop:download template')}
             </a>
             ；
           </p>
           <p className="mb-3">
-            &nbsp;&nbsp;{i18n.t('project:if you want to import with XMind, please')}
+            &nbsp;&nbsp;{i18n.t('dop:if you want to import with XMind, please')}
             <a href={`/static/usecase_model_${locale}.xmind`} className="modal-tip-link">
-              {i18n.t('project:download template')}
+              {i18n.t('dop:download template')}
             </a>
             。
           </p>
         </div>
-        <div className="modal-tip">2.{i18n.t('project:xmind-import-tip')}</div>
+        <div className="modal-tip">2.{i18n.t('dop:xmind-import-tip')}</div>
       </FormModal>
     </>
   );

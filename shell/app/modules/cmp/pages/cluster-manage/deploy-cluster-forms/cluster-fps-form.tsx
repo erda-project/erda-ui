@@ -39,7 +39,7 @@ export const ClusterFPSForm = ({ form, isReadonly, data, curRef }: IFormProps) =
     },
   ];
   return (
-    <FormUnitContainer title={i18n.t('org:file proxy service')} curRef={curRef}>
+    <FormUnitContainer title={i18n.t('cmp:file proxy service')} curRef={curRef}>
       {isReadonly ? (
         <ReadonlyForm fieldsList={fieldsList} data={data} />
       ) : (

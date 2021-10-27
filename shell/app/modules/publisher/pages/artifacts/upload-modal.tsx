@@ -108,7 +108,7 @@ const UploadModal = (props: IProps) => {
   return (
     <FormModal
       loading={isLoading}
-      tip={i18n.t('project:uploading, please do not leave')}
+      tip={i18n.t('dop:uploading, please do not leave')}
       title={i18n.t('upload offline package')}
       visible={visible}
       onCancel={handleCancel}

@@ -301,7 +301,7 @@ export const AddonCards = (props: IProps) => {
                 if (get(contents, '[0].category') === 'custom' && routeParams.projectId) {
                   extra = (
                     <Button size="small" className="ml-2" onClick={() => updater.customConfigVisible(true)}>
-                      {i18n.t('project:view config')}
+                      {i18n.t('dop:view config')}
                     </Button>
                   );
                 }

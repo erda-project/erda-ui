@@ -51,7 +51,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       sorter: (a: IResource, b: IResource) => a.cpuLimit - b.cpuLimit,
     },
     {
-      title: i18n.t('org:CPU allocation'),
+      title: i18n.t('cmp:CPU allocation'),
       dataIndex: 'cpuRequest',
       key: 'cpuRequest',
       width: 120,
@@ -66,7 +66,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       sorter: (a: IResource, b: IResource) => a.memLimit - b.memLimit,
     },
     {
-      title: i18n.t('org:MEM allocation'),
+      title: i18n.t('cmp:MEM allocation'),
       dataIndex: 'memRequest',
       key: 'memRequest',
       width: 120,

@@ -265,7 +265,7 @@ const issueStore = createStore({
       return [RelatingIssues, RelatedIssues];
     },
     async addIssueRelation({ call }, payload: ISSUE.ICreateRelationBody) {
-      const res = await call(addIssueRelation, payload, { successMsg: i18n.t('project:relation added successfully') });
+      const res = await call(addIssueRelation, payload, { successMsg: i18n.t('dop:relation added successfully') });
       return res;
     },
     async deleteIssueRelation({ call }, payload: { id: number; relatedIssueID: number }) {

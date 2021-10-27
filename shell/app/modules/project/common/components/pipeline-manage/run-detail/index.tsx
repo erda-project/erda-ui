@@ -193,7 +193,7 @@ const RunDetail = (props: IProps) => {
     confirm({
       title: i18n.t('ok'),
       className: 'node-click-confirm',
-      content: i18n.t('application:whether {action} task {name}', {
+      content: i18n.t('dop:whether {action} task {name}', {
         action: disabled ? i18n.t('open') : i18n.t('close'),
         name: node.name,
       }),
@@ -267,7 +267,7 @@ const RunDetail = (props: IProps) => {
               onClick={() => {
                 reRunPipeline(false);
               }}
-            >{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
+            >{`${i18n.t('dop:rerun failed node')}(${i18n.t('dop:commit unchanged')})`}</span>
           </Menu.Item>
         )}
         {canRerun && (
@@ -277,7 +277,7 @@ const RunDetail = (props: IProps) => {
               onClick={() => {
                 reRunPipeline(true);
               }}
-            >{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
+            >{`${i18n.t('dop:rerun whole pipeline')}(${i18n.t('dop:commit unchanged')})`}</span>
           </Menu.Item>
         )}
       </Menu>
@@ -290,14 +290,14 @@ const RunDetail = (props: IProps) => {
     return (
       <IF check={canCancel}>
         <DeleteConfirm
-          title={`${i18n.t('application:confirm to cancel the current build')}?`}
+          title={`${i18n.t('dop:confirm to cancel the current build')}?`}
           secondTitle=""
           onConfirm={() => {
             cancelBuild();
           }}
         >
           <div className="build-operator">
-            <Button className="mr-2">{i18n.t('application:cancel build')}</Button>
+            <Button className="mr-2">{i18n.t('dop:cancel build')}</Button>
           </div>
         </DeleteConfirm>
       </IF>
@@ -335,7 +335,7 @@ const RunDetail = (props: IProps) => {
       <Spin spinning={isFetching}>
         <div className="info-header mb-2">
           <div>
-            <span className="font-medium title">{i18n.t('application:build detail')}</span>
+            <span className="font-medium title">{i18n.t('dop:build detail')}</span>
           </div>
           <div className="info-header-right">
             {renderRunBtn()}
@@ -369,7 +369,7 @@ const RunDetail = (props: IProps) => {
         <CasePipelineChart scope={scope} data={pipelineDetail} onClickNode={onClickNode} />
       </Spin>
       <FormModal
-        title={i18n.t('application:please enter params')}
+        title={i18n.t('dop:please enter params')}
         onCancel={() => updater.inParamsFormVis(false)}
         onOk={(inParams: any) => {
           runBuild(inParams);

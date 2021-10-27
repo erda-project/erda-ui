@@ -24,7 +24,7 @@ export const formatJSON = (str: string) => {
   try {
     res = JSON.stringify(JSON.parse(str), null, 2);
   } catch (e) {
-    message.error(i18n.t('application:the current input content is invalid JSON'));
+    message.error(i18n.t('dop:the current input content is invalid JSON'));
   }
   return typeof res === 'string' ? res : '';
 };
@@ -53,7 +53,7 @@ const ValMap = {
           {
             type: 'key',
             props: {
-              placeholder: i18n.t('project:parameter name'),
+              placeholder: i18n.t('dop:parameter name'),
             },
             getProps: ({ editKey }: { editKey: boolean }) => {
               return {
@@ -64,7 +64,7 @@ const ValMap = {
           {
             type: 'value',
             props: {
-              placeholder: i18n.t('project:parameter value'),
+              placeholder: i18n.t('dop:parameter value'),
             },
           },
           {

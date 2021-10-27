@@ -27,14 +27,14 @@ import { IInstances } from '../../services/pod-detail';
 import './index.scss';
 
 const SUMMARY_KEY_MAP = {
-  podName: i18n.t('org:pod instance'),
-  clusterName: i18n.t('org:cluster'),
-  nodeName: i18n.t('org:node'),
-  namespace: i18n.t('org:namespace'),
+  podName: i18n.t('cmp:pod instance'),
+  clusterName: i18n.t('cmp:cluster'),
+  nodeName: i18n.t('cmp:node'),
+  namespace: i18n.t('cmp:namespace'),
   hostIP: i18n.t('runtime:Host IP'),
-  restartTotal: i18n.t('org:restart times'),
-  stateCode: i18n.t('org:state code'),
-  terminatedReason: i18n.t('org:exit reasons'),
+  restartTotal: i18n.t('cmp:restart times'),
+  stateCode: i18n.t('cmp:state code'),
+  terminatedReason: i18n.t('cmp:exit reasons'),
 };
 
 const PodDetail = () => {
@@ -116,7 +116,7 @@ const PodDetail = () => {
             </div>
           </div>
           <div className="instance mb-8">
-            <span className="title font-medium">{i18n.t('org:instance list')} TOP10</span>
+            <span className="title font-medium">{i18n.t('cmp:instance list')} TOP10</span>
             <Table
               rowKey="containerId"
               pagination={false}

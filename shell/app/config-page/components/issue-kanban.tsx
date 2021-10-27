@@ -126,7 +126,7 @@ const IssueKanban = (props: IProps) => {
                 value={addValue}
                 className="mb-2"
                 onChange={(e) => updater.addValue(e.target.value)}
-                placeholder={i18n.t('project:input custom board name')}
+                placeholder={i18n.t('dop:input custom board name')}
                 onPressEnter={doAdd}
               />
               <div className="flex justify-between items-center">

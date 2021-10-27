@@ -19,7 +19,7 @@ export const appRoleMap = {
   Dev: { name: i18n.t('user:Developer'), value: 'Dev' },
   QA: { name: i18n.t('user:Tester'), value: 'QA' },
   Support: { name: i18n.t('user:Q&A'), value: 'Support', isBuildIn: true },
-  Ops: { name: i18n.t('org:operator'), value: 'Ops' },
+  Ops: { name: i18n.t('cmp:operator'), value: 'Ops' },
   Creator: { name: i18n.t('user:Creator'), value: 'Creator', isCustomRole: true },
   Assignee: { name: i18n.t('user:Assignee'), value: 'Assignee', isCustomRole: true },
   Guest: { name: i18n.t('user:Guest'), value: 'Guest' },
@@ -32,19 +32,19 @@ export const appPerm = {
     name: i18n.t('user:external code repository'),
     edit: {
       pass: false,
-      name: i18n.t('application:edit'),
+      name: i18n.t('dop:edit'),
       role: ['Owner', 'Lead'],
     },
   },
   repo: {
-    name: i18n.t('application:repository'),
+    name: i18n.t('dop:repository'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
     },
     branch: {
-      name: i18n.t('application:branch management'),
+      name: i18n.t('dop:branch management'),
       writeNormal: {
         pass: false,
         name: i18n.t('user:ordinary branch management (create/commit/modify/delete)'),
@@ -63,7 +63,7 @@ export const appPerm = {
       addTag: {
         pass: false,
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-        name: i18n.t('application:add label'),
+        name: i18n.t('dop:add label'),
       },
       deleteTag: {
         pass: false,
@@ -72,7 +72,7 @@ export const appPerm = {
       },
     },
     mr: {
-      name: i18n.t('application:merge requests'),
+      name: i18n.t('dop:merge requests'),
       create: {
         pass: false,
         name: i18n.t('add'),
@@ -80,12 +80,12 @@ export const appPerm = {
       },
       edit: {
         pass: false,
-        name: i18n.t('application:edit'),
+        name: i18n.t('dop:edit'),
         role: ['Owner', 'Lead', 'Creator'],
       },
       close: {
         pass: false,
-        name: i18n.t('application:close'),
+        name: i18n.t('dop:close'),
         role: ['Owner', 'Lead', 'Creator'],
       },
     },
@@ -94,7 +94,7 @@ export const appPerm = {
       backupRepo: {
         pass: false,
         role: ['Owner', 'Lead'],
-        name: i18n.t('application:new backup'),
+        name: i18n.t('dop:new backup'),
       },
       deleteBackup: {
         pass: false,
@@ -104,10 +104,10 @@ export const appPerm = {
     },
   },
   pipeline: {
-    name: i18n.t('application:pipeline'),
+    name: i18n.t('dop:pipeline'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
     },
     executeNormal: {
@@ -122,11 +122,11 @@ export const appPerm = {
     },
   },
   runtime: {
-    name: i18n.t('application:deployment center'),
+    name: i18n.t('dop:deployment center'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
     devDeployOperation: {
       pass: false,
@@ -190,7 +190,7 @@ export const appPerm = {
     },
   },
   setting: {
-    name: i18n.t('application:application setting'),
+    name: i18n.t('dop:application setting'),
     editApp: {
       pass: false,
       name: i18n.t('user:edit application information'),
@@ -202,7 +202,7 @@ export const appPerm = {
       role: ['Owner', 'Lead'],
     },
     branchRule: {
-      name: i18n.t('project:branch rule'),
+      name: i18n.t('dop:branch rule'),
       operation: {
         pass: false,
         name: i18n.t('user:operation (add, delete, modify)'),
@@ -210,7 +210,7 @@ export const appPerm = {
       },
     },
     repoSetting: {
-      name: i18n.t('application:repository settings'),
+      name: i18n.t('dop:repository settings'),
       lockRepo: {
         pass: false,
         role: ['Lead', 'Owner'],
@@ -220,11 +220,11 @@ export const appPerm = {
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   member: {
-    name: i18n.t('org:member management'),
+    name: i18n.t('cmp:member management'),
     addAppMember: {
       pass: false,
       name: i18n.t('user:application member > add'),
@@ -247,7 +247,7 @@ export const appPerm = {
       name: i18n.t('API market'),
       read: {
         pass: false,
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Ops'],
       },
       edit: {
@@ -290,12 +290,12 @@ export const appPerm = {
       name: i18n.t('access management'),
       edit: {
         pass: false,
-        name: i18n.t('application:edit'),
+        name: i18n.t('dop:edit'),
         role: ['Owner', 'Lead'],
       },
       delete: {
         pass: false,
-        name: i18n.t('application:delete'),
+        name: i18n.t('dop:delete'),
         role: ['Owner', 'Lead'],
       },
       approve: {
@@ -310,39 +310,39 @@ export const appPerm = {
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   dataTask: {
-    name: i18n.t('application:data task'),
+    name: i18n.t('dop:data task'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   dataModel: {
-    name: i18n.t('application:data model'),
+    name: i18n.t('dop:data model'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   dataMarket: {
-    name: i18n.t('application:data market'),
+    name: i18n.t('dop:data market'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   codeQuality: {
-    name: i18n.t('application:code quality'),
+    name: i18n.t('dop:code quality'),
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
   },
   release: {
@@ -350,14 +350,14 @@ export const appPerm = {
     read: {
       pass: false,
       role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
     info: {
-      name: i18n.t('application:details'),
+      name: i18n.t('dop:details'),
       edit: {
         pass: false,
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-        name: i18n.t('application:edit'),
+        name: i18n.t('dop:edit'),
       },
     },
   },

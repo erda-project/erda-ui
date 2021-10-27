@@ -57,7 +57,7 @@ export const IssueActivities = (props: IProps) => {
             <div className="flex items-center flex-wrap justify-start">
               <Avatar name={user.nick || user.name} showName />
               &nbsp;
-              <span>{i18n.t('project:remarked at')}</span>
+              <span>{i18n.t('dop:remarked at')}</span>
               &nbsp;
               <span>{fromNow(updatedAt, { edgeNow: true })}</span>
             </div>
@@ -78,7 +78,7 @@ export const IssueActivities = (props: IProps) => {
         renderContent = (
           <div className="flex items-center flex-wrap justify-start">
             <Avatar name={user.nick || user.name} showName />
-            <span className="mx-2">{i18n.t('project:add relation to MR')}:</span>
+            <span className="mx-2">{i18n.t('dop:add relation to MR')}:</span>
             <a onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}>
               {mrTitle}
             </a>

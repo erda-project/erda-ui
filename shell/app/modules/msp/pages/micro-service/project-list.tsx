@@ -66,7 +66,7 @@ const MsProjectList = () => {
       dataIndex: 'displayType',
     },
     {
-      title: i18n.t('application:environment'),
+      title: i18n.t('dop:environment'),
       dataIndex: 'relationship',
       width: 120,
       render: (relationship) => relationship.length,

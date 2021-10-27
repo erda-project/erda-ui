@@ -22,7 +22,7 @@ import Account from './rds-account';
 export const rdsTabs = {
   info: {
     key: 'info',
-    name: i18n.t('project:basic information'),
+    name: i18n.t('dop:basic information'),
     content: <Info />,
   },
   database: {

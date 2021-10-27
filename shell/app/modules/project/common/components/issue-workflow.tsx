@@ -74,7 +74,7 @@ const IssueWorkflow = () => {
                   </div>
                 </div>
                 <div className="sub">
-                  <span>{i18n.t('project:state type')}：</span>
+                  <span>{i18n.t('dop:state type')}：</span>
                   <div>
                     {map(Object.entries(issueStateMap[item.issueType]), (data: string[]) => {
                       return (

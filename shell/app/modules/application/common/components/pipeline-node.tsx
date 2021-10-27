@@ -273,7 +273,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
             ),
         );
         if (temp.length) {
-          detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
+          detailInfo.push(<h4>{i18n.t('dop:details')}</h4>);
           detailInfo.push(...temp);
         }
       }
@@ -292,7 +292,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="flow-chart-panel-msg-item">
@@ -306,7 +306,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         // </pre>
       }
       // if (!isEmpty(errors)) {
-      //   detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+      //   detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
       //   detailInfo.push(
       //     <pre className="flow-chart-err-block">
       //       {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}
@@ -356,7 +356,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     // 右侧跳转链接图标
     if (status === 'Success') {
       if (isType('it') || isType('ut')) {
-        operations.push(this.getIconOperation('link', 'test-link', i18n.t('application:test')));
+        operations.push(this.getIconOperation('link', 'test-link', i18n.t('dop:test')));
       }
       // if (name === 'sonar') {
       //   operations.push(this.getIconOperation('link', 'sonar-link', '代码质量'));
@@ -368,11 +368,11 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       if (metadata != null) {
         const runtimeID = metadata.find((a: any) => a.name === 'runtimeID');
         if (runtimeID) {
-          operations.push(this.getIconOperation('link', 'link', i18n.t('application:overview')));
+          operations.push(this.getIconOperation('link', 'link', i18n.t('dop:overview')));
         }
         const releaseID = metadata.find((a: any) => a.name === 'releaseID');
         if (releaseID) {
-          operations.push(this.getIconOperation('link', 'release-link', i18n.t('application:version details')));
+          operations.push(this.getIconOperation('link', 'release-link', i18n.t('dop:version details')));
         }
         const publisherID = metadata.find((a: any) => a.name === 'publisherID');
         if (publisherID) {
@@ -382,7 +382,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     }
 
     if (status === 'Running' || (executeStatus.includes(status) && isNumber(costTimeSec) && costTimeSec !== -1)) {
-      operations.push(this.getIconOperation('log', 'log', i18n.t('application:log')));
+      operations.push(this.getIconOperation('log', 'log', i18n.t('dop:log')));
     }
 
     return operations.map((i: any, index: number) => (

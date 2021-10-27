@@ -52,7 +52,7 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
           <Copy selector=".cursor-copy" />
         </div>
       </div>
-      <div className="commit-right">{renderAsLink('tree', id, <Button>{i18n.t('application:code')}</Button>)}</div>
+      <div className="commit-right">{renderAsLink('tree', id, <Button>{i18n.t('dop:code')}</Button>)}</div>
     </div>
   );
 };
@@ -126,17 +126,17 @@ const RepoCommit = () => {
           >
             {branch ? (
               <>
-                <span>{i18n.t('application:branch')}:</span>
+                <span>{i18n.t('dop:branch')}:</span>
                 <span className="branch-name font-bold nowrap">{branch}</span>
               </>
             ) : tag ? (
               <>
-                <span>{i18n.t('application:tag')}:</span>
+                <span>{i18n.t('dop:tag')}:</span>
                 <span className="branch-name font-bold nowrap">{tag}</span>
               </>
             ) : (
               <>
-                <span>{i18n.t('application:commit')}:</span>
+                <span>{i18n.t('dop:commit')}:</span>
                 <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}
@@ -149,7 +149,7 @@ const RepoCommit = () => {
         <Input
           value={searchValue}
           className="search-input"
-          placeholder={i18n.t('application:filter by committed message')}
+          placeholder={i18n.t('dop:filter by committed message')}
           onPressEnter={() => {
             getCommitList({
               search: searchValue || undefined,

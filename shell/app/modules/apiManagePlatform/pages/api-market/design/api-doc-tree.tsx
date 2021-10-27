@@ -94,7 +94,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
     if (isLeaf) {
       if (isDocChanged) {
         Modal.confirm({
-          title: `${i18n.t('project:not saved yet, confirm to leave')}?`,
+          title: `${i18n.t('dop:not saved yet, confirm to leave')}?`,
           onOk: onSelectHandle,
         });
       } else {
@@ -232,8 +232,8 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         jumpToNewDoc({ inode, pinode });
       } else {
         const confirmTitle = isConnectedWs
-          ? `${i18n.t('project:whether to save and jump to the newly created document')}?`
-          : `${i18n.t('project:whether to jump to the newly created document')}?`;
+          ? `${i18n.t('dop:whether to save and jump to the newly created document')}?`
+          : `${i18n.t('dop:whether to jump to the newly created document')}?`;
         Modal.confirm({
           title: confirmTitle,
           onOk: () => {
@@ -359,7 +359,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
 
   return (
     <Popover
-      title={i18n.t('project:please select a document under the branch')}
+      title={i18n.t('dop:please select a document under the branch')}
       overlayClassName="branch-doc-select-popover"
       trigger="hover"
       placement="bottomLeft"

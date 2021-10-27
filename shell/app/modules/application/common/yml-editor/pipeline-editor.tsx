@@ -114,7 +114,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       }
     });
     updater.ymlObj(newYmlObj);
-    message.success(i18n.t('application:please click save to submit the configuration'));
+    message.success(i18n.t('dop:please click save to submit the configuration'));
   };
 
   const commitData = (commitContent: string, values: any) => {
@@ -134,7 +134,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       ],
     }).then(() => {
       onCancel();
-      message.success(i18n.t('application:file modified successfully'));
+      message.success(i18n.t('dop:file modified successfully'));
       getRepoBlob();
     });
   };
@@ -193,7 +193,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         }
       });
       updater.ymlObj(newYmlObj);
-      message.success(i18n.t('application:please click save to submit the configuration'));
+      message.success(i18n.t('dop:please click save to submit the configuration'));
     }
   };
 
@@ -206,7 +206,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           name: 'message',
           type: 'textArea',
           itemProps: {
-            placeholder: i18n.t('application:submit information'),
+            placeholder: i18n.t('dop:submit information'),
             autoSize: { minRows: 3, maxRows: 7 },
             maxLength: 200,
           },
@@ -218,7 +218,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           initialValue: branch,
           options: (info.branches || []).map((a: any) => ({ name: a, value: a })),
           itemProps: {
-            placeholder: i18n.t('application:submit branch'),
+            placeholder: i18n.t('dop:submit branch'),
             disabled: true,
           },
         },
@@ -231,7 +231,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="p-4">
           <Button type="primary" className="mr-3" onClick={checkForm}>
-            {i18n.t('application:save')}
+            {i18n.t('dop:save')}
           </Button>
           <Button
             onClick={() => {
@@ -239,7 +239,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               onCancel();
             }}
           >
-            {i18n.t('application:cancel')}
+            {i18n.t('dop:cancel')}
           </Button>
         </div>
       </>
@@ -275,11 +275,11 @@ const PipelineEditor = (props: IYmlEditorProps) => {
     try {
       yaml.load(val);
     } catch (e) {
-      const msg = `${i18n.t('application:input format error')}：${e.message}`;
+      const msg = `${i18n.t('dop:input format error')}：${e.message}`;
       if (!tipWithModal) {
         notify('error', <pre className="prewrap">{msg}</pre>);
       } else {
-        updater.errorMsg(`${i18n.t('application:input format error')}：${e.message}`);
+        updater.errorMsg(`${i18n.t('dop:input format error')}：${e.message}`);
       }
       return false;
     }
@@ -347,7 +347,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
-        name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName}
+        name={editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName}
         ops={editing ? editOps : ops}
       >
         <Spin spinning={loading}>
@@ -400,7 +400,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
           </Button>,
           ...insertWhen(originYmlValid, [
             <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>
-              {i18n.t('application:reset and switch')}
+              {i18n.t('dop:reset and switch')}
             </Button>,
           ]),
         ]}

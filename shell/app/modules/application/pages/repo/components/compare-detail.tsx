@@ -52,7 +52,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
           key="commit"
           tab={
             <span>
-              {i18n.t('application:commit')}
+              {i18n.t('dop:commit')}
               <span className="dice-badge">{commits.length}</span>{' '}
             </span>
           }
@@ -63,7 +63,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
           key="diff"
           tab={
             <span>
-              {i18n.t('application:changed files')}
+              {i18n.t('dop:changed files')}
               <span className="dice-badge">{diff ? diff.filesChanged : '0'}</span>{' '}
             </span>
           }

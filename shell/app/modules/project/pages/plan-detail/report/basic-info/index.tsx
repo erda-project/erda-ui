@@ -34,20 +34,20 @@ const BasicInfo = () => {
   }, [testPlan, userMap]);
   const basicInfo = [
     {
-      label: i18n.t('project:test leader'),
+      label: i18n.t('dop:test leader'),
       text: data.ownerName,
     },
     {
-      label: i18n.t('project:start date'),
+      label: i18n.t('dop:start date'),
       text: data.startDate,
       dateKey: 'timestampSecStartedAt',
     },
     {
-      label: i18n.t('project:test participant'),
+      label: i18n.t('dop:test participant'),
       text: data.partnerNameStr,
     },
     {
-      label: i18n.t('project:end date'),
+      label: i18n.t('dop:end date'),
       text: data.endDate,
       dateKey: 'timestampSecEndedAt',
     },
@@ -55,18 +55,18 @@ const BasicInfo = () => {
 
   const setDate = (dateKey: string, dateString: string, date: Moment) => {
     if (!dateString) {
-      message.error(i18n.t('project:date cannot be empty'));
+      message.error(i18n.t('dop:date cannot be empty'));
       return;
     }
     if (
       (dateKey === 'timestampSecStartedAt' && data.endDate && dateString > data.endDate) ||
       (dateKey === 'timestampSecEndedAt' && data.startDate && dateString < data.startDate)
     ) {
-      message.error(i18n.t('project:the start date cannot be later than the end date'));
+      message.error(i18n.t('dop:the start date cannot be later than the end date'));
       return;
     }
     updateDate({ [dateKey]: Math.floor(date.valueOf() / 1000) }).then(() => {
-      message.success(i18n.t('project:update completed'));
+      message.success(i18n.t('dop:update completed'));
     });
   };
 

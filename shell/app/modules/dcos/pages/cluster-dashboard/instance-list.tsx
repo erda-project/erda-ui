@@ -180,7 +180,7 @@ IProps) => {
       dataIndex: 'clusterName',
     },
     {
-      title: i18n.t('org:CPU usage'),
+      title: i18n.t('cmp:CPU usage'),
       dataIndex: 'cpuUsage',
       sorter: (a: any, b: any) => a.cpuUsage - b.cpuUsage,
       render(cpuUsage: number, { cpuRequest }: any) {
@@ -203,7 +203,7 @@ IProps) => {
       },
     },
     {
-      title: i18n.t('org:MEM usage'),
+      title: i18n.t('cmp:MEM usage'),
       sorter: (a: any, b: any) => a.memUsage - b.memUsage,
       dataIndex: 'memRequest',
       render(_: any, { memRequest, memUsage }: any) {
@@ -223,7 +223,7 @@ IProps) => {
       },
     },
     {
-      title: i18n.t('org:Disk usage'),
+      title: i18n.t('cmp:Disk usage'),
       dataIndex: 'diskUsage',
       render: (diskUsage: number) => getFormatter('STORAGE').format(diskUsage),
     },

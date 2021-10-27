@@ -24,7 +24,7 @@ function getProjectRouter(): RouteConfigItem[] {
       routes: [
         {
           path: 'apps',
-          breadcrumbName: i18n.t('project:applications'),
+          breadcrumbName: i18n.t('dop:applications'),
           layout: { fullHeight: true },
           getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
@@ -36,7 +36,7 @@ function getProjectRouter(): RouteConfigItem[] {
         {
           path: 'issues',
           mark: 'issues',
-          breadcrumbName: i18n.t('project:issues'),
+          breadcrumbName: i18n.t('dop:project collaboration'),
           routes: [
             {
               path: 'all',
@@ -123,7 +123,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'ticket',
-          breadcrumbName: i18n.t('project:tickets'),
+          breadcrumbName: i18n.t('dop:tickets'),
           getComp: (cb) => cb(import('project/pages/ticket')),
         },
         {
@@ -134,21 +134,21 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'manual',
-          pageName: i18n.t('project:manual test'),
+          pageName: i18n.t('dop:manual test'),
           routes: [
             {
               path: 'testCase',
               tabs: MANUAL_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:manual test'),
+              breadcrumbName: i18n.t('dop:manual test'),
               getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
               path: 'testPlan',
               tabs: MANUAL_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:manual test'),
+              breadcrumbName: i18n.t('dop:manual test'),
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan')),
@@ -157,7 +157,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   path: ':testPlanId',
                   mark: 'testPlanDetail',
                   layout: { fullHeight: true },
-                  breadcrumbName: i18n.t('project:plan details'),
+                  breadcrumbName: i18n.t('dop:plan details'),
                   getComp: (cb) => cb(import('project/pages/plan-detail')),
                 },
               ],
@@ -165,7 +165,7 @@ function getProjectRouter(): RouteConfigItem[] {
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:manual test'),
+              breadcrumbName: i18n.t('dop:manual test'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'ManualTestEnv'),
               tabs: MANUAL_TEST_TABS,
             },
@@ -173,7 +173,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'auto',
-          pageName: i18n.t('project:auto test'),
+          pageName: i18n.t('dop:auto test'),
           routes: [
             {
               ignoreTabQuery: true,
@@ -183,7 +183,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'testCase',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:auto test'),
+              breadcrumbName: i18n.t('dop:auto test'),
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/auto-test/index')),
@@ -191,7 +191,7 @@ function getProjectRouter(): RouteConfigItem[] {
                 {
                   path: ':spaceId/scenes',
                   mark: 'autoTestSpaceDetail',
-                  breadcrumbName: `${i18n.t('project:Scenes')}({testSpaceName})`,
+                  breadcrumbName: `${i18n.t('dop:Scenes')}({testSpaceName})`,
                   routes: [
                     {
                       layout: { fullHeight: true },
@@ -205,7 +205,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'config-sheet',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:auto test'),
+              breadcrumbName: i18n.t('dop:auto test'),
               layout: { fullHeight: true },
               getComp: (cb) => cb(import('project/pages/config-sheet')),
             },
@@ -213,7 +213,7 @@ function getProjectRouter(): RouteConfigItem[] {
               path: 'testPlan',
               tabs: AUTO_TEST_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:auto test'),
+              breadcrumbName: i18n.t('dop:auto test'),
               routes: [
                 {
                   getComp: (cb) => cb(import('project/pages/test-plan/test-plan-protocol')),
@@ -222,7 +222,7 @@ function getProjectRouter(): RouteConfigItem[] {
                   path: ':testPlanId',
                   mark: 'testPlanDetail',
                   layout: { fullHeight: true },
-                  breadcrumbName: i18n.t('project:plan details'),
+                  breadcrumbName: i18n.t('dop:plan details'),
                   getComp: (cb) => cb(import('project/pages/test-plan/auto-test-plan-detail')),
                 },
               ],
@@ -232,13 +232,13 @@ function getProjectRouter(): RouteConfigItem[] {
               tabs: AUTO_TEST_TABS,
               layout: { fullHeight: true },
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:auto test'),
+              breadcrumbName: i18n.t('dop:auto test'),
               getComp: (cb) => cb(import('project/pages/data-source')),
             },
             {
               path: 'testEnv',
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:auto test'),
+              breadcrumbName: i18n.t('dop:auto test'),
               getComp: (cb) => cb(import('project/pages/test-env/test-env'), 'AutoTestEnv'),
               tabs: AUTO_TEST_TABS,
             },
@@ -246,13 +246,13 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'statistics',
-          pageName: i18n.t('project:statistics'),
+          pageName: i18n.t('dop:statistics'),
           routes: [
             {
               path: 'code-coverage',
               tabs: TEST_STATISTICS_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:statistics'),
+              breadcrumbName: i18n.t('dop:statistics'),
               getComp: (cb) => cb(import('project/pages/statistics/code-coverage')),
             },
             {
@@ -262,21 +262,21 @@ function getProjectRouter(): RouteConfigItem[] {
               },
               tabs: TEST_STATISTICS_TABS,
               ignoreTabQuery: true,
-              breadcrumbName: i18n.t('project:statistics'),
+              breadcrumbName: i18n.t('dop:statistics'),
               getComp: (cb) => cb(import('project/pages/statistics/test-dashboard')),
             },
           ],
         },
         {
           path: 'test-report',
-          breadcrumbName: i18n.t('project:test report'),
+          breadcrumbName: i18n.t('dop:test report'),
           routes: [
             {
               getComp: (cb) => cb(import('project/pages/test-report')),
             },
             {
               path: 'create',
-              breadcrumbName: i18n.t('project:create test report'),
+              breadcrumbName: i18n.t('dop:create test report'),
               layout: { noWrapper: true },
               getComp: (cb) => cb(import('project/pages/test-report/create')),
             },
@@ -284,7 +284,7 @@ function getProjectRouter(): RouteConfigItem[] {
         },
         {
           path: 'service',
-          breadcrumbName: i18n.t('project:addon'),
+          breadcrumbName: i18n.t('dop:addon'),
           layout: { fullHeight: true },
           getComp: (cb) => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
         },

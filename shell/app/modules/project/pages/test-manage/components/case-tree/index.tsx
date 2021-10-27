@@ -518,7 +518,7 @@ const TestSet = ({
       ) as number) || 0;
     const idPrefix = `${TEMP_MARK}${newId + 1}`;
     const tempNode = {
-      title: i18n.t('project:new test set'),
+      title: i18n.t('dop:new test set'),
       id: idPrefix,
       key: `${parent.key}-${idPrefix}`,
       recycled: false,

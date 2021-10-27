@@ -49,7 +49,7 @@ const customAddon = createFlatStore({
       return call(
         addCustomAddonIns,
         { ...query, projectId: +projectId },
-        { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') },
+        { successMsg: i18n.t('dop:The creation of the service takes a while, please wait a moment') },
       );
     },
 
@@ -59,12 +59,12 @@ const customAddon = createFlatStore({
       return call(
         addDiceAddonIns,
         { ...payload, projectId: +projectId, clusterName: clusterConfig[payload.workspace] },
-        { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') },
+        { successMsg: i18n.t('dop:The creation of the service takes a while, please wait a moment') },
       );
     },
     async addTenantAddonIns({ call }, payload: CUSTOM_ADDON.AddTenantAddon) {
       return call(addTenantAddonIns, payload, {
-        successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment'),
+        successMsg: i18n.t('dop:The creation of the service takes a while, please wait a moment'),
       });
     },
     async updateCustomAddonConfig({ call }, query: Omit<CUSTOM_ADDON.UpdateBody, 'operatorId'>) {

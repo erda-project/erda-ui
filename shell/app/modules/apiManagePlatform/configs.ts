@@ -82,8 +82,8 @@ export enum API_WS_MSG_TYPE {
 }
 
 export const LIST_TITLE_MAP = {
-  RESOURCE: i18n.t('project:API list'),
-  DATATYPE: i18n.t('project:DATA TYPES'),
+  RESOURCE: i18n.t('dop:API list'),
+  DATATYPE: i18n.t('dop:DATA TYPES'),
 };
 
 export const DEFAULT_TAG = 'other';
@@ -100,7 +100,7 @@ export const VERSION_RULE = {
   message: i18n.t('Please enter a valid version number, such as x.y.z.'),
 };
 
-export const READONLY_TIP = i18n.t('project:read only and inoperable');
+export const READONLY_TIP = i18n.t('dop:read only and inoperable');
 
 export const INPUT_MAX_LENGTH = 191;
 export const TEXTAREA_MAX_LENGTH = 1024;
@@ -163,4 +163,4 @@ export enum API_RESOURCE_TAB {
   Test = 'Test',
 }
 
-export const API_LOCK_WARNING = i18n.t('project:is editing, document is locked');
+export const API_LOCK_WARNING = i18n.t('dop:is editing, document is locked');

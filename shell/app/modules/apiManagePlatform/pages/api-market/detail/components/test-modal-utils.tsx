@@ -37,7 +37,7 @@ export const APITabs = [
             {
               type: 'key',
               props: {
-                placeholder: i18n.t('project:parameter name'),
+                placeholder: i18n.t('dop:parameter name'),
               },
               getProps: ({ editKey }: { editKey: boolean }) => {
                 return {
@@ -48,14 +48,12 @@ export const APITabs = [
             {
               type: 'value',
               props: {
-                placeholder: i18n.t('project:parameter value'),
+                placeholder: i18n.t('dop:parameter value'),
               },
               getProps: ({ error, required }: { error: boolean; required: true }) => {
                 return {
                   className: error ? 'error-red' : '',
-                  placeholder: required
-                    ? i18n.t('project:parameter value (required)')
-                    : i18n.t('project:parameter value'),
+                  placeholder: required ? i18n.t('dop:parameter value (required)') : i18n.t('dop:parameter value'),
                 };
               },
             },
@@ -87,7 +85,7 @@ export const APITabs = [
             {
               type: 'key',
               props: {
-                placeholder: i18n.t('project:parameter name'),
+                placeholder: i18n.t('dop:parameter name'),
               },
               getProps: ({ editKey }: { editKey: boolean }) => {
                 return {
@@ -98,14 +96,12 @@ export const APITabs = [
             {
               type: 'value',
               props: {
-                placeholder: i18n.t('project:parameter value'),
+                placeholder: i18n.t('dop:parameter value'),
               },
               getProps: ({ error, required }: { error: boolean; required: true }) => {
                 return {
                   className: error ? 'error-red' : '',
-                  placeholder: required
-                    ? i18n.t('project:parameter value (required)')
-                    : i18n.t('project:parameter value'),
+                  placeholder: required ? i18n.t('dop:parameter value (required)') : i18n.t('dop:parameter value'),
                 };
               },
             },
@@ -138,21 +134,19 @@ export const APITabs = [
             {
               type: 'key',
               props: {
-                placeholder: i18n.t('project:parameter name'),
+                placeholder: i18n.t('dop:parameter name'),
                 disabled: true,
               },
             },
             {
               type: 'value',
               props: {
-                placeholder: i18n.t('project:parameter value'),
+                placeholder: i18n.t('dop:parameter value'),
               },
               getProps: ({ error, required }: { error: boolean; required: true }) => {
                 return {
                   className: error ? 'error-red' : '',
-                  placeholder: required
-                    ? i18n.t('project:parameter value (required)')
-                    : i18n.t('project:parameter value'),
+                  placeholder: required ? i18n.t('dop:parameter value (required)') : i18n.t('dop:parameter value'),
                 };
               },
             },

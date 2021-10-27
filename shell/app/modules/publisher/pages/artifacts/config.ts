@@ -26,11 +26,11 @@ export const ArtifactsStatusMap = {
 
 export const ArtifactsTypeMap = {
   LIBRARY: {
-    name: i18n.t('application:library/module'),
+    name: i18n.t('dop:library/module'),
     value: 'LIBRARY',
   },
   MOBILE: {
-    name: i18n.t('application:mobile app'),
+    name: i18n.t('dop:mobile app'),
     value: 'MOBILE',
   },
 };

@@ -274,7 +274,7 @@ const BuildDetail = (props: IProps) => {
     confirm({
       title: i18n.t('ok'),
       className: 'node-click-confirm',
-      content: i18n.t('application:whether {action} task {name}', {
+      content: i18n.t('dop:whether {action} task {name}', {
         action: disabled ? i18n.t('open') : i18n.t('close'),
         name: node.name,
       }),
@@ -422,7 +422,7 @@ const BuildDetail = (props: IProps) => {
     const cronRunBtn = (
       <div className="build-operator">
         <IF check={hasAuth}>
-          <Tooltip title={i18n.t('application:start cron')}>
+          <Tooltip title={i18n.t('dop:start cron')}>
             <CustomIcon
               type="js"
               onClick={() => {
@@ -443,14 +443,14 @@ const BuildDetail = (props: IProps) => {
         <IF check={canStopCron}>
           <IF check={hasAuth}>
             <DeleteConfirm
-              title={`${i18n.t('application:confirm to cancel cron build')}?`}
+              title={`${i18n.t('dop:confirm to cancel cron build')}?`}
               secondTitle=""
               onConfirm={() => {
                 cancelBuildCron(cronID);
               }}
             >
               <div className="build-operator">
-                <Tooltip title={i18n.t('application:cancel cron build')}>
+                <Tooltip title={i18n.t('dop:cancel cron build')}>
                   <CustomIcon type="qxjs" />
                 </Tooltip>
               </div>
@@ -465,7 +465,7 @@ const BuildDetail = (props: IProps) => {
           <ELSE />
           <IF check={canStartCron}>{cronRunBtn}</IF>
         </IF>
-        {renderOnceRunBtn({ execTitle: i18n.t('application:execute at once') })}
+        {renderOnceRunBtn({ execTitle: i18n.t('dop:execute at once') })}
       </div>
     );
   };
@@ -481,7 +481,7 @@ const BuildDetail = (props: IProps) => {
               onClick={() => {
                 reRunPipeline(false);
               }}
-            >{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
+            >{`${i18n.t('dop:rerun failed node')}(${i18n.t('dop:commit unchanged')})`}</span>
           </Menu.Item>
         )}
         {canRerun && (
@@ -491,7 +491,7 @@ const BuildDetail = (props: IProps) => {
               onClick={() => {
                 reRunPipeline(true);
               }}
-            >{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
+            >{`${i18n.t('dop:rerun whole pipeline')}(${i18n.t('dop:commit unchanged')})`}</span>
           </Menu.Item>
         )}
       </Menu>
@@ -538,14 +538,14 @@ const BuildDetail = (props: IProps) => {
         <IF check={canCancel}>
           <IF check={hasAuth}>
             <DeleteConfirm
-              title={`${i18n.t('application:confirm to cancel the current build')}?`}
+              title={`${i18n.t('dop:confirm to cancel the current build')}?`}
               secondTitle=""
               onConfirm={() => {
                 cancelBuild();
               }}
             >
               <div className="build-operator">
-                <Tooltip title={i18n.t('application:cancel build')}>
+                <Tooltip title={i18n.t('dop:cancel build')}>
                   <CustomIcon type="pause" />
                 </Tooltip>
               </div>
@@ -577,7 +577,7 @@ const BuildDetail = (props: IProps) => {
               <ELSE />
               <IF check={canRerun}>
                 <IF check={hasAuth}>
-                  <Tooltip title={`${i18n.t('application:rerun whole pipeline')}`}>
+                  <Tooltip title={`${i18n.t('dop:rerun whole pipeline')}`}>
                     {isBlocked ? (
                       <CustomIcon className="disabled" type="refresh" />
                     ) : (
@@ -715,7 +715,7 @@ const BuildDetail = (props: IProps) => {
         <div className="info">
           <div className="info-header">
             <div>
-              <span className="font-medium title">{i18n.t('application:build detail')}</span>
+              <span className="font-medium title">{i18n.t('dop:build detail')}</span>
               <span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>
                 {i18n.t('historical build')}
               </span>
@@ -723,7 +723,7 @@ const BuildDetail = (props: IProps) => {
             <div className="info-header-right">
               <Popover
                 placement="bottomRight"
-                title={i18n.t('application:execute records')}
+                title={i18n.t('dop:execute records')}
                 content={renderBuildHistory()}
                 arrowPointAtCenter
               >
@@ -735,7 +735,7 @@ const BuildDetail = (props: IProps) => {
           {needApproval ? (
             <Alert
               message={i18n.t(
-                'application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
+                'dop:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
               )}
               className="mt-1"
               type="info"
@@ -750,7 +750,7 @@ const BuildDetail = (props: IProps) => {
                   <Avatar name={commitDetail.author} showName className="mb-1" size={20} />
                 </Col>
                 <Col span={12}>
-                  <div className="info-label">{i18n.t('application:commit message')}：</div>
+                  <div className="info-label">{i18n.t('dop:commit message')}：</div>
                   <div className="nowrap" ref={commitMsgRef}>
                     {getAutoTooltipMsg(commitMsgRef, replaceEmoji(commitDetail.comment))}
                   </div>
@@ -771,7 +771,7 @@ const BuildDetail = (props: IProps) => {
               <Row>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('duration')}：</div>
-                  {costTimeSec !== -1 ? `${i18n.t('application:time cost')} ${secondsToTime(+costTimeSec)}` : ''}
+                  {costTimeSec !== -1 ? `${i18n.t('dop:time cost')} ${secondsToTime(+costTimeSec)}` : ''}
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('execution times')}：</div>

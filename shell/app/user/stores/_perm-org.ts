@@ -34,7 +34,7 @@ export const orgPerm = {
     name: i18n.t('user:DevOps platform'),
     read: {
       pass: false,
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
       role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
     },
     apiManage: {
@@ -42,7 +42,7 @@ export const orgPerm = {
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
       },
     },
     addonService: {
@@ -50,7 +50,7 @@ export const orgPerm = {
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
       },
     },
     publisher: {
@@ -58,7 +58,7 @@ export const orgPerm = {
       read: {
         pass: false,
         role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
-        name: i18n.t('application:view'),
+        name: i18n.t('dop:view'),
       },
     },
   },
@@ -111,7 +111,7 @@ export const orgPerm = {
     view: {
       pass: false,
       role: ['Manager', 'EdgeOps', 'Support'],
-      name: i18n.t('application:view'),
+      name: i18n.t('dop:view'),
     },
     operate: {
       pass: false,

@@ -64,7 +64,7 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
         <ErdaIcon fill="black-300" type="tj1" className="text-2xl mb-5 mr-1 hover" />
-        <span>{i18n.t('application:Quickly create from artifacts')}</span>
+        <span>{i18n.t('dop:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>
   );
@@ -82,14 +82,14 @@ const releaseOptionItem = (release: RELEASE.detail) => {
   const { releaseId, createdAt, labels = {} } = release;
   const displayStr = `${releaseId.slice(0, 6)} (${i18n.t('created at')}: ${moment(createdAt).format(
     'YYYY-MM-DD HH:mm:ss',
-  )}; ${i18n.t('application:commit message')}: ${labels.gitCommitMessage})`;
+  )}; ${i18n.t('dop:commit message')}: ${labels.gitCommitMessage})`;
   const tip = (
     <div onClick={(e: any) => e.stopPropagation()}>
       <div className="break-all">
         {i18n.t('commit')} ID: <GotoCommit length={6} commitId={labels.gitCommitId} gotoParams={{ jumpOut: true }} />
       </div>
       <div>
-        {i18n.t('application:commit message')}: {labels.gitCommitMessage}
+        {i18n.t('dop:commit message')}: {labels.gitCommitMessage}
       </div>
       <div>
         {i18n.t('created at')}: {moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}
@@ -125,12 +125,12 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
 
   const fieldList = (form: FormInstance) => [
     {
-      label: i18n.t('application:branch'),
+      label: i18n.t('dop:branch'),
       name: 'branch',
       type: 'select',
       itemProps: {
         disabled: !!initBranch,
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('application:branch') }),
+        placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:branch') }),
         onChange: (v: string) => {
           updater.chosenBranch(v);
           if (form) {
@@ -143,11 +143,11 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
           let tip = '';
           const branchAuth = !item.artifactWorkspace.includes(curEnv);
           if (branchAuth) {
-            tip = `${i18n.t('application:This branch cannot be deployed in {env}.', { env: ENVS_MAP[curEnv] })}`;
+            tip = `${i18n.t('dop:This branch cannot be deployed in {env}.', { env: ENVS_MAP[curEnv] })}`;
           }
           if (!tip) {
             const hasAuth = item.isProtect ? branchAuthObj.executeProtected.pass : branchAuthObj.executeNormal.pass;
-            !hasAuth && (tip = i18n.t('application:branch is protected, you have no permission yet'));
+            !hasAuth && (tip = i18n.t('dop:branch is protected, you have no permission yet'));
           }
           return (
             <Option key={item.name} value={item.name} disabled={!!tip}>
@@ -175,9 +175,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
             optionRender={releaseOptionItem as any}
             valueItemRender={releaseOptionItem as any}
             extraQuery={{ branchName: chosenBranch }}
-            placeholder={i18n.t(
-              'application:For artifact deployment environment, see Project Settings - Branch Rules.',
-            )}
+            placeholder={i18n.t('dop:For artifact deployment environment, see Project Settings - Branch Rules.')}
           />
         );
       },
@@ -193,11 +191,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
 
   return (
     <FormModal
-      title={
-        isUpdate
-          ? i18n.t('application:Quickly update from artifacts')
-          : i18n.t('application:Quickly create from artifacts')
-      }
+      title={isUpdate ? i18n.t('dop:Quickly update from artifacts') : i18n.t('dop:Quickly create from artifacts')}
       visible={!!curEnv}
       loading={formLoading}
       ref={formRef}
@@ -281,10 +275,10 @@ const Deploy = () => {
   const message = React.useMemo(() => {
     const status = appBlockStatusMap[blockStatus];
     if (appBlocked) {
-      return `[${status}] ${i18n.t('application:Function unavailable in network block period.')}`;
+      return `[${status}] ${i18n.t('dop:Function unavailable in network block period.')}`;
     }
     if (unBlockStart && unBlockEnd) {
-      const msg = `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(
+      const msg = `${i18n.t('dop:unblocking time period')}：${moment(unBlockStart).format(
         'YYYY-MM-DD HH:mm',
       )} ~ ${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}`;
       return `[${status}] ${msg}`;

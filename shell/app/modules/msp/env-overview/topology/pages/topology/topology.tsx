@@ -200,7 +200,7 @@ const Topology = () => {
         fixed: item.tag === 'application',
         showIndex: 0,
         haveFilter: true,
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         options: (get(tagOptionsCollection, item.tag, []) || []).map((x: string) => ({ value: x, label: x })),
       })),
     [tagOptionsCollection, topologyTags],

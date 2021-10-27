@@ -44,7 +44,7 @@ const ymlFileData = (pointComponent: PointComponentAbstract<any, any>, dataSourc
   let width = 1000;
   const { info } = pointComponent;
   if (!info) {
-    throw new Error(i18n.t('application:visual nodes must declare static variable information'));
+    throw new Error(i18n.t('dop:visual nodes must declare static variable information'));
   }
 
   if ($container) {
@@ -102,7 +102,7 @@ const dataMarket = (pointComponent: PointComponentAbstract<any, any>, dataSource
     height = $container.offsetHeight;
   }
   if (!info) {
-    throw new Error(i18n.t('application:visual nodes must declare static variable information'));
+    throw new Error(i18n.t('dop:visual nodes must declare static variable information'));
   }
   const points: any[] = [];
   let centerPoint: IFlowItem;

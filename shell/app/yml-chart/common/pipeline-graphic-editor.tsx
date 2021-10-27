@@ -145,7 +145,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
     } else if (externalData.nodeType === NodeType.endNode) {
       const useable = !isEmpty(get(ymlObj, 'stages'));
       if (!useable) {
-        return notify('warning', i18n.t('project:please add tasks first, and then configure outputs'));
+        return notify('warning', i18n.t('dop:please add tasks first, and then configure outputs'));
       }
       update({
         outParamsNode: nodeData,

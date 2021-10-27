@@ -104,8 +104,8 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
 
   const handleDele = (id: number) => {
     confirm({
-      title: i18n.t('application:are you sure you want to delete this item?'),
-      content: i18n.t('application:the notification will be permanently deleted'),
+      title: i18n.t('dop:are you sure you want to delete this item?'),
+      content: i18n.t('dop:the notification will be permanently deleted'),
       onOk() {
         deleteNotifyConfigs(id).then(() => {
           handleGetNotifyConfigs();
@@ -151,7 +151,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   let fieldsList = [
     {
       name: 'name',
-      label: i18n.t('application:notification name'),
+      label: i18n.t('dop:notification name'),
       required: true,
       itemProps: {
         disabled: isEditing,
@@ -160,7 +160,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     },
     {
       name: 'notifyItemIds',
-      label: i18n.t('application:trigger timing'),
+      label: i18n.t('dop:trigger timing'),
       required: true,
       type: 'select',
       options: map(notifyItems, ({ id, displayName }) => ({ name: displayName, value: id })),
@@ -170,7 +170,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     },
     {
       name: 'notifyGroupId',
-      label: i18n.t('application:select group'),
+      label: i18n.t('dop:select group'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -198,7 +198,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       ...fieldsList,
       {
         name: 'channels',
-        label: i18n.t('application:notification method'),
+        label: i18n.t('dop:notification method'),
         required: true,
         type: 'select',
         options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
@@ -211,7 +211,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
 
   const columns: Array<ColumnProps<APP_NOTIFY.INotify>> = [
     {
-      title: i18n.t('application:notification name'),
+      title: i18n.t('dop:notification name'),
       dataIndex: 'name',
     },
     {
@@ -247,7 +247,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('application:edit')}
+              {i18n.t('dop:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -255,7 +255,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
                 handleDele(record.id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('dop:delete')}
             </span>
             <Switch
               size="small"
@@ -278,18 +278,18 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('application:new notification')}>
+      <Tooltip title={i18n.t('dop:new notification')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             openModal();
           }}
         >
-          <Button type="primary">{i18n.t('application:new notification')}</Button>
+          <Button type="primary">{i18n.t('dop:new notification')}</Button>
         </div>
       </Tooltip>
       <FormModal
-        title={`${isEditing ? i18n.t('application:edit notification') : i18n.t('application:new notification')}`}
+        title={`${isEditing ? i18n.t('dop:edit notification') : i18n.t('dop:new notification')}`}
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}

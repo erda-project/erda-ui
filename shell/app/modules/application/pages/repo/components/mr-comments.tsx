@@ -46,7 +46,7 @@ export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox
       />
       <div className="mt-3">
         <Button type="primary" onClick={() => onSubmit()}>
-          {i18n.t('application:post comment')}
+          {i18n.t('dop:post comment')}
         </Button>
         {onCancel && (
           <Button className="ml-2" onClick={() => onCancel()}>
@@ -77,7 +77,7 @@ export const Discussion = ({ comment, commentMap, addComment }: IDiscussion) => 
       <span className="mr-1">
         <Tooltip title={comment.author.username}>{comment.author.nickName}</Tooltip> 在 {comment.data.newPath} 中
       </span>
-      <span className="mx-1">{i18n.t('application:commented at')}</span>
+      <span className="mx-1">{i18n.t('dop:commented at')}</span>
       {fromNow(comment.createdAt)}
     </div>
   );
@@ -157,7 +157,7 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
               key={comment.id}
               user={comment.author.nickName}
               time={comment.createdAt}
-              action={i18n.t('application:commented at')}
+              action={i18n.t('dop:commented at')}
               content={Markdown(comment.note || '')}
             />
           );

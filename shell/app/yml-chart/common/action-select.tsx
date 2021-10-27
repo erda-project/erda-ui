@@ -183,7 +183,7 @@ export default (props: IProps) => {
         onChange={searchInputChange}
         value={searchValue}
         className="actions-input"
-        placeholder={placeholder || `${i18n.t('application:please choose')} Add-on`}
+        placeholder={placeholder || `${i18n.t('dop:please choose')} Add-on`}
       />
       {renderSelectContent()}
     </React.Fragment>
@@ -202,7 +202,7 @@ export default (props: IProps) => {
         {label}:
         {selectedItem && !disabled ? (
           <a onClick={clear} className="reselect">
-            {i18n.t('application:reselect')}
+            {i18n.t('dop:reselect')}
           </a>
         ) : null}
       </div>

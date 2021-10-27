@@ -105,7 +105,7 @@ export const AddonCategory = () => {
         try {
           config = JSON.parse(importConfig);
         } catch (e) {
-          message.warn(i18n.t('project:JSON format error'));
+          message.warn(i18n.t('dop:JSON format error'));
         }
         if (config === null) {
           return Promise.reject();
@@ -168,7 +168,7 @@ export const AddonCategory = () => {
     <>
       <AddonCardList
         isFetching={loading}
-        searchPlaceHolder={i18n.t('project:filter by application name')}
+        searchPlaceHolder={i18n.t('dop:filter by application name')}
         addonCategory={projectAddonCategory}
         searchProps={['applicationName']}
         hideSearch
@@ -177,7 +177,7 @@ export const AddonCategory = () => {
       <div className="top-button-group">
         <WithAuth pass={permMap.addProjectService.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.modalVisible(true)}>
-            {i18n.t('project:add addon')}
+            {i18n.t('dop:add addon')}
           </Button>
         </WithAuth>
       </div>

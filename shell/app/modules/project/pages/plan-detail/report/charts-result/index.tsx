@@ -19,10 +19,10 @@ import i18n from 'i18n';
 import testPlanStore from 'project/stores/test-plan';
 
 const nameMaps = {
-  init: i18n.t('project:not performed'),
-  block: i18n.t('project:blocking'),
-  fail: i18n.t('project:not passed'),
-  succ: i18n.t('project:pass'),
+  init: i18n.t('dop:not performed'),
+  block: i18n.t('dop:blocking'),
+  fail: i18n.t('dop:not passed'),
+  succ: i18n.t('dop:pass'),
 };
 
 const ChartsResult = () => {
@@ -50,7 +50,7 @@ const ChartsResult = () => {
     });
     const staticData = {
       legendData: names,
-      metricData: [{ name: i18n.t('project:results of the'), data }],
+      metricData: [{ name: i18n.t('dop:results of the'), data }],
       extraOption: {
         color,
       },
@@ -65,7 +65,7 @@ const ChartsResult = () => {
         moved: false,
         static: false,
         view: {
-          name: i18n.t('project:use case execution result distribution'),
+          name: i18n.t('dop:use case execution result distribution'),
           chartType: 'chart:pie',
           // hideHeader: true,
           staticData,

@@ -93,10 +93,10 @@ const checkParamKeyDuplicate = (list: any[]) => {
 
 const doCheck = (data: ICaseDetail) => {
   if (!data.name) {
-    return i18n.t('project:title required');
+    return i18n.t('dop:title required');
   }
   if (!(data.stepAndResults || []).length) {
-    return i18n.t('project:steps and results are not filled out');
+    return i18n.t('dop:steps and results are not filled out');
   }
   const inValidNum = [] as number[];
   data.stepAndResults.forEach((item, i) => {
@@ -106,10 +106,10 @@ const doCheck = (data: ICaseDetail) => {
   });
   const dupList = checkParamKeyDuplicate(data.apisFormat);
   if (dupList.length) {
-    return i18n.t('project:there are duplicates in the {index} interface', { index: dupList.join(',') });
+    return i18n.t('dop:there are duplicates in the {index} interface', { index: dupList.join(',') });
   }
   if (inValidNum.length) {
-    return i18n.t('project:the {index} step in the steps and results is not completed', {
+    return i18n.t('dop:the {index} step in the steps and results is not completed', {
       index: inValidNum.join(','),
     });
   }
@@ -318,9 +318,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
         >
           <>
             <ErdaIcon fill="black-400" type="play" size="16" />
-            {i18n.t('project:execute')}
+            {i18n.t('dop:execute')}
             <span className="text-xs">
-              ({i18n.t('project:When you click directly, it will execute cases without environment.')})
+              ({i18n.t('dop:When you click directly, it will execute cases without environment.')})
             </span>
           </>
         </SelectEnv>
@@ -346,7 +346,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 className={classnames('case-name text-lg font-medium text-normal', titleIsEmpty && 'error')}
                 size="large"
                 autoFocus
-                placeholder={i18n.t('project:use case title (required)')}
+                placeholder={i18n.t('dop:use case title (required)')}
                 autoComplete="off"
                 value={fullData.name}
                 onChange={(e) => {
@@ -358,7 +358,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
             <div className="case-drawer-header-op">
               {editMode ? (
                 <>
-                  <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
+                  <Copy selector=".copy-share-link" tipName={i18n.t('dop:share link')} />
                   <IconShareOne
                     className="cursor-copy copy-share-link ml-3"
                     size="16px"
@@ -384,7 +384,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />}
                   size={28}
                 />
-                &nbsp;{i18n.t('project:updated on')}&nbsp;{updateDate}
+                &nbsp;{i18n.t('dop:updated on')}&nbsp;{updateDate}
               </div>
             )}
           </div>
@@ -392,19 +392,19 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
         <div className="case-drawer-body flex justify-between">
           <div className="case-drawer-body-left flex-1 px-5 py-4">
             <div onBlurCapture={handleAnyBlur}>
-              <ContentPanel title={i18n.t('project:preconditions')}>
+              <ContentPanel title={i18n.t('dop:preconditions')}>
                 <MarkdownEditor
                   value={fullData.preCondition}
                   onBlur={(v: string) => {
                     editMode && handleSave(false, { ...fullData, preCondition: v });
                     updateFullData('preCondition', v);
                   }}
-                  placeholder={i18n.t('project:no content yet')}
-                  btnText={i18n.t('project:save')}
+                  placeholder={i18n.t('dop:no content yet')}
+                  btnText={i18n.t('dop:save')}
                 />
               </ContentPanel>
               <ContentPanel
-                title={i18n.t('project:steps and results')}
+                title={i18n.t('dop:steps and results')}
                 mode="add"
                 onClick={() => {
                   handleAddInTitle('stepAndResults');
@@ -416,7 +416,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 />
               </ContentPanel>
               <ContentPanel
-                title={i18n.t('project:interface')}
+                title={i18n.t('dop:interface')}
                 mode="add"
                 onClick={() => {
                   handleAddInTitle('apisFormat');
@@ -431,15 +431,15 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   executeApi={executeApi}
                 />
               </ContentPanel>
-              <ContentPanel title={i18n.t('project:description')}>
+              <ContentPanel title={i18n.t('dop:description')}>
                 <MarkdownEditor
                   value={fullData.desc}
                   onBlur={(v: string) => {
                     editMode && handleSave(false, { ...fullData, desc: v });
                     updateFullData('desc', v);
                   }}
-                  placeholder={i18n.t('project:supplemental description')}
-                  btnText={i18n.t('project:save')}
+                  placeholder={i18n.t('dop:supplemental description')}
+                  btnText={i18n.t('dop:save')}
                 />
               </ContentPanel>
             </div>

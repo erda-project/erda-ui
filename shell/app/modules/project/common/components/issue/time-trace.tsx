@@ -63,12 +63,12 @@ const TimeTraceBar = React.forwardRef(
         <div className="text-sub flex justify-between items-center text-xs">
           <span>
             {_logged + _spent
-              ? `${i18n.t('project:logged')} ${transToStr(_logged + _spent)}`
-              : i18n.t('project:no time logged')}
+              ? `${i18n.t('dop:logged')} ${transToStr(_logged + _spent)}`
+              : i18n.t('dop:no time logged')}
           </span>
           {_remain ? (
             <span>
-              {i18n.t('project:Remaining')} {transToStr(_remain)}
+              {i18n.t('dop:Remaining')} {transToStr(_remain)}
             </span>
           ) : null}
         </div>
@@ -115,7 +115,7 @@ export const TimeTrace = React.forwardRef(
     defaultRemaining = isModifiedRemainingTime ? value.remainingTime : defaultRemaining;
     const fields = [
       {
-        label: i18n.t('project:Time spent'),
+        label: i18n.t('dop:Time spent'),
         key: 'thisElapsedTime',
         getComp: () => (
           <TimeInput
@@ -123,7 +123,7 @@ export const TimeTrace = React.forwardRef(
             onChange={onSpentTimeChange}
             tooltip={
               <div>
-                {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />. w = {i18n.t('week')}
+                {i18n.t('dop:Format must be 2w 3d 4h 5m')} <br />. w = {i18n.t('week')}
                 <br />. d = {i18n.t('common:day')}
                 <br />. h = {i18n.t('common:hour')}
                 <br />. m = {i18n.t('common:minutes')}
@@ -142,14 +142,14 @@ export const TimeTrace = React.forwardRef(
         ],
       },
       {
-        label: i18n.t('project:Time remaining'),
+        label: i18n.t('dop:Time remaining'),
         key: 'remainingTime',
         getComp: () => (
           <TimeInput
             placeholder={checkMsg}
             tooltip={
               <div>
-                {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />. w = {i18n.t('week')}
+                {i18n.t('dop:Format must be 2w 3d 4h 5m')} <br />. w = {i18n.t('week')}
                 <br />. d = {i18n.t('common:day')}
                 <br />. h = {i18n.t('common:hour')}
                 <br />. m = {i18n.t('common:minutes')}
@@ -169,7 +169,7 @@ export const TimeTrace = React.forwardRef(
         ],
       },
       {
-        label: i18n.t('project:Date started'),
+        label: i18n.t('dop:Date started'),
         component: 'datePicker',
         key: 'startTime',
         componentProps: {
@@ -177,13 +177,13 @@ export const TimeTrace = React.forwardRef(
           showTime: true,
           className: 'w-full',
         },
-        labelTip: i18n.t('project:The start time of this counted time, not the start time of the issue'),
+        labelTip: i18n.t('dop:The start time of this counted time, not the start time of the issue'),
         type: 'datePicker',
         fixIn: (v: string) => (v ? moment(v) : null),
         fixOut: (m?: Moment) => m && m.format('YYYY-MM-DD HH:mm:ss'),
       },
       {
-        label: i18n.t('project:Work description'),
+        label: i18n.t('dop:Work description'),
         component: 'textarea',
         key: 'workContent',
         type: 'textarea',
@@ -232,7 +232,7 @@ export const TimeTrace = React.forwardRef(
         />
         {!disabled && (
           <Modal
-            title={i18n.t('project:Time tracking')}
+            title={i18n.t('dop:Time tracking')}
             visible={modalVis}
             onCancel={handleCancel}
             destroyOnClose
@@ -252,7 +252,7 @@ export const TimeTrace = React.forwardRef(
               estimate={value.estimateTime}
             />
             <div className="my-4">
-              {i18n.t('project:The original estimated time for this event is')} {transToStr(value.estimateTime)}
+              {i18n.t('dop:The original estimated time for this event is')} {transToStr(value.estimateTime)}
             </div>
             <Form formRef={form} fields={fields} onChange={setEditData} />
           </Modal>

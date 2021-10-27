@@ -128,7 +128,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                   </div>
                   <div className="table-operations">
                     <Popconfirm
-                      title={`${i18n.t('project:confirm to remove the quote?')}`}
+                      title={`${i18n.t('dop:confirm to remove the quote?')}`}
                       onConfirm={() => {
                         onDelete(propertyID);
                       }}
@@ -174,18 +174,18 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     >
       <div className="issue-field-layout">
         <div className="default-field-panel">
-          <div className="name">{i18n.t('project:default field')}</div>
+          <div className="name">{i18n.t('dop:default field')}</div>
           <div className="field-grid mb-4 pl-2">{renderDefaultContent}</div>
         </div>
         <div className="custom-field-panel">
-          <div className="name">{i18n.t('project:custom fields')}</div>
+          <div className="name">{i18n.t('dop:custom fields')}</div>
           <div className="custom-field-list">{renderCustomFields()}</div>
           <div className="create-field-form mt-3">
             <div className="flex justify-between items-center">
               <Select
                 className="flex-1 mr-2"
                 value={selectedField?.propertyID}
-                placeholder={i18n.t('please choose {name}', { name: i18n.t('project:custom fields') })}
+                placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:custom fields') })}
                 onChange={(e: any) => {
                   const selectedFieldItem = find(filedOptions, (t) => t.propertyID === e) as ISSUE_FIELD.IFiledItem;
                   updater.selectedField(selectedFieldItem);
@@ -201,7 +201,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
               </Select>
               <div>
                 <Button type="primary" disabled={isEmpty(selectedField)} className="mr-2" onClick={onAddField}>
-                  {i18n.t('project:reference')}
+                  {i18n.t('dop:reference')}
                 </Button>
               </div>
             </div>

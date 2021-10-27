@@ -29,19 +29,19 @@ export enum ISSUE_FIELD_TYPES {
 export const ISSUE_LIST_MAP = {
   requirement: {
     type: 'REQUIREMENT',
-    name: i18n.t('project:requirements'),
+    name: i18n.t('dop:requirements'),
   },
   task: {
     type: 'TASK',
-    name: i18n.t('project:task'),
+    name: i18n.t('dop:task'),
   },
   bug: {
     type: 'BUG',
-    name: i18n.t('project:bug'),
+    name: i18n.t('dop:bug'),
   },
   epic: {
     type: 'EPIC',
-    name: i18n.t('project:milestone'),
+    name: i18n.t('dop:milestone'),
   },
 };
 
@@ -109,7 +109,7 @@ export const FIELD_TYPE_ICON_MAP = {
     icon: 'bb1',
     color: 'primary',
     value: 'EPIC',
-    name: i18n.t('project:milestone'),
+    name: i18n.t('dop:milestone'),
   },
   REQUIREMENT: {
     icon: 'xq1',
@@ -139,12 +139,12 @@ export const FIELD_WITH_OPTION = {
 export const COMMON_FIELDS = [
   {
     propertyName: 'state',
-    displayName: i18n.t('project:state'),
+    displayName: i18n.t('dop:state'),
     propertyType: 'Select',
   },
   {
     propertyName: 'priority',
-    displayName: i18n.t('application:priority'),
+    displayName: i18n.t('dop:priority'),
     propertyType: 'Select',
   },
   {
@@ -154,12 +154,12 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'planFinishedAt',
-    displayName: i18n.t('project:deadline'),
+    displayName: i18n.t('dop:deadline'),
     propertyType: 'Date',
   },
   {
     propertyName: 'labels',
-    displayName: i18n.t('application:tag'),
+    displayName: i18n.t('dop:tag'),
     propertyType: 'MultiSelect',
   },
 ];
@@ -168,12 +168,12 @@ const TASK_FIELDS = [
   ...COMMON_FIELDS,
   {
     propertyName: 'iterationID',
-    displayName: i18n.t('project:owned iteration'),
+    displayName: i18n.t('dop:owned iteration'),
     propertyType: 'Select',
   },
   {
     propertyName: 'complexity',
-    displayName: i18n.t('project:complexity'),
+    displayName: i18n.t('dop:complexity'),
     propertyType: 'Select',
   },
   {
@@ -183,12 +183,12 @@ const TASK_FIELDS = [
   },
   {
     propertyName: 'estimateTime',
-    displayName: i18n.t('project:EstimateTime'),
+    displayName: i18n.t('dop:EstimateTime'),
     propertyType: 'Text',
   },
   {
     propertyName: 'issueManHour',
-    displayName: i18n.t('project:Time tracking'),
+    displayName: i18n.t('dop:Time tracking'),
     propertyType: 'Text',
   },
 ];
@@ -199,32 +199,32 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('project:owned iteration'),
+      displayName: i18n.t('dop:owned iteration'),
       propertyType: 'Select',
     },
     {
       propertyName: 'severity',
-      displayName: i18n.t('project:severity'),
+      displayName: i18n.t('dop:severity'),
       propertyType: 'Select',
     },
     {
       propertyName: 'owner',
-      displayName: i18n.t('project:responsible person'),
+      displayName: i18n.t('dop:responsible person'),
       propertyType: 'Person',
     },
     {
       propertyName: 'bugStage',
-      displayName: i18n.t('project:import source'),
+      displayName: i18n.t('dop:import source'),
       propertyType: 'Select',
     },
     {
       propertyName: 'estimateTime',
-      displayName: i18n.t('project:EstimateTime'),
+      displayName: i18n.t('dop:EstimateTime'),
       propertyType: 'Text',
     },
     {
       propertyName: 'issueManHour',
-      displayName: i18n.t('project:Time tracking'),
+      displayName: i18n.t('dop:Time tracking'),
       propertyType: 'Text',
     },
   ],
@@ -232,22 +232,22 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('project:owned iteration'),
+      displayName: i18n.t('dop:owned iteration'),
       propertyType: 'Select',
     },
     {
       propertyName: 'complexity',
-      displayName: i18n.t('project:complexity'),
+      displayName: i18n.t('dop:complexity'),
       propertyType: 'Select',
     },
     {
       propertyName: 'estimateTime',
-      displayName: i18n.t('project:EstimateTime'),
+      displayName: i18n.t('dop:EstimateTime'),
       propertyType: 'Text',
     },
     {
       propertyName: 'issueManHour',
-      displayName: i18n.t('project:Time tracking'),
+      displayName: i18n.t('dop:Time tracking'),
       propertyType: 'Text',
     },
   ],
@@ -255,7 +255,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'complexity',
-      displayName: i18n.t('project:complexity'),
+      displayName: i18n.t('dop:complexity'),
       propertyType: 'Select',
     },
   ],
@@ -272,8 +272,8 @@ export const TASK_SP_FIELD = {
 };
 
 export const BUG_SP_FIELD = {
-  displayName: i18n.t('project:import source'),
-  propertyName: i18n.t('project:import source'),
+  displayName: i18n.t('dop:import source'),
+  propertyName: i18n.t('dop:import source'),
   required: true,
   propertyType: 'Select',
   relatedIssue: [i18n.t('bug')],

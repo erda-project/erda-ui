@@ -21,11 +21,11 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   const formPrefix = 'config.docker';
   const fieldsList = [
     {
-      label: i18n.t('org:data absolute path'),
+      label: i18n.t('cmp:data absolute path'),
       name: `${formPrefix}.dataRoot`,
       initialValue: '/var/lib/docker',
       itemProps: {
-        placeholder: i18n.t('org:cannot be the same as the exec path'),
+        placeholder: i18n.t('cmp:cannot be the same as the exec path'),
       },
       rules: [
         { ...regRulesMap.absolutePath },
@@ -36,13 +36,13 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               const execRoot = form.getFieldValue(['config', 'docker', 'execRoot']);
               if (value === execRoot) pass = false;
             }
-            return pass ? callback() : callback(i18n.t('org:cannot be the same as the exec path'));
+            return pass ? callback() : callback(i18n.t('cmp:cannot be the same as the exec path'));
           },
         },
       ],
     },
     {
-      label: i18n.t('org:exec absolute path'),
+      label: i18n.t('cmp:exec absolute path'),
       name: `${formPrefix}.execRoot`,
       initialValue: '/var/run/docker',
       itemProps: {
@@ -63,20 +63,20 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
       ],
     },
     {
-      label: i18n.t('org:Bip segment'),
+      label: i18n.t('cmp:Bip segment'),
       name: `${formPrefix}.bip`,
       initialValue: '172.17.0.1/16',
       rules: [{ ...regRulesMap.subnet }],
     },
     {
-      label: i18n.t('org:CIDR segment'),
+      label: i18n.t('cmp:CIDR segment'),
       name: `${formPrefix}.fixedCIDR`,
       initialValue: '172.17.0.0/16',
       rules: [{ ...regRulesMap.subnet }],
     },
   ];
   return (
-    <FormUnitContainer title={i18n.t('org:docker configs')} curRef={curRef}>
+    <FormUnitContainer title={i18n.t('cmp:docker configs')} curRef={curRef}>
       {isReadonly ? (
         <ReadonlyForm fieldsList={fieldsList} data={data} />
       ) : (

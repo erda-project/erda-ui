@@ -173,23 +173,23 @@ class TestDetail extends React.Component<IProps, IState> {
       },
     ];
     const statusFilter = [
-      { name: i18n.t('application:all'), value: 'all', color: 'all' },
-      { name: i18n.t('application:pass'), value: 'passed', color: 'passed' },
-      { name: i18n.t('application:jump over'), value: 'skipped', color: 'skipped' },
-      { name: i18n.t('application:failed'), value: 'failed', color: 'failed' },
-      { name: i18n.t('application:error'), value: 'error', color: 'error' },
+      { name: i18n.t('dop:all'), value: 'all', color: 'all' },
+      { name: i18n.t('dop:pass'), value: 'passed', color: 'passed' },
+      { name: i18n.t('dop:jump over'), value: 'skipped', color: 'skipped' },
+      { name: i18n.t('dop:failed'), value: 'failed', color: 'failed' },
+      { name: i18n.t('dop:error'), value: 'error', color: 'error' },
     ];
     return (
       <div className="application-test-detail">
         <div className="row-space" />
         <Row>
           <Col span={12} className="test-chart-container">
-            <ChartContainer title={i18n.t('application:use case statistics')}>
+            <ChartContainer title={i18n.t('dop:use case statistics')}>
               <TestPieChart data={pieChartData} />
             </ChartContainer>
           </Col>
           <Col span={12} className="test-env-container">
-            <ChartContainer title={i18n.t('application:test environment')}>
+            <ChartContainer title={i18n.t('dop:test environment')}>
               <Table
                 loading={false}
                 dataSource={dataSource}
@@ -205,10 +205,10 @@ class TestDetail extends React.Component<IProps, IState> {
         <div className="row-space" />
         <Row className="test-detail-row">
           <Col span={8} className="test-list-container">
-            <ChartContainer title={i18n.t('application:test case')}>
+            <ChartContainer title={i18n.t('dop:test case')}>
               <div className="filter">
                 <Search
-                  placeholder={i18n.t('application:enter to filter use cases')}
+                  placeholder={i18n.t('dop:enter to filter use cases')}
                   onChange={(e) => this.onSearchKeyChange(e.target.value)}
                 />
                 <Select value={filterKey} onChange={this.changeFilterKey}>
@@ -237,20 +237,18 @@ class TestDetail extends React.Component<IProps, IState> {
                       </span>
                       <span className="time">
                         {duration !== 0 && seconds === 0
-                          ? `${duration / 1000000}${i18n.t('application:millisecond(s)')}`
+                          ? `${duration / 1000000}${i18n.t('dop:millisecond(s)')}`
                           : secondsToTime(seconds, true)}
                       </span>
                     </li>
                   );
                 })}
-                {filterList.length === 0 && (
-                  <li className="test-item-nodata">{i18n.t('application:no matching data')}</li>
-                )}
+                {filterList.length === 0 && <li className="test-item-nodata">{i18n.t('dop:no matching data')}</li>}
               </ul>
             </ChartContainer>
           </Col>
           <Col span={16} className="test-output-container">
-            <ChartContainer title={i18n.t('application:test output')}>
+            <ChartContainer title={i18n.t('dop:test output')}>
               {this.renderTestInfo(checkedTestCase as ITest)}
             </ChartContainer>
           </Col>

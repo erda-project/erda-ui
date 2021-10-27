@@ -35,30 +35,30 @@ const AliCloudPreview = ({
 
   const columns = [
     {
-      title: i18n.t('org:product type'),
+      title: i18n.t('cmp:product type'),
       dataIndex: 'resourceType',
       width: 180,
     },
     {
-      title: i18n.t('org:product configuration'),
+      title: i18n.t('cmp:product configuration'),
       dataIndex: 'resourceProfile',
       render: (value: string[]) => {
         return map(value, (item) => <div key={item}>{item}</div>);
       },
     },
     {
-      title: i18n.t('org:number of products'),
+      title: i18n.t('cmp:number of products'),
       dataIndex: 'resourceNum',
       width: 100,
     },
     {
-      title: i18n.t('org:billing method'),
+      title: i18n.t('cmp:billing method'),
       dataIndex: 'chargeType',
       width: 100,
       render: (v: string) => get(chargeTypeMap, `${v}.name`),
     },
     {
-      title: i18n.t('org:purchase time'),
+      title: i18n.t('cmp:purchase time'),
       dataIndex: 'chargePeriod',
       width: 100,
       render: (v: string) => get(find(chargePeriodMap, { value: Number(v) }), 'name', '-'),
@@ -100,7 +100,7 @@ const AliCloudPreview = ({
         scroll={{ x: '100%' }}
       />
       <Checkbox className="mt-3" onChange={() => updater.checkedRead(!checkedRead)} checked={checkedRead} />{' '}
-      {i18n.t('org:i have confirmed')}
+      {i18n.t('cmp:i have confirmed')}
     </Modal>
   );
 };

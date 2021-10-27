@@ -191,10 +191,10 @@ class RepoMR extends React.PureComponent<IProps, IState> {
       mergeAuth = this.getTargetBranchAuth();
 
       if (!mergeAuth) {
-        mergeNoAuthTip = i18n.t('application:target branch is protected, you have no permission yet');
+        mergeNoAuthTip = i18n.t('dop:target branch is protected, you have no permission yet');
       } else if (removeSourceBranch) {
         mergeAuth = this.getSourceBranchAuth();
-        !mergeAuth && (mergeNoAuthTip = i18n.t('application:source branch is protected, you have no permission yet'));
+        !mergeAuth && (mergeNoAuthTip = i18n.t('dop:source branch is protected, you have no permission yet'));
       }
       const authorUser = userMap[authorId] || {};
       return {
@@ -231,7 +231,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         // headerAction: (
         //   <React.Fragment>
         //     <WithAuth pass={repoPerm.mr.create.pass}  tipProps={{ placement: 'bottom' }}>
-        //       <Button type='primary' onClick={() => this.handleAction('revert')}>{i18n.t('application:rollback')}</Button>
+        //       <Button type='primary' onClick={() => this.handleAction('revert')}>{i18n.t('dop:rollback')}</Button>
         //     </WithAuth>
         //   </React.Fragment>
         // ),
@@ -239,7 +239,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
           <React.Fragment>
             <Avatar showName wrapClassName="mr-1" name={mergeUser.nick} />
             {i18n.t('merged at')}&nbsp;{fromNow(mergeAt)}
-            {`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
+            {`${removeSourceBranch ? `, ${i18n.t('dop:source branch has been deleted')}` : ''}`}
           </React.Fragment>,
         ],
       };
@@ -253,7 +253,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
           <Avatar className="mr-1 mb-1" name={closeUser.nick} />
           <Tooltip title={closeUser.name}>{closeUser.nick}</Tooltip>
           {i18n.t('closed at')}&nbsp;{fromNow(closeAt)}
-          {`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
+          {`${removeSourceBranch ? `, ${i18n.t('dop:source branch has been deleted')}` : ''}`}
         </React.Fragment>,
       ],
     };
@@ -264,7 +264,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
     return [
       ...insertWhen(defaultBranch !== mrDetail.sourceBranch, [
         {
-          label: i18n.t('application:whether to delete the source branch'),
+          label: i18n.t('dop:whether to delete the source branch'),
           name: 'removeSourceBranch',
           type: 'checkbox',
           required: false,
@@ -274,7 +274,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         },
       ]),
       {
-        label: i18n.t('application:commit message'),
+        label: i18n.t('dop:commit message'),
         name: 'commitMessage',
         type: 'textArea',
         itemProps: {
@@ -305,11 +305,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
     } = this.props;
     return (
       <span className={`mr-${state}-icon`}>
-        {state === 'merged'
-          ? i18n.t('application:have merged')
-          : state === 'open'
-          ? i18n.t('application:committed')
-          : i18n.t('closed')}
+        {state === 'merged' ? i18n.t('dop:have merged') : state === 'open' ? i18n.t('dop:committed') : i18n.t('closed')}
       </span>
     );
   };
@@ -352,7 +348,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
 
           <FormModal
             width={620}
-            title={i18n.t('application:merge requests')}
+            title={i18n.t('dop:merge requests')}
             fieldsList={this.getFieldsList()}
             formData={{ ...rest, commitMessage: replaceEmoji(defaultCommitMessage) }}
             visible={modalVisible}
@@ -368,16 +364,16 @@ class RepoMR extends React.PureComponent<IProps, IState> {
           </div>
           <div className="branch-info">
             <span>
-              {i18n.t('application:source branch')}：<span className="branch-name">{sourceBranch}</span>
+              {i18n.t('dop:source branch')}：<span className="branch-name">{sourceBranch}</span>
             </span>
             <span>
               <CustomIcon type="arrow-right" />
             </span>
             <span>
-              {i18n.t('application:target branch')}：<span className="branch-name">{targetBranch}</span>
+              {i18n.t('dop:target branch')}：<span className="branch-name">{targetBranch}</span>
             </span>
             <span className="mr-rate">
-              {i18n.t('application:overall score')}：<Rate allowHalf disabled value={average_score} />
+              {i18n.t('dop:overall score')}：<Rate allowHalf disabled value={average_score} />
             </span>
           </div>
           <div className="detail-desc-block">

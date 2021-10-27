@@ -70,7 +70,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
     <div className="api-tag-select">
       {disabled ? (
         <Input
-          placeholder={i18n.t('project:please select or enter the tag')}
+          placeholder={i18n.t('dop:please select or enter the tag')}
           value={value}
           maxLength={INPUT_MAX_LENGTH}
           disabled={disabled}
@@ -79,7 +79,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
         <Dropdown overlay={content} trigger={['click']}>
           <Input
             maxLength={INPUT_MAX_LENGTH}
-            placeholder={i18n.t('project:please select or enter the tag')}
+            placeholder={i18n.t('dop:please select or enter the tag')}
             value={value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onInput(e.target.value);
@@ -212,7 +212,7 @@ const ResourceSummary = React.memo((props: IProps) => {
       },
       {
         name: 'tags',
-        label: i18n.t('project:grouping'),
+        label: i18n.t('dop:grouping'),
         colSpan: 24,
         type: TagSelect,
         customProps: {
@@ -230,7 +230,7 @@ const ResourceSummary = React.memo((props: IProps) => {
       },
       {
         type: MarkdownEditor,
-        label: i18n.t('project:description'),
+        label: i18n.t('dop:description'),
         name: 'description',
         colSpan: 24,
         required: false,

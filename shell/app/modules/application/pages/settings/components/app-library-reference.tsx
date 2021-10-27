@@ -43,27 +43,27 @@ const AppLibraryReference = () => {
   const getColumns = ({ deleteItem }: any) => {
     const columns = [
       {
-        title: i18n.t('application:name'),
+        title: i18n.t('dop:name'),
         dataIndex: 'libName',
       },
       {
-        title: i18n.t('application:description'),
+        title: i18n.t('dop:description'),
         dataIndex: 'libDesc',
       },
       {
-        title: i18n.t('application:time'),
+        title: i18n.t('dop:time'),
         dataIndex: 'createdAt',
         width: 240,
         render: (text: string) => formatTime(text, 'YYYY-MM-DD HH:mm:ss'),
       },
       {
-        title: i18n.t('application:approval status'),
+        title: i18n.t('dop:approval status'),
         dataIndex: 'approvalStatus',
         width: 200,
         render: (text: string) => approvalStatus[text],
       },
       {
-        title: i18n.t('application:operation'),
+        title: i18n.t('dop:operation'),
         dataIndex: 'op',
         width: 100,
         render: (_v: any, record: APP_SETTING.LibRef) => {
@@ -79,7 +79,7 @@ const AppLibraryReference = () => {
                     showApplyModal(record);
                   }}
                 >
-                  {i18n.t('application:apply')}
+                  {i18n.t('dop:apply')}
                 </span>
               </WithAuth>
               <Popconfirm
@@ -129,7 +129,7 @@ const AppLibraryReference = () => {
         },
       },
       {
-        label: i18n.t('application:choose module'),
+        label: i18n.t('dop:choose module'),
         name: 'libID',
         type: 'custom',
         itemProps: {
@@ -180,7 +180,7 @@ const AppLibraryReference = () => {
   return (
     <>
       <CRUDStoreTable<APP_SETTING.LibRef>
-        formTitle={i18n.t('application:choose module')}
+        formTitle={i18n.t('dop:choose module')}
         getColumns={getColumns}
         getFieldsList={getFieldsList}
         handleFormSubmit={(data: APP_SETTING.LibRef, { addItem }) => {
@@ -191,7 +191,7 @@ const AppLibraryReference = () => {
         store={libraryRefStore}
       />
       <Modal
-        title={i18n.t('application:refer-to-market')}
+        title={i18n.t('dop:refer-to-market')}
         width={570}
         visible={state.visible}
         destroyOnClose
@@ -209,8 +209,8 @@ const AppLibraryReference = () => {
         }
       >
         <Copy selector=".cursor-copy" />
-        <Alert className="mb-4" message={i18n.t('application:library-usage-tips')} type="warning" showIcon />
-        <p>{i18n.t('application:code content')}</p>
+        <Alert className="mb-4" message={i18n.t('dop:library-usage-tips')} type="warning" showIcon />
+        <p>{i18n.t('dop:code content')}</p>
         <Input className="w-full mb-4" value={state.dependence} addonAfter={addonAfter} />
       </Modal>
     </>

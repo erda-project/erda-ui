@@ -27,31 +27,31 @@ const PersonalUseCase = () => {
 
   const columns: Array<ColumnProps<object>> = [
     {
-      title: i18n.t('project:executor'),
+      title: i18n.t('dop:executor'),
       dataIndex: 'userID',
       key: 'userID',
       render: (text) => (text ? <UserInfo id={text} render={(data) => data.nick || data.name} /> : 'unallocated'),
     },
     {
-      title: i18n.t('project:not performed'),
+      title: i18n.t('dop:not performed'),
       dataIndex: 'init',
       key: 'init',
       render: (value) => value || 0,
     },
     {
-      title: i18n.t('project:passed'),
+      title: i18n.t('dop:passed'),
       dataIndex: 'succ',
       key: 'succ',
       render: (value) => value || 0,
     },
     {
-      title: i18n.t('project:not passed'),
+      title: i18n.t('dop:not passed'),
       dataIndex: 'fail',
       key: 'fail',
       render: (value) => value || 0,
     },
     {
-      title: i18n.t('project:blocking'),
+      title: i18n.t('dop:blocking'),
       dataIndex: 'block',
       key: 'block',
       render: (value) => value || 0,

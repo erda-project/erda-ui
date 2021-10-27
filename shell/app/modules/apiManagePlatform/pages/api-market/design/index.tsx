@@ -78,15 +78,15 @@ const ErrorEmptyHolder = ({
     Comp = (
       <EmptyHolder
         icon={iconImg}
-        tip={i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}
-        action={<Link to={apiDocsLink}>{i18n.t('project:view document details')}</Link>}
+        tip={i18n.t('dop:the document is illegal according to the rules of openapi 3.0. Please click to')}
+        action={<Link to={apiDocsLink}>{i18n.t('dop:view document details')}</Link>}
       />
     );
   } else if (isEmpty(branchList)) {
     Comp = (
       <EmptyHolder
-        tip={i18n.t('project:please download from the code repository')}
-        action={<Link to={apiBranchLink}>{i18n.t('application:new branch')}</Link>}
+        tip={i18n.t('dop:please download from the code repository')}
+        action={<Link to={apiBranchLink}>{i18n.t('dop:new branch')}</Link>}
       />
     );
   } else if (isEmpty(validBranches)) {
@@ -109,10 +109,10 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
     <div>
       <div>
         <CustomIcon type="warnfill" className="text-warning" />
-        <span>{i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}</span>
+        <span>{i18n.t('dop:the document is illegal according to the rules of openapi 3.0. Please click to')}</span>
         <span className="text-link" onClick={gotoDetail}>
           {' '}
-          {i18n.t('project:view document details')}
+          {i18n.t('dop:view document details')}
         </span>
       </div>
       <div>{msg}</div>
@@ -122,7 +122,7 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
     <Popover placement="bottom" content={content} trigger="hover">
       <div className="ml-2">
         <CustomIcon type="tishi" />
-        <span>{i18n.t('project:document is illegal')}</span>
+        <span>{i18n.t('dop:document is illegal')}</span>
       </div>
     </Popover>
   );
@@ -226,7 +226,7 @@ const ApiDesign = () => {
   }, [isDocChanged]);
 
   const beforeunload = React.useCallback((e) => {
-    const msg = `${i18n.t('project:not saved yet, confirm to leave')}?`;
+    const msg = `${i18n.t('dop:not saved yet, confirm to leave')}?`;
     if (changeRef.current) {
       // eslint-disable-next-line no-param-reassign
       (e || window.event).returnValue = msg;
@@ -288,7 +288,7 @@ const ApiDesign = () => {
 
       if (formErrorNum > 0) {
         confirm({
-          title: i18n.t('project:Are you sure to leave, with the error message not saved?'),
+          title: i18n.t('dop:Are you sure to leave, with the error message not saved?'),
           onOk() {
             nextHandle();
           },
@@ -334,13 +334,13 @@ const ApiDesign = () => {
     if (key === 'DATATYPE') {
       const newQuoteMap = getQuoteMap(openApiDoc);
       if (newQuoteMap[name]?.length) {
-        message.warning(i18n.t('project:this type is referenced and cannot be deleted'));
+        message.warning(i18n.t('dop:this type is referenced and cannot be deleted'));
         return;
       }
     } else if (key === 'RESOURCE') {
       const paths = keys(openApiDoc.paths);
       if (paths.length === 1) {
-        message.warning(i18n.t('project:at least one API needs to be kept'));
+        message.warning(i18n.t('dop:at least one API needs to be kept'));
         return;
       }
     }
@@ -530,7 +530,7 @@ const ApiDesign = () => {
 
   const docLockTip = React.useMemo(() => {
     if (isApiReadOnly) {
-      return i18n.t('project:protect branch, not editable');
+      return i18n.t('dop:protect branch, not editable');
     } else if (isDocLocked) {
       return lockUser + API_LOCK_WARNING;
     } else {
@@ -597,7 +597,7 @@ const ApiDesign = () => {
   const onConfirmPublish = React.useCallback(() => {
     if (isDocChanged) {
       confirm({
-        title: i18n.t('project:The current document has not been saved. Publish the saved document?'),
+        title: i18n.t('dop:The current document has not been saved. Publish the saved document?'),
         onOk() {
           updater.apiModalVisible(true);
         },
@@ -617,7 +617,7 @@ const ApiDesign = () => {
     <div className="api-design">
       <div className="top-button-group">
         <Button type="primary" onClick={() => updater.treeModalVisible(true)}>
-          {i18n.t('project:new document')}
+          {i18n.t('dop:new document')}
         </Button>
       </div>
       <div className="api-design-wrap">
@@ -677,7 +677,7 @@ const ApiDesign = () => {
                   }`}
                   onClick={() => onContentChange('SUMMARY')}
                 >
-                  {i18n.t('project:API overview')}
+                  {i18n.t('dop:API overview')}
                 </div>
                 <div className="panel-list">
                   <Collapse
@@ -725,7 +725,7 @@ const ApiDesign = () => {
           if (location.pathname.endsWith('apiDesign')) {
             return false;
           }
-          return `${i18n.t('project:not saved yet, confirm to leave')}?`;
+          return `${i18n.t('dop:not saved yet, confirm to leave')}?`;
         }}
       />
     </div>

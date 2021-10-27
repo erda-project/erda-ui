@@ -74,10 +74,10 @@ const announcementStore = createStore({
       return call(deleteAnnouncement, payload, { successMsg: i18n.t('default:deleted successfully') });
     },
     async publishAnnouncement({ call }, payload: ORG_ANNOUNCEMENT.Action) {
-      return call(publishAnnouncement, payload, { successMsg: i18n.t('org:notice publish successfully') });
+      return call(publishAnnouncement, payload, { successMsg: i18n.t('cmp:notice publish successfully') });
     },
     async unPublishAnnouncement({ call }, payload: ORG_ANNOUNCEMENT.Action) {
-      return call(unPublishAnnouncement, payload, { successMsg: i18n.t('org:notice deprecate successfully') });
+      return call(unPublishAnnouncement, payload, { successMsg: i18n.t('cmp:notice deprecate successfully') });
     },
   },
   reducers: {},

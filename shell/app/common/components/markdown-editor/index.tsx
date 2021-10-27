@@ -154,7 +154,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     if (onSetLS) {
       btns.push(
         <Button key="md-editor-keep-btn" className="mx-2 mr-2" onClick={this.onSetLS}>
-          {i18n.t('application:temporary storage')}
+          {i18n.t('dop:temporary storage')}
         </Button>,
       );
     }

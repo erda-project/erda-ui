@@ -52,7 +52,7 @@ export const RunCaseNode = (props: IProps) => {
     //   break;
     // }
     case 'snippet':
-      name = `${get(scopeObj, 'name') || i18n.t('project:node reference')}: ${data.name}`;
+      name = `${get(scopeObj, 'name') || i18n.t('dop:node reference')}: ${data.name}`;
       IconComp = (
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
@@ -83,7 +83,7 @@ export const RunCaseNode = (props: IProps) => {
     const metadata = get(data, 'result.metadata') || [];
     if (data.type !== 'snippet' && !isEmpty(metadata)) {
       const api_request = find(metadata, { name: 'api_request' });
-      if (api_request) operations.push({ key: 'result', name: i18n.t('project:execute result') });
+      if (api_request) operations.push({ key: 'result', name: i18n.t('dop:execute result') });
     }
     return operations;
   };
@@ -139,7 +139,7 @@ export const RunCaseNode = (props: IProps) => {
             ),
         );
         if (temp.length) {
-          detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
+          detailInfo.push(<h4>{i18n.t('dop:details')}</h4>);
           detailInfo.push(...temp);
         }
       }
@@ -158,7 +158,7 @@ export const RunCaseNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">

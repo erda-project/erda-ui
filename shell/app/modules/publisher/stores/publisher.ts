@@ -132,7 +132,7 @@ const publisher = createStore({
       const res = await call(
         updatePublisher,
         { ...payload, orgId },
-        { successMsg: i18n.t('application:modified successfully') },
+        { successMsg: i18n.t('dop:modified successfully') },
       );
       return res;
     },
@@ -188,7 +188,7 @@ const publisher = createStore({
       return res;
     },
     async updateArtifacts({ call }, payload: Parameters<typeof updateArtifacts>[0]) {
-      const res = await call(updateArtifacts, payload, { successMsg: i18n.t('application:modified successfully') });
+      const res = await call(updateArtifacts, payload, { successMsg: i18n.t('dop:modified successfully') });
       return res;
     },
     async deleteArtifacts({ call }, payload: Parameters<typeof deleteArtifacts>[0]) {

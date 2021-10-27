@@ -105,14 +105,14 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
           <section className="footer flex justify-between items-center mt-5">
             <span>
               <CustomIcon type="jg" />
-              {i18n.t('application:can only add up to 10 files at a time')}
+              {i18n.t('dop:can only add up to 10 files at a time')}
             </span>
             <div>
               <Button className="ml-2" onClick={onCancel}>
-                {i18n.t('application:cancel')}
+                {i18n.t('dop:cancel')}
               </Button>
               <Button className="ml-2" type="primary" onClick={this.onOk}>
-                {i18n.t('application:ok')}
+                {i18n.t('dop:ok')}
               </Button>
             </div>
           </section>

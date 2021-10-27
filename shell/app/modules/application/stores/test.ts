@@ -25,16 +25,16 @@ interface IParams {
 const getSubList = (params: IParams) => {
   return [
     {
-      text: i18n.t('application:quality reports'),
+      text: i18n.t('dop:quality reports'),
       href: goTo.resolve.appCodeQualityReports(params),
     },
     {
-      text: i18n.t('application:issues'),
+      text: i18n.t('dop:issues'),
       href: goTo.resolve.appCodeQualityIssueOpen(params),
       prefix: `${goTo.resolve.appCodeQualityIssue(params)}/`,
     },
     {
-      text: i18n.t('application:lists'),
+      text: i18n.t('dop:lists'),
       href: goTo.resolve.appCodeQuality(params),
     },
   ];

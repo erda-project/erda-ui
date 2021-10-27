@@ -64,7 +64,7 @@ export const ProblemContent = ({ detail }: IProps) => {
         url = !isEmpty(label) ? getUrl(label.path, detail) : null;
         note = label?.path
           ? `${label.code}\n
-${i18n.t('application:jump to code')}：[${linkLabel || label.path}](${url})`
+${i18n.t('dop:jump to code')}：[${linkLabel || label.path}](${url})`
           : content;
         break;
       default:
@@ -85,7 +85,7 @@ ${i18n.t('application:jump to code')}：[${linkLabel || label.path}](${url})`
     _content = Markdown(_note || '');
   }
 
-  return <CommentBox user={author} time={createdAt} action={i18n.t('application:built in')} content={_content} />;
+  return <CommentBox user={author} time={createdAt} action={i18n.t('dop:built in')} content={_content} />;
 };
 
 const { TabPane } = Tabs;
@@ -129,7 +129,7 @@ const TicketDetail = () => {
     detail.status === 'open' ? (
       <div className="top-button-group">
         <Button type="primary" onClick={() => closeTicket()}>
-          {i18n.t('application:close')}
+          {i18n.t('dop:close')}
         </Button>
       </div>
     ) : null;
@@ -175,14 +175,14 @@ const TicketDetail = () => {
               <span className="detail-value">{type ? type.name : '-'}</span>
             </span>
             <span>
-              <span className="detail-property">{i18n.t('application:emergency level')}: </span>
+              <span className="detail-property">{i18n.t('dop:emergency level')}: </span>
               <span className="detail-value">{priority ? priority.name : '-'}</span>
             </span>
           </div>
         </div>
         <ProblemContent detail={detail} />
         <div className="comments-section">
-          <span className="comments-section-text">{i18n.t('application:comment area')}</span>
+          <span className="comments-section-text">{i18n.t('dop:comment area')}</span>
           <div className="section-line" />
         </div>
         <Spin spinning={getTicketCommentsLoading}>
@@ -192,7 +192,7 @@ const TicketDetail = () => {
                 <Avatar name={comment.author} showName size={28} />
                 <span className="mx-1">{i18n.t('at')}</span>
                 <span className="mx-1">{fromNow(comment.createdAt)}</span>
-                <span className="mx-1">{i18n.t('application:associated issue')}</span>
+                <span className="mx-1">{i18n.t('dop:associated issue')}</span>
                 <span
                   className="text-link"
                   onClick={() => {
@@ -220,7 +220,7 @@ const TicketDetail = () => {
                 key={comment.id}
                 user={comment.author}
                 time={comment.createdAt}
-                action={i18n.t('application:commented at')}
+                action={i18n.t('dop:commented at')}
                 content={comment.content}
               />
             ),
@@ -228,7 +228,7 @@ const TicketDetail = () => {
         </Spin>
         <Tabs>
           <TabPane tab={i18n.t('comment')} key="comment">
-            <MarkdownEditor onSubmit={handleSubmit} maxLength={5000} btnText={i18n.t('application:submit comments')} />
+            <MarkdownEditor onSubmit={handleSubmit} maxLength={5000} btnText={i18n.t('dop:submit comments')} />
           </TabPane>
           <TabPane tab={i18n.t('relate to issue')} key="relate">
             <div className="flex justify-between items-center">
@@ -237,7 +237,7 @@ const TicketDetail = () => {
                   className="selecter-item"
                   value={activedProject}
                   getData={getProjects}
-                  placeholder={i18n.t('application:please select project')}
+                  placeholder={i18n.t('dop:please select project')}
                   dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                     total,
                     list: map(list, (project) => {
@@ -262,7 +262,7 @@ const TicketDetail = () => {
                   getData={getIterations}
                   extraQuery={{ projectID: activedProject }}
                   showSearch={false}
-                  placeholder={i18n.t('application:please select iteration')}
+                  placeholder={i18n.t('dop:please select iteration')}
                   onChange={(val) => {
                     update({
                       activedIteration: val as any,
@@ -285,7 +285,7 @@ const TicketDetail = () => {
                 />
                 <Select
                   className="selecter-item"
-                  placeholder={i18n.t('application:please select issue type')}
+                  placeholder={i18n.t('dop:please select issue type')}
                   value={activedIssueType}
                   onSelect={(val) => {
                     update({
@@ -304,7 +304,7 @@ const TicketDetail = () => {
                   getData={getIssues}
                   extraQuery={{ projectID: activedProject, iterationID: activedIteration, type: activedIssueType }}
                   showSearch={false}
-                  placeholder={i18n.t('application:please select issue')}
+                  placeholder={i18n.t('dop:please select issue')}
                   dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                     total,
                     list: map(list, (issue) => {

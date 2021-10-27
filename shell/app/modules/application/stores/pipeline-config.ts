@@ -84,7 +84,7 @@ const pipelineConfig = createFlatStore({
       await call(
         addConfigs,
         { ...payload, query: { ...payload.query, appID }, apiPrefix },
-        { successMsg: i18n.t('application:added successfully') },
+        { successMsg: i18n.t('dop:added successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },
@@ -93,7 +93,7 @@ const pipelineConfig = createFlatStore({
       await call(
         addConfigs, // 溪杨说创建和更新暂时使用同一个接口
         { ...payload, query: { ...payload.query, appID }, apiPrefix },
-        { successMsg: i18n.t('application:modified successfully') },
+        { successMsg: i18n.t('dop:modified successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },
@@ -106,7 +106,7 @@ const pipelineConfig = createFlatStore({
       await call(
         removeConfigs,
         { namespace_name, key, appID, apiPrefix },
-        { successMsg: i18n.t('application:deleted successfully') },
+        { successMsg: i18n.t('dop:deleted successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },
@@ -119,7 +119,7 @@ const pipelineConfig = createFlatStore({
       await call(
         removeConfigs,
         { namespace_name, key, appID, apiPrefix },
-        { successMsg: i18n.t('application:deleted successfully') },
+        { successMsg: i18n.t('dop:deleted successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },

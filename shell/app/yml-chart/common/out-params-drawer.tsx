@@ -92,7 +92,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
   const fields = React.useMemo(
     () => [
       {
-        label: i18n.t('application:outputs configuration'),
+        label: i18n.t('dop:outputs configuration'),
         component: 'arrayObj',
         key: 'outputs',
         required: false,
@@ -111,7 +111,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   disabled={!editing}
                   value={_data.name}
                   onChange={(e: any) => updateItem({ name: e.target.value })}
-                  placeholder={i18n.t('please enter {name}', { name: i18n.t('project:parameter name') })}
+                  placeholder={i18n.t('please enter {name}', { name: i18n.t('dop:parameter name') })}
                 />
                 <Select
                   key="ref"
@@ -119,7 +119,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   disabled={!editing}
                   value={_data.ref}
                   onChange={(val: any) => updateItem({ ref: val })}
-                  placeholder={i18n.t('please choose {name}', { name: i18n.t('project:parameter value') })}
+                  placeholder={i18n.t('please choose {name}', { name: i18n.t('dop:parameter value') })}
                 >
                   {map(outputList, (item) => (
                     <Select.Option key={item}>{item}</Select.Option>
@@ -146,9 +146,9 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   if (!tip) {
                     tip =
                       nameItem.length > 50
-                        ? `${i18n.t('project:parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
+                        ? `${i18n.t('dop:parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
                         : !reg.test(nameItem)
-                        ? `${i18n.t('project:parameter name')} ${i18n.t('includes letters, numbers and underscores')}`
+                        ? `${i18n.t('dop:parameter name')} ${i18n.t('includes letters, numbers and underscores')}`
                         : '';
                   }
                 });
@@ -187,11 +187,11 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
 
   const drawerProps = editing
     ? {
-        title: i18n.t('application:outputs configuration'),
+        title: i18n.t('dop:outputs configuration'),
         maskClosable: false,
       }
     : {
-        title: i18n.t('application:outputs form'),
+        title: i18n.t('dop:outputs form'),
         maskClosable: true,
       };
   return (

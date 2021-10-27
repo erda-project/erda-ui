@@ -60,7 +60,7 @@ const AssociatedAddons = ({ projectId, environment }: IProps) => {
 
   return (
     <>
-      <SimplePanel title={i18n.t('org:associated plugin')}>
+      <SimplePanel title={i18n.t('cmp:associated plugin')}>
         <AddonCards dataSource={filterList(associatedAddons)} />
       </SimplePanel>
       <SimplePanel title={i18n.t('associated microservice')}>
