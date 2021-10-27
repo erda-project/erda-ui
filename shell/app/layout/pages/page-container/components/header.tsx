@@ -24,6 +24,14 @@ import { Route } from 'core/common/interface';
 import { Breadcrumb, Tooltip } from 'antd';
 import './header.scss';
 
+const getPath = (path: string, params: Obj<string>) => {
+  path = (path || '').replace(/^\//, '');
+  Object.keys(params).forEach((key) => {
+    path = path.replace(`:${key}`, params[key]);
+  });
+  return path;
+};
+
 const BreadcrumbItem = ({
   route,
   paths,
@@ -181,10 +189,17 @@ const Header = () => {
     );
   };
 
+  const paths: string[] = [];
+
   return (
     <div className="erda-header">
       <div className="erda-header-breadcrumb">
-        <Breadcrumb routes={allRoutes} itemRender={itemRender} params={params} separator={<IconRight size="14px" />} />
+        <Breadcrumb separator={<IconRight size="14px" />}>
+          {allRoutes.map((item) => {
+            paths.push(getPath(item.path, params));
+            return <Breadcrumb.Item>{itemRender(item, params, allRoutes, paths)}</Breadcrumb.Item>;
+          })}
+        </Breadcrumb>
       </div>
 
       <div className={'erda-header-top'}>
