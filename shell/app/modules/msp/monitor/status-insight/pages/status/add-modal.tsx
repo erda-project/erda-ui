@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { map } from 'lodash';
-import { FormModal, KeyValueTable } from 'common';
+import { FormModal, KeyValueTable, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { regRules, qs } from 'common/utils';
 import monitorStatusStore from 'status-insight/stores/status';
@@ -26,10 +26,9 @@ import { FormInstance } from 'core/common/interface';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 
 const { Option } = Select;
-const { Item: FormItem } = Form;
 const { TextArea } = Input;
 const { TabPane } = Tabs;
-const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, MAX_BODY_LENGTH, CONTAINS } = constants;
+const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, CONTAINS } = constants;
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
 interface IProps {
@@ -48,30 +47,59 @@ interface IState {
   retry: number;
   frequency: number;
   apiMethod: string;
-  body: string;
+  body: {
+    content: string;
+    type: string;
+  };
   headers: Obj;
   url: string;
   query: Obj;
   condition: ITrigger[];
+  bodyType: string;
+  textOrJson: string;
 }
+
+const formType = 'x-www-form-urlencoded';
+const noneType = 'none';
+const jsonType = 'application/json';
+const textType = 'text/plain';
+const raw = 'raw';
+const json = 'json';
+const text = 'text';
+
+const convertType = (type: string) => {
+  const newType = '';
+  if (type === formType || type === noneType) {
+    return newType;
+  } else if (type === jsonType) {
+    return json;
+  } else {
+    return text;
+  }
+};
 
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     return {
-      retry: _formData?.config?.retry || 2,
-      frequency: _formData?.config?.interval || TIME_LIMITS[0],
-      apiMethod: _formData?.config?.method || HTTP_METHOD_LIST[0],
-      body: JSON.stringify(_formData?.config?.body, null, 2) || JSON.stringify({}),
-      headers: _formData?.config?.headers || {},
-      url: _formData?.config?.url || '',
-      query: qs.parseUrl(_formData?.config?.url || '')?.query,
-      condition: _formData?.config?.triggering || [
+      retry: _formData.config?.retry || 2,
+      bodyType:
+        _formData.config?.body?.type === jsonType || _formData.config?.body?.type === textType
+          ? raw
+          : _formData.config?.body?.type,
+      frequency: _formData.config?.interval || TIME_LIMITS[0],
+      apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
+      body: _formData.config?.body || { content: '', type: noneType },
+      headers: _formData.config?.headers || {},
+      url: _formData.config?.url || '',
+      query: qs.parseUrl(_formData.config?.url || '')?.query,
+      condition: _formData.config?.triggering || [
         {
           key: 'http_code',
           operate: '>=',
           value: 400,
         },
       ],
+      textOrJson: convertType(_formData.config?.body?.type),
     };
   } else {
     return {
@@ -87,25 +115,13 @@ const convertFormData = (_formData?: Obj) => {
       retry: 2,
       frequency: TIME_LIMITS[0],
       apiMethod: HTTP_METHOD_LIST[0],
-      body: JSON.stringify({}),
+      body: { content: '', type: 'none' },
       headers: {},
       url: '',
+      textOrJson: 'text',
+      bodyType: 'none',
     };
   }
-};
-
-const ruleOfJson = {
-  validator: async (_, value: string) => {
-    if (value) {
-      try {
-        JSON.parse(value);
-      } catch {
-        throw new Error(i18n.t('msp:please enter the correct JSON format'));
-      }
-    } else {
-      return true;
-    }
-  },
 };
 
 const AddModal = (props: IProps) => {
@@ -114,11 +130,14 @@ const AddModal = (props: IProps) => {
   const { saveService, updateMetric } = monitorStatusStore.effects;
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
-  const [{ showMore, retry, frequency, apiMethod, body, headers, url, query, condition }, updater, update] =
-    useUpdate<IState>({
-      showMore: false,
-      ...convertFormData(formData),
-    });
+  const [
+    { showMore, retry, frequency, apiMethod, body, headers, url, query, condition, bodyType, textOrJson },
+    updater,
+    update,
+  ] = useUpdate<IState>({
+    showMore: false,
+    ...convertFormData(formData),
+  });
 
   React.useEffect(() => {
     if (!modalVisible) {
@@ -141,7 +160,6 @@ const AddModal = (props: IProps) => {
     });
     updater.condition([...condition]);
   };
-
   const setInputValue = (index: number, value: number | string) => {
     condition[index].value = value;
     updater.condition([...condition]);
@@ -161,20 +179,18 @@ const AddModal = (props: IProps) => {
     updater.condition([...condition]);
   };
 
+  const formatBody = () => {
+    try {
+      body.content = JSON.stringify(JSON.parse(body.content), null, 2);
+      updater.body({ ...body });
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  };
+
   const setUrlParams = (queryConfig: Obj) => {
     if (url) {
       formRef.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
       updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
-    }
-  };
-
-  const formatBody = () => {
-    if (body) {
-      const jsonObj = JSON.parse(body);
-      update({
-        body: JSON.stringify(jsonObj, null, 2),
-      });
-      formRef.current?.setFieldsValue({ body: JSON.stringify(jsonObj, null, 2) });
     }
   };
 
@@ -192,7 +208,7 @@ const AddModal = (props: IProps) => {
           retry,
           interval: frequency,
           headers,
-          body: JSON.parse(body),
+          body,
           method: apiMethod,
           triggering: condition,
         },
@@ -209,7 +225,7 @@ const AddModal = (props: IProps) => {
           interval: frequency,
           headers,
           url,
-          body: JSON.parse(body),
+          body,
           method: apiMethod,
           triggering: condition,
         },
@@ -219,6 +235,42 @@ const AddModal = (props: IProps) => {
     }
     toggleModal();
   };
+
+  React.useEffect(() => {
+    switch (textOrJson) {
+      case text:
+        updater.body({ ...body, type: textType });
+        updater.headers({
+          'Content-Type': textType,
+        });
+        break;
+      case json:
+        updater.body({ ...body, type: jsonType });
+        updater.headers({
+          'Content-Type': jsonType,
+        });
+        break;
+      default:
+        break;
+    }
+
+    switch (bodyType) {
+      case noneType:
+        updater.textOrJson('');
+        updater.headers({});
+        updater.body({ content: '', type: noneType });
+        break;
+      case formType:
+        updater.textOrJson('');
+        updater.body({ ...body, type: formType });
+        updater.headers({
+          'Content-Type': formType,
+        });
+        break;
+      default:
+        break;
+    }
+  }, [textOrJson, bodyType]);
 
   const fieldsList = [
     {
@@ -283,7 +335,17 @@ const AddModal = (props: IProps) => {
       getComp: () => {
         return (
           <div className="h-full">
-            <Tabs defaultActiveKey="1">
+            <Tabs
+              onChange={(key: string) => {
+                if (key === '2' && bodyType === raw && textOrJson === text) {
+                  updater.headers({ ...headers, 'Content-Type': textType });
+                }
+                if (key === '2' && bodyType === noneType) {
+                  updater.headers({});
+                }
+              }}
+              defaultActiveKey="1"
+            >
               <TabPane tab="Params" key="1">
                 <KeyValueTable
                   isTextArea={false}
@@ -296,10 +358,10 @@ const AddModal = (props: IProps) => {
               <TabPane tab="Headers" key="2">
                 <KeyValueTable
                   isTextArea={false}
-                  onChange={(header: any) => {
+                  onChange={(header) => {
                     updater.headers(header);
                   }}
-                  onDel={(header: any) => {
+                  onDel={(header) => {
                     updater.headers(header);
                   }}
                   data={headers}
@@ -307,22 +369,87 @@ const AddModal = (props: IProps) => {
                 />
               </TabPane>
               <TabPane tab="Body" key="3">
-                <Button className="mb-4" size="small" type="primary" onClick={formatBody}>
-                  {i18n.t('format')}
-                </Button>
-                <FormItem initialValue={body} name="body" rules={[ruleOfJson]}>
-                  <TextArea
-                    autoSize={{ minRows: 5, maxRows: 12 }}
-                    maxLength={MAX_BODY_LENGTH}
-                    placeholder={
-                      i18n.t('msp|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH.toString()
+                <Radio.Group
+                  onChange={(e) => {
+                    updater.bodyType(e.target.value);
+                    if (e.target.value === formType) {
+                      body.content = '';
+                      updater.body({ ...body });
                     }
-                    value={body}
-                    onChange={(e: any) => {
-                      updater.body(e.target.value);
+                    if (e.target.value === raw) {
+                      body.content = '';
+                      updater.body({ ...body });
+                      updater.textOrJson('text');
+                    }
+                  }}
+                  value={bodyType}
+                >
+                  <Radio value={'none'}>none</Radio>
+                  <Radio value={'x-www-form-urlencoded'}>x-www-form-urlencoded</Radio>
+                  <Radio value={'raw'}>raw</Radio>
+                </Radio.Group>
+                {bodyType === noneType ? (
+                  <div className="p-6 text-center">{i18n.t('project:the current request has no body')}</div>
+                ) : null}
+                {bodyType === formType ? (
+                  <div className="mt-4">
+                    <KeyValueTable
+                      className="mb-2"
+                      isTextArea={false}
+                      onChange={(newBody) => {
+                        body.content = qs.stringify(newBody);
+                        updater.body({ ...body });
+                      }}
+                      onDel={(newBody) => {
+                        body.content = qs.stringify(newBody);
+                        updater.body({ ...body });
+                      }}
+                      data={qs.parse(body.content)}
+                      form={form}
+                    />
+                  </div>
+                ) : null}
+                {bodyType === raw ? (
+                  <Select
+                    value={textOrJson}
+                    onChange={(v) => {
+                      updater.textOrJson(v);
+                    }}
+                    style={{ width: 160 }}
+                    className="mr-2"
+                  >
+                    <Option value="text">text/plain</Option>
+                    <Option value="json">application/json</Option>
+                  </Select>
+                ) : null}
+                {bodyType === raw && textOrJson === text ? (
+                  <TextArea
+                    value={body?.content}
+                    onChange={(e) => {
+                      body.content = e.target.value;
+                      updater.body({ ...body });
+                    }}
+                    className="mt-4"
+                    rows={10}
+                  />
+                ) : null}
+                {textOrJson === json ? (
+                  <Button onClick={formatBody} className="ml-2" size="small" type="primary">
+                    {i18n.t('format')}
+                  </Button>
+                ) : null}
+                {bodyType === raw && textOrJson === json ? (
+                  <FileEditor
+                    className="mt-4"
+                    fileExtension="json"
+                    value={body?.content}
+                    minLines={8}
+                    onChange={(v) => {
+                      body.content = v;
+                      updater.body({ ...body });
                     }}
                   />
-                </FormItem>
+                ) : null}
               </TabPane>
             </Tabs>
           </div>
@@ -408,15 +535,17 @@ const AddModal = (props: IProps) => {
                             />
                           </>
                         )}
-                        <div className="delete-row-btn table-operations">
-                          <span className="ml-4 table-operations-btn">{i18n.t('common:delete')}</span>
+                        <div className="ml-4 delete-row-btn table-operations">
+                          <span onClick={() => deleteItem(index)} className="table-operations-btn">
+                            {i18n.t('common:delete')}
+                          </span>
                         </div>
                       </div>
                     ))
                   : null}
               </div>
 
-              <Button className="mt-4" size="small" type="primary" ghost onClick={addItem}>
+              <Button className="mt-4" size="small" type="primary" onClick={addItem}>
                 {i18n.t('common:add')}
               </Button>
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
