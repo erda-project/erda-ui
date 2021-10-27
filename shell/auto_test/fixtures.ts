@@ -44,7 +44,7 @@ const gotoMap = {
   branchDevelop: '/erda/dop/projects/123/apps/788/repo/tree/develop',
   qualityReport: '/erda/dop/projects/1/apps/16/test/quality',
   testDetail: '/erda/dop/projects/1/apps/16/test',
-  organization: '/erda/orgCenter/setting/detail?tabKey=orgMember',
+  organizationMember: '/erda/orgCenter/setting/detail?tabKey=orgMember',
 };
 
 // Extend base test with our fixtures.

@@ -27,9 +27,42 @@ const testData = {
 
 Role('Manager', () => {
   test.only('organization-settings', async ({ wait, page, expectExist, goTo }) => {
-    await goTo('organization');
+    await goTo('organizationMember');
 
-    // 字段
+    await page.click('button:has-text("add member")');
+    await page.click('.ant-select.w-full .ant-select-selector .ant-select-selection-overflow');
+    await page.fill('text=member Please enter a member name to search >> input[role="combobox"]', testData.memberName);
+    await page.click('.ant-select-item-option-content');
+    await page.click(
+      '.ant-form div:nth-child(3) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
+    );
+    await page.click(':nth-match(:text("outsource"), 2)');
+    await page.click(
+      '.ant-form div:nth-child(2) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
+    );
+    await page.click(`div[role="document"] >> text=${testData.manager}`);
+    await page.click('div:nth-child(2) .ant-modal .ant-modal-content .ant-modal-body');
+    await page.click('button:has-text("ok")');
+    await expectExist(`text=${testData.memberName}`, 2);
+    await page.click('button:has-text("invite")');
+    await page.click('text=url address');
+    await page.click('text=verification code');
+    await page.click('button:has-text("copy")');
+    await page.click('[aria-label="Close"]');
+
+    await page.click('[placeholder="search by nickname, username, email or mobile number"]');
+    await page.fill('[placeholder="search by nickname, username, email or mobile number"]', testData.memberName);
+    await page.click('input[role="combobox"]');
+    await page.click(`text=${testData.manager}`);
+    await expectExist(`text=${testData.memberName}`, 2);
+    await expectExist('text=edit', 2);
+    await expectExist('text=exit', 1);
+    await page.fill('[placeholder="search by nickname, username, email or mobile number"]', testData.memberName);
+    await expectExist('text=edit', 2);
+    await expectExist('text=remove', 1);
+    await page.click('text=remove');
+    await page.click('text=OK');
+    await expectExist('text=no data', 0);
 
     await page.click('text=issue custom fields');
     expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=issueField/);
@@ -46,26 +79,13 @@ Role('Manager', () => {
     await page.fill('[placeholder="please enter field name"]', testData.modifyTitle);
     await page.click('button:has-text("ok")');
     await expectExist(`text=${testData.modifyTitle}`, 0);
-
-    // await page.click('[placeholder="filter by field name"]');
-    // await Promise.all([
-    //   page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/orgCenter/setting/detail?propertyName=modified&tabKey=issueField' }*/),
-    //   page.fill('[placeholder="filter by field name"]', testData.modifyTitle),
-    // ]);
-    // await expectExist(`text=${testData.modifyTitle}`);
-
     await page.click('text=joint issue type');
-    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=issueType/);
-
     await page.click('text=requirement');
     await page.click('input[role="combobox"]');
-    // Click text=terminus1633696292482
-    await page.click(`text=${testData.modifyTitle}`);
-    await wait(5);
+    await page.click(':nth-match(:text("test"), 2)');
     await page.click('button:has-text("reference")');
-
-    // await page.click(`text=${testData.modifyTitle}yesTexteditdelete >> :nth-match(span, 3)`);
-    // await page.click('button:has-text("OK")');
+    await page.click('text=testTextremovemove upmove down >> span');
+    await page.click('button:has-text("OK")');
 
     // 封网
     // await page.click('li:has-text("block network")');
