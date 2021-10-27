@@ -97,6 +97,13 @@ declare namespace PROJECT {
     clusterConfig?: ClusterConfig;
   }
 
+  interface ClusterConfig {
+    DEV: string;
+    PROD: string;
+    STAGING: string;
+    TEST: string;
+  }
+
   interface GetAppsQuery {
     pageNo: number;
     pageSize?: number;
@@ -111,30 +118,30 @@ declare namespace PROJECT {
     totalMem: number;
     availableCpu: number;
     availableMem: number;
-    ClusterList: ICluster[];
+    clusterList: ICluster[];
   }
 
   interface ICluster {
-    ClusterName: string;
-    CPUAvailable: number;
+    clusterName: string;
+    cpuAvailable: number;
     cpuQuota: number;
-    CPUQuotaRate: number;
+    cpuQuotaRate: number;
     cpuRequest: number;
     cpuRequestRate: number;
     cpuRequestByService: number;
     cpuRequestByServiceRate: number;
     cpuRequestByAddon: number;
     cpuRequestByAddonRate: number;
-    MemAvailable: number;
+    memAvailable: number;
     memQuota: number;
-    MemQuotaRate: number;
+    memQuotaRate: number;
     memRequest: number;
     memRequestRate: number;
     memRequestByService: number;
     memRequestByServiceRate: number;
     memRequestByAddon: number;
     memRequestByAddonRate: number;
-    Workspace: string;
+    workspace: string;
     tips?: string;
   }
 
