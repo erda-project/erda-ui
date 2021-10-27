@@ -120,4 +120,102 @@ declare namespace ORG_DASHBOARD {
     status_level: string;
     abnormal_msg: string;
   }
+
+  type CpuMem = 'cpu' | 'memory';
+
+  interface ResourceClassQuery {
+    resourceType: string;
+    clusterName: string[];
+  }
+
+  interface ResourceClassData {
+    cluster: PieChartOption;
+    owner: PieChartOption;
+    project: PieChartOption;
+  }
+
+  interface ResourceGaugeQuery {
+    cpuPerNode: number;
+    memPerNode: number;
+    clusterName: string[];
+  }
+
+  interface GaugeChartBody {
+    title: string;
+    name: string;
+    value: number[];
+    split: number[]; // 0.2 -> split at 20%
+  }
+
+  interface ResourceGaugeData {
+    cpu: GaugeChartBody;
+    memory: GaugeChartBody;
+    nodes: GaugeChartBody;
+  }
+
+  interface ResourceTableQuery {
+    clusterName: string[];
+    cpuPerNode: number;
+    memPerNode: number;
+  }
+
+  interface ResourceTableData {
+    list: ResourceTableRecord[];
+    total: number;
+    summary: {
+      cpu: number;
+      memory: number;
+      node: number;
+    };
+  }
+
+  interface ResourceTableRecord {
+    cpuQuota: number;
+    cpuWaterLevel: number;
+    memWaterLevel: number;
+    memQuota: number;
+    nodes: number;
+    ownerUserID: number;
+    ownerUserName: string;
+    ownerUserNickname: string;
+    projectDesc: string;
+    projectDisplayName: string;
+    projectID: number;
+    projectName: string;
+  }
+
+  interface Series<Item> {
+    data: Array<Item>;
+    name: string;
+    type: string;
+  }
+
+  interface EchartOption {
+    xAxis?: Obj;
+    yAxis?: Obj;
+    series: Series<number>[];
+  }
+
+  interface PieChartOption {
+    xAxis?: Obj;
+    yAxis?: Obj;
+    series: Series<{ name: string; value: number }>[];
+  }
+
+  interface ClusterTrendQuery {
+    clusterName: string[];
+    interval: string;
+    resourceType: CpuMem;
+    start: number;
+    end: number;
+  }
+
+  interface ProjectTrendQuery {
+    clusterName: string[];
+    interval: string;
+    resourceType: CpuMem;
+    projectId: number[];
+    start: number;
+    end: number;
+  }
 }

@@ -17,20 +17,31 @@ import { Help as IconHelp } from '@icon-park/react';
 
 export interface TitleProps {
   title: string | React.ElementType;
-  tip?: string;
+  tip?: string | React.ElementType;
   operations?: Array<TitleOperate | React.ReactNode>;
   level?: 1 | 2 | 3;
   mt?: 0 | 8 | 16;
   mb?: 0 | 8 | 16;
   showDivider?: boolean;
   style?: React.CSSProperties;
+  tipStyle?: React.CSSProperties;
 }
 
 interface TitleOperate {
   title: React.ReactNode;
 }
 
-const Title = ({ title, tip, operations, level = 1, mt, mb, showDivider = level === 1, ...restProps }: TitleProps) => {
+const Title = ({
+  title,
+  tip,
+  tipStyle,
+  operations,
+  level = 1,
+  mt,
+  mb,
+  showDivider = level === 1,
+  ...restProps
+}: TitleProps) => {
   const sizeList = ['', 'text-lg', 'text-base', 'text-sm'];
   const _mt = mt ? `mt-${mt / 4}` : '';
   const _mb = mb ? `mb-${mb / 4}` : '';
@@ -49,7 +60,7 @@ const Title = ({ title, tip, operations, level = 1, mt, mb, showDivider = level 
       <div className="inline-flex items-center font-medium mr-2">
         <div className={sizeList[level]}>{title}</div>
         {tip ? (
-          <Tooltip title={tip}>
+          <Tooltip title={tip} overlayInnerStyle={tipStyle}>
             <IconHelp className="text-base ml-1" />
           </Tooltip>
         ) : null}
