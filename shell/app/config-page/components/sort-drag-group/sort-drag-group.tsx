@@ -36,10 +36,14 @@ export const SortDragGroupList = (props: CP_SORT_GROUP.Props) => {
           } else {
             _operations[op.group] = {
               ...op,
-              menus: [op],
-              onClick: (obj: Obj) => {
-                execOperation(op, obj.data);
-              },
+              menus: [
+                {
+                  ...op,
+                  onClick: (obj: Obj) => {
+                    execOperation(op, obj.data);
+                  },
+                },
+              ],
             };
           }
         } else {

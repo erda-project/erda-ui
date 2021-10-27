@@ -22,6 +22,7 @@ declare namespace CP_CHART {
     chartType: 'line' | 'pie' | 'bar';
     option: Obj;
     style: Obj;
+    yAxisLabelLen?: number;
     pureChart?: boolean;
     visible?: boolean;
     title: string;
