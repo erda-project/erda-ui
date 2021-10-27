@@ -103,11 +103,11 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
         tip={
           <div className="text-xs">
             <div>
-              {i18n.t('cmp:Allocated resources: The resources reserved by project resource Quota are configured')}
+              {i18n.t('cmp:Allocated resources&#58; The resources reserved by project resource Quota are configured')}
             </div>
             <div>
               {i18n.t(
-                'cmp:Occupied resource: The portion of allocated resource actually occupied by Kubernetes Request resource Request',
+                'cmp:Occupied resource&#58; The portion of allocated resource actually occupied by Kubernetes Request resource Request',
               )}
             </div>
           </div>
@@ -316,7 +316,7 @@ export const ResourceTable = React.memo(
         label: i18n.t('cmp:Project'),
         haveFilter: true,
         fixed: true,
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         showIndex: 1,
         options: (data?.list || []).map((prj) => ({ label: prj.projectDisplayName, value: prj.projectID })),
       },
@@ -326,7 +326,7 @@ export const ResourceTable = React.memo(
         label: i18n.t('cmp:Owner'),
         haveFilter: true,
         fixed: true,
-        emptyText: i18n.t('application:all'),
+        emptyText: i18n.t('dop:all'),
         showIndex: 1,
         options: (data?.list || []).map((prj) => ({ label: prj.ownerUserName, value: prj.ownerUserID })),
       },

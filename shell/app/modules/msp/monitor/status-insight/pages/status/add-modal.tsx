@@ -389,7 +389,7 @@ const AddModal = (props: IProps) => {
                   <Radio value={'raw'}>raw</Radio>
                 </Radio.Group>
                 {bodyType === noneType ? (
-                  <div className="p-6 text-center">{i18n.t('project:the current request has no body')}</div>
+                  <div className="p-6 text-center">{i18n.t('dop:the current request has no body')}</div>
                 ) : null}
                 {bodyType === formType ? (
                   <div className="mt-4">
