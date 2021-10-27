@@ -63,17 +63,18 @@ const formType = 'x-www-form-urlencoded';
 const noneType = 'none';
 const jsonType = 'application/json';
 const textType = 'text/plain';
+const raw = 'raw';
+const json = 'json';
+const text = 'text';
 
 const convertType = (type: string) => {
-  let newType = '';
+  const newType = '';
   if (type === formType || type === noneType) {
     return newType;
   } else if (type === jsonType) {
-    newType = 'json';
-    return newType;
+    return json;
   } else {
-    newType = 'text';
-    return newType;
+    return text;
   }
 };
 
@@ -83,7 +84,7 @@ const convertFormData = (_formData?: Obj) => {
       retry: _formData.config?.retry || 2,
       bodyType:
         _formData.config?.body?.type === jsonType || _formData.config?.body?.type === textType
-          ? 'raw'
+          ? raw
           : _formData.config?.body?.type,
       frequency: _formData.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
@@ -237,13 +238,13 @@ const AddModal = (props: IProps) => {
 
   React.useEffect(() => {
     switch (textOrJson) {
-      case 'text':
+      case text:
         updater.body({ ...body, type: textType });
         updater.headers({
           'Content-Type': textType,
         });
         break;
-      case 'json':
+      case json:
         updater.body({ ...body, type: jsonType });
         updater.headers({
           'Content-Type': jsonType,
@@ -336,7 +337,7 @@ const AddModal = (props: IProps) => {
           <div className="h-full">
             <Tabs
               onChange={(key: string) => {
-                if (key === '2' && bodyType === 'raw' && textOrJson === 'text') {
+                if (key === '2' && bodyType === raw && textOrJson === text) {
                   updater.headers({ ...headers, 'Content-Type': textType });
                 }
                 if (key === '2' && bodyType === noneType) {
@@ -375,7 +376,7 @@ const AddModal = (props: IProps) => {
                       body.content = '';
                       updater.body({ ...body });
                     }
-                    if (e.target.value === 'raw') {
+                    if (e.target.value === raw) {
                       body.content = '';
                       updater.body({ ...body });
                       updater.textOrJson('text');
@@ -408,7 +409,7 @@ const AddModal = (props: IProps) => {
                     />
                   </div>
                 ) : null}
-                {bodyType === 'raw' ? (
+                {bodyType === raw ? (
                   <Select
                     value={textOrJson}
                     onChange={(v) => {
@@ -421,7 +422,7 @@ const AddModal = (props: IProps) => {
                     <Option value="json">application/json</Option>
                   </Select>
                 ) : null}
-                {bodyType === 'raw' && textOrJson === 'text' ? (
+                {bodyType === raw && textOrJson === text ? (
                   <TextArea
                     value={body?.content}
                     onChange={(e) => {
@@ -432,12 +433,12 @@ const AddModal = (props: IProps) => {
                     rows={10}
                   />
                 ) : null}
-                {textOrJson === 'json' ? (
+                {textOrJson === json ? (
                   <Button onClick={formatBody} className="ml-2" size="small" type="primary">
                     {i18n.t('format')}
                   </Button>
                 ) : null}
-                {bodyType === 'raw' && textOrJson === 'json' ? (
+                {bodyType === raw && textOrJson === json ? (
                   <FileEditor
                     className="mt-4"
                     fileExtension="json"
