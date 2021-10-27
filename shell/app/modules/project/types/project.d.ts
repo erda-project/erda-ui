@@ -119,6 +119,7 @@ declare namespace PROJECT {
     CPUAvailable: number;
     cpuQuota: number;
     CPUQuotaRate: number;
+    cpuRequest: number;
     cpuRequestRate: number;
     cpuRequestByService: number;
     cpuRequestByServiceRate: number;
@@ -127,6 +128,7 @@ declare namespace PROJECT {
     MemAvailable: number;
     memQuota: number;
     MemQuotaRate: number;
+    memRequest: number;
     memRequestRate: number;
     memRequestByService: number;
     memRequestByServiceRate: number;

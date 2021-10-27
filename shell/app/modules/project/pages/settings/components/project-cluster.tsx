@@ -38,27 +38,30 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
 
   if (type === 'cpu') {
     data = {
+      request: +(record?.cpuRequest || 0).toFixed(2),
       requestRate: +(record?.cpuRequestRate * 100 || 0).toFixed(2),
       requestByService: (record?.cpuRequestByService || 0).toFixed(2),
       requestByServiceRate: +(record?.cpuRequestByServiceRate * 100 || 0).toFixed(2),
       requestByAddon: (record?.cpuRequestByAddon || 0).toFixed(2),
       requestByAddonRate: +(record?.cpuRequestByAddonRate * 100 || 0).toFixed(2),
-      quota: (record?.cpuQuota || 0).toFixed(2),
+      quota: +(record?.cpuQuota || 0).toFixed(2),
       tips: record.tips,
     };
   } else {
     data = {
+      request: +(record?.memRequest || 0).toFixed(2),
       requestRate: +(record?.memRequestRate * 100 || 0).toFixed(2),
       requestByService: (record?.memRequestByService || 0).toFixed(2),
       requestByServiceRate: +(record?.memRequestByServiceRate * 100 || 0).toFixed(2),
       requestByAddon: (record?.memRequestByAddon || 0).toFixed(2),
       requestByAddonRate: +(record?.memRequestByAddonRate * 100 || 0).toFixed(2),
-      quota: (record?.memQuota || 0).toFixed(2),
+      quota: +(record?.memQuota || 0).toFixed(2),
       tips: record.tips,
     };
   }
 
   const {
+    request = 0,
     requestRate = 0,
     requestByService = 0,
     requestByServiceRate = 0,
@@ -88,7 +91,13 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
             addon
           </div>
         </Tooltip>
-        <Tooltip title={`${i18n.t('msp:available')} ${quota}${unit} (${100 - requestRate})%`}>
+        <Tooltip
+          title={`
+              ${i18n.t('msp:available')} 
+              ${(quota - request).toFixed(2)}${unit} 
+              (${(100 - requestRate).toFixed(2)})%
+            `}
+        >
           <div className="nowrap" style={{ width: `${100 - requestRate}%` }}>
             {i18n.t('msp:available')}
           </div>
