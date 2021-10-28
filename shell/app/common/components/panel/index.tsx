@@ -153,8 +153,8 @@ const Panel = (props: PanelProps) => {
                         </span>
                       )}
                     </div>
-                    <div title={getInnerText(getRealValue(item))} className="break-words mb-1">
-                      {getRealValue(item)}
+                    <div title={item.value || getInnerText(getRealValue(item))} className="break-words mb-1">
+                      {item.value || getRealValue(item)}
                     </div>
                   </Col>
                 );
