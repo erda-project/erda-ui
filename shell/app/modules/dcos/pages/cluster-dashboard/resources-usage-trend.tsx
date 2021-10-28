@@ -24,10 +24,16 @@ import i18n from 'i18n';
 import { getProjectListNew } from 'project/services/project';
 import { colorMap } from 'charts/theme';
 
+const defaultData = {
+  cluster: { series: null },
+  owner: { series: null },
+  project: { series: null },
+};
 export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameStr: string }) => {
   const [state, updater] = useUpdate({
     resourceType: 'cpu' as ORG_DASHBOARD.CpuMem,
     clusterDateRange: [moment().startOf('day'), moment().endOf('day')],
+    pieSelectedLegend: {} as Obj<Obj<boolean>>,
   });
   const [data, loading] = getResourceClass.useState();
   React.useEffect(() => {
@@ -36,11 +42,9 @@ export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameSt
       clusterName: clusterNameStr.split(','),
     });
   }, [clusterNameStr, state.clusterDateRange, state.resourceType]);
-  if (!data) return null;
 
-  const { cluster, owner, project } = data;
-
-  const getPieOption = (ops: ORG_DASHBOARD.PieChartOption) => {
+  const getPieOption = (ops: ORG_DASHBOARD.PieChartOption, key: string) => {
+    const legendData = ops.series?.length ? ops.series[0].data.map((a) => a.name) : [];
     const option = {
       tooltip: {
         trigger: 'item',
@@ -52,9 +56,13 @@ export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameSt
         orient: 'vertical',
         left: 'right',
         top: 'middle',
-        data: ops.series[0].data.map((a) => a.name),
+        data: legendData,
       },
       series: map(ops.series, (serie) => {
+        const selectedLegend = state.pieSelectedLegend[key] || {};
+        const total = serie.data
+          .reduce((all, cur) => all + (selectedLegend[cur.name] === false ? 0 : cur.value), 0)
+          .toFixed(1);
         return {
           name: serie.name,
           type: 'pie',
@@ -64,9 +72,7 @@ export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameSt
             normal: {
               show: true,
               position: 'center',
-              formatter: `${i18n.t('cmp:Total')}\n ${ops.series[0].data
-                .reduce((all, cur) => all + cur.value, 0)
-                .toFixed(1)} ${state.resourceType === 'cpu' ? i18n.t('cmp:Core') : 'G'}`,
+              formatter: `${i18n.t('cmp:Total')}\n ${total} ${state.resourceType === 'cpu' ? i18n.t('cmp:Core') : 'G'}`,
               color: colorMap.gray,
               textStyle: {
                 fontSize: '20',
@@ -91,11 +97,11 @@ export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameSt
     return option;
   };
 
-  const pieData = {
-    cluster: cluster || [],
-    owner: owner || [],
-    project: project || [],
-  };
+  const onEvents = (key: string) => ({
+    legendselectchanged: (params: { selected: Obj<boolean> }) => {
+      updater.pieSelectedLegend((prev: any) => ({ ...prev, [key]: params.selected }));
+    },
+  });
 
   return (
     <>
@@ -116,15 +122,22 @@ export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameSt
         ]}
       />
       <Row justify="space-between" gutter={12}>
-        {map(pieData, (item, key) => (
-          <Col key={key} span={8}>
-            <CardContainer.ChartContainer title={item.series[0]?.name} holderWhen={!item}>
-              <Holder when={!item}>
-                <Echarts style={{ height: '320px' }} showLoading={loading} option={getPieOption(item)} />
-              </Holder>
-            </CardContainer.ChartContainer>
-          </Col>
-        ))}
+        {map(data || defaultData, (item, key) => {
+          return (
+            <Col key={key} span={8}>
+              <CardContainer.ChartContainer title={item.series ? item.series[0].name : ''} holderWhen={!item.series}>
+                {item.series && (
+                  <Echarts
+                    style={{ height: '320px' }}
+                    onEvents={onEvents(key)}
+                    showLoading={loading}
+                    option={getPieOption(item, key)}
+                  />
+                )}
+              </CardContainer.ChartContainer>
+            </Col>
+          );
+        })}
       </Row>
       <ResourceTrend clusterNameStr={clusterNameStr} resourceType={state.resourceType} />
     </>
@@ -236,14 +249,12 @@ export const ResourceTrend = React.memo(
         />
         <Row justify="space-between" gutter={12}>
           <Col span={12}>
-            <CardContainer.ChartContainer title={clusterTrend?.series[0]?.name}>
-              <Holder when={!clusterTrend}>
-                <Echarts
-                  style={{ height: '320px' }}
-                  showLoading={loadingClusterTrend}
-                  option={getBarOption(clusterTrend)}
-                />
-              </Holder>
+            <CardContainer.ChartContainer title={clusterTrend?.series[0]?.name} holderWhen={!clusterTrend}>
+              <Echarts
+                style={{ height: '320px' }}
+                showLoading={loadingClusterTrend}
+                option={getBarOption(clusterTrend)}
+              />
             </CardContainer.ChartContainer>
           </Col>
           <Col span={12}>
@@ -252,14 +263,13 @@ export const ResourceTrend = React.memo(
               operation={
                 <ContractiveFilter delay={1000} conditions={conditionsFilter} onChange={(values) => update(values)} />
               }
+              holderWhen={!projectTrend}
             >
-              <Holder when={!projectTrend}>
-                <Echarts
-                  style={{ height: '320px' }}
-                  showLoading={loadingProjectTrend}
-                  option={getBarOption(projectTrend)}
-                />
-              </Holder>
+              <Echarts
+                style={{ height: '320px' }}
+                showLoading={loadingProjectTrend}
+                option={getBarOption(projectTrend)}
+              />
             </CardContainer.ChartContainer>
           </Col>
         </Row>

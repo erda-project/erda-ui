@@ -16,8 +16,8 @@ import { Tooltip } from 'antd';
 import { Help as IconHelp } from '@icon-park/react';
 
 export interface TitleProps {
-  title: string | React.ElementType;
-  tip?: string | React.ElementType;
+  title: string | React.ElementType | JSX.Element;
+  tip?: string | React.ElementType | JSX.Element;
   operations?: Array<TitleOperate | React.ReactNode>;
   level?: 1 | 2 | 3;
   mt?: 0 | 8 | 16;
