@@ -144,5 +144,6 @@ Role('Manager', () => {
       page.click('button:has-text("ok")'),
     ]);
     expect(page.url()).toMatch(/\/erda/);
+    await page.close();
   });
 });
