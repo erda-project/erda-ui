@@ -50,12 +50,14 @@ const ClusterNodes = () => {
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
-  const openDetail = (record: Obj) => {
-    const { id, namespace, podName } = record || {};
-    update({
-      visible: true,
-      detailData: { podId: id, namespace, podName },
-    });
+  const openDetail = (record: Obj, op: Obj) => {
+    if (op.key === 'openPodDetail') {
+      const { id, namespace, podName } = record || {};
+      update({
+        visible: true,
+        detailData: { podId: id, namespace, podName },
+      });
+    }
   };
 
   const closeDetail = () => {
