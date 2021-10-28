@@ -47,12 +47,14 @@ const ClusterNodes = () => {
 
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
-  const openDetail = (record: Obj) => {
-    const { IP, nodeId } = record;
-    update({
-      visible: true,
-      detailData: { nodeId, nodeIP: IP },
-    });
+  const openDetail = (record: Obj, op: Obj) => {
+    if (op.key === 'gotoNodeDetail') {
+      const { IP, nodeId } = record;
+      update({
+        visible: true,
+        detailData: { nodeId, nodeIP: IP },
+      });
+    }
   };
 
   const closeDetail = () => {

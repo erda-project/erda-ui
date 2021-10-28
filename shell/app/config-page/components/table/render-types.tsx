@@ -67,7 +67,7 @@ const getItemClickProps = (params: IParams) => {
     extraProps.onClick = (e: any) => {
       e.stopPropagation();
       operations?.click && execOperation(operations.click);
-      customProps?.clickTableItem && customProps.clickTableItem(record);
+      customProps?.clickTableItem && customProps.clickTableItem(record, operations?.click);
     };
   }
   return extraProps;
