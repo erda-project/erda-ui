@@ -18,17 +18,18 @@ import { EmptyHolder } from '../empty-holder';
 import './index.scss';
 
 export interface CardContainerProps {
-  title: string | React.ElementType;
+  title: string | React.ElementType | JSX.Element;
   tip?: string;
+  className?: string;
   operation?: React.ReactNode;
   holderWhen?: boolean;
   style?: React.CSSProperties;
   children: React.ReactChild | React.ReactChild[];
 }
 
-const CardContainer = ({ title, tip, operation, holderWhen, style, children }: CardContainerProps) => {
+const CardContainer = ({ title, tip, className, operation, holderWhen, style, children }: CardContainerProps) => {
   return (
-    <div className="ec-card-container flex flex-col" style={style}>
+    <div className={`ec-card-container flex flex-col ${className || ''}`} style={style}>
       {title || operation ? (
         <div className="h-8 flex items-center justify-between leading-8">
           {title ? (

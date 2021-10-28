@@ -17,6 +17,7 @@ import { Row, Col } from 'antd';
 import moment from 'moment';
 import i18n from 'i18n';
 import { Attention as IconAttention } from '@icon-park/react';
+import { CardContainer } from 'common';
 
 const scriptDetail = ({ data }: { data: object }) => {
   const errorDetail = get(data, 'list') || [];
@@ -35,16 +36,20 @@ const scriptDetail = ({ data }: { data: object }) => {
     <div>
       {map(errorDetail, (value, index) => {
         return (
-          <div className="error-detail chart-container" key={index}>
-            {/* eslint-disable-next-line react/jsx-no-target-blank */}
-            <div className="title">
-              {i18n.t('msp:access path')}
-              <a
-                href={`http://${value.host}${value.url}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >{`${value.host}${value.url}`}</a>
-            </div>
+          <CardContainer.ChartContainer
+            className="error-detail"
+            title={
+              <div className="title">
+                {i18n.t('msp:access path')}
+                <a
+                  href={`http://${value.host}${value.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{`${value.host}${value.url}`}</a>
+              </div>
+            }
+            key={index}
+          >
             <Row gutter={36}>
               <Col span={8}>
                 <span className="title-secondly">{i18n.t('msp:time of occurrence')}</span>
@@ -85,7 +90,7 @@ const scriptDetail = ({ data }: { data: object }) => {
                 {value.stack_trace ? <pre>{value.stack_trace}</pre> : i18n.t('none')}
               </Col>
             </Row>
-          </div>
+          </CardContainer.ChartContainer>
         );
       })}
     </div>

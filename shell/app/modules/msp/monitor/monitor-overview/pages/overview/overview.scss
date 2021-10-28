@@ -58,26 +58,5 @@
     .monitor-panel-header {
       margin-bottom: 0;
     }
-
-    .pvuv-container .chart-container {
-      border-bottom: 0;
-    }
-
-    .last-line .chart-container {
-      border-bottom: 0;
-    }
-
-    > div {
-      .chart-container {
-        margin-bottom: 0;
-        border-right: 1px solid $color-border;
-        border-bottom: 1px solid $color-border;
-        border-radius: 0;
-      }
-
-      > div:last-child .chart-container {
-        border-right: 0;
-      }
-    }
   }
 }
