@@ -20,9 +20,29 @@ import { getResourceGauge, getResourceTable } from 'dcos/services/dashboard';
 import { map } from 'lodash';
 import React from 'react';
 import { statusColorMap } from 'app/config-page/utils';
-import i18n from 'i18n';
+import i18n, { isZh } from 'i18n';
 import { ColumnsType } from 'antd/es/table';
 
+const defaultGaugeData = {
+  cpu: {
+    title: '',
+    name: '',
+    value: [],
+    split: [],
+  },
+  memory: {
+    title: '',
+    name: '',
+    value: [],
+    split: [],
+  },
+  nodes: {
+    title: '',
+    name: '',
+    value: [],
+    split: [],
+  },
+};
 export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr: string }) => {
   const localCacheUnit = window.localStorage.getItem('cluster-summary-unit');
   const localCache = localCacheUnit ? localCacheUnit.split('-').map((a) => +a) : [8, 32];
@@ -32,12 +52,13 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
   });
 
   const [data, loading] = getResourceGauge.useState();
+  const dateRef = React.useRef(data);
   React.useEffect(() => {
     if (clusterNameStr) {
       getResourceGauge.fetch({ clusterName: clusterNameStr.split(','), ...cpuAndMem.current });
     }
   }, [clusterNameStr]);
-  if (!data) return null;
+  dateRef.current = data || defaultGaugeData;
 
   const getOption = (item: ORG_DASHBOARD.GaugeChartBody) => {
     const colors = [colorMap.blue, colorMap.green];
@@ -70,16 +91,17 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
             length: 12, // 属性length控制线长
           },
           detail: {
-            fontSize: 14,
             color: colorMap.red,
             formatter: used ? [`{assigned|${assigned}}`, `{used|${used}}`].join('\n') : `{assigned|${assigned}}`,
             rich: {
               assigned: {
                 color: colorMap.blue,
+                fontSize: 18,
               },
               used: {
                 color: colorMap.red,
                 marginTop: '20px',
+                fontSize: 18,
               },
             },
             offsetCenter: [0, '60%'],
@@ -88,7 +110,7 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
           title: {
             color: colorMap.red,
           },
-          data: item.value.map((v) => 100 * v),
+          data: item.value,
         },
       ],
     };
@@ -158,7 +180,7 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
         ]}
       />
       <Row justify="space-between" gutter={12}>
-        {map(data, (item, key) => (
+        {map(dateRef.current, (item, key) => (
           <Col key={key} span={8}>
             <CardContainer.ChartContainer title={item?.title} holderWhen={!item}>
               <Echarts style={{ height: '320px' }} showLoading={loading} option={getOption(item)} />
@@ -322,12 +344,12 @@ export const ResourceTable = React.memo(
       },
       {
         type: 'select',
-        key: 'ownerNames',
+        key: 'ownerIds',
         label: i18n.t('cmp:Owner'),
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        showIndex: 1,
+        showIndex: 2,
         options: (data?.list || []).map((prj) => ({ label: prj.ownerUserName, value: prj.ownerUserID })),
       },
     ];
@@ -339,6 +361,14 @@ export const ResourceTable = React.memo(
     if (state.projectIds.length) {
       filterData = filterData.filter((a) => state.projectIds.includes(a.projectID));
     }
+    let cpuTotal = 0;
+    let memoryTotal = 0;
+    let nodeTotal = 0;
+    filterData.forEach((a) => {
+      cpuTotal += a.cpuQuota;
+      memoryTotal += a.memQuota;
+      nodeTotal += a.nodes;
+    });
 
     return (
       <>
@@ -349,8 +379,9 @@ export const ResourceTable = React.memo(
             <span>
               {i18n.t('cmp:Allocation of project resources')}
               <span className="ml-1 text-desc text-xs">
-                {i18n.t('cmp:The total number of selected resources')}: CPU: {data?.summary?.cpu},{' '}
-                {i18n.t('cmp:Memory')}: {data?.summary?.memory}, {i18n.t('cmp:Conversion nodes')}: {data?.summary?.node}
+                {i18n.t('cmp:The total number of selected resources')}: CPU: {cpuTotal.toFixed(2)} {i18n.t('cmp:Core')},{' '}
+                {i18n.t('cmp:Memory')}: {memoryTotal.toFixed(2)} G, {i18n.t('cmp:Conversion nodes')}:{' '}
+                {Math.ceil(nodeTotal)} {isZh() ? '个' : ''}
               </span>
             </span>
           }
