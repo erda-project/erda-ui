@@ -27,11 +27,11 @@ import React from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, Switch } from 'core/nusi';
+import { Button, Modal, Select, Spin, Table, Tooltip, Switch } from 'antd';
 import { FormModal } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { useUserMap } from 'core/stores/userMap';
-import { ColumnProps, FormInstance } from 'core/common/interface';
+import { ColumnProps, FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -74,12 +74,12 @@ const NotifyChannel = () => {
     });
   };
 
-  const handleDele = (id: string) => {
+  const handleDelete = (id: string) => {
     confirm({
       title: i18n.t('application:are you sure you want to delete this item?'),
       content: i18n.d('该通知渠道将永远删除'),
       onOk() {
-        deleteNotifyChannel(id).then(() => {
+        deleteNotifyChannel({ id }).then(() => {
           handleGetNotifyChannels();
         });
       },
@@ -103,7 +103,6 @@ const NotifyChannel = () => {
       return;
     }
     addNotifyChannel({
-      id,
       name,
       type,
       channelProviderType,
@@ -157,7 +156,7 @@ const NotifyChannel = () => {
       name: 'channelProviderType',
       label: i18n.d('服务商'),
       required: true,
-      getComp: ({ form }: { form: FormInstance }) => {
+      getComp: () => {
         return (
           <Select
             defaultValue={channelTypes?.[0]?.provider?.name}
@@ -256,7 +255,7 @@ const NotifyChannel = () => {
             <span
               className="table-operations-btn"
               onClick={() => {
-                handleDele(id);
+                handleDelete(id);
               }}
             >
               {i18n.t('application:delete')}

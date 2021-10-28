@@ -93,8 +93,13 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
         </Tooltip>
         <Tooltip
           title={`
+<<<<<<< HEAD
               ${i18n.t('msp:available')}
               ${(quota - request).toFixed(2)}${unit}
+=======
+              ${i18n.t('msp:available')} 
+              ${(quota - request).toFixed(2)}${unit} 
+>>>>>>> Feature/alarm (#1)
               (${(100 - requestRate).toFixed(2)})%
             `}
         >

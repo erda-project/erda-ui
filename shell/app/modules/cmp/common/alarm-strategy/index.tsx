@@ -15,11 +15,11 @@ import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'antd';
+import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Tooltip } from 'antd';
 import { FormModal } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { goTo, insertWhen } from 'common/utils';
-import { FormInstance, ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -32,14 +32,15 @@ import {
   smsNotifyChannelOptionsMap,
   ListTargets,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
-import { usePerm, WithAuth } from 'user/common';
+import { usePerm } from 'user/common';
 import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
-import './index.scss';
 import routeInfoStore from 'core/stores/route';
 import { AddOne as IconAddOne } from '@icon-park/react';
 import { TriggerConditionSelect } from './trigger-condition-select';
 import { NotifyStrategySelect } from './notify-strategy-select';
+import './index.scss';
+import value from '*.json';
 
 const { confirm, warning } = Modal;
 const { Option } = Select;
@@ -91,17 +92,6 @@ const alertLevelOptions = [
   {
     key: 'Light',
     display: i18n.d('轻微'),
-  },
-];
-
-const isRecoverOptions = [
-  {
-    key: 1,
-    display: i18n.d('是'),
-  },
-  {
-    key: 0,
-    display: i18n.d('否'),
   },
 ];
 
@@ -196,7 +186,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     editingFormRule: {},
     activeGroupId: undefined,
     triggerConditionValueOptions: [],
-    triggerConditions: [],
+    triggerCondition: [],
     notifies: [],
     groupTypeOptions: [],
     notifyLevel: null,
@@ -404,8 +394,8 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         <Select
           className="operator mr-2"
           value={value}
-          onSelect={(value: any) => {
-            handleEditEditingRule(key, { key: 'level', value: String(value) });
+          onSelect={(level: string) => {
+            handleEditEditingRule(key, { key: 'level', value: level });
           }}
         >
           {map(alertLevelOptions, (item) => (
@@ -514,17 +504,17 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
           />
         </div>
       ),
-      name: 'triggerConditions',
+      name: 'triggerCondition',
       required: false,
       getComp: () => (
         <>
-          {state.triggerConditions?.map((item) => (
+          {state.triggerCondition?.map((item) => (
             <TriggerConditionSelect
               keyOptions={alertTriggerConditions}
               key={item.id}
               id={item.id}
               updater={updater}
-              current={state.triggerConditions?.find((x) => x.id === item.id)}
+              current={state.triggerCondition?.find((x) => x.id === item.id)}
               handleEditTriggerConditions={handleEditTriggerConditions}
               handleRemoveTriggerConditions={handleRemoveTriggerConditions}
               operatorOptions={conditionOperatorOptions}
@@ -592,18 +582,18 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   ];
 
   // msp project has not application，hide application selector
-  if (scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP') {
-    fieldsList.splice(1, 0, {
-      label: i18n.t('application'),
-      name: 'appId',
-      type: 'select',
-      initialValue: state.editingFormRule.appId,
-      options: map(alarmScopeMap, (name, id) => ({ name, value: id })),
-      itemProps: {
-        mode: 'multiple',
-      },
-    });
-  }
+  // if (scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP') {
+  //   fieldsList.splice(1, 0, {
+  //     label: i18n.t('application'),
+  //     name: 'appId',
+  //     type: 'select',
+  //     initialValue: state.editingFormRule.appId,
+  //     options: map(alarmScopeMap, (name, id) => ({ name, value: id })),
+  //     itemProps: {
+  //       mode: 'multiple',
+  //     },
+  //   });
+  // }
 
   // 添加集合的规则
   const handleClickAlertType = (val: string) => {
@@ -671,7 +661,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   };
 
   const handleEditALarm = (id: number) => {
-    getAlertDetail(id).then(({ name, clusterNames, appIds, rules, notifies, triggerConditions }: any) => {
+    getAlertDetail(id).then(({ name, clusterNames, appIds, rules, notifies, triggerCondition }: any) => {
       updater.editingFormRule({
         id,
         name,
@@ -681,12 +671,12 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
       updater.activeGroupId(notifies[0].groupId);
-      updater.triggerConditions(
-        (triggerConditions || []).map((x) => ({
+      updater.triggerCondition(
+        (triggerCondition || []).map((x) => ({
           id: uniqueId(),
           condition: x.condition,
           operator: x.operator,
-          value: x.value,
+          values: x.values,
         })),
       );
 
@@ -710,7 +700,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       clusterNames: clusterName,
       appIds: appId,
       domain: location.origin,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       rules: map(state.editingRules, ({ key, ...rest }) => rest),
       notifies: state.notifies.map((item) => ({
         silence: {
@@ -722,10 +711,10 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         groupType: item?.groupType?.join(','),
         level: item?.level?.join(','),
       })),
-      triggerConditions: state.triggerConditions.map((x) => ({
+      triggerCondition: state.triggerCondition.map((x) => ({
         condition: x.condition,
         operator: x.operator,
-        value: x.value,
+        values: x.values,
       })),
     };
     if (!isEmpty(state.editingFormRule)) {
@@ -738,20 +727,21 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   // 添加单条触发条件
   const handleAddTriggerConditions = () => {
-    const currentTriggerValues = alertTriggerConditionsContent
-      .find((item) => item.key === alertTriggerConditions?.[0]?.key)
-      .options.map((item) => ({ key: item, display: item }));
+    const currentTriggerValues =
+      alertTriggerConditionsContent
+        .find((item) => item.key === alertTriggerConditions?.[0]?.key)
+        ?.options.map((item) => ({ key: item, display: item })) ?? [];
 
     updater.triggerConditionValueOptions(currentTriggerValues);
-    updater.triggerConditions([
+    updater.triggerCondition([
       {
         id: uniqueId(),
         condition: alertTriggerConditions[0]?.key,
         // operator: alertTypes.operators?.[0]?.key,
         operator: conditionOperatorOptions?.[0].key,
-        value: currentTriggerValues[0]?.key,
+        values: currentTriggerValues[0]?.key,
       },
-      ...(state.triggerConditions || []),
+      ...(state.triggerCondition || []),
     ]);
   };
 
@@ -777,7 +767,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   // 移除表格编辑中的规则
   const handleRemoveTriggerConditions = (id: string) => {
-    updater.triggerConditions(filter(state.triggerConditions, (item) => item.id !== id));
+    updater.triggerCondition(filter(state.triggerCondition, (item) => item.id !== id));
   };
 
   // 移除策略
@@ -786,7 +776,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   };
 
   // 编辑单条触发条件
-  const handleEditNotifyStrategy = (id: string, item: { key: string; value: any }) => {
+  const handleEditNotifyStrategy = (id: string, item: { key: string; value: string }) => {
     const rules = cloneDeep(state.notifies);
     const rule = find(rules, { id });
     const index = findIndex(rules, { id });
@@ -797,12 +787,14 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   // 编辑单条触发条件
   const handleEditTriggerConditions = (id: string, item: { key: string; value: any }) => {
-    const rules = cloneDeep(state.triggerConditions);
+    const rules = cloneDeep(state.triggerCondition);
     const rule = find(rules, { id });
     const index = findIndex(rules, { id });
-
+    if (item.key === 'operator' && item.value === 'all') {
+      fill(rules, { id, ...rule, values: undefined }, index, index + 1);
+    }
     fill(rules, { id, ...rule, [item.key]: item.value }, index, index + 1);
-    updater.triggerConditions(rules);
+    updater.triggerCondition(rules);
   };
 
   const beforeSubmit = async (param: any) => {
@@ -842,7 +834,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       editingFormRule: {},
       activeGroupId: undefined,
       triggerConditionValueOptions: [],
-      triggerConditions: [],
+      triggerCondition: [],
       notifies: [],
       groupTypeOptions: [],
       notifyLevel: null,
@@ -851,7 +843,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     closeModal();
   };
 
-  const alartListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
+  const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
     {
       title: i18n.t('cmp:alarm name'),
       dataIndex: 'name',
@@ -962,7 +954,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
         <Table
           rowKey="id"
-          columns={alartListColumns}
+          columns={alertListColumns}
           dataSource={alertList}
           pagination={{
             current: pageNo,

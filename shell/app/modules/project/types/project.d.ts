@@ -125,7 +125,11 @@ declare namespace PROJECT {
     clusterName: string;
     cpuAvailable: number;
     cpuQuota: number;
+<<<<<<< HEAD
     cpuQuotaRate: number;
+=======
+    CPUQuotaRate: number;
+>>>>>>> Feature/alarm (#1)
     cpuRequest: number;
     cpuRequestRate: number;
     cpuRequestByService: number;
@@ -134,7 +138,11 @@ declare namespace PROJECT {
     cpuRequestByAddonRate: number;
     memAvailable: number;
     memQuota: number;
+<<<<<<< HEAD
     memQuotaRate: number;
+=======
+    MemQuotaRate: number;
+>>>>>>> Feature/alarm (#1)
     memRequest: number;
     memRequestRate: number;
     memRequestByService: number;

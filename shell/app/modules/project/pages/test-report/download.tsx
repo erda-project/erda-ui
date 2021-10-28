@@ -72,10 +72,17 @@ const Preview = (props: { data: PROJECT.ITestReportBody; onMount: Function }) =>
           <Form.Item label={i18n.t('cmp:report name')}>
             <Input bordered={false} value={data.name} readOnly />
           </Form.Item>
+<<<<<<< HEAD
           <Form.Item label={i18n.t('dop:iteration')}>
             <IterationSelect value={data.iterationID} bordered={false} suffixIcon={null} />
           </Form.Item>
           <Form.Item label={i18n.t('dop:test summary')}>
+=======
+          <Form.Item label={i18n.t('project:iteration')}>
+            <IterationSelect value={data.iterationID} bordered={false} suffixIcon={null} />
+          </Form.Item>
+          <Form.Item label={i18n.t('project:test summary')}>
+>>>>>>> Feature/alarm (#1)
             <div
               className="border-all rounded p-2 md-content"
               dangerouslySetInnerHTML={{ __html: Markdown(data.summary) }}

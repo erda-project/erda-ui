@@ -62,7 +62,7 @@ declare namespace COMMON_NOTIFY {
       displayName: string;
       name: string;
     };
-    config: object;
+    config: Obj;
     createAt: string;
     creatorName: string;
     enable: boolean;

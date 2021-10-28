@@ -25,7 +25,6 @@ import {
   getAlertTriggerConditions,
   getAlertTriggerConditionsContent,
 } from '../services/alarm-strategy';
-import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';

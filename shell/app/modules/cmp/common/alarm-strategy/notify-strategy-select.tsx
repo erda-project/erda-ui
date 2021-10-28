@@ -14,10 +14,26 @@ import React from 'react';
 import { map, find } from 'lodash';
 import { ReduceOne as IconReduceOne } from '@icon-park/react';
 import i18n from 'i18n';
-import { Select, Divider } from 'core/nusi';
+import { Select, Divider } from 'antd';
 import { WithAuth } from 'user/common';
+import {
+  notifyChannelOptionsMap,
+  smsNotifyChannelOptionsMap,
+} from 'application/pages/settings/components/app-notify/common-notify-group';
 
 const { Option } = Select;
+
+interface IProps {
+  id: string;
+  handleEditNotifyStrategy: (id: string, item: { key: string; value: string }) => void;
+  valueOptions: Array<{ key: string; display: string }>;
+  addNotificationGroupAuth: boolean;
+  goToNotifyGroup: () => void;
+  notifyGroups: COMMON_NOTIFY.INotifyGroup[];
+  alertLevelOptions: Array<{ key: string; display: string }>;
+  notifyChannelMap: typeof notifyChannelOptionsMap | typeof smsNotifyChannelOptionsMap;
+  handleRemoveNotifyStrategy: (id: string) => void;
+}
 
 export const NotifyStrategySelect = ({
   id,
@@ -31,7 +47,7 @@ export const NotifyStrategySelect = ({
   alertLevelOptions,
   notifyChannelMap,
   handleRemoveNotifyStrategy,
-}) => {
+}: IProps) => {
   return (
     <div className="flex items-center mb-4">
       <Select

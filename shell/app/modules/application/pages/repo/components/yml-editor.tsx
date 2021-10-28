@@ -786,7 +786,15 @@ const YmlEditor = (props: IProps) => {
         <Spin spinning={isFetching}>
           <React.Fragment>
             <div className="yml-editor-body">
+<<<<<<< HEAD
               <BlockContainer className="services-and-add-ons" title={i18n.t('pipeline')}>
+=======
+<<<<<<< HEAD
+              <BlockContainer className="services-and-add-ons" title={i18n.t('dop:pipeline')}>
+=======
+              <BlockContainer className="services-and-add-ons" title={i18n.t('application:pipeline')}>
+>>>>>>> Feature/alarm (#1)
+>>>>>>> Feature/alarm (#1)
                 {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
