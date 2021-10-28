@@ -299,7 +299,7 @@ const AddModal = (props: IProps) => {
       initialValue: 'http',
     },
     {
-      label: i18n.t('msp:name'),
+      label: i18n.t('name'),
       name: 'name',
     },
     {
@@ -537,7 +537,7 @@ const AddModal = (props: IProps) => {
                         )}
                         <div className="ml-4 delete-row-btn table-operations">
                           <span onClick={() => deleteItem(index)} className="table-operations-btn">
-                            {i18n.t('common:delete')}
+                            {i18n.t('delete')}
                           </span>
                         </div>
                       </div>

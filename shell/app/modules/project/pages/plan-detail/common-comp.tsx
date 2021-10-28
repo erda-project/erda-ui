@@ -27,7 +27,7 @@ const noEnv = [
   {
     id: 0,
     name: i18n.t('dop:no environment'),
-    domain: i18n.t('dop:none'),
+    domain: i18n.t('none'),
     header: {},
     global: {},
   },

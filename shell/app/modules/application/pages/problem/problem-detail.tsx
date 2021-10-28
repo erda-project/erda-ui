@@ -129,7 +129,7 @@ const TicketDetail = () => {
     detail.status === 'open' ? (
       <div className="top-button-group">
         <Button type="primary" onClick={() => closeTicket()}>
-          {i18n.t('dop:close')}
+          {i18n.t('close')}
         </Button>
       </div>
     ) : null;

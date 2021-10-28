@@ -32,12 +32,12 @@ const iconMap = {
   DISCARD: <CustomIcon type="wtg" className="rounded-full bg-red text-white" />,
 };
 const statusMap = [
-  { label: i18n.t('dop:processing'), value: 'DOING' },
-  { label: i18n.t('dop:pause'), value: 'PAUSE' },
+  { label: i18n.t('processing'), value: 'DOING' },
+  { label: i18n.t('pause'), value: 'PAUSE' },
   { label: i18n.t('dop:completed'), value: 'DONE' },
 ];
 const archiveStatusMap = [
-  { label: i18n.t('dop:processing'), value: 'false' },
+  { label: i18n.t('processing'), value: 'false' },
   { label: i18n.t('archived'), value: 'true' },
 ];
 
@@ -162,7 +162,7 @@ const TestPlan = () => {
                   updateModalProp({ visible: true, mode: 'edit', testPlanId: id });
                 }}
               >
-                {i18n.t('dop:edit')}
+                {i18n.t('edit')}
               </span>
             )}
             <span

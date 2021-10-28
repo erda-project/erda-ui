@@ -149,7 +149,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
 
   const columns: Array<ColumnProps<PUBLISHER.VersionStatistic>> = [
     {
-      title: i18n.t('publisher:version'),
+      title: i18n.t('version'),
       dataIndex: 'versionOrChannel',
       width: 140,
     },

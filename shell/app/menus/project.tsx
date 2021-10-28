@@ -92,7 +92,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.service.viewService.pass,
     },
     {
-      text: i18n.t('dop:resource summary'),
+      text: i18n.t('resource summary'),
       subtitle: i18n.t('Resource'),
       icon: <IconDataAll />,
       href: goTo.resolve.projectResource(),

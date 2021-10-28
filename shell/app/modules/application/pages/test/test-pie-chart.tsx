@@ -51,7 +51,7 @@ const TestPieChart = ({ data }: IProps): JSX.Element => {
       calculable: true,
       series: [
         {
-          name: i18n.t('dop:status'),
+          name: i18n.t('status'),
           type: 'pie',
           radius: '60%',
           center: ['50%', '50%'],

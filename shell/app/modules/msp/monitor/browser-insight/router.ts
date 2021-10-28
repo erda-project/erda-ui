@@ -15,7 +15,7 @@ import { TimeSelectWithStore } from 'msp/components/time-select';
 import i18n, { isZh } from 'i18n';
 
 const tabs = [
-  { key: 'bi', name: i18n.t('msp:overview') },
+  { key: 'bi', name: i18n.t('overview') },
   { key: 'bi/domain', name: i18n.t('msp:access domain') },
   { key: 'bi/page', name: i18n.t('msp:access page') },
   { key: 'bi/position', name: i18n.t('msp:location analysis') },

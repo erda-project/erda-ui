@@ -155,7 +155,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
             </Select>
           }
           className="url"
-          placeholder={i18n.t('dop:please enter')}
+          placeholder={i18n.t('please enter')}
           value={api.url}
           onChange={(e) => updateApi('url', e.target.value.trim())}
         />
@@ -219,7 +219,7 @@ const ApiTabComps = {
             },
             desc: {
               props: {
-                placeholder: i18n.t('dop:description'),
+                placeholder: i18n.t('description'),
               },
             },
           }}
@@ -255,7 +255,7 @@ const ApiTabComps = {
             },
             desc: {
               props: {
-                placeholder: i18n.t('dop:description'),
+                placeholder: i18n.t('description'),
               },
             },
           }}
@@ -389,12 +389,12 @@ const ApiTabComps = {
                         <Option value=">=">{i18n.t('dop:greater than or equal to')}</Option>
                         <Option value="=">{i18n.t('dop:equal to')}</Option>
                         <Option value="<=">{i18n.t('dop:less than or equal to')}</Option>
-                        <Option value="<">{i18n.t('dop:less than')}</Option>
+                        <Option value="<">{i18n.t('less than')}</Option>
                         <Option value="!=">{i18n.t('dop:not equal to')}</Option>
                         <Option value="contains">{i18n.t('dop:contains')}</Option>
                         <Option value="not_contains">{i18n.t('dop:does not contain')}</Option>
                         <Option value="exist">{i18n.t('dop:existence')}</Option>
-                        <Option value="not_exist">{i18n.t('dop:does not exist')}</Option>
+                        <Option value="not_exist">{i18n.t('does not exist')}</Option>
                         <Option value="empty">{i18n.t('dop:is empty')}</Option>
                         <Option value="not_empty">{i18n.t('dop:not null')}</Option>
                         <Option value="belong">{i18n.t('dop:belongs to')}</Option>
@@ -480,7 +480,7 @@ const ValMap = {
           },
           desc: {
             props: {
-              placeholder: i18n.t('dop:description'),
+              placeholder: i18n.t('description'),
             },
           },
         }}
@@ -709,7 +709,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                   ) : (
                     <Input
                       className="flex-1 width0"
-                      placeholder={i18n.t('dop:please enter')}
+                      placeholder={i18n.t('please enter')}
                       disabled={disabled}
                       value={val}
                       onChange={(e) => updateValue(i, key, trim ? e.target.value?.trim() : e.target.value)}

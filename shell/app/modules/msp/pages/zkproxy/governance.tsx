@@ -100,7 +100,7 @@ const Governance = () => {
         clearBranchesRule();
       },
       okText: i18n.t('common:confirm'),
-      cancelText: i18n.t('common:cancel'),
+      cancelText: i18n.t('cancel'),
     });
   };
 
@@ -108,7 +108,7 @@ const Governance = () => {
     <Spin spinning={getAppDetailLoading || getBranchesLoading || getBranchesRuleLoading}>
       <Holder when={isEmpty(appDetail) || branches.length < 2}>
         <Card title={i18n.t('msp:branch call control')}>
-          <p className="font-medium text-base mb-4">{i18n.t('msp:basic information')}</p>
+          <p className="font-medium text-base mb-4">{i18n.t('basic information')}</p>
           <div className="base-info mb-6 px-4">
             <p className="mb-2">{`${i18n.t('msp:application name')}：${appDetail.name}`}</p>
             <p className="mb-2">{`${i18n.t('msp:application id')}：${appDetail.id}`}</p>

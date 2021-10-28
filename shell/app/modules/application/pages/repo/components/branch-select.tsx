@@ -106,7 +106,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
     const tagList = tags.filter((t) => t.includes(filterKey));
     const commitList = commitId ? (
       <React.Fragment>
-        <div className="title">{i18n.t('dop:commit')}</div>
+        <div className="title">{i18n.t('commit')}</div>
         <ul>
           <li className="branch-item" onClick={() => onChange(commitId)}>
             {commitId === current ? <IconCheck /> : null}
@@ -143,7 +143,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
           {hideTagList ? null : (
             <>
               <div className="title">
-                {i18n.t('dop:tag')} ({tagList.length})
+                {i18n.t('tag')} ({tagList.length})
               </div>
               <ul>
                 {tagList.map((tag) => (

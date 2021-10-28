@@ -67,7 +67,7 @@ const ImportFile = ({ afterImport }: IProps) => {
   return (
     <>
       <Button type="primary" ghost onClick={toggleFileUpload}>
-        {i18n.t('dop:import')}
+        {i18n.t('import')}
       </Button>
       <FormModal
         loading={confirmLoading}

@@ -161,7 +161,7 @@ const ServiceDropdown = (props: IProps) => {
             onClick: () => openSlidePanel('log'),
           },
           {
-            title: i18n.t('runtime:container monitor'),
+            title: i18n.t('container monitor'),
             onClick: () => openSlidePanel('monitor'),
           },
           ...insertWhen(hasConsoleAuth, [

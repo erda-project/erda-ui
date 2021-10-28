@@ -67,7 +67,7 @@ export default ({ clusters }: { clusters: any }) => {
       render: (alertState) => <AlarmState state={alertState} />,
     },
     {
-      title: i18n.t('cmp:alarm type'),
+      title: i18n.t('alarm type'),
       dataIndex: 'alertType',
       width: 150,
     },

@@ -292,7 +292,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="flow-chart-panel-msg-item">
@@ -306,7 +306,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         // </pre>
       }
       // if (!isEmpty(errors)) {
-      //   detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
+      //   detailInfo.push(<h4 className="mt-2">{i18n.t('error')}</h4>);
       //   detailInfo.push(
       //     <pre className="flow-chart-err-block">
       //       {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}
@@ -356,7 +356,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     // 右侧跳转链接图标
     if (status === 'Success') {
       if (isType('it') || isType('ut')) {
-        operations.push(this.getIconOperation('link', 'test-link', i18n.t('dop:test')));
+        operations.push(this.getIconOperation('link', 'test-link', i18n.t('test')));
       }
       // if (name === 'sonar') {
       //   operations.push(this.getIconOperation('link', 'sonar-link', '代码质量'));
@@ -368,7 +368,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       if (metadata != null) {
         const runtimeID = metadata.find((a: any) => a.name === 'runtimeID');
         if (runtimeID) {
-          operations.push(this.getIconOperation('link', 'link', i18n.t('dop:overview')));
+          operations.push(this.getIconOperation('link', 'link', i18n.t('overview')));
         }
         const releaseID = metadata.find((a: any) => a.name === 'releaseID');
         if (releaseID) {
@@ -382,7 +382,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     }
 
     if (status === 'Running' || (executeStatus.includes(status) && isNumber(costTimeSec) && costTimeSec !== -1)) {
-      operations.push(this.getIconOperation('log', 'log', i18n.t('dop:log')));
+      operations.push(this.getIconOperation('log', 'log', i18n.t('log')));
     }
 
     return operations.map((i: any, index: number) => (

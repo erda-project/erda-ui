@@ -85,7 +85,7 @@ const PodTable = (props: IProps) => {
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
-      title: i18n.t('runtime:status'),
+      title: i18n.t('status'),
       dataIndex: 'phase',
       width: 80,
     },
@@ -112,7 +112,7 @@ const PodTable = (props: IProps) => {
       render: (text: string) => (moment(text).isValid() ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('dop:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'op',
       width: 96,
       fixed: 'right',

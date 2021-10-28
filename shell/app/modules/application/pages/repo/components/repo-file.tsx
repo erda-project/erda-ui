@@ -279,7 +279,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
         <div className="flex flex-wrap justify-center items-center raw-file-container">
           <a href={fileSrc} target="_blank" rel="noopener noreferrer">
             <IconDownload />
-            <div className="mt-1"> {i18n.t('dop:download')} </div>
+            <div className="mt-1"> {i18n.t('download')} </div>
           </a>
         </div>
       </FileContainer>

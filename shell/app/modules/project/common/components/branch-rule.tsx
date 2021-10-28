@@ -239,7 +239,7 @@ const BranchRule = (props: IProps) => {
       dataIndex: 'desc',
     },
     {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       key: 'operation',
       fixed: 'right',
       width: 160,

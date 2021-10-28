@@ -84,7 +84,7 @@ export const OperationHistory = () => {
       width: 96,
     },
     {
-      title: i18n.t('cmp:cluster name'),
+      title: i18n.t('cluster name'),
       dataIndex: 'clusterName',
       width: 120,
     },
@@ -217,8 +217,8 @@ export const OperationLog = ({
 
   const switchLog = (
     <Switch
-      checkedChildren={i18n.t('dop:error')}
-      unCheckedChildren={i18n.t('dop:standard')}
+      checkedChildren={i18n.t('error')}
+      unCheckedChildren={i18n.t('standard')}
       checked={state.isStdErr}
       onChange={updater.isStdErr}
     />

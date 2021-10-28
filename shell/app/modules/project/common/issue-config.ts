@@ -47,7 +47,7 @@ export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);
 
 export const REQUIREMENT_STATE_MAP = {
   OPEN: { icon: 'wh', label: i18n.t('dop:open') },
-  WORKING: { icon: 'jxz', label: i18n.t('dop:processing') },
+  WORKING: { icon: 'jxz', label: i18n.t('processing') },
   TESTING: { icon: 'jxz', label: i18n.t('dop:testing') },
   DONE: { icon: 'tg', label: i18n.t('dop:done') },
 };
@@ -62,7 +62,7 @@ export const REQUIREMENT_PANEL_ICON = {
 
 export const TASK_STATE_MAP: ISSUE.TaskMap = {
   OPEN: { icon: 'wh', label: i18n.t('dop:open'), nextStates: ['WORKING'] },
-  WORKING: { icon: 'jxz', label: i18n.t('dop:processing'), nextStates: ['DONE'] },
+  WORKING: { icon: 'jxz', label: i18n.t('processing'), nextStates: ['DONE'] },
   DONE: { icon: 'tg', label: i18n.t('dop:done'), nextStates: [] },
 };
 export const TASK_STATE = Object.keys(TASK_STATE_MAP) as ISSUE.TaskState[];
@@ -79,7 +79,7 @@ export const BUG_STATE_MAP = {
   REOPEN: { icon: 'zt', label: i18n.t('dop:reopen') },
   WONTFIX: { icon: 'zs', label: i18n.t("dop:won't fix") },
   DUP: { icon: 'zs', label: i18n.t("dop:won't fix, duplicated") },
-  CLOSED: { icon: 'tg', label: i18n.t('dop:closed') },
+  CLOSED: { icon: 'tg', label: i18n.t('closed') },
 };
 export const BUG_STATE = Object.keys(BUG_STATE_MAP);
 
@@ -96,8 +96,8 @@ export const ISSUE_BUTTON_STATE = {
   canResolved: { label: i18n.t('dop:resolved'), state: 'RESOLVED' },
   canTesting: { label: i18n.t('dop:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("dop:won't fix"), state: 'WONTFIX' },
-  canWorking: { label: i18n.t('dop:processing'), state: 'WORKING' },
-  canClosed: { label: i18n.t('dop:close'), state: 'CLOSED' },
+  canWorking: { label: i18n.t('processing'), state: 'WORKING' },
+  canClosed: { label: i18n.t('close'), state: 'CLOSED' },
   canDone: { label: i18n.t('dop:completed'), state: 'DONE' },
 };
 

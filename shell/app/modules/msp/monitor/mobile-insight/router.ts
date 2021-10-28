@@ -14,12 +14,12 @@
 import i18n, { isZh } from 'i18n';
 
 const tabs = [
-  { key: 'mi', name: i18n.t('msp:overview') },
+  { key: 'mi', name: i18n.t('overview') },
   { key: 'mi/appversion', name: i18n.t('msp:application version') },
   { key: 'mi/page', name: i18n.t('msp:access page') },
   { key: 'mi/position', name: i18n.t('msp:location analysis') },
   { key: 'mi/request', name: i18n.t('msp:request') },
-  { key: 'mi/script', name: i18n.t('msp:error') },
+  { key: 'mi/script', name: i18n.t('error') },
   { key: 'mi/device', name: i18n.t('msp:device') },
 ];
 

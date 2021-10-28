@@ -75,9 +75,9 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
         case 'issueType': {
           const replaceMap = {
             epic: i18n.t('dop:milestone'),
-            requirement: i18n.t('dop:requirement'),
-            task: i18n.t('dop:task'),
-            bug: i18n.t('dop:bug'),
+            requirement: i18n.t('requirement'),
+            task: i18n.t('task'),
+            bug: i18n.t('bug'),
             ticket: i18n.t('dop:ticket'),
           };
           // 如果是需求池里的需求，把链接替换一下

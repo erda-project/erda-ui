@@ -28,7 +28,7 @@ const chartMap = merge(
       chartName: 'throughput',
     },
     responseTime: {
-      titleText: i18n.t('msp:response time'),
+      titleText: i18n.t('response time'),
       ...commonAttr,
       chartName: 'overviewWeb',
     },

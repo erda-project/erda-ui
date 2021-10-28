@@ -368,7 +368,7 @@ const IssueMetaFields = React.forwardRef(
       {
         className: 'mb-5 w-full',
         name: 'planFinishedAt',
-        label: i18n.t('dop:deadline'),
+        label: i18n.t('deadline'),
         type: 'datePicker',
         showRequiredMark: ISSUE_TYPE.EPIC === issueType,
         itemProps: {
@@ -428,7 +428,7 @@ const IssueMetaFields = React.forwardRef(
       {
         className: 'mb-5 w-full',
         name: 'labels',
-        label: i18n.t('dop:label'),
+        label: i18n.t('label'),
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
         itemProps: {
           options: map(optionList, ({ id: labelId, name, isNewLabel }) => {

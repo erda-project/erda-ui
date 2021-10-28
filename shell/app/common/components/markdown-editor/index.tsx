@@ -146,7 +146,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     if (onSubmit) {
       btns.push(
         <Button key="md-editor-submit-btn" className="my8 mr8" type="primary" onClick={this.onSubmit}>
-          {btnText || i18n.t('common:submit')}
+          {btnText || i18n.t('submit')}
         </Button>,
       );
     }

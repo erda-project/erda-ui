@@ -46,7 +46,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
       switch (key) {
         case 'delete':
           Modal.confirm({
-            title: i18n.t('dop:remove'),
+            title: i18n.t('remove'),
             content: i18n.t('dop:plan-remove-case-confirm'),
             onOk: () => deleteRelations({ type: 'multi', relationIDs: [] }).then(afterDeleteRef.current),
           });
@@ -78,7 +78,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
     return (
       <Menu onClick={onClick}>
         <Menu.Item key="delete">
-          <span>{i18n.t('dop:delete')}</span>
+          <span>{i18n.t('delete')}</span>
         </Menu.Item>
         <Menu.Item key="actor">
           <span>{i18n.t('dop:change executor')}</span>

@@ -154,7 +154,7 @@ export default function getDopRouter(): RouteConfigItem[] {
                 },
                 // {
                 //   path: 'log-analytics',
-                //   breadcrumbName: i18n.t('dop:console'),
+                //   breadcrumbName: i18n.t('console'),
                 //   keepQuery: true,
                 //   getComp: cb => cb(import('msp/pages/log-analytics')),
                 // },
@@ -162,7 +162,7 @@ export default function getDopRouter(): RouteConfigItem[] {
                   path: 'jvm-profiler',
                   routes: [
                     {
-                      breadcrumbName: i18n.t('dop:console'),
+                      breadcrumbName: i18n.t('console'),
                       keepQuery: true,
                       getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
                     },

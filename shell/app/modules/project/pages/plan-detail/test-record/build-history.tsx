@@ -55,7 +55,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
       align: 'center',
     },
     {
-      title: i18n.t('dop:status'),
+      title: i18n.t('status'),
       dataIndex: 'status',
       width: 110,
       render: (status: string) => (
@@ -66,7 +66,7 @@ export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
       ),
     },
     {
-      title: i18n.t('dop:trigger time'),
+      title: i18n.t('trigger time'),
       dataIndex: 'timeCreated',
       width: 180,
       render: (timeCreated: number) => <span>{moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss')}</span>,

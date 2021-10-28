@@ -52,7 +52,7 @@ export default () => {
 
   const fields = [
     [i18n.t('publisher:device model'), 'md'],
-    [i18n.t('publisher:system version'), 'osv'],
+    [i18n.t('system version'), 'osv'],
     [i18n.t('publisher:app package name'), 'dh'],
     [i18n.t('publisher:app version'), 'av'],
     [i18n.t('publisher:cpu architecture'), 'cpu'],
@@ -61,7 +61,7 @@ export default () => {
     [i18n.t('publisher:client ID'), 'cid'],
     [i18n.t('publisher:whether to jailbreak'), 'jb'],
     [i18n.t('publisher:gps'), 'gps'],
-    [i18n.t('publisher:user ID'), 'uid'],
+    [i18n.t('user ID'), 'uid'],
     [i18n.t('publisher:ip address'), 'ip'],
     [i18n.t('publisher:client occurrence time'), 'timestamp', 'time'],
   ];

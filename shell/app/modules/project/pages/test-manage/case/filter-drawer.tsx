@@ -45,7 +45,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
     // {
     //   type: 'custom',
     //   name: 'labelIds',
-    //   label: i18n.t('dop:label'),
+    //   label: i18n.t('label'),
     //   Comp: <LabelSelect type="test" value={query.labelIds} fullWidth />,
     // },
     {
@@ -100,7 +100,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
         mode: 'multiple',
         options: [
           { value: CaseStatus.INIT, name: i18n.t('dop:not performed') },
-          { value: CaseStatus.PASSED, name: i18n.t('dop:passed') },
+          { value: CaseStatus.PASSED, name: i18n.t('passed') },
           { value: CaseStatus.FAIL, name: i18n.t('dop:not passed') },
           { value: CaseStatus.BLOCK, name: i18n.t('dop:blocking') },
         ],

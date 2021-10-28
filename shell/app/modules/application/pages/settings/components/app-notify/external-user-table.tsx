@@ -81,7 +81,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
 
   const columns = [
     {
-      title: i18n.t('dop:user name'),
+      title: i18n.t('user name'),
       dataIndex: 'username',
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input

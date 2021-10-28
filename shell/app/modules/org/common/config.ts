@@ -33,11 +33,11 @@ export const ISSUE_LIST_MAP = {
   },
   task: {
     type: 'TASK',
-    name: i18n.t('dop:task'),
+    name: i18n.t('task'),
   },
   bug: {
     type: 'BUG',
-    name: i18n.t('dop:bug'),
+    name: i18n.t('bug'),
   },
   epic: {
     type: 'EPIC',
@@ -154,12 +154,12 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'planFinishedAt',
-    displayName: i18n.t('dop:deadline'),
+    displayName: i18n.t('deadline'),
     propertyType: 'Date',
   },
   {
     propertyName: 'labels',
-    displayName: i18n.t('dop:tag'),
+    displayName: i18n.t('tag'),
     propertyType: 'MultiSelect',
   },
 ];

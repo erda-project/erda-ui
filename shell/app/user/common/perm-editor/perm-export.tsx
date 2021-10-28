@@ -221,7 +221,7 @@ ${_ymlStr}
   return (
     <div className="dice-perm-export flex justify-between items-center">
       <Button className="mr-2" size="small" onClick={() => setVisible(true)}>
-        {i18n.t('dop:export')}
+        {i18n.t('export')}
       </Button>
       <Button value="task" className="mr-2" size="small" onClick={() => setTaskVisible(true)}>
         {i18n.t('add {name}', { name: i18n.t('task') })}

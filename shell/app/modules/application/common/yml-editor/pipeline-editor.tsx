@@ -231,7 +231,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="p-4">
           <Button type="primary" className="mr-3" onClick={checkForm}>
-            {i18n.t('dop:save')}
+            {i18n.t('save')}
           </Button>
           <Button
             onClick={() => {
@@ -239,7 +239,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
               onCancel();
             }}
           >
-            {i18n.t('dop:cancel')}
+            {i18n.t('cancel')}
           </Button>
         </div>
       </>
@@ -347,7 +347,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
-        name={editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName}
+        name={editing ? `${i18n.t('edit')} ${fileName}` : fileName}
         ops={editing ? editOps : ops}
       >
         <Spin spinning={loading}>

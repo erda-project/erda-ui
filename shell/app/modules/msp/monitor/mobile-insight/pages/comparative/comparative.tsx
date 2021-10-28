@@ -170,7 +170,7 @@ const MIComparative = () => {
                               },
                               xAxis: [
                                 {
-                                  name: `${i18n.t('msp:time')}(ms)`,
+                                  name: `${i18n.t('time')}(ms)`,
                                   nameGap: -20,
                                 },
                               ],

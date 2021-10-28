@@ -17,7 +17,7 @@ import i18n from 'i18n';
 export const DEFAULT_FIELDS = [
   {
     uniqueName: 'title',
-    showName: i18n.t('dop:title'),
+    showName: i18n.t('title'),
     fieldTypeCode: 'STRING',
     module: 'ISSUE',
     defaultValue: null,
@@ -62,7 +62,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'desc',
-    showName: i18n.t('dop:description'),
+    showName: i18n.t('description'),
     fieldTypeCode: 'richText',
     module: 'ISSUE',
     defaultValue: null,
@@ -107,7 +107,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'labels',
-    showName: i18n.t('dop:label'),
+    showName: i18n.t('label'),
     fieldTypeCode: 'label',
     module: 'ISSUE',
     defaultValue: null,
@@ -137,7 +137,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'bugIds',
-    showName: i18n.t('dop:related bugs'),
+    showName: i18n.t('related bugs'),
     fieldTypeCode: 'issue',
     module: 'ISSUE',
     defaultValue: null,

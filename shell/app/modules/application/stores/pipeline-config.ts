@@ -84,7 +84,7 @@ const pipelineConfig = createFlatStore({
       await call(
         addConfigs,
         { ...payload, query: { ...payload.query, appID }, apiPrefix },
-        { successMsg: i18n.t('dop:added successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },
@@ -106,7 +106,7 @@ const pipelineConfig = createFlatStore({
       await call(
         removeConfigs,
         { namespace_name, key, appID, apiPrefix },
-        { successMsg: i18n.t('dop:deleted successfully') },
+        { successMsg: i18n.t('deleted successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },
@@ -119,7 +119,7 @@ const pipelineConfig = createFlatStore({
       await call(
         removeConfigs,
         { namespace_name, key, appID, apiPrefix },
-        { successMsg: i18n.t('dop:deleted successfully') },
+        { successMsg: i18n.t('deleted successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },

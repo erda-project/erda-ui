@@ -39,7 +39,7 @@ const ExportFile = ({ afterExport }: IProps) => {
         { key: 'xmind', name: i18n.t('dop:export Xmind') },
       ]}
       onClickMenu={onExport}
-      buttonText={i18n.t('dop:export')}
+      buttonText={i18n.t('export')}
       btnProps={{
         type: 'primary',
         ghost: true,

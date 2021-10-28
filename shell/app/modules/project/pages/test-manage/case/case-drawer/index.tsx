@@ -318,7 +318,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
         >
           <>
             <ErdaIcon fill="black-400" type="play" size="16" />
-            {i18n.t('dop:execute')}
+            {i18n.t('execute')}
             <span className="text-xs">
               ({i18n.t('dop:When you click directly, it will execute cases without environment.')})
             </span>
@@ -400,7 +400,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                     updateFullData('preCondition', v);
                   }}
                   placeholder={i18n.t('dop:no content yet')}
-                  btnText={i18n.t('dop:save')}
+                  btnText={i18n.t('save')}
                 />
               </ContentPanel>
               <ContentPanel
@@ -431,7 +431,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   executeApi={executeApi}
                 />
               </ContentPanel>
-              <ContentPanel title={i18n.t('dop:description')}>
+              <ContentPanel title={i18n.t('description')}>
                 <MarkdownEditor
                   value={fullData.desc}
                   onBlur={(v: string) => {
@@ -439,7 +439,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                     updateFullData('desc', v);
                   }}
                   placeholder={i18n.t('dop:supplemental description')}
-                  btnText={i18n.t('dop:save')}
+                  btnText={i18n.t('save')}
                 />
               </ContentPanel>
             </div>

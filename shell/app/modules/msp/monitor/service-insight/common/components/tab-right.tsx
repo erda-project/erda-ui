@@ -26,7 +26,7 @@ const instanceGroupHandler = (dataKey: string) => (originData: object) => {
   const results = get(originData, 'results[0].data') || [];
   const data = map(results, (item) => {
     const { tag } = item[dataKey];
-    return { value: tag, name: `${i18n.t('msp:instance')}-${tag}` };
+    return { value: tag, name: `${i18n.t('instance')}-${tag}` };
   });
   return data;
 };

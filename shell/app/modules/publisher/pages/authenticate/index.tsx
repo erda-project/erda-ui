@@ -101,7 +101,7 @@ const Authenticate = (props: IProps) => {
       render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'operation',
       width: 160,
       render: (_v: unknown, record: PUBLISHER.IAuthenticate) => {

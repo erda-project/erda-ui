@@ -64,7 +64,7 @@ export class ErrorBoundary extends React.Component<IProps, IState> {
               {i18n.t('common:sorry')}，{this.props.name || i18n.t('common:error occurred')}
             </span>
             <Button size="large" type="primary" onClick={() => goTo('/')}>
-              {i18n.t('common:back to home')}
+              {i18n.t('back to home')}
             </Button>
           </div>
         </div>

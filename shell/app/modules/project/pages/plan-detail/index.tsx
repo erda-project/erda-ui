@@ -211,10 +211,10 @@ const TestPlanDetail = () => {
             })
           }
         >
-          {i18n.t('dop:edit')}
+          {i18n.t('edit')}
         </Button>
         <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'copy' })}>
-          {i18n.t('dop:copy')}
+          {i18n.t('copy')}
         </Button>
         <PlanModal
           testPlanId={params.testPlanId}

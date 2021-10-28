@@ -222,7 +222,7 @@ const VariableConfig = ({
                 <IconInfo className="ml-1 text-sub" />
               </Tooltip>
             )}
-            {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('common:default')}</span>}
+            {isFromDefault && <span className="tag tag-warning ml-1">{i18n.t('default')}</span>}
           </span>
         </div>
       ),
@@ -249,10 +249,10 @@ const VariableConfig = ({
       },
     },
     {
-      title: i18n.t('dop:type'),
+      title: i18n.t('type'),
       dataIndex: 'type',
       width: 96,
-      render: (text: string) => (text === typeMap.kv ? i18n.t('dop:value') : i18n.t('dop:file')),
+      render: (text: string) => (text === typeMap.kv ? i18n.t('value') : i18n.t('file')),
     },
     {
       title: i18n.t('dop:remark'),
@@ -260,7 +260,7 @@ const VariableConfig = ({
       render: (text: string) => (text ? <Tooltip title={text}>{text.slice(0, 30)}</Tooltip> : '-'),
     },
     {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'operations',
       width: 200,
       fixed: 'right',

@@ -35,7 +35,7 @@ function getMspRouter(): RouteConfigItem[] {
       routes: [
         {
           path: 'overview',
-          breadcrumbName: i18n.t('dop:overview'),
+          breadcrumbName: i18n.t('overview'),
           getComp: (cb) => cb(import('msp/pages/micro-service/overview')),
         },
         {

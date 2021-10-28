@@ -359,7 +359,7 @@ export const useRedisFields = () => {
 
 export const useDBFields = () => [
   {
-    label: i18n.t('resource:database'),
+    label: i18n.t('database'),
     name: ['databases.0', 'dbName'],
     itemProps: {
       maxLength: 64,
@@ -457,7 +457,7 @@ export const useBucketField = () => {
       name: ['buckets', 0, 'acl'],
       type: 'select',
       options: [
-        { name: i18n.t('resource:private'), value: 'private' },
+        { name: i18n.t('private'), value: 'private' },
         { name: i18n.t('resource:public reading'), value: 'public-read' },
         { name: i18n.t('resource:public reading and writing'), value: 'public-read-write' },
       ],
@@ -513,7 +513,7 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
       },
     },
     {
-      label: i18n.t('resource:instance source'),
+      label: i18n.t('instance source'),
       name: ['slb', 'instanceID'],
       type: 'select',
       options: data.map(({ instanceID, name }) => ({ name, value: instanceID })),
@@ -582,7 +582,7 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: FormInstan
       },
     },
     {
-      label: i18n.t('resource:instance source'),
+      label: i18n.t('instance source'),
       name: 'instanceID',
       type: 'select',
       options: data.map(({ instanceID, name }) => ({ name, value: instanceID })),

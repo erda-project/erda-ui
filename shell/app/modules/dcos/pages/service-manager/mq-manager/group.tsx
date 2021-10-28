@@ -77,7 +77,7 @@ const Group = () => {
     getCloudResourceTimeCol(),
     getRemarkCol(),
     {
-      title: i18n.t('dop:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'op',
       width: 100,
       render: (_v: any, record: CLOUD_SERVICE.IMQGroup) => {

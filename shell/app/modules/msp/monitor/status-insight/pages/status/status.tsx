@@ -133,7 +133,7 @@ const Status = () => {
       ),
     },
     {
-      title: i18n.t('msp:status'),
+      title: i18n.t('status'),
       dataIndex: 'status',
       render: (status: string) => (
         <span>
@@ -209,10 +209,10 @@ const Status = () => {
         return (
           <div className="table-operations">
             <a className="table-operations-btn" key="edit" onClick={(e) => handleEdit(e, record)}>
-              {i18n.t('msp:edit')}
+              {i18n.t('edit')}
             </a>
             <a className="table-operations-btn" key="del" onClick={(e) => handleDelete(e, id)}>
-              {i18n.t('msp:delete')}
+              {i18n.t('delete')}
             </a>
           </div>
         );

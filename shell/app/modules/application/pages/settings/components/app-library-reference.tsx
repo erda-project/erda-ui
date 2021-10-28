@@ -43,15 +43,15 @@ const AppLibraryReference = () => {
   const getColumns = ({ deleteItem }: any) => {
     const columns = [
       {
-        title: i18n.t('dop:name'),
+        title: i18n.t('name'),
         dataIndex: 'libName',
       },
       {
-        title: i18n.t('dop:description'),
+        title: i18n.t('description'),
         dataIndex: 'libDesc',
       },
       {
-        title: i18n.t('dop:time'),
+        title: i18n.t('time'),
         dataIndex: 'createdAt',
         width: 240,
         render: (text: string) => formatTime(text, 'YYYY-MM-DD HH:mm:ss'),
@@ -63,7 +63,7 @@ const AppLibraryReference = () => {
         render: (text: string) => approvalStatus[text],
       },
       {
-        title: i18n.t('dop:operation'),
+        title: i18n.t('operation'),
         dataIndex: 'op',
         width: 100,
         render: (_v: any, record: APP_SETTING.LibRef) => {
@@ -156,7 +156,7 @@ const AppLibraryReference = () => {
                     <div className="library-desc mb-2">{desc}</div>
                     <div className="library-tips">
                       <CustomIcon type="bb1" />
-                      {i18n.t('publisher:version number')}: {latestVersion || '--'}
+                      {i18n.t('version number')}: {latestVersion || '--'}
                       <CustomIcon type="renwushu" />
                       {i18n.t('publisher:subscriptions')}: {refCount || 0}
                     </div>

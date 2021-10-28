@@ -63,12 +63,12 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
       ],
     },
     {
-      label: i18n.t('dop:type'),
+      label: i18n.t('type'),
       name: 'type',
       type: 'select',
       options: [
-        { name: i18n.t('dop:value'), value: typeMap.kv },
-        { name: i18n.t('dop:file'), value: typeMap.file },
+        { name: i18n.t('value'), value: typeMap.kv },
+        { name: i18n.t('file'), value: typeMap.file },
       ],
       initialValue: typeMap.kv,
       itemProps: {
@@ -167,7 +167,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
 
   return (
     <FormModal
-      name={i18n.t('dop:config')}
+      name={i18n.t('config')}
       fieldsList={fieldsList}
       visible={visible}
       onOk={(data: any, isAdd: boolean) => {

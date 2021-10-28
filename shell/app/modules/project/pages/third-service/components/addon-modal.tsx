@@ -167,7 +167,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     if (editData) {
       return [
         <Button key="cancel" onClick={() => this.handleCancel()}>
-          {i18n.t('dop:cancel')}
+          {i18n.t('cancel')}
         </Button>,
         <Button key="confirm" type="primary" onClick={() => this.handleOk()}>
           {i18n.t('dop:confirm')}
@@ -178,7 +178,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
       const currentAddon = this.getCurAddon();
       return [
         <Button key="cancel" onClick={() => this.handleCancel()}>
-          {i18n.t('dop:cancel')}
+          {i18n.t('cancel')}
         </Button>,
         // API 网关只有基础信息，不需要下一步
         currentAddon.vars === null || this.state.onlyOneStep ? (
@@ -199,7 +199,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     }
     return [
       <Button key="cancel" onClick={() => this.handleCancel()}>
-        {i18n.t('dop:cancel')}
+        {i18n.t('cancel')}
       </Button>,
       <Button key="prev" onClick={() => this.toStep(STEP.FIRST)}>
         {i18n.t('dop:previous')}

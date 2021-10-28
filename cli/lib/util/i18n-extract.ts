@@ -14,7 +14,7 @@
 import vfs from 'vinyl-fs';
 import path from 'path';
 import fs from 'fs';
-import { merge, differenceWith, isEqual, unset } from 'lodash';
+import { merge, differenceWith, isEqual, unset, mapKeys } from 'lodash';
 import { logError } from './log';
 import {
   internalModules,
@@ -169,7 +169,10 @@ function customFlush(done: () => void) {
 export default async (resolve: (value: void | PromiseLike<void>) => void, _isExternal = false) => {
   try {
     const jsonContent = fs.readFileSync(path.resolve(process.cwd(), './temp-zh-words.json'), 'utf8');
-    zhWordMap = JSON.parse(jsonContent);
+    const zhWordContent = JSON.parse(jsonContent);
+    zhWordMap = mapKeys(zhWordContent, (_v, key) => {
+      return key.replace(':', '&#58;');
+    });
   } catch (error) {
     zhWordMap = {};
   }
