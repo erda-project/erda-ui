@@ -287,8 +287,10 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
           jsonContent,
         );
       })
-      .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
-        form?.scrollToField(errorFields[0].name);
+      .catch((e: Obj) => {
+        if (e.errorFields) {
+          form?.scrollToField(e.errorFields?.[0]?.name);
+        }
       });
   };
 }
