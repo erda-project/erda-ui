@@ -13,7 +13,7 @@
 
 import { Echarts } from 'charts';
 import { colorMap } from 'charts/theme';
-import { ContractiveFilter, CardContainer, Holder, Title } from 'common';
+import { ContractiveFilter, CardContainer, ErdaIcon, Title } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Button, Col, InputNumber, Progress, Radio, Row, Select, Spin, Table, Tooltip } from 'antd';
 import { getResourceGauge, getResourceTable } from 'dcos/services/dashboard';
@@ -50,15 +50,16 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
     cpuPerNode: localCache[0] || 8,
     memPerNode: localCache[1] || 32,
   });
+  const [state, updater] = useUpdate({
+    showCalculate: false,
+  });
 
   const [data, loading] = getResourceGauge.useState();
-  const dateRef = React.useRef(data);
   React.useEffect(() => {
     if (clusterNameStr) {
       getResourceGauge.fetch({ clusterName: clusterNameStr.split(','), ...cpuAndMem.current });
     }
   }, [clusterNameStr]);
-  dateRef.current = data || defaultGaugeData;
 
   const getOption = (item: ORG_DASHBOARD.GaugeChartBody) => {
     const colors = [colorMap.blue, colorMap.green];
@@ -136,51 +137,69 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
         }
         tipStyle={{ width: '500px' }}
         operations={[
-          <>
-            {i18n.t('cmp:Node conversion formula')}：
-            <InputNumber
-              min={1}
-              max={9999}
-              defaultValue={cpuAndMem.current.cpuPerNode}
-              onChange={(value) => {
-                cpuAndMem.current.cpuPerNode = value;
-              }}
-              size="small"
-              style={{ width: '80px' }}
-            />
-            <span>{i18n.t('cmp:Core')}</span>
-            <InputNumber
-              min={1}
-              max={9999999}
-              defaultValue={cpuAndMem.current.memPerNode}
-              onChange={(value) => {
-                cpuAndMem.current.memPerNode = value;
-              }}
-              size="small"
-              className="ml-1"
-              style={{ width: '80px' }}
-            />
-            <span>G = {i18n.t('cmp:one node')}</span>
-            <Button
-              type="primary"
-              className="ml-1"
-              size="small"
-              onClick={() => {
-                window.localStorage.setItem(
-                  'cluster-summary-unit',
-                  `${cpuAndMem.current.cpuPerNode}-${cpuAndMem.current.memPerNode}`,
-                );
-                clusterNameStr &&
-                  getResourceGauge.fetch({ clusterName: clusterNameStr.split(','), ...cpuAndMem.current });
-              }}
-            >
-              {i18n.t('cmp:save')}
-            </Button>
-          </>,
+          state.showCalculate ? (
+            <div className="flex items-center">
+              {i18n.t('cmp:Node conversion formula')}：
+              <InputNumber
+                min={1}
+                max={9999}
+                defaultValue={cpuAndMem.current.cpuPerNode}
+                onChange={(value) => {
+                  cpuAndMem.current.cpuPerNode = value;
+                }}
+                size="small"
+                style={{ width: '80px' }}
+              />
+              <span>{i18n.t('cmp:Core')}</span>
+              <InputNumber
+                min={1}
+                max={9999999}
+                defaultValue={cpuAndMem.current.memPerNode}
+                onChange={(value) => {
+                  cpuAndMem.current.memPerNode = value;
+                }}
+                size="small"
+                className="ml-1"
+                style={{ width: '80px' }}
+              />
+              <span>G = {i18n.t('cmp:one node')}</span>
+              <Button
+                type="primary"
+                className="ml-1"
+                size="small"
+                onClick={() => {
+                  window.localStorage.setItem(
+                    'cluster-summary-unit',
+                    `${cpuAndMem.current.cpuPerNode}-${cpuAndMem.current.memPerNode}`,
+                  );
+                  clusterNameStr &&
+                    getResourceGauge.fetch({ clusterName: clusterNameStr.split(','), ...cpuAndMem.current });
+                }}
+              >
+                {i18n.t('cmp:save')}
+              </Button>
+              <ErdaIcon
+                size={20}
+                className="ml-1 cursor-pointer"
+                color="primary"
+                onClick={() => updater.showCalculate(false)}
+                type="calculator-one"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <ErdaIcon
+                size={20}
+                className="cursor-pointer"
+                onClick={() => updater.showCalculate(true)}
+                type="calculator-one"
+              />
+            </div>
+          ),
         ]}
       />
       <Row justify="space-between" gutter={12}>
-        {map(dateRef.current, (item, key) => (
+        {map(data || defaultGaugeData, (item, key) => (
           <Col key={key} span={8}>
             <CardContainer.ChartContainer title={item?.title} holderWhen={!item}>
               <Echarts style={{ height: '320px' }} showLoading={loading} option={getOption(item)} />
@@ -197,7 +216,7 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
   );
 });
 
-const arrSortMinToMax = (_a, _b) => {
+const arrSortMinToMax = (_a: string, _b: string) => {
   const a = String(_a);
   const b = String(_b);
   let cReg =
