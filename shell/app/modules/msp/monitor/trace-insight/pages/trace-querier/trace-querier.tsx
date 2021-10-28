@@ -223,7 +223,7 @@ const TraceInsightQuerier = () => {
           <Col span={6}>
             <Button
               type="primary"
-              disabled={(!url && !inputUrl) || !urlRule.pattern.test(inputUrl)}
+              disabled={!inputUrl || !urlRule.pattern.test(inputUrl)}
               loading={!!url && isRequestTraceFetching}
               onClick={handleRequestTrace}
             >
