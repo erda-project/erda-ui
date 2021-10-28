@@ -41,14 +41,14 @@ export class PagingTable extends React.PureComponent {
       pageSize: props.pageSize || PAGINATION.pageSize,
     };
     this.operation = {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       width: 100,
       render: (record) => {
         return (
           <div className="table-operations">
             {props.onEdit ? (
               <span className="table-operations-btn" onClick={() => props.onEdit(record)}>
-                {i18n.t('common:edit')}
+                {i18n.t('edit')}
               </span>
             ) : null}
             {props.onDelete ? (
@@ -58,7 +58,7 @@ export class PagingTable extends React.PureComponent {
                   confirm({ title: i18n.t('common:confirm deletion'), onOk: () => props.onDelete(record) })
                 }
               >
-                {i18n.t('common:delete')}
+                {i18n.t('delete')}
               </span>
             ) : null}
           </div>

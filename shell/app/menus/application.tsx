@@ -52,7 +52,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'pipeline',
     href: goTo.resolve.pipelineRoot(), // `/dop/projects/${projectId}/apps/${appId}/pipeline`,
     icon: <IconAssemblyLine />,
-    text: i18n.t('dop:pipeline'),
+    text: i18n.t('pipeline'),
     subtitle: i18n.t('Pipeline'),
   };
   const apiDesign = {

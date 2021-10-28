@@ -96,7 +96,7 @@ const SnippetDetail = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt-2">{i18n.t('dop:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">

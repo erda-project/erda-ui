@@ -121,14 +121,14 @@ export function getFields(): TEST_CASE.Field[] {
       enums: [
         {
           fieldUniqueName: TestOperation.testPlanStatus,
-          showName: i18n.t('dop:processing'),
+          showName: i18n.t('processing'),
           value: 'DOING',
           icon: null,
           order: null,
         },
         {
           fieldUniqueName: TestOperation.testPlanStatus,
-          showName: i18n.t('dop:pause'),
+          showName: i18n.t('pause'),
           value: 'PAUSE',
           icon: null,
           order: null,

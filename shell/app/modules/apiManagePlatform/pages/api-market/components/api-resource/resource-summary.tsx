@@ -230,7 +230,7 @@ const ResourceSummary = React.memo((props: IProps) => {
       },
       {
         type: MarkdownEditor,
-        label: i18n.t('dop:description'),
+        label: i18n.t('description'),
         name: 'description',
         colSpan: 24,
         required: false,

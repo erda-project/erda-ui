@@ -32,7 +32,7 @@ export const appPerm = {
     name: i18n.t('user:external code repository'),
     edit: {
       pass: false,
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
       role: ['Owner', 'Lead'],
     },
   },
@@ -80,7 +80,7 @@ export const appPerm = {
       },
       edit: {
         pass: false,
-        name: i18n.t('dop:edit'),
+        name: i18n.t('edit'),
         role: ['Owner', 'Lead', 'Creator'],
       },
       close: {
@@ -104,7 +104,7 @@ export const appPerm = {
     },
   },
   pipeline: {
-    name: i18n.t('dop:pipeline'),
+    name: i18n.t('pipeline'),
     read: {
       pass: false,
       name: i18n.t('dop:view'),
@@ -290,7 +290,7 @@ export const appPerm = {
       name: i18n.t('access management'),
       edit: {
         pass: false,
-        name: i18n.t('dop:edit'),
+        name: i18n.t('edit'),
         role: ['Owner', 'Lead'],
       },
       delete: {
@@ -357,7 +357,7 @@ export const appPerm = {
       edit: {
         pass: false,
         role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
-        name: i18n.t('dop:edit'),
+        name: i18n.t('edit'),
       },
     },
   },

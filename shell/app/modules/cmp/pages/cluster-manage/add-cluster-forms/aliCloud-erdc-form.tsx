@@ -58,7 +58,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
     },
     {
-      label: i18n.t('cmp:cluster name'),
+      label: i18n.t('cluster name'),
       component: 'input',
       key: 'displayName',
       rules: [

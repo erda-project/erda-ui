@@ -20,19 +20,19 @@ import './health-point.scss';
 export const statusMap = {
   runtime: {
     Init: {
-      text: i18n.t('dop:initializing'),
+      text: i18n.t('initializing'),
       state: 'processing',
     },
     Progressing: {
-      text: i18n.t('dop:deploying'),
+      text: i18n.t('deploying'),
       state: 'processing',
     },
     DEPLOYING: {
-      text: i18n.t('dop:deploying'),
+      text: i18n.t('deploying'),
       state: 'processing',
     },
     UnHealthy: {
-      text: i18n.t('dop:unhealthy'),
+      text: i18n.t('unhealthy'),
       state: 'warning',
     },
     OK: {
@@ -46,11 +46,11 @@ export const statusMap = {
   },
   service: {
     Progressing: {
-      text: i18n.t('dop:deploying'),
+      text: i18n.t('deploying'),
       state: 'processing',
     },
     UnHealthy: {
-      text: i18n.t('dop:unhealthy'),
+      text: i18n.t('unhealthy'),
       state: 'warning',
     },
     Healthy: {
@@ -60,11 +60,11 @@ export const statusMap = {
   },
   task: {
     Killed: {
-      text: i18n.t('dop:stopped'),
+      text: i18n.t('stopped'),
       state: 'error',
     },
     Stopped: {
-      text: i18n.t('dop:stopped'),
+      text: i18n.t('stopped'),
       state: 'error',
     },
     Failed: {
@@ -84,11 +84,11 @@ export const statusMap = {
       state: 'success',
     },
     UnHealthy: {
-      text: i18n.t('dop:unhealthy'),
+      text: i18n.t('unhealthy'),
       state: 'warning',
     },
     Unknown: {
-      text: i18n.t('dop:unknown'),
+      text: i18n.t('unknown'),
       state: 'warning',
     },
     OOM: {
@@ -96,21 +96,21 @@ export const statusMap = {
       state: 'warning',
     },
     Running: {
-      text: i18n.t('dop:running'),
+      text: i18n.t('running'),
       state: 'success',
     },
     Dead: {
-      text: i18n.t('dop:stopped'),
+      text: i18n.t('stopped'),
       state: 'error',
     },
   },
   machine: {
     fatal: {
-      text: i18n.t('dop:error'),
+      text: i18n.t('error'),
       state: 'error',
     },
     warning: {
-      text: i18n.t('dop:unhealthy'),
+      text: i18n.t('unhealthy'),
       state: 'warning',
     },
     normal: {
@@ -120,7 +120,7 @@ export const statusMap = {
   },
 };
 
-const fallback = { text: i18n.t('dop:unknown'), state: 'default' };
+const fallback = { text: i18n.t('unknown'), state: 'default' };
 
 interface IProps {
   type: string;

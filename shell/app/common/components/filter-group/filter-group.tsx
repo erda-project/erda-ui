@@ -233,7 +233,7 @@ export const FilterCore = ({ list, onSearch, onChange, onReset, syncUrlOnSearch,
       />
     );
   });
-  const resetButton = <Button onClick={reset}>{i18n.t('common:reset')}</Button>;
+  const resetButton = <Button onClick={reset}>{i18n.t('reset')}</Button>;
   const searchButton = (
     <Button type="primary" onClick={search}>
       {i18n.t('search')}
@@ -513,10 +513,10 @@ export const FilterGroupDrawer = ({
                     onClose();
                   }}
                 >
-                  {i18n.t('common:cancel')}
+                  {i18n.t('cancel')}
                 </Button>
                 <Button type="primary" ghost onClick={search}>
-                  {i18n.t('common:filter')}
+                  {i18n.t('filter')}
                 </Button>
               </div>
             </div>

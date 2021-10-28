@@ -68,8 +68,8 @@ export const smsNotifyChannelOptionsMap = Object.assign({}, notifyChannelOptions
 });
 
 const groupTargetMap = {
-  user: i18n.t('dop:member'),
-  dingding: i18n.t('dop:DingTalk address'),
+  user: i18n.t('member'),
+  dingding: i18n.t('DingTalk address'),
   webhook: i18n.t('dop:external api'),
   external_user: i18n.t('dop:external user'),
   role: i18n.t('member role'),
@@ -477,7 +477,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('dop:edit')}
+              {i18n.t('edit')}
             </span>
             <span
               className="table-operations-btn"

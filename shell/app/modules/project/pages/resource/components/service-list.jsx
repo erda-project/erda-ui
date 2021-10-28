@@ -80,7 +80,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         ),
       },
       {
-        title: i18n.t('dop:number of instance'),
+        title: i18n.t('number of instance'),
         dataIndex: 'instance',
         width: 176,
         sorter: (a, b) => Number(a.instance) - Number(b.instance),
@@ -107,7 +107,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         render: (_host, record) => record.host_private_addr || record.host || i18n.t('dop:no host address'),
       },
       {
-        title: i18n.t('dop:image'),
+        title: i18n.t('image'),
         dataIndex: 'image',
         key: 'image',
         // className: 'item-image',
@@ -131,7 +131,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       ...CPU_MEM,
     ];
     cols[4] = {
-      title: i18n.t('dop:memory'),
+      title: i18n.t('memory'),
       dataIndex: 'memory',
       key: 'memory',
       width: 120,

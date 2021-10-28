@@ -78,7 +78,7 @@ export const TraceExpandTable = ({
       // width: 100,
     },
     {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       // width: 100,
       render: (record: any) => {
         const { requestId, traced } = record;

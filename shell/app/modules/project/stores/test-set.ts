@@ -171,11 +171,11 @@ const testSetStore = createStore({
       return newSet;
     },
     async deleteTestSetToRecycle({ call }, testSetID: number) {
-      await call(deleteTestSet, { testSetID }, { successMsg: i18n.t('dop:deleted successfully') });
+      await call(deleteTestSet, { testSetID }, { successMsg: i18n.t('deleted successfully') });
       await testCaseStore.effects.emptyListByTestSetId(testSetID);
     },
     async deleteTestSetEntirely({ call }, testSetID: number) {
-      await call(deleteTestSetEntirely, { testSetID }, { successMsg: i18n.t('dop:deleted successfully') });
+      await call(deleteTestSetEntirely, { testSetID }, { successMsg: i18n.t('deleted successfully') });
       await testCaseStore.effects.emptyListByTestSetId(testSetID);
     },
     async recoverTestSet({ call, getParams }, payload: TEST_SET.RecoverQuery) {
@@ -210,7 +210,7 @@ const testSetStore = createStore({
       } else {
         await call(moveTestSet, { testSetID, moveToParentID: parentID });
       }
-      message.success(i18n.t('dop:operated successfully'));
+      message.success(i18n.t('operated successfully'));
       testSetStore.reducers.updateReloadTestSet({ isMove: !isCopy, testSetID, parentID, projectID });
     },
     // 用例批量复制，移动，恢复

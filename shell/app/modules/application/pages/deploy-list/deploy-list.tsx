@@ -44,7 +44,7 @@ export enum APPROVE_TYPE {
 
 export const approvalStatusMap = {
   WaitApprove: { name: i18n.t('pending approval'), value: 'WaitApprove' },
-  Accept: { name: i18n.t('dop:passed'), value: 'Accept' },
+  Accept: { name: i18n.t('passed'), value: 'Accept' },
   Reject: { name: i18n.t('rejected'), value: 'Reject' },
 };
 

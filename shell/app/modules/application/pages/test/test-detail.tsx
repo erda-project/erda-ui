@@ -176,8 +176,8 @@ class TestDetail extends React.Component<IProps, IState> {
       { name: i18n.t('dop:all'), value: 'all', color: 'all' },
       { name: i18n.t('dop:pass'), value: 'passed', color: 'passed' },
       { name: i18n.t('dop:jump over'), value: 'skipped', color: 'skipped' },
-      { name: i18n.t('dop:failed'), value: 'failed', color: 'failed' },
-      { name: i18n.t('dop:error'), value: 'error', color: 'error' },
+      { name: i18n.t('failed'), value: 'failed', color: 'failed' },
+      { name: i18n.t('error'), value: 'error', color: 'error' },
     ];
     return (
       <div className="application-test-detail">
@@ -189,7 +189,7 @@ class TestDetail extends React.Component<IProps, IState> {
             </ChartContainer>
           </Col>
           <Col span={12} className="test-env-container">
-            <ChartContainer title={i18n.t('dop:test environment')}>
+            <ChartContainer title={i18n.t('test environment')}>
               <Table
                 loading={false}
                 dataSource={dataSource}

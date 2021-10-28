@@ -174,7 +174,7 @@ const TopologyDashboard = () => {
       <If condition={activedNode}>
         <div className="topology-node-dashboard-header flex justify-between items-center mb-2">
           <div className="node-name font-bold text-sub">
-            {type === 'service' ? `${i18n.t('common:service')}：${serviceName}` : name}
+            {type === 'service' ? `${i18n.t('service')}：${serviceName}` : name}
           </div>
           <If condition={type && name}>
             <Choose>

@@ -129,7 +129,7 @@ export const PurePublisherList = ({
     },
     ...insertWhen<ColumnProps<PUBLISHER.IPublisher>>(mode === 'LIBRARY', [
       {
-        title: i18n.t('publisher:version number'),
+        title: i18n.t('version number'),
         width: 160,
         dataIndex: 'latestVersion',
         render: (text) => text || '-',

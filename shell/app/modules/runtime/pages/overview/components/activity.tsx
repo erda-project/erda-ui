@@ -79,7 +79,7 @@ const Activity = () => {
   };
   const fullLogComps = [
     {
-      getTitle: () => i18n.t('runtime:deployment log'),
+      getTitle: () => i18n.t('deployment log'),
       getComp: () => <DeployLog {...deployLogProps} />,
     },
     ...slidePanelComps,

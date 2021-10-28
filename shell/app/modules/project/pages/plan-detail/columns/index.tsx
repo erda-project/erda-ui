@@ -54,7 +54,7 @@ export const getColumns = ({ afterDelete }: { afterDelete: (data: number[]) => v
   [
     ...planDetailColumns,
     {
-      title: i18n.t('dop:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'operation',
       key: 'operation',
       width: 280,

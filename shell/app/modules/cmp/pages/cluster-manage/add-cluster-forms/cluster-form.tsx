@@ -85,7 +85,7 @@ const ClusterBasicForm = ({
       ],
     },
     {
-      label: i18n.t('cmp:cluster name'),
+      label: i18n.t('cluster name'),
       name: 'displayName',
       pattern: /^.{1,50}$/,
       required: false,

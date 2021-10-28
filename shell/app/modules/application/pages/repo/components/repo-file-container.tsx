@@ -206,7 +206,7 @@ const RepoFileContainerComp = (props: IProps) => {
             </Button>
           </ButtonGroup>
           <IF check={!binary}>
-            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:edit')}>
+            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('edit')}>
               <div className="mt-1 mr-3">
                 <ErdaIcon
                   fill="black-400"

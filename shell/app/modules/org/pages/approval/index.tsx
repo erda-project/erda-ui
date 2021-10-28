@@ -31,7 +31,7 @@ const { Option } = Select;
 const undoneStatusMap = {
   approved: {
     value: 'approved',
-    name: i18n.t('dop:passed'),
+    name: i18n.t('passed'),
   },
   denied: {
     value: 'denied',

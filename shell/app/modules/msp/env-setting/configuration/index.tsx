@@ -151,7 +151,7 @@ const Configuration = () => {
       render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('dop:operation'),
+      title: i18n.t('operation'),
       width: 96,
       dataIndex: 'id',
       key: 'id',
@@ -198,7 +198,7 @@ const Configuration = () => {
     update({
       currentPage: 1,
     });
-    message.success(i18n.t('dop:deleted successfully'));
+    message.success(i18n.t('deleted successfully'));
   };
 
   React.useEffect(() => {

@@ -14,7 +14,7 @@
 import React from 'react';
 import { map, isEmpty } from 'lodash';
 import { Row, Col, Tooltip, Button } from 'antd';
-import { Responsive, ErrorBoundary, IF,  } from 'common';
+import { Responsive, ErrorBoundary, IF } from 'common';
 import { goTo, getLS, setLS, qs } from 'common/utils';
 import { useMediaLt } from 'common/use-hooks';
 import { getMSFrontPathByKey } from 'msp/config';
@@ -207,7 +207,7 @@ const RuntimeOverView = () => {
             </IF>
             <IF check={!isEmpty(services)}>
               <div className="overview-body-block">
-                <div className="overview-body-title">{i18n.t('runtime:microService')}</div>
+                <div className="overview-body-title">{i18n.t('microService')}</div>
                 {map(services, (service, key) => {
                   return (
                     <ServiceCard runtimeDetail={runtimeDetail} service={service} name={key} key={key} params={params} />

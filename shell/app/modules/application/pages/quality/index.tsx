@@ -300,7 +300,7 @@ const CodeQuality = () => {
               </span>
             </Col>
             <Col span={8}>
-              <div className="label mb-2">{i18n.t('dop:submit')} ID</div>
+              <div className="label mb-2">{i18n.t('submit')} ID</div>
               <span
                 className="value commit-id hover-table-text"
                 onClick={() => {

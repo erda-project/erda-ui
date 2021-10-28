@@ -39,13 +39,13 @@ interface IProps {
 }
 
 const formMenu = [
-  { key: 'jump-board', name: i18n.t('cmp:jump server') },
-  { key: 'cluster-config', name: i18n.t('cmp:cluster infos') },
+  { key: 'jump-board', name: i18n.t('jump server') },
+  { key: 'cluster-config', name: i18n.t('cluster infos') },
   { key: 'cluster-ssh', name: i18n.t('cmp:cluster ssh infos') },
   { key: 'cluster-fps', name: i18n.t('cmp:file proxy service') },
   { key: 'storage', name: i18n.t('cmp:storage configs') },
   { key: 'nodes', name: i18n.t('cmp:node list') },
-  { key: 'platform', name: i18n.t('cmp:platform configs') },
+  { key: 'platform', name: i18n.t('platform configs') },
   { key: 'docker', name: i18n.t('cmp:docker configs') },
 ];
 

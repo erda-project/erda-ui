@@ -151,7 +151,7 @@ export default () => {
         ),
       },
       {
-        label: i18n.t('dop:notification method'),
+        label: i18n.t('notification method'),
         name: ['notifyTarget', 'groupType'],
         type: 'select',
         initialValue: get(editingTask, 'notifyTarget.groupType'),
@@ -259,7 +259,7 @@ export default () => {
                 handleEdit(record);
               }}
             >
-              {i18n.t('dop:edit')}
+              {i18n.t('edit')}
             </span>
             <span
               className="table-operations-btn"

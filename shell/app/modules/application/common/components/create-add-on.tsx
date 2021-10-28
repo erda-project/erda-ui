@@ -109,7 +109,7 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
       <span className="add-on-info">
         <div className="add-on-info-name">
           <span className="display-name">{addon.displayName}</span>
-          {addon.instanceId ? <span className="tag-default">{i18n.t('dop:instance')}</span> : null}
+          {addon.instanceId ? <span className="tag-default">{i18n.t('instance')}</span> : null}
           {reselect ? (
             <a onClick={reselectFunc} className="reselect">
               {i18n.t('dop:reselect')}
@@ -310,7 +310,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     const name = (
       <Item
         name="alias"
-        label={i18n.t('dop:name')}
+        label={i18n.t('name')}
         initialValue={nameValue}
         rules={[
           {
@@ -399,7 +399,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
               {i18n.t('cancel')}
             </Button>
             <Button type="primary" onClick={this.submitAddon}>
-              {i18n.t('dop:save')}
+              {i18n.t('save')}
             </Button>
           </Item>
         ) : null}

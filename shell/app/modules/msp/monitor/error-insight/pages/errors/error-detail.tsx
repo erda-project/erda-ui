@@ -310,7 +310,7 @@ const ErrorDetail = () => {
             </div>
             <IF check={!isEmpty(requestHeaders) || !isEmpty(requestContext)}>
               <div className="content-block request-container">
-                <div className="content-title">{i18n.t('msp:request information')}</div>
+                <div className="content-title">{i18n.t('request information')}</div>
                 {getRequestRender({ requestHeaders, ...requestContext })}
               </div>
             </IF>

@@ -66,7 +66,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
           <Input
             autoFocus
             size="small"
-            placeholder={i18n.t('common:search')}
+            placeholder={i18n.t('search')}
             prefix={<IconSearch size="16" />}
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}

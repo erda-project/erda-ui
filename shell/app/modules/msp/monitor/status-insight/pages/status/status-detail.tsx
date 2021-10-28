@@ -173,7 +173,7 @@ const StatusDetail = () => {
             <div>
               <span className="left-item">
                 <span className="status-point chart" />
-                {i18n.t('msp:response time')}
+                {i18n.t('response time')}
               </span>
               <span className="left-item">
                 <span className="status-point success" />

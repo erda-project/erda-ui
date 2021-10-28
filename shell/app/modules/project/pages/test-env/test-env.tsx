@@ -95,17 +95,17 @@ const TestEnv = ({ testType = 'manual', envID: _envID, envType: _envType, isSing
         ]),
         ...insertWhen(testType === 'auto', [
           {
-            title: i18n.t('dop:name'),
+            title: i18n.t('name'),
             dataIndex: 'displayName',
             width: 300,
           },
           {
-            title: i18n.t('dop:description'),
+            title: i18n.t('description'),
             dataIndex: 'desc',
           },
         ]),
         {
-          title: i18n.t('dop:operation'),
+          title: i18n.t('operation'),
           key: 'ops',
           width: 180,
           fixed: 'right',

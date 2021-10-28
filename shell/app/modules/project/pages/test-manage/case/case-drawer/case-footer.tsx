@@ -99,7 +99,7 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
           onOk(true);
         }}
       >
-        {i18n.t('dop:save')}
+        {i18n.t('save')}
       </Button>
     </>
   );

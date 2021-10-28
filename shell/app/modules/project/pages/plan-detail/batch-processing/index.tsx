@@ -46,7 +46,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
       switch (key) {
         case 'delete':
           Modal.confirm({
-            title: i18n.t('dop:remove'),
+            title: i18n.t('remove'),
             content: i18n.t('dop:plan-remove-case-confirm'),
             onOk: () => deleteRelations({ type: 'multi', relationIDs: [] }).then(afterDeleteRef.current),
           });

@@ -69,11 +69,11 @@ const MountList = () => {
       title: k,
       dataIndex: k,
       render: (obj: any, record: any) => {
-        let detail = <Badge status="processing" text={i18n.t('cmp:processing')} />;
+        let detail = <Badge status="processing" text={i18n.t('processing')} />;
         if (obj.status === 'Failed') {
           detail = (
             <Popover
-              title={i18n.t('cmp:error detail')}
+              title={i18n.t('error detail')}
               placement="bottom"
               overlayClassName="purchase-cluster-popover"
               content={<pre className="code-block">{obj.error}</pre>}

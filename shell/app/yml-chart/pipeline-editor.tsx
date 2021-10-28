@@ -303,7 +303,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       </Radio.Group>
       {!editing ? (
         <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml-2" size="small">
-          {i18n.t('dop:edit')}
+          {i18n.t('edit')}
         </Button>
       ) : (
         <div className="px-3 py-2">

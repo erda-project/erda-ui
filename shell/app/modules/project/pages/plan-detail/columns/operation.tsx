@@ -46,7 +46,7 @@ const Operation = ({ record, afterDelete }: IProps) => {
     <TableActions>
       <StatusToggle state={record.execStatus} onChange={handleUpdate} />
       <span className="fake-link ml-2" onClick={() => onDelete(record.id)}>
-        {i18n.t('dop:remove')}
+        {i18n.t('remove')}
       </span>
       <span
         className="fake-link ml-2"

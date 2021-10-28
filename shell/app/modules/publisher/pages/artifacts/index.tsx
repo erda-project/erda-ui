@@ -122,7 +122,7 @@ const Artifacts = () => {
               window.open(goTo.resolve.market({ publishItemId: id }));
             }}
           >
-            {i18n.t('common:preview')}
+            {i18n.t('preview')}
           </Button>
         )}
       </div>

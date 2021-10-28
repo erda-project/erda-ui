@@ -90,7 +90,7 @@ const renderContent = (children, value: string, record: any, dataIndex?: string)
 export const columns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
   ...commonColumns,
   {
-    title: i18n.t('dop:operation'),
+    title: i18n.t('operation'),
     dataIndex: 'operation',
     key: 'operation',
     className: 'operation',

@@ -320,7 +320,7 @@ export const restoreSourceFile = (
   }
 };
 
-const i18nRRegex = /i18n\.r\(\s*('|")(.+)(?:'|")([^)\n]*)\s*\)/g;
+const i18nRRegex = /i18n\.r\(\s*('|")([^'"]+)(?:'|")([^)\n]*)\s*\)/g;
 
 /**
  * extract i18n.r content and replace it with i18n.t
@@ -394,7 +394,7 @@ export const switchSourceFileNs = (
   let newContent = content;
   let changed = false;
   toSwitchWords.forEach((wordWithNs) => {
-    // /i18n\.r\(\s*('|")(.+)(?:'|")([^)\n]*)\s*\)/g;
+    // /i18n\.r\(\s*('|")([^'"]+)(?:'|")([^)\n]*)\s*\)/g
     const matchTextRegex = new RegExp(`i18n\\.t\\(\\s*('|")${wordWithNs}(?:'|")([^\\)\\n]*)\\s*\\)`, 'g');
     let match = matchTextRegex.exec(content);
     while (match) {

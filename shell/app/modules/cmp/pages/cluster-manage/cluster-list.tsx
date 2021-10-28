@@ -273,7 +273,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
   const columns: Array<ColumnProps<ORG_CLUSTER.ICluster>> = [
     {
-      title: i18n.t('cmp:cluster name'),
+      title: i18n.t('cluster name'),
       dataIndex: 'displayName',
       width: 320,
       ellipsis: true,
@@ -291,7 +291,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       ),
     },
     {
-      title: i18n.t('dop:status'),
+      title: i18n.t('status'),
       dataIndex: 'clusterStatus',
       width: 120,
       render: (_text, record) => {
@@ -314,7 +314,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       render: (text) => text || '-',
     },
     {
-      title: i18n.t('dop:type'),
+      title: i18n.t('type'),
       dataIndex: 'clusterType',
       width: 160,
       ellipsis: true,

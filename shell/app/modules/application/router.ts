@@ -157,8 +157,8 @@ function getAppRouter(): RouteConfigItem {
       {
         path: 'pipeline',
         mark: 'pipeline',
-        breadcrumbName: i18n.t('dop:pipeline'),
-        pageName: i18n.t('dop:pipeline'),
+        breadcrumbName: i18n.t('pipeline'),
+        pageName: i18n.t('pipeline'),
         getComp: (cb) => cb(import('application/pages/pipeline')),
         layout: { fullHeight: true },
       },

@@ -41,7 +41,7 @@ const { TabPane } = Tabs;
 const FORBIDDEN_STATUS_LIST = ['WAITING', 'DEPLOYING', 'CANCELING'];
 
 const titleMap = {
-  monitor: i18n.t('runtime:container monitor'),
+  monitor: i18n.t('container monitor'),
   log: i18n.t('runtime:container log'),
   terminal: i18n.t('console'),
   record: i18n.t('runtime:history'),

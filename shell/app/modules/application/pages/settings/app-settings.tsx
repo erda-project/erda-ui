@@ -134,7 +134,7 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('dop:pipeline'),
+      groupTitle: i18n.t('pipeline'),
       groupKey: 'pipeline',
       tabGroup: [
         {
@@ -161,7 +161,7 @@ export const PureAppSettings = () => {
       groupKey: 'deploy',
       tabGroup: [
         {
-          tabTitle: `${i18n.t('dop:parameter setting')}`,
+          tabTitle: `${i18n.t('parameter setting')}`,
           tabKey: 'appConfig',
           content: (
             <ConfigLayout
@@ -182,7 +182,7 @@ export const PureAppSettings = () => {
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:notification'),
+          tabTitle: i18n.t('notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout

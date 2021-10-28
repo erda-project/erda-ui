@@ -134,7 +134,7 @@ export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name:
   },
   ATTACHED: {
     status: 'ATTACHED',
-    name: i18n.t('dop:running'),
+    name: i18n.t('running'),
   },
   ATTACHFAILED: {
     status: 'ATTACHFAILED',
