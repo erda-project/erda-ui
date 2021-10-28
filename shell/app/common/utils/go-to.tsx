@@ -213,11 +213,9 @@ export enum pages {
   microTraceSearch = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&start={start}&end={end}&status={status}&mode={mode}&quick={quick}',
   microTrace = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace',
   microTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/trace-detail/{traceId}',
-  cmpRoot = '/{orgName}/cmp/overview',
 
   createProject = '/{orgName}/orgCenter/projects/createProject',
-  cmpClusters = '/{orgName}/cmp/clusters',
-  cmpClusterState = '/{orgName}/cmp/clusters/{clusterName}/state',
+  cmpClusterState = '/{orgName}/cmp/cluster/manage/{clusterName}/state',
   publisherContent = '/{orgName}/dop/publisher/{type}/{publisherItemId}',
   iterationDetail = '/{orgName}/dop/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
   taskList = '/{orgName}/dop/projects/{projectId}/issues/task',
@@ -242,12 +240,12 @@ export enum pages {
   gatewayList = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
 
   // 企业中心告警数据报表
-  alarmReport = '/{orgName}/cmp/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
+  alarmReport = '/{orgName}/cmp/op/alarm-report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
 
   // 企业中心自定义大盘
-  orgCustomDashboard = '/{orgName}/cmp/customDashboard',
-  orgAddCustomDashboard = '/{orgName}/cmp/customDashboard/add',
-  orgCustomDashboardDetail = '/{orgName}/cmp/customDashboard/{customDashboardId}',
+  orgCustomDashboard = '/{orgName}/cmp/op/op-dashboard',
+  orgAddCustomDashboard = '/{orgName}/cmp/op/op-dashboard/add',
+  orgCustomDashboardDetail = '/{orgName}/cmp/op/op-dashboard/{customDashboardId}',
 
   // 微服务监控自定义大盘
   microServiceCustomDashboard = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/analysis/{terminusKey}/custom-dashboard',
@@ -273,41 +271,48 @@ export enum pages {
   addLogAnalyzeRule = '/{orgName}/cmp/log/rule/add?source={source}',
 
   // 企业告警记录详情
-  orgAlarmRecordDetail = '/{orgName}/cmp/alarm/record/{id}',
+  orgAlarmRecordDetail = '/{orgName}/cmp/op/alarm-record/{id}',
 
   // 微服务告警记录详情
   microServiceAlarmRecordDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/alarm-management/{terminusKey}/alarm-record/{id}',
 
   // 云资源管理
-  cloudSource = '/{orgName}/cmp/cloudSource',
+  cmpClusterOverview = '/{orgName}/cmp/cluster/overview',
+  cmpClusterManage = '/{orgName}/cmp/cluster/manage',
+
+  cloudSource = '/{orgName}/cmp/resource/cloudSource',
+  cmpAddon = '/{orgName}/cmp/resource/addon',
+
+  cmpOPRoot = '/{orgName}/cmp/op',
+  cmpOPAlarmRecord = '/{orgName}/cmp/op/alarm-record',
+
   cmpDomain = '/{orgName}/cmp/domain',
   cmpServices = '/{orgName}/cmp/services',
-  cmpAddon = '/{orgName}/cmp/addon',
   cmpJobs = '/{orgName}/cmp/jobs',
-  cmpReport = '/{orgName}/cmp/report',
+  cmpReport = '/{orgName}/cmp/op-report',
   cmpAlarm = '/{orgName}/cmp/alarm',
-  cmpAlarmStatistics = '/{orgName}/cmp/alarm/statistics',
-  cmpAlarmRecord = '/{orgName}/cmp/alarm/record',
-  cmpAlarmStrategy = '/{orgName}/cmp/alarm/strategy',
-  cmpAlarmCustom = '/{orgName}/cmp/alarm/custom',
+  cmpAlarmStatistics = '/{orgName}/cmp/op/alarm-statistics',
+  cmpAlarmRecord = '/{orgName}/cmp/op/alarm-record',
+  cmpAlarmStrategy = '/{orgName}/cmp/op/alarm-strategy',
+  cmpAlarmCustom = '/{orgName}/cmp/op/alarm-custom',
   cmpLog = '/{orgName}/cmp/log',
   cmpLogQuery = '/{orgName}/cmp/log/query',
   cmpLogRule = '/{orgName}/cmp/log/rule',
-  cloudSourceEcs = '/{orgName}/cmp/cloudSource/ecs',
-  cloudSourceVpc = '/{orgName}/cmp/cloudSource/vpc',
-  cloudSourceOss = '/{orgName}/cmp/cloudSource/oss',
-  cloudSourceRds = '/{orgName}/cmp/cloudSource/rds',
-  cloudSourceMq = '/{orgName}/cmp/cloudSource/mq',
-  cloudSourceRedis = '/{orgName}/cmp/cloudSource/redis',
-  cloudAccounts = '/{orgName}/cmp/cloudSource/accounts',
-  cmpClustersNodes = '/{orgName}/cmp/clusters/{clusterName}/nodes',
-  cmpClustersDetail = '/{orgName}/cmp/clusters/{clusterName}/detail',
-  cmpClustersNodeDetail = '/{orgName}/cmp/clusters/{clusterName}/nodes/{nodeId}/detail',
-  cmpClustersPods = '/{orgName}/cmp/clusters/{clusterName}/pods',
-  cmpClustersPodDetail = '/{orgName}/cmp/clusters/{clusterName}/pods/{podId}/detail',
-  cmpClustersWorkload = '/{orgName}/cmp/clusters/{clusterName}/workload',
-  cmpClustersWorkloadDetail = '/{orgName}/cmp/clusters/{clusterName}/workload/{workloadId}/detail',
-  cmpClustersEventLog = '/{orgName}/cmp/clusters/{clusterName}/event-log',
+  cloudSourceEcs = '/{orgName}/cmp/resource/cloudSource/ecs',
+  cloudSourceVpc = '/{orgName}/cmp/resource/cloudSource/vpc',
+  cloudSourceOss = '/{orgName}/cmp/resource/cloudSource/oss',
+  cloudSourceRds = '/{orgName}/cmp/resource/cloudSource/rds',
+  cloudSourceMq = '/{orgName}/cmp/resource/cloudSource/mq',
+  cloudSourceRedis = '/{orgName}/cmp/resource/cloudSource/redis',
+  cloudAccounts = '/{orgName}/cmp/resource/cloudSource/accounts',
+  cmpClustersNodes = '/{orgName}/cmp/cluster/manage/{clusterName}/nodes',
+  cmpClustersDetail = '/{orgName}/cmp/cluster/manage/{clusterName}/detail',
+  cmpClustersNodeDetail = '/{orgName}/cmp/cluster/manage/{clusterName}/nodes/{nodeId}/detail',
+  cmpClustersPods = '/{orgName}/cmp/cluster/manage/{clusterName}/pods',
+  cmpClustersPodDetail = '/{orgName}/cmp/cluster/manage/{clusterName}/pods/{podId}/detail',
+  cmpClustersWorkload = '/{orgName}/cmp/cluster/manage/{clusterName}/workload',
+  cmpClustersWorkloadDetail = '/{orgName}/cmp/cluster/manage/{clusterName}/workload/{workloadId}/detail',
+  cmpClustersEventLog = '/{orgName}/cmp/cluster/manage/{clusterName}/event-log',
 
   // orgCenter
   orgCenterRoot = '/{orgName}/orgCenter/projects',
