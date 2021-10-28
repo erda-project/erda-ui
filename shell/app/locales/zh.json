@@ -1995,7 +1995,7 @@
     "upgrade log": "升级日志",
     "upload": "上传",
     "upload files": "上传文件",
-    "upload-file-tip": "文件位于容器内 /init-data 目录下, 文件名为配置时的 key 值, 文件内容即为上传的文件",
+    "upload-file-tip": "文件位于容器内 /.pipeline/container/cms/dice_files目录下, 文件名为配置时的 key 值, 文件内容即为上传的文件",
     "uploading, please do not leave": "上传中，请勿离开",
     "urgent": "紧急",
     "use case execution result distribution": "用例执行结果分布",

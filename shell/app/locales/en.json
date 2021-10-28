@@ -1995,7 +1995,7 @@
     "upgrade log": "upgrade log",
     "upload": "upload",
     "upload files": "upload files",
-    "upload-file-tip": "The file is located in the /init-data directory in the container, the file name is the configured Key, and the file content is the uploaded file",
+    "upload-file-tip": "The file is located in the /.pipeline/container/cms/dice_files directory in the container, the file name is the configured Key, and the file content is the uploaded file",
     "uploading, please do not leave": "uploading, please do not leave",
     "urgent": "urgent",
     "use case execution result distribution": "use case execution result distribution",

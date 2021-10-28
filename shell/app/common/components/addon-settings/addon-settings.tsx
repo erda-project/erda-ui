@@ -30,6 +30,17 @@ interface IProps {
   isFetching: boolean;
 }
 
+const filterMySqlConfig = (config: Obj) => {
+  const keepMysqlKey = ['ADDON_HAS_ENCRIPY', 'MYSQL_HOST', 'MYSQL_PORT'];
+  const reConfig = {};
+  map(config, (v, k) => {
+    if (keepMysqlKey.includes(k)) {
+      reConfig[k] = v;
+    }
+  });
+  return reConfig;
+};
+
 const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
   if (!addonConfig || isEmpty(addonConfig)) return null;
 
@@ -39,6 +50,10 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
     });
   };
   const { config, canDel = false } = addonConfig;
+  let reConfig = config;
+  if (addonConfig.addonName === 'mysql') {
+    reConfig = filterMySqlConfig(config);
+  }
   return (
     <div className="addon-settings-panel">
       <Spin spinning={isFetching}>
@@ -47,7 +62,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
             <span>{i18n.t('common:service basic parameters')}</span>
           </div>
           <div className="settings-params-content">
-            {map(config, (v, k) => (
+            {map(reConfig, (v, k) => (
               <div key={k}>
                 <div className="param-k nowrap">{k}</div>
                 <IF check={v}>
