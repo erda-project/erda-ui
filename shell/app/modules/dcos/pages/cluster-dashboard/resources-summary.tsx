@@ -176,7 +176,7 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
                     getResourceGauge.fetch({ clusterName: clusterNameStr.split(','), ...cpuAndMem.current });
                 }}
               >
-                {i18n.t('cmp:save')}
+                {i18n.t('save')}
               </Button>
               <ErdaIcon
                 size={20}
