@@ -127,7 +127,7 @@ export const CustomFilter = (props: IFilterProps) => {
             break;
         }
       }
-      return { type: _type, ...cRest };
+      return { type: _type, ...cRest, isHoldLabel: false };
     },
     [filterRef, search, showButton],
   );
