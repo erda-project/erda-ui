@@ -11,16 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useMemo } from 'react';
-import { debounce, get, isEmpty, isNumber } from 'lodash';
+import React from 'react';
+import { debounce, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
 import { ContractiveFilter, Copy, PureBoardGrid, TagsRow } from 'common';
-import { useSwitch, useUpdate } from 'common/use-hooks';
+import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
-import { Table, Drawer, message } from 'antd';
+import { Table, message } from 'antd';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
-import { goTo } from 'common/utils';
+import { getDashboard } from 'msp/services';
 import { getFormatter } from 'charts/utils/formatter';
 import { useLoading } from 'core/stores/loading';
 import traceStore from '../../../../stores/trace';
@@ -31,6 +31,9 @@ import Duration, { transformDuration } from 'trace-insight/components/duration';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
+import DC from '@erda-ui/dashboard-configurator/dist';
+
+const DashBoard = React.memo(PureBoardGrid);
 
 const name = {
   sort: i18n.t('msp:sort method'),
@@ -97,6 +100,7 @@ interface IState {
   traceId?: string;
   defaultQuery: Obj;
   query: Obj;
+  layout: DC.Layout;
 }
 
 type IQuery = {
@@ -110,18 +114,43 @@ type IQuery = {
 
 export default () => {
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
-  const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
-  const { getTraceCount, getTraceSummary } = traceStore;
+  const [traceSummary] = traceStore.useStore((s) => [s.traceSummary]);
+  const { getTraceSummary } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceSummary']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const [detailVisible, openDetail, closeDetail] = useSwitch(false);
-  const [{ traceId, filter, defaultQuery, query }, updater, update] = useUpdate<IState>({
+  const [{ traceId, filter, defaultQuery, query, layout }, updater, update] = useUpdate<IState>({
     filter: [],
     traceId: undefined,
     defaultQuery: {},
     query: {},
+    layout: [],
   });
-  const routeQuery = routeInfoStore.useStore((s) => s.query);
+  const [routeQuery, params] = routeInfoStore.useStore((s) => [s.query, s.params]);
+  const globalVariable = React.useMemo(() => {
+    return {
+      startTime: range.startTimeMs,
+      endTime: range.endTimeMs,
+      terminusKey: params.terminusKey,
+      durationLeft: query.durationMin ? `trace_duration::field>'${query.durations.durationMin}'` : undefined,
+      durationRight: query.durationMax ? `trace_duration::field<'${query.durations.durationMax}'` : undefined,
+      serviceName: query.serviceName ? `service_names::field='${query.serviceName}'` : undefined,
+      traceId: query.traceID ? `trace_id::tag='${query.traceID}'` : undefined,
+      dubboMethod: query.dubboMethod ? `dubbo_methods::field='${query.dubboMethod}'` : undefined,
+      httpPath: query.httpPath ? `http_paths::field='${query.httpPath}'` : undefined,
+      statusSuccess: query.status === 'trace_success' ? `errors_sum::field='0'` : undefined,
+      statusError: query.status === 'trace_error' ? `errors_sum::field>'0'` : undefined,
+    };
+  }, [
+    params.terminusKey,
+    range,
+    query.dubboMethod,
+    query.durationMin,
+    query.durationMax,
+    query.status,
+    query.traceID,
+    query.serviceName,
+    query.httpPath,
+  ]);
 
   useEffectOnce(() => {
     getQueryConditions().then((res) => {
@@ -148,6 +177,11 @@ export default () => {
         });
       }
     });
+    getDashboard({ type: 'trace_count' }).then(({ success, data }) => {
+      if (success) {
+        updater.layout(data?.viewConfig);
+      }
+    });
   });
 
   useUpdateEffect(() => {
@@ -160,15 +194,6 @@ export default () => {
 
   const getData = React.useCallback(
     debounce((obj: Omit<MS_MONITOR.ITraceSummaryQuery, 'tenantId'>) => {
-      const { serviceName, status, startTime, endTime } = obj;
-
-      getTraceCount({
-        start: startTime,
-        end: endTime,
-        'filter_fields.services_distinct': serviceName,
-        field_gt_errors_sum: status === 'trace_error' ? 0 : undefined,
-        field_eq_errors_sum: status === 'trace_success' ? 0 : undefined,
-      });
       getTraceSummary(obj);
     }, 500),
     [],
@@ -195,56 +220,12 @@ export default () => {
       ...rest,
     });
   };
-  const convertTraceCount = (responseData: any) => {
-    if (!responseData) return {};
-    const { time, results } = responseData;
-    const metricData = get(results, '[0].data[0]["cardinality.tags.trace_id"]');
-    if (isEmpty(metricData)) return {};
-    const { name, data, unit } = metricData;
-    return {
-      time,
-      metricData: [
-        {
-          name,
-          data,
-          unit,
-        },
-      ],
-    };
-  };
 
   const handleCheckTraceDetail = (e: any, id: string) => {
     e.stopPropagation();
     updater.traceId(id as string);
     setIsShowTraceDetail(true);
-    openDetail();
   };
-
-  const layout = useMemo(
-    () => [
-      {
-        w: 24,
-        h: 9,
-        x: 0,
-        y: 0,
-        i: 'monitor-trace-count',
-        moved: false,
-        static: false,
-        view: {
-          title: i18n.t('msp:trace times'),
-          chartType: 'chart:area',
-          hideReload: true,
-          staticData: convertTraceCount(traceCount),
-          config: {
-            optionProps: {
-              timeSpan: { seconds: 24 * 3601 },
-            },
-          },
-        },
-      },
-    ],
-    [traceCount],
-  );
 
   const columns: Array<ColumnProps<RecordType>> = [
     {
@@ -297,7 +278,7 @@ export default () => {
         <TimeSelectWithStore />
       </div>
       <div className="mb-6">
-        <PureBoardGrid layout={layout} />
+        <DashBoard layout={layout} globalVariable={globalVariable} />
       </div>
       <Table loading={loading} rowKey="id" columns={columns} dataSource={traceSummary} scroll={{ x: 1100 }} />
       <TraceSearchDetail traceId={traceId} />
