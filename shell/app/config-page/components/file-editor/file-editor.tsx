@@ -102,9 +102,9 @@ const FileEditor = (props: CP_FILE_EDITOR.Props) => {
   };
 
   return (
-    <div className="overflow-auto flex flex-col">
+    <div className="flex flex-col h-full">
       <div style={style} className={`flex-1 overflow-auto h-full ${bordered ? 'border-all rounded' : ''}`}>
-        <PureFileEditor fileExtension="json" value={value} onChange={onChange} {...rest} />
+        <PureFileEditor autoHeight fileExtension="json" value={value} onChange={onChange} {...rest} />
       </div>
       {getFooter()}
     </div>

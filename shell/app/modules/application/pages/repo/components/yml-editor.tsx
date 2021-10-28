@@ -246,9 +246,8 @@ const YmlEditor = (props: IProps) => {
   const convertDataByFileName: any = React.useCallback(
     (inputJsonContent: any, inputEditedYmlStructure?: IPipelineYmlStructure | null): void => {
       let result: any = {};
-      const _editServie = (arg: any) => {
-        const reArg = [...arg, convertDataByFileName];
-        editService?.current(...reArg);
+      const _editServie = (_service: Obj, _inputJson: Obj, _parentName?: string) => {
+        editService?.current(_service, _inputJson, _parentName, convertDataByFileName);
       };
       const newContent = cloneDeep(inputJsonContent);
       switch (fileType.current) {
