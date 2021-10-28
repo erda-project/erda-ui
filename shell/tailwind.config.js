@@ -76,6 +76,7 @@ module.exports = {
       margin: ['first', 'last'],
       padding: ['first', 'last'],
     },
+    zIndex: ['hover'],
   },
   plugins: [
     plugin(({ addVariant, e }) => {
