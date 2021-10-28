@@ -90,7 +90,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
         <div className="mt-3">
           {editing ? (
             <Button type="primary" ghost onClick={this.onSubmit}>
-              {i18n.t('dop:save')}
+              {i18n.t('save')}
             </Button>
           ) : null}
         </div>

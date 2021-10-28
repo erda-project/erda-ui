@@ -96,12 +96,12 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
       role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
     },
     delete: {
       pass: false,
-      name: i18n.t('dop:delete'),
+      name: i18n.t('delete'),
       role: ['Owner', 'PM', 'PD', 'Creator'],
     },
     updateStatus: {
@@ -139,12 +139,12 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
       role: ['Owner', 'PM', 'PD', 'Creator', 'Assignee', 'Lead', 'Dev', 'QA'],
     },
     delete: {
       pass: false,
-      name: i18n.t('dop:delete'),
+      name: i18n.t('delete'),
       role: ['Owner', 'PM', 'PD', 'Creator'],
     },
     updateStatus: {
@@ -177,12 +177,12 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
       role: ['Owner', 'Lead', 'QA', 'Creator', 'Assignee', 'PM', 'PD', 'Dev'],
     },
     delete: {
       pass: false,
-      name: i18n.t('dop:delete'),
+      name: i18n.t('delete'),
       role: ['Owner', 'Lead', 'Creator'],
     },
     updateStatus: {
@@ -215,7 +215,7 @@ export const projectPerm = {
     },
     delete: {
       pass: false,
-      name: i18n.t('dop:delete'),
+      name: i18n.t('delete'),
       role: ['Owner', 'Lead', 'PM', 'QA', 'Creator'],
     },
     export: {
@@ -235,7 +235,7 @@ export const projectPerm = {
     },
     edit: {
       pass: false,
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
       role: ['Owner', 'PM', 'QA', 'Creator', 'Assignee', 'Lead', 'PD', 'Dev'],
     },
     updateStatus: {
@@ -245,7 +245,7 @@ export const projectPerm = {
     },
     closeBug: {
       pass: false,
-      name: i18n.t('dop:close'),
+      name: i18n.t('close'),
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator'],
     },
     switchType: {
@@ -268,12 +268,12 @@ export const projectPerm = {
     },
     editProjectMember: {
       pass: false,
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
       role: ['Owner', 'Lead', 'PM'],
     },
     removeProjectMember: {
       pass: false,
-      name: i18n.t('dop:delete'),
+      name: i18n.t('delete'),
       role: ['Owner', 'Lead', 'PM'],
     },
     showAuthorize: {
@@ -337,7 +337,7 @@ export const projectPerm = {
     edit: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
-      name: i18n.t('dop:edit'),
+      name: i18n.t('edit'),
     },
     updateStatus: {
       pass: false,
@@ -347,7 +347,7 @@ export const projectPerm = {
     delete: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA', 'Creator', 'Assignee', 'Guest'],
-      name: i18n.t('dop:delete'),
+      name: i18n.t('delete'),
     },
   },
   apiManage: {
@@ -404,12 +404,12 @@ export const projectPerm = {
       },
       edit: {
         pass: false,
-        name: i18n.t('dop:edit'),
+        name: i18n.t('edit'),
         role: ['Owner', 'Lead', 'PM'],
       },
       delete: {
         pass: false,
-        name: i18n.t('dop:delete'),
+        name: i18n.t('delete'),
         role: ['Owner', 'Lead', 'PM'],
       },
       approve: {
@@ -487,7 +487,7 @@ export const projectPerm = {
     },
   },
   pipeline: {
-    name: i18n.t('dop:pipeline'),
+    name: i18n.t('pipeline'),
     view: {
       pass: false,
       role: ['Owner', 'Lead', 'PM', 'PD', 'Dev', 'QA'],

@@ -64,7 +64,7 @@ const ReleaseDetailEdit = (props: IProps) => {
       showInfo: true,
     },
     {
-      label: i18n.t('dop:operator'),
+      label: i18n.t('operator'),
       getComp: () => {
         const userInfo = userMap[userId];
         if (!userInfo) {
@@ -84,7 +84,7 @@ const ReleaseDetailEdit = (props: IProps) => {
       getComp: () => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      label: i18n.t('dop:description'),
+      label: i18n.t('description'),
       name: 'desc',
       viewType: 'markdown',
       getComp: () => <MarkdownEditor />,

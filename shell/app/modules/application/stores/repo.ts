@@ -679,7 +679,7 @@ const repoStore = createStore({
           repoPrefix: appDetail.gitRepoAbbrev,
           ...payload,
         },
-        { successMsg: i18n.t('dop:added successfully'), errorMsg: i18n.t('dop:failed to delete tag') },
+        { successMsg: i18n.t('added successfully'), errorMsg: i18n.t('dop:failed to delete tag') },
       );
     },
     async getBackupList({ call, update }, payload: REPOSITORY.ICommitPaging) {

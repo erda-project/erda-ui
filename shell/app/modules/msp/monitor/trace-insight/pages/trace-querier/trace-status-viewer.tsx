@@ -49,7 +49,7 @@ const TraceStatusViewer = ({
       <span className="request-status-text">
         <IconLoading /> {statusName}
       </span>
-      <Tooltip title={i18n.t('msp:cancel')}>
+      <Tooltip title={i18n.t('cancel')}>
         <span
           className="request-status-btn"
           onClick={(e) => {

@@ -191,7 +191,7 @@ const Ticket = () => {
         type: Select,
         name: 'label',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:label') }),
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('label') }),
           allowClear: true,
           mode: 'multiple',
           children: map(labelList, (item) => {
@@ -243,7 +243,7 @@ const Ticket = () => {
     //   dataIndex: 'source',
     // },
     // {
-    //   title: i18n.t('dop:label'),
+    //   title: i18n.t('label'),
     //   dataIndex: 'labels',
     //   render: (labels = []) => (
     //     <>

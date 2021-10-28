@@ -30,7 +30,7 @@ interface IListProps {
 }
 
 const EraseStatus = {
-  success: i18n.t('publisher:succeed'),
+  success: i18n.t('succeed'),
   failure: i18n.t('publisher:failure'),
   erasing: i18n.t('publisher:erasing'),
 };
@@ -72,7 +72,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'op',
       width: 120,
       render: (_v: any, record: PUBLISHER.IBlackList) => {

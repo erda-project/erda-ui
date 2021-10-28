@@ -293,7 +293,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
       },
     ]),
     {
-      title: i18n.t('dop:status'),
+      title: i18n.t('status'),
       width: 120,
       dataIndex: 'state',
       key: 'state',

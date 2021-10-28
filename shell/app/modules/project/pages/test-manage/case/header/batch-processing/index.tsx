@@ -50,7 +50,7 @@ const BatchProcessing = ({ recycled }: IProps) => {
     switch (key) {
       case TestOperation.delete:
         Modal.confirm({
-          title: i18n.t('dop:delete'),
+          title: i18n.t('delete'),
           content: i18n.t('dop:are you sure to delete the currently selected use case?'),
           onOk: () => {
             toggleToRecycle({ testCaseIDs: primaryKeys, recycled: true, moveToTestSetID: rootId });
@@ -106,7 +106,7 @@ export default BatchProcessing;
 
 const menuItemsMap = {
   normal: [
-    { key: TestOperation.delete, name: i18n.t('dop:delete') },
+    { key: TestOperation.delete, name: i18n.t('delete') },
     {
       key: TestOperation.priority,
       name: i18n.t('dop:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),

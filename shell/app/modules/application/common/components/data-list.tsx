@@ -118,7 +118,7 @@ const DataList = (props: IProps) => {
           />
         </div>
         <div className="header-right">
-          <Button onClick={onReset}>{i18n.t('dop:reset')}</Button>
+          <Button onClick={onReset}>{i18n.t('reset')}</Button>
           <Button type="primary" ghost onClick={onSearch}>
             {i18n.t('search')}
           </Button>

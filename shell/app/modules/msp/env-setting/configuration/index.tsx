@@ -151,7 +151,7 @@ const Configuration = () => {
       render: (createdAt: string) => moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: i18n.t('dop:operation'),
+      title: i18n.t('operation'),
       width: 96,
       dataIndex: 'id',
       key: 'id',
@@ -159,7 +159,7 @@ const Configuration = () => {
       render: (id: string) =>
         accessPerm.createAccessKey.pass ? (
           <Popconfirm onConfirm={() => deleteKey(id)} title={`${i18n.t('common:confirm to delete')}?`}>
-            <a className="table-operations-btn">{i18n.t('dop:delete')}</a>
+            <a className="table-operations-btn">{i18n.t('delete')}</a>
           </Popconfirm>
         ) : null,
     },
@@ -198,7 +198,7 @@ const Configuration = () => {
     update({
       currentPage: 1,
     });
-    message.success(i18n.t('dop:deleted successfully'));
+    message.success(i18n.t('deleted successfully'));
   };
 
   React.useEffect(() => {
@@ -251,7 +251,7 @@ const Configuration = () => {
                 })
               }
             >
-              {i18n.t('dop:close')}
+              {i18n.t('close')}
             </Button>,
           ]}
         >

@@ -260,7 +260,7 @@ export default () => {
       ifDisabled: !ifSelectedAllStop,
     },
     {
-      name: i18n.t('cmp:stop'),
+      name: i18n.t('stop'),
       cb: () => {
         updater.activeOp('stop');
       },
@@ -323,7 +323,7 @@ export default () => {
       ],
     },
     stop: {
-      operation: i18n.t('{specific} instance', { specific: i18n.t('cmp:stop') }),
+      operation: i18n.t('{specific} instance', { specific: i18n.t('stop') }),
       handle: (formData: COMPUTING.ECSActionReq) => {
         stopCloudECS(formData).then(() => {
           resetTable();
@@ -335,7 +335,7 @@ export default () => {
       },
       fieldList: [
         {
-          getComp: () => opHint(i18n.t('cmp:stop'), selectedList),
+          getComp: () => opHint(i18n.t('stop'), selectedList),
         },
       ],
       content: (

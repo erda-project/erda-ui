@@ -27,7 +27,7 @@ const addonStatusMap = {
   // ATTACHED: { status: 'success', text: '运行中' },
   ATTACHFAILED: { status: 'error', text: i18n.t('runtime:publishing failed') },
   PENDING: { status: 'default', text: i18n.t('runtime:to be published') },
-  UNKNOWN: { status: 'default', text: i18n.t('runtime:unknown') },
+  UNKNOWN: { status: 'default', text: i18n.t('unknown') },
 };
 
 interface IProps {

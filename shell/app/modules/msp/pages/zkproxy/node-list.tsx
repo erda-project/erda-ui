@@ -28,7 +28,7 @@ import './node-list.scss';
 
 const columns: Array<ColumnProps<object>> = [
   {
-    title: i18n.t('msp:interface name'),
+    title: i18n.t('interface name'),
     dataIndex: 'name',
     key: 'name',
   },

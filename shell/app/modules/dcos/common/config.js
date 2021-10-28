@@ -547,13 +547,13 @@ export const rdsConfig = [
 
 export const fieldsTranslationMap = {
   resourceType: i18n.t('cmp:resource type'),
-  clusterName: i18n.t('cmp:cluster name'),
+  clusterName: i18n.t('cluster name'),
   // vpcCidr: '专有网络cidr',
   accessKeyId: 'AccessKeyId',
   accessKeySecret: 'AccessKeySecret',
   PrePaid: i18n.t('cmp:Subscription'),
   PostPaid: i18n.t('cmp:Pay-As-You-Go'),
-  regionId: i18n.t('cmp:region'),
+  regionId: i18n.t('region'),
   zoneId: i18n.t('cmp:availability zone'),
   periodUnit: i18n.t('time unit'),
   period: i18n.t('cmp:duration period'),
@@ -574,9 +574,9 @@ export const fieldsTranslationMap = {
   systemDiskSize: `${i18n.t('cmp:system disk')}(${i18n.t('cmp:cloud')}SSD)${i18n.t('cmp:capacity')}(GiB)`,
 
   nasSetting: i18n.t('cmp:file storage configuration'),
-  nasStorageType: i18n.t('cmp:storage type'),
+  nasStorageType: i18n.t('storage type'),
   Capacity: i18n.t('cmp:performance type'),
-  Performance: i18n.t('cmp:capacity type'),
+  Performance: i18n.t('capacity type'),
 
   rdsSettings: i18n.t('cmp:cloud database configuration'),
   dbInstanceClass: i18n.t('cmp:specifications'),
@@ -584,8 +584,8 @@ export const fieldsTranslationMap = {
   Postpaid: i18n.t('cmp:Pay-As-You-Go'),
   Prepaid: i18n.t('cmp:Subscription'),
   engineVersion: i18n.t('version'),
-  dbInstanceStorage: i18n.t('cmp:storage disk capacity'),
-  accountName: i18n.t('cmp:account name'),
+  dbInstanceStorage: i18n.t('storage disk capacity'),
+  accountName: i18n.t('account name'),
   dbName: i18n.t('cmp:database name'),
   Password: i18n.t('password'),
   character_set_server: i18n.t('cmp:database encoding'),
@@ -598,9 +598,9 @@ export const fieldsTranslationMap = {
   loadBalancerSpec: i18n.t('cmp:specifications'),
   loadBalancePayType: i18n.t('cmp:billing method'),
   PayOnDemand: i18n.t('cmp:pay as you go'),
-  loadBalancerInternetChargeType: i18n.t('cmp:by flow'),
+  loadBalancerInternetChargeType: i18n.t('by flow'),
   paybybandwidth: i18n.t('cmp:network billing method'),
-  paybytraffic: i18n.t('cmp:by fixed bandwidth'),
+  paybytraffic: i18n.t('by fixed bandwidth'),
 };
 
 const lowerCase = {};
@@ -733,7 +733,7 @@ export const COLOUR_MAP = {
   cpu: i18n.t('cmp:CPU usage'),
   mem: i18n.t('cmp:MEM usage'),
   disk: i18n.t('cmp:Disk usage'),
-  scheduledCPU: i18n.t('cmp:CPU allocation'),
+  scheduledCPU: i18n.t('CPU allocation'),
   scheduledMEM: i18n.t('cmp:MEM allocation'),
 };
 

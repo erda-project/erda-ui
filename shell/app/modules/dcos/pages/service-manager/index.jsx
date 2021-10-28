@@ -29,8 +29,8 @@ const { Option } = Select;
 
 const ENV_MAP = {
   dev: { enName: 'DEV', cnName: i18n.t('cmp:development environment') },
-  test: { enName: 'TEST', cnName: i18n.t('cmp:test environment') },
-  staging: { enName: 'STAGING', cnName: i18n.t('cmp:staging environment') },
+  test: { enName: 'TEST', cnName: i18n.t('test environment') },
+  staging: { enName: 'STAGING', cnName: i18n.t('staging environment') },
   prod: { enName: 'PROD', cnName: i18n.t('cmp:production environment') },
 };
 

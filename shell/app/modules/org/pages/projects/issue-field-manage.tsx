@@ -133,7 +133,7 @@ const IssueFieldManage = () => {
         },
       },
       {
-        title: i18n.t('common:operation'),
+        title: i18n.t('operation'),
         width: 100,
         dataIndex: 'operation',
         className: 'operation',
@@ -157,7 +157,7 @@ const IssueFieldManage = () => {
                   });
                 }}
               >
-                {i18n.t('common:edit')}
+                {i18n.t('edit')}
               </span>
               <WithAuth pass={!record?.isSpecialField}>
                 <Popconfirm
@@ -166,7 +166,7 @@ const IssueFieldManage = () => {
                     onDeleteField(record);
                   }}
                 >
-                  <span className="table-operations-btn">{i18n.t('common:delete')}</span>
+                  <span className="table-operations-btn">{i18n.t('delete')}</span>
                 </Popconfirm>
               </WithAuth>
             </div>

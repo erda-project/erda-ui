@@ -55,7 +55,7 @@ const NoAuth = () => {
           ) : (
             <Link to={goTo.resolve.orgRoot()}>
               <Button size="large" type="primary">
-                {i18n.t('layout:back to home')}
+                {i18n.t('back to home')}
               </Button>
             </Link>
           )}

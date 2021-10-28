@@ -272,7 +272,7 @@ export default () => {
       render: (services: string[]) => <TagsRow labels={services.map((service) => ({ label: service }))} />,
     },
     {
-      title: i18n.t('common:operation'),
+      title: i18n.t('operation'),
       dataIndex: 'operation',
       width: 200,
       fixed: 'right',

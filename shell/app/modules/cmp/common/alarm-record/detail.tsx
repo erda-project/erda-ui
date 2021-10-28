@@ -157,7 +157,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
 
   const columns: Array<ColumnProps<ALARM_REPORT.AlarmHistory>> = [
     {
-      title: i18n.t('cmp:create time'),
+      title: i18n.t('create time'),
       dataIndex: 'timestamp',
       render: (timestamp) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },

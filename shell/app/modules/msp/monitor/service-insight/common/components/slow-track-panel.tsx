@@ -62,7 +62,7 @@ export const webSlowTrackPanel = ({
       ),
     },
     {
-      title: i18n.t('msp:time'),
+      title: i18n.t('time'),
       dataIndex: 'time',
       key: 'time',
       width: 200,
@@ -147,7 +147,7 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
       ),
     },
     {
-      title: i18n.t('msp:time'),
+      title: i18n.t('time'),
       dataIndex: 'time',
       key: 'time',
       width: 200,

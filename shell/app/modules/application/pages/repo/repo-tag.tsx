@@ -189,7 +189,7 @@ const RepoTag = () => {
         </WithAuth>
         <FormModal
           visible={visible}
-          name={i18n.t('dop:tag')}
+          name={i18n.t('tag')}
           fieldsList={fieldsList}
           onOk={onCreateTag}
           onCancel={() => setVisible(false)}
@@ -198,7 +198,7 @@ const RepoTag = () => {
       </div>
       <Search
         className="repo-tag-search-input mb-4"
-        placeholder={i18n.t('common:search by {name}', { name: i18n.t('dop:tag') })}
+        placeholder={i18n.t('common:search by {name}', { name: i18n.t('tag') })}
         onChange={handleChangeBranchName}
       />
       <div className="repo-tag-list">

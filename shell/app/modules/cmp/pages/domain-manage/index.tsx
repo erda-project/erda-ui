@@ -27,7 +27,7 @@ import orgStore from 'app/org-home/stores/org';
 const { Option } = Select;
 
 const SERVER_TYPES = {
-  service: i18n.t('common:service'),
+  service: i18n.t('service'),
   gateway: i18n.t('API gateway'),
   other: i18n.t('common:other'),
 };
@@ -102,7 +102,7 @@ const DomainManage = () => {
               {name}
             </Option>
           )),
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('cmp:cluster name') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('cluster name') }),
           allowClear: true,
         },
       },
@@ -145,7 +145,7 @@ const DomainManage = () => {
         customProps: {
           allowClear: true,
           children: envOptions,
-          placeholder: i18n.t('please choose {name}', { name: i18n.t('dop:environment') }),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('environment') }),
         },
       },
     ],
@@ -163,7 +163,7 @@ const DomainManage = () => {
 
   const columns: any[] = [
     {
-      title: i18n.t('cmp:cluster name'),
+      title: i18n.t('cluster name'),
       dataIndex: 'clusterName',
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
@@ -188,7 +188,7 @@ const DomainManage = () => {
       render: (value: string) => <Tooltip title={value}>{value}</Tooltip>,
     },
     {
-      title: i18n.t('dop:environment'),
+      title: i18n.t('environment'),
       dataIndex: 'workspace',
       render: (key: string) => <Tooltip title={ENV_DIC[key]}>{ENV_DIC[key]}</Tooltip>,
     },

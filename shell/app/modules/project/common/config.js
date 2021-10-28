@@ -42,7 +42,7 @@ export const activityConfig = {
 export const stepList = [
   {
     key: 'INIT',
-    name: i18n.t('dop:initializing'),
+    name: i18n.t('initializing'),
   },
   {
     key: 'ADDON_REQUESTING',
@@ -128,22 +128,22 @@ export const actionMap = {
 export const issueStateMap = {
   EPIC: {
     OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('dop:processing'),
+    WORKING: i18n.t('processing'),
     DONE: i18n.t('dop:completed'),
   },
   TASK: {
     OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('dop:processing'),
+    WORKING: i18n.t('processing'),
     DONE: i18n.t('dop:completed'),
   },
   REQUIREMENT: {
     OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('dop:processing'),
+    WORKING: i18n.t('processing'),
     DONE: i18n.t('dop:completed'),
   },
   BUG: {
     OPEN: i18n.t('dop:pending'),
-    WORKING: i18n.t('dop:processing'),
+    WORKING: i18n.t('processing'),
     WONTFIX: i18n.t("dop:won't fix"),
     REOPEN: i18n.t('dop:reopen'),
     RESOLVED: i18n.t('dop:resolved'),

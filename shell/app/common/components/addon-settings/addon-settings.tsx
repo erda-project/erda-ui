@@ -68,7 +68,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
                 <IF check={v}>
                   <div className="param-v cursor-copy" data-clipboard-text={v}>
                     {v}
-                    <span className="copy-tip">({i18n.t('common:click to copy')})</span>
+                    <span className="copy-tip">({i18n.t('click to copy')})</span>
                   </div>
                   <IF.ELSE />
                   <div className="param-v">***</div>
@@ -84,7 +84,7 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
               <span>{i18n.t('common:delete service')}</span>
             </div>
             <div className="settings-delete-content">
-              <ConfirmDelete deleteItem={i18n.t('common:service')} onConfirm={deleteAddon} />
+              <ConfirmDelete deleteItem={i18n.t('service')} onConfirm={deleteAddon} />
             </div>
           </div>
         </IF>

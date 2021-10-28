@@ -165,7 +165,7 @@ const RepoFileContainerComp = (props: IProps) => {
 
     if (editFile) {
       return (
-        <Tooltip title={i18n.t('dop:cancel')}>
+        <Tooltip title={i18n.t('cancel')}>
           <ErdaIcon
             className="cursor-pointer"
             width="20"
@@ -206,7 +206,7 @@ const RepoFileContainerComp = (props: IProps) => {
             </Button>
           </ButtonGroup>
           <IF check={!binary}>
-            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:edit')}>
+            <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('edit')}>
               <div className="mt-1 mr-3">
                 <ErdaIcon
                   fill="black-400"
@@ -218,7 +218,7 @@ const RepoFileContainerComp = (props: IProps) => {
               </div>
             </Tooltip>
           </IF>
-          <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('dop:delete')}>
+          <Tooltip title={info.isLocked ? i18n.t('dop:lock-operation-tip') : i18n.t('delete')}>
             <ErdaIcon
               fill="black-400"
               width="20"
@@ -371,7 +371,7 @@ const RepoFileContainerComp = (props: IProps) => {
       {renderContent()}
       <FormModal
         width={620}
-        title={`${i18n.t('dop:delete')}${props.name}`}
+        title={`${i18n.t('delete')}${props.name}`}
         fieldsList={getFieldsList()}
         visible={state.modalVisible}
         onOk={handleDelete}

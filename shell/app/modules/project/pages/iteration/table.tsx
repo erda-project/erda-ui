@@ -28,7 +28,7 @@ import routeInfoStore from 'core/stores/route';
 const { Option } = Select;
 
 const iterationOptions = [
-  { cnName: i18n.t('dop:processing'), enName: 'unarchive' },
+  { cnName: i18n.t('processing'), enName: 'unarchive' },
   { cnName: i18n.t('archived'), enName: 'archived' },
 ].map(({ cnName, enName }) => (
   <Option key={enName} value={enName}>

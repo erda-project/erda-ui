@@ -222,12 +222,12 @@ const Backlog = () => {
       },
       {
         key: 'label',
-        label: i18n.t('dop:label'),
+        label: i18n.t('label'),
         emptyText: i18n.t('dop:all'),
         fixed: false,
         haveFilter: true,
         type: 'select' as const,
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('dop:label') }),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('label') }),
         options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
       },
       {
@@ -241,7 +241,7 @@ const Backlog = () => {
       },
       {
         key: 'creator',
-        label: i18n.t('dop:creator'),
+        label: i18n.t('creator'),
         fixed: false,
         type: 'memberSelector',
         customProps: {
@@ -250,7 +250,7 @@ const Backlog = () => {
       },
       {
         key: 'finishedAtStartEnd',
-        label: i18n.t('dop:deadline'),
+        label: i18n.t('deadline'),
         fixed: false,
         type: 'dateRange',
       },

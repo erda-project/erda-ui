@@ -80,7 +80,7 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
             // @ts-ignore
             group.push({
               icon: 'wfw',
-              title: i18n.t('dop:microService'),
+              title: i18n.t('microService'),
               data: currentItem,
               name: service.name,
               lineTo: service.depends_on,

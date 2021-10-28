@@ -144,9 +144,9 @@ export default () => {
           return (
             {
               [ProfileStateMap.PENDING]: i18n.t('dop:attaching to process'),
-              [ProfileStateMap.RUNNING]: i18n.t('dop:processing'),
+              [ProfileStateMap.RUNNING]: i18n.t('processing'),
               [ProfileStateMap.COMPLETED]: i18n.t('dop:completed'),
-              [ProfileStateMap.FAILED]: i18n.t('dop:failed'),
+              [ProfileStateMap.FAILED]: i18n.t('failed'),
               [ProfileStateMap.TERMINATING]: i18n.t('dop:terminate'),
             }[v] || null
           );

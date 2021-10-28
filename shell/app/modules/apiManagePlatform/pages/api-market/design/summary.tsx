@@ -99,7 +99,7 @@ const ApiSummary = () => {
     },
     {
       type: MarkdownEditor,
-      label: i18n.t('dop:description'),
+      label: i18n.t('description'),
       name: 'description',
       required: false,
       colSpan: 24,

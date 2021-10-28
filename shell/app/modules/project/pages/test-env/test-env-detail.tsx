@@ -139,7 +139,7 @@ const KVPairTable = (props: any) => {
   const { value, disabled } = props;
   const columns = [
     {
-      title: i18n.t('dop:name'),
+      title: i18n.t('name'),
       dataIndex: 'Key',
       width: 200,
     },
@@ -148,7 +148,7 @@ const KVPairTable = (props: any) => {
       dataIndex: 'Value',
     },
     {
-      title: i18n.t('dop:operation'),
+      title: i18n.t('operation'),
       key: 'op',
       width: 80,
       render: (_: any, record: any) => (record.isLast ? null : record.Op),
@@ -263,7 +263,7 @@ export const TestEnvDetail = (props: IProps) => {
     const fieldMap = {
       auto: [
         {
-          label: i18n.t('dop:name'),
+          label: i18n.t('name'),
           name: 'displayName',
           itemProps: {
             maxLength: 191,
@@ -271,7 +271,7 @@ export const TestEnvDetail = (props: IProps) => {
           },
         },
         {
-          label: i18n.t('dop:description'),
+          label: i18n.t('description'),
           name: 'desc',
           type: 'textArea',
           itemProps: {

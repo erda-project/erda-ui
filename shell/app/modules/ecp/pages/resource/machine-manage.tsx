@@ -93,7 +93,7 @@ export default () => {
       dataIndex: 'ip',
     },
     {
-      title: i18n.t('cmp:number of instance'),
+      title: i18n.t('number of instance'),
       dataIndex: 'tasks',
       width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),

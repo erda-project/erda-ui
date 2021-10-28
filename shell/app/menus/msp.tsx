@@ -32,7 +32,7 @@ export const getMspMenu = () => {
     {
       href: goTo.resolve.mspProjects(),
       icon: <IconList />,
-      text: i18n.t('msp:project list'),
+      text: i18n.t('project list'),
       subtitle: i18n.t('Project'),
     },
   ];

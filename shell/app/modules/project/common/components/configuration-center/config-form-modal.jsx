@@ -98,7 +98,7 @@ class ConfigFormModal extends React.PureComponent {
         visible={modalVisible}
         onOk={this.onSubmit}
         onCancel={this.onCancel}
-        okText={i18n.t('common:save')}
+        okText={i18n.t('save')}
         maskClosable={false}
         destroyOnClose
       >

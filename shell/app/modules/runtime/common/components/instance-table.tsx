@@ -105,7 +105,7 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
       dataIndex: 'host',
     },
     {
-      title: i18n.t('runtime:status'),
+      title: i18n.t('status'),
       dataIndex: 'status',
       className: 'th-status',
       render: (text: string, record: any) => {
@@ -141,10 +141,10 @@ const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...ta
           onChange={(value: string) => onFilterChange(value)}
         >
           <Option key={typeMap.running} value={typeMap.running}>
-            {i18n.t('runtime:running')}
+            {i18n.t('running')}
           </Option>
           <Option key={typeMap.stopped} value={typeMap.stopped}>
-            {i18n.t('runtime:stopped')}
+            {i18n.t('stopped')}
           </Option>
         </Select>
       </div>

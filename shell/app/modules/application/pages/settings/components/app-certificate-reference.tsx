@@ -168,7 +168,7 @@ const AppCertificateReference = () => {
         render: (text: string) => approvalStatus[text],
       },
       {
-        title: i18n.t('dop:operation'),
+        title: i18n.t('operation'),
         dataIndex: 'op',
         width: 140,
         render: (_v: any, record: APP_SETTING.CertRef) => {

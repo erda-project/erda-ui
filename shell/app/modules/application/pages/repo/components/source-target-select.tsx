@@ -80,7 +80,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
                 });
               }}
             >
-              {i18n.t('dop:pipeline')}
+              {i18n.t('pipeline')}
             </span>
           </span>,
           msgCheckrunTypeMap[resultType as string],

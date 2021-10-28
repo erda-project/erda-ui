@@ -38,13 +38,13 @@ const statusConfig = {
   },
   RUNTIME: {
     Init: { text: i18n.t('initializing'), state: 'processing' },
-    Progressing: { text: i18n.t('cmp:deploying'), state: 'processing' },
-    UnHealthy: { text: i18n.t('cmp:unhealthy'), state: 'warning' },
+    Progressing: { text: i18n.t('deploying'), state: 'processing' },
+    UnHealthy: { text: i18n.t('unhealthy'), state: 'warning' },
     Healthy: { text: i18n.t('cmp:health'), state: 'success' },
   },
   SERVICE: {
-    Progressing: { text: i18n.t('cmp:deploying'), state: 'processing' },
-    UnHealthy: { text: i18n.t('cmp:unhealthy'), state: 'warning' },
+    Progressing: { text: i18n.t('deploying'), state: 'processing' },
+    UnHealthy: { text: i18n.t('unhealthy'), state: 'warning' },
     Healthy: { text: i18n.t('cmp:health'), state: 'success' },
   },
 };
@@ -185,7 +185,7 @@ function ServiceList({
         ),
       },
       {
-        title: i18n.t('cmp:number of instance'),
+        title: i18n.t('number of instance'),
         dataIndex: 'instance',
         key: 'instance',
         width: 176,

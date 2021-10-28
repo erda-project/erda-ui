@@ -163,7 +163,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
                 ))}
               </Select>
               <div className="set-buttons">
-                <Button onClick={clearSet}>{i18n.t('cmp:reset')}</Button>
+                <Button onClick={clearSet}>{i18n.t('reset')}</Button>
                 <Button onClick={onSet} type="primary">
                   {i18n.t('setting')}
                 </Button>

@@ -102,7 +102,7 @@ const HttpComp = (props: IProps) => {
   return (
     <div>
       <div>
-        <span className="edit-service-label">{i18n.t('dop:port')}: </span>
+        <span className="edit-service-label">{i18n.t('port')}: </span>
         <span>
           <InputNumber
             disabled={disabled}

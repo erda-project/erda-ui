@@ -535,7 +535,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         {renderTaskTypeStructure()}
         {editing ? (
           <Button type="primary" ghost onClick={onSubmit}>
-            {i18n.t('dop:save')}
+            {i18n.t('save')}
           </Button>
         ) : null}
       </Form>

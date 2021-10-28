@@ -205,7 +205,7 @@ function getCmpRouter(): RouteConfigItem[] {
                               getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
                             },
                             {
-                              breadcrumbName: i18n.t('cmp:alarm data report'),
+                              breadcrumbName: i18n.t('alarm data report'),
                               getComp: (cb) => cb(import('dcos/pages/alarm-report')),
                             },
                           ],
@@ -455,7 +455,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('cmp:task list'),
+          breadcrumbName: i18n.t('task list'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {

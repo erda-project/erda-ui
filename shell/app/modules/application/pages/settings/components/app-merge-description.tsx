@@ -44,7 +44,7 @@ export const MergeDes = () => {
 
   return (
     <div className="merge-des">
-      <Button disabled>{i18n.t('dop:edit')}</Button>
+      <Button disabled>{i18n.t('edit')}</Button>
       <div className="des-template">
         <div className="title">{i18n.t('dop:description template')}</div>
         <TextArea disabled placeholder={placeholder} autoSize />

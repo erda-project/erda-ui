@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/cli",
-  "version": "1.3.7",
+  "version": "1.4.0",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
     "erda-ui": "dist/bin/erda.js"

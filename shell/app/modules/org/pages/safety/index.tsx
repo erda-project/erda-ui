@@ -101,7 +101,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
       },
     },
     {
-      title: i18n.t('cmp:operation'),
+      title: i18n.t('operation'),
       key: 'op',
       render: (val: string, r: AUDIT.Item) => {
         const content = auditTpl(r, extraTpls);

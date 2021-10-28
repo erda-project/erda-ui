@@ -90,7 +90,7 @@ export const CustomLabel = React.forwardRef(
             size="small"
             ref={inputRef}
             className="custom-label-input"
-            placeholder={i18n.t('common:please enter')}
+            placeholder={i18n.t('please enter')}
             value={inputVal}
             onChange={(e: any) => setInputVal(e.target.value)}
             onPressEnter={addLabel}

@@ -131,12 +131,12 @@ const RepoCommit = () => {
               </>
             ) : tag ? (
               <>
-                <span>{i18n.t('dop:tag')}:</span>
+                <span>{i18n.t('tag')}:</span>
                 <span className="branch-name font-bold nowrap">{tag}</span>
               </>
             ) : (
               <>
-                <span>{i18n.t('dop:commit')}:</span>
+                <span>{i18n.t('commit')}:</span>
                 <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}

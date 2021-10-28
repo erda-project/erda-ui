@@ -133,7 +133,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                         onDelete(propertyID);
                       }}
                     >
-                      <span className="table-operations-btn">{i18n.t('common:remove')}</span>
+                      <span className="table-operations-btn">{i18n.t('remove')}</span>
                     </Popconfirm>
                     <span
                       className={`table-operations-btn ${isFirst ? 'disabled' : ''}`}

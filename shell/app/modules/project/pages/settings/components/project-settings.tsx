@@ -172,7 +172,7 @@ const ProjectSettings = () => {
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('dop:notification'),
+          tabTitle: i18n.t('notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout

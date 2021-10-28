@@ -99,7 +99,7 @@ const StatusDetailChart = (props: IProps) => {
       ],
       series: [
         {
-          name: i18n.t('msp:response time'),
+          name: i18n.t('response time'),
           type: 'line',
           smooth: true,
           showSymbol: false,

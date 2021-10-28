@@ -29,7 +29,7 @@ const runtimeDeployStatus = {
   },
   DEPLOYING: {
     color: 'blue',
-    text: i18n.t('runtime:deploying'),
+    text: i18n.t('deploying'),
     animation: 'running',
   },
   CANCELING: {

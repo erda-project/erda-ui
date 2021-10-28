@@ -52,7 +52,7 @@ export default () => {
         dataIndex: 'description',
       },
       {
-        title: i18n.t('common:operation'),
+        title: i18n.t('operation'),
         key: 'operation',
         width: 100,
         render: (_text: string, record: CLOUD_ACCOUNTS.Account) => {
