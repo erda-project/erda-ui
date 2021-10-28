@@ -83,6 +83,9 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
     if (info.resourceConfig) {
       setIfConfigCluster(true);
       setIfConfigClusterDisable(true);
+    } else {
+      setIfConfigCluster(false);
+      setIfConfigClusterDisable(false);
     }
   }, [info]);
 
