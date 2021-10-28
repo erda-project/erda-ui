@@ -23,7 +23,7 @@ import { reduce } from 'lodash';
 import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { getSideMenu } from '../pages/addons/sidebar-menu';
 
-import { Config as IconConfig } from '@icon-park/react';
+import { Permissions as IconPermissions } from '@icon-park/react';
 
 interface IState {
   addonCategory: {
@@ -75,8 +75,8 @@ const dopStore = createFlatStore({
           } else if (addonName === 'mysql') {
             menu.splice(1, 0, {
               href: `${rootPath}/mysql-settings`,
-              icon: <IconConfig />,
-              text: i18n.t('dop:addon setting'),
+              icon: <IconPermissions />,
+              text: i18n.t('account management'),
               subMenu: [
                 {
                   href: `${rootPath}/mysql-settings/account`,
