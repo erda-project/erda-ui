@@ -51,6 +51,14 @@ const kubernetesTabs = [
   { key: 'detail', name: i18n.t('detail') },
 ];
 
+const opTabs = [
+  { key: 'alarm-record', name: i18n.t('alarm record') },
+  { key: 'alarm-strategy', name: i18n.t('alarm strategy') },
+  { key: 'alarm-custom', name: i18n.t('custom alarm') },
+  { key: 'op-dashboard', name: i18n.t('cmp:O & M dashboard') },
+  { key: 'op-report', name: i18n.t('O & M report') },
+];
+
 function getCmpRouter(): RouteConfigItem[] {
   return [
     {
@@ -58,152 +66,290 @@ function getCmpRouter(): RouteConfigItem[] {
       mark: 'cmp',
       toMark: 'orgIndex',
       routes: [
-        ...getDcosRouter(),
         {
-          path: 'clusters',
-          breadcrumbName: i18n.t('cmp:cluster management'),
+          path: 'cluster',
           routes: [
+            ...getDcosRouter(),
             {
-              path: 'addCluster',
-              pageName: i18n.t('cmp:cluster deployment'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/deploy-cluster')),
-            },
-            {
-              path: 'history',
-              pageName: i18n.t('cmp:operation history'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/operation-history'), 'OperationHistory'),
-            },
-            {
-              path: ':clusterName',
-              mark: 'clusterDetail',
+              path: 'manage',
+              breadcrumbName: i18n.t('cmp:cluster management'),
               routes: [
                 {
-                  path: 'nodes',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      layout: { noWrapper: true },
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes')),
-                    },
-                    {
-                      path: ':nodeId/detail',
-                      breadcrumbName: i18n.t('cmp:node detail'),
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes-detail')),
-                    },
-                  ],
+                  path: 'addCluster',
+                  pageName: i18n.t('cmp:cluster deployment'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/deploy-cluster')),
                 },
                 {
-                  path: 'pods',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      layout: { noWrapper: true },
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pods')),
-                    },
-                    {
-                      path: ':podId/detail',
-                      breadcrumbName: i18n.t('cmp:pod detail'),
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pod-detail')),
-                    },
-                  ],
+                  path: 'history',
+                  pageName: i18n.t('cmp:operation history'),
+                  getComp: (cb) =>
+                    cb(import('app/modules/cmp/pages/cluster-manage/operation-history'), 'OperationHistory'),
                 },
                 {
-                  path: 'workload',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                  path: ':clusterName',
+                  mark: 'clusterDetail',
                   routes: [
                     {
-                      layout: { noWrapper: true },
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload')),
-                    },
-                    {
-                      path: ':workloadId/detail',
-                      breadcrumbName: i18n.t('cmp:workload detail'),
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload-detail')),
-                    },
-                  ],
-                },
-                {
-                  path: 'event-log',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-event-log')),
-                    },
-                  ],
-                },
-                {
-                  path: 'detail',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-detail')),
-                    },
-                  ],
-                },
-                // {
-                //   path: 'state',
-                //   tabs: clusterDetailTabs,
-                //   breadcrumbName: ({ params }) => {
-                //     const { clusterName } = params || {};
-                //     return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
-                //   },
-                //   layout: { fullHeight: true },
-                //   routes: [
-                //     {
-                //       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-state')),
-                //     },
-                //   ],
-                // },
-                {
-                  path: 'mount',
-                  mark: 'cmp', // 侧边栏使用cmp的菜单
-                  breadcrumbName: i18n.t('cmp:physical cluster'),
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('dcos/pages/mount-list/mount-list')),
-                    },
-                    {
-                      path: 'add',
-                      breadcrumbName: i18n.t('cmp:select resources'),
-                      getComp: (cb) => cb(import('dcos/pages/purchase-cluster/purchase-cluster')),
-                    },
-                  ],
-                },
-                {
-                  path: 'biCharts',
-                  mark: 'biCharts',
-                  routes: [
-                    {
-                      path: ':chartUniqId',
-                      mark: 'clusterAlarmReport',
+                      path: 'nodes',
+                      tabs: clusterDetailTabs,
+                      ignoreTabQuery: true,
+                      breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                       routes: [
                         {
-                          path: ':processId',
-                          breadcrumbName: i18n.t('cmp:process details'),
-                          getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
+                          layout: { noWrapper: true },
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes')),
                         },
                         {
-                          breadcrumbName: i18n.t('cmp:alarm data report'),
-                          getComp: (cb) => cb(import('dcos/pages/alarm-report')),
+                          path: ':nodeId/detail',
+                          breadcrumbName: i18n.t('cmp:node detail'),
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes-detail')),
                         },
                       ],
+                    },
+                    {
+                      path: 'pods',
+                      tabs: clusterDetailTabs,
+                      ignoreTabQuery: true,
+                      breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                      routes: [
+                        {
+                          layout: { noWrapper: true },
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pods')),
+                        },
+                        {
+                          path: ':podId/detail',
+                          breadcrumbName: i18n.t('cmp:pod detail'),
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pod-detail')),
+                        },
+                      ],
+                    },
+                    {
+                      path: 'workload',
+                      tabs: clusterDetailTabs,
+                      ignoreTabQuery: true,
+                      breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                      routes: [
+                        {
+                          layout: { noWrapper: true },
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload')),
+                        },
+                        {
+                          path: ':workloadId/detail',
+                          breadcrumbName: i18n.t('cmp:workload detail'),
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload-detail')),
+                        },
+                      ],
+                    },
+                    {
+                      path: 'event-log',
+                      tabs: clusterDetailTabs,
+                      ignoreTabQuery: true,
+                      breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                      routes: [
+                        {
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-event-log')),
+                        },
+                      ],
+                    },
+                    {
+                      path: 'detail',
+                      tabs: clusterDetailTabs,
+                      ignoreTabQuery: true,
+                      breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+                      routes: [
+                        {
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-detail')),
+                        },
+                      ],
+                    },
+                    // {
+                    //   path: 'state',
+                    //   tabs: clusterDetailTabs,
+                    //   breadcrumbName: ({ params }) => {
+                    //     const { clusterName } = params || {};
+                    //     return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
+                    //   },
+                    //   layout: { fullHeight: true },
+                    //   routes: [
+                    //     {
+                    //       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-state')),
+                    //     },
+                    //   ],
+                    // },
+                    {
+                      path: 'mount',
+                      mark: 'cmp', // 侧边栏使用cmp的菜单
+                      breadcrumbName: i18n.t('cmp:physical cluster'),
+                      routes: [
+                        {
+                          getComp: (cb) => cb(import('dcos/pages/mount-list/mount-list')),
+                        },
+                        {
+                          path: 'add',
+                          breadcrumbName: i18n.t('cmp:select resources'),
+                          getComp: (cb) => cb(import('dcos/pages/purchase-cluster/purchase-cluster')),
+                        },
+                      ],
+                    },
+                    {
+                      path: 'biCharts',
+                      mark: 'biCharts',
+                      routes: [
+                        {
+                          path: ':chartUniqId',
+                          mark: 'clusterAlarmReport',
+                          routes: [
+                            {
+                              path: ':processId',
+                              breadcrumbName: i18n.t('cmp:process details'),
+                              getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
+                            },
+                            {
+                              breadcrumbName: i18n.t('cmp:alarm data report'),
+                              getComp: (cb) => cb(import('dcos/pages/alarm-report')),
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage')),
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: 'resource',
+          routes: [
+            {
+              path: 'cloudSource',
+              breadcrumbName: i18n.t('cloud source'),
+              routes: [
+                {
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cloud-source')),
+                  layout: {
+                    noWrapper: true,
+                  },
+                },
+                {
+                  path: 'accounts',
+                  breadcrumbName: i18n.t('cloud accounts'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cloud-accounts')),
+                },
+                {
+                  path: 'ecs',
+                  breadcrumbName: 'ECS',
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/computing/ecs')),
+                },
+                {
+                  path: 'vpc',
+                  breadcrumbName: 'VPC',
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/networks/vpc')),
+                    },
+                    {
+                      path: ':vpcID',
+                      routes: [
+                        {
+                          path: 'vsw',
+                          breadcrumbName: 'vsw({params.vpcID})',
+                          getComp: (cb) => cb(import('app/modules/cmp/pages/networks/vsw')),
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  path: 'oss',
+                  breadcrumbName: 'OSS',
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/storage/oss')),
+                },
+                {
+                  path: 'mq',
+                  breadcrumbName: 'MQ',
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('dcos/pages/service-manager/mq')),
+                    },
+                    {
+                      path: ':mqID/:tabKey',
+                      getComp: (cb) => cb(import('dcos/pages/service-manager/mq-manager/index')),
+                      breadcrumbName: '{params.mqID}',
+                      tabs: map(mqTabs),
+                    },
+                  ],
+                },
+                {
+                  path: 'rds',
+                  breadcrumbName: 'RDS',
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('dcos/pages/service-manager/rds')),
+                    },
+                    {
+                      path: ':rdsID/:tabKey',
+                      getComp: (cb) => cb(import('dcos/pages/service-manager/rds-manager/index')),
+                      breadcrumbName: '{params.rdsID}',
+                      tabs: map(rdsTabs),
+                    },
+                  ],
+                },
+                {
+                  path: 'redis',
+                  breadcrumbName: 'Redis',
+                  routes: [
+                    {
+                      getComp: (cb) => cb(import('dcos/pages/service-manager/redis')),
+                    },
+                    {
+                      path: ':redisID/:tabKey',
+                      getComp: (cb) => cb(import('dcos/pages/service-manager/redis-manager/index')),
+                      breadcrumbName: '{params.redisID}',
+                      tabs: map(redisTabs),
                     },
                   ],
                 },
               ],
             },
             {
-              getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage')),
+              path: 'addon',
+              breadcrumbName: i18n.t('addon service'),
+              routes: [
+                {
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-dashboard')),
+                  layout: {
+                    noWrapper: true,
+                  },
+                },
+                {
+                  path: ':instanceId',
+                  breadcrumbName: i18n.t('addon detail'),
+                  routes: [
+                    {
+                      path: 'monitor',
+                      tabs: middlewareTabs,
+                      alwaysShowTabKey: 'monitor',
+                      getComp: (cb) => cb(import('cmp/pages/middleware-detail/monitor')),
+                    },
+                    {
+                      path: 'resource',
+                      tabs: middlewareTabs,
+                      alwaysShowTabKey: 'resource',
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-detail/resource')),
+                    },
+                    {
+                      path: 'detail',
+                      tabs: middlewareTabs,
+                      alwaysShowTabKey: 'detail',
+                      getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-detail/detail')),
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
@@ -213,208 +359,14 @@ function getCmpRouter(): RouteConfigItem[] {
           getComp: (cb) => cb(import('app/modules/cmp/pages/domain-manage')),
         },
         {
-          path: 'services',
-          breadcrumbName: i18n.t('services'),
-          getComp: (cb) => cb(import('dcos/pages/service-manager')),
-        },
-        {
-          path: 'jobs',
-          breadcrumbName: i18n.t('cmp:task list'),
-          getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
-        },
-        {
-          path: 'report',
-          breadcrumbName: i18n.t('O & M report'),
+          path: 'op',
           routes: [
             {
-              path: ':taskId',
-              breadcrumbName: '{opReportName}',
-              layout: { fullHeight: true },
-              getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report/report-records')),
-            },
-            {
-              getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report')),
-            },
-          ],
-        },
-        {
-          path: 'customDashboard',
-          breadcrumbName: i18n.t('cmp:O & M dashboard'),
-          routes: [
-            {
-              path: 'add',
-              breadcrumbName: i18n.t('cmp:new O & M dashboard'),
-              layout: { fullHeight: true },
-              getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
-            },
-            {
-              path: ':dashboardId',
-              breadcrumbName: '{dashboardName}',
-              layout: { fullHeight: true },
-              getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
-            },
-            {
-              getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard')),
-            },
-          ],
-        },
-        {
-          path: 'addon',
-          routes: [
-            {
-              breadcrumbName: i18n.t('addon service'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-dashboard')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
-              path: ':instanceId',
-              breadcrumbName: i18n.t('addon detail'),
-              routes: [
-                {
-                  path: 'monitor',
-                  tabs: middlewareTabs,
-                  alwaysShowTabKey: 'monitor',
-                  getComp: (cb) => cb(import('cmp/pages/middleware-detail/monitor')),
-                },
-                {
-                  path: 'resource',
-                  tabs: middlewareTabs,
-                  alwaysShowTabKey: 'resource',
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-detail/resource')),
-                },
-                {
-                  path: 'detail',
-                  tabs: middlewareTabs,
-                  alwaysShowTabKey: 'detail',
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/middleware-detail/detail')),
-                },
-              ],
-            },
-          ],
-        },
-        {
-          path: 'cloudSource',
-          breadcrumbName: i18n.t('cloud source'),
-          routes: [
-            {
-              getComp: (cb) => cb(import('app/modules/cmp/pages/cloud-source')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
-              path: 'accounts',
-              breadcrumbName: i18n.t('cloud accounts'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/cloud-accounts')),
-            },
-            {
-              path: 'ecs',
-              breadcrumbName: 'ECS',
-              getComp: (cb) => cb(import('app/modules/cmp/pages/computing/ecs')),
-            },
-            {
-              path: 'vpc',
-              breadcrumbName: 'VPC',
-              routes: [
-                {
-                  getComp: (cb) => cb(import('app/modules/cmp/pages/networks/vpc')),
-                },
-                {
-                  path: ':vpcID',
-                  routes: [
-                    {
-                      path: 'vsw',
-                      breadcrumbName: 'vsw({params.vpcID})',
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/networks/vsw')),
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              path: 'oss',
-              breadcrumbName: 'OSS',
-              getComp: (cb) => cb(import('app/modules/cmp/pages/storage/oss')),
-            },
-            {
-              path: 'mq',
-              breadcrumbName: 'MQ',
-              routes: [
-                {
-                  getComp: (cb) => cb(import('dcos/pages/service-manager/mq')),
-                },
-                {
-                  path: ':mqID/:tabKey',
-                  getComp: (cb) => cb(import('dcos/pages/service-manager/mq-manager/index')),
-                  breadcrumbName: '{params.mqID}',
-                  tabs: map(mqTabs),
-                },
-              ],
-            },
-            {
-              path: 'rds',
-              breadcrumbName: 'RDS',
-              routes: [
-                {
-                  getComp: (cb) => cb(import('dcos/pages/service-manager/rds')),
-                },
-                {
-                  path: ':rdsID/:tabKey',
-                  getComp: (cb) => cb(import('dcos/pages/service-manager/rds-manager/index')),
-                  breadcrumbName: '{params.rdsID}',
-                  tabs: map(rdsTabs),
-                },
-              ],
-            },
-            {
-              path: 'redis',
-              breadcrumbName: 'Redis',
-              routes: [
-                {
-                  getComp: (cb) => cb(import('dcos/pages/service-manager/redis')),
-                },
-                {
-                  path: ':redisID/:tabKey',
-                  getComp: (cb) => cb(import('dcos/pages/service-manager/redis-manager/index')),
-                  breadcrumbName: '{params.redisID}',
-                  tabs: map(redisTabs),
-                },
-              ],
-            },
-          ],
-        },
-        {
-          path: 'alarm',
-          routes: [
-            {
-              path: 'report',
-              routes: [
-                {
-                  path: ':clusterName',
-                  routes: [
-                    {
-                      path: ':chartUniqId',
-                      routes: [
-                        {
-                          path: ':processId',
-                          breadcrumbName: i18n.t('process detail'),
-                          getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
-                        },
-                        {
-                          breadcrumbName: i18n.t('alarm data report'),
-                          getComp: (cb) => cb(import('dcos/pages/alarm-report')),
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              path: 'record',
+              path: 'alarm-record',
+              tabs: opTabs,
+              ignoreTabQuery: true,
               breadcrumbName: i18n.t('alarm record'),
+              pageName: i18n.t('Operator'),
               routes: [
                 {
                   path: ':recordId',
@@ -427,20 +379,18 @@ function getCmpRouter(): RouteConfigItem[] {
               ],
             },
             {
-              path: 'statistics',
-              breadcrumbName: i18n.t('alarm statistics'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-analyze')),
-              layout: {
-                noWrapper: true,
-              },
-            },
-            {
-              path: 'strategy',
+              path: 'alarm-strategy',
+              pageName: i18n.t('Operator'),
+              tabs: opTabs,
+              ignoreTabQuery: true,
               breadcrumbName: i18n.t('alarm strategy'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy')),
             },
             {
-              path: 'custom',
+              path: 'alarm-custom',
+              pageName: i18n.t('Operator'),
+              tabs: opTabs,
+              ignoreTabQuery: true,
               breadcrumbName: i18n.t('custom alarm'),
               routes: [
                 {
@@ -453,6 +403,71 @@ function getCmpRouter(): RouteConfigItem[] {
                   getComp: (cb) => cb(import('app/modules/cmp/pages/custom-alarm')),
                 },
               ],
+            },
+            {
+              path: 'op-dashboard',
+              pageName: i18n.t('Operator'),
+              tabs: opTabs,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('cmp:O & M dashboard'),
+              routes: [
+                {
+                  path: 'add',
+                  breadcrumbName: i18n.t('cmp:new O & M dashboard'),
+                  layout: { fullHeight: true },
+                  getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
+                },
+                {
+                  path: ':dashboardId',
+                  breadcrumbName: '{dashboardName}',
+                  layout: { fullHeight: true },
+                  getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard/custom-dashboard')),
+                },
+                {
+                  getComp: (cb) => cb(import('cmp/pages/alarm-report/custom-dashboard')),
+                },
+              ],
+            },
+            {
+              path: 'op-report',
+              pageName: i18n.t('Operator'),
+              tabs: opTabs,
+              ignoreTabQuery: true,
+              breadcrumbName: i18n.t('O & M report'),
+              routes: [
+                {
+                  path: ':taskId',
+                  breadcrumbName: '{opReportName}',
+                  layout: { fullHeight: true },
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report/report-records')),
+                },
+                {
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-report')),
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: 'services',
+          breadcrumbName: i18n.t('services'),
+          getComp: (cb) => cb(import('dcos/pages/service-manager')),
+        },
+        {
+          path: 'jobs',
+          breadcrumbName: i18n.t('cmp:task list'),
+          getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
+        },
+        {
+          path: 'alarm',
+          routes: [
+            {
+              path: 'statistics',
+              breadcrumbName: i18n.t('alarm statistics'),
+              getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-analyze')),
+              layout: {
+                noWrapper: true,
+              },
             },
             {
               path: 'pod',
