@@ -67,7 +67,7 @@ export const initAxios = () => {
         downloadFileAxios(response);
       }
       // if paging list is null, transform to array
-      const { data } = response.data;
+      const { data } = response.data || {};
       if (Object.prototype.toString.call(data) === '[object Object]') {
         if ('list' in data && 'total' in data && data.list === null) {
           data.list = [];

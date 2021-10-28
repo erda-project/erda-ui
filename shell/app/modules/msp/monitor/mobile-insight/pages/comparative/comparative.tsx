@@ -148,8 +148,7 @@ const MIComparative = () => {
             {map(data, ({ results, xAxis, titleText }, i) => {
               return (
                 <Col className="gutter-row" span={i ? 12 : 24} key={i}>
-                  <div className="chart-container">
-                    <h2 className="chart-title">{titleText}</h2>
+                  <CardContainer.ChartContainer title={titleText}>
                     <MonitorChartNew
                       seriesType="bar"
                       yAxisNames={[i18n.t('msp:request times')]}
@@ -180,7 +179,7 @@ const MIComparative = () => {
                       isLabel
                       isBarChangeColor
                     />
-                  </div>
+                  </CardContainer.ChartContainer>
                 </Col>
               );
             })}

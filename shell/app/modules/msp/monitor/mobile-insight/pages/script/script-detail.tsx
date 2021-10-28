@@ -13,6 +13,7 @@
 
 import { map } from 'lodash';
 import React from 'react';
+import { CardContainer } from 'common';
 import { Row, Col } from 'antd';
 import moment from 'moment';
 import { Attention as IconAttention } from '@icon-park/react';
@@ -35,16 +36,20 @@ const scriptDetail = ({ data }) => {
     <div>
       {map(errorDetail, (value, index) => {
         return (
-          <div className="error-detail chart-container" key={index}>
-            {/* eslint-disable-next-line react/jsx-no-target-blank */}
-            <div className="title">
-              {i18n.t('msp:access path')}
-              <a
-                href={`http://${value.host}${value.url}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >{`${value.host}${value.url}`}</a>
-            </div>
+          <CardContainer.ChartContainer
+            key={index}
+            className="error-detail"
+            title={
+              <div className="title">
+                {i18n.t('msp:access path')}
+                <a
+                  href={`http://${value.host}${value.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{`${value.host}${value.url}`}</a>
+              </div>
+            }
+          >
             <Row gutter={36}>
               <Col span={8}>
                 <span className="title-secondly">{i18n.t('msp:time of occurrence')}</span>
@@ -85,7 +90,7 @@ const scriptDetail = ({ data }) => {
                 {value.stack_trace ? <pre>{value.stack_trace}</pre> : '无'}
               </Col>
             </Row>
-          </div>
+          </CardContainer.ChartContainer>
         );
       })}
     </div>

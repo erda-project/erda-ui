@@ -30,7 +30,6 @@ import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dash
 import { getVariableStr } from '../utils';
 import { createLoadDataFn as createOldLoadDataFn } from './data-loader';
 import { ITimeRange } from 'common/components/time-select/common';
-import './custom-dashboard.scss';
 
 const storeMap = {
   [CustomDashboardScope.ORG]: orgCustomDashboardStore,
