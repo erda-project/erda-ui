@@ -44,12 +44,14 @@ const ClusterNodes = () => {
     updateSearch({ ...urlQuery });
   }, [urlQuery]);
 
-  const openDetail = (record: Obj) => {
-    const { podId, id } = record;
-    update({
-      visible: true,
-      detailData: { workloadId: id, podId },
-    });
+  const openDetail = (record: Obj, op: Obj) => {
+    if (op.key === 'openWorkloadDetail') {
+      const { podId, id } = record;
+      update({
+        visible: true,
+        detailData: { workloadId: id, podId },
+      });
+    }
   };
 
   const closeDetail = () => {
