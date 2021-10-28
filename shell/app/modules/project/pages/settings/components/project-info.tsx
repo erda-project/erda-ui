@@ -109,7 +109,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         type: 'radioGroup',
         options: [
           {
-            name: i18n.t('dop:public project'),
+            name: i18n.t('public project'),
             value: 'true',
           },
           {
@@ -120,14 +120,14 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       },
     ]),
     {
-      label: i18n.t('dop:project icon'),
+      label: i18n.t('project icon'),
       name: 'logo',
       required: false,
       getComp: ({ form }: { form: FormInstance }) => <ImageUpload id="logo" form={form} showHint />,
       viewType: 'image',
     },
     {
-      label: i18n.t('dop:project description'),
+      label: i18n.t('project description'),
       name: 'desc',
       type: 'textArea',
       required: false,

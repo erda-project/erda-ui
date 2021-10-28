@@ -91,7 +91,7 @@ const RuntimeBox = (props: IProps) => {
             }
           >
             <WithAuth pass={permMap[`${env}Delete`]} disableMode={false}>
-              <span className="popover-item">{i18n.t('dop:delete')}</span>
+              <span className="popover-item">{i18n.t('delete')}</span>
             </WithAuth>
           </DeleteConfirm>
           <WithAuth pass={permMap[`${env}DeployOperation`]} disableMode={false}>

@@ -80,7 +80,7 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
             className={`nowrap ${requestByServiceRate !== 0 ? 'border-right-color' : ''}`}
             style={{ width: `${requestByServiceRate}%` }}
           >
-            {i18n.t('dop:application')}
+            {i18n.t('application')}
           </div>
         </Tooltip>
         <Tooltip title={`${i18n.t('cmp:addon used')} ${requestByAddon}${unit} (${requestByAddonRate}%)`}>

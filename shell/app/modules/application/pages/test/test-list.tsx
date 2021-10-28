@@ -39,10 +39,10 @@ const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Sta
   const title = (
     <div>
       <div>
-        {i18n.t('dop:failed')}: {failed}
+        {i18n.t('failed')}: {failed}
       </div>
       <div>
-        {i18n.t('dop:error')}: {error}
+        {i18n.t('error')}: {error}
       </div>
       <div>
         {i18n.t('dop:pass')}: {passed}

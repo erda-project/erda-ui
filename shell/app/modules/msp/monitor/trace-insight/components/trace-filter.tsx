@@ -156,7 +156,7 @@ const TraceFilter = <T extends {}>({ list, initialValues, onChange }: IProps<T>)
           >
             <span className="cursor-pointer">
               <IconPlus fill="rgba(0, 0, 0, 0.8)" className="mr-0.5 mb-1 color-text" />
-              <span>{i18n.t('common:filter')}</span>
+              <span>{i18n.t('filter')}</span>
               <IconDownOne className="hover ml-1 mb-0.5" size="12" theme="filled" fill="#bbb" />
             </span>
           </Dropdown>

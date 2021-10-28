@@ -33,7 +33,7 @@ const { Option } = Select;
 
 const ACL_CONST = [
   {
-    name: i18n.t('cmp:private'),
+    name: i18n.t('private'),
     value: 'private',
   },
   {

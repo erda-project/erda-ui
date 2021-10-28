@@ -498,7 +498,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
                 <HealthPoint
                   type="machine"
                   status={status === 'normal' ? 'normal' : 'warning'}
-                  msg={abnormalMsg || i18n.t('cmp:unknown state')}
+                  msg={abnormalMsg || i18n.t('unknown state')}
                 />
               )}
             </span>
@@ -510,7 +510,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('cmp:number of instance'),
+      title: i18n.t('number of instance'),
       dataIndex: 'tasks',
       width: 176,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),

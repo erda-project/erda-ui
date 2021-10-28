@@ -121,7 +121,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
 
           <IF check={testDetail && testDetail.uuid}>
             <span className="test-log hover-active" onClick={this.toggleLog}>
-              {i18n.t('dop:log')}
+              {i18n.t('log')}
             </span>
           </IF>
         </div>

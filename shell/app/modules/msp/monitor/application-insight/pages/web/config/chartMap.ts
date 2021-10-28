@@ -58,7 +58,7 @@ const chartMap = merge(
       chartName: 'httpError',
     },
     slowTrack: {
-      titleText: `${i18n.t('msp:response time')} TOP10`,
+      titleText: `${i18n.t('response time')} TOP10`,
       ...commonAttr,
       chartName: 'slowTrack',
       viewRender: webSlowTrackPanel,

@@ -93,7 +93,7 @@ const YmlEditor = (props: IProps) => {
     editorData: [],
     addons: [],
     openDrawer: false,
-    drawerTitle: i18n.t('dop:edit') as string,
+    drawerTitle: i18n.t('edit') as string,
     selectedAddon: null,
     groupedAddonList: [],
     editedYmlStructure: null as null | IPipelineYmlStructure,
@@ -260,7 +260,7 @@ const YmlEditor = (props: IProps) => {
           break;
         case WORK_FLOW_TYPE.PIPELINE:
           result = convertByPipelineYml({
-            title: i18n.t('dop:pipeline'),
+            title: i18n.t('pipeline'),
             actions,
             editConvertor: editPipelineConvertor(inputEditedYmlStructure || editedYmlStructure, convertDataByFileName),
             editGlobalVariable: (p) => editGlobalVariable?.current(inputEditedYmlStructure || inputJsonContent)(p),
@@ -414,9 +414,9 @@ const YmlEditor = (props: IProps) => {
         <RenderForm ref={formRef} className="commit-file-form" list={getFieldsList()} />
         <div className="commit-file-form-container">
           <Button type="primary" className="mr-3" onClick={checkForm}>
-            {i18n.t('dop:save')}
+            {i18n.t('save')}
           </Button>
-          <Button onClick={cancelEditing}>{i18n.t('dop:cancel')}</Button>
+          <Button onClick={cancelEditing}>{i18n.t('cancel')}</Button>
         </div>
       </React.Fragment>
     );
@@ -501,7 +501,7 @@ const YmlEditor = (props: IProps) => {
     selectedItemRef.current = service;
     // updater.selectedItem(service);
     updater.openDrawer(true);
-    updater.drawerTitle(i18n.t('dop:edit'));
+    updater.drawerTitle(i18n.t('edit'));
   };
 
   const renderCreatePipelineComponent = (stageTask: any) => {
@@ -533,7 +533,7 @@ const YmlEditor = (props: IProps) => {
   const clickAddonItem = (item: IDiceYamlEditorItem) => {
     updater.selectedAddon(item);
     updater.openDrawer(true);
-    updater.drawerTitle(editing ? i18n.t('dop:edit') : i18n.t('dop:view'));
+    updater.drawerTitle(editing ? i18n.t('edit') : i18n.t('dop:view'));
   };
 
   const showCreateAddonModal = () => {
@@ -555,7 +555,7 @@ const YmlEditor = (props: IProps) => {
       },
     });
     updater.openDrawer(true);
-    updater.drawerTitle(i18n.t('dop:edit'));
+    updater.drawerTitle(i18n.t('edit'));
   };
 
   const openDrawerForEditor = (item: any) => {
@@ -565,7 +565,7 @@ const YmlEditor = (props: IProps) => {
     }
     selectedItemRef.current = item;
     updater.openDrawer(true);
-    updater.drawerTitle(editing ? i18n.t('dop:edit') : i18n.t('dop:view'));
+    updater.drawerTitle(editing ? i18n.t('edit') : i18n.t('dop:view'));
   };
 
   const createdAddOn = (options: any) => {
@@ -736,7 +736,7 @@ const YmlEditor = (props: IProps) => {
     const className =
       selectedAddon && selectedAddon.creatingAddon ? classnames(defaultClass, 'selected-item') : defaultClass;
 
-    const title = editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName;
+    const title = editing ? `${i18n.t('edit')} ${fileName}` : fileName;
 
     return (
       <FileContainer className="yaml-editor-container" name={title} ops={ops}>
@@ -779,14 +779,14 @@ const YmlEditor = (props: IProps) => {
    * 渲染 Pipeline 内容
    */
   const renderPipelineContent = () => {
-    const title = editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName;
+    const title = editing ? `${i18n.t('edit')} ${fileName}` : fileName;
 
     return (
       <FileContainer className="yaml-editor-container" name={title} ops={ops}>
         <Spin spinning={isFetching}>
           <React.Fragment>
             <div className="yml-editor-body">
-              <BlockContainer className="services-and-add-ons" title={i18n.t('dop:pipeline')}>
+              <BlockContainer className="services-and-add-ons" title={i18n.t('pipeline')}>
                 {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}
@@ -811,7 +811,7 @@ const YmlEditor = (props: IProps) => {
    * 渲染 workflow 内容
    */
   const renderWorkflowContent = () => {
-    const title = editing ? `${i18n.t('dop:edit')} ${fileName}` : fileName;
+    const title = editing ? `${i18n.t('edit')} ${fileName}` : fileName;
 
     return (
       <FileContainer className="yaml-editor-container" name={title} ops={ops}>
@@ -878,7 +878,7 @@ const YmlEditor = (props: IProps) => {
       />
       <FormModal
         width={620}
-        title={`${i18n.t('dop:delete')}${name}`}
+        title={`${i18n.t('delete')}${name}`}
         fieldsList={getFieldsList()}
         visible={modalVisible}
         onOk={handleDelete}

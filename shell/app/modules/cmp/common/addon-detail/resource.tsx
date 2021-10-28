@@ -51,7 +51,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       sorter: (a: IResource, b: IResource) => a.cpuLimit - b.cpuLimit,
     },
     {
-      title: i18n.t('cmp:CPU allocation'),
+      title: i18n.t('CPU allocation'),
       dataIndex: 'cpuRequest',
       key: 'cpuRequest',
       width: 120,

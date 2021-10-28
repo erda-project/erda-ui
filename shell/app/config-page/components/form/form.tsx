@@ -88,12 +88,12 @@ export const Form = (props: CP_FORM.Props) => {
             <div>
               {operations?.submit && (
                 <OperationAction onClick={() => formRef.current.onSubmit()} operation={operations.submit}>
-                  <Button type="primary">{i18n.t('dop:commit')}</Button>
+                  <Button type="primary">{i18n.t('commit')}</Button>
                 </OperationAction>
               )}
               {operations?.cancel && (
                 <Button className="ml-2" onClick={onCancel}>
-                  {i18n.t('common:cancel')}
+                  {i18n.t('cancel')}
                 </Button>
               )}
             </div>
@@ -103,12 +103,12 @@ export const Form = (props: CP_FORM.Props) => {
         <div>
           {operations?.submit && (
             <OperationAction onClick={onOk} operation={operations.submit}>
-              <Button type="primary">{i18n.t('dop:commit')}</Button>
+              <Button type="primary">{i18n.t('commit')}</Button>
             </OperationAction>
           )}
           {operations?.cancel && (
             <OperationAction onClick={onCancel} operation={operations.cancel}>
-              <Button className="ml-2">{i18n.t('common:cancel')}</Button>
+              <Button className="ml-2">{i18n.t('cancel')}</Button>
             </OperationAction>
           )}
         </div>

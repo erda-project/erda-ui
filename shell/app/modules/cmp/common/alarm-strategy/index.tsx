@@ -482,7 +482,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ...fieldsList,
       {
         name: 'groupType',
-        label: i18n.t('dop:notification method'),
+        label: i18n.t('notification method'),
         required: true,
         type: 'select',
         initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
@@ -641,7 +641,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     },
     ...insertWhen(scopeType === ScopeType.ORG, [
       {
-        title: i18n.t('cmp:cluster'),
+        title: i18n.t('cluster'),
         dataIndex: 'clusterNames',
         width: 200,
         render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
@@ -690,7 +690,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEditALarm(record.id)}>
-              {i18n.t('dop:edit')}
+              {i18n.t('edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -698,7 +698,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                 handleDeleteAlarm(record.id);
               }}
             >
-              {i18n.t('dop:delete')}
+              {i18n.t('delete')}
             </span>
             <Switch
               size="small"

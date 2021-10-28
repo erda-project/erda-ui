@@ -200,7 +200,7 @@ const ErrorList = ({
       },
     },
     {
-      title: i18n.t('publisher:version'),
+      title: i18n.t('version'),
       dataIndex: 'appVersion',
       width: 80,
       ellipsis: true,

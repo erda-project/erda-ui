@@ -91,7 +91,7 @@ const InputItem = ({
         <TextArea autoSize onBlur={(e) => onChange(e, name, nameId)} disabled={editDisabled} maxLength={maxLength} />
       ) : (
         <Input
-          placeholder={i18n.t('common:please enter')}
+          placeholder={i18n.t('please enter')}
           size="default"
           onBlur={(e) => onChange(e, name, nameId)}
           disabled={editDisabled}
@@ -309,7 +309,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
 
     if (!disableDelete) {
       columns.push({
-        title: i18n.t('common:operation'),
+        title: i18n.t('operation'),
         width: 160,
         dataIndex: 'operation',
         className: 'operation',
@@ -320,7 +320,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
               onConfirm={() => this.handleDelete(record.uniKey)}
             >
               <span className={deleteBtnClass}>
-                <span className="table-operations-btn">{i18n.t('common:delete')}</span>
+                <span className="table-operations-btn">{i18n.t('delete')}</span>
               </span>
             </Popconfirm>
           );

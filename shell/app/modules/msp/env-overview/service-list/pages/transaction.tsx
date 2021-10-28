@@ -249,7 +249,7 @@ const Transaction = () => {
         dataIndex: col.index,
       })),
       {
-        title: i18n.t('common:operation'),
+        title: i18n.t('operation'),
         dataIndex: 'operation',
         width: 180,
         render: (_: any, record: any) => (

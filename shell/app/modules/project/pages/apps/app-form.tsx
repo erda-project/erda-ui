@@ -165,7 +165,7 @@ const CreationForm = () => {
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
             if (value && value.toLowerCase().endsWith('_ability')) {
-              return callback(i18n.t('dop:The name is reserved internally. Please change the name.'));
+              return callback(i18n.t('The name is reserved internally. Please change the name.'));
             }
             callback();
           },

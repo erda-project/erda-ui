@@ -174,7 +174,7 @@ const ThirdAddonForm = (props: IProps) => {
         )),
     };
     const nameField = {
-      label: i18n.t('dop:name'),
+      label: i18n.t('name'),
       name: 'name',
       initialValue: editData ? editData.name || '' : null,
       itemProps: { disabled: editData !== null },

@@ -39,7 +39,7 @@ const PersonalUseCase = () => {
       render: (value) => value || 0,
     },
     {
-      title: i18n.t('dop:passed'),
+      title: i18n.t('passed'),
       dataIndex: 'succ',
       key: 'succ',
       render: (value) => value || 0,

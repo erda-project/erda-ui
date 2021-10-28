@@ -21,7 +21,7 @@ function getRuntimeRouter(): RouteConfigItem[] {
       routes: [
         {
           path: 'overview',
-          breadcrumbName: `{runtimeName}(${i18n.t('runtime:overview')})`,
+          breadcrumbName: `{runtimeName}(${i18n.t('overview')})`,
           getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
           layout: {
             noWrapper: true,

@@ -54,7 +54,7 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
   const isMobileApp = data.type === ArtifactsTypeMap.MOBILE.value;
 
   const menuText = [
-    ['info', i18n.t('publisher:configuration information')],
+    ['info', i18n.t('configuration information')],
     ['version', i18n.t('publisher:version content')],
   ];
   if (isMobileApp) {

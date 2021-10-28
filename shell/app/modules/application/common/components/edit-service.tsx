@@ -79,7 +79,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
 
     const nameField = (
       <Item
-        label={i18n.t('dop:service name')}
+        label={i18n.t('service name')}
         name="name"
         initialValue={name}
         rules={[
@@ -258,7 +258,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         {imageField || editing ? imageField : null}
         {editing ? (
           <Button type="primary" ghost onClick={this.onSubmit}>
-            {i18n.t('dop:save')}
+            {i18n.t('save')}
           </Button>
         ) : null}
       </Form>

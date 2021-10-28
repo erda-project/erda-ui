@@ -146,10 +146,10 @@ const RepoEditor = ({
         getComp: ({ form }: { form: FormInstance }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
-              {i18n.t('dop:save')}
+              {i18n.t('save')}
             </Button>
             <Button className="ml-3" onClick={() => changeMode({ editFile: false, addFile: false })}>
-              {i18n.t('dop:cancel')}
+              {i18n.t('cancel')}
             </Button>
           </div>
         ),

@@ -565,7 +565,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 </Select>
               }
               className="url"
-              placeholder={i18n.t('dop:please enter')}
+              placeholder={i18n.t('please enter')}
               value={api.url}
               onChange={(e) => updateApi('url', e.target.value.trim())}
               // onBlur={handleBlurCapture}
@@ -1193,7 +1193,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                   ) : (
                     <Input
                       className="flex-1"
-                      placeholder={i18n.t('dop:please enter')}
+                      placeholder={i18n.t('please enter')}
                       value={val}
                       onChange={(e) => updateValue(i, key, e.target.value)}
                       // onBlur={e => updateValue(i, key, e.target.value, true)}

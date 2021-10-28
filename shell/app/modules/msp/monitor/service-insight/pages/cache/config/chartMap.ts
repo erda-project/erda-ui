@@ -36,7 +36,7 @@ const chartMap = merge(
       chartName: 'overviewSort',
     },
     responseTimes: {
-      titleText: `${i18n.t('msp:response time')} TOP5`,
+      titleText: `${i18n.t('response time')} TOP5`,
       ...commonAttr,
       chartName: 'responseTimes',
       viewProps: {

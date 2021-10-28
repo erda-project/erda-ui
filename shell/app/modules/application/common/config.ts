@@ -82,7 +82,7 @@ export const approvalStatus = {
   pending: i18n.t('dop:approval pending'),
   approved: i18n.t('dop:approved'),
   denied: i18n.t('dop:denied'),
-  cancel: i18n.t('dop:cancel'),
+  cancel: i18n.t('cancel'),
 };
 
 export enum RepositoryMode {

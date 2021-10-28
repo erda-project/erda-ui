@@ -61,11 +61,11 @@ export default class extends PureComponent<IPropertyViewProps, any> {
           <span>{(resources && resources.mem) || '-'}</span>
         </span>
         <span className="dice-service-detail-column">
-          <span>{i18n.t('dop:number of instance')}：</span>
+          <span>{i18n.t('number of instance')}：</span>
           <span>{(deployments && deployments.replicas) || '-'}</span>
         </span>
         <span className="dice-service-detail-column">
-          <span>{i18n.t('dop:port')}：</span>
+          <span>{i18n.t('port')}：</span>
           <span>
             {Array.isArray(ports)
               ? ports.map((p) => (typeof p === 'object' ? `${p.protocol || ''}:${p.port}` : p)).join('/')

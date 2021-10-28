@@ -36,7 +36,7 @@ export const BRANCH_TABS = [
   },
   {
     key: 'tags',
-    name: i18n.t('dop:tag'),
+    name: i18n.t('tag'),
   },
 ];
 

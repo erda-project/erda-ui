@@ -123,13 +123,13 @@ const MiddlewareDashboard = () => {
       render: (value: string) => <span className="hover-text font-bold">{value}</span>,
     },
     {
-      title: i18n.t('cmp:cluster'),
+      title: i18n.t('cluster'),
       dataIndex: 'clusterName',
       key: 'clusterName',
       width: '20%',
     },
     {
-      title: i18n.t('cmp:project'),
+      title: i18n.t('project'),
       dataIndex: 'projectName',
       key: 'projectName',
       width: '20%',

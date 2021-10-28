@@ -159,7 +159,7 @@ const appStore = createStore({
     async remove({ call, getParams }) {
       const params = getParams();
       const result = await call(remove, params, {
-        successMsg: i18n.t('dop:deleted successfully'),
+        successMsg: i18n.t('deleted successfully'),
         fullResult: true,
       });
       if (result.success) {

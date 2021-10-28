@@ -29,7 +29,7 @@ export const orgRoleMap = {
 
 // 通过权限配置页面导出数据覆盖，勿手动修改
 export const orgPerm = {
-  name: i18n.t('user:org'),
+  name: i18n.t('org'),
   dop: {
     name: i18n.t('user:DevOps platform'),
     read: {

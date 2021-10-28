@@ -47,7 +47,7 @@ const Summary = () => {
 
   const aiCapacityConf = {
     webAvg: {
-      name: i18n.t('msp:response time'),
+      name: i18n.t('response time'),
       value: getFormatter('TIME').format(aiCapacityData.webAvg),
       color: 'primary',
     },
@@ -64,7 +64,7 @@ const Summary = () => {
       color: 'primary',
     },
     ajaxResp: {
-      name: `Ajax ${i18n.t('msp:response time')}`,
+      name: `Ajax ${i18n.t('response time')}`,
       value: getFormatter('TIME').format(biCapacityData.ajaxResp),
       color: 'primary',
     },

@@ -86,7 +86,7 @@ const VSW = () => {
       getCloudResourceStatusCol('vsw'),
       getCloudResourceTagsCol(),
       {
-        title: i18n.t('dop:operation'),
+        title: i18n.t('operation'),
         dataIndex: 'op',
         width: 100,
         render: (_v: any, record: NETWORKS.ICloudVsw) => {

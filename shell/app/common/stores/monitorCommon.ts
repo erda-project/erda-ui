@@ -31,7 +31,7 @@ const defaultHandler = (data: any) => {
       moduleMap.label = k;
       moduleMap.value = k;
       moduleMap.children = v.map((item: any, i: number) => {
-        return { value: item, label: `${i18n.t('msp:instance')}${i + 1}` };
+        return { value: item, label: `${i18n.t('instance')}${i + 1}` };
       });
     });
     return moduleMap;

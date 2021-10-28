@@ -44,7 +44,7 @@ const ContentPanel = ({
     edit: (
       <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="text-desc hover-active">
         <IconEdit className="mr-1" />
-        {i18n.t('dop:edit')}
+        {i18n.t('edit')}
       </span>
     ),
     add: (
@@ -56,7 +56,7 @@ const ContentPanel = ({
     upload: (
       <span onClick={onClick} onMouseDown={(e) => e.preventDefault()} className="text-desc hover-active">
         <IconUpload className="mr-1" />
-        {i18n.t('dop:upload')}
+        {i18n.t('upload')}
       </span>
     ),
   };

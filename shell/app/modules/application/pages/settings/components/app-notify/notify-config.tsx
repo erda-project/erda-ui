@@ -198,7 +198,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       ...fieldsList,
       {
         name: 'channels',
-        label: i18n.t('dop:notification method'),
+        label: i18n.t('notification method'),
         required: true,
         type: 'select',
         options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
@@ -247,7 +247,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('dop:edit')}
+              {i18n.t('edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -255,7 +255,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
                 handleDele(record.id);
               }}
             >
-              {i18n.t('dop:delete')}
+              {i18n.t('delete')}
             </span>
             <Switch
               size="small"

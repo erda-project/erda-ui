@@ -90,7 +90,7 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<Col
     const { width, render, limitNum } = actions;
     return [
       {
-        title: i18n.t('common:operation'),
+        title: i18n.t('operation'),
         width,
         dataIndex: 'operation',
         ellipsis: true,

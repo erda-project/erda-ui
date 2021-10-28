@@ -24,7 +24,7 @@ import i18n from 'i18n';
 import './detail.scss';
 
 const addonStatusMap = {
-  Progressing: <Badge status="processing" text={i18n.t('cmp:processing')} />,
+  Progressing: <Badge status="processing" text={i18n.t('processing')} />,
   Healthy: <Badge status="success" text={i18n.t('healthy')} />,
   UnHealthy: <Badge status="warning" text={i18n.t('unhealthy')} />,
   Failed: <Badge status="error" text={i18n.t('failed')} />,
@@ -34,12 +34,12 @@ const addonStatusMap = {
 
 const refTableList = [
   {
-    title: i18n.t('cmp:application'),
+    title: i18n.t('application'),
     dataIndex: 'applicationName',
     key: 'applicationName',
   },
   {
-    title: i18n.t('cmp:application instance'),
+    title: i18n.t('application instance'),
     dataIndex: 'runtimeName',
     key: 'runtimeName',
   },
@@ -87,7 +87,7 @@ export const PureBaseAddonInfo = ({
       value: 'cluster',
     },
     {
-      title: i18n.t('cmp:running environment'),
+      title: i18n.t('running environment'),
       value: 'workspace',
       render: (workspace: string) => ENV_NAME[workspace],
     },
@@ -150,7 +150,7 @@ export const PureBaseAddonInfo = ({
             <span className="title font-medium">{i18n.t('cmp:basic parameters')}</span>
             {!isEmpty(addonDetail.config) && (
               <span className="copy-all cursor-pointer cursor-copy">
-                {i18n.t('cmp:copy all')}
+                {i18n.t('copy all')}
                 <Copy selector=".cursor-copy" opts={{ text: () => jsonStr }} />
               </span>
             )}

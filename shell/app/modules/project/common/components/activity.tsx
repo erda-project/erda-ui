@@ -165,7 +165,7 @@ export const TimelineActivity = ({
       })}
       <IF check={hasMore && !isLoading}>
         <TimelineItem key="key-load" className="load-more">
-          <a onClick={() => loadMore()}>{i18n.t('dop:load more')}</a>
+          <a onClick={() => loadMore()}>{i18n.t('load more')}</a>
         </TimelineItem>
         <ELSE />
         <TimelineItem />

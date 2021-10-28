@@ -221,7 +221,7 @@ const testCaseStore = createStore({
           recycled: false,
         },
         testPlanID,
-        { successMsg: i18n.t('dop:created successfully') },
+        { successMsg: i18n.t('created successfully') },
       );
       return res;
     },
@@ -273,7 +273,7 @@ const testCaseStore = createStore({
     async toggleToRecycle({ call }, payload: Omit<TEST_CASE.BatchUpdate, 'priority'>) {
       const res = await call(batchUpdateCase, payload);
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
-      message.success(i18n.t('dop:deleted successfully'));
+      message.success(i18n.t('deleted successfully'));
       testCaseStore.effects.getCases();
       return res;
     },
@@ -290,7 +290,7 @@ const testCaseStore = createStore({
         await call(deleteEntirely, { testCaseIDs: tempIds });
       }
       testCaseStore.reducers.removeChoosenIds(tempIds);
-      message.success(i18n.t('dop:deleted successfully'));
+      message.success(i18n.t('deleted successfully'));
       testCaseStore.effects.getCases();
     },
     async emptyListByTestSetId({ update }, targetTestSetId: number) {

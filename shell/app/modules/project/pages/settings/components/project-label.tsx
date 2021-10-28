@@ -154,7 +154,7 @@ export default () => {
         ))}
       </div>
       <FormModal
-        name={i18n.t('dop:label')}
+        name={i18n.t('label')}
         visible={state.modalVisible}
         fieldsList={fieldsList}
         formData={state.activeLabel}
