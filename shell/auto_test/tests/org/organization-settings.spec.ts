@@ -22,7 +22,6 @@ const testData = {
   manager: '组织管理员',
   image: 'app/images/Erda.png',
   memberBoss: 'erda-ui-team',
-  networkClose: '确认开启封网',
 };
 
 Role('Manager', () => {
