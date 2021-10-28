@@ -14,7 +14,7 @@ import React from 'react';
 import './erda-icon.scss';
 import themeColor from '../../../../theme-color';
 
-type IconColor = typeof themeColor;
+type IconColor = keyof typeof themeColor;
 
 export const iconMap = {
   lock: 'lock',

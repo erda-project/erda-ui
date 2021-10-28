@@ -24,7 +24,7 @@ export interface CardContainerProps {
   operation?: React.ReactNode;
   holderWhen?: boolean;
   style?: React.CSSProperties;
-  children: React.ReactChild | React.ReactChild[];
+  children: React.ReactChild | React.ReactChild[] | null;
 }
 
 const CardContainer = ({ title, tip, className, operation, holderWhen, style, children }: CardContainerProps) => {
