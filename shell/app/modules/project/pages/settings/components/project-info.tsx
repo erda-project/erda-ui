@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Button, Input } from 'core/nusi';
+import { Tooltip, Button, Input, Checkbox } from 'core/nusi';
 import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
@@ -54,6 +54,8 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const info = projectStore.useStore((s) => s.info);
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
   const [canGetClusterListAndResources, setCanGetClusterListAndResources] = React.useState(false);
+  const [ifConfigCluster, setIfConfigCluster] = React.useState(false);
+  const [ifConfigClusterDisable, setIfConfigClusterDisable] = React.useState(false);
   const updatePrj = (values: Obj) => {
     const { isPublic, resourceConfig } = values;
     if (resourceConfig) {
@@ -76,6 +78,17 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       reloadHeadInfo();
     });
   };
+
+  React.useEffect(() => {
+    if (info.resourceConfig) {
+      setIfConfigCluster(true);
+      setIfConfigClusterDisable(true);
+    } else {
+      setIfConfigCluster(false);
+      setIfConfigClusterDisable(false);
+    }
+  }, [info]);
+
   const notMSP = info.type !== 'MSP';
   const fieldsList = [
     {
@@ -120,7 +133,21 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       required: false,
       itemProps: { rows: 4, maxLength: 200 },
     },
-    ...insertWhen(notMSP, useQuotaFields(canEditQuota, showQuotaTip, canGetClusterListAndResources)),
+    ...insertWhen(notMSP, [
+      {
+        getComp: ({ readOnly }: { readOnly: boolean }) =>
+          !readOnly ? (
+            <Checkbox
+              checked={ifConfigCluster}
+              disabled={ifConfigClusterDisable}
+              onChange={() => setIfConfigCluster(!ifConfigCluster)}
+            >
+              {i18n.t('org:need to configure project cluster resources')}
+            </Checkbox>
+          ) : null,
+      },
+    ]),
+    ...insertWhen(notMSP && ifConfigCluster, useQuotaFields(canEditQuota, showQuotaTip, canGetClusterListAndResources)),
     // {
     //   label: i18n.t('project:DingTalk notification address'),
     //   name: 'ddHook',
