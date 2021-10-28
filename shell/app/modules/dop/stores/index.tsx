@@ -73,7 +73,7 @@ const dopStore = createFlatStore({
               text: i18n.t('JVM analysis'),
             });
           } else if (addonName === 'mysql') {
-            menu.splice(1, 1, {
+            menu.splice(1, 0, {
               href: `${rootPath}/mysql-settings`,
               icon: <IconConfig />,
               text: i18n.t('dop:addon setting'),
