@@ -34,7 +34,7 @@ interface ITempCluster {
 }
 const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
   const [clusters, setClusters] = useState<ITempCluster[]>([]);
-  const [activeKey, setActiveKey] = useState('resource-distribute');
+  const [activeKey, setActiveKey] = useState('machine');
   const clusterNameStr = clusters.map((c) => c.clusterName).join(',');
 
   useEffect(() => {
