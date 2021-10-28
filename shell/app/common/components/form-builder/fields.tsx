@@ -124,7 +124,7 @@ export const Fields: React.MemoExoticComponent<
               return (
                 <Col span={colSpan || 24 / fieldRealColumnNum} key={idx} className={wrapperClassName}>
                   <Item
-                    label={label || (isHoldLabel ? <div /> : undefined)}
+                    label={label || (isHoldLabel ? <div /> : null)}
                     colon={!!label}
                     required={required}
                     rules={afterAddRequiredRules}
