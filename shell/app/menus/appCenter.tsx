@@ -64,7 +64,7 @@ export const appList: () => LAYOUT.IApp[] = () =>
         key: 'cmp',
         name: i18n.t('Cloud management'),
         breadcrumbName: i18n.t('Cloud management'),
-        href: goTo.resolve.cmpRoot(),
+        href: goTo.resolve.cmpClusterOverview(),
       },
       {
         key: 'ecp',
