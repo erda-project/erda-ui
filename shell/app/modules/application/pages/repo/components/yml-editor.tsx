@@ -787,6 +787,7 @@ const YmlEditor = (props: IProps) => {
           <React.Fragment>
             <div className="yml-editor-body">
 <<<<<<< HEAD
+<<<<<<< HEAD
               <BlockContainer className="services-and-add-ons" title={i18n.t('pipeline')}>
 =======
 <<<<<<< HEAD
@@ -795,6 +796,9 @@ const YmlEditor = (props: IProps) => {
               <BlockContainer className="services-and-add-ons" title={i18n.t('application:pipeline')}>
 >>>>>>> Feature/alarm (#1)
 >>>>>>> Feature/alarm (#1)
+=======
+              <BlockContainer className="services-and-add-ons" title={i18n.t('application:pipeline')}>
+>>>>>>> WIP: umodify code about notify channels
                 {openDrawer ? <div className="drawer-shadow" onClick={closedDrawer?.current} /> : null}
                 <DiceYamlEditor
                   type={DiceFlowType.EDITOR}

@@ -32,6 +32,7 @@ interface IState {
   notifyGroups: COMMON_NOTIFY.INotifyGroup[];
   notifyGroupsPaging: IPaging;
   notifyChannels: COMMON_NOTIFY.NotifyChannel[];
+  notifyChannelsPaging: IPaging;
 }
 
 const initState: IState = {
@@ -42,6 +43,11 @@ const initState: IState = {
     total: 0,
   },
   notifyChannels: [],
+  notifyChannelsPaging: {
+    pageNo: 1,
+    pageSize: PAGINATION.pageSize,
+    total: 0,
+  },
 };
 
 const convertScope = <T extends { scopeType?: COMMON_NOTIFY.ScopeType }>(payload: T): T => {
@@ -77,11 +83,12 @@ const notifyGroup = createStore({
       });
     },
     async getNotifyChannels({ call, update }, payload: { page: number; pageSize: number }) {
-      const list = await call(getNotifyChannels, payload);
+      const list = await call(getNotifyChannels, payload, { paging: { key: 'notifyChannelsPaging' } });
       update({ notifyChannels: list });
     },
     async getNotifyChannelTypes({ call }) {
-      await call(getNotifyChannelTypes);
+      const channelTypes = await call(getNotifyChannelTypes);
+      return channelTypes;
     },
     async setNotifyChannelEnable({ call }, payload: { id: string; enable: boolean }) {
       await call(setNotifyChannelEnable, payload);

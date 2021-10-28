@@ -111,6 +111,7 @@ class FormModalComp extends React.Component<IProps, IState> {
 
   handleOk = () => {
     const { form, onOk, beforeSubmit, keepValue = false } = this.props;
+    console.log(form.getFieldsValue());
     return new Promise((resolve, reject) => {
       form
         .validateFields()

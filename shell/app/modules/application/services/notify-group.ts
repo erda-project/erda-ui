@@ -12,6 +12,23 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { apiCreator } from 'core/service';
+
+interface IDomainRequest {
+  domain?: string;
+  clusterName?: string;
+  type?: string;
+  projectID?: string;
+  workspace?: string;
+}
+
+const apis = {
+  getNotifyChannelTypes: {
+    api: '/api/notify-channel/types',
+  },
+};
+
+export const getNotifyChannelTypes = apiCreator<() => []>(apis.getNotifyChannelTypes);
 
 const getUrl = (scopeType?: COMMON_NOTIFY.ScopeType) =>
   scopeType === 'msp_env' ? '/api/msp/notify-groups' : '/api/notify-groups';
@@ -51,9 +68,9 @@ export const getNotifyChannels = (payload: { page: number; pageSize: number }) =
     .then((response: any) => response.body);
 };
 
-export const getNotifyChannelTypes = () => {
-  return agent.get('/api/notify-channel/types').then((response: any) => response.body);
-};
+// export const getNotifyChannelTypes = () => {
+//   return agent.get('/api/notify-channel/types').then((response: any) => response.body);
+// };
 
 export const setNotifyChannelEnable = (payload: { id: string; enable: boolean }) => {
   return agent
