@@ -64,9 +64,9 @@ export const ResourcesUsagePie = React.memo(({ clusterNameStr }: { clusterNameSt
             normal: {
               show: true,
               position: 'center',
-              formatter: `${i18n.t('cmp:Total')}\n ${ops.series[0].data.reduce((all, cur) => all + cur.value, 0)} ${
-                state.resourceType === 'cpu' ? i18n.t('cmp:Core') : 'G'
-              }`,
+              formatter: `${i18n.t('cmp:Total')}\n ${ops.series[0].data
+                .reduce((all, cur) => all + cur.value, 0)
+                .toFixed(1)} ${state.resourceType === 'cpu' ? i18n.t('cmp:Core') : 'G'}`,
               color: colorMap.gray,
               textStyle: {
                 fontSize: '20',
