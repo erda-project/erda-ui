@@ -36,39 +36,34 @@ import { useMount } from 'react-use';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
 import { PAGINATION } from 'app/constants';
-import { getNotifyChannelTypes } from 'application/services/notify-group';
+import { getNotifyChannelTypes, getNotifyChannels } from 'application/services/notify-group';
 
 const { confirm } = Modal;
 
 const NotifyChannel = () => {
-  const [notifyChannels, paging] = notifyGroupStore.useStore((s) => [s.notifyChannels, s.notifyChannelsPaging]);
-  const { page, pageSize, total } = paging;
-  const channelTypes = getNotifyChannelTypes.useData();
-  const { setNotifyChannelEnable, deleteNotifyChannel, addNotifyChannel, editNotifyChannel, getNotifyChannels } =
-    notifyGroupStore.effects;
-  const [loading] = useLoading(notifyGroupStore, ['getNotifyChannels']);
-  const [visible, setIsVisible] = React.useState(false);
-  const [{ activeData, channelType, channelProvider }, updater, update] = useUpdate({
+  const channelTypeOptions = getNotifyChannelTypes.useData();
+  const { setNotifyChannelEnable, deleteNotifyChannel, addNotifyChannel, editNotifyChannel } = notifyGroupStore.effects;
+  const [data, loading] = getNotifyChannels.useState();
+  const [{ activeData, channelType, channelProvider, visible, paging }, updater, update] = useUpdate({
     activeData: {},
     channelType: '',
     channelProvider: '',
+    visible: false,
+
+    paging: { pageSize: 15, current: 1 },
   });
-  const channelProviders = channelTypes?.find((item) => item.name === channelType)?.providers;
+  const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
+
   const isEditing = !isEmpty(activeData);
   useMount(() => {
-    handleGetNotifyChannels();
     getNotifyChannelTypes.fetch();
   });
 
-  const handleGetNotifyChannels = (payload?: COMMON_NOTIFY.IGetNotifyGroupQuery) => {
-    getNotifyChannels({ page, pageSize });
-  };
+  React.useEffect(() => {
+    getNotifyChannels.fetch({ page: paging.current, pageSize: paging.pageSize });
+  }, [paging]);
 
   const handleEdit = ({ channelProviderType, config, name, type, id }: COMMON_NOTIFY.NotifyChannel) => {
-    console.log({ channelProviderType, config, name, type, id });
-    console.log(8899);
-    setIsVisible(true);
-    console.log(11111);
     update({
       activeData: {
         id,
@@ -77,8 +72,14 @@ const NotifyChannel = () => {
         type: type.name,
         name,
       },
+      visible: true,
     });
-    console.log(22222);
+  };
+
+  const handleAdd = () => {
+    updater.channelType(channelTypeOptions?.[0]?.name);
+    updater.channelProvider(channelTypeOptions?.[0]?.providers?.[0]?.name);
+    updater.visible(true);
   };
 
   const handleDelete = (id: string) => {
@@ -87,14 +88,13 @@ const NotifyChannel = () => {
       content: i18n.d('该通知渠道将永远删除'),
       onOk() {
         deleteNotifyChannel({ id }).then(() => {
-          handleGetNotifyChannels();
+          updater.paging({ ...paging, current: 1 });
         });
       },
     });
   };
 
   const handleSubmit = (values: any, id?: string) => {
-    console.log({ values }, 9988);
     const { name, channelProviderType, type, config, enable } = values;
     if (isEditing) {
       editNotifyChannel({
@@ -105,11 +105,15 @@ const NotifyChannel = () => {
         config,
         enable,
       }).then(() => {
-        handleCancel();
-        handleGetNotifyChannels();
+        update({
+          paging: { ...paging },
+          visible: false,
+          activeData: {},
+        });
       });
       return;
     }
+
     addNotifyChannel({
       name,
       type,
@@ -117,19 +121,24 @@ const NotifyChannel = () => {
       config,
       enable,
     }).then(() => {
-      handleCancel();
-      handleGetNotifyChannels();
+      update({
+        paging: { ...paging, current: 1 },
+        visible: false,
+        activeData: {},
+      });
     });
   };
 
   const handleCancel = () => {
     update({
       activeData: {},
+      visible: false,
     });
-    setIsVisible(false);
   };
 
-  const handleTableChange = (pagination) => {};
+  const handleTableChange = (pagination: { current: number; pageSize: number }) => {
+    updater.paging(pagination);
+  };
 
   const fieldsList = [
     {
@@ -137,24 +146,23 @@ const NotifyChannel = () => {
       label: i18n.d('渠道名称'),
       required: true,
       itemProps: {
-        disabled: isEditing,
         maxLength: 50,
       },
     },
     {
       name: 'type',
       label: i18n.d('渠道类型'),
+      initialValue: channelType,
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
-            defaultValue={channelTypes?.[0]?.name}
             onSelect={(value: any) => {
               updater.channelType(value);
               form.setFieldsValue({ type: value });
             }}
           >
-            {map(channelTypes, ({ displayName, name }) => (
+            {map(channelTypeOptions, ({ displayName, name }) => (
               <Select.Option value={name} key={name}>
                 {displayName}
               </Select.Option>
@@ -167,16 +175,16 @@ const NotifyChannel = () => {
       name: 'channelProviderType',
       label: i18n.d('服务商'),
       required: true,
+      initialValue: channelProvider,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
-            defaultValue={channelTypes?.[0]?.providers?.[0]?.name}
             onSelect={(value: any) => {
               updater.channelProvider(value);
               form.setFieldsValue({ channelProviderType: value });
             }}
           >
-            {map(channelProviders, ({ displayName, name }) => (
+            {map(channelProviderOptions, ({ displayName, name }) => (
               <Select.Option value={name} key={name}>
                 {displayName}
               </Select.Option>
@@ -190,7 +198,6 @@ const NotifyChannel = () => {
       label: 'accessKeyId',
       required: true,
       itemProps: {
-        disabled: isEditing,
         maxLength: 50,
       },
     },
@@ -199,7 +206,6 @@ const NotifyChannel = () => {
       label: 'accessKeySecret',
       required: true,
       itemProps: {
-        disabled: isEditing,
         maxLength: 50,
       },
     },
@@ -249,9 +255,8 @@ const NotifyChannel = () => {
     },
     {
       title: i18n.t('default:create time'),
-      dataIndex: 'createdAt',
+      dataIndex: 'createAt',
       width: 176,
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),
@@ -274,13 +279,13 @@ const NotifyChannel = () => {
             </span>
             <Switch
               size="small"
-              defaultChecked={record.enable}
+              checked={record.enable}
               onChange={() => {
                 setNotifyChannelEnable({
                   id: record.id,
                   enable: !record.enable,
-                }).then(() => {
-                  handleGetNotifyChannels({ page: 1 });
+                }).finally(() => {
+                  updater.paging({ ...paging });
                 });
               }}
             />
@@ -296,7 +301,7 @@ const NotifyChannel = () => {
         <div
           className="notify-group-action hover-active"
           onClick={() => {
-            setIsVisible(true);
+            handleAdd();
           }}
         >
           <Button type="primary">{i18n.d('新建通知渠道')}</Button>
@@ -317,9 +322,9 @@ const NotifyChannel = () => {
       <Spin spinning={loading}>
         <Table
           rowKey="id"
-          dataSource={notifyChannels?.data}
+          dataSource={data?.data || []}
           columns={columns}
-          pagination={paging}
+          pagination={{ ...paging, total: data?.total ?? 0, showSizeChanger: true }}
           scroll={{ x: 800 }}
           onChange={handleTableChange}
         />

@@ -14,21 +14,20 @@
 import agent from 'agent';
 import { apiCreator } from 'core/service';
 
-interface IDomainRequest {
-  domain?: string;
-  clusterName?: string;
-  type?: string;
-  projectID?: string;
-  workspace?: string;
-}
-
 const apis = {
   getNotifyChannelTypes: {
     api: '/api/notify-channel/types',
   },
+  getNotifyChannels: {
+    api: '/api/notify-channels',
+  },
 };
 
 export const getNotifyChannelTypes = apiCreator<() => []>(apis.getNotifyChannelTypes);
+
+export const getNotifyChannels = apiCreator<(payload: { page: number; pageSize: number }) => any>(
+  apis.getNotifyChannels,
+);
 
 const getUrl = (scopeType?: COMMON_NOTIFY.ScopeType) =>
   scopeType === 'msp_env' ? '/api/msp/notify-groups' : '/api/notify-groups';
@@ -61,12 +60,12 @@ export const updateNotifyGroups = ({ id, ...rest }: COMMON_NOTIFY.ICreateNotifyG
 };
 
 // notify channels
-export const getNotifyChannels = (payload: { page: number; pageSize: number }) => {
-  return agent
-    .get('/api/notify-channels')
-    .query(payload)
-    .then((response: any) => response.body);
-};
+// export const getNotifyChannels = (payload: { page: number; pageSize: number }) => {
+//   return agent
+//     .get('/api/notify-channels')
+//     .query(payload)
+//     .then((response: any) => response.body);
+// };
 
 // export const getNotifyChannelTypes = () => {
 //   return agent.get('/api/notify-channel/types').then((response: any) => response.body);
@@ -74,7 +73,7 @@ export const getNotifyChannels = (payload: { page: number; pageSize: number }) =
 
 export const setNotifyChannelEnable = (payload: { id: string; enable: boolean }) => {
   return agent
-    .put('/api/notify-channel/enable')
+    .put('/api/notify-channel/enabled')
     .send(payload)
     .then((response: any) => response.body);
 };

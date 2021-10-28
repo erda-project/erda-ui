@@ -40,7 +40,6 @@ import { AddOne as IconAddOne } from '@icon-park/react';
 import { TriggerConditionSelect } from './trigger-condition-select';
 import { NotifyStrategySelect } from './notify-strategy-select';
 import './index.scss';
-import value from '*.json';
 
 const { confirm, warning } = Modal;
 const { Option } = Select;
