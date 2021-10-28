@@ -82,7 +82,7 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
       } = item;
 
       if (!hideWhenReadonly && !(itemProps?.type === 'hidden' && !showInfo)) {
-        let value = name === undefined && getComp ? getComp() : get(data, name || '');
+        let value = name === undefined && getComp ? getComp({ readOnly: true }) : get(data, name || '');
         if (type === 'radioGroup' && !isFunction(options)) {
           value = ((options as any[]).find((option) => option.value === value) || {}).name;
         }
