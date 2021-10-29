@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { convertNodeType, sortCategory } from 'common/components/tree/utils';
+import { convertNodeType, sortCategory } from 'app/common/components/tree-category/utils';
 import { createFlatStore } from 'core/cube';
 import { map } from 'lodash';
 import {
@@ -31,7 +31,7 @@ import {
   deleteTreeNodeNew,
   getAncestorsNew,
 } from '../services/file-tree';
-import { TreeNode } from 'common/components/tree/tree';
+import { TreeNode } from 'app/common/components/tree-category/tree';
 
 interface IState {
   curNodeDetail: TREE.NODE;

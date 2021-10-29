@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Filter, PureFilter } from 'common';
+import { Filter } from 'common';
 import { mount, shallow } from 'enzyme';
 import { Input } from 'antd';
 import * as utils from 'common/utils/query-string';
@@ -53,12 +53,12 @@ describe('filter', () => {
     expect(spy).toHaveBeenCalled();
     spy.mockReset();
   });
-  it('PureFilter should work well without connectUrlSearch', () => {
+  it('Filter.Pure should work well without connectUrlSearch', () => {
     jest.useFakeTimers();
     const query = { name: 'erda', title: 'erda-cloud' };
     const filterFn = jest.fn();
     const updateSearchFn = jest.fn();
-    const wrapper = mount(<PureFilter onFilter={filterFn} updateSearch={updateSearchFn} config={filterField} />);
+    const wrapper = mount(<Filter.Pure onFilter={filterFn} updateSearch={updateSearchFn} config={filterField} />);
     jest.advanceTimersByTime(2000);
     expect(filterFn).toHaveBeenLastCalledWith({ name: undefined, title: undefined });
     // wrapper

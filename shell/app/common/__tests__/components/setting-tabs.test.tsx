@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SettingsTabs } from 'common';
+import { SettingTabs } from 'common';
 import { mount } from 'enzyme';
 import * as utils from 'common/utils/query-string';
 import routeInfoStore from 'core/stores/route';
@@ -54,7 +54,7 @@ const routerData = {
   },
 };
 
-describe('SettingsTabs', () => {
+describe('SettingTabs', () => {
   beforeAll(() => {
     jest.mock('core/stores/route');
     routeInfoStore.useStore = (fn) => {
@@ -66,13 +66,13 @@ describe('SettingsTabs', () => {
   });
   it('render with tabGroup', () => {
     const spy = jest.spyOn(utils, 'updateSearch').mockImplementation();
-    const wrapper = mount(<SettingsTabs dataSource={dataSource1} className={'class-name'} />);
+    const wrapper = mount(<SettingTabs dataSource={dataSource1} className={'class-name'} />);
     expect(wrapper.find('li')).toHaveLength(dataSource1[0].tabGroup.length);
     wrapper.find('li').at(1).simulate('click');
     expect(spy).toHaveBeenCalled();
   });
   it('render without tabGroup', () => {
-    const wrapper = mount(<SettingsTabs dataSource={dataSource2} />);
+    const wrapper = mount(<SettingTabs dataSource={dataSource2} />);
     expect(wrapper.find('li')).toHaveLength(dataSource2.length);
   });
 });

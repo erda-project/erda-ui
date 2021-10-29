@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { useFilter, CustomFilter } from 'common';
+import { CustomFilter } from 'common';
+import { useFilter } from 'common/use-hooks';
 import { mount } from 'enzyme';
 import { DatePicker, Input, Select } from 'antd';
 import _ from 'lodash';

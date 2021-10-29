@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Input, message } from 'antd';
 import { map, merge, reduce, isString, get } from 'lodash';
-import { IF, BoardGrid, PureBoardGrid, TimeSelect } from 'common';
+import { IF, BoardGrid, TimeSelect } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';
 import { goTo, getTimeSpan } from 'common/utils';
@@ -243,7 +243,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
             />
           </When>
           <Otherwise>
-            <PureBoardGrid name={dashboardName} layout={curLayout} />
+            <BoardGrid.Pure name={dashboardName} layout={curLayout} />
           </Otherwise>
         </Choose>
       </div>

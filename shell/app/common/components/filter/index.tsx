@@ -24,7 +24,7 @@ enum FILTER_TIRGGER {
 }
 
 const noop = () => {};
-export interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
+interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
   config: FilterItemConfig[];
   filterTirgger?: FILTER_TIRGGER;
   connectUrlSearch?: boolean;
@@ -35,7 +35,7 @@ export interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
   onFilter?: (value: Obj, arg?: any) => void;
 }
 
-export const PureFilter = (props: IPureFilterProps) => {
+const PureFilter = (props: IPureFilterProps) => {
   const {
     filterTirgger = 'onChange',
     connectUrlSearch = false,
@@ -121,12 +121,15 @@ export const PureFilter = (props: IPureFilterProps) => {
   );
 };
 
-export interface IDiceFilterProps extends Omit<IPureFilterProps, 'query' | 'updateSearch'> {
+interface IDiceFilterProps extends Omit<IPureFilterProps, 'query' | 'updateSearch'> {
   updateSearch?: (arg: Obj) => void;
 }
-export const Filter = (props: IDiceFilterProps) => {
+const Filter = (props: IDiceFilterProps) => {
   const query = routeInfoStore.getState((s) => s.query);
   const updateSearch = React.useCallback((searchObj = {}) => _updateSearch(searchObj, { replace: true }), []);
 
   return <PureFilter query={query} updateSearch={updateSearch} {...props} />;
 };
+
+Filter.Pure = PureFilter;
+export default Filter;

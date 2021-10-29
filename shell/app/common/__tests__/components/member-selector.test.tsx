@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { MemberSelector, AddMemberSelector } from 'common';
+import { MemberSelector } from 'common';
 import { UserSelector, chosenItemConvert, getNotFoundContent } from 'common/components/member-selector';
 import { mount, shallow } from 'enzyme';
 import * as Services from 'common/services';
@@ -186,10 +186,10 @@ describe('member-selector', () => {
     expect(onChange).toHaveBeenCalledTimes(2);
     expect(onChange).toHaveBeenCalled();
   });
-  it('AddMemberSelector should work well', () => {
-    const orgWrapper = shallow(<AddMemberSelector scopeType={MemberScope.ORG} />);
+  it('MemberSelector.Add should work well', () => {
+    const orgWrapper = shallow(<MemberSelector.Add scopeType={MemberScope.ORG} />);
     expect(orgWrapper.find('UserSelector')).toExist();
-    const otherWrapper = shallow(<AddMemberSelector scopeType={MemberScope.PROJECT} />);
+    const otherWrapper = shallow(<MemberSelector.Add scopeType={MemberScope.PROJECT} />);
     expect(otherWrapper.find('UserSelector')).not.toExist();
   });
   it('UserSelector should work well', async () => {

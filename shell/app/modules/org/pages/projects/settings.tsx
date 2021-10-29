@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { MemberScope } from 'app/common/stores/member-scope';
-import { ConfigLayout, MembersTable, SettingsTabs } from 'common';
+import { ConfigLayout, MembersTable, SettingTabs } from 'common';
 import { pick } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
@@ -81,7 +81,7 @@ const Setting = () => {
     },
   ];
 
-  return <SettingsTabs dataSource={dataSource} />;
+  return <SettingTabs dataSource={dataSource} />;
 };
 
 export default Setting;

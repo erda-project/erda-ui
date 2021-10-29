@@ -19,7 +19,7 @@ describe('SimpleLog', () => {
   it('render without props', () => {
     const wrapper = shallow(<SimpleLog />);
     expect(wrapper.state()).toStrictEqual({ query: {} });
-    expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual({});
+    expect(wrapper.find('SimpleLog.Roller').prop('query')).toStrictEqual({});
     expect(wrapper.find('LogSearchForm').prop('formData')).toStrictEqual({});
   });
   it('render with props', () => {
@@ -32,11 +32,11 @@ describe('SimpleLog', () => {
     };
     const wrapper = shallow(<SimpleLog {...props} />);
     expect(wrapper.state()).toStrictEqual({ query: props });
-    expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual(props);
+    expect(wrapper.find('SimpleLog.Roller').prop('query')).toStrictEqual(props);
     expect(wrapper.find('LogSearchForm').prop('formData')).toStrictEqual(props);
     wrapper.find('LogSearchForm').prop('setSearch')(newSearch);
     expect(wrapper.state()).toStrictEqual({ query: newSearch });
-    expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual(newSearch);
+    expect(wrapper.find('SimpleLog.Roller').prop('query')).toStrictEqual(newSearch);
     expect(wrapper.find('LogSearchForm').prop('formData')).toStrictEqual(newSearch);
   });
 });

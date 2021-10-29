@@ -16,7 +16,7 @@ import { Button as NusiButton, Tooltip, Dropdown, Menu, Popconfirm } from 'antd'
 import { isEmpty, map, find } from 'lodash';
 import { useUnmount } from 'react-use';
 import { Icon as CustomIcon } from 'common';
-import { iconMap } from 'common/components/erda-icon/erda-icon';
+import { iconMap } from 'common/components/erda-icon';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const fakeClick = 'fake-click';

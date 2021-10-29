@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { PureBoardGrid, Holder } from 'common';
+import { BoardGrid, Holder } from 'common';
 
-const DashBoard = React.memo(PureBoardGrid);
+const DashBoard = React.memo(BoardGrid.Pure);
 
 const ChartDashboard = (props: CP_CHART_DASHBOARD.Props) => {
   const { props: configProps, state } = props;

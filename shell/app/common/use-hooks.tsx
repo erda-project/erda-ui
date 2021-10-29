@@ -12,11 +12,18 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useRef } from 'react';
-import { useMedia, useSize, useSetState, useUnmount } from 'react-use';
-import { getLS, setLS, notify } from 'common/utils';
-import { isFunction } from 'lodash';
+import { useMedia, useSize, useSetState, useUnmount, useDeepCompareEffect, useUpdateEffect } from 'react-use';
+import { notify } from 'common/utils';
 import { DropTargetMonitor, useDrag, useDrop, XYCoord, DragSourceMonitor } from 'react-dnd';
-import { FormModal } from './components/form-modal';
+import FormModal from './components/form-modal';
+import { Pagination } from 'antd';
+import { FilterBarHandle } from 'common/components/filter-group';
+import { setSearch } from './utils';
+import { forIn, set, get, every, omit, isEqual, isEmpty, isFunction, mapValues, some, debounce, sortBy } from 'lodash';
+import moment, { Moment } from 'moment';
+import routeInfoStore from 'core/stores/route';
+import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
+import { PAGINATION } from 'app/constants';
 
 export enum ScreenSize {
   xs = 768,
@@ -209,7 +216,7 @@ type UpdaterFn<T> = {
 // };
 
 type NullableValue<T> = {
-  [K in keyof  Required<T>]: T[K] extends null
+  [K in keyof Required<T>]: T[K] extends null
     ? null | Obj // 初始状态里对象值可能是null
     : T[K] extends never[]
     ? any[] // 初始值是空数组，则认为可放任意结构数组
@@ -391,3 +398,438 @@ export function useDiff(list: any[], name: string[]) {
     });
   }, [prevList, checkList, nameList]);
 }
+
+/**
+ * Filter功能的包装hook, 可以实现自动管理分页跳转、查询条件贮存url，当页面中仅有一个Filter时使用此hook
+ * @param getData 必传 用于取列表数据的effect
+ * @param fieldConvertor 选传 用于对特殊自定义类型的域的值进行转换
+ * @param pageSize 选传 不传默认为10
+ * @param extraQuery 选传 查询时需要加入但不存在Filter组件中的参数 注意!!! extraQuery不能直接依赖于路由参数本身,如果必须依赖那就建立一个本地state来替代。否则在前进后退中会额外触发路由变化引起崩溃。另外extraQuery不要和searchQuery混在一起，更新searchQuery用onSubmit, 更新extraQuery直接更新对象, extraQuery的优先级大于searchQuery
+ * @param excludeQuery 选传 在映射url时，将查询条件以外的query保留
+ * @param fullRange 选传 date类型是否无视时间（仅日期） 时间从前一天的0点到后一天的23:59:59
+ * @param dateFormat 选传 日期类型域的toString格式
+ * @param requiredKeys 选传 当requiredKeys中的任何参数为空时，终止search行为，当下一次参数有值了才查询。用于页面初始化时某key参数需要异步拿到，不能直接查询的场景
+ * @param loadMore 选传 当列表是使用loadMore组件加载时，不在url更新pageNo, LoadMore组件需要关闭initialLoad
+ * @param debounceGap 选传 当需要在输入时搜索，加入debounce的时间间隔，不传默认为0
+ * @param localMode 选传 为true时，与url切断联系，状态只保存在state中
+ * @param lazy 选传 为true时，首次query必须由onSubmit触发
+ * @param initQuery 选传 当初次加载页面时filter组件的默认值，如果url上的query不为空，则此值无效
+ * @return {queryCondition, onSubmit, onReset, onPageChange, pageNo, fetchDataWithQuery }
+ */
+export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
+  const {
+    getData,
+    excludeQuery = [],
+    fieldConvertor,
+    extraQuery = {},
+    fullRange,
+    dateFormat,
+    requiredKeys = [],
+    loadMore = false,
+    debounceGap = 0,
+    localMode = false,
+    lazy = false,
+    initQuery = {},
+  } = props;
+  const [query, currentRoute] = routeInfoStore.useStore((s) => [s.query, s.currentRoute]);
+  const { pageNo: pNo, ...restQuery } = query;
+
+  const [state, update, updater] = useUpdate({
+    searchQuery: localMode
+      ? {}
+      : isEmpty(restQuery)
+      ? initQuery
+      : !isEmpty(excludeQuery)
+      ? omit(restQuery, excludeQuery)
+      : { ...initQuery, ...restQuery },
+    pageNo: Number(localMode ? 1 : pNo || 1),
+    loaded: false,
+    pageSize: PAGINATION.pageSize,
+    currentPath: currentRoute.path,
+  });
+
+  const { searchQuery, pageNo, pageSize, loaded, currentPath } = state;
+
+  const fetchData = React.useCallback(
+    debounce((q: any) => {
+      const { [FilterBarHandle.filterDataKey]: _Q_, ...restQ } = q;
+      getData({ ...restQ });
+    }, debounceGap),
+    [getData],
+  );
+
+  const updateSearchQuery = React.useCallback(() => {
+    // 这里异步处理一把是为了不出现dva报错。dva移除后可以考虑放开
+    setTimeout(() => {
+      setSearch({ ...searchQuery, ...extraQuery, pageNo: loadMore ? undefined : pageNo }, excludeQuery, true);
+    });
+  }, [excludeQuery, extraQuery, loadMore, pageNo, searchQuery]);
+
+  useDeepCompareEffect(() => {
+    const payload = { pageSize, ...searchQuery, ...extraQuery, pageNo };
+    const unableToSearch = some(requiredKeys, (key) => payload[key] === '' || payload[key] === undefined);
+    if (unableToSearch || (lazy && !loaded)) {
+      return;
+    }
+    pageNo && fetchData(payload);
+    updateSearchQuery();
+  }, [pageNo, pageSize, searchQuery, extraQuery]);
+
+  // useUpdateEffect 是当mounted之后才会触发的effect
+  // 这里的目的是当用户点击当前页面的菜单路由时，url的query会被清空。此时需要reset整个filter
+  useUpdateEffect(() => {
+    // 当点击菜单时，href会把query覆盖，此时判断query是否为空并且路径没有改变的情况下重新初始化query
+    if (isEmpty(query) && currentPath === currentRoute.path) {
+      onReset();
+      updateSearchQuery();
+    }
+  }, [query, currentPath, currentRoute]);
+
+  const fetchDataWithQuery = (pageNum?: number) => {
+    if (pageNum && pageNum !== pageNo && !loadMore) {
+      update.pageNo(pageNum);
+    } else {
+      const { [FilterBarHandle.filterDataKey]: _Q_, ...restSearchQuery } = searchQuery;
+      return getData({
+        pageSize,
+        ...extraQuery,
+        ...restSearchQuery,
+        pageNo: pageNum || pageNo,
+      });
+    }
+  };
+
+  const onSubmit = (condition: { [prop: string]: any }) => {
+    const formatCondition = convertFilterParamsToUrlFormat(fullRange, dateFormat)(condition, fieldConvertor);
+    if (isEqual(formatCondition, searchQuery)) {
+      // 如果查询条件没有变化，重复点击查询，还是要强制刷新
+      fetchDataWithQuery(1);
+    } else {
+      update.searchQuery({ ...formatCondition, pageNo: 1 }); // 参数变化时始终重置pageNo
+      update.pageNo(1);
+    }
+    update.loaded(true);
+  };
+
+  const onReset = () => {
+    if (isEmpty(searchQuery)) {
+      fetchDataWithQuery(1);
+    } else {
+      // reset之后理论上值要变回最开始？
+      update.searchQuery(
+        localMode
+          ? {}
+          : isEmpty(restQuery)
+          ? initQuery
+          : !isEmpty(excludeQuery)
+          ? omit(restQuery, excludeQuery)
+          : restQuery,
+      );
+      update.pageNo(1);
+    }
+  };
+
+  const onPageChange = (currentPageNo: number, currentPageSize?: number) => {
+    updater({
+      pageNo: currentPageNo,
+      pageSize: currentPageSize,
+    });
+  };
+
+  const onTableChange = (pagination: PaginationConfig, _filters: any, sorter: SorterResult<any>) => {
+    if (!isEmpty(sorter)) {
+      const { field, order } = sorter;
+      if (order) {
+        update.searchQuery({ ...searchQuery, orderBy: field, asc: order === 'ascend' });
+      } else {
+        update.searchQuery({ ...searchQuery, orderBy: undefined, asc: undefined });
+      }
+    }
+    if (!isEmpty(pagination)) {
+      const { pageSize: pSize, current } = pagination;
+      update.searchQuery({ ...searchQuery, pageSize: pSize, pageNo: current });
+      update.pageNo(current || 1);
+    }
+  };
+
+  const sizeChangePagination = (paging: IPaging) => {
+    const { pageSize: pSize, total } = paging;
+    let sizeOptions = PAGINATION.pageSizeOptions;
+    if (!sizeOptions.includes(`${pageSize}`)) {
+      // 备选项中不存在默认的页数
+      sizeOptions.push(`${pageSize}`);
+    }
+    sizeOptions = sortBy(sizeOptions, (item) => +item);
+    return (
+      <div className="mt-4 flex items-center flex-wrap justify-end">
+        <Pagination
+          current={pageNo}
+          pageSize={+pSize}
+          total={total}
+          onChange={onPageChange}
+          showSizeChanger
+          pageSizeOptions={sizeOptions}
+        />
+      </div>
+    );
+  };
+  return {
+    queryCondition: searchQuery,
+    onSubmit, // 包装原始onSubmit, 当搜索时自动更新url
+    onReset, // 包装原始onReset, 当重置时自动更新url
+    onPageChange, // 当Table切换页码时记录PageNo并发起请求
+    pageNo, // 返回当前pageNo，与paging的PageNo理论上相同
+    fetchDataWithQuery, // 当页面表格发生操作（删除，启动，编辑）后，进行刷新页面，如不指定pageNum则使用当前页码
+    autoPagination: (paging: IPaging) => ({
+      total: paging.total,
+      current: paging.pageNo,
+      pageSize: paging.pageSize,
+      // hideOnSinglePage: true,
+      onChange: (n: number) => onPageChange(n),
+    }),
+    onTableChange, // Filter/Sort/Paging变化
+    sizeChangePagination,
+  };
+}
+
+interface IMultiModeProps extends IProps {
+  // 是否单页面有多个Filter，一般为Tab切换模式
+  multiGroupEnums: string[];
+  groupKey?: string;
+  getData: Array<(param?: any) => Promise<any>>;
+  shareQuery?: boolean;
+  activeKeyInParam?: boolean;
+  extraQueryFunc?: (activeGroup: string) => Obj;
+  checkParams?: string[];
+}
+
+const convertFilterParamsToUrlFormat =
+  (fullRange?: boolean, dateFormat?: string) =>
+  (
+    condition: { [prop: string]: any },
+    fieldConvertor?: {
+      [k: string]: (value: any, allQuery?: any) => string | string[] | undefined;
+    },
+  ) => {
+    const formatCondition = {};
+    forIn(condition, (v, k) => {
+      const fieldConvertFunc = get(fieldConvertor, k);
+      if (Array.isArray(v) && v.length === 2 && every(v, (item) => moment.isMoment(item))) {
+        // handle date range
+        const [start, end] = v as [Moment, Moment];
+        const format = dateFormat || 'YYYY-MM-DD HH:mm:ss';
+        let startName = `${k}From`;
+        let endName = `${k}To`;
+        const rangeNames = k.split(',');
+        if (rangeNames.length === 2) {
+          [startName, endName] = rangeNames;
+        }
+        const startMoment = fullRange ? start.startOf('day') : start;
+        const endMoment = fullRange ? end.endOf('day') : end;
+        set(formatCondition, startName, format === 'int' ? startMoment.valueOf() : startMoment.format(format));
+        set(formatCondition, endName, format === 'int' ? endMoment.valueOf() : endMoment.format(format));
+      } else if (fieldConvertFunc) {
+        // handle custom field
+        set(formatCondition, k, fieldConvertFunc(v, condition));
+      } else {
+        set(formatCondition, k, v);
+      }
+    });
+    return formatCondition;
+  };
+
+interface IProps {
+  fieldConvertor?: {
+    [k: string]: (value: any, allQuery?: any) => string | string[] | undefined;
+  };
+  excludeQuery?: string[];
+  pageSize?: number;
+  fullRange?: boolean;
+  dateFormat?: string;
+  requiredKeys?: string[];
+}
+
+interface ISingleFilterProps<T = any> extends IProps {
+  getData: (query: any) => Promise<T> | void;
+  extraQuery?: Obj;
+  loadMore?: boolean;
+  debounceGap?: number;
+  localMode?: boolean;
+  lazy?: boolean;
+  initQuery?: Obj;
+}
+
+/**
+ * Filter功能的包装hook, 可以实现自动管理分页跳转、查询条件贮存url，当页面中有多个Filter（不论是多个实例还是逻辑上的多个Filter）时使用此hook
+ * @param getData 必传 用于取列表数据的effect
+ * @param multiGroupEnums 必传 各个Filter的key
+ * @param groupKey 选传 用于在url标示Filter Key属性的key， 默认是type
+ * @param shareQuery 选传 多个Filter之间是否共享查询条件，默认是false
+ * @param activeKeyInParam 选传 groupKey属性时存在于query还是params， 默认是在query
+ * @param fieldConvertor 选传 用于对特殊自定义类型的域的值进行转换
+ * @param pageSize 选传 不传默认为10
+ * @param extraQueryFunc 选传 查询时需要加入但不存在Filter组件中的参数
+ * @param excludeQuery 选传 在映射url时，将查询条件以外的query保留
+ * @param fullRange 选传 date类型是否无视时间（仅日期） 时间从前一天的0点到后一天的23:59:59
+ * @param dateFormat 选传 日期类型域的toString格式
+ * @param requiredKeys 选传 当requiredKeys中的任何参数为空时，终止search行为，当下一次参数有值了才查询。用于页面初始化时某key参数需要异步拿到，不能直接查询的场景
+ * @return {queryCondition, onSubmit, onReset, onPageChange, pageNo, fetchDataWithQuery }
+ */
+export const useMultiFilter = (props: IMultiModeProps): IUseMultiFilterProps => {
+  const {
+    getData,
+    excludeQuery = [],
+    fieldConvertor,
+    pageSize = PAGINATION.pageSize,
+    multiGroupEnums,
+    groupKey = 'type',
+    extraQueryFunc = () => ({}),
+    fullRange,
+    dateFormat,
+    shareQuery = false,
+    activeKeyInParam = false,
+    requiredKeys = [],
+    checkParams = [],
+  } = props;
+  const wholeExcludeKeys = activeKeyInParam ? excludeQuery : excludeQuery.concat([groupKey]);
+  const [query, params, currentRoute] = routeInfoStore.useStore((s) => [s.query, s.params, s.currentRoute]);
+  const { pageNo: pNo, ...restQuery } = query;
+
+  const pickQueryValue = React.useCallback(() => {
+    return omit(restQuery, wholeExcludeKeys) || {};
+  }, [restQuery, wholeExcludeKeys]);
+
+  const activeType = (activeKeyInParam ? params[groupKey] : query[groupKey]) || multiGroupEnums[0];
+
+  const [state, update] = useUpdate({
+    groupSearchQuery: multiGroupEnums.reduce((acc, item) => {
+      acc[item] = item === activeType || shareQuery ? pickQueryValue() : {};
+      return acc;
+    }, {}),
+    groupPageNo: multiGroupEnums.reduce((acc, item) => {
+      acc[item] = item === activeType ? Number(pNo || 1) : 1;
+      return acc;
+    }, {}),
+    activeGroup: activeType,
+    currentPath: currentRoute.path,
+  });
+
+  const { groupSearchQuery, groupPageNo, activeGroup, currentPath } = state;
+  const extraQuery = extraQueryFunc(activeGroup);
+
+  const pageNo = React.useMemo(() => {
+    if (activeGroup) {
+      return groupPageNo[activeGroup];
+    }
+    return 1;
+  }, [activeGroup, groupPageNo]);
+
+  useDeepCompareEffect(() => {
+    // 因为multiGroupEnums随着渲染一直变化引用，所以使用useDeepCompareEffect
+    if (activeType !== activeGroup) {
+      update.activeGroup(activeType);
+    }
+  }, [multiGroupEnums, groupKey, activeKeyInParam, params, query, update]);
+  useUpdateEffect(() => {
+    // 当点击菜单时，href会把query覆盖，此时判断query是否为空并且路径没有改变的情况下重新初始化query
+    if (isEmpty(query) && currentPath === currentRoute.path) {
+      onReset();
+      updateSearchQuery();
+    }
+  }, [query, currentPath, currentRoute]);
+
+  const currentFetchEffect = getData.length === 1 ? getData[0] : getData[multiGroupEnums.indexOf(activeGroup)];
+
+  const searchQuery = React.useMemo(() => {
+    if (activeGroup) {
+      return groupSearchQuery[activeGroup];
+    }
+    return {};
+  }, [groupSearchQuery, activeGroup]);
+
+  const updateSearchQuery = React.useCallback(() => {
+    setTimeout(() => {
+      setSearch({ ...searchQuery, pageNo }, wholeExcludeKeys, true);
+    }, 0);
+  }, [searchQuery, pageNo, wholeExcludeKeys]);
+
+  const fetchData = (pageNum?: number) => {
+    if (checkParams.length) {
+      const checked = checkParams.every((key) => !isEmpty(extraQuery[key]));
+      if (!checked) {
+        return;
+      }
+    }
+    currentFetchEffect({
+      pageSize,
+      ...extraQuery,
+      ...searchQuery,
+      pageNo: pageNum || pageNo,
+    });
+  };
+
+  useDeepCompareEffect(() => {
+    const payload = { pageSize, ...extraQuery, ...searchQuery, pageNo };
+    const unableToSearch = some(requiredKeys, (key) => payload[key] === '' || payload[key] === undefined);
+    if (unableToSearch) {
+      return;
+    }
+    fetchData();
+    updateSearchQuery();
+  }, [pageNo, pageSize, searchQuery, extraQuery]);
+
+  const fetchDataWithQuery = (pageNum?: number) => {
+    if (pageNum && pageNum !== pageNo) {
+      onPageChange(pageNum);
+    } else {
+      fetchData(pageNum);
+    }
+  };
+
+  const onSubmit = (condition: { [prop: string]: any }) => {
+    const formatCondition = convertFilterParamsToUrlFormat(fullRange, dateFormat)(condition, fieldConvertor);
+    if (isEqual(formatCondition, searchQuery)) {
+      // 如果查询条件没有变化，重复点击查询，还是要强制刷新
+      fetchDataWithQuery(1);
+    } else if (shareQuery) {
+      update.groupSearchQuery(mapValues(groupSearchQuery, () => formatCondition));
+      update.groupPageNo(mapValues(groupPageNo, () => 1));
+    } else {
+      update.groupSearchQuery({
+        ...groupSearchQuery,
+        [activeGroup]: formatCondition,
+      });
+      update.groupPageNo({ ...groupPageNo, [activeGroup]: 1 });
+    }
+  };
+
+  const onReset = () => {
+    if (isEmpty(searchQuery)) {
+      fetchDataWithQuery(1);
+    } else {
+      update.groupSearchQuery({ ...groupSearchQuery, [activeGroup]: {} });
+      update.groupPageNo({ ...groupPageNo, [activeGroup]: 1 });
+    }
+  };
+
+  const onPageChange = (currentPageNo: number) => {
+    update.groupPageNo({ ...groupPageNo, [activeGroup]: currentPageNo });
+  };
+
+  return {
+    queryCondition: searchQuery,
+    onSubmit, // 包装原始onSubmit, 当搜索时自动更新url
+    onReset, // 包装原始onReset, 当重置时自动更新url
+    onPageChange, // 当Table切换页码时记录PageNo并发起请求
+    pageNo, // 返回当前pageNo，与paging的PageNo理论上相同
+    fetchDataWithQuery, // 当页面表格发生操作（删除，启动，编辑）后，进行刷新页面，如不指定pageNum则使用当前页码
+    activeType: activeGroup,
+    onChangeType: (t: string | number) => setSearch({ [groupKey || 'type']: t }, wholeExcludeKeys, true),
+    autoPagination: (paging: IPaging) => ({
+      total: paging.total,
+      current: paging.pageNo,
+      // hideOnSinglePage: true,
+      onChange: (n: number) => onPageChange(n),
+    }),
+  };
+};

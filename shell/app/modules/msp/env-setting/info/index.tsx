@@ -13,7 +13,7 @@
 
 import AddonSettings from 'common/components/addon-settings';
 import { useLoading } from 'core/stores/loading';
-import { Copy, SettingsTabs } from 'common';
+import { Copy, SettingTabs } from 'common';
 import { isZh } from 'i18n';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
@@ -43,7 +43,7 @@ const MSComponentInfo = () => {
   });
   return (
     <>
-      <SettingsTabs dataSource={dataSource} />
+      <SettingTabs dataSource={dataSource} />
       <Copy selector=".cursor-copy" />
     </>
   );

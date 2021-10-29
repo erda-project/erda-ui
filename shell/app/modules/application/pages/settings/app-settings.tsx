@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty, get } from 'lodash';
-import { SettingsTabs, ConfigLayout, MembersTable } from 'common';
+import { SettingTabs, ConfigLayout, MembersTable } from 'common';
 import { AppInfo } from './components/app-info';
 import { MergeDes } from './components/app-merge-description';
 import NotifyGroup from './components/app-notify/common-notify-group';
@@ -300,7 +300,7 @@ export const PureAppSettings = () => {
     dataSource = settingSource.filter((item) => showMap[mode].includes(item.groupKey));
   }
 
-  return <SettingsTabs className="app-settings-main" dataSource={dataSource} />;
+  return <SettingTabs className="app-settings-main" dataSource={dataSource} />;
 };
 
 export default PureAppSettings;

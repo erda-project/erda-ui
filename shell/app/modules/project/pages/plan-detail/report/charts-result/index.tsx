@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, get, keys } from 'lodash';
-import { PureBoardGrid } from 'common';
+import { BoardGrid } from 'common';
 import React from 'react';
 import { colorMap } from 'project/utils/test-case';
 import i18n from 'i18n';
@@ -96,7 +96,7 @@ const ChartsResult = () => {
   if (s === 0) {
     return null;
   }
-  return <PureBoardGrid layout={layout} />;
+  return <BoardGrid.Pure layout={layout} />;
 };
 
 export default ChartsResult;

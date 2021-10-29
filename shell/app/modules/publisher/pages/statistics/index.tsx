@@ -14,7 +14,7 @@
 import React from 'react';
 import { Row, Col, Radio, Input, Select } from 'antd';
 import { map, get, isEmpty } from 'lodash';
-import { Icon as CustomIcon, PureBoardGrid, TimeSelector } from 'common';
+import { Icon as CustomIcon, BoardGrid, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import moment from 'moment';
@@ -460,7 +460,7 @@ const Statistics = (props: IProps) => {
         </div>
       </div>
       <div className="artifacts-statistics-chart">
-        <PureBoardGrid layout={lineChart} />
+        <BoardGrid.Pure layout={lineChart} />
       </div>
     </>
   );

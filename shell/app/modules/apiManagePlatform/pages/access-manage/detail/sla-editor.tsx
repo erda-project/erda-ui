@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { MutableRefObject } from 'react';
-import { FormModal } from 'common';
-import { IFormItem } from 'common/components/render-formItem';
+import { FormModal, IFormItem } from 'common';
 import i18n from 'i18n';
 import { slaAuthorizationMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import Limit from 'apiManagePlatform/pages/access-manage/detail/limit';
