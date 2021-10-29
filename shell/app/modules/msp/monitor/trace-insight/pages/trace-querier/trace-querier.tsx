@@ -97,7 +97,7 @@ const TraceInsightQuerier = () => {
 
   const [activeTab, setActiveTab] = React.useState('1');
   const [traceRecords, setTraceRecords] = React.useState({});
-
+  const [inputUrl, setInputUrl] = React.useState('');
   let paramsEditor: any;
   let headersEditor: any;
 
@@ -169,7 +169,7 @@ const TraceInsightQuerier = () => {
     );
   };
 
-  const renderUrlEditor = () => {
+  const renderUrlEditor = React.useCallback(() => {
     const selectBefore = (
       <FormItem
         className="mb-0 -mt-0.5 h-7"
@@ -209,6 +209,7 @@ const TraceInsightQuerier = () => {
                   MAX_URL_LENGTH.toString()
                 }
                 maxLength={MAX_URL_LENGTH}
+                onChange={(e) => setInputUrl(e.target.value)}
                 onBlur={(e) => {
                   handleSetRequestTraceParams({ url: e.target.value });
                 }}
@@ -216,7 +217,12 @@ const TraceInsightQuerier = () => {
             </FormItem>
           </Col>
           <Col span={6}>
-            <Button type="primary" loading={isRequestTraceFetching} onClick={handleRequestTrace}>
+            <Button
+              type="primary"
+              disabled={!inputUrl || !urlRule.pattern.test(inputUrl)}
+              loading={!!url && isRequestTraceFetching}
+              onClick={handleRequestTrace}
+            >
               {i18n.t('msp:request')}
             </Button>
             <Popconfirm
@@ -232,7 +238,7 @@ const TraceInsightQuerier = () => {
         </Row>
       </div>
     );
-  };
+  }, [inputUrl, url]);
 
   const renderRequestEditor = () => {
     return (
@@ -340,6 +346,7 @@ const TraceInsightQuerier = () => {
               dataSource={traceHistoryList}
               isFetching={isTraceHistoryFetching}
               currentTraceRequestId={currentTraceRequestId}
+              setInputUrl={setInputUrl}
               getTraceHistoryList={getTraceHistoryList}
               getTraceDetail={getTraceDetail}
               getTraceStatusDetail={getTraceStatusDetail}
