@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { first, isEqual, last } from 'lodash';
-import { LogRoller as PureLogRoller } from '../components/log/log-roller';
-import { DownloadLogModal } from '../components/log/download-log-modal';
-import commonStore from '../stores/common';
+import PureLogRoller from '../pure-log-roller';
+import { DownloadLogModal } from '../pure-log-roller/download-log-modal';
+import commonStore from '../../stores/common';
 
 const getCurTimeNs = () => new Date().getTime() * 1000000;
 
@@ -54,7 +54,7 @@ interface IRequery {
   count?: number;
 }
 
-export class LogRoller extends React.Component<IProps, IState> {
+class LogRoller extends React.Component<IProps, IState> {
   private logRoller: PureLogRoller | null;
   private searchCount: number;
 

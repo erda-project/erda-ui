@@ -24,6 +24,10 @@ import CompA from 'common/components/compA';
 import CompB from 'common/components/compB';
 ```
 
+### 命名规范
+
+统一使用连字符形式，例如：`empty-holder`，避免使用多个大写字符，比如 `CRUDTable`，这样对应的目录名称就是 `c-r-u-d-table`，会很丑。
+
 ### 样式规范
 
 因为只给 erda-ui 使用，样式文件直接在组件中导入。
@@ -34,6 +38,10 @@ import CompB from 'common/components/compB';
 并且这些地方不要使用 tailwind，因为目前原子类都是 !important 的。
 
 样式类前缀统一为 `ec`，即 erda-component 的简写。
+
+### 引用规范
+
+引入其他 common 组件时，使用相对路径引入
 
 ### 测试规范
 

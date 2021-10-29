@@ -17,7 +17,7 @@ import routeInfoStore from 'core/stores/route';
 import { debounce, isEmpty, isEqual, map } from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import BaseFilter, { FilterItemConfig } from './base-filter';
+import BaseFilter, { FilterItemConfig } from '../filter/base-filter';
 
 interface IFilterProps {
   prefixCls?: string;

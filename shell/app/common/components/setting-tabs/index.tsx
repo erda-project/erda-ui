@@ -35,7 +35,7 @@ interface ITabItemGroup {
   groupKey?: string;
 }
 
-const SettingsTabs = ({ dataSource, className = '' }: IProps) => {
+const SettingTabs = ({ dataSource, className = '' }: IProps) => {
   const query = routeInfoStore.useStore((s) => s.query);
   const [activeKey, updateActive] = React.useState('');
   const [content, updateContent] = React.useState(null);
@@ -101,4 +101,4 @@ const SettingsTabs = ({ dataSource, className = '' }: IProps) => {
   );
 };
 
-export default SettingsTabs;
+export default SettingTabs;

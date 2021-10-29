@@ -14,7 +14,7 @@
 import React from 'react';
 import { Form, Row, Col } from 'antd';
 import classNames from 'classnames';
-import RenderFormItem from '../render-formItem';
+import RenderFormItem from '../render-form-item';
 import { FormInstance } from 'core/common/interface';
 import './index.scss';
 

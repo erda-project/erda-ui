@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { EditCategory } from 'common/components/tree/edit-category';
+import { EditCategory } from 'app/common/components/tree-category/edit-category';
 import { message } from 'antd';
 import { mount, shallow, ReactWrapper } from 'enzyme';
 import { act } from 'react-dom/test-utils';

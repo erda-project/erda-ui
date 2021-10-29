@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { KeyValueTextArea, KeyValueTable } from 'common';
+import KeyValueTextArea from '../key-value-textarea';
+import KeyValueTable from '../key-value-table';
 import { Radio } from 'antd';
 import { isEqual } from 'lodash';
 import { FormInstance } from 'core/common/interface';

@@ -13,7 +13,10 @@
 
 import React from 'react';
 import { Button, Table, Spin } from 'antd';
-import { FormModal, CustomFilter, IF, IFormItem } from 'common';
+import FormModal from '../form-modal';
+import CustomFilter from '../custom-filter';
+import IF from '../if';
+import { IFormItem } from 'common';
 import { useUpdate, useFilter } from 'common/use-hooks';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';

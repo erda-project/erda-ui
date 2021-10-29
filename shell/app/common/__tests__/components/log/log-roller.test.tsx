@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LogRoller } from 'common/components/log/log-roller';
+import { LogRoller } from 'app/common/components/pure-log-roller/log-roller';
 import { mount } from 'enzyme';
 import { sleep } from '../../../../../test/utils';
 

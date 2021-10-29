@@ -20,7 +20,7 @@ import {
   walkTree,
   convertNodeType,
   sortCategory,
-} from 'common/components/tree/utils';
+} from 'app/common/components/tree-category/utils';
 
 describe('TreeUtils', () => {
   const treeNode = [
