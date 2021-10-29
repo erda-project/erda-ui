@@ -75,13 +75,7 @@ export { default as FileSelect } from './components/file-select';
 export { default as EditField } from './components/edit-field';
 export { default as MarkdownEditor } from './components/markdown-editor';
 export { default as DropdownSelect } from './components/dropdown-select';
-export {
-  FilterGroup,
-  FilterGroupDrawer,
-  FilterGroupV,
-  ToolBarWithFilter,
-  FilterBarHandle,
-} from './components/filter-group';
+export { default as FilterGroup } from './components/filter-group';
 export { default as TimeSelector } from './components/monitor';
 export { default as TimeSelect } from './components/time-select';
 export { default as SimpleLog } from './components/runtime';

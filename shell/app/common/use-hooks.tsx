@@ -17,7 +17,7 @@ import { notify } from 'common/utils';
 import { DropTargetMonitor, useDrag, useDrop, XYCoord, DragSourceMonitor } from 'react-dnd';
 import FormModal from './components/form-modal';
 import { Pagination } from 'antd';
-import { FilterBarHandle } from 'common';
+import { FilterBarHandle } from 'common/components/filter-group';
 import { setSearch } from './utils';
 import { forIn, set, get, every, omit, isEqual, isEmpty, isFunction, mapValues, some, debounce, sortBy } from 'lodash';
 import moment, { Moment } from 'moment';

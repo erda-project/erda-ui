@@ -527,43 +527,6 @@ export const FilterGroupDrawer = ({
   );
 };
 
-/**
- * 过滤项配置，左侧占满剩余空间
- * @param list 过滤项配置列表
- * @param onChange 内容变动时触发
- * @param onSearch 传入时会显示查询按钮，并在点击时触发
- * @param onReset 传入时会显示重置按钮，并在点击时触发
- */
-export const FilterGroupV = ({ list, onSearch, onChange, onReset, syncUrlOnSearch }: IFilterGroupProps) => {
-  return (
-    <FilterCore list={list} onSearch={onSearch} onChange={onChange} onReset={onReset} syncUrlOnSearch={syncUrlOnSearch}>
-      {({ CompList, resetButton, searchButton }: IFilterReturnProps) => {
-        return (
-          <div className="filter-group-bar multi-line">
-            <Row type="flex" gutter={20}>
-              {CompList.map((item, i: number) => {
-                const data = list[i];
-                return (
-                  <Col
-                    key={data.name}
-                    span={data.percent || 6}
-                    className="filter-item flex justify-between items-center"
-                  >
-                    <div className="filter-item-label">{data.label}</div>
-                    <div className="filter-item-content">{item}</div>
-                    {i === list.length - 1 && (
-                      <div className="ml-4 ml-3-group">
-                        {resetButton}
-                        {searchButton}
-                      </div>
-                    )}
-                  </Col>
-                );
-              })}
-            </Row>
-          </div>
-        );
-      }}
-    </FilterCore>
-  );
-};
+FilterGroup.Drawer = FilterGroupDrawer;
+FilterGroup.FilterBarHandle = FilterBarHandle;
+export default FilterGroup;
