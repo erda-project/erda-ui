@@ -13,12 +13,48 @@
 
 import i18n from 'i18n';
 
+const hostTerminal: RouteConfigItem = {
+  path: 'terminal/:host',
+  breadcrumbName: i18n.t('cmp:console'),
+  getComp: (cb) => cb(import('dcos/common/containers/terminal')),
+};
+
 function getDcosRouter(): RouteConfigItem[] {
   return [
     {
       path: 'overview',
       breadcrumbName: i18n.t('cmp:org overview'),
       routes: [
+        {
+          path: ':clusterName',
+          mark: 'cluster',
+          routes: [
+            {
+              path: 'overview',
+              breadcrumbName: i18n.t('cmp:cluster overview'),
+              routes: [
+                {
+                  path: 'purchase-list',
+                  breadcrumbName: i18n.t('cmp:add cloud resources'),
+                  routes: [
+                    {
+                      path: 'add',
+                      breadcrumbName: i18n.t('cmp:select machine'),
+                      getComp: (cb) => cb(import('dcos/pages/purchase-resource')),
+                    },
+                    {
+                      getComp: (cb) => cb(import('dcos/pages/purchase-list')),
+                    },
+                  ],
+                },
+                hostTerminal,
+                {
+                  // getComp: cb => cb(import('dcos/pages/machine-dashboard')),
+                },
+              ],
+            },
+          ],
+        },
         {
           getComp: (cb) => cb(import('dcos/pages/cluster-dashboard')),
           layout: {
