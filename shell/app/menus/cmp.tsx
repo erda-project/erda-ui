@@ -45,7 +45,7 @@ export const getCmpMenu = () => {
           {
             key: 'cmpCluster',
             href: goTo.resolve.cmpClusters(), // '/cmp/clusters',
-            text: i18n.t('clusters'),
+            text: i18n.t('cmp:cluster management'),
           },
           {
             key: 'cmpCloudSource',
