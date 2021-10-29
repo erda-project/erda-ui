@@ -79,6 +79,7 @@ export { default as TimeSelector } from './components/monitor';
 export { default as TimeSelect } from './components/time-select';
 export { default as SimpleLog } from './components/simple-log';
 export { default as ProtocolInput } from './components/protocol-input';
+export { default as ProtocolSelector } from './components/protocol-selector';
 export { default as KVPair } from './components/k-v-pair';
 export { default as CompactSelect } from './components/compact-select';
 export { default as Filter } from './components/filter';
@@ -98,8 +99,6 @@ export { default as TreeCategory } from './components/tree-category';
 export { default as EditList } from './components/edit-list';
 export { default as InputSelect } from './components/input-select';
 export { default as SortDragGroupList } from './components/sort-drag-group-list';
-
-// TODO: move to components folder and remove container
 export { default as LogRoller } from './components/log-roller';
 export { default as MetricsMonitor } from './components/metrics-monitor';
 export { default as MonitorChart } from './components/monitor-chart';
