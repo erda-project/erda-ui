@@ -49,8 +49,8 @@ const getOption = (chartType: string, option: Obj, yAxisLabelLen: number) => {
     },
   };
   let reOption = { ...option };
-
-  switch (chartType) {
+  const _chartType = chartType || reOption.series?.[0]?.type;
+  switch (_chartType) {
     case 'line':
       commonOp = {
         ...commonOp,
@@ -149,6 +149,16 @@ const getOption = (chartType: string, option: Obj, yAxisLabelLen: number) => {
               }
             : {}),
         })),
+      };
+      break;
+    case 'radar':
+      reOption = {
+        ...reOption,
+        radar: {
+          radius: '60%',
+          nameGap: 5,
+          ...reOption.radar,
+        },
       };
       break;
     default:
