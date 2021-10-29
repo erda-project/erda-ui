@@ -26,6 +26,7 @@ declare namespace CP_CHART {
     pureChart?: boolean;
     visible?: boolean;
     title: string;
+    tip?: string | string[];
     isLoadMore?: boolean;
   }
 

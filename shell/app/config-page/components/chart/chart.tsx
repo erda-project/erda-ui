@@ -38,7 +38,7 @@ const handleAxisValueLength = (opt: Obj, yAxisLabelLen = 10) => {
   return reOpt;
 };
 
-const getOption = (chartType: string, option: Obj, yAxisLabelLen: number) => {
+const getOption = (chartType: string, option: Obj, yAxisLabelLen?: number) => {
   let commonOp: Obj = {
     grid: {
       bottom: 10,
@@ -174,7 +174,17 @@ const getOption = (chartType: string, option: Obj, yAxisLabelLen: number) => {
 
 const Chart = (props: CP_CHART.Props) => {
   const { cId, props: configProps, extraContent, operations, execOperation } = props;
-  const { style = {}, yAxisLabelLen, pureChart, title, option, chartType, visible = true, ...rest } = configProps || {};
+  const {
+    style = {},
+    yAxisLabelLen,
+    pureChart,
+    title,
+    tip,
+    option,
+    chartType,
+    visible = true,
+    ...rest
+  } = configProps || {};
   const { color, ...optionRest } = option || {};
   const presetColor = map(colorMap);
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
@@ -199,7 +209,7 @@ const Chart = (props: CP_CHART.Props) => {
   return pureChart ? (
     ChartComp
   ) : (
-    <CardContainer.ChartContainer title={title} operation={extraContent} style={style} holderWhen={isEmpty}>
+    <CardContainer.ChartContainer tip={tip} title={title} operation={extraContent} style={style} holderWhen={isEmpty}>
       {ChartComp}
     </CardContainer.ChartContainer>
   );
