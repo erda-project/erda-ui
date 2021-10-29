@@ -47,6 +47,13 @@ const menuFilterMap = {
       return !publisherId ? null : item;
     },
   },
+  cmp: {
+    // 云管平台
+    cmpOverview: (item: IMenuItem) => {
+      const text = i18n.t('cluster overview');
+      return { ...item, text };
+    },
+  },
   dop: {
     dopPublisher: (item: IMenuItem) => {
       const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
