@@ -187,7 +187,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     triggerConditionValueOptions: [],
     triggerCondition: [],
     notifies: [],
-    groupTypeOptions: [],
+    // groupTypeOptions: [],
     notifyLevel: null,
     notifyMethod: null,
   });
@@ -572,7 +572,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
               current={state.notifies?.find((x) => x.id === item.id)}
               handleEditNotifyStrategy={handleEditNotifyStrategy}
               handleRemoveNotifyStrategy={handleRemoveNotifyStrategy}
-              valueOptions={state.groupTypeOptions}
+              valueOptions={item.groupTypeOptions}
             />
           ))}
         </>
@@ -685,6 +685,11 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
           groupId: x.groupId,
           level: x.level?.split(','),
           groupType: x.groupType?.split(','),
+          groupTypeOptions:
+            (notifyChannelMap[x.notifyGroup.targets[0].type] || []).map((y) => ({
+              key: y.value,
+              display: y.name,
+            })) || [],
         })),
       );
       openModal();
@@ -736,7 +741,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       {
         id: uniqueId(),
         condition: alertTriggerConditions[0]?.key,
-        // operator: alertTypes.operators?.[0]?.key,
         operator: conditionOperatorOptions?.[0].key,
         values: currentTriggerValues[0]?.key,
       },
@@ -752,13 +756,14 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         key: x.value,
         display: x.name,
       })) || [];
-    updater.groupTypeOptions(groupTypeOptions);
+    // updater.groupTypeOptions(groupTypeOptions);
     updater.notifies([
       {
         id: uniqueId(),
         groupId: notifyGroups[0]?.id,
         level: [alertLevelOptions?.[0]?.key],
         groupType: [groupTypeOptions[0]?.key],
+        groupTypeOptions,
       },
       ...(state.notifies || []),
     ]);
@@ -835,7 +840,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       triggerConditionValueOptions: [],
       triggerCondition: [],
       notifies: [],
-      groupTypeOptions: [],
+      // groupTypeOptions: [],
       notifyLevel: null,
       notifyMethod: null,
     });

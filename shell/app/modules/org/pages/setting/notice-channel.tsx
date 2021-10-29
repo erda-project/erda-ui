@@ -24,19 +24,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import moment from 'moment';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, Switch } from 'antd';
-import { FormModal } from 'common';
+import { Button, Modal, Select, Spin, Table, Tooltip, Switch, Input } from 'antd';
+import { FormModal, Copy } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { useUserMap } from 'core/stores/userMap';
 import { ColumnProps, FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
-import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
-import { PAGINATION } from 'app/constants';
 import { getNotifyChannelTypes, getNotifyChannels } from 'application/services/notify-group';
+import { config } from 'process';
 
 const { confirm } = Modal;
 
@@ -44,12 +41,12 @@ const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
   const { setNotifyChannelEnable, deleteNotifyChannel, addNotifyChannel, editNotifyChannel } = notifyGroupStore.effects;
   const [data, loading] = getNotifyChannels.useState();
-  const [{ activeData, channelType, channelProvider, visible, paging }, updater, update] = useUpdate({
+  const [{ activeData, channelType, channelProvider, visible, paging, templateCode }, updater, update] = useUpdate({
     activeData: {},
     channelType: '',
     channelProvider: '',
     visible: false,
-
+    templateCode: '',
     paging: { pageSize: 15, current: 1 },
   });
   const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
@@ -73,6 +70,7 @@ const NotifyChannel = () => {
         name,
       },
       visible: true,
+      templateCode: config.templateCode,
     });
   };
 
@@ -147,6 +145,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
+        placeholder: i18n.d('请单行输入渠道名称'),
       },
     },
     {
@@ -199,6 +198,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
+        placeholder: `${i18n.d('请单行输入')}accessKeyId`,
       },
     },
     {
@@ -207,6 +207,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
+        placeholder: `${i18n.d('请单行输入')}accessKeySecret`,
       },
     },
     {
@@ -215,12 +216,32 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 500,
+        placeholder: `${i18n.d('请单行输入')}${i18n.d('短信签名')}`,
       },
     },
     {
       name: 'config.templateCode',
       label: i18n.d('短信模板'),
       required: true,
+      getComp: ({ form }: { form: FormInstance }) => {
+        return (
+          <>
+            <Input
+              defaultValue={isEditing ? templateCode : ''}
+              onChange={(e: any) => {
+                form.setFieldsValue({ config: { ...config, templateCode: e.target.value } });
+              }}
+              placeholder={`${i18n.d('请单行输入')}${i18n.d('短信模板')}`}
+            />
+            <div className="text-desc mt-4">{i18n.d('请按如下内容提交到服务商申请短信模板: ')}</div>
+            <div className="text-desc mt-2">
+              <Copy copyText={`${i18n.d('您有一条来自 Erda 平台的通知消息: ')}$\{content}`}>
+                {`${i18n.d('您有一条来自 Erda 平台的通知消息: ')}$\{content}`}
+              </Copy>
+            </div>
+          </>
+        );
+      },
       itemProps: {
         maxLength: 500,
       },
@@ -251,7 +272,6 @@ const NotifyChannel = () => {
       title: i18n.t('default:creator'),
       dataIndex: 'creatorName',
       width: 160,
-      // render: (text) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
@@ -267,7 +287,7 @@ const NotifyChannel = () => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('application:edit')}
+              {i18n.t('edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -275,20 +295,22 @@ const NotifyChannel = () => {
                 handleDelete(id);
               }}
             >
-              {i18n.t('application:delete')}
+              {i18n.t('delete')}
             </span>
-            <Switch
-              size="small"
-              checked={record.enable}
-              onChange={() => {
-                setNotifyChannelEnable({
-                  id: record.id,
-                  enable: !record.enable,
-                }).finally(() => {
-                  updater.paging({ ...paging });
-                });
-              }}
-            />
+            <Tooltip title={record.enable ? i18n.d('关闭通知渠道') : i18n.d('启用通知渠道')}>
+              <Switch
+                size="small"
+                checked={record.enable}
+                onChange={() => {
+                  setNotifyChannelEnable({
+                    id: record.id,
+                    enable: !record.enable,
+                  }).finally(() => {
+                    updater.paging({ ...paging });
+                  });
+                }}
+              />
+            </Tooltip>
           </div>
         );
       },
