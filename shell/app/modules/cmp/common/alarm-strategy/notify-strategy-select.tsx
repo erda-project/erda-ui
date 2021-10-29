@@ -63,8 +63,12 @@ export const NotifyStrategySelect = ({
               display: x.name,
             })) || [];
 
-          updater.groupTypeOptions(groupTypeOptions);
-          handleEditNotifyStrategy(id, { key: 'groupType', value: groupTypeOptions?.[0]?.key });
+          handleEditNotifyStrategy(id, {
+            key: 'groupTypeOptions',
+            value: groupTypeOptions,
+          });
+
+          handleEditNotifyStrategy(id, { key: 'groupType', value: [groupTypeOptions?.[0]?.key] });
         }}
         dropdownRender={(menu) => (
           <div>

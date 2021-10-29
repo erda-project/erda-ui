@@ -170,13 +170,13 @@ export const OrgSetting = () => {
           ),
         },
         {
-          tabTitle: i18n.d('通知渠道'),
+          tabTitle: i18n.t('notification channel'),
           tabKey: 'notifyChannel',
           content: (
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.d('建立通知渠道设置通知方式'),
+                  title: i18n.t('Set up a notification channel to set a notification mode'),
                   children: <NotifyChannel />,
                 },
               ]}

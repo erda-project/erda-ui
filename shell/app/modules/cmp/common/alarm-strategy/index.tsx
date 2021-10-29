@@ -78,36 +78,36 @@ const notifyGroupPage = {
 const alertLevelOptions = [
   {
     key: 'Panic',
-    display: i18n.d('故障'),
+    display: i18n.t('msp:breakdown'),
   },
   {
     key: 'Emergency',
-    display: i18n.d('紧急'),
+    display: i18n.t('msp:emergency'),
   },
   {
     key: 'Alert',
-    display: i18n.d('警告'),
+    display: i18n.t('msp:alert'),
   },
   {
     key: 'Light',
-    display: i18n.d('轻微'),
+    display: i18n.t('msp:light'),
   },
 ];
 
 const conditionOperatorOptions = [
   {
     key: 'like',
-    display: i18n.d('匹配'),
+    display: i18n.t('msp:match'),
     type: 'input',
   },
   {
     key: 'not like',
-    display: i18n.d('不匹配'),
+    display: i18n.t('msp:not match'),
     type: 'input',
   },
   {
     key: 'all',
-    display: i18n.d('全部'),
+    display: i18n.t('msp:all'),
     type: 'none',
   },
   {
@@ -117,12 +117,12 @@ const conditionOperatorOptions = [
   },
   {
     key: 'eq',
-    display: i18n.d('等于'),
+    display: i18n.t('msp:equal'),
     type: 'single',
   },
   {
     key: 'neq',
-    display: i18n.d('不等于'),
+    display: i18n.t('msp:not equal'),
     type: 'single',
   },
 ];
@@ -177,7 +177,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const { getSMSNotifyConfig } = clusterStore.effects;
   const enableMS = clusterStore.useStore((s) => s.enableMS);
   const notifyChannelMap = enableMS ? smsNotifyChannelOptionsMap : notifyChannelOptionsMap;
-
   const addNotificationGroupAuth = scopeType === ScopeType.ORG ? orgAddNotificationGroupAuth : true; // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const [state, updater, update] = useUpdate({
@@ -252,7 +251,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       _allRules = _allRules.concat(
         map(rules, ({ alertIndex, functions, ...rest }) => ({
-          level: alertLevelOptions?.[0]?.key, // TODO:可能需要从接口获取
+          level: alertLevelOptions?.[0]?.key,
           alertIndex: alertIndex.key,
           functions: map(functions, ({ field, ...subRest }) => ({ field: field.key, ...subRest })),
           ...rest,
@@ -386,7 +385,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: i18n.d('告警级别'),
+      title: i18n.t('cmp:alarm level'),
       dataIndex: 'level',
       width: 105,
       render: (value: string, { key }) => (
@@ -406,7 +405,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      title: i18n.d('触发恢复'),
+      title: i18n.t('cmp:trigger recover'),
       dataIndex: 'isRecover',
       width: 105,
       render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
@@ -495,7 +494,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       label: (
         <div>
-          <span>{i18n.d('触发条件')}</span>
+          <span>{i18n.t('cmp:trigger conditions')}</span>
           <IconAddOne
             className="cursor-pointer align-text-bottom ml-2"
             size="24"
@@ -525,7 +524,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
-      label: i18n.t('org:silence period'),
+      label: i18n.t('cmp:silence period'),
       name: 'silence',
       initialValue: state.editingFormRule.notifies
         ? `${state.editingFormRule.notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
@@ -545,7 +544,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       label: (
         <div>
-          <span>{i18n.d('通知策略')}</span>
+          <span>{i18n.t('cmp:notify strategy')}</span>
           <IconAddOne
             className="cursor-pointer align-text-bottom ml-2"
             size="24"
@@ -607,7 +606,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
           ...rest,
         })),
         isRecover: rule.isRecover,
-        level: alertLevelOptions?.[0]?.key, // TODO:可能需要从接口获取
+        level: alertLevelOptions?.[0]?.key,
       }),
     );
     updater.editingRules([...formRules, ...state.editingRules]);
@@ -794,13 +793,20 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     const rules = cloneDeep(state.triggerCondition);
     const rule = find(rules, { id });
     const index = findIndex(rules, { id });
+    const operatorIsAll = item.key === 'operator' && item.value === 'all';
     if (item.key === 'operator' && item.value === 'all') {
-      fill(rules, { id, ...rule, values: undefined }, index, index + 1);
+      fill(
+        rules,
+        { id, ...rule, values: state.triggerConditionValueOptions?.map((x) => x?.key)?.join(',') },
+        index,
+        index + 1,
+      );
     }
+    console.log(1111, { rules });
     fill(rules, { id, ...rule, [item.key]: item.value }, index, index + 1);
+    console.log(2222, { rules });
     updater.triggerCondition(rules);
   };
-
   const beforeSubmit = async (param: any) => {
     if (isEmpty(state.editingRules)) {
       warning({
@@ -810,15 +816,48 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     }
     if (isEmpty(state.notifies)) {
       warning({
-        title: i18n.d('至少创建一条通知策略'),
+        title: i18n.t('cmp:create at least one notify strategy'),
       });
       return null;
+    } else {
+      let isIncomplete = false;
+      state.notifies.some((item) => {
+        for (const key in item) {
+          if (!item[key]) {
+            isIncomplete = true;
+          }
+        }
+      });
+      if (isIncomplete) {
+        warning({
+          title: i18n.t('notify strategy information is missing, please complete!'),
+        });
+        return null;
+      }
+    }
+
+    if (state.triggerCondition?.length > 0) {
+      let isIncomplete = false;
+      state.triggerCondition.some((item) => {
+        for (const key in item) {
+          if (!item[key] && item.operator !== 'all') {
+            isIncomplete = true;
+          }
+        }
+      });
+      if (isIncomplete) {
+        warning({
+          title: i18n.t('cmp:Trigger condition information is missing, please complete!'),
+        });
+        return null;
+      }
     }
     const isLegalFunctions = every(state.editingRules, ({ functions }) => {
       return every(functions, ({ value }) => {
         return !(isNull(value) || value === '');
       });
     });
+
     if (!isLegalFunctions) {
       warning({
         title: i18n.t('cmp:rule value cannot be empty'),
@@ -853,22 +892,22 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       dataIndex: 'name',
       width: 150,
     },
-    ...insertWhen(scopeType === ScopeType.ORG, [
-      {
-        title: i18n.t('cluster'),
-        dataIndex: 'clusterNames',
-        width: 200,
-        render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
-      },
-    ]),
-    ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
-      {
-        title: i18n.t('application'),
-        dataIndex: 'appIds',
-        width: 200,
-        render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
-      },
-    ]),
+    // ...insertWhen(scopeType === ScopeType.ORG, [
+    //   {
+    //     title: i18n.t('cmp:cluster'),
+    //     dataIndex: 'clusterNames',
+    //     width: 200,
+    //     render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
+    //   },
+    // ]),
+    // ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
+    //   {
+    //     title: i18n.t('application'),
+    //     dataIndex: 'appIds',
+    //     width: 200,
+    //     render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
+    //   },
+    // ]),
     {
       title: i18n.t('default:notification target'),
       dataIndex: ['notifies', '0', 'notifyGroup'],

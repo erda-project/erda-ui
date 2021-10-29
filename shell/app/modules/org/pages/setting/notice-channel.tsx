@@ -33,7 +33,6 @@ import { ColumnProps, FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
 import notifyGroupStore from 'application/stores/notify-group';
 import { getNotifyChannelTypes, getNotifyChannels } from 'application/services/notify-group';
-import { config } from 'process';
 
 const { confirm } = Modal;
 
@@ -57,7 +56,7 @@ const NotifyChannel = () => {
   });
 
   React.useEffect(() => {
-    getNotifyChannels.fetch({ page: paging.current, pageSize: paging.pageSize });
+    getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize });
   }, [paging]);
 
   const handleEdit = ({ channelProviderType, config, name, type, id }: COMMON_NOTIFY.NotifyChannel) => {
@@ -82,8 +81,8 @@ const NotifyChannel = () => {
 
   const handleDelete = (id: string) => {
     confirm({
-      title: i18n.t('application:are you sure you want to delete this item?'),
-      content: i18n.d('该通知渠道将永远删除'),
+      title: i18n.t('are you sure you want to delete this item?'),
+      content: i18n.t('the notification channel will be permanently deleted'),
       onOk() {
         deleteNotifyChannel({ id }).then(() => {
           updater.paging({ ...paging, current: 1 });
@@ -94,7 +93,7 @@ const NotifyChannel = () => {
 
   const handleSubmit = (values: any, id?: string) => {
     const { name, channelProviderType, type, config, enable } = values;
-    if (isEditing) {
+    if (isEditing && id) {
       editNotifyChannel({
         id,
         name,
@@ -141,16 +140,16 @@ const NotifyChannel = () => {
   const fieldsList = [
     {
       name: 'name',
-      label: i18n.d('渠道名称'),
+      label: i18n.t('channel name'),
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: i18n.d('请单行输入渠道名称'),
+        placeholder: i18n.t('please input channel name'),
       },
     },
     {
       name: 'type',
-      label: i18n.d('渠道类型'),
+      label: i18n.t('channel type'),
       initialValue: channelType,
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
@@ -172,7 +171,7 @@ const NotifyChannel = () => {
     },
     {
       name: 'channelProviderType',
-      label: i18n.d('服务商'),
+      label: i18n.t('service provider'),
       required: true,
       initialValue: channelProvider,
       getComp: ({ form }: { form: FormInstance }) => {
@@ -198,7 +197,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.d('请单行输入')}accessKeyId`,
+        placeholder: `${i18n.t('please input')}accessKeyId`,
       },
     },
     {
@@ -207,21 +206,21 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.d('请单行输入')}accessKeySecret`,
+        placeholder: `${i18n.t('please input')}accessKeySecret`,
       },
     },
     {
       name: 'config.signName',
-      label: i18n.d('短信签名'),
+      label: i18n.t('SMS signature'),
       required: true,
       itemProps: {
         maxLength: 500,
-        placeholder: `${i18n.d('请单行输入')}${i18n.d('短信签名')}`,
+        placeholder: `${i18n.t('please input')}${i18n.t('SMS signature')}`,
       },
     },
     {
       name: 'config.templateCode',
-      label: i18n.d('短信模板'),
+      label: i18n.t('SMS Template'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
@@ -229,14 +228,16 @@ const NotifyChannel = () => {
             <Input
               defaultValue={isEditing ? templateCode : ''}
               onChange={(e: any) => {
-                form.setFieldsValue({ config: { ...config, templateCode: e.target.value } });
+                form.setFieldsValue({ config: { ...form.getFieldValue('config'), templateCode: e.target.value } });
               }}
-              placeholder={`${i18n.d('请单行输入')}${i18n.d('短信模板')}`}
+              placeholder={`${i18n.t('please input')}${i18n.t('SMS Template')}`}
             />
-            <div className="text-desc mt-4">{i18n.d('请按如下内容提交到服务商申请短信模板: ')}</div>
+            <div className="text-desc mt-4">
+              {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
+            </div>
             <div className="text-desc mt-2">
-              <Copy copyText={`${i18n.d('您有一条来自 Erda 平台的通知消息: ')}$\{content}`}>
-                {`${i18n.d('您有一条来自 Erda 平台的通知消息: ')}$\{content}`}
+              <Copy copyText={`${i18n.t('You have a notification message from the Erda platform')}: $\{content}`}>
+                {`${i18n.t('You have a notification message from the Erda platform')}: $\{content}`}
               </Copy>
             </div>
           </>
@@ -250,12 +251,12 @@ const NotifyChannel = () => {
 
   const columns: Array<ColumnProps<COMMON_NOTIFY.NotifyChannel>> = [
     {
-      title: i18n.d('渠道名称'),
+      title: i18n.t('channel name'),
       dataIndex: 'name',
       width: 200,
     },
     {
-      title: i18n.d('渠道类型'),
+      title: i18n.t('channel type'),
       width: 160,
       dataIndex: 'type',
       className: 'notify-info',
@@ -263,7 +264,7 @@ const NotifyChannel = () => {
       render: (type) => type.displayName,
     },
     {
-      title: i18n.d('服务商'),
+      title: i18n.t('service provider'),
       dataIndex: 'channelProviderType',
       width: 200,
       render: (provider) => provider.displayName,
@@ -297,20 +298,20 @@ const NotifyChannel = () => {
             >
               {i18n.t('delete')}
             </span>
-            <Tooltip title={record.enable ? i18n.d('关闭通知渠道') : i18n.d('启用通知渠道')}>
-              <Switch
-                size="small"
-                checked={record.enable}
-                onChange={() => {
-                  setNotifyChannelEnable({
-                    id: record.id,
-                    enable: !record.enable,
-                  }).finally(() => {
-                    updater.paging({ ...paging });
-                  });
-                }}
-              />
-            </Tooltip>
+            {/* <Tooltip title={record.enable ? i18n.d('关闭通知渠道') : i18n.d('启用通知渠道')}> */}
+            <Switch
+              size="small"
+              checked={record.enable}
+              onChange={() => {
+                setNotifyChannelEnable({
+                  id: record.id,
+                  enable: !record.enable,
+                }).finally(() => {
+                  updater.paging({ ...paging });
+                });
+              }}
+            />
+            {/* </Tooltip> */}
           </div>
         );
       },
@@ -319,19 +320,19 @@ const NotifyChannel = () => {
 
   return (
     <div className="notify-group-manage">
-      <Tooltip title={i18n.t('新建通知渠道')}>
+      <Tooltip title={i18n.t('new notification channel')}>
         <div
           className="notify-group-action hover-active"
           onClick={() => {
             handleAdd();
           }}
         >
-          <Button type="primary">{i18n.d('新建通知渠道')}</Button>
+          <Button type="primary">{i18n.t('new notification channel')}</Button>
         </div>
       </Tooltip>
       <FormModal
         width={800}
-        title={`${isEditing ? i18n.d('编辑通知渠道') : i18n.t('新建通知渠道')}`}
+        title={`${isEditing ? i18n.t('edit notification channel') : i18n.t('new notification channel')}`}
         visible={visible}
         fieldsList={fieldsList}
         formData={activeData}

@@ -98,13 +98,13 @@ const notifyGroup = createStore({
     },
     async addNotifyChannel(
       { call },
-      payload: { channelProviderType: string; config: object; name: string; type: string },
+      payload: { channelProviderType: string; config: object; name: string; type: string; enable: boolean },
     ) {
       await call(addNotifyChannel, payload);
     },
     async editNotifyChannel(
       { call },
-      payload: { channelProviderType: string; config: object; name: string; type: string; enable: number; id: string },
+      payload: { channelProviderType: string; config: object; name: string; type: string; enable: boolean; id: string },
     ) {
       await call(editNotifyChannel, payload);
     },

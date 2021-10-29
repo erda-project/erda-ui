@@ -28,8 +28,8 @@ interface IProps {
   };
   handleEditTriggerConditions: (id: string, data: { key: string; value: string }) => void;
   handleRemoveTriggerConditions: (id: string) => void;
-  operatorOptions: { key: string; display: string; type: 'input' | 'none' | 'multiple' | 'single' }[];
-  valueOptions: { key: string; display: string }[];
+  operatorOptions: Array<{ key: string; display: string; type: 'input' | 'none' | 'multiple' | 'single' }>;
+  valueOptions: Array<{ key: string; display: string }>;
   valueOptionsList: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[];
 }
 
@@ -45,7 +45,7 @@ export const TriggerConditionSelect = ({
   valueOptionsList,
 }: IProps) => {
   const { type } = operatorOptions.find((t) => t.key === current.operator) ?? operatorOptions[0];
-  console.log(current);
+  console.log({ current, valueOptions });
   return (
     <div className="flex items-center mb-4">
       <Select
@@ -73,7 +73,10 @@ export const TriggerConditionSelect = ({
       <Select
         className="mr-8"
         value={current?.operator}
-        onSelect={(value) => handleEditTriggerConditions(id, { key: 'operator', value })}
+        onSelect={(value) => {
+          handleEditTriggerConditions(id, { key: 'operator', value });
+          handleEditTriggerConditions(id, { key: 'values', value: undefined });
+        }}
       >
         {map(operatorOptions, (item) => {
           return (
@@ -89,7 +92,10 @@ export const TriggerConditionSelect = ({
           disabled={type === 'none'}
           value={type === 'none' ? undefined : current?.values}
           onChange={(e) => {
-            handleEditTriggerConditions(id, { key: 'values', value: e.target.value });
+            handleEditTriggerConditions(id, {
+              key: 'values',
+              value: type === 'none' ? valueOptions?.map((item) => item?.key)?.join(',') : e.target.value,
+            });
           }}
         />
       ) : (

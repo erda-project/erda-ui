@@ -25,7 +25,7 @@ const apis = {
 
 export const getNotifyChannelTypes = apiCreator<() => []>(apis.getNotifyChannelTypes);
 
-export const getNotifyChannels = apiCreator<(payload: { page: number; pageSize: number }) => any>(
+export const getNotifyChannels = apiCreator<(payload: { pageNo: number; pageSize: number }) => any>(
   apis.getNotifyChannels,
 );
 
@@ -90,6 +90,7 @@ export const addNotifyChannel = (payload: {
   config: object;
   name: string;
   type: string;
+  enable: boolean;
 }) => {
   return agent
     .post('/api/notify-channel')
@@ -102,7 +103,7 @@ export const editNotifyChannel = (payload: {
   config: object;
   name: string;
   type: string;
-  enable: number;
+  enable: boolean;
   id: string;
 }) => {
   return agent
