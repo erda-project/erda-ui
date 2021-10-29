@@ -747,9 +747,9 @@ const ApiTabComps = {
               trigger="hover"
             >
               {res.success === true ? (
-                <IconCloseOne theme="filled" className="assert-status error" />
-              ) : res.success === false ? (
                 <IconCheckOne theme="filled" className="assert-status success" />
+              ) : res.success === false ? (
+                <IconCloseOne theme="filled" className="assert-status error" />
               ) : null}
             </Popover>
           );
