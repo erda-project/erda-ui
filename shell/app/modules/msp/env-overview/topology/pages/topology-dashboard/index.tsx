@@ -16,7 +16,7 @@ import produce from 'immer';
 import { map, get, find, isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Button } from 'antd';
-import { PureBoardGrid } from 'common';
+import { BoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';
@@ -162,7 +162,7 @@ const TopologyDashboard = () => {
       ) : null}
       {/* 全局概览 */}
       <div className="topology-global-dashboard">
-        {!isEmpty(globalVariable) && <PureBoardGrid layout={overviewBoard} globalVariable={globalVariable} />}
+        {!isEmpty(globalVariable) && <BoardGrid.Pure layout={overviewBoard} globalVariable={globalVariable} />}
       </div>
       {/*
         可跳转 node type case:
@@ -224,7 +224,7 @@ const TopologyDashboard = () => {
       </If>
       {/* 节点情况 */}
       <div className="topology-node-dashboard">
-        <PureBoardGrid {...nodeDashboardProps} />
+        <BoardGrid.Pure {...nodeDashboardProps} />
       </div>
     </div>
   );

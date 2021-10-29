@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FilterGroupDrawer, MemberSelector } from 'common';
+import { FilterGroup, MemberSelector } from 'common';
 import { getTimeRanges } from 'common/utils';
 import React from 'react';
 // import LabelSelect from 'project/common/components/issue/label-select';
@@ -133,5 +133,5 @@ export default ({ visible, onSearch, onClose }: IProps) => {
     onSearch({ ...searchQuery, pageNo: 1 }); // 查询条件变化，重置pageNo
   };
 
-  return <FilterGroupDrawer visible={visible} list={filterList} onSearch={handleSearch} onClose={onClose} />;
+  return <FilterGroup.Drawer visible={visible} list={filterList} onSearch={handleSearch} onClose={onClose} />;
 };

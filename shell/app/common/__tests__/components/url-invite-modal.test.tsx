@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { UrlInviteModal } from 'common/components/url-invite-modal';
+import { UrlInviteModal } from 'app/common/components/members-table/url-invite-modal';
 import { mount } from 'enzyme';
 
 describe('UrlInviteModal', () => {

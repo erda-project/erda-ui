@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SettingsTabs, ConfigLayout, MembersTable } from 'common';
+import { SettingTabs, ConfigLayout, MembersTable } from 'common';
 import { goTo } from 'common/utils';
 import ProjectInfo from './project-info';
 import ProjectCluster from './project-cluster';
@@ -230,7 +230,7 @@ const ProjectSettings = () => {
   //   });
   // }
 
-  return <SettingsTabs dataSource={dataSource} />;
+  return <SettingTabs dataSource={dataSource} />;
 };
 
 export default ProjectSettings;

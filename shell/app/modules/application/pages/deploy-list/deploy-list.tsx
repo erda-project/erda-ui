@@ -14,8 +14,8 @@
 import React from 'react';
 import { Table, Input, Spin, Popconfirm, Tooltip } from 'antd';
 import i18n from 'i18n';
-import { CustomFilter, useFilter, MemberSelector, LoadMoreSelector } from 'common';
-import { useUpdate } from 'common/use-hooks';
+import { CustomFilter, MemberSelector, LoadMoreSelector } from 'common';
+import { useUpdate, useFilter } from 'common/use-hooks';
 import { insertWhen, goTo } from 'common/utils';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';

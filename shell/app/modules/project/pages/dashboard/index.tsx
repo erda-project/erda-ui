@@ -16,7 +16,7 @@ import { updateSearch } from 'common/utils';
 import { Radio } from 'antd';
 import moment from 'moment';
 import { isEmpty, map, merge, get, startsWith } from 'lodash';
-import { Holder, PureBoardGrid } from 'common';
+import { Holder, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import React from 'react';
 import i18n from 'i18n';
@@ -25,7 +25,7 @@ import { getIterationDetail } from 'project/services/project-iteration';
 import { getProjectInfo, getDashboard } from 'project/services/project';
 import { createLoadDataFn } from 'cmp/common/custom-dashboard/data-loader';
 
-const DashBoard = React.memo(PureBoardGrid);
+const DashBoard = React.memo(BoardGrid.Pure);
 
 enum DashboardType {
   BUG = 'bug',

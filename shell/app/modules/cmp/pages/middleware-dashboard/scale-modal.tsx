@@ -16,7 +16,7 @@ import { RenderPureForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Alert, Modal, Form } from 'antd';
 import i18n from 'i18n';
-import { IFormItem } from 'common/components/render-formItem';
+import { IFormItem } from 'app/common/components/render-formItem/render-formItem';
 import middlewareDashboardStore from 'cmp/stores/middleware-dashboard';
 import { isEqual, pick } from 'lodash';
 import { FormInstance } from 'core/common/interface';

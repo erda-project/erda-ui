@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Copy, CRUDStoreTable, LoadMoreSelector, Icon as CustomIcon } from 'common';
+import { Copy, CRUDTable, LoadMoreSelector, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
@@ -179,7 +179,7 @@ const AppLibraryReference = () => {
 
   return (
     <>
-      <CRUDStoreTable<APP_SETTING.LibRef>
+      <CRUDTable.StoreTable<APP_SETTING.LibRef>
         formTitle={i18n.t('dop:choose module')}
         getColumns={getColumns}
         getFieldsList={getFieldsList}

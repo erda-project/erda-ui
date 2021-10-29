@@ -14,7 +14,7 @@
 import React from 'react';
 import { debounce, isNumber } from 'lodash';
 import moment, { Moment } from 'moment';
-import { ContractiveFilter, Copy, PureBoardGrid, TagsRow } from 'common';
+import { ContractiveFilter, Copy, BoardGrid, TagsRow } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 import { Table, message } from 'antd';
@@ -33,7 +33,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'core/stores/route';
 import DC from '@erda-ui/dashboard-configurator/dist';
 
-const DashBoard = React.memo(PureBoardGrid);
+const DashBoard = React.memo(BoardGrid.Pure);
 
 const name = {
   sort: i18n.t('msp:sort method'),

@@ -13,7 +13,7 @@
 
 import * as history from 'history';
 import 'jest-enzyme';
-import { IFormItem } from 'common/components/render-formItem';
+import { IFormItem } from 'common';
 
 export interface Location extends history.Location {
   query: any;

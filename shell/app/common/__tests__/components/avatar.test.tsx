@@ -69,13 +69,3 @@ describe('Avatar', () => {
     expect(wrapper.find('.dice-avatar').prop('style')).toStrictEqual(sizeResult(100));
   });
 });
-describe('AvatarList', () => {
-  const names = ['A', 'B', 'C', 'D', 'E'];
-  it('should ', () => {
-    const wrapper = shallow(<AvatarList names={names} maxDisplay={3} />);
-    expect(wrapper.find('Tooltip').children()).toHaveLength(4);
-    expect(wrapper.find('Tooltip').children().last().text()).toBe('...');
-    wrapper.setProps({ maxDisplay: 5 });
-    expect(wrapper.find('Tooltip').children()).toHaveLength(names.length);
-  });
-});

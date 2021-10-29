@@ -13,7 +13,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Input, Button } from 'antd';
-import { PureBoardGrid } from 'common';
+import { BoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import DC from '@erda-ui/dashboard-configurator/dist';
@@ -77,7 +77,7 @@ export default () => {
         />
         <TimeSelectWithStore />
       </div>
-      <PureBoardGrid layout={layout} globalVariable={globalVariable} onBoardEvent={handleBoardEvent} />
+      <BoardGrid.Pure layout={layout} globalVariable={globalVariable} onBoardEvent={handleBoardEvent} />
     </div>
   );
 };

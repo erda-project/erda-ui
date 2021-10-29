@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormModal, AddMemberSelector, LoadMoreSelector } from 'common';
+import { FormModal, MemberSelector, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { map, isEmpty } from 'lodash';
@@ -105,7 +105,7 @@ export const AddMemberModal = ({
       name: 'userIds',
       required: true,
       getComp: () => {
-        return <AddMemberSelector mode="multiple" scopeType={scope.type} />;
+        return <MemberSelector.Add mode="multiple" scopeType={scope.type} />;
       },
     },
     {

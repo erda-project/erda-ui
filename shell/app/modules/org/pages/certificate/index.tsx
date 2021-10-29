@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon } from 'common';
+import { CRUDTable, DeleteConfirm, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
@@ -568,7 +568,7 @@ const Certificate = () => {
 
   return (
     <>
-      <CRUDStoreTable<Certificate.Detail>
+      <CRUDTable.StoreTable<Certificate.Detail>
         name={i18n.t('certificate')}
         showTopAdd
         getColumns={getColumns}

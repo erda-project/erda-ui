@@ -61,7 +61,6 @@ module.exports = [
       './cmp/pages/cluster-manage/operation-history': './app/modules/cmp/pages/cluster-manage/operation-history',
       './org/pages/safety': './app/modules/org/pages/safety',
       './user/store': './app/user/stores/index.ts',
-      './erda-icon': '@icon-park/react',
       './org-home/stores/org': './app/org-home/stores/org.tsx',
       './antd/select': './app/antd-overwrite/select/index.tsx',
       './antd/table': './app/antd-overwrite/table/index.tsx',

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { SettingsTabs, ConfigLayout, MembersTable } from 'common';
+import { SettingTabs, ConfigLayout, MembersTable } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
@@ -172,5 +172,5 @@ export const OrgSetting = () => {
     },
   ];
 
-  return <SettingsTabs className="org-settings-main" dataSource={dataSource} />;
+  return <SettingTabs className="org-settings-main" dataSource={dataSource} />;
 };

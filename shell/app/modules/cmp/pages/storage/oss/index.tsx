@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDStoreTable } from 'common';
+import { CRUDTable } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Input, Select, Menu, Dropdown, Button } from 'antd';
 import { map } from 'lodash';
@@ -193,7 +193,7 @@ export default () => {
 
   return (
     <>
-      <CRUDStoreTable<CLOUD_ACCOUNTS.Account>
+      <CRUDTable.StoreTable<CLOUD_ACCOUNTS.Account>
         key={stateChangeKey}
         rowKey="name"
         name={i18n.t('storage space')}

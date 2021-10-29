@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import { get, isEmpty } from 'lodash';
 import { updateSearch, insertWhen } from 'common/utils';
 import fileTreeStore from 'common/stores/file-tree';
-import { TreeNode } from 'common/components/tree/tree';
+import { TreeNode } from 'app/common/components/tree-category/tree';
 import routeInfoStore from 'core/stores/route';
 import autoTestStore from 'project/stores/auto-test-case';
 import CaseEditForm from './config-detail/case-edit-form';

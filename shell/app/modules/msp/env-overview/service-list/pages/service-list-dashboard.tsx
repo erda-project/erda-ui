@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { PureBoardGrid } from 'common';
+import { BoardGrid } from 'common';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import dashboardStore from 'common/stores/dashboard';
@@ -64,7 +64,7 @@ const ServiceListDashboard: React.FC<IProps> = ({
     });
   }, [dashboardId, getCustomDashboard]);
 
-  return <PureBoardGrid globalVariable={globalVariable} layout={layout} {...rest} />;
+  return <BoardGrid.Pure globalVariable={globalVariable} layout={layout} {...rest} />;
 };
 
 export default React.memo(ServiceListDashboard, (prev, next) => {

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { SortDragGroupList } from 'common/components/sort-drag-list';
+import { SortDragGroupList } from 'app/common/components/sort-drag-group-list';
 
 const value = [
   {

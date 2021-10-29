@@ -12,24 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { LoadingContent, LoadingSkeleton } from 'common';
+import { LoadingSkeleton } from 'common';
 import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
 
 describe('loading-skeleton', () => {
   it('LoadingSkeleton should render well', () => {
     const wrapper = mount(<LoadingSkeleton />);
     expect(wrapper).toMatchSnapshot();
-  });
-  it('LoadingContent should render well', () => {
-    jest.useFakeTimers();
-    const wrapper = mount(<LoadingContent />);
-    expect(wrapper).toBeEmptyRender();
-    act(() => {
-      jest.runAllTimers();
-    });
-    wrapper.update();
-    expect(wrapper.find('.main-holder')).toExist();
-    wrapper.unmount();
   });
 });

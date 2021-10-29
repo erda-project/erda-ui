@@ -130,7 +130,7 @@ export default function getDopRouter(): RouteConfigItem[] {
                 {
                   path: 'overview',
                   breadcrumbName: i18n.t('dop:addon info'),
-                  getComp: (cb) => cb(import('common/containers/addon-resource')),
+                  getComp: (cb) => cb(import('addonPlatform/pages/addon-resource/addon-resource')),
                 },
                 {
                   path: 'settings',

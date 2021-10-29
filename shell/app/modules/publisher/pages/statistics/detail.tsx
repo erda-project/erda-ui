@@ -17,7 +17,7 @@ import { SelectValue, ColumnProps } from 'core/common/interface';
 import { map, get } from 'lodash';
 import { useEffectOnce, useUnmount } from 'react-use';
 import moment from 'moment';
-import { TimeSelector, PureBoardGrid } from 'common';
+import { TimeSelector, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import statisticsStore from 'app/modules/publisher/stores/statistics';
 import routeInfoStore from 'core/stores/route';
@@ -311,7 +311,7 @@ const StatisticsDetail = () => {
             onChange={(val: string) => updater.lineGroup(val)}
             className="m-2"
           />
-          <PureBoardGrid layout={lineChart} />
+          <BoardGrid.Pure layout={lineChart} />
         </div>
       </div>
       <div className="mt-4 block-container">
