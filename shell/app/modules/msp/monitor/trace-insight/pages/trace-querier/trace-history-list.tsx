@@ -28,6 +28,7 @@ const TraceHistoryList = ({
   clearTraceStatusDetail,
   clearCurrentTraceRequestId,
   clearRequestTraceParams,
+  setInputUrl,
   form,
 }: any) => {
   if (!dataSource.length) {
@@ -40,9 +41,12 @@ const TraceHistoryList = ({
     setCurrentTraceRequestId(isNewId ? requestId : '');
     if (isNewId) {
       form.setFieldsValue({ url });
+      setInputUrl(url);
       getTraceDetail({ requestId });
       getTraceStatusDetail({ requestId });
     } else {
+      form.setFieldsValue({ url: '' });
+      setInputUrl('');
       clearRequestTraceParams();
       clearCurrentTraceRequestId();
       clearTraceStatusDetail();
