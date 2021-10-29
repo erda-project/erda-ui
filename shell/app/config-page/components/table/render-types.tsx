@@ -396,7 +396,7 @@ const memberSelectorValueItem = (user: any) => {
   const displayName = nick || label || value || i18n.t('common:none');
   return (
     <div className="flex items-center dice-config-table-member-field-selector">
-      <Avatar src={avatar} size="small" className="flex-shrink-0">
+      <Avatar src={avatar || undefined} size="small" className="flex-shrink-0">
         {nick ? nick.slice(0, 2) : i18n.t('none')}
       </Avatar>
       <span className={'ml-1 text-sm nowrap'} title={name}>
