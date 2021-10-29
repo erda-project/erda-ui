@@ -413,6 +413,5 @@ const AddMemberSelector = (props: IAddProps) => {
   );
 };
 
-// TODO: check whether this is ok
 MemberSelector.Add = AddMemberSelector;
 export default MemberSelector;
