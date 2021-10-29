@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { useUserMap } from 'core/stores/userMap';
-import { CustomFilter, useFilter, MemberSelector, FileEditor } from 'common';
+import { CustomFilter, MemberSelector, FileEditor } from 'common';
+import { useFilter } from 'common/use-hooks';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import moment from 'moment';

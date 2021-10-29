@@ -13,8 +13,8 @@
 
 import React from 'react';
 import { Button, Table, Spin } from 'antd';
-import { FormModal, CustomFilter, useFilter, IF, IFormItem } from 'common';
-import { useUpdate } from 'common/use-hooks';
+import { FormModal, CustomFilter, IF, IFormItem } from 'common';
+import { useUpdate, useFilter } from 'common/use-hooks';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
 import i18n from 'i18n';
