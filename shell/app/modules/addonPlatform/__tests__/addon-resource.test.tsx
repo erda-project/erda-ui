@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AddonResource from 'common/containers/addon-resource';
+import AddonResource from 'addonPlatform/pages/addon-resource/addon-resource';
 import routeInfoStore from 'core/stores/route';
 import addonStore from 'common/stores/addon';
 import metricsMonitorStore from 'common/stores/metrics';
@@ -63,5 +63,22 @@ describe('AddonResource', () => {
     const wrapper = shallow(<AddonResource />);
     expect(wrapper.find('AddonResource').prop('resourceInfo')).toStrictEqual(info.addonDetail);
     expect(wrapper.find('MonitorChartPanel').prop('resourceType')).toBe(info.addonDetail.addonName);
+  });
+  it('resourceInfo is empty', () => {
+    const wrapper = shallow(<AddonResource resourceInfo={{}} />);
+    expect(wrapper).toBeEmptyRender();
+  });
+  it('resourceInfo is not empty', () => {
+    const resourceInfo = {
+      createdAt: '2021-04-24 12:12:12',
+      reference: 'erda',
+      workspace: 'STAGING',
+      addonName: 'ERDA',
+      plan: 'professional',
+      cluster: 'erda cloud',
+      version: '1.0.0',
+    };
+    const wrapper = mount(<AddonResource resourceInfo={resourceInfo} />);
+    expect(wrapper.find('.info-key')).toHaveLength(7);
   });
 });

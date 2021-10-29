@@ -14,7 +14,7 @@
 import React from 'react';
 import { Spin } from 'antd';
 import { IF, MetricsMonitor } from 'common';
-import PureAddonResource from '../components/addon-resource';
+import PureAddonResource from './pure-addon-resource';
 import addonStore from 'common/stores/addon';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
