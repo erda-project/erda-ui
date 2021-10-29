@@ -12,26 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input } from 'antd';
-
-const { Option } = Select;
+import { Input } from 'antd';
+import ProtocolSelector from '../protocol-selector';
 
 const HTTP_PREFIX = 'http://';
 const HTTPS_PREFIX = 'https://';
-
-interface IProps {
-  value: string;
-  onChange: (params: string) => void;
-}
-
-const ProtocolSelector = ({ value, onChange }: IProps) => {
-  return (
-    <Select value={value} onChange={onChange} style={{ width: 94 }}>
-      <Option value={HTTP_PREFIX}>http://</Option>
-      <Option value={HTTPS_PREFIX}>https://</Option>
-    </Select>
-  );
-};
 
 interface IInputProps {
   initProtocol?: string;
