@@ -1856,11 +1856,11 @@
       "en": ""
     }
   },
-  "updateProjectQuota": {
-    "desc": "修改项目环境资源配额",
+  "updateProjectResourceConfig": {
+    "desc": "修改项目环境资源配置",
     "success": {
-      "zh": "在组织 [@orgName] 中，修改了项目 [@projectName](project) 的资源配额。\n开发环境 修改前：CPU：[@oldDevCPU] 核，内存：[@oldDevMem]；修改后：CPU：[@newDevCPU] 核，内存：[@newDevMem]\n测试环境 修改前：CPU：[@oldTestCPU] 核，内存：[@oldTestMem]；修改后：CPU：[@newTestCPU] 核，内存：[@newTestMem]\n预发环境 修改前：CPU：[@oldStagingCPU] 核，内存：[@oldStagingMem]；修改后：CPU：[@newStagingCPU] 核，内存：[@newStagingMem]\n生产环境 修改前：CPU：[@oldProdCPU] 核，内存：[@oldProdMem]；修改后：CPU：[@newProdCPU] 核，内存：[@newProdMem]",
-      "en": "Update quota for project [@projectName](project) in organization [@orgName].\nWorkspace dev Before: CPU: [@oldDevCPU] core(s), memory: [@oldDevMem]; Now: CPU: [@newDevCPU] core(s), memory: [@newDevMem]\nWorkspace test Before: CPU: [@oldTestCPU] core(s), memory: [@oldTestMem]; Now: CPU: [@newTestCPU] core(s), memory: [@newTestMem]\nWorkspace staging Before: CPU: [@oldStagingCPU] core(s), memory: [@oldStagingMem]; Now: CPU: [@newStagingCPU] core(s), memory: [@newStagingMem]\nWorkspace production Before: CPU: [@oldProdCPU], memory: [@oldProdMem]; Now: CPU: [@newProdCPU], memory: [@newProdMem]"
+      "zh": "在组织 [@orgName] 中，修改了项目 [@projectName](project) 的资源配置。\n开发环境 修改前：集群：[@oldDevCluster]，CPU：[@oldDevCPU] 核，内存：[@oldDevMem]；修改后：集群：[@newDevCluster]，CPU：[@newDevCPU] 核，内存：[@newDevMem]\n测试环境 修改前：集群：[@oldTestCluster]，CPU：[@oldTestCPU] 核，内存：[@oldTestMem]；修改后：集群：[@newTestCluster]，CPU：[@newTestCPU] 核，内存：[@newTestMem]\n预发环境 修改前：集群：[@oldStagingCluster]，CPU：[@oldStagingCPU] 核，内存：[@oldStagingMem]；修改后：集群：[@newStagingCluster]，CPU：[@newStagingCPU] 核，内存：[@newStagingMem]\n生产环境 修改前：集群：[@oldProdCluster]，CPU：[@oldProdCPU] 核，内存：[@oldProdMem]；修改后：集群：[@newProdCluster]，CPU：[@newProdCPU] 核，内存：[@newProdMem]",
+      "en": "Update resource config for project [@projectName](project) in organization [@orgName].\nWorkspace dev Before: Cluster: [@oldDevCluster], CPU: [@oldDevCPU] core(s), memory: [@oldDevMem]; Now: Cluster: [@newDevCluster], CPU: [@newDevCPU] core(s), memory: [@newDevMem]\nWorkspace test Before: Cluster: [@oldTestCluster], CPU: [@oldTestCPU] core(s), memory: [@oldTestMem]; Now: Cluster: [@newTestCluster], CPU: [@newTestCPU] core(s), memory: [@newTestMem]\nWorkspace staging Before: Cluster: [@oldStagingCluster], CPU: [@oldStagingCPU] core(s), memory: [@oldStagingMem]; Now: Cluster: [@newStagingCluster], CPU: [@newStagingCPU] core(s), memory: [@newStagingMem]\nWorkspace production Before: Cluster: [@oldProdCluster], CPU: [@oldProdCPU], memory: [@oldProdMem]; Now: Cluster: [@newProdCluster], CPU: [@newProdCPU], memory: [@newProdMem]"
     }
   }
 }
