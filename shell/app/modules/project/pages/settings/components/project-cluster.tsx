@@ -45,7 +45,7 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
       requestByAddon: (record?.cpuRequestByAddon || 0).toFixed(2),
       requestByAddonRate: +(record?.cpuRequestByAddonRate * 100 || 0).toFixed(2),
       quota: +(record?.cpuQuota || 0).toFixed(2),
-      tips: record.tips,
+      tips: record.cpuAvailable < record.cpuQuota ? record.tips : '',
     };
   } else {
     data = {
@@ -56,7 +56,7 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
       requestByAddon: (record?.memRequestByAddon || 0).toFixed(2),
       requestByAddonRate: +(record?.memRequestByAddonRate * 100 || 0).toFixed(2),
       quota: +(record?.memQuota || 0).toFixed(2),
-      tips: record.tips,
+      tips: record.memAvailable < record.memQuota ? record.tips : '',
     };
   }
 
@@ -160,34 +160,35 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           title: i18n.t('dop:using clusters'),
           dataIndex: 'clusterName',
           align: 'left',
+          width: 180,
         },
         {
           title: `CPU ${i18n.t('allocated and utilization rate')}`,
-          width: 400,
+          width: 300,
           dataIndex: 'cpuQuota',
           align: 'center',
           render: (text: string, record: PROJECT.ICluster) => (
             <div className="flex items-center">
-              <span>{text ? `${text}${i18n.t('core')}` : ''}</span>
+              <span>{text ? `${text}${i18n.t('core')}` : `0${i18n.t('core')}`}</span>
               <span className="flex-grow ml-2">{renderBar('cpu', record, i18n.t('core'))}</span>
             </div>
           ),
         },
         {
           title: `MEM ${i18n.t('allocated and utilization rate')}`,
-          width: 400,
+          width: 300,
           dataIndex: 'memQuota',
           align: 'center',
           render: (text: string, record: PROJECT.ICluster) => (
             <div className="flex items-center">
-              <span>{text ? `${text}GB` : ''}</span>
+              <span>{text ? `${text}GB` : '0GB'}</span>
               <span className="flex-grow ml-2">{renderBar('mem', record, 'GB')}</span>
             </div>
           ),
         },
       ]}
       pagination={false}
-      scroll={{ x: 1100 }}
+      scroll={{ x: 900 }}
     />
   );
   return (
