@@ -15,32 +15,17 @@ import classnames from 'classnames';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
-import './index.scss';
 
-interface IEmptyProps {
-  tip?: string;
-  icon?: string | JSX.Element;
-  relative?: boolean;
-  style?: object;
-  action?: JSX.Element | null;
-  className?: string;
-}
-export const EmptyHolder = ({
-  icon = 'empty',
-  tip = i18n.t('common:no data'),
-  relative = false,
-  style = {},
-  action = null,
-  className = '',
-}: IEmptyProps) => {
+// TODO: merge with EmptyHolder
+const EmptyListHolder = ({ icon = 'empty-s', tip = i18n.t('common:no data'), style = {}, action = null }) => {
   const cls = classnames({
     'empty-holder': true,
     'multi-line': true,
-    relative,
+    'empty-list': true,
   });
   return (
-    <div className={`${cls} ${className}`} style={style}>
-      {typeof icon === 'string' ? <CustomIcon type={icon} color /> : <div>{icon}</div>}
+    <div className={cls} style={style}>
+      <CustomIcon type={icon} color />
       <span>
         {tip} <span className="action">{action}</span>
       </span>
@@ -48,4 +33,4 @@ export const EmptyHolder = ({
   );
 };
 
-export default EmptyHolder;
+export default EmptyListHolder;
