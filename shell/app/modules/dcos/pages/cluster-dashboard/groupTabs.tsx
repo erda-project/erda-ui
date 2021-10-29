@@ -67,12 +67,13 @@ const GroupTabs = ({ machineList, onActiveMachine, activedGroup }: IProps) => {
       <TabPane tab={`${i18n.t('cmp:machine alarm')}`} key="alarm">
         <AlarmRecord clusters={clusters} />
       </TabPane>
-      <TabPane tab={`${i18n.t('cmp:resource overview')}`} key="resource-overview">
+      {/* TODO: keep it until completely done. */}
+      {/* <TabPane tab={`${i18n.t('cmp:resource overview')}`} key="resource-overview">
         <ResourceSummary clusterNameStr={clusterNameStr} />
       </TabPane>
       <TabPane tab={`${i18n.t('cmp:resource distribute')}`} key="resource-distribute">
         <ResourcesUsagePie clusterNameStr={clusterNameStr} />
-      </TabPane>
+      </TabPane> */}
     </Tabs>
   );
 };
