@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FilterCore } from 'common/components/filter-group/filter-group';
+import { FilterCore } from 'app/common/components/filter-group';
 import { Input } from 'antd';
 import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
 import { mount } from 'enzyme';

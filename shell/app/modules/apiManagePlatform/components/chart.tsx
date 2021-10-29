@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Spin } from 'antd';
-import { CommonRangePicker, PureBoardGrid } from 'common';
+import { CommonRangePicker, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getDashboard } from 'apiManagePlatform/services/api-access';
 import { get, isString, merge, reduce, values, isEmpty } from 'lodash';
@@ -101,7 +101,7 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
         defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]}
         onOk={(v) => updater.timeSpan(v)}
       />
-      <PureBoardGrid layout={layout} />
+      <BoardGrid.Pure layout={layout} />
     </Spin>
   );
 };

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { createCRUDStore } from 'common';
+import { createCRUDStore } from 'common/utils';
 import { getBlackList, deleteBlackList, addBlackList } from '../services/safety';
 
 const blackList = createCRUDStore<PUBLISHER.IBlackList>({

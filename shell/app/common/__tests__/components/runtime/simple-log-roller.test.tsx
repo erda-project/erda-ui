@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SimpleLogRoller } from 'common';
+import { SimpleLog } from 'common';
 import { LogItem } from 'common/components/runtime/simple-log-roller';
 import { mount, shallow } from 'enzyme';
 import commonStore from 'common/stores/common';
@@ -47,13 +47,13 @@ describe('simple-log-roller', () => {
   afterAll(() => {
     jest.resetAllMocks();
   });
-  it('SimpleLogRoller work well', () => {
+  it('SimpleLog.Roller work well', () => {
     const fetchLogFn = jest.fn().mockResolvedValue();
     const clearLogFn = jest.fn();
     commonStore.effects.fetchLog = fetchLogFn;
     commonStore.reducers.clearLog = clearLogFn;
     const wrapper = mount(
-      <SimpleLogRoller
+      <SimpleLog.Roller
         logKey="log-erda"
         style={{ color: '#ff0000' }}
         query={{

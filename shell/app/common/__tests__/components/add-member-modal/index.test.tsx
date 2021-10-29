@@ -121,7 +121,7 @@ describe('AddMemberModal', () => {
         })}
       </div>,
     );
-    expect(fieldWrapper.find('AddMemberSelector').prop('scopeType')).toBe(MemberScope.PROJECT);
+    expect(fieldWrapper.find('MemberSelector.Add').prop('scopeType')).toBe(MemberScope.PROJECT);
     await fieldWrapper.find('LoadMoreSelector').prop('getData')();
     expect(getApps).toHaveBeenCalled();
     expect(fieldWrapper.find('LoadMoreSelector').prop('dataFormatter')(data)).toStrictEqual({

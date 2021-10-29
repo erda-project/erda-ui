@@ -16,7 +16,7 @@ import { Collapse, message } from 'antd';
 import blackListStore from '../../stores/blacklist';
 import eraseListStore from '../../stores/erase';
 import { WithAuth, usePerm } from 'user/common';
-import { CRUDStoreTable, Copy } from 'common';
+import { CRUDTable, Copy } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 
@@ -117,7 +117,7 @@ const BlackList = ({ artifactId }: IListProps) => {
     return fieldsList;
   };
   return (
-    <CRUDStoreTable<PUBLISHER.IBlackList>
+    <CRUDTable.StoreTable<PUBLISHER.IBlackList>
       name={i18n.t('publisher:blacklist')}
       rowKey={(r) => r.userId + r.deviceNo}
       getColumns={getColumns}
@@ -175,7 +175,7 @@ const EraseList = ({ artifactId }: IListProps) => {
     return fieldsList;
   };
   return (
-    <CRUDStoreTable<PUBLISHER.IErase>
+    <CRUDTable.StoreTable<PUBLISHER.IErase>
       name={i18n.t('publisher:data erase')}
       rowKey="deviceNo"
       getColumns={getColumns}

@@ -34,7 +34,7 @@ import {
   merge,
 } from 'lodash';
 import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
-import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
+import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
@@ -909,7 +909,7 @@ export default ({ scopeType }: { scopeType: string }) => {
       <IF check={!!previewerKey}>
         <div className="custom-alarm-previewer px-4">
           <Spin spinning={getPreviewMetaDataLoading}>
-            <PureBoardGrid layout={layout} />
+            <BoardGrid.Pure layout={layout} />
           </Spin>
         </div>
       </IF>

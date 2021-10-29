@@ -14,7 +14,7 @@
 import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
-import { PureBoardGrid, Holder, TimeSelector } from 'common';
+import { BoardGrid, Holder, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Spin } from 'antd';
 import { isEmpty } from 'lodash';
@@ -25,7 +25,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 
-const DashBoard = React.memo(PureBoardGrid);
+const DashBoard = React.memo(BoardGrid.Pure);
 
 interface IState {
   chartLayout: DC.Layout;

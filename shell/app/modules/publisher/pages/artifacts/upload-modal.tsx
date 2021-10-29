@@ -17,9 +17,8 @@
 import React from 'react';
 import { Button, message, Upload } from 'antd';
 import { getUploadProps } from 'common/utils/upload-props';
-import { IFormItem } from 'common/components/render-formItem';
 import { FormInstance } from 'core/common/interface';
-import { FormModal } from 'common';
+import { FormModal, IFormItem } from 'common';
 import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';
 import routeInfoStore from 'core/stores/route';

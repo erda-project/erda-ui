@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FormModal } from 'common';
+import { FormModal, IFormItem } from 'common';
 import { getTimeRanges } from 'common/utils';
-import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';

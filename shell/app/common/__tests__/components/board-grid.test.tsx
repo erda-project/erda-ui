@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { BoardGrid, PureBoardGrid } from 'common';
+import { BoardGrid } from 'common';
 import { shallow } from 'enzyme';
 
 const props = {
@@ -27,7 +27,7 @@ describe('board-grid', () => {
       expect(wrapper.prop('id')).toBe(props.id);
     });
   });
-  describe('PureBoardGrid', () => {
+  describe('BoardGrid.Pure', () => {
     const url = '/api/board/query';
     const layout = {
       issue: {
@@ -42,7 +42,7 @@ describe('board-grid', () => {
       },
     };
     it('should render well', () => {
-      const wrapper = shallow(<PureBoardGrid {...props} layout={layout} />);
+      const wrapper = shallow(<BoardGrid.Pure {...props} layout={layout} />);
       expect(wrapper.prop('name')).toBe(props.name);
       expect(wrapper.prop('id')).toBe(props.id);
     });

@@ -213,7 +213,7 @@ const newFolderOperation = (effect: ({ name }: { name: string }) => void) => ({
  * 使用preset的前提是所有传入的effect要遵守最新的后端接口规范 https://yuque.antfin-inc.com/terminus_paas_dev/ed525g/yix4p8#8VQdd
  * TODO: 树的check框批量操作
  */
-export const TreeCategory = ({
+const TreeCategory = ({
   title,
   titleOperation,
   initTreeData = [],
@@ -820,3 +820,4 @@ export const TreeCategory = ({
     </div>
   );
 };
+export default TreeCategory;
