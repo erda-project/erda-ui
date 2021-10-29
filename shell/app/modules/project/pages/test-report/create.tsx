@@ -97,7 +97,7 @@ export default () => {
           <Form.Item label={i18n.t('dop:iteration')} name="iterationID" rules={[{ required: true }]}>
             <IterationSelect onChange={changeIteration} autoSelectFirst disabledBacklog />
           </Form.Item>
-          <Form.Item label={i18n.t('dop:test summary')} name="summary">
+          <Form.Item label={i18n.t('dop:test summary')} name="summary" rules={[{ required: true }]}>
             <MarkdownEditor />
           </Form.Item>
         </Form>
