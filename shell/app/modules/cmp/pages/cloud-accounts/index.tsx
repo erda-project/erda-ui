@@ -15,7 +15,7 @@ import React from 'react';
 import { Modal } from 'antd';
 import cloudAccountStore from 'app/modules/cmp/stores/cloud-account';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
-import { CRUDStoreTable } from 'common';
+import { CRUDTable } from 'common';
 import { getAccountsFieldsList } from 'cmp/common/cloud-common';
 import i18n from 'i18n';
 
@@ -78,7 +78,7 @@ export default () => {
 
   return (
     <>
-      <CRUDStoreTable<CLOUD_ACCOUNTS.Account>
+      <CRUDTable.StoreTable<CLOUD_ACCOUNTS.Account>
         name={i18n.t('account')}
         getColumns={getColumns}
         store={cloudAccountStore}

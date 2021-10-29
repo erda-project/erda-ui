@@ -17,7 +17,7 @@ import { Table, Radio } from 'antd';
 import { isEmpty, get, forEach, mapKeys } from 'lodash';
 import i18n from 'i18n';
 import moment from 'moment';
-import { CommonRangePicker, PureBoardGrid, IF, Icon as CustomIcon } from 'common';
+import { CommonRangePicker, BoardGrid, IF, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeSpan } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
@@ -210,7 +210,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           scroll={{ x: 800 }}
         />
         <IF.ELSE />
-        <PureBoardGrid layout={layout} />
+        <BoardGrid.Pure layout={layout} />
       </IF>
       <IF check={drawerVisible}>
         <EditIssueDrawer

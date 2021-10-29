@@ -13,9 +13,8 @@
 
 import React, { MutableRefObject } from 'react';
 import { Modal, Button } from 'antd';
-import { Copy, FormModal } from 'common';
+import { Copy, FormModal, IFormItem } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import apiClientStore from 'apiManagePlatform/stores/api-client';

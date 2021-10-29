@@ -18,7 +18,7 @@ import { getFormatter } from 'charts/utils/formatter';
 import cloudSourceStore from 'cmp/stores/cloud-source';
 import { useEffectOnce } from 'react-use';
 import { get, map, values, isEmpty, merge } from 'lodash';
-import { PureBoardGrid } from 'common';
+import { BoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import { colorMap } from '@erda-ui/dashboard-configurator';
 import cloudAccountStore from 'cmp/stores/cloud-account';
@@ -498,7 +498,7 @@ const CloudSource = () => {
     return (
       <div className="cloud-source full-spin-height">
         <Spin spinning={getOverviewLoading}>
-          <PureBoardGrid layout={getLayout()} />
+          <BoardGrid.Pure layout={getLayout()} />
         </Spin>
       </div>
     );

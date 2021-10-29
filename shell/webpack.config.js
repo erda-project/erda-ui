@@ -60,6 +60,13 @@ module.exports = () => {
     'range-picker': false,
   };
 
+  // TODO: remove this
+  const specialNameComponents = {
+    'c-r-u-d-table': 'common/components/crud-table',
+    'i-f': 'common/components/if',
+    'time-selector': 'common/components/monitor',
+  };
+
   const commonConfig = {
     parallelism: cpuNum,
     entry: {
@@ -234,15 +241,27 @@ module.exports = () => {
                         }
                         return `antd/es/${name}`;
                       },
-                      style(name, file) { // name is antd/es/xx
+                      style(name, file) {
+                        // name is antd/es/xx
                         const match = overwriteCssMap[name.split('/')[2]];
                         if (match !== undefined) {
                           return match;
                         }
                         return `${name}/style`;
-                      }
+                      },
                     },
                     'antd',
+                  ],
+                  [
+                    'import',
+                    {
+                      libraryName: 'common',
+                      customName(name, file) {
+                        return specialNameComponents[name] || `common/components/${name}`;
+                      },
+                      style: false,
+                    },
+                    'common',
                   ],
                   '@babel/transform-runtime', // inject runtime helpers on demand
                 ],
@@ -294,11 +313,11 @@ module.exports = () => {
         },
         minify: isProd
           ? {
-            collapseWhitespace: true,
-            minifyJS: true,
-            minifyCSS: true,
-            removeEmptyAttributes: true,
-          }
+              collapseWhitespace: true,
+              minifyJS: true,
+              minifyCSS: true,
+              removeEmptyAttributes: true,
+            }
           : false,
         diceVersion: JSON.stringify(pkg.version),
       }),

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDStoreTable, FormModal, LoadMoreSelector } from 'common';
+import { CRUDTable, FormModal, LoadMoreSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import certRefStore from 'application/stores/certificate-reference';
@@ -313,7 +313,7 @@ const AppCertificateReference = () => {
         onOk={onOk}
         onCancel={onCancel}
       />
-      <CRUDStoreTable<APP_SETTING.LibRef>
+      <CRUDTable.StoreTable<APP_SETTING.LibRef>
         getColumns={getColumns as any}
         getFieldsList={getFieldsList}
         extraQuery={{ appId }}

@@ -16,7 +16,7 @@ import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { isEmpty } from 'lodash';
 import { K8sPodTerminalConsole, K8sPodTerminalLog } from './cluster-terminal';
-import { Holder, PureBoardGrid, TimeSelector } from 'common';
+import { Holder, BoardGrid, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { Spin } from 'antd';
 import CommonDashboardStore from 'common/stores/dashboard';
@@ -26,7 +26,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
 
-const DashBoard = React.memo(PureBoardGrid);
+const DashBoard = React.memo(BoardGrid.Pure);
 interface IPodMeta {
   meta: IMetaData;
 }

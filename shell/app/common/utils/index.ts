@@ -19,6 +19,8 @@ import moment from 'moment';
 import { Key, pathToRegexp, compile } from 'path-to-regexp';
 import { AxiosResponse } from 'axios';
 
+export { createCRUDStore, createCRUDService } from '../stores/_crud_module';
+
 export { connectCube } from './connect-cube';
 export { getBrowserInfo, getCookies, getLS, removeLS, setLS, clearLS, LSObserver } from './browser';
 export { replaceEmoji } from './emoji';

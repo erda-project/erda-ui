@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { FilterCore } from 'common/components/filter-group/filter-group';
+import { FilterCore } from 'app/common/components/filter-group';
 import { Input } from 'antd';
-import { FilterGroup, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from 'common';
+import { FilterGroup, ToolBarWithFilter, FilterBarHandle } from 'common/components/filter-group';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import * as utils from 'common/utils/query-string';
@@ -180,7 +180,7 @@ describe('filter-group', () => {
       </ToolBarWithFilter>,
     );
     wrapper.find('.filter-btn').at(0).simulate('click');
-    expect(wrapper.find('FilterGroupDrawer').prop('visible')).toBeTruthy();
+    expect(wrapper.find('FilterGroup.Drawer').prop('visible')).toBeTruthy();
     act(() => {
       ref.current.onSearchWithFilterBar({});
     });
@@ -193,20 +193,11 @@ describe('filter-group', () => {
       name: 'erda',
     });
     wrapper.update();
-    expect(wrapper.find('FilterGroupDrawer').prop('visible')).toBeFalsy();
+    expect(wrapper.find('FilterGroup.Drawer').prop('visible')).toBeFalsy();
     wrapper.find('.ant-tag-close-icon').at(0).simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(3);
     wrapper.find('.clear').simulate('click');
     expect(searchFn).toHaveBeenCalledTimes(4);
-  });
-  it('FilterGroupV should work well', () => {
-    const wrapper = mount(<FilterGroupV list={simpleList} />);
-    expect(
-      wrapper
-        .find('Col.filter-item')
-        .at(simpleList.length - 1)
-        .find('.ml-3-group'),
-    ).toExist();
   });
   it('should FilterBarHandle work well', () => {
     const queryStr = 'name[erda]||org[erda.cloud]';

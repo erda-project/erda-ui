@@ -13,8 +13,7 @@
 
 import React from 'react';
 import { protocolMap } from './config';
-import { FormModal } from 'common';
-import { IFormItem } from 'common/components/render-formItem';
+import { FormModal, IFormItem } from 'common';
 import { exportSwagger } from 'apiManagePlatform/services/api-market';
 import i18n from 'i18n';
 import { map, pickBy } from 'lodash';

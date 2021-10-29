@@ -14,7 +14,7 @@
 import React from 'react';
 import { Row, Col, Radio, Select, Table, Tooltip } from 'antd';
 import { map, get } from 'lodash';
-import { Icon as CustomIcon, PureBoardGrid, TimeSelector } from 'common';
+import { Icon as CustomIcon, BoardGrid, TimeSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import moment from 'moment';
 import { SelectValue, ColumnProps } from 'core/common/interface';
@@ -395,7 +395,7 @@ const ErrorReport = (props: IProps) => {
         </div>
         <div>
           <FilterTab className="m-2" value={lineChartType} onChange={updater.lineChartType} />
-          <PureBoardGrid layout={lineChart} />
+          <BoardGrid.Pure layout={lineChart} />
         </div>
       </div>
       <div className="mt-4 block-container">

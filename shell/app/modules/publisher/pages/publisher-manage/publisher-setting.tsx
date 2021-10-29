@@ -36,7 +36,7 @@ const PublisherSetting = () => {
   });
   return <PublisherInfo data={data} getDetail={getDetail} />;
   // return (
-  //   <SettingsTabs
+  //   <SettingTabs
   //     className="publisher-settings-main"
   //     dataSource={[
   //       {

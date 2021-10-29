@@ -15,7 +15,7 @@ import { get } from 'lodash';
 import React from 'react';
 import { Switch, Tooltip, Drawer } from 'antd';
 import { LogRoller, SimpleLog } from 'common';
-import { regLog } from 'common/components/log/log-util';
+import { regLog } from 'app/common/components/pure-log-roller/log-util';
 import { transformLog } from 'app/common/utils';
 import i18n from 'i18n';
 import { LeftOne as IconLeftOne } from '@icon-park/react';

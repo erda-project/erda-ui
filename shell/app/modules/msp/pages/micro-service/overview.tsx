@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Spin } from 'antd';
-import { Holder, PureBoardGrid } from 'common';
+import { Holder, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import { getDashboard } from 'msp/services';
@@ -21,7 +21,7 @@ import { isEmpty } from 'lodash';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-const DashBoard = React.memo(PureBoardGrid);
+const DashBoard = React.memo(BoardGrid.Pure);
 
 interface IState {
   layout: DC.Layout;

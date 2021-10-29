@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { CRUDTable, CRUDStoreTable } from 'common';
+import { CRUDTable } from 'common';
 import { Input } from 'antd';
 import { mount, shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
@@ -95,7 +95,7 @@ describe('crud-table.', () => {
       expect(clearListFn).toHaveBeenCalled();
     });
   });
-  describe('CRUDStoreTable', () => {
+  describe('CRUDTable.StoreTable', () => {
     it('should work well', () => {
       const getList = jest.fn();
       const addItem = jest.fn();
@@ -105,7 +105,7 @@ describe('crud-table.', () => {
       const paging = { pageNo: 1 };
       const data = { name: 'erda' };
       const store = createStore({
-        name: 'CRUDStoreTable',
+        name: 'CRUDTable.StoreTable',
         state: {
           list,
           paging,
@@ -116,7 +116,7 @@ describe('crud-table.', () => {
         addItem,
         updateItem,
       };
-      const wrapper = shallow(<CRUDStoreTable store={{ ...store, effects }} getColumns={getColumns} />);
+      const wrapper = shallow(<CRUDTable.StoreTable store={{ ...store, effects }} getColumns={getColumns} />);
       expect(wrapper.find('CRUDTable').prop('list')).toStrictEqual(list);
       expect(wrapper.find('CRUDTable').prop('paging')).toStrictEqual(paging);
       const handleFormSubmit = wrapper.find('CRUDTable').prop('handleFormSubmit');

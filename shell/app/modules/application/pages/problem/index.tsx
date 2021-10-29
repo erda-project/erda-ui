@@ -13,9 +13,8 @@
 
 import React from 'react';
 import { Button } from 'antd';
-import { useMultiFilter } from 'common';
 import { goTo } from 'common/utils';
-import { useSwitch } from 'common/use-hooks';
+import { useSwitch, useMultiFilter } from 'common/use-hooks';
 import { ProblemList } from './problem-list';
 import { ProblemForm } from './problem-form';
 import i18n from 'i18n';

@@ -19,7 +19,7 @@ import { insertWhen } from 'common/utils';
 import cloudECSStore from 'app/modules/cmp/stores/computing';
 import clusterStore from 'cmp/stores/cluster';
 import { SetTagForm } from 'cmp/common/components/set-tag-form';
-import { CRUDStoreTable, TagsRow } from 'common';
+import { CRUDTable, TagsRow } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { EcsCloudOperationForm } from './ecsCloud-operation-form';
 import cloudCommonStore from 'app/modules/cmp/stores/cloud-common';
@@ -452,7 +452,7 @@ export default () => {
           </Button>
         </Dropdown>
       </div>
-      <CRUDStoreTable<COMPUTING.ECS>
+      <CRUDTable.StoreTable<COMPUTING.ECS>
         key={stateChangeKey}
         rowKey="id"
         filterConfig={filterConfig}

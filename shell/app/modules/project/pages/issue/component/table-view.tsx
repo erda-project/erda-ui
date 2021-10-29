@@ -17,7 +17,7 @@ import issueStore from 'project/stores/issues';
 import moment from 'moment';
 import { map, omit, get, find } from 'lodash';
 import issueWorkflowStore from 'project/stores/issue-workflow';
-import { MemberSelector, Icon as CustomIcon, FilterBarHandle } from 'common';
+import { MemberSelector, Icon as CustomIcon, FilterGroup } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps } from 'core/common/interface';
 import { updateSearch, insertWhen } from 'common/utils';
@@ -44,7 +44,7 @@ interface IProps {
   viewType?: string;
   onChosenIssue: (val: ISSUE.Issue) => void;
 }
-const QKey = FilterBarHandle.filterDataKey;
+const QKey = FilterGroup.FilterBarHandle.filterDataKey;
 
 const unFinishState = [
   ISSUE_STATE_MAP.OPEN.value,
