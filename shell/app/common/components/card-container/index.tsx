@@ -19,7 +19,7 @@ import './index.scss';
 
 export interface CardContainerProps {
   title: string | React.ElementType | JSX.Element;
-  tip?: string;
+  tip?: string | string[];
   className?: string;
   operation?: React.ReactNode;
   holderWhen?: boolean;
@@ -28,6 +28,18 @@ export interface CardContainerProps {
 }
 
 const CardContainer = ({ title, tip, className, operation, holderWhen, style, children }: CardContainerProps) => {
+  const TipComp = Array.isArray(tip) ? (
+    <div>
+      {tip.map((tipItem, idx) => (
+        <div key={idx} className="mb-2">
+          {tipItem}
+        </div>
+      ))}
+    </div>
+  ) : (
+    tip
+  );
+
   return (
     <div className={`ec-card-container flex flex-col ${className || ''}`} style={style}>
       {title || operation ? (
@@ -36,7 +48,7 @@ const CardContainer = ({ title, tip, className, operation, holderWhen, style, ch
             <div className="font-medium inline-flex items-center">
               {title}
               {tip ? (
-                <Tooltip title={tip}>
+                <Tooltip title={TipComp}>
                   <IconHelp className="text-base ml-1" />
                 </Tooltip>
               ) : null}

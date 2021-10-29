@@ -183,7 +183,7 @@ const SideBar = () => {
       },
     },
     {
-      show: !loginUser.isSysAdmin,
+      show: true,
       icon: (
         <Badge
           size="small"
