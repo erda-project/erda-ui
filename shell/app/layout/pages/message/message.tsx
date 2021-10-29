@@ -113,7 +113,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
     return () => {
       messageStore.reducers.resetAll();
     };
-  }, [getMessageList, getMessageStats, show]);
+  }, [getMessageList, getMessageStats, show, orgName]);
 
   const viewMsg = () => {
     switchMessageCenter(true);

@@ -187,7 +187,7 @@ const PageContainer = ({ route }: IProps) => {
           >
             {MainContent}
           </div>
-          {!isIn('sysAdmin') && <MessageCenter show={showMessage} />}
+          <MessageCenter show={showMessage} />
         </Shell>
         <DiceLicense />
       </div>
