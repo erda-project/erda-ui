@@ -793,7 +793,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     const rules = cloneDeep(state.triggerCondition);
     const rule = find(rules, { id });
     const index = findIndex(rules, { id });
-    const operatorIsAll = item.key === 'operator' && item.value === 'all';
     if (item.key === 'operator' && item.value === 'all') {
       fill(
         rules,
@@ -802,9 +801,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         index + 1,
       );
     }
-    console.log(1111, { rules });
     fill(rules, { id, ...rule, [item.key]: item.value }, index, index + 1);
-    console.log(2222, { rules });
     updater.triggerCondition(rules);
   };
   const beforeSubmit = async (param: any) => {

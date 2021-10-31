@@ -45,7 +45,7 @@ export const TriggerConditionSelect = ({
   valueOptionsList,
 }: IProps) => {
   const { type } = operatorOptions.find((t) => t.key === current.operator) ?? operatorOptions[0];
-  console.log({ current, valueOptions });
+
   return (
     <div className="flex items-center mb-4">
       <Select
@@ -55,8 +55,8 @@ export const TriggerConditionSelect = ({
           handleEditTriggerConditions(id, { key: 'condition', value });
           const currentOptions =
             valueOptionsList
-              .find((item: { key: any }) => item.key === value)
-              ?.options.map((item: any) => ({ key: item, display: item })) ?? [];
+              .find((item: { key: string }) => item.key === value)
+              ?.options.map((item: string) => ({ key: item, display: item })) ?? [];
 
           updater.triggerConditionValueOptions(currentOptions);
           handleEditTriggerConditions(id, { key: 'values', value: currentOptions[0]?.key });
@@ -75,7 +75,10 @@ export const TriggerConditionSelect = ({
         value={current?.operator}
         onSelect={(value) => {
           handleEditTriggerConditions(id, { key: 'operator', value });
-          handleEditTriggerConditions(id, { key: 'values', value: undefined });
+          handleEditTriggerConditions(id, {
+            key: 'values',
+            value: value === 'all' ? valueOptions?.map((item) => item?.key)?.join(',') : undefined,
+          });
         }}
       >
         {map(operatorOptions, (item) => {
@@ -100,9 +103,11 @@ export const TriggerConditionSelect = ({
         />
       ) : (
         <Select
-          value={current?.values}
+          value={type === 'single' ? current?.values : current?.values?.split(',')}
           mode={type === 'single' ? undefined : type}
-          onSelect={(value) => handleEditTriggerConditions(id, { key: 'values', value })}
+          onChange={(value) =>
+            handleEditTriggerConditions(id, { key: 'values', value: type === 'single' ? value : value?.join(',') })
+          }
         >
           {map(valueOptions, (item) => {
             return (
