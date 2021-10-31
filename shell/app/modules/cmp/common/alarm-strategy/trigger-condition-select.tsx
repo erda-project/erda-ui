@@ -25,11 +25,11 @@ interface IProps {
     condition: string;
     operator: string;
     values: string;
+    valueOptions: Array<{ key: string; display: string }>;
   };
   handleEditTriggerConditions: (id: string, data: { key: string; value: string }) => void;
   handleRemoveTriggerConditions: (id: string) => void;
   operatorOptions: Array<{ key: string; display: string; type: 'input' | 'none' | 'multiple' | 'single' }>;
-  valueOptions: Array<{ key: string; display: string }>;
   valueOptionsList: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[];
 }
 
@@ -40,7 +40,6 @@ export const TriggerConditionSelect = ({
   handleEditTriggerConditions,
   handleRemoveTriggerConditions,
   operatorOptions,
-  valueOptions,
   updater,
   valueOptionsList,
 }: IProps) => {
@@ -57,8 +56,7 @@ export const TriggerConditionSelect = ({
             valueOptionsList
               .find((item: { key: string }) => item.key === value)
               ?.options.map((item: string) => ({ key: item, display: item })) ?? [];
-
-          updater.triggerConditionValueOptions(currentOptions);
+          handleEditTriggerConditions(id, { key: 'valueOptions', value: currentOptions });
           handleEditTriggerConditions(id, { key: 'values', value: currentOptions[0]?.key });
         }}
       >
@@ -77,7 +75,7 @@ export const TriggerConditionSelect = ({
           handleEditTriggerConditions(id, { key: 'operator', value });
           handleEditTriggerConditions(id, {
             key: 'values',
-            value: value === 'all' ? valueOptions?.map((item) => item?.key)?.join(',') : undefined,
+            value: value === 'all' ? current?.valueOptions?.map((item) => item?.key)?.join(',') : undefined,
           });
         }}
       >
@@ -97,7 +95,7 @@ export const TriggerConditionSelect = ({
           onChange={(e) => {
             handleEditTriggerConditions(id, {
               key: 'values',
-              value: type === 'none' ? valueOptions?.map((item) => item?.key)?.join(',') : e.target.value,
+              value: type === 'none' ? current?.valueOptions?.map((item) => item?.key)?.join(',') : e.target.value,
             });
           }}
         />
@@ -109,7 +107,7 @@ export const TriggerConditionSelect = ({
             handleEditTriggerConditions(id, { key: 'values', value: type === 'single' ? value : value?.join(',') })
           }
         >
-          {map(valueOptions, (item) => {
+          {map(current?.valueOptions, (item) => {
             return (
               <Option key={item?.key} value={item?.key}>
                 {item?.display}

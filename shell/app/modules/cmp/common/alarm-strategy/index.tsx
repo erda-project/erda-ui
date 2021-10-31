@@ -516,7 +516,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
               handleEditTriggerConditions={handleEditTriggerConditions}
               handleRemoveTriggerConditions={handleRemoveTriggerConditions}
               operatorOptions={conditionOperatorOptions}
-              valueOptions={state.triggerConditionValueOptions}
               valueOptionsList={alertTriggerConditionsContent}
             />
           ))}
@@ -669,12 +668,20 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
       updater.activeGroupId(notifies[0].groupId);
+
       updater.triggerCondition(
         (triggerCondition || []).map((x) => ({
           id: uniqueId(),
           condition: x.condition,
           operator: x.operator,
           values: x.values,
+          valueOptions:
+            alertTriggerConditionsContent
+              .find((item) => item.key === x.condition)
+              ?.options.map((y) => ({
+                key: y,
+                display: y,
+              })) ?? [],
         })),
       );
 
@@ -735,13 +742,13 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         .find((item) => item.key === alertTriggerConditions?.[0]?.key)
         ?.options.map((item) => ({ key: item, display: item })) ?? [];
 
-    updater.triggerConditionValueOptions(currentTriggerValues);
     updater.triggerCondition([
       {
         id: uniqueId(),
         condition: alertTriggerConditions[0]?.key,
         operator: conditionOperatorOptions?.[0].key,
         values: currentTriggerValues[0]?.key,
+        valueOptions: currentTriggerValues,
       },
       ...(state.triggerCondition || []),
     ]);
@@ -796,7 +803,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     if (item.key === 'operator' && item.value === 'all') {
       fill(
         rules,
-        { id, ...rule, values: state.triggerConditionValueOptions?.map((x) => x?.key)?.join(',') },
+        { id, ...rule, values: state.triggerCondition.valueOptions?.map((x) => x?.key)?.join(',') },
         index,
         index + 1,
       );
@@ -873,7 +880,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       editingRules: [],
       editingFormRule: {},
       activeGroupId: undefined,
-      triggerConditionValueOptions: [],
       triggerCondition: [],
       notifies: [],
       // groupTypeOptions: [],
