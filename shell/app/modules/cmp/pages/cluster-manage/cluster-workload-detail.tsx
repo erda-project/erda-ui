@@ -33,7 +33,7 @@ export const PureClusterWorkloadDetail = (props: IProps) => {
         scenarioKey={'cmp-dashboard-workload-detail'}
         inParams={inParams}
         customProps={{
-          perationButton: onDelete
+          operationButton: onDelete
             ? {
                 click: (op: Obj) => {
                   if (op.key === 'delete') {

@@ -131,11 +131,11 @@ const build = createStore({
         appID: +appId,
         sources: source,
         ymlNames: pagingYmlNamesStr,
-        pageNum: pageNo,
+        pageNo,
         pageSize: 10,
       };
       const { list: executeRecords } = await call(getExecuteRecords, params, {
-        paging: { key: 'recordPaging', listKey: 'pipelines', pageNoKey: 'pageNum' },
+        paging: { key: 'recordPaging', listKey: 'pipelines' },
       });
       update({ executeRecords });
       return executeRecords;
