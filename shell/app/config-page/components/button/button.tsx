@@ -112,6 +112,7 @@ export const Button = (props: CP_BUTTON.Props) => {
             return (
               <Menu.Item key={`${fakeClick}-${mItem.key}`}>
                 <Popconfirm
+                  {...tipProps}
                   title={curOp.confirm}
                   onConfirm={() => {
                     execOperation(curOp);
@@ -144,7 +145,7 @@ export const Button = (props: CP_BUTTON.Props) => {
   }
 
   const buttonComp = confirm ? (
-    <Popconfirm title={confirm} onConfirm={onClick}>
+    <Popconfirm {...tipProps} title={confirm} onConfirm={onClick}>
       <NusiButton {...rest}>{content}</NusiButton>
     </Popconfirm>
   ) : (
