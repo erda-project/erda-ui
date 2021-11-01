@@ -105,12 +105,15 @@ export default (record: AUDIT.Item, extraTemplates = {}) => {
       const contextKey = isDynamic ? _contextKey.slice(1) : _contextKey;
       const contextValue = isDynamic ? fullContext[contextKey] : contextKey;
       if (!contextValue) {
-        logErr(`audit contextKey: ${contextKey} not exist`, record);
+        logErr(
+          `property [${contextKey}] not exist in context in audit template [${record.templateName}], record:`,
+          record,
+        );
       }
       if (urlKey && !goTo.resolve[urlKey]) {
         logErr(`audit urlKey: ${urlKey} not exist in goTo`, record);
         contentList.push({
-          value: contextValue,
+          value: contextValue || '',
           Comp: (_props: { value: string }) => (
             <span key={`${String(mIndex)}-1`} className="font-bold">
               {_props.value}
