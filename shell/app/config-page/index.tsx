@@ -36,6 +36,11 @@ interface IProps {
   forceMock?: boolean; // 使用mock
   useMock?: (params: Obj) => Promise<any>;
   updateConfig?: (params: Obj) => any;
+  operationCallBack?: (
+    reqConfig: CONFIG_PAGE.RenderConfig,
+    resConfig?: CONFIG_PAGE.RenderConfig,
+    op?: CP_COMMON.Operation,
+  ) => void;
 }
 
 const unProduct = process.env.NODE_ENV !== 'production';
@@ -55,6 +60,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     debugConfig,
     onExecOp,
     updateConfig,
+    operationCallBack,
   } = props;
   const [{ pageConfig, fetching }, updater] = useUpdate({
     pageConfig:
@@ -145,7 +151,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     // 此处用state，为了兼容useMock的情况
     if (op?.showLoading !== false) updater.fetching(true);
     fetchingRef.current = true;
-    ((useMockMark && _useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
+    const reqConfig = { ...(p || pageConfig), inParams: inParamsRef.current };
+    ((useMockMark && _useMock) || getRenderPageLayout)(reqConfig, partial)
       .then((res: any) => {
         if (partial) {
           const comps = get(res, 'protocol.components');
@@ -156,9 +163,11 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
             }
           });
           callBack?.(newConfig);
+          operationCallBack?.(reqConfig, newConfig, op);
           updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
         } else {
           callBack?.(res);
+          operationCallBack?.(reqConfig, res, op);
           updateConfig ? updateConfig(res) : updater.pageConfig(res);
         }
         if (op?.successMsg) notify('success', op.successMsg);
