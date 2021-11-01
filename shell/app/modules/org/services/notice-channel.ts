@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
 import { apiCreator } from 'core/service';
 
 const apis = {
@@ -44,17 +43,8 @@ export const setNotifyChannelEnable = apiCreator<(payload: { id: string; enable:
   apis.setNotifyChannelEnable,
 );
 
-export const addNotifyChannel = apiCreator<(payload: NOTIFY_CHANNEL.IAddChannelQuery) => void>(apis.addNotifyChannel);
+export const addNotifyChannel = apiCreator<(payload: NOTIFY_CHANNEL.IChannelBody) => void>(apis.addNotifyChannel);
 
-export const editNotifyChannel = apiCreator<
-  (payload: {
-    channelProviderType: string;
-    config: object;
-    name: string;
-    type: string;
-    enable: boolean;
-    id: string;
-  }) => void
->(apis.editNotifyChannel);
+export const editNotifyChannel = apiCreator<(payload: NOTIFY_CHANNEL.IChannelBody) => void>(apis.editNotifyChannel);
 
 export const deleteNotifyChannel = apiCreator<(payload: { id: number }) => void>(apis.deleteNotifyChannel);

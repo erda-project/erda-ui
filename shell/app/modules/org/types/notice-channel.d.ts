@@ -50,11 +50,12 @@ declare namespace NOTIFY_CHANNEL {
     };
   }
 
-  interface IAddChannelQuery {
+  interface IChannelBody {
     channelProviderType: string;
     config: object;
     name: string;
     type: string;
     enable: boolean;
+    id?: number;
   }
 }

@@ -102,7 +102,7 @@ const NotifyChannel = () => {
     });
   };
 
-  const handleSubmit = (values: any, id?: string) => {
+  const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: number) => {
     const { name, channelProviderType, type, config, enable } = values;
     if (isEditing && id) {
       editNotifyChannel
@@ -177,7 +177,7 @@ const NotifyChannel = () => {
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
-            onSelect={(value: any) => {
+            onSelect={(value: string) => {
               updater.channelType(value);
               form.setFieldsValue({ type: value });
             }}
@@ -199,7 +199,7 @@ const NotifyChannel = () => {
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <Select
-            onSelect={(value: any) => {
+            onSelect={(value: string) => {
               updater.channelProvider(value);
               form.setFieldsValue({ channelProviderType: value });
             }}
@@ -215,19 +215,19 @@ const NotifyChannel = () => {
     },
     {
       name: 'config.accessKeyId',
-      label: 'accessKeyId',
+      label: 'AccessKeyId',
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')} accessKeyId`,
+        placeholder: `${i18n.t('please input')} AccessKeyId`,
       },
     },
     {
       name: 'config.accessKeySecret',
-      label: 'accessKeySecret',
+      label: 'AccessKeySecret',
       required: true,
       itemProps: {
-        placeholder: `${i18n.t('please input')} accessKeySecret`,
+        placeholder: `${i18n.t('please input')} AccessKeySecret`,
         type: passwordVisible ? 'text' : 'password',
         addonAfter: passwordVisible ? (
           <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
@@ -242,29 +242,39 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 500,
-        placeholder: `${i18n.t('please input SMS signature')}`,
+        placeholder: `${i18n.t(
+          'please input the SMS signature you have applied for on the service provider platform',
+        )}`,
       },
     },
     {
       name: 'config.templateCode',
-      label: i18n.t('SMS Template'),
+      label: i18n.t('SMS Template Code'),
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
           <>
             <Input
               defaultValue={isEditing ? templateCode : ''}
-              onChange={(e: any) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 form.setFieldsValue({ config: { ...form.getFieldValue('config'), templateCode: e.target.value } });
               }}
-              placeholder={`${i18n.t('please input SMS Template')}`}
+              placeholder={`${i18n.t(
+                'please input the SMS Template Code you have applied for on the service provider platform',
+              )}`}
             />
             <div className="text-desc mt-4">
               {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
             </div>
             <div className="text-desc mt-2">
-              <Copy copyText={`${i18n.t('You have a notification message from the Erda platform')}: $\{content}`}>
-                {`${i18n.t('You have a notification message from the Erda platform')}: $\{content}`}
+              <Copy
+                copyText={`${i18n.t('You have a notification message from the Erda platform')}: $\{content}, ${i18n.t(
+                  'please deal with it promptly',
+                )}`}
+              >
+                {`${i18n.t('You have a notification message from the Erda platform')}: $\{content}, ${i18n.t(
+                  'please deal with it promptly',
+                )}`}
               </Copy>
             </div>
           </>
@@ -274,7 +284,7 @@ const NotifyChannel = () => {
         maxLength: 500,
       },
     },
-  ] as any[];
+  ];
 
   const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
