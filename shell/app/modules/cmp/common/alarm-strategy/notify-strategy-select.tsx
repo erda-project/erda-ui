@@ -32,6 +32,7 @@ interface IProps {
   notifyGroups: COMMON_NOTIFY.INotifyGroup[];
   alertLevelOptions: Array<{ key: string; display: string }>;
   notifyChannelMap: typeof notifyChannelOptionsMap | typeof smsNotifyChannelOptionsMap;
+  updater: (groupId: number) => void;
   handleRemoveNotifyStrategy: (id: string) => void;
 }
 
@@ -54,7 +55,7 @@ export const NotifyStrategySelect = ({
         className="mr-8"
         value={current?.groupId}
         onSelect={(groupId: number) => {
-          updater.activeGroupId(groupId);
+          updater(groupId);
           handleEditNotifyStrategy(id, { key: 'groupId', value: groupId });
           const activeGroup = find(notifyGroups, (item) => item.id === groupId);
           const groupTypeOptions =

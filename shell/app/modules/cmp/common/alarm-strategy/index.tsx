@@ -77,7 +77,7 @@ const notifyGroupPage = {
 
 const alertLevelOptions = [
   {
-    key: 'Panic',
+    key: 'Breakdown',
     display: i18n.t('msp:breakdown'),
   },
   {
@@ -96,12 +96,12 @@ const alertLevelOptions = [
 
 const conditionOperatorOptions = [
   {
-    key: 'like',
+    key: 'match',
     display: i18n.t('msp:match'),
     type: 'input',
   },
   {
-    key: 'not like',
+    key: 'not match',
     display: i18n.t('msp:not match'),
     type: 'input',
   },
@@ -386,7 +386,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:alarm level'),
       dataIndex: 'level',
-      width: 105,
+      width: 120,
       render: (value: string, { key }) => (
         <Select
           className="operator mr-2"
@@ -510,7 +510,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
               keyOptions={alertTriggerConditions}
               key={item.id}
               id={item.id}
-              updater={updater}
               current={state.triggerCondition?.find((x) => x.id === item.id)}
               handleEditTriggerConditions={handleEditTriggerConditions}
               handleRemoveTriggerConditions={handleRemoveTriggerConditions}
@@ -565,7 +564,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
               addNotificationGroupAuth={addNotificationGroupAuth}
               key={item.id}
               id={item.id}
-              updater={updater}
+              updater={updater.activeGroupId}
               current={state.notifies?.find((x) => x.id === item.id)}
               handleEditNotifyStrategy={handleEditNotifyStrategy}
               handleRemoveNotifyStrategy={handleRemoveNotifyStrategy}
