@@ -38,13 +38,13 @@ const Summary = () => {
         <TimeSelectWithStore />
       </div>{' '}
       <Row className="summary" gutter={20}>
-        <Col span={8}>
+        <Col span={8} style={{ minWidth: 500 }}>
           <div className="sort-panel">
             <SummaryMap.sortTab />
             <SummaryMap.sortList />
           </div>
         </Col>
-        <Col span={16} className="bg-transparent">
+        <Col span={16} className="bg-transparent flex-1">
           <SummaryMap.summaryDetail query={query} />
         </Col>
       </Row>
