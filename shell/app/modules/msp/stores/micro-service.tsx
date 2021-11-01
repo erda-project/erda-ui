@@ -60,6 +60,8 @@ interface IState {
 
 const currentLocale = getCurrentLocale();
 
+const COMMUNITY_REMOVE_KEYS = ['LogAnalyze', 'APIGateway', 'RegisterCenter', 'ConfigCenter'];
+
 const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, any>, query: Record<string, any>) => {
   let queryStr = '';
   if (!isEmpty(query)) {
@@ -68,6 +70,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
 
   return menuData
     .filter((m) => m.exists)
+    .filter((m) => (process.env.FOR_COMMUNITY ? !COMMUNITY_REMOVE_KEYS.includes(m.key) : true))
     .map((menu) => {
       const { key, cnName, enName, children } = menu;
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
