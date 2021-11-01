@@ -57,6 +57,14 @@ const formatJSON = (str: string) => {
   return typeof res === 'string' ? res : '';
 };
 
+const formatStrToKeyValue = (str: string) => {
+  const obj = qs.parse(str);
+  return Object.keys(obj).map((key) => ({
+    key,
+    value: obj[key],
+  }));
+};
+
 const getConf = (data: Record<string, any>, key: string | string[]) => {
   return isArray(key)
     ? reduce(
@@ -107,7 +115,7 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
-const BODY_RAW_OPTION = ['text/plain', 'application/json'];
+const BODY_RAW_OPTION = ['text/plain', 'application/json', 'application/x-www-form-urlencoded'];
 
 const formatTip = i18n.t('dop:four parameter references').replace(/</g, '{').replace(/>/g, '}');
 
@@ -166,6 +174,8 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       } else if (draft.body?.type.includes('JSON')) {
         set(draft, 'body.type', BODY_RAW_OPTION[1]);
         set(draft, 'headers', updateHeader(BODY_RAW_OPTION[1]));
+      } else if (draft.body?.type === BODY_RAW_OPTION[2]) {
+        set(draft, 'body.content', formatStrToKeyValue(draft.body.content));
       }
     });
     setAPI(apiSpec);
