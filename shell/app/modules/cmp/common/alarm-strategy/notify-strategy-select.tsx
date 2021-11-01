@@ -119,7 +119,11 @@ export const NotifyStrategySelect = ({
           );
         })}
       </Select>
-      <IconReduceOne className="cursor-pointer ml-8" size="16" onClick={() => handleRemoveNotifyStrategy(id)} />
+      <IconReduceOne
+        className="cursor-pointer ml-8 hover:text-primary"
+        size="16"
+        onClick={() => handleRemoveNotifyStrategy(id)}
+      />
     </div>
   );
 };

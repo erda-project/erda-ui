@@ -121,7 +121,11 @@ export const TriggerConditionSelect = ({
           })}
         </Select>
       )}
-      <IconReduceOne className="cursor-pointer ml-8" size="16" onClick={() => handleRemoveTriggerConditions(id)} />
+      <IconReduceOne
+        className="cursor-pointer ml-8 hover:text-primary"
+        size="16"
+        onClick={() => handleRemoveTriggerConditions(id)}
+      />
     </div>
   );
 };

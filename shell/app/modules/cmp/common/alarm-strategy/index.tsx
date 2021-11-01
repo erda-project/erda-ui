@@ -492,11 +492,11 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     },
     {
       label: (
-        <div>
+        <div className="flex items-center">
           <span>{i18n.t('cmp:trigger conditions')}</span>
           <IconAddOne
-            className="cursor-pointer align-text-bottom ml-2"
-            size="24"
+            className="cursor-pointer align-text-bottom ml-2 hover:text-primary"
+            size="20"
             onClick={() => handleAddTriggerConditions()}
           />
         </div>
@@ -541,11 +541,11 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     },
     {
       label: (
-        <div>
+        <div className="flex items-center">
           <span>{i18n.t('cmp:notify strategy')}</span>
           <IconAddOne
-            className="cursor-pointer align-text-bottom ml-2"
-            size="24"
+            className="cursor-pointer align-text-bottom ml-2 hover:text-primary"
+            size="20"
             onClick={() => handleAddNotifyStrategy()}
           />
         </div>
