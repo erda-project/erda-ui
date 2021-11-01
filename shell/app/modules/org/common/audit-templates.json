@@ -912,7 +912,7 @@
       "en": ""
     }
   },
-  "updateOrgNew": {
+  "updateOrgV2": {
     "desc": "更新企业",
     "success": {
       "zh": "更新了企业[@orgName], [@contentZH]",
