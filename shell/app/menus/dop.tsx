@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import {
@@ -69,13 +69,15 @@ export const getDopMenu = () => {
             },
           ],
         },
-        {
-          href: goTo.resolve.dopService(), // '/dop/service',
-          icon: <CustomIcon type="kuozhanfuwu" />,
-          text: i18n.t('addon service'),
-          subtitle: 'Addon',
-          show: orgPerm.dop.addonService.read.pass,
-        },
+        ...insertWhen(!process.env.FOR_COMMUNITY, [
+          {
+            href: goTo.resolve.dopService(), // '/dop/service',
+            icon: <CustomIcon type="kuozhanfuwu" />,
+            text: i18n.t('addon service'),
+            subtitle: 'Addon',
+            show: orgPerm.dop.addonService.read.pass,
+          },
+        ]),
         {
           key: 'approval',
           href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
