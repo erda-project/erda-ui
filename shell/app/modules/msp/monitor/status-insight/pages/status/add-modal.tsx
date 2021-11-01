@@ -88,7 +88,10 @@ const convertFormData = (_formData?: Obj) => {
           : _formData.config?.body?.type,
       frequency: _formData.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData.config?.body || { content: '', type: noneType },
+      body: _formData.config?.body || {
+        content: '',
+        type: noneType,
+      },
       headers: _formData.config?.headers || {},
       url: _formData.config?.url || '',
       query: qs.parseUrl(_formData.config?.url || '')?.query,
@@ -166,17 +169,15 @@ const AddModal = (props: IProps) => {
   };
 
   const setOperator = (index: number, operate: string) => {
-    if (condition[index]) {
-      condition[index].operate = operate;
-    }
-    updater.condition([...condition]);
+    const newCondition = [...condition];
+    newCondition[index] = { ...newCondition[index], operate };
+    updater.condition(newCondition);
   };
 
   const setKey = (index: number, key: string) => {
-    if (condition[index]) {
-      condition[index].key = key;
-    }
-    updater.condition([...condition]);
+    const newCondition = [...condition];
+    newCondition[index] = { ...newCondition[index], key };
+    updater.condition(newCondition);
   };
 
   const formatBody = () => {
@@ -484,9 +485,13 @@ const AddModal = (props: IProps) => {
                           value={item?.key}
                           onChange={(v) => {
                             if (v === 'http_code') {
-                              condition[index].operate = '>=';
+                              const newCondition = [...condition];
+                              newCondition[index] = { ...newCondition[index], operate: '>=' };
+                              updater.condition(newCondition);
                             } else {
-                              condition[index].operate = 'contains';
+                              const newCondition = [...condition];
+                              newCondition[index] = { ...newCondition[index], operate: 'contains' };
+                              updater.condition(newCondition);
                             }
                             setKey(index, v);
                           }}
