@@ -97,7 +97,7 @@ export const getExecuteRecords = ({
   return agent
     .get('/api/pipelines')
     .query({
-      pageNum: pageNo,
+      pageNo,
       pageSize,
       mustMatchLabels: JSON.stringify({ testPlanID: testPlanId }),
       sources: 'api-test',
