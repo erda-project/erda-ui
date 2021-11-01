@@ -14,6 +14,8 @@
 import React from 'react';
 import { Dropdown, Menu, Divider } from 'antd';
 import Table, { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
+import { SorterResult } from 'antd/es/table/interface';
+import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 
 import './index.scss';
@@ -67,11 +69,69 @@ interface IAction {
   onClick: () => void;
 }
 
+declare type TableAction = 'paginate' | 'sort' | 'filter';
+
 function WrappedTable<T extends object = any>({ columns, rowClassName, actions, ...props }: IProps<T>) {
-  const newColumns = columns?.map(({ ...args }: ColumnProps<T>) => ({
-    ellipsis: true,
-    ...args,
-  }));
+  const [sort, setSort] = React.useState<SorterResult<T>>({});
+  const menu = React.useCallback(
+    (column: ColumnProps<T>) => {
+      const { onChange = () => {}, pagination = {}, dataSource = [] } = props;
+      const sorter = {
+        column,
+        columnKey: column.dataIndex,
+        field: column.dataIndex,
+      } as SorterResult<T>;
+
+      const extra = {
+        currentDataSource: dataSource as T[],
+        action: 'sort' as TableAction,
+      };
+
+      const onSort = (order?: 'ascend' | 'descend') => {
+        setSort({ ...sorter, order });
+        onChange(pagination || {}, {}, { ...sorter, order }, extra);
+      };
+
+      return (
+        <Menu>
+          <Menu.Item key={'0'} onClick={() => onSort()}>
+            <span className="fake-link mr-1">取消排序</span>
+          </Menu.Item>
+          <Menu.Item key={'1'} onClick={() => onSort('ascend')}>
+            <span className="fake-link mr-1">升序</span>
+          </Menu.Item>
+          <Menu.Item key={'2'} onClick={() => onSort('descend')}>
+            <span className="fake-link mr-1">降序</span>
+          </Menu.Item>
+        </Menu>
+      );
+    },
+    [props],
+  );
+
+  const newColumns = columns?.map(({ width, sorter, title, ...args }: ColumnProps<T>) => {
+    let sortTitle;
+    if (sorter) {
+      sortTitle = (
+        <span>
+          {title}
+          <Dropdown overlay={menu({ ...args, title })} align={{ offset: [0, 5] }}>
+            <span className={`sorter-icon ${(sort.columnKey === args.dataIndex && sort.order) || ''}`}>
+              <CustomIcon type="caret-down" className="reverse-icon" />
+              <CustomIcon type="caret-down" />
+            </span>
+          </Dropdown>
+        </span>
+      );
+    }
+
+    return {
+      title: sortTitle || title,
+      ellipsis: true,
+      onCell: () => ({ style: { maxWidth: width } }),
+      ...args,
+    };
+  });
 
   return (
     <Table
