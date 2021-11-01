@@ -28,24 +28,35 @@ import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import { Button, Modal, Select, Spin, Table, Tooltip, Switch, Input } from 'antd';
 import { FormModal, Copy } from 'common';
+import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
 import { useUpdate } from 'common/use-hooks';
 import { ColumnProps, FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
-import notifyGroupStore from 'application/stores/notify-group';
-import { getNotifyChannelTypes, getNotifyChannels } from 'application/services/notify-group';
+import {
+  getNotifyChannelTypes,
+  getNotifyChannels,
+  setNotifyChannelEnable,
+  addNotifyChannel,
+  editNotifyChannel,
+  deleteNotifyChannel,
+} from 'org/services/notice-channel';
 
 const { confirm } = Modal;
 
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
-  const { setNotifyChannelEnable, deleteNotifyChannel, addNotifyChannel, editNotifyChannel } = notifyGroupStore.effects;
   const [data, loading] = getNotifyChannels.useState();
-  const [{ activeData, channelType, channelProvider, visible, paging, templateCode }, updater, update] = useUpdate({
+  const [
+    { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible },
+    updater,
+    update,
+  ] = useUpdate({
     activeData: {},
     channelType: '',
     channelProvider: '',
     visible: false,
     templateCode: '',
+    passwordVisible: false,
     paging: { pageSize: 15, current: 1 },
   });
   const channelProviderOptions = channelTypeOptions?.find((item) => item.name === channelType)?.providers;
@@ -59,7 +70,7 @@ const NotifyChannel = () => {
     getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize });
   }, [paging]);
 
-  const handleEdit = ({ channelProviderType, config, name, type, id }: COMMON_NOTIFY.NotifyChannel) => {
+  const handleEdit = ({ channelProviderType, config, name, type, id }: NOTIFY_CHANNEL.NotifyChannel) => {
     update({
       activeData: {
         id,
@@ -74,17 +85,17 @@ const NotifyChannel = () => {
   };
 
   const handleAdd = () => {
-    updater.channelType(channelTypeOptions?.[0]?.name);
-    updater.channelProvider(channelTypeOptions?.[0]?.providers?.[0]?.name);
+    updater.channelType(channelTypeOptions?.[0]?.name || '');
+    updater.channelProvider(channelTypeOptions?.[0]?.providers?.[0]?.name || '');
     updater.visible(true);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     confirm({
       title: i18n.t('are you sure you want to delete this item?'),
       content: i18n.t('the notification channel will be permanently deleted'),
       onOk() {
-        deleteNotifyChannel({ id }).then(() => {
+        deleteNotifyChannel.fetch({ id }).then(() => {
           updater.paging({ ...paging, current: 1 });
         });
       },
@@ -94,36 +105,40 @@ const NotifyChannel = () => {
   const handleSubmit = (values: any, id?: string) => {
     const { name, channelProviderType, type, config, enable } = values;
     if (isEditing && id) {
-      editNotifyChannel({
-        id,
+      editNotifyChannel
+        .fetch({
+          id,
+          name,
+          type,
+          channelProviderType,
+          config,
+          enable,
+        })
+        .then(() => {
+          update({
+            paging: { ...paging },
+            visible: false,
+            activeData: {},
+          });
+        });
+      return;
+    }
+
+    addNotifyChannel
+      .fetch({
         name,
         type,
         channelProviderType,
         config,
         enable,
-      }).then(() => {
+      })
+      .then(() => {
         update({
-          paging: { ...paging },
+          paging: { ...paging, current: 1 },
           visible: false,
           activeData: {},
         });
       });
-      return;
-    }
-
-    addNotifyChannel({
-      name,
-      type,
-      channelProviderType,
-      config,
-      enable,
-    }).then(() => {
-      update({
-        paging: { ...paging, current: 1 },
-        visible: false,
-        activeData: {},
-      });
-    });
   };
 
   const handleCancel = () => {
@@ -142,9 +157,16 @@ const NotifyChannel = () => {
       name: 'name',
       label: i18n.t('channel name'),
       required: true,
+      rules: [
+        {
+          validator: (_, value: string, callback: Function) => {
+            return value && !/\s/g.test(value) ? callback() : callback(i18n.t('common:cannot contain spaces'));
+          },
+        },
+      ],
       itemProps: {
         maxLength: 50,
-        placeholder: i18n.t('please input channel name'),
+        placeholder: `${i18n.t('please input channel name')}`,
       },
     },
     {
@@ -197,7 +219,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 50,
-        placeholder: `${i18n.t('please input')}accessKeyId`,
+        placeholder: `${i18n.t('please input')} accessKeyId`,
       },
     },
     {
@@ -205,8 +227,13 @@ const NotifyChannel = () => {
       label: 'accessKeySecret',
       required: true,
       itemProps: {
-        maxLength: 50,
-        placeholder: `${i18n.t('please input')}accessKeySecret`,
+        placeholder: `${i18n.t('please input')} accessKeySecret`,
+        type: passwordVisible ? 'text' : 'password',
+        addonAfter: passwordVisible ? (
+          <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
+        ) : (
+          <IconPreviewCloseOne onClick={() => updater.passwordVisible(true)} />
+        ),
       },
     },
     {
@@ -215,7 +242,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         maxLength: 500,
-        placeholder: `${i18n.t('please input')}${i18n.t('SMS signature')}`,
+        placeholder: `${i18n.t('please input SMS signature')}`,
       },
     },
     {
@@ -230,7 +257,7 @@ const NotifyChannel = () => {
               onChange={(e: any) => {
                 form.setFieldsValue({ config: { ...form.getFieldValue('config'), templateCode: e.target.value } });
               }}
-              placeholder={`${i18n.t('please input')}${i18n.t('SMS Template')}`}
+              placeholder={`${i18n.t('please input SMS Template')}`}
             />
             <div className="text-desc mt-4">
               {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
@@ -249,7 +276,7 @@ const NotifyChannel = () => {
     },
   ] as any[];
 
-  const columns: Array<ColumnProps<COMMON_NOTIFY.NotifyChannel>> = [
+  const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
       title: i18n.t('channel name'),
       dataIndex: 'name',
@@ -303,12 +330,14 @@ const NotifyChannel = () => {
               size="small"
               checked={record.enable}
               onChange={() => {
-                setNotifyChannelEnable({
-                  id: record.id,
-                  enable: !record.enable,
-                }).finally(() => {
-                  updater.paging({ ...paging });
-                });
+                setNotifyChannelEnable
+                  .fetch({
+                    id: record.id,
+                    enable: !record.enable,
+                  })
+                  .finally(() => {
+                    updater.paging({ ...paging });
+                  });
               }}
             />
             {/* </Tooltip> */}

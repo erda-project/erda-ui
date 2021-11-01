@@ -684,6 +684,7 @@
     "batch authorize application": "batch authorize application",
     "batch set the role of member": "batch set the role of member",
     "can not be all spaces": "can not be all spaces",
+    "cannot contain spaces": "cannot contain spaces",
     "cancel copy": "cancel copy",
     "cancel cut": "cancel cut",
     "change setting": "change setting",

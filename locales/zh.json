@@ -661,6 +661,8 @@
     "please fill in the correct value": "请填写正确的值",
     "please input": "请输入",
     "please input channel name": "请输入渠道名称",
+    "please input SMS Template": "请输入短信模板",
+    "please input SMS signature": "请输入短信签名",
     "please input regexp": "请输入正则表达式",
     "please select": "请选择",
     "please select labels": "请选择标签",

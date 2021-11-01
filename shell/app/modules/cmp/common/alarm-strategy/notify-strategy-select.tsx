@@ -55,7 +55,7 @@ export const NotifyStrategySelect = ({
         value={current?.groupId}
         onSelect={(groupId: number) => {
           updater.activeGroupId(groupId);
-          handleEditNotifyStrategy(id, { key: 'groupId', value: String(groupId) });
+          handleEditNotifyStrategy(id, { key: 'groupId', value: groupId });
           const activeGroup = find(notifyGroups, (item) => item.id === groupId);
           const groupTypeOptions =
             (activeGroup && notifyChannelMap[activeGroup.targets[0].type]).map((x) => ({

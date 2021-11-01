@@ -53,24 +53,4 @@ declare namespace COMMON_NOTIFY {
     email: string;
     mobile: string;
   }
-
-  interface NotifyChannel {
-    page: number;
-    pageSize: number;
-    total: number;
-    channelProviderType: {
-      displayName: string;
-      name: string;
-    };
-    config: Obj;
-    createAt: string;
-    creatorName: string;
-    enable: boolean;
-    id: string;
-    name: string;
-    type: {
-      displayName: string;
-      name: string;
-    };
-  }
 }

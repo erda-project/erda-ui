@@ -12,22 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
-import { apiCreator } from 'core/service';
-
-const apis = {
-  getNotifyChannelTypes: {
-    api: '/api/notify-channel/types',
-  },
-  getNotifyChannels: {
-    api: '/api/notify-channels',
-  },
-};
-
-export const getNotifyChannelTypes = apiCreator<() => []>(apis.getNotifyChannelTypes);
-
-export const getNotifyChannels = apiCreator<(payload: { pageNo: number; pageSize: number }) => any>(
-  apis.getNotifyChannels,
-);
 
 const getUrl = (scopeType?: COMMON_NOTIFY.ScopeType) =>
   scopeType === 'msp_env' ? '/api/msp/notify-groups' : '/api/notify-groups';
@@ -56,65 +40,5 @@ export const updateNotifyGroups = ({ id, ...rest }: COMMON_NOTIFY.ICreateNotifyG
   return agent
     .put(`${getUrl(rest.scopeType)}/${id}`)
     .send(rest)
-    .then((response: any) => response.body);
-};
-
-// notify channels
-// export const getNotifyChannels = (payload: { page: number; pageSize: number }) => {
-//   return agent
-//     .get('/api/notify-channels')
-//     .query(payload)
-//     .then((response: any) => response.body);
-// };
-
-// export const getNotifyChannelTypes = () => {
-//   return agent.get('/api/notify-channel/types').then((response: any) => response.body);
-// };
-
-export const setNotifyChannelEnable = (payload: { id: string; enable: boolean }) => {
-  return agent
-    .put('/api/notify-channel/enabled')
-    .send(payload)
-    .then((response: any) => response.body);
-};
-
-export const getNotifyChannel = (payload: { id: string }) => {
-  return agent
-    .get('/api/notify-channel')
-    .query(payload)
-    .then((response: any) => response.body);
-};
-
-export const addNotifyChannel = (payload: {
-  channelProviderType: string;
-  config: object;
-  name: string;
-  type: string;
-  enable: boolean;
-}) => {
-  return agent
-    .post('/api/notify-channel')
-    .send(payload)
-    .then((response: any) => response.body);
-};
-
-export const editNotifyChannel = (payload: {
-  channelProviderType: string;
-  config: object;
-  name: string;
-  type: string;
-  enable: boolean;
-  id: string;
-}) => {
-  return agent
-    .put('/api/notify-channel')
-    .send(payload)
-    .then((response: any) => response.body);
-};
-
-export const deleteNotifyChannel = (payload: { id: string }) => {
-  return agent
-    .delete('/api/notify-channel')
-    .query(payload)
     .then((response: any) => response.body);
 };
