@@ -106,7 +106,7 @@ export const NotifyStrategySelect = ({
         })}
       </Select>
       <Select
-        placeholder="请选择对应值"
+        placeholder={i18n.d('please select the corresponding value')}
         value={current?.groupType}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'groupType', value })}
         mode="multiple"

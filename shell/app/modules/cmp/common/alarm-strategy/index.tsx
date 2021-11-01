@@ -186,7 +186,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     triggerConditionValueOptions: [],
     triggerCondition: [],
     notifies: [],
-    // groupTypeOptions: [],
     notifyLevel: null,
     notifyMethod: null,
   });
@@ -882,7 +881,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       activeGroupId: undefined,
       triggerCondition: [],
       notifies: [],
-      // groupTypeOptions: [],
       notifyLevel: null,
       notifyMethod: null,
     });
