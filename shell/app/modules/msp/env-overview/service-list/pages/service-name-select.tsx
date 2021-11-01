@@ -50,7 +50,7 @@ export function ServiceNameSelect() {
     if (serviceId) {
       configServiceData(serviceId);
     } else if (params?.serviceId) {
-      configServiceData(params?.serviceId);
+      configServiceData(window.decodeURIComponent(params?.serviceId));
     } else if (!serviceId && serviceList?.length > 0) {
       configServiceData(serviceId);
     }
