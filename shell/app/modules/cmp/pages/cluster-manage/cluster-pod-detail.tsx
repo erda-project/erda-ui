@@ -101,6 +101,13 @@ export const PureClusterPodDetail = (props: IProps) => {
 
   const inParams = { clusterName, podId };
 
+  const operationCallBack = (config: CONFIG_PAGE.RenderConfig) => {
+    const curEvent = config.event;
+    if (curEvent?.component === 'operationButton' && curEvent?.operation === 'delete') {
+      onDelete?.();
+    }
+  };
+
   return (
     <div className={className}>
       <div>
@@ -108,16 +115,8 @@ export const PureClusterPodDetail = (props: IProps) => {
           scenarioType={'cmp-dashboard-podDetail'}
           scenarioKey={'cmp-dashboard-podDetail'}
           inParams={inParams}
+          operationCallBack={operationCallBack}
           customProps={{
-            operationButton: onDelete
-              ? {
-                  click: (op: Obj) => {
-                    if (op.key === 'delete') {
-                      onDelete();
-                    }
-                  },
-                }
-              : undefined,
             containerTable: {
               operations: {
                 checkPrevLog: (op: IPodMeta) => {
