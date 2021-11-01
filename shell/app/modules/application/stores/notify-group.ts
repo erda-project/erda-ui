@@ -19,11 +19,19 @@ import { PAGINATION } from 'app/constants';
 interface IState {
   notifyGroups: COMMON_NOTIFY.INotifyGroup[];
   notifyGroupsPaging: IPaging;
+  notifyChannels: COMMON_NOTIFY.NotifyChannel[];
+  notifyChannelsPaging: IPaging;
 }
 
 const initState: IState = {
   notifyGroups: [],
   notifyGroupsPaging: {
+    pageNo: 1,
+    pageSize: PAGINATION.pageSize,
+    total: 0,
+  },
+  notifyChannels: [],
+  notifyChannelsPaging: {
     pageNo: 1,
     pageSize: PAGINATION.pageSize,
     total: 0,

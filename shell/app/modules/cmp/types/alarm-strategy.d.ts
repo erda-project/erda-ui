@@ -85,6 +85,7 @@ declare namespace COMMON_STRATEGY_NOTIFY {
       type: string;
       groupId: number;
       groupType: string;
+      level: string;
     }>;
   }
 
@@ -139,5 +140,21 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     operators: IKeyDisplay[];
     aggregator: IKeyDisplay[];
     silence: ISlience[];
+  }
+
+  interface IAlertTriggerCondition {
+    key: string;
+    displayName: string;
+  }
+
+  interface IAlertTriggerConditionContent {
+    key: string;
+    options: string[];
+  }
+
+  interface IAlertTriggerConditionQuery {
+    projectId: string;
+    terminusKey: string;
+    scopeType: string;
   }
 }

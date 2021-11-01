@@ -22,8 +22,9 @@ import {
   toggleAlert,
   deleteAlert,
   getClusterList,
+  getAlertTriggerConditions,
+  getAlertTriggerConditionsContent,
 } from '../services/alarm-strategy';
-import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';
@@ -33,6 +34,8 @@ interface IState {
   alertList: COMMON_STRATEGY_NOTIFY.IAlert[];
   alarmPaging: IPaging;
   alarmScopeMap: { [key: string]: string } | {};
+  alertTriggerConditions: COMMON_STRATEGY_NOTIFY.IAlertTriggerCondition[];
+  alertTriggerConditionsContent: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[];
 }
 
 const defaultPaging = {
@@ -46,6 +49,8 @@ const initOrgState: IState = {
   alarmScopeMap: {},
   alertList: [],
   alarmPaging: defaultPaging,
+  alertTriggerConditions: [],
+  alertTriggerConditionsContent: [],
 };
 
 const alarmStrategy = createStore({
@@ -87,6 +92,19 @@ const alarmStrategy = createStore({
         alarmScopeMap[name] = name;
       });
       update({ alarmScopeMap });
+    },
+    async getAlertTriggerConditions({ call, update }, scopeType: string) {
+      const alertTriggerConditions = await call(getAlertTriggerConditions, scopeType);
+      update({ alertTriggerConditions });
+    },
+    async getAlertTriggerConditionsContent({ call, update, getParams }, { projectId, scopeType }) {
+      const { terminusKey } = getParams();
+      const alertTriggerConditionsContent = await call(getAlertTriggerConditionsContent, {
+        projectId,
+        scopeType,
+        terminusKey,
+      });
+      update({ alertTriggerConditionsContent });
     },
   },
   reducers: {

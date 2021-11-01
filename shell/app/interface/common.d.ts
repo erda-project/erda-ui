@@ -71,3 +71,4 @@ export type { BreadcrumbProps, Route } from 'antd/es/breadcrumb/Breadcrumb';
 export type { PaginationProps } from 'antd/es/pagination';
 export type { RadioChangeEvent } from 'antd/es/radio/interface';
 export type { TransferItem } from 'antd/es/transfer/index';
+export type { ColumnProps } from 'antd/es/table';

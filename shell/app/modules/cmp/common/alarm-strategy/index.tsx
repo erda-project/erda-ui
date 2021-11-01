@@ -15,11 +15,11 @@ import React from 'react';
 import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Divider, Tooltip } from 'antd';
+import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Tooltip } from 'antd';
 import { FormModal } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { goTo, insertWhen } from 'common/utils';
-import { FormInstance, ColumnProps } from 'core/common/interface';
+import { ColumnProps } from 'app/interface/common';
 import i18n from 'i18n';
 import { useLoading } from 'core/stores/loading';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -32,13 +32,17 @@ import {
   smsNotifyChannelOptionsMap,
   ListTargets,
 } from 'application/pages/settings/components/app-notify/common-notify-group';
-import { usePerm, WithAuth } from 'user/common';
+import { usePerm } from 'user/common';
 import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
-import './index.scss';
 import routeInfoStore from 'core/stores/route';
+import { AddOne as IconAddOne } from '@icon-park/react';
+import { TriggerConditionSelect } from './trigger-condition-select';
+import { NotifyStrategySelect } from './notify-strategy-select';
+import './index.scss';
 
 const { confirm, warning } = Modal;
+const { Option } = Select;
 
 enum ScopeType {
   ORG = 'org',
@@ -71,6 +75,58 @@ const notifyGroupPage = {
   [ScopeType.MSP]: goTo.pages.mspProjectNotifyGroup,
 };
 
+const alertLevelOptions = [
+  {
+    key: 'Breakdown',
+    display: i18n.t('msp:breakdown'),
+  },
+  {
+    key: 'Emergency',
+    display: i18n.t('msp:emergency'),
+  },
+  {
+    key: 'Alert',
+    display: i18n.t('msp:alert'),
+  },
+  {
+    key: 'Light',
+    display: i18n.t('msp:light'),
+  },
+];
+
+const conditionOperatorOptions = [
+  {
+    key: 'match',
+    display: i18n.t('msp:match'),
+    type: 'input',
+  },
+  {
+    key: 'not match',
+    display: i18n.t('msp:not match'),
+    type: 'input',
+  },
+  {
+    key: 'all',
+    display: i18n.t('msp:all'),
+    type: 'none',
+  },
+  {
+    key: 'in',
+    display: 'in',
+    type: 'multiple',
+  },
+  {
+    key: 'eq',
+    display: i18n.t('msp:equal'),
+    type: 'single',
+  },
+  {
+    key: 'neq',
+    display: i18n.t('msp:not equal'),
+    type: 'single',
+  },
+];
+
 interface IProps {
   scopeType: ScopeType.ORG | ScopeType.MSP;
   scopeId: string;
@@ -83,12 +139,15 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
-  const [alertList, alarmPaging, alarmScopeMap, alertTypes] = alarmStrategyStore.useStore((s) => [
-    s.alertList,
-    s.alarmPaging,
-    s.alarmScopeMap,
-    s.alertTypes,
-  ]);
+  const [alertList, alarmPaging, alarmScopeMap, alertTypes, alertTriggerConditions, alertTriggerConditionsContent] =
+    alarmStrategyStore.useStore((s) => [
+      s.alertList,
+      s.alarmPaging,
+      s.alarmScopeMap,
+      s.alertTypes,
+      s.alertTriggerConditions,
+      s.alertTriggerConditionsContent,
+    ]);
   const { total, pageNo, pageSize } = alarmPaging;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, [
@@ -96,8 +155,18 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     'getAlerts',
     'toggleAlert',
   ]);
-  const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } =
-    alarmStrategyStore.effects;
+  const {
+    getAlerts,
+    createAlert,
+    editAlert,
+    toggleAlert,
+    deleteAlert,
+    getAlertDetail,
+    getAlarmScopes,
+    getAlertTypes,
+    getAlertTriggerConditions,
+    getAlertTriggerConditionsContent,
+  } = alarmStrategyStore.effects;
   const { clearAlerts } = alarmStrategyStore.reducers;
   const { getNotifyGroups } = notifyGroupStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
@@ -108,13 +177,17 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const { getSMSNotifyConfig } = clusterStore.effects;
   const enableMS = clusterStore.useStore((s) => s.enableMS);
   const notifyChannelMap = enableMS ? smsNotifyChannelOptionsMap : notifyChannelOptionsMap;
-
   const addNotificationGroupAuth = scopeType === ScopeType.ORG ? orgAddNotificationGroupAuth : true; // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const [state, updater, update] = useUpdate({
     editingRules: [] as any,
     editingFormRule: {},
-    activedGroupId: undefined,
+    activeGroupId: undefined,
+    triggerConditionValueOptions: [],
+    triggerCondition: [],
+    notifies: [],
+    notifyLevel: null,
+    notifyMethod: null,
   });
 
   useMount(() => {
@@ -131,6 +204,8 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     getAlertTypes();
     getNotifyGroups(payload);
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
+    getAlertTriggerConditions(scopeType);
+    getAlertTriggerConditionsContent({ projectId: scopeId, scopeType });
   });
 
   useUnmount(() => {
@@ -175,6 +250,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       _allRules = _allRules.concat(
         map(rules, ({ alertIndex, functions, ...rest }) => ({
+          level: alertLevelOptions?.[0]?.key,
           alertIndex: alertIndex.key,
           functions: map(functions, ({ field, ...subRest }) => ({ field: field.key, ...subRest })),
           ...rest,
@@ -232,6 +308,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:rule name'),
       dataIndex: 'alertIndex',
+      width: 300,
       render: (value: string, { key }) => (
         <Select
           value={value}
@@ -306,12 +383,39 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         </div>
       ),
     },
-    // {
-    //   title: i18n.t('cmp:alarm after recovery'),
-    //   dataIndex: 'isRecover',
-    //   width: 105,
-    //   render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => <Switch checked={isRecover} onChange={checked => handleEditEditingRule(key, { key: 'isRecover', value: checked })} />,
-    // },
+    {
+      title: i18n.t('cmp:alarm level'),
+      dataIndex: 'level',
+      width: 120,
+      render: (value: string, { key }) => (
+        <Select
+          className="operator mr-2"
+          value={value}
+          onSelect={(level: string) => {
+            handleEditEditingRule(key, { key: 'level', value: level });
+          }}
+        >
+          {map(alertLevelOptions, (item) => (
+            <Option key={item.key} value={item.key}>
+              {item.display}
+            </Option>
+          ))}
+        </Select>
+      ),
+    },
+    {
+      title: i18n.t('cmp:trigger recover'),
+      dataIndex: 'isRecover',
+      width: 105,
+      render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
+        <>
+          <Switch
+            checked={isRecover}
+            onChange={(checked) => handleEditEditingRule(key, { key: 'isRecover', value: checked })}
+          />
+        </>
+      ),
+    },
     {
       title: i18n.t('operate'),
       width: 65,
@@ -332,7 +436,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     },
   ];
 
-  let fieldsList = [
+  const fieldsList = [
     {
       label: i18n.t('cmp:alarm name'),
       name: 'name',
@@ -387,6 +491,36 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ),
     },
     {
+      label: (
+        <div className="flex items-center">
+          <span>{i18n.t('cmp:trigger conditions')}</span>
+          <IconAddOne
+            className="cursor-pointer align-text-bottom ml-2 hover:text-primary"
+            size="20"
+            onClick={() => handleAddTriggerConditions()}
+          />
+        </div>
+      ),
+      name: 'triggerCondition',
+      required: false,
+      getComp: () => (
+        <>
+          {state.triggerCondition?.map((item) => (
+            <TriggerConditionSelect
+              keyOptions={alertTriggerConditions}
+              key={item.id}
+              id={item.id}
+              current={state.triggerCondition?.find((x) => x.id === item.id)}
+              handleEditTriggerConditions={handleEditTriggerConditions}
+              handleRemoveTriggerConditions={handleRemoveTriggerConditions}
+              operatorOptions={conditionOperatorOptions}
+              valueOptionsList={alertTriggerConditionsContent}
+            />
+          ))}
+        </>
+      ),
+    },
+    {
       label: i18n.t('cmp:silence period'),
       name: 'silence',
       initialValue: state.editingFormRule.notifies
@@ -405,94 +539,56 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       options: map(SILENCE_PERIOD_POLICY_MAP, (name, value) => ({ name, value })),
     },
     {
-      label: i18n.t('cmp:select group'),
-      name: 'groupId',
-      initialValue: state.activedGroupId,
-      config: {
-        valuePropType: 'array',
-      },
-      getComp: ({ form }: { form: FormInstance }) => {
-        return (
-          <Select
-            onSelect={(id: any) => {
-              form.setFieldsValue({ groupType: [], groupId: id });
-              updater.activedGroupId(id);
-            }}
-            dropdownRender={(menu) => (
-              <div>
-                {menu}
-                <Divider className="my-1" />
-                <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
-                  <WithAuth pass={addNotificationGroupAuth}>
-                    <span
-                      className="hover-active"
-                      onClick={() => {
-                        goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
-                      }}
-                    >
-                      {i18n.t('cmp:add more notification groups')}
-                    </span>
-                  </WithAuth>
-                </div>
-              </div>
-            )}
-          >
-            {map(notifyGroups, ({ id, name }) => (
-              <Select.Option key={id} value={id}>
-                {name}
-              </Select.Option>
-            ))}
-          </Select>
-        );
-      },
+      label: (
+        <div className="flex items-center">
+          <span>{i18n.t('cmp:notify strategy')}</span>
+          <IconAddOne
+            className="cursor-pointer align-text-bottom ml-2 hover:text-primary"
+            size="20"
+            onClick={() => handleAddNotifyStrategy()}
+          />
+        </div>
+      ),
+      required: false,
+      name: 'notifies',
+      getComp: () => (
+        <>
+          {state.notifies?.map((item) => (
+            <NotifyStrategySelect
+              alertLevelOptions={alertLevelOptions}
+              goToNotifyGroup={() => {
+                goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
+              }}
+              notifyGroups={notifyGroups}
+              notifyChannelMap={notifyChannelMap}
+              addNotificationGroupAuth={addNotificationGroupAuth}
+              key={item.id}
+              id={item.id}
+              updater={updater.activeGroupId}
+              current={state.notifies?.find((x) => x.id === item.id)}
+              handleEditNotifyStrategy={handleEditNotifyStrategy}
+              handleRemoveNotifyStrategy={handleRemoveNotifyStrategy}
+              valueOptions={item.groupTypeOptions}
+            />
+          ))}
+        </>
+      ),
     },
   ];
 
-  if (scopeType === ScopeType.ORG) {
-    fieldsList.splice(1, 0, {
-      label: i18n.t('cmp:alarm cluster'),
-      name: 'clusterName',
-      type: 'select',
-      initialValue: state.editingFormRule.clusterName,
-      options: map(alarmScopeMap, (name, id) => ({ name, value: id })),
-      itemProps: {
-        mode: 'multiple',
-      },
-    });
-  }
-
   // msp project has not application，hide application selector
-  if (scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP') {
-    fieldsList.splice(1, 0, {
-      label: i18n.t('application'),
-      name: 'appId',
-      type: 'select',
-      initialValue: state.editingFormRule.appId,
-      options: map(alarmScopeMap, (name, id) => ({ name, value: id })),
-      itemProps: {
-        mode: 'multiple',
-      },
-    });
-  }
-
-  if (state.activedGroupId) {
-    const activedGroup = find(notifyGroups, ({ id }) => id === state.activedGroupId);
-
-    fieldsList = [
-      ...fieldsList,
-      {
-        name: 'groupType',
-        label: i18n.t('notification method'),
-        required: true,
-        type: 'select',
-        initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
-        options: (activedGroup && notifyChannelMap[activedGroup.targets[0].type]) || [],
-        itemProps: {
-          mode: 'multiple',
-        },
-      },
-    ];
-  }
+  // if (scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP') {
+  //   fieldsList.splice(1, 0, {
+  //     label: i18n.t('application'),
+  //     name: 'appId',
+  //     type: 'select',
+  //     initialValue: state.editingFormRule.appId,
+  //     options: map(alarmScopeMap, (name, id) => ({ name, value: id })),
+  //     itemProps: {
+  //       mode: 'multiple',
+  //     },
+  //   });
+  // }
 
   // 添加集合的规则
   const handleClickAlertType = (val: string) => {
@@ -507,6 +603,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
           ...rest,
         })),
         isRecover: rule.isRecover,
+        level: alertLevelOptions?.[0]?.key,
       }),
     );
     updater.editingRules([...formRules, ...state.editingRules]);
@@ -541,7 +638,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   // 编辑单条规则下的指标
   const handleEditEditingRuleField = (key: string, index: number, item: { key: string; value: any }) => {
     const rules = cloneDeep(state.editingRules);
-    const { functions } = find(rules, { key });
+    const { functions } = find(rules, { key }) || {};
     const functionItem = functions[index];
 
     fill(functions, { ...functionItem, [item.key]: item.value }, index, index + 1);
@@ -559,7 +656,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   };
 
   const handleEditALarm = (id: number) => {
-    getAlertDetail(id).then(({ name, clusterNames, appIds, rules, notifies }: any) => {
+    getAlertDetail(id).then(({ name, clusterNames, appIds, rules, notifies, triggerCondition }: any) => {
       updater.editingFormRule({
         id,
         name,
@@ -568,28 +665,65 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         notifies,
       });
       updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
-      updater.activedGroupId(notifies[0].groupId);
+      updater.activeGroupId(notifies[0].groupId);
+
+      updater.triggerCondition(
+        (triggerCondition || []).map((x) => ({
+          id: uniqueId(),
+          condition: x.condition,
+          operator: x.operator,
+          values: x.values,
+          valueOptions:
+            alertTriggerConditionsContent
+              .find((item) => item.key === x.condition)
+              ?.options.map((y) => ({
+                key: y,
+                display: y,
+              })) ?? [],
+        })),
+      );
+
+      updater.notifies(
+        (notifies || []).map((x) => ({
+          id: uniqueId(),
+          groupId: x.groupId,
+          level: x.level?.split(','),
+          groupType: x.groupType?.split(','),
+          groupTypeOptions:
+            (notifyChannelMap[x.notifyGroup.targets[0].type] || []).map((y) => ({
+              key: y.value,
+              display: y.name,
+            })) || [],
+        })),
+      );
       openModal();
     });
   };
 
   const handleAddAlarm = (param: any) => {
-    const { name, clusterName, appId, groupId, groupType, silence, silencePolicy } = param;
+    const { name, clusterName, appId, silence = '', silencePolicy } = param;
+    const [value, unit] = silence.split('-');
     const payload: COMMON_STRATEGY_NOTIFY.IAlertBody = {
       name,
       clusterNames: clusterName,
       appIds: appId,
       domain: location.origin,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       rules: map(state.editingRules, ({ key, ...rest }) => rest),
-      notifies: [
-        {
-          silence: { value: Number(silence.split('-')[0]), unit: silenceMap[silence].key, policy: silencePolicy },
-          type: 'notify_group',
-          groupId,
-          groupType: groupType.join(','),
+      notifies: state.notifies.map((item) => ({
+        silence: {
+          value: Number(value),
+          unit,
+          policy: silencePolicy,
         },
-      ],
+        groupId: item?.groupId,
+        groupType: item?.groupType?.join(','),
+        level: item?.level?.join(','),
+      })),
+      triggerCondition: state.triggerCondition.map((x) => ({
+        condition: x.condition,
+        operator: x.operator,
+        values: x.values,
+      })),
     };
     if (!isEmpty(state.editingFormRule)) {
       editAlert({ body: payload, id: state.editingFormRule.id });
@@ -599,6 +733,82 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     handleCloseModal();
   };
 
+  // 添加单条触发条件
+  const handleAddTriggerConditions = () => {
+    const currentTriggerValues =
+      alertTriggerConditionsContent
+        .find((item) => item.key === alertTriggerConditions?.[0]?.key)
+        ?.options.map((item) => ({ key: item, display: item })) ?? [];
+
+    updater.triggerCondition([
+      {
+        id: uniqueId(),
+        condition: alertTriggerConditions[0]?.key,
+        operator: conditionOperatorOptions?.[0].key,
+        values: currentTriggerValues[0]?.key,
+        valueOptions: currentTriggerValues,
+      },
+      ...(state.triggerCondition || []),
+    ]);
+  };
+
+  // 添加单条触发条件
+  const handleAddNotifyStrategy = () => {
+    const activeGroup = notifyGroups[0];
+    const groupTypeOptions =
+      ((activeGroup && notifyChannelMap[activeGroup.targets[0].type]) || []).map((x) => ({
+        key: x.value,
+        display: x.name,
+      })) || [];
+    // updater.groupTypeOptions(groupTypeOptions);
+    updater.notifies([
+      {
+        id: uniqueId(),
+        groupId: notifyGroups[0]?.id,
+        level: [alertLevelOptions?.[0]?.key],
+        groupType: [groupTypeOptions[0]?.key],
+        groupTypeOptions,
+      },
+      ...(state.notifies || []),
+    ]);
+  };
+
+  // 移除表格编辑中的规则
+  const handleRemoveTriggerConditions = (id: string) => {
+    updater.triggerCondition(filter(state.triggerCondition, (item) => item.id !== id));
+  };
+
+  // 移除策略
+  const handleRemoveNotifyStrategy = (id: string) => {
+    updater.notifies(filter(state.notifies, (item) => item.id !== id));
+  };
+
+  // 编辑单条触发条件
+  const handleEditNotifyStrategy = (id: string, item: { key: string; value: string }) => {
+    const rules = cloneDeep(state.notifies);
+    const rule = find(rules, { id });
+    const index = findIndex(rules, { id });
+
+    fill(rules, { id, ...rule, [item.key]: item.value }, index, index + 1);
+    updater.notifies(rules);
+  };
+
+  // 编辑单条触发条件
+  const handleEditTriggerConditions = (id: string, item: { key: string; value: any }) => {
+    const rules = cloneDeep(state.triggerCondition);
+    const rule = find(rules, { id });
+    const index = findIndex(rules, { id });
+    if (item.key === 'operator' && item.value === 'all') {
+      fill(
+        rules,
+        { id, ...rule, values: state.triggerCondition.valueOptions?.map((x) => x?.key)?.join(',') },
+        index,
+        index + 1,
+      );
+    }
+    fill(rules, { id, ...rule, [item.key]: item.value }, index, index + 1);
+    updater.triggerCondition(rules);
+  };
   const beforeSubmit = async (param: any) => {
     if (isEmpty(state.editingRules)) {
       warning({
@@ -606,11 +816,50 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       return null;
     }
+    if (isEmpty(state.notifies)) {
+      warning({
+        title: i18n.t('cmp:create at least one notify strategy'),
+      });
+      return null;
+    } else {
+      let isIncomplete = false;
+      state.notifies.some((item) => {
+        for (const key in item) {
+          if (!item[key]) {
+            isIncomplete = true;
+          }
+        }
+      });
+      if (isIncomplete) {
+        warning({
+          title: i18n.t('notify strategy information is missing, please complete!'),
+        });
+        return null;
+      }
+    }
+
+    if (state.triggerCondition?.length > 0) {
+      let isIncomplete = false;
+      state.triggerCondition.some((item) => {
+        for (const key in item) {
+          if (!item[key] && item.operator !== 'all') {
+            isIncomplete = true;
+          }
+        }
+      });
+      if (isIncomplete) {
+        warning({
+          title: i18n.t('cmp:Trigger condition information is missing, please complete!'),
+        });
+        return null;
+      }
+    }
     const isLegalFunctions = every(state.editingRules, ({ functions }) => {
       return every(functions, ({ value }) => {
         return !(isNull(value) || value === '');
       });
     });
+
     if (!isLegalFunctions) {
       warning({
         title: i18n.t('cmp:rule value cannot be empty'),
@@ -628,33 +877,37 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     update({
       editingRules: [],
       editingFormRule: {},
-      activedGroupId: undefined,
+      activeGroupId: undefined,
+      triggerCondition: [],
+      notifies: [],
+      notifyLevel: null,
+      notifyMethod: null,
     });
     closeModal();
   };
 
-  const alartListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
+  const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
     {
       title: i18n.t('cmp:alarm name'),
       dataIndex: 'name',
       width: 150,
     },
-    ...insertWhen(scopeType === ScopeType.ORG, [
-      {
-        title: i18n.t('cluster'),
-        dataIndex: 'clusterNames',
-        width: 200,
-        render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
-      },
-    ]),
-    ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
-      {
-        title: i18n.t('application'),
-        dataIndex: 'appIds',
-        width: 200,
-        render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
-      },
-    ]),
+    // ...insertWhen(scopeType === ScopeType.ORG, [
+    //   {
+    //     title: i18n.t('cmp:cluster'),
+    //     dataIndex: 'clusterNames',
+    //     width: 200,
+    //     render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
+    //   },
+    // ]),
+    // ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
+    //   {
+    //     title: i18n.t('application'),
+    //     dataIndex: 'appIds',
+    //     width: 200,
+    //     render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
+    //   },
+    // ]),
     {
       title: i18n.t('default:notification target'),
       dataIndex: ['notifies', '0', 'notifyGroup'],
@@ -731,12 +984,12 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         </Button>
         <FormModal
           loading={getAlertDetailLoading}
-          width={1000}
+          width={1200}
           visible={modalVisible}
           onCancel={handleCloseModal}
           title={isEmpty(state.editingFormRule) ? i18n.t('cmp:new strategy') : i18n.t('cmp:edit strategy')}
           fieldsList={fieldsList}
-          modalProps={{ destroyOnClose: true }}
+          modalProps={{ destroyOnClose: true, bodyStyle: { height: '70vh', overflow: 'auto' } }}
           onOk={handleAddAlarm}
           beforeSubmit={beforeSubmit}
         />
@@ -744,7 +997,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
         <Table
           rowKey="id"
-          columns={alartListColumns}
+          columns={alertListColumns}
           dataSource={alertList}
           pagination={{
             current: pageNo,

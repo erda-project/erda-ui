@@ -64,3 +64,19 @@ export const getClusterList = ({ orgId }: { orgId: number }) => {
     .query({ orgID: orgId })
     .then((response: any) => response.body);
 };
+
+export const getAlertTriggerConditions = (scopeType: string) => {
+  return agent
+    .get('/api/cmp/alerts/conditions')
+    .query({ scopeType })
+    .then((response: any) => response.body);
+};
+
+export const getAlertTriggerConditionsContent = (
+  params: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionQuery,
+): COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[] => {
+  return agent
+    .get('/api/cmp/alerts/conditions/value')
+    .query(params)
+    .then((response: any) => response.body);
+};
