@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { filterMenu, MENU_SCOPE } from './util';
 import {
   Log as IconLog,
@@ -70,10 +70,12 @@ export const getCmpMenu = () => {
             href: goTo.resolve.cmpServices(), // '/cmp/services',
             text: i18n.t('services'),
           },
-          {
-            href: goTo.resolve.cmpAddon(), // '/cmp/addon',
-            text: i18n.t('addon service'),
-          },
+          ...insertWhen(!process.env.FOR_COMMUNITY, [
+            {
+              href: goTo.resolve.cmpAddon(), // '/cmp/addon',
+              text: i18n.t('addon service'),
+            },
+          ]),
           {
             href: goTo.resolve.cmpJobs(), // '/cmp/jobs',
             text: i18n.t('job catalogue'),
