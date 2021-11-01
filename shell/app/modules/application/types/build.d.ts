@@ -105,7 +105,7 @@ declare namespace BUILD {
     branches: string;
     sources: string;
     ymlNames: string;
-    pageNum: number;
+    pageNo: number;
     pageSize: number;
   }
 
