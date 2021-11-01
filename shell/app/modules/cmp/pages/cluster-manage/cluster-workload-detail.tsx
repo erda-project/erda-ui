@@ -26,23 +26,21 @@ export const PureClusterWorkloadDetail = (props: IProps) => {
   const { clusterName, workloadId, podId, className = '', onDelete } = props;
 
   const inParams = { clusterName, workloadId, podId };
+
+  const operationCallBack = (config: CONFIG_PAGE.RenderConfig) => {
+    const curEvent = config.event;
+    if (curEvent?.component === 'operationButton' && curEvent?.operation === 'delete') {
+      onDelete?.();
+    }
+  };
+
   return (
     <div className={className}>
       <DiceConfigPage
         scenarioType={'cmp-dashboard-workload-detail'}
         scenarioKey={'cmp-dashboard-workload-detail'}
         inParams={inParams}
-        customProps={{
-          operationButton: onDelete
-            ? {
-                click: (op: Obj) => {
-                  if (op.key === 'delete') {
-                    onDelete();
-                  }
-                },
-              }
-            : undefined,
-        }}
+        operationCallBack={operationCallBack}
       />
     </div>
   );
