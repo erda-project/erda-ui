@@ -13,12 +13,13 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Table, Spin, Button, Tooltip } from 'antd';
+import { Spin, Button } from 'antd';
+import Table from 'common/components/table';
 import { ColumnProps } from 'core/common/interface';
 import { goTo, fromNow } from 'common/utils';
 import { useUnmount } from 'react-use';
 import { ChartHistogramTwo as IconChartHistogramTwo } from '@icon-park/react';
-import { SearchTable, Ellipsis, Icon as CustomIcon } from 'common';
+import { SearchTable, Ellipsis } from 'common';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
 import { useLoading } from 'core/stores/loading';

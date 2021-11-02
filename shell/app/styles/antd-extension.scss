@@ -172,11 +172,27 @@ body {
         }
       }
     }
+
+    .ant-table-column-sorters {
+      justify-content: flex-start;
+
+      .ant-table-column-title {
+        flex: 0 1 auto;
+      }
+
+      .ant-table-column-sorter {
+        margin-left: 0.5rem;
+      }
+    }
   }
 
   .ant-table-thead > tr > th {
     font-weight: 500;
     white-space: nowrap;
+
+    &::before {
+      background-color: transparent !important;
+    }
   }
 
   .dice-layout .pk-table-tbody > tr > td,

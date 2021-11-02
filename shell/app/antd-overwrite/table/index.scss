@@ -7,37 +7,4 @@
       background-color: #e8e8e8;
     }
   }
-
-  .sorter-icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    padding: 8px;
-    font-size: 14px;
-    color: $color-dark-4;
-    cursor: pointer;
-
-    &.ascend .reverse-icon {
-      color: $black;
-    }
-
-    &.descend i:not(.reverse-icon) {
-      color: $black;
-    }
-
-    .reverse-icon {
-      transform: rotate(180deg) translateY(-5px);
-    }
-
-    i {
-      transform: translateY(-4px);
-    }
-  }
-
-  &.show-ops .ant-table-cell-fix-right:after {
-    box-shadow: inset -10px 0 8px -8px rgb(0 0 0 / 15%);
-  }
 }
