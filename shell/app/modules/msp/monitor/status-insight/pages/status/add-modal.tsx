@@ -153,7 +153,6 @@ const AddModal = (props: IProps) => {
   }, [modalVisible]);
 
   const deleteItem = (index: number) => {
-    // condition.splice(index, 1);
     const newCondition = produce(condition, (draft) => {
       draft.splice(index, 1);
     });
