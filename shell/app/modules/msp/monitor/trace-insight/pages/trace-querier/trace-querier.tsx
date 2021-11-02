@@ -116,6 +116,10 @@ const TraceInsightQuerier = () => {
       });
   }, [getTraceDetailContent, requestId]);
 
+  React.useEffect(() => {
+    form.setFieldsValue({ method });
+  }, [method, form]);
+
   const resetRequestTrace = () => {
     form.resetFields();
     clearRequestTraceParams();
