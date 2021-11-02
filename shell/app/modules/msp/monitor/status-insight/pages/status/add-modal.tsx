@@ -23,6 +23,7 @@ import constants from './constants';
 import './add-modal.scss';
 import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'antd';
 import { FormInstance } from 'core/common/interface';
+import { produce } from 'immer';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 
 const { Option } = Select;
@@ -152,8 +153,11 @@ const AddModal = (props: IProps) => {
   }, [modalVisible]);
 
   const deleteItem = (index: number) => {
-    condition.splice(index, 1);
-    updater.condition([...condition]);
+    // condition.splice(index, 1);
+    const newCondition = produce(condition, (draft) => {
+      draft.splice(index, 1);
+    });
+    updater.condition(newCondition);
   };
 
   const addItem = () => {
@@ -168,19 +172,23 @@ const AddModal = (props: IProps) => {
   };
 
   const setInputValue = (index: number, value: number | string) => {
-    condition[index].value = value;
-    updater.condition([...condition]);
+    const newCondition = produce(condition, (draft) => {
+      draft[index].value = value;
+    });
+    updater.condition(newCondition);
   };
 
   const setOperator = (index: number, operate: string) => {
-    const newCondition = [...condition];
-    newCondition[index] = { ...newCondition[index], operate };
+    const newCondition = produce(condition, (draft) => {
+      draft[index].operate = operate;
+    });
     updater.condition(newCondition);
   };
 
   const setKey = (index: number, key: string) => {
-    const newCondition = [...condition];
-    newCondition[index] = { ...newCondition[index], key };
+    const newCondition = produce(condition, (draft) => {
+      draft[index].key = key;
+    });
     updater.condition(newCondition);
   };
 
@@ -494,12 +502,14 @@ const AddModal = (props: IProps) => {
                           value={item?.key}
                           onChange={(v) => {
                             if (v === 'http_code') {
-                              const newCondition = [...condition];
-                              newCondition[index] = { ...newCondition[index], operate: '>=' };
+                              const newCondition = produce(condition, (draft) => {
+                                draft[index].operate = '>=';
+                              });
                               updater.condition(newCondition);
                             } else {
-                              const newCondition = [...condition];
-                              newCondition[index] = { ...newCondition[index], operate: 'contains' };
+                              const newCondition = produce(condition, (draft) => {
+                                draft[index].operate = 'operate';
+                              });
                               updater.condition(newCondition);
                             }
                             setKey(index, v);
