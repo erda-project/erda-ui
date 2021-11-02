@@ -24,7 +24,7 @@ import topologyStore from 'msp/env-overview/topology/stores/topology';
 import { useLoading } from 'core/stores/loading';
 import { useUnmount, useMount } from 'react-use';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
-import { ScaleSelector } from 'msp/env-overview/topology/pages/topology/components/scaleSelector';
+import { ScaleSelector } from 'msp/components/scaleSelector';
 import { EmptyHolder } from 'common';
 import './index.scss';
 

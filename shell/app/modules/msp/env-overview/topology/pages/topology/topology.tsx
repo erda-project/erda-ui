@@ -22,7 +22,7 @@ import LinkText, { linkTextHoverAction } from './link-text';
 import TopologyChart from './components';
 import TopologyDashboard from '../topology-dashboard';
 import ServiceMeshDrawer from '../service-mesh/service-mesh-drawer';
-import { ScaleSelector } from './components/scaleSelector';
+import { ScaleSelector } from 'msp/components/scaleSelector';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
