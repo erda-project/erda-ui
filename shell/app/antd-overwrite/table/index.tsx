@@ -71,7 +71,7 @@ interface IAction {
 
 declare type TableAction = 'paginate' | 'sort' | 'filter';
 
-function WrappedTable<T extends object = any>({ columns, rowClassName, actions, ...props }: IProps<T>) {
+function WrappedTable<T extends object = any>({ columns, rowClassName, actions, className, ...props }: IProps<T>) {
   const [sort, setSort] = React.useState<SorterResult<T>>({});
   const menu = React.useCallback(
     (column: ColumnProps<T>) => {
@@ -135,7 +135,7 @@ function WrappedTable<T extends object = any>({ columns, rowClassName, actions, 
 
   return (
     <Table
-      className="wrapped-table"
+      className={`wrapped-table ${className || ''}`}
       scroll={{ x: '100%' }}
       columns={[...newColumns, ...renderActions(actions)]}
       rowClassName={props.onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
