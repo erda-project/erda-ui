@@ -43,6 +43,7 @@ interface IParams {
   query: Obj<string>;
   header: Obj<string>;
   responseCode?: number;
+  createTime?: string;
 }
 
 interface IState {
@@ -101,8 +102,9 @@ const traceQuerier = createStore({
     async requestTrace({ select, call, getParams }, payload?: MONITOR_TRACE.ITraceRequestBody) {
       const { terminusKey, projectId } = getParams();
       const requestTraceParams = select((s) => s.requestTraceParams);
+      const { createTime = '', ...restTraceParams } = requestTraceParams;
       const { requestId: currentTraceRequestId } = await call(requestTrace, {
-        ...requestTraceParams,
+        ...restTraceParams,
         ...(payload || {}),
         terminusKey,
         projectId,
