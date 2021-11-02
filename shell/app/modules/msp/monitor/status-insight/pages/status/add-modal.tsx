@@ -34,6 +34,7 @@ const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, CONTAINS } = constants;
 interface IProps {
   formData: any;
   modalVisible: boolean;
+  mode: string;
   afterSubmit: (args?: any) => Promise<any>;
   toggleModal: (args?: any) => void;
 }
@@ -128,7 +129,7 @@ const convertFormData = (_formData?: Obj) => {
 };
 
 const AddModal = (props: IProps) => {
-  const { formData, modalVisible, afterSubmit, toggleModal } = props;
+  const { formData, modalVisible, afterSubmit, toggleModal, mode } = props;
   const { env, projectId } = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
   const [form] = Form.useForm();
@@ -156,13 +157,16 @@ const AddModal = (props: IProps) => {
   };
 
   const addItem = () => {
-    condition.push({
-      key: 'http_code',
-      operate: '>=',
-      value: '',
-    });
-    updater.condition([...condition]);
+    updater.condition([
+      ...condition,
+      {
+        key: 'http_code',
+        operate: '>=',
+        value: '',
+      },
+    ]);
   };
+
   const setInputValue = (index: number, value: number | string) => {
     condition[index].value = value;
     updater.condition([...condition]);
@@ -342,7 +346,12 @@ const AddModal = (props: IProps) => {
                   updater.headers({ ...headers, 'Content-Type': textType });
                 }
                 if (key === '2' && bodyType === noneType) {
-                  updater.headers({});
+                  if (headers['Content-Type'] === ('x-www-form-urlencoded' || 'text/plain' || 'application/json')) {
+                    updater.headers({});
+                  } else {
+                    // eslint-disable-next-line no-useless-return
+                    return;
+                  }
                 }
               }}
               defaultActiveKey="1"
@@ -550,11 +559,18 @@ const AddModal = (props: IProps) => {
                   : null}
               </div>
 
-              <Button className="mt-4" size="small" type="primary" onClick={addItem}>
+              <Button ghost className="mt-4" size="small" type="primary" onClick={addItem}>
                 {i18n.t('common:add')}
               </Button>
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
-              <InputNumber value={retry} min={0} max={10} defaultValue={2} onChange={(v) => updater.retry(v)} />
+              <InputNumber
+                parser={(formatRetry: string) => (/^\d+$/.test(formatRetry) ? formatRetry : formatRetry[0])}
+                value={retry}
+                min={0}
+                max={10}
+                defaultValue={2}
+                onChange={(v) => updater.retry(v)}
+              />
               <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
               <Select
                 style={{ width: 100 }}
@@ -581,7 +597,7 @@ const AddModal = (props: IProps) => {
       ref={formRef}
       className="h-4/5"
       width={620}
-      title={i18n.t('msp:add monitoring')}
+      title={mode === 'add' ? i18n.t('msp:add monitoring') : i18n.t('msp:edit monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
       formData={formData}

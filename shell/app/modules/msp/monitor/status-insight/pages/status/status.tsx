@@ -37,10 +37,11 @@ const Status = () => {
 
   const { type = 'All' } = query || {};
 
-  const [{ modalVisible, formData, filterType }, updater, update] = useUpdate({
+  const [{ modalVisible, formData, filterType, mode }, updater, update] = useUpdate({
     modalVisible: false,
     formData: null as MONITOR_STATUS.IMetricsBody | null,
     filterType: type,
+    mode: '',
   });
 
   useEffectOnce(() => {
@@ -54,12 +55,17 @@ const Status = () => {
     update({
       modalVisible: !modalVisible,
       formData: _data,
+      mode: 'add',
     });
   };
 
   const handleEdit = (e: any, _data: MONITOR_STATUS.IMetricsBody) => {
     e.stopPropagation();
-    toggleModal(_data);
+    update({
+      modalVisible: !modalVisible,
+      formData: _data,
+      mode: 'edit',
+    });
   };
 
   const handleDelete = (e: any, id: string) => {
@@ -258,6 +264,7 @@ const Status = () => {
         </span>
       </div>
       <AddModal
+        mode={mode}
         modalVisible={modalVisible}
         toggleModal={toggleModal}
         formData={formData}
