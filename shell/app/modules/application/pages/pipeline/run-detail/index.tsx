@@ -17,18 +17,30 @@ import fileTreeStore from 'common/stores/file-tree';
 import { EmptyHolder } from 'common';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import routeInfoStore from 'core/stores/route';
+import appStore from 'application/stores/application';
 
 interface IProps {
   deployAuth: { hasAuth: boolean; authTip?: string };
+  isMobileInit?: boolean;
 }
 
 const RunDetail = (props: IProps) => {
   const [caseDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
+  const appDetail = appStore.useStore((s) => s.detail);
   const fileName = caseDetail.name;
+  const { isMobileInit } = props;
   const { appId } = routeInfoStore.useStore((s) => s.params);
-  const { branch, pagingYmlNames } = getBranchPath(caseDetail, appId);
+  let branch;
+  let pagingYmlNames;
+  if (isMobileInit) {
+    pagingYmlNames = appDetail.projectName ? [`${appDetail.projectName}_${appDetail.name}_pipeline.yml`] : undefined;
+  } else {
+    const res = getBranchPath(caseDetail, appId);
+    branch = res.branch;
+    pagingYmlNames = res.pagingYmlNames;
+  }
 
-  return branch ? (
+  return (isMobileInit ? pagingYmlNames : branch) ? (
     <BuildDetail
       {...props}
       ymlName={fileName}
