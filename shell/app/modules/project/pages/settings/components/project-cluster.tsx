@@ -168,7 +168,9 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           align: 'center',
           render: (text: string, record: PROJECT.ICluster) => (
             <div className="flex items-center">
-              <span>{text ? `${text}${i18n.t('core')}` : ''}</span>
+              <span className="text-left" style={{ width: 50 }}>
+                {text ? `${+(+text).toFixed(2)}${i18n.t('core')}` : `0${i18n.t('core')}`}
+              </span>
               <span className="flex-grow ml-2">{renderBar('cpu', record, i18n.t('core'))}</span>
             </div>
           ),
@@ -180,7 +182,9 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
           align: 'center',
           render: (text: string, record: PROJECT.ICluster) => (
             <div className="flex items-center">
-              <span>{text ? `${text}GB` : ''}</span>
+              <span className="text-left" style={{ width: 50 }}>
+                {text ? `${+(+text).toFixed(2)}GB` : '0GB'}
+              </span>
               <span className="flex-grow ml-2">{renderBar('mem', record, 'GB')}</span>
             </div>
           ),
