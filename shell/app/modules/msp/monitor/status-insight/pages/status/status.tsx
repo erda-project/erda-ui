@@ -55,17 +55,12 @@ const Status = () => {
     update({
       modalVisible: !modalVisible,
       formData: _data,
-      mode: 'add',
     });
   };
 
   const handleEdit = (e: any, _data: MONITOR_STATUS.IMetricsBody) => {
     e.stopPropagation();
-    update({
-      modalVisible: !modalVisible,
-      formData: _data,
-      mode: 'edit',
-    });
+    toggleModal(_data);
   };
 
   const handleDelete = (e: any, id: string) => {
@@ -264,7 +259,6 @@ const Status = () => {
         </span>
       </div>
       <AddModal
-        mode={mode}
         modalVisible={modalVisible}
         toggleModal={toggleModal}
         formData={formData}

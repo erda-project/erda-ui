@@ -35,7 +35,6 @@ const { HTTP_METHOD_LIST, TIME_LIMITS, OPERATORS, CONTAINS } = constants;
 interface IProps {
   formData: any;
   modalVisible: boolean;
-  mode: string;
   afterSubmit: (args?: any) => Promise<any>;
   toggleModal: (args?: any) => void;
 }
@@ -130,7 +129,7 @@ const convertFormData = (_formData?: Obj) => {
 };
 
 const AddModal = (props: IProps) => {
-  const { formData, modalVisible, afterSubmit, toggleModal, mode } = props;
+  const { formData, modalVisible, afterSubmit, toggleModal } = props;
   const { env, projectId } = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
   const [form] = Form.useForm();
@@ -355,9 +354,6 @@ const AddModal = (props: IProps) => {
                 if (key === '2' && bodyType === noneType) {
                   if (headers['Content-Type'] === ('x-www-form-urlencoded' || 'text/plain' || 'application/json')) {
                     updater.headers({});
-                  } else {
-                    // eslint-disable-next-line no-useless-return
-                    return;
                   }
                 }
               }}
@@ -573,7 +569,7 @@ const AddModal = (props: IProps) => {
               </Button>
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
               <InputNumber
-                parser={(formatRetry: string) => (/^\d+$/.test(formatRetry) ? formatRetry : formatRetry[0])}
+                precision={0}
                 value={retry}
                 min={0}
                 max={10}
@@ -606,7 +602,7 @@ const AddModal = (props: IProps) => {
       ref={formRef}
       className="h-4/5"
       width={620}
-      title={mode === 'add' ? i18n.t('msp:add monitoring') : i18n.t('msp:edit monitoring')}
+      title={formData ? i18n.t('msp:edit monitoring') : i18n.t('msp:add monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
       formData={formData}
