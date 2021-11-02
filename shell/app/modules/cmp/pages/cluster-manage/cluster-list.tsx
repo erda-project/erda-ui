@@ -250,6 +250,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         ...insertWhen(['initialize error', 'unknown'].includes(get(clusterDetail, 'basic.clusterStatus.value')), [
           retryInit,
         ]),
+        tokenManagement,
       ],
       k8s: [
         edit,
