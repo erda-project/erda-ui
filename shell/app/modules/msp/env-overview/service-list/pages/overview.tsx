@@ -24,6 +24,7 @@ import topologyStore from 'msp/env-overview/topology/stores/topology';
 import { useLoading } from 'core/stores/loading';
 import { useUnmount, useMount } from 'react-use';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import { ScaleSelector } from 'msp/env-overview/topology/pages/topology/components/scaleSelector';
 import { EmptyHolder } from 'common';
 import './index.scss';
 
@@ -82,8 +83,9 @@ export default () => {
 
   return (
     <div className="service-analyze flex flex-col h-full">
-      <div className="flex justify-between items-center mb-3">
-        <TimeSelectWithStore className="m-0" />
+      <div className="flex items-center justify-end mb-3">
+        <ScaleSelector scale={scale} onChange={(val) => setScale(val)} />
+        <TimeSelectWithStore className="m-0 ml-4" />
       </div>
       {serviceId ? (
         <div className="overflow-auto flex-1 service-overview">
