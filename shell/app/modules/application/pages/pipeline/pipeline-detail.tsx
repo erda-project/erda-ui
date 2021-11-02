@@ -50,6 +50,8 @@ const PipelineDetail = (props: IProps) => {
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const orgBlockoutConfig = orgStore.useStore((s) => s.currentOrg.blockoutConfig);
   const nodeId = propsNodeId || query.nodeId;
+  // mobile_init is a special node, only allowed to run pipeline
+  const isMobileInit = nodeId === 'mobile_init';
   const { branch, path, env } = getBranchPath(caseDetail, params.appId);
   const { addPipeline } = buildStore.effects;
   const { clearExecuteRecords } = buildStore.reducers;
@@ -59,7 +61,7 @@ const PipelineDetail = (props: IProps) => {
   const envBlocked = get(orgBlockoutConfig, envBlockKeyMap[env], false);
 
   const [{ activeKey, runKey, canRunTest }, updater, update] = useUpdate({
-    activeKey: 'configDetail',
+    activeKey: isMobileInit ? 'runDetail' : 'configDetail',
     runKey: 1,
     canRunTest: true,
   });
@@ -77,9 +79,11 @@ const PipelineDetail = (props: IProps) => {
         authTip: i18n.t('dop:Function unavailable in network block period.'),
       };
     }
-    if (!deployPerm[`${env.toLowerCase()}DeployOperation`]) {
+    if (!deployPerm[`${(env || 'dev').toLowerCase()}DeployOperation`]) {
       // no auth
       return { hasAuth: false };
+    } else if (isMobileInit) {
+      return { hasAuth: true };
     }
 
     const ymlStr = get(caseDetail, 'meta.pipelineYml') || '';
@@ -138,7 +142,7 @@ const PipelineDetail = (props: IProps) => {
     <>
       <Tabs
         tabBarExtraContent={
-          canRunTest ? (
+          isMobileInit ? null : canRunTest ? (
             <WithAuth pass={deployAuthObj.hasAuth} noAuthTip={deployAuthObj.authTip}>
               <Button type="primary" onClick={addNewPipeline}>
                 {i18n.t('dop:add pipeline')}
@@ -156,18 +160,20 @@ const PipelineDetail = (props: IProps) => {
         activeKey={activeKey}
         renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
       >
-        <Tabs.TabPane tab={i18n.t('configuration information')} key={'configDetail'}>
-          <PipelineConfigDetail
-            {...rest}
-            onCaseChange={onCaseChange}
-            scope={scope}
-            nodeId={nodeId}
-            addDrawerProps={addDrawerProps}
-            editAuth={editAuthObj}
-          />
-        </Tabs.TabPane>
+        {!isMobileInit ? (
+          <Tabs.TabPane tab={i18n.t('configuration information')} key={'configDetail'}>
+            <PipelineConfigDetail
+              {...rest}
+              onCaseChange={onCaseChange}
+              scope={scope}
+              nodeId={nodeId}
+              addDrawerProps={addDrawerProps}
+              editAuth={editAuthObj}
+            />
+          </Tabs.TabPane>
+        ) : null}
         <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'}>
-          <PipelineRunDetail key={runKey} deployAuth={deployAuthObj} />
+          <PipelineRunDetail key={runKey} deployAuth={deployAuthObj} isMobileInit={isMobileInit} />
         </Tabs.TabPane>
       </Tabs>
     </>
