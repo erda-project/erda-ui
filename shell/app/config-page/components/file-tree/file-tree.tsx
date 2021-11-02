@@ -377,21 +377,26 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         className="file-tree-container"
         selectedKeys={selectedKeys}
         expandedKeys={expandedKeys}
-        titleRender={(nodeData: TreeNodeNormal) => (
-          <span>
-            {nodeData.title}
-            <Popover
-              content={getActions(nodeData).map((item) => (
-                <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
-                  {item.node}
-                </div>
-              ))}
-              footer={false}
-            >
-              <IconMore className="tree-node-action" />
-            </Popover>
-          </span>
-        )}
+        titleRender={(nodeData: TreeNodeNormal) => {
+          const actions = getActions(nodeData);
+          return (
+            <span>
+              {nodeData.title}
+              {actions?.length ? (
+                <Popover
+                  content={actions.map((item) => (
+                    <div className="action-btn" onClick={() => item.func?.(nodeData.key, nodeData)}>
+                      {item.node}
+                    </div>
+                  ))}
+                  footer={false}
+                >
+                  <IconMore className="tree-node-action" />
+                </Popover>
+              ) : null}
+            </span>
+          );
+        }}
         blockNode
         showIcon
       />
