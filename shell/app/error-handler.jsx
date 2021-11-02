@@ -52,7 +52,7 @@ const statusMap = {
 
 export default (err) => {
   const { response, status } = err;
-  const body = response && response.body;
+  const body = response && (response.body || response.data); // from superagent or axios
   const { level, enMsg, zhMsg } = statusMap[status] || statusMap.default;
   const backendMsg = body && body.err ? body.err.msg : null;
   const locale = window.localStorage.getItem('locale');
