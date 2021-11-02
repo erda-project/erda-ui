@@ -41,7 +41,6 @@ const Status = () => {
     modalVisible: false,
     formData: null as MONITOR_STATUS.IMetricsBody | null,
     filterType: type,
-    mode: '',
   });
 
   useEffectOnce(() => {
