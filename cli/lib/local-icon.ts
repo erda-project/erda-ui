@@ -48,7 +48,7 @@ export default () => {
   fs.readFile(htmlPath, 'utf8', (err, content) => {
     if (err) logError('read index.html failed');
     const iconfontRegex = /\/\/at.alicdn.com\/t\/(([^.]+)\.(css|js))/g;
-    const iconparkRegex = /https:\/\/lf1-cdn-tos\.bytegoofy\.com\/obj\/iconpark\/((.+)\.js)/g;
+    const iconparkRegex = /https:\/\/lf1-cdn-tos\.bytegoofy\.com\/obj\/iconpark\/(([^"']+)\.js)/g;
     let matchedIconfontFile = iconfontRegex.exec(content);
     let replacedContent = content;
     while (matchedIconfontFile) {
