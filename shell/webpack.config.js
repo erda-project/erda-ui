@@ -37,6 +37,9 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
+// TODO: test code, remove later
+console.log('===== env', process.env);
+
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isProd = nodeEnv === 'production';
