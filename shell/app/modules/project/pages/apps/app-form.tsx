@@ -88,11 +88,10 @@ const CreationForm = () => {
         if (mode === appMode.MOBILE && tempSelected !== '-1') {
           appStore.effects
             .initApp({ mobileDisplayName, bundleID, packageName, applicationID, mobileAppName: rest.name })
-            .then((pipelineID) => {
+            .then(() => {
               goTo(goTo.pages.pipeline, {
                 projectId: params.projectId,
                 appId: applicationID,
-                pipelineID,
                 replace: true,
               });
             });

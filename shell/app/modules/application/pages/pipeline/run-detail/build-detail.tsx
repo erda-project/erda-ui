@@ -47,6 +47,7 @@ interface IProps {
   ymlName: string;
   pagingYmlNames: string[];
   deployAuth: { hasAuth: boolean; authTip?: string };
+  isMobileInit?: boolean;
 }
 
 const extractData = (data: any) => pick(data, ['source', 'branch', 'ymlName']);
@@ -68,7 +69,7 @@ const BuildDetail = (props: IProps) => {
   const commitMsgRef: React.RefObject<HTMLDivElement> = React.useRef(null);
   const cronMsgRef: React.RefObject<HTMLDivElement> = React.useRef(null);
   // const { getPipelines, getExecuteRecordsByPageNo, activeItem, pipelineId } = props;
-  const { branch: propsBranch, source, pagingYmlNames, deployAuth } = props;
+  const { branch: propsBranch, source, pagingYmlNames, deployAuth, isMobileInit } = props;
   const currentBranch = propsBranch;
   const [pipelineDetail, executeRecords, recordPaging, changeType] = buildStore.useStore((s) => [
     s.pipelineDetail,
@@ -641,7 +642,7 @@ const BuildDetail = (props: IProps) => {
     return (
       <div className="build-history-wp">
         <div
-          className="refresh-newest-btn"
+          className="refresh-newest-btn flex  align-center"
           onClick={() => {
             getRecordList({ pageNo: 1 }).then((res) => {
               updater.recordTableKey((_prev: number) => _prev + 1);
@@ -736,9 +737,7 @@ const BuildDetail = (props: IProps) => {
               <Row className="mb-4">
                 <Col span={12}>
                   <div className="info-label">{i18n.t('commit')} ID：</div>
-                  <div className="hover-py">
-                    <GotoCommit length={6} commitId={commit} />
-                  </div>
+                  <div className="hover-py">{commit ? <GotoCommit length={6} commitId={commit} /> : null}</div>
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('commit date')}：</div>
@@ -798,11 +797,13 @@ const BuildDetail = (props: IProps) => {
               changeType={changeType}
             />
           </div>
-          <PipelineLog
-            resourceId={`${state.chosenPipelineId}`}
-            resourceType="pipeline"
-            isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)}
-          />
+          {!isMobileInit ? (
+            <PipelineLog
+              resourceId={`${state.chosenPipelineId}`}
+              resourceType="pipeline"
+              isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)}
+            />
+          ) : null}
         </div>
       </Spin>
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
