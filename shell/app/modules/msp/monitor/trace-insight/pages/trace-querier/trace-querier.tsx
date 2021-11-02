@@ -238,7 +238,7 @@ const TraceInsightQuerier = () => {
         </Row>
       </div>
     );
-  }, [inputUrl, url]);
+  }, [inputUrl, url, requestTraceParams]);
 
   const renderRequestEditor = () => {
     return (
