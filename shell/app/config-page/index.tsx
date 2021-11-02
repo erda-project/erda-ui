@@ -273,8 +273,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   );
 
   return showLoading ? (
-    <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''} overflow-auto`}>
-      {Content}
+    <Spin spinning={showLoading && fetching} wrapperClassName={`${fullHeight ? 'full-spin-height' : ''}`}>
+      <div className="h-full overflow-auto">{Content}</div>
     </Spin>
   ) : (
     Content
