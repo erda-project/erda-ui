@@ -23,6 +23,7 @@ import constants from './constants';
 import './add-modal.scss';
 import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'antd';
 import { FormInstance } from 'core/common/interface';
+import { produce } from 'immer';
 import { Down as IconDown, Up as IconUp, Help as IconHelp } from '@icon-park/react';
 
 const { Option } = Select;
@@ -88,7 +89,10 @@ const convertFormData = (_formData?: Obj) => {
           : _formData.config?.body?.type,
       frequency: _formData.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData.config?.body || { content: '', type: noneType },
+      body: _formData.config?.body || {
+        content: '',
+        type: noneType,
+      },
       headers: _formData.config?.headers || {},
       url: _formData.config?.url || '',
       query: qs.parseUrl(_formData.config?.url || '')?.query,
@@ -148,35 +152,42 @@ const AddModal = (props: IProps) => {
   }, [modalVisible]);
 
   const deleteItem = (index: number) => {
-    condition.splice(index, 1);
-    updater.condition([...condition]);
+    const newCondition = produce(condition, (draft) => {
+      draft.splice(index, 1);
+    });
+    updater.condition(newCondition);
   };
 
   const addItem = () => {
-    condition.push({
-      key: 'http_code',
-      operate: '>=',
-      value: '',
-    });
-    updater.condition([...condition]);
+    updater.condition([
+      ...condition,
+      {
+        key: 'http_code',
+        operate: '>=',
+        value: '',
+      },
+    ]);
   };
+
   const setInputValue = (index: number, value: number | string) => {
-    condition[index].value = value;
-    updater.condition([...condition]);
+    const newCondition = produce(condition, (draft) => {
+      draft[index].value = value;
+    });
+    updater.condition(newCondition);
   };
 
   const setOperator = (index: number, operate: string) => {
-    if (condition[index]) {
-      condition[index].operate = operate;
-    }
-    updater.condition([...condition]);
+    const newCondition = produce(condition, (draft) => {
+      draft[index].operate = operate;
+    });
+    updater.condition(newCondition);
   };
 
   const setKey = (index: number, key: string) => {
-    if (condition[index]) {
-      condition[index].key = key;
-    }
-    updater.condition([...condition]);
+    const newCondition = produce(condition, (draft) => {
+      draft[index].key = key;
+    });
+    updater.condition(newCondition);
   };
 
   const formatBody = () => {
@@ -341,7 +352,9 @@ const AddModal = (props: IProps) => {
                   updater.headers({ ...headers, 'Content-Type': textType });
                 }
                 if (key === '2' && bodyType === noneType) {
-                  updater.headers({});
+                  if (headers['Content-Type'] === ('x-www-form-urlencoded' || 'text/plain' || 'application/json')) {
+                    updater.headers({});
+                  }
                 }
               }}
               defaultActiveKey="1"
@@ -484,9 +497,15 @@ const AddModal = (props: IProps) => {
                           value={item?.key}
                           onChange={(v) => {
                             if (v === 'http_code') {
-                              condition[index].operate = '>=';
+                              const newCondition = produce(condition, (draft) => {
+                                draft[index].operate = '>=';
+                              });
+                              updater.condition(newCondition);
                             } else {
-                              condition[index].operate = 'contains';
+                              const newCondition = produce(condition, (draft) => {
+                                draft[index].operate = 'operate';
+                              });
+                              updater.condition(newCondition);
                             }
                             setKey(index, v);
                           }}
@@ -545,11 +564,18 @@ const AddModal = (props: IProps) => {
                   : null}
               </div>
 
-              <Button className="mt-4" size="small" type="primary" onClick={addItem}>
+              <Button ghost className="mt-4" size="small" type="primary" onClick={addItem}>
                 {i18n.t('common:add')}
               </Button>
               <h4 className="mt-4 mb-3 text-sm">{i18n.t('msp:number of retries')}</h4>
-              <InputNumber value={retry} min={0} max={10} defaultValue={2} onChange={(v) => updater.retry(v)} />
+              <InputNumber
+                precision={0}
+                value={retry}
+                min={0}
+                max={10}
+                defaultValue={2}
+                onChange={(v) => updater.retry(v)}
+              />
               <h4 className="mt-5 mb-3 text-sm">{i18n.t('msp:monitoring frequency')}</h4>
               <Select
                 style={{ width: 100 }}
@@ -576,7 +602,7 @@ const AddModal = (props: IProps) => {
       ref={formRef}
       className="h-4/5"
       width={620}
-      title={i18n.t('msp:add monitoring')}
+      title={formData ? i18n.t('msp:edit monitoring') : i18n.t('msp:add monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
       formData={formData}
