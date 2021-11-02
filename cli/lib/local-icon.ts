@@ -18,7 +18,7 @@ import { getPublicDir } from './util/env';
 import { logSuccess, logError } from './util/log';
 
 const downloadFile = (url: string, savePath: string) => {
-  return agent.get(`https:${url}`).then((res) => {
+  return agent.get(`https:${url.replace('https:', '')}`).then((res) => {
     let data = '';
     // @ts-ignore api mistake
     if (res.request.url.match(/\.js$/)) {
@@ -27,7 +27,11 @@ const downloadFile = (url: string, savePath: string) => {
     } else {
       data = res.text;
     }
-    if (res.status === 200 && (data.startsWith('@font-face') || data.includes('<symbol'))) {
+    // Check content to avoid network operators hijacking
+    if (
+      res.status === 200 &&
+      (data.startsWith('@font-face') || data.includes('<symbol') || data.startsWith('(function(){window.__iconpark__'))
+    ) {
       fs.writeFile(savePath, data, (e) => {
         if (e) {
           logError('write iconfont file failed！', e);
@@ -44,6 +48,7 @@ export default () => {
   fs.readFile(htmlPath, 'utf8', (err, content) => {
     if (err) logError('read index.html failed');
     const iconfontRegex = /\/\/at.alicdn.com\/t\/(([^.]+)\.(css|js))/g;
+    const iconparkRegex = /https:\/\/lf1-cdn-tos\.bytegoofy\.com\/obj\/iconpark\/((.+)\.js)/g;
     let matchedIconfontFile = iconfontRegex.exec(content);
     let replacedContent = content;
     while (matchedIconfontFile) {
@@ -52,6 +57,14 @@ export default () => {
       downloadFile(iconfontFilePath, path.resolve(getPublicDir(), `./static/${matchedIconfontFile[1]}`));
       replacedContent = replacedContent.replace(iconfontFilePath, `/static/${matchedIconfontFile[1]}`);
       matchedIconfontFile = iconfontRegex.exec(replacedContent);
+    }
+    let matchedIconparkFile = iconparkRegex.exec(replacedContent);
+    while (matchedIconparkFile) {
+      const iconparkFilePath = matchedIconparkFile[0];
+      logSuccess('get matched iconpark file', iconparkFilePath);
+      downloadFile(iconparkFilePath, path.resolve(getPublicDir(), `./static/${matchedIconparkFile[1]}`));
+      replacedContent = replacedContent.replace(iconparkFilePath, `/static/${matchedIconparkFile[1]}`);
+      matchedIconparkFile = iconparkRegex.exec(replacedContent);
     }
 
     fs.writeFile(htmlPath, replacedContent, (e) => {
