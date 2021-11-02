@@ -135,7 +135,7 @@ function WrappedTable<T extends object = any>({ columns, rowClassName, actions, 
 
   return (
     <Table
-      className="wrapped-table"
+      className="erda-table"
       scroll={{ x: '100%' }}
       columns={[...newColumns, ...renderActions(actions)]}
       rowClassName={props.onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
