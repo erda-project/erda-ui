@@ -37,7 +37,7 @@ const Status = () => {
 
   const { type = 'All' } = query || {};
 
-  const [{ modalVisible, formData, filterType, mode }, updater, update] = useUpdate({
+  const [{ modalVisible, formData, filterType }, updater, update] = useUpdate({
     modalVisible: false,
     formData: null as MONITOR_STATUS.IMetricsBody | null,
     filterType: type,
