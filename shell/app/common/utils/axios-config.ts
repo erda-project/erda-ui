@@ -15,6 +15,7 @@ import { set, some } from 'lodash';
 import { axios } from 'core/service';
 import { downloadFileAxios, getCookies, getOrgFromPath, setApiWithOrg } from './index';
 import { getCurrentLocale } from 'i18n';
+import errorHandler from '../../error-handler';
 import { getGlobal } from '../../global-space';
 import userStore from 'app/user/stores';
 
@@ -76,16 +77,10 @@ export const initAxios = () => {
       return response;
     },
     async (error) => {
-      if (error.response.status === 401) {
-        // 401 re-login
-        const data = await axios.get('/api/openapi/login');
-        if (data.data && data.data.url) {
-          const loginUser = userStore.getState((s) => s.loginUser);
-          const lastPath = `${window.location.pathname}${window.location.search}`;
-          window.localStorage.setItem(`${loginUser.id}-lastPath`, lastPath);
-          window.location.href = data.data.url;
-        }
-      }
+      errorHandler({
+        response: error.response,
+        status: error.response.status,
+      });
       return Promise.reject(error);
     },
   );
