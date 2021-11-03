@@ -48,6 +48,11 @@ function getMspRouter() {
           mark: 'mspDetail',
           routes: [
             {
+              // compatible with old data, si redirects to transaction
+              path: 'topology/:terminusKey/:applicationId/:runtimeName/:serviceName/si/:type',
+              getComp: (cb) => cb(import('msp/pages/transfer/si')),
+            },
+            {
               path: 'synopsis',
               routes: [getEnvOverViewRouter()],
             },
