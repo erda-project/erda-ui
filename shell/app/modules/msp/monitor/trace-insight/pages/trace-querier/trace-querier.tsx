@@ -242,7 +242,7 @@ const TraceInsightQuerier = () => {
         </Row>
       </div>
     );
-  }, [inputUrl, url, requestTraceParams]);
+  }, [inputUrl, url, requestTraceParams, isRequestTraceFetching]);
 
   const renderRequestEditor = () => {
     return (
