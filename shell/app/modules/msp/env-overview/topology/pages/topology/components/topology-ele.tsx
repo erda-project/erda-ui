@@ -28,7 +28,7 @@ interface IProps {
   nodeEle: React.ReactNode;
   linkTextEle: React.ReactNode;
   boxEle: React.ReactNode;
-  onClickNode: (arg: any) => void;
+  onClickNode: (arg: TOPOLOGY.INode) => void;
   setSize: (...args: any) => void;
   setScale: (arg: any) => void;
 }
