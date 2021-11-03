@@ -234,7 +234,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
         dataSource: reject(dataSource, { uniKey }),
       },
       () => {
-        onDel(this.getTableData());
+        onDel(Array.isArray(this.props.data) ? this.state.dataSource : this.getTableData());
       },
     );
   };
