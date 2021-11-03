@@ -88,7 +88,6 @@ const convertType = (type: string) => {
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
     const handleContent = [];
-    // if (_formData.config?.body?.type === formType) {
     const qsContent = qs.parse(_formData?.config?.body?.content);
     for (const [key, val] of Object.entries(qsContent)) {
       handleContent.push({
@@ -97,7 +96,7 @@ const convertFormData = (_formData?: Obj) => {
         uniKey: key,
       });
     }
-    // }
+
     return {
       retry: _formData.config?.retry || 2,
       bodyType:
