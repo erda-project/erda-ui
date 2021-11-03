@@ -136,6 +136,7 @@ interface IProps {
 export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
   const params = routeInfoStore.useStore((s) => s.params);
+  const { projectId = '', terminusKey = '', orgName = '' } = params;
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
@@ -174,6 +175,13 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
 
   const orgAddNotificationGroupAuth = usePerm((s) => s.org.cmp.alarms.addNotificationGroup.pass);
 
+  // backend support the filterMap to match data
+  const triggerConditionFilters = {
+    org_name: orgName,
+    project_id: projectId,
+    terminus_key: terminusKey,
+  };
+
   const { getSMSNotifyConfig } = clusterStore.effects;
   const enableMS = clusterStore.useStore((s) => s.enableMS);
   const notifyChannelMap = enableMS ? smsNotifyChannelOptionsMap : notifyChannelOptionsMap;
@@ -205,8 +213,24 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     getNotifyGroups(payload);
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
-    getAlertTriggerConditionsContent({ projectId: scopeId, scopeType });
   });
+
+  React.useEffect(() => {
+    if (alertTriggerConditions?.length) {
+      const query = [] as COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionQueryItem[];
+      forEach(alertTriggerConditions, (item) => {
+        const { index, key, filters } = item;
+        const filterMap = {};
+        forEach(filters, (x) => {
+          if (x in triggerConditionFilters) {
+            filterMap[x] = triggerConditionFilters[x];
+          }
+        });
+        query.push({ index, condition: key, filters: filterMap });
+      });
+      getAlertTriggerConditionsContent(query);
+    }
+  }, [alertTriggerConditions]);
 
   useUnmount(() => {
     clearAlerts();
@@ -447,6 +471,36 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       initialValue: state.editingFormRule.name,
     },
     {
+      label: (
+        <div className="flex items-center">
+          <span>{i18n.t('cmp:trigger conditions')}</span>
+          <IconAddOne
+            className="cursor-pointer align-text-bottom ml-2 hover:text-primary"
+            size="20"
+            onClick={() => handleAddTriggerConditions()}
+          />
+        </div>
+      ),
+      name: 'triggerCondition',
+      required: false,
+      getComp: () => (
+        <>
+          {state.triggerCondition?.map((item) => (
+            <TriggerConditionSelect
+              keyOptions={alertTriggerConditions}
+              key={item.id}
+              id={item.id}
+              current={state.triggerCondition?.find((x) => x.id === item.id)}
+              handleEditTriggerConditions={handleEditTriggerConditions}
+              handleRemoveTriggerConditions={handleRemoveTriggerConditions}
+              operatorOptions={conditionOperatorOptions}
+              valueOptionsList={alertTriggerConditionsContent}
+            />
+          ))}
+        </>
+      ),
+    },
+    {
       label: i18n.t('cmp:alarm rule'),
       name: 'expressions',
       required: false,
@@ -487,36 +541,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
             // table's scroll cannot be used with  select's getPopupContainer
             scroll={undefined}
           />
-        </>
-      ),
-    },
-    {
-      label: (
-        <div className="flex items-center">
-          <span>{i18n.t('cmp:trigger conditions')}</span>
-          <IconAddOne
-            className="cursor-pointer align-text-bottom ml-2 hover:text-primary"
-            size="20"
-            onClick={() => handleAddTriggerConditions()}
-          />
-        </div>
-      ),
-      name: 'triggerCondition',
-      required: false,
-      getComp: () => (
-        <>
-          {state.triggerCondition?.map((item) => (
-            <TriggerConditionSelect
-              keyOptions={alertTriggerConditions}
-              key={item.id}
-              id={item.id}
-              current={state.triggerCondition?.find((x) => x.id === item.id)}
-              handleEditTriggerConditions={handleEditTriggerConditions}
-              handleRemoveTriggerConditions={handleRemoveTriggerConditions}
-              operatorOptions={conditionOperatorOptions}
-              valueOptionsList={alertTriggerConditionsContent}
-            />
-          ))}
         </>
       ),
     },
@@ -675,7 +699,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
           values: x.values,
           valueOptions:
             alertTriggerConditionsContent
-              .find((item) => item.key === x.condition)
+              ?.find((item) => item.key === x.condition)
               ?.options.map((y) => ({
                 key: y,
                 display: y,
@@ -737,7 +761,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleAddTriggerConditions = () => {
     const currentTriggerValues =
       alertTriggerConditionsContent
-        .find((item) => item.key === alertTriggerConditions?.[0]?.key)
+        ?.find((item) => item.key === alertTriggerConditions?.[0]?.key)
         ?.options.map((item) => ({ key: item, display: item })) ?? [];
 
     updater.triggerCondition([

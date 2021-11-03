@@ -73,10 +73,10 @@ export const getAlertTriggerConditions = (scopeType: string) => {
 };
 
 export const getAlertTriggerConditionsContent = (
-  params: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionQuery,
+  payload: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionQueryItem[],
 ): COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[] => {
   return agent
-    .get('/api/cmp/alerts/conditions/value')
-    .query(params)
+    .post('/api/msp/apm/conditions/value')
+    .send({ conditionArr: payload })
     .then((response: any) => response.body);
 };

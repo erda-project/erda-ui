@@ -14,6 +14,7 @@ import React from 'react';
 import { map } from 'lodash';
 import { ReduceOne as IconReduceOne } from '@icon-park/react';
 import { Select, Input } from 'antd';
+import i18n from 'i18n';
 
 const { Option } = Select;
 
@@ -91,6 +92,7 @@ export const TriggerConditionSelect = ({
       {['input', 'none'].includes(type) ? (
         <Input
           key={type}
+          placeholder={type === 'input' ? i18n.t('cmp:please select the corresponding value') : ''}
           className="flex-grow-0"
           style={{ width: 360 }}
           disabled={type === 'none'}
@@ -106,6 +108,7 @@ export const TriggerConditionSelect = ({
         <Select
           value={type === 'single' ? current?.values : current?.values?.split(',')}
           className="flex-grow-0"
+          placeholder={i18n.t('please select')}
           style={{ width: 360 }}
           mode={type === 'single' ? undefined : type}
           onChange={(value) =>

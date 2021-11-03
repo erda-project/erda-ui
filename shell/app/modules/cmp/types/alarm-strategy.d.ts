@@ -144,6 +144,8 @@ declare namespace COMMON_STRATEGY_NOTIFY {
 
   interface IAlertTriggerCondition {
     key: string;
+    index: string;
+    filters: string[];
     displayName: string;
   }
 
@@ -152,9 +154,9 @@ declare namespace COMMON_STRATEGY_NOTIFY {
     options: string[];
   }
 
-  interface IAlertTriggerConditionQuery {
-    projectId: string;
-    terminusKey: string;
-    scopeType: string;
+  interface IAlertTriggerConditionQueryItem {
+    condition: string;
+    filters: object;
+    index: string;
   }
 }
