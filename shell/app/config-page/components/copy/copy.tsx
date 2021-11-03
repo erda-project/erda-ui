@@ -26,14 +26,17 @@ const Copy = (props: CP_COPY.Props) => {
 
   if (disabled) return children;
 
+  const defaultChildren =
+    renderType === 'button' ? (
+      <Button type="primary">{i18n.t('copy')}</Button>
+    ) : (
+      <IconCopy className="hover:text-primary" size={16} />
+    );
+
   return (
     <>
       <span className={`${idRef.current} cursor-copy`} data-clipboard-tip={copyTip} data-clipboard-text={copyText}>
-        {children ?? renderType === 'button' ? (
-          <Button type="primary">{i18n.t('copy')}</Button>
-        ) : (
-          <IconCopy className="hover:text-primary" size={16} />
-        )}
+        {children ?? defaultChildren}
       </span>
       <CopyComp selector={idRef.current} />
     </>
