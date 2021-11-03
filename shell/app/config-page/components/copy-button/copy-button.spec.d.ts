@@ -11,20 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_COPY {
+declare namespace CP_COPY_BUTTON {
   interface Spec {
-    type: 'Copy';
+    type: 'CopyButton';
     props?: IProps;
   }
 
   interface IProps {
     copyText: string;
     copyTip?: string;
-    disabled?: boolean;
+    buttonText?: string;
     renderType?: 'button' | 'icon';
   }
 
-  type Props = MakeProps<Spec> & {
-    children: React.ReactChild | React.ReactChild[];
-  };
+  type Props = MakeProps<Spec>;
 }
