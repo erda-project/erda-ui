@@ -11,11 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-export const mockData: CP_COPY.Spec = {
-  type: 'Copy',
+export const mockData: CP_COPY_BUTTON.Spec = {
+  type: 'CopyButton',
   props: {
     copyText: '复制的内容',
     copyTip: '复制xx成功中的 xx',
+    buttonText: '复制',
     renderType: 'icon', // or button
   },
 };
