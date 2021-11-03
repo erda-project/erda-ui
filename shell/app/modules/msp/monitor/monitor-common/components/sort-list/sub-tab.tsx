@@ -52,7 +52,7 @@ const SubTab = (props: IProps) => {
   };
 
   return (
-    <RadioGroup className="sub-tab" value={chosen} onChange={(e) => setChosen(e.target.value)}>
+    <RadioGroup value={chosen} onChange={(e) => setChosen(e.target.value)}>
       {tabList &&
         tabList.map((tab) => (
           <RadioButton key={tab.key} value={tab.key} onClick={onClick}>
