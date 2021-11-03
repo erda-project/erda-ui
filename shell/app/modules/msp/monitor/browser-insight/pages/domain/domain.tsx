@@ -37,7 +37,7 @@ const Domain = () => {
 
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         <DomainMap.subTab />
         <TimeSelectWithStore />
       </div>

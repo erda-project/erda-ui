@@ -33,7 +33,7 @@ const Page = () => {
   };
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         <PageMap.subTab />
         <TimeSelectWithStore />
       </div>
