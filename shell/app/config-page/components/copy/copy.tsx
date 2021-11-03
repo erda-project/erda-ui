@@ -29,7 +29,7 @@ const Copy = (props: CP_COPY.Props) => {
   return (
     <>
       <span className={`${idRef.current} cursor-copy`} data-clipboard-tip={copyTip} data-clipboard-text={copyText}>
-        {children || renderType === 'button' ? (
+        {children ?? renderType === 'button' ? (
           <Button type="primary">{i18n.t('copy')}</Button>
         ) : (
           <IconCopy className="hover:text-primary" size={16} />
