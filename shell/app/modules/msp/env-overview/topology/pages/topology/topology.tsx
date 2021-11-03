@@ -12,15 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { isEmpty, map, get } from 'lodash';
-import React from 'react';
-import { Row, Col, Tooltip, Button } from 'antd';
+import { isEmpty, map, get, find } from 'lodash';
+import React, { useCallback } from 'react';
 import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';
 import LinkText, { linkTextHoverAction } from './link-text';
 import TopologyChart from './components';
-import TopologyDashboard from '../topology-dashboard';
 import ServiceMeshDrawer from '../service-mesh/service-mesh-drawer';
 import { ScaleSelector } from './components/scaleSelector';
 import topologyStore from 'msp/env-overview/topology/stores/topology';
@@ -30,8 +28,9 @@ import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import { useLoading } from 'core/stores/loading';
 import { useUnmount, useMount } from 'react-use';
 import { TimeSelectWithStore } from 'msp/components/time-select';
-import { MenuUnfold } from '@icon-park/react';
 import './topology.scss';
+import { goTo } from 'common/utils';
+import mspStore from 'msp/stores/micro-service';
 
 const emptyObj = { nodes: [] };
 
@@ -72,8 +71,12 @@ export const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
 
 const Topology = () => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
+  const [range, metaData] = monitorCommonStore.useStore((s) => [
+    s.globalTimeSelectSpan.range,
+    s.globalTimeSelectSpan.data,
+  ]);
   const { getProjectApps } = monitorCommonStore.effects;
+  const [currentProject, mspMenu] = mspStore.useStore((s) => [s.currentProject, s.mspMenu]);
   const [isFetching] = useLoading(topologyStore, ['getMonitorTopology']);
   const { clearMonitorTopology, setScale } = topologyStore.reducers;
   const { setActivedNode } = topologyServiceStore;
@@ -91,15 +94,6 @@ const Topology = () => {
   const [serviceMeshVis, setServiceMeshVis] = React.useState(false);
   const [chosenNode, setChosenNode] = React.useState(null as TOPOLOGY.INode | null);
   const [serviceMeshType, setServiceMeshType] = React.useState('');
-  const [proportion, setProportion] = React.useState([24, 0]);
-  const toggleFold = (fold: boolean) => {
-    if (fold) {
-      setProportion([24, 0]);
-    } else {
-      setProportion([16, 8]);
-    }
-  };
-  const isFolded = proportion[1] !== 0;
   useMount(() => {
     getProjectApps();
   });
@@ -179,7 +173,55 @@ const Topology = () => {
     setServiceMeshVis(!serviceMeshVis);
   };
 
-  const clickNode = (detail: any) => {
+  const clickNode = (detail: TOPOLOGY.INode) => {
+    const { type, serviceId, serviceName, applicationId, name } = detail;
+    const goToParams = {
+      query: {
+        mode: metaData.mode,
+        quick: metaData.mode === 'quick' ? metaData.quick : undefined,
+        start: range.startTimeMs,
+        end: range.endTimeMs,
+      },
+      jumpOut: true,
+    };
+    if (name) {
+      const childrenKeyMap = {
+        registercenter: ['Services'],
+        configcenter: ['Configs'],
+      };
+      switch (type?.toLowerCase()) {
+        case 'service':
+          goTo(goTo.pages.mspServiceAnalyze, {
+            ...params,
+            serviceName,
+            serviceId: window.encodeURIComponent(serviceId || ''),
+            applicationId: currentProject?.type === 'MSP' ? '-' : applicationId,
+            ...goToParams,
+          });
+          break;
+        case 'apigateway':
+          goTo('./gateway-ingress', goToParams);
+          break;
+        case 'externalservice':
+          goTo(`./ei/${encodeURIComponent(name)}/affairs`, goToParams);
+          break;
+        case 'registercenter':
+        case 'configcenter':
+          const curChildrenKey = childrenKeyMap[type];
+          const subMenuList = get(
+            find(mspMenu, ({ key }) => key.toLowerCase() === type),
+            'subMenu',
+            [],
+          );
+          let targetPath = '';
+          map(curChildrenKey, (item) => {
+            if (!targetPath) {
+              targetPath = get(find(subMenuList, { key: item }), 'href', '');
+            }
+          });
+          targetPath && goTo(targetPath, goToParams);
+      }
+    }
     setActivedNode(detail);
   };
 
@@ -226,29 +268,18 @@ const Topology = () => {
           <TimeSelectWithStore className="ml-3" />
         </div>
       </div>
-      <Row className="topology-content">
-        <Col span={proportion[0]} className="relative">
-          <TopologyChart
-            nodeExternalParam={nodeExternalParam}
-            isFetching={isFetching}
-            data={useData}
-            onClickNode={clickNode}
-            setScale={setScale}
-            scale={scale}
-            nodeEle={NodeEle}
-            linkTextEle={LinkText}
-          />
-          <div className="absolute right-4 top-4">
-            <Tooltip title={isFolded ? i18n.t('fold') : i18n.t('expand')}>
-              <Button size="small" shape="circle" icon={<MenuUnfold />} onClick={() => toggleFold(isFolded)} />
-            </Tooltip>
-          </div>
-        </Col>
-
-        <Col span={proportion[1]}>
-          <TopologyDashboard />
-        </Col>
-      </Row>
+      <div className="topology-content">
+        <TopologyChart
+          nodeExternalParam={nodeExternalParam}
+          isFetching={isFetching}
+          data={useData}
+          onClickNode={clickNode}
+          setScale={setScale}
+          scale={scale}
+          nodeEle={NodeEle}
+          linkTextEle={LinkText}
+        />
+      </div>
       <ServiceMeshDrawer
         type={serviceMeshType}
         visible={serviceMeshVis}
