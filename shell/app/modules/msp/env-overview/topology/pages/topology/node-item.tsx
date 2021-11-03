@@ -219,23 +219,6 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
 
   const isMeshNode = node.serviceMesh === 'on';
 
-  const handleClickError = (e: any) => {
-    const status = error_rate ? 'trace_error' : 'trace_success';
-    e.stopPropagation();
-    const start = timeSpan.startTimeMs;
-    const end = timeSpan.endTimeMs;
-    goTo(goTo.pages.microTraceSearch, {
-      ...params,
-      appId: applicationId,
-      start,
-      end,
-      status,
-      mode: metaData.mode,
-      quick: metaData.mode === 'quick' ? metaData.quick : undefined,
-      jumpOut: true,
-    });
-  };
-
   const nodeOperations = (
     <Menu>
       <MenuItem
@@ -285,7 +268,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               )}
             </div>
             <div className="node-info">
-              <div className="info-item" onClick={isServicePage ? undefined : handleClickError}>
+              <div className="info-item">
                 <span className="info-value small-info-value font-bold">
                   <IF check={error_rate}>
                     <span className="text-danger">{error_rate}%</span>/<span>{count}</span>
@@ -401,7 +384,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           ) : null}
         </div>
         <div className="node-info">
-          <div className="info-item" onClick={isServicePage ? undefined : handleClickError}>
+          <div className="info-item">
             <span className="info-value font-bold">
               <IF check={error_rate}>
                 <span className="text-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
