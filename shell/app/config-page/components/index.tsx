@@ -61,6 +61,7 @@ import DatePicker from './date-picker/date-picker';
 import Dropdown from './dropdown/dropdown';
 import MarkdownEditor from './markdown-editor/markdown-editor';
 import { CardContainer, ChartContainer } from './card-container/card-container';
+import Copy from './copy/copy';
 
 export const containerMap = {
   Alert,
@@ -115,4 +116,5 @@ export const containerMap = {
   MarkdownEditor,
   CardContainer,
   ChartContainer,
+  Copy,
 };
