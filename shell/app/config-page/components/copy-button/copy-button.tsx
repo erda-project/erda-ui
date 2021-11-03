@@ -18,17 +18,15 @@ import React from 'react';
 import { uniqueId } from 'lodash';
 import { Copy as IconCopy } from '@icon-park/react';
 
-const Copy = (props: CP_COPY.Props) => {
-  const { props: configProps, children } = props;
-  const { copyText, disabled, copyTip, renderType = 'button' } = configProps || {};
+const CopyButton = (props: CP_COPY_BUTTON.Props) => {
+  const { props: configProps } = props;
+  const { copyText, copyTip, buttonText, renderType = 'button' } = configProps || {};
 
   const idRef = React.useRef(uniqueId('cp-copy-'));
 
-  if (disabled) return children;
-
-  const defaultChildren =
+  const children =
     renderType === 'button' ? (
-      <Button type="primary">{i18n.t('copy')}</Button>
+      <Button type="primary">{buttonText || i18n.t('copy')}</Button>
     ) : (
       <IconCopy className="hover:text-primary" size={16} />
     );
@@ -36,11 +34,11 @@ const Copy = (props: CP_COPY.Props) => {
   return (
     <>
       <span className={`${idRef.current} cursor-copy`} data-clipboard-tip={copyTip} data-clipboard-text={copyText}>
-        {children ?? defaultChildren}
+        {children}
       </span>
       <CopyComp selector={idRef.current} />
     </>
   );
 };
 
-export default Copy;
+export default CopyButton;
