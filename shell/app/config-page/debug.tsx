@@ -18,7 +18,7 @@ import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { CheckOne as IconCheckOne, CloseOne as IconCloseOne, Refresh as IconRefresh } from '@icon-park/react';
 import { statusColorMap } from 'app/config-page/utils';
-import { useUpdateEffect } from 'react-use';
+import { useUpdateEffect, useThrottleFn } from 'react-use';
 import { get } from 'lodash';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
@@ -37,15 +37,25 @@ const stateIconMap = {
 
 export default () => {
   const pageRef = React.useRef(null);
-  const [text, setText] = React.useState(defaultJson);
+  const cacheData = window.localStorage.getItem('config-page-debug');
+  const [text, setText] = React.useState(cacheData || defaultJson);
   const [config, setConfig] = React.useState(defaultData);
   const [logs, setLogs] = React.useState<ILog[]>([]);
   const [proxyApi, setProxyApi] = React.useState('');
   const [showCode, setShowCode] = React.useState(true);
-  const [showLog, setShowLog] = React.useState(true);
+  const [showLog, setShowLog] = React.useState(false);
   const [importValue, setImportValue] = React.useState('');
   const [activeLog, setActiveLog] = React.useState(0);
   const { scenario, ...queryRest } = routeInfoStore.useStore((s) => s.query);
+
+  useThrottleFn<string, any>(
+    (newText) => {
+      window.localStorage.setItem('config-page-debug', newText);
+      return newText;
+    },
+    5000,
+    [text],
+  );
 
   if (scenario) {
     return <PureConfigPage scenario={scenario} {...queryRest} />;
