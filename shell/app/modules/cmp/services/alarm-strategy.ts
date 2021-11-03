@@ -76,7 +76,7 @@ export const getAlertTriggerConditionsContent = (
   payload: COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionQueryItem[],
 ): COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionContent[] => {
   return agent
-    .post('/api/msp/apm/conditions/value')
-    .send({ conditionArr: payload })
+    .post('/api/cmp/alerts/conditions/value')
+    .send({ conditionsArr: payload })
     .then((response: any) => response.body);
 };
