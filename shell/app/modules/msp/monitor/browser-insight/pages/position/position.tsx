@@ -96,7 +96,7 @@ class Position extends React.Component<IProps, IState> {
     const curSortObj = find(sortTabList, { key: tabKey }) as ITab;
     return (
       <div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mb-3">
           <TimeSelectWithStore />
         </div>
         <div className="position-bars">
