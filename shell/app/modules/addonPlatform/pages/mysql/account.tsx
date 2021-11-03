@@ -18,14 +18,14 @@ import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 
 export default () => {
-  const [{ projectId, instanceId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId, insId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
 
   React.useEffect(() => {
     updateSearch(urlQuery);
   }, [urlQuery]);
 
-  const inParams = { projectId, instanceId, ...urlQuery };
+  const inParams = { projectId, instanceId: insId, ...urlQuery };
 
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 

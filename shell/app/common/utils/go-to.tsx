@@ -194,8 +194,8 @@ export enum pages {
   appSetting = '/{orgName}/dop/projects/{projectId}/apps/{appId}/setting',
 
   // 中间件平台首页 /addonPlatform/addonsManage 去掉了。详情页保留，暂时挂在DevOps平台下面。
-  addonPlatformMysqlAccount = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/settings/account',
-  addonPlatformMysqlConsumer = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/settings/consumer',
+  addonPlatformMysqlAccount = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/mysql-settings/account',
+  addonPlatformMysqlConsumer = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/mysql-settings/consumer',
   addonPlatformOverview = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/overview',
   logAnalyticConsole = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/log-analytics?appName={appName}',
   jvmProfiler = '/{orgName}/dop/addonsManage/{projectId}/{instanceId}/jvm-profiler',
