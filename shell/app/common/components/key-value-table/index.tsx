@@ -171,7 +171,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
   static getDerivedStateFromProps(props: IProps, preState: IState): Partial<IState> | null {
     if (!isEqual(props.data, preState.preData)) {
       return {
-        dataSource: convertToColumnData(props.data),
+        dataSource: Array.isArray(props.data) ? props.data : convertToColumnData(props.data),
         preData: props.data,
       };
     }
@@ -183,7 +183,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      dataSource: convertToColumnData(props.data),
+      dataSource: Array.isArray(props.data) ? props.data : convertToColumnData(props.data),
       preData: null,
     };
   }
@@ -223,7 +223,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
     const { onChange } = this.props;
     (find(dataSource, { uniKey }) as object)[name] = value;
     this.setState({ dataSource });
-    onChange && onChange(convertToMapData(dataSource));
+    onChange && onChange(Array.isArray(this.props.data) ? dataSource : convertToMapData(dataSource));
   };
 
   handleDelete = (uniKey: string) => {

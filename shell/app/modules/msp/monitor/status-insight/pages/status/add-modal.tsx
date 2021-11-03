@@ -43,13 +43,19 @@ interface ITrigger {
   operate: string;
   value: number | string;
 }
+
+interface IContent {
+  _tb_key: string;
+  _tb_value: string;
+  uniKey: string;
+}
 interface IState {
   showMore: boolean;
   retry: number;
   frequency: number;
   apiMethod: string;
   body: {
-    content: string;
+    content: IContent[] | string;
     type: string;
   };
   headers: Obj;
@@ -81,6 +87,17 @@ const convertType = (type: string) => {
 
 const convertFormData = (_formData?: Obj) => {
   if (_formData) {
+    const handleContent = [];
+    // if (_formData.config?.body?.type === formType) {
+    const qsContent = qs.parse(_formData?.config?.body?.content);
+    for (const [key, val] of Object.entries(qsContent)) {
+      handleContent.push({
+        _tb_key: key,
+        _tb_value: val?.toString(),
+        uniKey: key,
+      });
+    }
+    // }
     return {
       retry: _formData.config?.retry || 2,
       bodyType:
@@ -89,10 +106,13 @@ const convertFormData = (_formData?: Obj) => {
           : _formData.config?.body?.type,
       frequency: _formData.config?.interval || TIME_LIMITS[0],
       apiMethod: _formData.config?.method || HTTP_METHOD_LIST[0],
-      body: _formData.config?.body || {
-        content: '',
-        type: noneType,
-      },
+      body:
+        _formData.config?.body?.type === formType
+          ? { ..._formData.config?.body, content: handleContent }
+          : _formData.config?.body || {
+              content: '',
+              type: noneType,
+            },
       headers: _formData.config?.headers || {},
       url: _formData.config?.url || '',
       query: qs.parseUrl(_formData.config?.url || '')?.query,
@@ -207,6 +227,12 @@ const AddModal = (props: IProps) => {
 
   const handleSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
     const { mode, name, id } = _data;
+    const newObj = {};
+    if (Array.isArray(body.content)) {
+      body.content.forEach((item) => {
+        newObj[item._tb_key] = item._tb_value;
+      });
+    }
     if (id) {
       updateMetric({
         id,
@@ -219,7 +245,7 @@ const AddModal = (props: IProps) => {
           retry,
           interval: frequency,
           headers,
-          body,
+          body: Array.isArray(body.content) ? { ...body, content: qs.stringify(newObj) } : body,
           method: apiMethod,
           triggering: condition,
         },
@@ -236,7 +262,7 @@ const AddModal = (props: IProps) => {
           interval: frequency,
           headers,
           url,
-          body,
+          body: Array.isArray(body.content) ? { ...body, content: qs.stringify(newObj) } : body,
           method: apiMethod,
           triggering: condition,
         },
@@ -386,7 +412,7 @@ const AddModal = (props: IProps) => {
                   onChange={(e) => {
                     updater.bodyType(e.target.value);
                     if (e.target.value === formType) {
-                      body.content = '';
+                      body.content = [];
                       updater.body({ ...body });
                     }
                     if (e.target.value === raw) {
@@ -409,15 +435,19 @@ const AddModal = (props: IProps) => {
                     <KeyValueTable
                       className="mb-2"
                       isTextArea={false}
-                      onChange={(newBody) => {
-                        body.content = qs.stringify(newBody);
-                        updater.body({ ...body });
+                      onChange={(newBody: IContent[]) => {
+                        updater.body({
+                          ...body,
+                          content: newBody,
+                        });
                       }}
                       onDel={(newBody) => {
-                        body.content = qs.stringify(newBody);
-                        updater.body({ ...body });
+                        updater.body({
+                          ...body,
+                          content: newBody,
+                        });
                       }}
-                      data={qs.parse(body.content)}
+                      data={body.content}
                       form={form}
                     />
                   </div>
