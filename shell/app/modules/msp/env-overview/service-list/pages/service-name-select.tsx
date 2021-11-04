@@ -94,7 +94,7 @@ export function ServiceNameSelect() {
           </div>
         </Dropdown>
       ) : (
-        <div className="font-bold text-lg">{i18n.t('msp:no service')}</div>
+        <div className="font-bold text-lg">{i18n.t('msp:service analysis')}</div>
       )}
     </div>
   );

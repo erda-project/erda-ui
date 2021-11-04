@@ -16,7 +16,7 @@ import { map, differenceBy } from 'lodash';
 import i18n from 'i18n';
 import DC from '@erda-ui/dashboard-configurator/dist';
 import { Drawer, Radio, Select, Table, Tag, Tooltip } from 'antd';
-import { SimpleLog, DebounceSearch, Ellipsis, EmptyHolder } from 'common';
+import { SimpleLog, DebounceSearch, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'core/stores/loading';
@@ -27,6 +27,7 @@ import mspStore from 'msp/stores/micro-service';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 
@@ -317,6 +318,10 @@ const Transaction = () => {
     };
   }, [subSearch, search, topic, callType, sort, type, serviceId]);
 
+  if (!serviceId) {
+    return <NoServicesHolder />;
+  }
+
   return (
     <div className="service-analyze flex flex-col h-full">
       <div>
@@ -385,18 +390,14 @@ const Transaction = () => {
           </Tag>
         </If>
       </div>
-      {serviceId ? (
-        <div className="overflow-auto flex-1">
-          <ServiceListDashboard
-            key={`${startTimeMs}-${endTimeMs}`}
-            dashboardId={dashboardIdMap[type].id}
-            extraGlobalVariable={extraGlobalVariable}
-            onBoardEvent={handleBoardEvent}
-          />
-        </div>
-      ) : (
-        <EmptyHolder relative />
-      )}
+      <div className="overflow-auto flex-1">
+        <ServiceListDashboard
+          key={`${startTimeMs}-${endTimeMs}`}
+          dashboardId={dashboardIdMap[type].id}
+          extraGlobalVariable={extraGlobalVariable}
+          onBoardEvent={handleBoardEvent}
+        />
+      </div>
       <Drawer
         title={tracingDrawerTitle}
         width="80%"

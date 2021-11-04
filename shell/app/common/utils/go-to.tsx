@@ -266,7 +266,7 @@ export enum pages {
   mspServiceTraceDetail = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/synopsis/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}/transaction/trace-detail/{traceId}',
 
   // 微服务-接入配置页
-  mspConfiguationPage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/environment/{terminusKey}/configuration',
+  mspConfigurationPage = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/environment/{terminusKey}/configuration',
 
   // 链路调试
   mspTraceDebug = '/{orgName}/msp/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/debug',
