@@ -15,24 +15,24 @@ import React from 'react';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
-import { EmptyHolder } from 'common';
 import './index.scss';
+import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 
 export default () => {
   const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
+
+  if (!serviceId) {
+    return <NoServicesHolder />;
+  }
 
   return (
     <div className="service-analyze flex flex-col h-full">
       <div className="flex justify-end items-center mb-3">
         <TimeSelectWithStore className="m-0" />
       </div>
-      {serviceId ? (
-        <div className="overflow-auto flex-1 service-overview">
-          <ServiceListDashboard dashboardId="service_analysis-translation" serviceId={serviceId} />
-        </div>
-      ) : (
-        <EmptyHolder relative />
-      )}
+      <div className="overflow-auto flex-1 service-overview">
+        <ServiceListDashboard dashboardId="service_analysis-translation" serviceId={serviceId} />
+      </div>
     </div>
   );
 };
