@@ -134,7 +134,7 @@ const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const params = routeInfoStore.useStore((s) => s.params);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [
     {
@@ -154,7 +154,7 @@ const Transaction = () => {
     },
     updater,
   ] = useUpdate<IState>({
-    type: DASHBOARD_TYPE.http,
+    type: query.type || DASHBOARD_TYPE.http,
     search: undefined,
     topic: undefined,
     subSearch: undefined,
