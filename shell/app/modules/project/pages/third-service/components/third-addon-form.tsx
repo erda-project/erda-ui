@@ -211,7 +211,7 @@ const ThirdAddonForm = (props: IProps) => {
         buttonStyle: undefined,
         onChange: (e: any) => {
           // 清空前一个mode的表单
-          const names = appendField.map((f: any) => f.name);
+          const names = appendField.map((f: any) => ({ name: f.name })).filter((item) => item.name);
           form.resetFields(names);
           updater.mode(e.target.value);
         },
