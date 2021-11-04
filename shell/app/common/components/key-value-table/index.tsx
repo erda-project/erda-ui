@@ -121,7 +121,7 @@ const convertToMapData = (arr: IItemData[]) => {
 };
 
 interface IProps {
-  data?: object;
+  data?: object | IItemData[];
   form: FormInstance;
   title?: string | React.ReactNode;
   pagination?: {
@@ -136,8 +136,8 @@ interface IProps {
   isTextArea: boolean;
   keyDisabled?: boolean;
   existKeys?: string[];
-  onDel?: (data: object) => void;
-  onChange?: (data: object) => void;
+  onDel?: (data: object | IItemData[]) => void;
+  onChange?: (data: object | IItemData[]) => void;
   validate?: {
     key: (rule: any, value: any, callback: Function) => void;
     value: (rule: any, value: any, callback: Function) => void;

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { map } from 'lodash';
+import { map, uniqueId } from 'lodash';
 import { FormModal, KeyValueTable, FileEditor } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { regRules, qs } from 'common/utils';
@@ -93,7 +93,7 @@ const convertFormData = (_formData?: Obj) => {
       handleContent.push({
         _tb_key: key,
         _tb_value: val?.toString(),
-        uniKey: key,
+        uniKey: uniqueId(),
       });
     }
 
@@ -194,7 +194,7 @@ const AddModal = (props: IProps) => {
     });
     updater.condition(newCondition);
   };
-
+  console.log(body);
   const setOperator = (index: number, operate: string) => {
     const newCondition = produce(condition, (draft) => {
       draft[index].operate = operate;
