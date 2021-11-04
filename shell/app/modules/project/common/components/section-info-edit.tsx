@@ -59,8 +59,9 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
   };
 
   handleSubmit = (values: object) => {
-    this.props.updateInfo(values);
-    this.toggleModal();
+    return Promise.resolve(this.props.updateInfo(values)).then(() => {
+      this.toggleModal();
+    });
   };
 
   getReadonlyInfo = () => {
