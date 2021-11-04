@@ -67,7 +67,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         });
     }
 
-    updateProject({ ...values, isPublic: isPublic === 'true' }).then(() => {
+    return updateProject({ ...values, isPublic: isPublic === 'true' }).then(() => {
       updateTenantProject({
         id: `${info.id}`,
         name: values.name,
