@@ -26,6 +26,7 @@ import { TimeSelectWithStore } from 'msp/components/time-select';
 import { get } from 'lodash';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './index.scss';
+import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 
 export default () => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
@@ -71,6 +72,10 @@ export default () => {
     }
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
+  if (!serviceId) {
+    return <NoServicesHolder />;
+  }
+
   return (
     <div className="service-analyze flex flex-col h-full">
       <div className="flex justify-between items-center flex-wrap mb-1">
@@ -105,7 +110,7 @@ export default () => {
           <TimeSelectWithStore className="m-0 ml-3" />
         </div>
       </div>
-      {id && serviceId ? (
+      {id ? (
         <div className="overflow-auto flex-1">
           <Spin spinning={isFetching}>
             <ServiceListDashboard
