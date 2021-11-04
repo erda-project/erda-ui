@@ -194,7 +194,7 @@ const AddModal = (props: IProps) => {
     });
     updater.condition(newCondition);
   };
-  console.log(body);
+
   const setOperator = (index: number, operate: string) => {
     const newCondition = produce(condition, (draft) => {
       draft[index].operate = operate;
