@@ -25,20 +25,17 @@ const testData = {
 };
 
 Role('Manager', () => {
-  test.only('organization-settings', async ({ wait, page, expectExist, goTo }) => {
-    const base = new Base(page);
-    await goTo('organizationMember');
+  test('Organization member related', async ({ page, expectExist, goTo }) => {
+    await goTo('organizationInfo');
+    await page.click('text=org member');
+    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=orgMember/);
     await page.click('button:has-text("add member")');
     await page.click('.ant-select.w-full .ant-select-selector .ant-select-selection-overflow');
     await page.fill('text=member Please enter a member name to search >> input[role="combobox"]', testData.memberName);
     await page.click('.ant-select-item-option-content');
-    await page.click(
-      '.ant-form div:nth-child(3) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
-    );
+    await page.click('text=select member labelOutsourcePartneroutsourcepartner >> div');
     await page.click(':nth-match(:text("outsource"), 2)');
-    await page.click(
-      '.ant-form div:nth-child(2) .ant-col.ant-form-item-control .ant-form-item-control-input .ant-form-item-control-input-content .ant-select .ant-select-selector .ant-select-selection-overflow',
-    );
+    await page.click('text=labeloutsource OutsourcePartneroutsourcepartner >> div');
     await page.click(`div[role="document"] >> text=${testData.manager}`);
     await page.click('div:nth-child(2) .ant-modal .ant-modal-content .ant-modal-body');
     await page.click('button:has-text("ok")');
@@ -61,28 +58,10 @@ Role('Manager', () => {
     await page.click('text=remove');
     await page.click('text=OK');
     await expectExist('text=no data', 0);
-    await page.click('text=issue custom fields');
-    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=issueField/);
-    await page.click('button:has-text("add")');
-    await page.click('[placeholder="please enter field name"]');
-    await page.fill('[placeholder="please enter field name"]', testData.title);
-    await page.click('span:has-text("yes")');
-    await page.click('input[role="combobox"]');
-    await page.click(':nth-match(:text("Text"), 2)');
-    await page.click('button:has-text("ok")');
-    await expectExist(`text=${testData.title}`, 0);
-    await page.click(`text=${testData.title}yesTexteditdelete >> :nth-match(span, 2)`);
-    await page.click('[placeholder="please enter field name"]');
-    await page.fill('[placeholder="please enter field name"]', testData.modifyTitle);
-    await page.click('button:has-text("ok")');
-    await expectExist(`text=${testData.modifyTitle}`, 0);
-    await page.click('text=joint issue type');
-    await page.click('text=requirement');
-    await page.click('input[role="combobox"]');
-    await page.click(':nth-match(:text("test"), 2)');
-    await page.click('button:has-text("reference")');
-    await page.click('text=testTextremovemove upmove down >> span');
-    await page.click('button:has-text("OK")');
+  });
+
+  test('Network blocking, notification group, audit log related', async ({ page, expectExist, goTo }) => {
+    goTo('organizationInfo');
     await page.click('li:has-text("block network")');
     expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=block-network/);
     await page.click('text=prod environmentoff >> button[role="switch"]');
@@ -110,8 +89,37 @@ Role('Manager', () => {
     await page.click('text=new Group');
     await page.click('button:has-text("ok")');
     await expectExist(`text=${testData.memberName}`);
-    await page.click('text=org info');
-    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=orgInfo/);
+  });
+
+  test('Related to collaborative matters', async ({ page, expectExist, goTo }) => {
+    goTo('organizationInfo');
+    await page.click('text=issue custom fields');
+    expect(page.url()).toMatch(/\/orgCenter\/setting\/detail\?tabKey=issueField/);
+    await page.click('button:has-text("add")');
+    await page.click('[placeholder="please enter field name"]');
+    await page.fill('[placeholder="please enter field name"]', testData.title);
+    await page.click('span:has-text("yes")');
+    await page.click('input[role="combobox"]');
+    await page.click(':nth-match(:text("Text"), 2)');
+    await page.click('button:has-text("ok")');
+    await expectExist(`text=${testData.title}`, 0);
+    await page.click(`text=${testData.title}yesTexteditdelete >> :nth-match(span, 2)`);
+    await page.click('[placeholder="please enter field name"]');
+    await page.fill('[placeholder="please enter field name"]', testData.modifyTitle);
+    await page.click('button:has-text("ok")');
+    await expectExist(`text=${testData.modifyTitle}`, 0);
+    await page.click('text=joint issue type');
+    await page.click('text=requirement');
+    await page.click('input[role="combobox"]');
+    await page.click(':nth-match(:text("test"), 2)');
+    await page.click('button:has-text("reference")');
+    await page.click('text=testTextremovemove upmove down >> span');
+    await page.click('button:has-text("OK")');
+  });
+
+  test('Organization information related', async ({ page, expectExist, goTo }) => {
+    const base = new Base(page);
+    goTo('organizationInfo');
     await expectExist('text=organization identifier');
     await expectExist('text=org name');
     await expectExist('text=notice language');
@@ -127,12 +135,7 @@ Role('Manager', () => {
     await page.click('div[role="document"] >> text=Chinese');
     await page.click('text=private org');
     await page.click('span:has-text("public org")');
-    await page.click(
-      'svg:has-text("@font-face{font-family:feedback-iconfont;src:url(//at.alicdn.com/t/font_1031158_")',
-    );
-    await page.click(
-      'span[role="button"]:has-text("@font-face{font-family:feedback-iconfont;src:url(//at.alicdn.com/t/font_1031158_")',
-    );
+    await page.click('.ant-upload');
     await base.uploadFile(testData.image, '[type="file"]');
     await page.click('input[type="textarea"]');
     await page.fill('input[type="textarea"]', testData.title);
