@@ -1,22 +1,21 @@
-// Copyright (c) 2021 Terminus, Inc.
-//
-// This program is free software: you can use, redistribute, and/or modify
-// it under the terms of the GNU Affero General Public License, version 3
-// or later ("AGPL"), as published by the Free Software Foundation.
-//
-// This program is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
-
 import React from 'react';
-import { map, isEmpty, isNull, every, forEach, uniqueId, filter, find, findIndex, fill, cloneDeep } from 'lodash';
-import moment from 'moment';
+import {
+  map,
+  isEmpty,
+  isNull,
+  every,
+  forEach,
+  uniqueId,
+  filter,
+  find,
+  findIndex,
+  fill,
+  cloneDeep,
+  isArray,
+} from 'lodash';
 import { useMount, useUnmount } from 'react-use';
-import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Tooltip } from 'antd';
-import { FormModal } from 'common';
+import { Modal, Button, Spin, Switch, Select, Table, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
+import { FormModal, RenderForm } from 'common';
 import { useSwitch, useUpdate } from 'common/use-hooks';
 import { goTo, insertWhen } from 'common/utils';
 import { ColumnProps } from 'app/interface/common';
@@ -36,7 +35,13 @@ import { usePerm } from 'user/common';
 import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
-import { AddOne as IconAddOne } from '@icon-park/react';
+import {
+  AddOne as IconAddOne,
+  Plus as IconPlus,
+  Add as IconAdd,
+  Reduce as IconReduce,
+  PageTemplate as IconPageTemplate,
+} from '@icon-park/react';
 import { TriggerConditionSelect } from './trigger-condition-select';
 import { NotifyStrategySelect } from './notify-strategy-select';
 import './index.scss';
@@ -96,11 +101,6 @@ const alertLevelOptions = [
 
 const conditionOperatorOptions = [
   {
-    key: 'in',
-    display: 'in',
-    type: 'multiple',
-  },
-  {
     key: 'eq',
     display: i18n.t('msp:equal'),
     type: 'single',
@@ -111,12 +111,17 @@ const conditionOperatorOptions = [
     type: 'single',
   },
   {
+    key: 'in',
+    display: 'in',
+    type: 'multiple',
+  },
+  {
     key: 'match',
     display: i18n.t('msp:match'),
     type: 'input',
   },
   {
-    key: 'noMatch',
+    key: 'notMatch',
     display: i18n.t('msp:not match'),
     type: 'input',
   },
@@ -133,10 +138,11 @@ interface IProps {
   commonPayload?: Obj;
 }
 
-export default ({ scopeType, scopeId, commonPayload }: IProps) => {
+const Foo = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
   const params = routeInfoStore.useStore((s) => s.params);
-  const { projectId = '', terminusKey = '', orgName = '' } = params;
+  const { id: strategyId, projectId = '', terminusKey = '', orgName = '' } = params;
+  const [form] = Form.useForm();
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
@@ -149,7 +155,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       s.alertTriggerConditions,
       s.alertTriggerConditionsContent,
     ]);
-  const { total, pageNo, pageSize } = alarmPaging;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, [
     'getAlertDetail',
@@ -206,6 +211,78 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         scopeId: commonPayload?.scopeId,
       };
     }
+    if (strategyId) {
+      getAlertDetail(Number(strategyId)).then(
+        ({ name, clusterNames, appIds, rules, notifies, triggerCondition }: any) => {
+          updater.editingFormRule({
+            id: strategyId,
+            name,
+            clusterName: clusterNames || [],
+            appId: appIds || [],
+            notifies,
+          });
+          form.setFieldsValue({
+            name,
+            silence: notifies
+              ? `${notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
+              : undefined,
+            silencePolicy: notifies ? `${state.editingFormRule.notifies[0].silence.policy}` : SilencePeriodType.FIXED,
+          });
+          updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
+          updater.activeGroupId(notifies[0].groupId);
+
+          updater.triggerCondition(
+            (triggerCondition || []).map((x) => ({
+              id: uniqueId(),
+              condition: x.condition,
+              operator: x.operator,
+              values: x.values,
+              valueOptions:
+                alertTriggerConditionsContent
+                  ?.find((item) => item.key === x.condition)
+                  ?.options.map((y) => ({
+                    key: y,
+                    display: y,
+                  })) ?? [],
+            })),
+          );
+
+          updater.notifies(
+            (notifies || []).map((x) => ({
+              id: uniqueId(),
+              groupId: x.groupId,
+              level: x.level?.split(','),
+              groupType: x.groupType?.split(','),
+              groupTypeOptions:
+                (notifyChannelMap[x.notifyGroup.targets[0].type] || []).map((y) => ({
+                  key: y.value,
+                  display: y.name,
+                })) || [],
+            })),
+          );
+        },
+      );
+    } else {
+      updater.notifies([
+        {
+          id: uniqueId(),
+          groupId: undefined,
+          groupType: undefined,
+          level: undefined,
+          groupTypeOptions: [],
+        },
+      ]);
+      updater.editingRules([
+        {
+          key: uniqueId(),
+          name: undefined,
+          window: undefined,
+          functions: [],
+          isRecover: true,
+          level: 'Breakdown',
+        },
+      ]);
+    }
     getSMSNotifyConfig({ orgId });
     getAlerts();
     getAlarmScopes();
@@ -214,7 +291,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
     getAlertTriggerConditions(scopeType);
   });
-
   React.useEffect(() => {
     if (alertTriggerConditions?.length) {
       const query = [] as COMMON_STRATEGY_NOTIFY.IAlertTriggerConditionQueryItem[];
@@ -336,6 +412,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: string, { key }) => (
         <Select
           value={value}
+          placeholder={i18n.d('请选择')}
           onSelect={(alertIndex: any) => {
             const rules = cloneDeep(state.editingRules);
             const rule = find(allRules, { alertIndex });
@@ -359,6 +436,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <Select
           value={value}
+          placeholder={i18n.d('请选择')}
           onSelect={(window: any) => handleEditEditingRule(key, { key: 'window', value: Number(window) })}
         >
           {map(windows, (item) => (
@@ -375,6 +453,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       width: 410,
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
+          {functions?.length === 0 && <Input placeholder={i18n.d('请输入')} />}
           {map(functions, (item, index) => (
             <div className="function-item flex-div flex items-center" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
@@ -465,8 +544,10 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       label: i18n.t('cmp:alarm name'),
       name: 'name',
       itemProps: {
+        placeholder: i18n.d('请在此输入'),
         disabled: !isEmpty(state.editingFormRule),
         maxLength: 50,
+        style: { width: 480 },
       },
       initialValue: state.editingFormRule.name,
     },
@@ -476,8 +557,9 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       required: false,
       getComp: () => (
         <>
-          <Button type="primary" ghost onClick={handleAddTriggerConditions}>
-            {i18n.t('cmp:add rule')}
+          <Button className="flex items-center mb-4" type="primary" ghost onClick={handleAddTriggerConditions}>
+            <IconPlus theme="filled" size="16" />
+            <span>{i18n.t('cmp:add rule')}</span>
           </Button>
           {state.triggerCondition?.map((item) => (
             <TriggerConditionSelect
@@ -500,7 +582,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       required: false,
       getComp: () => (
         <>
-          <div className="opportunity-header mb-2">
+          <div className="opportunity-header flex mb-2">
             <Popover
               placement="bottomLeft"
               trigger="click"
@@ -520,10 +602,14 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
                 </div>
               }
             >
-              <Button className="mr-2">{i18n.t('cmp:type template')}</Button>
+              <Button className="mr-2 flex items-center" ghost type="primary">
+                <IconPageTemplate size="14" />
+                <span>{i18n.t('cmp:type template')}</span>
+              </Button>
             </Popover>
-            <Button type="primary" ghost onClick={handleAddEditingRule}>
-              {i18n.t('cmp:add rule')}
+            <Button type="primary" className="flex items-center" ghost onClick={handleAddEditingRule}>
+              <IconPlus theme="filled" size="16" />
+              <span>{i18n.t('cmp:add rule')}</span>
             </Button>
           </div>
           <Table
@@ -541,6 +627,9 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       label: i18n.t('cmp:silence period'),
       name: 'silence',
+      itemProps: {
+        style: { width: 480 },
+      },
       initialValue: state.editingFormRule.notifies
         ? `${state.editingFormRule.notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
         : undefined,
@@ -562,8 +651,9 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       name: 'notifies',
       getComp: () => (
         <>
-          <Button type="primary" ghost onClick={handleAddNotifyStrategy}>
-            {i18n.d('添加通知对象')}
+          <Button type="primary" ghost className="flex items-center mb-4" onClick={handleAddNotifyStrategy}>
+            <IconPlus theme="filled" size="16" />
+            <span>{i18n.d('添加通知对象')}</span>
           </Button>
           {state.notifies?.map((item) => (
             <NotifyStrategySelect
@@ -586,21 +676,22 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         </>
       ),
     },
+    {
+      label: '',
+      getComp: ({ form }: { form: FormInstance }) => {
+        return (
+          <div className="flex justify-end">
+            <Button className="btn-save" type="primary" onClick={() => handleSave(form)}>
+              {i18n.t('save')}
+            </Button>
+            <Button className="ml-3" onClick={() => window.history.back()}>
+              {i18n.t('cancel')}
+            </Button>
+          </div>
+        );
+      },
+    },
   ];
-
-  // msp project has not application，hide application selector
-  // if (scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP') {
-  //   fieldsList.splice(1, 0, {
-  //     label: i18n.t('application'),
-  //     name: 'appId',
-  //     type: 'select',
-  //     initialValue: state.editingFormRule.appId,
-  //     options: map(alarmScopeMap, (name, id) => ({ name, value: id })),
-  //     itemProps: {
-  //       mode: 'multiple',
-  //     },
-  //   });
-  // }
 
   // 添加集合的规则
   const handleClickAlertType = (val: string) => {
@@ -626,12 +717,16 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     updater.editingRules([
       {
         key: uniqueId(),
-        ...allRules[0],
+        name: undefined,
+        window: undefined,
+        functions: [],
+        isRecover: true,
+        level: 'Breakdown',
       },
       ...state.editingRules,
     ]);
   };
-
+  console.log(state.editingRules, 7788);
   // 移除表格编辑中的规则
   const handleRemoveEditingRule = (key: string) => {
     updater.editingRules(filter(state.editingRules, (item) => item.key !== key));
@@ -712,37 +807,46 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     });
   };
 
-  const handleAddAlarm = (param: any) => {
-    const { name, clusterName, appId, silence = '', silencePolicy } = param;
-    const [value, unit] = silence.split('-');
-    const payload: COMMON_STRATEGY_NOTIFY.IAlertBody = {
-      name,
-      clusterNames: clusterName,
-      appIds: appId,
-      domain: location.origin,
-      rules: map(state.editingRules, ({ key, ...rest }) => rest),
-      notifies: state.notifies.map((item) => ({
-        silence: {
-          value: Number(value),
-          unit,
-          policy: silencePolicy,
-        },
-        groupId: item?.groupId,
-        groupType: item?.groupType?.join(','),
-        level: item?.level?.join(','),
-      })),
-      triggerCondition: state.triggerCondition.map((x) => ({
-        condition: x.condition,
-        operator: x.operator,
-        values: x.values,
-      })),
-    };
-    if (!isEmpty(state.editingFormRule)) {
-      editAlert({ body: payload, id: state.editingFormRule.id });
-    } else {
-      createAlert(payload);
-    }
-    handleCloseModal();
+  const handleSave = (form: any) => {
+    form
+      .validateFields()
+      .then((values) => {
+        const { name, clusterName, appId, silence = '', silencePolicy } = values;
+        const [value, unit] = silence.split('-');
+        const payload: COMMON_STRATEGY_NOTIFY.IAlertBody = {
+          name,
+          clusterNames: clusterName,
+          appIds: appId,
+          domain: location.origin,
+          rules: map(state.editingRules, ({ key, ...rest }) => rest),
+          notifies: state.notifies.map((item) => ({
+            silence: {
+              value: Number(value),
+              unit,
+              policy: silencePolicy,
+            },
+            groupId: item?.groupId,
+            groupType: item?.groupType?.join(','),
+            level: item?.level?.join(','),
+          })),
+          triggerCondition: state.triggerCondition.map((x) => ({
+            condition: x.condition,
+            operator: x.operator,
+            values: x.values,
+          })),
+        };
+        if (beforeSubmit(values)) {
+          if (!isEmpty(state.editingFormRule)) {
+            editAlert({ body: payload, id: state.editingFormRule.id });
+          } else {
+            createAlert(payload);
+          }
+          window.history.back();
+        }
+      })
+      .catch(({ errorFields }) => {
+        form.scrollToField(errorFields[0].name);
+      });
   };
 
   // 添加单条触发条件
@@ -755,31 +859,31 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     updater.triggerCondition([
       {
         id: uniqueId(),
-        condition: alertTriggerConditions[0]?.key,
+        condition: undefined,
         operator: conditionOperatorOptions?.[0].key,
-        values: currentTriggerValues[0]?.key,
-        valueOptions: currentTriggerValues,
+        values: undefined,
+        valueOptions: [],
       },
       ...(state.triggerCondition || []),
     ]);
   };
 
-  // 添加单条触发条件
+  // 添加单条通知策略
   const handleAddNotifyStrategy = () => {
-    const activeGroup = notifyGroups[0];
-    const groupTypeOptions =
-      ((activeGroup && notifyChannelMap[activeGroup.targets[0].type]) || []).map((x) => ({
-        key: x.value,
-        display: x.name,
-      })) || [];
+    // const activeGroup = notifyGroups[0];
+    // const groupTypeOptions =
+    //   ((activeGroup && notifyChannelMap[activeGroup.targets[0].type]) || []).map((x) => ({
+    //     key: x.value,
+    //     display: x.name,
+    //   })) || [];
     // updater.groupTypeOptions(groupTypeOptions);
     updater.notifies([
       {
         id: uniqueId(),
-        groupId: notifyGroups[0]?.id,
-        level: [alertLevelOptions?.[0]?.key],
-        groupType: [groupTypeOptions[0]?.key],
-        groupTypeOptions,
+        groupId: undefined,
+        level: undefined,
+        groupType: undefined,
+        groupTypeOptions: [],
       },
       ...(state.notifies || []),
     ]);
@@ -821,13 +925,29 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     fill(rules, { id, ...rule, [item.key]: item.value }, index, index + 1);
     updater.triggerCondition(rules);
   };
-  const beforeSubmit = async (param: any) => {
+  const beforeSubmit = (param: any) => {
     if (isEmpty(state.editingRules)) {
       warning({
         title: i18n.t('cmp:create at least one rule'),
       });
       return null;
+    } else {
+      let isIncomplete = false;
+      state.editingRules.some((item) => {
+        for (const key in item) {
+          if (!item[key] || (isArray(item[key]) && item[key].length === 0)) {
+            isIncomplete = true;
+          }
+        }
+      });
+      if (isIncomplete) {
+        warning({
+          title: i18n.d('规则 information is missing, please complete!'),
+        });
+        return null;
+      }
     }
+
     if (isEmpty(state.notifies)) {
       warning({
         title: i18n.t('cmp:create at least one notify strategy'),
@@ -837,7 +957,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       let isIncomplete = false;
       state.notifies.some((item) => {
         for (const key in item) {
-          if (!item[key]) {
+          if (!item[key] || (isArray(item[key]) && item[key].length === 0)) {
             isIncomplete = true;
           }
         }
@@ -854,7 +974,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       let isIncomplete = false;
       state.triggerCondition.some((item) => {
         for (const key in item) {
-          if (!item[key] && item.operator !== 'all') {
+          if ((!item[key] && item.operator !== 'all') || (isArray(item[key]) && item[key].length === 0)) {
             isIncomplete = true;
           }
         }
@@ -866,6 +986,7 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         return null;
       }
     }
+
     const isLegalFunctions = every(state.editingRules, ({ functions }) => {
       return every(functions, ({ value }) => {
         return !(isNull(value) || value === '');
@@ -881,10 +1002,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     return param;
   };
 
-  const handlePageChange = (no: number) => {
-    getAlerts({ pageNo: no });
-  };
-
   const handleCloseModal = () => {
     update({
       editingRules: [],
@@ -898,128 +1015,11 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     closeModal();
   };
 
-  const alertListColumns: Array<ColumnProps<COMMON_STRATEGY_NOTIFY.IAlert>> = [
-    {
-      title: i18n.t('cmp:alarm name'),
-      dataIndex: 'name',
-      width: 150,
-    },
-    // ...insertWhen(scopeType === ScopeType.ORG, [
-    //   {
-    //     title: i18n.t('cmp:cluster'),
-    //     dataIndex: 'clusterNames',
-    //     width: 200,
-    //     render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
-    //   },
-    // ]),
-    // ...insertWhen(scopeType === ScopeType.MSP && commonPayload?.projectType !== 'MSP', [
-    //   {
-    //     title: i18n.t('application'),
-    //     dataIndex: 'appIds',
-    //     width: 200,
-    //     render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
-    //   },
-    // ]),
-    {
-      title: i18n.t('default:notification target'),
-      dataIndex: ['notifies', '0', 'notifyGroup'],
-      width: 400,
-      className: 'notify-info',
-      ellipsis: true,
-      render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
-        const tips = i18n.t('cmp:Notification group does not exist or has been remove. Please change one.');
-        return (
-          <div className="flex-div flex">
-            {isEmpty(notifyGroup) ? (
-              <Tooltip title={tips}>
-                <span className="text-sub">{tips}</span>
-              </Tooltip>
-            ) : (
-              <ListTargets targets={notifyGroup.targets} roleMap={roleMap} />
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      title: i18n.t('default:create time'),
-      dataIndex: 'createTime',
-      width: 180,
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
-    },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 150,
-      render: (_text, record) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => goTo(`./edit-strategy/${record.id}`)}>
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleDeleteAlarm(record.id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-            <Switch
-              size="small"
-              defaultChecked={record.enable}
-              onChange={() => {
-                toggleAlert({
-                  id: record.id,
-                  enable: !record.enable,
-                }).then(() => {
-                  getAlerts({ pageNo });
-                });
-              }}
-            />
-          </div>
-        );
-      },
-    },
-  ];
-
   return (
-    <div className="alarm-strategy">
-      <div className="top-button-group">
-        <Button
-          type="primary"
-          onClick={() => {
-            goTo('./add-strategy');
-          }}
-        >
-          {i18n.t('cmp:new strategy')}
-        </Button>
-        <FormModal
-          loading={getAlertDetailLoading}
-          width={1200}
-          visible={modalVisible}
-          onCancel={handleCloseModal}
-          title={isEmpty(state.editingFormRule) ? i18n.t('cmp:new strategy') : i18n.t('cmp:edit strategy')}
-          fieldsList={fieldsList}
-          modalProps={{ destroyOnClose: true, bodyStyle: { height: '70vh', overflow: 'auto' } }}
-          onOk={handleAddAlarm}
-          beforeSubmit={beforeSubmit}
-        />
-      </div>
-      <Spin spinning={getAlertsLoading || toggleAlertLoading}>
-        <Table
-          rowKey="id"
-          columns={alertListColumns}
-          dataSource={alertList}
-          pagination={{
-            current: pageNo,
-            pageSize,
-            total,
-            onChange: handlePageChange,
-          }}
-          scroll={{ x: '100%' }}
-        />
-      </Spin>
+    <div>
+      <RenderForm layout="vertical" form={form} list={fieldsList} className="w-full" />
     </div>
   );
 };
+
+export default Foo;

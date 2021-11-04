@@ -17,8 +17,22 @@ function AlarmRouter() {
   return {
     path: 'alarm',
     breadcrumbName: i18n.t('alarm strategy'),
-    pageName: i18n.t('alarm strategy'),
-    getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
+    routes: [
+      {
+        pageName: i18n.t('alarm strategy'),
+        getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index')),
+      },
+      {
+        path: 'add-strategy',
+        breadcrumbName: i18n.d('新建告警策略'),
+        getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
+      },
+      {
+        path: 'edit-strategy/:id',
+        breadcrumbName: i18n.d('编辑告警策略'),
+        getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
+      },
+    ],
   };
 }
 

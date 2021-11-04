@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import { map } from 'lodash';
-import { ReduceOne as IconReduceOne } from '@icon-park/react';
+import { Reduce as IconReduce } from '@icon-park/react';
 import { Select, Input } from 'antd';
 import i18n from 'i18n';
 
@@ -48,6 +48,7 @@ export const TriggerConditionSelect = ({
   return (
     <div className="flex items-center mb-4">
       <Select
+        placeholder={i18n.d('选择标签')}
         className="mr-8"
         style={{ width: 340 }}
         value={current?.condition}
@@ -92,7 +93,7 @@ export const TriggerConditionSelect = ({
       {['input', 'none'].includes(type) ? (
         <Input
           key={type}
-          placeholder={type === 'input' ? i18n.t('cmp:please select the corresponding value') : ''}
+          placeholder={type === 'input' ? i18n.d('请在此输入') : ''}
           className="flex-grow-0"
           style={{ width: 360 }}
           disabled={type === 'none'}
@@ -107,9 +108,10 @@ export const TriggerConditionSelect = ({
       ) : (
         <Select
           value={type === 'single' ? current?.values : current?.values?.split(',')}
+          disabled={current?.valueOptions?.length === 0}
           className="flex-grow-0"
           placeholder={i18n.t('please select')}
-          style={{ width: 360 }}
+          style={{ width: 340 }}
           mode={type === 'single' ? undefined : type}
           onChange={(value) =>
             handleEditTriggerConditions(id, { key: 'values', value: type === 'single' ? value : value?.join(',') })
@@ -124,9 +126,9 @@ export const TriggerConditionSelect = ({
           })}
         </Select>
       )}
-      <IconReduceOne
-        className="cursor-pointer ml-8 hover:text-primary"
-        size="16"
+      <IconReduce
+        className="cursor-pointer ml-2 text-darkgray hover:text-primary"
+        size="20"
         onClick={() => handleRemoveTriggerConditions(id)}
       />
     </div>
