@@ -102,3 +102,4 @@ export { default as SortDragGroupList } from './components/sort-drag-group-list'
 export { default as LogRoller } from './components/log-roller';
 export { default as MetricsMonitor } from './components/metrics-monitor';
 export { default as MonitorChart } from './components/monitor-chart';
+export { default as Intro } from './components/intro'

@@ -156,7 +156,7 @@ const TopologyDashboard = () => {
   return (
     <div className="topology-dashboard">
       {currentProject?.type === 'MSP' ? (
-        <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfiguationPage)}>
+        <Button className="top-button-group mt-2" type="primary" onClick={() => goTo(goTo.pages.mspConfigurationPage)}>
           {i18n.t('msp:access service')}
         </Button>
       ) : null}

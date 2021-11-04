@@ -14,7 +14,6 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { Select } from 'antd';
-import { EmptyHolder } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
@@ -22,6 +21,7 @@ import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import serviceAnalyticsStore from 'msp/stores/service-analytics';
+import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 
 const sortList = [
   {
@@ -68,6 +68,10 @@ export default () => {
     updater,
     _serviceName,
   ]);
+
+  if (!serviceId) {
+    return <NoServicesHolder />;
+  }
 
   return (
     <div className="service-analyze flex flex-col h-full">
@@ -117,17 +121,13 @@ export default () => {
           <TimeSelectWithStore className="ml-3" />
         </div>
       </div>
-      {serviceId ? (
-        <div className="overflow-auto flex-1">
-          <ServiceListDashboard
-            dashboardId="exception_analysis"
-            extraGlobalVariable={{ sort, limit, exceptionType }}
-            serviceId={serviceId}
-          />
-        </div>
-      ) : (
-        <EmptyHolder relative />
-      )}
+      <div className="overflow-auto flex-1">
+        <ServiceListDashboard
+          dashboardId="exception_analysis"
+          extraGlobalVariable={{ sort, limit, exceptionType }}
+          serviceId={serviceId}
+        />
+      </div>
     </div>
   );
 };
