@@ -48,7 +48,7 @@ export const getDopMenu = () => {
           key: 'apiManage',
           text: i18n.t('API'),
           subtitle: 'API',
-          href: goTo.resolve.apiManageRoot(),
+          href: goTo.resolve.apiManageMarket(),
           show: orgPerm.dop.apiManage.read.pass,
           subMenu: [
             {
