@@ -90,7 +90,7 @@ export const ProjectList = () => {
         render: (text: string) => (text === 'MSP' ? i18n.t('cmp:microservice Observation Project') : 'DevOps'),
       },
       {
-        title: i18n.t('total CPU allocation'),
+        title: i18n.t('CPU limit'),
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
         width: 200,
@@ -99,7 +99,7 @@ export const ProjectList = () => {
         render: (text: string) => `${text} Core`,
       },
       {
-        title: i18n.t('total Memory allocation'),
+        title: i18n.t('Memory limit'),
         dataIndex: 'memQuota',
         key: 'memQuota',
         width: 200,
