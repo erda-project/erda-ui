@@ -121,7 +121,7 @@ const convertToMapData = (arr: IItemData[]) => {
 };
 
 interface IProps {
-  data?: object;
+  data?: object | IItemData[];
   form: FormInstance;
   title?: string | React.ReactNode;
   pagination?: {
@@ -136,8 +136,8 @@ interface IProps {
   isTextArea: boolean;
   keyDisabled?: boolean;
   existKeys?: string[];
-  onDel?: (data: object) => void;
-  onChange?: (data: object) => void;
+  onDel?: (data: object | IItemData[]) => void;
+  onChange?: (data: object | IItemData[]) => void;
   validate?: {
     key: (rule: any, value: any, callback: Function) => void;
     value: (rule: any, value: any, callback: Function) => void;
@@ -171,7 +171,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
   static getDerivedStateFromProps(props: IProps, preState: IState): Partial<IState> | null {
     if (!isEqual(props.data, preState.preData)) {
       return {
-        dataSource: convertToColumnData(props.data),
+        dataSource: Array.isArray(props.data) ? props.data : convertToColumnData(props.data),
         preData: props.data,
       };
     }
@@ -183,7 +183,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      dataSource: convertToColumnData(props.data),
+      dataSource: Array.isArray(props.data) ? props.data : convertToColumnData(props.data),
       preData: null,
     };
   }
@@ -223,7 +223,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
     const { onChange } = this.props;
     (find(dataSource, { uniKey }) as object)[name] = value;
     this.setState({ dataSource });
-    onChange && onChange(convertToMapData(dataSource));
+    onChange && onChange(Array.isArray(this.props.data) ? dataSource : convertToMapData(dataSource));
   };
 
   handleDelete = (uniKey: string) => {
@@ -234,7 +234,7 @@ class KeyValueTable extends React.Component<IProps, IState> {
         dataSource: reject(dataSource, { uniKey }),
       },
       () => {
-        onDel(this.getTableData());
+        onDel(Array.isArray(this.props.data) ? this.state.dataSource : this.getTableData());
       },
     );
   };
