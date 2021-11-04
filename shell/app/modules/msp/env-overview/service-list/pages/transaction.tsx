@@ -136,7 +136,7 @@ interface IState {
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
-  const params = routeInfoStore.useStore((s) => s.params);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
@@ -164,7 +164,7 @@ const Transaction = () => {
     },
     updater,
   ] = useUpdate<IState>({
-    type: DASHBOARD_TYPE.http,
+    type: query.type || DASHBOARD_TYPE.http,
     search: undefined,
     topic: undefined,
     subSearch: undefined,
