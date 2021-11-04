@@ -202,7 +202,7 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       readonlyForm={readonlyForm}
       fieldsList={fieldsList}
       updateInfo={updateProject}
-      name={i18n.t('dop:project resource')}
+      name={i18n.t('dop:project quota')}
       desc={
         <span>
           {i18n.t(

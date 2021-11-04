@@ -83,10 +83,10 @@ const ClusterQuota = ({
     <div className="quota-tips">
       <div>
         <span className="mr-4">
-          {i18n.t('cmp:available resources')}：CPU：{leftCpu} {i18n.t('core')}
+          {i18n.t('common:remaining quota')}: CPU: {leftCpu} {i18n.t('core')}
         </span>
         <span>
-          {i18n.t('memory')}:{leftMem} GB
+          {i18n.t('memory')}: {leftMem} GB
         </span>
       </div>
       <div className="text-black-400">
@@ -106,12 +106,12 @@ const ClusterQuota = ({
         <span className="mr-2 text-black-400">{i18n.t('cluster')}:</span>
         {data.clusterName || ''}
         <div className="mr-4 text-black-400">
-          {i18n.t('CPU allocation')}
+          {i18n.t('CPU limit')}
           <span className="text-black mx-2">{data.cpuQuota || 0}</span>
           {i18n.t('core')}
         </div>
         <div className="mr-4 text-black-400">
-          {i18n.t('Memory allocation')}
+          {i18n.t('Memory limit')}
           <span className="text-black mx-2">{data.memQuota || 0}</span>
           GB
         </div>
@@ -154,7 +154,7 @@ const ClusterQuota = ({
                   },
                 ]}
               >
-                <Input disabled={!canEdit} addonBefore={i18n.t('CPU allocation')} addonAfter={i18n.t('core')} />
+                <Input disabled={!canEdit} addonBefore={i18n.t('CPU limit')} addonAfter={i18n.t('core')} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -172,7 +172,7 @@ const ClusterQuota = ({
                   },
                 ]}
               >
-                <Input disabled={!canEdit} addonBefore={i18n.t('Memory allocation')} addonAfter="GB" />
+                <Input disabled={!canEdit} addonBefore={i18n.t('Memory limit')} addonAfter="GB" />
               </Form.Item>
             </Col>
           </Row>

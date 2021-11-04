@@ -51,7 +51,7 @@ const ProjectSettings = () => {
           ),
         },
         {
-          tabTitle: i18n.t('dop:project resource'),
+          tabTitle: i18n.t('dop:project quota'),
           tabKey: 'projectResource',
           content: <ProjectCluster hasEditAuth={false} />,
         },
