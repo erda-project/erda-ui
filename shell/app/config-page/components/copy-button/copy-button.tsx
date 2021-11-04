@@ -32,12 +32,12 @@ const CopyButton = (props: CP_COPY_BUTTON.Props) => {
     );
 
   return (
-    <>
+    <span>
       <span className={`${idRef.current} cursor-copy`} data-clipboard-tip={copyTip} data-clipboard-text={copyText}>
         {children}
       </span>
-      <CopyComp selector={idRef.current} />
-    </>
+      <CopyComp selector={`.${idRef.current}`} />
+    </span>
   );
 };
 
