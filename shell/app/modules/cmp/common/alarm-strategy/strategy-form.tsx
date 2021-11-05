@@ -536,7 +536,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         maxLength: 50,
         style: { width: 480 },
       },
-      initialValue: state.editingFormRule.name,
     },
     {
       label: i18n.t('cmp:filter rule'),
@@ -621,9 +620,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       itemProps: {
         style: { width: 480 },
       },
-      initialValue: state.editingFormRule.notifies
-        ? `${state.editingFormRule.notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
-        : undefined,
       type: 'select',
       options: map(silenceMap, ({ display }, value) => ({ name: `${value.split('-')[0]}${display}`, value })),
     },
