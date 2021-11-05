@@ -210,6 +210,16 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         scopeId: commonPayload?.scopeId,
       };
     }
+    getSMSNotifyConfig({ orgId });
+    getAlerts();
+    getAlarmScopes();
+    getAlertTypes();
+    getNotifyGroups(payload);
+    getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
+    getAlertTriggerConditions(scopeType);
+  });
+
+  React.useEffect(() => {
     if (strategyId) {
       getAlertDetail(Number(strategyId)).then(
         ({ name, clusterNames, appIds, rules, notifies, triggerCondition }: any) => {
@@ -250,7 +260,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             (notifies || []).map((x) => ({
               id: uniqueId(),
               groupId: x.groupId,
-              level: x.level?.split(','),
+              level: x.level ? x.level?.split(',') : 'Breakdown',
               groupType: x.groupType?.split(','),
               groupTypeOptions:
                 (notifyChannelMap[x.notifyGroup.targets[0].type] || []).map((y) => ({
@@ -282,14 +292,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         },
       ]);
     }
-    getSMSNotifyConfig({ orgId });
-    getAlerts();
-    getAlarmScopes();
-    getAlertTypes();
-    getNotifyGroups(payload);
-    getRoleMap({ scopeType, scopeId: scopeType === ScopeType.MSP ? commonPayload?.scopeId : scopeId });
-    getAlertTriggerConditions(scopeType);
-  });
+  }, [alertTriggerConditionsContent]);
 
   React.useEffect(() => {
     if (alertTriggerConditions?.length) {
