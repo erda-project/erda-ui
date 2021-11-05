@@ -18,7 +18,7 @@ import { getLabel, noop } from './common';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import { commonFields, rulesField, checkWhen } from './common/config';
-import { getUploadProps } from 'app/common/utils/upload-props';
+import { getUploadProps } from 'common/utils/upload-props';
 import './upload.scss';
 
 const FormItem = Form.Item;

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { FormModal } from 'app/common';
+import { FormModal } from 'common';
 import { isEqual } from 'lodash';
 
 import './resource-modal.scss';

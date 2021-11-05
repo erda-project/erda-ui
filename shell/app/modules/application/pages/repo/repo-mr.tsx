@@ -13,7 +13,7 @@
 
 import { Button, Alert } from 'antd';
 import React from 'react';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import { RepoMrTable } from './components/repo-mr-table';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';

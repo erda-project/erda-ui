@@ -20,7 +20,7 @@ import { Spin, Timeline } from 'antd';
 import issueStore from 'project/stores/issues';
 import { useUserMap } from 'core/stores/userMap';
 import React from 'react';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import Markdown from 'common/utils/marked';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'app/i18n';

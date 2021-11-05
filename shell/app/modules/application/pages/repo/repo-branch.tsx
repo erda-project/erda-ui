@@ -17,7 +17,7 @@ import React from 'react';
 import { fromNow, replaceEmoji } from 'common/utils';
 import { mergeRepoPathWith } from './util';
 import GotoCommit, { getCommitPath } from 'application/common/components/goto-commit';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import { Link } from 'react-router-dom';
 import { get, find, debounce } from 'lodash';
 import { WithAuth, usePerm } from 'app/user/common';

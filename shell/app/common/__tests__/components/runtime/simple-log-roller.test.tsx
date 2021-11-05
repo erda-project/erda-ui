@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { SimpleLog } from 'common';
-import { LogItem } from 'app/common/components/simple-log/simple-log-roller';
+import { LogItem } from 'common/components/simple-log/simple-log-roller';
 import { mount, shallow } from 'enzyme';
 import commonStore from 'common/stores/common';
 

@@ -17,7 +17,7 @@ import { get, cloneDeep, isEmpty, pickBy, head, debounce, forEach, find } from '
 import { CategoriesOrder } from 'app/modules/addonPlatform/pages/common/configs';
 import { AddonCards } from './addon-cards';
 import { useUpdateEffect } from 'react-use';
-import { IF } from 'app/common';
+import { IF } from 'common';
 import './addon-card-list.scss';
 import i18n from 'i18n';
 

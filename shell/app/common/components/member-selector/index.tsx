@@ -18,7 +18,7 @@ import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
 import { map, debounce, isEmpty, get, isArray, isString, difference, compact } from 'lodash';
 import { getUsers, getMembers, getUsersNew, getPlatformUserList, searchPlatformUserList } from 'common/services';
-import { MemberScope } from 'app/common/stores/member-scope';
+import { MemberScope } from 'common/stores/member-scope';
 import { LoadMoreSelector } from 'common';
 import { Tag, Select, Avatar } from 'antd';
 import { useMount } from 'react-use';

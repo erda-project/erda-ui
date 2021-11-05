@@ -14,7 +14,7 @@
 /* eslint-disable no-undef */
 import { IStaticData } from '@erda-ui/dashboard-configurator';
 import { getFormatter } from './index';
-import { cutStr } from 'app/common/utils';
+import { cutStr } from 'common/utils';
 import { areaColors } from '../theme';
 import { map, sortBy, some } from 'lodash';
 import moment from 'moment';

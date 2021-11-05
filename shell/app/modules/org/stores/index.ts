@@ -14,7 +14,7 @@
 import { createStore } from 'core/cube';
 import layoutStore from 'layout/stores/layout';
 import { some } from 'lodash';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 
 const orgCenterStore = createStore({
   name: 'orgCenter',

@@ -19,7 +19,7 @@ import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, Filter } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getClusterList, getDomainList } from 'cmp/services/domain-manage';
-import { getDefaultPaging, goTo } from 'app/common/utils';
+import { getDefaultPaging, goTo } from 'common/utils';
 import { getProjectList } from 'project/services/project';
 import routeInfoStore from 'core/stores/route';
 import orgStore from 'app/org-home/stores/org';

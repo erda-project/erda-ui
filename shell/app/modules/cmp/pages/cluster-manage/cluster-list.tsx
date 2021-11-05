@@ -27,7 +27,7 @@ import { ClusterLog } from './cluster-log';
 import { getClusterOperationHistory } from 'app/modules/cmp/services/machine';
 import { ColumnProps, IActions } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
-import { bgColorClsMap } from 'app/common/utils/style-constants';
+import { bgColorClsMap } from 'common/utils/style-constants';
 import { useLoading } from 'core/stores/loading';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { useInstanceOperation } from 'cmp/common/components/instance-operation';

@@ -12,15 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable */
-import { defineConfig, normalizePath } from 'vite';
 import legacyPlugin from '@vitejs/plugin-legacy';
-import usePluginImport from 'vite-plugin-importer';
+import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import * as path from 'path';
-import reactRefresh from '@vitejs/plugin-react-refresh';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
-import { getLessTheme, getScssTheme, themeColor } from './config/theme';
+import { getLessTheme, getScssTheme } from './config/theme';
+const babelConfig = require('./babel.config.js');
 
 const dotenv = require('dotenv');
 
@@ -28,10 +27,6 @@ const { parsed: envConfig } = dotenv.config({ path: path.resolve(__dirname, '../
 
 // @see https://cn.vitejs.dev/config/
 export default ({ command, mode }) => {
-  let rollupOptions = {};
-
-  let optimizeDeps = {};
-
   let alias = {
     'core/index': path.resolve(__dirname, '../core/src/index'),
     'core/config': path.resolve(__dirname, '../core/src/config'),
@@ -98,76 +93,51 @@ export default ({ command, mode }) => {
     /^\/api\/[^/]*\/apim-ws\/api-docs\/filetree/,
   ];
 
-  let proxy = {
-    // string shorthand
-    // '/foo': 'http://localhost:4567',
-    // with options
-    '/api/': {
-      target: envConfig.BACKEND_URL,
-      changeOrigin: true,
-      secure: false,
-    },
-  };
-
-  let define = {
-    'process.env.VITE': '"true"',
-  };
-
-  let esbuild = {};
-
   return {
     base: './', // index.html文件所在位置
     root: './', // js导入的资源路径，src
     resolve: {
       alias,
     },
-    define: define,
+    define: {
+      'process.env.VITE': '"true"',
+    },
     server: {
       host: 'local.dice.dev.terminus.io',
-      // 代理
-      proxy,
+      proxy: {
+        // string shorthand
+        // '/foo': 'http://localhost:4567',
+        // with options
+        '/api/': {
+          target: envConfig.BACKEND_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+      },
       https: {
         key: fs.readFileSync('../cert/dev/server.key'),
         cert: fs.readFileSync('../cert/dev/server.crt'),
       },
     },
-    build: {
-      target: 'es2015',
-      minify: 'terser', // 是否进行压缩,boolean | 'terser' | 'esbuild',默认使用terser
-      manifest: false, // 是否产出maifest.json
-      sourcemap: false, // 是否产出soucemap.json
-      outDir: 'build', // 产出目录
-      rollupOptions,
-    },
-    esbuild,
-    optimizeDeps,
     plugins: [
       legacyPlugin({
         targets: ['Chrome >= 80', 'Safari >= 10.1', 'iOS >= 10.3', 'Firefox >= 54', 'Edge >= 15'],
       }),
-      // usePluginImport({
-      //   libraryName: "lodash",
-      //   libraryDirectory: "",
-      //   camel2DashComponentName: false,
-      // }),
-      // usePluginImport({
-      //   libraryName: "@icon-park/react",
-      //   libraryDirectory: "es/icons",
-      //   camel2DashComponentName: false
-      // }),
-      reactRefresh(),
+      react({
+        babel: {
+          plugins: babelConfig.plugins.slice(0, 2),
+        },
+      }),
     ],
     css: {
       preprocessorOptions: {
         less: {
           // 支持内联 JavaScript
           javascriptEnabled: true,
-          modifyVars: getLessTheme(themeColor),
+          modifyVars: getLessTheme(),
         },
         scss: {
-          additionalData: `@import "app/styles/_color.scss";@import "app/styles/_variable.scss";@import "app/styles/_mixin.scss";${getScssTheme(
-            false,
-          )}`,
+          additionalData: `@import "app/styles/_color.scss";@import "app/styles/_variable.scss";@import "app/styles/_mixin.scss";${getScssTheme()}`,
         },
       },
       postcss: {

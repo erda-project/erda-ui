@@ -14,7 +14,7 @@
 import { map } from 'lodash';
 import React from 'react';
 import moment from 'moment';
-import { transformLog } from 'app/common/utils';
+import { transformLog } from 'common/utils';
 import './log-content.scss';
 
 interface ILogItem {

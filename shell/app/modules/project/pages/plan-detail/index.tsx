@@ -31,7 +31,7 @@ import CaseFilterDrawer from '../test-manage/case/filter-drawer';
 import { getColumns } from './columns';
 import Report from './report';
 import PlanModal, { IPlanModal } from '../test-plan/plan-modal';
-import { updateSearch, loopTimer } from 'app/common/utils';
+import { updateSearch, loopTimer } from 'common/utils';
 import TestRecords from './test-record/test-record';
 import { getExecuteRecords as getExecuteRecordsService } from '../../services/test-plan';
 import { EnvSelect, BaseInfo } from 'project/pages/plan-detail/common-comp';

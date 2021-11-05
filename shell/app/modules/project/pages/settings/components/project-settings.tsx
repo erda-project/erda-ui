@@ -21,7 +21,7 @@ import NotifyConfig from 'application/pages/settings/components/app-notify/notif
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
 import memberStore from 'common/stores/project-member';
 import i18n from 'i18n';
-import { MemberScope } from 'app/common/stores/member-scope';
+import { MemberScope } from 'common/stores/member-scope';
 import { Link } from 'react-router-dom';
 import routeInfoStore from 'core/stores/route';
 import BranchRule from 'project/common/components/branch-rule';
