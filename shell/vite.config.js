@@ -12,15 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable */
-import { defineConfig, normalizePath } from 'vite';
 import legacyPlugin from '@vitejs/plugin-legacy';
-import usePluginImport from 'vite-plugin-importer';
+import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import * as path from 'path';
-import reactRefresh from '@vitejs/plugin-react-refresh';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
-import { getLessTheme, getScssTheme, themeColor } from './config/theme';
+import { getLessTheme, getScssTheme } from './config/theme';
+const babelConfig = require('./babel.config.js');
 
 const dotenv = require('dotenv');
 
@@ -145,29 +144,22 @@ export default ({ command, mode }) => {
       legacyPlugin({
         targets: ['Chrome >= 80', 'Safari >= 10.1', 'iOS >= 10.3', 'Firefox >= 54', 'Edge >= 15'],
       }),
-      // usePluginImport({
-      //   libraryName: "lodash",
-      //   libraryDirectory: "",
-      //   camel2DashComponentName: false,
-      // }),
-      // usePluginImport({
-      //   libraryName: "@icon-park/react",
-      //   libraryDirectory: "es/icons",
-      //   camel2DashComponentName: false
-      // }),
-      reactRefresh(),
+      react({
+        babel: {
+          // configFile: true,
+          plugins: babelConfig.plugins,
+        },
+      }),
     ],
     css: {
       preprocessorOptions: {
         less: {
           // 支持内联 JavaScript
           javascriptEnabled: true,
-          modifyVars: getLessTheme(themeColor),
+          modifyVars: getLessTheme(),
         },
         scss: {
-          additionalData: `@import "app/styles/_color.scss";@import "app/styles/_variable.scss";@import "app/styles/_mixin.scss";${getScssTheme(
-            false,
-          )}`,
+          additionalData: `@import "app/styles/_color.scss";@import "app/styles/_variable.scss";@import "app/styles/_mixin.scss";${getScssTheme()}`,
         },
       },
       postcss: {

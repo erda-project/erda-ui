@@ -42,6 +42,9 @@ import 'tailwindcss/tailwind.css';
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
 
+if (process.env.VITE) {
+  import('antd/dist/antd.less');
+}
 setConfig('onAPISuccess', message.success);
 setConfig('onAPIFail', notify);
 
