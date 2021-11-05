@@ -15,7 +15,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { Tooltip, Badge, Button } from 'antd';
 import { get, isEmpty } from 'lodash';
-import { Icon as CustomIcon, CardsLayout, Holder, IF } from 'common';
+import { Icon as CustomIcon, CardsLayout, Holder, IF, ErdaIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { goTo, ossImg } from 'common/utils';
 import { AddonDetailDrawer } from './addon-detail-drawer';
@@ -183,18 +183,27 @@ export const AddonCards = (props: IProps) => {
       customAddonType,
       projectId,
       status,
+      mysqlAccountState,
       tag,
     } = content;
     const onError = () => {
       updater.logoUrlMap((prev: any) => ({ ...prev, [instanceId]: addon_png }));
     };
 
+    const mysqlAccountStateMap = {
+      PRE: i18n.t('dop:account switching'),
+    };
     return (
       <div
         className="addon-item-container cursor-pointer"
         key={`${instanceId || realInstanceId}-${projectId}-${workspace}`}
         onClick={() => onClickCard(content)}
       >
+        <IF check={mysqlAccountStateMap[mysqlAccountState]}>
+          <Tooltip title={mysqlAccountStateMap[mysqlAccountState]}>
+            <ErdaIcon className="absolute right-12 top-1" type="caution" color="orange" size={16} />
+          </Tooltip>
+        </IF>
         <span className="env-icon font-medium" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}>
           <CustomIcon type="bq" color />
         </span>

@@ -37,6 +37,7 @@ interface IProps {
   env: string;
   releaseId: string;
   status: string;
+  addonState: string;
   extra: { fakeRuntime: boolean };
   deleteStatus: string;
   lastOperatorName: string;
@@ -129,6 +130,7 @@ const RuntimeBox = (props: IProps) => {
     status,
     deleteStatus,
     lastOperatorName,
+    addonState,
     lastOperatorAvatar,
     lastOperateTime,
     deployStatus,
@@ -142,6 +144,10 @@ const RuntimeBox = (props: IProps) => {
   const isDeploying = ['DEPLOYING'].includes(deployStatus);
   const env = props.env.toLowerCase();
   const isWaitApprove = deployStatus.toLowerCase() === approvalStatusMap.WaitApprove.value.toLowerCase();
+
+  const addonStateMap = {
+    sqlAcctountChanging: i18n.t('dop:mysql addon account switching, please restart to take effect'),
+  };
 
   if (fakeRuntime) {
     return (
@@ -172,15 +178,22 @@ const RuntimeBox = (props: IProps) => {
               <span className="font-bold nowrap">{name}</span>
             </Tooltip>
           </div>
-          <IF
-            check={
-              props.canDeploy &&
-              deleteStatus !== 'DELETING' &&
-              (permMap[`${env}Delete`].pass || permMap[`${env}DeployOperation`].pass)
-            }
-          >
-            <MenuPopover content={popoverComp(isDeploying, id, onDelete, onRestart, env, name)} />
-          </IF>
+          <div>
+            <IF check={addonStateMap[addonState]}>
+              <Tooltip title={addonStateMap[addonState]}>
+                <ErdaIcon className="mr-1" type="caution" color="orange" size={16} />
+              </Tooltip>
+            </IF>
+            <IF
+              check={
+                props.canDeploy &&
+                deleteStatus !== 'DELETING' &&
+                (permMap[`${env}Delete`].pass || permMap[`${env}DeployOperation`].pass)
+              }
+            >
+              <MenuPopover content={popoverComp(isDeploying, id, onDelete, onRestart, env, name)} />
+            </IF>
+          </div>
         </div>
 
         {releaseId ? (
@@ -199,6 +212,7 @@ const RuntimeBox = (props: IProps) => {
             {lastOperatorName || ''}
             <span className="deploy-time">{lastOperateTime ? fromNow(lastOperateTime) : ''}</span>
           </div>
+
           {['Healthy', 'OK'].includes(status) ? null : <HealthPoint type="runtime" status={status} />}
         </div>
         {isWaitApprove ? <Alert message={i18n.t('dop:project admin confirming')} type="info" showIcon /> : null}

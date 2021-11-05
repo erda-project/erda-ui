@@ -24,6 +24,7 @@ declare namespace ADDON {
     desc: string;
     logoUrl: string;
     plan: string;
+    mysqlAccountState: 'CUR' | 'PRE';
     version: string;
     category: string;
     config: {
