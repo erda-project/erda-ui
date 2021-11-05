@@ -50,10 +50,10 @@ export const NotifyStrategySelect = ({
   handleRemoveNotifyStrategy,
 }: IProps) => {
   return (
-    <div className="flex items-center mb-4">
+    <div className="flex items-center mb-4 last:mb-0">
       <Select
         className="mr-8"
-        style={{ width: 340 }}
+        style={{ width: 180 }}
         placeholder={i18n.t('cmp:select group')}
         value={current?.groupId}
         onSelect={(groupId: number) => {
@@ -96,7 +96,7 @@ export const NotifyStrategySelect = ({
 
       <Select
         className="mr-8"
-        style={{ width: 340 }}
+        style={{ width: 280 }}
         placeholder={i18n.t('cmp:select level')}
         value={current?.level}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'level', value })}
@@ -112,7 +112,7 @@ export const NotifyStrategySelect = ({
       </Select>
       <Select
         placeholder={i18n.t('cmp:select notify method')}
-        style={{ width: 340 }}
+        style={{ width: 280 }}
         value={current?.groupType}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'groupType', value })}
         mode="multiple"

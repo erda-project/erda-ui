@@ -595,7 +595,7 @@
     "notification channel": "通知渠道",
     "notification method": "通知方式",
     "notification target": "通知对象",
-    "notify strategy information is missing, please complete!": "通知策略信息缺失，请填写!",
+    "content of notification object is missing, please complete!": "通知对象内容缺失，请填写!",
     "number": "数字",
     "number input": "数字输入框",
     "number of API": "接口个数",

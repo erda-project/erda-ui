@@ -595,7 +595,7 @@
     "notification channel": "notification channel",
     "notification method": "notification method",
     "notification target": "notification target",
-    "notify strategy information is missing, please complete!": "notify strategy information is missing, please complete!",
+    "content of notification object is missing, please complete!": "content of notification object is missing, please complete!",
     "number": "number",
     "number input": "number input",
     "number of API": "number of API",

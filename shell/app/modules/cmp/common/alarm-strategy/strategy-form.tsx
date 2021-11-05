@@ -14,6 +14,7 @@ import {
   isArray,
 } from 'lodash';
 import { useMount, useUnmount } from 'react-use';
+import { FormInstance } from 'core/common/interface';
 import { Modal, Button, Switch, Select, Table, Input, InputNumber, Popover, Tooltip, Form } from 'antd';
 import { RenderForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -543,22 +544,26 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       required: false,
       getComp: () => (
         <>
-          <Button className="flex items-center mb-4" type="primary" ghost onClick={handleAddTriggerConditions}>
+          <Button className="flex items-center mb-2" type="primary" ghost onClick={handleAddTriggerConditions}>
             <IconPlus theme="filled" size="16" />
             <span>{i18n.t('cmp:add rule')}</span>
           </Button>
-          {state.triggerCondition?.map((item) => (
-            <TriggerConditionSelect
-              keyOptions={alertTriggerConditions}
-              key={item.id}
-              id={item.id}
-              current={state.triggerCondition?.find((x) => x.id === item.id)}
-              handleEditTriggerConditions={handleEditTriggerConditions}
-              handleRemoveTriggerConditions={handleRemoveTriggerConditions}
-              operatorOptions={conditionOperatorOptions}
-              valueOptionsList={alertTriggerConditionsContent}
-            />
-          ))}
+          {state.triggerCondition?.length > 0 && (
+            <div className="p-2 bg-cultured w-min">
+              {state.triggerCondition?.map((item) => (
+                <TriggerConditionSelect
+                  keyOptions={alertTriggerConditions}
+                  key={item.id}
+                  id={item.id}
+                  current={state.triggerCondition?.find((x) => x.id === item.id)}
+                  handleEditTriggerConditions={handleEditTriggerConditions}
+                  handleRemoveTriggerConditions={handleRemoveTriggerConditions}
+                  operatorOptions={conditionOperatorOptions}
+                  valueOptionsList={alertTriggerConditionsContent}
+                />
+              ))}
+            </div>
+          )}
         </>
       ),
     },
@@ -637,28 +642,32 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       name: 'notifies',
       getComp: () => (
         <>
-          <Button type="primary" ghost className="flex items-center mb-4" onClick={handleAddNotifyStrategy}>
+          <Button type="primary" ghost className="flex items-center mb-2" onClick={handleAddNotifyStrategy}>
             <IconPlus theme="filled" size="16" />
             <span>{i18n.t('cmp:add notification object')}</span>
           </Button>
-          {state.notifies?.map((item) => (
-            <NotifyStrategySelect
-              alertLevelOptions={alertLevelOptions}
-              goToNotifyGroup={() => {
-                goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
-              }}
-              notifyGroups={notifyGroups}
-              notifyChannelMap={notifyChannelMap}
-              addNotificationGroupAuth={addNotificationGroupAuth}
-              key={item.id}
-              id={item.id}
-              updater={updater.activeGroupId}
-              current={state.notifies?.find((x) => x.id === item.id)}
-              handleEditNotifyStrategy={handleEditNotifyStrategy}
-              handleRemoveNotifyStrategy={handleRemoveNotifyStrategy}
-              valueOptions={item.groupTypeOptions}
-            />
-          ))}
+          {state.notifies?.length > 0 && (
+            <div className="p-2 bg-cultured w-min">
+              {state.notifies?.map((item) => (
+                <NotifyStrategySelect
+                  alertLevelOptions={alertLevelOptions}
+                  goToNotifyGroup={() => {
+                    goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
+                  }}
+                  notifyGroups={notifyGroups}
+                  notifyChannelMap={notifyChannelMap}
+                  addNotificationGroupAuth={addNotificationGroupAuth}
+                  key={item.id}
+                  id={item.id}
+                  updater={updater.activeGroupId}
+                  current={state.notifies?.find((x) => x.id === item.id)}
+                  handleEditNotifyStrategy={handleEditNotifyStrategy}
+                  handleRemoveNotifyStrategy={handleRemoveNotifyStrategy}
+                  valueOptions={item.groupTypeOptions}
+                />
+              ))}
+            </div>
+          )}
         </>
       ),
     },
@@ -738,11 +747,11 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     handleEditEditingRule(key, { key: 'functions', value: functions });
   };
 
-  const handleSave = (form: any) => {
+  const handleSave = (form: FormInstance) => {
     form
       .validateFields()
       .then((values) => {
-        const { name, clusterName, appId, silence = '', silencePolicy } = values;
+        const { name, silence = '', silencePolicy } = values;
         const [value, unit] = silence.split('-');
         const payload: COMMON_STRATEGY_NOTIFY.IAlertBody = {
           name,
@@ -855,6 +864,23 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     updater.triggerCondition(rules);
   };
   const beforeSubmit = (param: any) => {
+    if (state.triggerCondition?.length > 0) {
+      let isIncomplete = false;
+      state.triggerCondition.forEach((item) => {
+        for (const key in item) {
+          if ((!item[key] && item.operator !== 'all') || (isArray(item[key]) && item[key].length === 0)) {
+            isIncomplete = true;
+          }
+        }
+      });
+      if (isIncomplete) {
+        warning({
+          title: i18n.t('cmp:content of filter rule is missing, please complete!'),
+        });
+        return null;
+      }
+    }
+
     if (isEmpty(state.editingRules)) {
       warning({
         title: i18n.t('cmp:create at least one rule'),
@@ -874,7 +900,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       if (isIncomplete) {
         warning({
-          title: i18n.t('cmp:alarm rule is missing, please complete!'),
+          title: i18n.t('cmp:content of alarm rule is missing, please complete!'),
         });
         return null;
       }
@@ -882,7 +908,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
 
     if (isEmpty(state.notifies)) {
       warning({
-        title: i18n.t('cmp:create at least one notify strategy'),
+        title: i18n.t('cmp:create at least one notification object'),
       });
       return null;
     } else {
@@ -896,24 +922,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       if (isIncomplete) {
         warning({
-          title: i18n.t('notify strategy information is missing, please complete!'),
-        });
-        return null;
-      }
-    }
-
-    if (state.triggerCondition?.length > 0) {
-      let isIncomplete = false;
-      state.triggerCondition.forEach((item) => {
-        for (const key in item) {
-          if ((!item[key] && item.operator !== 'all') || (isArray(item[key]) && item[key].length === 0)) {
-            isIncomplete = true;
-          }
-        }
-      });
-      if (isIncomplete) {
-        warning({
-          title: i18n.t('cmp:filter rule is missing, please complete!'),
+          title: i18n.t('content of notification object is missing, please complete!'),
         });
         return null;
       }

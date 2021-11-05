@@ -46,11 +46,11 @@ export const TriggerConditionSelect = ({
   const { type } = operatorOptions.find((t) => t.key === current.operator) ?? operatorOptions[0];
 
   return (
-    <div className="flex items-center mb-4">
+    <div className="flex items-center mb-4 last:mb-0">
       <Select
         placeholder={i18n.t('cmp:select label')}
         className="mr-8"
-        style={{ width: 340 }}
+        style={{ width: 200 }}
         value={current?.condition}
         onSelect={(value) => {
           handleEditTriggerConditions(id, { key: 'condition', value });
@@ -72,7 +72,7 @@ export const TriggerConditionSelect = ({
       </Select>
       <Select
         className="mr-8 flex-grow-0"
-        style={{ width: 340 }}
+        style={{ width: 120 }}
         value={current?.operator}
         onSelect={(value) => {
           handleEditTriggerConditions(id, { key: 'operator', value });
@@ -95,7 +95,7 @@ export const TriggerConditionSelect = ({
           key={type}
           placeholder={type === 'input' ? i18n.t('cmp:please enter here') : ''}
           className="flex-grow-0"
-          style={{ width: 360 }}
+          style={{ width: 420 }}
           disabled={type === 'none'}
           value={type === 'none' ? undefined : current?.values}
           onChange={(e) => {
@@ -111,7 +111,7 @@ export const TriggerConditionSelect = ({
           disabled={current?.valueOptions?.length === 0}
           className="flex-grow-0"
           placeholder={i18n.t('please select')}
-          style={{ width: 340 }}
+          style={{ width: 420 }}
           mode={type === 'single' ? undefined : type}
           onChange={(value) =>
             handleEditTriggerConditions(id, { key: 'values', value: type === 'single' ? value : value?.join(',') })
