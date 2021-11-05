@@ -339,7 +339,7 @@
     "fill in up to 5 IPs": "最多填写5个IP",
     "fill-ip-split-enter": "请填写机器所在集群内网的 Host/IP ，以回车键分隔",
     "filter rule": "过滤规则",
-    "filter rule information is missing, please complete!": "触发条件信息缺失，请补全!",
+    "filter rule information is missing, please complete!": "过滤规则缺失，请补全!",
     "fixed": "固定",
     "for example, terminus-test": "例：terminus-test",
     "forced offline": "强制下线",

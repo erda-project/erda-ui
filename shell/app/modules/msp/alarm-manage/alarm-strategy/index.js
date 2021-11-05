@@ -25,13 +25,13 @@ function AlarmRouter() {
       },
       {
         path: 'add-strategy',
-        breadcrumbName: i18n.d('新建告警策略'),
+        breadcrumbName: i18n.t('cmp:new alarm strategy'),
         pageNameInfo: AddStrategyPageName,
         getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
       },
       {
         path: 'edit-strategy/:id',
-        breadcrumbName: i18n.d('编辑告警策略'),
+        breadcrumbName: i18n.t('cmp:edit alarm strategy'),
         pageNameInfo: EditStrategyPageName,
         getComp: (cb) => cb(import('msp/alarm-manage/alarm-strategy/pages/alarm-index/msp-strategy')),
       },
