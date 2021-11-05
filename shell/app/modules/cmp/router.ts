@@ -18,6 +18,7 @@ import { mqTabs } from 'dcos/pages/service-manager/mq-manager/index';
 import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
+import { EditStrategyPageName, AddStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
 
 export const getOrgProjectTabs = () => [
   {
@@ -437,7 +438,23 @@ function getCmpRouter(): RouteConfigItem[] {
             {
               path: 'strategy',
               breadcrumbName: i18n.t('alarm strategy'),
-              getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy')),
+              routes: [
+                {
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy')),
+                },
+                {
+                  path: 'add-strategy',
+                  pageNameInfo: AddStrategyPageName,
+                  breadcrumbName: i18n.d('新建告警策略'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
+                },
+                {
+                  path: 'edit-strategy/:id',
+                  breadcrumbName: i18n.d('编辑告警策略'),
+                  pageNameInfo: EditStrategyPageName,
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/alarm-strategy/cmp-stratege')),
+                },
+              ],
             },
             {
               path: 'custom',

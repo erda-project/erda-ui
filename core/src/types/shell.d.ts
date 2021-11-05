@@ -31,7 +31,6 @@ declare namespace SHELL {
     ignoreTabQuery?: boolean;
     keepTabQuery?: string[];
     alwaysShowTabKey?: string;
-    pageNameInfo?: string;
     TabRightComp?: React.ComponentType;
     wrapper?(Comp: React.ComponentType): React.ComponentType;
     getComp?(cb: Function): Promise<any>;

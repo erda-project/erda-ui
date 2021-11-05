@@ -12,19 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import routeInfoStore from 'core/stores/route';
-import mspStore from 'msp/stores/micro-service';
-import StrategyForm from 'cmp/common/alarm-strategy/strategy-form';
+import StrategyForm from 'app/modules/cmp/common/alarm-strategy/strategy-form';
+import orgStore from 'app/org-home/stores/org';
 
 export default () => {
-  const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
-  const { type } = mspStore.useStore((s) => s.currentProject);
-
-  return (
-    <StrategyForm
-      scopeType="msp"
-      scopeId={projectId}
-      commonPayload={{ scopeType: `msp_env`, scopeId: terminusKey, projectType: type }}
-    />
-  );
+  const currentOrg = orgStore.getState((s) => s.currentOrg);
+  return <StrategyForm scopeType="org" scopeId={String(currentOrg.id)} />;
 };

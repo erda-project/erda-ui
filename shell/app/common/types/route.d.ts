@@ -31,7 +31,6 @@ interface IRoute {
   eternal?: string;
   disabled?: boolean;
   pageName?: string;
-  pageNameInfo?: string;
   changePath?: (path: string) => string;
   component: () => any;
   getComp: (cb: Function) => any;
