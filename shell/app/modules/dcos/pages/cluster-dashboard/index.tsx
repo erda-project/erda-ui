@@ -29,7 +29,7 @@ import { useMount, useUnmount } from 'react-use';
 import noClusterPng from 'app/images/no-cluster.png';
 import { Link } from 'react-router-dom';
 import './index.scss';
-import { DOC_CMP_CLUSTER_CREATE } from 'app/common/constants';
+import { DOC_CMP_CLUSTER_CREATE } from 'common/constants';
 
 const { TreeNode } = TreeSelect;
 const { Option } = Select;

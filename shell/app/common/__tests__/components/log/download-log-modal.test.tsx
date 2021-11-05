@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { DownloadLogModal } from 'app/common/components/pure-log-roller/download-log-modal';
+import { DownloadLogModal } from 'common/components/pure-log-roller/download-log-modal';
 import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 import { sleep } from '../../../../../test/utils';

@@ -21,7 +21,7 @@ import { RenderForm, FileEditor, Icon as CustomIcon } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import repoStore from 'application/stores/repo';
 import { getInfoFromRefName } from 'application/pages/repo/util';
-import { insertWhen } from 'app/common/utils';
+import { insertWhen } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { produce } from 'immer';
 import { useLoading } from 'core/stores/loading';

@@ -26,7 +26,7 @@ import { appMode } from 'application/common/config';
 import memberStore from 'common/stores/application-member';
 import i18n from 'i18n';
 import { Link } from 'react-router-dom';
-import { MemberScope } from 'app/common/stores/member-scope';
+import { MemberScope } from 'common/stores/member-scope';
 import BranchRule from 'project/common/components/branch-rule';
 import { usePerm } from 'app/user/common';
 import { goTo } from 'common/utils';

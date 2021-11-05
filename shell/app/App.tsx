@@ -36,7 +36,7 @@ import './styles/app.scss';
 import '@icon-park/react/styles/index.css';
 import '@erda-ui/dashboard-configurator/dist/index.css';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
-import { initAxios } from 'app/common/utils/axios-config';
+import { initAxios } from 'common/utils/axios-config';
 import 'tailwindcss/tailwind.css';
 
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';

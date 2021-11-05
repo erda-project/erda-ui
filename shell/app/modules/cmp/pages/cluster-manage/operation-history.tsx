@@ -22,7 +22,7 @@ import machineStore from 'app/modules/cmp/stores/machine';
 import React from 'react';
 import { useUserMap } from 'core/stores/userMap';
 import routeInfoStore from 'core/stores/route';
-import { cutStr } from 'app/common/utils';
+import { cutStr } from 'common/utils';
 import clusterStore from 'app/modules/cmp/stores/cluster';
 import { useMount } from 'react-use';
 import { map, isEmpty } from 'lodash';

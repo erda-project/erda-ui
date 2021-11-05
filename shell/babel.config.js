@@ -33,7 +33,7 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   plugins: [
-    /********************* vite used **********************/
+    //  -------------------------- vite used  --------------------------
     'jsx-control-statements',
     [
       'import',
@@ -47,19 +47,7 @@ module.exports = {
       },
       'common',
     ],
-    [
-      'import',
-      {
-        libraryName: 'app/common',
-        customName(name, file) {
-          console.log(name);
-          return specialNameComponents[name] || `common/components/${name}`;
-        },
-        style: false,
-      },
-      'app/common',
-    ],
-    /********************* vite used **********************/
+    //  -------------------------- vite used --------------------------
     [
       'import',
       {

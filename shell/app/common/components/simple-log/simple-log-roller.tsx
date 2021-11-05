@@ -14,9 +14,9 @@
 import React from 'react';
 import { PureLogRoller } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { regLog } from 'app/common/components/pure-log-roller/log-util';
-import { transformLog } from 'app/common/utils';
-import commonStore from 'app/common/stores/common';
+import { regLog } from 'common/components/pure-log-roller/log-util';
+import { transformLog } from 'common/utils';
+import commonStore from 'common/stores/common';
 
 const noop = () => {};
 

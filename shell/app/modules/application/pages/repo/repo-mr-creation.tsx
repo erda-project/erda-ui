@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import RepoMRForm from './components/repo-mr-form';
 import RepoCompareDetail from './components/compare-detail';
 import i18n from 'i18n';

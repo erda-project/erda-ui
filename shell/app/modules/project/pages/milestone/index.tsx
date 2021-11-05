@@ -21,7 +21,7 @@ import React from 'react';
 import { ISSUE_TYPE, ISSUE_PRIORITY_MAP } from 'project/common/components/issue/issue-config';
 import issueStore from 'project/stores/issues';
 import routeInfoStore from 'core/stores/route';
-import { mergeSearch, updateSearch } from 'app/common/utils';
+import { mergeSearch, updateSearch } from 'common/utils';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { usePerm, WithAuth } from 'user/common';
 import labelStore from 'project/stores/label';

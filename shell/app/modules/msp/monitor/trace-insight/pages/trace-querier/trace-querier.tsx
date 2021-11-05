@@ -22,7 +22,7 @@ import RequestStatusViewer from './trace-status-viewer';
 import constants from './constants';
 import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
-import monitorCommonStore from 'app/common/stores/monitorCommon';
+import monitorCommonStore from 'common/stores/monitorCommon';
 import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useEffectOnce } from 'react-use';
 import TraceSearchDetail from './trace-search-detail';

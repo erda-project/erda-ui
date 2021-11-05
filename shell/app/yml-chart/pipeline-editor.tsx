@@ -23,7 +23,7 @@ import FileContainer from 'application/common/components/file-container';
 import { NodeType } from './config';
 import { externalKey } from './chart';
 import { produce } from 'immer';
-import { insertWhen } from 'app/common/utils';
+import { insertWhen } from 'common/utils';
 import { PipelineGraphicEditor, IPipelineGraphicEditorProps, IChartProps } from './common/pipeline-graphic-editor';
 import { parsePipelineYmlStructure } from 'application/services/repo';
 import './pipeline-editor.scss';

@@ -16,14 +16,14 @@ import { Icon as CustomIcon, Copy } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { ShareOne as IconShareOne } from '@icon-park/react';
 import PureTraceDetail from './trace-detail-new';
-import monitorCommonStore from 'app/common/stores/monitorCommon';
+import monitorCommonStore from 'common/stores/monitorCommon';
 import { useUnmount } from 'react-use';
 import traceStore from '../../../../stores/trace';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import i18n from 'i18n';
 import './trace-search-detail.scss';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 
 export default ({ traceId }: { traceId?: string }) => {
   const { getTraceDetailContent } = traceStore;

@@ -15,7 +15,7 @@ import { Icon as CustomIcon, CustomFilter, UserInfo } from 'common';
 import { Button, Progress, Spin, Table, Select, Input } from 'antd';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import { isEmpty } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { useLoading } from 'core/stores/loading';

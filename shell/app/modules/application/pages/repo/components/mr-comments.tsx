@@ -16,7 +16,7 @@ import { Avatar } from 'common';
 import { fromNow } from 'common/utils';
 import React from 'react';
 import { FileDiff } from './file-diff';
-import MarkdownEditor from 'app/common/components/markdown-editor';
+import MarkdownEditor from 'common/components/markdown-editor';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';

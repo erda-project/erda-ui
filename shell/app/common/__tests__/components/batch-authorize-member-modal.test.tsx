@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import BatchAuthorizeMemberModal from 'app/common/components/batch-authorize-member-modal';
+import BatchAuthorizeMemberModal from 'common/components/batch-authorize-member-modal';
 import appMemberStore from 'common/stores/application-member';
 import * as Services from 'common/services';
 import { mount, shallow } from 'enzyme';

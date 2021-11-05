@@ -22,7 +22,7 @@ import BlockNetwork from 'org/pages/setting/block-network';
 import { OrgInfo } from './org-info';
 import NotifyChannel from './notice-channel';
 import { OperationLogSetting } from './operation-log-setting';
-import { MemberScope } from 'app/common/stores/member-scope';
+import { MemberScope } from 'common/stores/member-scope';
 import { MemberLabels } from './member-label';
 import { Link } from 'react-router-dom';
 import IssueFieldManage from '../projects/issue-field-manage';

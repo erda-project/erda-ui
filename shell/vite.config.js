@@ -27,10 +27,6 @@ const { parsed: envConfig } = dotenv.config({ path: path.resolve(__dirname, '../
 
 // @see https://cn.vitejs.dev/config/
 export default ({ command, mode }) => {
-  let rollupOptions = {};
-
-  let optimizeDeps = {};
-
   let alias = {
     'core/index': path.resolve(__dirname, '../core/src/index'),
     'core/config': path.resolve(__dirname, '../core/src/config'),
@@ -97,57 +93,39 @@ export default ({ command, mode }) => {
     /^\/api\/[^/]*\/apim-ws\/api-docs\/filetree/,
   ];
 
-  let proxy = {
-    // string shorthand
-    // '/foo': 'http://localhost:4567',
-    // with options
-    '/api/': {
-      target: envConfig.BACKEND_URL,
-      changeOrigin: true,
-      secure: false,
-    },
-  };
-
-  let define = {
-    'process.env.VITE': '"true"',
-  };
-
-  let esbuild = {};
-
   return {
     base: './', // index.html文件所在位置
     root: './', // js导入的资源路径，src
     resolve: {
       alias,
     },
-    define: define,
+    define: {
+      'process.env.VITE': '"true"',
+    },
     server: {
       host: 'local.dice.dev.terminus.io',
-      // 代理
-      proxy,
+      proxy: {
+        // string shorthand
+        // '/foo': 'http://localhost:4567',
+        // with options
+        '/api/': {
+          target: envConfig.BACKEND_URL,
+          changeOrigin: true,
+          secure: false,
+        },
+      },
       https: {
         key: fs.readFileSync('../cert/dev/server.key'),
         cert: fs.readFileSync('../cert/dev/server.crt'),
       },
     },
-    build: {
-      target: 'es2015',
-      minify: 'terser', // 是否进行压缩,boolean | 'terser' | 'esbuild',默认使用terser
-      manifest: false, // 是否产出maifest.json
-      sourcemap: false, // 是否产出soucemap.json
-      outDir: 'build', // 产出目录
-      rollupOptions,
-    },
-    esbuild,
-    optimizeDeps,
     plugins: [
       legacyPlugin({
         targets: ['Chrome >= 80', 'Safari >= 10.1', 'iOS >= 10.3', 'Firefox >= 54', 'Edge >= 15'],
       }),
       react({
         babel: {
-          // configFile: true,
-          plugins: babelConfig.plugins,
+          plugins: babelConfig.plugins.slice(0, 2),
         },
       }),
     ],

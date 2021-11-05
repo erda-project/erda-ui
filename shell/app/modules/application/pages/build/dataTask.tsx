@@ -15,7 +15,7 @@ import React from 'react';
 import { Modal } from 'antd';
 import { Build } from './build';
 import { DataTaskCreation } from './data-task-creation';
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import buildStore from 'application/stores/build';
 import routeInfoStore from 'core/stores/route';

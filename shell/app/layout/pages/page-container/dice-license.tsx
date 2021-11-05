@@ -14,7 +14,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Modal } from 'antd';
-import { notify } from 'app/common/utils';
+import { notify } from 'common/utils';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org.tsx';
