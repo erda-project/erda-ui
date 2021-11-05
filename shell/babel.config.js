@@ -40,7 +40,6 @@ module.exports = {
       {
         libraryName: 'common',
         customName(name, file) {
-          console.log(name);
           return specialNameComponents[name] || `common/components/${name}`;
         },
         style: false,
