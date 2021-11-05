@@ -186,7 +186,7 @@ const PageContainer = ({ route }: IProps) => {
           >
             {MainContent}
           </div>
-          {/* <MessageCenter show={showMessage} /> */}
+          <MessageCenter show={showMessage} />
         </Shell>
       </div>
     </>
