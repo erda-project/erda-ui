@@ -439,7 +439,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       width: 410,
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
-          {functions?.length === 0 && <Input placeholder={i18n.d('请在此输入')} />}
+          {functions?.length === 0 && <Input placeholder={i18n.t('cmp:please enter here')} />}
           {map(functions, (item, index) => (
             <div className="function-item flex-div flex items-center" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
@@ -530,7 +530,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       label: i18n.t('cmp:alarm name'),
       name: 'name',
       itemProps: {
-        placeholder: i18n.d('请在此输入'),
+        placeholder: i18n.t('cmp:please enter here'),
         disabled: !isEmpty(state.editingFormRule),
         maxLength: 50,
         style: { width: 480 },
@@ -538,7 +538,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       initialValue: state.editingFormRule.name,
     },
     {
-      label: i18n.t('cmp:trigger conditions'),
+      label: i18n.t('cmp:filter rule'),
       name: 'triggerCondition',
       required: false,
       getComp: () => (
@@ -632,14 +632,14 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       options: map(SILENCE_PERIOD_POLICY_MAP, (name, value) => ({ name, value })),
     },
     {
-      label: i18n.t('cmp:notify strategy'),
+      label: i18n.t('dop:notified to'),
       required: false,
       name: 'notifies',
       getComp: () => (
         <>
           <Button type="primary" ghost className="flex items-center mb-4" onClick={handleAddNotifyStrategy}>
             <IconPlus theme="filled" size="16" />
-            <span>{i18n.d('添加通知对象')}</span>
+            <span>{i18n.t('cmp:add notification object')}</span>
           </Button>
           {state.notifies?.map((item) => (
             <NotifyStrategySelect
@@ -862,7 +862,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       return null;
     } else {
       let isIncomplete = false;
-      console.log({ a: state.editingRules });
 
       state.editingRules.forEach((item: { [x: string]: string | any[] }) => {
         for (const key in item) {
@@ -875,7 +874,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       if (isIncomplete) {
         warning({
-          title: i18n.d('规则 information is missing, please complete!'),
+          title: i18n.t('cmp:alarm rule is missing, please complete!'),
         });
         return null;
       }
@@ -914,7 +913,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       });
       if (isIncomplete) {
         warning({
-          title: i18n.t('cmp:Trigger condition information is missing, please complete!'),
+          title: i18n.t('cmp:filter rule is missing, please complete!'),
         });
         return null;
       }
@@ -947,7 +946,7 @@ export function AddStrategyPageName() {
     <div>
       <IconArrowLeft className="cursor-pointer text-gray mr-3" onClick={() => window.history.back()} size="18" />
       <IconRemind size="18" theme="outline" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
-      <span className="font-bold text-lg">{i18n.d('新建告警策略')}</span>
+      <span className="font-bold text-lg">{i18n.t('cmp:new alarm strategy')}</span>
     </div>
   );
 }
@@ -957,7 +956,7 @@ export function EditStrategyPageName() {
     <div>
       <IconArrowLeft className="cursor-pointer text-light-gray mr-3" onClick={() => window.history.back()} size="18" />
       <IconRemind size="18" theme="outline" className="text-white bg-primary p-2 text-bold rounded-sm mr-2" />
-      <span className="font-bold text-lg">{i18n.d('编辑告警策略')}</span>
+      <span className="font-bold text-lg">{i18n.t('cmp:edit alarm strategy')}</span>
     </div>
   );
 }

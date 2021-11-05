@@ -48,7 +48,7 @@ export const TriggerConditionSelect = ({
   return (
     <div className="flex items-center mb-4">
       <Select
-        placeholder={i18n.d('选择标签')}
+        placeholder={i18n.t('cmp:select label')}
         className="mr-8"
         style={{ width: 340 }}
         value={current?.condition}
@@ -93,7 +93,7 @@ export const TriggerConditionSelect = ({
       {['input', 'none'].includes(type) ? (
         <Input
           key={type}
-          placeholder={type === 'input' ? i18n.d('请在此输入') : ''}
+          placeholder={type === 'input' ? i18n.t('cmp:please enter here') : ''}
           className="flex-grow-0"
           style={{ width: 360 }}
           disabled={type === 'none'}

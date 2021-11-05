@@ -54,7 +54,7 @@ export const NotifyStrategySelect = ({
       <Select
         className="mr-8"
         style={{ width: 340 }}
-        placeholder={i18n.d('选择群组')}
+        placeholder={i18n.t('cmp:select group')}
         value={current?.groupId}
         onSelect={(groupId: number) => {
           updater(groupId);
@@ -97,7 +97,7 @@ export const NotifyStrategySelect = ({
       <Select
         className="mr-8"
         style={{ width: 340 }}
-        placeholder={i18n.d('选择级别')}
+        placeholder={i18n.t('cmp:select level')}
         value={current?.level}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'level', value })}
         mode="multiple"
@@ -111,7 +111,7 @@ export const NotifyStrategySelect = ({
         })}
       </Select>
       <Select
-        placeholder={i18n.d('选择通知方式')}
+        placeholder={i18n.t('cmp:select notify method')}
         style={{ width: 340 }}
         value={current?.groupType}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'groupType', value })}
