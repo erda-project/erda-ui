@@ -22,12 +22,14 @@ export default (props: CP_GRID.Props) => {
     itemSpan = new Array(children.length).fill(Math.ceil(24 / children.length));
   }
   return (
-    <Row gutter={gutter}>
-      {children.map((child, i) => (
-        <Col span={itemSpan[i]} key={i}>
-          {child}
-        </Col>
-      ))}
-    </Row>
+    <div className="overflow-hidden">
+      <Row gutter={gutter}>
+        {children.map((child, i) => (
+          <Col span={itemSpan[i]} key={i}>
+            {child}
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
 };
