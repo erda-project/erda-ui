@@ -687,7 +687,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       label: '',
       getComp: ({ form }: { form: FormInstance }) => {
         return (
-          <div className="fixed right-6 bottom-6 bg-white">
+          <div className="text-right bg-white">
             <Button className="btn-save" type="primary" onClick={() => handleSave(form)}>
               {i18n.t('save')}
             </Button>
