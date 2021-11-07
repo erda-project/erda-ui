@@ -19,6 +19,8 @@ const overwriteMap = {
 };
 
 const overwriteCssMap = {
+  table: false,
+  select: false,
   tag: false,
   'range-picker': false,
 };
