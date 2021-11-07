@@ -71,11 +71,7 @@ export const ProjectList = () => {
         width: 200,
         icon: (text: string, record: PROJECT.Detail) => projectTypeMap[record.type],
         subTitle: (text: string, record: PROJECT.Detail) => record.desc,
-        render: (text: string, record: PROJECT.Detail) => (
-          <span>
-            {record.id}#{text}
-          </span>
-        ),
+        render: (text: string, record: PROJECT.Detail) => <span>{`#${record.id}  ${text}`}</span>,
         ellipsis: {
           showTitle: false,
         },
@@ -99,6 +95,7 @@ export const ProjectList = () => {
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
         width: 200,
+        icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('cpuQuota'),
         render: (text: string) => `${text} Core`,
@@ -108,6 +105,7 @@ export const ProjectList = () => {
         dataIndex: 'memQuota',
         key: 'memQuota',
         width: 200,
+        icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('memQuota'),
         render: (text: string) => `${text} GiB`,
@@ -140,7 +138,7 @@ export const ProjectList = () => {
                   goTo(`./${id}/dashboard`);
                 }}
               >
-                <IconChartHistogramTwo />
+                <ErdaIcon type="jiankong" />
               </span>
             </div>
           );
@@ -207,7 +205,7 @@ export const ProjectList = () => {
           onRow={(record: any) => {
             return {
               onClick: () => {
-                goTo(`./${record.id}/setting`);
+                goTo(`./${record.id}/info`);
               },
             };
           }}

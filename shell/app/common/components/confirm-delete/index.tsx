@@ -23,7 +23,7 @@ interface IProps {
   secondTitle?: JSX.Element | string;
   modalChildren?: JSX.Element;
   deleteItem?: string;
-  confirmTip?: string;
+  confirmTip?: string | false;
   hasTriggerContent?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
@@ -68,7 +68,7 @@ const ConfirmDelete = (props: IProps) => {
     <div>
       {hasTriggerContent && (
         <>
-          <div className="text-desc mb-2">{_confirmTip}</div>
+          {confirmTip !== false && <div className="text-desc mb-2">{_confirmTip}</div>}
           <span onClick={showModal}>
             {children || <Button danger>{i18n.t('common:delete current {deleteItem}', { deleteItem })}</Button>}
           </span>
