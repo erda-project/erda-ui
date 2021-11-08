@@ -414,15 +414,19 @@ const AddModal = (props: IProps) => {
                 <Radio.Group
                   onChange={(e) => {
                     if (e.target.value === noneType) {
-                      Modal.confirm({
-                        title: i18n.t('confirm to switch Body type?'),
-                        onOk() {
-                          updater.bodyType(e.target.value);
-                        },
-                      });
+                      if (body.content.length > 0) {
+                        Modal.confirm({
+                          title: i18n.t('confirm to switch Body type?'),
+                          onOk() {
+                            updater.bodyType(e.target.value);
+                          },
+                        });
+                      } else {
+                        updater.bodyType(e.target.value);
+                      }
                     }
                     if (e.target.value === formType) {
-                      if (bodyType !== noneType) {
+                      if (bodyType !== noneType && body.content !== '') {
                         Modal.confirm({
                           title: i18n.t('confirm to switch Body type?'),
                           onOk() {
@@ -436,7 +440,7 @@ const AddModal = (props: IProps) => {
                       }
                     }
                     if (e.target.value === raw) {
-                      if (bodyType !== noneType) {
+                      if (bodyType !== noneType && body.content.length > 0) {
                         Modal.confirm({
                           title: i18n.t('confirm to switch Body type?'),
                           onOk() {
