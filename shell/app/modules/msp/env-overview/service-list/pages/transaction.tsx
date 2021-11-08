@@ -141,7 +141,7 @@ const Transaction = () => {
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const { setIsShowTraceDetail } = monitorCommonStore.reducers;
-  const [serviceId, _serviceName, _applicationId] = serviceAnalyticsStore.useStore((s) => [
+  const [serviceId, serviceName, _applicationId] = serviceAnalyticsStore.useStore((s) => [
     s.serviceId,
     s.serviceName,
     s.applicationId,
@@ -198,7 +198,7 @@ const Transaction = () => {
     queryLimit: number,
     cellValue: string,
   ) => {
-    const { serviceName, terminusKey } = params;
+    const { terminusKey } = params;
     updater.sortType(sort_type);
     updater.limit(queryLimit);
     if (serviceId) {
@@ -207,7 +207,7 @@ const Transaction = () => {
         start: startTimeMs,
         end: endTimeMs,
         terminusKey,
-        serviceName: serviceName || _serviceName,
+        serviceName,
         limit: queryLimit,
         serviceId,
         operation: cellValue,
@@ -303,7 +303,7 @@ const Transaction = () => {
     if (callType === 'consumer') {
       _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer')`;
     } else if (callType === 'producer') {
-      _condition = `(source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
+      _condition = `(source_service_id::tag='${serviceId}' and span_kind::tag='producer')`;
     } else {
       _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${serviceId}' and span_kind::tag='producer')`;
     }
