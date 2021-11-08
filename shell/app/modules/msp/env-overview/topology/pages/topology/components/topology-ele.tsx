@@ -14,6 +14,7 @@
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
+import { Spin } from 'antd';
 import { renderTopology } from './topology-utils-v2';
 // @ts-ignore
 import Snap from 'snapsvg-cjs';
@@ -32,6 +33,7 @@ interface IProps {
   setSize: (...args: any) => void;
   setScale: (arg: any) => void;
 }
+
 let onDrag = false;
 const emptyFun = () => {};
 const TopologyEle = (props: IProps) => {
@@ -46,9 +48,11 @@ const TopologyEle = (props: IProps) => {
     boxEle,
     setScale,
   } = props;
+  const [isParsing, setIsParsing] = React.useState(false);
   const svgRef = React.useRef(null);
   const svgGroupRef = React.useRef(null);
   const boxRef = React.useRef<HTMLDivElement>(null);
+  const worker = React.useRef<Worker>();
   const { setTopologySize } = topologyStore.reducers;
   const handleWheel = React.useCallback(
     throttle(
@@ -78,6 +82,7 @@ const TopologyEle = (props: IProps) => {
   }, []);
 
   React.useEffect(() => {
+    worker.current = new Worker(new URL('./data-handler.worker.ts', import.meta.url));
     svgRef.current = Snap('#topology-svg');
     const curSvg = svgRef.current as any;
     // 兼容safari:
@@ -112,6 +117,8 @@ const TopologyEle = (props: IProps) => {
     }
     window.addEventListener('resize', setSvgSize);
     return () => {
+      worker.current?.postMessage({ type: 'close' });
+      worker.current?.terminate();
       window.removeEventListener('resize', setSvgSize);
     };
   }, []);
@@ -129,38 +136,45 @@ const TopologyEle = (props: IProps) => {
   }, [zoom]);
 
   React.useEffect(() => {
-    const { containerWidth, containerHeight } = renderTopology(data, svgRef.current, svgGroupRef.current, {
-      ...nodeExternalParam,
-      nodeEle,
-      boxEle,
-      linkTextEle,
-      onClickNode: (detial: any) => {
-        if (!onDrag) onClickNode(detial);
-      },
+    setIsParsing(true);
+    worker.current?.addEventListener('message', (e) => {
+      setIsParsing(false);
+      const { containerWidth, containerHeight } = renderTopology(e.data, svgRef.current, svgGroupRef.current, {
+        ...nodeExternalParam,
+        nodeEle,
+        boxEle,
+        linkTextEle,
+        onClickNode: (detail: any) => {
+          if (!onDrag) onClickNode(detail);
+        },
+      });
+      setSvgSize();
+      setTopologySize(containerWidth, containerHeight);
     });
-    setSvgSize();
-    setTopologySize(containerWidth, containerHeight);
+    worker.current?.postMessage({ type: 'living', data: data.nodes });
     // setSize(containerWidth, containerHeight);
   }, [data]);
 
   return (
-    <div className="svg-chart-container">
-      <div
-        className="svg-box"
-        ref={boxRef}
-        onWheel={(e) => {
-          e.persist();
-          handleWheel(e, zoom);
-        }}
-      >
-        <svg
-          id="topology-svg"
-          width="100%"
-          height="100%"
-          className={`w-full h-full topology-svg ${zoom > 1 ? 'enlarge' : ''}`}
-        />
+    <Spin spinning={isParsing}>
+      <div className="svg-chart-container">
+        <div
+          className="svg-box"
+          ref={boxRef}
+          onWheel={(e) => {
+            e.persist();
+            handleWheel(e, zoom);
+          }}
+        >
+          <svg
+            id="topology-svg"
+            width="100%"
+            height="100%"
+            className={`w-full h-full topology-svg ${zoom > 1 ? 'enlarge' : ''}`}
+          />
+        </div>
       </div>
-    </div>
+    </Spin>
   );
 };
 
