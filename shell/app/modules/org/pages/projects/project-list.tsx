@@ -13,12 +13,12 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Input } from 'antd';
+import { Spin, Button, Input, Popover } from 'antd';
 import Table, { IColumnProps } from 'common/components/table';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUnmount } from 'react-use';
-import { ChartHistogramTwo as IconChartHistogramTwo } from '@icon-park/react';
+import { ChartHistogramTwo as IconChartHistogramTwo, Attention as IconAttention } from '@icon-park/react';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
 import { useLoading } from 'core/stores/loading';
@@ -81,7 +81,14 @@ export const ProjectList = () => {
         },
       },
       {
-        title: i18n.t('cmp:application/Member Statistics'),
+        title: () => (
+          <span>
+            <Popover title={i18n.t('tip')} content={i18n.t('update data every day at 0')}>
+              <IconAttention fill="#333" className="font-bold" />
+            </Popover>
+            {i18n.t('cmp:application/Member Statistics')}
+          </span>
+        ),
         dataIndex: 'stats',
         key: 'countApplications',
         width: 120,
