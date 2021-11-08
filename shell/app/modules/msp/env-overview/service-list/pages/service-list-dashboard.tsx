@@ -43,20 +43,20 @@ const ServiceListDashboard: React.FC<IProps> = ({
   const params = routeInfoStore.useStore((s) => s.params);
   const { getCustomDashboard } = dashboardStore;
   const [layout, setLayout] = useState<DC.Layout>([]);
-  const _serviceName = serviceAnalyticsStore.useStore((s) => s.serviceName);
+  const serviceName = serviceAnalyticsStore.useStore((s) => s.serviceName);
 
   const globalVariable = useMemo(() => {
-    const { serviceName, terminusKey, serviceId } = params;
+    const { terminusKey, serviceId } = params;
     const { startTimeMs, endTimeMs } = timeSpan;
     return {
       terminusKey,
-      serviceName: serviceName || _serviceName,
+      serviceName,
       serviceId: window.decodeURIComponent(_serviceId || serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
       ...extraGlobalVariable,
     };
-  }, [params, timeSpan, _serviceName, _serviceId, extraGlobalVariable]);
+  }, [params, timeSpan, serviceName, _serviceId, extraGlobalVariable]);
 
   useEffect(() => {
     getCustomDashboard({ id: dashboardId, isSystem: true }).then((res) => {

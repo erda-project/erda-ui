@@ -38,8 +38,8 @@ const limits = [10, 30, 50];
 export default () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
-  const { serviceName, terminusKey } = params;
-  const [serviceId, _serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const { terminusKey } = params;
+  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { getExceptionTypes } = topologyServiceStore;
   const [{ sort, limit, exceptionType, exceptionTypes }, updater] = useUpdate({
     exceptionTypes: [] as any[] | undefined,
@@ -51,7 +51,7 @@ export default () => {
   useEffect(() => {
     if (serviceId) {
       getExceptionTypes({
-        serviceName: serviceName || _serviceName,
+        serviceName,
         serviceId,
         terminusKey,
         start: timeSpan.startTimeMs,
@@ -66,7 +66,7 @@ export default () => {
     timeSpan.endTimeMs,
     timeSpan.startTimeMs,
     updater,
-    _serviceName,
+    serviceName,
   ]);
 
   if (!serviceId) {
