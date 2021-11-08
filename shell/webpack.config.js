@@ -46,27 +46,6 @@ module.exports = () => {
 
   const targetConfig = require(`./webpack.${nodeEnv}.js`);
 
-  const overwriteMap = {
-    table: true,
-    select: true,
-    tag: true,
-    'range-picker': true,
-  };
-
-  const overwriteCssMap = {
-    table: 'antd/es/table/style',
-    select: 'antd/es/select/style',
-    tag: false,
-    'range-picker': false,
-  };
-
-  // TODO: remove this
-  const specialNameComponents = {
-    'c-r-u-d-table': 'common/components/crud-table',
-    'i-f': 'common/components/if',
-    'time-selector': 'common/components/monitor',
-  };
-
   const commonConfig = {
     parallelism: cpuNum,
     entry: {

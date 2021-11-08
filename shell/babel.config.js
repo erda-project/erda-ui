@@ -19,8 +19,8 @@ const overwriteMap = {
 };
 
 const overwriteCssMap = {
-  table: false,
-  select: false,
+  table: 'antd/es/table/style',
+  select: 'antd/es/select/style',
   tag: false,
   'range-picker': false,
 };
