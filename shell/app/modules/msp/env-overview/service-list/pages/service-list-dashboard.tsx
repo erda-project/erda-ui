@@ -26,37 +26,30 @@ type IProps = Merge<
     dashboardId: string;
     extraGlobalVariable?: Record<string, any>;
     timeSpan?: ITimeSpan;
-    serviceId?: string;
   }
 >;
 
-const ServiceListDashboard: React.FC<IProps> = ({
-  timeSpan: times,
-  dashboardId,
-  extraGlobalVariable,
-  serviceId: _serviceId,
-  ...rest
-}) => {
+const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, extraGlobalVariable, ...rest }) => {
   const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   // when the parent component depends on timeSpan, use the timeSpan of the parent component to prevent duplicate requests
   const timeSpan = times || range;
   const params = routeInfoStore.useStore((s) => s.params);
   const { getCustomDashboard } = dashboardStore;
   const [layout, setLayout] = useState<DC.Layout>([]);
-  const _serviceName = serviceAnalyticsStore.useStore((s) => s.serviceName);
+  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
 
   const globalVariable = useMemo(() => {
-    const { serviceName, terminusKey, serviceId } = params;
+    const { terminusKey } = params;
     const { startTimeMs, endTimeMs } = timeSpan;
     return {
       terminusKey,
-      serviceName: serviceName || _serviceName,
-      serviceId: window.decodeURIComponent(_serviceId || serviceId),
+      serviceName,
+      serviceId: window.decodeURIComponent(serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
       ...extraGlobalVariable,
     };
-  }, [params, timeSpan, _serviceName, _serviceId, extraGlobalVariable]);
+  }, [params, timeSpan, serviceName, serviceId, extraGlobalVariable]);
 
   useEffect(() => {
     getCustomDashboard({ id: dashboardId, isSystem: true }).then((res) => {
@@ -71,7 +64,6 @@ export default React.memo(ServiceListDashboard, (prev, next) => {
   return (
     isEqual(prev.extraGlobalVariable, next.extraGlobalVariable) &&
     prev.dashboardId === next.dashboardId &&
-    isEqual(prev.timeSpan, next.timeSpan) &&
-    isEqual(prev.serviceId, next.serviceId)
+    isEqual(prev.timeSpan, next.timeSpan)
   );
 });
