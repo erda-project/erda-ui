@@ -277,12 +277,14 @@ const AddModal = (props: IProps) => {
       case text:
         updater.body({ ...body, type: textType });
         updater.headers({
+          ...headers,
           'Content-Type': textType,
         });
         break;
       case json:
         updater.body({ ...body, type: jsonType });
         updater.headers({
+          ...headers,
           'Content-Type': jsonType,
         });
         break;
@@ -300,6 +302,7 @@ const AddModal = (props: IProps) => {
         updater.textOrJson('');
         updater.body({ ...body, type: formType });
         updater.headers({
+          ...headers,
           'Content-Type': formType,
         });
         break;
