@@ -123,7 +123,12 @@ const conditionOperatorOptions = [
   },
   {
     key: 'in',
-    display: 'in',
+    display: i18n.t('in'),
+    type: 'multiple',
+  },
+  {
+    key: 'notIn',
+    display: i18n.t('not in'),
     type: 'multiple',
   },
   {
@@ -415,6 +420,8 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: string, { key }) => (
         <Select
           value={value}
+          showSearch
+          optionFilterProp="children"
           placeholder={i18n.t('please select')}
           onSelect={(alertIndex: any) => {
             const rules = cloneDeep(state.editingRules);
