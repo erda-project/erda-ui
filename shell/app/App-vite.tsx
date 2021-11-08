@@ -22,7 +22,7 @@ import userStore from './user/stores';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/index';
-import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
+// import modules from './mf-modules'; // ambiguous modules may conflict with modules folder, then rename to mf-modules
 import { setConfig, getConfig } from 'core/config';
 import permStore from 'user/stores/permission';
 import { setGlobal } from 'app/global-space';
@@ -38,6 +38,7 @@ import '@erda-ui/dashboard-configurator/dist/index.css';
 import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react/es/runtime';
 import { initAxios } from 'common/utils/axios-config';
 import 'tailwindcss/tailwind.css';
+import 'antd/dist/antd.less';
 
 import antd_zhCN from 'antd/es/locale-provider/zh_CN';
 import antd_enUS from 'antd/es/locale-provider/en_US';
@@ -78,21 +79,20 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     await orgStore.effects.getOrgByDomain({ orgName });
     [
       import('layout/entry'),
-      import('org/entry'),
+      // import('org/entry'),
       import('app/org-home/entry'),
       import('dop/entry'),
-      import('runtime/entry'),
-      import('publisher/entry'),
-      import('project/entry'),
-      import('apiManagePlatform/entry'),
-      import('msp/entry'),
-      ...insertWhen(erdaEnv.ENABLE_EDGE, [import('app/modules/ecp/entry')]),
-      import('application/entry'),
-      import('cmp/entry'),
-      import('user/entry'),
-      import('dcos/entry'),
-      import('addonPlatform/entry'),
-      ...Object.values(modules),
+      // import('runtime/entry'),
+      // import('publisher/entry'),
+      // import('project/entry'),
+      // import('apiManagePlatform/entry'),
+      // import('msp/entry'),
+      // ...insertWhen(erdaEnv.ENABLE_EDGE, [import('app/modules/ecp/entry')]),
+      // import('application/entry'),
+      // import('cmp/entry'),
+      // import('user/entry'),
+      // import('dcos/entry'),
+      // import('addonPlatform/entry'),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {
@@ -110,31 +110,6 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     registChartControl();
   });
 };
-
-const { pathname, search } = window.location;
-// /r开头为统一外部跳转路径
-if (pathname.startsWith('/r/')) {
-  const [to, ...rest] = pathname.slice(3).split('/');
-  let newPath = [] as string[];
-  switch (to) {
-    case 'alarm': // 告警跳到云管
-    case 'report': // 运维报告跳到云管
-      newPath = ['', '-', 'cmp', to, ...rest];
-      break;
-
-    default:
-      break;
-  }
-
-  history.replace(newPath.join('/') + search);
-}
-
-// 3.21版本，应用流水线旧链接兼容
-const oldPipelineReg = /\/dop\/projects\/\d+\/apps\/\d+\/pipeline\/\d+$/;
-if (oldPipelineReg.test(pathname)) {
-  const [pPath, pId] = pathname.split('pipeline/');
-  history.replace(`${pPath}pipeline?pipelineID=${pId}`);
-}
 
 const init = (userData: ILoginUser) => {
   // step1: get user last path

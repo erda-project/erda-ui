@@ -37,7 +37,7 @@ import { IssueDrawer } from 'project/common/components/issue/issue-drawer';
 import { IssueCommentBox } from 'project/common/components/issue/comment-box';
 import { AddRelation } from 'project/common/components/issue/add-relation';
 import { IssueActivities } from 'project/common/components/issue/issue-activities';
-import { updateSearch } from 'app/common/utils/query-string';
+import { updateSearch } from 'common/utils/query-string';
 import projectMemberStore from 'common/stores/project-member';
 import iterationStore from 'app/modules/project/stores/iteration';
 import labelStore from 'project/stores/label';

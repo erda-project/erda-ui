@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { goTo, formatTime, fromNow } from 'app/common/utils';
+import { goTo, formatTime, fromNow } from 'common/utils';
 import { FilterGroup, SimplePanel } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';

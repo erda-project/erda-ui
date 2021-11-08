@@ -25,7 +25,7 @@ import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import { IssueItem, BACKLOG_ISSUE_TYPE } from './issue-item';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { mergeSearch } from 'app/common/utils';
+import { mergeSearch } from 'common/utils';
 import { ISSUE_ICON } from 'project/common/components/issue/issue-config';
 import './iteration-item.scss';
 

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { FormModal } from 'common';
-import MarkdownEditor from 'app/common/components/markdown-editor';
+import MarkdownEditor from 'common/components/markdown-editor';
 import i18n from 'i18n';
 
 export const getProblemType = (): PROBLEM.TicketType[] => {

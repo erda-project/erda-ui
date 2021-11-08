@@ -12,21 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import LogSearchForm from 'common/components/simple-log/simple-log-search';
-import { mount } from 'enzyme';
+import routeInfoStore from 'core/stores/route';
+import mspStore from 'msp/stores/micro-service';
+import StrategyForm from 'cmp/common/alarm-strategy/strategy-form';
 
-describe('LogSearchForm', () => {
-  it('should ', () => {
-    const setSearch = jest.fn();
-    const wrapper = mount(<LogSearchForm setSearch={setSearch} />);
-    wrapper.find('input').simulate('change', { target: { value: '123' } });
-    wrapper.find('ForwardRef(Form)').prop('onFinish')();
-    expect(setSearch).toHaveBeenLastCalledWith({ requestId: '123' });
-    wrapper.setProps({
-      formData: {
-        requestId: 12345,
-      },
-    });
-    expect(wrapper.find('input').prop('value')).toBe(12345);
-  });
-});
+export default () => {
+  const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
+  const { type } = mspStore.useStore((s) => s.currentProject);
+
+  return (
+    <StrategyForm
+      scopeType="msp"
+      scopeId={projectId}
+      commonPayload={{ scopeType: `msp_env`, scopeId: terminusKey, projectType: type }}
+    />
+  );
+};

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { goTo } from 'app/common/utils';
+import { goTo } from 'common/utils';
 import iterationStore from 'app/modules/project/stores/iteration';
 import { DeleteConfirm, Ellipsis } from 'common';
 import { useUpdate } from 'common/use-hooks';

@@ -20,7 +20,7 @@ import { useMount } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import { useLoading } from 'core/stores/loading';
 import { CommentBox } from 'application/common/components/comment-box';
-import MarkdownEditor from 'app/common/components/markdown-editor';
+import MarkdownEditor from 'common/components/markdown-editor';
 import { LoadMoreSelector, Avatar } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { fromNow, goTo } from 'common/utils';

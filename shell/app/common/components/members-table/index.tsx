@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MemberScope } from 'app/common/stores/member-scope';
+import { MemberScope } from 'common/stores/member-scope';
 import { usePerm } from 'app/user/common';
 import userStore from 'app/user/stores';
 import appMemberStore from 'common/stores/application-member';

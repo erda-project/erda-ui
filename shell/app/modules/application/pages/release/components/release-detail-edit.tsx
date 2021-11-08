@@ -18,7 +18,7 @@ import { Tooltip } from 'antd';
 import { Avatar } from 'common';
 import { usePerm } from 'app/user/common';
 import GotoCommit from 'application/common/components/goto-commit';
-import MarkdownEditor from 'app/common/components/markdown-editor';
+import MarkdownEditor from 'common/components/markdown-editor';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import i18n from 'i18n';
 import { useUserMap } from 'core/stores/userMap';

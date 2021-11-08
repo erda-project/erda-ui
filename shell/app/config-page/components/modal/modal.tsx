@@ -38,7 +38,7 @@ const stateIconMap = {
 };
 
 export default (props: CP_MODAL.Props) => {
-  const { props: configProps, children, footer, state, operations, execOperation } = props || {};
+  const { props: configProps, children, footer, state, operations, updateState, execOperation } = props || {};
   const [visible, setVisible] = React.useState(state?.visible ?? false);
 
   React.useEffect(() => {
@@ -49,6 +49,7 @@ export default (props: CP_MODAL.Props) => {
 
   const onCancel = () => {
     setVisible(false);
+    updateState({ visible: false });
     operations?.onCancel && execOperation(operations.onCancel);
   };
 

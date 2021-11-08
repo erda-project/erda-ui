@@ -14,7 +14,7 @@
 import React from 'react';
 import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'antd';
 import { FormModal, IF } from 'common';
-import { goTo, setLS, removeLS } from 'app/common/utils';
+import { goTo, setLS, removeLS } from 'common/utils';
 import BranchSelect from './branch-select';
 import { getInfoFromRefName, getSplitPathBy } from '../util';
 import { RepoBreadcrumb } from './repo-breadcrumb';

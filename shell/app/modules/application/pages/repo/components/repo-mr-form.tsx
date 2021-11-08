@@ -16,7 +16,7 @@ import React from 'react';
 import { RenderForm, FormModal, MemberSelector } from 'common';
 import { connectCube } from 'common/utils';
 import Markdown from 'common/utils/marked';
-import MarkdownEditor from 'app/common/components/markdown-editor';
+import MarkdownEditor from 'common/components/markdown-editor';
 import SourceTargetSelect from './source-target-select';
 import i18n from 'i18n';
 import { connectUser } from 'app/user/common';

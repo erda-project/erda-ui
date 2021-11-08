@@ -12,21 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import LogSearchForm from 'common/components/simple-log/simple-log-search';
-import { mount } from 'enzyme';
+import StrategyForm from 'app/modules/cmp/common/alarm-strategy/strategy-form';
+import orgStore from 'app/org-home/stores/org';
 
-describe('LogSearchForm', () => {
-  it('should ', () => {
-    const setSearch = jest.fn();
-    const wrapper = mount(<LogSearchForm setSearch={setSearch} />);
-    wrapper.find('input').simulate('change', { target: { value: '123' } });
-    wrapper.find('ForwardRef(Form)').prop('onFinish')();
-    expect(setSearch).toHaveBeenLastCalledWith({ requestId: '123' });
-    wrapper.setProps({
-      formData: {
-        requestId: 12345,
-      },
-    });
-    expect(wrapper.find('input').prop('value')).toBe(12345);
-  });
-});
+export default () => {
+  const currentOrg = orgStore.getState((s) => s.currentOrg);
+  return <StrategyForm scopeType="org" scopeId={String(currentOrg.id)} />;
+};

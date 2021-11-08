@@ -16,7 +16,7 @@ import routeInfoStore from 'core/stores/route';
 import { Form, Input, Button } from 'antd';
 import DiceConfigPage from 'config-page';
 import IterationSelect from 'project/common/components/issue/iteration-select';
-import { useUpdate } from 'app/common/use-hooks';
+import { useUpdate } from 'common/use-hooks';
 import { encode } from 'js-base64';
 import i18n from 'i18n';
 import { set } from 'lodash';

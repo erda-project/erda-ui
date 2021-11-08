@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import { map, find } from 'lodash';
-import { ReduceOne as IconReduceOne } from '@icon-park/react';
+import { Reduce as IconReduce } from '@icon-park/react';
 import i18n from 'i18n';
 import { Select, Divider } from 'antd';
 import { WithAuth } from 'user/common';
@@ -50,9 +50,11 @@ export const NotifyStrategySelect = ({
   handleRemoveNotifyStrategy,
 }: IProps) => {
   return (
-    <div className="flex items-center mb-4">
+    <div className="flex items-center mb-4 last:mb-0">
       <Select
         className="mr-8"
+        style={{ width: 180 }}
+        placeholder={i18n.t('cmp:select group')}
         value={current?.groupId}
         onSelect={(groupId: number) => {
           updater(groupId);
@@ -94,6 +96,8 @@ export const NotifyStrategySelect = ({
 
       <Select
         className="mr-8"
+        style={{ width: 280 }}
+        placeholder={i18n.t('cmp:select level')}
         value={current?.level}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'level', value })}
         mode="multiple"
@@ -107,10 +111,12 @@ export const NotifyStrategySelect = ({
         })}
       </Select>
       <Select
-        placeholder={i18n.d('please select the corresponding value')}
+        placeholder={i18n.t('cmp:select notify method')}
+        style={{ width: 280 }}
         value={current?.groupType}
         onChange={(value) => handleEditNotifyStrategy(id, { key: 'groupType', value })}
         mode="multiple"
+        disabled={valueOptions?.length === 0}
       >
         {map(valueOptions, (item) => {
           return (
@@ -120,9 +126,9 @@ export const NotifyStrategySelect = ({
           );
         })}
       </Select>
-      <IconReduceOne
-        className="cursor-pointer ml-8 hover:text-primary"
-        size="16"
+      <IconReduce
+        className="cursor-pointer ml-2 text-darkgray hover:text-primary"
+        size="20"
         onClick={() => handleRemoveNotifyStrategy(id)}
       />
     </div>

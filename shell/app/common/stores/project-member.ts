@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createMemberStore } from 'common/stores/_member';
-import { MemberScope } from 'app/common/stores/member-scope';
+import { MemberScope } from 'common/stores/member-scope';
 
 const projectMember = createMemberStore(MemberScope.PROJECT);
 

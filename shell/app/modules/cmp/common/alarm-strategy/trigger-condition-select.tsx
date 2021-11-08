@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import React from 'react';
 import { map } from 'lodash';
-import { ReduceOne as IconReduceOne } from '@icon-park/react';
+import { Reduce as IconReduce } from '@icon-park/react';
 import { Select, Input } from 'antd';
+import i18n from 'i18n';
 
 const { Option } = Select;
 
@@ -45,10 +46,11 @@ export const TriggerConditionSelect = ({
   const { type } = operatorOptions.find((t) => t.key === current.operator) ?? operatorOptions[0];
 
   return (
-    <div className="flex items-center mb-4">
+    <div className="flex items-center mb-4 last:mb-0">
       <Select
+        placeholder={i18n.t('cmp:select label')}
         className="mr-8"
-        style={{ width: 340 }}
+        style={{ width: 200 }}
         value={current?.condition}
         onSelect={(value) => {
           handleEditTriggerConditions(id, { key: 'condition', value });
@@ -70,7 +72,7 @@ export const TriggerConditionSelect = ({
       </Select>
       <Select
         className="mr-8 flex-grow-0"
-        style={{ width: 340 }}
+        style={{ width: 120 }}
         value={current?.operator}
         onSelect={(value) => {
           handleEditTriggerConditions(id, { key: 'operator', value });
@@ -91,8 +93,9 @@ export const TriggerConditionSelect = ({
       {['input', 'none'].includes(type) ? (
         <Input
           key={type}
+          placeholder={type === 'input' ? i18n.t('cmp:please enter here') : ''}
           className="flex-grow-0"
-          style={{ width: 360 }}
+          style={{ width: 420 }}
           disabled={type === 'none'}
           value={type === 'none' ? undefined : current?.values}
           onChange={(e) => {
@@ -105,8 +108,10 @@ export const TriggerConditionSelect = ({
       ) : (
         <Select
           value={type === 'single' ? current?.values : current?.values?.split(',')}
+          disabled={current?.valueOptions?.length === 0}
           className="flex-grow-0"
-          style={{ width: 360 }}
+          placeholder={i18n.t('please select')}
+          style={{ width: 420 }}
           mode={type === 'single' ? undefined : type}
           onChange={(value) =>
             handleEditTriggerConditions(id, { key: 'values', value: type === 'single' ? value : value?.join(',') })
@@ -121,9 +126,9 @@ export const TriggerConditionSelect = ({
           })}
         </Select>
       )}
-      <IconReduceOne
-        className="cursor-pointer ml-8 hover:text-primary"
-        size="16"
+      <IconReduce
+        className="cursor-pointer ml-2 text-darkgray hover:text-primary"
+        size="20"
         onClick={() => handleRemoveTriggerConditions(id)}
       />
     </div>
