@@ -61,4 +61,5 @@ module.exports = {
   'log-bg': '#3c444f',
   'light-border': 'rgba(222,222,222,0.5)',
   'light-active': '#6a549e0f', // rgba($primary, .06)
+  currentColor: 'currentColor',
 };

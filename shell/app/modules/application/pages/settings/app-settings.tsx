@@ -48,6 +48,18 @@ export const PureAppSettings = () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const branchRuleOperation = usePerm((s) => s.app.setting.branchRule.operation.pass);
 
+  const memberTopContent = (
+    <div className="member-table-top-content">
+      <div className="title font-medium">{i18n.t('{name} member management', { name: i18n.t('application') })}</div>
+      <div className="desc">
+        {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
+        <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">
+          {i18n.t('role permissions description')}
+        </Link>
+      </div>
+    </div>
+  );
+
   const settingSource = [
     {
       groupTitle: i18n.t('dop:general settings'),
@@ -65,16 +77,7 @@ export const PureAppSettings = () => {
             <ConfigLayout
               sectionList={[
                 {
-                  title: i18n.t('{name} member management', { name: i18n.t('application') }),
-                  desc: (
-                    <div>
-                      {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
-                      <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">
-                        {i18n.t('role permissions description')}
-                      </Link>
-                    </div>
-                  ),
-                  children: <MembersTable scopeKey={MemberScope.APP} />,
+                  children: <MembersTable topContent={memberTopContent} buttonInCard scopeKey={MemberScope.APP} />,
                 },
                 {
                   title: i18n.t('dop:view the project member'),

@@ -12,28 +12,29 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
+import { ErdaIcon } from 'common';
 
 import './index.scss';
 
 interface IProps {
-  header: React.ReactNode;
-  actions: React.ReactNode;
   children: React.ReactNode;
+  name: string;
+  className?: string;
 }
 
-const Card = ({ header, actions, children }: IProps) => {
-  return (
-    <div className="erda-card w-full mb-4">
-      {(header || actions) && (
-        <div className="erda-card-header flex justify-between p-4">
-          <div>{header}</div>
-          <div>{actions}</div>
-        </div>
-      )}
-
-      <div className="erda-card-body px-4 py-3">{children}</div>
+export default ({ children, name, className }: IProps) => {
+  const [isHidden, setIsHidden] = React.useState(localStorage.getItem(`erda-bp-${name}`));
+  const close = () => {
+    setIsHidden('true');
+    localStorage.setItem(`erda-bp-${name}`, 'true');
+  };
+  return !isHidden ? (
+    <div className={`erda-boot-prompt flex justify-between py-2 px-6 ${className || ''}`}>
+      <div className="flex">
+        <ErdaIcon type="message" className="mr-2" />
+        {children}
+      </div>
+      <ErdaIcon type="close" onClick={close} className="cursor-pointer" />
     </div>
-  );
+  ) : null;
 };
-
-export default Card;
