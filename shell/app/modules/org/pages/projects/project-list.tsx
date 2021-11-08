@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Input, Popover } from 'antd';
+import { Spin, Button, Input, Tooltip } from 'antd';
 import Table, { IColumnProps } from 'common/components/table';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, Icon as CustomIcon, ErdaIcon } from 'common';
@@ -83,10 +83,10 @@ export const ProjectList = () => {
       {
         title: () => (
           <span>
-            <Popover title={i18n.t('tip')} content={i18n.t('update data every day at 0')}>
+            <span className="mr-1">{i18n.t('cmp:application/Member Statistics')}</span>
+            <Tooltip title={i18n.t('update data every day at 0')}>
               <IconAttention fill="#333" className="font-bold" />
-            </Popover>
-            {i18n.t('cmp:application/Member Statistics')}
+            </Tooltip>
           </span>
         ),
         dataIndex: 'stats',
