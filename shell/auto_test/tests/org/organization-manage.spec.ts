@@ -59,17 +59,20 @@ Role('Manager', () => {
     await expectExist(`text=${title}`, 1);
   });
 
-  test('Audit-log', async ({ page, goTo }) => {
+  test('Audit-log', async ({ page, goTo, expectExist }) => {
     goTo('projectManagement');
     await Promise.all([
       page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/orgCenter/safety?endAt=2021-10-28%2014%3A17%3A51&pageNo=1&startAt=2021-10-28%2013%3A17%3A51' }*/),
       page.click('text=Audit log'),
     ]);
-    const [page1] = await Promise.all([
+    const [download] = await Promise.all([
       page.waitForEvent('popup'),
       page.waitForEvent('download'),
       page.click('button:has-text("export")'),
     ]);
-    await page1.close();
+
+    const path = await download.path();
+    await expectExist(path);
+    await download.close();
   });
 });
