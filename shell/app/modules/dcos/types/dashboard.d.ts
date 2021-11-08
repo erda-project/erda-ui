@@ -157,6 +157,7 @@ declare namespace ORG_DASHBOARD {
     clusterName: string[];
     cpuPerNode: number;
     memPerNode: number;
+    groupBy: string;
   }
 
   interface ResourceTableData {

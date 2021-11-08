@@ -52,6 +52,11 @@ const kubernetesTabs = [
   { key: 'detail', name: i18n.t('detail') },
 ];
 
+const resourceRankTabs = [
+  { key: 'project', name: i18n.t('cmp:by project') },
+  { key: 'owner', name: i18n.t('cmp:by owner') },
+];
+
 function getCmpRouter(): RouteConfigItem[] {
   return [
     {
@@ -209,6 +214,20 @@ function getCmpRouter(): RouteConfigItem[] {
           ],
         },
         {
+          path: 'resource-rank',
+          routes: [
+            {
+              path: ':rankType',
+              breadcrumbName: i18n.t('resource rank'),
+              tabs: resourceRankTabs,
+              layout: { noWrapper: true },
+              ignoreTabQuery: true,
+              getComp: (cb) =>
+                cb(import('app/modules/dcos/pages/cluster-dashboard/resources-summary'), 'ResourceTable'),
+            },
+          ],
+        },
+        {
           path: 'domain',
           breadcrumbName: i18n.t('runtime:manage domain'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/domain-manage')),
@@ -240,7 +259,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'customDashboard',
-          breadcrumbName: i18n.t('cmp:O & M dashboard'),
+          breadcrumbName: i18n.t('custom dashboard'),
           routes: [
             {
               path: 'add',
