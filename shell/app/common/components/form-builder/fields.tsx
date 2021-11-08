@@ -128,7 +128,7 @@ export const Fields: React.MemoExoticComponent<
                     colon={!!label}
                     required={required}
                     rules={afterAddRequiredRules}
-                    className={className || ''}
+                    className={`${label ? '' : 'no-label'} ${className || ''}`}
                     style={{ marginBottom: 6 }}
                     initialValue={customProps.defaultValue}
                     {...rest}
