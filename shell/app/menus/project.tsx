@@ -41,6 +41,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('dop:Projects'),
       subtitle: i18n.t('Issues'),
+      defaultShow: true,
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
