@@ -94,7 +94,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
-      icon: <IconApplicationOne />,
+      icon: <IconDashboardCar />,
       text: i18n.t('dop:O & M'),
       subtitle: i18n.t('dop:O & M'),
       show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
