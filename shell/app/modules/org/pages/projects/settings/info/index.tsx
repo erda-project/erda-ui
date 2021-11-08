@@ -74,8 +74,11 @@ export default () => {
       Object.keys(values.resourceConfig)
         .filter((key) => resourceConfig[key])
         .forEach((key) => {
-          resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
-          resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
+          resourceConfig[key] = {
+            ...resourceConfig[key],
+            cpuQuota: +resourceConfig[key].cpuQuota,
+            memQuota: +resourceConfig[key].memQuota,
+          };
         });
     }
 
@@ -182,7 +185,6 @@ export default () => {
     });
   });
 
-  console.log(info);
   return (
     <div className="project-setting-info">
       <Card
@@ -283,7 +285,7 @@ export default () => {
                               },
                               {
                                 label: `${+(+resource.memQuota).toFixed(2)} G`,
-                                value: i18n.t('MEM limit'),
+                                value: i18n.t('Memory limit'),
                               },
                               {
                                 label: `${+(+resource.memRequest).toFixed(2)} G`,

@@ -53,7 +53,17 @@
     cursor: pointer;
   }
 
+  .icon-hover {
+    color: $color-dark-4;
+
+    &:hover {
+      color: $color-dark-8;
+    }
+  }
+
   .erda-table-compose-td {
+    padding: 4px 0;
+
     & > div {
       max-width: 100%;
     }
@@ -104,10 +114,9 @@
     line-height: 41px !important;
   }
 
-  .ant-table-tbody td,
+  .ant-table-tbody tr:not(.ant-table-measure-row) td,
   th {
-    padding-left: 18px !important;
-    padding-right: 18px !important;
+    padding: 4px 12px !important;
   }
 
   .ant-table-tbody > tr.ant-table-row:hover > td {
@@ -118,11 +127,18 @@
     }
   }
 
+  .erda-table-td-title {
+    font-weight: 500;
+    color: $color-dark-8;
+  }
+
   .ant-table-tbody > tr.ant-table-row-selected > td {
     background-color: $color-table-bg-hover !important;
   }
 
   .erda-table-filter {
+    height: 48px;
+
     .ant-input-affix-wrapper,
     input {
       background-color: $color-input-bg;
