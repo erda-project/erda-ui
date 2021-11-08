@@ -240,7 +240,8 @@ const project = createStore({
     onProjectIndexEnter() {
       // project首页重定向到第一个菜单链接
       const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
-      const rePathname = get(subSiderInfoMap, 'project.menu[0].href');
+      const curMenus = get(subSiderInfoMap, 'project.menu') || [];
+      const rePathname = (curMenus.find((item) => item.defaultShow) || curMenus[0])?.href;
       rePathname && goTo(rePathname, { replace: true });
     },
   },
