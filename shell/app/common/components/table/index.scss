@@ -54,11 +54,6 @@
   }
 
   .erda-table-icon-td {
-    .erda-table-td-icon {
-      width: 30px;
-      height: 30px;
-    }
-
     & > div {
       max-width: calc(100% - 30px);
     }
@@ -71,9 +66,12 @@
     }
   }
 
-  .erda-pagination {
-    padding: 0 0.5rem;
+  .erda-table-footer {
+    padding: 0 1rem;
     background-color: $color-table-head-bg;
+  }
+
+  .erda-pagination {
     color: $color-table-color;
   }
 
@@ -92,7 +90,7 @@
   }
 
   thead.ant-table-thead tr > th {
-    background-color: transparent;
+    background-color: $white;
     color: $color-table-color;
     font-weight: normal;
   }
@@ -113,6 +111,10 @@
     .erda-table-td-title {
       color: $color-table-text-highlight;
     }
+  }
+
+  .ant-table-tbody > tr.ant-table-row-selected > td {
+    background-color: $color-table-bg-hover !important;
   }
 
   .erda-table-filter {
@@ -159,10 +161,13 @@
       display: none;
     }
   }
+  .ant-table-expanded-row-fixed {
+    width: auto !important;
+  }
 }
 
 .erda-table-filter {
-  padding: 0 1rem;
+  padding: 7px 1rem;
   line-height: 50px;
   background-color: $color-table-head-bg;
 
@@ -171,6 +176,6 @@
   }
 
   .ant-form {
-    margin: 10px 0 !important;
+    margin: 0 !important;
   }
 }
