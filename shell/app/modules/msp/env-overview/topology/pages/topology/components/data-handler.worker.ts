@@ -689,7 +689,7 @@ const dataHandler = {
 
 self.addEventListener(
   'message',
-  (e: MessageEvent<{ type: 'living' | 'close'; data: TOPOLOGY.ITopologyResp['nodes'] }>) => {
+  (e: MessageEvent<{ type: 'open' | 'close'; data: TOPOLOGY.ITopologyResp['nodes'] }>) => {
     const { data, type } = e.data;
     if (type === 'close') {
       self.close();

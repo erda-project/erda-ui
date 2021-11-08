@@ -151,7 +151,7 @@ const TopologyEle = (props: IProps) => {
       setSvgSize();
       setTopologySize(containerWidth, containerHeight);
     });
-    worker.current?.postMessage({ type: 'living', data: data.nodes });
+    worker.current?.postMessage({ type: 'open', data: data.nodes });
     // setSize(containerWidth, containerHeight);
   }, [data]);
 
