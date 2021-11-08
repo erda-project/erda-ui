@@ -70,7 +70,6 @@ Role('Manager', () => {
       page.waitForEvent('download'),
       page.click('button:has-text("export")'),
     ]);
-
     const path = await download.path();
     await expectExist(path);
     await download.close();
