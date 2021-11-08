@@ -49,7 +49,7 @@ const DefaultKey = ({ record, keyName, update, ...rest }: any) => (
   <Input maxLength={100} value={record[keyName]} onChange={(e) => update(e.target.value)} {...rest} />
 );
 const DefaultValue = ({ record, valueName, update, ...rest }: any) => (
-  <Input maxLength={1000} value={record[valueName]} onChange={(e) => update(e.target.value)} {...rest} />
+  <Input value={record[valueName]} onChange={(e) => update(e.target.value)} {...rest} />
 );
 const DefaultOp = ({ index, className = '', deleteIndex, ...rest }: any) => {
   return rest.disabled ? (
