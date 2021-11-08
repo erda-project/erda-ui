@@ -38,8 +38,8 @@ const limits = [10, 30, 50];
 export default () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
-  const { serviceName, terminusKey } = params;
-  const [serviceId, _serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
+  const { terminusKey } = params;
+  const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
   const { getExceptionTypes } = topologyServiceStore;
   const [{ sort, limit, exceptionType, exceptionTypes }, updater] = useUpdate({
     exceptionTypes: [] as any[] | undefined,
@@ -51,23 +51,14 @@ export default () => {
   useEffect(() => {
     if (serviceId) {
       getExceptionTypes({
-        serviceName: serviceName || _serviceName,
+        serviceName,
         serviceId,
         terminusKey,
         start: timeSpan.startTimeMs,
         end: timeSpan.endTimeMs,
       }).then((res) => updater.exceptionTypes(res?.data));
     }
-  }, [
-    serviceId,
-    getExceptionTypes,
-    serviceName,
-    terminusKey,
-    timeSpan.endTimeMs,
-    timeSpan.startTimeMs,
-    updater,
-    _serviceName,
-  ]);
+  }, [serviceId, getExceptionTypes, serviceName, terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs, updater]);
 
   if (!serviceId) {
     return <NoServicesHolder />;
@@ -122,11 +113,7 @@ export default () => {
         </div>
       </div>
       <div className="overflow-auto flex-1">
-        <ServiceListDashboard
-          dashboardId="exception_analysis"
-          extraGlobalVariable={{ sort, limit, exceptionType }}
-          serviceId={serviceId}
-        />
+        <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
       </div>
     </div>
   );
