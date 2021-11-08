@@ -303,7 +303,7 @@ const Transaction = () => {
     if (callType === 'consumer') {
       _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer')`;
     } else if (callType === 'producer') {
-      _condition = `(source_service_id::tag='${_serviceId}' and span_kind::tag='producer')`;
+      _condition = `(source_service_id::tag='${serviceId}' and span_kind::tag='producer')`;
     } else {
       _condition = `(target_service_id::tag='${serviceId}' and span_kind::tag='consumer') or (source_service_id::tag='${serviceId}' and span_kind::tag='producer')`;
     }
