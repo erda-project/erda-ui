@@ -20,6 +20,7 @@ import monitorStatusStore from 'status-insight/stores/status';
 import routeInfoStore from 'core/stores/route';
 import i18n from 'i18n';
 import constants from './constants';
+import { Modal } from 'antd';
 import './add-modal.scss';
 import { Input, Select, Radio, Tabs, Form, Tooltip, Button, InputNumber } from 'antd';
 import { FormInstance } from 'core/common/interface';
@@ -277,12 +278,14 @@ const AddModal = (props: IProps) => {
       case text:
         updater.body({ ...body, type: textType });
         updater.headers({
+          ...headers,
           'Content-Type': textType,
         });
         break;
       case json:
         updater.body({ ...body, type: jsonType });
         updater.headers({
+          ...headers,
           'Content-Type': jsonType,
         });
         break;
@@ -300,6 +303,7 @@ const AddModal = (props: IProps) => {
         updater.textOrJson('');
         updater.body({ ...body, type: formType });
         updater.headers({
+          ...headers,
           'Content-Type': formType,
         });
         break;
@@ -409,15 +413,45 @@ const AddModal = (props: IProps) => {
               <TabPane tab="Body" key="3">
                 <Radio.Group
                   onChange={(e) => {
-                    updater.bodyType(e.target.value);
+                    if (e.target.value === noneType) {
+                      Modal.confirm({
+                        title: i18n.t('confirm to switch Body type?'),
+                        onOk() {
+                          updater.bodyType(e.target.value);
+                        },
+                      });
+                    }
                     if (e.target.value === formType) {
-                      body.content = [];
-                      updater.body({ ...body });
+                      if (bodyType !== noneType) {
+                        Modal.confirm({
+                          title: i18n.t('confirm to switch Body type?'),
+                          onOk() {
+                            updater.bodyType(e.target.value);
+                            updater.body({ ...body, content: [] });
+                          },
+                        });
+                      } else {
+                        updater.bodyType(e.target.value);
+                        updater.body({ ...body, content: [] });
+                      }
                     }
                     if (e.target.value === raw) {
-                      body.content = '';
-                      updater.body({ ...body });
-                      updater.textOrJson('text');
+                      if (bodyType !== noneType) {
+                        Modal.confirm({
+                          title: i18n.t('confirm to switch Body type?'),
+                          onOk() {
+                            updater.bodyType(e.target.value);
+                            body.content = '';
+                            updater.body({ ...body });
+                            updater.textOrJson('text');
+                          },
+                        });
+                      } else {
+                        updater.bodyType(e.target.value);
+                        body.content = '';
+                        updater.body({ ...body });
+                        updater.textOrJson('text');
+                      }
                     }
                   }}
                   value={bodyType}
