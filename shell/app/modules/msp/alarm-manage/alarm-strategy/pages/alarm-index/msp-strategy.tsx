@@ -12,24 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Row } from 'antd';
+import routeInfoStore from 'core/stores/route';
+import mspStore from 'msp/stores/micro-service';
+import StrategyForm from 'cmp/common/alarm-strategy/strategy-form';
 
-export default (props: CP_GRID.Props) => {
-  const { props: configProps, children } = props;
-  const { gutter = 12, span } = configProps || {};
-  let itemSpan = span;
-  if (!itemSpan) {
-    itemSpan = new Array(children.length).fill(Math.ceil(24 / children.length));
-  }
+export default () => {
+  const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
+  const { type } = mspStore.useStore((s) => s.currentProject);
+
   return (
-    <div className="overflow-hidden">
-      <Row gutter={gutter}>
-        {children.map((child, i) => (
-          <Col span={itemSpan[i]} key={i}>
-            {child}
-          </Col>
-        ))}
-      </Row>
-    </div>
+    <StrategyForm
+      scopeType="msp"
+      scopeId={projectId}
+      commonPayload={{ scopeType: `msp_env`, scopeId: terminusKey, projectType: type }}
+    />
   );
 };

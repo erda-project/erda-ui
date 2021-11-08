@@ -388,6 +388,7 @@ interface RouteConfigItem {
     fullHeight?: boolean;
     hideHeader?: boolean;
   };
+  pageNameInfo?: () => JSX.Element;
   keepQuery?: boolean;
   getComp?: (cb: RouterGetComp) => Promise<any>;
 }

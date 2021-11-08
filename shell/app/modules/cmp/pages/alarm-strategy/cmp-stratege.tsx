@@ -12,24 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Col, Row } from 'antd';
+import StrategyForm from 'app/modules/cmp/common/alarm-strategy/strategy-form';
+import orgStore from 'app/org-home/stores/org';
 
-export default (props: CP_GRID.Props) => {
-  const { props: configProps, children } = props;
-  const { gutter = 12, span } = configProps || {};
-  let itemSpan = span;
-  if (!itemSpan) {
-    itemSpan = new Array(children.length).fill(Math.ceil(24 / children.length));
-  }
-  return (
-    <div className="overflow-hidden">
-      <Row gutter={gutter}>
-        {children.map((child, i) => (
-          <Col span={itemSpan[i]} key={i}>
-            {child}
-          </Col>
-        ))}
-      </Row>
-    </div>
-  );
+export default () => {
+  const currentOrg = orgStore.getState((s) => s.currentOrg);
+  return <StrategyForm scopeType="org" scopeId={String(currentOrg.id)} />;
 };
