@@ -30,17 +30,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
 
   const menu = [
     {
-      href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
-      icon: <IconApplicationOne />,
-      text: i18n.t('dop:applications'),
-      subtitle: i18n.t('App'),
-      show: projectPerm.appList.viewAppList.pass,
+      text: i18n.t('dop:tickets'),
+      subtitle: i18n.t('Tickets'),
+      icon: <IconList />,
+      href: goTo.resolve.projectTicket(),
+      show: projectPerm.ticket.read.pass,
     },
     {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
-      text: i18n.t('dop:project collaboration'),
+      text: i18n.t('dop:Projects'),
       subtitle: i18n.t('Issues'),
+      defaultShow: true,
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
@@ -58,7 +59,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.project(), // `/dop/projects/${projectId}`,
       icon: <CustomIcon type="ceshiguanli" />,
-      text: i18n.t('test'),
+      text: i18n.t('Test Management'),
       subtitle: i18n.t('Test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
@@ -85,35 +86,39 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      href: goTo.resolve.projectService(),
-      icon: <CustomIcon type="kuozhanfuwu" />,
-      text: i18n.t('dop:addon'),
-      subtitle: 'Addon',
-      show: projectPerm.service.viewService.pass,
+      href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
+      icon: <IconApplicationOne />,
+      text: i18n.t('dop:Applications'),
+      subtitle: i18n.t('App'),
+      show: projectPerm.appList.viewAppList.pass,
     },
     {
-      text: i18n.t('resource summary'),
-      subtitle: i18n.t('Resource'),
-      icon: <IconDataAll />,
-      href: goTo.resolve.projectResource(),
-      show: projectPerm.resource.viewResource.pass,
+      href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
+      icon: <IconDashboardCar />,
+      text: i18n.t('dop:O & M'),
+      subtitle: i18n.t('dop:O & M'),
+      show: projectPerm.service.viewService.pass || projectPerm.resource.viewResource.pass,
+      subMenu: [
+        {
+          href: goTo.resolve.projectService(),
+          icon: <CustomIcon type="kuozhanfuwu" />,
+          text: i18n.t('dop:Addon'),
+          subtitle: 'Addon',
+          show: projectPerm.service.viewService.pass,
+        },
+        {
+          href: goTo.resolve.projectResource(),
+          text: i18n.t('Resource summary'),
+          icon: <IconDataAll />,
+          subtitle: i18n.t('Resource'),
+          show: projectPerm.resource.viewResource.pass,
+        },
+      ],
     },
-    {
-      text: i18n.t('dop:tickets'),
-      subtitle: i18n.t('Tickets'),
-      icon: <IconList />,
-      href: goTo.resolve.projectTicket(),
-      show: projectPerm.ticket.read.pass,
-    },
-    // {
-    //   href: `/dop/projects/${projectId}/config`,
-    //   icon: 'unlock',
-    //   text: '配置管理',
-    // }
     {
       href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
       icon: <IconConfig />,
-      text: `${i18n.t('project setting')}`,
+      text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
       subtitle: i18n.t('Setting'),
       show: projectPerm.setting.viewSetting.pass,
     },
