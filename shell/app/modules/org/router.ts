@@ -152,7 +152,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
             {
               path: 'detail',
               layout: { fullHeight: true },
-              breadcrumbName: i18n.t('cmp:org detail'),
+              breadcrumbName: i18n.t('org setting'),
               getComp: (cb) => cb(import('app/modules/org/pages/setting/org-setting'), 'OrgSetting'),
             },
           ],
