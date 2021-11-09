@@ -49,7 +49,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     //   show: projectPerm.pipeline.view.pass,
     // },
     {
-      href: goTo.resolve.project(), // `/dop/projects/${projectId}`,
+      href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
       icon: <CustomIcon type="ceshiguanli" />,
       text: i18n.t('Test Management'),
       subtitle: i18n.t('Test'),
@@ -85,7 +85,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.appList.viewAppList.pass,
     },
     {
-      href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
+      href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
       icon: <IconDashboardCar />,
       text: i18n.t('dop:O & M'),
       subtitle: i18n.t('dop:O & M'),
