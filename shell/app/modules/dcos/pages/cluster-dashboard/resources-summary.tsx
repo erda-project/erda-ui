@@ -349,7 +349,10 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: (data?.list || []).map((prj) => ({ label: prj.projectDisplayName, value: prj.projectID })),
+        options: (data?.list || []).map((prj) => ({
+          label: prj.projectDisplayName || prj.projectName,
+          value: prj.projectID,
+        })),
       },
     ],
     owner: [
@@ -360,7 +363,10 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: (data?.list || []).map((prj) => ({ label: prj.ownerUserName, value: prj.ownerUserID })),
+        options: (data?.list || []).map((prj) => ({
+          label: prj.ownerUserNickname || prj.ownerUserName,
+          value: prj.ownerUserID,
+        })),
       },
     ],
   };
@@ -392,7 +398,6 @@ export const ResourceTable = React.memo(() => {
     memoryTotal += a.memQuota;
     nodeTotal += a.nodes;
   });
-
   return (
     <>
       {/* <Title

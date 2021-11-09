@@ -13,10 +13,10 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Row, Col, Button, Input } from 'antd';
+import { Row, Col, Button, Input, Tooltip } from 'antd';
 import { FormInstance } from 'core/common/interface';
 import { theme } from 'app/themes';
-import { ImageUpload, ErdaIcon, ConfirmDelete, Panel, Ellipsis, FormModal } from 'common';
+import { ImageUpload, ErdaIcon, ConfirmDelete, Panel, Ellipsis, Icon as CustomIcon, FormModal } from 'common';
 import { goTo, insertWhen } from 'common/utils';
 import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
@@ -188,10 +188,21 @@ export default () => {
   return (
     <div className="project-setting-info">
       <Card
-        header={i18n.t('dop:basic information')}
+        header={
+          <div>
+            {i18n.t('dop:basic information')}
+            <Tooltip title={i18n.t('projects')}>
+              <CustomIcon
+                type="link1"
+                className="ml-2 hover-active"
+                onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
+              />
+            </Tooltip>
+          </div>
+        }
         actions={
-          <span className="cursor-pointer" onClick={() => setProjectInfoEditVisible(true)}>
-            <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
+          <span className="hover-active" onClick={() => setProjectInfoEditVisible(true)}>
+            <ErdaIcon type="edit" size={16} className="mr-2 align-middle " />
             {i18n.t('edit')}
           </span>
         }
@@ -363,17 +374,18 @@ export default () => {
                 <ErdaIcon type="dev" size={40} className="mr-3" />
                 <div>
                   <div className="label">
-                    {i18n.t('common:delete current {deleteItem}', { name: i18n.t('project') })}
+                    {i18n.t('common:delete current {deleteItem}', { deleteItem: i18n.t('project') })}
                   </div>
                   <div className="text-xs">
                     {i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', {
-                      name: i18n.t('project'),
+                      deleteItem: i18n.t('project'),
                     })}
                   </div>
                 </div>
               </div>
               <ConfirmDelete
                 onConfirm={onDelete}
+                deleteItem={`${i18n.t('project')}?`}
                 onCancel={() => setConfirmProjectName('')}
                 disabledConfirm={confirmProjectName !== info.displayName}
                 confirmTip={false}
