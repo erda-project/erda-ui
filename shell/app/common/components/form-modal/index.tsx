@@ -133,7 +133,7 @@ class FormModalComp extends React.Component<IProps, IState> {
           onOk && this.submit(onOk, submitValue, form, resolve);
         })
         .catch(({ errorFields }: { errorFields: Array<{ name: any[]; errors: any[] }> }) => {
-          form.scrollToField(errorFields[0].name);
+          errorFields?.[0] && form.scrollToField(errorFields[0].name);
           return reject(errorFields);
         });
     }).then(() => !keepValue && form.resetFields());
