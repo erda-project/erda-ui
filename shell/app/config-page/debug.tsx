@@ -154,6 +154,7 @@ export default () => {
               <FileEditor
                 autoHeight
                 fileExtension="json"
+                valueLimit={false}
                 value={text}
                 onChange={(_text) => {
                   setText(_text);

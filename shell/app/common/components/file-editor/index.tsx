@@ -148,6 +148,7 @@ const FileEditor = ({
   autoHeight = false,
   className,
   style: editorStyle,
+  valueLimit = true,
   value,
   actions = {},
   ...rest
@@ -179,7 +180,7 @@ const FileEditor = ({
     }
   }, [mode, value]);
 
-  if (value && valueExceed(value)) {
+  if (valueLimit && value && valueExceed(value)) {
     const downloadValue = () => {
       const blob = new Blob([value], { type: 'application/vnd.ms-excel;charset=utf-8' });
       const fileName = `result.txt`;
