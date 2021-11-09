@@ -242,7 +242,7 @@ function WrappedTable<T extends object = any>({
             const subTitleText = typeof subTitle === 'function' ? subTitle(text, record, index) : subTitle;
 
             return (
-              <div className="erda-table-icon-td flex items-center">
+              <div className={`erda-table-compose-td ${icon ? 'erda-table-icon-td' : ''} flex items-center`}>
                 {icon && (
                   <span className="erda-table-td-icon mr-1 flex">
                     {typeof icon === 'function' ? icon(text, record, index) : icon}

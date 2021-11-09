@@ -212,6 +212,7 @@ export const ResourceTable = React.memo(() => {
         title: i18n.t('Project'),
         dataIndex: 'projectName',
         key: 'projectName',
+        width: 300,
         subTitle: (_: string, record: ORG_DASHBOARD.ResourceTableRecord) => record.projectDesc,
       },
       {
@@ -233,6 +234,15 @@ export const ResourceTable = React.memo(() => {
       },
     ],
   };
+
+  const getStrokeColor = (val: number) => {
+    if (val >= 80 && val < 100) {
+      return statusColorMap.warning;
+    } else if (val >= 100) {
+      return statusColorMap.error;
+    }
+    return statusColorMap.success;
+  };
   const columns: Array<IColumnProps<ORG_DASHBOARD.ResourceTableRecord>> = [
     ...columnsMap[rankType],
     {
@@ -251,7 +261,7 @@ export const ResourceTable = React.memo(() => {
       dataIndex: 'nodes',
       key: 'nodes',
       sorter: {
-        compare: (a, b, s) => a.nodes - b.nodes,
+        compare: (a, b) => a.nodes - b.nodes,
       },
       render: (text: string) => text,
     },
@@ -271,21 +281,21 @@ export const ResourceTable = React.memo(() => {
       sorter: {
         compare: (a, b) => a.cpuWaterLevel - b.cpuWaterLevel,
       },
-      render: (_val: string) => {
+      render: (_val: string, record: ORG_DASHBOARD.ResourceTableRecord) => {
         let value = +(_val ?? 0);
         value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
         return !isNaN(+_val) ? (
-          <>
+          <Tooltip title={`${record.cpuRequest} / ${record.cpuQuota}`}>
             <Progress
               percent={value}
               type="circle"
               width={20}
               strokeWidth={18}
               format={(v) => null}
-              strokeColor={statusColorMap[status]}
+              strokeColor={getStrokeColor(value)}
             />
             <span className="text-dark-8  ml-2">{`${value}%`}</span>
-          </>
+          </Tooltip>
         ) : (
           _val
         );
@@ -307,21 +317,21 @@ export const ResourceTable = React.memo(() => {
       sorter: {
         compare: (a, b) => a.memWaterLevel - b.memWaterLevel,
       },
-      render: (_val: string) => {
+      render: (_val: string, record: ORG_DASHBOARD.ResourceTableRecord) => {
         let value = +(_val ?? 0);
         value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
         return !isNaN(+_val) ? (
-          <>
+          <Tooltip title={`${record.memRequest} / ${record.memQuota}`}>
             <Progress
               type="circle"
               percent={value}
               width={20}
               strokeWidth={18}
               format={(v) => null}
-              strokeColor={statusColorMap[status]}
+              strokeColor={getStrokeColor(value)}
             />
             <span className="text-dark-8 ml-2">{`${value}%`}</span>
-          </>
+          </Tooltip>
         ) : (
           _val
         );
@@ -414,7 +424,7 @@ export const ResourceTable = React.memo(() => {
               }}
             />
             <ErdaIcon
-              className="cursor-pointer"
+              className="cursor-pointer px-3"
               onClick={() => updater.showCalculate(true)}
               type="calculator-one"
               color="sub"

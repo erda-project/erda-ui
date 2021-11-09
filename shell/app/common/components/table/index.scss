@@ -53,9 +53,14 @@
     cursor: pointer;
   }
 
-  .erda-table-icon-td {
+  .erda-table-compose-td {
     & > div {
-      max-width: calc(100% - 30px);
+      max-width: 100%;
+    }
+    &.erda-table-icon-td {
+      & > div {
+        max-width: calc(100% - 30px);
+      }
     }
 
     .erda-table-td-subTitle {
