@@ -16,7 +16,6 @@ import { Dropdown, Menu, Popover, Input, Checkbox, Button, Pagination } from 'an
 import Table, { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
 import { SorterResult, TablePaginationConfig, TableRowSelection } from 'antd/es/table/interface';
 import { ErdaIcon, Ellipsis } from 'common';
-import { Config as IconConfig } from '@icon-park/react';
 import i18n from 'i18n';
 import { produce } from 'immer';
 import { PAGINATION } from 'app/constants';
@@ -97,6 +96,7 @@ interface ITableConfigProps<T> {
   columns: Array<IColumnProps<T>>;
   setColumns: (val: Array<IColumnProps<T>>) => void;
   onTableChange: ([key]: any) => void;
+  showReset: boolean;
 }
 
 declare type TableAction = 'paginate' | 'sort' | 'filter';
@@ -125,7 +125,7 @@ function WrappedTable<T extends object = any>({
 }: IProps<T>) {
   const [columns, setColumns] = React.useState<Array<IColumnProps<T>>>(allColumns);
   const [sort, setSort] = React.useState<SorterResult<T>>({});
-  const sortCompareRef = React.useRef();
+  const sortCompareRef = React.useRef() as { current: (a, b) => number };
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
     current: 1,
     total: dataSource.length,
@@ -173,11 +173,11 @@ function WrappedTable<T extends object = any>({
       const onSort = (order?: 'ascend' | 'descend') => {
         setSort({ ...sorter, order });
         if (column.sorter?.compare) {
-          sortCompareRef.current = (a, b) => {
+          sortCompareRef.current = (a: T, b: T) => {
             if (order === 'ascend') {
-              return column.sorter?.compare(a[column.dataIndex], b[column.dataIndex]);
+              return column.sorter?.compare?.(a, b);
             } else {
-              return column.sorter?.compare(b[column.dataIndex], a[column.dataIndex]);
+              return column.sorter?.compare?.(b, a);
             }
           };
         } else {
@@ -210,7 +210,8 @@ function WrappedTable<T extends object = any>({
 
   React.useEffect(() => {
     setColumns(
-      allColumns.map(({ width, sorter, title, render, icon, subTitle, ...args }: IColumnProps<T>) => {
+      allColumns.map(({ width, sorter, title, render, icon, ...args }: IColumnProps<T>) => {
+        const { subTitle } = args;
         let sortTitle;
         if (sorter) {
           sortTitle = (
@@ -253,7 +254,9 @@ function WrappedTable<T extends object = any>({
                     title={<span className={onRow && subTitle ? 'erda-table-td-title' : ''}>{displayedText}</span>}
                     className="leading-none"
                   />
-                  {subTitleText ? <span className="erda-table-td-subTitle">{subTitleText}</span> : ''}
+                  {Object.keys(args).includes('subTitle') && (
+                    <span className="erda-table-td-subTitle">{subTitleText || '-'}</span>
+                  )}
                 </div>
               </div>
             );
@@ -332,6 +335,16 @@ function WrappedTable<T extends object = any>({
     );
   };
 
+  let data = dataSource;
+
+  if (sortCompareRef.current) {
+    data = data.sort(sortCompareRef.current);
+  }
+
+  if (!paginationProps && paginationProps !== false) {
+    data = data.slice((current - 1) * pageSize, current * pageSize);
+  }
+
   return (
     <div className="erda-table">
       <TableConfig
@@ -339,6 +352,7 @@ function WrappedTable<T extends object = any>({
         columns={columns}
         setColumns={(val) => setColumns(val)}
         onTableChange={onTableChange}
+        showReset={!!(onChange || paginationProps?.onChange)}
       />
       <Table
         scroll={{ x: '100%' }}
@@ -350,14 +364,7 @@ function WrappedTable<T extends object = any>({
         size="small"
         pagination={false}
         onChange={onChange}
-        dataSource={
-          !paginationProps && paginationProps !== false
-            ? (sortCompareRef.current ? dataSource.sort(sortCompareRef.current) : dataSource).slice(
-                (current - 1) * pageSize,
-                current * pageSize,
-              )
-            : dataSource
-        }
+        dataSource={data}
         onRow={onRow}
         rowSelection={rowSelection}
         {...props}
@@ -418,7 +425,13 @@ function WrappedTable<T extends object = any>({
   );
 }
 
-function TableConfig<T extends object = any>({ filter, columns, setColumns, onTableChange }: ITableConfigProps<T>) {
+function TableConfig<T extends object = any>({
+  filter,
+  columns,
+  setColumns,
+  onTableChange,
+  showReset,
+}: ITableConfigProps<T>) {
   const onCheck = (checked: boolean, title: string) => {
     const newColumns = produce(columns, (draft) => {
       draft.forEach((item, index) => {
@@ -440,7 +453,7 @@ function TableConfig<T extends object = any>({ filter, columns, setColumns, onTa
           checked={item.show}
           onChange={(e) => onCheck(e.target.checked, item.title as string)}
         >
-          {item.title}
+          {typeof item.title === 'function' ? item.title() : item.title}
         </Checkbox>
       </div>
     ));
@@ -451,7 +464,15 @@ function TableConfig<T extends object = any>({ filter, columns, setColumns, onTa
         <div className="flex-1">{filter}</div>
       </div>
       <div className="erda-table-filter-ops flex items-center">
-        <ErdaIcon size="16" className={`ml-3 bg-hover p-2`} type="redo" onClick={() => onTableChange({})} />
+        {showReset && (
+          <ErdaIcon
+            size="16"
+            className={`icon-hover ml-3 bg-hover p-2`}
+            type="refresh"
+            color="currentColor"
+            onClick={() => onTableChange({})}
+          />
+        )}
         <Popover
           content={columnsFilter}
           trigger="click"
@@ -459,7 +480,7 @@ function TableConfig<T extends object = any>({ filter, columns, setColumns, onTa
           overlayClassName="erda-table-columns-filter"
           getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         >
-          <IconConfig size="16" fill="#817b8e" className={`ml-3 bg-hover p-2 relative bottom-0.5`} />
+          <ErdaIcon type="config" size="16" className={`ml-3 icon-hover bg-hover p-2`} color="currentColor" />
         </Popover>
       </div>
     </div>
@@ -528,7 +549,7 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<ICo
           return (
             <span className="operate-list">
               <Dropdown overlay={menu} align={{ offset: [0, 5] }}>
-                <Icon />
+                <ErdaIcon type="more" />
               </Dropdown>
             </span>
           );
@@ -539,18 +560,6 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<ICo
     return [];
   }
 }
-
-const Icon = ({ className, ...rest }: { className?: string }) => {
-  return (
-    // @ts-ignore iconpark component
-    <iconpark-icon
-      name={'more'}
-      fill={'#106,84,158'}
-      class={`cursor-pointer align-middle table-more-ops ${className || ''}`}
-      {...rest}
-    />
-  );
-};
 
 WrappedTable.Column = Column;
 WrappedTable.ColumnGroup = ColumnGroup;

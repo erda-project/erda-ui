@@ -14,6 +14,19 @@
 import i18n from 'i18n';
 import permStore from 'user/stores/permission';
 
+const projectSettingTabs = () => [
+  {
+    key: 'info',
+    breadcrumbName: '{projectName}',
+    name: i18n.t('dop:project info'),
+  },
+  {
+    key: 'member',
+    breadcrumbName: '{projectName}',
+    name: i18n.t('dop:project member'),
+  },
+];
+
 const approvalTabs = [
   {
     key: 'undone',
@@ -78,9 +91,18 @@ function getOrgCenterRouter(): RouteConfigItem[] {
                   },
                 },
                 {
-                  path: 'setting',
+                  path: 'info',
+                  tabs: projectSettingTabs,
+                  layout: { noWrapper: true },
                   breadcrumbName: '{projectName}',
-                  getComp: (cb) => cb(import('app/modules/org/pages/projects/settings')),
+                  getComp: (cb) => cb(import('app/modules/org/pages/projects/settings/info')),
+                },
+                {
+                  path: 'member',
+                  tabs: projectSettingTabs,
+                  layout: { noWrapper: true },
+                  breadcrumbName: '{projectName}',
+                  getComp: (cb) => cb(import('app/modules/org/pages/projects/settings/member')),
                 },
               ],
             },
