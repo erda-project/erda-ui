@@ -67,7 +67,7 @@ function getCmpRouter(): RouteConfigItem[] {
         ...getDcosRouter(),
         {
           path: 'clusters',
-          breadcrumbName: i18n.t('cmp:cluster management'),
+          breadcrumbName: i18n.t('clusters'),
           routes: [
             {
               path: 'addCluster',
@@ -229,17 +229,17 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'domain',
-          breadcrumbName: i18n.t('runtime:manage domain'),
+          breadcrumbName: i18n.t('domain'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/domain-manage')),
         },
         {
           path: 'services',
-          breadcrumbName: i18n.t('services'),
+          breadcrumbName: i18n.t('Service'),
           getComp: (cb) => cb(import('dcos/pages/service-manager')),
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('cmp:task list'),
+          breadcrumbName: i18n.t('task'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {
