@@ -87,6 +87,7 @@
     "Mumbai": "孟买",
     "New version available": "新版本可用",
     "North China {num}": "华北{num}",
+    "Note: The {resource} quota you entered has exceeded the remaining resources of the cluster in {workSpace}. Further allocation will preempt resources on a first-used, first-served basis.": "注意：您填写的 {resource} 配额已超过该集群在{workSpace}的剩余资源，继续分配会按先用先得的方式抢占资源。",
     "Note: The precondition to create access management is that the API must first complete the project association and version instance association.": "注意: 创建访问管理前置条件为，该 API 必须先完成项目关联 -> 版本实例关联",
     "November": "11月",
     "O & M alarm": "运维告警",
