@@ -37,38 +37,44 @@ export const getCmpMenu = () => {
       },
       {
         key: 'cmpResources',
-        href: goTo.resolve.cmpClusters(), // '/cmp/clusters',
         icon: <IconDataAll />,
-        text: i18n.t('resource management'),
+        href: goTo.resolve.cmpClusters(),
+        text: i18n.t('cluster resource'),
         subtitle: i18n.t('Resource'),
         subMenu: [
           {
             key: 'cmpCluster',
-            href: goTo.resolve.cmpClusters(), // '/cmp/clusters',
-            text: i18n.t('cmp:cluster management'),
+            href: goTo.resolve.cmpClusters(),
+            text: i18n.t('clusters'),
+          },
+          {
+            key: 'cmpResourceRank',
+            href: goTo.resolve.cmpResourceProjectRank(),
+            text: i18n.t('resource rank'),
+            prefix: `${goTo.resolve.cmpResourceRank()}/`,
           },
           {
             key: 'cmpCloudSource',
-            href: goTo.resolve.cloudSource(), // '/cmp/cloudSource',
+            href: goTo.resolve.cloudSource(),
             text: i18n.t('cloud source'),
-          },
-          {
-            key: 'cmpResources',
-            href: goTo.resolve.cmpDomain(), // '/cmp/domain',
-            text: i18n.t('runtime:manage domain'),
           },
         ],
       },
       {
         key: 'cmpServices',
-        href: goTo.resolve.cmpServices(), // '/cmp/services',
         icon: <IconListTwo />,
-        text: i18n.t('services&tasks'),
-        subtitle: i18n.t('Service'),
+        href: goTo.resolve.cmpDomain(),
+        text: i18n.t('application resource'),
+        subtitle: i18n.t('App'),
         subMenu: [
           {
+            key: 'cmpResources',
+            href: goTo.resolve.cmpDomain(), // '/cmp/domain',
+            text: i18n.t('domain'),
+          },
+          {
             href: goTo.resolve.cmpServices(), // '/cmp/services',
-            text: i18n.t('services'),
+            text: i18n.t('Service'),
           },
           ...insertWhen(!process.env.FOR_COMMUNITY, [
             {
@@ -78,16 +84,9 @@ export const getCmpMenu = () => {
           ]),
           {
             href: goTo.resolve.cmpJobs(), // '/cmp/jobs',
-            text: i18n.t('job catalogue'),
+            text: i18n.t('task'),
           },
         ],
-      },
-      {
-        key: 'cmpDashboard',
-        href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
-        icon: <IconDashboardCar />,
-        text: i18n.t('cmp:O & M dashboard'),
-        subtitle: i18n.t('Dashboard'),
       },
       {
         key: 'cmpReport',
@@ -120,6 +119,13 @@ export const getCmpMenu = () => {
             href: goTo.resolve.cmpAlarmCustom(), // '/cmp/alarm/custom',
           },
         ],
+      },
+      {
+        key: 'cmpDashboard',
+        href: goTo.resolve.orgCustomDashboard(), // '/cmp/customDashboard',
+        icon: <IconDashboardCar />,
+        text: i18n.t('custom dashboard'),
+        subtitle: i18n.t('Dashboard'),
       },
       // {
       //   key: 'cmpLog',

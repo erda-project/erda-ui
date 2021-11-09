@@ -12,13 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Echarts } from 'charts';
+import Table, { IColumnProps } from 'common/components/table';
 import { colorMap } from 'charts/theme';
 import { ContractiveFilter, CardContainer, ErdaIcon, Title } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { Button, Col, InputNumber, Progress, Radio, Row, Select, Spin, Table, Tooltip } from 'antd';
+import { Button, Col, InputNumber, Progress, Radio, Row, Select, Spin, Tooltip, Modal } from 'antd';
 import { getResourceGauge, getResourceTable } from 'dcos/services/dashboard';
 import { map } from 'lodash';
 import React from 'react';
+import routeInfoStore from 'core/stores/route';
+import { useMount } from 'react-use';
+import clusterStore from 'cmp/stores/cluster';
 import { statusColorMap } from 'app/config-page/utils';
 import i18n, { isZh } from 'i18n';
 import { ColumnsType } from 'antd/es/table';
@@ -76,7 +80,7 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
           endAngle: -20,
           axisLine: {
             lineStyle: {
-              width: 14,
+              // width: 14,
               color: [...item.split, 1].map((a, i) => [a, colors[i]]),
             },
           },
@@ -120,7 +124,7 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
 
   return (
     <>
-      <Title
+      {/* <Title
         level={2}
         title={i18n.t('cmp:resource distribute')}
         tip={
@@ -136,69 +140,9 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
           </div>
         }
         tipStyle={{ width: '500px' }}
-        operations={[
-          state.showCalculate ? (
-            <div className="flex items-center">
-              {i18n.t('cmp:Node conversion formula')}：
-              <InputNumber
-                min={1}
-                max={9999}
-                defaultValue={cpuAndMem.current.cpuPerNode}
-                onChange={(value) => {
-                  cpuAndMem.current.cpuPerNode = value;
-                }}
-                size="small"
-                style={{ width: '80px' }}
-              />
-              <span>{i18n.t('cmp:Core')}</span>
-              <InputNumber
-                min={1}
-                max={9999999}
-                defaultValue={cpuAndMem.current.memPerNode}
-                onChange={(value) => {
-                  cpuAndMem.current.memPerNode = value;
-                }}
-                size="small"
-                className="ml-1"
-                style={{ width: '80px' }}
-              />
-              <span>G = {i18n.t('cmp:one node')}</span>
-              <Button
-                type="primary"
-                className="ml-1"
-                size="small"
-                onClick={() => {
-                  window.localStorage.setItem(
-                    'cluster-summary-unit',
-                    `${cpuAndMem.current.cpuPerNode}-${cpuAndMem.current.memPerNode}`,
-                  );
-                  clusterNameStr &&
-                    getResourceGauge.fetch({ clusterName: clusterNameStr.split(','), ...cpuAndMem.current });
-                }}
-              >
-                {i18n.t('save')}
-              </Button>
-              <ErdaIcon
-                size={20}
-                className="ml-1 cursor-pointer"
-                color="primary"
-                onClick={() => updater.showCalculate(false)}
-                type="calculator-one"
-              />
-            </div>
-          ) : (
-            <div className="flex items-center">
-              <ErdaIcon
-                size={20}
-                className="cursor-pointer"
-                onClick={() => updater.showCalculate(true)}
-                type="calculator-one"
-              />
-            </div>
-          ),
-        ]}
-      />
-      <Row justify="space-between" gutter={12}>
+        operations={}
+      /> */}
+      {/* <Row justify="space-between" gutter={12}>
         {map(data || defaultGaugeData, (item, key) => (
           <Col key={key} span={8}>
             <CardContainer.ChartContainer title={item?.title} holderWhen={!item}>
@@ -206,12 +150,8 @@ export const ResourceSummary = React.memo(({ clusterNameStr }: { clusterNameStr:
             </CardContainer.ChartContainer>
           </Col>
         ))}
-      </Row>
-      <ResourceTable
-        clusterNameStr={clusterNameStr}
-        cpuPerNode={cpuAndMem.current.cpuPerNode}
-        memPerNode={cpuAndMem.current.memPerNode}
-      />
+      </Row> */}
+      <ResourceTable cpuPerNode={cpuAndMem.current.cpuPerNode} memPerNode={cpuAndMem.current.memPerNode} />
     </>
   );
 });
@@ -227,130 +167,180 @@ const arrSortMinToMax = (_a: string, _b: string) => {
     return a.localeCompare(b, 'zh');
   }
 };
-
-export const ResourceTable = React.memo(
-  ({ clusterNameStr, cpuPerNode, memPerNode }: { clusterNameStr: string; cpuPerNode: number; memPerNode: number }) => {
-    const [state, updater, update] = useUpdate({
-      ownerIds: [],
-      projectIds: [],
+export const ResourceTable = React.memo(() => {
+  const { getClusterList } = clusterStore.effects;
+  const rankType = routeInfoStore.useStore((s) => s.params.rankType);
+  const [{ ownerIds, projectIds, clusterName, clusters, showCalculate }, updater, update] = useUpdate({
+    ownerIds: [],
+    projectIds: [],
+    clusterName: [],
+    clusters: [],
+    showCalculate: false,
+  });
+  useMount(() => {
+    getClusterList().then((res: ORG_CLUSTER.ICluster[]) => {
+      updater.clusters(res);
     });
-    const [data, loading] = getResourceTable.useState();
-    React.useEffect(() => {
-      if (clusterNameStr) {
-        getResourceTable.fetch({ clusterName: clusterNameStr.split(','), cpuPerNode, memPerNode });
-      }
-    }, [clusterNameStr, cpuPerNode, memPerNode]);
+  });
 
-    const mergedList = (data?.list || []).map((item) => ({
-      ...item,
-      projectName: item.projectDisplayName || item.projectName,
-      ownerUserName: item.ownerUserNickname || item.ownerUserName,
-    }));
-    const columns: ColumnsType<ORG_DASHBOARD.ResourceTableRecord> = [
+  const localCacheUnit = window.localStorage.getItem('cluster-summary-unit');
+  const localCache = localCacheUnit ? localCacheUnit.split('-').map((a) => +a) : [8, 32];
+  const cpuAndMem = React.useRef({
+    cpuPerNode: localCache[0] || 8,
+    memPerNode: localCache[1] || 32,
+  });
+
+  const { cpuPerNode, memPerNode } = cpuAndMem.current;
+
+  const [data, loading] = getResourceTable.useState();
+  React.useEffect(() => {
+    if (clusters.length) {
+      const curCluster = clusterName?.length ? clusterName : clusters.map((item) => item.name);
+      getResourceTable.fetch({ clusterName: curCluster, cpuPerNode, memPerNode, groupBy: rankType });
+    }
+  }, [clusters, clusterName, rankType, cpuPerNode, memPerNode]);
+
+  const mergedList = (data?.list || []).map((item) => ({
+    ...item,
+    projectName: item.projectDisplayName || item.projectName,
+    ownerUserName: item.ownerUserNickname || item.ownerUserName,
+  }));
+
+  const columnsMap = {
+    project: [
       {
         title: i18n.t('Project'),
         dataIndex: 'projectName',
         key: 'projectName',
-        sorter: {
-          compare: (a, b) => arrSortMinToMax(a.projectName, b.projectName),
-        },
-        width: 120,
+        width: 300,
+        subTitle: (_: string, record: ORG_DASHBOARD.ResourceTableRecord) => record.projectDesc,
       },
       {
         title: i18n.t('cmp:Owner'),
         dataIndex: 'ownerUserName',
         key: 'ownerUserName',
-        sorter: {
-          compare: (a, b) => arrSortMinToMax(a.ownerUserName, b.ownerUserName),
-        },
-        width: 120,
+      },
+    ],
+    owner: [
+      {
+        title: i18n.t('cmp:Owner'),
+        dataIndex: 'ownerUserName',
+        key: 'ownerUserName',
       },
       {
-        title: `CPU (${i18n.t('cmp:Core')})`,
-        dataIndex: 'cpuQuota',
-        key: 'cpuQuota',
-        width: 80,
-        sorter: {
-          compare: (a, b) => a.cpuQuota - b.cpuQuota,
-        },
-        render: (text: string, c) => text,
+        title: i18n.t('cmp:project count'),
+        dataIndex: 'projectTotal',
+        key: 'projectTotal',
       },
-      {
-        title: `${i18n.t('cmp:Memory')} (G)`,
-        dataIndex: 'memQuota',
-        key: 'memQuota',
-        width: 80,
-        sorter: {
-          compare: (a, b) => a.memQuota - b.memQuota,
-        },
-        render: (text: string) => text,
-      },
-      {
-        title: i18n.t('cmp:Number of converted nodes'),
-        dataIndex: 'nodes',
-        key: 'nodes',
-        width: 80,
-        sorter: {
-          compare: (a, b) => a.nodes - b.nodes,
-        },
-        render: (text: string) => text,
-      },
-      {
-        title: `CPU ${i18n.t('cmp:Water Level')}`,
-        dataIndex: 'cpuWaterLevel',
-        key: 'cpuWaterLevel',
-        width: 120,
-        sorter: {
-          compare: (a, b) => a.cpuWaterLevel - b.cpuWaterLevel,
-        },
-        render: (_val: string) => {
-          let value = +(_val ?? 0);
-          value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
-          return !isNaN(+_val) ? (
-            <Progress
-              percent={value}
-              format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
-              strokeColor={statusColorMap[status]}
-            />
-          ) : (
-            _val
-          );
-        },
-      },
-      {
-        title: i18n.t('cmp:Memory Water Level'),
-        dataIndex: 'memWaterLevel',
-        key: 'memWaterLevel',
-        width: 120,
-        sorter: {
-          compare: (a, b) => a.memWaterLevel - b.memWaterLevel,
-        },
-        render: (_val: string) => {
-          let value = +(_val ?? 0);
-          value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
-          return !isNaN(+_val) ? (
-            <Progress
-              percent={value}
-              format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
-              strokeColor={statusColorMap[status]}
-            />
-          ) : (
-            _val
-          );
-        },
-      },
-      {
-        title: i18n.t('cmp:Description'),
-        dataIndex: 'projectDesc',
-        key: 'projectDesc',
-        sorter: {
-          compare: (a, b) => arrSortMinToMax(a.projectDesc, b.projectDesc),
-        },
-        width: 180,
-      },
-    ];
+    ],
+  };
 
-    const conditionsFilter = [
+  const getStrokeColor = (val: number) => {
+    if (val >= 80 && val < 100) {
+      return statusColorMap.warning;
+    } else if (val >= 100) {
+      return statusColorMap.error;
+    }
+    return statusColorMap.success;
+  };
+  const columns: Array<IColumnProps<ORG_DASHBOARD.ResourceTableRecord>> = [
+    ...columnsMap[rankType],
+    {
+      title: () => (
+        <span className="inline-flex align-center">
+          <span>{i18n.t('cmp:Number of used nodes')}</span>
+          <Tooltip
+            title={`${i18n.t('cmp:Node conversion formula')}: ${cpuAndMem.current.cpuPerNode} ${i18n.t('cmp:Core')} ${
+              cpuAndMem.current.memPerNode
+            } G = ${i18n.t('cmp:one node')}`}
+          >
+            <ErdaIcon type={'tishi'} />
+          </Tooltip>
+        </span>
+      ),
+      dataIndex: 'nodes',
+      key: 'nodes',
+      sorter: {
+        compare: (a, b) => a.nodes - b.nodes,
+      },
+      render: (text: string) => text,
+    },
+    {
+      title: `${i18n.t('cmp:CPU quota')} (${i18n.t('cmp:Core')})`,
+      dataIndex: 'cpuQuota',
+      key: 'cpuQuota',
+      sorter: {
+        compare: (a, b) => a.cpuQuota - b.cpuQuota,
+      },
+      render: (text: string, c) => text,
+    },
+    {
+      title: i18n.t('cmp:CPU usage'),
+      dataIndex: 'cpuWaterLevel',
+      key: 'cpuWaterLevel',
+      sorter: {
+        compare: (a, b) => a.cpuWaterLevel - b.cpuWaterLevel,
+      },
+      render: (_val: string, record: ORG_DASHBOARD.ResourceTableRecord) => {
+        let value = +(_val ?? 0);
+        value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
+        return !isNaN(+_val) ? (
+          <Tooltip title={`${record.cpuRequest} / ${record.cpuQuota}`}>
+            <Progress
+              percent={value}
+              type="circle"
+              width={20}
+              strokeWidth={18}
+              format={(v) => null}
+              strokeColor={getStrokeColor(value)}
+            />
+            <span className="text-dark-8  ml-2">{`${value}%`}</span>
+          </Tooltip>
+        ) : (
+          _val
+        );
+      },
+    },
+    {
+      title: `${i18n.t('cmp:MEM quota')} (G)`,
+      dataIndex: 'memQuota',
+      key: 'memQuota',
+      sorter: {
+        compare: (a, b) => a.memQuota - b.memQuota,
+      },
+      render: (text: string) => text,
+    },
+    {
+      title: i18n.t('cmp:MEM usage'),
+      dataIndex: 'memWaterLevel',
+      key: 'memWaterLevel',
+      sorter: {
+        compare: (a, b) => a.memWaterLevel - b.memWaterLevel,
+      },
+      render: (_val: string, record: ORG_DASHBOARD.ResourceTableRecord) => {
+        let value = +(_val ?? 0);
+        value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
+        return !isNaN(+_val) ? (
+          <Tooltip title={`${record.memRequest} / ${record.memQuota}`}>
+            <Progress
+              type="circle"
+              percent={value}
+              width={20}
+              strokeWidth={18}
+              format={(v) => null}
+              strokeColor={getStrokeColor(value)}
+            />
+            <span className="text-dark-8 ml-2">{`${value}%`}</span>
+          </Tooltip>
+        ) : (
+          _val
+        );
+      },
+    },
+  ];
+
+  const conditionMap = {
+    project: [
       {
         type: 'select',
         key: 'projectIds',
@@ -358,9 +348,10 @@ export const ResourceTable = React.memo(
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        showIndex: 1,
         options: (data?.list || []).map((prj) => ({ label: prj.projectDisplayName, value: prj.projectID })),
       },
+    ],
+    owner: [
       {
         type: 'select',
         key: 'ownerIds',
@@ -368,62 +359,122 @@ export const ResourceTable = React.memo(
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        showIndex: 2,
         options: (data?.list || []).map((prj) => ({ label: prj.ownerUserName, value: prj.ownerUserID })),
       },
-    ];
+    ],
+  };
+  const conditionsFilter = [
+    {
+      type: 'select',
+      key: 'clusterName',
+      label: i18n.t('cluster'),
+      haveFilter: true,
+      fixed: true,
+      emptyText: i18n.t('dop:all'),
+      options: clusters.map((item) => ({ label: item.name, value: item.name })),
+    },
+    ...conditionMap[rankType],
+  ];
 
-    let filterData = mergedList;
-    if (state.ownerIds.length) {
-      filterData = filterData.filter((a) => state.ownerIds.includes(a.ownerUserID));
-    }
-    if (state.projectIds.length) {
-      filterData = filterData.filter((a) => state.projectIds.includes(a.projectID));
-    }
-    let cpuTotal = 0;
-    let memoryTotal = 0;
-    let nodeTotal = 0;
-    filterData.forEach((a) => {
-      cpuTotal += a.cpuQuota;
-      memoryTotal += a.memQuota;
-      nodeTotal += a.nodes;
-    });
+  let filterData = mergedList;
+  if (ownerIds.length) {
+    filterData = filterData.filter((a) => ownerIds.includes(a.ownerUserID));
+  }
+  if (projectIds.length) {
+    filterData = filterData.filter((a) => projectIds.includes(a.projectID));
+  }
+  let cpuTotal = 0;
+  let memoryTotal = 0;
+  let nodeTotal = 0;
+  filterData.forEach((a) => {
+    cpuTotal += a.cpuQuota;
+    memoryTotal += a.memQuota;
+    nodeTotal += a.nodes;
+  });
 
-    return (
-      <>
-        <Title
-          level={2}
-          mt={16}
-          title={
-            <span>
-              {i18n.t('cmp:Allocation of project resources')}
-              <span className="ml-1 text-desc text-xs">
-                {i18n.t('cmp:The total number of selected resources')}: CPU: {cpuTotal.toFixed(2)} {i18n.t('cmp:Core')},{' '}
-                {i18n.t('cmp:Memory')}: {memoryTotal.toFixed(2)} G, {i18n.t('cmp:Conversion nodes')}:{' '}
-                {Math.ceil(nodeTotal)} {isZh() ? '个' : ''}
-              </span>
+  return (
+    <>
+      {/* <Title
+        level={2}
+        mt={16}
+        title={
+          <span>
+            {i18n.t('cmp:Allocation of project resources')}
+            <span className="ml-1 text-desc text-xs">
+              {i18n.t('cmp:The total number of selected resources')}: CPU: {cpuTotal.toFixed(2)} {i18n.t('cmp:Core')},{' '}
+              {i18n.t('cmp:Memory')}: {memoryTotal.toFixed(2)} G, {i18n.t('cmp:Conversion nodes')}:{' '}
+              {Math.ceil(nodeTotal)} {isZh() ? '个' : ''}
             </span>
-          }
-          operations={[
+          </span>
+        }
+      /> */}
+      <Table
+        filter={
+          <div className="flex justify-between align-center">
             <ContractiveFilter
               delay={1000}
               conditions={conditionsFilter}
               onChange={(values) => {
-                update(values);
+                const curVal = {
+                  ...values,
+                  ownerIds: values.ownerIds || [],
+                  projectIds: values.projectIds || [],
+                };
+                update(curVal);
               }}
-            />,
-          ]}
-        />
-        <Table
-          rowKey="projectID"
-          size="small"
-          loading={loading}
-          columns={columns}
-          pagination={{ showSizeChanger: true }}
-          dataSource={filterData}
-          scroll={{ x: '100%' }}
-        />
-      </>
-    );
-  },
-);
+            />
+            <ErdaIcon
+              className="cursor-pointer px-3"
+              onClick={() => updater.showCalculate(true)}
+              type="calculator-one"
+              color="sub"
+            />
+          </div>
+        }
+        rowKey="projectID"
+        loading={loading}
+        columns={columns}
+        dataSource={filterData}
+      />
+
+      <Modal
+        visible={showCalculate}
+        title={i18n.t('cmp:Node conversion formula')}
+        onCancel={() => updater.showCalculate(false)}
+        onOk={() => {
+          window.localStorage.setItem(
+            'cluster-summary-unit',
+            `${cpuAndMem.current.cpuPerNode}-${cpuAndMem.current.memPerNode}`,
+          );
+          updater.showCalculate(false);
+        }}
+      >
+        <div className="flex items-center">
+          <InputNumber
+            min={1}
+            max={9999}
+            defaultValue={cpuAndMem.current.cpuPerNode}
+            onChange={(value) => {
+              cpuAndMem.current.cpuPerNode = value;
+            }}
+            size="small"
+            style={{ width: '80px' }}
+          />
+          <span>{i18n.t('cmp:Core')}</span>
+          <InputNumber
+            min={1}
+            max={9999999}
+            defaultValue={cpuAndMem.current.memPerNode}
+            onChange={(value) => {
+              cpuAndMem.current.memPerNode = value;
+            }}
+            size="small"
+            className="ml-1"
+            style={{ width: '80px' }}
+          />
+          <span>G = {i18n.t('cmp:one node')}</span>
+        </div>
+      </Modal>
+    </>
+  );
+});

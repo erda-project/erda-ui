@@ -157,6 +157,7 @@ declare namespace ORG_DASHBOARD {
     clusterName: string[];
     cpuPerNode: number;
     memPerNode: number;
+    groupBy: string;
   }
 
   interface ResourceTableData {
@@ -171,9 +172,11 @@ declare namespace ORG_DASHBOARD {
 
   interface ResourceTableRecord {
     cpuQuota: number;
+    cpuRequest: number;
     cpuWaterLevel: number;
     memWaterLevel: number;
     memQuota: number;
+    memRequest: number;
     nodes: number;
     ownerUserID: number;
     ownerUserName: string;
