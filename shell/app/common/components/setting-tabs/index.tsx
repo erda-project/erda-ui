@@ -14,6 +14,7 @@
 import { updateSearch } from 'common/utils';
 import { map } from 'lodash';
 import React from 'react';
+import { useMount } from 'react-use';
 import routeInfoStore from 'core/stores/route';
 import './index.scss';
 
@@ -40,10 +41,13 @@ const SettingTabs = ({ dataSource, className = '' }: IProps) => {
   const [activeKey, updateActive] = React.useState('');
   const [content, updateContent] = React.useState(null);
 
-  React.useEffect(() => {
-    const activeTabDom = document.querySelector('.group-tabs li.active');
-    activeTabDom && activeTabDom.scrollIntoView();
-  }, [activeKey]);
+  useMount(() => {
+    setTimeout(() => {
+      // only need scroll into view once, setTimeout wait menu render completely
+      const activeTabDom = document.querySelector('.group-tabs li.active');
+      activeTabDom && activeTabDom.scrollIntoView();
+    }, 0);
+  });
 
   React.useEffect(() => {
     const tabMap = {};
