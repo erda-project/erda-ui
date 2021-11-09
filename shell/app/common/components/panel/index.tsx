@@ -140,11 +140,7 @@ const Panel = (props: PanelProps) => {
             ? map(fields, (item) => {
                 if (item.hide) return null;
                 return (
-                  <Col
-                    span={item.spaceNum ? colSpan * item.spaceNum : colSpan}
-                    key={item.label as React.Key}
-                    className="erda-panel-item"
-                  >
+                  <Col span={item.spaceNum ? colSpan * item.spaceNum : colSpan} className="erda-panel-item">
                     <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                       {item.label}
                       {item.tips && (
