@@ -36,7 +36,12 @@ interface ICardProps {
   disabled?: boolean;
 }
 
-export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetClusterListAndResources = true) => {
+export const useQuotaFields = (
+  canEdit: boolean,
+  showTip: boolean,
+  canGetClusterListAndResources = true,
+  data: PROJECT.Detail,
+) => {
   const { getLeftResources } = projectStore.effects;
   const { clearLeftResources } = projectStore.reducers;
 
@@ -50,6 +55,8 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
     };
   }, [canGetClusterListAndResources, clearLeftResources, getLeftResources]);
 
+  const { resourceConfig = {} } = data || {};
+
   const fields = [
     {
       label: workSpaceMap.DEV,
@@ -59,7 +66,7 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
       },
       required: false,
       getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="DEV" />
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="DEV" quota={resourceConfig.DEV} />
       ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
@@ -71,7 +78,7 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
       },
       required: false,
       getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="TEST" />
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="TEST" quota={resourceConfig.TEST} />
       ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
@@ -83,7 +90,13 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
       },
       required: false,
       getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="STAGING" />
+        <ClusterQuota
+          form={form}
+          showTip={showTip}
+          canEdit={canEdit}
+          workSpace="STAGING"
+          quota={resourceConfig.STAGING}
+        />
       ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },
@@ -95,7 +108,7 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, canGetCluster
       },
       required: false,
       getComp: ({ form }: { form: FormInstance }) => (
-        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="PROD" />
+        <ClusterQuota form={form} showTip={showTip} canEdit={canEdit} workSpace="PROD" quota={resourceConfig.PROD} />
       ),
       customRender: (value: IData) => <ClusterQuota readOnly data={value} workSpace="DEV" />,
     },

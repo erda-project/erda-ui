@@ -87,6 +87,7 @@
     "Mumbai": "Mumbai",
     "New version available": "New version available",
     "North China {num}": "North China {num}",
+    "Note: The {resource} quota you entered has exceeded the remaining resources of the cluster in {workSpace}. Further allocation will preempt resources on a first-used, first-served basis.": "Note: The {resource} quota you entered has exceeded the remaining resources of the cluster in {workSpace}. Further allocation will preempt resources on a first-used, first-served basis.",
     "Note: The precondition to create access management is that the API must first complete the project association and version instance association.": "Note: The precondition to create access management is that the API must first complete the project association and version instance association.",
     "November": "November",
     "O & M alarm": "O & M alarm",
