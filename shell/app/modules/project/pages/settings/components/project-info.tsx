@@ -62,8 +62,11 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       Object.keys(values.resourceConfig)
         .filter((key) => resourceConfig[key])
         .forEach((key) => {
-          resourceConfig[key].cpuQuota = +resourceConfig[key].cpuQuota;
-          resourceConfig[key].memQuota = +resourceConfig[key].memQuota;
+          resourceConfig[key] = {
+            ...resourceConfig[key],
+            cpuQuota: +resourceConfig[key].cpuQuota,
+            memQuota: resourceConfig[key].memQuota,
+          };
         });
     }
 
