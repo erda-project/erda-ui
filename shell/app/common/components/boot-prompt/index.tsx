@@ -23,11 +23,14 @@ interface IProps {
 }
 
 export default ({ children, name, className }: IProps) => {
-  const [isHidden, setIsHidden] = React.useState(localStorage.getItem(`erda-bp-${name}`));
+  const bpList = JSON.parse(localStorage.getItem(`erda-bp-list`) || '{}');
+  const [isHidden, setIsHidden] = React.useState(bpList[name]);
   const close = () => {
     setIsHidden('true');
-    localStorage.setItem(`erda-bp-${name}`, 'true');
+    bpList[name] = 'true';
+    localStorage.setItem(`erda-bp-list`, JSON.stringify(bpList));
   };
+
   return !isHidden ? (
     <div className={`erda-boot-prompt flex justify-between py-2 px-6 ${className || ''}`}>
       <div className="flex">
