@@ -80,10 +80,10 @@ const ClusterQuota = ({
 
       quota &&
         update({
-          leftCpu: +quota.cpuAvailable.toFixed(2),
-          leftMem: +quota.memAvailable.toFixed(2),
-          cpuRate: +(quota.cpuQuotaRate * 100).toFixed(2),
-          memRate: +(quota.memQuotaRate * 100).toFixed(2),
+          leftCpu: +quota.cpuAvailable.toFixed(3),
+          leftMem: +quota.memAvailable.toFixed(3),
+          cpuRate: +(quota.cpuQuotaRate * 100).toFixed(3),
+          memRate: +(quota.memQuotaRate * 100).toFixed(3),
         });
     }
   }, [cluster, clusterList, workSpace, update]);

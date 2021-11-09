@@ -68,7 +68,6 @@ export const ProjectList = () => {
         title: i18n.t('project'),
         dataIndex: 'displayName',
         key: 'displayName',
-        width: 200,
         icon: (text: string, record: PROJECT.Detail) => projectTypeMap[record.type],
         subTitle: (text: string, record: PROJECT.Detail) => record.desc,
         ellipsis: {
@@ -86,14 +85,12 @@ export const ProjectList = () => {
         ),
         dataIndex: 'stats',
         key: 'countApplications',
-        width: 120,
         render: (stats: PROJECT.ProjectStats) => `${stats.countApplications} / ${stats.countMembers}`,
       },
       {
         title: i18n.t('CPU limit'),
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
-        width: 200,
         icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('cpuQuota'),
@@ -103,7 +100,6 @@ export const ProjectList = () => {
         title: i18n.t('Memory limit'),
         dataIndex: 'memQuota',
         key: 'memQuota',
-        width: 200,
         icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('memQuota'),
@@ -113,7 +109,6 @@ export const ProjectList = () => {
         title: i18n.t('latest active'),
         dataIndex: 'activeTime',
         key: 'activeTime',
-        width: 120,
         sorter: true,
         sortOrder: getColumnOrder('activeTime'),
         render: (text) => (text ? fromNow(text) : i18n.t('none')),
@@ -123,7 +118,6 @@ export const ProjectList = () => {
         title: i18n.t('dop:statistics'),
         key: 'op',
         dataIndex: 'id',
-        width: 80,
         render: (id, record) => {
           if (record.type === 'MSP') {
             return null;
