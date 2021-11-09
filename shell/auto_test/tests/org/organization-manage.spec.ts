@@ -14,14 +14,17 @@
 import { Role, test, expect } from '../../fixtures';
 import Base from '../pages/base';
 const title = 'terminus' + Date.now();
+const modifyTitle = 'modify' + Date.now();
 const testData = {
   image: 'app/images/Erda.png',
+  mockNumber: '1',
 };
 
 Role('Manager', () => {
   test('management-center', async ({ page, expectExist, goTo }) => {
     const base = new Base(page);
     await goTo('projectManagement');
+    // add project
     await page.click('button:has-text("add project")');
     expect(page.url()).toMatch(/\/orgCenter\/projects\/createProject/);
     await page.click('[placeholder="The name displayed on the Erda platform, supports Chinese naming"]');
@@ -39,39 +42,38 @@ Role('Manager', () => {
     await page.click('textarea');
     await page.fill('textarea', title);
     await page.click('button:has-text("save")');
+    await expectExist(`text=${title}`);
+    // edit project info
+    await page.click(`text=${title}`);
+    expect(page.url()).toMatch(/\/orgCenter\/projects\/\d+\/setting/);
+    await page.click('button:has-text("edit")');
+    await page.click('#displayName');
+    await page.fill('#displayName', modifyTitle);
+    await page.click('.ant-upload');
+    await base.uploadFile(testData.image, '[type="file"]');
+    await page.click('textarea');
+    await page.fill('textarea', modifyTitle);
+    await expectExist(`text=${modifyTitle}`, 1);
+    await page.click('text=rollback setting');
+    expect(page.url()).toBe(/\/orgCenter\/projects\/\d+\/setting\?tabKey=rollbackSetting/);
+    await page.click('button:has-text("edit")');
+    await page.click('input[role="spinbutton"]');
+    await page.fill('input[role="spinbutton"]', testData.mockNumber);
+    await page.click('#rollbackConfig_TEST');
+    await page.fill('#rollbackConfig_TEST', testData.mockNumber);
+    await page.click('#rollbackConfig_STAGING');
+    await page.fill('#rollbackConfig_STAGING', testData.mockNumber);
+    await page.click('#rollbackConfig_PROD');
+    await page.fill('#rollbackConfig_PROD', testData.mockNumber);
+    await page.click('button:has-text("ok")');
+    await expectExist(`text=${testData.mockNumber}`);
+    // search project and enter project market
+    await page.click('text=Projects');
+    expect(page.url()).toMatch(/\/orgCenter\/projects/);
     await page.click('[placeholder="search by project name"]');
     await page.fill('[placeholder="search by project name"]', title);
     await expectExist(`text=${title}`);
-    await page.click('.ant-table-row td:nth-child(8)');
-  });
-
-  test('Market-administration', async ({ page, expectExist, goTo }) => {
-    const base = new Base(page);
-    await goTo('projectManagement');
-    await page.click('text=Mobile development management');
-    expect(page.url()).toMatch(/\/orgCenter\/market\/publisher\/setting/);
-    await page.click('button:has-text("edit")');
-    await page.click('textarea');
-    await page.fill('textarea', title);
-    await page.click('.ant-upload');
-    await base.uploadFile(testData.image, '[type="file"]');
-    await page.click('button:has-text("ok")');
-    await expectExist(`text=${title}`, 1);
-  });
-
-  test('Audit-log', async ({ page, goTo, expectExist }) => {
-    goTo('projectManagement');
-    await Promise.all([
-      page.waitForNavigation(/*{ url: 'https://erda.hkci.terminus.io/erda/orgCenter/safety?endAt=2021-10-28%2014%3A17%3A51&pageNo=1&startAt=2021-10-28%2013%3A17%3A51' }*/),
-      page.click('text=Audit log'),
-    ]);
-    const [download] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.waitForEvent('download'),
-      page.click('button:has-text("export")'),
-    ]);
-    const path = await download.path();
-    await expectExist(path);
-    await download.close();
+    await page.click('.ant-table-row td:nth-child(6)');
+    await expectExist('text=statistics');
   });
 });
