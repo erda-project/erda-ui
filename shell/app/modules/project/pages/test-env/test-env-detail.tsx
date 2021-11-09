@@ -249,11 +249,11 @@ export const TestEnvDetail = (props: IProps) => {
   );
 
   const KeyDescComp = ({ record, keyDesc, update: _update, ...rest }: any) => (
-    <Input maxLength={3000} value={record[keyDesc]} onChange={(e) => _update(e.target.value)} {...rest} />
+    <Input value={record[keyDesc]} onChange={(e) => _update(e.target.value)} {...rest} />
   );
 
   const ValueComp = ({ record, valueName, update: _update, ...rest }: any) => (
-    <Input maxLength={3000} value={record[valueName]} onChange={(e) => _update(e.target.value)} {...rest} />
+    <Input value={record[valueName]} onChange={(e) => _update(e.target.value)} {...rest} />
   );
 
   const getFieldsList = (_type: string, _headMode: string, _globalMode: string) => {

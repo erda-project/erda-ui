@@ -11,23 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FileEditor, KeyValueEditor, RenderPureForm } from 'common';
+import { FileEditor, RenderPureForm } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { insertWhen, regRules } from 'common/utils';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
-import { filter, get, isEmpty, map } from 'lodash';
+import { get, isEmpty, map } from 'lodash';
 import { Form, Select } from 'antd';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import routeInfoStore from 'core/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';
 
 const { Option } = Select;
-
-const MODE_MAP = {
-  NEW: 'new',
-  EXIST: 'exist',
-};
 
 const CREATE_MAP = {
   CREATE: 'create',
@@ -46,113 +41,18 @@ interface IProps {
   setOneStep: (f: boolean) => void;
 }
 const ThirdAddonForm = (props: IProps) => {
-  const { form, configKV, addonInsList, addonSpecList, editData, currentAddon, category, onFieldChange, setOneStep } =
-    props;
+  const { form, addonInsList, addonSpecList, editData, currentAddon, category, onFieldChange, setOneStep } = props;
   const curAddon = currentAddon || {};
   const query = routeInfoStore.useStore((s) => s.query);
-  const [{ workspace, mode, createType }, updater] = useUpdate({
+  const [{ workspace, createType }, updater] = useUpdate({
     workspace: '',
-    mode: MODE_MAP.EXIST,
     createType: CREATE_MAP.CREATE,
   });
   const _addonInsList = addonInsList || [];
 
-  // 切换 addon 后如果是支持 tenant 的 addon，默认选复用已有实例
-  React.useEffect(() => {
-    const initialMode = curAddon.supportTenant ? MODE_MAP.EXIST : MODE_MAP.NEW;
-    updater.mode(initialMode);
-    form.setFieldsValue({ mode: initialMode });
-  }, [curAddon.supportTenant, updater, form]);
-
   React.useEffect(() => {
     onFieldChange('addonName', query.addon);
   }, [onFieldChange, query.addon]);
-
-  const getKeyValueEditorValue = () => {
-    const { tenantVars } = curAddon;
-    const defaultValue = editData && editData.config;
-    const defaultKV = defaultValue || {};
-    if (isEmpty(defaultValue)) {
-      (tenantVars || []).forEach((k: string) => {
-        defaultKV[k] = '';
-      });
-    }
-    return {
-      ...defaultKV,
-    };
-  };
-
-  const modeToField = {
-    [MODE_MAP.NEW]: [
-      {
-        label: i18n.t('dop:environments'),
-        name: 'workspace',
-        itemProps: {
-          disabled: editData !== null || query.addon === AddonType.APIGateway,
-          onChange(v: string) {
-            updater.workspace(v);
-            form.validateFields(['name'], { force: true });
-          },
-        },
-        type: 'select',
-        // 数据源管理页面：新增数据源暂时只能为【测试环境】
-        options: category
-          ? [{ name: i18n.t('test'), value: 'TEST' }]
-          : [
-              { name: i18n.t('develop'), value: 'DEV' },
-              { name: i18n.t('test'), value: 'TEST' },
-              { name: i18n.t('staging'), value: 'STAGING' },
-              { name: i18n.t('prod'), value: 'PROD' },
-            ],
-        initialValue: query.env || (category ? 'TEST' : 'DEV'),
-      },
-      ...insertWhen(curAddon.plan, [
-        {
-          label: i18n.t('dop:plan'),
-          name: 'plan',
-          itemProps: {
-            disabled: editData !== null || query.addon === AddonType.APIGateway,
-            onChange(v: string) {
-              updater.workspace(v);
-              form.validateFields(['name'], { force: true });
-            },
-          },
-          type: 'select',
-          options: map(curAddon.plan, (p) => ({ name: p.label, value: p.value })),
-          initialValue: get(curAddon, 'plan[0].value'),
-        },
-      ]),
-      {
-        label: i18n.t('tag'),
-        name: 'tag',
-        initialValue: editData ? editData.tag || '' : null,
-        itemProps: { disabled: editData !== null },
-        required: false,
-      },
-    ],
-    [MODE_MAP.EXIST]: curAddon.supportTenant
-      ? [
-          {
-            label: i18n.t('resource:existing instance'),
-            name: 'addonInstanceRoutingId',
-            type: 'select',
-            options: filter(addonInsList, (a) => a.addonName === curAddon.addonName && !a.tenantOwner).map((a) => ({
-              value: a.instanceId,
-              name: a.name,
-            })),
-          },
-          {
-            getComp: () => (
-              <>
-                <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={configKV} />
-              </>
-            ),
-          },
-        ]
-      : [],
-  };
-
-  const appendField = modeToField[mode];
 
   const getFields = () => {
     const typeField = {
@@ -198,25 +98,7 @@ const ThirdAddonForm = (props: IProps) => {
         },
       ],
     };
-    const tenantField = {
-      label: i18n.t('dop:mode'),
-      name: 'mode',
-      type: 'radioGroup',
-      options: [
-        { name: i18n.t('resource:share existing instance'), value: 'exist' },
-        { name: i18n.t('resource:create instance'), value: 'new' },
-      ],
-      initialValue: mode,
-      itemProps: {
-        buttonStyle: undefined,
-        onChange: (e: any) => {
-          // 清空前一个mode的表单
-          const names = appendField.map((f: any) => ({ name: f.name })).filter((item) => item.name);
-          form.resetFields(names);
-          updater.mode(e.target.value);
-        },
-      },
-    };
+
     const createTypeField = {
       label: i18n.t('dop:creation method'),
       name: 'createType',
@@ -234,6 +116,53 @@ const ThirdAddonForm = (props: IProps) => {
         { value: CREATE_MAP.IMPORT, name: i18n.t('dop:Config import') },
       ],
     };
+    const appendField = [
+      {
+        label: i18n.t('dop:environments'),
+        name: 'workspace',
+        itemProps: {
+          disabled: editData !== null || query.addon === AddonType.APIGateway,
+          onChange(v: string) {
+            updater.workspace(v);
+            form.validateFields(['name'], { force: true });
+          },
+        },
+        type: 'select',
+        // 数据源管理页面：新增数据源暂时只能为【测试环境】
+        options: category
+          ? [{ name: i18n.t('test'), value: 'TEST' }]
+          : [
+              { name: i18n.t('develop'), value: 'DEV' },
+              { name: i18n.t('test'), value: 'TEST' },
+              { name: i18n.t('staging'), value: 'STAGING' },
+              { name: i18n.t('prod'), value: 'PROD' },
+            ],
+        initialValue: query.env || (category ? 'TEST' : 'DEV'),
+      },
+      ...insertWhen(curAddon.plan, [
+        {
+          label: i18n.t('dop:plan'),
+          name: 'plan',
+          itemProps: {
+            disabled: editData !== null || query.addon === AddonType.APIGateway,
+            onChange(v: string) {
+              updater.workspace(v);
+              form.validateFields(['name'], { force: true });
+            },
+          },
+          type: 'select',
+          options: map(curAddon.plan, (p) => ({ name: p.label, value: p.value })),
+          initialValue: get(curAddon, 'plan[0].value'),
+        },
+      ]),
+      {
+        label: i18n.t('tag'),
+        name: 'tag',
+        initialValue: editData ? editData.tag || '' : null,
+        itemProps: { disabled: editData !== null },
+        required: false,
+      },
+    ];
 
     if (curAddon.addonName === 'custom') {
       // 导入模式
@@ -248,15 +177,9 @@ const ThirdAddonForm = (props: IProps) => {
           },
         ];
       }
-      return [
-        typeField,
-        createTypeField,
-        nameField,
-        ...insertWhen(curAddon.supportTenant, [tenantField]),
-        ...appendField,
-      ];
+      return [typeField, createTypeField, nameField, ...appendField];
     }
-    return [typeField, nameField, ...insertWhen(curAddon.supportTenant, [tenantField]), ...appendField];
+    return [typeField, nameField, ...appendField];
   };
 
   return (
