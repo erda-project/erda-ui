@@ -379,7 +379,6 @@ const MembersTable = ({
         {
           title: i18n.t('nickname'),
           dataIndex: 'nick',
-          width: 200,
           render: (nick: string, record: IMember) => {
             const { userId, removed } = record;
             return (
@@ -403,7 +402,6 @@ const MembersTable = ({
         {
           title: i18n.t('user name'),
           dataIndex: 'name',
-          width: 200,
           render: (name: string) => {
             return (
               <div className="member-username nowrap" title={name || i18n.t('common:none')}>
@@ -415,7 +413,6 @@ const MembersTable = ({
         {
           title: 'Email',
           dataIndex: 'email',
-          width: 200,
           render: (value: string) => (
             <Tooltip title={value}>
               <span className="cursor-copy" data-clipboard-tip="Email" data-clipboard-text={value}>
@@ -427,7 +424,6 @@ const MembersTable = ({
         {
           title: i18n.t('cellphone'),
           dataIndex: 'mobile',
-          width: 160,
           render: (value: string | number) => (
             <span className="cursor-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
               {value || i18n.t('common:none')}
@@ -437,7 +433,6 @@ const MembersTable = ({
         {
           title: i18n.t('role'),
           dataIndex: 'roles',
-          width: 200,
           render: (roles: string[]) => {
             const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
             return (
@@ -479,7 +474,6 @@ const MembersTable = ({
           {
             title: i18n.t('operations'),
             key: 'op',
-            width: 200,
             fixed: 'right',
             render: (record: IMember) => {
               const { userId, removed, labels } = record;
@@ -588,7 +582,6 @@ const MembersTable = ({
         pagination={{ ...paging, current: paging.pageNo, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
-        scroll={{ x: 1400 }}
       />
     );
   };
