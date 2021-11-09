@@ -30,18 +30,10 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
 
   const menu = [
     {
-      text: i18n.t('dop:tickets'),
-      subtitle: i18n.t('Tickets'),
-      icon: <IconList />,
-      href: goTo.resolve.projectTicket(),
-      show: projectPerm.ticket.read.pass,
-    },
-    {
       href: goTo.resolve.projectAllIssue(), // `/dop/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('dop:Projects'),
       subtitle: i18n.t('Issues'),
-      defaultShow: true,
       show:
         projectPerm.backLog.viewBackLog.pass ||
         projectPerm.iteration.read.pass ||
@@ -121,6 +113,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
       subtitle: i18n.t('Setting'),
       show: projectPerm.setting.viewSetting.pass,
+    },
+    {
+      text: i18n.t('dop:tickets'),
+      subtitle: i18n.t('Tickets'),
+      icon: <IconList />,
+      href: goTo.resolve.projectTicket(),
+      show: projectPerm.ticket.read.pass,
     },
   ];
 
