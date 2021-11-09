@@ -33,7 +33,9 @@ export default ({ downloadId, projectId, onFinish }: { downloadId: string; proje
   });
 
   const onPreviewMount = () => {
-    exportRef.current?.click();
+    setTimeout(() => {
+      exportRef.current?.click();
+    }, 1000);
   };
 
   return (
