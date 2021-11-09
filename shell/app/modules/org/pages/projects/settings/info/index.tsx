@@ -238,7 +238,7 @@ export default () => {
           <Card
             header={i18n.t('dop:project quota')}
             actions={
-              <span className="cursor-pointer" onClick={() => setProjectQuotaEditVisible(true)}>
+              <span className="hover-active" onClick={() => setProjectQuotaEditVisible(true)}>
                 <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
                 {i18n.t('edit')}
               </span>
@@ -329,7 +329,7 @@ export default () => {
       <Card
         header={i18n.t('advanced settings')}
         actions={
-          <span className="cursor-pointer" onClick={() => setProjectRollbackEditVisible(true)}>
+          <span className="hover-active" onClick={() => setProjectRollbackEditVisible(true)}>
             <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
             {i18n.t('edit')}
           </span>
