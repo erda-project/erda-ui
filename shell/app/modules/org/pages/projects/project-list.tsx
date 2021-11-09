@@ -68,7 +68,7 @@ export const ProjectList = () => {
         title: i18n.t('project'),
         dataIndex: 'displayName',
         key: 'displayName',
-        icon: (text: string, record: PROJECT.Detail) => projectTypeMap[record.type],
+        icon: (text: string, record: PROJECT.Detail) => projectTypeMap[record.type] || projectTypeMap.DevOps,
         subTitle: (text: string, record: PROJECT.Detail) => record.desc,
         ellipsis: {
           showTitle: false,
