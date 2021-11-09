@@ -58,6 +58,7 @@ function getOrgCenterRouter(): RouteConfigItem[] {
               getComp: (cb) => cb(import('app/modules/org/pages/projects/create-project')),
             },
             {
+              layout: { noWrapper: true },
               getComp: (cb) => cb(import('app/modules/org/pages/projects/project-list'), 'ProjectList'),
             },
             {

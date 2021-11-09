@@ -13,12 +13,12 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Table, Spin, Button, Tooltip } from 'antd';
-import { ColumnProps } from 'core/common/interface';
+import { Spin, Button, Input } from 'antd';
+import Table, { IColumnProps } from 'common/components/table';
 import { goTo, fromNow } from 'common/utils';
+import { Filter, Icon as CustomIcon, ErdaIcon } from 'common';
 import { useUnmount } from 'react-use';
 import { ChartHistogramTwo as IconChartHistogramTwo } from '@icon-park/react';
-import { SearchTable, Ellipsis, Icon as CustomIcon } from 'common';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
 import { useLoading } from 'core/stores/loading';
@@ -31,6 +31,12 @@ interface IState {
   orderBy?: string;
   asc?: boolean;
 }
+
+const projectTypeMap = {
+  MSP: <ErdaIcon type="MSP" size={30} />,
+  DevOps: <ErdaIcon type="DevOps" size={30} />,
+};
+
 export const ProjectList = () => {
   const [list, paging] = projectStore.useStore((s) => [s.list, s.paging]);
   const { getProjectList } = projectStore.effects;
@@ -57,22 +63,22 @@ export const ProjectList = () => {
   };
 
   const getColumns = () => {
-    const columns: Array<ColumnProps<PROJECT.Detail>> = [
-      {
-        title: i18n.t('dop:project ID'),
-        dataIndex: 'id',
-        key: 'id',
-        width: 80,
-      },
+    const columns: Array<IColumnProps<PROJECT.Detail>> = [
       {
         title: i18n.t('project name'),
         dataIndex: 'displayName',
         key: 'displayName',
         width: 200,
+        icon: (text: string, record: PROJECT.Detail) => projectTypeMap[record.type],
+        subTitle: (text: string, record: PROJECT.Detail) => record.desc,
+        render: (text: string, record: PROJECT.Detail) => (
+          <span>
+            #{record.id} {text}
+          </span>
+        ),
         ellipsis: {
           showTitle: false,
         },
-        render: (text) => <Ellipsis title={text}>{text}</Ellipsis>,
       },
       {
         title: i18n.t('cmp:application/Member Statistics'),
@@ -80,13 +86,6 @@ export const ProjectList = () => {
         key: 'countApplications',
         width: 120,
         render: (stats: PROJECT.ProjectStats) => `${stats.countApplications} / ${stats.countMembers}`,
-      },
-      {
-        title: i18n.t('msp:project type'),
-        dataIndex: 'type',
-        key: 'type',
-        width: 120,
-        render: (text: string) => (text === 'MSP' ? i18n.t('cmp:microservice Observation Project') : 'DevOps'),
       },
       {
         title: i18n.t('CPU limit'),
@@ -172,34 +171,47 @@ export const ProjectList = () => {
   return (
     <div className="org-project-list">
       <Spin spinning={loadingList}>
-        <SearchTable onSearch={onSearch} placeholder={i18n.t('search by project name')} needDebounce>
-          <div className="top-button-group">
-            <Button type="primary" onClick={() => goTo('./createProject')}>
-              {i18n.t('add project')}
-            </Button>
-          </div>
-          <Table
-            rowKey="id"
-            dataSource={list}
-            columns={getColumns()}
-            rowClassName={() => 'cursor-pointer'}
-            onRow={(record: any) => {
-              return {
-                onClick: () => {
-                  goTo(`./${record.id}/setting`);
+        <div className="top-button-group">
+          <Button type="primary" onClick={() => goTo('./createProject')}>
+            {i18n.t('add project')}
+          </Button>
+        </div>
+        <Table
+          rowKey="id"
+          dataSource={list}
+          columns={getColumns()}
+          rowClassName={() => 'cursor-pointer'}
+          filter={
+            <Filter
+              config={[
+                {
+                  type: Input,
+                  name: 'projectName',
+                  customProps: {
+                    placeholder: i18n.t('search by project name'),
+                    style: { width: 200 },
+                  },
                 },
-              };
-            }}
-            pagination={{
-              current: pageNo,
-              pageSize,
-              total,
-              showSizeChanger: true,
-              pageSizeOptions: PAGINATION.pageSizeOptions,
-            }}
-            onChange={handleTableChange}
-          />
-        </SearchTable>
+              ]}
+              onFilter={({ projectName }: { projectName: string }) => onSearch(projectName)}
+            />
+          }
+          onRow={(record: any) => {
+            return {
+              onClick: () => {
+                goTo(`./${record.id}/setting`);
+              },
+            };
+          }}
+          pagination={{
+            current: pageNo,
+            pageSize,
+            total,
+            showSizeChanger: true,
+            pageSizeOptions: PAGINATION.pageSizeOptions,
+          }}
+          onChange={handleTableChange}
+        />
       </Spin>
     </div>
   );

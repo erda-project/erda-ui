@@ -1,0 +1,176 @@
+.erda-table {
+  .ant-table-content {
+    padding: 0 1rem;
+  }
+
+  .table-more-ops {
+    padding: 3px;
+    border-radius: 3px;
+
+    &.ant-dropdown-open {
+      background-color: #e8e8e8;
+    }
+  }
+
+  .erda-table-sorter-overlay {
+    width: 160px;
+
+    .ant-dropdown-menu-title-content > span {
+      color: $color-table-color;
+    }
+  }
+
+  .sorter-icon {
+    position: relative;
+    top: 3px;
+    font-size: 14px;
+    color: $color-dark-4;
+  }
+
+  .ant-pagination-item {
+    min-width: 0 !important;
+    border: none;
+
+    .ant-popover-content {
+      pointer-events: none;
+    }
+
+    .ant-popover-inner-content {
+      pointer-events: auto;
+    }
+  }
+
+  .ant-pagination-jump-next {
+    display: none;
+  }
+
+  .pagination-center {
+    line-height: 24px;
+  }
+
+  .bg-hover:hover {
+    background-color: #efeef0;
+    cursor: pointer;
+  }
+
+  .erda-table-icon-td {
+    .erda-table-td-icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    & > div {
+      max-width: calc(100% - 30px);
+    }
+
+    .erda-table-td-subTitle {
+      margin-top: 5px;
+      line-height: 1;
+      font-size: 12px;
+      color: $color-text-desc;
+    }
+  }
+
+  .erda-pagination {
+    padding: 0 0.5rem;
+    background-color: $color-table-head-bg;
+    color: $color-table-color;
+  }
+
+  .ant-pagination {
+    margin: 0;
+    padding: 10px 0.5rem;
+    color: $color-table-color;
+
+    .ant-pagination-item-active {
+      background-color: $color-table-head-bg;
+    }
+  }
+
+  .ant-table {
+    border-radius: 0 !important;
+  }
+
+  thead.ant-table-thead tr > th {
+    background-color: transparent;
+    color: $color-table-color;
+    font-weight: normal;
+  }
+
+  .ant-table-tbody td {
+    line-height: 41px !important;
+  }
+
+  .ant-table-tbody td,
+  th {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .ant-table-tbody > tr.ant-table-row:hover > td {
+    background-color: $color-table-bg-hover !important;
+
+    .erda-table-td-title {
+      color: $color-table-text-highlight;
+    }
+  }
+
+  .erda-table-filter {
+    .ant-input-affix-wrapper,
+    input {
+      background-color: $color-input-bg;
+      border: none;
+      border-radius: 2px;
+    }
+
+    .icon-search {
+      color: $color-text-icon;
+    }
+
+    .ant-form-item {
+      margin-bottom: 0 !important;
+    }
+
+    .no-label .ant-form-item-label {
+      display: none;
+    }
+  }
+
+  .erda-table-columns-filter {
+    min-width: 200px;
+
+    .ant-popover-content {
+      position: relative;
+      bottom: 10px;
+    }
+
+    .ant-popover-arrow {
+      display: none;
+    }
+  }
+
+  .pagination-jump {
+    .ant-popover-content {
+      position: relative;
+      top: 10px;
+    }
+
+    .ant-popover-arrow {
+      display: none;
+    }
+  }
+}
+
+.erda-table-filter {
+  padding: 0 1rem;
+  line-height: 50px;
+  background-color: $color-table-head-bg;
+
+  .filter-group-bar {
+    margin-bottom: 0;
+  }
+
+  .ant-form {
+    margin: 10px 0 !important;
+  }
+}
