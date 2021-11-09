@@ -122,7 +122,11 @@ const TestPlan = () => {
         const Partners = (
           <>
             {(text || []).map((t, idx) => (
-              <UserInfo id={t} render={(data) => `${data.nick || data.name} ${idx === text.length - 1 ? '' : ', '}`} />
+              <UserInfo
+                key={t}
+                id={t}
+                render={(data) => `${data.nick || data.name} ${idx === text.length - 1 ? '' : ', '}`}
+              />
             ))}
           </>
         );
