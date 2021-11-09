@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, CustomFilter, UserInfo } from 'common';
-import { Button, Progress, Spin, Table, Select, Input } from 'antd';
+import { Icon as CustomIcon, CustomFilter, UserInfo, MemberSelector } from 'common';
+import { Button, Progress, Spin, Tooltip, Table, Select, Input } from 'antd';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo } from 'app/common/utils';
@@ -89,7 +89,7 @@ const TestPlan = () => {
     {
       title: i18n.t('dop:plan ID'),
       dataIndex: 'id',
-      width: 120,
+      width: 80,
     },
     {
       title: i18n.t('dop:plan name'),
@@ -106,7 +106,7 @@ const TestPlan = () => {
     {
       title: i18n.t('dop:owned iteration'),
       dataIndex: 'iterationName',
-      width: 160,
+      width: 100,
     },
     {
       title: i18n.t('dop:principal'),
@@ -115,10 +115,33 @@ const TestPlan = () => {
       render: (text) => <UserInfo id={text} render={(data) => data.nick || data.name} />,
     },
     {
+      title: i18n.t('dop:participant'),
+      dataIndex: 'partnerIDs',
+      width: 180,
+      render: (text) => {
+        const Partners = (
+          <>
+            {(text || []).map((t, idx) => (
+              <UserInfo
+                key={t}
+                id={t}
+                render={(data) => `${data.nick || data.name} ${idx === text.length - 1 ? '' : ', '}`}
+              />
+            ))}
+          </>
+        );
+        return (
+          <Tooltip title={Partners}>
+            <div className="truncate">{Partners}</div>
+          </Tooltip>
+        );
+      },
+    },
+    {
       title: i18n.t('dop:passing rate'),
       dataIndex: 'useCasePassedCount',
       className: 'passing-rate',
-      width: 160,
+      width: 120,
       render: (_text, { relsCount }) => {
         const { total, succ } = relsCount;
         const percent = Math.floor((succ / (total || 1)) * 100 || 0);
@@ -134,7 +157,7 @@ const TestPlan = () => {
       title: i18n.t('dop:executive rate'),
       dataIndex: 'executionRate',
       className: 'passing-rate',
-      width: 160,
+      width: 120,
       render: (_text, { relsCount }) => {
         const { total, succ, fail, block } = relsCount;
         const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);
@@ -228,6 +251,25 @@ const TestPlan = () => {
         customProps: {
           placeholder: i18n.t('default:search by name'),
           autoComplete: 'off',
+          size: 'normal',
+        },
+      },
+      {
+        type: MemberSelector,
+        name: 'ownerID',
+        customProps: {
+          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:principal') }),
+          scopeType: 'project',
+          mode: 'multiple',
+        },
+      },
+      {
+        type: MemberSelector,
+        name: 'partnerID',
+        customProps: {
+          placeholder: i18n.t('please select {name}', { name: i18n.t('dop:participant') }),
+          scopeType: 'project',
+          mode: 'multiple',
         },
       },
     ],
