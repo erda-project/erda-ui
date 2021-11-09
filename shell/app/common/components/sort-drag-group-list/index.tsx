@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon as CustomIcon, ErdaIcon, Ellipsis, Copy } from 'common';
+import { Icon as CustomIcon, ErdaIcon, Ellipsis, Copy, TagsRow } from 'common';
 import { map, groupBy, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
@@ -176,6 +176,7 @@ const SortDragItem = ({
       </div>
       <div className="flex-1 ml-1 nowrap cursor-pointer flex items-center sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
+        {data.tags ? <TagsRow labels={data.tags} /> : null}
       </div>
       <div className="flex items-center">
         {map(data.operations || [], (op: Obj, key) => {
