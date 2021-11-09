@@ -152,7 +152,10 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
           ),
       },
     ]),
-    ...insertWhen(notMSP && ifConfigCluster, useQuotaFields(canEditQuota, showQuotaTip, canGetClusterListAndResources)),
+    ...insertWhen(
+      notMSP && ifConfigCluster,
+      useQuotaFields(canEditQuota, showQuotaTip, canGetClusterListAndResources, info),
+    ),
     // {
     //   label: i18n.t('dop:DingTalk notification address'),
     //   name: 'ddHook',

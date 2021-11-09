@@ -27,7 +27,9 @@ interface IProps {
   showTip?: boolean;
   readOnly?: boolean;
   data?: IData;
+  quota?: IData;
   form?: FormInstance;
+  value?: IData;
 }
 
 export interface IData {
@@ -36,22 +38,30 @@ export interface IData {
   memQuota: string;
 }
 
+const workSpaceMap = {
+  DEV: i18n.t('dev environment'),
+  TEST: i18n.t('test environment'),
+  STAGING: i18n.t('staging environment'),
+  PROD: i18n.t('prod environment'),
+};
+
 const ClusterQuota = ({
   workSpace,
   canEdit = true,
   showTip = true,
   readOnly = false,
   data = {} as IData,
+  quota: currentQuota = {} as IData,
   form,
+  value = {} as IData,
 }: IProps) => {
   const leftResource = projectStore.useStore((s) => s.leftResources) as PROJECT.LeftResources;
 
-  const [{ leftCpu, leftMem, tips }, updater, update] = useUpdate({
+  const [{ leftCpu, leftMem }, updater, update] = useUpdate({
     leftCpu: 0,
     leftMem: 0,
     cpuRate: 100,
     memRate: 100,
-    tips: '',
   });
 
   const clusterList = React.useMemo(() => {
@@ -74,10 +84,26 @@ const ClusterQuota = ({
           leftMem: +quota.memAvailable.toFixed(2),
           cpuRate: +(quota.cpuQuotaRate * 100).toFixed(2),
           memRate: +(quota.memQuotaRate * 100).toFixed(2),
-          tips: quota.tips,
         });
     }
   }, [cluster, clusterList, workSpace, update]);
+
+  const currentCpuQuota = +(currentQuota.cpuQuota || 0);
+  const currentMemQuota = +(currentQuota.memQuota || 0);
+
+  const cpuIsBeyond = +(value.cpuQuota || 0) - currentCpuQuota > leftCpu;
+  const memIsBeyond = +(value.memQuota || 0) - currentMemQuota > leftMem;
+
+  const tips =
+    (cpuIsBeyond || memIsBeyond) &&
+    i18n.t(
+      'Note: The {resource} quota you entered has exceeded the remaining resources of the cluster in {workSpace}. Further allocation will preempt resources on a first-used, first-served basis.',
+      {
+        resource: [...((cpuIsBeyond && ['CPU']) || []), ...((memIsBeyond && ['MEM']) || [])].join(', '),
+        workSpace: workSpaceMap[workSpace],
+        nsSeparator: '|',
+      },
+    );
 
   const tip = (
     <div className="quota-tips">
