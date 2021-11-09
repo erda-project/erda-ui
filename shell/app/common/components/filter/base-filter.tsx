@@ -13,7 +13,8 @@
 
 import React from 'react';
 import { Input } from 'antd';
-import { Icon as CustomIcon } from 'common';
+import { InputProps } from 'antd/es/input';
+import { ErdaIcon } from 'common';
 import FormBuilder from '../form-builder';
 import { FormInstance, IFieldType } from 'core/common/interface';
 import { throttle } from 'lodash';
@@ -35,8 +36,8 @@ export interface FilterItemConfig extends IFieldType {
 
 const { Fields } = FormBuilder;
 
-const searchInput = (props) => {
-  return <Input prefix={<CustomIcon type="search" />} {...props} />;
+const searchInput = (props: InputProps) => {
+  return <Input prefix={<ErdaIcon fill="icon" type="search" />} {...props} />;
 };
 
 const Filter = React.forwardRef(

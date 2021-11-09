@@ -21,7 +21,8 @@ import { useLoading } from 'core/stores/loading';
 import AuthorizeMemberModal from '../authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, message } from 'antd';
+import Table from 'common/components/table';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';
@@ -61,6 +62,8 @@ interface IProps {
   hideBatchOps?: boolean;
   hideRowSelect?: boolean;
   hasConfigAppAuth?: boolean;
+  buttonInCard?: boolean;
+  topContent?: React.ReactNode;
   overwriteAuth?: {
     add?: boolean;
     edit?: boolean;
@@ -78,6 +81,8 @@ const MembersTable = ({
   hideRowSelect = false,
   overwriteAuth = {},
   hasConfigAppAuth = false,
+  buttonInCard = false,
+  topContent = null,
   roleFilter,
 }: IProps) => {
   const memberLabels = memberLabelStore.useStore((s) => s.memberLabels);
@@ -161,14 +166,24 @@ const MembersTable = ({
   const memberAuth = { ...memberAuthMap[scopeKey], ...overwriteAuth };
 
   const batchOptions = [
-    { key: batchOptionType.edit, name: i18n.t('edit'), disabled: !memberAuth.edit },
+    {
+      key: batchOptionType.edit,
+      name: i18n.t('edit'),
+      disabled: !memberAuth.edit,
+      onClick: () => onBatchClick({ key: batchOptionType.edit }),
+    },
     ...insertWhen(showAuthorize && memberAuth.showAuthorize, [
-      { key: batchOptionType.authorize, name: i18n.t('authorize') },
+      {
+        key: batchOptionType.authorize,
+        name: i18n.t('authorize'),
+        onClick: () => onBatchClick({ key: batchOptionType.authorize }),
+      },
     ]),
     {
       key: batchOptionType.remove,
       name: i18n.t('remove'),
       disabled: !memberAuth.delete || isEmpty(filter(state.selectedKeys, (item) => item !== currentUserId)),
+      onClick: () => onBatchClick({ key: batchOptionType.remove }),
     },
   ];
 
@@ -520,15 +535,45 @@ const MembersTable = ({
       showAuthorize,
       updateMembers,
       updater,
+      isAdminManager,
     ],
   );
 
-  const memoTable = React.useMemo(() => {
+  const filterList = React.useMemo(
+    () => [
+      {
+        name: 'query',
+        placeholder: i18n.t('search by nickname, username, email or mobile number'),
+        style: { width: '260px' },
+      },
+      {
+        type: 'select',
+        name: 'queryRole',
+        placeholder: i18n.t('select role'),
+        allowClear: true,
+        options: map(roleMap, (name, value) => ({ name, value })),
+      },
+      ...insertWhen(scope.type === MemberScope.ORG && !isEmpty(memberLabels), [
+        {
+          name: 'label',
+          type: 'select',
+          placeholder: i18n.t('select member label'),
+          allowClear: true,
+          mode: 'multiple',
+          options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
+        },
+      ]),
+    ],
+    [memberLabels, roleMap, scope.type],
+  );
+
+  const memoTable = () => {
     const onChangePage = (no: number) => {
       updater.queryParams({ ...state.queryParams, pageNo: no });
     };
     return (
       <Table
+        filter={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} />}
         rowKey={'userId'}
         rowSelection={
           hideRowSelect
@@ -536,44 +581,35 @@ const MembersTable = ({
             : {
                 selectedRowKeys: state.selectedKeys,
                 onChange: onTableSelectChange,
+                actions: hideBatchOps ? null : batchOptions,
               }
         }
         rowClassName={(record: IMember) => (record.removed ? 'not-allowed' : '')}
-        pagination={{ ...paging, onChange: onChangePage }}
+        pagination={{ ...paging, current: paging.pageNo, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
         scroll={{ x: 1400 }}
       />
     );
-  }, [columns, list, onTableSelectChange, paging, state.queryParams, state.selectedKeys, updater, hideRowSelect]);
-
-  const filterList = [
-    {
-      name: 'query',
-      placeholder: i18n.t('search by nickname, username, email or mobile number'),
-      style: { width: '260px' },
-    },
-    {
-      type: 'select',
-      name: 'queryRole',
-      placeholder: i18n.t('select role'),
-      allowClear: true,
-      options: map(roleMap, (name, value) => ({ name, value })),
-    },
-    ...insertWhen(scope.type === MemberScope.ORG && !isEmpty(memberLabels), [
-      {
-        name: 'label',
-        type: 'select',
-        placeholder: i18n.t('select member label'),
-        allowClear: true,
-        mode: 'multiple',
-        options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
-      },
-    ]),
-  ];
+  };
 
   return (
     <div className="member-table-manage">
+      <div className={buttonInCard ? 'flex justify-between mb-2 mr-2' : 'top-button-group'}>
+        {topContent}
+        <div>
+          {(memberAuth.add || isAdminManager) && !readOnly ? (
+            <Button type="primary" onClick={() => updater.addModalVisible(true)}>
+              {i18n.t('add member')}
+            </Button>
+          ) : null}
+          {memberAuth.invite && !readOnly ? (
+            <Button loading={getInviteLoading} onClick={handleGenOrgInviteCode}>
+              {i18n.t('invite')}
+            </Button>
+          ) : null}
+        </div>
+      </div>
       <Spin spinning={getLoading || removeLoading || addLoading || updateLoading}>
         <div className="member-table-manage-list">
           <AddMemberModal
@@ -645,29 +681,7 @@ const MembersTable = ({
             />
           </IF>
           <div className="members-list">
-            <FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} reversePosition>
-              <>
-                {(memberAuth.add || isAdminManager) && !readOnly ? (
-                  <Button type="primary" ghost onClick={() => updater.addModalVisible(true)}>
-                    {i18n.t('add member')}
-                  </Button>
-                ) : null}
-                {memberAuth.invite && !readOnly ? (
-                  <Button loading={getInviteLoading} onClick={handleGenOrgInviteCode}>
-                    {i18n.t('invite')}
-                  </Button>
-                ) : null}
-                {hideBatchOps ? null : (
-                  <DropdownSelect
-                    menuList={batchOptions}
-                    onClickMenu={onBatchClick}
-                    disabled={isEmpty(state.selectedKeys)}
-                    buttonText={i18n.t('dop:batch processing')}
-                  />
-                )}
-              </>
-            </FilterGroup>
-            {memoTable}
+            {memoTable()}
             <Copy selector=".cursor-copy" />
           </div>
         </div>

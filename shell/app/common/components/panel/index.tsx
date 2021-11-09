@@ -17,6 +17,8 @@ import { Row, Col, Tooltip } from 'antd';
 import { ErdaIcon } from 'common';
 import ResizeObserver from 'rc-resize-observer';
 
+import './index.scss';
+
 export interface PanelField {
   label?: React.ReactNode;
   value?: any;
@@ -110,7 +112,7 @@ const Panel = (props: PanelProps) => {
           return (
             <Row gutter={12} key={item.label as React.Key}>
               <Col span={24} className="pb-2">
-                <div className="text-black-400" title={`${getInnerText(item.label)}`}>
+                <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                   {item.label}
                   {item.tips && (
                     <span className={`erda-label-tips align-middle`}>
@@ -132,7 +134,7 @@ const Panel = (props: PanelProps) => {
   }
   return (
     <ResizeObserver onResize={handleResize}>
-      <div ref={parentRef} className="mb-2">
+      <div ref={parentRef} className="erda-panel">
         <Row gutter={12}>
           {parentWidth
             ? map(fields, (item) => {
@@ -141,9 +143,9 @@ const Panel = (props: PanelProps) => {
                   <Col
                     span={item.spaceNum ? colSpan * item.spaceNum : colSpan}
                     key={item.label as React.Key}
-                    className="mb-3"
+                    className="erda-panel-item"
                   >
-                    <div className="text-black-400" title={`${getInnerText(item.label)}`}>
+                    <div className="erda-panel-label" title={`${getInnerText(item.label)}`}>
                       {item.label}
                       {item.tips && (
                         <span className={`erda-label-tips align-middle`}>
@@ -153,7 +155,10 @@ const Panel = (props: PanelProps) => {
                         </span>
                       )}
                     </div>
-                    <div title={item.value || getInnerText(getRealValue(item))} className="break-words mb-1">
+                    <div
+                      title={item.value || getInnerText(getRealValue(item))}
+                      className="break-words erda-panel-value"
+                    >
                       {item.value || getRealValue(item)}
                     </div>
                   </Col>

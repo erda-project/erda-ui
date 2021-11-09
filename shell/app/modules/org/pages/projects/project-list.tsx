@@ -16,9 +16,9 @@ import i18n from 'i18n';
 import { Spin, Button, Input, Tooltip } from 'antd';
 import Table, { IColumnProps } from 'common/components/table';
 import { goTo, fromNow } from 'common/utils';
-import { Filter, Icon as CustomIcon, ErdaIcon } from 'common';
+import { Filter, ErdaIcon, BootPrompt } from 'common';
 import { useUnmount } from 'react-use';
-import { ChartHistogramTwo as IconChartHistogramTwo, Attention as IconAttention } from '@icon-park/react';
+import { Attention as IconAttention } from '@icon-park/react';
 import { PAGINATION } from 'app/constants';
 import projectStore from 'project/stores/project';
 import { useLoading } from 'core/stores/loading';
@@ -33,8 +33,8 @@ interface IState {
 }
 
 const projectTypeMap = {
-  MSP: <ErdaIcon type="MSP" size={30} />,
-  DevOps: <ErdaIcon type="DevOps" size={30} />,
+  MSP: <ErdaIcon type="MSP" size={28} />,
+  DevOps: <ErdaIcon type="DevOps" size={28} />,
 };
 
 export const ProjectList = () => {
@@ -65,17 +65,12 @@ export const ProjectList = () => {
   const getColumns = () => {
     const columns: Array<IColumnProps<PROJECT.Detail>> = [
       {
-        title: i18n.t('project name'),
+        title: i18n.t('project'),
         dataIndex: 'displayName',
         key: 'displayName',
         width: 200,
         icon: (text: string, record: PROJECT.Detail) => projectTypeMap[record.type],
         subTitle: (text: string, record: PROJECT.Detail) => record.desc,
-        render: (text: string, record: PROJECT.Detail) => (
-          <span>
-            #{record.id} {text}
-          </span>
-        ),
         ellipsis: {
           showTitle: false,
         },
@@ -99,6 +94,7 @@ export const ProjectList = () => {
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
         width: 200,
+        icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('cpuQuota'),
         render: (text: string) => `${text} Core`,
@@ -108,6 +104,7 @@ export const ProjectList = () => {
         dataIndex: 'memQuota',
         key: 'memQuota',
         width: 200,
+        icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('memQuota'),
         render: (text: string) => `${text} GiB`,
@@ -140,7 +137,7 @@ export const ProjectList = () => {
                   goTo(`./${id}/dashboard`);
                 }}
               >
-                <IconChartHistogramTwo />
+                <ErdaIcon type="jiankong" />
               </span>
             </div>
           );
@@ -183,6 +180,11 @@ export const ProjectList = () => {
             {i18n.t('add project')}
           </Button>
         </div>
+        <BootPrompt name="project-list" className="mb-4">
+          {i18n.t(
+            'Project management provides a securely isolated work platform with access control. Here you can see an overview of the resources running in the current enterprise space.',
+          )}
+        </BootPrompt>
         <Table
           rowKey="id"
           dataSource={list}
@@ -206,7 +208,7 @@ export const ProjectList = () => {
           onRow={(record: any) => {
             return {
               onClick: () => {
-                goTo(`./${record.id}/setting`);
+                goTo(`./${record.id}/info`);
               },
             };
           }}
