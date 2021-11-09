@@ -24,7 +24,7 @@ const orgCenterStore = createStore({
       if (isEntering('orgCenter')) {
         const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
         const orgMenus = subSiderInfoMap.orgCenter.menu;
-        const hasAuth = some(orgMenus, (menu) => isMatch(menu.href));
+        const hasAuth = some(orgMenus, (menu) => location.pathname.includes(menu.href));
         if (!hasAuth && orgMenus.length) {
           goTo(orgMenus[0].href);
         }
