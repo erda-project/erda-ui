@@ -26,6 +26,7 @@ import clusterStore from 'cmp/stores/cluster';
 import { statusColorMap } from 'app/config-page/utils';
 import i18n, { isZh } from 'i18n';
 import { ColumnsType } from 'antd/es/table';
+import './resources-summary.scss';
 
 const defaultGaugeData = {
   cpu: {
@@ -424,10 +425,10 @@ export const ResourceTable = React.memo(() => {
               }}
             />
             <ErdaIcon
-              className="cursor-pointer px-3"
+              className="ml-3 resource-summary-op-icon p-2"
               onClick={() => updater.showCalculate(true)}
               type="calculator-one"
-              color="sub"
+              color="currentColor"
             />
           </div>
         }
