@@ -26,16 +26,18 @@
 import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, Switch, Input } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, Switch, Input, message, Badge } from 'antd';
+import Table, { IColumnProps } from 'common/components/table';
 import { FormModal, Copy } from 'common';
 import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps, FormInstance } from 'app/interface/common';
+import { FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
 import {
   getNotifyChannelTypes,
   getNotifyChannels,
   setNotifyChannelEnable,
+  getNotifyChannel,
   addNotifyChannel,
   editNotifyChannel,
   deleteNotifyChannel,
@@ -70,17 +72,20 @@ const NotifyChannel = () => {
     getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize });
   }, [paging]);
 
-  const handleEdit = ({ channelProviderType, config, name, type, id }: NOTIFY_CHANNEL.NotifyChannel) => {
-    update({
-      activeData: {
-        id,
-        channelProviderType: channelProviderType.name,
-        config,
-        type: type.name,
-        name,
-      },
-      visible: true,
-      templateCode: config.templateCode,
+  const handleEdit = (id: string) => {
+    getNotifyChannel.fetch({ id }).then((res) => {
+      const { channelProviderType, config, type, name } = res?.data || {};
+      update({
+        activeData: {
+          id,
+          channelProviderType: channelProviderType?.name,
+          config,
+          type: type?.name,
+          name,
+        },
+        visible: true,
+        templateCode: config?.templateCode,
+      });
     });
   };
 
@@ -90,16 +95,20 @@ const NotifyChannel = () => {
     updater.visible(true);
   };
 
-  const handleDelete = (id: number) => {
-    confirm({
-      title: i18n.t('are you sure you want to delete this item?'),
-      content: i18n.t('the notification channel will be permanently deleted'),
-      onOk() {
-        deleteNotifyChannel.fetch({ id }).then(() => {
-          updater.paging({ ...paging, current: 1 });
-        });
-      },
-    });
+  const handleDelete = (id: number, enable: boolean) => {
+    if (enable) {
+      message.warning('请停用后再删除！');
+    } else {
+      confirm({
+        title: i18n.t('are you sure you want to delete this item?'),
+        content: i18n.t('the notification channel will be permanently deleted'),
+        onOk() {
+          deleteNotifyChannel.fetch({ id }).then(() => {
+            updater.paging({ ...paging, current: 1 });
+          });
+        },
+      });
+    }
   };
 
   const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: number) => {
@@ -286,11 +295,22 @@ const NotifyChannel = () => {
     },
   ];
 
-  const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
+  const columns: Array<IColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
       title: i18n.t('channel name'),
       dataIndex: 'name',
       width: 200,
+    },
+    {
+      title: i18n.d('状态'),
+      dataIndex: 'enable',
+      width: 80,
+      render: (enable) => (
+        <span>
+          <Badge status={enable ? 'success' : 'default'} />
+          <span>{enable ? '启用' : '停用'}</span>
+        </span>
+      ),
     },
     {
       title: i18n.t('channel type'),
@@ -314,46 +334,44 @@ const NotifyChannel = () => {
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createAt',
-      width: 176,
-    },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 160,
-      fixed: 'right',
-      render: (id: number, record) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleDelete(id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-            <Switch
-              size="small"
-              checked={record.enable}
-              onChange={() => {
-                setNotifyChannelEnable
-                  .fetch({
-                    id: record.id,
-                    enable: !record.enable,
-                  })
-                  .finally(() => {
-                    updater.paging({ ...paging });
-                  });
-              }}
-            />
-          </div>
-        );
-      },
+      width: 200,
     },
   ];
+
+  const actions = {
+    width: 120,
+    render: (record: NOTIFY_CHANNEL.NotifyChannel) => renderMenu(record),
+  };
+
+  const renderMenu = (record: NOTIFY_CHANNEL.NotifyChannel) => {
+    const { editChannel, deleteChannel, enableChannel } = {
+      editChannel: {
+        title: i18n.t('edit'),
+        onClick: () => handleEdit(record.id),
+      },
+      deleteChannel: {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleDelete(record.id, record.enable);
+        },
+      },
+      enableChannel: {
+        title: record?.enable ? '停用' : '启用',
+        onClick: () => {
+          setNotifyChannelEnable
+            .fetch({
+              id: record.id,
+              enable: !record.enable,
+            })
+            .finally(() => {
+              updater.paging({ ...paging });
+            });
+        },
+      },
+    };
+
+    return [editChannel, deleteChannel, enableChannel];
+  };
 
   return (
     <div className="notify-group-manage">
@@ -384,6 +402,7 @@ const NotifyChannel = () => {
           rowKey="id"
           dataSource={data?.data || []}
           columns={columns}
+          actions={actions}
           pagination={{ ...paging, total: data?.total ?? 0, showSizeChanger: true }}
           scroll={{ x: 800 }}
           onChange={handleTableChange}

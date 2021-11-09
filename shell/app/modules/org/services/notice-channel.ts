@@ -23,6 +23,9 @@ const apis = {
   setNotifyChannelEnable: {
     api: 'put@/api/notify-channel/enabled',
   },
+  getNotifyChannel: {
+    api: '/api/notify-channel',
+  },
   addNotifyChannel: {
     api: 'post@/api/notify-channel',
   },
@@ -41,6 +44,10 @@ export const getNotifyChannels = apiCreator<
 >(apis.getNotifyChannels);
 export const setNotifyChannelEnable = apiCreator<(payload: { id: string; enable: boolean }) => void>(
   apis.setNotifyChannelEnable,
+);
+
+export const getNotifyChannel = apiCreator<(payload: { id: string }) => NOTIFY_CHANNEL.NotifyChannel>(
+  apis.getNotifyChannel,
 );
 
 export const addNotifyChannel = apiCreator<(payload: NOTIFY_CHANNEL.IChannelBody) => void>(apis.addNotifyChannel);
