@@ -664,6 +664,7 @@ const AddModal = (props: IProps) => {
       },
     },
   ];
+  const data = formData && { ...formData, url: formData?.config?.url || '' };
   return (
     <FormModal
       ref={formRef}
@@ -672,7 +673,7 @@ const AddModal = (props: IProps) => {
       title={formData ? i18n.t('msp:edit monitoring') : i18n.t('msp:add monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
-      formData={formData}
+      formData={data}
       onOk={handleSubmit}
       onCancel={toggleModal}
       modalProps={{
