@@ -15,17 +15,32 @@ import React from 'react';
 import { Intro } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
+import mspStore from 'msp/stores/micro-service';
+
+const holderMap: {
+  [key in MS_INDEX.IMspProject['type']]: {
+    content: string;
+    onAction?: () => void;
+    action?: string;
+  };
+} = {
+  DOP: {
+    content: i18n.t(
+      'msp:no service is connected currently, if you deploy an application on the DevOps platform, the service will be displayed automatically',
+    ),
+  },
+  MSP: {
+    content: i18n.t('msp:no service is connected currently, click the button below to access the service'),
+    action: i18n.t('msp:quick access service'),
+    onAction: () => {
+      goTo(goTo.pages.mspConfigurationPage);
+    },
+  },
+};
 
 const NoServicesHolder = () => {
-  return (
-    <Intro
-      content={i18n.t('msp:no service is connected currently, click the button below to access the service')}
-      action={i18n.t('msp:quick access service')}
-      onAction={() => {
-        goTo(goTo.pages.mspConfigurationPage);
-      }}
-    />
-  );
+  const type = mspStore.useStore((s) => s.currentProject.type);
+  return <Intro {...holderMap[type]} />;
 };
 
 export default NoServicesHolder;
