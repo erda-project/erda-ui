@@ -203,7 +203,6 @@ export default () => {
         actions={
           <span className="hover-active" onClick={() => setProjectInfoEditVisible(true)}>
             <ErdaIcon type="edit" size={16} className="mr-2 align-middle " />
-            {i18n.t('edit')}
           </span>
         }
       >
@@ -240,7 +239,6 @@ export default () => {
             actions={
               <span className="hover-active" onClick={() => setProjectQuotaEditVisible(true)}>
                 <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
-                {i18n.t('edit')}
               </span>
             }
           >
@@ -331,7 +329,6 @@ export default () => {
         actions={
           <span className="hover-active" onClick={() => setProjectRollbackEditVisible(true)}>
             <ErdaIcon type="edit" size={16} className="mr-2 align-middle" />
-            {i18n.t('edit')}
           </span>
         }
       >
