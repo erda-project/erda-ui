@@ -100,5 +100,12 @@ module.exports = {
       'antd',
     ],
     '@babel/transform-runtime', // inject runtime helpers on demand
+    [
+      'babel-plugin-tsconfig-paths',
+      {
+        rootDir: __dirname,
+        tsconfig: './tsconfig-webpack.json',
+      },
+    ],
   ],
 };
