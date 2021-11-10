@@ -21,7 +21,7 @@ import routeInfoStore from 'core/stores/route';
 import { formatTime } from 'common/utils';
 import { useUnmount } from 'react-use';
 
-export default () => {
+const ErrorReportDetail = () => {
   const [publisherItemId, query] = routeInfoStore.useStore((s) => [s.params.publisherItemId, s.query]);
   const detail = errorReportStore.useStore((s) => s.errorDetail);
   let tags: Obj = {};
@@ -105,3 +105,5 @@ export default () => {
     </>
   );
 };
+
+export default ErrorReportDetail;

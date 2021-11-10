@@ -62,7 +62,7 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
 };
 
-export default () => {
+const ComputingEcs = () => {
   const { getCloudRegion } = cloudCommonStore;
   const { stopCloudECS, startCloudECS, restartCloudECS, renewalCloudECS } = cloudECSStore.effects;
   const regions = cloudCommonStore.useStore((s) => s.regions);
@@ -483,3 +483,5 @@ export default () => {
     </>
   );
 };
+
+export default ComputingEcs;

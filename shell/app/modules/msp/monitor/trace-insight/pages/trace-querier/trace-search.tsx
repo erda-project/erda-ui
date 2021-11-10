@@ -112,7 +112,7 @@ type IQuery = {
   [k: string]: string;
 };
 
-export default () => {
+const TraceSearch = () => {
   const range = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const [traceSummary] = traceStore.useStore((s) => [s.traceSummary]);
   const { getTraceSummary } = traceStore;
@@ -285,3 +285,5 @@ export default () => {
     </>
   );
 };
+
+export default TraceSearch;

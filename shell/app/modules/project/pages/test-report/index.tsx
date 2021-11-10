@@ -23,7 +23,7 @@ import i18n from 'i18n';
 interface IMeta {
   meta: { reportId: string };
 }
-export default () => {
+const TestReport = () => {
   const [{ projectId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
   const [downloadId, setDownloadId] = React.useState('');
@@ -77,3 +77,5 @@ export default () => {
     </Spin>
   );
 };
+
+export default TestReport;

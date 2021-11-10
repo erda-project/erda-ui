@@ -21,7 +21,7 @@ import { MemberScope } from 'app/common/stores/member-scope';
 import projectStore from 'project/stores/project';
 import { mspRoleMap } from 'user/stores/_perm-msp';
 
-export default () => {
+const SettingsMember = () => {
   const info = projectStore.useStore((s) => s.info);
 
   const roleFilter = React.useCallback(
@@ -54,3 +54,5 @@ export default () => {
     </div>
   );
 };
+
+export default SettingsMember;

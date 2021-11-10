@@ -20,7 +20,7 @@ import fs from 'fs';
 import { getPublicDir } from './env';
 import { logSuccess, logError } from './log';
 
-export default () => {
+const GenVersion = () => {
   const data = { version: Date.parse(new Date().toString()) };
 
   fs.mkdir(`${getPublicDir()}`, '0777', () => {
@@ -33,3 +33,5 @@ export default () => {
     });
   });
 };
+
+export default GenVersion;

@@ -13,10 +13,12 @@
 
 import React from 'react';
 import { CustomDashboardScope } from 'app/modules/cmp/stores/_common-custom-dashboard';
-import CustomDashboard from 'app/modules/cmp/common/custom-dashboard/custom-dashboard';
+import CmpCustomDashboard from 'app/modules/cmp/common/custom-dashboard/custom-dashboard';
 import orgStore from 'app/org-home/stores/org';
 
-export default () => {
+const CustomDashboard = () => {
   const currentOrg = orgStore.getState((s) => s.currentOrg);
-  return <CustomDashboard scope={CustomDashboardScope.ORG} scopeId={currentOrg.name} />;
+  return <CmpCustomDashboard scope={CustomDashboardScope.ORG} scopeId={currentOrg.name} />;
 };
+
+export default CustomDashboard;

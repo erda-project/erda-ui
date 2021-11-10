@@ -12,10 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import StrategyForm from 'app/modules/cmp/common/alarm-strategy/strategy-form';
+import CmpStrategyForm from 'app/modules/cmp/common/alarm-strategy/strategy-form';
 import orgStore from 'app/org-home/stores/org';
 
-export default () => {
+const StrategyForm = () => {
   const currentOrg = orgStore.getState((s) => s.currentOrg);
-  return <StrategyForm scopeType="org" scopeId={String(currentOrg.id)} />;
+  return <CmpStrategyForm scopeType="org" scopeId={String(currentOrg.id)} />;
 };
+
+export default StrategyForm;

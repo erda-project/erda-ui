@@ -26,7 +26,7 @@ import alarmReportStore from '../../../stores/alarm-report';
 
 import './index.scss';
 
-export default () => {
+const ReportRecords = () => {
   const [reportTaskRecords, reportTaskRecord, reportTaskRecordPaging] = alarmReportStore.useStore((s) => [
     s.reportTaskRecords,
     s.reportTaskRecord,
@@ -191,3 +191,5 @@ export default () => {
     </div>
   );
 };
+
+export default ReportRecords;

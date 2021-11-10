@@ -14,17 +14,19 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import mspStore from 'msp/stores/micro-service';
-import StrategyForm from 'cmp/common/alarm-strategy/strategy-form';
+import CmpStrategyForm from 'cmp/common/alarm-strategy/strategy-form';
 
-export default () => {
+const StrategyForm = () => {
   const { projectId, terminusKey } = routeInfoStore.useStore((s) => s.params);
   const { type } = mspStore.useStore((s) => s.currentProject);
 
   return (
-    <StrategyForm
+    <CmpStrategyForm
       scopeType="msp"
       scopeId={projectId}
       commonPayload={{ scopeType: `msp_env`, scopeId: terminusKey, projectType: type }}
     />
   );
 };
+
+export default StrategyForm;

@@ -165,8 +165,10 @@ export const PureClusterPodDetail = (props: IProps) => {
   );
 };
 
-export default () => {
+const ClusterPodDetail = () => {
   const [{ clusterName, podId }, { podName, namespace }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const props = { clusterName, podId, podName, namespace };
   return <PureClusterPodDetail {...props} />;
 };
+
+export default ClusterPodDetail;

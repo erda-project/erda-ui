@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import CustomAlarm from 'app/modules/cmp/common/custom-alarm';
+import CmpCustomAlarm from 'app/modules/cmp/common/custom-alarm';
 
-export default () => <CustomAlarm scopeType="org" />;
+const CustomAlarm = () => <CmpCustomAlarm scopeType="org" />;
+export default CustomAlarm;

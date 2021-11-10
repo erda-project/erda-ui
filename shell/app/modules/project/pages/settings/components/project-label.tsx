@@ -24,7 +24,7 @@ import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
 
 const colors = ['red', 'orange', 'blue', 'green', 'purple', 'gray'];
 
-export default () => {
+const ProjectLabel = () => {
   const list = projectLabel.useStore((s) => s.list);
   const { getLabels, createLabel, updateLabel, deleteLabel } = projectLabel.effects;
   const { clearList } = projectLabel.reducers;
@@ -164,3 +164,5 @@ export default () => {
     </div>
   );
 };
+
+export default ProjectLabel;

@@ -28,7 +28,7 @@ import { goTo } from 'common/utils';
 import 'dcos/pages/machine-manager/machine-table.scss';
 import { Right as IconRight } from '@icon-park/react';
 
-export default () => {
+const MachineManage = () => {
   const [{ drawerVisible, activeMachine }, updater, update] = useUpdate({
     drawerVisible: false,
     activeMachine: {} as ORG_MACHINE.IMachine,
@@ -209,3 +209,5 @@ export default () => {
     </div>
   );
 };
+
+export default MachineManage;

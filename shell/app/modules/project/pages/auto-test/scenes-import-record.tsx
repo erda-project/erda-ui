@@ -15,7 +15,7 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 
-export default () => {
+const ScenesImportRecord = () => {
   const [{ projectId, spaceId }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
     projectId: +projectId,
@@ -31,3 +31,5 @@ export default () => {
     />
   );
 };
+
+export default ScenesImportRecord;

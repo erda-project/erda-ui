@@ -61,4 +61,4 @@ const SwitchEnv = () => {
   );
 };
 
-export default () => <SwitchEnv />;
+export default SwitchEnv;

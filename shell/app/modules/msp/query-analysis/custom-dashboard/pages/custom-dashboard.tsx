@@ -14,9 +14,11 @@
 import React from 'react';
 import routeInfoStore from 'core/stores/route';
 import { CustomDashboardScope } from 'cmp/stores/_common-custom-dashboard';
-import CustomDashboard from 'cmp/common/custom-dashboard/custom-dashboard';
+import CmpCustomDashboard from 'cmp/common/custom-dashboard/custom-dashboard';
 
-export default () => {
+const CustomDashboard = () => {
   const { terminusKey } = routeInfoStore.useStore((s) => s.params);
-  return <CustomDashboard scope={CustomDashboardScope.MICRO_SERVICE} scopeId={terminusKey} />;
+  return <CmpCustomDashboard scope={CustomDashboardScope.MICRO_SERVICE} scopeId={terminusKey} />;
 };
+
+export default CustomDashboard;

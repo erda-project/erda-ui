@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AlarmRecord, { AlarmRecordScope } from 'cmp/common/alarm-record';
+import CmpAlarmRecord, { AlarmRecordScope } from 'cmp/common/alarm-record';
 
-export default () => <AlarmRecord scope={AlarmRecordScope.MICRO_SERVICE} />;
+const AlarmRecord = () => <CmpAlarmRecord scope={AlarmRecordScope.MICRO_SERVICE} />;
+export default AlarmRecord;

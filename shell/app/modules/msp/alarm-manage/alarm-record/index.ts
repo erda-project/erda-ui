@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-export default () => ({
+const AlarmRecord = () => ({
   path: 'alarm-record',
   breadcrumbName: i18n.t('msp:alarm history'),
   routes: [
@@ -27,3 +27,5 @@ export default () => ({
     },
   ],
 });
+
+export default AlarmRecord;

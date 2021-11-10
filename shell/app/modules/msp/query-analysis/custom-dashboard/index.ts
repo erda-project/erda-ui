@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-export default () => ({
+const CustomDashBoard = () => ({
   path: 'custom-dashboard',
   breadcrumbName: i18n.t('dop:dashboard'),
   routes: [
@@ -34,3 +34,5 @@ export default () => ({
     },
   ],
 });
+
+export default CustomDashBoard;

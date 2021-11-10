@@ -15,4 +15,5 @@ import React from 'react';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import IssueProtocol from './issue-protocol';
 
-export default () => <IssueProtocol issueType={ISSUE_TYPE.BUG} />;
+const Bug = () => <IssueProtocol issueType={ISSUE_TYPE.BUG} />;
+export default Bug;

@@ -46,8 +46,10 @@ export const PureClusterWorkloadDetail = (props: IProps) => {
   );
 };
 
-export default () => {
+const ClusterWorkloadDetail = () => {
   const [{ clusterName, workloadId }, { podId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const props = { clusterName, workloadId, podId };
   return <PureClusterWorkloadDetail {...props} />;
 };
+
+export default ClusterWorkloadDetail;

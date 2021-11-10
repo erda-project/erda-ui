@@ -14,4 +14,5 @@
 import React from 'react';
 import TaskList from './task-list';
 
-export default () => <TaskList taskType="job" />;
+const Job = () => <TaskList taskType="job" />;
+export default Job;

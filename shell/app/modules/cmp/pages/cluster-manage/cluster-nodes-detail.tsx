@@ -84,8 +84,10 @@ export const PureClusterNodeDetail = (props: IProps) => {
   );
 };
 
-export default () => {
+const ClusterNodesDetail = () => {
   const [{ clusterName, nodeId }, { nodeIP }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const props = { clusterName, nodeId, nodeIP };
   return <PureClusterNodeDetail {...props} />;
 };
+
+export default ClusterNodesDetail;
