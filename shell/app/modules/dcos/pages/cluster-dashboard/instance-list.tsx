@@ -203,7 +203,7 @@ IProps) => {
       },
     },
     {
-      title: i18n.t('cmp:MEM usage'),
+      title: i18n.t('cmp:Memory usage'),
       sorter: (a: any, b: any) => a.memUsage - b.memUsage,
       dataIndex: 'memRequest',
       render(_: any, { memRequest, memUsage }: any) {
