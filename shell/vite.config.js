@@ -103,7 +103,7 @@ export default ({ command, mode }) => {
       'process.env.VITE': '"true"',
     },
     server: {
-      host: 'local.dice.dev.terminus.io',
+      host: envConfig.SCHEDULER_URL.replace('https://', ''),
       proxy: {
         // string shorthand
         // '/foo': 'http://localhost:4567',
