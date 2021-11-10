@@ -168,9 +168,10 @@ const arrSortMinToMax = (_a: string, _b: string) => {
     return a.localeCompare(b, 'zh');
   }
 };
-export const ResourceTable = React.memo(() => {
+
+const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
   const { getClusterList } = clusterStore.effects;
-  const rankType = routeInfoStore.useStore((s) => s.params.rankType);
+
   const [{ ownerIds, projectIds, clusterName, clusters, showCalculate }, updater, update] = useUpdate({
     ownerIds: [],
     projectIds: [],
@@ -252,16 +253,14 @@ export const ResourceTable = React.memo(() => {
     ...columnsMap[rankType],
     {
       title: () => (
-        <span className="inline-flex align-center">
-          <span>{i18n.t('cmp:Number of used nodes')}</span>
-          <Tooltip
-            title={`${i18n.t('cmp:Node conversion formula')}: ${cpuAndMem.current.cpuPerNode} ${i18n.t('cmp:Core')} ${
+        <div className="inline-flex flex-col justify-center align-center">
+          <div className="text-sm">{i18n.t('cmp:Number of used nodes')}</div>
+          <div className="text-xs">
+            {`(${i18n.t('cmp:one node')}: ${cpuAndMem.current.cpuPerNode} ${i18n.t('cmp:Core')} ${
               cpuAndMem.current.memPerNode
-            } G = ${i18n.t('cmp:one node')}`}
-          >
-            <ErdaIcon type={'tishi'} />
-          </Tooltip>
-        </span>
+            } G)`}
+          </div>
+        </div>
       ),
       dataIndex: 'nodes',
       key: 'nodes',
@@ -272,14 +271,14 @@ export const ResourceTable = React.memo(() => {
       render: (text: string) => text,
     },
     {
-      title: `${i18n.t('cmp:CPU quota')} (${i18n.t('cmp:Core')})`,
+      title: `${i18n.t('cmp:CPU quota')}`,
       dataIndex: 'cpuQuota',
       key: 'cpuQuota',
       align: 'right',
       sorter: {
         compare: (a, b) => a.cpuQuota - b.cpuQuota,
       },
-      render: (text: string, c) => text,
+      render: (text: string) => `${text} core`,
     },
     {
       title: i18n.t('cmp:CPU usage'),
@@ -310,17 +309,17 @@ export const ResourceTable = React.memo(() => {
       },
     },
     {
-      title: `${i18n.t('cmp:MEM quota')} (G)`,
+      title: `${i18n.t('cmp:Memory quota')}`,
       dataIndex: 'memQuota',
       key: 'memQuota',
       align: 'right',
       sorter: {
         compare: (a, b) => a.memQuota - b.memQuota,
       },
-      render: (text: string) => text,
+      render: (text: string) => `${text} GiB`,
     },
     {
-      title: i18n.t('cmp:MEM usage'),
+      title: i18n.t('cmp:Memory usage'),
       dataIndex: 'memWaterLevel',
       key: 'memWaterLevel',
       align: 'right',
@@ -349,19 +348,22 @@ export const ResourceTable = React.memo(() => {
     },
   ];
 
-  const list = data?.list || [];
-  const membersList = list
-    .filter((item) => list.find((prj) => prj.ownerUserID === item.ownerUserID) === item)
-    .map((prj) => ({
-      label: prj.ownerUserNickname || prj.ownerUserName,
-      value: prj.ownerUserID,
-    }));
-
-  const projectsList = list.map((prj) => ({
-    label: prj.projectDisplayName || prj.projectName,
-    value: prj.projectID,
-  }));
-
+  const ownerList: Array<{ label: string; value: number }> = [];
+  const projectList: Array<{ label: string; value: number }> = [];
+  data?.list?.forEach((item) => {
+    if (!ownerList.find((o) => o.value === item.ownerUserID)) {
+      ownerList.push({
+        label: item.ownerUserNickname || item.ownerUserName,
+        value: item.ownerUserID,
+      });
+    }
+    if (!projectList.find((p) => p.value === item.projectID)) {
+      projectList.push({
+        label: item.projectDisplayName || item.projectName,
+        value: item.projectID,
+      });
+    }
+  });
   const conditionMap = {
     project: [
       {
@@ -371,7 +373,7 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: projectsList,
+        options: projectList,
       },
       {
         type: 'select',
@@ -380,7 +382,7 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: membersList,
+        options: ownerList,
       },
     ],
     owner: [
@@ -391,7 +393,7 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: membersList,
+        options: ownerList,
       },
     ],
   };
@@ -509,3 +511,8 @@ export const ResourceTable = React.memo(() => {
     </>
   );
 });
+
+export const ResourceTable = () => {
+  const rankType = routeInfoStore.useStore((s) => s.params.rankType);
+  return <PureResourceTable rankType={rankType} key={rankType} />;
+};

@@ -28,7 +28,7 @@ const RESOURCE_TYPE_MAP = {
     url: '/api/cluster/resources/containers/group/allocation/cpu',
   },
   mem: {
-    title: i18n.t('cmp:MEM allocation'),
+    title: i18n.t('cmp:Memory allocation'),
     url: '/api/cluster/resources/containers/group/allocation/mem',
   },
   count: {
