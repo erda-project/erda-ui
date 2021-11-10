@@ -88,7 +88,7 @@ export const ProjectList = () => {
         render: (stats: PROJECT.ProjectStats) => `${stats.countApplications} / ${stats.countMembers}`,
       },
       {
-        title: i18n.t('CPU limit'),
+        title: i18n.t('CPU quota'),
         dataIndex: 'cpuQuota',
         key: 'cpuQuota',
         icon: <ErdaIcon type="CPU" />,
@@ -97,7 +97,7 @@ export const ProjectList = () => {
         render: (text: string) => `${text} Core`,
       },
       {
-        title: i18n.t('Memory limit'),
+        title: i18n.t('Memory quota'),
         dataIndex: 'memQuota',
         key: 'memQuota',
         icon: <ErdaIcon type="CPU" />,
