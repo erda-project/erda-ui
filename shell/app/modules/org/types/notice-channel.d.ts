@@ -58,4 +58,19 @@ declare namespace NOTIFY_CHANNEL {
     enable: boolean;
     id?: number;
   }
+
+  interface ChannelEnableStatus {
+    hasEnable: string;
+    enableChannelName: string;
+  }
+
+  interface ChannelBody {
+    data: NotifyChannel;
+    success: boolean;
+  }
+
+  interface ChannelStatusBody {
+    data: ChannelEnableStatus;
+    success: boolean;
+  }
 }

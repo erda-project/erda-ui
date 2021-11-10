@@ -26,7 +26,7 @@
 import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Tooltip, Switch, Input, message, Badge } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge } from 'antd';
 import Table, { IColumnProps } from 'common/components/table';
 import { FormModal, Copy } from 'common';
 import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
@@ -36,6 +36,7 @@ import { useMount } from 'react-use';
 import {
   getNotifyChannelTypes,
   getNotifyChannels,
+  getNotifyChannelEnableStatus,
   setNotifyChannelEnable,
   getNotifyChannel,
   addNotifyChannel,
@@ -47,7 +48,7 @@ const { confirm } = Modal;
 
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
-  const [data, loading] = getNotifyChannels.useState();
+  const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
     { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible },
     updater,
@@ -95,9 +96,9 @@ const NotifyChannel = () => {
     updater.visible(true);
   };
 
-  const handleDelete = (id: number, enable: boolean) => {
+  const handleDelete = (id: string, enable: boolean) => {
     if (enable) {
-      message.warning('请停用后再删除！');
+      message.warning(i18n.t('please off the channel and then delete!'));
     } else {
       confirm({
         title: i18n.t('are you sure you want to delete this item?'),
@@ -141,13 +142,42 @@ const NotifyChannel = () => {
         config,
         enable,
       })
-      .then(() => {
+      .then((res: any) => {
+        console.log(res, 77);
+        const { data: channel } = res;
         update({
           paging: { ...paging, current: 1 },
           visible: false,
           activeData: {},
         });
+        getNotifyChannelEnableStatus.fetch({ id: channel?.id, type }).then((res) => {
+          const { data: status } = res || {};
+          confirmEnableChannel({ status, channel });
+        });
       });
+  };
+
+  const confirmEnableChannel = ({ status, channel }: { status: NOTIFY_CHANNEL.ChannelEnableStatus; channel }) => {
+    const { hasEnable, enableChannelName } = status || {};
+    confirm({
+      title: hasEnable
+        ? i18n.t('Are you sure you want to switch channels ?')
+        : i18n.t('Are you sure you want to enable the channel ?'),
+      content: hasEnable
+        ? i18n.t(
+            'Under the same channel type, {type} has an enabled channel {enableChannelName}, whether to switch to {name} channel ?',
+            { type: channel.type.displayName, enableChannelName, name: channel.name },
+          )
+        : i18n.t(
+            '{type} There is no enabled channel. Do you want to open the {name} channel? Click the open button to open',
+            { type: channel.type.displayName, name: channel.name },
+          ),
+      onOk() {
+        setNotifyChannelEnable.fetch({ enable: true, id: channel.id }).then(() => {
+          updater.paging({ ...paging, current: 1 });
+        });
+      },
+    });
   };
 
   const handleCancel = () => {
@@ -272,19 +302,29 @@ const NotifyChannel = () => {
                 'please input the SMS Template Code you have applied for on the service provider platform',
               )}`}
             />
-            <div className="text-desc mt-4">
-              {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
-            </div>
-            <div className="text-desc mt-2">
-              <Copy
-                copyText={`${i18n.t('You have a notification message from the Erda platform')}: $\{content}, ${i18n.t(
-                  'please deal with it promptly',
-                )}`}
-              >
-                {`${i18n.t('You have a notification message from the Erda platform')}: $\{content}, ${i18n.t(
-                  'please deal with it promptly',
-                )}`}
-              </Copy>
+            <div className="bg-grey px-2 py-3 rounded-sm mt-2">
+              <div className="text-sub">
+                {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
+              </div>
+              <div className="mt-2">
+                <span className="bg-white text-normal p-1 pr-2 font-semibold">{`${i18n.t(
+                  'You have a notification message from the Erda platform',
+                )}: $\{content}, ${i18n.t('please deal with it promptly')}`}</span>
+                <span
+                  className="text-primary cursor-pointer underline ml-2 jump-to-aliyun"
+                  data-clipboard-text={`${i18n.t(
+                    'You have a notification message from the Erda platform',
+                  )}: $\{content}, ${i18n.t('please deal with it promptly')}`}
+                  onClick={() =>
+                    window.open(
+                      'https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fdysms.console.aliyun.com%2Fdysms.htm%23%2Fdomestic%2Ftext%2Ftemplate%2Fadd',
+                    )
+                  }
+                >
+                  {i18n.t('copy and jump to the application page')}
+                </span>
+                <Copy selector=".jump-to-aliyun" />
+              </div>
             </div>
           </>
         );
@@ -302,13 +342,13 @@ const NotifyChannel = () => {
       width: 200,
     },
     {
-      title: i18n.d('状态'),
+      title: i18n.t('status'),
       dataIndex: 'enable',
       width: 80,
       render: (enable) => (
         <span>
           <Badge status={enable ? 'success' : 'default'} />
-          <span>{enable ? '启用' : '停用'}</span>
+          <span>{enable ? i18n.t('enable') : i18n.t('unable')}</span>
         </span>
       ),
     },
@@ -335,6 +375,7 @@ const NotifyChannel = () => {
       title: i18n.t('default:create time'),
       dataIndex: 'createAt',
       width: 200,
+      show: false,
     },
   ];
 
@@ -356,16 +397,23 @@ const NotifyChannel = () => {
         },
       },
       enableChannel: {
-        title: record?.enable ? '停用' : '启用',
+        title: record?.enable ? i18n.t('unable') : i18n.t('enable'),
         onClick: () => {
-          setNotifyChannelEnable
-            .fetch({
-              id: record.id,
-              enable: !record.enable,
-            })
-            .finally(() => {
-              updater.paging({ ...paging });
+          if (!record?.enable) {
+            getNotifyChannelEnableStatus.fetch({ id: record.id, type: record.type.name }).then((res) => {
+              const { data: status } = res;
+              confirmEnableChannel({ status, channel: record });
             });
+          } else {
+            setNotifyChannelEnable
+              .fetch({
+                id: record.id,
+                enable: !record.enable,
+              })
+              .finally(() => {
+                updater.paging({ ...paging });
+              });
+          }
         },
       },
     };
@@ -400,10 +448,10 @@ const NotifyChannel = () => {
       <Spin spinning={loading}>
         <Table
           rowKey="id"
-          dataSource={data?.data || []}
+          dataSource={channelDatasource?.data || []}
           columns={columns}
           actions={actions}
-          pagination={{ ...paging, total: data?.total ?? 0, showSizeChanger: true }}
+          pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
           scroll={{ x: 800 }}
           onChange={handleTableChange}
         />
