@@ -22,7 +22,7 @@ import AuthorizeMemberModal from '../authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, message } from 'antd';
-import Table from 'common/components/table';
+import Table, { IActions } from 'common/components/table';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';
@@ -426,7 +426,7 @@ const MembersTable = ({
           dataIndex: 'mobile',
           render: (value: string | number) => (
             <span className="cursor-copy" data-clipboard-tip={i18n.t('cellphone')} data-clipboard-text={value}>
-              {value || i18n.t('common:none')}
+              {value || '-'}
             </span>
           ),
         },
@@ -470,68 +470,41 @@ const MembersTable = ({
             },
           },
         ]),
-        ...insertWhen(!readOnly, [
-          {
-            title: i18n.t('operations'),
-            key: 'op',
-            fixed: 'right',
-            render: (record: IMember) => {
-              const { userId, removed, labels } = record;
-              const isCurrentUser = currentUserId === userId;
-              const editOp =
-                memberAuth.edit || isAdminManager ? (
-                  <span
-                    className="table-operations-btn"
-                    key="edit"
-                    onClick={() => updater.editMember({ ...record, labels: labels || [] })}
-                  >
-                    {i18n.t('edit')}
-                  </span>
-                ) : null;
-              const removeOp =
-                isCurrentUser || memberAuth.delete || isAdminManager ? (
-                  <span className="table-operations-btn" key="del" onClick={() => confirmDelete(record, isCurrentUser)}>
-                    {isCurrentUser ? i18n.t('exit') : memberAuth.delete || isAdminManager ? i18n.t('remove') : null}
-                  </span>
-                ) : null;
-              const authorizeOp =
-                showAuthorize && memberAuth.showAuthorize ? (
-                  <span
-                    className="table-operations-btn"
-                    key="authorize"
-                    onClick={() => updater.authorizeMember(record)}
-                  >
-                    {i18n.t('authorize')}
-                  </span>
-                ) : null;
-
-              return (
-                <div className="table-operations">
-                  {!!updateMembers && !removed ? editOp : null}
-                  {authorizeOp}
-                  {removeOp}
-                </div>
-              );
-            },
-          },
-        ]),
       ] as Array<ColumnProps<IMember>>,
-    [
-      confirmDelete,
-      currentUserId,
-      memberAuth.delete,
-      memberAuth.edit,
-      memberAuth.showAuthorize,
-      memberLabels,
-      readOnly,
-      roleMap,
-      scope.type,
-      showAuthorize,
-      updateMembers,
-      updater,
-      isAdminManager,
-    ],
+    [currentUserId, memberLabels, roleMap, scope.type],
   );
+
+  const tableActions: IActions<IMember> = {
+    render: (record: IMember) => {
+      const { userId, removed, labels } = record;
+      const isCurrentUser = currentUserId === userId;
+
+      const ops = [];
+
+      if (!!updateMembers && !removed) {
+        ops.push({
+          title: i18n.t('edit'),
+          onClick: () => updater.editMember({ ...record, labels: labels || [] }),
+        });
+      }
+
+      if (showAuthorize && memberAuth.showAuthorize) {
+        ops.push({
+          title: i18n.t('authorize'),
+          onClick: () => updater.authorizeMember(record),
+        });
+      }
+
+      if (isCurrentUser || memberAuth.delete || isAdminManager) {
+        ops.push({
+          title: isCurrentUser ? i18n.t('exit') : i18n.t('remove'),
+          onClick: () => confirmDelete(record, isCurrentUser),
+        });
+      }
+
+      return ops;
+    },
+  };
 
   const filterList = React.useMemo(
     () => [
@@ -582,6 +555,7 @@ const MembersTable = ({
         pagination={{ ...paging, current: paging.pageNo, onChange: onChangePage }}
         columns={columns}
         dataSource={list}
+        actions={!readOnly ? tableActions : null}
       />
     );
   };

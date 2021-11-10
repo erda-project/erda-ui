@@ -114,9 +114,14 @@
     line-height: 41px !important;
   }
 
-  .ant-table-tbody tr:not(.ant-table-measure-row) td,
+  .ant-table-tbody tr:not(.ant-table-measure-row) {
+    td {
+      padding: 4px 12px;
+    }
+  }
+
   th {
-    padding: 4px 12px;
+    padding: 4px 12px !important;
   }
 
   .ant-table-tbody > tr.ant-table-row:hover > td {

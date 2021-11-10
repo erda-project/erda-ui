@@ -46,7 +46,7 @@ type IWidth = 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
 
 interface IProps<T extends object = any> extends TableProps<T> {
   columns: Array<IColumnProps<T>>;
-  actions?: IActions<T>;
+  actions?: IActions<T> | null;
   filter?: React.ReactNode;
   rowSelection?: IRowSelection<T>;
 }
@@ -70,7 +70,7 @@ export interface IColumnProps<T> extends ColumnProps<T> {
 }
 
 export interface IActions<T> {
-  width: IWidth;
+  width?: IWidth;
   /**
    * (record: T) => IAction[]
    *
@@ -549,7 +549,7 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<ICo
           return (
             <span className="operate-list">
               <Dropdown overlay={menu} align={{ offset: [0, 5] }}>
-                <ErdaIcon type="more" />
+                <ErdaIcon type="more" className="cursor-pointer p-1" />
               </Dropdown>
             </span>
           );

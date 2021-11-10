@@ -100,7 +100,7 @@ export const ProjectList = () => {
         title: i18n.t('Memory quota'),
         dataIndex: 'memQuota',
         key: 'memQuota',
-        icon: <ErdaIcon type="CPU" />,
+        icon: <ErdaIcon type="GPU" />,
         sorter: true,
         sortOrder: getColumnOrder('memQuota'),
         render: (text: string) => `${text} GiB`,

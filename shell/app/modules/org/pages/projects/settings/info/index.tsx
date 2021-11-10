@@ -211,7 +211,7 @@ const Info = () => {
             {info.logo && <img src={info.logo} className="w-16 h-16 mr-4" />}
             <div>
               <div className="text-xl label">{info.displayName}</div>
-              <div className="xs">{info.desc}</div>
+              <div className="desc">{info.desc}</div>
             </div>
           </Col>
           <Col span={12}>
@@ -249,7 +249,7 @@ const Info = () => {
                     <div className="erda-panel-list">
                       <Row>
                         <Col span={8} className="flex">
-                          <div className="flex mr-3 relative bottom-1">{resourceIconMap[key]}</div>
+                          <div className="flex mr-3">{resourceIconMap[key]}</div>
                           <div>
                             <div className="label mb-1">{resourceMap[key]}</div>
                             <div className="text-xs">{resource.clusterName}</div>
@@ -261,7 +261,7 @@ const Info = () => {
                             fields={[
                               {
                                 value: (
-                                  <div className="text-right mt-1">
+                                  <div className="text-right relative top-1">
                                     <ErdaIcon type="CPU" size={34} />
                                   </div>
                                 ),
@@ -287,17 +287,17 @@ const Info = () => {
                             fields={[
                               {
                                 value: (
-                                  <div className="text-right mt-1">
+                                  <div className="text-right relative top-1">
                                     <ErdaIcon type="GPU" size={34} />
                                   </div>
                                 ),
                               },
                               {
-                                label: `${+(+resource.memQuota).toFixed(2)} G`,
+                                label: `${+(+resource.memQuota).toFixed(2)} GiB`,
                                 value: i18n.t('Memory quota'),
                               },
                               {
-                                label: `${+(+resource.memRequest).toFixed(2)} G`,
+                                label: `${+(+resource.memRequest).toFixed(2)} GiB`,
                                 value: i18n.t('used'),
                               },
                               {
