@@ -35,9 +35,11 @@ const SpaceList = () => {
         scenarioType="auto-test-space-list"
         inParams={inParams}
         customProps={{
-          importButton: {
-            click: () => {
-              setVisible(true);
+          moreButton: {
+            click: (op: CP_COMMON.Operation) => {
+              if (op.key === 'import') {
+                setVisible(true);
+              }
             },
           },
         }}
