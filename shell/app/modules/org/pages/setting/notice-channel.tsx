@@ -335,7 +335,6 @@ const NotifyChannel = () => {
             >
               {i18n.t('delete')}
             </span>
-            {/* <Tooltip title={record.enable ? i18n.d('关闭通知渠道') : i18n.d('启用通知渠道')}> */}
             <Switch
               size="small"
               checked={record.enable}
@@ -350,7 +349,6 @@ const NotifyChannel = () => {
                   });
               }}
             />
-            {/* </Tooltip> */}
           </div>
         );
       },
