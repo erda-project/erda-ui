@@ -21,7 +21,7 @@ import i18n from 'i18n';
 
 const { confirm } = Modal;
 
-export default () => {
+const CloudAccounts = () => {
   const { deleteItem, getList } = cloudAccountStore.effects;
 
   const showDeleteConfirm = (record: CLOUD_ACCOUNTS.Account) => {
@@ -89,3 +89,5 @@ export default () => {
     </>
   );
 };
+
+export default CloudAccounts;

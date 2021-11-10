@@ -28,7 +28,7 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './index.scss';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 
-export default () => {
+const ServiceListProcess = () => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore((s) => s.params);
@@ -127,3 +127,5 @@ export default () => {
     </div>
   );
 };
+
+export default ServiceListProcess;

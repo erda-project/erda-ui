@@ -12,10 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AlarmRecordDetail, { AlarmRecordScope } from 'cmp/common/alarm-record/detail';
+import CmpAlarmRecordDetail, { AlarmRecordScope } from 'cmp/common/alarm-record/detail';
 import routeInfoStore from 'core/stores/route';
 
-export default () => {
+const AlarmRecordDetail = () => {
   const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
-  return <AlarmRecordDetail scope={AlarmRecordScope.MICRO_SERVICE} tenantGroup={tenantGroup} />;
+  return <CmpAlarmRecordDetail scope={AlarmRecordScope.MICRO_SERVICE} tenantGroup={tenantGroup} />;
 };
+
+export default AlarmRecordDetail;

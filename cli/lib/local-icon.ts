@@ -43,7 +43,7 @@ const downloadFile = (url: string, savePath: string) => {
   });
 };
 
-export default () => {
+const LocalIcon = () => {
   const htmlPath = path.resolve(getPublicDir(), './static/shell/index.html');
   fs.readFile(htmlPath, 'utf8', (err, content) => {
     if (err) logError('read index.html failed');
@@ -76,3 +76,5 @@ export default () => {
     });
   });
 };
+
+export default LocalIcon;

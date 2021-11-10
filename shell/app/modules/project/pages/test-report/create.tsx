@@ -31,7 +31,7 @@ interface IState {
   chosenIterationID: string;
 }
 
-export default () => {
+const CreateTestReport = () => {
   const [{ projectId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [form] = Form.useForm();
   const saving = saveTestReport.useLoading();
@@ -132,3 +132,5 @@ export default () => {
     </div>
   );
 };
+
+export default CreateTestReport;

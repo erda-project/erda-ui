@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/cmp/common/alarm-record/detail';
+import CmpAlarmRecordDetail, { AlarmRecordScope } from 'app/modules/cmp/common/alarm-record/detail';
 
-export default () => <AlarmRecordDetail scope={AlarmRecordScope.ORG} />;
+const AlarmRecordDetail = () => <CmpAlarmRecordDetail scope={AlarmRecordScope.ORG} />;
+export default AlarmRecordDetail;

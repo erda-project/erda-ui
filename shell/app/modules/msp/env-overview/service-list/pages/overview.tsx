@@ -18,7 +18,7 @@ import serviceAnalyticsStore from 'msp/stores/service-analytics';
 import './index.scss';
 import NoServicesHolder from 'msp/env-overview/service-list/pages/no-services-holder';
 
-export default () => {
+const OverView = () => {
   const serviceId = serviceAnalyticsStore.useStore((s) => s.serviceId);
 
   if (!serviceId) {
@@ -36,3 +36,5 @@ export default () => {
     </div>
   );
 };
+
+export default OverView;

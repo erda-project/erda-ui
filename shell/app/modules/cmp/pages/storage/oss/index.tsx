@@ -46,7 +46,7 @@ const ACL_CONST = [
   },
 ];
 
-export default () => {
+const StorageOss = () => {
   const { getCloudRegion } = cloudCommonStore;
   const [regions, cloudAccountExist] = cloudCommonStore.useStore((s) => [s.regions, s.cloudAccountExist]);
   const { addItem } = cloudOSSStore.effects;
@@ -224,3 +224,5 @@ export default () => {
     </>
   );
 };
+
+export default StorageOss;

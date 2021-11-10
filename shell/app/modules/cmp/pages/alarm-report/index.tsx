@@ -40,7 +40,7 @@ const ReportTypeMap = {
   monthly: i18n.t('cmp:monthly report'),
 };
 
-export default () => {
+const AlarmReport = () => {
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const [reportTasks, reportTaskPaging, systemDashboards, reportTypes] = alarmReportStore.useStore((s) => [
     s.reportTasks,
@@ -338,3 +338,5 @@ export default () => {
     </>
   );
 };
+
+export default AlarmReport;

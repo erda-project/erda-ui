@@ -35,7 +35,7 @@ const sortList = [
 ];
 const limits = [10, 30, 50];
 
-export default () => {
+const ServiceListAnomaly = () => {
   const timeSpan = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan.range);
   const params = routeInfoStore.useStore((s) => s.params);
   const { terminusKey } = params;
@@ -131,3 +131,5 @@ export default () => {
     </div>
   );
 };
+
+export default ServiceListAnomaly;

@@ -25,7 +25,7 @@ import mspStore from 'msp/stores/micro-service';
 
 const { Search } = Input;
 
-export default () => {
+const ServiceList = () => {
   const currentProject = mspStore.useStore((s) => s.currentProject);
   const { range } = monitorCommonStore.useStore((s) => s.globalTimeSelectSpan);
   const params = routeInfoStore.useStore((s) => s.params);
@@ -81,3 +81,5 @@ export default () => {
     </div>
   );
 };
+
+export default ServiceList;

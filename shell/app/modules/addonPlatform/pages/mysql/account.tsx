@@ -17,7 +17,7 @@ import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 
-export default () => {
+const Account = () => {
   const [{ projectId, insId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
 
@@ -45,3 +45,5 @@ export default () => {
     />
   );
 };
+
+export default Account;

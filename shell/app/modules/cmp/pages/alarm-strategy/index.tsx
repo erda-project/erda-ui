@@ -12,10 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import AlarmStrategy from 'app/modules/cmp/common/alarm-strategy';
+import CmpAlarmStrategy from 'app/modules/cmp/common/alarm-strategy';
 import orgStore from 'app/org-home/stores/org';
 
-export default () => {
+const AlarmStrategy = () => {
   const currentOrg = orgStore.getState((s) => s.currentOrg);
-  return <AlarmStrategy scopeType="org" scopeId={String(currentOrg.id)} />;
+  return <CmpAlarmStrategy scopeType="org" scopeId={String(currentOrg.id)} />;
 };
+
+export default AlarmStrategy;
