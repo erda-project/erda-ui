@@ -136,8 +136,8 @@ function WrappedTable<T extends object = any>({
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
-    setDefaultPagination((before) => ({ ...before, total: dataSource.length }));
-  }, [dataSource.length]);
+    setDefaultPagination((before) => ({ ...before, current: 1, total: dataSource.length }));
+  }, [dataSource]);
 
   const onTableChange = React.useCallback(
     ({ pageNo, pageSize: size, sorter: currentSorter }) => {
@@ -180,9 +180,8 @@ function WrappedTable<T extends object = any>({
               return column.sorter?.compare?.(b, a);
             }
           };
-        } else {
-          onTableChange({ pageNo: 1, sorter: { ...sorter, order } });
         }
+        onTableChange({ pageNo: 1, sorter: { ...sorter, order } });
       };
 
       return (
@@ -210,7 +209,7 @@ function WrappedTable<T extends object = any>({
 
   React.useEffect(() => {
     setColumns(
-      allColumns.map(({ width, sorter, title, render, icon, ...args }: IColumnProps<T>) => {
+      allColumns.map(({ width = 300, sorter, title, render, icon, align, ...args }: IColumnProps<T>) => {
         const { subTitle } = args;
         let sortTitle;
         if (sorter) {
@@ -264,10 +263,11 @@ function WrappedTable<T extends object = any>({
         }
 
         return {
+          align,
           title,
           sortTitle,
           ellipsis: true,
-          onCell: () => ({ style: { maxWidth: width } }),
+          onCell: () => ({ style: { maxWidth: width }, className: align === 'right' && sorter ? 'pr-8' : '' }),
           render: columnRender,
           show: true,
           ...args,

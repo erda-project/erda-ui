@@ -268,7 +268,7 @@ export default () => {
                               },
                               {
                                 label: `${+(+resource.cpuQuota).toFixed(2)} core`,
-                                value: i18n.t('CPU limit'),
+                                value: i18n.t('CPU quota'),
                               },
                               {
                                 label: `${+(+resource.cpuRequest).toFixed(2)} core`,
@@ -294,7 +294,7 @@ export default () => {
                               },
                               {
                                 label: `${+(+resource.memQuota).toFixed(2)} G`,
-                                value: i18n.t('Memory limit'),
+                                value: i18n.t('Memory quota'),
                               },
                               {
                                 label: `${+(+resource.memRequest).toFixed(2)} G`,
