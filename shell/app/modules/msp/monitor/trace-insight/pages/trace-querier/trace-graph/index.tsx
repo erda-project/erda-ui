@@ -189,9 +189,9 @@ export function TraceGraph(props: IProps) {
             />
           }
         >
-          <div className="left flex items-center " style={{ width: 300 - 24 * depth }}>
+          <div className="left flex items-center " style={{ width: Math.max(300 - 24 * depth, 300) }}>
             <div className="w-1 h-4 relative mr-1" style={{ background: error ? errorColor : bg[depth % 5] }} />
-            <div className="flex items-center" style={{ width: 300 - 24 * depth - 8 }}>
+            <div className="flex items-center" style={{ width: Math.max(300 - 24 * depth - 8, 280) }}>
               <span className="font-semibold text-ms mr-2 whitespace-nowrap">{serviceName}</span>
               <span className="truncate text-xs">{operationName}</span>
             </div>
