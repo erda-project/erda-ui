@@ -254,7 +254,7 @@ function WrappedTable<T extends object = any>({
                     className="leading-none"
                   />
                   {Object.keys(args).includes('subTitle') && (
-                    <span className="erda-table-td-subTitle">
+                    <span className="erda-table-td-subTitle truncate">
                       {typeof subTitleText === 'undefined' || subTitleText === null ? '-' : subTitleText}
                     </span>
                   )}
