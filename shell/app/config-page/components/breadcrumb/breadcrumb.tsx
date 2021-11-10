@@ -18,7 +18,7 @@ import { map } from 'lodash';
 import { Right as IconRight } from '@icon-park/react';
 
 const noop = () => {};
-export default (props: CP_BREADCRUMB.Props) => {
+const CP_BREADCRUMB = (props: CP_BREADCRUMB.Props) => {
   const { data, operations, execOperation, props: configProps } = props;
   const { list = [] } = data || {};
   const { visible = true } = configProps || {};
@@ -63,3 +63,5 @@ export default (props: CP_BREADCRUMB.Props) => {
     </Breadcrumb>
   );
 };
+
+export default CP_BREADCRUMB;

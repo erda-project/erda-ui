@@ -21,7 +21,7 @@ import React from 'react';
 import addonStore from 'common/stores/addon';
 import jvmStore, { ProfileStateMap } from '../../stores/jvm';
 
-export default () => {
+const Analysis = () => {
   const [services, runningList, historyList, historyPaging] = jvmStore.useStore((s) => [
     s.services,
     s.runningList,
@@ -239,3 +239,5 @@ export default () => {
     </div>
   );
 };
+
+export default Analysis;

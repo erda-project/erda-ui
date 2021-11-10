@@ -20,7 +20,7 @@ interface IField extends CP_PANEL.Field {
   valueItem?: (props: Obj) => any;
 }
 
-export default (props: CP_PANEL.Props) => {
+const CP_PANEL = (props: CP_PANEL.Props) => {
   const { props: configProps, data, execOperation } = props || {};
   const { visible = true, fields, ...rest } = configProps || {};
 
@@ -78,3 +78,4 @@ export default (props: CP_PANEL.Props) => {
   });
   return <Panel {...rest} fields={_fields} data={curData} />;
 };
+export default CP_PANEL;

@@ -26,7 +26,7 @@ const handleState = (_stateObj?: Obj) => {
   };
 };
 
-export default (props: CP_RADIO.Props) => {
+const CP_RADIO = (props: CP_RADIO.Props) => {
   const { updateState, customProps, execOperation, operations, state: propsState, props: configProps } = props;
   const { radioType, options, ...rest } = configProps || {};
   const RadioItem = radioType === 'button' ? Radio.Button : Radio;
@@ -117,3 +117,5 @@ export default (props: CP_RADIO.Props) => {
     </Radio.Group>
   );
 };
+
+export default CP_RADIO;

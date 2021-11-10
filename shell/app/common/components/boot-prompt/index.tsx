@@ -22,7 +22,7 @@ interface IProps {
   className?: string;
 }
 
-export default ({ children, name, className }: IProps) => {
+const BootPrompt = ({ children, name, className }: IProps) => {
   const bpList = JSON.parse(localStorage.getItem(`erda-bp-list`) || '{}');
   const [isHidden, setIsHidden] = React.useState(bpList[name]);
   const close = () => {
@@ -41,3 +41,5 @@ export default ({ children, name, className }: IProps) => {
     </div>
   ) : null;
 };
+
+export default BootPrompt;

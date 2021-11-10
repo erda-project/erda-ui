@@ -37,7 +37,7 @@ const stateIconMap = {
   danger: <IconCloseOne size="24" fill={statusColorMap.danger} />,
 };
 
-export default (props: CP_MODAL.Props) => {
+const CP_MODAL = (props: CP_MODAL.Props) => {
   const { props: configProps, children, footer, state, operations, updateState, execOperation } = props || {};
   const [visible, setVisible] = React.useState(state?.visible ?? false);
 
@@ -89,3 +89,5 @@ export default (props: CP_MODAL.Props) => {
     </Modal>
   );
 };
+
+export default CP_MODAL;

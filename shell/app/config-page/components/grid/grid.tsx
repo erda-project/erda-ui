@@ -14,7 +14,7 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 
-export default (props: CP_GRID.Props) => {
+const CP_GRID = (props: CP_GRID.Props) => {
   const { props: configProps, children } = props;
   const { gutter = 12, span } = configProps || {};
   let itemSpan = span;
@@ -33,3 +33,5 @@ export default (props: CP_GRID.Props) => {
     </div>
   );
 };
+
+export default CP_GRID;

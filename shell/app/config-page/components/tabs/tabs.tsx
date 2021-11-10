@@ -18,7 +18,7 @@ import { useUpdate } from 'common/use-hooks';
 import { get, find } from 'lodash';
 import './tabs.scss';
 
-export default (props: CP_TABS.Props) => {
+const CP_TABS = (props: CP_TABS.Props) => {
   const {
     children,
     tabBarExtraContent,
@@ -75,3 +75,4 @@ export default (props: CP_TABS.Props) => {
     </Tabs>
   );
 };
+export default CP_TABS;

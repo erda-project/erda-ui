@@ -15,7 +15,7 @@ import React from 'react';
 import { SplitPage } from 'layout/common';
 import { EmptyHolder } from 'common';
 
-export default (props: CP_SPLIT_PAGE.Props) => {
+const CP_SPLIT_PAGE = (props: CP_SPLIT_PAGE.Props) => {
   const { left, right } = props || {};
   return (
     <SplitPage>
@@ -24,3 +24,5 @@ export default (props: CP_SPLIT_PAGE.Props) => {
     </SplitPage>
   );
 };
+
+export default CP_SPLIT_PAGE;

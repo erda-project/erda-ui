@@ -14,7 +14,7 @@
 import React from 'react';
 import { MarkdownEditor } from 'common';
 
-export default (props: CP_MARKDOWN_EDITOR.Props) => {
+const CP_MARKDOWN_EDITOR = (props: CP_MARKDOWN_EDITOR.Props) => {
   const { props: configProps, state, operations, execOperation } = props || {};
   const [value, setValue] = React.useState(state.value);
 
@@ -38,3 +38,5 @@ export default (props: CP_MARKDOWN_EDITOR.Props) => {
 
   return <MarkdownEditor {...rest} value={value} onChange={onChange} onSubmit={onSubmit} />;
 };
+
+export default CP_MARKDOWN_EDITOR;

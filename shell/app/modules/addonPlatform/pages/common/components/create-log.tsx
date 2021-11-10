@@ -24,7 +24,7 @@ interface IProps {
   toggleModal: (visible: boolean) => void;
 }
 
-export default (props: IProps) => {
+const CreateLog = (props: IProps) => {
   const { visible, recordId, toggleModal } = props;
   const [{ record }, updater] = useUpdate({
     record: null,
@@ -57,3 +57,5 @@ export default (props: IProps) => {
     </Modal>
   );
 };
+
+export default CreateLog;
