@@ -731,10 +731,10 @@ export const CLUSTER_RESOURCES_PROPORTION_MAP = {
 export const COLOUR_MAP = {
   load: i18n.t('cmp:system load'),
   cpu: i18n.t('cmp:CPU usage'),
-  mem: i18n.t('cmp:MEM usage'),
+  mem: i18n.t('cmp:Memory usage'),
   disk: i18n.t('cmp:Disk usage'),
   scheduledCPU: i18n.t('CPU allocation'),
-  scheduledMEM: i18n.t('cmp:MEM allocation'),
+  scheduledMEM: i18n.t('cmp:Memory allocation'),
 };
 
 export const ALARM_REPORT_CHART_MAP = {

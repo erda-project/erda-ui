@@ -66,7 +66,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       sorter: (a: IResource, b: IResource) => a.memLimit - b.memLimit,
     },
     {
-      title: i18n.t('cmp:MEM allocation'),
+      title: i18n.t('cmp:Memory allocation'),
       dataIndex: 'memRequest',
       key: 'memRequest',
       width: 120,
