@@ -108,18 +108,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
-      icon: <IconConfig />,
-      text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
-      subtitle: i18n.t('Setting'),
-      show: projectPerm.setting.viewSetting.pass,
-    },
-    {
       text: i18n.t('dop:tickets'),
       subtitle: i18n.t('Tickets'),
       icon: <IconList />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
+    },
+    {
+      href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
+      icon: <IconConfig />,
+      text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
+      subtitle: i18n.t('Setting'),
+      show: projectPerm.setting.viewSetting.pass,
     },
   ];
 
