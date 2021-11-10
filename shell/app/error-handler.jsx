@@ -50,7 +50,7 @@ const statusMap = {
   },
 };
 
-export default (err) => {
+const errorHandler = (err) => {
   const { response, status } = err;
   const body = response && (response.body || response.data); // from superagent or axios
   const { level, enMsg, zhMsg } = statusMap[status] || statusMap.default;
@@ -76,3 +76,5 @@ export default (err) => {
     userStore.effects.login();
   }
 };
+
+export default errorHandler;

@@ -35,7 +35,7 @@ export interface RightOperationItemProps {
   onClick?: () => void;
 }
 
-export default ({ verticalBrandIcon, operations, userMenu, slot }: IProps) => {
+const PageContainer = ({ verticalBrandIcon, operations, userMenu, slot }: IProps) => {
   const renderRightOperation = () => {
     return operations!.map((item, index) => {
       const { onClick, icon } = item;
@@ -72,3 +72,5 @@ export default ({ verticalBrandIcon, operations, userMenu, slot }: IProps) => {
     </div>
   );
 };
+
+export default PageContainer;

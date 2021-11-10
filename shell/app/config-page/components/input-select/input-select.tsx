@@ -16,7 +16,7 @@ import { useUpdateEffect } from 'react-use';
 import { InputSelect } from 'common';
 import { useUpdate } from 'common/use-hooks';
 
-export default (props: CP_INPUT_SELECT.Props) => {
+const CP_INPUT_SELECT = (props: CP_INPUT_SELECT.Props) => {
   const { props: configProps, state: propsState, operations, execOperation } = props;
   const { options, visible = true, ...rest } = configProps || {};
 
@@ -45,3 +45,5 @@ export default (props: CP_INPUT_SELECT.Props) => {
   if (!visible) return null;
   return <InputSelect {...rest} options={options} onChange={onChange} value={state.value} onLoadData={loadData} />;
 };
+
+export default CP_INPUT_SELECT;

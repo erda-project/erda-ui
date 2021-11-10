@@ -24,7 +24,7 @@ import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
 import { getOrgByDomain } from 'app/org-home/services/org';
 
-export default () => {
+const InviteToOrg = () => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const { inviteToOrg } = layoutStore.effects;
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
@@ -86,3 +86,5 @@ export default () => {
     </div>
   );
 };
+
+export default InviteToOrg;

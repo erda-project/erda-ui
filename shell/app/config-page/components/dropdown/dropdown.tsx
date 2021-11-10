@@ -15,7 +15,7 @@ import React from 'react';
 import { Dropdown, Menu } from 'antd';
 import { OperationAction } from 'config-page/utils';
 
-export default (props: CP_DROPDOWN.Props) => {
+const CP_DROPDOWN = (props: CP_DROPDOWN.Props) => {
   const { execOperation, operations, children, props: configProps, customProps } = props;
   const { visible, menus, menuProps, ...rest } = configProps || {};
   if (visible === false) return null;
@@ -46,3 +46,5 @@ export default (props: CP_DROPDOWN.Props) => {
     </Dropdown>
   );
 };
+
+export default CP_DROPDOWN;

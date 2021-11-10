@@ -14,7 +14,7 @@
 import React from 'react';
 import { Input } from 'antd';
 
-export default (props: CP_INPUT.Props) => {
+const CP_INPUT = (props: CP_INPUT.Props) => {
   const { props: configProps, state: propsState, operations } = props;
   const [value, setValue] = React.useState(propsState?.value as string | undefined);
   const onChange = (e: any) => {
@@ -22,3 +22,5 @@ export default (props: CP_INPUT.Props) => {
   };
   return <Input value={value} onChange={onChange} {...configProps} />;
 };
+
+export default CP_INPUT;

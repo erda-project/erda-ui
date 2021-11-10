@@ -27,7 +27,7 @@ import './jvm-overview.scss';
 
 const JVM_INFO_SCOPES = ['jvm_process', 'jvm_options', 'jvm_properties'];
 
-export default () => {
+const JvmOverview = () => {
   const { realInstanceId: insId } = addonStore.useStore((s) => s.addonDetail);
   const { profileId } = routeInfoStore.useStore((s) => s.params);
   const jvmInfo = jvmStore.useStore((s) => s.jvmInfo);
@@ -160,3 +160,5 @@ export default () => {
     </div>
   );
 };
+
+export default JvmOverview;

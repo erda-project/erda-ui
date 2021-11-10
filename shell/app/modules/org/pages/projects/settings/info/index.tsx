@@ -55,7 +55,7 @@ const resourceIconMap = {
   PROD: <ErdaIcon type="prod" size={40} />,
 };
 
-export default () => {
+const Info = () => {
   const { updateProject, deleteProject, getLeftResources } = projectStore.effects;
   const loginUser = userStore.useStore((s) => s.loginUser);
   const orgName = routeInfoStore.useStore((s) => s.params.orgName);
@@ -426,3 +426,5 @@ export default () => {
     </div>
   );
 };
+
+export default Info;

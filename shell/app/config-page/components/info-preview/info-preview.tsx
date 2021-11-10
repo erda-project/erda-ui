@@ -27,7 +27,7 @@ const colorMap = {
   default: '#975FA0',
 };
 
-export default (props: CP_INFO_PREVIEW.Props) => {
+const CP_INFO_PREVIEW = (props: CP_INFO_PREVIEW.Props) => {
   const { props: configProps, data } = props;
   const { render = [], visible = true } = configProps || {};
   const { info = {} } = data || {};
@@ -51,6 +51,8 @@ export default (props: CP_INFO_PREVIEW.Props) => {
     </div>
   );
 };
+
+export default CP_INFO_PREVIEW;
 
 interface IRenderProps {
   render: CP_INFO_PREVIEW.IRender;

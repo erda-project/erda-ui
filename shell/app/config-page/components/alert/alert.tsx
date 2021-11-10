@@ -16,7 +16,7 @@ import { Alert } from 'antd';
 import { isArray, map } from 'lodash';
 import './alert.scss';
 
-export default (props: CP_ALERT.Props) => {
+const CP_Alert = (props: CP_ALERT.Props) => {
   const { props: configProps } = props || {};
   const { message, visible = true, ...rest } = configProps || {};
 
@@ -34,3 +34,5 @@ export default (props: CP_ALERT.Props) => {
   );
   return <Alert className="config-page-alert" message={msgComp} showIcon {...rest} />;
 };
+
+export default CP_Alert;

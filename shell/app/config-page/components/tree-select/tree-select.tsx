@@ -17,7 +17,7 @@ import { debounce, get } from 'lodash';
 import { useUpdate } from 'common/use-hooks';
 import { useUpdateEffect } from 'react-use';
 
-export default (props: CP_TREE_SELECT.Props) => {
+const CP_TREE_SELECT = (props: CP_TREE_SELECT.Props) => {
   const { execOperation, operations = {}, props: configProps, data, state: pState = {} } = props;
   const { treeData: propTreeData } = data || {};
   const { visible = true, placeholder, title, ...rest } = configProps || {};
@@ -105,3 +105,5 @@ export default (props: CP_TREE_SELECT.Props) => {
     </div>
   );
 };
+
+export default CP_TREE_SELECT;

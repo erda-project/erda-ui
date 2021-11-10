@@ -94,7 +94,7 @@ const overrideRenderFns = {
   },
 };
 
-export default (content?: string, renderFns = {}) => {
+const renderMarkdown = (content?: string, renderFns = {}) => {
   if (!content) return content;
 
   if (!inited) {
@@ -129,3 +129,5 @@ export default (content?: string, renderFns = {}) => {
 
   return Markdown(content);
 };
+
+export default renderMarkdown;

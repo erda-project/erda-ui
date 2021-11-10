@@ -15,7 +15,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { Form } from 'dop/pages/form-editor/index';
 
-export default () => {
+const CP_FORM_TEST = () => {
   const formRef = React.useRef(null as any);
   const [isRequired, setIsRequired] = React.useState(true);
 
@@ -191,3 +191,5 @@ export default () => {
     </>
   );
 };
+
+export default CP_FORM_TEST;

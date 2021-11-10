@@ -35,7 +35,7 @@ const stateIconMap = {
   error: <IconCloseOne theme="filled" fill={statusColorMap.error} />,
 };
 
-export default () => {
+const DebugConfigPage = () => {
   const pageRef = React.useRef(null);
   const cacheData = window.localStorage.getItem('config-page-debug');
   const [text, setText] = React.useState(cacheData || defaultJson);
@@ -246,6 +246,7 @@ export default () => {
   );
 };
 
+export default DebugConfigPage;
 interface ILogItemProps {
   index: number;
   log: ILog;

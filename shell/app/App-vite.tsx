@@ -79,20 +79,20 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
     await orgStore.effects.getOrgByDomain({ orgName });
     [
       import('layout/entry'),
-      // import('org/entry'),
+      import('org/entry'),
       import('app/org-home/entry'),
       import('dop/entry'),
-      // import('runtime/entry'),
-      // import('publisher/entry'),
-      // import('project/entry'),
-      // import('apiManagePlatform/entry'),
-      // import('msp/entry'),
-      // ...insertWhen(erdaEnv.ENABLE_EDGE, [import('app/modules/ecp/entry')]),
-      // import('application/entry'),
-      // import('cmp/entry'),
-      // import('user/entry'),
-      // import('dcos/entry'),
-      // import('addonPlatform/entry'),
+      import('runtime/entry'),
+      import('publisher/entry'),
+      import('project/entry'),
+      import('apiManagePlatform/entry'),
+      import('msp/entry'),
+      ...insertWhen(erdaEnv.ENABLE_EDGE, [import('app/modules/ecp/entry')]),
+      import('application/entry'),
+      import('cmp/entry'),
+      import('user/entry'),
+      import('dcos/entry'),
+      import('addonPlatform/entry'),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {

@@ -17,7 +17,7 @@ import { Tooltip } from 'antd';
 import { colorMap, statusColorMap } from 'app/config-page/utils';
 import './linear-distribution.scss';
 
-export default (props: CP_LINEAR_DISTRIBUTION.Props) => {
+const CP_LINEAR_DISTRIBUTION = (props: CP_LINEAR_DISTRIBUTION.Props) => {
   const { props: configProps, data } = props;
   const { size = 'normal' } = configProps || {};
   const { list, total: _total } = data || {};
@@ -50,3 +50,5 @@ export default (props: CP_LINEAR_DISTRIBUTION.Props) => {
     </div>
   );
 };
+
+export default CP_LINEAR_DISTRIBUTION;

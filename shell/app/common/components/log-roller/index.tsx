@@ -254,7 +254,7 @@ class LogRoller extends React.Component<IProps, IState> {
   }
 }
 
-export default (props: { logKey: string; [k: string]: any }) => {
+const WrappedLogRoller = (props: { logKey: string; [k: string]: any }) => {
   const logsMap = commonStore.useStore((s) => s.logsMap);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
@@ -270,3 +270,5 @@ export default (props: { logKey: string; [k: string]: any }) => {
     />
   );
 };
+
+export default WrappedLogRoller;

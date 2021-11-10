@@ -15,7 +15,7 @@ import React from 'react';
 import { Popover } from 'antd';
 import './popover.scss';
 
-export default (props: CP_POPOVER.Props) => {
+const CP_POPOVER = (props: CP_POPOVER.Props) => {
   const sizeMap = {
     s: 200,
     m: 400,
@@ -33,3 +33,5 @@ export default (props: CP_POPOVER.Props) => {
     </Popover>
   );
 };
+
+export default CP_POPOVER;

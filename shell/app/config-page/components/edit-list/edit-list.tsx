@@ -17,7 +17,7 @@ import { map, last } from 'lodash';
 import { useUpdateEffect } from 'react-use';
 
 const empty = [] as any[];
-export default (props: CP_EDIT_LIST.Props) => {
+const CP_EDIT_LIST = (props: CP_EDIT_LIST.Props) => {
   const { props: configProps, state, execOperation, operations, updateState } = props;
   const { visible = true, temp = [], ...rest } = configProps || {};
   const { list = empty } = state || {};
@@ -89,3 +89,5 @@ export default (props: CP_EDIT_LIST.Props) => {
     </div>
   );
 };
+
+export default CP_EDIT_LIST;

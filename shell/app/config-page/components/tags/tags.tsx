@@ -15,7 +15,7 @@ import React from 'react';
 import { TagsRow } from 'common';
 import { colorMap } from 'config-page/utils';
 
-export default (props: CP_TAGS.Props) => {
+const CP_TAGS = (props: CP_TAGS.Props) => {
   const { props: configProps, data } = props || {};
   const { visible = true, ...rest } = configProps || {};
 
@@ -23,3 +23,5 @@ export default (props: CP_TAGS.Props) => {
 
   return <TagsRow colorMap={colorMap} {...rest} labels={data?.labels} />;
 };
+
+export default CP_TAGS;
