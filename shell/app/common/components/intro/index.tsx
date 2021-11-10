@@ -18,8 +18,8 @@ import { Button } from 'antd';
 interface IProps {
   introImg?: string;
   content: string;
-  action: string;
-  onAction: () => void;
+  action?: string;
+  onAction?: () => void;
 }
 
 const Intro = ({ introImg, content, action, onAction }: IProps) => {
@@ -28,9 +28,11 @@ const Intro = ({ introImg, content, action, onAction }: IProps) => {
       <div className="flex items-center flex-col">
         <img className="block" src={introImg ?? intro} alt="intro img" width={320} />
         <span className="text-base mt-6 mb-4 font-semibold">{content}</span>
-        <Button onClick={onAction} type="primary">
-          {action}
-        </Button>
+        {action && onAction ? (
+          <Button onClick={onAction} type="primary">
+            {action}
+          </Button>
+        ) : null}
       </div>
     </div>
   );

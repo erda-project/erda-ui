@@ -2294,6 +2294,7 @@
     "no": "否",
     "no data": "暂无数据",
     "no service is connected currently, click the button below to access the service": "当前未接入任何服务，点击下方按钮即可接入服务",
+    "no service is connected currently, if you deploy an application on the DevOps platform, the service will be displayed automatically": "当前未接入任何服务，在 DevOps 平台部署应用即可自动显示服务",
     "node list": "节点列表",
     "node traffic management": "节点流量管理",
     "normal": "正常",
