@@ -49,7 +49,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     //   show: projectPerm.pipeline.view.pass,
     // },
     {
-      href: goTo.resolve.project(), // `/dop/projects/${projectId}`,
+      href: goTo.resolve.projectTestStatisticsRoot(), // `/dop/projects/${projectId}`,
       icon: <CustomIcon type="ceshiguanli" />,
       text: i18n.t('Test Management'),
       subtitle: i18n.t('Test'),
@@ -85,7 +85,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.appList.viewAppList.pass,
     },
     {
-      href: goTo.resolve.projectApps(), // `/dop/projects/${projectId}/apps`,
+      href: goTo.resolve.project(), // `/dop/projects/${projectId}/apps`,
       icon: <IconDashboardCar />,
       text: i18n.t('dop:O & M'),
       subtitle: i18n.t('dop:O & M'),
@@ -108,18 +108,18 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       ],
     },
     {
-      href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
-      icon: <IconConfig />,
-      text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
-      subtitle: i18n.t('Setting'),
-      show: projectPerm.setting.viewSetting.pass,
-    },
-    {
       text: i18n.t('dop:tickets'),
       subtitle: i18n.t('Tickets'),
       icon: <IconList />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
+    },
+    {
+      href: goTo.resolve.projectSetting(), // `/dop/projects/${projectId}/setting`,
+      icon: <IconConfig />,
+      text: `${i18n.t('{key} Settings', { key: i18n.t('project') })}`,
+      subtitle: i18n.t('Setting'),
+      show: projectPerm.setting.viewSetting.pass,
     },
   ];
 
