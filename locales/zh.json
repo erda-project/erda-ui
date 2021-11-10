@@ -25,7 +25,7 @@
     "Are you sure you want to deprecate {name}?": "确定要弃用 {name} 吗?",
     "Are you sure you want to enable the notification channel ?": "您确定要启用通知渠道吗?",
     "Are you sure you want to revert the deprecated status of {name}?": "确定要还原 {name} 为可用状态吗?",
-    "Are you sure you want to switch notification channels ?": "您确定要切换通知渠道吗?",
+    "Are you sure you want to switch notification channel ?": "您确定要切换通知渠道吗?",
     "Artifact": "制品",
     "Asia-pacific": "亚太",
     "Audit": "审计",

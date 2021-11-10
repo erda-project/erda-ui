@@ -43,6 +43,7 @@ import {
   editNotifyChannel,
   deleteNotifyChannel,
 } from 'org/services/notice-channel';
+import { ALIYUN_APPLICATION } from 'common/constants';
 
 const { confirm } = Modal;
 
@@ -170,19 +171,22 @@ const NotifyChannel = () => {
     channel: NOTIFY_CHANNEL.NotifyChannel;
   }) => {
     const { hasEnable, enableChannelName } = status || {};
-    confirm({
-      title: hasEnable
-        ? i18n.t('Are you sure you want to switch notification channels ?')
-        : i18n.t('Are you sure you want to enable the notification channel ?'),
-      content: hasEnable
-        ? i18n.t(
-            'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
-            { type: channel.type.displayName, enableChannelName, name: channel.name },
-          )
-        : i18n.t(
+    const [title, content] = hasEnable
+      ? [
+          i18n.t('Are you sure you want to switch notification channel ?'),
+          'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
+          { type: channel.type.displayName, enableChannelName, name: channel.name },
+        ]
+      : [
+          i18n.t('Are you sure you want to enable the notification channel ?'),
+          i18n.t(
             'There is no enabled channel in {type} type. Do you want to enable the {name} channel? Click the ok button to enable',
             { type: channel.type.displayName, name: channel.name },
           ),
+        ];
+    confirm({
+      title,
+      content,
       onOk() {
         setNotifyChannelEnable.fetch({ enable: true, id: channel.id }).then((res) => {
           updater.paging({ ...paging, current: 1 });
@@ -329,11 +333,7 @@ const NotifyChannel = () => {
                   data-clipboard-text={`${i18n.t(
                     'You have a notification message from the Erda platform',
                   )}: $\{content}, ${i18n.t('please deal with it promptly')}`}
-                  onClick={() =>
-                    window.open(
-                      'https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fdysms.console.aliyun.com%2Fdysms.htm%23%2Fdomestic%2Ftext%2Ftemplate%2Fadd',
-                    )
-                  }
+                  onClick={() => window.open(ALIYUN_APPLICATION)}
                 >
                   {i18n.t('copy and jump to the application page')}
                 </span>

@@ -46,3 +46,7 @@ export const UC_USER_LOGIN = '/uc/login';
 
 // cmp guide doc
 export const DOC_CMP_CLUSTER_MANAGE = `${DOC_PREFIX}/manual/cmp/guide/cluster/management.html`;
+
+// aliyun
+export const ALIYUN_APPLICATION =
+  'https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fdysms.console.aliyun.com%2Fdysms.htm%23%2Fdomestic%2Ftext%2Ftemplate%2Fadd';

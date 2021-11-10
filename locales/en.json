@@ -25,7 +25,7 @@
     "Are you sure you want to deprecate {name}?": "Are you sure you want to deprecate {name}?",
     "Are you sure you want to enable the notification channel ?": "Are you sure you want to enable the notification channel ?",
     "Are you sure you want to revert the deprecated status of {name}?": "Are you sure you want to revert the deprecated status of {name}?",
-    "Are you sure you want to switch notification channels ?": "Are you sure you want to switch notification channels ?",
+    "Are you sure you want to switch notification channel ?": "Are you sure you want to switch notification channel ?",
     "Artifact": "Artifact",
     "Asia-pacific": "Asia-pacific",
     "Audit": "Audit",
