@@ -27,7 +27,7 @@ const Intro = ({ introImg, content, action, onAction }: IProps) => {
     <div className="h-full flex justify-center items-center">
       <div className="flex items-center flex-col">
         <img className="block" src={introImg ?? intro} alt="intro img" width={320} />
-        <span className="text-base mt-6 mb-4 font-semibold">{content}</span>
+        <span className="text-base mt-6 mb-4 font-semibold text-center">{content}</span>
         {action && onAction ? (
           <Button onClick={onAction} type="primary">
             {action}
