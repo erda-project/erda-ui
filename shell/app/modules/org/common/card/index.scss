@@ -13,6 +13,11 @@
       color: #302647;
     }
 
+    .desc,
+    .erda-panel-value {
+      font-size: 12px;
+    }
+
     .erda-panel-item,
     .erda-panel-value {
       margin-bottom: 0;
@@ -22,6 +27,10 @@
       padding: 1.5rem;
       margin: 0.5rem 0;
       background-color: $color-table-bg-hover;
+
+      .erda-panel {
+        margin-bottom: 0;
+      }
     }
   }
 }
