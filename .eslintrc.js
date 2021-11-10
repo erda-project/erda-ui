@@ -54,6 +54,7 @@ module.exports = {
     indent: 0,
     'react/jsx-no-undef': 0,
     '@typescript-eslint/consistent-type-assertions': [0, { objectLiteralTypeAssertions: 'allow-as-parameter' }],
+    'import/no-anonymous-default-export': 1,
   },
   overrides: [
     {

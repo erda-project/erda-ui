@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "composite": false,
-    "target": "esnext",
+    "target": "es5",
     "module": "ESNext",
     "lib": ["dom", "esnext"],
     "allowJs": true,
@@ -91,18 +91,7 @@
       "i18n": ["app/i18n.ts"],
       "agent": ["./app/agent.js"],
       "app/*": ["./app/*"],
-      "core/index": ["../core/src/index"],
-      "core/cube": ["../core/src/cube"],
-      "core/i18n": ["../core/src/i18n"],
-      "core/agent": ["../core/src/agent"],
-      "core/config": ["../core/src/config.ts"],
-      "core/service": ["../core/src/service/index"],
-      "core/utils/ws": ["../core/src/utils/ws.ts"],
-      "core/stores/route": ["../core/src/stores/route.ts"],
-      "core/stores/loading": ["../core/src/stores/loading.ts"],
-      "core/stores/userMap": ["../core/src/stores/user-map.ts"],
-      "common/all": ["../shell/app/common/index"],
-      "core/common/interface": ["../core/src/common/interface.d.ts"]
+      "common/all": ["../shell/app/common/index"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
