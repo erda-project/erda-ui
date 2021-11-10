@@ -132,12 +132,12 @@ const ClusterQuota = ({
         <span className="mr-2 text-black-400">{i18n.t('cluster')}:</span>
         {data.clusterName || ''}
         <div className="mr-4 text-black-400">
-          {i18n.t('CPU limit')}
+          {i18n.t('CPU quota')}
           <span className="text-black mx-2">{data.cpuQuota || 0}</span>
           {i18n.t('core')}
         </div>
         <div className="mr-4 text-black-400">
-          {i18n.t('Memory limit')}
+          {i18n.t('Memory quota')}
           <span className="text-black mx-2">{data.memQuota || 0}</span>
           GB
         </div>
@@ -180,7 +180,7 @@ const ClusterQuota = ({
                   },
                 ]}
               >
-                <Input disabled={!canEdit} addonBefore={i18n.t('CPU limit')} addonAfter={i18n.t('core')} />
+                <Input disabled={!canEdit} addonBefore={i18n.t('CPU quota')} addonAfter={i18n.t('core')} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -198,7 +198,7 @@ const ClusterQuota = ({
                   },
                 ]}
               >
-                <Input disabled={!canEdit} addonBefore={i18n.t('Memory limit')} addonAfter="GB" />
+                <Input disabled={!canEdit} addonBefore={i18n.t('Memory quota')} addonAfter="GB" />
               </Form.Item>
             </Col>
           </Row>

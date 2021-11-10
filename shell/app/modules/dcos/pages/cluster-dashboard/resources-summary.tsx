@@ -232,6 +232,10 @@ export const ResourceTable = React.memo(() => {
         title: i18n.t('cmp:project count'),
         dataIndex: 'projectTotal',
         key: 'projectTotal',
+        align: 'right',
+        sorter: {
+          compare: (a, b) => a.projectTotal - b.projectTotal,
+        },
       },
     ],
   };
@@ -261,6 +265,7 @@ export const ResourceTable = React.memo(() => {
       ),
       dataIndex: 'nodes',
       key: 'nodes',
+      align: 'right',
       sorter: {
         compare: (a, b) => a.nodes - b.nodes,
       },
@@ -270,6 +275,7 @@ export const ResourceTable = React.memo(() => {
       title: `${i18n.t('cmp:CPU quota')} (${i18n.t('cmp:Core')})`,
       dataIndex: 'cpuQuota',
       key: 'cpuQuota',
+      align: 'right',
       sorter: {
         compare: (a, b) => a.cpuQuota - b.cpuQuota,
       },
@@ -279,6 +285,7 @@ export const ResourceTable = React.memo(() => {
       title: i18n.t('cmp:CPU usage'),
       dataIndex: 'cpuWaterLevel',
       key: 'cpuWaterLevel',
+      align: 'right',
       sorter: {
         compare: (a, b) => a.cpuWaterLevel - b.cpuWaterLevel,
       },
@@ -287,6 +294,7 @@ export const ResourceTable = React.memo(() => {
         value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
         return !isNaN(+_val) ? (
           <Tooltip title={`${record.cpuRequest} / ${record.cpuQuota}`}>
+            <span className="text-dark-8  mr-2">{`${value}%`}</span>
             <Progress
               percent={value}
               type="circle"
@@ -295,7 +303,6 @@ export const ResourceTable = React.memo(() => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8  ml-2">{`${value}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -306,6 +313,7 @@ export const ResourceTable = React.memo(() => {
       title: `${i18n.t('cmp:MEM quota')} (G)`,
       dataIndex: 'memQuota',
       key: 'memQuota',
+      align: 'right',
       sorter: {
         compare: (a, b) => a.memQuota - b.memQuota,
       },
@@ -315,6 +323,7 @@ export const ResourceTable = React.memo(() => {
       title: i18n.t('cmp:MEM usage'),
       dataIndex: 'memWaterLevel',
       key: 'memWaterLevel',
+      align: 'right',
       sorter: {
         compare: (a, b) => a.memWaterLevel - b.memWaterLevel,
       },
@@ -323,6 +332,7 @@ export const ResourceTable = React.memo(() => {
         value = +(`${value}`.indexOf('.') ? value.toFixed(2) : value);
         return !isNaN(+_val) ? (
           <Tooltip title={`${record.memRequest} / ${record.memQuota}`}>
+            <span className="text-dark-8 mr-2">{`${value}%`}</span>
             <Progress
               type="circle"
               percent={value}
@@ -331,7 +341,6 @@ export const ResourceTable = React.memo(() => {
               format={(v) => null}
               strokeColor={getStrokeColor(value)}
             />
-            <span className="text-dark-8 ml-2">{`${value}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -339,6 +348,19 @@ export const ResourceTable = React.memo(() => {
       },
     },
   ];
+
+  const list = data?.list || [];
+  const membersList = list
+    .filter((item) => list.find((prj) => prj.ownerUserID === item.ownerUserID) === item)
+    .map((prj) => ({
+      label: prj.ownerUserNickname || prj.ownerUserName,
+      value: prj.ownerUserID,
+    }));
+
+  const projectsList = list.map((prj) => ({
+    label: prj.projectDisplayName || prj.projectName,
+    value: prj.projectID,
+  }));
 
   const conditionMap = {
     project: [
@@ -349,10 +371,16 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: (data?.list || []).map((prj) => ({
-          label: prj.projectDisplayName || prj.projectName,
-          value: prj.projectID,
-        })),
+        options: projectsList,
+      },
+      {
+        type: 'select',
+        key: 'ownerIds',
+        label: i18n.t('cmp:Owner'),
+        haveFilter: true,
+        fixed: true,
+        emptyText: i18n.t('dop:all'),
+        options: membersList,
       },
     ],
     owner: [
@@ -363,10 +391,7 @@ export const ResourceTable = React.memo(() => {
         haveFilter: true,
         fixed: true,
         emptyText: i18n.t('dop:all'),
-        options: (data?.list || []).map((prj) => ({
-          label: prj.ownerUserNickname || prj.ownerUserName,
-          value: prj.ownerUserID,
-        })),
+        options: membersList,
       },
     ],
   };
