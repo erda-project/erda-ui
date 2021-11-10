@@ -176,7 +176,7 @@ export const ProjectList = () => {
         </div>
         <BootPrompt name="project-list" className="mb-4">
           {i18n.t(
-            'Project management provides a securely isolated work platform with access control. Here you can see an overview of the resources running in the current enterprise space.',
+            'support the creation and deletion of all projects in the organization, as well as the operation and management of project members and quotas.',
           )}
         </BootPrompt>
         <Table
