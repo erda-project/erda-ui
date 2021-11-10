@@ -254,11 +254,11 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
     {
       title: () => (
         <div className="inline-flex flex-col justify-center align-center">
-          <div>{i18n.t('cmp:Number of used nodes')}</div>
+          <div className="text-sm">{i18n.t('cmp:Number of used nodes')}</div>
           <div className="text-xs">
-            {`${i18n.t('cmp:one node')} = ${cpuAndMem.current.cpuPerNode} ${i18n.t('cmp:Core')} ${
+            {`(${i18n.t('cmp:one node')}: ${cpuAndMem.current.cpuPerNode} ${i18n.t('cmp:Core')} ${
               cpuAndMem.current.memPerNode
-            } G`}
+            } G)`}
           </div>
         </div>
       ),
