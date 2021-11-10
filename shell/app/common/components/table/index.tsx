@@ -548,8 +548,8 @@ function renderActions<T extends object = any>(actions?: IActions<T>): Array<ICo
 
           return (
             <span className="operate-list">
-              <Dropdown overlay={menu} align={{ offset: [0, 5] }}>
-                <ErdaIcon type="more" className="cursor-pointer p-1" />
+              <Dropdown overlay={menu} align={{ offset: [0, 5] }} trigger={['click']}>
+                <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" />
               </Dropdown>
             </span>
           );

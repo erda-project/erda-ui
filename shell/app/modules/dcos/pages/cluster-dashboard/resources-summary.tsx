@@ -281,7 +281,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       render: (text: string) => `${text} core`,
     },
     {
-      title: i18n.t('cmp:CPU usage'),
+      title: i18n.t('cmp:CPU quota usage'),
       dataIndex: 'cpuWaterLevel',
       key: 'cpuWaterLevel',
       align: 'right',
@@ -319,7 +319,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       render: (text: string) => `${text} GiB`,
     },
     {
-      title: i18n.t('cmp:Memory usage'),
+      title: i18n.t('cmp:Memory quota usage'),
       dataIndex: 'memWaterLevel',
       key: 'memWaterLevel',
       align: 'right',
