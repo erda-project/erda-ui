@@ -17,7 +17,7 @@ import { useUpdate } from 'common/use-hooks';
 import i18n from 'i18n';
 import { FormInstance } from 'core/common/interface';
 import moment, { Moment } from 'moment';
-import { RangePicker } from 'antd';
+import { DatePicker } from 'antd';
 import React from 'react';
 
 interface IProps {
@@ -59,7 +59,7 @@ export default ({ visible, data, onClose }: IProps) => {
       required: true,
       getComp: ({ form }: { form: FormInstance }) => {
         return (
-          <RangePicker
+          <DatePicker.RangePicker
             borderTime
             format="YYYY-MM-DD"
             onOk={(value) => {

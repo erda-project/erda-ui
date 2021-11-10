@@ -16,7 +16,7 @@ import moment, { Moment } from 'moment';
 import { isEmpty, map, get, set, values } from 'lodash';
 import classnames from 'classnames';
 import { useMount, useUnmount } from 'react-use';
-import { Spin, Pagination, RangePicker } from 'antd';
+import { Spin, Pagination, DatePicker } from 'antd';
 import { Holder, Icon as CustomIcon, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { getTimeRanges } from 'common/utils';
@@ -137,7 +137,7 @@ export default () => {
     <div className="task-report-records flex items-start justify-between">
       <div className="search-records pr-4 flex flex-col h-full">
         <div className="mb-2">
-          <RangePicker
+          <DatePicker.RangePicker
             borderTime
             className="w-full"
             onChange={(dates) => handleChange(pageNo, dates)}
