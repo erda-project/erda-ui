@@ -46,7 +46,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
   const { getPipelineLog } = buildStore.effects;
   const { clearPipelineLog } = buildStore.reducers;
   const pipelineLog = buildStore.useStore((s) => s.pipelineLog);
-  const [isFecthing] = useLoading(buildStore, ['getPipelineLog']);
+  const [isFetching] = useLoading(buildStore, ['getPipelineLog']);
   const [{ detailLog, detailVis }, , update] = useUpdate({
     detailLog: '',
     detailVis: false,
@@ -84,7 +84,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
 
   const logOperation = [
     {
-      title: isFecthing ? (
+      title: isFetching ? (
         <IconLoading spin strokeWidth={2} />
       ) : (
         <Tooltip
