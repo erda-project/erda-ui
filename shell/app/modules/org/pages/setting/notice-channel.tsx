@@ -26,26 +26,30 @@
 import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, Switch, Input } from 'antd';
+import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge } from 'antd';
+import Table, { IColumnProps, IActions } from 'common/components/table';
 import { FormModal, Copy } from 'common';
 import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
 import { useUpdate } from 'common/use-hooks';
-import { ColumnProps, FormInstance } from 'app/interface/common';
+import { FormInstance } from 'app/interface/common';
 import { useMount } from 'react-use';
 import {
   getNotifyChannelTypes,
   getNotifyChannels,
+  getNotifyChannelEnableStatus,
   setNotifyChannelEnable,
+  getNotifyChannel,
   addNotifyChannel,
   editNotifyChannel,
   deleteNotifyChannel,
 } from 'org/services/notice-channel';
+import { ALIYUN_APPLICATION } from 'common/constants';
 
 const { confirm } = Modal;
 
 const NotifyChannel = () => {
   const channelTypeOptions = getNotifyChannelTypes.useData();
-  const [data, loading] = getNotifyChannels.useState();
+  const [channelDatasource, loading] = getNotifyChannels.useState();
   const [
     { activeData, channelType, channelProvider, visible, paging, templateCode, passwordVisible },
     updater,
@@ -70,17 +74,20 @@ const NotifyChannel = () => {
     getNotifyChannels.fetch({ pageNo: paging.current, pageSize: paging.pageSize });
   }, [paging]);
 
-  const handleEdit = ({ channelProviderType, config, name, type, id }: NOTIFY_CHANNEL.NotifyChannel) => {
-    update({
-      activeData: {
-        id,
-        channelProviderType: channelProviderType.name,
-        config,
-        type: type.name,
-        name,
-      },
-      visible: true,
-      templateCode: config.templateCode,
+  const handleEdit = (id: string) => {
+    getNotifyChannel.fetch({ id }).then((res) => {
+      const { channelProviderType, config, type, name } = res?.data || {};
+      update({
+        activeData: {
+          id,
+          channelProviderType: channelProviderType?.name,
+          config,
+          type: type?.name,
+          name,
+        },
+        visible: true,
+        templateCode: config?.templateCode,
+      });
     });
   };
 
@@ -90,16 +97,23 @@ const NotifyChannel = () => {
     updater.visible(true);
   };
 
-  const handleDelete = (id: number) => {
-    confirm({
-      title: i18n.t('are you sure you want to delete this item?'),
-      content: i18n.t('the notification channel will be permanently deleted'),
-      onOk() {
-        deleteNotifyChannel.fetch({ id }).then(() => {
-          updater.paging({ ...paging, current: 1 });
-        });
-      },
-    });
+  const handleDelete = (id: string, enable: boolean) => {
+    if (enable) {
+      message.warning(i18n.t('please off the channel and then delete!'));
+    } else {
+      confirm({
+        title: i18n.t('are you sure you want to delete this item?'),
+        content: i18n.t('the notification channel will be permanently deleted'),
+        onOk() {
+          deleteNotifyChannel.fetch({ id }).then((res) => {
+            if (res) {
+              message.success(i18n.t('deleted successfully'));
+            }
+            updater.paging({ ...paging, current: 1 });
+          });
+        },
+      });
+    }
   };
 
   const handleSubmit = (values: NOTIFY_CHANNEL.IChannelBody, id?: number) => {
@@ -114,7 +128,10 @@ const NotifyChannel = () => {
           config,
           enable,
         })
-        .then(() => {
+        .then((res) => {
+          if (res.success) {
+            message.success(i18n.t('edited successfully'));
+          }
           update({
             paging: { ...paging },
             visible: false,
@@ -132,13 +149,53 @@ const NotifyChannel = () => {
         config,
         enable,
       })
-      .then(() => {
+      .then((res) => {
+        const { data: channel } = res;
         update({
           paging: { ...paging, current: 1 },
           visible: false,
           activeData: {},
         });
+        getNotifyChannelEnableStatus.fetch({ id: channel?.id, type }).then((res) => {
+          const { data: status } = res || {};
+          confirmEnableChannel({ status, channel });
+        });
       });
+  };
+
+  const confirmEnableChannel = ({
+    status,
+    channel,
+  }: {
+    status: NOTIFY_CHANNEL.ChannelEnableStatus;
+    channel: NOTIFY_CHANNEL.NotifyChannel;
+  }) => {
+    const { hasEnable, enableChannelName } = status || {};
+    const [title, content] = hasEnable
+      ? [
+          i18n.t('Are you sure you want to switch notification channel ?'),
+          'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
+          { type: channel.type.displayName, enableChannelName, name: channel.name },
+        ]
+      : [
+          i18n.t('Are you sure you want to enable the notification channel ?'),
+          i18n.t(
+            'There is no enabled channel in {type} type. Do you want to enable the {name} channel? Click the ok button to enable',
+            { type: channel.type.displayName, name: channel.name },
+          ),
+        ];
+    confirm({
+      title,
+      content,
+      onOk() {
+        setNotifyChannelEnable.fetch({ enable: true, id: channel.id }).then((res) => {
+          updater.paging({ ...paging, current: 1 });
+          if (res.success) {
+            message.success(i18n.t('enabled successfully'));
+          }
+        });
+      },
+    });
   };
 
   const handleCancel = () => {
@@ -263,19 +320,25 @@ const NotifyChannel = () => {
                 'please input the SMS Template Code you have applied for on the service provider platform',
               )}`}
             />
-            <div className="text-desc mt-4">
-              {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
-            </div>
-            <div className="text-desc mt-2">
-              <Copy
-                copyText={`${i18n.t('You have a notification message from the Erda platform')}: $\{content}, ${i18n.t(
-                  'please deal with it promptly',
-                )}`}
-              >
-                {`${i18n.t('You have a notification message from the Erda platform')}: $\{content}, ${i18n.t(
-                  'please deal with it promptly',
-                )}`}
-              </Copy>
+            <div className="bg-grey px-2 py-3 rounded-sm mt-2">
+              <div className="text-sub">
+                {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
+              </div>
+              <div className="mt-2">
+                <span className="bg-white text-normal p-1 pr-2 font-semibold">{`${i18n.t(
+                  'You have a notification message from the Erda platform',
+                )}: $\{content}, ${i18n.t('please deal with it promptly')}`}</span>
+                <span
+                  className="text-primary cursor-pointer underline ml-2 jump-to-aliyun"
+                  data-clipboard-text={`${i18n.t(
+                    'You have a notification message from the Erda platform',
+                  )}: $\{content}, ${i18n.t('please deal with it promptly')}`}
+                  onClick={() => window.open(ALIYUN_APPLICATION)}
+                >
+                  {i18n.t('copy and jump to the application page')}
+                </span>
+                <Copy selector=".jump-to-aliyun" />
+              </div>
             </div>
           </>
         );
@@ -286,11 +349,22 @@ const NotifyChannel = () => {
     },
   ];
 
-  const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
+  const columns: Array<IColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
       title: i18n.t('channel name'),
       dataIndex: 'name',
       width: 200,
+    },
+    {
+      title: i18n.t('status'),
+      dataIndex: 'enable',
+      width: 80,
+      render: (enable) => (
+        <span>
+          <Badge status={enable ? 'success' : 'default'} />
+          <span>{enable ? i18n.t('enable') : i18n.t('unable')}</span>
+        </span>
+      ),
     },
     {
       title: i18n.t('channel type'),
@@ -314,46 +388,55 @@ const NotifyChannel = () => {
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createAt',
-      width: 176,
-    },
-    {
-      title: i18n.t('default:operation'),
-      dataIndex: 'id',
-      width: 160,
-      fixed: 'right',
-      render: (id: number, record) => {
-        return (
-          <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEdit(record)}>
-              {i18n.t('edit')}
-            </span>
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                handleDelete(id);
-              }}
-            >
-              {i18n.t('delete')}
-            </span>
-            <Switch
-              size="small"
-              checked={record.enable}
-              onChange={() => {
-                setNotifyChannelEnable
-                  .fetch({
-                    id: record.id,
-                    enable: !record.enable,
-                  })
-                  .finally(() => {
-                    updater.paging({ ...paging });
-                  });
-              }}
-            />
-          </div>
-        );
-      },
+      width: 200,
+      show: false,
     },
   ];
+
+  const actions: IActions<NOTIFY_CHANNEL.NotifyChannel> = {
+    width: 120,
+    render: (record: NOTIFY_CHANNEL.NotifyChannel) => renderMenu(record),
+  };
+
+  const renderMenu = (record: NOTIFY_CHANNEL.NotifyChannel) => {
+    const { editChannel, deleteChannel, enableChannel } = {
+      editChannel: {
+        title: i18n.t('edit'),
+        onClick: () => handleEdit(record.id),
+      },
+      deleteChannel: {
+        title: i18n.t('delete'),
+        onClick: () => {
+          handleDelete(record.id, record.enable);
+        },
+      },
+      enableChannel: {
+        title: record?.enable ? i18n.t('unable') : i18n.t('enable'),
+        onClick: () => {
+          if (!record?.enable) {
+            getNotifyChannelEnableStatus.fetch({ id: record.id, type: record.type.name }).then((res) => {
+              const { data: status } = res;
+              confirmEnableChannel({ status, channel: record });
+            });
+          } else {
+            setNotifyChannelEnable
+              .fetch({
+                id: record.id,
+                enable: false,
+              })
+              .then((res) => {
+                updater.paging({ ...paging });
+                if (res.success) {
+                  message.success(i18n.t('unable successfully'));
+                }
+              });
+          }
+        },
+      },
+    };
+
+    return [editChannel, deleteChannel, enableChannel];
+  };
 
   return (
     <div className="notify-group-manage">
@@ -382,9 +465,10 @@ const NotifyChannel = () => {
       <Spin spinning={loading}>
         <Table
           rowKey="id"
-          dataSource={data?.data || []}
+          dataSource={channelDatasource?.data || []}
           columns={columns}
-          pagination={{ ...paging, total: data?.total ?? 0, showSizeChanger: true }}
+          actions={actions}
+          pagination={{ ...paging, total: channelDatasource?.total ?? 0, showSizeChanger: true }}
           scroll={{ x: 800 }}
           onChange={handleTableChange}
         />

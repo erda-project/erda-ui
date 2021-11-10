@@ -177,6 +177,7 @@ export const OrgSetting = () => {
               sectionList={[
                 {
                   title: i18n.t('Set up a notification channel to set a notification mode'),
+                  desc: i18n.t('notice-channel-desc'),
                   children: <NotifyChannel />,
                 },
               ]}
