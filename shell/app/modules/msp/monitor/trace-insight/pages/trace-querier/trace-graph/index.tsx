@@ -36,6 +36,7 @@ const { TabPane } = Tabs;
 
 export function TraceGraph(props: IProps) {
   const { dataSource } = props;
+  const width = dataSource?.depth <= 12 ? 300 : dataSource?.depth * 24 + 100;
   const bg = ['#4E6097', '#498E9E', '#6CB38B', 'purple', '#F7A76B'];
   const errorColor = '#CE4324';
   // const bg = ['#5872C0', '#ADDD8B', '#DE6E6A', '#84BFDB', '#599F76', '#ED895D', '#9165AF','#DC84C8','#F3C96B'];
@@ -189,9 +190,9 @@ export function TraceGraph(props: IProps) {
             />
           }
         >
-          <div className="left flex items-center " style={{ width: Math.max(300 - 24 * depth, 300) }}>
+          <div className="left flex items-center " style={{ width: width - 24 * depth }}>
             <div className="w-1 h-4 relative mr-1" style={{ background: error ? errorColor : bg[depth % 5] }} />
-            <div className="flex items-center" style={{ width: Math.max(300 - 24 * depth - 8, 280) }}>
+            <div className="flex items-center w-full">
               <span className="font-semibold text-ms mr-2 whitespace-nowrap">{serviceName}</span>
               <span className="truncate text-xs">{operationName}</span>
             </div>
@@ -231,6 +232,7 @@ export function TraceGraph(props: IProps) {
           <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
             <TraceHeader
               duration={duration}
+              width={width}
               setExpandedKeys={setExpandedKeys}
               allKeys={allKeys}
               expandedKeys={expandedKeys}

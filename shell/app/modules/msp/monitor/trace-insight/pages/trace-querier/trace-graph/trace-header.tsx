@@ -20,18 +20,21 @@ import { displayTimeString } from './utils';
 
 export const TraceHeader = (props: {
   duration: number;
+  width: number;
   setExpandedKeys: (params: string[]) => void;
   allKeys: string[];
   expandedKeys: string[];
 }) => {
-  const { duration, setExpandedKeys, allKeys, expandedKeys } = props;
+  const { duration, setExpandedKeys, allKeys, expandedKeys, width } = props;
   const avg = duration / 4;
   const pointTimers = [avg, avg * 2, avg * 3, avg * 4];
   const isExpanded = expandedKeys?.length > 0;
   return (
     <div className="trace-header text-gray font-semibold text-sm my-2 p-1 border border-solid border-light-border">
-      <div className="left text-sub font-semibold flex items-center">
-        <span className="left text-sub font-semibold">Services</span>
+      <div className="text-sub font-semibold flex items-center">
+        <span className="left text-sub font-semibold" style={{ width }}>
+          Services
+        </span>
         <Tooltip title={i18n.t('msp:expand all')}>
           <CustomIcon
             type="chevron-down"
