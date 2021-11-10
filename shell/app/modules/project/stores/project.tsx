@@ -83,6 +83,11 @@ const project = createStore({
     listenRoute(({ params, isIn, isLeaving }) => {
       const { projectId, spaceId } = params;
       const [curProjectId, curSpaceId] = project.getState((s) => [s.curProjectId, s.curSpaceId]);
+      if (isLeaving('project') && isIn('orgProject')) {
+        const info = project.getState((s) => s.info);
+        userStore.reducers.cleanNoAuth();
+        breadcrumbStore.reducers.setInfo('projectName', info.name || '');
+      }
       if (isIn('project')) {
         if (`${curProjectId}` !== projectId) {
           loadingInProject = true;
