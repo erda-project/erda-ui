@@ -27,7 +27,7 @@ import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge } from 'antd';
-import Table, { IColumnProps } from 'common/components/table';
+import Table, { IColumnProps, IActions } from 'common/components/table';
 import { FormModal, Copy } from 'common';
 import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
 import { useUpdate } from 'common/use-hooks';
@@ -104,7 +104,10 @@ const NotifyChannel = () => {
         title: i18n.t('are you sure you want to delete this item?'),
         content: i18n.t('the notification channel will be permanently deleted'),
         onOk() {
-          deleteNotifyChannel.fetch({ id }).then(() => {
+          deleteNotifyChannel.fetch({ id }).then((res) => {
+            if (res) {
+              message.success(i18n.t('deleted successfully'));
+            }
             updater.paging({ ...paging, current: 1 });
           });
         },
@@ -124,7 +127,10 @@ const NotifyChannel = () => {
           config,
           enable,
         })
-        .then(() => {
+        .then((res) => {
+          if (res.success) {
+            message.success(i18n.t('edited successfully'));
+          }
           update({
             paging: { ...paging },
             visible: false,
@@ -142,8 +148,7 @@ const NotifyChannel = () => {
         config,
         enable,
       })
-      .then((res: any) => {
-        console.log(res, 77);
+      .then((res) => {
         const { data: channel } = res;
         update({
           paging: { ...paging, current: 1 },
@@ -157,24 +162,33 @@ const NotifyChannel = () => {
       });
   };
 
-  const confirmEnableChannel = ({ status, channel }: { status: NOTIFY_CHANNEL.ChannelEnableStatus; channel }) => {
+  const confirmEnableChannel = ({
+    status,
+    channel,
+  }: {
+    status: NOTIFY_CHANNEL.ChannelEnableStatus;
+    channel: NOTIFY_CHANNEL.NotifyChannel;
+  }) => {
     const { hasEnable, enableChannelName } = status || {};
     confirm({
       title: hasEnable
-        ? i18n.t('Are you sure you want to switch channels ?')
-        : i18n.t('Are you sure you want to enable the channel ?'),
+        ? i18n.t('Are you sure you want to switch notification channels ?')
+        : i18n.t('Are you sure you want to enable the notification channel ?'),
       content: hasEnable
         ? i18n.t(
-            'Under the same channel type, {type} has an enabled channel {enableChannelName}, whether to switch to {name} channel ?',
+            'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
             { type: channel.type.displayName, enableChannelName, name: channel.name },
           )
         : i18n.t(
-            '{type} There is no enabled channel. Do you want to open the {name} channel? Click the open button to open',
+            'There is no enabled channel in {type} type. Do you want to enable the {name} channel? Click the ok button to enable',
             { type: channel.type.displayName, name: channel.name },
           ),
       onOk() {
-        setNotifyChannelEnable.fetch({ enable: true, id: channel.id }).then(() => {
+        setNotifyChannelEnable.fetch({ enable: true, id: channel.id }).then((res) => {
           updater.paging({ ...paging, current: 1 });
+          if (res.success) {
+            message.success(i18n.t('enabled successfully'));
+          }
         });
       },
     });
@@ -379,7 +393,7 @@ const NotifyChannel = () => {
     },
   ];
 
-  const actions = {
+  const actions: IActions<NOTIFY_CHANNEL.NotifyChannel> = {
     width: 120,
     render: (record: NOTIFY_CHANNEL.NotifyChannel) => renderMenu(record),
   };
@@ -408,10 +422,13 @@ const NotifyChannel = () => {
             setNotifyChannelEnable
               .fetch({
                 id: record.id,
-                enable: !record.enable,
+                enable: false,
               })
-              .finally(() => {
+              .then((res) => {
                 updater.paging({ ...paging });
+                if (res.success) {
+                  message.success(i18n.t('unable successfully'));
+                }
               });
           }
         },

@@ -66,7 +66,6 @@ declare namespace NOTIFY_CHANNEL {
 
   interface ChannelBody {
     data: NotifyChannel;
-    success: boolean;
   }
 
   interface ChannelStatusBody {
