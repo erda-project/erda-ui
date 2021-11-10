@@ -29,7 +29,7 @@ import { Filter, MemberSelector } from 'common';
 import { useUpdate } from 'common/use-hooks';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
-import { Input, Table, Button, Select, RangePicker, Tooltip } from 'antd';
+import { Input, Table, Button, Select, DatePicker, Tooltip } from 'antd';
 import { useLoading } from 'core/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';
@@ -170,7 +170,7 @@ const Ticket = () => {
         },
       },
       {
-        type: RangePicker,
+        type: DatePicker.RangePicker,
         name: 'createdAt',
         valueType: 'range',
         customProps: {
