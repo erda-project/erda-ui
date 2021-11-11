@@ -110,7 +110,6 @@ const Filter = React.forwardRef(
           className={className}
           onSubmit={search}
           onValuesChange={handleValueChange}
-          size="small"
           layout="horizontal"
           isMultiColumn
         >
