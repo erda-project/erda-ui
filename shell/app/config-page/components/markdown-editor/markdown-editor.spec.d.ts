@@ -17,8 +17,6 @@ declare namespace CP_MARKDOWN_EDITOR {
 
     placeholder?: string;
     maxLength?: number;
-    isShowRate?: boolean;
-    score?: number;
     defaultMode?: 'md' | 'html';
     readOnly?: boolean;
     autoFocus?: boolean;

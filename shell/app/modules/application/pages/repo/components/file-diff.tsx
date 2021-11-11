@@ -14,14 +14,13 @@
 import { Tooltip, Radio, Button } from 'antd';
 import React, { useState } from 'react';
 import i18n from 'i18n';
-import { getOrgFromPath } from 'common/utils';
 import { diff_match_patch as Diff } from 'diff-match-patch';
 import { EmptyListHolder, Icon as CustomIcon, IF, BackToTop } from 'common';
 import { last, map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import { getFileCommentMap } from './mr-comments';
 import MarkdownEditor from 'common/components/markdown-editor';
-import { isImage, setApiWithOrg } from 'common/utils';
+import { isImage, setApiWithOrg, getOrgFromPath } from 'common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
 import 'requestidlecallback-polyfill';
@@ -287,6 +286,7 @@ export const FileDiff = ({
       [lineKey]: true,
     });
   };
+
   return (
     <div ref={forwardRef} className="file-diff">
       <div
@@ -489,14 +489,25 @@ export const FileDiff = ({
                               <IF check={showCommentEdit}>
                                 <MarkdownEditor
                                   value={isShowLS[lineKey] ? tsComment.content : null}
-                                  onSubmit={(note) =>
-                                    addCommentFn({
-                                      note,
-                                    }).then(() => toggleEditFn(lineKey, false))
-                                  }
-                                  btnText={i18n.t('dop:post comment')}
                                   onCancel={() => toggleEditFn(lineKey, false)}
-                                  onSetLS={(v) => handleSetLS(lineKey, v)}
+                                  operationBtns={[
+                                    {
+                                      text: i18n.t('dop:post comment'),
+                                      type: 'primary',
+                                      onClick: (v) =>
+                                        addCommentFn({
+                                          note: v,
+                                        }).then(() => toggleEditFn(lineKey, false)),
+                                    },
+                                    {
+                                      text: i18n.t('dop:temporary storage'),
+                                      onClick: (v) => handleSetLS(lineKey, v),
+                                    },
+                                    {
+                                      text: i18n.t('common:discard'),
+                                      onClick: () => toggleEditFn(lineKey, false),
+                                    },
+                                  ]}
                                 />
                                 <ELSE />
                                 <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('dop:reply')}</Button>
@@ -559,13 +570,20 @@ export const FileDiff = ({
                             <IF check={showLeftCommentEdit}>
                               <MarkdownEditor
                                 value={isShowLS[lineKey] ? tsComment.content : null}
-                                onSubmit={(note) =>
-                                  addCommentFn({
-                                    note,
-                                  }).then(() => toggleLeftCommentEdit(lineKey, false))
-                                }
-                                btnText={i18n.t('dop:post comment')}
-                                onCancel={() => toggleLeftCommentEdit(lineKey, false)}
+                                operationBtns={[
+                                  {
+                                    text: i18n.t('dop:post comment'),
+                                    type: 'primary',
+                                    onClick: (v) =>
+                                      addCommentFn({
+                                        note: v,
+                                      }).then(() => toggleLeftCommentEdit(lineKey, false)),
+                                  },
+                                  {
+                                    text: i18n.t('common:discard'),
+                                    onClick: () => toggleLeftCommentEdit(lineKey, false),
+                                  },
+                                ]}
                               />
                             </IF>
                           </td>
@@ -582,13 +600,20 @@ export const FileDiff = ({
                             <IF check={showRightCommentEdit}>
                               <MarkdownEditor
                                 value={isShowLS[lineKey] ? tsComment.content : null}
-                                onSubmit={(note) =>
-                                  addCommentFn({
-                                    note,
-                                  }).then(() => toggleRightCommentEdit(lineKey, false))
-                                }
-                                btnText={i18n.t('dop:post comment')}
-                                onCancel={() => toggleRightCommentEdit(lineKey, false)}
+                                operationBtns={[
+                                  {
+                                    text: i18n.t('dop:post comment'),
+                                    type: 'primary',
+                                    onClick: (v) =>
+                                      addCommentFn({
+                                        note: v,
+                                      }).then(() => toggleRightCommentEdit(lineKey, false)),
+                                  },
+                                  {
+                                    text: i18n.t('common:discard'),
+                                    onClick: () => toggleRightCommentEdit(lineKey, false),
+                                  },
+                                ]}
                               />
                             </IF>
                           </td>
