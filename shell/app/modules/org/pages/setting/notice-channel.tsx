@@ -174,8 +174,10 @@ const NotifyChannel = () => {
     const [title, content] = hasEnable
       ? [
           i18n.t('Are you sure you want to switch notification channel ?'),
-          'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
-          { type: channel.type.displayName, enableChannelName, name: channel.name },
+          i18n.t(
+            'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
+            { type: channel.type.displayName, enableChannelName, name: channel.name },
+          ),
         ]
       : [
           i18n.t('Are you sure you want to enable the notification channel ?'),
