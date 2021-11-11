@@ -44,6 +44,7 @@ import {
   deleteNotifyChannel,
 } from 'org/services/notice-channel';
 import { ALIYUN_APPLICATION } from 'common/constants';
+import './org-setting.scss';
 
 const { confirm } = Modal;
 
@@ -441,14 +442,13 @@ const NotifyChannel = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative notice-channel">
       <Tooltip title={i18n.t('new notification channel')}>
         <div
-          className="absolute right-3 hover-active"
+          className="absolute right-3 hover-active add-channel-button"
           onClick={() => {
             handleAdd();
           }}
-          style={{ top: -90 }}
         >
           <Button type="primary">{i18n.t('new notification channel')}</Button>
         </div>
