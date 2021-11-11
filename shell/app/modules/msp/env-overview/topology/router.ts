@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getSIRouter from 'msp/monitor/service-insight/router';
 import getEIRouter from 'msp/monitor/external-insight/router';
 import getGatewayIngressMonitorRouter from 'msp/monitor/gateway-ingress/router';
 import i18n from 'i18n';
@@ -28,10 +27,6 @@ function monitorTopologyRouter(): RouteConfigItem {
       },
       getGatewayIngressMonitorRouter(),
       getEIRouter(),
-      {
-        path: ':applicationId/:runtimeName/:serviceName',
-        routes: [getSIRouter()],
-      },
     ],
   };
 }

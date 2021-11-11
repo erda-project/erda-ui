@@ -19,6 +19,7 @@ import * as path from 'path';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import { getLessTheme, getScssTheme } from './config/theme';
+
 const babelConfig = require('./babel.config.js');
 
 const dotenv = require('dotenv');
@@ -72,7 +73,6 @@ export default ({ command, mode }) => {
     'monitor-overview': path.resolve(__dirname, './app/modules/msp/monitor/monitor-overview'),
     'application-insight': path.resolve(__dirname, './app/modules/msp/monitor/application-insight'),
     'external-insight': path.resolve(__dirname, './app/modules/msp/monitor/external-insight'),
-    'service-insight': path.resolve(__dirname, './app/modules/msp/monitor/service-insight'),
     'browser-insight': path.resolve(__dirname, './app/modules/msp/monitor/browser-insight'),
     'gateway-ingress': path.resolve(__dirname, './app/modules/msp/monitor/gateway-ingress'),
     'docker-container': path.resolve(__dirname, './app/modules/msp/monitor/docker-container'),
