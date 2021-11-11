@@ -400,7 +400,6 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                     updateFullData('preCondition', v);
                   }}
                   placeholder={i18n.t('dop:no content yet')}
-                  btnText={i18n.t('save')}
                 />
               </ContentPanel>
               <ContentPanel
@@ -439,7 +438,6 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                     updateFullData('desc', v);
                   }}
                   placeholder={i18n.t('dop:supplemental description')}
-                  btnText={i18n.t('save')}
                 />
               </ContentPanel>
             </div>

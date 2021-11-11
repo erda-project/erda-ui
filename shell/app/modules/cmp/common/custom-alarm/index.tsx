@@ -36,7 +36,6 @@ import {
 import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'antd';
 import { PagingTable, FormModal, MarkdownEditor, RenderPureForm, IF, BoardGrid } from 'common';
 import { useUpdate } from 'common/use-hooks';
-import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
 import { FormInstance } from 'core/common/interface';
 import { useLoading } from 'core/stores/loading';
@@ -80,7 +79,7 @@ const formItemLayout = {
   },
 };
 
-export default ({ scopeType }: { scopeType: string }) => {
+const CustomAlarm = ({ scopeType }: { scopeType: string }) => {
   const customAlarmStore = customAlarmStoreMap[scopeType];
   const monitorMetaDataStore = monitorMetaDataStoreMap[scopeType];
   const [switchCustomAlarmLoading, getPreviewMetaDataLoading, getCustomAlarmsLoading, getCustomAlarmDetailLoading] =
@@ -850,7 +849,6 @@ export default ({ scopeType }: { scopeType: string }) => {
               },
             });
           }}
-          defaultMode="md"
           placeholder={i18n.t('cmp:refer to template sample to input')}
           maxLength={512}
         />
@@ -949,3 +947,5 @@ export default ({ scopeType }: { scopeType: string }) => {
     </div>
   );
 };
+
+export default CustomAlarm;

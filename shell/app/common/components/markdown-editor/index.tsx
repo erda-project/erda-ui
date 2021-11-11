@@ -14,20 +14,12 @@
 import i18n from 'i18n';
 import { Button, message } from 'antd';
 import React, { ReactElement } from 'react';
-import { Editor } from './editor';
+import Editor from './editor';
 import { useUpdate } from 'app/common/use-hooks';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import { BaseButtonProps } from 'antd/es/button/button';
 import './index.scss';
-
-interface CanView {
-  menu?: boolean;
-  md?: boolean;
-  html?: boolean;
-  fullScreen?: boolean;
-  hideMenu?: boolean;
-}
 
 interface BtnProps extends BaseButtonProps {
   text: string;
@@ -41,15 +33,15 @@ interface IProps {
   extraRight?: ReactElement | ReactElement[];
   readOnly?: boolean;
   autoFocus?: boolean;
-  canView?: CanView;
-  showMenu?: boolean;
-  notClearAfterSubmit?: boolean;
   style?: React.CSSProperties;
   operationBtns?: BtnProps[];
-  onChange?: (value: any) => void;
+  showMenu?: boolean;
+  defaultHeight?: number;
+  maxHeight?: number;
+  autoSize?: boolean;
+  onChange?: (value: string) => void;
   onFocus?: (e: any) => void;
   onBlur?: (value: any) => void;
-  onCancel?: () => void;
 }
 
 interface IState {
@@ -72,12 +64,15 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     readOnly,
     extraRight,
     style = { height: '400px' },
-    showMenu = true,
     defaultMode = 'md',
     autoFocus,
     value,
     maxLength,
     operationBtns,
+    showMenu = true,
+    autoSize = false,
+    defaultHeight,
+    maxHeight,
     onChange,
     onFocus,
     onBlur,
@@ -127,17 +122,6 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     }
   }, [tempContent, updater, value]);
 
-  // const onSubmit = () => {
-  //   const { onSubmit: _submit, notClearAfterSubmit = false } = props;
-
-  //   _submit?.(state.content, state.score);
-
-  //   if (!notClearAfterSubmit) {
-  //     updater.score(0);
-  //     updater.content('');
-  //   }
-  // };
-
   const onChangeContent = (data: { html: string; text: string }) => {
     let v = data.text;
     if (maxLength && data.text.length > maxLength) {
@@ -152,8 +136,8 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
 
   const curShowButton = !!operationBtns?.length;
 
-  let height: string | number = style.height ? parseInt(style.height, 10) : 400;
-  height = view.menu ? (view.md && curShowButton ? height + 50 : height) : 'auto';
+  const height: string | number = style.height ? parseInt(style.height, 10) : 400;
+  // height = view.menu ? (view.md && curShowButton ? height + 50 : height) : 'auto';
 
   return (
     <div className="markdown-editor relative">
@@ -174,6 +158,9 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
           config={{
             view,
           }}
+          autoSize={autoSize}
+          defaultHeight={defaultHeight || 400}
+          maxHeight={maxHeight || 600}
           value={content}
           onChange={onChangeContent}
           onBlur={() => onBlur?.(content)}

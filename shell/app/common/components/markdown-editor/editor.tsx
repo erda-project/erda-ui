@@ -13,7 +13,7 @@
 
 import React from 'react';
 import Markdown from 'common/utils/marked';
-import MdEditor from '@erda-ui/react-markdown-editor-lite';
+import MdEditor, { Plugins } from '@erda-ui/react-markdown-editor-lite';
 import { itemInfo } from '@erda-ui/react-markdown-editor-lite/share/var';
 import { EditorProps } from '@erda-ui/react-markdown-editor-lite/editor';
 import UploadPlugin from './upload-plugin';
@@ -21,15 +21,28 @@ import { uploadFile } from '../../services';
 import { convertToFormData } from 'common/utils';
 import { getFormatter } from 'charts/utils';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
+import './editor.scss';
 
 MdEditor.use(UploadPlugin);
 
-// MdEditor.use(Plugins.AutoResize, {
-//   min: 200, // 最小高度
-//   max: 600, // 最大高度
-// });
+interface IProps extends Omit<EditorProps, 'renderHTML'> {
+  autoSize: boolean;
+  defaultHight: number;
+  maxHeight: number;
+}
 
-export const Editor = React.forwardRef((props: Omit<EditorProps, 'renderHTML'>, ref) => {
+const Editor = React.forwardRef((props: IProps, ref) => {
+  const { autoSize, defaultHight, maxHeight, style, ...restEditorProps } = props;
+
+  React.useEffect(() => {
+    if (autoSize && defaultHight && maxHeight) {
+      MdEditor.use(Plugins.AutoResize, {
+        min: defaultHight, // min height
+        max: maxHeight, // max height
+      });
+    }
+  }, [autoSize, defaultHight, maxHeight]);
+
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
     const text = itemsInfo.find((i) => i.kind === 'string');
@@ -39,24 +52,28 @@ export const Editor = React.forwardRef((props: Omit<EditorProps, 'renderHTML'>, 
       newFile = new window.File([file], fileName, { type: file.type });
     }
     return new Promise((resolve) => {
-      uploadFile(convertToFormData({ file: newFile })).then((res) => {
-        const { size, url } = res?.data || {};
-        let imageUrl = imageText;
-        imageUrl = imageText
-          .replace('{url}', url)
-          .replace(/\[(.+)\]/, `[${fileName}(${getFormatter('STORAGE', 'B').format(size)})]`);
-        resolve(imageUrl);
-      });
+      (uploadFile(convertToFormData({ file: newFile })) as unknown as Promise<{ data: { size: number; url: string } }>) // TODO ts type
+        .then((res) => {
+          const { size, url } = res?.data || {};
+          let imageUrl = imageText;
+          imageUrl = imageText
+            .replace('{url}', url)
+            .replace(/\[(.+)\]/, `[${fileName}(${getFormatter('STORAGE', 'B').format(size)})]`);
+          resolve(imageUrl);
+        });
     }) as Promise<string>;
   }
+
   return (
     <MdEditor
       ref={ref}
-      style={{ height: '400px' }}
-      {...props}
-      htmlClass="md-content"
-      renderHTML={(text) => Markdown(text)}
+      style={autoSize ? { ...style } : { height: `${defaultHight}px`, ...style }}
+      {...restEditorProps}
+      htmlClass="ec-md-content"
+      renderHTML={(text: string) => Markdown(text)}
       onImageUpload={onImageUpload}
     />
   );
 });
+
+export default Editor;
