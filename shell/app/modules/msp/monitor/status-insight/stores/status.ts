@@ -43,8 +43,8 @@ const Status = createStore({
   state: initState,
   effects: {
     async getProjectDashboard({ call, update, getParams }) {
-      const { projectId, env } = getParams();
-      const dashboard = await call(getProjectDashboard, { projectId, env });
+      const { projectId, terminusKey, env } = getParams();
+      const dashboard = await call(getProjectDashboard, { projectId, tenantId: terminusKey, env });
       if (dashboard) {
         update({ dashboard });
       }

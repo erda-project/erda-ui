@@ -150,7 +150,7 @@ const convertFormData = (_formData?: Obj) => {
 
 const AddModal = (props: IProps) => {
   const { formData, modalVisible, afterSubmit, toggleModal } = props;
-  const { env, projectId } = routeInfoStore.useStore((s) => s.params);
+  const { env, terminusKey, projectId } = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
   const [form] = Form.useForm();
   const formRef = React.useRef<FormInstance>(null);
@@ -240,6 +240,7 @@ const AddModal = (props: IProps) => {
         mode,
         name,
         projectId,
+        tenantId: terminusKey,
         config: {
           url,
           retry,
@@ -257,6 +258,7 @@ const AddModal = (props: IProps) => {
         mode,
         name,
         projectId,
+        tenantId: terminusKey,
         config: {
           retry,
           interval: frequency,
