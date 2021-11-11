@@ -100,6 +100,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
     const { $options, $headers, $body, ...rest } = params || {};
     const { bodyOrQuery, pathParams } = extractPathParams(path, rest);
     const { isDownload, uploadFileKey } = $options || {};
+    let getParams = bodyOrQuery;
     if ('pageNo' in bodyOrQuery && !('pageSize' in bodyOrQuery)) {
       bodyOrQuery.pageSize = DEFAULT_PAGESIZE;
     }
@@ -108,6 +109,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
       if (Object.keys(bodyOrQuery).length) {
         bodyData = uploadFileKey ? bodyOrQuery[uploadFileKey] : bodyOrQuery;
       }
+      getParams = {};
     } else if (method === 'delete') {
       bodyData = $body;
     }
@@ -115,7 +117,7 @@ export const genRequest = function <T extends FN>(apiConfig: APIConfig) {
       method: method as any,
       url: generatePath(path, pathParams),
       headers: headers ?? $headers,
-      params: bodyOrQuery,
+      params: getParams,
       paramsSerializer: (p: Obj<string>) => qs.stringify(p),
       responseType: isDownload ? 'blob' : 'json',
       data: bodyData,
