@@ -29,8 +29,17 @@ describe('MarkdownEditor', () => {
         onBlur={fn}
         onChange={fn}
         maxLength={maxLength}
-        onCancel={fn}
-        onSubmit={onSubmit}
+        operationBtns={[
+          {
+            text: 'save',
+            type: 'primary',
+            onClick: () => onSubmit
+          },
+          {
+            text: 'cancel',
+            onClick: fn,
+          },
+        ]}
         onFocus={fn}
       />,
     );

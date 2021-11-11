@@ -489,7 +489,6 @@ export const FileDiff = ({
                               <IF check={showCommentEdit}>
                                 <MarkdownEditor
                                   value={isShowLS[lineKey] ? tsComment.content : null}
-                                  onCancel={() => toggleEditFn(lineKey, false)}
                                   operationBtns={[
                                     {
                                       text: i18n.t('dop:post comment'),
