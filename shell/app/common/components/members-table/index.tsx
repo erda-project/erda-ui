@@ -435,12 +435,14 @@ const MembersTable = ({
           dataIndex: 'roles',
           render: (roles: string[]) => {
             const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
-            return (
+            return rolesStr ? (
               <div className="members-list-role-operate nowrap">
                 <Tooltip title={rolesStr}>
                   <span className="role-tag">{rolesStr}</span>
                 </Tooltip>
               </div>
+            ) : (
+              '-'
             );
           },
         },

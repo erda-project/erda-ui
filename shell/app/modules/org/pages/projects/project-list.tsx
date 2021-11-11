@@ -79,7 +79,7 @@ export const ProjectList = () => {
           <span>
             <span className="mr-1">{i18n.t('cmp:application/Member Statistics')}</span>
             <Tooltip title={i18n.t('update data every day at 0')}>
-              <IconAttention fill="#333" className="font-bold" />
+              <IconAttention fill="#837d90" className="font-bold" />
             </Tooltip>
           </span>
         ),
@@ -94,7 +94,7 @@ export const ProjectList = () => {
         icon: <ErdaIcon type="CPU" />,
         sorter: true,
         sortOrder: getColumnOrder('cpuQuota'),
-        render: (text: string) => `${text} Core`,
+        render: (text: string) => `${(+text || 0).toFixed(2)} Core`,
       },
       {
         title: i18n.t('Memory quota'),
@@ -103,7 +103,7 @@ export const ProjectList = () => {
         icon: <ErdaIcon type="GPU" />,
         sorter: true,
         sortOrder: getColumnOrder('memQuota'),
-        render: (text: string) => `${text} GiB`,
+        render: (text: string) => `${(+text || 0).toFixed(2)} GiB`,
       },
       {
         title: i18n.t('latest active'),
