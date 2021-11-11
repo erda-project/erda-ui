@@ -44,6 +44,7 @@ import {
   deleteNotifyChannel,
 } from 'org/services/notice-channel';
 import { ALIYUN_APPLICATION } from 'common/constants';
+import './org-setting.scss';
 
 const { confirm } = Modal;
 
@@ -174,8 +175,10 @@ const NotifyChannel = () => {
     const [title, content] = hasEnable
       ? [
           i18n.t('Are you sure you want to switch notification channel ?'),
-          'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
-          { type: channel.type.displayName, enableChannelName, name: channel.name },
+          i18n.t(
+            'Under the same channel type, {type} type has an enabled channel {enableChannelName}, whether to switch to {name} channel ? Click ok button to confirm the switch, and close the enabled',
+            { type: channel.type.displayName, enableChannelName, name: channel.name },
+          ),
         ]
       : [
           i18n.t('Are you sure you want to enable the notification channel ?'),
@@ -324,15 +327,15 @@ const NotifyChannel = () => {
               <div className="text-sub">
                 {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
               </div>
-              <div className="mt-2">
-                <span className="bg-white text-normal p-1 pr-2 font-semibold">{`${i18n.t(
+              <div className="mt-2 flex items-center">
+                <span className="bg-brightgray text-normal p-1 pr-4 font-semibold rounded-sm">{`${i18n.t(
                   'You have a notification message from the Erda platform',
                 )}: $\{content}, ${i18n.t('please deal with it promptly')}`}</span>
                 <span
                   className="text-primary cursor-pointer underline ml-2 jump-to-aliyun"
                   data-clipboard-text={`${i18n.t(
                     'You have a notification message from the Erda platform',
-                  )}: $\{content}, ${i18n.t('please deal with it promptly')}`}
+                  )}:  $\{content},  ${i18n.t('please deal with it promptly')}`}
                   onClick={() => window.open(ALIYUN_APPLICATION)}
                 >
                   {i18n.t('copy and jump to the application page')}
@@ -439,10 +442,10 @@ const NotifyChannel = () => {
   };
 
   return (
-    <div className="notify-group-manage">
+    <div className="relative notice-channel">
       <Tooltip title={i18n.t('new notification channel')}>
         <div
-          className="notify-group-action hover-active"
+          className="absolute right-3 hover-active add-channel-button"
           onClick={() => {
             handleAdd();
           }}
