@@ -45,6 +45,7 @@ const gotoMap = {
   qualityReport: '/erda/dop/projects/1/apps/16/test/quality',
   testDetail: '/erda/dop/projects/1/apps/16/test',
   organizationInfo: '/erda/orgCenter/setting/detail?tabKey=orgInfo',
+  projectManagement: '/erda/orgCenter/projects',
 };
 
 // Extend base test with our fixtures.
