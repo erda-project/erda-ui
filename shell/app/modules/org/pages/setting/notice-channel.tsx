@@ -326,15 +326,15 @@ const NotifyChannel = () => {
               <div className="text-sub">
                 {i18n.t('Submit the following information to the service provider to apply for an SMS template')}:
               </div>
-              <div className="mt-2">
-                <span className="bg-white text-normal p-1 pr-2 font-semibold">{`${i18n.t(
+              <div className="mt-2 flex items-center">
+                <span className="bg-brightgray text-normal p-1 pr-4 font-semibold rounded-sm">{`${i18n.t(
                   'You have a notification message from the Erda platform',
                 )}: $\{content}, ${i18n.t('please deal with it promptly')}`}</span>
                 <span
                   className="text-primary cursor-pointer underline ml-2 jump-to-aliyun"
                   data-clipboard-text={`${i18n.t(
                     'You have a notification message from the Erda platform',
-                  )}: $\{content}, ${i18n.t('please deal with it promptly')}`}
+                  )}:  $\{content},  ${i18n.t('please deal with it promptly')}`}
                   onClick={() => window.open(ALIYUN_APPLICATION)}
                 >
                   {i18n.t('copy and jump to the application page')}
