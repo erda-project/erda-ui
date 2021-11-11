@@ -441,13 +441,14 @@ const NotifyChannel = () => {
   };
 
   return (
-    <div className="notify-group-manage">
+    <div className="relative">
       <Tooltip title={i18n.t('new notification channel')}>
         <div
-          className="notify-group-action hover-active"
+          className="absolute right-3 hover-active"
           onClick={() => {
             handleAdd();
           }}
+          style={{ top: -90 }}
         >
           <Button type="primary">{i18n.t('new notification channel')}</Button>
         </div>
