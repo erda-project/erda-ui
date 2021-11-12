@@ -268,7 +268,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               level: x.level ? x.level?.split(',') : 'Breakdown',
               groupType: x.groupType?.split(','),
               groupTypeOptions:
-                (notifyChannelMap[x.notifyGroup.targets[0].type] || []).map((y) => ({
+                (notifyChannelMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
                   key: y.value,
                   display: y.name,
                 })) || [],
