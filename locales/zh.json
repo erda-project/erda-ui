@@ -146,6 +146,7 @@
     "The name is reserved internally. Please change the name.": "该命名被内部保留，请更改命名",
     "The {index} item quantity and unit cannot be empty.": "第{index}项数量和单位不得为空",
     "There is no enabled channel in {type} type. Do you want to enable the {name} channel? Click the ok button to enable": "{type}类型无开启的渠道，是否开启 {name} 渠道？ 点击确定按钮后开启",
+    "There is no option under this tab, you can choose the matching mode to input data": "此标签下暂无选项，您可以选择匹配模式输入数据",
     "This page has no data, whether to go ": "该页暂无数据，是否前往 ",
     "Tickets": "工单",
     "Tokyo": "东京",

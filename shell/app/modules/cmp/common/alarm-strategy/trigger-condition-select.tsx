@@ -59,7 +59,9 @@ export const TriggerConditionSelect = ({
               .find((item: { key: string }) => item.key === value)
               ?.options.map((item: string) => ({ key: item, display: item })) ?? [];
           if (currentOptions.length === 0) {
-            message.warning('该标签下暂无可选项,');
+            message.warning(
+              i18n.t('There is no option under this tab, you can choose the matching mode to input data'),
+            );
           }
           handleEditTriggerConditions(id, { key: 'valueOptions', value: currentOptions });
           handleEditTriggerConditions(id, { key: 'values', value: currentOptions[0]?.key });

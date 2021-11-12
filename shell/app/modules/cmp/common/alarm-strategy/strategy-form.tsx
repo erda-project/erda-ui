@@ -297,7 +297,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         },
       ]);
     }
-  }, [alertTriggerConditionsContent]);
+  }, []);
 
   React.useEffect(() => {
     if (alertTriggerConditions?.length) {
