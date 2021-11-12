@@ -207,14 +207,14 @@ export default () => {
         }
       >
         <Row>
-          <Col span={12} className="flex items-center">
+          <Col span={12} className="flex items-center h-20">
             {info.logo && <img src={info.logo} className="w-16 h-16 mr-4" />}
             <div>
               <div className="text-xl label">{info.displayName}</div>
               <div className="desc">{info.desc}</div>
             </div>
           </Col>
-          <Col span={12}>
+          <Col span={12} className="py-5">
             <Panel
               columnNum={2}
               fields={[

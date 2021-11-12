@@ -860,7 +860,7 @@
     "Name already existed. Please rename it.": "名称已存在，请重新命名",
     "New version available. Upgrade now?": "版本可升级，是否升级",
     "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.": "数值：请按照标准的数学表达式规范填写。示例如下： 区间支持开区间和闭区间、示例闭区间：[-20,20] 表示集合：<[-200,200],-1,2>。",
-    "O & M": "运维管理",
+    "O & M": "应用运维",
     "Platform default rules. Please add custom rules if necessary.": "平台默认规则，如需要调整请通过添加自定义规则来完成",
     "Please enter the issue title": "请输入事项标题",
     "Please enter the repository address started with http or https.": "请输入以http或https开头的仓库地址",
