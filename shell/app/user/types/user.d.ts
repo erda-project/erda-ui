@@ -19,7 +19,14 @@ interface IPermResponseData {
   contactsWhenNoPermission: null | string[];
   permissionList: IPerm[];
   resourceRoleList?: IPerm[];
+  scopeInfo?: IScopeInfo;
 }
+
+interface IScopeInfo {
+  projectName?: string;
+  appName?: string;
+}
+
 interface IPerm {
   resource: string;
   action: string;
