@@ -46,6 +46,7 @@ declare namespace MONITOR_STATUS {
     status: string;
     uptime: string;
     url: string;
+    config: Obj;
   }
 
   interface IDashboardResp {

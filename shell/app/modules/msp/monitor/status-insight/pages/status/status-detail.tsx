@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Row, Col, Button, Tooltip, Ellipsis } from 'antd';
+import { Spin, Row, Col, Button, Tooltip } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import StatusChart from './status-detail-chart';
 import MonthUptime from './3-month-uptime';
@@ -101,8 +101,8 @@ const StatusDetail = () => {
         <div className="url-bar">
           <span className="mr-4 whitespace-nowrap overflow-ellipsis overflow-hidden ...">
             {data.name}&nbsp;&nbsp;
-            <Tooltip arrowPointAtCenter title={data.url}>
-              ({data.url})
+            <Tooltip arrowPointAtCenter title={data.config?.url}>
+              ({data.config?.url})
             </Tooltip>
           </span>
           <div>
