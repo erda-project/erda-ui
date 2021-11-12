@@ -72,7 +72,6 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       onFocus={() => setShowBtn(true)}
       readOnly={disabled}
-      notClearAfterSubmit
       operationBtns={operationBtns}
     />
   );

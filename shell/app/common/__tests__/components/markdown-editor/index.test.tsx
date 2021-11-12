@@ -33,7 +33,7 @@ describe('MarkdownEditor', () => {
           {
             text: 'save',
             type: 'primary',
-            onClick: () => onSubmit
+            onClick: onSubmit
           },
           {
             text: 'cancel',
