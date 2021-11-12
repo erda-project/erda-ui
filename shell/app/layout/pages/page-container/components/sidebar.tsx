@@ -22,7 +22,7 @@ import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
-import { goTo, ossImg, insertWhen } from 'common/utils';
+import { goTo, ossImg, insertWhen, getAvatarChars } from 'common/utils';
 import { DOC_HELP_HOME, UC_USER_SETTINGS, erdaEnv } from 'common/constants';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
@@ -121,28 +121,6 @@ const AppCenterEl = () => {
       onVisible={onVisibleChange}
     />
   );
-};
-
-/*
-Display rule of avatar chars:
-1) 王小刚 --> 小刚
-2）diceop  --> dice
-3）miwMio  --> miw
-4) micW  --> micW
-
-comment: letter like m, w, M, W is wider than others , so we limit the counts of these
-*/
-const getAvatarChars = (name: string) => {
-  const pattern = /[\u4e00-\u9fa5]/;
-
-  if (pattern.test(name)) {
-    return name.slice(-2);
-  } else {
-    const longLetterPattern = new RegExp(/[mwMW]/g);
-    const longLetterCount = name.match(longLetterPattern)?.length || 0;
-    const maxLength = longLetterCount > 2 ? 3 : 4;
-    return name.slice(0, maxLength);
-  }
 };
 
 const SideBar = () => {

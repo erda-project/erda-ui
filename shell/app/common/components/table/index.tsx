@@ -410,7 +410,12 @@ function WrappedTable<T extends object = any>({
       <div className="erda-table-footer flex justify-between">
         {rowSelection?.actions ? (
           <div className="erda-table-batch-ops flex items-center">
-            <Dropdown overlay={batchMenu} trigger={['click']} disabled={rowSelection.selectedRowKeys?.length === 0}>
+            <Dropdown
+              overlay={batchMenu}
+              trigger={['click']}
+              disabled={rowSelection.selectedRowKeys?.length === 0}
+              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+            >
               <Button type="default">
                 {i18n.t('dop:batch processing')}
                 <ErdaIcon
