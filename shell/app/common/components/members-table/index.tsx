@@ -21,7 +21,8 @@ import AuthorizeMemberModal from '../authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, message, Avatar } from 'antd';
-import Table, { IActions, ColumnProps } from 'common/components/table';
+import Table from 'common/components/table';
+import { IActions, ColumnProps } from 'common/components/table/interface';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';
@@ -556,7 +557,7 @@ const MembersTable = ({
     };
     return (
       <Table
-        filter={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} />}
+        slot={<FilterGroup list={filterList} onChange={debounce(onSearchMembers, 400)} />}
         rowKey={'userId'}
         rowSelection={
           hideRowSelect

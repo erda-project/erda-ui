@@ -14,7 +14,8 @@
 import React from 'react';
 import i18n from 'i18n';
 import { Spin, Button, Input, Tooltip } from 'antd';
-import Table, { IColumnProps } from 'common/components/table';
+import Table from 'common/components/table';
+import { ColumnProps } from 'common/components/table/interface';
 import { goTo, fromNow } from 'common/utils';
 import { Filter, ErdaIcon, BootPrompt } from 'common';
 import { useUnmount } from 'react-use';
@@ -63,7 +64,7 @@ export const ProjectList = () => {
   };
 
   const getColumns = () => {
-    const columns: Array<IColumnProps<PROJECT.Detail>> = [
+    const columns: Array<ColumnProps<PROJECT.Detail>> = [
       {
         title: i18n.t('project'),
         dataIndex: 'displayName',
@@ -184,7 +185,7 @@ export const ProjectList = () => {
           dataSource={list}
           columns={getColumns()}
           rowClassName={() => 'cursor-pointer'}
-          filter={
+          slot={
             <Filter
               config={[
                 {

@@ -12,99 +12,33 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Dropdown, Menu, Popover, Input, Checkbox, Button, Pagination } from 'antd';
-import Table, { ColumnProps as AntdColumnProps, TableProps } from 'antd/es/table';
-import { SorterResult, TablePaginationConfig, TableRowSelection } from 'antd/es/table/interface';
+import { Dropdown, Menu } from 'antd';
+import Table from 'antd/es/table';
 import { ErdaIcon, Ellipsis } from 'common';
 import i18n from 'i18n';
-import { produce } from 'immer';
 import { PAGINATION } from 'app/constants';
+import TableConfig from './table-config';
+import TableFooter from './table-footer';
 
 import './index.scss';
 
-const { Column, ColumnGroup, Summary } = Table;
-export interface ColumnProps<recordType> extends AntdColumnProps<recordType> {
-  /**
-   * id\number - 72
-   *
-   * user\status\type\cpu\memory - 120
-   *
-   * email\phone\roles\ip - 160
-   *
-   * time - 200
-   *
-   * operations - 80 * n, according to the number of buttons and the number of words
-   *
-   * detail\content\description - No need to increase the width of the adaptive, and add the scroll.x of a certain number to the table
-   *
-   * All width should be at least larger than the Title in English
-   */
-  width?: IWidth;
-}
+import {
+  TableProps,
+  ColumnProps,
+  IActions,
+  IRowSelection,
+  SorterResult,
+  TablePaginationConfig,
+  TableAction,
+} from './interface';
 
-type IWidth = 64 | 72 | 80 | 96 | 120 | 160 | 176 | 200 | 240 | 280 | 320;
+const { Column, ColumnGroup, Summary } = Table;
 
 interface IProps<T extends object = any> extends TableProps<T> {
-  columns: Array<IColumnProps<T>>;
+  columns: Array<ColumnProps<T>>;
   actions?: IActions<T> | null;
-  filter?: React.ReactNode;
+  slot?: React.ReactNode;
   rowSelection?: IRowSelection<T>;
-}
-
-interface IRowSelection<T extends object = any> extends TableRowSelection<T> {
-  actions?: IRowActions[];
-}
-
-interface IRowActions {
-  key: string;
-  name: string;
-  disabled?: boolean;
-  onClick: () => void;
-}
-
-export interface IColumnProps<T> extends ColumnProps<T> {
-  subTitle?: ((text: string, record: T, index: number) => React.ReactNode) | React.ReactNode;
-  icon?: ((text: string, record: T, index: number) => React.ReactNode) | React.ReactNode;
-  show?: boolean;
-  sortTitle?: React.ReactNode;
-}
-
-export interface IActions<T> {
-  width?: IWidth;
-  /**
-   * (record: T) => IAction[]
-   *
-   * interface IAction {
-   *   title: string;
-   *   onClick: () => void;
-   * }
-   */
-  render: (record: T) => IAction[];
-  /**
-   * Limit the number of displays
-   */
-  limitNum?: number;
-}
-
-interface IAction {
-  title: string;
-  onClick: () => void;
-}
-
-interface ITableConfigProps<T> {
-  filter?: React.ReactNode;
-  columns: Array<IColumnProps<T>>;
-  setColumns: (val: Array<IColumnProps<T>>) => void;
-  onTableChange: ([key]: any) => void;
-  showReset: boolean;
-}
-
-declare type TableAction = 'paginate' | 'sort' | 'filter';
-
-interface IPaginationProps {
-  pagination: TablePaginationConfig;
-  onTableChange: ([key]: any) => void;
-  hiddenPopover: () => void;
 }
 
 const sortIcon = {
@@ -118,21 +52,20 @@ function WrappedTable<T extends object = any>({
   actions,
   pagination: paginationProps,
   onChange,
-  filter,
+  slot,
   dataSource = [],
   onRow,
   rowSelection,
   ...props
 }: IProps<T>) {
-  const [columns, setColumns] = React.useState<Array<IColumnProps<T>>>(allColumns);
+  const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
   const [sort, setSort] = React.useState<SorterResult<T>>({});
-  const sortCompareRef = React.useRef() as { current: (a, b) => number };
+  const sortCompareRef = React.useRef() as { current: (a: T, b: T) => number };
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
     current: 1,
     total: dataSource.length,
     ...PAGINATION,
   });
-  const [goToVisible, setGoToVisible] = React.useState(false);
 
   const pagination: TablePaginationConfig = paginationProps || defaultPagination;
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
@@ -165,7 +98,7 @@ function WrappedTable<T extends object = any>({
   );
 
   const sorterMenu = React.useCallback(
-    (column: IColumnProps<T>) => {
+    (column: ColumnProps<T>) => {
       const sorter = {
         column,
         columnKey: column.dataIndex,
@@ -174,12 +107,13 @@ function WrappedTable<T extends object = any>({
 
       const onSort = (order?: 'ascend' | 'descend') => {
         setSort({ ...sorter, order });
-        if (column.sorter?.compare) {
+        const { sorter: columnSorter } = column as { sorter: { compare: (a: T, b: T) => number } };
+        if (columnSorter?.compare) {
           sortCompareRef.current = (a: T, b: T) => {
             if (order === 'ascend') {
-              return column.sorter?.compare?.(a, b);
+              return columnSorter?.compare?.(a, b);
             } else {
-              return column.sorter?.compare?.(b, a);
+              return columnSorter?.compare?.(b, a);
             }
           };
         }
@@ -211,7 +145,7 @@ function WrappedTable<T extends object = any>({
 
   React.useEffect(() => {
     setColumns(
-      allColumns.map(({ width = 300, sorter, title, render, icon, align, ...args }: IColumnProps<T>) => {
+      allColumns.map(({ width = 300, sorter, title, render, icon, align, ...args }: ColumnProps<T>) => {
         const { subTitle } = args;
         let sortTitle;
         if (sorter) {
@@ -224,7 +158,7 @@ function WrappedTable<T extends object = any>({
               getPopupContainer={(triggerNode) => triggerNode.parentElement?.parentElement as HTMLElement}
             >
               <span className="cursor-pointer erda-table-sorter">
-                {typeof title === 'function' ? title() : title}
+                {typeof title === 'function' ? title({ sortColumn: sort?.column, sortOrder: sort?.order }) : title}
                 <span className={`sorter-icon pl-1 ${(sort.columnKey === args.dataIndex && sort.order) || ''}`}>
                   {sort.order && sort.columnKey === args.dataIndex ? (
                     sortIcon[sort.order]
@@ -278,88 +212,7 @@ function WrappedTable<T extends object = any>({
     );
   }, [allColumns, sorterMenu, sort, onRow]);
 
-  const paginationCenterRender = (
-    <Popover
-      content={
-        <PaginationJump
-          pagination={pagination}
-          onTableChange={onTableChange}
-          hiddenPopover={() => setGoToVisible(false)}
-        />
-      }
-      trigger="click"
-      getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-      placement="top"
-      overlayClassName="pagination-jump"
-      visible={goToVisible}
-      onVisibleChange={setGoToVisible}
-    >
-      <div className="pagination-center bg-hover mx-1 px-3 rounded" onClick={() => setGoToVisible(true)}>
-        {pagination.total ? pagination.current : 0} /{' '}
-        {(pagination.total && pagination.pageSize && Math.ceil(pagination.total / pagination.pageSize)) || 0}
-      </div>
-    </Popover>
-  );
-
-  const paginationItemRender = (
-    page: number,
-    type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next',
-    originalElement: React.ReactElement<HTMLElement>,
-  ) => {
-    const { total } = pagination;
-    switch (type) {
-      case 'prev':
-        return (
-          <div className="bg-hover" onClick={() => current > 1 && onTableChange({ pageNo: current - 1 })}>
-            {originalElement}
-          </div>
-        );
-      case 'next':
-        return (
-          <div
-            className="bg-hover"
-            onClick={() => total && current < Math.ceil(total / pageSize) && onTableChange({ pageNo: current + 1 })}
-          >
-            {originalElement}
-          </div>
-        );
-      case 'page':
-        if (page === 1) {
-          return paginationCenterRender;
-        }
-        return null;
-      default:
-        return null;
-    }
-  };
-
-  const pageSizeMenu = (
-    <Menu>
-      {(pagination?.pageSizeOptions || Pagination?.defaultProps?.pageSizeOptions || []).map((item: number) => {
-        return (
-          <Menu.Item key={item} onClick={() => onTableChange({ pageNo: 1, pageSize: item })}>
-            <span className="fake-link mr-1">{i18n.t('{size} items / page', { size: item })}</span>
-          </Menu.Item>
-        );
-      })}
-    </Menu>
-  );
-
-  const batchMenu = () => {
-    return (
-      <Menu>
-        {(rowSelection?.actions || []).map((item: IRowActions) => {
-          return (
-            <Menu.Item key={item.key} onClick={() => item.onClick()} disabled={item.disabled}>
-              {item.name}
-            </Menu.Item>
-          );
-        })}
-      </Menu>
-    );
-  };
-
-  let data = dataSource;
+  let data = dataSource as T[];
 
   if (sortCompareRef.current) {
     data = data.sort(sortCompareRef.current);
@@ -372,11 +225,12 @@ function WrappedTable<T extends object = any>({
   return (
     <div className="erda-table">
       <TableConfig
-        filter={filter}
+        slot={slot}
         columns={columns}
+        sortColumn={sort}
         setColumns={(val) => setColumns(val)}
         onTableChange={onTableChange}
-        showReset={!!(onChange || paginationProps?.onChange)}
+        showReset={!!(onChange || (paginationProps && paginationProps.onChange))}
       />
       <Table
         scroll={{ x: '100%' }}
@@ -384,7 +238,7 @@ function WrappedTable<T extends object = any>({
           ...columns.filter((item) => item.show).map((item) => ({ ...item, title: item.sortTitle || item.title })),
           ...renderActions(actions),
         ]}
-        rowClassName={props.onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
+        rowClassName={onRow ? `cursor-pointer ${rowClassName || ''}` : rowClassName}
         size="small"
         pagination={false}
         onChange={onChange}
@@ -405,149 +259,17 @@ function WrappedTable<T extends object = any>({
             ),
         }}
       />
-      <div className="erda-table-footer flex justify-between">
-        {rowSelection?.actions ? (
-          <div className="erda-table-batch-ops flex items-center">
-            <Dropdown
-              overlay={batchMenu}
-              trigger={['click']}
-              disabled={rowSelection.selectedRowKeys?.length === 0}
-              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-            >
-              <Button type="default">
-                {i18n.t('dop:batch processing')}
-                <ErdaIcon
-                  type="caret-down"
-                  className="ml-0.5 relative top-0.5"
-                  fill={rowSelection.selectedRowKeys?.length === 0 ? 'disabled' : 'normal'}
-                  size="14"
-                />
-              </Button>
-            </Dropdown>
-          </div>
-        ) : (
-          <div />
-        )}
-
-        {paginationProps !== false && (
-          <div className="erda-pagination flex items-center justify-end">
-            <Pagination {...pagination} showSizeChanger={false} size="small" itemRender={paginationItemRender} />
-            <Dropdown
-              trigger={['click']}
-              overlay={pageSizeMenu}
-              align={{ offset: [0, 5] }}
-              overlayStyle={{ minWidth: 120 }}
-              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-            >
-              <span className="bg-hover px-2">{i18n.t('{size} items / page', { size: pagination.pageSize })}</span>
-            </Dropdown>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function TableConfig<T extends object = any>({
-  filter,
-  columns,
-  setColumns,
-  onTableChange,
-  showReset,
-}: ITableConfigProps<T>) {
-  const onCheck = (checked: boolean, title: string) => {
-    const newColumns = produce(columns, (draft) => {
-      draft.forEach((item, index) => {
-        if (item.title === title) {
-          draft[index] = { ...item, show: checked };
-        }
-      });
-    });
-
-    setColumns(newColumns);
-  };
-
-  const columnsFilter = columns
-    .filter((item) => item.title)
-    .map((item: IColumnProps<T>) => (
-      <div>
-        <Checkbox
-          className="whitespace-nowrap"
-          checked={item.show}
-          onChange={(e) => onCheck(e.target.checked, item.title as string)}
-        >
-          {typeof item.title === 'function' ? item.title() : item.title}
-        </Checkbox>
-      </div>
-    ));
-
-  return (
-    <div className="erda-table-filter flex justify-between">
-      <div className="erda-table-filter-content flex-1 flex items-center">
-        <div className="flex-1">{filter}</div>
-      </div>
-      <div className="erda-table-filter-ops flex items-center">
-        {showReset && (
-          <ErdaIcon
-            size="20"
-            className={`icon-hover ml-3 bg-hover p-1`}
-            type="refresh"
-            color="currentColor"
-            onClick={() => onTableChange({})}
-          />
-        )}
-        <Popover
-          content={columnsFilter}
-          trigger="click"
-          placement="bottom"
-          overlayClassName="erda-table-columns-filter"
-          getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-        >
-          <ErdaIcon type="config" size="20" className={`ml-3 icon-hover bg-hover p-1`} color="currentColor" />
-        </Popover>
-      </div>
-    </div>
-  );
-}
-
-const PaginationJump = ({ pagination, onTableChange, hiddenPopover }: IPaginationProps) => {
-  const { total, pageSize } = pagination;
-  const [value, setValue] = React.useState('');
-
-  const handleChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value: val } = e.target;
-      if (!isNaN(Number(val)) && +val <= Math.ceil(total / pageSize) && +val > 0 && !val.includes('.')) {
-        setValue(val);
-      } else if (!val) {
-        setValue('');
-      }
-    },
-    [setValue, total, pageSize],
-  );
-
-  const jump = () => {
-    if (value) {
-      onTableChange({ pageNo: value });
-      setValue('');
-      hiddenPopover();
-    }
-  };
-
-  return (
-    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-      {i18n.t('Go to page')}
-      <Input className="mx-2" style={{ width: 80 }} value={value} onChange={handleChange} onPressEnter={jump} />
-      <Button
-        type="primary"
-        size="small"
-        icon={<ErdaIcon type="enter" onClick={jump} fill="white" className="relative top-0.5" />}
+      <TableFooter
+        rowSelection={rowSelection}
+        pagination={pagination}
+        hidePagination={paginationProps === false}
+        onTableChange={onTableChange}
       />
     </div>
   );
-};
+}
 
-function renderActions<T extends object = any>(actions?: IActions<T>): Array<IColumnProps<T>> {
+function renderActions<T extends object = any>(actions?: IActions<T> | null): Array<ColumnProps<T>> {
   if (actions) {
     const { width, render } = actions;
     return [

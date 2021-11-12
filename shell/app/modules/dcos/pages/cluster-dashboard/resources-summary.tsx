@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Echarts } from 'charts';
-import Table, { IColumnProps } from 'common/components/table';
+import Table from 'common/components/table';
+import { ColumnProps } from 'common/components/table/interface';
 import { colorMap } from 'charts/theme';
 import { ContractiveFilter, CardContainer, ErdaIcon, Title } from 'common';
 import { useUpdate } from 'common/use-hooks';
@@ -249,7 +250,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
     }
     return statusColorMap.success;
   };
-  const columns: Array<IColumnProps<ORG_DASHBOARD.ResourceTableRecord>> = [
+  const columns: Array<ColumnProps<ORG_DASHBOARD.ResourceTableRecord>> = [
     ...columnsMap[rankType],
     {
       title: () => (
@@ -440,7 +441,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
         }
       /> */}
       <Table
-        filter={
+        slot={
           <div className="flex justify-between align-center">
             <ContractiveFilter
               delay={1000}
