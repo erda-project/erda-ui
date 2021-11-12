@@ -198,6 +198,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     //   Comp = <Input.TextArea ref={compRef} defaultValue={editValue} onBlur={() => onBlur()} {...itemProps} disabled={disabled} onChange={onInputChange} />;
     //   break;
     case 'markdown': {
+      // 创建时不需要提交、取消按钮
       const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
       Comp = !itemProps.isEditMode ? (
         <MarkdownEditor
@@ -223,7 +224,6 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       );
       break;
     }
-    // 创建时不需要提交、取消按钮
     case 'datePicker':
       Comp = (
         <DatePicker

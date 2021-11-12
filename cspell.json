@@ -260,6 +260,7 @@
     "Unmount",
     "Unpromise",
     "unstart",
+    "unuse",
     "UPDATEDAT",
     "updator",
     "upfs",
@@ -293,6 +294,10 @@
     "zkproxy",
     "zujian"
   ],
-  "flagWords": ["hte"],
-  "ignorePaths": ["node_modules"]
+  "flagWords": [
+    "hte"
+  ],
+  "ignorePaths": [
+    "node_modules"
+  ]
 }

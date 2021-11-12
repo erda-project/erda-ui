@@ -20,6 +20,7 @@ import UploadPlugin from './upload-plugin';
 import { uploadFile } from '../../services';
 import { convertToFormData } from 'common/utils';
 import { getFormatter } from 'charts/utils';
+import { useUnmount } from 'react-use';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 import './editor.scss';
 
@@ -41,6 +42,10 @@ const Editor = React.forwardRef((props: IProps, ref) => {
       max: maxHeight, // max height
     });
   }
+
+  useUnmount(() => {
+    MdEditor.unuse(Plugins.AutoResize)
+  })
 
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
