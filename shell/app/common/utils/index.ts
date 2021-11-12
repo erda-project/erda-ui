@@ -583,3 +583,25 @@ export const pickRandomlyFromArray = (array: any[], num: number) => {
     return array;
   }
 };
+
+/*
+Display rule of avatar chars:
+1) 王小刚 --> 小刚
+2）diceop  --> dice
+3）miwMio  --> miw
+4) micW  --> micW
+
+comment: letter like m, w, M, W is wider than others , so we limit the counts of these
+*/
+export const getAvatarChars = (name: string) => {
+  const pattern = /[\u4e00-\u9fa5]/;
+
+  if (pattern.test(name)) {
+    return name.slice(-2);
+  } else {
+    const longLetterPattern = new RegExp(/[mwMW]/g);
+    const longLetterCount = name.match(longLetterPattern)?.length || 0;
+    const maxLength = longLetterCount > 2 ? 3 : 4;
+    return name.slice(0, maxLength);
+  }
+};
