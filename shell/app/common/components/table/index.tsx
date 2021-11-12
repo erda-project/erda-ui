@@ -104,6 +104,7 @@ declare type TableAction = 'paginate' | 'sort' | 'filter';
 interface IPaginationProps {
   pagination: TablePaginationConfig;
   onTableChange: ([key]: any) => void;
+  hiddenPopover: () => void;
 }
 
 const sortIcon = {
@@ -131,8 +132,9 @@ function WrappedTable<T extends object = any>({
     total: dataSource.length,
     ...PAGINATION,
   });
+  const [goToVisible, setGoToVisible] = React.useState(false);
 
-  const pagination = paginationProps || defaultPagination;
+  const pagination: TablePaginationConfig = paginationProps || defaultPagination;
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
@@ -280,14 +282,23 @@ function WrappedTable<T extends object = any>({
 
   const paginationCenterRender = (
     <Popover
-      content={<PaginationJump pagination={pagination} onTableChange={onTableChange} />}
+      content={
+        <PaginationJump
+          pagination={pagination}
+          onTableChange={onTableChange}
+          hiddenPopover={() => setGoToVisible(false)}
+        />
+      }
       trigger="click"
       getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
       placement="top"
       overlayClassName="pagination-jump"
+      visible={goToVisible}
+      onVisibleChange={setGoToVisible}
     >
-      <div className="pagination-center bg-hover mx-1 px-3 rounded" onClick={(e) => e.stopPropagation()}>
-        {pagination?.total ? pagination?.current : 0} / {Math.ceil(pagination?.total / pagination?.pageSize)}
+      <div className="pagination-center bg-hover mx-1 px-3 rounded" onClick={() => setGoToVisible(true)}>
+        {pagination.total ? pagination.current : 0} /{' '}
+        {(pagination.total && pagination.pageSize && Math.ceil(pagination.total / pagination.pageSize)) || 0}
       </div>
     </Popover>
   );
@@ -297,10 +308,23 @@ function WrappedTable<T extends object = any>({
     type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next',
     originalElement: React.ReactElement<HTMLElement>,
   ) => {
+    const { total } = pagination;
     switch (type) {
       case 'prev':
+        return (
+          <div className="bg-hover" onClick={() => current > 1 && onTableChange({ pageNo: current - 1 })}>
+            {originalElement}
+          </div>
+        );
       case 'next':
-        return <div className="bg-hover">{originalElement}</div>;
+        return (
+          <div
+            className="bg-hover"
+            onClick={() => total && current < Math.ceil(total / pageSize) && onTableChange({ pageNo: current + 1 })}
+          >
+            {originalElement}
+          </div>
+        );
       case 'page':
         if (page === 1) {
           return paginationCenterRender;
@@ -404,13 +428,7 @@ function WrappedTable<T extends object = any>({
 
         {paginationProps !== false && (
           <div className="erda-pagination flex items-center justify-end">
-            <Pagination
-              onChange={(pageNo) => onTableChange({ pageNo })}
-              {...pagination}
-              showSizeChanger={false}
-              size="small"
-              itemRender={paginationItemRender}
-            />
+            <Pagination {...pagination} showSizeChanger={false} size="small" itemRender={paginationItemRender} />
             <Dropdown
               trigger={['click']}
               overlay={pageSizeMenu}
@@ -468,8 +486,8 @@ function TableConfig<T extends object = any>({
       <div className="erda-table-filter-ops flex items-center">
         {showReset && (
           <ErdaIcon
-            size="16"
-            className={`icon-hover ml-3 bg-hover p-2`}
+            size="20"
+            className={`icon-hover ml-3 bg-hover p-1`}
             type="refresh"
             color="currentColor"
             onClick={() => onTableChange({})}
@@ -482,14 +500,14 @@ function TableConfig<T extends object = any>({
           overlayClassName="erda-table-columns-filter"
           getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
         >
-          <ErdaIcon type="config" size="16" className={`ml-3 icon-hover bg-hover p-2`} color="currentColor" />
+          <ErdaIcon type="config" size="20" className={`ml-3 icon-hover bg-hover p-1`} color="currentColor" />
         </Popover>
       </div>
     </div>
   );
 }
 
-const PaginationJump = ({ pagination, onTableChange }: IPaginationProps) => {
+const PaginationJump = ({ pagination, onTableChange, hiddenPopover }: IPaginationProps) => {
   const { total, pageSize } = pagination;
   const [value, setValue] = React.useState('');
 
@@ -509,6 +527,7 @@ const PaginationJump = ({ pagination, onTableChange }: IPaginationProps) => {
     if (value) {
       onTableChange({ pageNo: value });
       setValue('');
+      hiddenPopover();
     }
   };
 

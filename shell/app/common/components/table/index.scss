@@ -30,17 +30,10 @@
   .ant-pagination-item {
     min-width: 0 !important;
     border: none;
-
-    .ant-popover-content {
-      pointer-events: none;
-    }
-
-    .ant-popover-inner-content {
-      pointer-events: auto;
-    }
   }
 
-  .ant-pagination-jump-next {
+  .ant-pagination-jump-next,
+  .ant-pagination-jump-prev {
     display: none;
   }
 
