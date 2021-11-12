@@ -190,6 +190,10 @@
   .ant-table-expanded-row-fixed {
     width: auto !important;
   }
+
+  .ant-progress-circle-path {
+    transition: all 0.8s !important;
+  }
 }
 
 .erda-table-filter {

@@ -15,14 +15,13 @@ import { MemberScope } from 'common/stores/member-scope';
 import { usePerm } from 'app/user/common';
 import userStore from 'app/user/stores';
 import appMemberStore from 'common/stores/application-member';
-import { AddMemberModal, Copy, FilterGroup, FormModal, IF } from 'common';
-import { ColumnProps } from 'core/common/interface';
+import { AddMemberModal, Copy, FilterGroup, FormModal, IF, ErdaIcon } from 'common';
 import { useLoading } from 'core/stores/loading';
 import AuthorizeMemberModal from '../authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, message, Avatar } from 'antd';
-import Table, { IActions } from 'common/components/table';
+import Table, { IActions, ColumnProps } from 'common/components/table';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import sysMemberStore from 'common/stores/sys-member';
@@ -168,7 +167,12 @@ const MembersTable = ({
   const batchOptions = [
     {
       key: batchOptionType.edit,
-      name: i18n.t('edit'),
+      name: (
+        <span className="flex">
+          <ErdaIcon type="edit" className="mr-1" />
+          {i18n.t('edit')}
+        </span>
+      ),
       disabled: !memberAuth.edit,
       onClick: () => onBatchClick({ key: batchOptionType.edit }),
     },
@@ -181,7 +185,12 @@ const MembersTable = ({
     ]),
     {
       key: batchOptionType.remove,
-      name: i18n.t('remove'),
+      name: (
+        <span className="flex">
+          <ErdaIcon type="delete" className="mr-1" />
+          {i18n.t('remove')}
+        </span>
+      ),
       disabled: !memberAuth.delete || isEmpty(filter(state.selectedKeys, (item) => item !== currentUserId)),
       onClick: () => onBatchClick({ key: batchOptionType.remove }),
     },

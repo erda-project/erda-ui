@@ -195,15 +195,10 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
   const { cpuPerNode, memPerNode } = cpuAndMem.current;
 
   const [data, loading] = getResourceTable.useState();
-  const [showPercent, setShowPercent] = React.useState(false);
   React.useEffect(() => {
     if (clusters.length) {
       const curCluster = clusterName?.length ? clusterName : clusters.map((item) => item.name);
-      getResourceTable.fetch({ clusterName: curCluster, cpuPerNode, memPerNode, groupBy: rankType }).then(() => {
-        setTimeout(() => {
-          setShowPercent(true); // To animate the progress bar
-        }, 100);
-      });
+      getResourceTable.fetch({ clusterName: curCluster, cpuPerNode, memPerNode, groupBy: rankType });
     }
   }, [clusters, clusterName, rankType, cpuPerNode, memPerNode]);
 
@@ -300,8 +295,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
           <Tooltip title={`${record.cpuRequest} / ${record.cpuQuota}`}>
             <span className="text-dark-8  mr-2">{`${value}%`}</span>
             <Progress
-              className="quota-usage-progress"
-              percent={showPercent ? value : 0}
+              percent={value}
               type="circle"
               width={20}
               strokeWidth={18}
@@ -339,9 +333,8 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
           <Tooltip title={`${record.memRequest} / ${record.memQuota}`}>
             <span className="text-dark-8 mr-2">{`${value}%`}</span>
             <Progress
-              className="quota-usage-progress"
               type="circle"
-              percent={showPercent ? value : 0}
+              percent={value}
               width={20}
               strokeWidth={18}
               format={(v) => null}
