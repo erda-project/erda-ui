@@ -112,10 +112,6 @@ export default ({ command, mode }) => {
     },
   };
 
-  let define = {
-    'process.env.VITE': '"true"',
-  };
-
   let esbuild = {};
 
   return {
