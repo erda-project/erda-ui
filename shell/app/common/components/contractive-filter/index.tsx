@@ -615,7 +615,6 @@ interface ContractiveFilterProps {
   values?: Obj; // 完全受控
   conditions: ICondition[];
   delay: number;
-  visible?: boolean;
   fullWidth?: boolean;
   onConditionsChange?: (data: ICondition[]) => void;
   onChange: (valueMap: Obj, key?: string) => void;
@@ -654,7 +653,6 @@ const ContractiveFilter = ({
   values,
   conditions: propsConditions,
   delay,
-  visible = true,
   onChange,
   onQuickOperation = noop,
   onConditionsChange = noop,
@@ -721,7 +719,7 @@ const ContractiveFilter = ({
   }, []);
 
   const handelItemChange = (
-    vals: { key: string; value: any } | Obj,
+    newValueMap: { key: string; value: any } | Obj,
     extra?: { batchChange?: boolean; forceChange?: boolean },
   ) => {
     const { batchChange = false, forceChange = false } = extra || {};
@@ -730,12 +728,12 @@ const ContractiveFilter = ({
       setValueMap((prev) => {
         return {
           ...prev,
-          ...vals,
+          ...newValueMap,
         };
       });
-      curValueMap = { ...curValueMap, ...vals };
+      curValueMap = { ...curValueMap, ...newValueMap };
     } else {
-      const { key, value } = vals;
+      const { key, value } = newValueMap;
       setValueMap((prev) => {
         return {
           ...prev,
@@ -745,9 +743,9 @@ const ContractiveFilter = ({
       curValueMap = { ...curValueMap, [key]: value };
     }
     if (delay && !forceChange) {
-      debouncedChange.current(curValueMap, vals?.key);
+      debouncedChange.current(curValueMap, newValueMap?.key);
     } else {
-      onChange(curValueMap, vals?.key);
+      onChange(curValueMap, newValueMap?.key);
     }
   };
 
