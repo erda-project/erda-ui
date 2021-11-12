@@ -17,8 +17,9 @@ import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { K8sClusterTerminalButton } from './cluster-terminal';
+import { ClusterContainer } from './index';
 
-const ClusterNodes = () => {
+const PureClusterEnvLog = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
 
@@ -52,4 +53,10 @@ const ClusterNodes = () => {
   );
 };
 
-export default ClusterNodes;
+const ClusterEnvLog = () => (
+  <ClusterContainer>
+    <PureClusterEnvLog />
+  </ClusterContainer>
+);
+
+export default ClusterEnvLog;

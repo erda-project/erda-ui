@@ -19,6 +19,7 @@ import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
 import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 import { EditStrategyPageName, AddStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
+import ClusterSelector from 'cmp/pages/cluster-container/cluster-selector';
 
 export const getOrgProjectTabs = () => [
   {
@@ -70,6 +71,9 @@ function getCmpRouter(): RouteConfigItem[] {
           breadcrumbName: i18n.t('clusters'),
           routes: [
             {
+              getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage')),
+            },
+            {
               path: 'addCluster',
               pageName: i18n.t('cmp:cluster deployment'),
               getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/deploy-cluster')),
@@ -84,104 +88,11 @@ function getCmpRouter(): RouteConfigItem[] {
               mark: 'clusterDetail',
               routes: [
                 {
-                  path: 'nodes',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      layout: { noWrapper: true },
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes')),
-                    },
-                    {
-                      path: ':nodeId/detail',
-                      breadcrumbName: i18n.t('cmp:node detail'),
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-nodes-detail')),
-                    },
-                  ],
-                },
-                {
-                  path: 'pods',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      layout: { noWrapper: true },
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pods')),
-                    },
-                    {
-                      path: ':podId/detail',
-                      breadcrumbName: i18n.t('cmp:pod detail'),
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-pod-detail')),
-                    },
-                  ],
-                },
-                {
-                  path: 'workload',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      layout: { noWrapper: true },
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload')),
-                    },
-                    {
-                      path: ':workloadId/detail',
-                      breadcrumbName: i18n.t('cmp:workload detail'),
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-workload-detail')),
-                    },
-                  ],
-                },
-                {
-                  path: 'event-log',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
-                  breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-event-log')),
-                    },
-                  ],
-                },
-                {
                   path: 'detail',
-                  tabs: clusterDetailTabs,
-                  ignoreTabQuery: true,
                   breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
                   routes: [
                     {
                       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-detail')),
-                    },
-                  ],
-                },
-                // {
-                //   path: 'state',
-                //   tabs: clusterDetailTabs,
-                //   breadcrumbName: ({ params }) => {
-                //     const { clusterName } = params || {};
-                //     return `${i18n.t('cluster detail')}${clusterName ? `(${clusterName})` : ''}`;
-                //   },
-                //   layout: { fullHeight: true },
-                //   routes: [
-                //     {
-                //       getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage/cluster-state')),
-                //     },
-                //   ],
-                // },
-                {
-                  path: 'mount',
-                  mark: 'cmp', // 侧边栏使用cmp的菜单
-                  breadcrumbName: i18n.t('cmp:physical cluster'),
-                  routes: [
-                    {
-                      getComp: (cb) => cb(import('dcos/pages/mount-list/mount-list')),
-                    },
-                    {
-                      path: 'add',
-                      breadcrumbName: i18n.t('cmp:select resources'),
-                      getComp: (cb) => cb(import('dcos/pages/purchase-cluster/purchase-cluster')),
                     },
                   ],
                 },
@@ -208,11 +119,73 @@ function getCmpRouter(): RouteConfigItem[] {
                 },
               ],
             },
+          ],
+        },
+        {
+          path: 'container/:clusterName',
+          mark: 'clusterContainer',
+          routes: [
             {
-              getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-manage')),
+              path: 'nodes',
+              pageNameInfo: ClusterSelector,
+              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              routes: [
+                {
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-nodes')),
+                },
+                {
+                  path: ':nodeId/detail',
+                  breadcrumbName: i18n.t('cmp:node detail'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-nodes-detail')),
+                },
+              ],
+            },
+            {
+              path: 'pods',
+              pageNameInfo: ClusterSelector,
+              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              routes: [
+                {
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-pods')),
+                },
+                {
+                  path: ':podId/detail',
+                  breadcrumbName: i18n.t('cmp:pod detail'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-pod-detail')),
+                },
+              ],
+            },
+            {
+              path: 'workload',
+              pageNameInfo: ClusterSelector,
+              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              routes: [
+                {
+                  layout: { noWrapper: true },
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-workload')),
+                },
+                {
+                  path: ':workloadId/detail',
+                  breadcrumbName: i18n.t('cmp:workload detail'),
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-workload-detail')),
+                },
+              ],
+            },
+            {
+              path: 'event-log',
+              pageNameInfo: ClusterSelector,
+              breadcrumbName: `${i18n.t('cluster detail')}({params.clusterName})`,
+              routes: [
+                {
+                  getComp: (cb) => cb(import('app/modules/cmp/pages/cluster-container/cluster-event-log')),
+                },
+              ],
             },
           ],
         },
+
         {
           path: 'resource-rank',
           routes: [
@@ -239,7 +212,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('task'),
+          breadcrumbName: i18n.t('cmp:task list'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {

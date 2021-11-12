@@ -482,7 +482,7 @@ const ClusterDashboard = () => {
             <h3
               className={`group-title ${isClusterGroup ? 'cluster-group' : ''}`}
               onClick={() => {
-                isClusterGroup && goTo(goTo.pages.cmpClustersNodes, { clusterName: name });
+                isClusterGroup && goTo(goTo.pages.cmpClustersDetail, { clusterName: name });
               }}
             >
               {activeGroupDisplayName || groupName + unitGroups[0]}

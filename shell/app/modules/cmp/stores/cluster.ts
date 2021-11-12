@@ -37,6 +37,10 @@ import {
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
+import layoutStore from 'layout/stores/layout';
+import { getCmpMenu } from 'app/menus/cmp';
+import { TYPE_K8S_AND_EDAS, EMPTY_CLUSTER, replaceContainerCluster } from 'cmp/pages/cluster-manage/config';
+import { goTo } from 'app/common/utils';
 
 interface IState {
   list: ORG_CLUSTER.ICluster[];
@@ -47,6 +51,7 @@ interface IState {
   cloudResource: ORG_CLUSTER.ICloudResource[];
   cloudResourceDetail: ORG_CLUSTER.ICloudResourceDetail;
   enableMS: boolean;
+  chosenCluster: string; // use in container resource
 }
 
 const initState: IState = {
@@ -58,20 +63,43 @@ const initState: IState = {
   cloudResource: [],
   cloudResourceDetail: {},
   enableMS: false,
+  chosenCluster: '',
 };
-
 const cluster = createStore({
   name: 'org-cluster',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ params, isIn, isLeaving }) => {
       const { clusterName } = params;
-      const curDetail = cluster.getState((s) => s.detail);
+      const [curDetail, chosenCluster] = cluster.getState((s) => [s.detail, s.chosenCluster]);
       if (isIn('clusterDetail') && curDetail?.name !== clusterName) {
         cluster.effects.getClusterDetail({ clusterName });
       }
       if (isLeaving('clusterDetail')) {
         cluster.reducers.clearClusterDetail('');
+      }
+      if (isIn('cmp')) {
+        cluster.effects.getClusterList().then((list: ORG_CLUSTER.ICluster[]) => {
+          const useList = list?.filter((item) => TYPE_K8S_AND_EDAS.includes(item.type));
+          const firstCluster = useList?.[0]?.name;
+          const defaultChosen = clusterName || firstCluster;
+          if (defaultChosen === EMPTY_CLUSTER && firstCluster) {
+            goTo(replaceContainerCluster(firstCluster));
+            return;
+          }
+          if (!chosenCluster && defaultChosen) {
+            layoutStore.reducers.setSubSiderInfoMap({
+              key: 'cmp',
+              menu: getCmpMenu(defaultChosen),
+            });
+          }
+        });
+      }
+      if (isIn('clusterContainer')) {
+        cluster.reducers.setChosenCluster(clusterName);
+      }
+      if (isLeaving('cmp')) {
+        cluster.reducers.setChosenCluster('');
       }
     });
   },
@@ -202,6 +230,9 @@ const cluster = createStore({
     },
     clearClusterDetail(state) {
       state.detail = {};
+    },
+    setChosenCluster(state, chosenCluster) {
+      state.chosenCluster = chosenCluster;
     },
   },
 });

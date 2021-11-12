@@ -15,32 +15,30 @@ import React from 'react';
 import DiceConfigPage from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
-import { K8sClusterTerminalButton } from './cluster-terminal';
-import { updateSearch } from 'common/utils';
 import { Drawer } from 'antd';
 import { useUpdate } from 'common/use-hooks';
-import { PureClusterPodDetail } from './cluster-pod-detail';
+import { PureClusterNodeDetail } from './cluster-nodes-detail';
+import { updateSearch } from 'common/utils';
+import { K8sClusterTerminalButton } from './cluster-terminal';
+import { ClusterContainer } from './index';
 
 interface IDetailData {
-  podId: string;
-  podName: string;
-  namespace: string;
+  nodeIP: string;
+  nodeId: string;
 }
-
 interface IState {
   visible: boolean;
-  detailData?: null | IDetailData;
+  detailData: null | IDetailData;
   urlQuery: Obj;
 }
 
-const ClusterNodes = () => {
+const PureClusterNodes = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
     visible: false,
     detailData: null,
     urlQuery: query,
   });
-  const reloadRef = React.useRef<Obj | null>(null);
 
   React.useEffect(() => {
     updateSearch({ ...urlQuery });
@@ -51,11 +49,11 @@ const ClusterNodes = () => {
   const urlQueryChange = (val: Obj) => updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   const openDetail = (record: Obj, op: Obj) => {
-    if (op.key === 'openPodDetail') {
-      const { id, namespace, podName } = record || {};
+    if (op.key === 'gotoNodeDetail') {
+      const { IP, nodeId } = record;
       update({
         visible: true,
-        detailData: { podId: id, namespace, podName },
+        detailData: { nodeId, nodeIP: IP },
       });
     }
   };
@@ -64,28 +62,28 @@ const ClusterNodes = () => {
     update({ visible: false, detailData: null });
   };
 
-  const onDeleteDetail = () => {
-    closeDetail();
-    if (reloadRef.current && reloadRef.current.reload) {
-      reloadRef.current.reload();
-    }
-  };
-
   return (
     <>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
       <DiceConfigPage
-        scenarioType={'cmp-dashboard-pods'}
-        scenarioKey={'cmp-dashboard-pods'}
+        scenarioType={'cmp-dashboard-nodes'}
+        scenarioKey={'cmp-dashboard-nodes'}
         inParams={inParams}
-        ref={reloadRef}
         customProps={{
           filter: {
             onFilterChange: urlQueryChange,
           },
-          podsTable: {
+          cpuTable: {
+            onStateChange: urlQueryChange,
+            clickTableItem: openDetail,
+          },
+          memTable: {
+            onStateChange: urlQueryChange,
+            clickTableItem: openDetail,
+          },
+          podTable: {
             onStateChange: urlQueryChange,
             clickTableItem: openDetail,
           },
@@ -94,13 +92,19 @@ const ClusterNodes = () => {
           },
         }}
       />
-      <Drawer visible={visible} getContainer={false} onClose={closeDetail} width={'80%'} maskClosable>
+      <Drawer visible={visible} onClose={closeDetail} width={'80%'} maskClosable getContainer={false}>
         {visible && detailData ? (
-          <PureClusterPodDetail className="mt-4" clusterName={clusterName} {...detailData} onDelete={onDeleteDetail} />
+          <PureClusterNodeDetail className="mt-4" clusterName={clusterName} {...detailData} />
         ) : null}
       </Drawer>
     </>
   );
 };
+
+const ClusterNodes = () => (
+  <ClusterContainer>
+    <PureClusterNodes />
+  </ClusterContainer>
+);
 
 export default ClusterNodes;
