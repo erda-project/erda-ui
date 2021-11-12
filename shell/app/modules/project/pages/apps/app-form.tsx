@@ -114,7 +114,7 @@ const CreationForm = () => {
     // 创建时不需要展示能力应用
     const excludeOptions = [appMode.ABILITY];
     !publisherId && excludeOptions.push(appMode.MOBILE);
-    !ENABLE_BIGDATA && excludeOptions.push(appMode.BIGDATA); // 为新华书店保留
+    ENABLE_BIGDATA === 'false' && excludeOptions.push(appMode.BIGDATA); // 为新华书店保留
     return !excludeOptions.includes(item.value);
   });
 

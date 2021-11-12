@@ -54,7 +54,7 @@ const AppCenterEl = () => {
     dop: permMap.dop.read.pass,
     fdp: permMap.entryFastData.pass && currentOrg.openFdp,
     msp: permMap.entryMsp.pass,
-    ecp: erdaEnv.ENABLE_EDGE && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
+    ecp: erdaEnv.ENABLE_EDGE === 'true' && permMap.ecp.view.pass && currentOrg.type === 'ENTERPRISE',
     // apiManage: permMap.entryApiManage.pass,
   };
   const dataSource = appList
