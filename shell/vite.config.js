@@ -22,6 +22,9 @@ import { getLessTheme, getScssTheme } from './config/theme';
 
 const babelConfig = require('./babel.config.js');
 
+const packageJson = require('./package.json');
+
+const mainVersion = packageJson.version.slice(0, -2);
 const dotenv = require('dotenv');
 
 const { parsed: envConfig } = dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -101,6 +104,9 @@ export default ({ command, mode }) => {
     },
     define: {
       'process.env.VITE': '"true"',
+      'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),
+      'process.env.FOR_COMMUNITY': JSON.stringify(process.env.FOR_COMMUNITY),
+      'process.env.mainVersion': JSON.stringify(mainVersion),
     },
     server: {
       host: envConfig.SCHEDULER_URL.replace('https://', ''),
