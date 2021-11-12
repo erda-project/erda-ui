@@ -165,6 +165,7 @@ export enum pages {
   projectTicket = '/{orgName}/dop/projects/{projectId}/ticket',
   projectTestReport = '/{orgName}/dop/projects/{projectId}/test-report',
   projectTestReportCreate = '/{orgName}/dop/projects/{projectId}/test-report/create',
+  projectMemberManagement = '/{orgName}/dop/projects/{projectId}/setting?tabKey=projectMember',
 
   // app
   app = '/{orgName}/dop/projects/{projectId}/apps/{appId}',
