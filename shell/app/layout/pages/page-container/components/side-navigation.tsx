@@ -63,7 +63,7 @@ const SideNavigation = ({
       const foldIcon = (
         <span className="fold-icon relative">
           {icon}
-          <span className="text-xs my-1 overflow-hidden w-full inline-block">{subtitle}</span>
+          {subtitle && <span className="text-xs my-1 overflow-hidden w-full inline-block fold-title">{subtitle}</span>}
           <div className="layer" />
         </span>
       );

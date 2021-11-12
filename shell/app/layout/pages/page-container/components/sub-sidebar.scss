@@ -178,3 +178,13 @@
     }
   }
 }
+
+.ant-menu.ant-menu-submenu-popup {
+  .fold-icon {
+    display: inline-block;
+  }
+
+  .fold-title {
+    display: none !important;
+  }
+}
