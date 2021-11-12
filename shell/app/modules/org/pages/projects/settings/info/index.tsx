@@ -41,6 +41,8 @@ const reloadHeadInfo = () => {
   selectorKey += 1;
 };
 
+const workSpaceList = ['DEV', 'TEST', 'STAGING', 'PROD'];
+
 const resourceMap = {
   DEV: i18n.t('dev environment'),
   TEST: i18n.t('test environment'),
@@ -243,7 +245,7 @@ export default () => {
             }
           >
             {info.resourceConfig
-              ? Object.keys(info.resourceConfig).map((key: string) => {
+              ? workSpaceList.map((key: string) => {
                   const resource = info.resourceConfig[key];
                   return (
                     <div className="erda-panel-list">
