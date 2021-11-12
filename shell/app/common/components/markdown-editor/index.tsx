@@ -63,7 +63,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
     placeholder,
     readOnly,
     extraRight,
-    style = { height: '400px' },
+    style,
     defaultMode = 'md',
     autoFocus,
     value,
@@ -136,7 +136,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
 
   const curShowButton = !!operationBtns?.length;
 
-  const height: string | number = style.height ? parseInt(style.height, 10) : 400;
+  // const height: string | number = style.height ? parseInt(style.height, 10) : 400;
   // height = view.menu ? (view.md && curShowButton ? height + 50 : height) : 'auto';
 
   return (
@@ -144,7 +144,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
       <div
         className={`markdown-editor-content flex flex-col ${disableEdit ? 'disable-edit' : ''} ${
           readOnly ? 'read-only' : ''
-        } ${curShowButton ? 'show-btn' : ''}`}
+        } ${curShowButton && !disableEdit ? 'show-btn' : ''}`}
       >
         <Editor
           ref={mdEditorRef}
@@ -153,7 +153,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
             readOnly,
             extraRight,
             onFocus,
-            style: { ...style, height },
+            style,
           }}
           config={{
             view,
@@ -165,7 +165,7 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
           onChange={onChangeContent}
           onBlur={() => onBlur?.(content)}
         />
-        <div className="absolute left-2 flex bottom-2 space-x-2">
+        <div className={`absolute left-2 flex bottom-2 space-x-2 ${disableEdit ? 'hidden' : ''}`}>
           {map(operationBtns, (operationBtn, i) => {
             const { text, type, onClick } = operationBtn;
             return (
@@ -181,3 +181,4 @@ const MarkdownEditor: React.ForwardRefRenderFunction<EC_MarkdownEditor, IProps> 
 };
 
 export default React.forwardRef<EC_MarkdownEditor, IProps>(MarkdownEditor);
+

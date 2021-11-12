@@ -27,21 +27,20 @@ MdEditor.use(UploadPlugin);
 
 interface IProps extends Omit<EditorProps, 'renderHTML'> {
   autoSize: boolean;
-  defaultHight: number;
+  defaultHeight: number;
   maxHeight: number;
 }
 
 const Editor = React.forwardRef((props: IProps, ref) => {
-  const { autoSize, defaultHight, maxHeight, style, ...restEditorProps } = props;
+  const { autoSize, defaultHeight, maxHeight, style, config, ...restEditorProps } = props;
 
-  React.useEffect(() => {
-    if (autoSize && defaultHight && maxHeight) {
-      MdEditor.use(Plugins.AutoResize, {
-        min: defaultHight, // min height
-        max: maxHeight, // max height
-      });
-    }
-  }, [autoSize, defaultHight, maxHeight]);
+  if (autoSize && !!defaultHeight && !!maxHeight) {
+    // can't place in useEffect it should init before mount
+    MdEditor.use(Plugins.AutoResize, {
+      min: defaultHeight, // min height
+      max: maxHeight, // max height
+    });
+  }
 
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
@@ -67,8 +66,9 @@ const Editor = React.forwardRef((props: IProps, ref) => {
   return (
     <MdEditor
       ref={ref}
-      style={autoSize ? { ...style } : { height: `${defaultHight}px`, ...style }}
+      style={autoSize ? { ...style } : { height: `${defaultHeight}px`, ...style }}
       {...restEditorProps}
+      config={config}
       htmlClass="ec-md-content"
       renderHTML={(text: string) => Markdown(text)}
       onImageUpload={onImageUpload}
