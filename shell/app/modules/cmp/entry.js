@@ -25,7 +25,6 @@ import clusterStore from './stores/cluster';
 import computingStore from './stores/computing';
 import customAlarmStore from './stores/custom-alarm';
 import customDashboardStore from './stores/custom-dashboard';
-import logAnalyzeStore from './stores/log-analyze';
 import machineStore from './stores/machine';
 import middlewareChartStore from './stores/middleware-chart';
 import middlewareDashboardStore from './stores/middleware-dashboard';
@@ -52,7 +51,6 @@ export default (registerModule) => {
       clusterStore,
       computingStore,
       createCustomDashboardStore,
-      logAnalyzeStore,
       machineStore,
       middlewareChartStore,
       middlewareDashboardStore,
