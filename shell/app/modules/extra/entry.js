@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const entry = (registerModule) => {
-  // register something modules here
+  // register some modules here
 };
 
 export default entry;
