@@ -32,7 +32,7 @@ interface IState {
   urlQuery: Obj;
 }
 
-const PureClusterNodes = () => {
+const ClusterNodes = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
     visible: false,
@@ -63,7 +63,7 @@ const PureClusterNodes = () => {
   };
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -97,14 +97,8 @@ const PureClusterNodes = () => {
           <PureClusterNodeDetail className="mt-4" clusterName={clusterName} {...detailData} />
         ) : null}
       </Drawer>
-    </>
+    </ClusterContainer>
   );
 };
-
-const ClusterNodes = () => (
-  <ClusterContainer>
-    <PureClusterNodes />
-  </ClusterContainer>
-);
 
 export default ClusterNodes;

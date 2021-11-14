@@ -80,6 +80,7 @@ const cluster = createStore({
       }
       if (isIn('cmp')) {
         cluster.effects.getClusterList().then((list: ORG_CLUSTER.ICluster[]) => {
+          const curChosenCluster = cluster.getState((s) => s.chosenCluster);
           const useList = list?.filter((item) => TYPE_K8S_AND_EDAS.includes(item.type));
           const firstCluster = useList?.[0]?.name;
           const defaultChosen = clusterName || firstCluster;
@@ -87,7 +88,7 @@ const cluster = createStore({
             goTo(replaceContainerCluster(firstCluster));
             return;
           }
-          if (!chosenCluster && defaultChosen) {
+          if (!curChosenCluster && defaultChosen) {
             layoutStore.reducers.setSubSiderInfoMap({
               key: 'cmp',
               menu: getCmpMenu(defaultChosen),
@@ -95,7 +96,7 @@ const cluster = createStore({
           }
         });
       }
-      if (isIn('clusterContainer')) {
+      if (isIn('clusterContainer') && clusterName !== chosenCluster) {
         cluster.reducers.setChosenCluster(clusterName);
       }
       if (isLeaving('cmp')) {
@@ -233,6 +234,12 @@ const cluster = createStore({
     },
     setChosenCluster(state, chosenCluster) {
       state.chosenCluster = chosenCluster;
+      if (chosenCluster) {
+        layoutStore.reducers.setSubSiderInfoMap({
+          key: 'cmp',
+          menu: getCmpMenu(chosenCluster),
+        });
+      }
     },
   },
 });

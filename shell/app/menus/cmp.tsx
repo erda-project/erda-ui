@@ -24,6 +24,7 @@ import {
   DatabaseAlert as IconDatabaseAlert,
 } from '@icon-park/react';
 import React from 'react';
+import { ErdaIcon } from 'common';
 import { EMPTY_CLUSTER } from 'cmp/pages/cluster-manage/config';
 
 export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
@@ -63,30 +64,30 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       },
       {
         key: 'containerResource',
-        icon: <IconListTwo />,
+        icon: <ErdaIcon type="cloud-container" color="currentColor" />,
         href: goTo.resolve.cmpClustersContainer({ clusterName: chosenCluster }),
-        text: '容器资源',
-        subtitle: '容器',
+        text: i18n.t('container resource'),
+        subtitle: i18n.t('container'),
         subMenu: [
           {
             key: 'clusterNodes',
             href: goTo.resolve.cmpClustersNodes({ clusterName: chosenCluster }),
-            text: '节点',
+            text: i18n.t('node'),
           },
           {
             key: 'clusterPod',
             href: goTo.resolve.cmpClustersPods({ clusterName: chosenCluster }),
-            text: 'Pod',
+            text: 'Pods',
           },
           {
             key: 'clusterWorkload',
             href: goTo.resolve.cmpClustersWorkload({ clusterName: chosenCluster }),
-            text: '工作负载',
+            text: i18n.t('cmp:Workload'),
           },
           {
             key: 'clusterNodes',
             href: goTo.resolve.cmpClustersEventLog({ clusterName: chosenCluster }),
-            text: '事件日志',
+            text: i18n.t('cmp:Event Log'),
           },
         ],
       },

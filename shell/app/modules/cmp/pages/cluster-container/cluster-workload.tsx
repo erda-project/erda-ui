@@ -32,7 +32,7 @@ interface IState {
   urlQuery: Obj;
 }
 
-const PureClusterWorkload = () => {
+const ClusterWorkload = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
     visible: false,
@@ -71,7 +71,7 @@ const PureClusterWorkload = () => {
   };
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -100,14 +100,8 @@ const PureClusterWorkload = () => {
           />
         ) : null}
       </Drawer>
-    </>
+    </ClusterContainer>
   );
 };
-
-const ClusterWorkload = () => (
-  <ClusterContainer>
-    <PureClusterWorkload />
-  </ClusterContainer>
-);
 
 export default ClusterWorkload;

@@ -426,6 +426,7 @@
     "new dashboard": "new dashboard",
     "new report task": "new report task",
     "new strategy": "new strategy",
+    "no cluster available": "no cluster available",
     "no cluster currently exists, you can click <CreateClusterLink />, you can also view <DocumentationHref /> to learn more": "no cluster currently exists, you can click <CreateClusterLink />, you can also view <DocumentationHref /> to learn more",
     "no host address": "no host address",
     "no ip address": "no ip address",

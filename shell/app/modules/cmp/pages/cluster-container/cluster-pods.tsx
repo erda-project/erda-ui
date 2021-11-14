@@ -34,7 +34,7 @@ interface IState {
   urlQuery: Obj;
 }
 
-const PureClusterPods = () => {
+const ClusterPods = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
     visible: false,
@@ -73,7 +73,7 @@ const PureClusterPods = () => {
   };
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -100,14 +100,8 @@ const PureClusterPods = () => {
           <PureClusterPodDetail className="mt-4" clusterName={clusterName} {...detailData} onDelete={onDeleteDetail} />
         ) : null}
       </Drawer>
-    </>
+    </ClusterContainer>
   );
 };
-
-const ClusterPods = () => (
-  <ClusterContainer>
-    <PureClusterPods />
-  </ClusterContainer>
-);
 
 export default ClusterPods;

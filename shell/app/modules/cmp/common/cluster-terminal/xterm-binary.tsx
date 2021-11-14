@@ -121,8 +121,8 @@ export function destroyTerm(term: ITerminal) {
     window.removeEventListener('resize', term._onResize);
   }
 
-  if (term.socket) {
-    term.socket.close();
+  if (term.__socket) {
+    term.__socket.close();
   }
   if (term._pingInterval) {
     clearInterval(term._pingInterval);

@@ -426,6 +426,7 @@
     "new dashboard": "新建仪表盘",
     "new report task": "新建报告任务",
     "new strategy": "新建策略",
+    "no cluster available": "无可用集群",
     "no cluster currently exists, you can click <CreateClusterLink />, you can also view <DocumentationHref /> to learn more": "当前没有任何集群存在，可以点击 <CreateClusterLink />，也可以通过浏览 <DocumentationHref /> 来详细了解",
     "no host address": "暂无主机地址",
     "no ip address": "暂无ip地址",
