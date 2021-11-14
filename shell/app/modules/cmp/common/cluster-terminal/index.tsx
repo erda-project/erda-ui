@@ -66,9 +66,7 @@ export const ClusterTerminal = (props: IProps) => {
         }, 0);
       }, 0);
     }
-    return () => {
-      term.current && terminalMap[params.subProtocol]?.destroyTerm(term.current);
-    };
+    return () => term.current && terminalMap[params.subProtocol]?.destroyTerm(term.current);
   });
 
   return (

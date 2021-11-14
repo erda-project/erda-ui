@@ -212,7 +212,7 @@ function getCmpRouter(): RouteConfigItem[] {
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('cmp:task list'),
+          breadcrumbName: i18n.t('task'),
           getComp: (cb) => cb(import('app/modules/cmp/pages/tasks/job')),
         },
         {
