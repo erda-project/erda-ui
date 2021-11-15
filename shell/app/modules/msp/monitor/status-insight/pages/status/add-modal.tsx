@@ -290,9 +290,6 @@ const AddModal = (props: IProps) => {
     switch (bodyType) {
       case noneType:
         updater.textOrJson('');
-        updater.headers({
-          ...headers,
-        });
         updater.body({ content: '', type: noneType });
         break;
       case formType:
