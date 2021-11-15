@@ -212,9 +212,11 @@ const AddModal = (props: IProps) => {
   };
 
   const setUrlParams = (queryConfig: Obj) => {
-    if (url) {
-      formRef.current?.setFieldsValue({ config: { url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` } });
-    }
+    formRef.current?.setFieldsValue({
+      config: {
+        url: `${formRef.current?.getFieldValue(['config', 'url']).split('?')[0]}?${qs.stringify(queryConfig)}`,
+      },
+    });
   };
 
   const handleSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
