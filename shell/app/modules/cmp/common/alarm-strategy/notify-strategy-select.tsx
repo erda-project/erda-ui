@@ -80,7 +80,7 @@ export const NotifyStrategySelect = ({
             <div className="text-xs px-2 py-1 text-desc" onMouseDown={(e) => e.preventDefault()}>
               <WithAuth pass={addNotificationGroupAuth}>
                 <span className="hover-active" onClick={goToNotifyGroup}>
-                  {i18n.t('org:add more notification groups')}
+                  {i18n.t('cmp:add more notification groups')}
                 </span>
               </WithAuth>
             </div>
