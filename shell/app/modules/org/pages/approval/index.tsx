@@ -82,6 +82,11 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         },
       },
       {
+        title: i18n.t('cmp:apply for'),
+        width: 140,
+        dataIndex: 'desc',
+      },
+      {
         title: i18n.t('type'),
         dataIndex: 'type',
         width: 100,
@@ -90,7 +95,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
       {
         title: i18n.t('org:submitter'),
         dataIndex: 'submitter',
-        width: 180,
+        width: 120,
         render: (val: string) => {
           const curUser = userMap[val];
           return curUser ? curUser.nick || curUser.name : '';
@@ -99,7 +104,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
       {
         title: i18n.t('org:submit time'),
         dataIndex: 'createdAt',
-        width: 180,
+        width: 140,
         render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
       },
       {
