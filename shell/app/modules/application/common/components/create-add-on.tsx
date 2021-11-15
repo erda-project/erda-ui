@@ -360,6 +360,8 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         plan: k,
         planCnName: PLAN_NAME[k],
       }));
+    } else if (selectedAddonPlans?.length) {
+      plans = map(selectedAddonPlans, (k) => ({ plan: k, planCnName: PLAN_NAME[k] }));
     } else {
       plans = map({ basic: {} }, (_, k) => ({
         plan: k,
