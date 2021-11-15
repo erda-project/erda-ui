@@ -203,13 +203,6 @@ const AddModal = (props: IProps) => {
     updater.condition(newCondition);
   };
 
-  const setKey = (index: number, key: string) => {
-    const newCondition = produce(condition, (draft) => {
-      draft[index].key = key;
-    });
-    updater.condition(newCondition);
-  };
-
   const formatBody = () => {
     try {
       body.content = JSON.stringify(JSON.parse(body.content), null, 2);
@@ -220,8 +213,7 @@ const AddModal = (props: IProps) => {
 
   const setUrlParams = (queryConfig: Obj) => {
     if (url) {
-      formRef.current?.setFieldsValue({ url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` });
-      updater.url(`${url.split('?')[0]}?${qs.stringify(queryConfig)}`);
+      formRef.current?.setFieldsValue({ config: { url: `${url.split('?')[0]}?${qs.stringify(queryConfig)}` } });
     }
   };
 
@@ -242,7 +234,7 @@ const AddModal = (props: IProps) => {
         projectId,
         tenantId: terminusKey,
         config: {
-          url,
+          url: _data.config?.url,
           retry,
           interval: frequency,
           headers,
@@ -263,7 +255,7 @@ const AddModal = (props: IProps) => {
           retry,
           interval: frequency,
           headers,
-          url,
+          url: _data.config?.url,
           body: Array.isArray(body.content) ? { ...body, content: qs.stringify(newObj) } : body,
           method: apiMethod,
           triggering: condition,
@@ -298,7 +290,6 @@ const AddModal = (props: IProps) => {
     switch (bodyType) {
       case noneType:
         updater.textOrJson('');
-        updater.headers({});
         updater.body({ content: '', type: noneType });
         break;
       case formType:
@@ -346,7 +337,7 @@ const AddModal = (props: IProps) => {
     },
     {
       label: 'URL',
-      name: 'url',
+      name: ['config', 'url'],
       rules: [{ ...regRules.http }],
       itemProps: {
         addonBefore: (
@@ -364,11 +355,8 @@ const AddModal = (props: IProps) => {
             ))}
           </Select>
         ),
-        onChange: (e) => {
-          updater.url(e.target.value);
-        },
         onBlur: () => {
-          updater.query(qs.parseUrl(url).query);
+          updater.query(qs.parseUrl(formRef.current?.getFieldValue(['config', 'url']))?.query);
         },
       },
     },
@@ -381,11 +369,6 @@ const AddModal = (props: IProps) => {
               onChange={(key: string) => {
                 if (key === '2' && bodyType === raw && textOrJson === text) {
                   updater.headers({ ...headers, 'Content-Type': textType });
-                }
-                if (key === '2' && bodyType === noneType) {
-                  if (headers['Content-Type'] === ('x-www-form-urlencoded' || 'text/plain' || 'application/json')) {
-                    updater.headers({});
-                  }
                 }
               }}
               defaultActiveKey="1"
@@ -560,76 +543,79 @@ const AddModal = (props: IProps) => {
               </div>
               <div>
                 {condition.length > 0
-                  ? map(condition, (item, index) => (
-                      <div className="flex items-center mb-2">
-                        <Select
-                          value={item?.key}
-                          onChange={(v) => {
-                            if (v === 'http_code') {
-                              const newCondition = produce(condition, (draft) => {
-                                draft[index].operate = '>=';
-                              });
-                              updater.condition(newCondition);
-                            } else {
-                              const newCondition = produce(condition, (draft) => {
-                                draft[index].operate = 'operate';
-                              });
-                              updater.condition(newCondition);
-                            }
-                            setKey(index, v);
-                          }}
-                          style={{ width: 110 }}
-                          className="mr-2"
-                        >
-                          <Option value="http_code">{i18n.t('cmp:state code')}</Option>
-                          <Option value="body">{i18n.t('response body')}</Option>
-                        </Select>
-                        {item.key === 'http_code' ? (
-                          <>
-                            <Select
-                              onChange={(v) => setOperator(index, v)}
-                              style={{ width: 150 }}
-                              value={item?.operate}
-                              className="mr-2"
-                              placeholder={i18n.t('dop:compare')}
-                            >
-                              {map(OPERATORS, (value, key) => (
-                                <Option value={key}>{value}</Option>
-                              ))}
-                            </Select>
-                            <InputNumber
-                              value={item?.value}
-                              className="flex-1"
-                              onChange={(v) => setInputValue(index, v)}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <Select
-                              onChange={(v) => setOperator(index, v)}
-                              style={{ width: 150 }}
-                              value={item?.operate}
-                              className="mr-2"
-                              placeholder={i18n.t('dop:compare')}
-                            >
-                              {map(CONTAINS, (val, key) => (
-                                <Option value={key}>{val}</Option>
-                              ))}
-                            </Select>
-                            <Input
-                              className="flex-1"
-                              value={item?.value}
-                              onChange={(e) => setInputValue(index, e.target.value)}
-                            />
-                          </>
-                        )}
-                        <div className="ml-4 delete-row-btn table-operations">
-                          <span onClick={() => deleteItem(index)} className="table-operations-btn">
-                            {i18n.t('delete')}
-                          </span>
+                  ? map(condition, (item, index) => {
+                      return (
+                        <div className="flex items-center mb-2">
+                          <Select
+                            value={item?.key}
+                            onChange={(v) => {
+                              if (v === 'http_code') {
+                                const newCondition = produce(condition, (draft) => {
+                                  draft[index].operate = '>=';
+                                  draft[index].key = v;
+                                });
+                                updater.condition(newCondition);
+                              } else {
+                                const newCondition = produce(condition, (draft) => {
+                                  draft[index].operate = 'contains';
+                                  draft[index].key = v;
+                                });
+                                updater.condition(newCondition);
+                              }
+                            }}
+                            style={{ width: 110 }}
+                            className="mr-2"
+                          >
+                            <Option value="http_code">{i18n.t('cmp:state code')}</Option>
+                            <Option value="body">{i18n.t('response body')}</Option>
+                          </Select>
+                          {item.key === 'http_code' ? (
+                            <>
+                              <Select
+                                onChange={(v) => setOperator(index, v)}
+                                style={{ width: 150 }}
+                                value={item?.operate}
+                                className="mr-2"
+                                placeholder={i18n.t('dop:compare')}
+                              >
+                                {map(OPERATORS, (value, key) => (
+                                  <Option value={key}>{value}</Option>
+                                ))}
+                              </Select>
+                              <InputNumber
+                                value={item?.value}
+                                className="flex-1"
+                                onChange={(v) => setInputValue(index, v)}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <Select
+                                onChange={(v) => setOperator(index, v)}
+                                style={{ width: 150 }}
+                                value={item?.operate}
+                                className="mr-2"
+                                placeholder={i18n.t('dop:compare')}
+                              >
+                                {map(CONTAINS, (val, key) => (
+                                  <Option value={key}>{val}</Option>
+                                ))}
+                              </Select>
+                              <Input
+                                className="flex-1"
+                                value={item?.value}
+                                onChange={(e) => setInputValue(index, e.target.value)}
+                              />
+                            </>
+                          )}
+                          <div className="ml-4 delete-row-btn table-operations">
+                            <span onClick={() => deleteItem(index)} className="table-operations-btn">
+                              {i18n.t('delete')}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   : null}
               </div>
 
@@ -666,7 +652,7 @@ const AddModal = (props: IProps) => {
       },
     },
   ];
-  const data = formData && { ...formData, url: formData?.config?.url || '' };
+
   return (
     <FormModal
       ref={formRef}
@@ -675,7 +661,7 @@ const AddModal = (props: IProps) => {
       title={formData ? i18n.t('msp:edit monitoring') : i18n.t('msp:add monitoring')}
       fieldsList={fieldsList}
       visible={modalVisible}
-      formData={data}
+      formData={formData}
       onOk={handleSubmit}
       onCancel={toggleModal}
       modalProps={{
