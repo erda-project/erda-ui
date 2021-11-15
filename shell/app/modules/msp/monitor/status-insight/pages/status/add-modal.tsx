@@ -234,7 +234,7 @@ const AddModal = (props: IProps) => {
         projectId,
         tenantId: terminusKey,
         config: {
-          url: formRef.current?.getFieldValue(['config', 'url']),
+          url: _data.config?.url,
           retry,
           interval: frequency,
           headers,
@@ -255,7 +255,7 @@ const AddModal = (props: IProps) => {
           retry,
           interval: frequency,
           headers,
-          url: formRef.current?.getFieldValue(['config', 'url']),
+          url: _data.config?.url,
           body: Array.isArray(body.content) ? { ...body, content: qs.stringify(newObj) } : body,
           method: apiMethod,
           triggering: condition,
