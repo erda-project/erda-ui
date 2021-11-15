@@ -231,7 +231,7 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Issue) => {
         return (
           <Tooltip title={val}>
-            <div className="cursor-pointer nowrap pl-2 w-full truncate leading-8" onClick={() => clickTicket(record)}>
+            <div className="cursor-pointer pl-2 w-full truncate leading-8" onClick={() => clickTicket(record)}>
               {val}
             </div>
           </Tooltip>

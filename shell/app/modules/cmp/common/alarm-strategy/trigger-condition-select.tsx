@@ -13,7 +13,7 @@
 import React from 'react';
 import { map } from 'lodash';
 import { Reduce as IconReduce } from '@icon-park/react';
-import { Select, Input } from 'antd';
+import { Select, Input, message } from 'antd';
 import i18n from 'i18n';
 
 const { Option } = Select;
@@ -58,6 +58,11 @@ export const TriggerConditionSelect = ({
             valueOptionsList
               .find((item: { key: string }) => item.key === value)
               ?.options.map((item: string) => ({ key: item, display: item })) ?? [];
+          if (currentOptions.length === 0) {
+            message.warning(
+              i18n.t('cmp:There is no option under this tab, you can choose the matching mode to input data'),
+            );
+          }
           handleEditTriggerConditions(id, { key: 'valueOptions', value: currentOptions });
           handleEditTriggerConditions(id, { key: 'values', value: currentOptions[0]?.key });
         }}

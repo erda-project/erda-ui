@@ -11,17 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map } from 'lodash';
-import SICommonStore from '../stores/common';
-
-export const SITabs = () => {
-  const headMenu = SICommonStore.useStore((s) => s.headMenu);
-  const showTabs: Array<{ key: string; name: string }> = [];
-  map(headMenu, ({ key, value }) => {
-    showTabs.push({
-      key,
-      name: value,
-    });
-  });
-  return showTabs;
+const entry = (registerModule) => {
+  // register some modules here
 };
+
+export default entry;

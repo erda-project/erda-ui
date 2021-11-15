@@ -33,7 +33,7 @@ const rolesMap = {
 
 const getPermObj = (data: IPermResponseData, scope: string) => {
   const newPermObj = cloneDeep({ ...(permState[scope] || {}) });
-  const { permissionList, resourceRoleList = [], access } = data;
+  const { permissionList, resourceRoleList = [], access, roles = [], scopeInfo } = data;
   const ROLES = rolesMap[scope];
   map(permissionList, ({ resource, action }) => {
     if (resource.startsWith(permPrefix)) {
@@ -68,7 +68,14 @@ const getPermObj = (data: IPermResponseData, scope: string) => {
   });
   if (scope === 'project') {
     newPermObj.access = access;
+    newPermObj.roles = roles;
+    newPermObj.scopeInfo = scopeInfo;
   }
+
+  if (scope === 'app') {
+    newPermObj.scopeInfo = scopeInfo;
+  }
+
   return newPermObj;
 };
 
@@ -122,9 +129,9 @@ const permission = createStore({
       }
       // API 管理可以继承项目和应用权限，
       const needShowNoAuth = routeMark === 'apiManage' && ['project', 'app'].includes(realScope);
+      permission.reducers.updatePerm(realScope, data);
       if (!access && !needShowNoAuth) {
         // 新的scope无权限时才清理，新的scope有权限时会在下面更新掉，无需清理
-        permission.reducers.clearScopePerm(realScope);
         const userMap = getUserMap();
         userStore.reducers.setNoAuth(
           map((contactsWhenNoPermission && pickRandomlyFromArray(contactsWhenNoPermission, 6)) || [], (id) => {
@@ -135,7 +142,6 @@ const permission = createStore({
 
         return;
       }
-      permission.reducers.updatePerm(realScope, data);
       cb(data);
     },
   },

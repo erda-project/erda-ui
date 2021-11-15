@@ -64,8 +64,6 @@
       "application-insight/*": ["app/modules/msp/monitor/application-insight/*"],
       "external-insight": ["app/modules/msp/monitor/external-insight"],
       "external-insight/*": ["app/modules/msp/monitor/external-insight/*"],
-      "service-insight": ["app/modules/msp/monitor/service-insight"],
-      "service-insight/*": ["app/modules/msp/monitor/service-insight/*"],
       "browser-insight": ["app/modules/msp/monitor/browser-insight"],
       "browser-insight/*": ["app/modules/msp/monitor/browser-insight/*"],
       "gateway-ingress": ["app/modules/msp/monitor/gateway-ingress"],

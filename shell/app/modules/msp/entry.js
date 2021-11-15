@@ -23,6 +23,7 @@ import projectReportStore from './stores/project-report';
 import topologyStore from './stores/topology-service-analyze';
 import traceStore from './stores/trace';
 import zkproxyStore from './stores/zkproxy';
+import logAnalyzeStore from './stores/log-analyze';
 
 export default (registerModule) => {
   return registerModule({
@@ -39,6 +40,7 @@ export default (registerModule) => {
       traceStore,
       zkproxyStore,
       logStore,
+      logAnalyzeStore,
     ],
     routers,
   });

@@ -44,5 +44,7 @@ swagger-config.json
 shell/auto_test/auth
 shell/auto_test/**/*.secret.ts
 shell/auto_test/tests/results
+shell/app/modules/extra/*
+!shell/app/modules/extra/entry.js
 
 scheduler/dist/*

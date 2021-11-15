@@ -20,8 +20,14 @@ const apis = {
   getNotifyChannels: {
     api: '/api/notify-channels',
   },
+  getNotifyChannelEnableStatus: {
+    api: '/api/notify-channel/enabled/status',
+  },
   setNotifyChannelEnable: {
     api: 'put@/api/notify-channel/enabled',
+  },
+  getNotifyChannel: {
+    api: '/api/notify-channel',
   },
   addNotifyChannel: {
     api: 'post@/api/notify-channel',
@@ -39,12 +45,20 @@ export const getNotifyChannelTypes = apiCreator<() => NOTIFY_CHANNEL.ChannelType
 export const getNotifyChannels = apiCreator<
   (payload: { pageNo: number; pageSize: number }) => NOTIFY_CHANNEL.NotifyChannelData
 >(apis.getNotifyChannels);
+
+export const getNotifyChannelEnableStatus = apiCreator<(payload: { id: string; type: string }) => string>(
+  apis.getNotifyChannelEnableStatus,
+);
 export const setNotifyChannelEnable = apiCreator<(payload: { id: string; enable: boolean }) => void>(
   apis.setNotifyChannelEnable,
+);
+
+export const getNotifyChannel = apiCreator<(payload: { id: string }) => NOTIFY_CHANNEL.NotifyChannel>(
+  apis.getNotifyChannel,
 );
 
 export const addNotifyChannel = apiCreator<(payload: NOTIFY_CHANNEL.IChannelBody) => void>(apis.addNotifyChannel);
 
 export const editNotifyChannel = apiCreator<(payload: NOTIFY_CHANNEL.IChannelBody) => void>(apis.editNotifyChannel);
 
-export const deleteNotifyChannel = apiCreator<(payload: { id: number }) => void>(apis.deleteNotifyChannel);
+export const deleteNotifyChannel = apiCreator<(payload: { id: string }) => void>(apis.deleteNotifyChannel);

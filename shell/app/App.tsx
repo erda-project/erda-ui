@@ -86,12 +86,13 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       import('project/entry'),
       import('apiManagePlatform/entry'),
       import('msp/entry'),
-      ...insertWhen(erdaEnv.ENABLE_EDGE, [import('app/modules/ecp/entry')]),
+      ...insertWhen(erdaEnv.ENABLE_EDGE === 'true', [import('app/modules/ecp/entry')]),
       import('application/entry'),
       import('cmp/entry'),
       import('user/entry'),
       import('dcos/entry'),
       import('addonPlatform/entry'),
+      import('./modules/extra/entry'),
       ...Object.values(modules),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息

@@ -64,18 +64,6 @@ function getMspRouter(): RouteConfigItem[] {
               routes: [getMonitorRouter()],
             },
             {
-              path: 'nodes', // 节点流量管理
-              breadcrumbName: i18n.t('msp:node traffic management'),
-              keepQuery: true,
-              getComp: (cb) => cb(import('msp/pages/zkproxy/node-list')),
-            },
-            // 注册中心
-            {
-              path: 'release', // 灰度发布
-              breadcrumbName: i18n.t('msp:gray release'),
-              getComp: (cb) => cb(import('msp/pages/zkproxy/governance')),
-            },
-            {
               path: 'analysis',
               routes: [getQueryAnalysisRouter()],
             },

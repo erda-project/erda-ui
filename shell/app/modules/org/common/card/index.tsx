@@ -21,7 +21,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-export default ({ header, actions, children }: IProps) => {
+const Card = ({ header, actions, children }: IProps) => {
   return (
     <div className="erda-card w-full mb-4">
       {(header || actions) && (
@@ -35,3 +35,5 @@ export default ({ header, actions, children }: IProps) => {
     </div>
   );
 };
+
+export default Card;

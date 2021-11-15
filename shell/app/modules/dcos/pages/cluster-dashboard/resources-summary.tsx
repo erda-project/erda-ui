@@ -255,10 +255,8 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       title: () => (
         <div className="inline-flex flex-col justify-center align-center">
           <div className="text-sm">{i18n.t('cmp:Number of used nodes')}</div>
-          <div className="text-xs">
-            {`(${i18n.t('cmp:one node')}: ${cpuAndMem.current.cpuPerNode} ${i18n.t('cmp:Core')} ${
-              cpuAndMem.current.memPerNode
-            } G)`}
+          <div className="text-xs text-black-400">
+            {`(${i18n.t('cmp:one node')}: ${cpuAndMem.current.cpuPerNode} Core ${cpuAndMem.current.memPerNode} GiB)`}
           </div>
         </div>
       ),
@@ -278,7 +276,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
       sorter: {
         compare: (a, b) => a.cpuQuota - b.cpuQuota,
       },
-      render: (text: string) => `${text} core`,
+      render: (text: string) => `${text} Core`,
     },
     {
       title: i18n.t('cmp:CPU quota usage'),
@@ -493,7 +491,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
             size="small"
             style={{ width: '80px' }}
           />
-          <span>{i18n.t('cmp:Core')}</span>
+          <span className="mx-1">Core</span>
           <InputNumber
             min={1}
             max={9999999}
@@ -505,7 +503,7 @@ const PureResourceTable = React.memo(({ rankType }: { rankType: string }) => {
             className="ml-1"
             style={{ width: '80px' }}
           />
-          <span>G = {i18n.t('cmp:one node')}</span>
+          <span className="ml-1">GiB = {i18n.t('cmp:one node')}</span>
         </div>
       </Modal>
     </>

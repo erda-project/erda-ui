@@ -25,25 +25,50 @@ import './error-page.scss';
 const NoAuth = () => {
   const authContact = userStore.useStore((s) => s.authContact);
   const permProject = permStore.useStore((s) => s.project);
+  const permApp = permStore.useStore((s) => s.app);
+  // permProject or permApp is newPermObj, the type is not inconsistent with state[scope]
   const hasCurProject = permProject.access;
+  // isProjectOwner: is the owner of the current project
+  const isProjectOwner = permProject?.roles?.includes('Owner');
+  // when the user has no auth enter the current project, back-end will return projectName
+  const { projectName: noAuthProjectName } = permProject?.scopeInfo || {};
+  // when the user has no auth enter the current app, back-end will return projectName and appName
+  const { appName, projectName } = permApp?.scopeInfo || {};
 
   return (
     <div className="no-auth-page basic-error-page">
       <div className="info">
         <CustomIcon type="no-auth" color />
         <div className="desc">
-          <span>{i18n.t('layout:sorry, you do not have access to this page')}</span>
+          <div>
+            <span>{i18n.t('layout:sorry, you do not have access to this page')} </span>
+            {noAuthProjectName && <span>({noAuthProjectName || ''})</span>}
+            {appName && (
+              <span>
+                ({projectName || ''}/{appName || ''})
+              </span>
+            )}
+          </div>
           {authContact ? (
             <>
               <span className="contact-info">
                 {i18n.t('please contact')} {authContact}
               </span>
               {hasCurProject ? (
-                <Link to={goTo.resolve.projectApps()}>
-                  <Button size="large" type="primary">
-                    {i18n.t('layout:back to application list')}
-                  </Button>
-                </Link>
+                <div>
+                  {isProjectOwner && (
+                    <Link to={goTo.resolve.projectMemberManagement()} className="mr-2">
+                      <Button size="large" type="primary">
+                        {i18n.t('setting permissions')}
+                      </Button>
+                    </Link>
+                  )}
+                  <Link to={goTo.resolve.projectApps()}>
+                    <Button size="large" type={`${isProjectOwner ? 'ghost' : 'primary'}`}>
+                      {i18n.t('layout:back to application list')}
+                    </Button>
+                  </Link>
+                </div>
               ) : (
                 <Link to={goTo.resolve.dopRoot()}>
                   <Button size="large" type="primary">
@@ -53,11 +78,20 @@ const NoAuth = () => {
               )}
             </>
           ) : (
-            <Link to={goTo.resolve.orgRoot()}>
-              <Button size="large" type="primary">
-                {i18n.t('back to home')}
-              </Button>
-            </Link>
+            <div>
+              {isProjectOwner && (
+                <Link to={goTo.resolve.projectMemberManagement()} className="mr-2">
+                  <Button size="large" type="primary">
+                    {i18n.t('setting permissions')}
+                  </Button>
+                </Link>
+              )}
+              <Link to={goTo.resolve.orgRoot()}>
+                <Button size="large" type={`${isProjectOwner ? 'ghost' : 'primary'}`}>
+                  {i18n.t('back to home')}
+                </Button>
+              </Link>
+            </div>
           )}
         </div>
       </div>

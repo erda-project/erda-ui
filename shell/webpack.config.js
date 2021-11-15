@@ -79,7 +79,6 @@ module.exports = () => {
         'monitor-overview': resolve('./app/modules/msp/monitor/monitor-overview'),
         'application-insight': resolve('./app/modules/msp/monitor/application-insight'),
         'external-insight': resolve('./app/modules/msp/monitor/external-insight'),
-        'service-insight': resolve('./app/modules/msp/monitor/service-insight'),
         'browser-insight': resolve('./app/modules/msp/monitor/browser-insight'),
         'gateway-ingress': resolve('./app/modules/msp/monitor/gateway-ingress'),
         'docker-container': resolve('./app/modules/msp/monitor/docker-container'),
@@ -92,6 +91,7 @@ module.exports = () => {
         'error-insight': resolve('./app/modules/msp/monitor/error-insight'),
         'monitor-alarm': resolve('./app/modules/msp/monitor/monitor-alarm'),
       },
+      modules: ['node_modules', resolve('../../erda-ui/shell/node_modules')],
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
       fallback: {
         path: require.resolve('path-browserify'),
@@ -107,7 +107,6 @@ module.exports = () => {
       rules: [
         {
           test: /\.(scss)$/,
-          include: [resolve('app')],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
             ...(isProd ? [] : ['style-loader']),
@@ -173,7 +172,6 @@ module.exports = () => {
         },
         {
           test: /\.(tsx?|jsx?)$/,
-          include: [resolve('app')],
           use: [
             {
               loader: 'babel-loader',
@@ -241,7 +239,6 @@ module.exports = () => {
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
         'process.env.UI_ENV': JSON.stringify(process.env.ERDA_UI_ENV),
         'process.env.FOR_COMMUNITY': JSON.stringify(process.env.FOR_COMMUNITY),
-        'process.env.DICE_VER': JSON.stringify(pkg.version),
         'process.env.mainVersion': JSON.stringify(mainVersion),
       }),
       ...mfConfigs.map((mfConfig) => new ModuleFederationPlugin(mfConfig)),
