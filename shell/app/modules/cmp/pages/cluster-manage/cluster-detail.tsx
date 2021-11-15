@@ -20,15 +20,12 @@ import { useLoading } from 'core/stores/loading';
 import routeInfoStore from 'core/stores/route';
 import clusterStore from '../../stores/cluster';
 import { manageTypeMap, statusMap } from './cluster-list';
-import { K8sClusterTerminalButton } from './cluster-terminal';
-import { TYPE_K8S_AND_EDAS } from 'cmp/pages/cluster-manage/config';
 
 import './cluster-detail.scss';
 
 const ClusterDetail = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const { clusterName } = params;
-  const clusterDetail = clusterStore.useStore((s) => s.detail);
   const { getClusterNewDetail } = clusterStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterNewDetail']);
   const [detail, setDetail] = React.useState({} as any);
@@ -62,11 +59,6 @@ const ClusterDetail = () => {
 
   return (
     <div className="cluster-detail">
-      {TYPE_K8S_AND_EDAS.includes(clusterDetail.type) ? (
-        <div className="top-button-group">
-          <K8sClusterTerminalButton clusterName={clusterName} />
-        </div>
-      ) : null}
       <Spin spinning={loading}>{!isEmpty(detail) ? <KeyValueList data={detail} /> : <EmptyHolder relative />}</Spin>
     </div>
   );

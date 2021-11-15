@@ -20,6 +20,7 @@ import { useUpdate } from 'common/use-hooks';
 import { PureClusterNodeDetail } from './cluster-nodes-detail';
 import { updateSearch } from 'common/utils';
 import { K8sClusterTerminalButton } from './cluster-terminal';
+import { ClusterContainer } from './index';
 
 interface IDetailData {
   nodeIP: string;
@@ -62,7 +63,7 @@ const ClusterNodes = () => {
   };
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -96,7 +97,7 @@ const ClusterNodes = () => {
           <PureClusterNodeDetail className="mt-4" clusterName={clusterName} {...detailData} />
         ) : null}
       </Drawer>
-    </>
+    </ClusterContainer>
   );
 };
 

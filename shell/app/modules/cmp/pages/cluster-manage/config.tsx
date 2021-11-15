@@ -194,3 +194,13 @@ export const getOptions = (type: string) => {
 };
 
 export const TYPE_K8S_AND_EDAS = ['k8s', 'edas'];
+export const EMPTY_CLUSTER = '_';
+export const replaceContainerCluster = (v: string) => {
+  const { search, pathname } = location;
+  const [p1, p2] = pathname.split('/cmp/container/');
+  if (p2) {
+    const newUrl = `${p1}/cmp/container/${v}/${p2.split('/').slice(1).join('/')}${search ? `?${search}` : ''}`;
+    return newUrl;
+  }
+  return `${pathname}${search ? `?${search}` : ''}`;
+};

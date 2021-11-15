@@ -17,8 +17,9 @@ import { getUrlQuery } from 'config-page/utils';
 import { updateSearch } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
 import { K8sClusterTerminalButton } from './cluster-terminal';
+import { ClusterContainer } from './index';
 
-const ClusterNodes = () => {
+const ClusterEnvLog = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [urlQuery, setUrlQuery] = React.useState(query);
 
@@ -31,7 +32,7 @@ const ClusterNodes = () => {
   const urlQueryChange = (val: Obj) => setUrlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -48,8 +49,7 @@ const ClusterNodes = () => {
           },
         }}
       />
-    </>
+    </ClusterContainer>
   );
 };
-
-export default ClusterNodes;
+export default ClusterEnvLog;

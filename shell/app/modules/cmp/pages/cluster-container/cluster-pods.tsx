@@ -20,6 +20,7 @@ import { updateSearch } from 'common/utils';
 import { Drawer } from 'antd';
 import { useUpdate } from 'common/use-hooks';
 import { PureClusterPodDetail } from './cluster-pod-detail';
+import { ClusterContainer } from './index';
 
 interface IDetailData {
   podId: string;
@@ -33,7 +34,7 @@ interface IState {
   urlQuery: Obj;
 }
 
-const ClusterNodes = () => {
+const ClusterPods = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
     visible: false,
@@ -72,7 +73,7 @@ const ClusterNodes = () => {
   };
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -99,8 +100,8 @@ const ClusterNodes = () => {
           <PureClusterPodDetail className="mt-4" clusterName={clusterName} {...detailData} onDelete={onDeleteDetail} />
         ) : null}
       </Drawer>
-    </>
+    </ClusterContainer>
   );
 };
 
-export default ClusterNodes;
+export default ClusterPods;

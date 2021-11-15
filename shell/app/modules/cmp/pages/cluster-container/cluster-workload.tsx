@@ -20,6 +20,7 @@ import { updateSearch } from 'common/utils';
 import { useUpdate } from 'common/use-hooks';
 import { Drawer } from 'antd';
 import { PureClusterWorkloadDetail } from './cluster-workload-detail';
+import { ClusterContainer } from './index';
 
 interface IDetailData {
   workloadId: string;
@@ -31,7 +32,7 @@ interface IState {
   urlQuery: Obj;
 }
 
-const ClusterNodes = () => {
+const ClusterWorkload = () => {
   const [{ clusterName }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ visible, detailData, urlQuery }, updater, update] = useUpdate<IState>({
     visible: false,
@@ -70,7 +71,7 @@ const ClusterNodes = () => {
   };
 
   return (
-    <>
+    <ClusterContainer>
       <div className="top-button-group">
         <K8sClusterTerminalButton clusterName={clusterName} />
       </div>
@@ -99,8 +100,8 @@ const ClusterNodes = () => {
           />
         ) : null}
       </Drawer>
-    </>
+    </ClusterContainer>
   );
 };
 
-export default ClusterNodes;
+export default ClusterWorkload;
