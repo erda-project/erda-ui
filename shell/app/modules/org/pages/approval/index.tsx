@@ -82,7 +82,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         },
       },
       {
-        title: i18n.t('cmp:apply for'),
+        title: i18n.t('org:apply for'),
         width: 140,
         dataIndex: 'desc',
       },
