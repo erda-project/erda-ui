@@ -60,7 +60,7 @@ export const TriggerConditionSelect = ({
               ?.options.map((item: string) => ({ key: item, display: item })) ?? [];
           if (currentOptions.length === 0) {
             message.warning(
-              i18n.t('There is no option under this tab, you can choose the matching mode to input data'),
+              i18n.t('cmp:There is no option under this tab, you can choose the matching mode to input data'),
             );
           }
           handleEditTriggerConditions(id, { key: 'valueOptions', value: currentOptions });

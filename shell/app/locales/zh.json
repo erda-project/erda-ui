@@ -134,6 +134,7 @@
     "The last deployment information has been initialized. Please click the reset button at the bottom if unnecessary.": "已为您初始化上次部署信息，若不需要，请点击最下方重置按钮",
     "The number of IPs should be a multiple of the number of copies.": "IP个数应为副本数的倍数",
     "The total number of selected resources": "筛选项资源总和",
+    "There is no option under this tab, you can choose the matching mode to input data": "此标签下暂无选项，您可以选择匹配模式输入数据",
     "Total": "总计",
     "Trend of cluster resources": "集群资源变化趋势",
     "VIP segment": "VIP网段",
