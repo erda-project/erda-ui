@@ -67,7 +67,8 @@ function WrappedTable<T extends object = any>({
     ...PAGINATION,
   });
 
-  const pagination: TablePaginationConfig = paginationProps || defaultPagination;
+  const pagination: TablePaginationConfig =
+    paginationProps && paginationProps.current ? paginationProps : defaultPagination;
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
@@ -218,7 +219,7 @@ function WrappedTable<T extends object = any>({
     data = data.sort(sortCompareRef.current);
   }
 
-  if (!paginationProps && paginationProps !== false) {
+  if (!(paginationProps && paginationProps.current) && paginationProps !== false) {
     data = data.slice((current - 1) * pageSize, current * pageSize);
   }
 
