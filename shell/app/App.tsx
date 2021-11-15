@@ -92,6 +92,7 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
       import('user/entry'),
       import('dcos/entry'),
       import('addonPlatform/entry'),
+      import('./modules/extra/entry'),
       ...Object.values(modules),
     ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息

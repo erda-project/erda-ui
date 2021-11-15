@@ -31,7 +31,7 @@ import {
   testRule,
   getAddonLogs,
   getAddonLogStatistics,
-} from '../services/log-analyze';
+} from 'msp/services/log-analyze';
 import mspStore from 'msp/stores/micro-service';
 
 interface IState {

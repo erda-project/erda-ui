@@ -346,9 +346,13 @@ type ROUTE_MARK =
   | 'monitor'
   | 'sysAdmin'
   | 'fdp'
+  | 'consumer-audit'
+  | 'gateway-route'
+  | 'api'
+  | 'old-policies'
   | 'api-monitor';
 
-type ROUTE_TO_MARK = 'orgIndex';
+type ROUTE_TO_MARK = 'orgIndex' | 'mspDetail';
 interface ROUTE_TABS {
   key: string;
   name: string | JSX.Element;

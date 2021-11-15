@@ -91,6 +91,7 @@ module.exports = () => {
         'error-insight': resolve('./app/modules/msp/monitor/error-insight'),
         'monitor-alarm': resolve('./app/modules/msp/monitor/monitor-alarm'),
       },
+      modules: ['node_modules', resolve('../../erda-ui/shell/node_modules')],
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
       fallback: {
         path: require.resolve('path-browserify'),
@@ -106,7 +107,6 @@ module.exports = () => {
       rules: [
         {
           test: /\.(scss)$/,
-          include: [resolve('app')],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
             ...(isProd ? [] : ['style-loader']),
@@ -172,7 +172,6 @@ module.exports = () => {
         },
         {
           test: /\.(tsx?|jsx?)$/,
-          include: [resolve('app')],
           use: [
             {
               loader: 'babel-loader',
