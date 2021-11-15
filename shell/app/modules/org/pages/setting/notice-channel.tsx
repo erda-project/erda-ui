@@ -27,7 +27,8 @@ import React from 'react';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import { Button, Modal, Select, Spin, Tooltip, Input, message, Badge } from 'antd';
-import Table, { IColumnProps, IActions } from 'common/components/table';
+import Table from 'common/components/table';
+import { ColumnProps, IActions } from 'common/components/table/interface';
 import { FormModal, Copy } from 'common';
 import { PreviewOpen as IconPreviewOpen, PreviewCloseOne as IconPreviewCloseOne } from '@icon-park/react';
 import { useUpdate } from 'common/use-hooks';
@@ -352,7 +353,7 @@ const NotifyChannel = () => {
     },
   ];
 
-  const columns: Array<IColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
+  const columns: Array<ColumnProps<NOTIFY_CHANNEL.NotifyChannel>> = [
     {
       title: i18n.t('channel name'),
       dataIndex: 'name',

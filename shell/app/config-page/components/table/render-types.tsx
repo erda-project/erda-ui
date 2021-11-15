@@ -14,7 +14,7 @@
 import React from 'react';
 import { Popconfirm, Tooltip, Dropdown, Menu, Progress, Badge, Avatar } from 'antd';
 import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
-import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis } from 'common';
+import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { RowContainer, Container } from '../container/container';
@@ -469,43 +469,49 @@ const getTableOperation = (val: any, record: any, extra: any) => {
       // 无权限操作
       return (
         <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
-          <span className="table-operations-btn ">{text}</span>
+          <Menu.Item key={key}>
+            <span className="table-operations-btn ">{text}</span>
+          </Menu.Item>
         </WithAuth>
       );
     } else if (confirm) {
       // 需要确认的操作
       return (
-        <Popconfirm
-          title={confirm}
-          onConfirm={(e) => {
-            e && e.stopPropagation();
-            extra.execOperation({ ...op, key });
-          }}
-          key={key}
-          onCancel={(e: any) => e && e.stopPropagation()}
-        >
-          <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>
-            {text}
-          </span>
-        </Popconfirm>
+        <Menu.Item key={key}>
+          <Popconfirm
+            title={confirm}
+            onConfirm={(e) => {
+              e && e.stopPropagation();
+              extra.execOperation({ ...op, key });
+            }}
+            key={key}
+            onCancel={(e: any) => e && e.stopPropagation()}
+          >
+            <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>
+              {text}
+            </span>
+          </Popconfirm>
+        </Menu.Item>
       );
     } else {
       // 普通的操作
       return (
-        <span
-          className="table-operations-btn"
-          key={key}
-          onClick={(e: any) => {
-            e.stopPropagation();
-            extra.execOperation({ ...op, key });
-            const customFunc = get(extra, `customProps.operations.${key}`);
-            if (customFunc) {
-              customFunc(op);
-            }
-          }}
-        >
-          {text}
-        </span>
+        <Menu.Item key={key}>
+          <span
+            className="table-operations-btn"
+            key={key}
+            onClick={(e: any) => {
+              e.stopPropagation();
+              extra.execOperation({ ...op, key });
+              const customFunc = get(extra, `customProps.operations.${key}`);
+              if (customFunc) {
+                customFunc(op);
+              }
+            }}
+          >
+            {text}
+          </span>
+        </Menu.Item>
       );
     }
   };
@@ -529,7 +535,14 @@ const getTableOperation = (val: any, record: any, extra: any) => {
   //     operationList.push(getTableOperationItem(op, key, record));
   //   });
   // }
-  return <div className="table-operations">{operationList}</div>;
+
+  return (
+    <div className="table-operations">
+      <Dropdown overlay={<Menu>{operationList}</Menu>} align={{ offset: [0, 5] }} trigger={['click']}>
+        <ErdaIcon type="more" className="cursor-pointer p-1 bg-hover rounded-sm" onClick={(e) => e.stopPropagation()} />
+      </Dropdown>
+    </div>
+  );
 };
 
 interface IGantteTitle {
