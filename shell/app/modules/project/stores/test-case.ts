@@ -335,6 +335,7 @@ const testCaseStore = createStore({
         const newQuery = { ...query, ...rest, testSetID, projectID, query: undefined }; // Set the query outside the modal to undefined, prevent to filter modal data
         const { testSets, total } = await call(getCases, formatQuery({ pageSize: 15, ...newQuery }));
         update({ modalCaseList: testSets, modalCaseTotal: total });
+        testCaseStore.reducers.triggerChoosenAll({ isAll: false, scope });
         return;
       }
       const fetchData = testPlanId ? getCasesRelations : getCases;
