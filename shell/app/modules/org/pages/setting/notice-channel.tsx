@@ -290,7 +290,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         placeholder: `${i18n.t('please input')} AccessKeySecret`,
-        type: isEditing ? (passwordVisible ? 'text' : 'password') : 'text',
+        type: passwordVisible ? 'text' : 'password',
         autoComplete: 'off',
         addonAfter: passwordVisible ? (
           <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
@@ -451,6 +451,7 @@ const NotifyChannel = () => {
           className="absolute right-3 hover-active add-channel-button"
           onClick={() => {
             handleAdd();
+            updater.passwordVisible(true);
           }}
         >
           <Button type="primary">{i18n.t('new notification channel')}</Button>
