@@ -26,7 +26,7 @@ interface IProps {
 }
 
 const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }: IProps) => {
-  const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
+  const { current = 1, pageSize = PAGINATION.pageSize, pageSizeOptions = PAGINATION.pageSizeOptions } = pagination;
   const [goToVisible, setGoToVisible] = React.useState(false);
 
   const batchMenu = () => {
@@ -100,7 +100,7 @@ const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }
 
   const pageSizeMenu = (
     <Menu>
-      {(pagination?.pageSizeOptions || Pagination?.defaultProps?.pageSizeOptions || []).map((item: string | number) => {
+      {(pageSizeOptions || []).map((item: string | number) => {
         return (
           <Menu.Item key={item} onClick={() => onTableChange({ pageNo: 1, pageSize: item })}>
             <span className="fake-link mr-1">{i18n.t('{size} items / page', { size: item })}</span>
@@ -138,15 +138,17 @@ const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }
       {!hidePagination && (
         <div className="erda-pagination flex items-center justify-end">
           <Pagination {...pagination} showSizeChanger={false} size="small" itemRender={paginationItemRender} />
-          <Dropdown
-            trigger={['click']}
-            overlay={pageSizeMenu}
-            align={{ offset: [0, 5] }}
-            overlayStyle={{ minWidth: 120 }}
-            getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-          >
-            <span className="bg-hover px-2">{i18n.t('{size} items / page', { size: pagination.pageSize })}</span>
-          </Dropdown>
+          {!pageSizeOptions.length && (
+            <Dropdown
+              trigger={['click']}
+              overlay={pageSizeMenu}
+              align={{ offset: [0, 5] }}
+              overlayStyle={{ minWidth: 120 }}
+              getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+            >
+              <span className="bg-hover px-3">{i18n.t('{size} items / page', { size: pageSize })}</span>
+            </Dropdown>
+          )}
         </div>
       )}
     </div>

@@ -285,11 +285,13 @@ function renderActions<T extends object = any>(actions?: IActions<T> | null): Ar
 
           const menu = (
             <Menu>
-              {list.map((item) => (
-                <Menu.Item key={item.title} onClick={item.onClick}>
-                  <span className="fake-link mr-1">{item.title}</span>
-                </Menu.Item>
-              ))}
+              {list
+                .filter((item) => item.show !== false)
+                .map((item) => (
+                  <Menu.Item key={item.title} onClick={item.onClick}>
+                    <span className="fake-link mr-1">{item.title}</span>
+                  </Menu.Item>
+                ))}
             </Menu>
           );
 
