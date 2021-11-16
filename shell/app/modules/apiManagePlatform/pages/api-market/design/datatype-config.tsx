@@ -33,7 +33,7 @@ interface IProps {
   onDataTypeNameChange: (e: any) => void;
 }
 
-export default (props: IProps) => {
+const DataTypeConfig = (props: IProps) => {
   const [{ propertyFormData }, updater] = useUpdate({
     propertyFormData: {} as Obj,
   });
@@ -231,3 +231,5 @@ export default (props: IProps) => {
     </div>
   );
 };
+
+export default DataTypeConfig;
