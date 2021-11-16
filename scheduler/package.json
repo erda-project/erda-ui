@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "start": "nest start --watch",
+    "dev": "DEV=true nest start --watch",
+    "start": "nest start",
     "build": "rm -rf ./dist && nest build",
     "start:prod": "node dist/main",
     "precommit": "lint-staged"
