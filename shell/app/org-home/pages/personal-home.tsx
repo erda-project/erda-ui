@@ -16,6 +16,8 @@ import DiceConfigPage from 'config-page/index';
 import orgStore from 'app/org-home/stores/org';
 import './personal-home.scss';
 import i18n from 'i18n';
+import announcementStore from 'org/stores/announcement';
+import layoutStore from 'app/layout/stores/layout';
 
 const PersonalHome = () => {
   const curOrgName = orgStore.useStore((s) => s.currentOrg.name);
@@ -37,6 +39,14 @@ const PersonalHome = () => {
           scenarioKey="home-page-sidebar"
           key={curOrgName}
           inParams={inParams}
+          customProps={{
+            orgSwitch: {
+              onChange: async () => {
+                const list = await announcementStore.effects.getAllNoticeListByStatus('published');
+                layoutStore.reducers.setAnnouncementList(list);
+              },
+            },
+          }}
         />
       </div>
       <div className="home-page-content w-full">
