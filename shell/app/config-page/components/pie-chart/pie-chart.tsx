@@ -19,15 +19,29 @@ import { map, uniq, merge, get, sumBy } from 'lodash';
 
 import './pie-chart.scss';
 
-const getOption = (data: CP_PIE_CHART.IData[] = [], _option: Obj, configProps: Obj) => {
-  const color = map(data, 'color');
+const getOption = (_data: CP_PIE_CHART.IData, _option: Obj, configProps: Obj) => {
+  const { data, label } = _data;
+  const color = map(data || [], 'color');
   const option = {
     ...(configProps.grayBg ? { backgroundColor: '' } : {}),
+    ...(label
+      ? {
+          graphic: {
+            left: 'center',
+            type: 'text',
+            top: '40%',
+            style: {
+              text: label,
+              fill: 'rgba(0,0,0,0.6)',
+            },
+          },
+        }
+      : {}),
     series: [
       {
         type: 'pie',
         color: color.length ? color : undefined,
-        radius: ['75%', '100%'],
+        radius: ['70%', '100%'],
         label: { show: false },
         emphasis: { scale: false },
         hoverAnimation: false,
@@ -88,7 +102,7 @@ const Chart = (props: CP_PIE_CHART.Props) => {
   const color = map(data?.data, 'color');
   const reColor = color ? uniq(map(color, (cItem) => colorMap[cItem] || cItem).concat(presetColor)) : presetColor;
 
-  const { option: reOption, isEmpty } = getOption(data?.data, option, configProps);
+  const { option: reOption, isEmpty } = getOption(data, option, configProps);
   const finalColor = reOption.color || reColor;
   const ChartComp = (
     <EChart
@@ -107,17 +121,18 @@ const Chart = (props: CP_PIE_CHART.Props) => {
     <div className="flex items-center">
       {ChartComp}
       <div className={`flex-1 flex justify-between ${styleObj?.infoCls?.[direction]}`} style={{ minWidth: 100 }}>
-        {data?.data?.map((item: CP_PIE_CHART.IData, idx: number) => {
+        {data?.data?.map((item: CP_PIE_CHART.IList, idx: number) => {
           return (
             <TextBlockInfo
               size="small"
               key={item.name}
+              className='flex-1'
               main={`${item.formatter ? getFormatterString(item.formatter, { v: item.value }) : item.value}`}
-              sub={total ? (item.value / total).toFixed(1) : '-'}
+              sub={total ? `${((item.value * 100) / total).toFixed(1)}%` : '-'}
               extra={
                 <div className="flex items-center">
                   <span className="rounded" style={{ width: 4, height: 10, backgroundColor: finalColor[idx] }} />
-                  <span className="ml-1 text-desc text-xs">{item.value}</span>
+                  <span className="ml-1 text-desc text-xs leading-5">{item.name}</span>
                 </div>
               }
             />

@@ -49,7 +49,7 @@ const handleState = (_stateObj?: Obj, selectable?: boolean) => {
 };
 
 export function Table(props: CP_TABLE.Props) {
-  const { state: propsState, customOp, props: configProps, operations, data, execOperation, updateState } = props;
+  const { state: propsState, customOp, props: configProps, operations, data, execOperation, updateState, slot } = props;
   const list = data?.list || emptyArr;
   const {
     visible = true,
@@ -145,7 +145,9 @@ export function Table(props: CP_TABLE.Props) {
 
     extra.expandedRowRender = (rowData: any) => {
       const { expandedList } = rowData || {};
-      return <PureTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} />;
+      return (
+        <PureTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} slot={slot} />
+      );
     };
   }
 
@@ -190,6 +192,7 @@ export function Table(props: CP_TABLE.Props) {
       <PureTable
         className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
+        slot={slot}
         scroll={{ x: '100%' }}
         rowKey={rowKey}
         {...extra}
@@ -201,7 +204,7 @@ export function Table(props: CP_TABLE.Props) {
         onChange={onChange}
       />
       {batchOperations ? (
-        <div className="absolute" style={{ bottom: 16 }}>
+        <div className="absolute" style={{ bottom: 5 }}>
           <BatchOperation
             rowKey={rowKey}
             dataSource={list}

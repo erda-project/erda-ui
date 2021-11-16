@@ -51,7 +51,9 @@ declare namespace CP_TABLE {
     sorter?: { field: string; order: string };
   }
 
-  type Props = MakeProps<Spec>;
+  type Props = MakeProps<Spec> & {
+    slot?: React.ReactNode;
+  };
 
   interface Column {
     title: string;

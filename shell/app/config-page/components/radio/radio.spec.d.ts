@@ -30,7 +30,7 @@ declare namespace CP_RADIO {
     disabledTip?: string;
     options?: Option[];
     radioType?: string;
-    size?: 'small' | 'default' | 'large';
+    size?: 'small' | 'middle' | 'large';
   }
 
   interface Option {

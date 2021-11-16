@@ -17,6 +17,7 @@ import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
+import ImgMap from 'app/config-page/img-map';
 import { RowContainer, Container } from '../container/container';
 import { statusColorMap, colorMap } from 'app/config-page/utils';
 import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } from '@icon-park/react';
@@ -151,9 +152,13 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             <Progress
               percent={value}
               {...rest}
-              format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
+              type="circle"
+              width={20}
+              strokeWidth={18}
+              format={(v) => null}
               strokeColor={statusColorMap[status]}
             />
+            <span className="text-dark-8  ml-2">{`${value}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -364,24 +369,60 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = <Text props={_rest} />;
       }
       break;
+    case 'icon':
+      {
+        const { icon } = val || {};
+        if (ImgMap[icon]) {
+          Comp = (
+            <div style={{ width: 28, height: 28 }} className="mr-1">
+              <img src={ImgMap[icon]} className="w-full h-full" />{' '}
+            </div>
+          );
+        }
+      }
+      break;
     case 'multiple':
       {
-        const { renders, operations } = val || {};
+        const { renders, operations, direction = 'col' } = val || {};
         const extraProps = getItemClickProps({ ...extra, operations, record });
         const hasPointer = !isEmpty(extraProps);
-        Comp = (
-          <Container props={{ spaceSize: 'none', className: hasPointer ? 'cursor-pointer' : '', ...extraProps }}>
-            {map(renders, (rds, idx) => (
-              <RowContainer key={`${idx}`}>
-                {map(rds, (rd, rdIdx) => (
-                  <div key={`${rdIdx}`} className="w-full">
-                    {getRender(rd, record, extra)}
-                  </div>
-                ))}
-              </RowContainer>
-            ))}
-          </Container>
-        );
+        if (direction === 'col') {
+          Comp = (
+            <Container
+              props={{ spaceSize: 'none', className: `leading-6 ${hasPointer ? 'cursor-pointer' : ''}`, ...extraProps }}
+            >
+              {map(renders, (rds, idx) => (
+                <RowContainer key={`${idx}`}>
+                  {map(rds, (rd, rdIdx) => (
+                    <div key={`${rdIdx}`} className="w-full">
+                      {getRender(rd, record, extra)}
+                    </div>
+                  ))}
+                </RowContainer>
+              ))}
+            </Container>
+          );
+        } else if (direction === 'row') {
+          Comp = (
+            <RowContainer
+              props={{
+                spaceSize: 'none',
+                className: `leading-6 ${hasPointer ? 'cursor-pointer' : ''}`,
+                ...extraProps,
+              }}
+            >
+              {map(renders, (rds, idx) => (
+                <Container key={`${idx}`} props={{ spaceSize: 'none' }}>
+                  {map(rds, (rd, rdIdx) => (
+                    <div key={`${rdIdx}`} className="w-full">
+                      {getRender(rd, record, extra)}
+                    </div>
+                  ))}
+                </Container>
+              ))}
+            </RowContainer>
+          );
+        }
       }
       break;
     default:

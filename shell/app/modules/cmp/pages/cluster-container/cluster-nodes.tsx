@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import DiceConfigPage from 'app/config-page';
+import DiceConfigPage, { useMock } from 'app/config-page';
 import routeInfoStore from 'core/stores/route';
 import { getUrlQuery } from 'config-page/utils';
 import { Drawer } from 'antd';
@@ -62,6 +62,11 @@ const ClusterNodes = () => {
     update({ visible: false, detailData: null });
   };
 
+  const chartProps = {
+    grayBg: true,
+    size: 'small',
+  };
+
   return (
     <ClusterContainer>
       <div className="top-button-group">
@@ -71,31 +76,30 @@ const ClusterNodes = () => {
         scenarioType={'cmp-dashboard-nodes'}
         scenarioKey={'cmp-dashboard-nodes'}
         inParams={inParams}
+        useMock={useMock('crud')}
+        forceMock
         customProps={{
+          cpuChart: {
+            props: chartProps,
+          },
+          memChart: {
+            props: chartProps,
+          },
+          podChart: {
+            props: chartProps,
+          },
           filter: {
             op: {
               onFilterChange: urlQueryChange,
             },
           },
-          cpuTable: {
+          table: {
             op: {
               onStateChange: urlQueryChange,
               clickTableItem: openDetail,
             },
           },
-          memTable: {
-            op: {
-              onStateChange: urlQueryChange,
-              clickTableItem: openDetail,
-            },
-          },
-          podTable: {
-            op: {
-              onStateChange: urlQueryChange,
-              clickTableItem: openDetail,
-            },
-          },
-          tableTabs: {
+          tabsTable: {
             op: {
               onStateChange: urlQueryChange,
             },

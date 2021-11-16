@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { Tooltip, Popconfirm } from 'antd';
-import { Ellipsis } from 'common';
+import { Ellipsis, ErdaIcon } from 'common';
 import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
@@ -157,7 +157,7 @@ const TagsRow = ({
           placement="right"
           overlayClassName="tags-row-tooltip"
         >
-          <span className={`twt-tag-ellipsis ${size}`}>...&nbsp;&nbsp;</span>
+          <ErdaIcon className={`twt-tag-ellipsis ${size}`} type="more" color="currentColor" />
         </Tooltip>
       ) : (
         labels
@@ -174,8 +174,10 @@ const TagsRow = ({
       className={`tags-container flex items-center flex-wrap justify-start ${containerClassName}`}
       onClick={(e) => e.stopPropagation()}
     >
-      <span className="tags-box flex item-center">{oneAndMoreTag}</span>
-      {onAdd ? <IconAddOne onClick={onAdd} theme="outline" className="ml-2 fake-link" size="14" /> : null}
+      <span className="tags-box flex items-center">{oneAndMoreTag}</span>
+      {onAdd ? (
+        <ErdaIcon className={`tags-add ${size} ml-2 text-xs leading-6`} type="tj1" color="currentColor" />
+      ) : null}
     </div>
   );
 };

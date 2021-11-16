@@ -514,4 +514,16 @@ body {
   .ant-avatar {
     background: $color-primary;
   }
+
+  .ant-radio-group {
+    .ant-radio-button-wrapper {
+      &:not(:last-child) {
+        border-right-width: 0;
+      }
+      &:not(:first-child)::before {
+        height: 50%;
+        top: 20%;
+      }
+    }
+  }
 }

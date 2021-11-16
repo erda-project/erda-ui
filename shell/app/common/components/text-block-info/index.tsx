@@ -22,15 +22,16 @@ export interface TextBlockInfoProps {
   sub?: string;
   desc?: string;
   tip?: string;
+  className: string;
   extra?: string | React.ElementType | JSX.Element;
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { main, size = 'normal', align = 'left', sub, desc, tip, extra } = props;
+  const { className = '', main, size = 'normal', align = 'left', sub, desc, tip, extra } = props;
 
   const sizeClassMap = {
     small: {
-      main: 'text-sm ',
+      main: 'text-sm leading-5',
       sub: 'text-xs',
       desc: 'text-xs',
     },
@@ -39,7 +40,7 @@ const TextBlockInfo = (props: TextBlockInfoProps) => {
   const sizeClass = sizeClassMap[size];
 
   return (
-    <div className="flex flex-col">
+    <div className={`flex flex-col ${className}`}>
       <div className={`text-normal font-medium ${sizeClass.main}`}>{main}</div>
       {sub ? <div className={`text-sub ${sizeClass.sub}`}>{sub}</div> : null}
       {desc ? <div className={`text-desc ${sizeClass.desc}`}>{desc}</div> : null}

@@ -5,13 +5,26 @@
     white-space: nowrap;
   }
 
-  .twt-tag-ellipsis {
+  .twt-tag-ellipsis,
+  .tags-add {
+    display: block;
+    background-color: $color-dark-1;
+    border-radius: $radius;
+    color: $text-sub;
+    width: 28px;
     height: 28px;
     line-height: 28px;
+    text-align: center;
+
+    &:hover {
+      background-color: $color-active;
+      color: $white;
+    }
 
     &.small {
+      width: 20px;
       height: 20px;
-      line-height: 20px;
+      line-height: 24px;
     }
   }
 
