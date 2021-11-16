@@ -13,10 +13,6 @@
 
 import agent from 'agent';
 
-export const getDiceVersion = (): string => {
-  return agent.get('/api/openapi/version?short=true').then((response: any) => response.text);
-};
-
 export const inviteToOrg = (payload: LAYOUT.InviteToOrgPayload) => {
   return agent
     .post('/api/members/actions/create-by-invitecode')
