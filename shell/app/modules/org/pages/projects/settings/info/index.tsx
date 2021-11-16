@@ -269,15 +269,15 @@ export default () => {
                                 ),
                               },
                               {
-                                label: `${+(+resource.cpuQuota).toFixed(2)} core`,
+                                label: `${+(+resource.cpuQuota).toFixed(3)} core`,
                                 value: i18n.t('CPU quota'),
                               },
                               {
-                                label: `${+(+resource.cpuRequest).toFixed(2)} core`,
+                                label: `${+(+resource.cpuRequest).toFixed(3)} core`,
                                 value: i18n.t('used'),
                               },
                               {
-                                label: `${+(+resource.cpuRequestRate).toFixed(2)} %`,
+                                label: `${+(+resource.cpuRequestRate).toFixed(3)} %`,
                                 value: i18n.t('cmp:usage rate'),
                               },
                             ]}
@@ -295,15 +295,15 @@ export default () => {
                                 ),
                               },
                               {
-                                label: `${+(+resource.memQuota).toFixed(2)} GiB`,
+                                label: `${+(+resource.memQuota).toFixed(3)} GiB`,
                                 value: i18n.t('Memory quota'),
                               },
                               {
-                                label: `${+(+resource.memRequest).toFixed(2)} GiB`,
+                                label: `${+(+resource.memRequest).toFixed(3)} GiB`,
                                 value: i18n.t('used'),
                               },
                               {
-                                label: `${+(+resource.memRequestRate).toFixed(2)} %`,
+                                label: `${+(+resource.memRequestRate).toFixed(3)} %`,
                                 value: i18n.t('cmp:usage rate'),
                               },
                             ]}
