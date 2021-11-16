@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'core/cube';
-import { getDiceVersion, inviteToOrg } from 'layout/services';
+import { inviteToOrg } from 'layout/services';
 import * as DiceWebSocket from 'core/utils/ws';
 import { enableIconfont, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'core/stores/route';
@@ -144,11 +144,6 @@ const layout = createStore({
       }
 
       ws.send(JSON.stringify({ command, scope: { type: scopeType, id } }));
-    },
-    async getDiceVersion({ call }) {
-      //
-      const result = await call(getDiceVersion);
-      return result;
     },
     async inviteToOrg({ call }, payload: LAYOUT.InviteToOrgPayload) {
       const result = await call(inviteToOrg, payload);
