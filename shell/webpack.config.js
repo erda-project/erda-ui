@@ -21,7 +21,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { getScssTheme, getLessTheme } = require('./config/theme');
-const initJs = require('./app/views/init.js');
 const css = require('./app/views/css.js');
 const pkg = require('./package.json');
 const { ModuleFederationPlugin } = require('webpack').container;
@@ -216,7 +215,6 @@ module.exports = () => {
         template: './app/views/index.ejs',
         excludeChunks: ['modules'],
         css,
-        initJs,
         skeleton: {
           html: fs.readFileSync(resolve('./app/views/skeleton.html')),
         },

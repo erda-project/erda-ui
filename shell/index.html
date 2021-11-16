@@ -158,64 +158,20 @@
 
 <body>
   <div id="erda-content"></div>
+  <div id="erda-content"></div>
   <script>global = this;
     (function initFn() {
-      function createXHR() {
-        const { ActiveXObject } = window;
-        if (typeof XMLHttpRequest !== 'undefined') {
-          return new XMLHttpRequest();
-        } else if (typeof ActiveXObject !== 'undefined') {
-          if (typeof arguments.callee.activeXString !== 'string') {
-            const versions = ['MSXML2.XMLHttp.6.0', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp'];
-            let i;
-            let len;
-            for (i = 0, len = versions.length; i < len; i++) {
-              try {
-                // eslint-disable-next-line no-new
-                new ActiveXObject(versions[i]);
-                arguments.callee.activeXString = versions[i];
-                break;
-              } catch (ex) { }
-            }
-          }
-          return new ActiveXObject(arguments.callee.activeXString);
-        } else {
-          throw new Error('No XHR object available.');
-        }
-      }
-      function getXHRIns(callback) {
-        const xhr = createXHR();
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            let result = null;
-            if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-              try {
-                result = JSON.parse(xhr.responseText);
-              } catch (err) {
-                result = err;
-              }
-            }
-            callback(result, xhr.status);
-          }
-        };
-        return xhr;
-      }
-      function ajax(url, callback) {
-        const xhr = getXHRIns(callback);
-        xhr.open('get', url, true);
-        xhr.setRequestHeader('Accept', 'application/vnd.dice+json;version=1.0');
-        xhr.send();
-      }
-      ajax('/api/-/users/me', (result, status) => {
-        if(status >= 500) {
+      fetch('/api/-/users/me').then(userRes => {
+        var result = userRes.json();
+        if (userRes.status >= 500) {
           document.querySelector('.main-holder').innerText = "服务暂时不可用";
           return;
         }
-        if (status === 401) {
-          ajax('/api/-/openapi/login', (data) => {
+        if (userRes.status === 401) {
+          fetch('/api/-/openapi/login').then((loginRes) => {
+            const data = loginRes.json();
             if (data && data.url) {
               window.location.href = data.url;
-              console.log(data.url);
             }
           });
         } else {
@@ -226,9 +182,9 @@
             window._userData = userData;
           }
         }
-      });
-
-    }());</script>
+      })
+    }());
+  </script>
   <script type="module" src="./app"></script>
 
   <!-- dice -->
