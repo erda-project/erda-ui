@@ -39,22 +39,22 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
   if (type === 'cpu') {
     data = {
       request: +(record?.cpuRequest || 0).toFixed(3),
-      requestRate: +(record?.cpuRequestRate * 100 || 0).toFixed(3),
-      requestByService: (record?.cpuRequestByService || 0).toFixed(3),
-      requestByServiceRate: +(record?.cpuRequestByServiceRate * 100 || 0).toFixed(3),
-      requestByAddon: (record?.cpuRequestByAddon || 0).toFixed(3),
-      requestByAddonRate: +(record?.cpuRequestByAddonRate * 100 || 0).toFixed(3),
+      requestRate: +(record?.cpuRequestRate || 0).toFixed(3),
+      requestByService: +(record?.cpuRequestByService || 0).toFixed(3),
+      requestByServiceRate: +(record?.cpuRequestByServiceRate || 0).toFixed(3),
+      requestByAddon: +(record?.cpuRequestByAddon || 0).toFixed(3),
+      requestByAddonRate: +(record?.cpuRequestByAddonRate || 0).toFixed(3),
       quota: +(record?.cpuQuota || 0).toFixed(3),
       tips: record.cpuAvailable < record.cpuQuota ? record.tips : '',
     };
   } else {
     data = {
       request: +(record?.memRequest || 0).toFixed(3),
-      requestRate: +(record?.memRequestRate * 100 || 0).toFixed(3),
-      requestByService: (record?.memRequestByService || 0).toFixed(3),
-      requestByServiceRate: +(record?.memRequestByServiceRate * 100 || 0).toFixed(3),
-      requestByAddon: (record?.memRequestByAddon || 0).toFixed(3),
-      requestByAddonRate: +(record?.memRequestByAddonRate * 100 || 0).toFixed(3),
+      requestRate: +(record?.memRequestRate || 0).toFixed(3),
+      requestByService: +(record?.memRequestByService || 0).toFixed(3),
+      requestByServiceRate: +(record?.memRequestByServiceRate || 0).toFixed(3),
+      requestByAddon: +(record?.memRequestByAddon || 0).toFixed(3),
+      requestByAddonRate: +(record?.memRequestByAddonRate || 0).toFixed(3),
       quota: +(record?.memQuota || 0).toFixed(3),
       tips: record.memAvailable < record.memQuota ? record.tips : '',
     };
@@ -94,8 +94,8 @@ const renderBar = (type: string, record: PROJECT.ICluster, unit: string) => {
         <Tooltip
           title={`
               ${i18n.t('msp:available')}
-              ${(quota - request).toFixed(3)}${unit}
-              (${(100 - requestRate).toFixed(3)})%
+              ${+(quota - request).toFixed(3)}${unit}
+              (${+(100 - requestRate).toFixed(3)})%
             `}
         >
           <div className="nowrap" style={{ width: `${100 - requestRate}%` }}>
