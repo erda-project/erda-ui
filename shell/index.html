@@ -162,26 +162,28 @@
   <script>global = this;
     (function initFn() {
       fetch('/api/-/users/me').then(userRes => {
-        var result = userRes.json();
-        if (userRes.status >= 500) {
-          document.querySelector('.main-holder').innerText = "服务暂时不可用";
-          return;
-        }
-        if (userRes.status === 401) {
-          fetch('/api/-/openapi/login').then((loginRes) => {
-            const data = loginRes.json();
-            if (data && data.url) {
-              window.location.href = data.url;
-            }
-          });
-        } else {
-          const userData = result && result.data || {};
-          if (typeof window.userCb === 'function') {
-            window.userCb(userData);
-          } else {
-            window._userData = userData;
+        userRes.json().then(result => {
+          if (userRes.status >= 500) {
+            document.querySelector('.main-holder').innerText = "服务暂时不可用";
+            return;
           }
-        }
+          if (userRes.status === 401) {
+            fetch('/api/-/openapi/login').then((loginRes) => {
+              loginRes.json().then(data => {
+                if (data && data.url) {
+                  window.location.href = data.url;
+                }
+              });
+            });
+          } else {
+            const userData = result && result.data || {};
+            if (typeof window.userCb === 'function') {
+              window.userCb(userData);
+            } else {
+              window._userData = userData;
+            }
+          }
+        });
       })
     }());
   </script>
