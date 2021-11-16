@@ -83,14 +83,20 @@ const ClusterNodes = () => {
         ref={reloadRef}
         customProps={{
           filter: {
-            onFilterChange: urlQueryChange,
+            op: {
+              onFilterChange: urlQueryChange,
+            },
           },
           podsTable: {
-            onStateChange: urlQueryChange,
-            clickTableItem: openDetail,
+            op: {
+              onStateChange: urlQueryChange,
+              clickTableItem: openDetail,
+            },
           },
           tableTabs: {
-            onStateChange: urlQueryChange,
+            op: {
+              onStateChange: urlQueryChange,
+            },
           },
         }}
       />

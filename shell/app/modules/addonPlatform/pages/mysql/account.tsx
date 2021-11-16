@@ -36,10 +36,14 @@ const Account = () => {
       inParams={inParams}
       customProps={{
         filter: {
-          onFilterChange: urlQueryChange,
+          op: {
+            onFilterChange: urlQueryChange,
+          },
         },
         accountTable: {
-          onStateChange: urlQueryChange,
+          op: {
+            onStateChange: urlQueryChange,
+          },
         },
       }}
     />

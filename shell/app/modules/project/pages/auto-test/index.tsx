@@ -36,10 +36,12 @@ const SpaceList = () => {
         inParams={inParams}
         customProps={{
           moreButton: {
-            click: (op: CP_COMMON.Operation) => {
-              if (op.key === 'import') {
-                setVisible(true);
-              }
+            op: {
+              click: (op: CP_COMMON.Operation) => {
+                if (op.key === 'import') {
+                  setVisible(true);
+                }
+              },
             },
           },
         }}

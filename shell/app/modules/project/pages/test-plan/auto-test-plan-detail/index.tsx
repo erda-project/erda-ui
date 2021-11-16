@@ -58,30 +58,32 @@ const AutoTestPlanDetail = () => {
         inParams={inParams}
         customProps={{
           executeTaskTable: {
-            operations: {
-              checkLog: (d: any) => {
-                const { logId, pipelineId: pId, nodeId: nId } = get(d, 'meta') || {};
-                if (logId) {
-                  update({
-                    logVisible: true,
-                    logProps: {
-                      logId,
-                      title: i18n.t('msp:log details'),
-                      customFetchAPIPrefix: `/api/apitests/pipeline/${pId}/task/${nId}/logs`,
-                      pipelineID: pId,
-                      taskID: nId,
-                      downloadAPI: '/api/apitests/logs/actions/download',
-                    },
-                  });
-                }
-              },
-              checkDetail: (d: any) => {
-                if (d) {
-                  update({
-                    resultVis: true,
-                    previewData: getPreviewData(d),
-                  });
-                }
+            op: {
+              operations: {
+                checkLog: (d: any) => {
+                  const { logId, pipelineId: pId, nodeId: nId } = get(d, 'meta') || {};
+                  if (logId) {
+                    update({
+                      logVisible: true,
+                      logProps: {
+                        logId,
+                        title: i18n.t('msp:log details'),
+                        customFetchAPIPrefix: `/api/apitests/pipeline/${pId}/task/${nId}/logs`,
+                        pipelineID: pId,
+                        taskID: nId,
+                        downloadAPI: '/api/apitests/logs/actions/download',
+                      },
+                    });
+                  }
+                },
+                checkDetail: (d: any) => {
+                  if (d) {
+                    update({
+                      resultVis: true,
+                      previewData: getPreviewData(d),
+                    });
+                  }
+                },
               },
             },
           },

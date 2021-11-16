@@ -336,7 +336,7 @@ const Kanban = (props: IKanbanProps) => {
               key={item.id}
               execOperation={execOperation}
               props={{ cardType, className: 'list-item', data: changeData(item) }}
-              customProps={rest.customProps}
+              customOp={rest.customOp}
             />
           );
         })}

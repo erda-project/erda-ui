@@ -25,11 +25,11 @@ const CP_TABS = (props: CP_TABS.Props) => {
     props: configProps,
     state: propsState,
     operations,
-    customProps,
+    customOp,
     execOperation,
   } = props || {};
   const { tabMenu, visible = true } = configProps || {};
-  const customPropsRef = React.useRef(customProps);
+  const customOpRef = React.useRef(customOp);
 
   const [state, updater, update] = useUpdate({
     activeKey: propsState?.activeKey || get(tabMenu, '[0].key'),
@@ -40,8 +40,8 @@ const CP_TABS = (props: CP_TABS.Props) => {
   }, [propsState, update]);
 
   React.useEffect(() => {
-    if (customPropsRef.current?.onStateChange) {
-      customPropsRef.current.onStateChange(state);
+    if (customOpRef.current?.onStateChange) {
+      customOpRef.current.onStateChange(state);
     }
   }, [state]);
 

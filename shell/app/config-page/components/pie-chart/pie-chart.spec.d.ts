@@ -11,18 +11,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART {
+declare namespace CP_PIE_CHART {
   interface Spec {
-    type: 'Chart';
+    type: 'PieChart';
     props: IProps;
+    data: { data: IData[] };
     cId: string;
   }
 
+  interface IData {
+    name: string;
+    value: number;
+    color: string;
+    formatter?: string;
+  }
+
   interface IProps {
-    chartType: 'line' | 'pie' | 'bar';
     option: Obj;
-    style?: Obj;
-    yAxisLabelLen?: number;
+    style: Obj;
+    direction?: 'col' | 'row';
+    size?: 'small' | 'normal' | 'big' | 'large';
     pureChart?: boolean;
     visible?: boolean;
     title: string;

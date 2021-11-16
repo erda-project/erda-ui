@@ -56,6 +56,7 @@ import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
 import Modal from './modal/modal';
+import PieChart from './pie-chart/pie-chart';
 import Grid from './grid/grid';
 import DatePicker from './date-picker/date-picker';
 import Dropdown from './dropdown/dropdown';
@@ -69,6 +70,7 @@ export const containerMap = {
   Button,
   FormModal,
   Table,
+  PieChart,
   Card,
   Container,
   RowContainer,

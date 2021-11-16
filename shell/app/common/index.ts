@@ -58,6 +58,8 @@ export { default as IF } from './components/if';
 export { default as NoAuthTip } from './components/no-auth-tip';
 export { default as Title } from './components/title';
 export type { TitleProps } from './components/title';
+export { default as TextBlockInfo } from './components/text-block-info';
+export type { TextBlockInfoProps } from './components/text-block-info';
 export { default as Panel } from './components/panel';
 export type { PanelProps, PanelField } from './components/panel';
 export { default as Ellipsis } from './components/ellipsis';

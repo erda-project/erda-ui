@@ -48,7 +48,7 @@ const handleState = (_stateObj?: Obj, selectable?: boolean) => {
 };
 
 export function Table(props: CP_TABLE.Props) {
-  const { state: propsState, customProps, props: configProps, operations, data, execOperation, updateState } = props;
+  const { state: propsState, customOp, props: configProps, operations, data, execOperation, updateState } = props;
   const list = data?.list || emptyArr;
   const {
     visible = true,
@@ -75,8 +75,8 @@ export function Table(props: CP_TABLE.Props) {
   }, [propsState, update, selectable]);
 
   React.useEffect(() => {
-    if (customProps?.onStateChange) {
-      customProps.onStateChange(state);
+    if (customOp?.onStateChange) {
+      customOp.onStateChange(state);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
@@ -90,7 +90,7 @@ export function Table(props: CP_TABLE.Props) {
   const tableColumns = map([...(columns || [])], (cItem) => ({
     ...cItem,
     ...getTitleRender(cItem),
-    render: (val: any, record: Obj) => getRender(val, record, { execOperation, customProps, userMap }),
+    render: (val: any, record: Obj) => getRender(val, record, { execOperation, customOp, userMap }),
   })) as any[];
 
   const isGanttTable = columns.find((item) => item.titleRenderType === 'gantt');
@@ -139,7 +139,7 @@ export function Table(props: CP_TABLE.Props) {
     const exTableColumns = map([...(exColumns || [])], (cItem) => ({
       ...cItem,
       ...getTitleRender(cItem),
-      render: (val: any, record: CP_TABLE.RowData) => getRender(val, record, { execOperation, customProps, userMap }),
+      render: (val: any, record: CP_TABLE.RowData) => getRender(val, record, { execOperation, customOp, userMap }),
     })) as any[];
 
     extra.expandedRowRender = (rowData: any) => {

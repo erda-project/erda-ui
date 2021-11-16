@@ -16,7 +16,7 @@ import { ContractiveFilter } from 'common';
 import { useMount } from 'react-use';
 
 export const Filter = (props: CP_FILTER.Props) => {
-  const { state, execOperation, operations, props: configProps, customProps } = props;
+  const { state, execOperation, operations, props: configProps, customOp } = props;
   const { delay, visible = true, fullWidth = false } = configProps || {};
 
   const [conditions, setConditions] = React.useState([] as CP_FILTER.Condition[]);
@@ -33,17 +33,17 @@ export const Filter = (props: CP_FILTER.Props) => {
   const { values, conditions: stateConditions } = state || {};
 
   useMount(() => {
-    customProps?.onFilterChange && customProps.onFilterChange(state);
+    customOp?.onFilterChange && customOp.onFilterChange(state);
   });
 
   React.useEffect(() => {
-    customProps?.onFilterChange && customProps.onFilterChange(state);
+    customOp?.onFilterChange && customOp.onFilterChange(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
   const onChange = (value: Obj, changedKey?: string) => {
     execOperation(operations?.filter, { values: value, conditions: conditionsRef.current, changedKey });
-    customProps?.onFilterChange && customProps.onFilterChange(value, changedKey);
+    customOp?.onFilterChange && customOp.onFilterChange(value, changedKey);
   };
 
   const onQuickOperation = ({ key, value }: { key: string; value: any }) => {

@@ -36,10 +36,14 @@ const CodeCoverage = () => {
       inParams={inParams}
       customProps={{
         envFilter: {
-          onStateChange: urlQueryChange,
+          op: {
+            onStateChange: urlQueryChange,
+          },
         },
         timeSelector: {
-          onChange: urlQueryChange,
+          op: {
+            onChange: urlQueryChange,
+          },
         },
       }}
     />

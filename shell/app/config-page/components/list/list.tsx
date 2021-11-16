@@ -25,7 +25,7 @@ import './list.scss';
 
 const emptyArr = [] as any[];
 const List = (props: CP_LIST.Props) => {
-  const { customProps, execOperation, operations, props: configProps, data, state: propsState } = props;
+  const { customOp, execOperation, operations, props: configProps, data, state: propsState } = props;
   const { list = emptyArr } = data || {};
   const [state, updater, update] = useUpdate({
     ...propsState,
@@ -101,7 +101,7 @@ const List = (props: CP_LIST.Props) => {
             return (
               <Item
                 size={size}
-                customProps={customProps}
+                customOp={customOp}
                 execOperation={execOperation}
                 key={getKey(item, idx)}
                 data={item}
@@ -132,10 +132,10 @@ interface ItemProps {
   alignCenter?: boolean;
   noBorder?: boolean;
   execOperation: (opObj: { key: string; [p: string]: any }, updateData?: any) => void;
-  customProps?: Obj;
+  customOp?: Obj;
 }
 const Item = (props: ItemProps) => {
-  const { execOperation, size = 'middle', data, alignCenter = false, noBorder = false, customProps } = props;
+  const { execOperation, size = 'middle', data, alignCenter = false, noBorder = false, customOp } = props;
   const {
     operations = {},
     prefixImg,
@@ -166,8 +166,8 @@ const Item = (props: ItemProps) => {
     if (operations?.click) {
       execOperation(operations.click, data);
     }
-    if (customProps?.clickItem) {
-      customProps.clickItem(operations?.click, data);
+    if (customOp?.clickItem) {
+      customOp.clickItem(operations?.click, data);
     }
   };
 
@@ -181,8 +181,8 @@ const Item = (props: ItemProps) => {
               operation={action}
               onClick={() => {
                 execOperation(action);
-                if (customProps && customProps[action.key]) {
-                  customProps[action.key](action, data);
+                if (customOp && customOp[action.key]) {
+                  customOp[action.key](action, data);
                 }
               }}
             >
@@ -228,8 +228,8 @@ const Item = (props: ItemProps) => {
                   e && e.stopPropagation();
                   const curOp = (info.operations as Obj<CP_COMMON.Operation>).click;
                   execOperation(curOp, data);
-                  if (customProps && customProps[curOp.key]) {
-                    customProps[curOp.key](curOp, data);
+                  if (customOp && customOp[curOp.key]) {
+                    customOp[curOp.key](curOp, data);
                   }
                 };
               }

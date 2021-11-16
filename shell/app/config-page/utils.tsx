@@ -94,3 +94,21 @@ export const textColorMap = {
   'text-sub': 'rgba(0, 0, 0, 0.6)',
   'text-desc': 'rgba(0, 0, 0, 0.4)',
 };
+
+export const getClass = (props: Obj) => {
+  const classMap = {
+    whiteBg: 'bg-white',
+    grayBg: 'bg-gray-block-bg',
+  };
+  let cls = '';
+  map(classMap, (v, k) => {
+    if (props?.[k]) {
+      cls += `${v} `;
+    }
+  });
+  return cls;
+};
+
+export const getFormatterString = (temp: string, obj: Obj) => {
+  return temp.replace(/\{(\w+)\}/g, (match, key) => obj[key]);
+};

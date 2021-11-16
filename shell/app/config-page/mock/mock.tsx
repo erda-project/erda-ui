@@ -17,10 +17,25 @@ import routeInfoStore from 'core/stores/route';
 
 const Mock = () => {
   const query = routeInfoStore.useStore((s) => s.query);
+  const comProps = {
+    cpu1Chart: {
+      props: {
+        grayBg: true,
+        size: 'small',
+      },
+    },
+    cpu2Chart: {
+      props: {
+        grayBg: true,
+        size: 'small',
+      },
+    },
+  };
   return (
     <DiceConfigPage
       showLoading
       scenarioType="mock"
+      customProps={comProps}
       scenarioKey={'mock'}
       useMock={useMock(query.page || 'project-list-protocol')}
       forceMock

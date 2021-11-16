@@ -36,10 +36,14 @@ const Consumer = () => {
       inParams={inParams}
       customProps={{
         filter: {
-          onFilterChange: urlQueryChange,
+          op: {
+            onFilterChange: urlQueryChange,
+          },
         },
         consumerTable: {
-          onStateChange: urlQueryChange,
+          op: {
+            onStateChange: urlQueryChange,
+          },
         },
       }}
     />

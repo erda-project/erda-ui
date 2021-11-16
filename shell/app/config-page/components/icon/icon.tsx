@@ -16,7 +16,7 @@ import { ErdaIcon } from 'common';
 import { OperationAction } from 'config-page/utils';
 
 const Icon = (props: CP_ICON.Props) => {
-  const { props: configProps, operations, execOperation, customProps } = props;
+  const { props: configProps, operations, execOperation, customOp } = props;
   const { iconType, visible, hoverActive, ...extraProps } = configProps || {};
 
   if (visible === false) return null;
@@ -25,8 +25,8 @@ const Icon = (props: CP_ICON.Props) => {
     const curOp = operations?.click;
     if (curOp) {
       execOperation(curOp);
-      if (customProps && customProps[curOp.key]) {
-        customProps[curOp.key](curOp);
+      if (customOp && customOp[curOp.key]) {
+        customOp[curOp.key](curOp);
       }
     }
   };

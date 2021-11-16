@@ -58,16 +58,16 @@ interface IParams {
   record: Obj;
   execOperation: (op: CP_COMMON.Operation) => void;
   operations?: Obj<CP_COMMON.Operation>;
-  customProps?: Obj;
+  customOp?: Obj;
 }
 const getItemClickProps = (params: IParams) => {
-  const { operations, customProps, execOperation, record } = params;
+  const { operations, customOp, execOperation, record } = params;
   const extraProps: Obj = {};
-  if (operations?.click || customProps?.clickTableItem) {
+  if (operations?.click || customOp?.clickTableItem) {
     extraProps.onClick = (e: any) => {
       e.stopPropagation();
       operations?.click && execOperation(operations.click);
-      customProps?.clickTableItem && customProps.clickTableItem(record, operations?.click);
+      customOp?.clickTableItem && customOp.clickTableItem(record, operations?.click);
     };
   }
   return extraProps;
@@ -172,8 +172,8 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                 <div
                   className={`nowrap ${item?.linkStyle ? 'string-list-link' : ''}`}
                   onClick={() => {
-                    if (extra.customProps?.clickTableItem) {
-                      extra.customProps.clickTableItem(item);
+                    if (extra.customOp?.clickTableItem) {
+                      extra.customOp.clickTableItem(item);
                     }
                   }}
                 >
@@ -498,7 +498,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
           onClick={(e: any) => {
             e.stopPropagation();
             extra.execOperation({ ...op, key });
-            const customFunc = get(extra, `customProps.operations.${key}`);
+            const customFunc = get(extra, `customOp.operations.${key}`);
             if (customFunc) {
               customFunc(op);
             }

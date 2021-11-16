@@ -58,12 +58,16 @@ const TestReport = () => {
         inParams={inParams}
         customProps={{
           filter: {
-            onFilterChange: urlQueryChange,
+            op: {
+              onFilterChange: urlQueryChange,
+            },
           },
           table: {
-            operations: {
-              download: (op: IMeta) => {
-                download(op?.meta);
+            op: {
+              operations: {
+                download: (op: IMeta) => {
+                  download(op?.meta);
+                },
               },
             },
           },

@@ -31,7 +31,7 @@ const valueConvert = (val: number | number[] | Moment | Moment[]) => {
 };
 
 const DatePicker = (props: CP_DATE_PICKER.Props) => {
-  const { cId, props: configProps, state, extraFooter, operations, execOperation, customProps } = props;
+  const { cId, props: configProps, state, extraFooter, operations, execOperation, customOp } = props;
   const { visible = true, type, borderTime, ranges, ...rest } = configProps || {};
   const [value, setValue] = React.useState<Moment | Moment[]>(valueConvert(state?.value) as Moment | Moment[]);
 
@@ -40,7 +40,7 @@ const DatePicker = (props: CP_DATE_PICKER.Props) => {
   }, [state?.value]);
 
   React.useEffect(() => {
-    customProps?.onChange?.(state);
+    customOp?.onChange?.(state);
   }, [state]);
 
   useUpdateEffect(() => {

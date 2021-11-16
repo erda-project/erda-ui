@@ -68,7 +68,7 @@ const validator = (val: string, fileValidate?: CP_FILE_EDITOR.FileValidate | CP_
 };
 
 const FileEditor = (props: CP_FILE_EDITOR.Props) => {
-  const { props: pProps, state, execOperation, customProps, operations } = props;
+  const { props: pProps, state, execOperation, customOp, operations } = props;
   const [value, setValue] = React.useState(state.value);
   const { bordered, fileValidate, style, ...rest } = pProps || {};
 
@@ -86,7 +86,7 @@ const FileEditor = (props: CP_FILE_EDITOR.Props) => {
         if (op) {
           if (validator(value, fileValidate)) {
             execOperation(op, { value });
-            customProps?.[op.key] && customProps[op.key](op);
+            customOp?.[op.key] && customOp[op.key](op);
           }
         }
       };

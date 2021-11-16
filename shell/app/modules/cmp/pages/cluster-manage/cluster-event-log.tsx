@@ -41,10 +41,14 @@ const ClusterNodes = () => {
         inParams={inParams}
         customProps={{
           filter: {
-            onFilterChange: urlQueryChange,
+            op: {
+              onFilterChange: urlQueryChange,
+            },
           },
           logTable: {
-            onStateChange: urlQueryChange,
+            op: {
+              onStateChange: urlQueryChange,
+            },
           },
         }}
       />

@@ -72,22 +72,32 @@ const ClusterNodes = () => {
         inParams={inParams}
         customProps={{
           filter: {
-            onFilterChange: urlQueryChange,
+            op: {
+              onFilterChange: urlQueryChange,
+            },
           },
           cpuTable: {
-            onStateChange: urlQueryChange,
-            clickTableItem: openDetail,
+            op: {
+              onStateChange: urlQueryChange,
+              clickTableItem: openDetail,
+            },
           },
           memTable: {
-            onStateChange: urlQueryChange,
-            clickTableItem: openDetail,
+            op: {
+              onStateChange: urlQueryChange,
+              clickTableItem: openDetail,
+            },
           },
           podTable: {
-            onStateChange: urlQueryChange,
-            clickTableItem: openDetail,
+            op: {
+              onStateChange: urlQueryChange,
+              clickTableItem: openDetail,
+            },
           },
           tableTabs: {
-            onStateChange: urlQueryChange,
+            op: {
+              onStateChange: urlQueryChange,
+            },
           },
         }}
       />

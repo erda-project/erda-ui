@@ -36,7 +36,9 @@ const IssueDashboard = () => {
       inParams={inParams}
       customProps={{
         filter: {
-          onFilterChange: urlQueryChange,
+          op: {
+            onFilterChange: urlQueryChange,
+          },
         },
       }}
     />

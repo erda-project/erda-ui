@@ -119,11 +119,13 @@ const ConfigPageRender = (props: IProps) => {
       const Comp = containerMap[cId] as any;
       if (!Comp) return null;
       const _cmpProps = get(pageConfig, `components.${cId}`) || {};
+      const p = { ...customProps?.[cId]?.props, ..._cmpProps.props };
       const propsObj = {
         ..._cmpProps,
+        props: p,
         key: cId,
         cId,
-        customProps: get(customProps, cId) || emptyObj,
+        customOp: customProps?.[cId]?.op || emptyObj,
         updateState: reUpdateState(cId),
         execOperation: reExecOperation(cId),
       };

@@ -68,12 +68,14 @@ const ProjectList = () => {
         scenarioKey={scenarioKey}
         customProps={{
           list: {
-            applyDeploy: (op: CP_COMMON.Operation, data: any) => {
-              const pId = get(op, 'meta.projectId') || data?.projectId;
-              const pName = get(op, 'meta.projectName') || data?.projectName;
-              if (pId && pName) {
-                handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
-              }
+            op: {
+              applyDeploy: (op: CP_COMMON.Operation, data: any) => {
+                const pId = get(op, 'meta.projectId') || data?.projectId;
+                const pName = get(op, 'meta.projectName') || data?.projectName;
+                if (pId && pName) {
+                  handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
+                }
+              },
             },
           },
         }}

@@ -25,9 +25,9 @@ const fakeClick = 'fake-click';
 const noop = () => {};
 
 export const Card = (props: CP_CARD.Props) => {
-  const { props: configProps, execOperation = noop, customProps = {} } = props;
+  const { props: configProps, execOperation = noop, customOp = {} } = props;
   const { cardType, data, className = '' } = configProps;
-  const { clickNode = noop } = customProps;
+  const { clickNode = noop } = customOp;
   const [isHover, setIsHover] = React.useState(false);
   const { id, titleIcon, title, operations, subContent, description, extraInfo } = data?._infoData || {};
   const { drag: dragOperation, ...menuOperations } = operations || {};
