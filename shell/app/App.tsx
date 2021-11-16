@@ -112,24 +112,6 @@ const start = (userData: ILoginUser, orgs: ORG.IOrg[]) => {
   });
 };
 
-const { pathname, search } = window.location;
-// /r开头为统一外部跳转路径
-if (pathname.startsWith('/r/')) {
-  const [to, ...rest] = pathname.slice(3).split('/');
-  let newPath = [] as string[];
-  switch (to) {
-    case 'alarm': // 告警跳到云管
-    case 'report': // 运维报告跳到云管
-      newPath = ['', '-', 'cmp', to, ...rest];
-      break;
-
-    default:
-      break;
-  }
-
-  history.replace(newPath.join('/') + search);
-}
-
 const init = (userData: ILoginUser) => {
   // step1: get user last path
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
