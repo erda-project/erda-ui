@@ -82,7 +82,7 @@ class MonitorChartNew extends React.PureComponent {
             show: true,
             position: 'middle',
             formatter: (params) => {
-              const uType = results[0].unitType;
+              const uType = results[0].unitType || customUnitType || unitTypes[0];
               const { unit } = results[0];
 
               const y = getFormatter(uType, unit).format(params.data.yAxis, decimal || 2);
@@ -134,7 +134,7 @@ class MonitorChartNew extends React.PureComponent {
       });
       const curMax = value.data ? calMax([value.data]) : [];
       maxArr[yAxisIndex] = maxArr[yAxisIndex] && maxArr[yAxisIndex] > curMax ? maxArr[yAxisIndex] : curMax;
-      const curUnitType = value.unitType || customUnitType || ''; // y轴单位
+      const curUnitType = value.unitType || customUnitType || unitTypes[0] || ''; // y轴单位
       const curUnit = value.unit || customUnit || ''; // y轴单位
       yAxis[yAxisIndex] = {
         name: name || yAxisNames[yAxisIndex] || '',
