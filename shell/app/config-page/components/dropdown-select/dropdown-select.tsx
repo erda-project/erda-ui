@@ -20,8 +20,9 @@ import './dropdown-select.scss';
 import { DownOne as IconDownOne, Search as IconSearch, Check as IconCheck } from '@icon-park/react';
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
-  const { execOperation, props: configProps, state: propsState } = props;
+  const { execOperation, props: configProps, state: propsState, customProps = {} } = props;
   const { options, showLimit = 12, quickSelect = [], overlay, trigger, visible, ...restProps } = configProps;
+  const { onChange } = customProps;
   let _overlay = overlay;
   const { value } = propsState;
   const [filterValue, setFilterValue] = React.useState('');
@@ -89,6 +90,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 setActive(false);
                 if (item.operations?.click) {
                   execOperation(item.operations.click, item);
+                  onChange?.();
                 }
               }}
             >
