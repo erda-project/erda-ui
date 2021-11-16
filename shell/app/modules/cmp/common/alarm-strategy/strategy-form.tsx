@@ -242,7 +242,13 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               : undefined,
             silencePolicy: notifies ? `${state.editingFormRule.notifies[0].silence.policy}` : SilencePeriodType.FIXED,
           });
-          updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
+          updater.editingRules(
+            map(rules, (rule) => ({
+              key: uniqueId(),
+              ...rule,
+              level: rule?.level === 'WARNING' ? undefined : rule?.level,
+            })),
+          );
           updater.activeGroupId(notifies[0].groupId);
 
           updater.triggerCondition(
@@ -265,7 +271,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             (notifies || []).map((x) => ({
               id: uniqueId(),
               groupId: x.groupId,
-              level: x.level ? x.level?.split(',') : 'Breakdown',
+              level: x.level ? x.level?.split(',') : undefined,
               groupType: x.groupType?.split(','),
               groupTypeOptions:
                 (notifyChannelMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
@@ -297,7 +303,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         },
       ]);
     }
-  }, []);
+  }, [alertTriggerConditionsContent]);
 
   React.useEffect(() => {
     if (alertTriggerConditions?.length) {

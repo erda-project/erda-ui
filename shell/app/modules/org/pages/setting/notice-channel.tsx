@@ -281,6 +281,7 @@ const NotifyChannel = () => {
       itemProps: {
         maxLength: 50,
         placeholder: `${i18n.t('please input')} AccessKeyId`,
+        autoComplete: 'off',
       },
     },
     {
@@ -290,6 +291,7 @@ const NotifyChannel = () => {
       itemProps: {
         placeholder: `${i18n.t('please input')} AccessKeySecret`,
         type: passwordVisible ? 'text' : 'password',
+        autoComplete: 'off',
         addonAfter: passwordVisible ? (
           <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
         ) : (
