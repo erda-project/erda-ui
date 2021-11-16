@@ -354,7 +354,7 @@ const ApiDesign = () => {
 
   // 左侧列表头部渲染
   const renderPanelHead = (titleKey: IListKey) => (
-    <div className="list-panel-head flex justify-between items-center">
+    <div className="list-panel-head inline-flex justify-between items-center">
       <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus

@@ -229,6 +229,8 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       if (isEmpty(formData)) {
         const _formData = formRef.current!.getFieldsValue();
         updater.dataTempStorage(_formData);
+      } else {
+        updater.dataTempStorage(formData);
       }
     });
   }, [updater, formData, getRefTypePath, update]);
