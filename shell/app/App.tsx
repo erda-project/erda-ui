@@ -130,13 +130,6 @@ if (pathname.startsWith('/r/')) {
   history.replace(newPath.join('/') + search);
 }
 
-// 3.21版本，应用流水线旧链接兼容
-const oldPipelineReg = /\/dop\/projects\/\d+\/apps\/\d+\/pipeline\/\d+$/;
-if (oldPipelineReg.test(pathname)) {
-  const [pPath, pId] = pathname.split('pipeline/');
-  history.replace(`${pPath}pipeline?pipelineID=${pId}`);
-}
-
 const init = (userData: ILoginUser) => {
   // step1: get user last path
   window.localStorage.removeItem(`lastPath`); // clear old lastPath
