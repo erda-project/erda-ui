@@ -39,6 +39,7 @@ interface IProps<T extends object = any> extends TableProps<T> {
   actions?: IActions<T> | null;
   slot?: React.ReactNode;
   rowSelection?: IRowSelection<T>;
+  hideHeader?: boolean;
 }
 
 const sortIcon = {
@@ -56,6 +57,7 @@ function WrappedTable<T extends object = any>({
   dataSource = [],
   onRow,
   rowSelection,
+  hideHeader,
   ...props
 }: IProps<T>) {
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
@@ -179,7 +181,13 @@ function WrappedTable<T extends object = any>({
             const subTitleText = typeof subTitle === 'function' ? subTitle(text, record, index) : subTitle;
 
             return (
-              <div className={`erda-table-compose-td ${icon ? 'erda-table-icon-td' : ''} flex items-center`}>
+              <div
+                className={`
+                    erda-table-compose-td flex items-center
+                    ${icon ? 'erda-table-icon-td' : ''} 
+                    ${(Object.keys(args).includes('subTitle') && 'double-row') || ''}
+                  `}
+              >
                 {icon && (
                   <span className="erda-table-td-icon mr-1 flex">
                     {typeof icon === 'function' ? icon(text, record, index) : icon}
@@ -224,15 +232,18 @@ function WrappedTable<T extends object = any>({
   }
 
   return (
-    <div className="erda-table">
-      <TableConfig
-        slot={slot}
-        columns={columns}
-        sortColumn={sort}
-        setColumns={(val) => setColumns(val)}
-        onTableChange={onTableChange}
-        showReset={!!(onChange || (paginationProps && paginationProps.onChange))}
-      />
+    <div className={`erda-table ${hideHeader ? 'hide-header' : ''}`}>
+      {!hideHeader && (
+        <TableConfig
+          slot={slot}
+          columns={columns}
+          sortColumn={sort}
+          setColumns={(val) => setColumns(val)}
+          onTableChange={onTableChange}
+          showReset={!!(onChange || (paginationProps && paginationProps.onChange))}
+        />
+      )}
+
       <Table
         scroll={{ x: '100%' }}
         columns={[
