@@ -280,6 +280,7 @@ const NotifyChannel = () => {
       itemProps: {
         maxLength: 50,
         placeholder: `${i18n.t('please input')} AccessKeyId`,
+        autoComplete: 'off',
       },
     },
     {
@@ -289,6 +290,7 @@ const NotifyChannel = () => {
       itemProps: {
         placeholder: `${i18n.t('please input')} AccessKeySecret`,
         type: passwordVisible ? 'text' : 'password',
+        autoComplete: 'off',
         addonAfter: passwordVisible ? (
           <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
         ) : (
@@ -405,7 +407,10 @@ const NotifyChannel = () => {
     const { editChannel, deleteChannel, enableChannel } = {
       editChannel: {
         title: i18n.t('edit'),
-        onClick: () => handleEdit(record.id),
+        onClick: () => {
+          handleEdit(record.id);
+          updater.passwordVisible(false);
+        },
       },
       deleteChannel: {
         title: i18n.t('delete'),
@@ -448,6 +453,7 @@ const NotifyChannel = () => {
           className="absolute right-3 hover-active add-channel-button"
           onClick={() => {
             handleAdd();
+            updater.passwordVisible(true);
           }}
         >
           <Button type="primary">{i18n.t('new notification channel')}</Button>
