@@ -13,16 +13,7 @@
 
 import { createStore } from 'core/cube';
 import i18n from 'i18n';
-import {
-  login,
-  logout,
-  newUCLogout,
-  validateLicense,
-  getJoinedProjects,
-  getJoinedApps,
-  pinApp,
-  unpinApp,
-} from '../services/user';
+import { login, logout, newUCLogout, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
 import { UC_USER_LOGIN } from 'common/constants';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
@@ -39,15 +30,6 @@ interface IState {
   authContact: string;
   joinOrgTip: string;
   loginUser: ILoginUser;
-  licenseInfo: {
-    valid: boolean;
-    message: string;
-    currentHostCount?: number;
-    maxHostCount?: number;
-    user?: string;
-    expireDate?: string;
-    issueDate?: string;
-  };
 }
 
 interface IPagingQuery {
@@ -88,15 +70,6 @@ const initState: IState = {
     isSysAdmin: false,
     isNewUser: false,
     adminRoles: [],
-  },
-  licenseInfo: {
-    valid: true,
-    message: '',
-    currentHostCount: 0,
-    maxHostCount: 0,
-    user: '',
-    expireDate: '',
-    issueDate: '',
   },
 };
 
@@ -151,27 +124,6 @@ const userStore = createStore({
           }
         }
         window.location.href = logoutUrl;
-      }
-    },
-    async validateLicense({ call, update }) {
-      try {
-        const res = await call(validateLicense);
-        const { valid, message, license, currentHostCount } = res;
-        const {
-          data: { maxHostCount },
-          ...rest
-        } = license;
-        update({ licenseInfo: { valid, message, ...(rest as any), currentHostCount, maxHostCount } });
-        return { valid };
-      } catch (error) {
-        if (error.message && error.message.includes('the network is offline')) {
-          update({ licenseInfo: { valid: false, message: i18n.t('dop:failed to fetch license') } });
-          return { valid: false };
-        } else {
-          // license接口事实不通
-          update({ licenseInfo: { valid: true, message: i18n.t('dop:failed to fetch license interface') } });
-          return { valid: true, showAlert: true };
-        }
       }
     },
     async getJoinedProjects({ call, update, select }, payload: Merge<{ searchKey?: string }, IPagingQuery>) {

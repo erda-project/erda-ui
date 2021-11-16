@@ -14,23 +14,6 @@
 import agent from 'agent';
 import { RES_BODY } from 'core/service';
 
-interface IValidateLicense {
-  currentHostCount: number;
-  license: {
-    data: {
-      maxHostCount: number;
-    };
-    expireDate: string;
-    issueDate: string;
-    user: string;
-  };
-  message: string;
-  valid: true;
-}
-export const validateLicense = (): IValidateLicense => {
-  return agent.get('/api/license').then((response: any) => response.body);
-};
-
 export const login = () => {
   return agent.get('/api/openapi/login').then((response: any) => response.body);
 };
