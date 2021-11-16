@@ -44,8 +44,8 @@ const Editor = React.forwardRef((props: IProps, ref) => {
   }
 
   useUnmount(() => {
-    MdEditor.unuse(Plugins.AutoResize)
-  })
+    MdEditor.unuse(Plugins.AutoResize);
+  });
 
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
@@ -74,7 +74,7 @@ const Editor = React.forwardRef((props: IProps, ref) => {
       style={autoSize ? { ...style } : { height: `${defaultHeight}px`, ...style }}
       {...restEditorProps}
       config={config}
-      htmlClass="ec-md-content"
+      htmlClass="md-content"
       renderHTML={(text: string) => Markdown(text)}
       onImageUpload={onImageUpload}
     />
