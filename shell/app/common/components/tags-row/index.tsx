@@ -17,7 +17,7 @@ import { Ellipsis, ErdaIcon } from 'common';
 import { some, has, groupBy, map, max } from 'lodash';
 import { colorToRgb } from 'common/utils';
 import i18n from 'i18n';
-import { CloseOne as IconCloseOne, AddOne as IconAddOne } from '@icon-park/react';
+import { CloseOne as IconCloseOne } from '@icon-park/react';
 import './index.scss';
 
 interface ILabel {

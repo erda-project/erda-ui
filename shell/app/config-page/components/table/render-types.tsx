@@ -374,10 +374,12 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { icon } = val || {};
         if (ImgMap[icon]) {
           Comp = (
-            <div style={{ width: 28, height: 28 }} className="mr-1">
+            <div className="dice-cp-table-head-icon mr-1">
               <img src={ImgMap[icon]} className="w-full h-full" />{' '}
             </div>
           );
+        } else {
+          Comp = <ErdaIcon size={28} className="dice-cp-table-head-icon" type={icon} />;
         }
       }
       break;
@@ -394,7 +396,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               {map(renders, (rds, idx) => (
                 <RowContainer key={`${idx}`}>
                   {map(rds, (rd, rdIdx) => (
-                    <div key={`${rdIdx}`} className="w-full">
+                    <div key={`${rdIdx}`} className="w-full flex">
                       {getRender(rd, record, extra)}
                     </div>
                   ))}
@@ -414,7 +416,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
               {map(renders, (rds, idx) => (
                 <Container key={`${idx}`} props={{ spaceSize: 'none' }}>
                   {map(rds, (rd, rdIdx) => (
-                    <div key={`${rdIdx}`} className="w-full">
+                    <div key={`${rdIdx}`} className="w-full flex">
                       {getRender(rd, record, extra)}
                     </div>
                   ))}

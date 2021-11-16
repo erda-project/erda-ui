@@ -35,7 +35,7 @@ declare namespace CP_PIE_CHART {
     option: Obj;
     style: Obj;
     direction?: 'col' | 'row';
-    size?: 'small' | 'normal' | 'big' | 'large';
+    size?: 'small' | 'normal' | 'big';
     pureChart?: boolean;
     visible?: boolean;
     title: string;

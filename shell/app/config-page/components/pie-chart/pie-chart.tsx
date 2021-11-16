@@ -65,7 +65,6 @@ const Chart = (props: CP_PIE_CHART.Props) => {
     style = {},
     size = 'normal',
     direction = 'row',
-    pureChart,
     title,
     tip,
     option,
@@ -81,9 +80,14 @@ const Chart = (props: CP_PIE_CHART.Props) => {
       chartStyle: { width: 56, height: 56 },
       infoCls: { col: 'mt-3', row: 'ml-3' },
     },
-    normal: {},
-    big: {},
-    large: {},
+    normal: {
+      chartStyle: { width: 100, height: 100 },
+      infoCls: { col: 'mt-3', row: 'ml-3' },
+    },
+    big: {
+      chartStyle: { width: 180, height: 180 },
+      infoCls: { col: 'mt-3', row: 'ml-3' },
+    },
   };
 
   const styleObj = styleMap[size];
@@ -126,7 +130,7 @@ const Chart = (props: CP_PIE_CHART.Props) => {
             <TextBlockInfo
               size="small"
               key={item.name}
-              className='flex-1'
+              className="flex-1"
               main={`${item.formatter ? getFormatterString(item.formatter, { v: item.value }) : item.value}`}
               sub={total ? `${((item.value * 100) / total).toFixed(1)}%` : '-'}
               extra={

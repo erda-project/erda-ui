@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'antd';
 import { ErdaIcon } from 'common';
+import { Tooltip } from 'antd';
+import './index.scss';
 
 export interface TextBlockInfoProps {
-  size?: 'small' | 'normal' | 'big' | 'large';
-  align?: 'left' | 'center' | 'right';
+  size?: 'small' | 'normal';
   main: string;
   sub?: string;
   desc?: string;
@@ -27,23 +27,22 @@ export interface TextBlockInfoProps {
 }
 
 const TextBlockInfo = (props: TextBlockInfoProps) => {
-  const { className = '', main, size = 'normal', align = 'left', sub, desc, tip, extra } = props;
-
-  const sizeClassMap = {
-    small: {
-      main: 'text-sm leading-5',
-      sub: 'text-xs',
-      desc: 'text-xs',
-    },
-  };
-
-  const sizeClass = sizeClassMap[size];
+  const { className = '', main, size = 'normal', sub, desc, tip, extra } = props;
 
   return (
-    <div className={`flex flex-col ${className}`}>
-      <div className={`text-normal font-medium ${sizeClass.main}`}>{main}</div>
-      {sub ? <div className={`text-sub ${sizeClass.sub}`}>{sub}</div> : null}
-      {desc ? <div className={`text-desc ${sizeClass.desc}`}>{desc}</div> : null}
+    <div className={`erda-text-block-info ${size} flex flex-col ${className}`}>
+      <div className={'main-text'}>{main}</div>
+      {sub ? <div className={'sub-text'}>{sub}</div> : null}
+      {desc ? (
+        <div className={'desc-text flex items-center'}>
+          {desc}
+          {tip ? (
+            <Tooltip title={tip}>
+              <ErdaIcon type="help" className="ml-1" />
+            </Tooltip>
+          ) : null}
+        </div>
+      ) : null}
       {extra ? <div>{extra}</div> : null}
     </div>
   );

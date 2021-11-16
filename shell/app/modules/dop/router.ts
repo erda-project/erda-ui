@@ -193,9 +193,8 @@ export default function getDopRouter(): RouteConfigItem[] {
         ...getApiManagePlatformRouter(),
         {
           path: 'mock',
-          pageName: '动态界面测试w',
+          pageName: '动态界面测试',
           layout: { noWrapper: true },
-          // layout: { showSubSidebar: false, fullHeight: true },
           getComp: (cb) => cb(import('app/config-page/mock/mock')),
         },
         {
