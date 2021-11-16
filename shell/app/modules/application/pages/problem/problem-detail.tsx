@@ -228,7 +228,16 @@ const TicketDetail = () => {
         </Spin>
         <Tabs>
           <TabPane tab={i18n.t('comment')} key="comment">
-            <MarkdownEditor onSubmit={handleSubmit} maxLength={5000} btnText={i18n.t('dop:submit comments')} />
+            <MarkdownEditor
+              maxLength={5000}
+              operationBtns={[
+                {
+                  text: i18n.t('dop:submit comments'),
+                  type: 'primary',
+                  onClick: (v) => handleSubmit(v),
+                },
+              ]}
+            />
           </TabPane>
           <TabPane tab={i18n.t('relate to issue')} key="relate">
             <div className="flex justify-between items-center">

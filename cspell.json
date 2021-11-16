@@ -221,6 +221,7 @@
     "reco",
     "regist",
     "Repo",
+    "requestidlecallback",
     "sampleable",
     "schedulable",
     "screenfull",
@@ -262,6 +263,7 @@
     "Unmount",
     "Unpromise",
     "unstart",
+    "unuse",
     "UPDATEDAT",
     "updator",
     "upfs",
@@ -270,6 +272,7 @@
     "uuidv",
     "varchar",
     "Vdom",
+    "viewchange",
     "vitalets",
     "vite",
     "vitejs",
@@ -294,6 +297,10 @@
     "zkproxy",
     "zujian"
   ],
-  "flagWords": ["hte"],
-  "ignorePaths": ["node_modules"]
+  "flagWords": [
+    "hte"
+  ],
+  "ignorePaths": [
+    "node_modules"
+  ]
 }
