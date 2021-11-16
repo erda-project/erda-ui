@@ -3,6 +3,10 @@
     margin: 0 1rem;
   }
 
+  &.hide-header .ant-table-content {
+    margin: 0;
+  }
+
   .table-more-ops {
     padding: 3px;
     border-radius: 3px;
@@ -56,6 +60,10 @@
 
   .erda-table-compose-td {
     padding: 4px 0;
+
+    &.double-row {
+      padding: 9px 0;
+    }
 
     & > div {
       max-width: 100%;
