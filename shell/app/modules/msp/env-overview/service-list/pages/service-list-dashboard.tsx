@@ -39,7 +39,7 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
   const [serviceId, serviceName] = serviceAnalyticsStore.useStore((s) => [s.serviceId, s.serviceName]);
 
   const globalVariable = useMemo(() => {
-    const { terminusKey } = params;
+    const { terminusKey, applicationId } = params;
     const { startTimeMs, endTimeMs } = timeSpan;
     return {
       terminusKey,
@@ -47,6 +47,7 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
       serviceId: window.decodeURIComponent(serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
+      applicationId,
       ...extraGlobalVariable,
     };
   }, [params, timeSpan, serviceName, serviceId, extraGlobalVariable]);
