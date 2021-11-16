@@ -408,7 +408,10 @@ const NotifyChannel = () => {
     const { editChannel, deleteChannel, enableChannel } = {
       editChannel: {
         title: i18n.t('edit'),
-        onClick: () => handleEdit(record.id),
+        onClick: () => {
+          handleEdit(record.id);
+          updater.passwordVisible(false);
+        },
       },
       deleteChannel: {
         title: i18n.t('delete'),
