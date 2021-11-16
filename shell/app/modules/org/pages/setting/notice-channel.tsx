@@ -290,7 +290,7 @@ const NotifyChannel = () => {
       required: true,
       itemProps: {
         placeholder: `${i18n.t('please input')} AccessKeySecret`,
-        type: passwordVisible ? 'text' : 'password',
+        type: isEditing ? (passwordVisible ? 'text' : 'password') : 'text',
         autoComplete: 'off',
         addonAfter: passwordVisible ? (
           <IconPreviewOpen onClick={() => updater.passwordVisible(false)} />
