@@ -337,6 +337,7 @@ type ROUTE_MARK =
   | 'orgMarket'
   | 'orgSetting'
   | 'clusterDetail'
+  | 'clusterContainer'
   | 'biCharts'
   | 'clusterAlarmReport'
   | 'msp'

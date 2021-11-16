@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table as PureTable, Menu, Button, Dropdown, Checkbox } from 'antd';
+import { Menu, Button, Dropdown, Checkbox } from 'antd';
+import PureTable from 'common/components/table';
 import { map, get, find, intersection, has, difference, compact } from 'lodash';
 import { Icon as CustomIcon, Title } from 'common';
 import { useUpdate } from 'common/use-hooks';

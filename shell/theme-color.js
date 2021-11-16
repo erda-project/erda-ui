@@ -64,4 +64,5 @@ module.exports = {
 
   // 标准化后的颜色
   'gray-block-bg': 'rgba(0, 0, 0, 0.04)',
+  'hover-gray-bg': 'rgba(0,0,0,0.06)',
 };
