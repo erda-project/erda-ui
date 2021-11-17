@@ -55,6 +55,7 @@ export interface IRowActions {
 interface IAction {
   title: string;
   onClick: () => void;
+  show?: boolean;
 }
 
 export interface ITableConfigProps<T> {
