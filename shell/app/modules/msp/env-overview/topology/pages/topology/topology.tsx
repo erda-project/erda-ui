@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { isEmpty, map, get, find } from 'lodash';
-import React, { useCallback } from 'react';
+import { find, get, isEmpty, map } from 'lodash';
+import React from 'react';
 import { ContractiveFilter } from 'common';
 import i18n from 'i18n';
 import NodeEle from './node-item';
@@ -26,7 +26,7 @@ import routeInfoStore from 'core/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'msp/stores/topology-service-analyze';
 import { useLoading } from 'core/stores/loading';
-import { useUnmount, useMount } from 'react-use';
+import { useMount, useUnmount } from 'react-use';
 import { TimeSelectWithStore } from 'msp/components/time-select';
 import './topology.scss';
 import { goTo } from 'common/utils';
@@ -250,7 +250,7 @@ const Topology = () => {
 
   return (
     <div className="topology-container">
-      <div className="topology-header">
+      <div className="topology-header pr-48 mr-2">
         <div className="left flex items-center">
           <div className="topology-filter">
             <ContractiveFilter
