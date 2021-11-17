@@ -109,19 +109,11 @@ const cluster = createStore({
     });
   },
   effects: {
-<<<<<<< HEAD
     async getUseableK8sCluster({ call, update }) {
       const useableK8sClusters = await call(getUseableK8sCluster);
       update({ useableK8sClusters });
       return useableK8sClusters;
     },
-    async getSMSNotifyConfig({ call, update }, payload: { orgId: number }) {
-      const notifyConfig = await call(getSMSNotifyConfig, { orgId: payload.orgId });
-      const enableMS = get(notifyConfig, 'config.enableMS');
-      update({ enableMS });
-    },
-=======
->>>>>>> master
     async getClusterList({ call, update }, payload: { orgId?: number; sys?: boolean } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
