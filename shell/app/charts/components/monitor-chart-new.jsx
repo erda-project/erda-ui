@@ -82,7 +82,7 @@ class MonitorChartNew extends React.PureComponent {
             show: true,
             position: 'middle',
             formatter: (params) => {
-              const uType = results[0].unitType || customUnitType || unitTypes[0];
+              const uType = results[0].unitType || customUnitType || unitTypes?.[0];
               const { unit } = results[0];
 
               const y = getFormatter(uType, unit).format(params.data.yAxis, decimal || 2);
