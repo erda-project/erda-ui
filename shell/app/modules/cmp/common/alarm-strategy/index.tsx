@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty } from 'lodash';
+import { map } from 'lodash';
 import moment from 'moment';
 import { useMount, useUnmount } from 'react-use';
 import { Modal, Button, Spin, Switch, Table, Tooltip } from 'antd';
@@ -25,7 +25,6 @@ import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
-import { ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
 import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
 import './index.scss';
@@ -53,10 +52,8 @@ interface IProps {
   scopeId: string;
   commonPayload?: Obj;
 }
-
 export default ({ scopeType, scopeId, commonPayload }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
-  const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
   const [alertList, alarmPaging] = alarmStrategyStore.useStore((s) => [s.alertList, s.alarmPaging]);
@@ -130,21 +127,22 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     // ]),
     {
       title: i18n.t('default:notification target'),
-      dataIndex: ['notifies', '0', 'notifyGroup'],
+      dataIndex: 'notifies',
       width: 400,
       className: 'notify-info',
       ellipsis: true,
-      render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
+      render: (notifies: COMMON_STRATEGY_NOTIFY.INotifyGroupNotify[]) => {
         const tips = i18n.t('cmp:Notification group does not exist or has been remove. Please change one.');
+        if (notifies?.length > 0 && notifies[0]?.notifyGroup?.name) {
+          const groupNames = map(notifies, (item) => item?.notifyGroup?.name).join(', ');
+          const groupLength = notifies?.length;
+          return `${groupNames} ${i18n.t('cmp:and {length} others', { length: groupLength })}`;
+        }
         return (
           <div className="flex-div flex">
-            {isEmpty(notifyGroup) ? (
-              <Tooltip title={tips}>
-                <span className="text-sub">{tips}</span>
-              </Tooltip>
-            ) : (
-              <ListTargets targets={notifyGroup.targets} roleMap={roleMap} />
-            )}
+            <Tooltip title={tips}>
+              <span className="text-sub">{tips}</span>
+            </Tooltip>
           </div>
         );
       },
