@@ -38,7 +38,7 @@ export const externalLocalePathMap: Obj = {
 
 // all source code locations
 export const internalSrcDirMap: Obj<string[]> = {
-  shell: [resolveUI('shell', 'app'), resolveEnterprise('cmp'), resolveEnterprise('msp')],
+  shell: [resolveUI('shell', 'app'), resolveEnterprise('msp')],
 };
 
 export const externalSrcDirMap: Obj<string[]> = {

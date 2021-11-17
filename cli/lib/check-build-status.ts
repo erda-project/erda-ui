@@ -72,7 +72,7 @@ const checkBuildStatus = async () => {
           logWarn('In case shell has part of code maintained under enterprise, need to check enterprise code base');
           nextSha = `${headSha}/${externalHeadSha}`;
           const externalDiff = await getGitDiffFiles(prevExternalSha, externalHeadSha, enterprisePath);
-          if (new RegExp('^cmp/', 'gm').test(externalDiff) || new RegExp('^msp/', 'gm').test(externalDiff)) {
+          if (new RegExp('^msp/', 'gm').test(externalDiff)) {
             logWarn(
               `Diff detected in enterprise for shell between ${prevExternalSha} and ${externalHeadSha}`,
               externalDiff,

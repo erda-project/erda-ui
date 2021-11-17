@@ -193,7 +193,7 @@ export default async (options: {
     // get required build list
     const rebuildList = await getBuildList();
 
-    // reminder to copy cmp/msp code from external
+    // reminder to copy msp code from external
     await copyExternalCode(rebuildList);
 
     await buildModules(enableSourceMap, rebuildList);
