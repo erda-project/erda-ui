@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { MarkdownEditor } from 'common';
+import i18n from 'i18n';
 
 const CP_MARKDOWN_EDITOR = (props: CP_MARKDOWN_EDITOR.Props) => {
   const { props: configProps, state, operations, execOperation } = props || {};
@@ -36,7 +37,13 @@ const CP_MARKDOWN_EDITOR = (props: CP_MARKDOWN_EDITOR.Props) => {
 
   if (visible === false) return null;
 
-  return <MarkdownEditor {...rest} value={value} onChange={onChange} onSubmit={onSubmit} />;
+  return <MarkdownEditor {...rest} value={value} onChange={onChange} operationBtns={[
+    {
+      text: i18n.t('dop:post comment'),
+      type: 'primary',
+      onClick: () => onSubmit?.()
+    },
+  ]} />;
 };
 
 export default CP_MARKDOWN_EDITOR;

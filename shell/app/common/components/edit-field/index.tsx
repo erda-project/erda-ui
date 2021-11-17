@@ -43,19 +43,27 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       setShowBtn(false);
     }
   }, [hasEdited]);
-  const btnProps =
+  const operationBtns =
     showBtn && !disabled
-      ? {
-          onSubmit(_v: string) {
-            onSave(_v);
-            setShowBtn(false);
+      ? [
+          {
+            text: i18n.t('dop:post comment'),
+            type: 'primary' as const,
+            onClick: (_v: string) => {
+              onSave(_v);
+              setShowBtn(false);
+            },
           },
-          onCancel() {
-            setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
-            setShowBtn(false);
+          {
+            text: i18n.t('common:discard'),
+            onClick: () => {
+              setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
+              setShowBtn(false);
+            },
           },
-        }
-      : {};
+        ]
+      : [];
+
   return (
     <MarkdownEditor
       {...rest}
@@ -64,8 +72,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       onBlur={(_v: string) => onSave(_v, 'markdown')}
       onFocus={() => setShowBtn(true)}
       readOnly={disabled}
-      notClearAfterSubmit
-      {...btnProps}
+      operationBtns={operationBtns}
     />
   );
 };
@@ -162,6 +169,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
       }
     }
   };
+
   switch (type) {
     case 'select': {
       const { options, ...rest } = itemProps;
@@ -188,13 +196,24 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
     // case 'textArea':
     //   Comp = <Input.TextArea ref={compRef} defaultValue={editValue} onBlur={() => onBlur()} {...itemProps} disabled={disabled} onChange={onInputChange} />;
     //   break;
-    case 'markdown':
+    case 'markdown': {
       // 创建时不需要提交、取消按钮
+      const maxMarkdownHeight = (document.documentElement.clientHeight - 86) * 0.7;
       Comp = !itemProps.isEditMode ? (
-        <MarkdownEditor {...itemProps} value={editValue} onChange={(v) => onChangeCb?.({ [name]: v })} />
+        <MarkdownEditor
+          {...itemProps}
+          maxHeight={maxMarkdownHeight}
+          autoSize
+          defaultHeight={100}
+          value={editValue}
+          onChange={(v) => onChangeCb?.({ [name]: v })}
+        />
       ) : (
         <EditMd
           {...itemProps}
+          maxHeight={maxMarkdownHeight}
+          autoSize
+          defaultHeight={100}
           value={editValue}
           onChange={updater.editValue}
           onSave={(v, fieldType) => onChangeCb?.({ [name]: v }, fieldType)}
@@ -203,6 +222,7 @@ const EditField = React.forwardRef((props: IProps, _compRef) => {
         />
       );
       break;
+    }
     case 'datePicker':
       Comp = (
         <DatePicker

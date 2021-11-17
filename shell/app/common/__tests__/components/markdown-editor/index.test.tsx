@@ -25,14 +25,21 @@ describe('MarkdownEditor', () => {
     const maxLength = 20;
     const wrapper = shallow(
       <MarkdownEditor
-        isShowRate={false}
         value={defaultText}
         onBlur={fn}
         onChange={fn}
         maxLength={maxLength}
-        onCancel={fn}
-        onSetLS={onSetLS}
-        onSubmit={onSubmit}
+        operationBtns={[
+          {
+            text: 'save',
+            type: 'primary',
+            onClick: onSubmit
+          },
+          {
+            text: 'cancel',
+            onClick: fn,
+          },
+        ]}
         onFocus={fn}
       />,
     );
