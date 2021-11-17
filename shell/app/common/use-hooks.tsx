@@ -238,17 +238,19 @@ export const useUpdate = <T extends object>(
   const [state, _update] = useSetState<NullableValue<T>>(initState || {});
   // 使用ref，避免updater的更新方法中，在闭包里使用上次的state
   const ref = React.useRef(state);
-  const updateRef = React.useRef(_update);
   ref.current = state;
 
-  const update: any = React.useCallback((args: any) => {
-    // 扩展 update 的使用, 使用方法同 useState((preState) => preState + 1)
-    if (isFunction(args)) {
-      return updateRef.current((prev) => args(prev));
-    } else {
-      return updateRef.current(args);
-    }
-  }, []);
+  const update: any = React.useCallback(
+    (args: any) => {
+      // 扩展 update 的使用, 使用方法同 useState((preState) => preState + 1)
+      if (isFunction(args)) {
+        return _update((prev) => args(prev));
+      } else {
+        return _update(args);
+      }
+    },
+    [_update],
+  );
 
   const updater: any = React.useMemo(() => {
     const result = {};
@@ -256,17 +258,13 @@ export const useUpdate = <T extends object>(
       result[k] = (patch: Function | any) => {
         const newPart = patch instanceof Function ? patch(ref.current[k], ref.current) : patch;
         ref.current[k] = newPart;
-        return updateRef.current({ [k]: newPart } as Partial<NullableValue<T>>);
+        return _update({ [k]: newPart } as Partial<NullableValue<T>>);
       };
     });
     return result;
-  }, []);
+  }, [_update]);
 
-  const reset = React.useCallback(() => updateRef.current(initState), [initState]);
-
-  useUnmount(() => {
-    updateRef.current = () => {};
-  });
+  const reset = React.useCallback(() => _update(initState), [_update, initState]);
 
   return [state, updater, update, reset];
 };
