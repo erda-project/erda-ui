@@ -133,9 +133,9 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
       ellipsis: true,
       render: (notifies: COMMON_STRATEGY_NOTIFY.INotifyGroupNotify[]) => {
         const tips = i18n.t('cmp:Notification group does not exist or has been remove. Please change one.');
-        if (notifies?.length > 0 && notifies[0]?.notifyGroup?.name) {
-          const groupNames = map(notifies, (item) => item?.notifyGroup?.name).join(', ');
-          const groupLength = notifies?.length;
+        if (notifies?.length && notifies[0].notifyGroup?.name) {
+          const groupNames = map(notifies, (item) => item.notifyGroup?.name).join(', ');
+          const groupLength = notifies.length;
           return `${groupNames} ${i18n.t('cmp:and {length} others', { length: groupLength })}`;
         }
         return (
