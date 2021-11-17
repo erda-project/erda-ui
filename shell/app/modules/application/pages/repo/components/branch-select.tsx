@@ -108,9 +108,9 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
       <React.Fragment>
         <div className="title">{i18n.t('commit')}</div>
         <ul>
-          <li className="branch-item" onClick={() => onChange(commitId)}>
-            {commitId === current ? <IconCheck /> : null}
+          <li className="branch-item flex items-center justify-between" onClick={() => onChange(commitId)}>
             <span>{commitId}</span>
+            {commitId === current ? <IconCheck className="ml-2" /> : null}
           </li>
         </ul>
       </React.Fragment>
@@ -134,9 +134,13 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
           </div>
           <ul>
             {branchList.map((branch) => (
-              <li className="branch-item" onClick={() => onChange(branch)} key={branch}>
-                {branch === current ? <IconCheck /> : null}
+              <li
+                className="branch-item flex items-center justify-between"
+                onClick={() => onChange(branch)}
+                key={branch}
+              >
                 <span>{branch}</span>
+                {branch === current ? <IconCheck className="ml-2" /> : null}
               </li>
             ))}
           </ul>
@@ -147,8 +151,9 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
               </div>
               <ul>
                 {tagList.map((tag) => (
-                  <li className="branch-item" onClick={() => onChange(tag)} key={tag}>
-                    {tag === current ? <IconCheck /> : null} <span>{tag}</span>
+                  <li className="branch-item flex items-center justify-between" onClick={() => onChange(tag)} key={tag}>
+                    <span>{tag}</span>
+                    {tag === current ? <IconCheck className="ml-2" /> : null}
                   </li>
                 ))}
               </ul>
