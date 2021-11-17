@@ -34,6 +34,7 @@ import {
   getSMSNotifyConfig,
   getRegisterCommand,
   clusterInitRetry,
+  getUseableK8sCluster,
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
@@ -52,6 +53,12 @@ interface IState {
   cloudResourceDetail: ORG_CLUSTER.ICloudResourceDetail;
   enableMS: boolean;
   chosenCluster: string; // use in container resource
+  useableK8sClusters: IUseableK8sClusters;
+}
+
+interface IUseableK8sClusters {
+  ready: string[];
+  unReady: string[];
 }
 
 const initState: IState = {
@@ -64,6 +71,7 @@ const initState: IState = {
   cloudResourceDetail: {},
   enableMS: false,
   chosenCluster: '',
+  useableK8sClusters: { ready: [], unReady: [] },
 };
 const cluster = createStore({
   name: 'org-cluster',
@@ -79,10 +87,9 @@ const cluster = createStore({
         cluster.reducers.clearClusterDetail('');
       }
       if (isIn('cmp')) {
-        cluster.effects.getClusterList().then((list: ORG_CLUSTER.ICluster[]) => {
+        cluster.effects.getUseableK8sCluster().then((k8sClusters: IUseableK8sClusters) => {
           const curChosenCluster = cluster.getState((s) => s.chosenCluster);
-          const useList = list?.filter((item) => TYPE_K8S_AND_EDAS.includes(item.type));
-          const firstCluster = useList?.[0]?.name;
+          const firstCluster = k8sClusters?.ready?.[0];
           const defaultChosen = clusterName || firstCluster;
           if (defaultChosen === EMPTY_CLUSTER && firstCluster) {
             goTo(replaceContainerCluster(firstCluster));
@@ -105,6 +112,11 @@ const cluster = createStore({
     });
   },
   effects: {
+    async getUseableK8sCluster({ call, update }) {
+      const useableK8sClusters = await call(getUseableK8sCluster);
+      update({ useableK8sClusters });
+      return useableK8sClusters;
+    },
     async getSMSNotifyConfig({ call, update }, payload: { orgId: number }) {
       const notifyConfig = await call(getSMSNotifyConfig, { orgId: payload.orgId });
       const enableMS = get(notifyConfig, 'config.enableMS');

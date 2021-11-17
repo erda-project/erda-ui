@@ -13,14 +13,20 @@
 
 import * as React from 'react';
 import routeInfoStore from 'core/stores/route';
+import clusterStore from 'cmp/stores/cluster';
 import { EmptyHolder } from 'common';
 import { EMPTY_CLUSTER } from 'cmp/pages/cluster-manage/config';
 import i18n from 'i18n';
 
 export const ClusterContainer = ({ children }: { children: React.ReactNode }) => {
   const { clusterName } = routeInfoStore.useStore((s) => s.params);
+  const useableK8sClusters = clusterStore.useStore((s) => s.useableK8sClusters);
+
   if (EMPTY_CLUSTER === clusterName) {
     return <EmptyHolder tip={i18n.t('cmp:no cluster available')} />;
+  } else if (useableK8sClusters?.unReady?.includes(clusterName)) {
+    return <EmptyHolder tip={i18n.t('cmp:cluster is not ready, please try it later')} />;
   }
+
   return <div key={clusterName}>{children}</div>;
 };
