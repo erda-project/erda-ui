@@ -13,8 +13,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Table } from 'antd';
+import { Tree, Tooltip, Row, Col, Tabs } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
+import Table from 'common/components/table';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
@@ -294,7 +295,7 @@ export function TraceGraph(props: IProps) {
                     <KeyValueList data={tags} />
                   </TabPane>
                   <TabPane tab={i18n.t('msp:events')} key={2}>
-                    <Table columns={columns} dataSource={spanDataSource} />
+                    <Table columns={columns} dataSource={spanDataSource} hideHeader pagination={false} />
                   </TabPane>
                   <TabPane tab={i18n.t('msp:associated services')} key={3}>
                     {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
