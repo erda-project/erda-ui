@@ -76,8 +76,6 @@ const ClusterNodes = () => {
         scenarioType={'cmp-dashboard-nodes'}
         scenarioKey={'cmp-dashboard-nodes'}
         inParams={inParams}
-        useMock={useMock('crud')}
-        forceMock
         customProps={{
           cpuChart: {
             props: chartProps,
