@@ -131,10 +131,6 @@ export const getClusterResourceDetail = (query: {
     .then((response: any) => response.body);
 };
 
-export const getSMSNotifyConfig = ({ orgId }: { orgId: number }) => {
-  return agent.get(`/api/orgs/${orgId}/actions/get-notify-config`).then((response: any) => response.body);
-};
-
 export const getRegisterCommand = ({ clusterName }: { clusterName: string }) => {
   return agent
     .get(`/api/cluster/init-command`)
