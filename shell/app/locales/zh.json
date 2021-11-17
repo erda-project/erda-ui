@@ -248,6 +248,7 @@
     "cluster configuration": "集群配置",
     "cluster deployment": "集群部署",
     "cluster identity": "集群标识",
+    "cluster is not ready, please try it later": "该集群未就绪，请稍后再试",
     "cluster modified successfully": "修改集群成功",
     "cluster name input error, please check": "集群名输入错误，请校对",
     "cluster offline": "集群下线",

@@ -248,6 +248,7 @@
     "cluster configuration": "cluster configuration",
     "cluster deployment": "cluster deployment",
     "cluster identity": "cluster identity",
+    "cluster is not ready, please try it later": "cluster is not ready, please try it later",
     "cluster modified successfully": "cluster modified successfully",
     "cluster name input error, please check": "cluster name input error, please check",
     "cluster offline": "cluster offline",

@@ -144,3 +144,7 @@ export const clusterInitRetry = ({ clusterName }: { clusterName: string }) => {
     .send({ clusterName })
     .then((response: any) => response.body);
 };
+
+export const getUseableK8sCluster = () => {
+  return agent.get(`/api/k8s/clusters`).then((response: any) => response.body);
+};

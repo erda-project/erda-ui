@@ -33,6 +33,7 @@ import {
   getClusterResourceDetail,
   getRegisterCommand,
   clusterInitRetry,
+  getUseableK8sCluster,
 } from '../services/cluster';
 import orgStore from 'app/org-home/stores/org';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
@@ -50,6 +51,12 @@ interface IState {
   cloudResource: ORG_CLUSTER.ICloudResource[];
   cloudResourceDetail: ORG_CLUSTER.ICloudResourceDetail;
   chosenCluster: string; // use in container resource
+  useableK8sClusters: IUseableK8sClusters;
+}
+
+interface IUseableK8sClusters {
+  ready: string[];
+  unReady: string[];
 }
 
 const initState: IState = {
@@ -61,6 +68,7 @@ const initState: IState = {
   cloudResource: [],
   cloudResourceDetail: {},
   chosenCluster: '',
+  useableK8sClusters: { ready: [], unReady: [] },
 };
 const cluster = createStore({
   name: 'org-cluster',
@@ -76,10 +84,9 @@ const cluster = createStore({
         cluster.reducers.clearClusterDetail('');
       }
       if (isIn('cmp')) {
-        cluster.effects.getClusterList().then((list: ORG_CLUSTER.ICluster[]) => {
+        cluster.effects.getUseableK8sCluster().then((k8sClusters: IUseableK8sClusters) => {
           const curChosenCluster = cluster.getState((s) => s.chosenCluster);
-          const useList = list?.filter((item) => TYPE_K8S_AND_EDAS.includes(item.type));
-          const firstCluster = useList?.[0]?.name;
+          const firstCluster = k8sClusters?.ready?.[0];
           const defaultChosen = clusterName || firstCluster;
           if (defaultChosen === EMPTY_CLUSTER && firstCluster) {
             goTo(replaceContainerCluster(firstCluster));
@@ -102,6 +109,11 @@ const cluster = createStore({
     });
   },
   effects: {
+    async getUseableK8sCluster({ call, update }) {
+      const useableK8sClusters = await call(getUseableK8sCluster);
+      update({ useableK8sClusters });
+      return useableK8sClusters;
+    },
     async getClusterList({ call, update }, payload: { orgId?: number; sys?: boolean } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
