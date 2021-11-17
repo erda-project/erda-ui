@@ -31,7 +31,6 @@ import {
   getClusterNewDetail,
   getClusterResourceList,
   getClusterResourceDetail,
-  getSMSNotifyConfig,
   getRegisterCommand,
   clusterInitRetry,
 } from '../services/cluster';
@@ -50,7 +49,6 @@ interface IState {
   deployClusterLog: string;
   cloudResource: ORG_CLUSTER.ICloudResource[];
   cloudResourceDetail: ORG_CLUSTER.ICloudResourceDetail;
-  enableMS: boolean;
   chosenCluster: string; // use in container resource
 }
 
@@ -62,7 +60,6 @@ const initState: IState = {
   getDeployClusterLog: {},
   cloudResource: [],
   cloudResourceDetail: {},
-  enableMS: false,
   chosenCluster: '',
 };
 const cluster = createStore({
@@ -105,11 +102,6 @@ const cluster = createStore({
     });
   },
   effects: {
-    async getSMSNotifyConfig({ call, update }, payload: { orgId: number }) {
-      const notifyConfig = await call(getSMSNotifyConfig, { orgId: payload.orgId });
-      const enableMS = get(notifyConfig, 'config.enableMS');
-      update({ enableMS });
-    },
     async getClusterList({ call, update }, payload: { orgId?: number; sys?: boolean } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;

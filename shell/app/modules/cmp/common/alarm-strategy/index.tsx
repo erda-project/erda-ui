@@ -26,7 +26,6 @@ import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import { ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
-import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
 import './index.scss';
@@ -72,7 +71,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
     alarmStrategyStore.effects;
   const { clearAlerts } = alarmStrategyStore.reducers;
   const { getNotifyGroups } = notifyGroupStore.effects;
-  const { getSMSNotifyConfig } = clusterStore.effects;
 
   useMount(() => {
     let payload = { scopeType, scopeId };
@@ -82,7 +80,6 @@ export default ({ scopeType, scopeId, commonPayload }: IProps) => {
         scopeId: commonPayload?.scopeId,
       };
     }
-    getSMSNotifyConfig({ orgId });
     getAlerts();
     getAlarmScopes();
     getAlertTypes();

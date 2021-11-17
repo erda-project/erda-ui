@@ -43,29 +43,18 @@ export const notifyChannelOptionsMap = {
   [TargetType.USER]: [
     { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
+    { name: i18n.t('SMS'), value: 'sms' },
   ],
-  [TargetType.EXTERNAL_USER]: [{ name: i18n.t('dop:email'), value: 'email' }],
+  [TargetType.EXTERNAL_USER]: [
+    { name: i18n.t('dop:email'), value: 'email' },
+    { name: i18n.t('SMS'), value: 'sms' },
+  ],
   [TargetType.WEBHOOK]: [{ name: i18n.t('dop:webhook'), value: 'webhook' }],
   [TargetType.ROLE]: [
     { name: i18n.t('dop:email'), value: 'email' },
     { name: i18n.t('site message'), value: 'mbox' },
   ],
 };
-
-// 当群组为成员或外部成员时，通知方式包含 电话/短信
-export const smsNotifyChannelOptionsMap = Object.assign({}, notifyChannelOptionsMap, {
-  [TargetType.USER]: [
-    { name: i18n.t('dop:email'), value: 'email' },
-    { name: i18n.t('site message'), value: 'mbox' },
-    { name: i18n.t('SMS'), value: 'sms' },
-    { name: i18n.t('phone'), value: 'vms' },
-  ],
-  [TargetType.EXTERNAL_USER]: [
-    { name: i18n.t('dop:email'), value: 'email' },
-    { name: i18n.t('SMS'), value: 'sms' },
-    { name: i18n.t('phone'), value: 'vms' },
-  ],
-});
 
 const groupTargetMap = {
   user: i18n.t('member'),
