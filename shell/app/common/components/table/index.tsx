@@ -62,15 +62,17 @@ function WrappedTable<T extends object = any>({
 }: IProps<T>) {
   const [columns, setColumns] = React.useState<Array<ColumnProps<T>>>(allColumns);
   const [sort, setSort] = React.useState<SorterResult<T>>({});
-  const sortCompareRef = React.useRef() as { current: (a: T, b: T) => number };
+  const sortCompareRef = React.useRef<((a: T, b: T) => number) | null>(null);
   const [defaultPagination, setDefaultPagination] = React.useState<TablePaginationConfig>({
     current: 1,
     total: dataSource.length,
     ...PAGINATION,
   });
+  const isFrontendPaging = !(paginationProps && paginationProps.current) && paginationProps !== false; // Determine whether front-end paging
 
-  const pagination: TablePaginationConfig =
-    paginationProps && paginationProps.current ? paginationProps : defaultPagination;
+  const pagination: TablePaginationConfig = isFrontendPaging
+    ? defaultPagination
+    : (paginationProps as TablePaginationConfig);
   const { current = 1, pageSize = PAGINATION.pageSize } = pagination;
 
   React.useEffect(() => {
@@ -80,24 +82,41 @@ function WrappedTable<T extends object = any>({
   const onTableChange = React.useCallback(
     ({ pageNo, pageSize: size, sorter: currentSorter }) => {
       const { onChange: onPageChange } = pagination as TablePaginationConfig;
+      const action: TableAction = currentSorter ? 'sort' : 'paginate';
       const extra = {
-        currentDataSource: dataSource as T[],
-        action: 'sort' as TableAction,
+        currentDataSource: (action === 'sort' && dataSource) as T[],
+        action,
       };
 
-      onPageChange?.(pageNo, pageSize);
-      onChange?.(
-        { ...pagination, current: pageNo || current, pageSize: size || pageSize },
-        {},
-        currentSorter || sort,
-        extra,
-      );
-
-      if (!onPageChange && !onChange) {
-        setDefaultPagination({ ...pagination, current: pageNo || current, pageSize: size || pageSize });
+      switch (action) {
+        case 'paginate':
+          if (isFrontendPaging) {
+            setDefaultPagination({ ...pagination, current: pageNo || current, pageSize: size || pageSize });
+          } else {
+            onPageChange?.(pageNo, pageSize);
+            onChange?.(
+              { ...pagination, current: pageNo || current, pageSize: size || pageSize },
+              {},
+              currentSorter || sort,
+              extra,
+            );
+          }
+          break;
+        case 'sort':
+          if (!sortCompareRef.current) {
+            onChange?.(
+              { ...pagination, current: pageNo || current, pageSize: size || pageSize },
+              {},
+              currentSorter || sort,
+              extra,
+            );
+          }
+          break;
+        default:
+          break;
       }
     },
-    [dataSource, onChange, pagination, sort, setDefaultPagination, current, pageSize],
+    [dataSource, onChange, pagination, sort, setDefaultPagination, current, pageSize, isFrontendPaging],
   );
 
   const sorterMenu = React.useCallback(
@@ -119,6 +138,8 @@ function WrappedTable<T extends object = any>({
               return columnSorter?.compare?.(b, a);
             }
           };
+        } else {
+          sortCompareRef.current = null;
         }
         onTableChange({ pageNo: 1, sorter: { ...sorter, order } });
       };
@@ -227,7 +248,7 @@ function WrappedTable<T extends object = any>({
     data = data.sort(sortCompareRef.current);
   }
 
-  if (!(paginationProps && paginationProps.current) && paginationProps !== false) {
+  if (isFrontendPaging) {
     data = data.slice((current - 1) * pageSize, current * pageSize);
   }
 
