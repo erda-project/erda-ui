@@ -19,7 +19,7 @@ import { useUpdateEffect } from 'react-use';
 const empty = [] as any[];
 const CP_EDIT_LIST = (props: CP_EDIT_LIST.Props) => {
   const { props: configProps, state, execOperation, operations, updateState } = props;
-  const { visible = true, temp = [], ...rest } = configProps || {};
+  const { visible = true, temp = empty, ...rest } = configProps || {};
   const { list = empty } = state || {};
   const [useTemp, setUseTemp] = React.useState([] as any[]);
   const [value, setValue] = React.useState(list as any[]);
