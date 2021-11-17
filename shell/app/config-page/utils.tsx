@@ -14,6 +14,7 @@
 import React from 'react';
 import { map } from 'lodash';
 import { Popconfirm } from 'antd';
+import classnames from 'classnames';
 import { WithAuth } from 'user/common';
 import { colorMap } from 'app/charts/theme';
 
@@ -96,17 +97,10 @@ export const textColorMap = {
 };
 
 export const getClass = (props: Obj) => {
-  const classMap = {
-    whiteBg: 'bg-white',
-    grayBg: 'bg-gray-block-bg',
-  };
-  let cls = '';
-  map(classMap, (v, k) => {
-    if (props?.[k]) {
-      cls += `${v} `;
-    }
+  return classnames({
+    'bg-white': props?.whiteBg,
+    'bg-gray-block-bg': props?.grayBg,
   });
-  return cls;
 };
 
 export const getFormatterString = (temp: string, obj: Obj) => {
