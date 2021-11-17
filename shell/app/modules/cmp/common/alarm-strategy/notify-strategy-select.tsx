@@ -16,10 +16,7 @@ import { Reduce as IconReduce } from '@icon-park/react';
 import i18n from 'i18n';
 import { Select, Divider } from 'antd';
 import { WithAuth } from 'user/common';
-import {
-  notifyChannelOptionsMap,
-  smsNotifyChannelOptionsMap,
-} from 'application/pages/settings/components/app-notify/common-notify-group';
+import { notifyChannelOptionsMap } from 'application/pages/settings/components/app-notify/common-notify-group';
 
 const { Option } = Select;
 
@@ -31,7 +28,7 @@ interface IProps {
   goToNotifyGroup: () => void;
   notifyGroups: COMMON_NOTIFY.INotifyGroup[];
   alertLevelOptions: Array<{ key: string; display: string }>;
-  notifyChannelMap: typeof notifyChannelOptionsMap | typeof smsNotifyChannelOptionsMap;
+  notifyChannelMap: typeof notifyChannelOptionsMap;
   updater: (groupId: number) => void;
   handleRemoveNotifyStrategy: (id: string) => void;
 }
