@@ -69,7 +69,7 @@ export const ProblemForm = ({
     {
       label: i18n.t('dop:ticket content'),
       name: 'content',
-      getComp: () => <MarkdownEditor btnText={i18n.t('submit comment')} />,
+      getComp: () => <MarkdownEditor />,
     },
     {
       label: i18n.t('dop:ticket type'),

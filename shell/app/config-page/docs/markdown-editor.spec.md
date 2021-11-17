@@ -9,8 +9,6 @@
 | visible     | boolean | true   |
 | placeholder | string  | true   |
 | maxLength   | number  | true   |
-| isShowRate  | boolean | true   |
-| score       | number  | true   |
 | defaultMode | 'md'    | 'html' | true |
 | readOnly    | boolean | true   |
 | autoFocus   | boolean | true   | ,    |

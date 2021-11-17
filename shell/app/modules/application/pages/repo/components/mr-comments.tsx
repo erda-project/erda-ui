@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input, Button, Tooltip } from 'antd';
+import { Input, Button, Tooltip, Rate } from 'antd';
 import { Avatar } from 'common';
 import { fromNow } from 'common/utils';
 import React from 'react';
 import { FileDiff } from './file-diff';
-import MarkdownEditor from 'common/components/markdown-editor';
+import MarkdownEditor, { EC_MarkdownEditor } from 'common/components/markdown-editor';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
 import i18n from 'i18n';
@@ -131,18 +131,27 @@ export const getFileCommentMap = (comments: REPOSITORY.IComment[] = []) => {
 interface ICommentList {
   comments: REPOSITORY.IComment[];
 }
+
 export const PureCommentList = ({ comments = [] }: ICommentList) => {
   const { addComment, getComments } = repoStore.effects;
+
+  const [score, setScore] = React.useState(0);
+  const editorRef = React.useRef<EC_MarkdownEditor>(null);
+
   useMount(() => {
     getComments();
   });
+
   const fileCommentMap = getFileCommentMap(comments);
-  const handleSubmit = (note: string, score: number) => {
-    return addComment({
+
+  const handleSubmit = async (note: string) => {
+    await addComment({
       note,
       score: score * 20,
       type: 'normal',
     });
+    setScore(0);
+    editorRef.current?.clear();
   };
 
   return (
@@ -170,7 +179,14 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
         };
         return <Discussion key={comment.id} comment={comment} addComment={addComment} commentMap={curCommentMap} />;
       })}
-      <MarkdownEditor onSubmit={handleSubmit} isShowRate btnText={i18n.t('submit comment')} />
+      <MarkdownEditor
+        ref={editorRef}
+        operationBtns={[{ text: i18n.t('submit comment'), type: 'primary', onClick: (v: string) => handleSubmit(v) }]}
+      />
+      <div>
+        <span>{i18n.t('score')}：</span>
+        <Rate allowHalf onChange={(v) => setScore(v)} value={score} />
+      </div>
     </div>
   );
 };
