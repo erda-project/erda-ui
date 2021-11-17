@@ -11,8 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { Input, Button } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Button, Input } from 'antd';
 import { BoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
@@ -67,7 +67,7 @@ const ServiceList = () => {
           {i18n.t('msp:access service')}
         </Button>
       ) : null}
-      <div className="mb-2 flex flex-wrap items-center justify-between">
+      <div className="mb-3 flex flex-wrap items-center justify-between pr-48 mr-2">
         <Search
           allowClear
           placeholder={i18n.t('msp:search by service name')}

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import SideNavigation from './side-navigation';
 import type { IMenu } from './side-navigation';
+import SideNavigation from './side-navigation';
 import { Link } from 'react-router-dom';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'core/stores/route';
