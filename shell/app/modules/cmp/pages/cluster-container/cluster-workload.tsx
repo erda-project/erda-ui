@@ -82,11 +82,15 @@ const ClusterWorkload = () => {
         ref={reloadRef}
         customProps={{
           filter: {
-            onFilterChange: urlQueryChange,
+            op: {
+              onFilterChange: urlQueryChange,
+            },
           },
           workloadTable: {
-            onStateChange: urlQueryChange,
-            clickTableItem: openDetail,
+            op: {
+              onStateChange: urlQueryChange,
+              clickTableItem: openDetail,
+            },
           },
         }}
       />

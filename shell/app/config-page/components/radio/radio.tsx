@@ -27,7 +27,7 @@ const handleState = (_stateObj?: Obj) => {
 };
 
 const CP_RADIO = (props: CP_RADIO.Props) => {
-  const { updateState, customProps, execOperation, operations, state: propsState, props: configProps } = props;
+  const { updateState, customOp, execOperation, operations, state: propsState, props: configProps } = props;
   const { radioType, options, ...rest } = configProps || {};
   const RadioItem = radioType === 'button' ? Radio.Button : Radio;
   const [state, updater, update] = useUpdate(handleState(propsState));
@@ -37,7 +37,7 @@ const CP_RADIO = (props: CP_RADIO.Props) => {
   }, [propsState, update]);
 
   React.useEffect(() => {
-    customProps?.onStateChange && customProps.onStateChange(state);
+    customOp?.onStateChange && customOp.onStateChange(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 

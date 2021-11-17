@@ -118,24 +118,26 @@ export const PureClusterPodDetail = (props: IProps) => {
           operationCallBack={operationCallBack}
           customProps={{
             containerTable: {
-              operations: {
-                checkPrevLog: (op: IPodMeta) => {
-                  update({
-                    logVisible: true,
-                    logData: op?.meta,
-                  });
-                },
-                checkConsole: (op: IPodMeta) => {
-                  update({
-                    consoleVisible: true,
-                    podData: op?.meta,
-                  });
-                },
-                checkLog: (op: IPodMeta) => {
-                  update({
-                    logVisible: true,
-                    logData: op?.meta,
-                  });
+              op: {
+                operations: {
+                  checkPrevLog: (op: IPodMeta) => {
+                    update({
+                      logVisible: true,
+                      logData: op?.meta,
+                    });
+                  },
+                  checkConsole: (op: IPodMeta) => {
+                    update({
+                      consoleVisible: true,
+                      podData: op?.meta,
+                    });
+                  },
+                  checkLog: (op: IPodMeta) => {
+                    update({
+                      logVisible: true,
+                      logData: op?.meta,
+                    });
+                  },
                 },
               },
             },

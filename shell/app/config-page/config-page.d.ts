@@ -85,6 +85,8 @@ declare namespace CONFIG_PAGE {
     | CP_DROPDOWN.Spec
     | CP_MARKDOWN_EDITOR.Spec
     | CP_CARD_CONTAINER.Spec
+    | CP_PIE_CHART.Spec
+    | CP_COMPOSE_TABLE.Spec
     | CP_TABLE_GROUP.Spec;
 
   // 单个组件基础定义
@@ -98,7 +100,7 @@ declare namespace CONFIG_PAGE {
 
   // 框架注入 的 props
   interface InjectProps {
-    customProps?: Obj;
+    customOp?: Obj;
     execOperation: (opObj: { [p: string]: any; key: string }, updateState?: any, extraUpdateInfo?: Obj) => void;
     updateState: (val: Obj) => void;
   }

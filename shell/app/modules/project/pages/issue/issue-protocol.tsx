@@ -15,7 +15,7 @@ import React from 'react';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import DiceConfigPage from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
-import { useSwitch, useUpdate } from "common/use-hooks";
+import { useSwitch, useUpdate } from 'common/use-hooks';
 import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
@@ -41,7 +41,7 @@ const compareObject = (sourceObj: object, targetObj: object) => {
   }
 };
 
-export default ({ issueType }: IProps) => {
+const IssueProtocol = ({ issueType }: IProps) => {
   const [{ projectId, iterationId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery } = query;
   const orgID = orgStore.getState((s) => s.currentOrg.id);
@@ -181,59 +181,75 @@ export default ({ issueType }: IProps) => {
         customProps={{
           // 后端未对接，由前端接管的事件
           issueAddButton: {
-            // 添加：打开滑窗
-            click: onCreate,
+            op: {
+              // 添加：打开滑窗
+              click: onCreate,
+            },
           },
           issueFilter: {
-            // filter: 改变url
-            onFilterChange: (val: Obj) => {
-              updater.filterObj(val);
-              updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+            op: {
+              // filter: 改变url
+              onFilterChange: (val: Obj) => {
+                updater.filterObj(val);
+                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+              },
             },
           },
           issueViewGroup: {
-            // 视图切换： 改变url
-            onStateChange: (val: Obj) => {
-              updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-              // updater.viewType(val?.value);
-              // updater.viewType(val?.childrenValue?.kanban);
+            op: {
+              // 视图切换： 改变url
+              onStateChange: (val: Obj) => {
+                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+                // updater.viewType(val?.value);
+                // updater.viewType(val?.childrenValue?.kanban);
+              },
             },
           },
           issueTable: {
-            // 表格视图： pageNo改变url，点击item打开滑窗详情
-            onStateChange: (val: Obj) => {
-              updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-              // updater.pageNo(val?.pageNo || 1);
-            },
-            clickTableItem: (_data: ISSUE.Issue) => {
-              onChosenIssue(_data);
+            op: {
+              // 表格视图： pageNo改变url，点击item打开滑窗详情
+              onStateChange: (val: Obj) => {
+                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+                // updater.pageNo(val?.pageNo || 1);
+              },
+              clickTableItem: (_data: ISSUE.Issue) => {
+                onChosenIssue(_data);
+              },
             },
           },
           issueKanban: {
-            // 看板：点击单个看板节点，打开滑窗
-            clickNode: (_data: ISSUE.Issue) => {
-              onChosenIssue(_data);
+            op: {
+              // 看板：点击单个看板节点，打开滑窗
+              clickNode: (_data: ISSUE.Issue) => {
+                onChosenIssue(_data);
+              },
             },
           },
           issueGantt: {
-            // 点击单个看板任务：打开滑窗
-            onStateChange: (val: Obj) => {
-              updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
-              updater.pageNo(val?.pageNo || 1);
-            },
-            clickTableItem: (_data: ISSUE.Issue) => {
-              onChosenIssue(_data);
+            op: {
+              // 点击单个看板任务：打开滑窗
+              onStateChange: (val: Obj) => {
+                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+                updater.pageNo(val?.pageNo || 1);
+              },
+              clickTableItem: (_data: ISSUE.Issue) => {
+                onChosenIssue(_data);
+              },
             },
           },
           issueImport: {
-            // 导入
-            click: () => {
-              updater.importFileVisible(true);
+            op: {
+              // 导入
+              click: () => {
+                updater.importFileVisible(true);
+              },
             },
           },
           issueExport: {
-            // 导出
-            click: () => window.open(getDownloadUrl()),
+            op: {
+              // 导出
+              click: () => window.open(getDownloadUrl()),
+            },
           },
         }}
       />
@@ -268,3 +284,5 @@ export default ({ issueType }: IProps) => {
     </>
   );
 };
+
+export default IssueProtocol;

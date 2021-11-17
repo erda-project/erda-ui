@@ -40,24 +40,26 @@ const appSiteIpManage = () => {
         inParams={inParams}
         customProps={{
           siteIpList: {
-            operations: {
-              viewMonitor: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
-                update({
-                  monitorVisible: true,
-                  chosenSite: site.meta,
-                });
-              },
-              viewLog: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
-                update({
-                  monitorVisible: true,
-                  chosenSite: site.meta,
-                });
-              },
-              viewTerminal: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
-                update({
-                  monitorVisible: true,
-                  chosenSite: site.meta,
-                });
+            op: {
+              operations: {
+                viewMonitor: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
+                  update({
+                    monitorVisible: true,
+                    chosenSite: site.meta,
+                  });
+                },
+                viewLog: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
+                  update({
+                    monitorVisible: true,
+                    chosenSite: site.meta,
+                  });
+                },
+                viewTerminal: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
+                  update({
+                    monitorVisible: true,
+                    chosenSite: site.meta,
+                  });
+                },
               },
             },
           },

@@ -814,7 +814,7 @@
     "select template": "选择模板",
     "select the existing": "选择已有",
     "selected template": "已选模板",
-    "selected {xx}": "已选择{xx}",
+    "selected {xx}": "已选择 {xx}",
     "separated by comma, start with letters and can contain": "多个用,分隔，字母开头，可包含:数字 _ - . / $ # @ *， *只能放在末尾",
     "service": "服务",
     "service name": "服务名称",

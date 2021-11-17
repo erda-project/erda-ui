@@ -670,8 +670,9 @@ const ContractiveFilter = ({
   const valueMapRef = React.useRef<Obj>();
 
   const inputList = conditions.filter((a) => a.type === 'input' && a.fixed !== false);
+  const mainList = conditions.filter((a) => a.split);
   const displayConditionsLen = conditions.filter(
-    (item) => (!item.fixed && item.type !== 'input') || (item.fixed === false && item.type === 'input'),
+    (item) => (!item.fixed && item.type !== 'input' && !item.split) || (item.fixed === false && item.type === 'input'),
   ).length;
 
   useUpdateEffect(() => {
@@ -772,11 +773,15 @@ const ContractiveFilter = ({
 
   const showList = sortBy(
     conditions.filter((a) => {
+      if (a.split) {
+        return false;
+      }
       const curValue = valueMap[a.key];
       // 有值默认展示
       if (a.type !== 'input' && (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue)))) {
         return true;
       }
+
       let flag = false;
       if (a.type !== 'input') {
         flag = !!a.showIndex || !!a.fixed;
@@ -790,7 +795,7 @@ const ContractiveFilter = ({
 
   return (
     <div className="contractive-filter-bar">
-      {showList.map((item) => (
+      {[...mainList, ...inputList, ...showList].map((item) => (
         <span
           className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
           key={item.key}
@@ -819,7 +824,7 @@ const ContractiveFilter = ({
             onChange={handelItemChange}
             onQuickOperation={onQuickOperation}
           />
-          {item.split ? <div className="ml-1 contractive-filter-split" /> : null}
+          {item.split ? <div className="ml-1 contractive-filter-split mr-1" /> : null}
         </span>
       ))}
 
@@ -889,23 +894,6 @@ const ContractiveFilter = ({
           </Dropdown>
         </span>
       )}
-
-      {inputList.map((item) => (
-        <span
-          className={`contractive-filter-item-wrap ${fullWidth ? 'w-full' : ''}`}
-          key={item.key}
-          onClick={() => setCloseAll(false)}
-        >
-          <FilterItem
-            itemData={item}
-            value={valueMap[item.key]}
-            active={closeAll ? false : activeMap[item.key]}
-            onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
-            onChange={handelItemChange}
-            onQuickOperation={onQuickOperation}
-          />
-        </span>
-      ))}
     </div>
   );
 };

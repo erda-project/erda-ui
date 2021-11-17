@@ -56,12 +56,14 @@ import Badge from './badge/badge';
 import TiledFilter from './tiled-filter/tiled-filter';
 import FileEditor from './file-editor/file-editor';
 import Modal from './modal/modal';
+import PieChart from './pie-chart/pie-chart';
 import Grid from './grid/grid';
 import DatePicker from './date-picker/date-picker';
 import Dropdown from './dropdown/dropdown';
 import MarkdownEditor from './markdown-editor/markdown-editor';
 import { CardContainer, ChartContainer } from './card-container/card-container';
 import CopyButton from './copy-button/copy-button';
+import ComposeTable from './compose-table/compose-table';
 
 export const containerMap = {
   Alert,
@@ -69,6 +71,7 @@ export const containerMap = {
   Button,
   FormModal,
   Table,
+  PieChart,
   Card,
   Container,
   RowContainer,
@@ -117,4 +120,5 @@ export const containerMap = {
   CardContainer,
   ChartContainer,
   CopyButton,
+  ComposeTable,
 };

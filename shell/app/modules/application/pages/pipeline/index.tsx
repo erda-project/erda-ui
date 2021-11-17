@@ -73,13 +73,15 @@ const PipelineManage = (props: IProps) => {
             forceUpdateKey={['inParams']}
             customProps={{
               fileTree: {
-                onClickNode: (_inode: string) => {
-                  if (nodeIdRef.current !== _inode) {
-                    clearTreeNodeDetail();
-                    setTimeout(() => {
-                      updateSearch({ nodeId: _inode, pipelineID: undefined });
-                    }, 0);
-                  }
+                op: {
+                  onClickNode: (_inode: string) => {
+                    if (nodeIdRef.current !== _inode) {
+                      clearTreeNodeDetail();
+                      setTimeout(() => {
+                        updateSearch({ nodeId: _inode, pipelineID: undefined });
+                      }, 0);
+                    }
+                  },
                 },
               },
             }}

@@ -75,7 +75,7 @@ const emptyData = [] as any;
 export const FileTree = (props: CP_FILE_TREE.Props) => {
   const {
     updateState,
-    customProps,
+    customOp,
     state: propsState,
     execOperation,
     operations,
@@ -178,8 +178,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     update({
       ...handleState(propsState),
     });
-    if (customProps?.onStateChange) {
-      customProps.onStateChange(propsState);
+    if (customOp?.onStateChange) {
+      customOp.onStateChange(propsState);
     }
   }, [propsState, update]);
 
@@ -275,8 +275,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   };
 
   React.useEffect(() => {
-    if (customProps?.onClickNode) {
-      customProps.onClickNode(get(selectedKeys, '[0]'));
+    if (customOp?.onClickNode) {
+      customOp.onClickNode(get(selectedKeys, '[0]'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedKeys]);

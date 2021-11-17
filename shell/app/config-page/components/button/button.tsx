@@ -31,7 +31,7 @@ const IconComp = (props: { type: string; [pro: string]: any }) => {
 };
 
 export const Button = (props: CP_BUTTON.Props) => {
-  const { updateState, customProps, execOperation, operations, props: configProps } = props;
+  const { updateState, customOp, execOperation, operations, props: configProps } = props;
   const {
     text,
     prefixIcon,
@@ -54,7 +54,7 @@ export const Button = (props: CP_BUTTON.Props) => {
   const { disabledTip, disabled, confirm } = operations?.click || {};
   const onClick = () => {
     if (operations?.click && !disabled) {
-      customProps?.click && customProps.click(operations.click);
+      customOp?.click && customOp.click(operations.click);
       execOperation(operations.click);
     }
   };
@@ -102,7 +102,7 @@ export const Button = (props: CP_BUTTON.Props) => {
           const curOp = find(menu, { key: e.key });
           if (curOp?.operations?.click) {
             execOperation(curOp.operations.click);
-            customProps?.click && customProps.click(curOp.operations.click);
+            customOp?.click && customOp.click(curOp.operations.click);
           }
         }}
       >
@@ -116,7 +116,7 @@ export const Button = (props: CP_BUTTON.Props) => {
                   title={curOp.confirm}
                   onConfirm={() => {
                     execOperation(curOp);
-                    customProps?.click && customProps.click(mItem.operations.click);
+                    customOp?.click && customOp.click(mItem.operations.click);
                   }}
                 >
                   <div>{mItem.text}</div>

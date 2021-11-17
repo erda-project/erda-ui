@@ -22,9 +22,15 @@ import { useMock } from './mock/index';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';
 
+interface ICustomProps {
+  [p: string]: {
+    op?: Obj;
+    props?: Obj;
+  };
+}
 interface IProps {
   inParams?: Obj;
-  customProps?: Obj;
+  customProps?: ICustomProps;
   scenarioType: string;
   scenarioKey: string;
   showLoading?: boolean;

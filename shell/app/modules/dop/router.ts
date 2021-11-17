@@ -194,8 +194,8 @@ export default function getDopRouter(): RouteConfigItem[] {
         {
           path: 'mock',
           pageName: '动态界面测试',
-          // layout: { showSubSidebar: false, fullHeight: true },
-          getComp: (cb) => cb(import('app/config-page/mock')),
+          layout: { noWrapper: true },
+          getComp: (cb) => cb(import('app/config-page/mock/mock')),
         },
         {
           path: 'debug',

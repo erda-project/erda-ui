@@ -17,6 +17,7 @@ import { map, isEmpty, get, isArray, sortBy, filter, isNumber } from 'lodash';
 import { Icon as CustomIcon, MemberSelector, TagsRow, Copy, Ellipsis, ErdaIcon } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
+import ImgMap from 'app/config-page/img-map';
 import { RowContainer, Container } from '../container/container';
 import { statusColorMap, colorMap } from 'app/config-page/utils';
 import { Download as IconDownLoad, Info as IconInfo, DownOne as IconDownOne } from '@icon-park/react';
@@ -58,16 +59,16 @@ interface IParams {
   record: Obj;
   execOperation: (op: CP_COMMON.Operation) => void;
   operations?: Obj<CP_COMMON.Operation>;
-  customProps?: Obj;
+  customOp?: Obj;
 }
 const getItemClickProps = (params: IParams) => {
-  const { operations, customProps, execOperation, record } = params;
+  const { operations, customOp, execOperation, record } = params;
   const extraProps: Obj = {};
-  if (operations?.click || customProps?.clickTableItem) {
+  if (operations?.click || customOp?.clickTableItem) {
     extraProps.onClick = (e: any) => {
       e.stopPropagation();
       operations?.click && execOperation(operations.click);
-      customProps?.clickTableItem && customProps.clickTableItem(record, operations?.click);
+      customOp?.clickTableItem && customOp.clickTableItem(record, operations?.click);
     };
   }
   return extraProps;
@@ -151,9 +152,13 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             <Progress
               percent={value}
               {...rest}
-              format={(v) => <span className="text-dark-8">{`${v}%`}</span>}
+              type="circle"
+              width={20}
+              strokeWidth={18}
+              format={(v) => null}
               strokeColor={statusColorMap[status]}
             />
+            <span className="text-dark-8  ml-2">{`${value}%`}</span>
           </Tooltip>
         ) : (
           _val
@@ -172,8 +177,8 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                 <div
                   className={`nowrap ${item?.linkStyle ? 'string-list-link' : ''}`}
                   onClick={() => {
-                    if (extra.customProps?.clickTableItem) {
-                      extra.customProps.clickTableItem(item);
+                    if (extra.customOp?.clickTableItem) {
+                      extra.customOp.clickTableItem(item);
                     }
                   }}
                 >
@@ -364,24 +369,62 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = <Text props={_rest} />;
       }
       break;
+    case 'icon':
+      {
+        const { icon } = val || {};
+        if (ImgMap[icon]) {
+          Comp = (
+            <div className="dice-cp-table-head-icon mr-1">
+              <img src={ImgMap[icon]} className="w-full h-full" />{' '}
+            </div>
+          );
+        } else {
+          Comp = <ErdaIcon size={28} className="dice-cp-table-head-icon" type={icon} />;
+        }
+      }
+      break;
     case 'multiple':
       {
-        const { renders, operations } = val || {};
+        const { renders, operations, direction = 'col' } = val || {};
         const extraProps = getItemClickProps({ ...extra, operations, record });
         const hasPointer = !isEmpty(extraProps);
-        Comp = (
-          <Container props={{ spaceSize: 'none', className: hasPointer ? 'cursor-pointer' : '', ...extraProps }}>
-            {map(renders, (rds, idx) => (
-              <RowContainer key={`${idx}`}>
-                {map(rds, (rd, rdIdx) => (
-                  <div key={`${rdIdx}`} className="w-full">
-                    {getRender(rd, record, extra)}
-                  </div>
-                ))}
-              </RowContainer>
-            ))}
-          </Container>
-        );
+        if (direction === 'col') {
+          Comp = (
+            <Container
+              props={{ spaceSize: 'none', className: `leading-6 ${hasPointer ? 'cursor-pointer' : ''}`, ...extraProps }}
+            >
+              {map(renders, (rds, idx) => (
+                <RowContainer key={`${idx}`}>
+                  {map(rds, (rd, rdIdx) => (
+                    <div key={`${rdIdx}`} className="w-full flex">
+                      {getRender(rd, record, extra)}
+                    </div>
+                  ))}
+                </RowContainer>
+              ))}
+            </Container>
+          );
+        } else if (direction === 'row') {
+          Comp = (
+            <RowContainer
+              props={{
+                spaceSize: 'none',
+                className: `leading-6 ${hasPointer ? 'cursor-pointer' : ''}`,
+                ...extraProps,
+              }}
+            >
+              {map(renders, (rds, idx) => (
+                <Container key={`${idx}`} props={{ spaceSize: 'none' }}>
+                  {map(rds, (rd, rdIdx) => (
+                    <div key={`${rdIdx}`} className="w-full flex">
+                      {getRender(rd, record, extra)}
+                    </div>
+                  ))}
+                </Container>
+              ))}
+            </RowContainer>
+          );
+        }
       }
       break;
     default:
@@ -503,7 +546,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             onClick={(e: any) => {
               e.stopPropagation();
               extra.execOperation({ ...op, key });
-              const customFunc = get(extra, `customProps.operations.${key}`);
+              const customFunc = get(extra, `customOp.operations.${key}`);
               if (customFunc) {
                 customFunc(op);
               }

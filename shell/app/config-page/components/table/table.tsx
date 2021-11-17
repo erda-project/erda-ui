@@ -49,7 +49,7 @@ const handleState = (_stateObj?: Obj, selectable?: boolean) => {
 };
 
 export function Table(props: CP_TABLE.Props) {
-  const { state: propsState, customProps, props: configProps, operations, data, execOperation, updateState } = props;
+  const { state: propsState, customOp, props: configProps, operations, data, execOperation, updateState, slot } = props;
   const list = data?.list || emptyArr;
   const {
     visible = true,
@@ -76,8 +76,8 @@ export function Table(props: CP_TABLE.Props) {
   }, [propsState, update, selectable]);
 
   React.useEffect(() => {
-    if (customProps?.onStateChange) {
-      customProps.onStateChange(state);
+    if (customOp?.onStateChange) {
+      customOp.onStateChange(state);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
@@ -91,7 +91,7 @@ export function Table(props: CP_TABLE.Props) {
   const tableColumns = map([...(columns || [])], (cItem) => ({
     ...cItem,
     ...getTitleRender(cItem),
-    render: (val: any, record: Obj) => getRender(val, record, { execOperation, customProps, userMap }),
+    render: (val: any, record: Obj) => getRender(val, record, { execOperation, customOp, userMap }),
   })) as any[];
 
   const isGanttTable = columns.find((item) => item.titleRenderType === 'gantt');
@@ -140,12 +140,14 @@ export function Table(props: CP_TABLE.Props) {
     const exTableColumns = map([...(exColumns || [])], (cItem) => ({
       ...cItem,
       ...getTitleRender(cItem),
-      render: (val: any, record: CP_TABLE.RowData) => getRender(val, record, { execOperation, customProps, userMap }),
+      render: (val: any, record: CP_TABLE.RowData) => getRender(val, record, { execOperation, customOp, userMap }),
     })) as any[];
 
     extra.expandedRowRender = (rowData: any) => {
       const { expandedList } = rowData || {};
-      return <PureTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} />;
+      return (
+        <PureTable columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} slot={slot} />
+      );
     };
   }
 
@@ -190,6 +192,7 @@ export function Table(props: CP_TABLE.Props) {
       <PureTable
         className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
+        slot={slot}
         scroll={{ x: '100%' }}
         rowKey={rowKey}
         {...extra}
@@ -201,7 +204,7 @@ export function Table(props: CP_TABLE.Props) {
         onChange={onChange}
       />
       {batchOperations ? (
-        <div className="absolute" style={{ bottom: 16 }}>
+        <div className="absolute" style={{ bottom: 5 }}>
           <BatchOperation
             rowKey={rowKey}
             dataSource={list}
@@ -304,12 +307,12 @@ const BatchOperation = (props: IBatchProps) => {
     <div className="flex items-center">
       <Checkbox className="mx-2" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll} />
       <span className="mr-2">{`${i18n.t('selected {xx}', {
-        xx: `${selectedRowKeys?.length || 0}${i18n.t('common:items')}`,
+        xx: `${selectedRowKeys?.length || 0} ${i18n.t('common:items')}`,
       })}`}</span>
       <Dropdown overlay={dropdownMenu} zIndex={1000}>
         <Button>
           {i18n.t('batch operate')}
-          <IconDownOne theme="filled" className="ml-1" />
+          <IconDownOne theme="filled" className="ml-1 text-black-200" color="currentColor" />
         </Button>
       </Dropdown>
     </div>

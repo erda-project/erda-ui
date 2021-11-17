@@ -76,45 +76,51 @@ const AutoTestScenes = () => {
         inParams={inParams}
         customProps={{
           executeTaskTable: {
-            operations: {
-              checkLog: (d: any) => {
-                const { logId, pipelineId: pId, nodeId: nId } = get(d, 'meta') || {};
-                if (logId) {
-                  update({
-                    logVisible: true,
-                    logProps: {
-                      logId,
-                      title: i18n.t('msp:log details'),
-                      customFetchAPIPrefix: `/api/apitests/pipeline/${pId}/task/${nId}/logs`,
-                      pipelineID: pId,
-                      taskID: nId,
-                      downloadAPI: '/api/apitests/logs/actions/download',
-                    },
-                  });
-                }
-              },
-              checkDetail: (d: any) => {
-                if (d) {
-                  update({
-                    resultVis: true,
-                    previewData: getPreviewData(d),
-                  });
-                }
+            op: {
+              operations: {
+                checkLog: (d: any) => {
+                  const { logId, pipelineId: pId, nodeId: nId } = get(d, 'meta') || {};
+                  if (logId) {
+                    update({
+                      logVisible: true,
+                      logProps: {
+                        logId,
+                        title: i18n.t('msp:log details'),
+                        customFetchAPIPrefix: `/api/apitests/pipeline/${pId}/task/${nId}/logs`,
+                        pipelineID: pId,
+                        taskID: nId,
+                        downloadAPI: '/api/apitests/logs/actions/download',
+                      },
+                    });
+                  }
+                },
+                checkDetail: (d: any) => {
+                  if (d) {
+                    update({
+                      resultVis: true,
+                      previewData: getPreviewData(d),
+                    });
+                  }
+                },
               },
             },
           },
           moreOperation: {
-            import: () => {
-              updater.importVis(true);
-            },
-            record: () => {
-              updater.recordVis(true);
+            op: {
+              import: () => {
+                updater.importVis(true);
+              },
+              record: () => {
+                updater.recordVis(true);
+              },
             },
           },
           fileTree: {
-            // 改变url
-            onStateChange: (val: Obj) => {
-              updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+            op: {
+              // 改变url
+              onStateChange: (val: Obj) => {
+                updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
+              },
             },
           },
         }}

@@ -160,7 +160,7 @@ function WrappedTable<T extends object = any>({
               overlayClassName="erda-table-sorter-overlay"
               getPopupContainer={(triggerNode) => triggerNode.parentElement?.parentElement as HTMLElement}
             >
-              <span className="cursor-pointer erda-table-sorter">
+              <span className="cursor-pointer erda-table-sorter flex items-center">
                 {typeof title === 'function' ? title({ sortColumn: sort?.column, sortOrder: sort?.order }) : title}
                 <span className={`sorter-icon pl-1 ${(sort.columnKey === args.dataIndex && sort.order) || ''}`}>
                   {sort.order && sort.columnKey === args.dataIndex ? (

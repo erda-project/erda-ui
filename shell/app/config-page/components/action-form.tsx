@@ -60,18 +60,11 @@ const clearEmptyField = (ObjData: any) => {
 };
 const noop = () => {};
 export const ActionForm = (props: IProps) => {
-  const { props: configProps, state, customProps, operations, execOperation = noop, updateState = noop } = props;
+  const { props: configProps, state, customOp, operations, execOperation = noop, updateState = noop } = props;
   const { fields } = configProps || {};
   const { formData: fD } = state || ({} as Obj);
 
-  const {
-    otherTaskAlias,
-    onSubmit: propsSubmit,
-    chosenAction,
-    chosenActionName,
-    nodeData,
-    editing,
-  } = customProps || {};
+  const { otherTaskAlias, onSubmit: propsSubmit, chosenAction, chosenActionName, nodeData, editing } = customOp || {};
 
   const [{ formData }, updater] = useUpdate({
     formData: isEmpty(fD) ? (!isEmpty(nodeData) ? { ...nodeData } : {}) : fD,

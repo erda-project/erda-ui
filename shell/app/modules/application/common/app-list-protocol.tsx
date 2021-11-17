@@ -367,17 +367,19 @@ export const PureAppList = ({ getList: _getList, isFetching, clearList, isInProj
         forceMock
         customProps={{
           list: {
-            clickItem: (_: unknown, _data: IApplication) => {
-              const { projectId, id } = _data;
-              goTo(goTo.pages.app, { projectId, appId: id });
-            },
-            gotoProject: (_: unknown, _data: IApplication) => {
-              const { projectId } = _data;
-              goTo(goTo.pages.project, { projectId });
-            },
-            gotoDeploy: (_: unknown, _data: IApplication) => {
-              const { projectId, id } = _data;
-              goTo(goTo.pages.deploy, { projectId, appId: id });
+            op: {
+              clickItem: (_: unknown, _data: IApplication) => {
+                const { projectId, id } = _data;
+                goTo(goTo.pages.app, { projectId, appId: id });
+              },
+              gotoProject: (_: unknown, _data: IApplication) => {
+                const { projectId } = _data;
+                goTo(goTo.pages.project, { projectId });
+              },
+              gotoDeploy: (_: unknown, _data: IApplication) => {
+                const { projectId, id } = _data;
+                goTo(goTo.pages.deploy, { projectId, appId: id });
+              },
             },
           },
         }}

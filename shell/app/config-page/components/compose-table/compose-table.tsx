@@ -11,26 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CHART {
-  interface Spec {
-    type: 'Chart';
-    props: IProps;
-    cId: string;
-  }
+import React from 'react';
 
-  interface IProps {
-    chartType: 'line' | 'pie' | 'bar';
-    option: Obj;
-    style?: Obj;
-    yAxisLabelLen?: number;
-    pureChart?: boolean;
-    visible?: boolean;
-    title: string;
-    tip?: string | string[];
-    isLoadMore?: boolean;
-  }
+const ComposeTable = (props: CP_COMPOSE_TABLE.Props) => {
+  const { slot, table } = props;
+  return React.cloneElement(table, { slot });
+};
 
-  type Props = MakeProps<Spec> & {
-    extraContent?: React.ReactElement;
-  };
-}
+export default ComposeTable;

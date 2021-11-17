@@ -16,14 +16,14 @@ import { Dropdown, Menu } from 'antd';
 import { OperationAction } from 'config-page/utils';
 
 const CP_DROPDOWN = (props: CP_DROPDOWN.Props) => {
-  const { execOperation, operations, children, props: configProps, customProps } = props;
+  const { execOperation, operations, children, props: configProps, customOp } = props;
   const { visible, menus, menuProps, ...rest } = configProps || {};
   if (visible === false) return null;
 
   const onClick = (op?: CP_COMMON.Operation) => {
     if (op) {
       execOperation(op);
-      customProps?.[op.key] && customProps[op.key](op);
+      customOp?.[op.key] && customOp[op.key](op);
     }
   };
 
