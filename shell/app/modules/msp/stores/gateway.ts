@@ -13,75 +13,75 @@
 
 import { createStore } from 'core/cube';
 import {
+  addAPI,
+  addPolicy,
+  createApiLimit,
+  createApiPackage,
   createConsumer,
+  createOpenApiConsumer,
+  createPackageApi,
+  deleteAPI,
   deleteConsumer,
-  getConsumerList,
-  getRegisterApps,
-  getServiceRuntime,
+  deleteLimit,
+  deleteOpenApiConsumer,
+  deletePackage,
+  deletePackageApi,
+  deletePolicy,
+  getApiConsumers,
   getApiDomain,
-  saveApiDomain,
-  getSafetyWaf,
-  getSafetyIP,
-  getSafetyServerGuard,
-  getSafetyCsrf,
-  getBusinessProxy,
+  getApiLimits,
+  getAPIList,
+  getApiPackageDetail,
+  getApiPackageList,
+  getApiPackages,
+  getAPISummary,
+  getAuthInfo,
   getBusinessCors,
   getBusinessCustom,
-  saveSafetyWaf,
-  saveSafetyIP,
-  saveSafetyServerGuard,
-  saveSafetyCsrf,
-  saveBusinessProxy,
-  saveBusinessCors,
-  saveBusinessCustom,
-  getConsumerDetail,
-  updateConsumerDetail,
-  saveConsumerApi,
-  saveConsumerApiPolicy,
-  getAPIList,
-  addAPI,
-  updateAPI,
-  deleteAPI,
+  getBusinessProxy,
   getConsumer,
-  getAPISummary,
+  getConsumerAuthorizes,
+  getConsumerAuthPackages,
+  getConsumerCredentials,
+  getConsumerDetail,
+  getConsumerList,
+  getDeployedBranches,
+  getErrorSummary,
+  getImportableApiList,
+  getOpenApiConsumerList,
+  getPackageDetailApiList,
+  getPolicyList,
+  getRegisterApps,
+  getSafetyCsrf,
+  getSafetyIP,
+  getSafetyServerGuard,
+  getSafetyWaf,
+  getServiceApiPrefix,
+  getServiceRuntime,
   getStatusCode,
   getStatusCodeChart,
-  getErrorSummary,
-  getPolicyList,
-  addPolicy,
-  updatePolicy,
-  deletePolicy,
-  getApiPackageList,
-  createApiPackage,
-  getApiPackageDetail,
-  updateApiPackage,
-  deletePackage,
-  getPackageDetailApiList,
-  createPackageApi,
-  updatePackageApi,
-  getImportableApiList,
   importApis,
-  deletePackageApi,
-  getConsumerAuthorizes,
-  updateConsumerAuthorizes,
-  getOpenApiConsumerList,
-  createOpenApiConsumer,
-  updateOpenApiConsumer,
-  deleteOpenApiConsumer,
-  getConsumerCredentials,
-  updateConsumerCredentials,
-  getConsumerAuthPackages,
-  updateConsumerAuthPackages,
-  getApiPackages,
-  getApiConsumers,
-  getApiLimits,
-  createApiLimit,
+  saveApiDomain,
+  saveBusinessCors,
+  saveBusinessCustom,
+  saveBusinessProxy,
+  saveConsumerApi,
+  saveConsumerApiPolicy,
+  saveSafetyCsrf,
+  saveSafetyIP,
+  saveSafetyServerGuard,
+  saveSafetyWaf,
+  updateAPI,
   updateApiLimit,
-  deleteLimit,
-  getDeployedBranches,
-  getAuthInfo,
+  updateApiPackage,
   updateAuthInfo,
-  getServiceApiPrefix,
+  updateConsumerAuthorizes,
+  updateConsumerAuthPackages,
+  updateConsumerCredentials,
+  updateConsumerDetail,
+  updateOpenApiConsumer,
+  updatePackageApi,
+  updatePolicy,
 } from 'msp/services/gateway';
 import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging } from 'common/utils';
@@ -92,6 +92,7 @@ import { getRuntimeDetail } from 'runtime/services/runtime';
 import { getProjectInfo } from 'project/services/project';
 import apiRequestStore from 'api-insight/stores/request';
 import { PAGINATION } from 'app/constants';
+import { eventHub } from 'common/utils/event-hub';
 
 interface PolicyFilter {
   diceApp: string;
@@ -220,11 +221,27 @@ const initState: IState = {
   countSummary: [],
 };
 
+const queryRegisterApps = (hasMenu: boolean, showIntro: boolean) => {
+  if (hasMenu) {
+    if (!showIntro) {
+      gatewayStore.effects.getRegisterApps();
+    }
+  } else {
+    eventHub.once('gatewayStore/getRegisterApps', (flag) => {
+      if (!flag) {
+        gatewayStore.effects.getRegisterApps();
+      }
+    });
+  }
+};
+
 const gatewayStore = createStore({
   name: 'gatewayStore',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isIn, isLeaving, isEntering, query }: IRouteInfo) => {
+      const [showIntro, menu] = mspStore.getState((s) => [s.intro.APIGateway, s.mspMenu]);
+      const hasMenu = !!menu.length;
       if (isIn('gateway-route')) {
         if (['api-policies', 'old-policies', 'api-monitor'].some((path) => isIn(path))) {
           gatewayStore.effects.getConsumer();
@@ -237,11 +254,11 @@ const gatewayStore = createStore({
           gatewayStore.effects.getRuntimeEntryData({ appId, runtimeId });
         } else {
           // 从微服务进入
-          gatewayStore.effects.getRegisterApps();
+          queryRegisterApps(hasMenu, showIntro);
         }
       }
       if (isEntering('api-platform')) {
-        gatewayStore.effects.getRegisterApps();
+        queryRegisterApps(hasMenu, showIntro);
       }
       if (isEntering('consumer-audit')) {
         gatewayStore.effects.getApiFilterCondition();

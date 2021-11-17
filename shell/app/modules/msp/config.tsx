@@ -15,13 +15,13 @@ import React from 'react';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import {
-  Server as IconServer,
-  MonitorCamera as IconMonitorCamera,
-  NotebookAndPen as IconNotebookAndPen,
   Api as IconApi,
+  Components as IconComponents,
   Config as IconConfig,
   Log as IconLog,
-  Components as IconComponents,
+  MonitorCamera as IconMonitorCamera,
+  NotebookAndPen as IconNotebookAndPen,
+  Server as IconServer,
 } from '@icon-park/react';
 import { ErdaIcon } from 'common';
 
@@ -50,42 +50,47 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
   const monitorPrefix = `monitor/${terminusKey}`;
   // alarm management
   const alarmManagementPrefix = `alarm-management/${terminusKey}`;
-  // query analysis
-  const analysisPrefix = `analysis/${terminusKey}`;
   // env synopsis
   const envOverViewPrefix = `synopsis/${terminusKey}`;
 
+  const diagnoseAnalyzerPrefix = `${terminusKey}`;
+
+  const serviceManagePrefix = 'service-manage';
+
   const targetPath = {
-    Overview: `${envOverViewPrefix}/topology`,
-    AppMonitor: `topology/${terminusKey}`,
-    EnvironmentalOverview: envOverViewPrefix,
-    ServiceList: `${envOverViewPrefix}/service-list`,
-    ServiceObservation: monitorPrefix,
-    ServiceAnalysis: `${monitorPrefix}/service-analysis`,
+    Overview: envOverViewPrefix,
+    MonitorCenter: monitorPrefix,
+    ServiceMonitor: `${monitorPrefix}/service-analysis`,
     FrontMonitor: `${monitorPrefix}/bi`,
-    AppInsight: `${monitorPrefix}/mi`,
-    ErrorInsight: `${monitorPrefix}/error`,
-    Tracing: `${monitorPrefix}/trace`,
     ActiveMonitor: `${monitorPrefix}/status`,
-    AlarmManagement: alarmManagementPrefix,
+    AlertCenter: alarmManagementPrefix,
     AlertStrategy: `${alarmManagementPrefix}/alarm`,
     AlarmHistory: `${alarmManagementPrefix}/alarm-record`,
     RuleManagement: `${alarmManagementPrefix}/custom-alarm`,
     NotifyGroupManagement: `${alarmManagementPrefix}/notify-group`,
-    QueryAnalysis: analysisPrefix,
-    Dashboard: `${analysisPrefix}/custom-dashboard`,
-    Reports: `${monitorPrefix}/reports`,
-
-    LogAnalyze: `log/${logKey}/query`,
+    DiagnoseAnalyzer: diagnoseAnalyzerPrefix,
+    Tracing: `${monitorPrefix}/trace`,
+    LogAnalyze: `log/${logKey}`,
     LogQuery: `log/${logKey}/query`,
     AnalyzeRule: `log/${logKey}/rule`,
+    ErrorInsight: `${monitorPrefix}/error`,
+    Dashboard: `analysis/${terminusKey}/custom-dashboard`,
+    ServiceManage: serviceManagePrefix,
+    APIGateway: 'gateway',
+    RegisterCenter: 'services',
+    ConfigCenter: `config/${tenantId}`,
+    EnvironmentSet: 'environment',
+    AccessConfig: `environment/${terminusKey}/configuration`,
+    MemberManagement: `environment/${terminusKey}/member`,
+    ComponentInfo: `environment/info${tenantId ? `/${tenantId}` : ''}`,
 
-    RegisterCenter: 'registerIntro',
+    AppMonitor: `topology/${terminusKey}`,
+    EnvironmentalOverview: envOverViewPrefix,
+    AppInsight: `${monitorPrefix}/mi`,
+    Reports: `${monitorPrefix}/reports`,
     RegisterIntro: 'registerIntro',
     Nodes: 'nodes',
-    Services: 'services',
     CanaryRelease: 'release',
-
     ApiGateway: 'gateway/gatewayIntro',
     GatewayIntro: 'gateway/gatewayIntro',
     APIs: 'gateway/apis',
@@ -95,13 +100,8 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
     OldPolicies: 'gateway/old-policies/traffic-policy',
     OldConsumerACL: 'gateway/old-consumer',
 
-    ConfigCenter: 'configIntro',
     ConfigIntro: 'configIntro',
     Configs: `config/${tenantId}`,
-    EnvironmentSet: 'environment',
-    AccessConfig: `environment/${terminusKey}/configuration`,
-    MemberManagement: `environment/${terminusKey}/member`,
-    ComponentInfo: `environment/info${tenantId ? `/${tenantId}` : ''}`,
   }[key];
 
   return rootPath + targetPath;
@@ -137,16 +137,18 @@ const renderIcon = (type: string) => () => {
 };
 
 export const MSIconMap = {
+  Overview: renderIcon('huanjinggailan'),
+  ServiceManage: renderIcon('zhili'),
   EnvironmentalOverview: renderIcon('huanjinggailan'),
   QueryAnalysis: renderIcon('chaxunfenxi'),
   ServiceObservation: renderIcon('fuwuguancesvg'),
-  AlarmManagement: renderIcon('gaojingguanli'),
+  AlertCenter: renderIcon('gaojingguanli'),
   EnvironmentSet: IconComponents,
   ServiceGovernance: IconServer,
-  AppMonitor: IconMonitorCamera,
+  MonitorCenter: IconMonitorCamera,
   RegisterCenter: IconNotebookAndPen,
   APIGateway: IconApi,
   ConfigCenter: IconConfig,
   ComponentInfo: IconComponents,
-  LogAnalyze: IconLog,
+  DiagnoseAnalyzer: IconLog,
 };
