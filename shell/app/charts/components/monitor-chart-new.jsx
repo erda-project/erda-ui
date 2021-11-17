@@ -134,7 +134,7 @@ class MonitorChartNew extends React.PureComponent {
       });
       const curMax = value.data ? calMax([value.data]) : [];
       maxArr[yAxisIndex] = maxArr[yAxisIndex] && maxArr[yAxisIndex] > curMax ? maxArr[yAxisIndex] : curMax;
-      const curUnitType = value.unitType || customUnitType || unitTypes[0] || ''; // y轴单位
+      const curUnitType = value.unitType || customUnitType || unitTypes?.[0] || ''; // y轴单位
       const curUnit = value.unit || customUnit || ''; // y轴单位
       yAxis[yAxisIndex] = {
         name: name || yAxisNames[yAxisIndex] || '',
