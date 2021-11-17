@@ -39,12 +39,8 @@ import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
-import {
-  notifyChannelOptionsMap,
-  smsNotifyChannelOptionsMap,
-} from 'application/pages/settings/components/app-notify/common-notify-group';
+import { notifyChannelOptionsMap } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm } from 'user/common';
-import clusterStore from 'cmp/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
 import {
@@ -166,7 +162,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     s.alertTriggerConditions,
     s.alertTriggerConditionsContent,
   ]);
-  const orgId = orgStore.getState((s) => s.currentOrg.id);
 
   const {
     getAlerts,
@@ -191,9 +186,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     terminus_key: terminusKey,
   };
 
-  const { getSMSNotifyConfig } = clusterStore.effects;
-  const enableMS = clusterStore.useStore((s) => s.enableMS);
-  const notifyChannelMap = enableMS ? smsNotifyChannelOptionsMap : notifyChannelOptionsMap;
   const addNotificationGroupAuth = scopeType === ScopeType.ORG ? orgAddNotificationGroupAuth : true; // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const [state, updater, update] = useUpdate({
@@ -215,7 +207,6 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         scopeId: commonPayload?.scopeId,
       };
     }
-    getSMSNotifyConfig({ orgId });
     getAlerts();
     getAlarmScopes();
     getAlertTypes();
@@ -274,7 +265,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               level: x.level ? x.level?.split(',') : undefined,
               groupType: x.groupType?.split(','),
               groupTypeOptions:
-                (notifyChannelMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
+                (notifyChannelOptionsMap[x.notifyGroup.targets?.[0].type] || []).map((y) => ({
                   key: y.value,
                   display: y.name,
                 })) || [],
@@ -680,7 +671,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
                     goTo(notifyGroupPage[scopeType], { projectId: scopeId, ...params });
                   }}
                   notifyGroups={notifyGroups}
-                  notifyChannelMap={notifyChannelMap}
+                  notifyChannelMap={notifyChannelOptionsMap}
                   addNotificationGroupAuth={addNotificationGroupAuth}
                   key={item.id}
                   id={item.id}
@@ -835,7 +826,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
   const handleAddNotifyStrategy = () => {
     // const activeGroup = notifyGroups[0];
     // const groupTypeOptions =
-    //   ((activeGroup && notifyChannelMap[activeGroup.targets[0].type]) || []).map((x) => ({
+    //   ((activeGroup && notifyChannelOptionsMap[activeGroup.targets[0].type]) || []).map((x) => ({
     //     key: x.value,
     //     display: x.name,
     //   })) || [];

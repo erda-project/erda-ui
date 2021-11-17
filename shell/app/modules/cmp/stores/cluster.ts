@@ -31,7 +31,6 @@ import {
   getClusterNewDetail,
   getClusterResourceList,
   getClusterResourceDetail,
-  getSMSNotifyConfig,
   getRegisterCommand,
   clusterInitRetry,
   getUseableK8sCluster,
@@ -51,7 +50,6 @@ interface IState {
   deployClusterLog: string;
   cloudResource: ORG_CLUSTER.ICloudResource[];
   cloudResourceDetail: ORG_CLUSTER.ICloudResourceDetail;
-  enableMS: boolean;
   chosenCluster: string; // use in container resource
   useableK8sClusters: IUseableK8sClusters;
 }
@@ -69,7 +67,6 @@ const initState: IState = {
   getDeployClusterLog: {},
   cloudResource: [],
   cloudResourceDetail: {},
-  enableMS: false,
   chosenCluster: '',
   useableK8sClusters: { ready: [], unReady: [] },
 };
@@ -112,6 +109,7 @@ const cluster = createStore({
     });
   },
   effects: {
+<<<<<<< HEAD
     async getUseableK8sCluster({ call, update }) {
       const useableK8sClusters = await call(getUseableK8sCluster);
       update({ useableK8sClusters });
@@ -122,6 +120,8 @@ const cluster = createStore({
       const enableMS = get(notifyConfig, 'config.enableMS');
       update({ enableMS });
     },
+=======
+>>>>>>> master
     async getClusterList({ call, update }, payload: { orgId?: number; sys?: boolean } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
