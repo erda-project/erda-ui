@@ -38,7 +38,7 @@ const ActionConfigForm = (props: IProps) => {
       showLoading={false}
       scenarioType="action"
       scenarioKey={chosenActionName}
-      customProps={{ actionForm: { op: { props } } }}
+      customProps={{ actionForm: { op: props } }}
     />
   );
 };
