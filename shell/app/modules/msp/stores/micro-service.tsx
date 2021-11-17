@@ -13,21 +13,22 @@
 
 import { createStore } from 'core/cube';
 import * as mspService from 'msp/services';
-import { envMap, getMSFrontPathByKey, MSIconMap, getMSPSubtitleByName } from 'msp/config';
-import { isEmpty, filter, get } from 'lodash';
+import { envMap, getMSFrontPathByKey, getMSPSubtitleByName, MSIconMap } from 'msp/config';
+import { filter, get, isEmpty } from 'lodash';
 import layoutStore from 'layout/stores/layout';
 import { goTo, qs } from 'common/utils';
 import { getCurrentLocale } from 'i18n';
 import routeInfoStore from 'core/stores/route';
 import { setGlobal } from 'app/global-space';
 import wfwzl_svg from 'app/images/wfwzl.svg';
+import { eventHub } from 'common/utils/event-hub';
 import {
-  DOC_PREFIX,
   DOC_MSP_API_GATEWAY,
-  DOC_MSP_REGISTER,
-  DOC_MSP_MONITOR,
   DOC_MSP_CONFIG_CENTER,
   DOC_MSP_LOG_ANALYSIS,
+  DOC_MSP_MONITOR,
+  DOC_MSP_REGISTER,
+  DOC_PREFIX,
 } from 'common/constants';
 import React from 'react';
 import switchEnv from 'msp/pages/micro-service/switch-env';
@@ -43,6 +44,12 @@ const docUrlMap = {
 };
 
 interface IState {
+  intro: {
+    LogAnalyze: boolean;
+    APIGateway: boolean;
+    RegisterCenter: boolean;
+    ConfigCenter: boolean;
+  };
   mspProjectList: MS_INDEX.IMspProject[];
   mspMenu: MS_INDEX.Menu[];
   msMenuMap: MS_INDEX.MenuMap;
@@ -62,13 +69,22 @@ const currentLocale = getCurrentLocale();
 
 const COMMUNITY_REMOVE_KEYS = ['LogAnalyze', 'APIGateway', 'RegisterCenter', 'ConfigCenter'];
 
-const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, any>, query: Record<string, any>) => {
+const generateMSMenu = (
+  menuData: MS_INDEX.IMspMenu[],
+  params: Record<string, any>,
+  query: Record<string, any>,
+  intros: IState['intro'],
+) => {
   let queryStr = '';
   if (!isEmpty(query)) {
     queryStr = `?${qs.stringify(query)}`;
   }
 
-  return menuData
+  const intro = {
+    ...intros,
+  };
+
+  const newMenu = menuData
     .filter((m) => m.exists)
     .filter((m) => (process.env.FOR_COMMUNITY ? !COMMUNITY_REMOVE_KEYS.includes(m.key) : true))
     .map((menu) => {
@@ -83,12 +99,14 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
         subtitle: getMSPSubtitleByName(text),
         href: `${href}${queryStr}`,
         prefix: `${href}`,
-        subMenu: [] as any,
       };
       if (children.length) {
         sideMenu.subMenu = children
           .filter((m) => m.exists)
           .map((child) => {
+            if (child.key in intro) {
+              intro[child.key] = !child.params._enabled;
+            }
             const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
             return {
               key: child.key,
@@ -101,6 +119,7 @@ const generateMSMenu = (menuData: MS_INDEX.IMspMenu[], params: Record<string, an
       }
       return sideMenu;
     });
+  return [newMenu, intro];
 };
 
 export const initMenu = (refresh = false) => {
@@ -123,6 +142,12 @@ export const initMenu = (refresh = false) => {
 };
 
 const initState: IState = {
+  intro: {
+    LogAnalyze: false,
+    APIGateway: false,
+    RegisterCenter: false,
+    ConfigCenter: false,
+  },
   mspProjectList: [],
   mspMenu: [],
   msMenuMap: {},
@@ -186,16 +211,18 @@ const mspStore = createStore({
     },
     async getMspMenuList({ call, select, update }, payload?: { refresh: boolean }) {
       const [params, routes, query] = routeInfoStore.getState((s) => [s.params, s.routes, s.query]);
-      let [mspMenu, currentProject] = await select((s) => [s.mspMenu, s.currentProject]);
+      let [mspMenu, currentProject, intro] = await select((s) => [s.mspMenu, s.currentProject, s.intro]);
       const { env, tenantGroup } = params;
       let menuData: MS_INDEX.IMspMenu[] = [];
       if (isEmpty(mspMenu) || payload?.refresh) {
         // 如果菜单数据为空说明是第一次进入具体微服务，请求菜单接口
         menuData = await call(mspService.getMspMenuList, { tenantId: tenantGroup, type: currentProject.type });
-        mspMenu = generateMSMenu(menuData, params, query);
+        const [newMspMenu, newIntro] = generateMSMenu(menuData, params, query, intro);
+        mspMenu = newMspMenu;
+        intro = newIntro;
       }
       const [firstMenu] = mspMenu;
-      const firstMenuHref = get(firstMenu, 'subMenu.[0].href');
+      const firstMenuHref = get(firstMenu, 'href');
       const siderName = `${firstMenu?.text}(${envMap[env]})`;
       const msMenuMap = {};
       menuData.forEach((m) => {
@@ -206,7 +233,8 @@ const mspStore = createStore({
           });
         }
       });
-      await update({ mspMenu, msMenuMap });
+      eventHub.emit('gatewayStore/getRegisterApps', intro.APIGateway);
+      await update({ mspMenu, msMenuMap, intro });
 
       layoutStore.reducers.setSubSiderInfoMap({
         key: 'mspDetail',

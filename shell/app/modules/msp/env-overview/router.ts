@@ -13,11 +13,20 @@
 
 import getTopologyRouter from 'msp/env-overview/topology/router';
 import serviceListRouter from 'msp/env-overview/service-list/router';
+import i18n from 'i18n';
 
 const getEnvOverViewRouter = (): RouteConfigItem => {
   return {
     path: ':terminusKey',
-    routes: [getTopologyRouter(), serviceListRouter()],
+    routes: [
+      {
+        breadcrumbName: i18n.t('msp:global topology'),
+        layout: { fullHeight: true },
+        getComp: (cb) => cb(import('msp/pages/micro-service-overview')),
+      },
+      getTopologyRouter(),
+      serviceListRouter(),
+    ],
   };
 };
 

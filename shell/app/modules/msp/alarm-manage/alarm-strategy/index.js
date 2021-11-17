@@ -12,12 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { EditStrategyPageName, AddStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
+import { AddStrategyPageName, EditStrategyPageName } from 'cmp/common/alarm-strategy/strategy-form';
 
 function AlarmRouter() {
   return {
     path: 'alarm',
-    breadcrumbName: i18n.t('alarm strategy'),
     routes: [
       {
         pageName: i18n.t('alarm strategy'),
