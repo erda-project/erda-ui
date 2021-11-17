@@ -13,8 +13,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Table, Radio, RadioChangeEvent } from 'antd';
+import { Tree, Tooltip, Row, Col, Tabs } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
+import Table from 'common/components/table';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
