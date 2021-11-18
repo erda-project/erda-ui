@@ -44,8 +44,8 @@ export const appList: () => LAYOUT.IApp[] = () =>
       },
       {
         key: 'msp',
-        name: i18n.t('microservice platform'),
-        breadcrumbName: i18n.t('microservice platform'),
+        name: i18n.t('msp'),
+        breadcrumbName: i18n.t('msp'),
         href: goTo.resolve.mspRootOverview(),
       },
       {
