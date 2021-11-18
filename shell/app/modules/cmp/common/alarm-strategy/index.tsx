@@ -188,21 +188,12 @@ const AlarmStrategyList = ({ scopeType, scopeId, commonPayload }: IProps) => {
       enableStrategy: {
         title: record?.enable ? i18n.t('unable') : i18n.t('enable'),
         onClick: () => {
-          if (!record?.enable) {
-            toggleAlert({
-              id: record.id,
-              enable: !record.enable,
-            }).then(() => {
-              getAlerts({ pageNo });
-            });
-          } else {
-            toggleAlert({
-              id: record.id,
-              enable: !record.enable,
-            }).then(() => {
-              getAlerts({ pageNo });
-            });
-          }
+          toggleAlert({
+            id: record.id,
+            enable: !record.enable,
+          }).then(() => {
+            getAlerts({ pageNo });
+          });
         },
       },
     };
