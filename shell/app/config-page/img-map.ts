@@ -19,6 +19,7 @@ import defaultAppIcon from 'app/images/default-app-icon.png';
 import defaultTestCase from 'app/images/default-test-case.svg';
 import emptyProjectImg from 'app/images/empty-project.png';
 import defaultK8sNodeIcon from 'app/images/default-k8s-node.svg';
+import K8sClusterBg from 'app/images/k8s-cluster-bg.svg';
 
 const ImgMap = {
   frontImg_default_project_icon: defaultProjectIcon,
@@ -29,6 +30,7 @@ const ImgMap = {
   frontImg_empty_project: emptyProjectImg,
   default_test_case: defaultTestCase,
   default_k8s_node: defaultK8sNodeIcon,
+  k8s_cluster_bg: K8sClusterBg,
 };
 
 export default ImgMap;

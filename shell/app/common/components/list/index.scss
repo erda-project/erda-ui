@@ -1,4 +1,4 @@
-.cp-list {
+.erda-list {
   &-item {
     display: flex;
     margin-top: 0.5rem;
@@ -6,6 +6,9 @@
     border-radius: 2px;
     background-color: $white;
     box-shadow: 0 2px 4px 0 rgba(85, 77, 104, 0.08);
+    background-position: 100% 0;
+    background-size: auto 70%;
+    background-repeat: no-repeat;
 
     &.no-border {
       border-bottom: none;
@@ -56,8 +59,8 @@
         .info-item {
           display: inline-flex;
           align-items: center;
-          width: 120px;
-          margin-right: 16px;
+          max-width: 120px;
+          margin-right: 24px;
 
           &.type-normal {
             color: $color-text-desc;
@@ -78,12 +81,12 @@
       }
     }
 
-    .cp-list-item-prefix-img {
+    .erda-list-item-prefix-img {
       margin-right: 12px;
 
       > * {
-        width: 57px;
-        height: 57px;
+        width: 76px;
+        height: 76px;
       }
 
       .prefix-img-middle {
@@ -131,7 +134,7 @@
         }
       }
 
-      .cp-list-item-body {
+      .erda-list-item-body {
         .title-icon {
           width: 20px;
           height: 20px;

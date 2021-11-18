@@ -11,36 +11,44 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_LIST {
-  interface Spec {
-    type: 'List';
-    operations?: Obj<CP_COMMON.Operation>;
-    props?: IProps;
-    data: IData;
-    state?: IState;
+declare namespace ERDA_LIST {
+  interface IListItemProps {
+    size?: 'small' | 'middle' | 'large';
+    data: IListData;
+    alignCenter?: boolean;
+    noBorder?: boolean;
+    operations: IOperation[] | ((data: IListData) => IOperation[]);
+    onRow?: Object;
+    key: string | number;
   }
 
-  interface IState {
-    pageNo?: number;
-    pageSize?: number;
-    total?: number;
+  interface IOperation {
+    title: React.ReactNode;
+    key?: string | number;
+    onClick?: ([key]: any) => void;
   }
 
   interface IProps {
-    rowKey?: string;
-    visible?: boolean;
+    dataSource: IListData;
     size?: ISize;
     isLoadMore?: boolean;
+    onLoadMore: () => void;
     alignCenter?: boolean;
     noBorder?: boolean;
+    pagination?: IPagination;
+    operations: IOperation[] | ((data: IListData) => IOperation[]);
+    onRow?: Object;
+    getKey: (item: IListData, idx: number) => string | number;
+  }
+
+  interface IPagination {
+    pageNo?: number;
+    pageSize?: number;
+    total?: number;
     pageSizeOptions?: string[];
   }
 
   type ISize = 'middle' | 'large' | 'small';
-
-  interface IData {
-    list: IListData[];
-  }
 
   interface IListData {
     [pro: string]: any;
@@ -49,27 +57,8 @@ declare namespace CP_LIST {
     description?: string;
     prefixImg?: string | React.ReactNode;
     extraInfos?: IIconInfo[];
-    extraContent: IExtraContent;
     operations?: Obj<CP_COMMON.Operation>;
-  }
-
-  interface IExtraContent {
-    type: 'pieChart';
-    data: IPieChart;
-    rowNum: number;
-  }
-
-  interface IPieChart {
-    name: string;
-    value: number;
-    total: number;
-    color: string;
-    info: IChartInfo[];
-  }
-
-  interface IChartInfo {
-    main: string;
-    sub: string;
+    prefixImgCircle?: boolean;
   }
 
   interface IIconInfo {
@@ -78,7 +67,10 @@ declare namespace CP_LIST {
     type?: 'success' | 'normal' | 'warning' | 'error';
     tooltip?: string;
     operations?: Obj<CP_COMMON.Operation>;
+    extraProps: IExtraProps;
   }
 
-  type Props = MakeProps<Spec>;
+  interface IExtraProps {
+    onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  }
 }

@@ -85,6 +85,12 @@ export const iconMap = {
   help: 'help',
   plus: 'tj1',
   moreOne: 'more-one',
+  cluster: 'cluster',
+  version: 'version',
+  machine: 'machine',
+  type: 'type',
+  management: 'management',
+  'create-time': 'create-time',
 };
 interface IErdaIcon {
   className?: string;

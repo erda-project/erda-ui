@@ -85,7 +85,7 @@ export default function getDopRouter(): RouteConfigItem[] {
           path: 'projects',
           pageName: i18n.t('joined projects'),
           breadcrumbName: i18n.t('joined projects'),
-          layout: { fullHeight: true },
+          layout: { noWrapper: true },
           getComp: (cb) => cb(import('dop/pages/projects/project-list-protocol')),
         },
         {
