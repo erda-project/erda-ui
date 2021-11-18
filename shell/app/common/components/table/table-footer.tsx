@@ -138,7 +138,7 @@ const TableFooter = ({ rowSelection, pagination, hidePagination, onTableChange }
       {!hidePagination && (
         <div className="erda-pagination flex items-center justify-end">
           <Pagination {...pagination} showSizeChanger={false} size="small" itemRender={paginationItemRender} />
-          {!pageSizeOptions.length && (
+          {pageSizeOptions?.length && (
             <Dropdown
               trigger={['click']}
               overlay={pageSizeMenu}
