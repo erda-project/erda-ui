@@ -41,7 +41,6 @@ import cmpAlarmStrategyStore from 'app/modules/cmp/stores/alarm-strategy';
 import mspAlarmStrategyStore from 'app/modules/msp/alarm-manage/alarm-strategy/stores/alarm-strategy';
 import { notifyChannelOptionsMap } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm } from 'user/common';
-import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'core/stores/route';
 import {
   Plus as IconPlus,
@@ -162,8 +161,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     s.alertTriggerConditions,
     s.alertTriggerConditionsContent,
   ]);
-  const orgId = orgStore.getState((s) => s.currentOrg.id);
-
+  const tableRef = React.useRef<HTMLDivElement>(null);
   const {
     getAlerts,
     createAlert,
@@ -418,6 +416,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: string, { key }) => (
         <Select
           value={value}
+          getPopupContainer={() => tableRef.current as HTMLElement}
           showSearch
           optionFilterProp="children"
           placeholder={i18n.t('please select')}
@@ -444,6 +443,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: number, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <Select
           value={value}
+          getPopupContainer={() => tableRef.current as HTMLElement}
           placeholder={i18n.t('please select')}
           onSelect={(window: any) => handleEditEditingRule(key, { key: 'window', value: Number(window) })}
         >
@@ -477,6 +477,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
                 </Select> */}
               <Select
                 className="operator mr-2"
+                getPopupContainer={() => tableRef.current as HTMLElement}
                 defaultValue={item.operator}
                 onSelect={(value: any) => {
                   handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) });
@@ -502,6 +503,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         <Select
           className="operator mr-2"
           value={value}
+          getPopupContainer={() => tableRef.current as HTMLElement}
           onSelect={(level: string) => {
             handleEditEditingRule(key, { key: 'level', value: level });
           }}
@@ -517,7 +519,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:trigger recover'),
       dataIndex: 'isRecover',
-      width: 105,
+      width: 96,
       render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <>
           <Switch
@@ -592,7 +594,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       name: 'expressions',
       required: false,
       getComp: () => (
-        <>
+        <div ref={tableRef}>
           <div className="opportunity-header flex mb-2">
             <Popover
               placement="bottomLeft"
@@ -630,9 +632,9 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             dataSource={state.editingRules}
             columns={columns}
             // table's scroll cannot be used with  select's getPopupContainer
-            scroll={undefined}
+            scroll={{ x: '100%' }}
           />
-        </>
+        </div>
       ),
     },
     {
