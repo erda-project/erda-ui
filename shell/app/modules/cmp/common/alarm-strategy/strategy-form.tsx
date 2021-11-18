@@ -162,7 +162,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     s.alertTriggerConditions,
     s.alertTriggerConditionsContent,
   ]);
-
+  const tableRef = React.useRef<HTMLDivElement>(null);
   const {
     getAlerts,
     createAlert,
@@ -417,6 +417,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       render: (value: string, { key }) => (
         <Select
           value={value}
+          getPopupContainer={() => tableRef.current as HTMLElement}
           showSearch
           optionFilterProp="children"
           placeholder={i18n.t('please select')}
@@ -444,6 +445,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         <Select
           value={value}
           placeholder={i18n.t('please select')}
+          getPopupContainer={() => tableRef.current as HTMLElement}
           onSelect={(window: any) => handleEditEditingRule(key, { key: 'window', value: Number(window) })}
         >
           {map(windows, (item) => (
@@ -477,6 +479,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
               <Select
                 className="operator mr-2"
                 defaultValue={item.operator}
+                getPopupContainer={() => tableRef.current as HTMLElement}
                 onSelect={(value: any) => {
                   handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) });
                 }}
@@ -501,6 +504,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
         <Select
           className="operator mr-2"
           value={value}
+          getPopupContainer={() => tableRef.current as HTMLElement}
           onSelect={(level: string) => {
             handleEditEditingRule(key, { key: 'level', value: level });
           }}
@@ -516,7 +520,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
     {
       title: i18n.t('cmp:trigger recover'),
       dataIndex: 'isRecover',
-      width: 105,
+      width: 96,
       render: (isRecover: boolean, { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <>
           <Switch
@@ -591,7 +595,7 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
       name: 'expressions',
       required: false,
       getComp: () => (
-        <>
+        <div ref={tableRef}>
           <div className="opportunity-header flex mb-2">
             <Popover
               placement="bottomLeft"
@@ -628,10 +632,9 @@ const StrategyForm = ({ scopeType, scopeId, commonPayload }: IProps) => {
             className="opportunity-table"
             dataSource={state.editingRules}
             columns={columns}
-            // table's scroll cannot be used with  select's getPopupContainer
-            scroll={undefined}
+            scroll={{ x: '100%' }}
           />
-        </>
+        </div>
       ),
     },
     {
