@@ -93,7 +93,7 @@ function WrappedTable<T extends object = any>({
           if (isFrontendPaging) {
             setDefaultPagination({ ...pagination, current: pageNo || current, pageSize: size || pageSize });
           } else {
-            onPageChange?.(pageNo, pageSize);
+            onPageChange?.(pageNo, size);
             onChange?.(
               { ...pagination, current: pageNo || current, pageSize: size || pageSize },
               {},

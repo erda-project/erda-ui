@@ -552,8 +552,8 @@ const MembersTable = ({
   );
 
   const memoTable = () => {
-    const onChangePage = (no: number) => {
-      updater.queryParams({ ...state.queryParams, pageNo: no });
+    const onChangePage = (no: number, size: number) => {
+      updater.queryParams({ ...state.queryParams, pageNo: no, pageSize: size });
     };
     return (
       <Table
