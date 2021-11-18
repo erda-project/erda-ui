@@ -328,7 +328,7 @@ importers:
       '@babel/preset-typescript': ^7.15.0
       '@babel/runtime': ^7.15.4
       '@babel/traverse': ^7.14.7
-      '@erda-ui/dashboard-configurator': 2.0.1
+      '@erda-ui/dashboard-configurator': 2.0.2
       '@erda-ui/react-markdown-editor-lite': ^1.4.7
       '@icon-park/react': ^1.3.3
       '@module-federation/automatic-vendor-federation': ^1.2.1
@@ -468,7 +468,7 @@ importers:
       webpack-merge: ^5.7.3
       xterm: 3.12.0
     dependencies:
-      '@erda-ui/dashboard-configurator': 2.0.1_react-dom@16.14.0+react@16.14.0
+      '@erda-ui/dashboard-configurator': 2.0.2_react-dom@16.14.0+react@16.14.0
       '@erda-ui/react-markdown-editor-lite': 1.4.7_react@16.14.0
       '@icon-park/react': 1.3.3_react-dom@16.14.0+react@16.14.0
       ace-builds: 1.4.12
@@ -5707,8 +5707,8 @@ packages:
     engines: {node: '>=10.0.0'}
     dev: true
 
-  /@erda-ui/dashboard-configurator/2.0.1_react-dom@16.14.0+react@16.14.0:
-    resolution: {integrity: sha512-xn9ztmw0MP4iAYyIC6PMID1+ROR7VqpNfddiUQv+BQ94N5oihrab4uhuHF01LsczJwn7I/hhAd4naZL32qj1aQ==}
+  /@erda-ui/dashboard-configurator/2.0.2_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-8OpPfRL4YwvKPmi0HCfokFHMRxF5KPy9MKup/nyA7wNL7ACa96lsSIfUlpGVQLmy1IweIkfoxl2KbfV3akhdbw==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
