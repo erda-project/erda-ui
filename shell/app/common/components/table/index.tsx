@@ -149,7 +149,7 @@ function WrappedTable<T extends object = any>({
         action: 'sort' as TableAction,
       };
 
-      onPageChange?.(pageNo, pageSize);
+      onPageChange?.(pageNo, size);
       onChange?.(
         { ...pagination, current: pageNo || current, pageSize: size || pageSize },
         {},
