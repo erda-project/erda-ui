@@ -64,7 +64,7 @@ export const getCmpMenu = (chosenCluster = EMPTY_CLUSTER) => {
       },
       {
         key: 'containerResource',
-        icon: <ErdaIcon type="cloud-container" color="currentColor" />,
+        icon: <ErdaIcon type="cloud-container" className="erda-icon" color="currentColor" />,
         href: goTo.resolve.cmpClustersContainer({ clusterName: chosenCluster }),
         text: i18n.t('container resource'),
         subtitle: i18n.t('container'),
