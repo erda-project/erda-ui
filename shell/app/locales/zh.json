@@ -2825,7 +2825,7 @@
     "operation protected branch (start/cancel timing/execute immediately/retry/stop)": "操作受保护分支(开始/取消定时/立即执行/重试/停止)",
     "ordinary branch management (create/commit/modify/delete)": "普通分支管理（创建分支/提交文件/修改文件/删除）",
     "permission operation": "权限操作",
-    "permissions level {level}": "级权限",
+    "permissions level {level}": "{level} 级权限",
     "project market": "项目大盘",
     "project member management": "项目成员管理",
     "protect branch management (create/commit/modify/delete)": "保护分支管理（创建分支/提交文件/修改文件/删除）",
