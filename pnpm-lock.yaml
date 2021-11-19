@@ -432,6 +432,7 @@ importers:
       react-dnd: ^11.1.3
       react-dnd-html5-backend: ^11.1.3
       react-dom: 16.14.0
+      react-flame-graph: ^1.4.0
       react-router-config: ^5.0.0
       react-router-dom: ^5.2.0
       react-test-renderer: ^16.7.0
@@ -509,6 +510,7 @@ importers:
       react-dnd: 11.1.3_react-dom@16.14.0+react@16.14.0
       react-dnd-html5-backend: 11.1.3
       react-dom: 16.14.0_react@16.14.0
+      react-flame-graph: 1.4.0_react-dom@16.14.0+react@16.14.0
       react-router-config: 5.1.1_react@16.14.0
       react-router-dom: 5.2.0_react@16.14.0
       react-use: 15.3.8_react-dom@16.14.0+react@16.14.0
@@ -5184,6 +5186,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
+
+  /@babel/runtime/7.16.3:
+    resolution: {integrity: sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: false
 
   /@babel/standalone/7.15.8:
     resolution: {integrity: sha512-EF2uQLeuwflnPRGetWH2Z400ITOSK7YbkXIKxY91EWSiOJ8xsbupT3sx3sFRwVyQgjsHSILFDzLcSo/rGspLhQ==}
@@ -14654,6 +14663,12 @@ packages:
     resolution: {integrity: sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==}
     dev: false
 
+  /flow-bin/0.118.0:
+    resolution: {integrity: sha512-jlbUu0XkbpXeXhan5xyTqVK1jmEKNxE8hpzznI3TThHTr76GiFwK0iRzhDo4KNy+S9h/KxHaqVhTP86vA6wHCg==}
+    engines: {node: '>=0.10.0'}
+    hasBin: true
+    dev: false
+
   /flush-write-stream/1.1.1:
     resolution: {integrity: sha512-3Z4XhFZ3992uIq0XOqb9AreonueSYphE6oYbpt5+3u06JWklbsPkNv3ZKkP9Bz/r+1MWCaMoSQ28P85+1Yc77w==}
     dependencies:
@@ -18986,6 +19001,10 @@ packages:
       fs-monkey: 1.0.3
     dev: false
 
+  /memoize-one/3.1.1:
+    resolution: {integrity: sha512-YqVh744GsMlZu6xkhGslPSqSurOv6P+kLN2J3ysBZfagLcL5FdRK/0UpgLoL8hwjjEvvAVkjJZyFP+1T6p1vgA==}
+    dev: false
+
   /memoizee/0.4.15:
     resolution: {integrity: sha512-UBWmJpLZd5STPm7PMUlOw/TSy972M+z8gcyQ5veOnSDRREz/0bmpyTfKt3/51DhEBqCZQn1udM/5flcSPYhkdQ==}
     dependencies:
@@ -22965,6 +22984,20 @@ packages:
     resolution: {integrity: sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==}
     dev: false
 
+  /react-flame-graph/1.4.0_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-DaCK9ZX+xK0mNca72kUE5cu6T8hGe/KLsefQWf+eT9sVt+0WP1dVxZCGD8Svfn2KrZB9Mv011Intg/yG2YWSxA==}
+    engines: {node: '>8.0.0'}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0
+      react-dom: ^15.0.0 || ^16.0.0
+    dependencies:
+      flow-bin: 0.118.0
+      memoize-one: 3.1.1
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-window: 1.8.6_react-dom@16.14.0+react@16.14.0
+    dev: false
+
   /react-grid-layout/1.2.5_react-dom@16.14.0+react@16.14.0:
     resolution: {integrity: sha512-P/NNWAExTX/zEq+RUh6hrIG67UBicDNCOOg9LZe8BAtSdYtCnCGgVmWBS+sIbM0C8RJIiyGsFHh5dIfCddhS/w==}
     peerDependencies:
@@ -23310,6 +23343,19 @@ packages:
       throttle-debounce: 2.3.0
       ts-easing: 0.2.0
       tslib: 2.2.0
+    dev: false
+
+  /react-window/1.8.6_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-8VwEEYyjz6DCnGBsd+MgkD0KJ2/OXFULyDtorIiTz+QzwoP94tBoA7CnbtyXMm+cCeAUER5KJcPtWl9cpKbOBg==}
+    engines: {node: '>8.0.0'}
+    peerDependencies:
+      react: ^15.0.0 || ^16.0.0 || ^17.0.0
+      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@babel/runtime': 7.16.3
+      memoize-one: 3.1.1
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
     dev: false
 
   /react/16.14.0:

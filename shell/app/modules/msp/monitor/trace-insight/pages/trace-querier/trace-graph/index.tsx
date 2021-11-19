@@ -13,8 +13,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tree, Tooltip, Row, Col, Tabs, Table } from 'antd';
+import { Tree, Tooltip, Row, Col, Tabs, Table, Radio, RadioChangeEvent } from 'antd';
 import { TimeSelect, KeyValueList, Icon as CustomIcon, EmptyHolder, Ellipsis } from 'common';
+import { AlignLeftTwo as IconAlignLeftTwo, Torch as IconTorch } from '@icon-park/react';
 import { mkDurationStr } from 'trace-insight/common/utils/traceSummary';
 import { getSpanAnalysis, getSpanEvents } from 'msp/services';
 import './index.scss';
@@ -27,12 +28,14 @@ import { SpanTitleInfo } from './span-title-info';
 import { TraceDetailInfo } from './trace-detail-info';
 import { SpanTimeInfo } from './span-time-info';
 import { TraceHeader } from './trace-header';
+import { FlameGraph } from 'react-flame-graph';
 
 interface IProps {
   dataSource: MONITOR_TRACE.ITrace;
 }
 
 const { TabPane } = Tabs;
+const { Button: RadioButton, Group: RadioGroup } = Radio;
 
 export function TraceGraph(props: IProps) {
   const { dataSource } = props;
@@ -50,12 +53,14 @@ export function TraceGraph(props: IProps) {
   const [spanStartTime, setSpanStartTime] = React.useState(null! as number);
   const [timeRange, setTimeRange] = React.useState([null!, null!] as number[]);
   const [selectedSpanId, setSelectedSpanId] = React.useState(null! as string);
+  const [view, setView] = React.useState('waterfall');
   const spanData = getSpanEvents.useData();
   const spanDataSource = spanData?.spanEvents || [];
   const duration = max - min;
   const allKeys: string[] = [];
   const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
-
+  const flameRef = React.useRef(null);
+  const [flamewidth, setFlameWidth] = React.useState(null);
   const columns = [
     {
       title: i18n.t('time'),
@@ -122,6 +127,9 @@ export function TraceGraph(props: IProps) {
     }
 
     return data;
+  };
+  const handleChangeView = (e: RadioChangeEvent) => {
+    setView(e.target.value);
   };
 
   const treeData = traverseData(roots);
@@ -219,98 +227,164 @@ export function TraceGraph(props: IProps) {
     }
     return item;
   }
+  console.log({ dataSource }, 1212);
+
+  // TODO:
+  const calculate = () => {
+    const { spans } = dataSource;
+    const root = new Object();
+    const duration = dataSource.duration / 1000000;
+    root.name = `trace duration ${duration}ms`;
+    root.value = duration;
+    root.children = [];
+    if (spans) {
+      const parentSpans = new Map();
+      const rootSpans = [];
+      for (var span of spans) {
+        if (!span.parentSpanId) {
+          rootSpans.push(span);
+        }
+        if (span.parentSpanId) {
+          let spanNode = parentSpans.get(span.parentSpanId);
+          if (!spanNode) {
+            spanNode = new Object();
+            spanNode.children = [];
+            parentSpans.set(span.parentSpanId, spanNode);
+          }
+          spanNode.children.push(span);
+        }
+      }
+      for (var span of rootSpans) {
+        const child = calculateChildren(parentSpans, span);
+        root.children.push(child);
+      }
+    }
+    return root;
+  };
+
+  const calculateChildren = (parentSpans, span) => {
+    const node = new Object();
+    node.name = span.operationName;
+    node.value = span.duration / 1000000;
+    node.children = [];
+    const spanNode = parentSpans.get(span.id);
+    if (spanNode && spanNode.children) {
+      for (const s of spanNode.children) {
+        const child = calculateChildren(parentSpans, s);
+        node.children.push(child);
+      }
+    }
+    return node;
+  };
 
   const onExpand = (keys: string[]) => {
     setExpandedKeys(keys);
   };
-
+  console.log(calculate(), 4455, flameRef?.current?.getBoundingClientRect().width);
   return (
     <>
       <TraceDetailInfo dataSource={dataSource} />
-      <div className="mt-4">
-        <Row gutter={20}>
-          <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
-            <TraceHeader
-              duration={duration}
-              width={width}
-              setExpandedKeys={setExpandedKeys}
-              allKeys={allKeys}
-              expandedKeys={expandedKeys}
-            />
-            <div className="trace-graph">
-              {treeData.length > 0 && (
-                <Tree
-                  showLine={{ showLeafIcon: false }}
-                  defaultExpandAll
-                  height={window.innerHeight - 200}
-                  // switcherIcon={<DownOutlined />}
-                  // switcherIcon={<CustomIcon type="caret-down" />}
-                  expandedKeys={expandedKeys}
-                  treeData={treeData}
-                  onExpand={onExpand}
-                />
-              )}
-            </div>
-          </Col>
-          <Col span={proportion[1]} className={`${proportion[0] !== 24 ? 'pl-0' : ''}`}>
-            <div className="flex justify-between items-center my-2 px-3 py-1">
-              <div className="text-sub text-sm font-semibold w-5/6">
-                <Ellipsis title={tags?.operation_name}>{tags?.operation_name}</Ellipsis>
+      <RadioGroup defaultValue="waterfall" value={view} onChange={handleChangeView} className="flex justify-end">
+        <RadioButton value="waterfall">
+          <span className="flex items-center">
+            <IconAlignLeftTwo className="mr-1" />
+            瀑布图
+          </span>
+        </RadioButton>
+        <RadioButton value="flame">
+          <span className="flex items-center">
+            <IconTorch />
+            火焰图
+          </span>
+        </RadioButton>
+      </RadioGroup>
+      <div className="mt-4" ref={flameRef}>
+        {view === 'waterfall' && (
+          <Row gutter={20}>
+            <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
+              <TraceHeader
+                duration={duration}
+                width={width}
+                setExpandedKeys={setExpandedKeys}
+                allKeys={allKeys}
+                expandedKeys={expandedKeys}
+              />
+              <div className="trace-graph">
+                {treeData.length > 0 && (
+                  <Tree
+                    showLine={{ showLeafIcon: false }}
+                    defaultExpandAll
+                    height={window.innerHeight - 200}
+                    // switcherIcon={<DownOutlined />}
+                    // switcherIcon={<CustomIcon type="caret-down" />}
+                    expandedKeys={expandedKeys}
+                    treeData={treeData}
+                    onExpand={onExpand}
+                  />
+                )}
               </div>
-              <Tooltip title={i18n.t('close')}>
-                <span onClick={() => setProportion([24, 0])} className="cursor-pointer">
-                  <CustomIcon type="gb" className="text-holder" />
-                </span>
-              </Tooltip>
-            </div>
-            <div className="px-3">
-              {selectedTimeRange && (
-                <TimeSelect
-                  // defaultValue={globalTimeSelectSpan.data}
-                  // className={className}
-                  onChange={(data, range) => {
-                    if (Object.keys(data)?.length !== 0) {
-                      setSelectedTimeRange(data);
-                    }
-                    const { quick = '' } = data;
-                    let range1 = range?.[0]?.valueOf() || selectedTimeRange?.customize?.start?.valueOf();
-                    let range2 = range?.[1]?.valueOf() || selectedTimeRange?.customize?.end?.valueOf();
-                    if (quick) {
-                      const [unit, count] = quick.split(':');
-                      const [start, end] = translateRelativeTime(unit, Number(count));
-                      range1 = start?.valueOf();
-                      range2 = Math.min(end?.valueOf(), moment().valueOf());
-                    }
-                    setTimeRange([range1, range2]);
-                  }}
-                  value={selectedTimeRange}
-                />
-              )}
-            </div>
-            {(serviceAnalysis || proportion[0] === 14) && (
-              <div className="px-3 trace-detail-chart" style={{ height: window.innerHeight - 200 }}>
-                <Tabs>
-                  <TabPane tab={i18n.t('msp:attributes')} key={1}>
-                    <KeyValueList data={tags} />
-                  </TabPane>
-                  <TabPane tab={i18n.t('msp:events')} key={2}>
-                    <Table columns={columns} dataSource={spanDataSource} />
-                  </TabPane>
-                  <TabPane tab={i18n.t('msp:associated services')} key={3}>
-                    {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
-                    {serviceAnalysis?.dashboardId && (
-                      <ServiceListDashboard
-                        timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
-                        dashboardId={serviceAnalysis?.dashboardId}
-                        extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
-                      />
-                    )}
-                  </TabPane>
-                </Tabs>
+            </Col>
+            <Col span={proportion[1]} className={`${proportion[0] !== 24 ? 'pl-0' : ''}`}>
+              <div className="flex justify-between items-center my-2 px-3 py-1">
+                <div className="text-sub text-sm font-semibold w-5/6">
+                  <Ellipsis title={tags?.operation_name}>{tags?.operation_name}</Ellipsis>
+                </div>
+                <Tooltip title={i18n.t('close')}>
+                  <span onClick={() => setProportion([24, 0])} className="cursor-pointer">
+                    <CustomIcon type="gb" className="text-holder" />
+                  </span>
+                </Tooltip>
               </div>
-            )}
-          </Col>
-        </Row>
+              <div className="px-3">
+                {selectedTimeRange && (
+                  <TimeSelect
+                    // defaultValue={globalTimeSelectSpan.data}
+                    // className={className}
+                    onChange={(data, range) => {
+                      if (Object.keys(data)?.length !== 0) {
+                        setSelectedTimeRange(data);
+                      }
+                      const { quick = '' } = data;
+                      let range1 = range?.[0]?.valueOf() || selectedTimeRange?.customize?.start?.valueOf();
+                      let range2 = range?.[1]?.valueOf() || selectedTimeRange?.customize?.end?.valueOf();
+                      if (quick) {
+                        const [unit, count] = quick.split(':');
+                        const [start, end] = translateRelativeTime(unit, Number(count));
+                        range1 = start?.valueOf();
+                        range2 = Math.min(end?.valueOf(), moment().valueOf());
+                      }
+                      setTimeRange([range1, range2]);
+                    }}
+                    value={selectedTimeRange}
+                  />
+                )}
+              </div>
+              {(serviceAnalysis || proportion[0] === 14) && (
+                <div className="px-3 trace-detail-chart" style={{ height: window.innerHeight - 200 }}>
+                  <Tabs>
+                    <TabPane tab={i18n.t('msp:attributes')} key={1}>
+                      <KeyValueList data={tags} />
+                    </TabPane>
+                    <TabPane tab={i18n.t('msp:events')} key={2}>
+                      <Table columns={columns} dataSource={spanDataSource} />
+                    </TabPane>
+                    <TabPane tab={i18n.t('msp:associated services')} key={3}>
+                      {!serviceAnalysis?.dashboardId && <EmptyHolder relative />}
+                      {serviceAnalysis?.dashboardId && (
+                        <ServiceListDashboard
+                          timeSpan={{ startTimeMs: timeRange[0], endTimeMs: timeRange[1] }}
+                          dashboardId={serviceAnalysis?.dashboardId}
+                          extraGlobalVariable={formatDashboardVariable(serviceAnalysis?.conditions)}
+                        />
+                      )}
+                    </TabPane>
+                  </Tabs>
+                </div>
+              )}
+            </Col>
+          </Row>
+        )}
+        {view === 'flame' && <FlameGraph data={calculate()} height={200} width={flameRef?.current?.clientWidth} />}
       </div>
     </>
   );
