@@ -88,20 +88,20 @@ const notifyGroupPage = {
 
 const alertLevelOptions = [
   {
-    key: 'Breakdown',
-    display: i18n.t('msp:breakdown'),
+    key: 'Fatal',
+    display: i18n.t('cmp:Fatal'),
   },
   {
-    key: 'Emergency',
-    display: i18n.t('msp:emergency'),
+    key: 'Critical',
+    display: i18n.t('cmp:Critical'),
   },
   {
-    key: 'Alert',
-    display: i18n.t('msp:alert'),
+    key: 'Warning',
+    display: i18n.t('cmp:Warning'),
   },
   {
-    key: 'Light',
-    display: i18n.t('msp:light'),
+    key: 'Notice',
+    display: i18n.t('cmp:Notice'),
   },
 ];
 
