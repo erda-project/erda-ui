@@ -39,9 +39,38 @@ declare namespace MS_INDEX {
     updateTime: number;
   }
 
-  interface IMspMenu {
+  type ISubMenuKey =
+    | 'ServiceMonitor'
+    | 'FrontMonitor'
+    | 'ActiveMonitor'
+    | 'AlertStrategy'
+    | 'AlarmHistory'
+    | 'RuleManagement'
+    | 'NotifyGroupManagement'
+    | 'Tracing'
+    | 'LogAnalyze'
+    | 'ErrorInsight'
+    | 'Dashboard'
+    | 'APIGateway'
+    | 'RegisterCenter'
+    | 'ConfigCenter'
+    | 'AccessConfig'
+    | 'MemberManagement'
+    | 'ComponentInfo';
+
+  type IRootMenu =
+    | 'Overview'
+    | 'MonitorCenter'
+    | 'AlertCenter'
+    | 'DiagnoseAnalyzer'
+    | 'ServiceManage'
+    | 'EnvironmentSet';
+
+  type IMenuKey = IRootMenu | ISubMenuKey;
+
+  interface IMspMenu<T = IRootMenu> {
     href: string;
-    key: string; // menuKey，用于匹配菜单高亮
+    key: T; // menuKey，用于匹配菜单高亮
     clusterName: string;
     clusterType: string;
     cnName: string;
@@ -49,12 +78,12 @@ declare namespace MS_INDEX {
     exists?: boolean; // false表示没有用到或还未拉起来，先展示引导页
     params: {
       [key: string]: string;
-      key: string;
+      key: IMenuKey;
       tenantId: string;
       terminusKey: string;
       tenantGroup: string;
     };
-    children: IMspMenu[];
+    children: IMspMenu<ISubMenuKey>[];
   }
 
   interface Menu {
