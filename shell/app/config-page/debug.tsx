@@ -46,7 +46,16 @@ const DebugConfigPage = () => {
   const [activeLog, setActiveLog] = React.useState(0);
   const { url, scenario, debug, ...restQuery } = routeInfoStore.useStore((s) => s.query);
   const [proxyApi, setProxyApi] = React.useState(url);
-  const [config, setConfig] = React.useState(defaultData);
+  const _defaultData = scenario
+    ? {
+        scenario: {
+          scenarioKey: scenario,
+          scenarioType: scenario,
+        },
+        inParams: restQuery,
+      }
+    : defaultData;
+  const [config, setConfig] = React.useState(_defaultData);
 
   useThrottleFn<string, any>(
     (newText) => {
@@ -56,18 +65,6 @@ const DebugConfigPage = () => {
     5000,
     [text],
   );
-
-  useMount(() => {
-    if (scenario) {
-      setConfig({
-        scenario: {
-          scenarioKey: scenario,
-          scenarioType: scenario,
-        },
-        inParams: restQuery,
-      });
-    }
-  });
 
   useUpdateEffect(() => {
     if (activeLog) {
@@ -87,7 +84,7 @@ const DebugConfigPage = () => {
     [proxyApi],
   );
 
-  if (!debug && scenario) {
+  if (!debug) {
     return <PureConfigPage scenario={scenario} {...restQuery} />;
   }
 
