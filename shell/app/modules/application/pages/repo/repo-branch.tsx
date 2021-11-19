@@ -120,7 +120,9 @@ const RepoBranch = () => {
                     {i18n.t('compare')}
                   </Button>
                   <DeleteConfirm
-                    title={`${i18n.t('common:confirm deletion')} ${name} ${i18n.t('dop:branch')}?`}
+                    title={`${i18n.t('common:confirm to delete current {deleteItem}', {
+                      deleteItem: `${name} ${i18n.t('dop:branch')}`,
+                    })} `}
                     onConfirm={() => {
                       deleteBranch({ branch: name });
                     }}
