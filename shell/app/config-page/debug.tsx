@@ -18,7 +18,7 @@ import { Button, message, Input, Checkbox, Tooltip } from 'antd';
 import routeInfoStore from 'core/stores/route';
 import { CheckOne as IconCheckOne, CloseOne as IconCloseOne, Refresh as IconRefresh } from '@icon-park/react';
 import { statusColorMap } from 'app/config-page/utils';
-import { useUpdateEffect, useThrottleFn } from 'react-use';
+import { useUpdateEffect, useThrottleFn, useMount } from 'react-use';
 import { get } from 'lodash';
 import { Form as PureForm } from 'dop/pages/form-editor/index';
 import agent from 'agent';
@@ -39,14 +39,14 @@ const DebugConfigPage = () => {
   const pageRef = React.useRef(null);
   const cacheData = window.localStorage.getItem('config-page-debug');
   const [text, setText] = React.useState(cacheData || defaultJson);
-  const [config, setConfig] = React.useState(defaultData);
   const [logs, setLogs] = React.useState<ILog[]>([]);
-  const [proxyApi, setProxyApi] = React.useState('');
   const [showCode, setShowCode] = React.useState(true);
   const [showLog, setShowLog] = React.useState(false);
   const [importValue, setImportValue] = React.useState('');
   const [activeLog, setActiveLog] = React.useState(0);
-  const { scenario, ...queryRest } = routeInfoStore.useStore((s) => s.query);
+  const { url, scenario, debug, ...restQuery } = routeInfoStore.useStore((s) => s.query);
+  const [proxyApi, setProxyApi] = React.useState(url);
+  const [config, setConfig] = React.useState(defaultData);
 
   useThrottleFn<string, any>(
     (newText) => {
@@ -57,8 +57,38 @@ const DebugConfigPage = () => {
     [text],
   );
 
-  if (scenario) {
-    return <PureConfigPage scenario={scenario} {...queryRest} />;
+  useMount(() => {
+    if (scenario) {
+      setConfig({
+        scenario: {
+          scenarioKey: scenario,
+          scenarioType: scenario,
+        },
+        inParams: restQuery,
+      });
+    }
+  });
+
+  useUpdateEffect(() => {
+    if (activeLog) {
+      setConfig(logs?.[activeLog - 1]?.pageData);
+    }
+  }, [activeLog]);
+
+  const getMock = React.useCallback(
+    (payload: any) => {
+      return agent
+        .post(proxyApi)
+        .send(payload)
+        .then((response: any) => {
+          return response.body.protocol ? response.body : response.body.data;
+        });
+    },
+    [proxyApi],
+  );
+
+  if (!debug && scenario) {
+    return <PureConfigPage scenario={scenario} {...restQuery} />;
   }
 
   const updateMock = (_text?: string) => {
@@ -69,12 +99,6 @@ const DebugConfigPage = () => {
       message.error('内容有错误');
     }
   };
-
-  useUpdateEffect(() => {
-    if (activeLog) {
-      setConfig(logs?.[activeLog - 1]?.pageData);
-    }
-  }, [activeLog]);
 
   const onExecOp = ({ cId, op, reload, updateInfo, pageData }: any) => {
     setLogs((prev) => {
@@ -92,18 +116,6 @@ const DebugConfigPage = () => {
       return reLogs;
     });
   };
-
-  const getMock = React.useCallback(
-    (payload: any) => {
-      return agent
-        .post(proxyApi)
-        .send(payload)
-        .then((response: any) => {
-          return response.body.protocol ? response.body : response.body.data;
-        });
-    },
-    [proxyApi],
-  );
 
   const exportLog = () => {
     const reLogs = logs.map((item) => {
@@ -227,8 +239,8 @@ const DebugConfigPage = () => {
             <DiceConfigPage
               ref={pageRef}
               showLoading
-              scenarioType={config?.scenario?.scenarioType}
-              scenarioKey={config?.scenario?.scenarioKey}
+              scenarioType={scenario || config?.scenario?.scenarioType}
+              scenarioKey={scenario || config?.scenario?.scenarioKey}
               inParams={config?.inParams}
               debugConfig={config}
               onExecOp={onExecOp}
