@@ -713,6 +713,7 @@
     "confirm to delete": "confirm to delete",
     "confirm to delete configuration": "confirm to delete configuration",
     "confirm to delete current {deleteItem}": "confirm to delete current {deleteItem}",
+    "confirm to delete {name} ?": "confirm to delete {name} ?",
     "confirm to remove user": "confirm to remove user",
     "confirm to remove user in batches": "confirm to remove user in batches",
     "contact business": "contact business",
