@@ -84,6 +84,8 @@ const generateMSMenu = (
     ...intros,
   };
 
+  const isZh = currentLocale.key === 'zh';
+
   const newMenu = menuData
     .filter((m) => m.exists)
     .filter((m) => (process.env.FOR_COMMUNITY ? !COMMUNITY_REMOVE_KEYS.includes(m.key) : true))
@@ -91,12 +93,12 @@ const generateMSMenu = (
       const { key, cnName, enName, children } = menu;
       const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
       const IconComp = MSIconMap[key];
-      const text = currentLocale.key === 'zh' ? cnName : enName;
+      const text = isZh ? cnName : enName;
       const sideMenu = {
         key,
         icon: IconComp ? <IconComp /> : 'zujian',
         text,
-        subtitle: getMSPSubtitleByName(text),
+        subtitle: getMSPSubtitleByName(key)[currentLocale.key],
         href: `${href}${queryStr}`,
         prefix: `${href}`,
       };
@@ -110,7 +112,7 @@ const generateMSMenu = (
             const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
             return {
               key: child.key,
-              text: currentLocale.key === 'zh' ? child.cnName : child.enName,
+              text: isZh ? child.cnName : child.enName,
               jumpOut: !!child.href,
               href: child.href ? docUrlMap[child.href] || `${DOC_PREFIX}${child.href}` : `${childHref}${queryStr}`,
               prefix: `${childHref}`,
