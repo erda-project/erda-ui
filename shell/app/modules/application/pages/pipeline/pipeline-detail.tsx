@@ -26,6 +26,8 @@ import { useMount } from 'react-use';
 import { get, isEmpty, find } from 'lodash';
 import { WithAuth, usePerm } from 'user/common';
 import appStore from 'application/stores/application';
+import { useLoading } from 'core/stores/loading';
+import commonStore from 'common/stores/common';
 
 import { getBranchPath } from './config';
 import i18n from 'i18n';
@@ -57,7 +59,7 @@ const PipelineDetail = (props: IProps) => {
   const { clearExecuteRecords } = buildStore.reducers;
   const [deployPerm, branchAuthObj] = usePerm((s) => [s.app.runtime, s.app.repo.branch]);
   const [branchInfo, appBlockStatus] = appStore.useStore((s) => [s.branchInfo, s.detail?.blockStatus]);
-
+  const [loading] = useLoading(commonStore, ['getRenderPageLayout']);
   const envBlocked = get(orgBlockoutConfig, envBlockKeyMap[env], false);
 
   const [{ activeKey, runKey, canRunTest }, updater, update] = useUpdate({
@@ -172,7 +174,7 @@ const PipelineDetail = (props: IProps) => {
             />
           </Tabs.TabPane>
         ) : null}
-        <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'}>
+        <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'} disabled={loading}>
           <PipelineRunDetail key={runKey} deployAuth={deployAuthObj} isMobileInit={isMobileInit} />
         </Tabs.TabPane>
       </Tabs>
