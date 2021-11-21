@@ -29,6 +29,7 @@ import { TraceDetailInfo } from './trace-detail-info';
 import { SpanTimeInfo } from './span-time-info';
 import { TraceHeader } from './trace-header';
 import { FlameGraph } from 'react-flame-graph';
+import { useMeasure } from 'react-use';
 
 interface IProps {
   dataSource: MONITOR_TRACE.ITrace;
@@ -59,8 +60,8 @@ export function TraceGraph(props: IProps) {
   const duration = max - min;
   const allKeys: string[] = [];
   const { serviceAnalysis } = (spanDetailData as MONITOR_TRACE.ISpanRelationChart) || {};
-  const flameRef = React.useRef(null);
-  const [flamewidth, setFlameWidth] = React.useState(null);
+  const [flameRef, { width: flameWidth }] = useMeasure();
+
   const columns = [
     {
       title: i18n.t('time'),
@@ -280,7 +281,7 @@ export function TraceGraph(props: IProps) {
   const onExpand = (keys: string[]) => {
     setExpandedKeys(keys);
   };
-  console.log(calculate(), 4455, flameRef?.current?.getBoundingClientRect().width);
+  console.log(foo);
   return (
     <>
       <TraceDetailInfo dataSource={dataSource} />
@@ -298,7 +299,7 @@ export function TraceGraph(props: IProps) {
           </span>
         </RadioButton>
       </RadioGroup>
-      <div className="mt-4" ref={flameRef}>
+      <div className="mt-4" ref={flameRef} style={{ background: 'red' }}>
         {view === 'waterfall' && (
           <Row gutter={20}>
             <Col span={proportion[0]} className={`${proportion[0] !== 24 ? 'pr-0' : ''}`}>
@@ -384,7 +385,7 @@ export function TraceGraph(props: IProps) {
             </Col>
           </Row>
         )}
-        {view === 'flame' && <FlameGraph data={calculate()} height={200} width={flameRef?.current?.clientWidth} />}
+        {view === 'flame' && <FlameGraph data={calculate()} height={200} width={flameWidth} />}
       </div>
     </>
   );
