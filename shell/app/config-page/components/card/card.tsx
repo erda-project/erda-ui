@@ -32,7 +32,7 @@ export const Card = (props: CP_CARD.Props) => {
   const { id, titleIcon, title, operations, subContent, description, extraInfo } = data?._infoData || {};
   const { drag: dragOperation, ...menuOperations } = operations || {};
   const [dragObj, drag] = useDrag({
-    item: { type: cardType, data: { ...data, drag: { ...(dragOperation || {}), key: 'drag' } } },
+    item: { type: cardType, data },
     canDrag: () => {
       return dragOperation && !dragOperation.disabled && !isHover;
     },

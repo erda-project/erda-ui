@@ -26,6 +26,8 @@ import { useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import classnames from 'classnames';
+import createScrollingComponent from 'common/utils/create-scroll-component';
+import produce from 'immer';
 import './issue-kanban.scss';
 
 interface IData {
@@ -66,6 +68,7 @@ export interface IProps extends CONFIG_PAGE.ICommonProps {
   };
 }
 const noop = () => {};
+const ScrollingComponent = createScrollingComponent('div');
 const IssueKanban = (props: IProps) => {
   const { state, data, props: configProps, operations, execOperation = noop, updateState = noop } = props || {};
 
@@ -105,11 +108,12 @@ const IssueKanban = (props: IProps) => {
   const labelList = map(board || [], 'label');
   if (!visible) return null;
   return (
-    <div className="dice-cp issue-kanban">
+    <ScrollingComponent className="dice-cp issue-kanban">
       {map(board || [], (item) => {
         return item ? (
           <Kanban
             {...props}
+            setBoard={setBoard}
             exitLabel={labelList}
             refreshBoard={data?.refreshBoard}
             data={item}
@@ -148,7 +152,7 @@ const IssueKanban = (props: IProps) => {
         </div>
       ) : null}
       {isEmpty(data?.board || []) ? <EmptyHolder relative className="w-full" /> : null}
-    </div>
+    </ScrollingComponent>
   );
 };
 
@@ -160,7 +164,7 @@ interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
 }
 
 const Kanban = (props: IKanbanProps) => {
-  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, ...rest } = props;
+  const { data, exitLabel, execOperation, isLoadMore, refreshBoard, setBoard, ...rest } = props;
   const { label, labelKey, list: propsList, total, pageSize, pageNo, operations: boardOp } = data;
   const otherLabel = without(exitLabel, label);
   const userMap = useUserMap();
@@ -185,10 +189,36 @@ const Kanban = (props: IKanbanProps) => {
     accept: cardType,
     drop: (item: any) => {
       // same state, do nothing
-      const { drag } = item.data;
+      const { drag } = item.data.operations;
       if (!drag.targetKeys[labelKey]) {
         return;
       }
+      const dragColKey = item.data._infoData.labelKey;
+      const dropColKey = labelKey;
+      const newTargetKeys = { ...drag.targetKeys };
+      if (!newTargetKeys[dragColKey]) {
+        newTargetKeys[dragColKey] = true;
+      }
+      delete newTargetKeys[dropColKey];
+      const newItem = produce(item, (draft: { data: IData }) => {
+        draft.data.operations.drag.targetKeys = newTargetKeys;
+      });
+      setBoard((prev: IData[]) => {
+        return prev.map((col) => {
+          if (col.labelKey === dropColKey) {
+            return {
+              ...col,
+              list: col.list ? [newItem.data, ...col.list] : [newItem.data],
+            };
+          } else if (col.labelKey === dragColKey) {
+            return {
+              ...col,
+              list: col.list?.filter((a) => a.id !== item.data.id),
+            };
+          }
+          return col;
+        });
+      });
       execOperation(drag, { dropTarget: labelKey });
     },
     collect: (monitor) => {
@@ -221,6 +251,7 @@ const Kanban = (props: IKanbanProps) => {
       _infoData: {
         id,
         title: `${title}`,
+        labelKey,
         titleIcon,
         // description: content,
         operations,
